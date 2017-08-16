@@ -1,7 +1,12 @@
-#include "mainwindow.h"
 #include <QApplication>
-#include "singleton.h"
-#include "singletonfactory.h"
+
+#include "mainwindow.h"
+
+
+
+
+
+
 int main(int argc, char *argv[])
 {
    QApplication a(argc, argv);

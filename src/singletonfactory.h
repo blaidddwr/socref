@@ -29,17 +29,14 @@ template<class T> T* SingletonFactory<T>::_instance {nullptr};
 template<class T>
 T& SingletonFactory<T>::getInstance()
 {
-   // make sure there is an instance to return
    if ( !_instance )
    {
       Exception::NullReturn e;
       MARK_EXCEPTION(e);
-      e.setTitle(QObject::tr("Base Factory"));
-      e.setDetails(QObject::tr("Attempted to get abstract factory when none has been set!"));
+      e.setTitle(QObject::tr("Null Return"));
+      e.setDetails(QObject::tr("Attempted to get factory when none has been set!"));
       throw e;
    }
-
-   // return reference to object
    return *_instance;
 }
 
@@ -52,13 +49,10 @@ T& SingletonFactory<T>::getInstance()
 template<class T>
 void SingletonFactory<T>::setInstance(T* instance)
 {
-   // if there already is an instance delete it
    if ( _instance )
    {
       delete _instance;
    }
-
-   // set new instance pointer
    _instance = instance;
 }
 
