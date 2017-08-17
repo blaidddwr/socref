@@ -11,17 +11,19 @@ class Project;
 
 
 
+// @@ ProjectRegistry
 class ProjectRegistry : public QObject, public Singleton<ProjectRegistry>
 {
    Q_OBJECT
 public:
    ProjectRegistry() = default;
-   ProjectRegistry(const ProjectRegistry&) = delete;
    bool exists(const QString& path) const;
+   Project* get(const QString& path) const;
    void add(const QString& path, Project* pointer);
    bool remove(const QString& path);
 signals:
-   void projectOverwritten(Project* newProject);
+   // @@ ProjectRegistry::projectOverwitten(Project*,project*)
+   void projectOverwritten(Project* oldProject, Project* newProject);
 private:
    QMap<QString,Project*> _projects;
 };
