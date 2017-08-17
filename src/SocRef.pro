@@ -10,10 +10,8 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     mainwindow.cpp \
-    abstractprojectfactory.cpp \
-    projectmanager.cpp \
-    projectpointer.cpp \
-    project.cpp
+    project.cpp \
+    projectregistry.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -21,11 +19,10 @@ HEADERS += \
     singletonfactory.h \
     exception.h \
     abstractprojectfactory.h \
-    projectmanager.h \
-    projectpointer.h \
-    project.h
+    project.h \
+    abstractblockfactory.h \
+    projectregistry.h
 
-#AbstractBlockFactory
 #AbstractBlock
 #Gui::AbstractView
 #Gui::AbstractEdit
