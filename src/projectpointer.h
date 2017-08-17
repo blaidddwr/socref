@@ -5,16 +5,16 @@
 
 
 
-class AbstractProject;
+class Project;
 
 
 
 // @@ ProjectPointer
-class ProjectPointer : public std::shared_ptr<AbstractProject>
+class ProjectPointer : public std::shared_ptr<Project>
 {
 public:
-   ProjectPointer();
-   ProjectPointer(const QString& absolutePath, AbstractProject* pointer);
+   ProjectPointer() = default;
+   ProjectPointer(const QString& absolutePath, std::shared_ptr<Project> pointer);
    ~ProjectPointer();
    ProjectPointer(const ProjectPointer& object);
    ProjectPointer(ProjectPointer&& object);

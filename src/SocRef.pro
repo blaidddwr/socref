@@ -11,9 +11,9 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     abstractprojectfactory.cpp \
-    abstractproject.cpp \
     projectmanager.cpp \
-    projectpointer.cpp
+    projectpointer.cpp \
+    project.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -21,11 +21,10 @@ HEADERS += \
     singletonfactory.h \
     exception.h \
     abstractprojectfactory.h \
-    abstractproject.h \
     projectmanager.h \
-    projectpointer.h
+    projectpointer.h \
+    project.h
 
-#AbstractProject
 #AbstractBlockFactory
 #AbstractBlock
 #Gui::AbstractView
