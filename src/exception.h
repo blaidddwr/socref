@@ -1,6 +1,6 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
-#include <QtCore>
+#include <QString>
 
 #define MARK_EXCEPTION(e) e.setFile(__FILE__);e.setLine(__LINE__);\
    e.setFunction(__PRETTY_FUNCTION__);
@@ -40,6 +40,14 @@ private:
 class NullReturn : public Base
 {
    virtual const char* what() const noexcept override final { return "NullReturn"; }
+};
+
+
+
+// @@ ReadError
+class ReadError : public Base
+{
+   virtual const char* what() const noexcept override final { return "ReadError"; }
 };
 
 
