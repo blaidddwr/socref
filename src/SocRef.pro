@@ -11,7 +11,6 @@ SOURCES += \
     main.cpp \
     mainwindow.cpp \
     project.cpp \
-    projectregistry.cpp \
     xmlelementparser.cpp
 
 HEADERS += \
@@ -22,7 +21,6 @@ HEADERS += \
     abstractprojectfactory.h \
     project.h \
     abstractblockfactory.h \
-    projectregistry.h \
     xmlelementparser.h
 
 #AbstractBlock
