@@ -4,6 +4,7 @@
 
 
 
+class QFileSystemWatcher;
 class AbstractBlockFactory;
 class BlockModel;
 
@@ -15,16 +16,41 @@ class Project : public QObject
    Q_OBJECT
 public:
    Project(int type);
-   Project(const QString& open);
-   void save(const QString& path) const;
+   Project(const QString& path);
+   bool setPath(const QString& path);
+   void reload();
+   void save() const;
    void setName(const QString& name);
    QString getName() const;
-   void retain();
-   void release();
+   int getType() const;
+   QString getScanDirectory() const;
+   void setScanDirectory(const QString& path);
+   QString getScanFilters() const;
+   void setScanFilters(const QString& filters);
+   BlockModel* getModel() const;
+   bool isNew() const;
+   bool isModified() const;
+signals:
+   // @@ Project::modified()
+   void modified();
+   // @@ Project::saved()
+   void saved();
+   // @@ Project::fileChanged()
+   void fileChanged();
+private slots:
+   void blockModified() {}
+   void saveFileChanged() {}
 private:
+   QString _path;
    QString _name;
-   AbstractBlockFactory* _factory {nullptr};
-   BlockModel* _model {nullptr};
+   int _type;
+   QString _scanDirectory;
+   QString _scanFilters;
+   bool _modified {false};
+   const AbstractBlockFactory& _factory;
+   BlockModel* _model;
+   QFileSystemWatcher* _fileWatcher {nullptr};
+   QByteArray _fileHash;
 };
 
 
