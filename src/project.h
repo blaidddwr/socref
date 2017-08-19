@@ -8,6 +8,7 @@
 class QFileSystemWatcher;
 class AbstractBlockFactory;
 class BlockModel;
+class QXmlStreamReader;
 
 
 
@@ -18,19 +19,27 @@ class Project : public QObject
 public:
    Project(int type);
    Project(const QString& path);
-   bool setPath(const QString& path);
-   void reload();
    void save() const;
-   void setName(const QString& name);
-   QString getName() const;
-   int getType() const;
-   QString getScanDirectory() const;
+   void saveAs();
+   //@@
+   void setName(const QString& name) { _name = name; }
+   //@@
+   QString getName() const { return _name; }
+   //@@
+   int getType() const { return _type; }
+   //@@
+   QString getScanDirectory() const { return _scanDirectory; }
    void setScanDirectory(const QString& path);
-   QString getScanFilters() const;
-   void setScanFilters(const QString& filters);
-   BlockModel* getModel() const;
-   bool isNew() const;
-   bool isModified() const;
+   //@@
+   QString getScanFilters() const { return _scanFilters; }
+   //@@
+   void setScanFilters(const QString& filters) { _scanFilters = filters; }
+   //@@
+   BlockModel* getModel() const { return _model; }
+   //@@
+   bool isNew() const { return _path.isEmpty(); }
+   //@@
+   bool isModified() const { return _modified; }
 signals:
    //@@
    void modified();
@@ -42,6 +51,7 @@ private slots:
    void blockModified();
    void saveFileChanged();
 private:
+   void readTypeElement(QXmlStreamReader& xml);
    QString _path;
    QString _name;
    int _type {-1};

@@ -61,6 +61,22 @@ class ReadError : public Base
    virtual const char* what() const noexcept override final { return "ReadError"; }
 };
 
+
+
+//@@
+class OpenError : public Base
+{
+   virtual const char* what() const noexcept override final { return "OpenError"; }
+};
+
+
+
+//@@
+class DomainError : public Base
+{
+   virtual const char* what() const noexcept override final { return "DomainError"; }
+};
+
 } // namespace Exception
 
 
