@@ -7,21 +7,32 @@
 
 
 class AbstractBlock;
+
+namespace Gui {
+
 class AbstractView;
 class AbstractEdit;
 
+} // namespace Gui
 
 
-// @@ AbstractBlockFactory
+
+//@@
 class AbstractBlockFactory : public SingletonFactory<AbstractBlockFactory>
 {
 public:
+   //@@
    virtual int getSize() const = 0;
+   //@@
    virtual QString getName() const = 0;
+   //@@
    virtual QList<int> getBuildList(int type) const = 0;
+   //@@
    virtual AbstractBlock* makeBlock(int type) const = 0;
-   virtual AbstractView* makeView(int type) const = 0;
-   virtual AbstractEdit* makeEdit(int type) const = 0;
+   //@@
+   virtual Gui::AbstractView* makeView(int type) const = 0;
+   //@@
+   virtual Gui::AbstractEdit* makeEdit(int type) const = 0;
 };
 
 

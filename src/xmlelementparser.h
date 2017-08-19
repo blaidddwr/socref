@@ -4,11 +4,16 @@
 
 
 
-// @@ XMLElementParser
+//@@
 class XMLElementParser
 {
 public:
-   XMLElementParser(QXmlStreamReader& xml, int level = 1, int stopLevel = 0);
+   //@@
+   XMLElementParser(QXmlStreamReader& xml, int level = 1, int stopLevel = 0):
+      _xml(xml),
+      _level(level),
+      _stopLevel(stopLevel)
+   {}
    XMLElementParser& addKeyword(const QString& keyword);
    int operator()();
 private:
@@ -17,18 +22,6 @@ private:
    int _stopLevel;
    QList<QString> _keywords;
 };
-
-
-
-
-
-
-// @@ XMLElementParser::XMLElementParser(QXmlStreamReader&,int,int)
-inline XMLElementParser::XMLElementParser(QXmlStreamReader& xml, int level, int stopLevel):
-   _xml(xml),
-   _level(level),
-   _stopLevel(stopLevel)
-{}
 
 
 
