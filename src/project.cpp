@@ -24,9 +24,9 @@ Project::Project(int type):
    if ( _type < 0 || _type >= factory.getSize() )
    {
       // report invalid project type as exception
-      Exception::ReadError e;
+      Exception::DomainError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Domain Error"));
+      e.setTitle(tr("Project Domain Error"));
       e.setDetails(tr("Invald project type given as argument."));
       throw e;
    }
@@ -61,7 +61,7 @@ Project::Project(const QString &path):
       // report file open error as exception
       Exception::OpenError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Open Error"));
+      e.setTitle(tr("Project Open Error"));
       e.setDetails(tr("Failed opening project file for reading."));
       throw e;
    }
@@ -113,7 +113,7 @@ Project::Project(const QString &path):
       // report read error as exception
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Read Error"));
+      e.setTitle(tr("Project Read Error"));
       e.setDetails(tr("Invalid project file; could not find all required xml elements of"
                       " project."));
       throw e;
@@ -126,17 +126,15 @@ Project::Project(const QString &path):
       // report invalid project type as exception
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Read Error"));
+      e.setTitle(tr("Project Read Error"));
       e.setDetails(tr("Invalid project file; type is invalid."));
       throw e;
    }
    _factory = &factory.getBlockFactory(_type);
 
-   // Add file watcher and set last modified timestamp
+   // Add file watcher
    _fileWatcher = new QFileSystemWatcher(QStringList(_path),this);
    connect(_fileWatcher,&QFileSystemWatcher::fileChanged,this,&Project::saveFileChanged);
-   QFileInfo info(_path);
-   _fileLastModified = info.lastModified();
 }
 
 
@@ -183,24 +181,6 @@ void Project::blockModified()
       // set project to modified and emit signal
       _modified = true;
       emit modified();
-   }
-}
-
-
-
-
-
-
-//@@
-void Project::saveFileChanged()
-{
-   // check if last modified is not equal to one saved
-   QFileInfo info(_path);
-   if ( _fileLastModified != info.lastModified() )
-   {
-      // update last modified time and emit file changed signal
-      _fileLastModified = info.lastModified();
-      emit fileChanged();
    }
 }
 

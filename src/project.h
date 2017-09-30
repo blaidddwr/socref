@@ -49,7 +49,8 @@ signals:
    void fileChanged();
 private slots:
    void blockModified();
-   void saveFileChanged();
+   //@@
+   void saveFileChanged() { emit fileChanged(); }
 private:
    void readTypeElement(QXmlStreamReader& xml);
    QString _path;
@@ -61,7 +62,7 @@ private:
    bool _modified {false};
    BlockModel* _model;
    QFileSystemWatcher* _fileWatcher {nullptr};
-   QDateTime _fileLastModified;
+   int _fileChangeTicks {0};
 };
 
 

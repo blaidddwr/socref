@@ -6,7 +6,7 @@
 
 
 
-// @@ XMLElementParser::addKeyword(const QString&)
+//@@
 XMLElementParser& XMLElementParser::addKeyword(const QString& keyword)
 {
    // push new keyword to list and return reference to object
@@ -19,7 +19,7 @@ XMLElementParser& XMLElementParser::addKeyword(const QString& keyword)
 
 
 
-// @@ XMLElementParser::operator()()
+//@@
 int XMLElementParser::operator()()
 {
    // do loop while level is greater than stop level and xml is not at end
