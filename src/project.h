@@ -56,6 +56,7 @@ private:
    QString _path;
    QString _name;
    int _type {-1};
+   QString _typeName;
    const AbstractBlockFactory* _factory {nullptr};
    QString _scanDirectory;
    QString _scanFilters;

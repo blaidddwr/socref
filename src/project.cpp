@@ -23,11 +23,11 @@ Project::Project(int type):
    AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
    if ( _type < 0 || _type >= factory.getSize() )
    {
-      // report invalid project type as exception
+      // report invalid project type
       Exception::DomainError e;
       MARK_EXCEPTION(e);
       e.setTitle(tr("Project Domain Error"));
-      e.setDetails(tr("Invald project type given as argument."));
+      e.setDetails(tr("Invald project type %1 when max is %2.").arg(type).arg(factory.getSize()-1));
       throw e;
    }
 
@@ -58,11 +58,11 @@ Project::Project(const QString &path):
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
-      // report file open error as exception
+      // report file open error
       Exception::OpenError e;
       MARK_EXCEPTION(e);
       e.setTitle(tr("Project Open Error"));
-      e.setDetails(tr("Failed opening project file for reading."));
+      e.setDetails(tr("Failed opening project file for reading: %1").arg(file.errorString()));
       throw e;
    }
 
@@ -110,12 +110,11 @@ Project::Project(const QString &path):
    // make sure all required information was read in
    if ( !nameRead || !typeRead || !scanDirectoryRead || !scanFiltersRead )
    {
-      // report read error as exception
+      // report read error
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setTitle(tr("Project Read Error"));
-      e.setDetails(tr("Invalid project file; could not find all required xml elements of"
-                      " project."));
+      e.setDetails(tr("Could not find all required xml elements of project."));
       throw e;
    }
 
@@ -123,16 +122,29 @@ Project::Project(const QString &path):
    AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
    if ( _type < 0 || _type >= factory.getSize() )
    {
-      // report invalid project type as exception
+      // report invalid project type
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setTitle(tr("Project Read Error"));
-      e.setDetails(tr("Invalid project file; type is invalid."));
+      e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type)
+                   .arg(factory.getSize()-1));
       throw e;
    }
-   _factory = &factory.getBlockFactory(_type);
 
-   // Add file watcher
+   // make sure project type name matches factory
+   if ( _typeName != factory.getName(_type) )
+   {
+      // report invalid project type name
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setTitle(tr("Project Read Error"));
+      e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(_typeName)
+                   .arg(factory.getName(_type)));
+      throw e;
+   }
+
+   // make new factory and add file watcher
+   _factory = &factory.getBlockFactory(_type);
    _fileWatcher = new QFileSystemWatcher(QStringList(_path),this);
    connect(_fileWatcher,&QFileSystemWatcher::fileChanged,this,&Project::saveFileChanged);
 }
@@ -192,4 +204,63 @@ void Project::blockModified()
 //@@
 void Project::readTypeElement(QXmlStreamReader& xml)
 {
+   // enumeration for different elements
+   enum
+   {
+      Id = 0
+      ,Name
+   };
+
+   // initialize element read markers
+   bool idRead {false};
+   bool nameRead {false};
+
+   // initialize parser
+   XMLElementParser parser(xml);
+   parser.addKeyword("id").addKeyword("name");
+   int element;
+
+   // parse xml until end of type element is reached
+   while ( ( element = parser() ) != -1 )
+   {
+      // figure out which element is found
+      switch (element)
+      {
+      case Id:
+         {
+            // read in id
+            bool ok;
+            _type = xml.readElementText().toInt(&ok);
+
+            // make sure read worked
+            if ( !ok )
+            {
+               Exception::ReadError e;
+               MARK_EXCEPTION(e);
+               e.setTitle(tr("Project Read Error"));
+               e.setDetails(tr("Failed reading in type as integer."));
+               throw e;
+            }
+
+            // mark id as read
+            idRead = true;
+            break;
+         }
+      case Name:
+         // read in type name and mark as read
+         _typeName = xml.readElementText();
+         nameRead = true;
+         break;
+      }
+   }
+
+   // make sure all elements were read in
+   if ( !idRead || !nameRead )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setTitle(tr("Project Read Error"));
+      e.setDetails(tr("Failed reading in all required elements for project type."));
+      throw e;
+   }
 }
