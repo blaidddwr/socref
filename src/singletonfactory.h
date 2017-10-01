@@ -33,9 +33,9 @@ T& SingletonFactory<T>::getInstance()
    if ( !_instance )
    {
       // report error that no instance has been set
-      Exception::NullReturn e;
+      Exception::InvalidUse e;
       MARK_EXCEPTION(e);
-      e.setTitle(QObject::tr("Null Return"));
+      e.setTitle(QObject::tr("Invalid Use"));
       e.setDetails(QObject::tr("Attempted to get factory when none has been set!"));
       throw e;
    }

@@ -2,6 +2,7 @@
 #include <QFileInfo>
 #include <QXmlStreamReader>
 #include <QFileSystemWatcher>
+#include <QDir>
 
 #include "project.h"
 #include "abstractprojectfactory.h"
@@ -24,9 +25,9 @@ Project::Project(int type):
    if ( _type < 0 || _type >= factory.getSize() )
    {
       // report invalid project type
-      Exception::DomainError e;
+      Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Project Domain Error"));
+      e.setTitle(tr("Invalid Argument"));
       e.setDetails(tr("Invald project type %1 when max is %2.").arg(type).arg(factory.getSize()-1));
       throw e;
    }
@@ -54,7 +55,7 @@ Project::Project(const QString &path):
       ,ScanFilters
    };
 
-   // open project file for reading
+   // open project file for reading and make sure it worked
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
@@ -62,7 +63,7 @@ Project::Project(const QString &path):
       Exception::OpenError e;
       MARK_EXCEPTION(e);
       e.setTitle(tr("Project Open Error"));
-      e.setDetails(tr("Failed opening project file for reading: %1").arg(file.errorString()));
+      e.setDetails(tr("Cannot open file %1 for reading: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
 
@@ -75,7 +76,7 @@ Project::Project(const QString &path):
 
    // initialize xml element parser
    XMLElementParser parse(xml,0,-1);
-   parse.addKeyword("name").addKeyword("type");
+   parse.addKeyword("name").addKeyword("type").addKeyword("scandir").addKeyword("filters");
    int element;
 
    // do loop until parser has reached end
@@ -157,6 +158,67 @@ Project::Project(const QString &path):
 //@@
 void Project::save() const
 {
+   // make sure this is not a new project without a path
+   if ( _path.isEmpty() )
+   {
+      // report invalid use error
+      Exception::InvalidUse e;
+      e.setTitle(tr("Invalid Use"));
+      e.setDetails(tr("Attempting to save new project that has no path."));
+      throw e;
+   }
+
+   // temporarily remove file from watcher for saving
+   _fileWatcher->removePath(_path);
+
+   // open file for writing and truncation making sure it worked
+   QFile xmlFile(_path);
+   if ( !xmlFile.open(QIODevice::WriteOnly|QIODevice::Truncate) )
+   {
+      // report file open error
+      Exception::OpenError e;
+      MARK_EXCEPTION(e);
+      e.setTitle(tr("Project Open Error"));
+      e.setDetails(tr("Cannot open file %1 for writing: %2").arg(_path).arg(xmlFile.errorString()));
+      throw e;
+   }
+
+   // initialize xml stream writer
+   QXmlStreamWriter xml(&xmlFile);
+   xml.setAutoFormatting(true);
+
+   // write beginning of xml
+   xml.writeStartDocument();
+   xml.writeStartElement("project");
+
+   // write project name
+   xml.writeTextElement("name",_name);
+
+   // write project type information
+   xml.writeStartElement("type");
+   xml.writeTextElement("id",QString::number(_type));
+   xml.writeTextElement("name",_typeName);
+   xml.writeEndElement();
+
+   // write scan directory and filters
+   QFileInfo info(_path);
+   xml.writeTextElement("scandir",info.dir().relativeFilePath(_scanDirectory));
+   xml.writeTextElement("filters",_scanFilters);
+
+   // write end of document and check for xml errors
+   xml.writeEndDocument();
+   if ( xml.hasError() )
+   {
+      // report xml write error
+      Exception::WriteError e;
+      MARK_EXCEPTION(e);
+      e.setTitle(tr("Project Write Error"));
+      e.setDetails(tr("Xml Error writing to file %1.").arg(_path));
+      throw e;
+   }
+
+   // add file back to file watcher
+   _fileWatcher->addPath(_path);
 }
 
 
@@ -165,8 +227,11 @@ void Project::save() const
 
 
 //@@
-void Project::saveAs()
+void Project::saveAs(const QString& path)
 {
+   // update to new path and save
+   _path = path;
+   save();
 }
 
 
@@ -177,6 +242,20 @@ void Project::saveAs()
 //@@
 void Project::setScanDirectory(const QString& path)
 {
+   // make sure the given path is a directory
+   QFileInfo info(path);
+   if ( !info.isDir() )
+   {
+      // report invalid path error
+      Exception::InvalidArgument e;
+      e.setTitle(tr("Invalid Argument"));
+      e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
+                   .arg(path));
+      throw e;
+   }
+
+   // set new scan directory as canonical path
+   _scanDirectory = info.canonicalFilePath();
 }
 
 
@@ -235,6 +314,7 @@ void Project::readTypeElement(QXmlStreamReader& xml)
             // make sure read worked
             if ( !ok )
             {
+               // report read failure
                Exception::ReadError e;
                MARK_EXCEPTION(e);
                e.setTitle(tr("Project Read Error"));
@@ -257,6 +337,7 @@ void Project::readTypeElement(QXmlStreamReader& xml)
    // make sure all elements were read in
    if ( !idRead || !nameRead )
    {
+      // report failure to read all elements
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setTitle(tr("Project Read Error"));

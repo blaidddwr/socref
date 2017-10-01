@@ -48,9 +48,9 @@ private:
 
 
 //@@
-class NullReturn : public Base
+class OpenError : public Base
 {
-   virtual const char* what() const noexcept override final { return "NullReturn"; }
+   virtual const char* what() const noexcept override final { return "OpenError"; }
 };
 
 
@@ -64,9 +64,41 @@ class ReadError : public Base
 
 
 //@@
-class OpenError : public Base
+class WriteError : public Base
 {
-   virtual const char* what() const noexcept override final { return "OpenError"; }
+   virtual const char* what() const noexcept override final { return "WriteError"; }
+};
+
+
+
+//@@
+class SystemError : public Base
+{
+   virtual const char* what() const noexcept override final { return "SystemError"; }
+};
+
+
+
+//@@
+class InvalidArgument : public Base
+{
+   virtual const char* what() const noexcept override final { return "InvalidArgument"; }
+};
+
+
+
+//@@
+class InvalidUse : public Base
+{
+   virtual const char* what() const noexcept override final { return "InvalidUse"; }
+};
+
+
+
+//@@
+class OutOfRange : public Base
+{
+   virtual const char* what() const noexcept override final { return "OutOfRange"; }
 };
 
 
@@ -75,6 +107,14 @@ class OpenError : public Base
 class DomainError : public Base
 {
    virtual const char* what() const noexcept override final { return "DomainError"; }
+};
+
+
+
+//@@
+class RangeError : public Base
+{
+   virtual const char* what() const noexcept override final { return "RangeError"; }
 };
 
 } // namespace Exception

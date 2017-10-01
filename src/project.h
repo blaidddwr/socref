@@ -20,7 +20,7 @@ public:
    Project(int type);
    Project(const QString& path);
    void save() const;
-   void saveAs();
+   void saveAs(const QString& path);
    //@@
    void setName(const QString& name) { _name = name; }
    //@@
