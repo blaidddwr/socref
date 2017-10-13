@@ -20,7 +20,7 @@ MainWindow::MainWindow(QWidget *parent):
 {
    createActions();
    createMenus();
-   setWindowTitle(tr("Socrates' Reference"));
+   updateTitle();
 }
 
 
@@ -29,14 +29,18 @@ MainWindow::MainWindow(QWidget *parent):
 
 
 //@@
-void MainWindow::setProject(Project* project)
+void MainWindow::setProject(Project* o_project)
 {
    if ( _project )
    {
       delete _project;
    }
-   _project = project;
-   project->setParent(this);
+   _project = o_project;
+   o_project->setParent(this);
+   connect(o_project,&Project::modified,this,&MainWindow::projectModified);
+   connect(o_project,&Project::saved,this,&MainWindow::projectSaved);
+   connect(o_project,&Project::fileChanged,this,&MainWindow::projectFileChanged);
+   updateTitle();
 }
 
 
@@ -105,16 +109,46 @@ void MainWindow::projectSettingsTriggered()
 
 
 //@@
+void MainWindow::projectModified()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::projectSaved()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::projectFileChanged()
+{
+}
+
+
+
+
+
+
+//@@
 void MainWindow::createActions()
 {
    // create new actions for each project type
-   /*AbstractProjectFactory& factory = AbstractProjectFactory::getInstance();
+   AbstractProjectFactory& factory = AbstractProjectFactory::getInstance();
    for (int i = 0; i < factory.getSize() ;++i)
    {
       _newActions.append(new QAction(factory.getName(i),this));
       _newActions.back()->setData(i);
       connect(_newActions.back(),&QAction::triggered,this,&MainWindow::newTriggered);
-   }*/
+   }
 
    // create open action
    _openAction = new QAction(tr("&Open"),this);
@@ -161,12 +195,12 @@ void MainWindow::createMenus()
    QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
 
    // make new submenu for each project type
-   /*QMenu* newMenu = fileMenu->addMenu(tr("&New"));
+   QMenu* newMenu = fileMenu->addMenu(tr("&New"));
    AbstractProjectFactory& factory = AbstractProjectFactory::getInstance();
    for (int i = 0; i < factory.getSize() ;++i)
    {
       newMenu->addAction(_newActions.at(i));
-   }*/
+   }
 
    // finish making file menu
    fileMenu->addAction(_openAction);
@@ -177,4 +211,21 @@ void MainWindow::createMenus()
    // make settings menu
    QMenu* settingsMenu = menuBar()->addMenu(tr("&Settings"));
    settingsMenu->addAction(_projectSettingsAction);
+}
+
+
+
+
+
+
+void MainWindow::updateTitle()
+{
+   if ( _project )
+   {
+      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->getName()).arg("type"));
+   }
+   else
+   {
+      setWindowTitle(tr("Socrates' Reference"));
+   }
 }

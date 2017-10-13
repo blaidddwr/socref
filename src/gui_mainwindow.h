@@ -17,7 +17,7 @@ class MainWindow : public QMainWindow
    Q_OBJECT
 public:
    MainWindow(QWidget* parent = nullptr);
-   void setProject(Project* project);
+   void setProject(Project* o_project);
 private slots:
    void newTriggered();
    void openTriggered();
@@ -25,9 +25,13 @@ private slots:
    void saveAsTriggered();
    void closeTriggered();
    void projectSettingsTriggered();
+   void projectModified();
+   void projectSaved();
+   void projectFileChanged();
 private:
    void createActions();
    void createMenus();
+   void updateTitle();
    Project* _project {nullptr};
    QVector<QAction*> _newActions;
    QAction* _openAction;
