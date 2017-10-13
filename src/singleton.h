@@ -8,6 +8,7 @@ template<class T>
 class Singleton
 {
 public:
+   virtual ~Singleton() = default;
    static T& getInstance();
 private:
    static T* _instance;

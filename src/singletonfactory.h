@@ -9,6 +9,7 @@ template<class T>
 class SingletonFactory
 {
 public:
+   virtual ~SingletonFactory() = default;
    static T& getInstance();
    static void setInstance(T* instance);
 private:
