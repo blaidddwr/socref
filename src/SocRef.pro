@@ -9,13 +9,12 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp \
     project.cpp \
     xmlelementparser.cpp \
-    abstractblock.cpp
+    abstractblock.cpp \
+    gui_mainwindow.cpp
 
 HEADERS += \
-    mainwindow.h \
     singleton.h \
     singletonfactory.h \
     exception.h \
@@ -23,7 +22,8 @@ HEADERS += \
     project.h \
     abstractblockfactory.h \
     xmlelementparser.h \
-    abstractblock.h
+    abstractblock.h \
+    gui_mainwindow.h
 
 #AbstractParser
 #Gui::AbstractView
