@@ -31,10 +31,6 @@ Project::Project(int type):
       e.setDetails(tr("Invald project type %1 when max is %2.").arg(type).arg(factory.getSize()-1));
       throw e;
    }
-
-   // set block factory and scan filters
-   _factory = &factory.getBlockFactory(_type);
-   _scanFilters = factory.getDefaultFilters(_type);
 }
 
 
@@ -144,10 +140,8 @@ Project::Project(const QString &path):
       throw e;
    }
 
-   // make new factory and add file watcher
-   _factory = &factory.getBlockFactory(_type);
-   _fileWatcher = new QFileSystemWatcher(QStringList(_path),this);
-   connect(_fileWatcher,&QFileSystemWatcher::fileChanged,this,&Project::saveFileChanged);
+   // add path to file watcher
+   addPath(_path);
 }
 
 
@@ -156,7 +150,7 @@ Project::Project(const QString &path):
 
 
 //@@
-void Project::save() const
+void Project::save()
 {
    // make sure this is not a new project without a path
    if ( _path.isEmpty() )
@@ -169,7 +163,7 @@ void Project::save() const
    }
 
    // temporarily remove file from watcher for saving
-   _fileWatcher->removePath(_path);
+   removePath(_path);
 
    // open file for writing and truncation making sure it worked
    QFile xmlFile(_path);
@@ -218,7 +212,7 @@ void Project::save() const
    }
 
    // add file back to file watcher
-   _fileWatcher->addPath(_path);
+   addPath(_path);
 }
 
 

@@ -1,70 +1,74 @@
 #ifndef PROJECT_H
 #define PROJECT_H
-#include <QObject>
-#include <QDateTime>
+#include <QFileSystemWatcher>
 
 
 
-class QFileSystemWatcher;
-class AbstractBlockFactory;
-class BlockModel;
 class QXmlStreamReader;
 
 
 
 //@@
-class Project : public QObject
+class Project : public QFileSystemWatcher
 {
    Q_OBJECT
 public:
    Project(int type);
    Project(const QString& path);
-   void save() const;
+   void save();
    void saveAs(const QString& path);
-   //@@
-   void setName(const QString& name) { _name = name; }
-   //@@
-   QString getName() const { return _name; }
-   //@@
-   int getType() const { return _type; }
-   //@@
-   QString getScanDirectory() const { return _scanDirectory; }
+   void setName(const QString& name);
+   QString getName() const;
+   int getType() const;
+   QString getScanDirectory() const;
    void setScanDirectory(const QString& path);
-   //@@
-   QString getScanFilters() const { return _scanFilters; }
-   //@@
-   void setScanFilters(const QString& filters) { _scanFilters = filters; }
-   //@@
-   BlockModel* getModel() const { return _model; }
-   //@@
-   bool isNew() const { return _path.isEmpty(); }
-   //@@
-   bool isModified() const { return _modified; }
+   QString getScanFilters() const;
+   void setScanFilters(const QString& filters);
+   bool isNew() const;
+   bool isModified() const;
 signals:
    //@@
    void modified();
    //@@
    void saved();
-   //@@
-   void fileChanged();
 private slots:
    void blockModified();
-   //@@
-   void saveFileChanged() { emit fileChanged(); }
 private:
    void readTypeElement(QXmlStreamReader& xml);
    QString _path;
    QString _name;
    int _type {-1};
    QString _typeName;
-   const AbstractBlockFactory* _factory {nullptr};
    QString _scanDirectory;
    QString _scanFilters;
    bool _modified {false};
-   BlockModel* _model;
-   QFileSystemWatcher* _fileWatcher {nullptr};
-   int _fileChangeTicks {0};
 };
+
+
+
+//@@
+inline void Project::setName(const QString& name) { _name = name; }
+
+//@@
+inline QString Project::getName() const { return _name; }
+
+//@@
+inline int Project::getType() const { return _type; }
+
+//@@
+inline QString Project::getScanDirectory() const { return _scanDirectory; }
+
+//@@
+inline QString Project::getScanFilters() const { return _scanFilters; }
+
+//@@
+inline void Project::setScanFilters(const QString& filters) { _scanFilters = filters; }
+
+//@@
+inline bool Project::isNew() const { return _path.isEmpty(); }
+
+//@@
+inline bool Project::isModified() const { return _modified; }
 
 
 
