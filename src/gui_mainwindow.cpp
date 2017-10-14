@@ -18,6 +18,7 @@ using namespace Gui;
 MainWindow::MainWindow(QWidget *parent):
    QMainWindow(parent)
 {
+   // create all GUI elements and update window title
    createActions();
    createMenus();
    updateTitle();
@@ -31,16 +32,25 @@ MainWindow::MainWindow(QWidget *parent):
 //@@
 void MainWindow::setProject(Project* o_project)
 {
+   // if window already had project then delete it
    if ( _project )
    {
       delete _project;
    }
+
+   // assign new project and set its parent
    _project = o_project;
    o_project->setParent(this);
+
+   // connect all project signals
+   connect(o_project,&Project::nameChanged,this,&MainWindow::projectNameChanged);
    connect(o_project,&Project::modified,this,&MainWindow::projectModified);
    connect(o_project,&Project::saved,this,&MainWindow::projectSaved);
    connect(o_project,&Project::fileChanged,this,&MainWindow::projectFileChanged);
+
+   // update title and set window modified state to project's
    updateTitle();
+   setWindowModified(o_project->isModified());
 }
 
 
@@ -108,9 +118,22 @@ void MainWindow::projectSettingsTriggered()
 
 
 
+
+//@@
+void MainWindow::projectNameChanged()
+{
+   updateTitle();
+}
+
+
+
+
+
+
 //@@
 void MainWindow::projectModified()
 {
+   setWindowModified(true);
 }
 
 
@@ -121,6 +144,7 @@ void MainWindow::projectModified()
 //@@
 void MainWindow::projectSaved()
 {
+   setWindowModified(false);
 }
 
 
@@ -220,10 +244,14 @@ void MainWindow::createMenus()
 
 void MainWindow::updateTitle()
 {
+   // if there is a project update the title accordingly
    if ( _project )
    {
-      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->getName()).arg("type"));
+      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->getName())
+                     .arg(AbstractProjectFactory::getInstance().getName(_project->getType())));
    }
+
+   // else there is no project so make basic title
    else
    {
       setWindowTitle(tr("Socrates' Reference"));

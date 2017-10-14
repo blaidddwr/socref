@@ -234,6 +234,23 @@ void Project::saveAs(const QString& path)
 
 
 //@@
+void Project::setName(const QString& name)
+{
+   // check if new name is different from old name
+   if ( _name != name )
+   {
+      // set new name and emit name changed signal
+      _name = name;
+      emit nameChanged();
+   }
+}
+
+
+
+
+
+
+//@@
 void Project::setScanDirectory(const QString& path)
 {
    // make sure the given path is a directory

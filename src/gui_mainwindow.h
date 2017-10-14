@@ -25,6 +25,7 @@ private slots:
    void saveAsTriggered();
    void closeTriggered();
    void projectSettingsTriggered();
+   void projectNameChanged();
    void projectModified();
    void projectSaved();
    void projectFileChanged();

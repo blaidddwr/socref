@@ -28,6 +28,8 @@ public:
    bool isModified() const;
 signals:
    //@@
+   void nameChanged();
+   //@@
    void modified();
    //@@
    void saved();
@@ -45,9 +47,6 @@ private:
 };
 
 
-
-//@@
-inline void Project::setName(const QString& name) { _name = name; }
 
 //@@
 inline QString Project::getName() const { return _name; }
