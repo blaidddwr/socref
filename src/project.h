@@ -61,9 +61,6 @@ inline QString Project::getScanDirectory() const { return _scanDirectory; }
 inline QString Project::getScanFilters() const { return _scanFilters; }
 
 //@@
-inline void Project::setScanFilters(const QString& filters) { _scanFilters = filters; }
-
-//@@
 inline bool Project::isNew() const { return _path.isEmpty(); }
 
 //@@

@@ -58,7 +58,7 @@ Project::Project(const QString &path):
       // report file open error
       Exception::OpenError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Project Open Error"));
+      e.setTitle(tr("Open Error"));
       e.setDetails(tr("Cannot open file %1 for reading: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
@@ -110,7 +110,7 @@ Project::Project(const QString &path):
       // report read error
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Project Read Error"));
+      e.setTitle(tr("Read Error"));
       e.setDetails(tr("Could not find all required xml elements of project."));
       throw e;
    }
@@ -122,7 +122,7 @@ Project::Project(const QString &path):
       // report invalid project type
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Project Read Error"));
+      e.setTitle(tr("Read Error"));
       e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type)
                    .arg(factory.getSize()-1));
       throw e;
@@ -134,14 +134,15 @@ Project::Project(const QString &path):
       // report invalid project type name
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Project Read Error"));
+      e.setTitle(tr("Read Error"));
       e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(_typeName)
                    .arg(factory.getName(_type)));
       throw e;
    }
 
-   // add path to file watcher
+   // add path to file watcher and emit saved signal
    addPath(_path);
+   emit saved();
 }
 
 
@@ -172,7 +173,7 @@ void Project::save()
       // report file open error
       Exception::OpenError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Project Open Error"));
+      e.setTitle(tr("Open Error"));
       e.setDetails(tr("Cannot open file %1 for writing: %2").arg(_path).arg(xmlFile.errorString()));
       throw e;
    }
@@ -239,9 +240,10 @@ void Project::setName(const QString& name)
    // check if new name is different from old name
    if ( _name != name )
    {
-      // set new name and emit name changed signal
+      // set new name and emit name changed and modified signal
       _name = name;
       emit nameChanged();
+      emit modified();
    }
 }
 
@@ -253,20 +255,43 @@ void Project::setName(const QString& name)
 //@@
 void Project::setScanDirectory(const QString& path)
 {
-   // make sure the given path is a directory
+   // check if new directory is different from currently set
    QFileInfo info(path);
-   if ( !info.isDir() )
+   if ( _scanDirectory != info.canonicalFilePath() )
    {
-      // report invalid path error
-      Exception::InvalidArgument e;
-      e.setTitle(tr("Invalid Argument"));
-      e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
-                   .arg(path));
-      throw e;
-   }
+      // make sure path is a directory
+      if ( !info.isDir() )
+      {
+         // report invalid path error
+         Exception::InvalidArgument e;
+         MARK_EXCEPTION(e);
+         e.setTitle(tr("Invalid Argument"));
+         e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
+                      .arg(path));
+         throw e;
+      }
 
-   // set new scan directory as canonical path
-   _scanDirectory = info.canonicalFilePath();
+      // set new scan directory as canonical path and emit modified signal
+      _scanDirectory = info.canonicalFilePath();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+//@@
+void Project::setScanFilters(const QString& filters)
+{
+   // check if new filters are different from currently set
+   if ( _scanFilters != filters )
+   {
+      // update filters and emit modified signal
+      _scanFilters = filters;
+      emit modified();
+   }
 }
 
 
@@ -328,7 +353,7 @@ void Project::readTypeElement(QXmlStreamReader& xml)
                // report read failure
                Exception::ReadError e;
                MARK_EXCEPTION(e);
-               e.setTitle(tr("Project Read Error"));
+               e.setTitle(tr("Read Error"));
                e.setDetails(tr("Failed reading in type as integer."));
                throw e;
             }
@@ -351,7 +376,7 @@ void Project::readTypeElement(QXmlStreamReader& xml)
       // report failure to read all elements
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Project Read Error"));
+      e.setTitle(tr("Read Error"));
       e.setDetails(tr("Failed reading in all required elements for project type."));
       throw e;
    }
