@@ -33,6 +33,10 @@ private:
    void createActions();
    void createMenus();
    void updateTitle();
+   void updateActions();
+   bool isOkToContinue();
+   bool saveAs();
+   bool save();
    Project* _project {nullptr};
    QVector<QAction*> _newActions;
    QAction* _openAction;
@@ -41,6 +45,23 @@ private:
    QAction* _closeAction;
    QAction* _projectSettingsAction;
 };
+
+
+
+//@@
+inline void MainWindow::saveTriggered() { save(); }
+
+//@@
+inline void MainWindow::saveAsTriggered() { saveAs(); }
+
+//@@
+inline void MainWindow::projectNameChanged() { updateTitle(); }
+
+//@@
+inline void MainWindow::projectModified() { setWindowModified(true); }
+
+//@@
+inline void MainWindow::projectSaved() { setWindowModified(false); }
 
 } // namespace Gui
 
