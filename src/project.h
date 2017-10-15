@@ -37,6 +37,7 @@ private slots:
    void blockModified();
 private:
    void readTypeElement(QXmlStreamReader& xml);
+   void signalModified();
    QString _path;
    QString _name;
    int _type {-1};
@@ -65,6 +66,9 @@ inline bool Project::isNew() const { return _path.isEmpty(); }
 
 //@@
 inline bool Project::isModified() const { return _modified; }
+
+//@@
+inline void Project::blockModified() { signalModified(); }
 
 
 

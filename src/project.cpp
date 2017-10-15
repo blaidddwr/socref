@@ -212,8 +212,10 @@ void Project::save()
       throw e;
    }
 
-   // add file back to file watcher
+   // add file back to file watcher, set modified to false and emit saved signal
    addPath(_path);
+   _modified = false;
+   emit saved();
 }
 
 
@@ -224,9 +226,20 @@ void Project::save()
 //@@
 void Project::saveAs(const QString& path)
 {
-   // update to new path and save
+   // save old path, update to new path and try to save
+   QString oldPath = _path;
    _path = path;
-   save();
+   try
+   {
+      save();
+   }
+
+   // if any exception occurs set path back to old and rethrow
+   catch (...)
+   {
+      _path = oldPath;
+      throw;
+   }
 }
 
 
@@ -240,10 +253,10 @@ void Project::setName(const QString& name)
    // check if new name is different from old name
    if ( _name != name )
    {
-      // set new name and emit name changed and modified signal
+      // set new name, emit name changed signal and signal modified
       _name = name;
       emit nameChanged();
-      emit modified();
+      signalModified();
    }
 }
 
@@ -271,9 +284,9 @@ void Project::setScanDirectory(const QString& path)
          throw e;
       }
 
-      // set new scan directory as canonical path and emit modified signal
+      // set new scan directory as canonical path and signal modified
       _scanDirectory = info.canonicalFilePath();
-      emit modified();
+      signalModified();
    }
 }
 
@@ -288,26 +301,9 @@ void Project::setScanFilters(const QString& filters)
    // check if new filters are different from currently set
    if ( _scanFilters != filters )
    {
-      // update filters and emit modified signal
+      // update filters and signal modified
       _scanFilters = filters;
-      emit modified();
-   }
-}
-
-
-
-
-
-
-//@@
-void Project::blockModified()
-{
-   // make sure project is not already modified
-   if ( !_modified )
-   {
-      // set project to modified and emit signal
-      _modified = true;
-      emit modified();
+      signalModified();
    }
 }
 
@@ -379,5 +375,22 @@ void Project::readTypeElement(QXmlStreamReader& xml)
       e.setTitle(tr("Read Error"));
       e.setDetails(tr("Failed reading in all required elements for project type."));
       throw e;
+   }
+}
+
+
+
+
+
+
+//@@
+void Project::signalModified()
+{
+   // make sure project is not already modified
+   if ( !_modified )
+   {
+      // set project to modified and emit signal
+      _modified = true;
+      emit modified();
    }
 }
