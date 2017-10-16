@@ -103,6 +103,44 @@ void MainWindow::newTriggered()
 //@@
 void MainWindow::openTriggered()
 {
+   // setup file dialog to get file location
+   QFileDialog fileDialog(nullptr,tr("Open Project"),""
+                          ,tr("Socrates' Reference File (*.scr)"));
+   fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+
+   // make sure user chose acceptable file
+   if ( fileDialog.exec() )
+   {
+      // get first path user selected
+      QStringList files = fileDialog.selectedFiles();
+      const QString path = files.constFirst();
+      try
+      {
+         // open project with first file user selected
+         unique_ptr<Project> project {new Project(path)};
+
+         // set this window's project to opened project if it has none
+         if ( !_project )
+         {
+            setProject(project.release());
+         }
+
+         // else project already set
+         else
+         {
+            // create a new window and set its project to opened project
+            MainWindow* window = new MainWindow;
+            window->setProject(project.release());
+            window->show();
+         }
+      }
+
+      // inform user of anything that went wrong
+      catch (Exception::Base e)
+      {
+         showException(e);
+      }
+   }
 }
 
 
@@ -138,6 +176,33 @@ void MainWindow::projectSettingsTriggered()
 //@@
 void MainWindow::projectFileChanged()
 {
+   // create message box informing user of file change and asking what to do
+   QMessageBox notice;
+   notice.setWindowTitle(tr("Project File Changed"));
+   notice.setText(tr("The currently open project's file has been modified."));
+   notice.setIcon(QMessageBox::Warning);
+   notice.addButton(tr("Reload"),QMessageBox::ResetRole);
+   notice.addButton(tr("Ignore"),QMessageBox::RejectRole);
+
+   // modally execute message box and get answer
+   int answer = notice.exec();
+
+   // check if answer is to reload file
+   if ( answer == QMessageBox::ResetRole )
+   {
+      try
+      {
+         // open new project object form same file and set as project
+         unique_ptr<Project> project {new Project(_project->getPath())};
+         setProject(project.release());
+      }
+
+      // inform user of anything that went wrong
+      catch (Exception::Base e)
+      {
+         showException(e);
+      }
+   }
 }
 
 
@@ -329,7 +394,7 @@ bool MainWindow::saveAs()
 
    // get path to project file
    QFileDialog fileDialog(nullptr,tr("Save Project"),""
-                          ,tr("Socrates' Reference File(*.srf)"));
+                          ,tr("Socrates' Reference File (*.scr)"));
    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
 
    // make sure user choose acceptable file

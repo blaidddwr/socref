@@ -19,6 +19,7 @@ public:
    void saveAs(const QString& path);
    void setName(const QString& name);
    QString getName() const;
+   QString getPath() const;
    int getType() const;
    QString getScanDirectory() const;
    void setScanDirectory(const QString& path);
@@ -50,6 +51,9 @@ private:
 
 //@@
 inline QString Project::getName() const { return _name; }
+
+//@@
+inline QString Project::getPath() const { return _path; }
 
 //@@
 inline int Project::getType() const { return _type; }
