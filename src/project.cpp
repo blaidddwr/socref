@@ -31,6 +31,9 @@ Project::Project(int type):
       e.setDetails(tr("Invald project type %1 when max is %2.").arg(type).arg(factory.getSize()-1));
       throw e;
    }
+
+   // get default file filters
+   _scanFilters = factory.getDefaultFilters(_type);
 }
 
 
@@ -115,31 +118,6 @@ Project::Project(const QString &path):
       throw e;
    }
 
-   // make sure project type is valid and get its block factory
-   AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
-   if ( _type < 0 || _type >= factory.getSize() )
-   {
-      // report invalid project type
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setTitle(tr("Read Error"));
-      e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type)
-                   .arg(factory.getSize()-1));
-      throw e;
-   }
-
-   // make sure project type name matches factory
-   if ( _typeName != factory.getName(_type) )
-   {
-      // report invalid project type name
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setTitle(tr("Read Error"));
-      e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(_typeName)
-                   .arg(factory.getName(_type)));
-      throw e;
-   }
-
    // add path to file watcher and emit saved signal
    addPath(_path);
    emit saved();
@@ -192,7 +170,7 @@ void Project::save()
    // write project type information
    xml.writeStartElement("type");
    xml.writeTextElement("id",QString::number(_type));
-   xml.writeTextElement("name",_typeName);
+   xml.writeTextElement("name",AbstractProjectFactory::getInstance().getName(_type));
    xml.writeEndElement();
 
    // write scan directory and filters
@@ -326,7 +304,8 @@ void Project::readTypeElement(QXmlStreamReader& xml)
    bool idRead {false};
    bool nameRead {false};
 
-   // initialize parser
+   // get project factory and initialize parser
+   AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
    XMLElementParser parser(xml);
    parser.addKeyword("id").addKeyword("name");
    int element;
@@ -354,15 +333,41 @@ void Project::readTypeElement(QXmlStreamReader& xml)
                throw e;
             }
 
+            // make sure project type is valid and get its block factory
+            if ( _type < 0 || _type >= factory.getSize() )
+            {
+               // report invalid project type
+               Exception::ReadError e;
+               MARK_EXCEPTION(e);
+               e.setTitle(tr("Read Error"));
+               e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type)
+                            .arg(factory.getSize()-1));
+               throw e;
+            }
+
             // mark id as read
             idRead = true;
             break;
          }
       case Name:
-         // read in type name and mark as read
-         _typeName = xml.readElementText();
-         nameRead = true;
-         break;
+         {
+            // read in type name and mark as read
+            QString typeName = xml.readElementText();
+            nameRead = true;
+
+            // make sure project type name matches factory
+            if ( typeName != factory.getName(_type) )
+            {
+               // report invalid project type name
+               Exception::ReadError e;
+               MARK_EXCEPTION(e);
+               e.setTitle(tr("Read Error"));
+               e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(typeName)
+                            .arg(factory.getName(_type)));
+               throw e;
+            }
+            break;
+         }
       }
    }
 

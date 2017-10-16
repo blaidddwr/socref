@@ -2,8 +2,10 @@
 #include <QAction>
 #include <QMenuBar>
 #include <QMessageBox>
+#include <QFileDialog>
 
 #include "gui_mainwindow.h"
+#include "exception.h"
 #include "abstractprojectfactory.h"
 #include "project.h"
 
@@ -319,6 +321,43 @@ bool MainWindow::isOkToContinue()
 //@@
 bool MainWindow::saveAs()
 {
+   // make sure window has project
+   if ( !_project )
+   {
+      return false;
+   }
+
+   // get path to project file
+   QFileDialog fileDialog(nullptr,tr("Save Project"),""
+                          ,tr("Socrates' Reference File(*.srf)"));
+   fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+
+   // make sure user choose acceptable file
+   if ( !fileDialog.exec() )
+   {
+      return false;
+   }
+
+   // get first path in list of user selected paths
+   QStringList files = fileDialog.selectedFiles();
+   const QString path = files.constFirst();
+
+   // try to save project to given path
+   try
+   {
+      _project->saveAs(path);
+   }
+
+   // inform user of anything that went wrong
+   catch (Exception::Base e)
+   {
+      showException(e);
+      return false;
+   }
+
+   // no exception occured update actions and return success
+   updateActions();
+   return true;
 }
 
 
@@ -329,4 +368,41 @@ bool MainWindow::saveAs()
 //@@
 bool MainWindow::save()
 {
+   // make sure this window has a project
+   if ( !_project )
+   {
+      return false;
+   }
+
+   // save project
+   try
+   {
+      _project->save();
+   }
+
+   // inform user of anything that went wrong
+   catch (Exception::Base e)
+   {
+      showException(e);
+      return false;
+   }
+
+   // no exception occured return success
+   return true;
+}
+
+
+
+
+
+
+//@@
+void MainWindow::showException(const Exception::Base& e)
+{
+   // create simple modal message box informing user of warning exception that occured
+   QMessageBox warning;
+   warning.setWindowTitle(e.getTitle());
+   warning.setText(e.getDetails());
+   warning.setIcon(QMessageBox::Critical);
+   warning.exec();
 }

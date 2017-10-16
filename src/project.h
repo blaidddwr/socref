@@ -41,7 +41,6 @@ private:
    QString _path;
    QString _name;
    int _type {-1};
-   QString _typeName;
    QString _scanDirectory;
    QString _scanFilters;
    bool _modified {false};

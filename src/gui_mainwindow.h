@@ -4,6 +4,12 @@
 
 
 
+namespace Exception {
+
+class Base;
+
+} // namespace Exception
+
 class Project;
 
 
@@ -37,6 +43,7 @@ private:
    bool isOkToContinue();
    bool saveAs();
    bool save();
+   void showException(const Exception::Base& e);
    Project* _project {nullptr};
    QVector<QAction*> _newActions;
    QAction* _openAction;
