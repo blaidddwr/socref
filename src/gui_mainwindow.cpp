@@ -63,7 +63,7 @@ void MainWindow::setProject(Project* o_project)
       connect(o_project,&Project::nameChanged,this,&MainWindow::projectNameChanged);
       connect(o_project,&Project::modified,this,&MainWindow::projectModified);
       connect(o_project,&Project::saved,this,&MainWindow::projectSaved);
-      connect(o_project,&Project::fileChanged,this,&MainWindow::projectFileChanged);
+      connect(o_project,&Project::changed,this,&MainWindow::projectFileChanged);
    }
 }
 
@@ -167,6 +167,7 @@ void MainWindow::closeTriggered()
 //@@
 void MainWindow::projectSettingsTriggered()
 {
+   // create project settings dialog and modally execute
    ProjectSettingsDialog settings(_project,this);
    settings.exec();
 }
@@ -184,14 +185,14 @@ void MainWindow::projectFileChanged()
    notice.setWindowTitle(tr("Project File Changed"));
    notice.setText(tr("The currently open project's file has been modified."));
    notice.setIcon(QMessageBox::Warning);
-   notice.addButton(tr("Reload"),QMessageBox::ResetRole);
+   notice.addButton(tr("Reload"),QMessageBox::AcceptRole);
    notice.addButton(tr("Ignore"),QMessageBox::RejectRole);
 
    // modally execute message box and get answer
    int answer = notice.exec();
 
    // check if answer is to reload file
-   if ( answer == QMessageBox::ResetRole )
+   if ( answer == QMessageBox::AcceptRole )
    {
       try
       {

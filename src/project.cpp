@@ -3,6 +3,7 @@
 #include <QXmlStreamReader>
 #include <QFileSystemWatcher>
 #include <QDir>
+#include <QCryptographicHash>
 
 #include "project.h"
 #include "abstractprojectfactory.h"
@@ -20,6 +21,9 @@ Project::Project(int type):
    _type(type),
    _scanDirectory(".")
 {
+   // connect file watcher signal
+   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
+
    // make sure project type is valid
    AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
    if ( _type < 0 || _type >= factory.getSize() )
@@ -54,6 +58,9 @@ Project::Project(const QString &path):
       ,ScanFilters
    };
 
+   // connect file watcher signal
+   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
+
    // open project file for reading and make sure it worked
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
@@ -67,7 +74,8 @@ Project::Project(const QString &path):
    }
 
    // make xml stream reader and initialize validators
-   QXmlStreamReader xml(&file);
+   QByteArray xmlBytes = file.readAll();
+   QXmlStreamReader xml(xmlBytes);
    bool nameRead {false};
    bool typeRead {false};
    bool scanDirectoryRead {false};
@@ -118,6 +126,11 @@ Project::Project(const QString &path):
       throw e;
    }
 
+   // compute new file hash and write to file
+   QCryptographicHash hash(QCryptographicHash::Md5);
+   hash.addData(xmlBytes);
+   _hash = hash.result();
+
    // add path to file watcher and emit saved signal
    addPath(_path);
    emit saved();
@@ -141,9 +154,6 @@ void Project::save()
       throw e;
    }
 
-   // temporarily remove file from watcher for saving
-   removePath(_path);
-
    // open file for writing and truncation making sure it worked
    QFile xmlFile(_path);
    if ( !xmlFile.open(QIODevice::WriteOnly|QIODevice::Truncate) )
@@ -157,7 +167,8 @@ void Project::save()
    }
 
    // initialize xml stream writer
-   QXmlStreamWriter xml(&xmlFile);
+   QByteArray xmlBytes;
+   QXmlStreamWriter xml(&xmlBytes);
    xml.setAutoFormatting(true);
 
    // write beginning of xml
@@ -190,8 +201,13 @@ void Project::save()
       throw e;
    }
 
-   // add file back to file watcher, set modified to false and emit saved signal
-   addPath(_path);
+   // compute new file hash and write to file
+   QCryptographicHash hash(QCryptographicHash::Md5);
+   hash.addData(xmlBytes);
+   _hash = hash.result();
+   xmlFile.write(xmlBytes);
+
+   // set modified to false and emit saved signal
    _modified = false;
    emit saved();
 }
@@ -218,6 +234,10 @@ void Project::saveAs(const QString& path)
       _path = oldPath;
       throw;
    }
+
+   // everything worked so update file watcher
+   removePath(oldPath);
+   addPath(_path);
 }
 
 
@@ -282,6 +302,34 @@ void Project::setScanFilters(const QString& filters)
       // update filters and signal modified
       _scanFilters = filters;
       signalModified();
+   }
+}
+
+
+
+
+
+
+void Project::handleFileChanged()
+{
+   // attempt to open the project file
+   QFile file(_path);
+   if ( !file.open(QIODevice::ReadOnly) )
+   {
+      // if project file cannot be opened emit changed signal
+      emit changed();
+      return;
+   }
+
+   // get hash of project file
+   QByteArray data = file.readAll();
+   QCryptographicHash hash(QCryptographicHash::Md5);
+   hash.addData(data);
+
+   // if hashes are different emit changed signal
+   if ( hash.result() != _hash )
+   {
+      emit changed();
    }
 }
 

@@ -34,12 +34,16 @@ signals:
    void modified();
    //@@
    void saved();
+   //@@
+   void changed();
 private slots:
    void blockModified();
+   void handleFileChanged();
 private:
    void readTypeElement(QXmlStreamReader& xml);
    void signalModified();
    QString _path;
+   QByteArray _hash;
    QString _name;
    int _type {-1};
    QString _scanDirectory;
