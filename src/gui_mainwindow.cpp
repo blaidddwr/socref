@@ -8,6 +8,7 @@
 #include "exception.h"
 #include "abstractprojectfactory.h"
 #include "project.h"
+#include "gui_projectsettingsdialog.h"
 
 
 
@@ -166,6 +167,8 @@ void MainWindow::closeTriggered()
 //@@
 void MainWindow::projectSettingsTriggered()
 {
+   ProjectSettingsDialog settings(_project,this);
+   settings.exec();
 }
 
 

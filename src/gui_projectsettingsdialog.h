@@ -1,0 +1,40 @@
+#ifndef GUI_PROJECTSETTINGSDIALOG_H
+#define GUI_PROJECTSETTINGSDIALOG_H
+#include <QDialog>
+
+
+
+class Project;
+class QLineEdit;
+class QHBoxLayout;
+class QFormLayout;
+
+
+
+//@@
+namespace Gui {
+
+//@@
+class ProjectSettingsDialog : public QDialog
+{
+   Q_OBJECT
+public:
+   ProjectSettingsDialog(Project* project, QWidget* parent = nullptr);
+private slots:
+   void okClicked();
+   void applyClicked();
+   void browseClicked();
+private:
+   QFormLayout* createForm();
+   QHBoxLayout* createButtons();
+   Project* _project;
+   QLineEdit* _nameEdit;
+   QLineEdit* _scanDirectoryEdit;
+   QLineEdit* _filtersEdit;
+};
+
+} // namespace Gui
+
+
+
+#endif

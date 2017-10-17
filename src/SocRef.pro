@@ -13,7 +13,8 @@ SOURCES += \
     xmlelementparser.cpp \
     abstractblock.cpp \
     gui_mainwindow.cpp \
-    projectfactory.cpp
+    projectfactory.cpp \
+    gui_projectsettingsdialog.cpp
 
 HEADERS += \
     singleton.h \
@@ -25,7 +26,8 @@ HEADERS += \
     xmlelementparser.h \
     abstractblock.h \
     gui_mainwindow.h \
-    projectfactory.h
+    projectfactory.h \
+    gui_projectsettingsdialog.h
 
 #AbstractParser
 #Gui::AbstractView
