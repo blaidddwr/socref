@@ -36,6 +36,7 @@ private slots:
    void projectSaved();
    void projectFileChanged();
 private:
+   virtual void closeEvent(QCloseEvent* event) override final;
    void createActions();
    void createMenus();
    void updateTitle();
@@ -43,13 +44,13 @@ private:
    bool isOkToContinue();
    bool saveAs();
    bool save();
-   void showException(const Exception::Base& e);
    Project* _project {nullptr};
    QVector<QAction*> _newActions;
    QAction* _openAction;
    QAction* _saveAction;
    QAction* _saveAsAction;
    QAction* _closeAction;
+   QAction* _exitAction;
    QAction* _projectSettingsAction;
 };
 

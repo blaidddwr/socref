@@ -3,6 +3,7 @@
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QCloseEvent>
 
 #include "gui_mainwindow.h"
 #include "exception.h"
@@ -139,7 +140,8 @@ void MainWindow::openTriggered()
       // inform user of anything that went wrong
       catch (Exception::Base e)
       {
-         showException(e);
+         e.show(tr("An error occured while attempting to open the project.")
+                ,Exception::Icon::Warning);
       }
    }
 }
@@ -204,8 +206,29 @@ void MainWindow::projectFileChanged()
       // inform user of anything that went wrong
       catch (Exception::Base e)
       {
-         showException(e);
+         e.show(tr("An error occured while attempting to reload the project.")
+                ,Exception::Icon::Warning);
       }
+   }
+}
+
+
+
+
+
+
+void MainWindow::closeEvent(QCloseEvent* event)
+{
+   // if is ok to continue accept close event
+   if ( isOkToContinue() )
+   {
+      event->accept();
+   }
+
+   // else not ok to continue reject close event
+   else
+   {
+      event->ignore();
    }
 }
 
@@ -249,6 +272,12 @@ void MainWindow::createActions()
    _closeAction->setStatusTip(tr("Close the current project."));
    connect(_closeAction,&QAction::triggered,this,&MainWindow::closeTriggered);
 
+   // create exit action
+   _exitAction = new QAction(tr("&Exit"),this);
+   _exitAction->setShortcut(QKeySequence::Quit);
+   _exitAction->setStatusTip(tr("Exit this window."));
+   connect(_exitAction,&QAction::triggered,this,&MainWindow::close);
+
    // create project settings action
    _projectSettingsAction = new QAction(tr("&Project"),this);
    _projectSettingsAction->setStatusTip(tr("Edit basic settings of project"));
@@ -279,6 +308,7 @@ void MainWindow::createMenus()
    fileMenu->addAction(_saveAction);
    fileMenu->addAction(_saveAsAction);
    fileMenu->addAction(_closeAction);
+   fileMenu->addAction(_exitAction);
 
    // make settings menu
    QMenu* settingsMenu = menuBar()->addMenu(tr("&Settings"));
@@ -353,7 +383,7 @@ bool MainWindow::isOkToContinue()
    confirm.setWindowTitle(tr("Unsaved Project Changes"));
    confirm.setText(tr("The currently open project has unsaved changes. Closing the project will"
                       " cause all unsaved changes to be lost!"));
-   confirm.setIcon(QMessageBox::Warning);
+   confirm.setIcon(QMessageBox::Question);
    confirm.setStandardButtons(QMessageBox::Save|QMessageBox::Cancel|QMessageBox::Discard);
 
    // modally execute message box and determine answer
@@ -420,7 +450,7 @@ bool MainWindow::saveAs()
    // inform user of anything that went wrong
    catch (Exception::Base e)
    {
-      showException(e);
+      e.show(tr("An error occured while attempting to save the project."),Exception::Icon::Warning);
       return false;
    }
 
@@ -452,26 +482,10 @@ bool MainWindow::save()
    // inform user of anything that went wrong
    catch (Exception::Base e)
    {
-      showException(e);
+      e.show(tr("An error occured while attempting to save the project."),Exception::Icon::Warning);
       return false;
    }
 
    // no exception occured return success
    return true;
-}
-
-
-
-
-
-
-//@@
-void MainWindow::showException(const Exception::Base& e)
-{
-   // create simple modal message box informing user of warning exception that occured
-   QMessageBox warning;
-   warning.setWindowTitle(e.getTitle());
-   warning.setText(e.getDetails());
-   warning.setIcon(QMessageBox::Critical);
-   warning.exec();
 }

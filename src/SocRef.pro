@@ -14,7 +14,9 @@ SOURCES += \
     abstractblock.cpp \
     gui_mainwindow.cpp \
     projectfactory.cpp \
-    gui_projectsettingsdialog.cpp
+    gui_projectsettingsdialog.cpp \
+    exception.cpp \
+    application.cpp
 
 HEADERS += \
     singleton.h \
@@ -27,7 +29,8 @@ HEADERS += \
     abstractblock.h \
     gui_mainwindow.h \
     projectfactory.h \
-    gui_projectsettingsdialog.h
+    gui_projectsettingsdialog.h \
+    application.h
 
 #AbstractParser
 #Gui::AbstractView

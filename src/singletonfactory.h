@@ -37,7 +37,7 @@ T& SingletonFactory<T>::getInstance()
       Exception::InvalidUse e;
       MARK_EXCEPTION(e);
       e.setTitle(QObject::tr("Invalid Use"));
-      e.setDetails(QObject::tr("Attempted to get factory when none has been set!"));
+      e.setDetails(QObject::tr("Attempted to get factory when none has been set."));
       throw e;
    }
 
@@ -54,10 +54,9 @@ T& SingletonFactory<T>::getInstance()
 template<class T>
 void SingletonFactory<T>::setInstance(T* instance)
 {
-   // check to see if there is already an instance
+   // if old instance already exists delete it
    if ( _instance )
    {
-      // delete old instance to be replaced
       delete _instance;
    }
 

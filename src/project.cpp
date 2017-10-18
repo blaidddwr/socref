@@ -311,6 +311,7 @@ void Project::setScanFilters(const QString& filters)
 
 
 
+//@@
 void Project::handleFileChanged()
 {
    // attempt to open the project file
