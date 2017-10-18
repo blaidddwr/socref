@@ -267,8 +267,9 @@ void Project::setName(const QString& name)
 void Project::setScanDirectory(const QString& path)
 {
    // check if new directory is different from currently set
+   QFileInfo current(_scanDirectory);
    QFileInfo info(path);
-   if ( _scanDirectory != info.canonicalFilePath() )
+   if ( current.canonicalFilePath() != info.canonicalFilePath() )
    {
       // make sure path is a directory
       if ( !info.isDir() )
