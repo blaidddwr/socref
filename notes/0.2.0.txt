@@ -1,0 +1,7 @@
+
+* Added support for tree view editing of programming blocks.
+* Programming blocks are saved/open to/from project files.
+* Added support for C++/Qt using the new tree view editor.
+* C++/Qt support includes: namespaces, classes, enumerations, functions,
+and variables.
+

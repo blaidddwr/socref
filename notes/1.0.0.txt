@@ -1,0 +1,4 @@
+
+* Added support for scanning directories and inserting comments within code.
+* All C++/Qt blocks have scan and insert ability.
+
