@@ -15,11 +15,11 @@ class QFormLayout;
 namespace Gui {
 
 //@@
-class ProjectSettingsDialog : public QDialog
+class ProjectDialog : public QDialog
 {
    Q_OBJECT
 public:
-   ProjectSettingsDialog(Project* project, QWidget* parent = nullptr);
+   ProjectDialog(Project* project, QWidget* parent = nullptr);
 private slots:
    void okClicked();
    void applyClicked();

@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QFileDialog>
 
-#include "gui_projectsettingsdialog.h"
+#include "gui_projectdialog.h"
 #include "exception.h"
 #include "project.h"
 
@@ -19,7 +19,7 @@ using namespace Gui;
 
 
 //@@
-ProjectSettingsDialog::ProjectSettingsDialog(Project* project, QWidget* parent):
+ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
    QDialog(parent),
    _project(project)
 {
@@ -41,7 +41,7 @@ ProjectSettingsDialog::ProjectSettingsDialog(Project* project, QWidget* parent):
 
    // set main layout to dialog and set title
    setLayout(layout);
-   setWindowTitle(tr("Project Settings"));
+   setWindowTitle(tr("Project Properties"));
 }
 
 
@@ -50,7 +50,7 @@ ProjectSettingsDialog::ProjectSettingsDialog(Project* project, QWidget* parent):
 
 
 //@@
-void ProjectSettingsDialog::okClicked()
+void ProjectDialog::okClicked()
 {
    // apply changes and accept
    applyClicked();
@@ -63,7 +63,7 @@ void ProjectSettingsDialog::okClicked()
 
 
 //@@
-void ProjectSettingsDialog::applyClicked()
+void ProjectDialog::applyClicked()
 {
    // set project settings from line edit widgets
    _project->setName(_nameEdit->text());
@@ -77,7 +77,7 @@ void ProjectSettingsDialog::applyClicked()
 
 
 //@@
-void ProjectSettingsDialog::browseClicked()
+void ProjectDialog::browseClicked()
 {
    // create file dialog to query for new scan directory
    QFileDialog dialog(nullptr,tr("Scan Directory Selection"));
@@ -104,7 +104,7 @@ void ProjectSettingsDialog::browseClicked()
 
 
 //@@
-QFormLayout* ProjectSettingsDialog::createForm()
+QFormLayout* ProjectDialog::createForm()
 {
    // create needed layouts
    QFormLayout* ret {new QFormLayout};
@@ -121,7 +121,7 @@ QFormLayout* ProjectSettingsDialog::createForm()
 
    // create additional browse button used for scan directory row
    QPushButton* button {new QPushButton(tr("Browse"))};
-   connect(button,&QPushButton::clicked,this,&ProjectSettingsDialog::browseClicked);
+   connect(button,&QPushButton::clicked,this,&ProjectDialog::browseClicked);
    directory->addWidget(_scanDirectoryEdit);
    directory->addWidget(button);
 
@@ -144,7 +144,7 @@ QFormLayout* ProjectSettingsDialog::createForm()
 
 
 //@@
-QHBoxLayout* ProjectSettingsDialog::createButtons()
+QHBoxLayout* ProjectDialog::createButtons()
 {
    // create layout and all buttons
    QHBoxLayout* ret {new QHBoxLayout};
@@ -159,9 +159,9 @@ QHBoxLayout* ProjectSettingsDialog::createButtons()
    ret->addWidget(cancel);
 
    // connect button clicked signals to respective slots
-   connect(ok,&QPushButton::clicked,this,&ProjectSettingsDialog::okClicked);
-   connect(apply,&QPushButton::clicked,this,&ProjectSettingsDialog::applyClicked);
-   connect(cancel,&QPushButton::clicked,this,&ProjectSettingsDialog::reject);
+   connect(ok,&QPushButton::clicked,this,&ProjectDialog::okClicked);
+   connect(apply,&QPushButton::clicked,this,&ProjectDialog::applyClicked);
+   connect(cancel,&QPushButton::clicked,this,&ProjectDialog::reject);
 
    // return layout
    return ret;

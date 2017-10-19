@@ -9,7 +9,7 @@
 #include "exception.h"
 #include "abstractprojectfactory.h"
 #include "project.h"
-#include "gui_projectsettingsdialog.h"
+#include "gui_projectdialog.h"
 
 
 
@@ -152,13 +152,11 @@ void MainWindow::openTriggered()
 
 
 //@@
-void MainWindow::closeTriggered()
+void MainWindow::propertiesTriggered()
 {
-   // if is ok to continue close project
-   if ( isOkToContinue() )
-   {
-      setProject(nullptr);
-   }
+   // create project settings dialog and modally execute
+   ProjectDialog settings(_project,this);
+   settings.exec();
 }
 
 
@@ -167,11 +165,13 @@ void MainWindow::closeTriggered()
 
 
 //@@
-void MainWindow::projectSettingsTriggered()
+void MainWindow::closeTriggered()
 {
-   // create project settings dialog and modally execute
-   ProjectSettingsDialog settings(_project,this);
-   settings.exec();
+   // if is ok to continue close project
+   if ( isOkToContinue() )
+   {
+      setProject(nullptr);
+   }
 }
 
 
@@ -279,9 +279,9 @@ void MainWindow::createActions()
    connect(_exitAction,&QAction::triggered,this,&MainWindow::close);
 
    // create project settings action
-   _projectSettingsAction = new QAction(tr("&Project"),this);
-   _projectSettingsAction->setStatusTip(tr("Edit basic settings of project"));
-   connect(_projectSettingsAction,&QAction::triggered,this,&MainWindow::projectSettingsTriggered);
+   _propertiesAction = new QAction(tr("&Properties"),this);
+   _propertiesAction->setStatusTip(tr("Edit basic properties of project"));
+   connect(_propertiesAction,&QAction::triggered,this,&MainWindow::propertiesTriggered);
 }
 
 
@@ -308,11 +308,8 @@ void MainWindow::createMenus()
    fileMenu->addAction(_saveAction);
    fileMenu->addAction(_saveAsAction);
    fileMenu->addAction(_closeAction);
+   fileMenu->addAction(_propertiesAction);
    fileMenu->addAction(_exitAction);
-
-   // make settings menu
-   QMenu* settingsMenu = menuBar()->addMenu(tr("&Settings"));
-   settingsMenu->addAction(_projectSettingsAction);
 }
 
 
@@ -360,7 +357,7 @@ void MainWindow::updateActions()
    // enable or disable remaining actions
    _saveAsAction->setDisabled(!_project);
    _closeAction->setDisabled(!_project);
-   _projectSettingsAction->setDisabled(!_project);
+   _propertiesAction->setDisabled(!_project);
 }
 
 

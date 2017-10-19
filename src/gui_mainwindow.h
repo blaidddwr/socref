@@ -29,8 +29,8 @@ private slots:
    void openTriggered();
    void saveTriggered();
    void saveAsTriggered();
+   void propertiesTriggered();
    void closeTriggered();
-   void projectSettingsTriggered();
    void projectNameChanged();
    void projectModified();
    void projectSaved();
@@ -49,9 +49,9 @@ private:
    QAction* _openAction;
    QAction* _saveAction;
    QAction* _saveAsAction;
+   QAction* _propertiesAction;
    QAction* _closeAction;
    QAction* _exitAction;
-   QAction* _projectSettingsAction;
 };
 
 
