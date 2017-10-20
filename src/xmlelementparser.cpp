@@ -58,7 +58,6 @@ int XMLElementParser::operator()()
    // make sure no xml error has occured
    if ( _xml.hasError() )
    {
-      // report xml error as exception
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("XML error encountered: %1").arg(_xml.errorString()));

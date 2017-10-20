@@ -28,7 +28,6 @@ Project::Project(int type):
    AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
    if ( _type < 0 || _type >= factory.getSize() )
    {
-      // report invalid project type
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Invald project type %1 when max is %2.").arg(type).arg(factory.getSize()-1));
@@ -64,7 +63,6 @@ Project::Project(const QString &path):
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
-      // report file open error
       Exception::OpenError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot open file %1 for reading: %2").arg(_path).arg(file.errorString()));
@@ -116,7 +114,6 @@ Project::Project(const QString &path):
    // make sure all required information was read in
    if ( !nameRead || !typeRead || !scanDirectoryRead || !scanFiltersRead )
    {
-      // report read error
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Could not find all required xml elements of project."));
@@ -144,8 +141,8 @@ void Project::save()
    // make sure this is not a new project without a path
    if ( _path.isEmpty() )
    {
-      // report invalid use error
       Exception::InvalidUse e;
+      MARK_EXCEPTION(e);
       e.setDetails(tr("Attempting to save new project that has no path."));
       throw e;
    }
@@ -154,7 +151,6 @@ void Project::save()
    QFile xmlFile(_path);
    if ( !xmlFile.open(QIODevice::WriteOnly|QIODevice::Truncate) )
    {
-      // report file open error
       Exception::OpenError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot open file %1 for writing: %2").arg(_path).arg(xmlFile.errorString()));
@@ -188,7 +184,6 @@ void Project::save()
    xml.writeEndDocument();
    if ( xml.hasError() )
    {
-      // report xml write error
       Exception::WriteError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Xml Error writing to file %1.").arg(_path));
@@ -268,7 +263,6 @@ void Project::setScanDirectory(const QString& path)
       // make sure path is a directory
       if ( !info.isDir() )
       {
-         // report invalid path error
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
@@ -368,7 +362,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
             // make sure read worked
             if ( !ok )
             {
-               // report read failure
                Exception::ReadError e;
                MARK_EXCEPTION(e);
                e.setDetails(tr("Failed reading in type as integer."));
@@ -378,7 +371,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
             // make sure project type is valid and get its block factory
             if ( _type < 0 || _type >= factory.getSize() )
             {
-               // report invalid project type
                Exception::ReadError e;
                MARK_EXCEPTION(e);
                e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type)
@@ -399,7 +391,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
             // make sure project type name matches factory
             if ( typeName != factory.getName(_type) )
             {
-               // report invalid project type name
                Exception::ReadError e;
                MARK_EXCEPTION(e);
                e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(typeName)
@@ -414,7 +405,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
    // make sure all elements were read in
    if ( !idRead || !nameRead )
    {
-      // report failure to read all elements
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Failed reading in all required elements for project type."));
