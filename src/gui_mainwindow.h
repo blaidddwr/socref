@@ -45,7 +45,7 @@ private:
    bool saveAs();
    bool save();
    Project* _project {nullptr};
-   QVector<QAction*> _newActions;
+   QList<QAction*> _newActions;
    QAction* _openAction;
    QAction* _saveAction;
    QAction* _saveAsAction;
