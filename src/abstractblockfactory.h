@@ -30,7 +30,7 @@ public:
    //@@
    virtual QString getSlotName(int type, int slot) const = 0;
    //@@
-   virtual QList<int> getBuildList(int type, int slot) const = 0;
+   virtual const QList<int> getBuildList(int type, int slot) const = 0;
    //@@
    virtual AbstractBlock* makeRootBlock() const = 0;
    //@@

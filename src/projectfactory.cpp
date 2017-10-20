@@ -10,7 +10,7 @@ class DummyFactory : public AbstractBlockFactory
    virtual int getSlotSize(int) const { return 0; }
    virtual QString getName(int) const { return QString(); }
    virtual QString getSlotName(int,int) const { return QString(); }
-   virtual QList<int> getBuildList(int,int) const { return QList<int>(); }
+   virtual const QList<int> getBuildList(int,int) const { return QList<int>(); }
    virtual AbstractBlock* makeRootBlock() const { return nullptr; }
    virtual AbstractBlock* makeBlock(int) const { return nullptr; }
    virtual Gui::AbstractView* makeView(int) const { return nullptr; }
