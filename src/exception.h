@@ -1,6 +1,6 @@
 #ifndef EXCEPTION_H
 #define EXCEPTION_H
-#include <QString>
+#include <QObject>
 
 #define MARK_EXCEPTION(e) e.setFile(__FILE__);e.setLine(__LINE__);\
    e.setFunction(__PRETTY_FUNCTION__);
@@ -82,72 +82,81 @@ inline QString Base::getDetails() const noexcept { return _details; }
 
 
 //@@
-class OpenError : public Base
+struct OpenError : public Base
 {
+   OpenError() { setTitle(QObject::tr("Open Error")); }
    virtual const char* what() const noexcept override final { return "OpenError"; }
 };
 
 
 
 //@@
-class ReadError : public Base
+struct ReadError : public Base
 {
+   ReadError() { setTitle(QObject::tr("Read Error")); }
    virtual const char* what() const noexcept override final { return "ReadError"; }
 };
 
 
 
 //@@
-class WriteError : public Base
+struct WriteError : public Base
 {
+   WriteError() { setTitle(QObject::tr("Write Error")); }
    virtual const char* what() const noexcept override final { return "WriteError"; }
 };
 
 
 
 //@@
-class SystemError : public Base
+struct SystemError : public Base
 {
+   SystemError() { setTitle(QObject::tr("System Error")); }
    virtual const char* what() const noexcept override final { return "SystemError"; }
 };
 
 
 
 //@@
-class InvalidArgument : public Base
+struct InvalidArgument : public Base
 {
+   InvalidArgument() { setTitle(QObject::tr("Invalid Argument")); }
    virtual const char* what() const noexcept override final { return "InvalidArgument"; }
 };
 
 
 
 //@@
-class InvalidUse : public Base
+struct InvalidUse : public Base
 {
+   InvalidUse() { setTitle(QObject::tr("Invalid Use")); }
    virtual const char* what() const noexcept override final { return "InvalidUse"; }
 };
 
 
 
 //@@
-class OutOfRange : public Base
+struct OutOfRange : public Base
 {
+   OutOfRange() { setTitle(QObject::tr("Out Of Range")); }
    virtual const char* what() const noexcept override final { return "OutOfRange"; }
 };
 
 
 
 //@@
-class DomainError : public Base
+struct DomainError : public Base
 {
+   DomainError() { setTitle(QObject::tr("Domain Error")); }
    virtual const char* what() const noexcept override final { return "DomainError"; }
 };
 
 
 
 //@@
-class RangeError : public Base
+struct RangeError : public Base
 {
+   RangeError() { setTitle(QObject::tr("Range Error")); }
    virtual const char* what() const noexcept override final { return "RangeError"; }
 };
 

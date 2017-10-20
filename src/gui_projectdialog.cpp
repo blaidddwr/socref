@@ -28,7 +28,6 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Invalid Argument"));
       e.setDetails(tr("Cannot give nullptr as argument for project settings constructor."));
       throw e;
    }

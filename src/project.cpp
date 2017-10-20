@@ -31,7 +31,6 @@ Project::Project(int type):
       // report invalid project type
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Invalid Argument"));
       e.setDetails(tr("Invald project type %1 when max is %2.").arg(type).arg(factory.getSize()-1));
       throw e;
    }
@@ -68,7 +67,6 @@ Project::Project(const QString &path):
       // report file open error
       Exception::OpenError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Open Error"));
       e.setDetails(tr("Cannot open file %1 for reading: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
@@ -121,7 +119,6 @@ Project::Project(const QString &path):
       // report read error
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Read Error"));
       e.setDetails(tr("Could not find all required xml elements of project."));
       throw e;
    }
@@ -149,7 +146,6 @@ void Project::save()
    {
       // report invalid use error
       Exception::InvalidUse e;
-      e.setTitle(tr("Invalid Use"));
       e.setDetails(tr("Attempting to save new project that has no path."));
       throw e;
    }
@@ -161,7 +157,6 @@ void Project::save()
       // report file open error
       Exception::OpenError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Open Error"));
       e.setDetails(tr("Cannot open file %1 for writing: %2").arg(_path).arg(xmlFile.errorString()));
       throw e;
    }
@@ -196,7 +191,6 @@ void Project::save()
       // report xml write error
       Exception::WriteError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Project Write Error"));
       e.setDetails(tr("Xml Error writing to file %1.").arg(_path));
       throw e;
    }
@@ -277,7 +271,6 @@ void Project::setScanDirectory(const QString& path)
          // report invalid path error
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
-         e.setTitle(tr("Invalid Argument"));
          e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
                       .arg(path));
          throw e;
@@ -378,7 +371,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
                // report read failure
                Exception::ReadError e;
                MARK_EXCEPTION(e);
-               e.setTitle(tr("Read Error"));
                e.setDetails(tr("Failed reading in type as integer."));
                throw e;
             }
@@ -389,7 +381,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
                // report invalid project type
                Exception::ReadError e;
                MARK_EXCEPTION(e);
-               e.setTitle(tr("Read Error"));
                e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type)
                             .arg(factory.getSize()-1));
                throw e;
@@ -411,7 +402,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
                // report invalid project type name
                Exception::ReadError e;
                MARK_EXCEPTION(e);
-               e.setTitle(tr("Read Error"));
                e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(typeName)
                             .arg(factory.getName(_type)));
                throw e;
@@ -427,7 +417,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
       // report failure to read all elements
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setTitle(tr("Read Error"));
       e.setDetails(tr("Failed reading in all required elements for project type."));
       throw e;
    }
