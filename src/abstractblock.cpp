@@ -1,4 +1,5 @@
 #include "abstractblock.h"
+#include "exception.h"
 
 
 
@@ -24,8 +25,21 @@ void AbstractBlock::initialize(int type, AbstractBlock* parent)
 
 
 //@@
-AbstractBlock* AbstractBlock::insertChild(int index, AbstractBlock* child)
+void AbstractBlock::insertChild(int index, AbstractBlock* child)
 {
+   // make sure the child pointer is valid
+   if ( !child )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setTitle(tr("Invalid Argument"));
+      e.setDetails(tr("Cannot insert child block with null pointer."));
+      throw e;
+   }
+
+   // set new child's parent and emit modified signal
+   child->setParent(this,index);
+   emit modified();
 }
 
 
