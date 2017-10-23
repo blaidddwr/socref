@@ -212,6 +212,31 @@ void AbstractBlock::read(QXmlStreamReader &xml)
 //@@
 void AbstractBlock::write(QXmlStreamWriter& xml) const
 {
+   // write type and data
+   xml.writeTextElement("type",QString::number(_type));
+   xml.writeStartElement("data");
+   writeData(xml);
+   xml.writeEndElement();
+
+   // write out list of all children
+   xml.writeStartElement("children");
+   for (auto i = _children.constBegin(); i != _children.constEnd() ;++i)
+   {
+      // write start of child element and its type
+      xml.writeStartElement("child");
+      xml.writeTextElement("type",QString::number((*i)->_type));
+
+      // write out egress element
+      xml.writeStartElement("egress");
+      (*i)->write(xml);
+
+      // write out end of elements
+      xml.writeEndElement();
+      xml.writeEndElement();
+   }
+
+   // write out end of children list
+   xml.writeEndElement();
 }
 
 
