@@ -69,50 +69,42 @@ Project::Project(const QString &path):
       throw e;
    }
 
-   // make xml stream reader and initialize validators
+   // make xml stream reader
    QByteArray xmlBytes = file.readAll();
    QXmlStreamReader xml(xmlBytes);
-   bool nameRead {false};
-   bool typeRead {false};
-   bool scanDirectoryRead {false};
-   bool scanFiltersRead {false};
 
    // initialize xml element parser
-   XMLElementParser parse(xml,0,-1);
-   parse.addKeyword("name").addKeyword("type").addKeyword("scandir").addKeyword("filters");
+   XMLElementParser parser(xml,0,-1);
+   parser.addKeyword("name").addKeyword("type").addKeyword("scandir").addKeyword("filters");
    int element;
 
    // do loop until parser has reached end
-   while ( ( element = parse() ) != -1 )
+   while ( ( element = parser() ) != XMLElementParser::End )
    {
       // determine which element was found
       switch (element)
       {
       case Name:
-         // get name value from xml and mark as read
+         // get name value from xml
          _name = xml.readElementText();
-         nameRead = true;
          break;
       case Type:
-         // read in type element and mark as read
+         // read in type element
          readTypeElement(xml);
-         typeRead = true;
          break;
       case ScanDirectory:
-         // get scan directory value from xml and mark as read
+         // get scan directory value from xml
          _scanDirectory = xml.readElementText();
-         scanDirectoryRead = true;
          break;
       case ScanFilters:
-         // get scan filters value from xml and mark as read
+         // get scan filters value from xml
          _scanFilters = xml.readElementText();
-         scanFiltersRead = true;
          break;
       }
    }
 
    // make sure all required information was read in
-   if ( !nameRead || !typeRead || !scanDirectoryRead || !scanFiltersRead )
+   if ( !parser.allRead() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
@@ -337,10 +329,6 @@ void Project::readTypeElement(QXmlStreamReader& xml)
       ,Name
    };
 
-   // initialize element read markers
-   bool idRead {false};
-   bool nameRead {false};
-
    // get project factory and initialize parser
    AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
    XMLElementParser parser(xml);
@@ -348,7 +336,7 @@ void Project::readTypeElement(QXmlStreamReader& xml)
    int element;
 
    // parse xml until end of type element is reached
-   while ( ( element = parser() ) != -1 )
+   while ( ( element = parser() ) != XMLElementParser::End )
    {
       // figure out which element is found
       switch (element)
@@ -377,18 +365,12 @@ void Project::readTypeElement(QXmlStreamReader& xml)
                             .arg(factory.getSize()-1));
                throw e;
             }
-
-            // mark id as read
-            idRead = true;
             break;
          }
       case Name:
          {
-            // read in type name and mark as read
+            // read in type name and make sure project type name matches factory
             QString typeName = xml.readElementText();
-            nameRead = true;
-
-            // make sure project type name matches factory
             if ( typeName != factory.getName(_type) )
             {
                Exception::ReadError e;
@@ -403,7 +385,7 @@ void Project::readTypeElement(QXmlStreamReader& xml)
    }
 
    // make sure all elements were read in
-   if ( !idRead || !nameRead )
+   if ( !parser.allRead() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);

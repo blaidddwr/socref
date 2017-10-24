@@ -137,11 +137,6 @@ void AbstractBlock::read(QXmlStreamReader &xml)
       ,Children
    };
 
-   // initialize element read markers
-   bool typeRead {false};
-   bool dataRead {false};
-   bool childrenRead {false};
-
    // initialize xml element parser
    XMLElementParser parser(xml);
    parser.addKeyword("type").addKeyword("data").addKeyword("children");
@@ -306,24 +301,21 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
       ,Egress
    };
 
-   // initialize new child pointer and element read markers
+   // initialize new child pointer and xml parser
    unique_ptr<AbstractBlock> child;
-   bool typeRead {false};
-   bool egressRead {false};
-
-   // initialize xml parser
    XMLElementParser parser(xml);
    parser.addKeyword("type").addKeyword("egress");
    int element;
 
    // parse xml until end of nested element is reached
-   while ( ( element = parser() ) != -1 )
+   while ( ( element = parser() ) != XMLElementParser::End )
    {
       // determine which element is found
       switch (element)
       {
       case Type:
          {
+            // make sure a new child has not already been created
             if ( !child )
             {
                // read in type integer
@@ -349,10 +341,9 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
                   throw e;
                }
 
-               // make new child block, initialize, and mark type as read
+               // make new child block and initialize
                child.reset(_factory.makeBlock(type));
                child->initialize(type,this);
-               typeRead = true;
             }
             break;
          }
@@ -366,15 +357,14 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
             throw e;
          }
 
-         // have child block read in its xml and mark egress as read
+         // have child block read in its xml
          child->read(xml);
-         egressRead = true;
          break;
       }
    }
 
    // make sure all required elements were read in
-   if ( !typeRead || !egressRead )
+   if ( !parser.allRead() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);

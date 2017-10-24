@@ -8,20 +8,31 @@
 class XMLElementParser
 {
 public:
-   //@@
-   XMLElementParser(QXmlStreamReader& xml, int level = 1, int stopLevel = 0):
-      _xml(xml),
-      _level(level),
-      _stopLevel(stopLevel)
-   {}
+   enum
+   {
+      End = -1
+   };
+   XMLElementParser(QXmlStreamReader& xml, int level = 1, int stopLevel = 0);
    XMLElementParser& addKeyword(const QString& keyword);
    int operator()();
+   bool allRead() const;
 private:
+   struct Keyword
+   {
+      QString text;
+      bool read;
+   };
    QXmlStreamReader& _xml;
    int _level;
    int _stopLevel;
-   QList<QString> _keywords;
+   QList<Keyword> _keywords;
 };
+
+
+
+//@@
+inline XMLElementParser::XMLElementParser(QXmlStreamReader &xml, int level, int stopLevel):
+   _xml(xml), _level(level), _stopLevel(stopLevel) {}
 
 
 

@@ -10,7 +10,7 @@
 XMLElementParser& XMLElementParser::addKeyword(const QString& keyword)
 {
    // push new keyword to list and return reference to object
-   _keywords.push_back(keyword);
+   _keywords.push_back({keyword,false});
    return *this;
 }
 
@@ -35,9 +35,11 @@ int XMLElementParser::operator()()
             // loop through all keywords
             for (int i = 0; i < _keywords.size() ;++i)
             {
-               // if the element's name matches keyword then return index
-               if ( _xml.name() == _keywords.at(i) )
+               // check if the element name matches the keyword name
+               if ( _xml.name() == _keywords.at(i).text )
                {
+                  // mark keyword as read and return its index
+                  _keywords[i].read = true;
                   return i;
                }
             }
@@ -65,5 +67,25 @@ int XMLElementParser::operator()()
    }
 
    // return end of xml element/document indicator
-   return -1;
+   return End;
+}
+
+
+
+
+
+
+//@@
+bool XMLElementParser::allRead() const
+{
+   // initialize return value to true and iterate through all keywords
+   bool ret {true};
+   for (auto i = _keywords.constBegin(); i != _keywords.constEnd() ;++i)
+   {
+      // if keyword read value is false make return value false
+      ret &= (*i).read;
+   }
+
+   // return if all keywords read
+   return ret;
 }
