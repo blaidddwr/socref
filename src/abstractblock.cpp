@@ -171,26 +171,21 @@ void AbstractBlock::read(QXmlStreamReader &xml)
                e.setDetails(tr("Read in type %1 for object of type %2.").arg(type).arg(_type));
                throw e;
             }
-
-            // mark type has been read
-            typeRead = true;
             break;
          }
       case Data:
-         // read in data and mark it has been read
+         // read in data
          readData(xml);
-         dataRead = true;
          break;
       case Children:
-         // read in children and mark it has been read
+         // read in children
          readChildren(xml);
-         childrenRead = true;
          break;
       }
    }
 
    // make sure all required elements were read in
-   if ( !typeRead || !dataRead || !childrenRead )
+   if ( !parser.allRead() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);

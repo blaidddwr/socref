@@ -13,8 +13,8 @@ class Project : public QFileSystemWatcher
 {
    Q_OBJECT
 public:
-   Project(int type);
-   Project(const QString& path);
+   explicit Project(int type);
+   explicit Project(const QString& path);
    void save();
    void saveAs(const QString& path);
    void setName(const QString& name);

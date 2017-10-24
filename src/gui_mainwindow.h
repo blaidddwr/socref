@@ -22,7 +22,7 @@ class MainWindow : public QMainWindow
 {
    Q_OBJECT
 public:
-   MainWindow(QWidget* parent = nullptr);
+   explicit MainWindow(QWidget* parent = nullptr);
    void setProject(Project* o_project);
 private slots:
    void newTriggered();

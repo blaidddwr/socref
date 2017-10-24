@@ -19,7 +19,7 @@ class ProjectDialog : public QDialog
 {
    Q_OBJECT
 public:
-   ProjectDialog(Project* project, QWidget* parent = nullptr);
+   explicit ProjectDialog(Project* project, QWidget* parent = nullptr);
 private slots:
    void okClicked();
    void applyClicked();

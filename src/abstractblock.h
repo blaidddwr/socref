@@ -15,7 +15,7 @@ class AbstractBlock : public QObject
 {
    Q_OBJECT
 public:
-   AbstractBlock(const AbstractBlockFactory& factory);
+   explicit AbstractBlock(const AbstractBlockFactory& factory);
    //@@
    virtual QString getName() const = 0;
    //@@
