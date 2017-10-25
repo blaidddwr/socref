@@ -167,6 +167,12 @@ bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 //@@
 bool BlockModel::removeRows(int row, int count, const QModelIndex& parent)
 {
+   // make sure count is sane number
+   if ( count < 1 )
+   {
+      return false;
+   }
+
    // get pointer from parent and make sure rows to remove exist
    AbstractBlock* parent_ {getPointer(parent)};
    if ( row < 0 || (row + count) > parent_->getChildrenSize() )
