@@ -16,7 +16,8 @@ SOURCES += \
     projectfactory.cpp \
     exception.cpp \
     application.cpp \
-    gui_projectdialog.cpp
+    gui_projectdialog.cpp \
+    blockmodel.cpp
 
 HEADERS += \
     singleton.h \
@@ -30,7 +31,8 @@ HEADERS += \
     gui_mainwindow.h \
     projectfactory.h \
     application.h \
-    gui_projectdialog.h
+    gui_projectdialog.h \
+    blockmodel.h
 
 #AbstractParser
 #Gui::AbstractView
