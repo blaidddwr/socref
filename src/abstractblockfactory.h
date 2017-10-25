@@ -35,7 +35,14 @@ public:
    virtual Gui::AbstractView* makeView(int type) const = 0;
    //@@
    virtual Gui::AbstractEdit* makeEdit(int type) const = 0;
+   bool operator==(const AbstractBlockFactory& factory);
 };
+
+
+
+//@@
+inline bool AbstractBlockFactory::operator==(const AbstractBlockFactory &factory)
+   { return this == &factory; }
 
 
 
