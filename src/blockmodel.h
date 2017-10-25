@@ -19,10 +19,13 @@ public:
    int rowCount(const QModelIndex& parent) const override final;
    int columnCount(const QModelIndex& parent) const override final;
    QVariant data(const QModelIndex& index, int role) const override final;
+   const QList<int> getBuildList(const QModelIndex& index) const;
    //Qt::ItemFlags flags(const QModelIndex& index) const override final;
-   bool insertRow(int row, const QModelIndex& parent, AbstractBlock* object);
+   bool insertRow(int row, const QModelIndex& parent, AbstractBlock* o_object);
    bool moveRow(int source, int destination, const QModelIndex& parent);
    bool removeRows(int row, int count, const QModelIndex& parent) override final;
+   AbstractBlock* copyRow(int row, const QModelIndex& parent) const;
+   AbstractBlock* cutRow(int row, const QModelIndex& parent);
    //QStringList mimeTypes() const override final;
    //Qt::DropActions supportedDropActions() const override final;
    //QMimeData* mimeData(const QModelIndexList& indexes) const override final;
@@ -33,6 +36,7 @@ public:
 private slots:
    void blockNameChanged(AbstractBlock* object);
 private:
+   AbstractBlock* getPointer(const QModelIndex& index) const;
    AbstractBlock* _root;
    const AbstractBlockFactory* _factory {nullptr};
 };

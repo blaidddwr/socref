@@ -1,5 +1,6 @@
 #include "blockmodel.h"
 #include "abstractblock.h"
+#include "abstractblockfactory.h"
 #include "exception.h"
 
 
@@ -27,21 +28,7 @@ BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
 //@@
 QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) const
 {
-   // if parent is valid get pointer from it
-   AbstractBlock* parent_;
-   if ( parent.isValid() )
-   {
-      parent_ = reinterpret_cast<AbstractBlock*>(parent.internalPointer());
-   }
-
-   // else use root as pointer
-   else
-   {
-      parent_ = _root;
-   }
-
-   // return index of child with given row
-   return createIndex(row,column,parent_->getChild(row));
+   return createIndex(row,column,getPointer(parent)->getChild(row));
 }
 
 
@@ -80,21 +67,8 @@ int BlockModel::rowCount(const QModelIndex& parent) const
       return 0;
    }
 
-   // if parent is valid get pointer from it
-   AbstractBlock* parent_;
-   if ( parent.isValid() )
-   {
-      parent_ = reinterpret_cast<AbstractBlock*>(parent.internalPointer());
-   }
-
-   // else use root as pointer
-   else
-   {
-      parent_ = _root;
-   }
-
-   // return the parent's amount of children
-   return parent_->getChildrenSize();
+   // get pointer and return the parent's amount of children
+   return getPointer(parent)->getChildrenSize();
 }
 
 
@@ -112,7 +86,7 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
    }
 
    // get pointer and return title
-   return QVariant(reinterpret_cast<AbstractBlock*>(index.internalPointer())->getName());
+   return QVariant(getPointer(index)->getName());
 }
 
 
@@ -121,30 +95,28 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
 
 
 //@@
-bool BlockModel::insertRow(int row, const QModelIndex& parent, AbstractBlock* object)
+const QList<int> BlockModel::getBuildList(const QModelIndex &index) const
+{
+   return _factory->getBuildList(getPointer(index)->getType());
+}
+
+
+
+
+
+
+//@@
+bool BlockModel::insertRow(int row, const QModelIndex& parent, AbstractBlock* o_object)
 {
    // make sure object is valid pointer
-   if ( !object )
+   if ( !o_object )
    {
       return false;
    }
 
-   // if parent is valid get pointer from it
-   AbstractBlock* parent_;
-   if ( parent.isValid() )
-   {
-      parent_ = reinterpret_cast<AbstractBlock*>(parent.internalPointer());
-   }
-
-   // else use root as pointer
-   else
-   {
-      parent_ = _root;
-   }
-
    // begin insert operation and insert object pointer at given row
    beginInsertRows(parent,row,row);
-   parent_->insertChild(row,object);
+   getPointer(parent)->insertChild(row,o_object);
 
    // end insert operation and return success
    endInsertRows();
@@ -159,20 +131,8 @@ bool BlockModel::insertRow(int row, const QModelIndex& parent, AbstractBlock* ob
 //@@
 bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 {
-   // if parent is valid get pointer from it
-   AbstractBlock* parent_;
-   if ( parent.isValid() )
-   {
-      parent_ = reinterpret_cast<AbstractBlock*>(parent.internalPointer());
-   }
-
-   // else use root pointer
-   else
-   {
-      parent_ = _root;
-   }
-
-   // make sure row to move exists
+   // get pointer from parent and make sure row to move exists
+   AbstractBlock* parent_ {getPointer(parent)};
    if ( source < 0 || source >= parent_->getChildrenSize() )
    {
       return false;
@@ -204,20 +164,8 @@ bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 //@@
 bool BlockModel::removeRows(int row, int count, const QModelIndex& parent)
 {
-   // if parent is valid get pointer from it
-   AbstractBlock* parent_;
-   if ( parent.isValid() )
-   {
-      parent_ = reinterpret_cast<AbstractBlock*>(parent.internalPointer());
-   }
-
-   // else use root pointer
-   else
-   {
-      parent_ = _root;
-   }
-
-   // make sure rows to remove exist
+   // get pointer from parent and make sure rows to remove exist
+   AbstractBlock* parent_ {getPointer(parent)};
    if ( row < 0 || (row + count) > parent_->getChildrenSize() )
    {
       return false;
@@ -233,6 +181,49 @@ bool BlockModel::removeRows(int row, int count, const QModelIndex& parent)
    // end remove operation and return success
    endRemoveRows();
    return true;
+}
+
+
+
+
+
+
+//@@
+AbstractBlock* BlockModel::copyRow(int row, const QModelIndex& parent) const
+{
+   // get pointer from parent and make sure row to copy exists
+   AbstractBlock* parent_ {getPointer(parent)};
+   if ( row < 0 || row >= parent_->getChildrenSize() )
+   {
+      return nullptr;
+   }
+
+   // return copy of row
+   return parent_->getChild(row)->makeCopy();
+}
+
+
+
+
+
+
+//@@
+AbstractBlock* BlockModel::cutRow(int row, const QModelIndex& parent)
+{
+   // get pointer from parent and make sure row to copy exists
+   AbstractBlock* parent_ {getPointer(parent)};
+   if ( row < 0 || row >= parent_->getChildrenSize() )
+   {
+      return nullptr;
+   }
+
+   // begin remove operation and take child
+   beginRemoveRows(parent,row,row);
+   AbstractBlock* ret {parent_->takeChild(row)};
+
+   // end remove operation and return orphaned child
+   endRemoveRows();
+   return ret;
 }
 
 
@@ -269,4 +260,29 @@ void BlockModel::blockNameChanged(AbstractBlock* object)
    // create index of block that emitted signal and emit data changed signal
    QModelIndex index = createIndex(object->getParent()->getChildIndex(object),0,object);
    emit dataChanged(index,index);
+}
+
+
+
+
+
+
+//@@
+AbstractBlock *BlockModel::getPointer(const QModelIndex& index) const
+{
+   // if index is valid get pointer from it
+   AbstractBlock* ret;
+   if ( index.isValid() )
+   {
+      ret = reinterpret_cast<AbstractBlock*>(index.internalPointer());
+   }
+
+   // else use root pointer
+   else
+   {
+      ret = _root;
+   }
+
+   // return pointer
+   return ret;
 }
