@@ -55,10 +55,10 @@ AbstractBlock* AbstractBlock::getChild(int index) const
 
 
 //@@
-void AbstractBlock::insertChild(int index, AbstractBlock* child)
+void AbstractBlock::insertChild(int index, AbstractBlock* o_child)
 {
    // make sure the child pointer is valid
-   if ( !child )
+   if ( !o_child )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -67,7 +67,7 @@ void AbstractBlock::insertChild(int index, AbstractBlock* child)
    }
 
    // set new child's parent and emit modified signal
-   child->setParent(this,index);
+   o_child->setParent(this,index);
    emit modified();
 }
 

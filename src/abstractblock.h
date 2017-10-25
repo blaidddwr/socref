@@ -31,7 +31,7 @@ public:
    int getChildrenSize() const;
    AbstractBlock* getChild(int index) const;
    int getChildIndex(AbstractBlock* child) const;
-   void insertChild(int index, AbstractBlock* child = nullptr);
+   void insertChild(int index, AbstractBlock* o_child);
    AbstractBlock* takeChild(int index);
    void removeChild(int index);
    void read(QXmlStreamReader& xml);
