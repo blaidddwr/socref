@@ -24,13 +24,9 @@ public:
    //@@
    virtual int getSize() const = 0;
    //@@
-   virtual int getSlotSize(int type) const = 0;
-   //@@
    virtual QString getName(int type) const = 0;
    //@@
-   virtual QString getSlotName(int type, int slot) const = 0;
-   //@@
-   virtual const QList<int> getBuildList(int type, int slot) const = 0;
+   virtual const QList<int> getBuildList(int type) const = 0;
    //@@
    virtual AbstractBlock* makeRootBlock() const = 0;
    //@@
