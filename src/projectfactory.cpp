@@ -8,6 +8,7 @@ class DummyFactory : public AbstractBlockFactory
 {
    virtual int getSize() const { return 0; }
    virtual QString getName(int) const { return QString(); }
+   virtual QIcon getIcon(int) const { return QIcon(); }
    virtual const QList<int> getBuildList(int) const { return QList<int>(); }
    virtual AbstractBlock* makeRootBlock() const { return nullptr; }
    virtual AbstractBlock* makeBlock(int) const { return nullptr; }

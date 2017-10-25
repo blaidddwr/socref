@@ -79,14 +79,17 @@ int BlockModel::rowCount(const QModelIndex& parent) const
 //@@
 QVariant BlockModel::data(const QModelIndex& index, int role) const
 {
-   // if the role is not display return empty variant
-   if ( role != Qt::DisplayRole )
+   // determine which role is requested and return information
+   switch (role)
    {
+   case Qt::DisplayRole:
+      return QVariant(getPointer(index)->getName());
+   case Qt::DecorationRole:
+      return QVariant(_factory->getIcon(getPointer(index)->getType()));
+   default:
+      // unsupported type of data so return nothing
       return QVariant();
    }
-
-   // get pointer and return title
-   return QVariant(getPointer(index)->getName());
 }
 
 
