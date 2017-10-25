@@ -66,6 +66,16 @@ void AbstractBlock::insertChild(int index, AbstractBlock* o_child)
       throw e;
    }
 
+   // make sure block type can be added as child
+   if ( !_factory.getBuildList(_type).contains(o_child->_type) )
+   {
+      Exception::InvalidUse e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.")
+                   .arg(o_child->_type).arg(_type));
+      throw e;
+   }
+
    // set new child's parent and emit modified signal
    o_child->setBlockParent(this,index);
    emit modified();
