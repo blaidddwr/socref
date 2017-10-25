@@ -23,7 +23,7 @@ void AbstractBlock::initialize(int type, AbstractBlock* parent)
    // if parent is not nullptr set it
    if ( parent )
    {
-      setParent(parent);
+      setBlockParent(parent,parent->getChildrenSize());
    }
 }
 
@@ -67,7 +67,7 @@ void AbstractBlock::insertChild(int index, AbstractBlock* o_child)
    }
 
    // set new child's parent and emit modified signal
-   o_child->setParent(this,index);
+   o_child->setBlockParent(this,index);
    emit modified();
 }
 
@@ -91,7 +91,7 @@ AbstractBlock* AbstractBlock::takeChild(int index)
 
    // clear orphaned child's parent
    AbstractBlock* ret = _children.at(index);
-   ret->setParent(nullptr);
+   ret->setBlockParent(nullptr,-1);
 
    // emit modified signal and return orphaned child pointer
    emit modified();
@@ -235,32 +235,44 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
 
 
 //@@
-void AbstractBlock::setParent(AbstractBlock* parent, int index)
+void AbstractBlock::notifyOfNameChange()
 {
-   // if current parent exists remove from children and disconnect signals from it
-   if ( QObject::parent() )
+   // iterate backwards until root is found
+   AbstractBlock* object {this};
+   while ( object->_parent )
    {
-      AbstractBlock* parent = qobject_cast<AbstractBlock*>(QObject::parent());
-      parent->_children.removeOne(this);
-      disconnect(parent);
+      object = object->_parent;
    }
 
-   // check if new parent exists
+   // emit name changed signal on root object
+   QMetaObject::invokeMethod(object,"nameChanged",Qt::DirectConnection,Q_ARG(AbstractBlock*,this));
+}
+
+
+
+
+
+
+//@@
+void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
+{
+   // if current parent exists remove from children and disconnect signals from it
+   if ( _parent )
+   {
+      _parent->_children.removeOne(this);
+      disconnect(_parent);
+   }
+
+   // if new parent exists insert into list of children and connect modified signal
    if ( parent )
    {
-      // if index is -1 set it to end of list
-      if ( index == -1 )
-      {
-         index = _children.size();
-      }
-
-      // insert into list of children and connect modified signal
       parent->_children.insert(index,this);
       connect(this,&AbstractBlock::modified,parent,&AbstractBlock::childModified);
    }
 
    // set new parent
-   QObject::setParent(parent);
+   _parent = parent;
+   setParent(parent);
 }
 
 

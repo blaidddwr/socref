@@ -1,5 +1,6 @@
 #include "blockmodel.h"
 #include "abstractblock.h"
+#include "exception.h"
 
 
 
@@ -246,4 +247,26 @@ void BlockModel::setRoot(AbstractBlock* root)
    beginResetModel();
    _root = root;
    endResetModel();
+}
+
+
+
+
+
+
+//@@
+void BlockModel::blockNameChanged(AbstractBlock* object)
+{
+   // make sure that emitted signal is not the root
+   if ( !object->getParent() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("A name changed signal was emitted with the root block."));
+      throw e;
+   }
+
+   // create index of block that emitted signal and emit data changed signal
+   QModelIndex index = createIndex(object->getParent()->getChildIndex(object),0,object);
+   emit dataChanged(index,index);
 }

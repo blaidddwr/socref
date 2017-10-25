@@ -30,6 +30,8 @@ public:
    //                  , const QModelIndex& parent) override final;
    const AbstractBlockFactory* getFactory() const;
    void setRoot(AbstractBlock* root);
+private slots:
+   void blockNameChanged(AbstractBlock* object);
 private:
    AbstractBlock* _root;
    const AbstractBlockFactory* _factory {nullptr};

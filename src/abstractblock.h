@@ -36,16 +36,20 @@ public:
    void removeChild(int index);
    void read(QXmlStreamReader& xml);
    void write(QXmlStreamWriter& xml) const;
+protected:
+   void notifyOfNameChange();
 signals:
    void modified();
+   void nameChanged(AbstractBlock* object);
 private slots:
    void childModified();
 private:
-   void setParent(AbstractBlock* parent, int index = -1);
+   void setBlockParent(AbstractBlock* parent, int index);
    void readChildren(QXmlStreamReader& xml);
    void readChild(QXmlStreamReader& xml);
    const AbstractBlockFactory& _factory;
    int _type {-1};
+   AbstractBlock* _parent {nullptr};
    QList<AbstractBlock*> _children;
 };
 
