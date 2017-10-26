@@ -15,7 +15,7 @@ class AbstractBlock : public QObject
 {
    Q_OBJECT
 public:
-   explicit AbstractBlock(const AbstractBlockFactory& factory);
+   explicit AbstractBlock(const AbstractBlockFactory& factory, int type);
    //@@
    virtual QString getName() const = 0;
    //@@
@@ -24,7 +24,6 @@ public:
    virtual void writeData(QXmlStreamWriter& xml) const = 0;
    //@@
    virtual AbstractBlock* makeCopy() const = 0;
-   void initialize(int type, AbstractBlock* parent = nullptr);
    int getType() const;
    const AbstractBlockFactory& getFactory() const;
    AbstractBlock* getParent() const;
@@ -56,7 +55,8 @@ private:
 
 
 //@@
-inline AbstractBlock::AbstractBlock(const AbstractBlockFactory& factory): _factory(factory) {}
+inline AbstractBlock::AbstractBlock(const AbstractBlockFactory& factory, int type):
+   _factory(factory), _type(type) {}
 
 //@@
 inline int AbstractBlock::getType() const { return _type; }

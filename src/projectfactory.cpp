@@ -27,7 +27,6 @@ QString ProjectFactory::getName(int type) const
    switch (type)
    {
    case CppQtType: return QObject::tr("C++/Qt");
-   case PhpType: return QObject::tr("PHP");
    default: return QString();
    }
 }

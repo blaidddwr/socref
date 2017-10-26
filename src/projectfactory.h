@@ -9,7 +9,6 @@ class ProjectFactory : public AbstractProjectFactory
 public:
    enum {
       CppQtType = 0
-      ,PhpType
       ,Total
    };
    virtual int getSize() const override final { return Total; }

@@ -13,7 +13,7 @@ public:
       End = -1
    };
    XMLElementParser(QXmlStreamReader& xml, int level = 1, int stopLevel = 0);
-   XMLElementParser& addKeyword(const QString& keyword);
+   XMLElementParser& addKeyword(const QString& keyword, bool onlyOnce = false);
    int operator()();
    bool allRead() const;
 private:
@@ -21,6 +21,7 @@ private:
    {
       QString text;
       bool read;
+      bool once;
    };
    QXmlStreamReader& _xml;
    int _level;

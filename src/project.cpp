@@ -8,6 +8,8 @@
 #include "project.h"
 #include "abstractprojectfactory.h"
 #include "abstractblockfactory.h"
+#include "abstractblock.h"
+#include "blockmodel.h"
 #include "xmlelementparser.h"
 #include "exception.h"
 
@@ -34,8 +36,22 @@ Project::Project(int type):
       throw e;
    }
 
-   // get default file filters
+   // get default file filters, make new root block
    _scanFilters = factory.getDefaultFilters(_type);
+   _root = factory.getBlockFactory(_type).makeRootBlock();
+
+   // make sure root block was created
+   if ( !_root )
+   {
+      Exception::InvalidUse e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Expected pointer to new root block object when null was given."));
+      throw e;
+   }
+
+   // initialize root block and create block model
+   _root->setParent(this);
+   _model = new BlockModel(_root,this);
 }
 
 
@@ -54,6 +70,7 @@ Project::Project(const QString &path):
       ,Type
       ,ScanDirectory
       ,ScanFilters
+      ,Root
    };
 
    // connect file watcher signal
@@ -75,7 +92,8 @@ Project::Project(const QString &path):
 
    // initialize xml element parser
    XMLElementParser parser(xml,0,-1);
-   parser.addKeyword("name").addKeyword("type").addKeyword("scandir").addKeyword("filters");
+   parser.addKeyword("name",true).addKeyword("type",true).addKeyword("scandir",true)
+         .addKeyword("filters",true).addKeyword("root",true);
    int element;
 
    // do loop until parser has reached end
@@ -99,6 +117,33 @@ Project::Project(const QString &path):
       case ScanFilters:
          // get scan filters value from xml
          _scanFilters = xml.readElementText();
+         break;
+      case Root:
+         // make sure type has been read in first
+         if ( _type < 0 )
+         {
+            Exception::ReadError e;
+            MARK_EXCEPTION(e);
+            e.setDetails(tr("Cannot read in blocks until project type is read in."));
+            throw e;
+         }
+
+         // make new root block
+         _root = AbstractProjectFactory::getInstance().getBlockFactory(_type).makeRootBlock();
+
+         // make sure root block was created and set parent
+         if ( !_root )
+         {
+            Exception::InvalidUse e;
+            MARK_EXCEPTION(e);
+            e.setDetails(tr("Expected pointer to new root block object when null was given."));
+            throw e;
+         }
+         _root->setParent(this);
+
+         // read in block data and make new block model
+         _root->read(xml);
+         _model = new BlockModel(_root,this);
          break;
       }
    }
@@ -171,6 +216,11 @@ void Project::save()
    QFileInfo info(_path);
    xml.writeTextElement("scandir",info.dir().relativeFilePath(_scanDirectory));
    xml.writeTextElement("filters",_scanFilters);
+
+   // write out blocks starting with root
+   xml.writeStartElement("root");
+   _root->write(xml);
+   xml.writeEndElement();
 
    // write end of document and check for xml errors
    xml.writeEndDocument();
@@ -332,7 +382,7 @@ void Project::readTypeElement(QXmlStreamReader& xml)
    // get project factory and initialize parser
    AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
    XMLElementParser parser(xml);
-   parser.addKeyword("id").addKeyword("name");
+   parser.addKeyword("id",true).addKeyword("name",true);
    int element;
 
    // parse xml until end of type element is reached

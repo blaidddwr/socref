@@ -15,24 +15,6 @@ using namespace std;
 
 
 //@@
-void AbstractBlock::initialize(int type, AbstractBlock* parent)
-{
-   // set type
-   _type = type;
-
-   // if parent is not nullptr set it
-   if ( parent )
-   {
-      setBlockParent(parent,parent->getChildrenSize());
-   }
-}
-
-
-
-
-
-
-//@@
 AbstractBlock* AbstractBlock::getChild(int index) const
 {
    // make sure index given is valid
@@ -149,7 +131,7 @@ void AbstractBlock::read(QXmlStreamReader &xml)
 
    // initialize xml element parser
    XMLElementParser parser(xml);
-   parser.addKeyword("type").addKeyword("data").addKeyword("children");
+   parser.addKeyword("type",true).addKeyword("data",true).addKeyword("children",true);
    int element;
 
    // parse xml until end of nested element is reached
@@ -321,7 +303,7 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
    // initialize new child pointer and xml parser
    unique_ptr<AbstractBlock> child;
    XMLElementParser parser(xml);
-   parser.addKeyword("type").addKeyword("egress");
+   parser.addKeyword("type",true).addKeyword("egress",true);
    int element;
 
    // parse xml until end of nested element is reached
@@ -358,9 +340,8 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
                   throw e;
                }
 
-               // make new child block and initialize
+               // make new child block
                child.reset(_factory.makeBlock(type));
-               child->initialize(type,this);
             }
             break;
          }
@@ -374,8 +355,9 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
             throw e;
          }
 
-         // have child block read in its xml
+         // have child block read in its xml and insert into parent
          child->read(xml);
+         child->setBlockParent(this,getChildrenSize());
          break;
       }
    }

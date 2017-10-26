@@ -5,6 +5,8 @@
 
 
 class QXmlStreamReader;
+class AbstractBlock;
+class BlockModel;
 
 
 
@@ -27,6 +29,7 @@ public:
    void setScanFilters(const QString& filters);
    bool isNew() const;
    bool isModified() const;
+   BlockModel* getModel() const;
 signals:
    //@@
    void nameChanged();
@@ -49,6 +52,8 @@ private:
    QString _scanDirectory;
    QString _scanFilters;
    bool _modified {false};
+   AbstractBlock* _root;
+   BlockModel* _model;
 };
 
 
@@ -73,6 +78,9 @@ inline bool Project::isNew() const { return _path.isEmpty(); }
 
 //@@
 inline bool Project::isModified() const { return _modified; }
+
+//@@
+inline BlockModel* Project::getModel() const { return _model; }
 
 //@@
 inline void Project::blockModified() { signalModified(); }

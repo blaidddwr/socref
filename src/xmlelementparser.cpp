@@ -7,10 +7,10 @@
 
 
 //@@
-XMLElementParser& XMLElementParser::addKeyword(const QString& keyword)
+XMLElementParser& XMLElementParser::addKeyword(const QString& keyword, bool onlyOnce)
 {
    // push new keyword to list and return reference to object
-   _keywords.push_back({keyword,false});
+   _keywords.push_back({keyword,false,onlyOnce});
    return *this;
 }
 
@@ -38,9 +38,13 @@ int XMLElementParser::operator()()
                // check if the element name matches the keyword name
                if ( _xml.name() == _keywords.at(i).text )
                {
-                  // mark keyword as read and return its index
-                  _keywords[i].read = true;
-                  return i;
+                  // read keyword if not marked as read only once or has not been read once yet
+                  if ( !_keywords.at(i).once || ( _keywords.at(i).once && !_keywords.at(i).read ) )
+                  {
+                     // mark keyword as read and return its index
+                     _keywords[i].read = true;
+                     return i;
+                  }
                }
             }
          }
