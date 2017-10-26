@@ -10,6 +10,7 @@
 #include "abstractprojectfactory.h"
 #include "project.h"
 #include "gui_projectdialog.h"
+#include "abstractblock.h"
 
 
 
@@ -180,6 +181,86 @@ void MainWindow::closeTriggered()
 
 
 //@@
+void MainWindow::addTriggered()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::removeTriggered()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::editTriggered()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::copyTriggered()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::cutTriggered()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::pasteTriggered()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::moveUpTriggered()
+{
+}
+
+
+
+
+
+
+//@@
+void MainWindow::moveDownTriggered()
+{
+}
+
+
+
+
+
+
+//@@
 void MainWindow::projectFileChanged()
 {
    // create message box informing user of file change and asking what to do
@@ -210,6 +291,34 @@ void MainWindow::projectFileChanged()
                 ,Exception::Icon::Warning);
       }
    }
+}
+
+
+
+
+
+
+//@@
+void MainWindow::blockSelected(AbstractBlock* block)
+{
+   // update selected block pointer, actions, and add menu
+   _selected = block;
+   updateActions();
+   updateAddMenu();
+}
+
+
+
+
+
+
+//@@
+void MainWindow::blockCopied(AbstractBlock* o_block)
+{
+   // update copy block pointer, actions, and set its parent
+   _copy = o_block;
+   updateActions();
+   _copy->setParent(this);
 }
 
 
@@ -280,8 +389,43 @@ void MainWindow::createActions()
 
    // create project settings action
    _propertiesAction = new QAction(tr("&Properties"),this);
-   _propertiesAction->setStatusTip(tr("Edit basic properties of project"));
+   _propertiesAction->setStatusTip(tr("Edit basic properties of a project."));
    connect(_propertiesAction,&QAction::triggered,this,&MainWindow::propertiesTriggered);
+
+   // create remove action
+   _removeAction = new QAction(tr("&Remove"),this);
+   _removeAction->setStatusTip(tr("Remove a block."));
+   connect(_removeAction,&QAction::triggered,this,&MainWindow::removeTriggered);
+
+   // create edit action
+   _editAction = new QAction(tr("&Edit"),this);
+   _editAction->setStatusTip(tr("Edit currently selected block."));
+   connect(_editAction,&QAction::triggered,this,&MainWindow::editTriggered);
+
+   // create copy action
+   _copyAction = new QAction(tr("C&opy"),this);
+   _copyAction->setStatusTip(tr("Copy currently selected block."));
+   connect(_copyAction,&QAction::triggered,this,&MainWindow::copyTriggered);
+
+   // create cut action
+   _cutAction = new QAction(tr("&Cut"),this);
+   _cutAction->setStatusTip(tr("Cut currently selected block."));
+   connect(_cutAction,&QAction::triggered,this,&MainWindow::cutTriggered);
+
+   // create paste action
+   _pasteAction = new QAction(tr("&Paste"),this);
+   _pasteAction->setStatusTip(tr("Paste block into selected block as child."));
+   connect(_pasteAction,&QAction::triggered,this,&MainWindow::pasteTriggered);
+
+   // create move up action
+   _moveUpAction = new QAction(tr("Move &Up"),this);
+   _moveUpAction->setStatusTip(tr("Move currently selected block up by one."));
+   connect(_moveUpAction,&QAction::triggered,this,&MainWindow::moveUpTriggered);
+
+   // create move down action
+   _moveDownAction = new QAction(tr("Move &Down"),this);
+   _moveDownAction->setStatusTip(tr("Move currently selected block down by one."));
+   connect(_moveDownAction,&QAction::triggered,this,&MainWindow::moveDownTriggered);
 }
 
 
@@ -310,6 +454,17 @@ void MainWindow::createMenus()
    fileMenu->addAction(_closeAction);
    fileMenu->addAction(_propertiesAction);
    fileMenu->addAction(_exitAction);
+
+   // make edit file menu
+   QMenu* editMenu = menuBar()->addMenu(tr("&Edit"));
+   _addMenu = editMenu->addMenu(tr("&Add"));
+   editMenu->addAction(_removeAction);
+   editMenu->addAction(_editAction);
+   editMenu->addAction(_copyAction);
+   editMenu->addAction(_cutAction);
+   editMenu->addAction(_pasteAction);
+   editMenu->addAction(_moveUpAction);
+   editMenu->addAction(_moveDownAction);
 }
 
 
@@ -358,6 +513,28 @@ void MainWindow::updateActions()
    _saveAsAction->setDisabled(!_project);
    _closeAction->setDisabled(!_project);
    _propertiesAction->setDisabled(!_project);
+   _removeAction->setDisabled(!_selected);
+   _editAction->setDisabled(!_selected);
+   _copyAction->setDisabled(!_selected);
+   _cutAction->setDisabled(!_selected);
+   _moveUpAction->setDisabled(!_selected);
+   _moveDownAction->setDisabled(!_selected);
+   _pasteAction->setDisabled(!_copy);
+
+   // enable or disable add menu
+   _addMenu->setDisabled(!_project);
+}
+
+
+
+
+
+
+//@@
+void MainWindow::updateAddMenu()
+{
+   _addMenu->clear();
+   //TODO; need to add block support to project class first!
 }
 
 
