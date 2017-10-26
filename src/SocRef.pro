@@ -17,7 +17,9 @@ SOURCES += \
     exception.cpp \
     application.cpp \
     gui_projectdialog.cpp \
-    blockmodel.cpp
+    blockmodel.cpp \
+    cppqt_blockfactory.cpp \
+    cppqt_namespace.cpp
 
 HEADERS += \
     singleton.h \
@@ -32,7 +34,9 @@ HEADERS += \
     projectfactory.h \
     application.h \
     gui_projectdialog.h \
-    blockmodel.h
+    blockmodel.h \
+    cppqt_blockfactory.h \
+    cppqt_namespace.h
 
 #AbstractParser
 #Gui::AbstractView

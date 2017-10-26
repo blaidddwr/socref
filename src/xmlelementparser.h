@@ -13,20 +13,22 @@ public:
       End = -1
    };
    XMLElementParser(QXmlStreamReader& xml, int level = 1, int stopLevel = 0);
-   XMLElementParser& addKeyword(const QString& keyword, bool onlyOnce = false);
+   XMLElementParser& addKeyword(const QString& keyword, bool onlyOnce = false
+         , bool markRead = false);
    int operator()();
    bool allRead() const;
+   bool keyRead(const QString& keyword);
 private:
-   struct Keyword
+   struct KeywordInfo
    {
-      QString text;
       bool read;
       bool once;
    };
    QXmlStreamReader& _xml;
    int _level;
    int _stopLevel;
-   QList<Keyword> _keywords;
+   QList<QString> _keywords;
+   QList<KeywordInfo> _keywordInfos;
 };
 
 

@@ -11,11 +11,16 @@ public:
       CppQtType = 0
       ,Total
    };
-   virtual int getSize() const override final { return Total; }
+   virtual int getSize() const override final;
    virtual QString getName(int type) const override final;
    virtual QString getDefaultFilters(int type) const override final;
    virtual const AbstractBlockFactory& getBlockFactory(int type) const override final;
 };
+
+
+
+//@@
+inline int ProjectFactory::getSize() const { return Total; }
 
 
 

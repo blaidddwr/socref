@@ -1,21 +1,16 @@
 #include <QObject>
 
 #include "projectfactory.h"
+#include "cppqt_blockfactory.h"
+#include "exception.h"
 
-//TEMPORARY until actual block factories are defined!
-#include "abstractblockfactory.h"
-class DummyFactory : public AbstractBlockFactory
-{
-   virtual int getSize() const { return 0; }
-   virtual QString getName(int) const { return QString(); }
-   virtual QIcon getIcon(int) const { return QIcon(); }
-   virtual const QList<int> getBuildList(int) const { return QList<int>(); }
-   virtual AbstractBlock* makeRootBlock() const { return nullptr; }
-   virtual AbstractBlock* makeBlock(int) const { return nullptr; }
-   virtual Gui::AbstractView* makeView(int) const { return nullptr; }
-   virtual Gui::AbstractEdit* makeEdit(int) const { return nullptr; }
-};
-DummyFactory g_placeHolderDummyFactory;
+
+
+namespace CppQt {
+
+BlockFactory g_factory;
+
+} // namespace CppQt
 
 
 
@@ -38,8 +33,11 @@ QString ProjectFactory::getName(int type) const
 
 QString ProjectFactory::getDefaultFilters(int type) const
 {
-   Q_UNUSED(type);
-   return QString("not yet implemented.");
+   switch (type)
+   {
+   case CppQtType: return QString("*.cpp *.h");
+   default: return QString();
+   }
 }
 
 
@@ -49,6 +47,16 @@ QString ProjectFactory::getDefaultFilters(int type) const
 
 const AbstractBlockFactory& ProjectFactory::getBlockFactory(int type) const
 {
-   Q_UNUSED(type);
-   return g_placeHolderDummyFactory;
+   switch (type)
+   {
+   case CppQtType: return CppQt::g_factory;
+   default:
+      {
+         Exception::InvalidArgument e;
+         MARK_EXCEPTION(e);
+         e.setDetails(QObject::tr("Cannot reference block factory of invalid type %1 when max is "
+                                  "%2.").arg(type).arg(Total));
+         throw e;
+      }
+   }
 }

@@ -131,7 +131,7 @@ void AbstractBlock::read(QXmlStreamReader &xml)
 
    // initialize xml element parser
    XMLElementParser parser(xml);
-   parser.addKeyword("type",true).addKeyword("data",true).addKeyword("children",true);
+   parser.addKeyword("type",true).addKeyword("data",true).addKeyword("children",true,true);
    int element;
 
    // parse xml until end of nested element is reached
@@ -217,8 +217,15 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
       xml.writeEndElement();
    }
 
-   // write out end of children list
+   // write out end of children list and make sure all writing worked
    xml.writeEndElement();
+   if ( xml.hasError() )
+   {
+      Exception::WriteError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Xml Error writing to file."));
+      throw e;
+   }
 }
 
 

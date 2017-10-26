@@ -7,10 +7,11 @@
 
 
 //@@
-XMLElementParser& XMLElementParser::addKeyword(const QString& keyword, bool onlyOnce)
+XMLElementParser& XMLElementParser::addKeyword(const QString& keyword, bool onlyOnce, bool markRead)
 {
    // push new keyword to list and return reference to object
-   _keywords.push_back({keyword,false,onlyOnce});
+   _keywords.push_back(keyword);
+   _keywordInfos.push_back({markRead,onlyOnce});
    return *this;
 }
 
@@ -29,23 +30,17 @@ int XMLElementParser::operator()()
       _xml.readNext();
       if ( _xml.isStartElement() )
       {
-         // check to see if this is first level
-         if ( _level == 1 )
+         // check to see if this is first level and name matches a keyword
+         int index;
+         if ( _level == 1 && ( index = _keywords.indexOf(_xml.name().toString()) ) != -1 )
          {
-            // loop through all keywords
-            for (int i = 0; i < _keywords.size() ;++i)
+            // read keyword if not marked as read only once or has not been read once yet
+            KeywordInfo& info {_keywordInfos[index]};
+            if ( !info.once || ( info.once && !info.read ) )
             {
-               // check if the element name matches the keyword name
-               if ( _xml.name() == _keywords.at(i).text )
-               {
-                  // read keyword if not marked as read only once or has not been read once yet
-                  if ( !_keywords.at(i).once || ( _keywords.at(i).once && !_keywords.at(i).read ) )
-                  {
-                     // mark keyword as read and return its index
-                     _keywords[i].read = true;
-                     return i;
-                  }
-               }
+               // mark keyword as read and return its index
+               info.read = true;
+               return index;
             }
          }
 
@@ -84,7 +79,7 @@ bool XMLElementParser::allRead() const
 {
    // initialize return value to true and iterate through all keywords
    bool ret {true};
-   for (auto i = _keywords.constBegin(); i != _keywords.constEnd() ;++i)
+   for (auto i = _keywordInfos.constBegin(); i != _keywordInfos.constEnd() ;++i)
    {
       // if keyword read value is false make return value false
       ret &= (*i).read;
