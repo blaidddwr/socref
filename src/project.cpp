@@ -268,8 +268,11 @@ void Project::saveAs(const QString& path)
       throw;
    }
 
-   // everything worked so update file watcher
-   removePath(oldPath);
+   // remove old path if it existed and add new path
+   if ( !oldPath.isEmpty() )
+   {
+      removePath(oldPath);
+   }
    addPath(_path);
 }
 

@@ -27,6 +27,22 @@ QString BlockFactory::getName(int type) const
 
 
 //@@
+QString BlockFactory::getElementName(int type) const
+{
+   // determine which type and return name
+   switch (type)
+   {
+   case NamespaceType: return QString("namespace");
+   default: return QString("unknown");
+   }
+}
+
+
+
+
+
+
+//@@
 QIcon BlockFactory::getIcon(int type) const
 {
    //TODO; need to do in the future

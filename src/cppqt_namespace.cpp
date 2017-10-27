@@ -18,14 +18,14 @@ void Namespace::readData(QXmlStreamReader& xml)
    XMLElementParser parser(xml);
    parser.addKeyword("name",true);
 
-   // run parser once and see if it finds name element
-   if ( parser() != XMLElementParser::End )
+   // run parser until it reaches the end setting the name element when it is found
+   while ( parser() != XMLElementParser::End )
    {
       _name = xml.readElementText();
    }
 
-   // else name element was not found
-   else
+   // make sure name was read
+   if ( !parser.allRead() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);

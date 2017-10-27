@@ -17,6 +17,7 @@ public:
    BlockFactory(int type);
    virtual int getSize() const override final;
    virtual QString getName(int type) const override final;
+   virtual QString getElementName(int type) const override final;
    virtual QIcon getIcon(int type) const override final;
    virtual const QList<int> getBuildList(int type) const override final;
    virtual AbstractBlock* makeRootBlock() const override final;

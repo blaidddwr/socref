@@ -44,7 +44,6 @@ private slots:
    void childModified();
 private:
    void setBlockParent(AbstractBlock* parent, int index);
-   void readChildren(QXmlStreamReader& xml);
    void readChild(QXmlStreamReader& xml);
    const AbstractBlockFactory& _factory;
    int _type {-1};
@@ -65,8 +64,7 @@ inline int AbstractBlock::getType() const { return _type; }
 inline const AbstractBlockFactory &AbstractBlock::getFactory() const { return _factory; }
 
 //@@
-inline AbstractBlock *AbstractBlock::getParent() const
-   { return qobject_cast<AbstractBlock*>(parent()); }
+inline AbstractBlock *AbstractBlock::getParent() const { return _parent; }
 
 //@@
 inline int AbstractBlock::getChildrenSize() const { return _children.size(); }

@@ -26,6 +26,8 @@ public:
    //@@
    virtual QString getName(int type) const = 0;
    //@@
+   virtual QString getElementName(int type) const = 0;
+   //@@
    virtual QIcon getIcon(int type) const = 0;
    //@@
    virtual const QList<int> getBuildList(int type) const = 0;
