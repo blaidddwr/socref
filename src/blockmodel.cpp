@@ -77,6 +77,31 @@ int BlockModel::rowCount(const QModelIndex& parent) const
 
 
 //@@
+AbstractBlock *BlockModel::getPointer(const QModelIndex& index) const
+{
+   // if index is valid get pointer from it
+   AbstractBlock* ret;
+   if ( index.isValid() )
+   {
+      ret = reinterpret_cast<AbstractBlock*>(index.internalPointer());
+   }
+
+   // else use root pointer
+   else
+   {
+      ret = _root;
+   }
+
+   // return pointer
+   return ret;
+}
+
+
+
+
+
+
+//@@
 QVariant BlockModel::data(const QModelIndex& index, int role) const
 {
    // determine which role is requested and return information
@@ -243,9 +268,15 @@ AbstractBlock* BlockModel::cutRow(int row, const QModelIndex& parent)
 //@@
 void BlockModel::setRoot(AbstractBlock* root)
 {
-   // set new root and reset model
+   // begin model reset and set new root
    beginResetModel();
    _root = root;
+
+   // if root is not null set factory and end model reset
+   if ( _root )
+   {
+      _factory = &(_root->getFactory());
+   }
    endResetModel();
 }
 
@@ -269,29 +300,4 @@ void BlockModel::blockNameChanged(AbstractBlock* object)
    // create index of block that emitted signal and emit data changed signal
    QModelIndex index = createIndex(object->getParent()->getChildIndex(object),0,object);
    emit dataChanged(index,index);
-}
-
-
-
-
-
-
-//@@
-AbstractBlock *BlockModel::getPointer(const QModelIndex& index) const
-{
-   // if index is valid get pointer from it
-   AbstractBlock* ret;
-   if ( index.isValid() )
-   {
-      ret = reinterpret_cast<AbstractBlock*>(index.internalPointer());
-   }
-
-   // else use root pointer
-   else
-   {
-      ret = _root;
-   }
-
-   // return pointer
-   return ret;
 }

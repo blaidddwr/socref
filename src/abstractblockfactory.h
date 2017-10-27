@@ -3,8 +3,6 @@
 #include <QString>
 #include <QIcon>
 
-#include "singletonfactory.h"
-
 
 
 class AbstractBlock;
@@ -19,9 +17,10 @@ class AbstractEdit;
 
 
 //@@
-class AbstractBlockFactory : public SingletonFactory<AbstractBlockFactory>
+class AbstractBlockFactory
 {
 public:
+   AbstractBlockFactory(int type);
    //@@
    virtual int getSize() const = 0;
    //@@
@@ -38,14 +37,18 @@ public:
    virtual Gui::AbstractView* makeView(int type) const = 0;
    //@@
    virtual Gui::AbstractEdit* makeEdit(int type) const = 0;
-   bool operator==(const AbstractBlockFactory& factory);
+   int getType() const;
+private:
+   int _type;
 };
 
 
 
 //@@
-inline bool AbstractBlockFactory::operator==(const AbstractBlockFactory &factory)
-   { return this == &factory; }
+inline AbstractBlockFactory::AbstractBlockFactory(int type): _type(type) {}
+
+//@@
+inline int AbstractBlockFactory::getType() const { return _type; }
 
 
 

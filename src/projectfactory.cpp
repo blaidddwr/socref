@@ -8,7 +8,7 @@
 
 namespace CppQt {
 
-BlockFactory g_factory;
+BlockFactory g_factory(ProjectFactory::CppQtType);
 
 } // namespace CppQt
 

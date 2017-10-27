@@ -18,6 +18,7 @@ public:
    QModelIndex parent(const QModelIndex &child) const override final;
    int rowCount(const QModelIndex& parent) const override final;
    int columnCount(const QModelIndex& parent) const override final;
+   AbstractBlock* getPointer(const QModelIndex& index) const;
    QVariant data(const QModelIndex& index, int role) const override final;
    const QList<int> getBuildList(const QModelIndex& index) const;
    //Qt::ItemFlags flags(const QModelIndex& index) const override final;
@@ -36,7 +37,6 @@ public:
 private slots:
    void blockNameChanged(AbstractBlock* object);
 private:
-   AbstractBlock* getPointer(const QModelIndex& index) const;
    AbstractBlock* _root;
    const AbstractBlockFactory* _factory {nullptr};
 };

@@ -14,6 +14,7 @@ public:
       NamespaceType = 0
       ,Total
    };
+   BlockFactory(int type);
    virtual int getSize() const override final;
    virtual QString getName(int type) const override final;
    virtual QIcon getIcon(int type) const override final;
@@ -25,6 +26,9 @@ public:
 };
 
 
+
+//@@
+inline BlockFactory::BlockFactory(int type): AbstractBlockFactory(type) {}
 
 //@@
 inline int BlockFactory::getSize() const { return Total; }

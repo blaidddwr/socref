@@ -19,7 +19,8 @@ SOURCES += \
     gui_projectdialog.cpp \
     blockmodel.cpp \
     cppqt_blockfactory.cpp \
-    cppqt_namespace.cpp
+    cppqt_namespace.cpp \
+    gui_blockview.cpp
 
 HEADERS += \
     singleton.h \
@@ -36,7 +37,8 @@ HEADERS += \
     gui_projectdialog.h \
     blockmodel.h \
     cppqt_blockfactory.h \
-    cppqt_namespace.h
+    cppqt_namespace.h \
+    gui_blockview.h
 
 #AbstractParser
 #Gui::AbstractView

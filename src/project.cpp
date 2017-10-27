@@ -49,8 +49,9 @@ Project::Project(int type):
       throw e;
    }
 
-   // initialize root block and create block model
+   // initialize root block, connect modified signal, and create block model
    _root->setParent(this);
+   connect(_root,&AbstractBlock::modified,this,&Project::blockModified);
    _model = new BlockModel(_root,this);
 }
 
@@ -141,8 +142,9 @@ Project::Project(const QString &path):
          }
          _root->setParent(this);
 
-         // read in block data and make new block model
+         // read in block data, connect modified signal, and make new block model
          _root->read(xml);
+         connect(_root,&AbstractBlock::modified,this,&Project::blockModified);
          _model = new BlockModel(_root,this);
          break;
       }

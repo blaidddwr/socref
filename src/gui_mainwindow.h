@@ -18,6 +18,10 @@ class AbstractBlock;
 //@@
 namespace Gui {
 
+class BlockView;
+
+
+
 //@@
 class MainWindow : public QMainWindow
 {
@@ -32,41 +36,30 @@ private slots:
    void saveAsTriggered();
    void propertiesTriggered();
    void closeTriggered();
-   void addTriggered();
-   void removeTriggered();
-   void editTriggered();
-   void copyTriggered();
-   void cutTriggered();
-   void pasteTriggered();
-   void moveUpTriggered();
-   void moveDownTriggered();
    void projectNameChanged();
    void projectModified();
    void projectSaved();
    void projectFileChanged();
-   void blockSelected(AbstractBlock* block);
-   void blockCopied(AbstractBlock* o_block);
+   void viewSelectionChanged();
 private:
    virtual void closeEvent(QCloseEvent* event) override final;
    void createActions();
    void createMenus();
+   void createView();
    void updateTitle();
    void updateActions();
-   void updateAddMenu();
    bool isOkToContinue();
    bool saveAs();
    bool save();
    Project* _project {nullptr};
-   AbstractBlock* _selected {nullptr};
-   AbstractBlock* _copy {nullptr};
    QList<QAction*> _newActions;
+   BlockView* _view;
    QAction* _openAction;
    QAction* _saveAction;
    QAction* _saveAsAction;
    QAction* _propertiesAction;
    QAction* _closeAction;
    QAction* _exitAction;
-   QList<QAction*> _addActions;
    QAction* _removeAction;
    QAction* _editAction;
    QAction* _copyAction;
