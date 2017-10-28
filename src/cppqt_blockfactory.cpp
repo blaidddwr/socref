@@ -1,5 +1,6 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_namespace.h"
+#include "cppqt_view_namespace.h"
 
 
 
@@ -102,11 +103,14 @@ AbstractBlock* BlockFactory::makeBlock(int type) const
 
 
 //@@
-Gui::AbstractView* BlockFactory::makeView(int type) const
+QWidget* BlockFactory::makeView(int type, AbstractBlock* block) const
 {
-   //TODO; not yet complete
-   Q_UNUSED(type);
-   return nullptr;
+   // determine which type and return pointer to created view
+   switch (type)
+   {
+   case NamespaceType: return new View::Namespace(block);
+   default: return nullptr;
+   }
 }
 
 

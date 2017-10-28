@@ -36,7 +36,7 @@ public:
    //@@
    virtual AbstractBlock* makeBlock(int type) const = 0;
    //@@
-   virtual Gui::AbstractView* makeView(int type) const = 0;
+   virtual QWidget* makeView(int type, AbstractBlock* block) const = 0;
    //@@
    virtual Gui::AbstractEdit* makeEdit(int type) const = 0;
    int getType() const;
