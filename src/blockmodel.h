@@ -14,17 +14,16 @@ class BlockModel : public QAbstractItemModel
    Q_OBJECT
 public:
    explicit BlockModel(AbstractBlock* root = nullptr, QObject* parent = nullptr);
-   QModelIndex index(int row, int column, const QModelIndex &parent) const override final;
-   QModelIndex parent(const QModelIndex &child) const override final;
-   int rowCount(const QModelIndex& parent) const override final;
-   int columnCount(const QModelIndex& parent) const override final;
+   virtual QModelIndex index(int row, int column, const QModelIndex &parent) const override final;
+   virtual QModelIndex parent(const QModelIndex &child) const override final;
+   virtual int rowCount(const QModelIndex& parent) const override final;
+   virtual int columnCount(const QModelIndex& parent) const override final;
    AbstractBlock* getPointer(const QModelIndex& index) const;
-   QVariant data(const QModelIndex& index, int role) const override final;
-   const QList<int> getBuildList(const QModelIndex& index) const;
+   virtual QVariant data(const QModelIndex& index, int role) const override final;
    //Qt::ItemFlags flags(const QModelIndex& index) const override final;
    bool insertRow(int row, const QModelIndex& parent, AbstractBlock* o_object);
    bool moveRow(int source, int destination, const QModelIndex& parent);
-   bool removeRows(int row, int count, const QModelIndex& parent) override final;
+   bool removeRow(int row, const QModelIndex& parent);
    AbstractBlock* copyRow(int row, const QModelIndex& parent) const;
    AbstractBlock* cutRow(int row, const QModelIndex& parent);
    //QStringList mimeTypes() const override final;

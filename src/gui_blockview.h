@@ -2,6 +2,7 @@
 #define GUI_BLOCKVIEW_H
 #include <QWidget>
 #include <QModelIndex>
+#include <QItemSelection>
 
 
 
@@ -36,8 +37,9 @@ public slots:
    void moveUpTriggered();
    void moveDownTriggered();
 private slots:
-   void currentSelectionChanged(const QModelIndex& current, const QModelIndex& previous);
+   void selectionModelChanged();
 private:
+   QModelIndex getSelection() const;
    QVBoxLayout* _layout;
    QTreeView* _view;
    AbstractBlock* _copy {nullptr};
@@ -50,6 +52,11 @@ private:
    QAction* _moveUpAction;
    QAction* _moveDownAction;
 };
+
+
+
+//@@
+inline bool BlockView::hasSelection() const { return getSelection().isValid(); }
 
 } // namespace Gui
 

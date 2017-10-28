@@ -222,8 +222,9 @@ void MainWindow::projectFileChanged()
 
 
 //@@
-void MainWindow::viewSelectionChanged()
+void MainWindow::selectionChanged()
 {
+   // update actions and populate add menu
    updateActions();
    _view->populateAddMenu(_addMenu);
 }
@@ -381,10 +382,10 @@ void MainWindow::createMenus()
 //@@
 void MainWindow::createView()
 {
-   // create view, set to central widget, and connect signal
+   // create view, set to central widget, and connect selection signal
    _view = new BlockView(this);
    setCentralWidget(_view);
-   connect(_view,&BlockView::selectionChanged,this,&MainWindow::viewSelectionChanged);
+   connect(_view,&BlockView::selectionChanged,this,&MainWindow::selectionChanged);
 }
 
 
@@ -442,7 +443,7 @@ void MainWindow::updateActions()
    _cutAction->setDisabled(!hasSelection);
    _moveUpAction->setDisabled(!hasSelection);
    _moveDownAction->setDisabled(!hasSelection);
-   _pasteAction->setDisabled(!hasSelection);
+   _pasteAction->setDisabled(!_view->canPaste());
 
    // enable or disable add menu
    _addMenu->setDisabled(!_project);

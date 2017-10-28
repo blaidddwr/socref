@@ -28,7 +28,21 @@ BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
 //@@
 QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) const
 {
-   return createIndex(row,column,getPointer(parent)->getChild(row));
+   // make sure row and column are valid
+   if ( row < 0 || column != 0 )
+   {
+      return QModelIndex();
+   }
+
+   // get pointer and make sure row is not beyond size of children
+   AbstractBlock* parent_ {getPointer(parent)};
+   if ( row >= parent_->getChildrenSize() )
+   {
+      return QModelIndex();
+   }
+
+   // return new index
+   return createIndex(row,column,parent_->getChild(row));
 }
 
 
@@ -40,7 +54,7 @@ QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) co
 QModelIndex BlockModel::parent(const QModelIndex& child) const
 {
    // get parent pointer
-   AbstractBlock* parent = reinterpret_cast<AbstractBlock*>(child.internalPointer())->getParent();
+   AbstractBlock* parent = getPointer(child)->getParent();
 
    // if child has no parent or no grand parent then return invalid index
    if ( !parent || !parent->getParent() )
@@ -123,17 +137,6 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
 
 
 //@@
-const QList<int> BlockModel::getBuildList(const QModelIndex &index) const
-{
-   return _factory->getBuildList(getPointer(index)->getType());
-}
-
-
-
-
-
-
-//@@
 bool BlockModel::insertRow(int row, const QModelIndex& parent, AbstractBlock* o_object)
 {
    // make sure object is valid pointer
@@ -190,27 +193,18 @@ bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 
 
 //@@
-bool BlockModel::removeRows(int row, int count, const QModelIndex& parent)
+bool BlockModel::removeRow(int row, const QModelIndex& parent)
 {
-   // make sure count is sane number
-   if ( count < 1 )
-   {
-      return false;
-   }
-
    // get pointer from parent and make sure rows to remove exist
    AbstractBlock* parent_ {getPointer(parent)};
-   if ( row < 0 || (row + count) > parent_->getChildrenSize() )
+   if ( row < 0 || row >= parent_->getChildrenSize() )
    {
       return false;
    }
 
    // begin remove operation and remove all children starting at given row
-   beginRemoveRows(parent,row,row+count-1);
-   for (int i = 0; i < count ;++i)
-   {
-      parent_->removeChild(row);
-   }
+   beginRemoveRows(parent,row,row);
+   parent_->removeChild(row);
 
    // end remove operation and return success
    endRemoveRows();

@@ -40,7 +40,7 @@ private slots:
    void projectModified();
    void projectSaved();
    void projectFileChanged();
-   void viewSelectionChanged();
+   void selectionChanged();
 private:
    virtual void closeEvent(QCloseEvent* event) override final;
    void createActions();
