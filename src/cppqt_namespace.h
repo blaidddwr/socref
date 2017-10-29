@@ -18,8 +18,11 @@ public:
    virtual void writeData(QXmlStreamWriter& xml) const override final;
    virtual AbstractBlock* makeCopy() const override final;
    void setName(const QString& name);
+   QString getDescription() const;
+   void setDescription(const QString& description);
 private:
    QString _name;
+   QString _description;
 };
 
 
@@ -33,6 +36,12 @@ inline QString Namespace::getName() const { return _name; }
 
 //@@
 inline AbstractBlock* Namespace::makeCopy() const { return new Namespace(getFactory(),getType()); }
+
+//@@
+inline QString Namespace::getDescription() const { return _description; }
+
+//@@
+inline void Namespace::setDescription(const QString& description) { _description = description; }
 
 }
 

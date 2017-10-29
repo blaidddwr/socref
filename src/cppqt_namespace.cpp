@@ -14,14 +14,31 @@ using namespace CppQt;
 //@@
 void Namespace::readData(QXmlStreamReader& xml)
 {
+   // enumeration of elements to read
+   enum
+   {
+      Name = 0
+      ,Description
+   };
+
    // initialize xml parser
    XMLElementParser parser(xml);
-   parser.addKeyword("name",true);
+   parser.addKeyword("name",true).addKeyword("description",true);
+   int element;
 
-   // run parser until it reaches the end setting the name element when it is found
-   while ( parser() != XMLElementParser::End )
+   // run parser until it reaches the end
+   while ( ( element = parser() ) != XMLElementParser::End )
    {
-      _name = xml.readElementText();
+      // determine which element was found and set accordingly
+      switch (element)
+      {
+      case Name:
+         _name = xml.readElementText();
+         break;
+      case Description:
+         _description = xml.readElementText();
+         break;
+      }
    }
 
    // make sure name was read
@@ -42,8 +59,11 @@ void Namespace::readData(QXmlStreamReader& xml)
 //@@
 void Namespace::writeData(QXmlStreamWriter& xml) const
 {
-   // write out name and make sure it worked
+   // write out name and description
    xml.writeTextElement("name",_name);
+   xml.writeTextElement("description",_description);
+
+   // make sure it worked
    if ( xml.hasError() )
    {
       Exception::WriteError e;

@@ -10,6 +10,7 @@ namespace Gui {
 //@@
 class AbstractEdit : public QWidget
 {
+   Q_OBJECT
 public:
    explicit AbstractEdit(QWidget* parent);
    //@@
