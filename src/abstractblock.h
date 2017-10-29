@@ -38,7 +38,9 @@ public:
 protected:
    void notifyOfNameChange();
 signals:
+   //@@
    void modified();
+   //@@
    void nameChanged(AbstractBlock* object);
 private slots:
    void childModified();

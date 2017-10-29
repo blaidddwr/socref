@@ -6,17 +6,19 @@
 
 
 
+//@@
 namespace CppQt {
 
 BlockFactory g_factory(ProjectFactory::CppQtType);
 
-} // namespace CppQt
+}
 
 
 
 
 
 
+//@@
 QString ProjectFactory::getName(int type) const
 {
    switch (type)
@@ -31,6 +33,7 @@ QString ProjectFactory::getName(int type) const
 
 
 
+//@@
 QString ProjectFactory::getDefaultFilters(int type) const
 {
    switch (type)
@@ -45,6 +48,7 @@ QString ProjectFactory::getDefaultFilters(int type) const
 
 
 
+//@@
 const AbstractBlockFactory& ProjectFactory::getBlockFactory(int type) const
 {
    switch (type)

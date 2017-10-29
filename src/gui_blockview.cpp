@@ -32,6 +32,7 @@ BlockView::BlockView(QWidget* parent):
 
    // create scroll area and add to splitter
    _area = new QScrollArea;
+   _area->setWidgetResizable(true);
    addWidget(_area);
 }
 

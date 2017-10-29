@@ -4,8 +4,10 @@
 
 
 
+//@@
 namespace CppQt {
 
+//@@
 class BlockFactory : public AbstractBlockFactory
 {
 public:
@@ -34,7 +36,7 @@ inline BlockFactory::BlockFactory(int type): AbstractBlockFactory(type) {}
 //@@
 inline int BlockFactory::getSize() const { return Total; }
 
-} // namespace CppQt
+}
 
 
 

@@ -44,7 +44,6 @@ private:
    void updateActions();
    void updateMenu();
    QModelIndex getSelection() const;
-   QHBoxLayout* _layout;
    QScrollArea* _area;
    QTreeView* _treeView;
    AbstractBlock* _copy {nullptr};

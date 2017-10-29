@@ -33,7 +33,7 @@ private:
    QLineEdit* _filtersEdit;
 };
 
-} // namespace Gui
+}
 
 
 

@@ -4,8 +4,10 @@
 
 
 
+//@@
 namespace CppQt {
 
+//@@
 class Namespace : public AbstractBlock
 {
    Q_OBJECT
@@ -32,7 +34,7 @@ inline QString Namespace::getName() const { return _name; }
 //@@
 inline AbstractBlock* Namespace::makeCopy() const { return new Namespace(getFactory(),getType()); }
 
-} // namespace CppQt
+}
 
 
 
