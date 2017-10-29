@@ -25,7 +25,7 @@ public:
    virtual AbstractBlock* makeRootBlock() const override final;
    virtual AbstractBlock* makeBlock(int type) const override final;
    virtual QWidget* makeView(int type, AbstractBlock* block) const override final;
-   virtual Gui::AbstractEdit* makeEdit(int type) const override final;
+   virtual Gui::AbstractEdit* makeEdit(int type, AbstractBlock* block) const override final;
 };
 
 

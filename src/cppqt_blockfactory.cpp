@@ -1,6 +1,7 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_namespace.h"
-#include "cppqt_view_namespace.h"
+#include "cppqt_namespaceview.h"
+#include "cppqt_namespaceedit.h"
 
 
 
@@ -108,7 +109,7 @@ QWidget* BlockFactory::makeView(int type, AbstractBlock* block) const
    // determine which type and return pointer to created view
    switch (type)
    {
-   case NamespaceType: return new View::Namespace(block);
+   case NamespaceType: return new NamespaceView(block);
    default: return nullptr;
    }
 }
@@ -119,9 +120,12 @@ QWidget* BlockFactory::makeView(int type, AbstractBlock* block) const
 
 
 //@@
-Gui::AbstractEdit* BlockFactory::makeEdit(int type) const
+Gui::AbstractEdit* BlockFactory::makeEdit(int type, AbstractBlock* block) const
 {
-   //TODO; not yet complete
-   Q_UNUSED(type);
-   return nullptr;
+   // determine which type and return pointer to created edit widget
+   switch (type)
+   {
+   case NamespaceType: return new NamespaceEdit(block);
+   default: return nullptr;
+   }
 }

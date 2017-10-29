@@ -3,13 +3,13 @@
 #include <QLineEdit>
 #include <QPlainTextEdit>
 
-#include "cppqt_edit_namespace.h"
+#include "cppqt_namespaceedit.h"
 #include "cppqt_namespace.h"
 #include "exception.h"
 
 
 
-using namespace CppQt::Edit;
+using namespace CppQt;
 
 
 
@@ -17,7 +17,7 @@ using namespace CppQt::Edit;
 
 
 //@@
-CppQt::Edit::Namespace::Namespace(AbstractBlock *block, QWidget *parent):
+NamespaceEdit::NamespaceEdit(AbstractBlock *block, QWidget *parent):
    Gui::AbstractEdit(parent),
    _block(qobject_cast<CppQt::Namespace*>(block))
 {
@@ -37,7 +37,7 @@ CppQt::Edit::Namespace::Namespace(AbstractBlock *block, QWidget *parent):
 
 
 //@@
-QLayout* Namespace::createForm()
+QLayout* NamespaceEdit::createForm()
 {
    // create name and description edit widgets
    _nameEdit = new QLineEdit;
@@ -58,7 +58,7 @@ QLayout* Namespace::createForm()
 
 
 //@@
-void Namespace::okClicked()
+void NamespaceEdit::okClicked()
 {
    // apply any changes and emit finished signal
    applyClicked();
@@ -71,7 +71,7 @@ void Namespace::okClicked()
 
 
 //@@
-void Namespace::applyClicked()
+void NamespaceEdit::applyClicked()
 {
    // set name and description of block to values in edit widgets
    _block->setName(_nameEdit->text());
@@ -84,7 +84,7 @@ void Namespace::applyClicked()
 
 
 //@@
-void Namespace::cancelClicked()
+void NamespaceEdit::cancelClicked()
 {
    emit finished();
 }
