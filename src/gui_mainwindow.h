@@ -8,7 +8,7 @@ namespace Exception {
 
 class Base;
 
-} // namespace Exception
+}
 
 class Project;
 class AbstractBlock;
@@ -40,7 +40,6 @@ private slots:
    void projectModified();
    void projectSaved();
    void projectFileChanged();
-   void selectionChanged();
 private:
    virtual void closeEvent(QCloseEvent* event) override final;
    void createActions();
@@ -60,14 +59,6 @@ private:
    QAction* _propertiesAction;
    QAction* _closeAction;
    QAction* _exitAction;
-   QAction* _removeAction;
-   QAction* _editAction;
-   QAction* _copyAction;
-   QAction* _cutAction;
-   QAction* _pasteAction;
-   QAction* _moveUpAction;
-   QAction* _moveDownAction;
-   QMenu* _addMenu;
 };
 
 
@@ -87,7 +78,7 @@ inline void MainWindow::projectModified() { setWindowModified(true); }
 //@@
 inline void MainWindow::projectSaved() { setWindowModified(false); }
 
-} // namespace Gui
+}
 
 
 

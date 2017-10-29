@@ -23,11 +23,9 @@ class BlockView : public QSplitter
 public:
    explicit BlockView(QWidget *parent = nullptr);
    void setModel(BlockModel* model);
-   void populateAddMenu(QMenu* menu) const;
+   QMenu* getContextMenu() const;
    bool hasSelection() const;
    bool canPaste() const;
-signals:
-   void selectionChanged();
 public slots:
    void addTriggered();
    void removeTriggered();
@@ -41,6 +39,10 @@ private slots:
    void selectionModelChanged();
    void modelDestroyed();
 private:
+   void createActions();
+   void createMenu();
+   void updateActions();
+   void updateMenu();
    QModelIndex getSelection() const;
    QHBoxLayout* _layout;
    QScrollArea* _area;
@@ -55,14 +57,19 @@ private:
    QAction* _pasteAction;
    QAction* _moveUpAction;
    QAction* _moveDownAction;
+   QMenu* _addMenu;
+   QMenu* _contextMenu;
 };
 
 
 
 //@@
+inline QMenu *BlockView::getContextMenu() const { return _contextMenu; }
+
+//@@
 inline bool BlockView::hasSelection() const { return getSelection().isValid(); }
 
-} // namespace Gui
+}
 
 
 
