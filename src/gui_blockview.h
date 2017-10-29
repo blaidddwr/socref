@@ -1,13 +1,14 @@
 #ifndef GUI_BLOCKVIEW_H
 #define GUI_BLOCKVIEW_H
-#include <QWidget>
+#include <QSplitter>
 #include <QModelIndex>
 #include <QItemSelection>
 
 
 
-class QVBoxLayout;
+class QHBoxLayout;
 class QTreeView;
+class QScrollArea;
 class QMenu;
 class BlockModel;
 class AbstractBlock;
@@ -16,7 +17,7 @@ class AbstractBlock;
 
 namespace Gui {
 
-class BlockView : public QWidget
+class BlockView : public QSplitter
 {
    Q_OBJECT
 public:
@@ -38,11 +39,14 @@ public slots:
    void moveDownTriggered();
 private slots:
    void selectionModelChanged();
+   void modelDestroyed();
 private:
    QModelIndex getSelection() const;
-   QVBoxLayout* _layout;
-   QTreeView* _view;
+   QHBoxLayout* _layout;
+   QScrollArea* _area;
+   QTreeView* _treeView;
    AbstractBlock* _copy {nullptr};
+   QWidget* _view {nullptr};
    QList<QAction*> _addActions;
    QAction* _removeAction;
    QAction* _editAction;

@@ -1,5 +1,5 @@
-#include <QVBoxLayout>
 #include <QTreeView>
+#include <QScrollArea>
 #include <QMenu>
 
 #include "gui_blockview.h"
@@ -18,16 +18,16 @@ using namespace Gui;
 
 //@@
 BlockView::BlockView(QWidget* parent):
-   QWidget(parent)
+   QSplitter(parent)
 {
-   // create tree view
-   _view = new QTreeView;
-   _view->setHeaderHidden(true);
+   // create tree view and add to splitter
+   _treeView = new QTreeView;
+   _treeView->setHeaderHidden(true);
+   addWidget(_treeView);
 
-   // create layout and set as widget's layout
-   _layout = new QVBoxLayout;
-   _layout->addWidget(_view);
-   setLayout(_layout);
+   // create scroll area and add to splitter
+   _area = new QScrollArea;
+   addWidget(_area);
 }
 
 
@@ -38,11 +38,16 @@ BlockView::BlockView(QWidget* parent):
 //@@
 void BlockView::setModel(BlockModel* model)
 {
-   // set tree view model, connect selection changed signal, and call selection changed
-   _view->setModel(model);
-   connect(_view->selectionModel(),&QItemSelectionModel::selectionChanged,this
-           ,&BlockView::selectionChanged);
-   selectionChanged();
+   // set tree view model
+   _treeView->setModel(model);
+
+   // connect selection changed and model destroyed signals
+   connect(_treeView->selectionModel(),&QItemSelectionModel::selectionChanged,this
+           ,&BlockView::selectionModelChanged);
+   connect(model,&BlockModel::destroyed,this,&BlockView::modelDestroyed);
+
+   // manually call model changed to update menu items
+   selectionModelChanged();
 }
 
 
@@ -70,7 +75,7 @@ void BlockView::populateAddMenu(QMenu* menu) const
 bool BlockView::canPaste() const
 {
    // get block model, make sure it and copy exists
-   BlockModel* model {qobject_cast<BlockModel*>(_view->model())};
+   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
    if ( model && _copy )
    {
       // get model's block factory and make sure it is same type as copy
@@ -102,7 +107,7 @@ void BlockView::addTriggered()
 {
    // get action and block model pointers, make sure model exists
    QAction* from {qobject_cast<QAction*>(sender())};
-   BlockModel* model {qobject_cast<BlockModel*>(_view->model())};
+   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
    if ( model )
    {
       // get block factory and insert new block of given type
@@ -120,7 +125,7 @@ void BlockView::addTriggered()
 void BlockView::removeTriggered()
 {
    // get block model and make sure it exists
-   BlockModel* model {qobject_cast<BlockModel*>(_view->model())};
+   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
    if ( model )
    {
       // get selection index and make sure it is valid
@@ -205,10 +210,26 @@ void BlockView::selectionModelChanged()
    qDeleteAll(_addActions);
    _addActions.clear();
 
-   // get block model, factory, and build list of selected index
-   BlockModel* model {qobject_cast<BlockModel*>(_view->model())};
+   // get block model, factory, index, block pointer, and build list of selected index
+   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
    const AbstractBlockFactory* factory {model->getFactory()};
-   QList<int> list {factory->getBuildList(model->getPointer(getSelection())->getType())};
+   QModelIndex index {getSelection()};
+   AbstractBlock* pointer {model->getPointer(index)};
+   QList<int> list {factory->getBuildList(pointer->getType())};
+
+   // if block view already existed delete it
+   if ( _view )
+   {
+      delete _view;
+      _view = nullptr;
+   }
+
+   // if index is valid create new view and add it to layout
+   if ( index.isValid() )
+   {
+      _view = factory->makeView(pointer->getType(),pointer);
+      _area->setWidget(_view);
+   }
 
    // iterate through build list and create add action for each type index can have as children
    for (auto i = list.constBegin(); i != list.constEnd() ;++i)
@@ -228,11 +249,24 @@ void BlockView::selectionModelChanged()
 
 
 //@@
+void BlockView::modelDestroyed()
+{
+   // model was destroyed to clear any existing view
+   delete _view;
+   _view = nullptr;
+}
+
+
+
+
+
+
+//@@
 QModelIndex BlockView::getSelection() const
 {
    // if selection model exists and it is not empty get first index it has
    QModelIndex ret;
-   const QItemSelectionModel* model {_view->selectionModel()};
+   const QItemSelectionModel* model {_treeView->selectionModel()};
    if ( model && !model->selection().isEmpty() )
    {
       ret = model->selection().first().indexes().first();
