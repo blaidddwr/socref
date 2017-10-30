@@ -207,25 +207,6 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
 
 
 //@@
-void AbstractBlock::notifyOfNameChange()
-{
-   // iterate backwards until root is found
-   AbstractBlock* object {this};
-   while ( object->_parent )
-   {
-      object = object->_parent;
-   }
-
-   // emit name changed signal on root object
-   QMetaObject::invokeMethod(object,"nameChanged",Qt::DirectConnection,Q_ARG(AbstractBlock*,this));
-}
-
-
-
-
-
-
-//@@
 void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
 {
    // if current parent exists remove from children and disconnect signals from it
@@ -288,4 +269,33 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
    unique_ptr<AbstractBlock> child {_factory.makeBlock(type)};
    child->read(xml);
    child.release()->setBlockParent(this,getChildrenSize());
+}
+
+
+
+
+
+
+//@@
+void AbstractBlock::notifyOfNameChange(AbstractBlock* block)
+{
+   // check if block pointer is null
+   if ( !block )
+   {
+      // iterate up chain of parents until root is reached
+      AbstractBlock* object {this};
+      while ( object->_parent )
+      {
+         object = object->_parent;
+      }
+
+      // call this function on root block
+      object->notifyOfNameChange(this);
+   }
+
+   // else this is root block so emit name changed signal
+   else
+   {
+      emit nameChanged(block);
+   }
 }

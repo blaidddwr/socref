@@ -47,6 +47,7 @@ private slots:
 private:
    void setBlockParent(AbstractBlock* parent, int index);
    void readChild(QXmlStreamReader& xml);
+   void notifyOfNameChange(AbstractBlock* block);
    const AbstractBlockFactory& _factory;
    int _type {-1};
    AbstractBlock* _parent {nullptr};
@@ -73,7 +74,10 @@ inline int AbstractBlock::getChildrenSize() const { return _children.size(); }
 
 //@@
 inline int AbstractBlock::getChildIndex(AbstractBlock *child) const
-   { return _children.indexOf(child); }
+{ return _children.indexOf(child); }
+
+//@@
+inline void AbstractBlock::notifyOfNameChange() { notifyOfNameChange(nullptr); }
 
 //@@
 inline void AbstractBlock::childModified() { emit modified(); }

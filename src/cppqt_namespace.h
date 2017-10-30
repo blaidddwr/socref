@@ -40,9 +40,6 @@ inline AbstractBlock* Namespace::makeCopy() const { return new Namespace(getFact
 //@@
 inline QString Namespace::getDescription() const { return _description; }
 
-//@@
-inline void Namespace::setDescription(const QString& description) { _description = description; }
-
 }
 
 

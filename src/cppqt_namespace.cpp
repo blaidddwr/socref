@@ -81,10 +81,29 @@ void Namespace::writeData(QXmlStreamWriter& xml) const
 //@@
 void Namespace::setName(const QString &name)
 {
-   // if new name is different update and notify of change
+   // check if new name is different
    if ( _name != name )
    {
+      // set new name, notify of name change, and emit modified signal
       _name = name;
       notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+//@@
+void CppQt::Namespace::setDescription(const QString& description)
+{
+   // check if new description is different
+   if ( _description != description )
+   {
+      // set new description and emit modified signal
+      _description = description;
+      emit modified();
    }
 }

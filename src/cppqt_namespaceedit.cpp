@@ -2,6 +2,7 @@
 #include <QLabel>
 #include <QLineEdit>
 #include <QPlainTextEdit>
+#include <QRegExpValidator>
 
 #include "cppqt_namespaceedit.h"
 #include "cppqt_namespace.h"
@@ -39,9 +40,15 @@ NamespaceEdit::NamespaceEdit(AbstractBlock *block, QWidget *parent):
 //@@
 QLayout* NamespaceEdit::createForm()
 {
-   // create name and description edit widgets
+   // create and initialize name and description
    _nameEdit = new QLineEdit;
    _descriptionEdit = new QPlainTextEdit;
+   _nameEdit->setText(_block->getName());
+   _descriptionEdit->setPlainText(_block->getDescription());
+
+   // initialize regular expression for name
+   QRegExp expression {"[a-zA-Z_]+[a-zA-Z0-9_]*"};
+   _nameEdit->setValidator(new QRegExpValidator(expression,this));
 
    // create form layout and add edit widgets to it
    QFormLayout* form {new QFormLayout};
@@ -76,15 +83,4 @@ void NamespaceEdit::applyClicked()
    // set name and description of block to values in edit widgets
    _block->setName(_nameEdit->text());
    _block->setDescription(_descriptionEdit->toPlainText());
-}
-
-
-
-
-
-
-//@@
-void NamespaceEdit::cancelClicked()
-{
-   emit finished();
 }

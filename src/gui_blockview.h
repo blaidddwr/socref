@@ -12,6 +12,7 @@ class QScrollArea;
 class QMenu;
 class BlockModel;
 class AbstractBlock;
+class AbstractBlockFactory;
 
 
 
@@ -38,14 +39,19 @@ public slots:
 private slots:
    void selectionModelChanged();
    void modelDestroyed();
+   void editFinished();
 private:
    void createActions();
    void createMenu();
    void updateActions();
    void updateMenu();
+   void setView(QWidget* view);
    QModelIndex getSelection() const;
    QScrollArea* _area;
    QTreeView* _treeView;
+   BlockModel* _model {nullptr};
+   const AbstractBlockFactory* _factory {nullptr};
+   QItemSelectionModel* _selectionModel {nullptr};
    AbstractBlock* _copy {nullptr};
    QWidget* _view {nullptr};
    QList<QAction*> _addActions;
@@ -67,6 +73,9 @@ inline QMenu *BlockView::getContextMenu() const { return _contextMenu; }
 
 //@@
 inline bool BlockView::hasSelection() const { return getSelection().isValid(); }
+
+//@@
+inline void BlockView::editFinished() { selectionModelChanged(); }
 
 }
 

@@ -32,6 +32,11 @@ private:
    QPlainTextEdit* _descriptionEdit;
 };
 
+
+
+//@@
+inline void NamespaceEdit::cancelClicked() { emit finished(); }
+
 }
 
 

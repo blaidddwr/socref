@@ -13,10 +13,11 @@ BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
    QAbstractItemModel(parent),
    _root(root)
 {
-   // if root is not null set factory
+   // if root is not null set factory and connect signals
    if ( _root )
    {
       _factory = &(_root->getFactory());
+      connect(_root,&AbstractBlock::nameChanged,this,&BlockModel::blockNameChanged);
    }
 }
 
@@ -266,11 +267,14 @@ void BlockModel::setRoot(AbstractBlock* root)
    beginResetModel();
    _root = root;
 
-   // if root is not null set factory and end model reset
+   // if root is not null set factory and connect signals
    if ( _root )
    {
       _factory = &(_root->getFactory());
+      connect(_root,&AbstractBlock::nameChanged,this,&BlockModel::blockNameChanged);
    }
+
+   // end model reset
    endResetModel();
 }
 

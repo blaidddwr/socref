@@ -5,6 +5,7 @@
 #include "gui_blockview.h"
 #include "blockmodel.h"
 #include "abstractblock.h"
+#include "gui_abstractedit.h"
 #include "abstractblockfactory.h"
 
 
@@ -47,8 +48,13 @@ void BlockView::setModel(BlockModel* model)
    // set tree view model
    _treeView->setModel(model);
 
+   // set model, factory, and selection model
+   _model = model;
+   _factory = model->getFactory();
+   _selectionModel = _treeView->selectionModel();
+
    // connect selection changed and model destroyed signals
-   connect(_treeView->selectionModel(),&QItemSelectionModel::selectionChanged,this
+   connect(_selectionModel,&QItemSelectionModel::selectionChanged,this
            ,&BlockView::selectionModelChanged);
    connect(model,&BlockModel::destroyed,this,&BlockView::modelDestroyed);
 
@@ -64,18 +70,16 @@ void BlockView::setModel(BlockModel* model)
 //@@
 bool BlockView::canPaste() const
 {
-   // get block model, make sure it and copy exists
-   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
-   if ( model && _copy )
+   // make sure model and copy exists
+   if ( _model && _copy )
    {
-      // get model's block factory and make sure it is same type as copy
-      const AbstractBlockFactory* factory {model->getFactory()};
-      if ( factory && factory->getType() == _copy->getFactory().getType() )
+      // make sure factory is same type as copy
+      if ( _factory->getType() == _copy->getFactory().getType() )
       {
          // get block pointer from current selection and make sure copy's type is in current
          // selection's build list
-         AbstractBlock* index {model->getPointer(getSelection())};
-         if ( index && factory->getBuildList(index->getType()).contains(_copy->getType()) )
+         AbstractBlock* index {_model->getPointer(getSelection())};
+         if ( index && _factory->getBuildList(index->getType()).contains(_copy->getType()) )
          {
             // all tests pass so paste can be done
             return true;
@@ -95,14 +99,12 @@ bool BlockView::canPaste() const
 //@@
 void BlockView::addTriggered()
 {
-   // get action and block model pointers, make sure model exists
+   // get action pointer and make sure model exists
    QAction* from {qobject_cast<QAction*>(sender())};
-   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
-   if ( model )
+   if ( _model )
    {
-      // get block factory and insert new block of given type
-      const AbstractBlockFactory* factory {model->getFactory()};
-      model->insertRow(-1,getSelection(),factory->makeBlock(from->data().toInt()));
+      // insert new block of given type
+      _model->insertRow(-1,getSelection(),_factory->makeBlock(from->data().toInt()));
    }
 }
 
@@ -114,16 +116,15 @@ void BlockView::addTriggered()
 //@@
 void BlockView::removeTriggered()
 {
-   // get block model and make sure it exists
-   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
-   if ( model )
+   // make sure model exists
+   if ( _model )
    {
       // get selection index and make sure it is valid
       QModelIndex index {getSelection()};
       if ( index.isValid() )
       {
          // remove index from model
-         model->removeRow(index.row(),model->parent(index));
+         _model->removeRow(index.row(),_model->parent(index));
       }
    }
 }
@@ -136,6 +137,20 @@ void BlockView::removeTriggered()
 //@@
 void BlockView::editTriggered()
 {
+   // make sure model exists
+   if ( _model )
+   {
+      // get selection index and make sure it is valid
+      QModelIndex index {getSelection()};
+      if ( index.isValid() )
+      {
+         AbstractBlock* pointer {_model->getPointer(index)};
+         AbstractEdit* edit {_factory->makeEdit(pointer->getType(),pointer)};
+         edit->initialize();
+         connect(edit,&AbstractEdit::finished,this,&BlockView::editFinished);
+         setView(edit);
+      }
+   }
 }
 
 
@@ -196,27 +211,14 @@ void BlockView::moveDownTriggered()
 //@@
 void BlockView::selectionModelChanged()
 {
-   // get block model, factory, and index
-   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
-   const AbstractBlockFactory* factory {model->getFactory()};
+   QWidget* view {nullptr};
    QModelIndex index {getSelection()};
-
-   // if block view already existed delete it
-   if ( _view )
-   {
-      delete _view;
-      _view = nullptr;
-   }
-
-   // if index is valid create new view and add it to layout
    if ( index.isValid() )
    {
-      AbstractBlock* pointer {model->getPointer(index)};
-      _view = factory->makeView(pointer->getType(),pointer);
-      _area->setWidget(_view);
+      AbstractBlock* pointer {_model->getPointer(index)};
+      view = _factory->makeView(pointer->getType(),pointer);;
    }
-
-   // update actions and menu
+   setView(view);
    updateActions();
    updateMenu();
 }
@@ -229,9 +231,11 @@ void BlockView::selectionModelChanged()
 //@@
 void BlockView::modelDestroyed()
 {
-   // model was destroyed to clear any existing view
-   delete _view;
-   _view = nullptr;
+   // clear all data related to model
+   setView(nullptr);
+   _model = nullptr;
+   _factory = nullptr;
+   _selectionModel = nullptr;
 
    // update actions and menu
    updateActions();
@@ -254,7 +258,7 @@ void BlockView::createActions()
    // create edit action
    _editAction = new QAction(tr("&Edit"),this);
    _editAction->setStatusTip(tr("Edit currently selected block."));
-   connect(_removeAction,&QAction::triggered,this,&BlockView::editTriggered);
+   connect(_editAction,&QAction::triggered,this,&BlockView::editTriggered);
 
    // create cut action
    _cutAction = new QAction(tr("&Cut"),this);
@@ -314,18 +318,16 @@ void BlockView::updateActions()
    qDeleteAll(_addActions);
    _addActions.clear();
 
-   // get model and make sure it exists
-   BlockModel* model {qobject_cast<BlockModel*>(_treeView->model())};
-   if ( model )
+   // make sure model exists
+   if ( _model )
    {
-      // get factory and build list
-      const AbstractBlockFactory* factory {model->getFactory()};
-      QList<int> list {factory->getBuildList(model->getPointer(getSelection())->getType())};
+      // get build list
+      QList<int> list {_factory->getBuildList(_model->getPointer(getSelection())->getType())};
 
       // iterate through build list and add action for each type
       for (auto i = list.constBegin(); i != list.constEnd() ;++i)
       {
-         _addActions.append(new QAction(factory->getName(*i),this));
+         _addActions.append(new QAction(_factory->getName(*i),this));
          _addActions.back()->setData(*i);
          connect(_addActions.back(),&QAction::triggered,this,&BlockView::addTriggered);
       }
@@ -343,7 +345,7 @@ void BlockView::updateActions()
    _pasteAction->setDisabled(!canPaste());
 
    // enable or disable add menu
-   _addMenu->setDisabled(!model);
+   _addMenu->setDisabled(!_model);
 }
 
 
@@ -367,16 +369,38 @@ void BlockView::updateMenu()
 
 
 
+//@@
+void BlockView::setView(QWidget* view)
+{
+   // if view already existed delete it
+   if ( _view )
+   {
+      delete _view;
+      _view = nullptr;
+   }
+
+   // if new view is not null set it as view
+   if ( view )
+   {
+      _view = view;
+      _area->setWidget(_view);
+   }
+}
+
+
+
+
+
+
 
 //@@
 QModelIndex BlockView::getSelection() const
 {
    // if selection model exists and it is not empty get first index it has
    QModelIndex ret;
-   const QItemSelectionModel* model {_treeView->selectionModel()};
-   if ( model && !model->selection().isEmpty() )
+   if ( _selectionModel && !_selectionModel->selection().isEmpty() )
    {
-      ret = model->selection().first().indexes().first();
+      ret = _selectionModel->selection().first().indexes().first();
    }
 
    // return selected index or invalid index for root
