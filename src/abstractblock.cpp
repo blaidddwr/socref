@@ -209,18 +209,22 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
 //@@
 void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
 {
-   // if current parent exists remove from children and disconnect signals from it
+   // check if current parent exists
    if ( _parent )
    {
+      // remove from parent and reset root to itself
       _parent->_children.removeOne(this);
       disconnect(_parent);
+      _root = this;
    }
 
-   // if new parent exists insert into list of children and connect modified signal
+   // check if new parent is not null
    if ( parent )
    {
+      // add to new parent as child and set root to parent's root
       parent->_children.insert(index,this);
       connect(this,&AbstractBlock::modified,parent,&AbstractBlock::childModified);
+      _root = parent->_root;
    }
 
    // set new parent
@@ -279,18 +283,10 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
 //@@
 void AbstractBlock::notifyOfNameChange(AbstractBlock* block)
 {
-   // check if block pointer is null
+   // if block pointer is null call this function on root block
    if ( !block )
    {
-      // iterate up chain of parents until root is reached
-      AbstractBlock* object {this};
-      while ( object->_parent )
-      {
-         object = object->_parent;
-      }
-
-      // call this function on root block
-      object->notifyOfNameChange(this);
+      getRoot().notifyOfNameChange(this);
    }
 
    // else this is root block so emit name changed signal
