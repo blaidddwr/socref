@@ -79,6 +79,24 @@ void Namespace::writeData(QXmlStreamWriter& xml) const
 
 
 //@@
+AbstractBlock* Namespace::makeCopy() const
+{
+   // make copy of namespace
+   Namespace* ret {new Namespace(getFactory(),getType())};
+   ret->_name = _name;
+   ret->_description = _description;
+
+   // copy all children of namespace and return pointer
+   ret->copyChildren(this);
+   return ret;
+}
+
+
+
+
+
+
+//@@
 void Namespace::setName(const QString &name)
 {
    // check if new name is different

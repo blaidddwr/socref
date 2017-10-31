@@ -352,8 +352,7 @@ void Project::handleFileChanged()
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
-      // if project file cannot be opened emit changed signal
-      emit changed();
+      // if project file cannot be opened do nothing
       return;
    }
 

@@ -11,6 +11,7 @@
 
 
 using namespace Gui;
+AbstractBlock* BlockView::_copy {nullptr};
 
 
 
@@ -74,7 +75,9 @@ bool BlockView::canPaste() const
    if ( _model && _copy )
    {
       // make sure factory is same type as copy
-      if ( _factory->getType() == _copy->getFactory().getType() )
+      int a = _factory->getType();
+      int b = _copy->getFactory().getType();
+      if ( a == b )
       {
          // get block pointer from current selection and make sure copy's type is in current
          // selection's build list
@@ -116,16 +119,12 @@ void BlockView::addTriggered()
 //@@
 void BlockView::removeTriggered()
 {
-   // make sure model exists
-   if ( _model )
+   // get selection index and make sure it is valid
+   QModelIndex index {getSelection()};
+   if ( index.isValid() )
    {
-      // get selection index and make sure it is valid
-      QModelIndex index {getSelection()};
-      if ( index.isValid() )
-      {
-         // remove index from model
-         _model->removeRow(index.row(),_model->parent(index));
-      }
+      // remove index from model
+      _model->removeRow(index.row(),_model->parent(index));
    }
 }
 
@@ -137,19 +136,18 @@ void BlockView::removeTriggered()
 //@@
 void BlockView::editTriggered()
 {
-   // make sure model exists
-   if ( _model )
+   // get selection index and make sure it is valid
+   QModelIndex index {getSelection()};
+   if ( index.isValid() )
    {
-      // get selection index and make sure it is valid
-      QModelIndex index {getSelection()};
-      if ( index.isValid() )
-      {
-         AbstractBlock* pointer {_model->getPointer(index)};
-         AbstractEdit* edit {_factory->makeEdit(pointer->getType(),pointer)};
-         edit->initialize();
-         connect(edit,&AbstractEdit::finished,this,&BlockView::editFinished);
-         setView(edit);
-      }
+      // create new edit widget for index
+      AbstractBlock* pointer {_model->getPointer(index)};
+      AbstractEdit* edit {_factory->makeEdit(pointer->getType(),pointer)};
+
+      // initialize edit widget, connect signals, and set as view
+      edit->initialize();
+      connect(edit,&AbstractEdit::finished,this,&BlockView::editFinished);
+      setView(edit);
    }
 }
 
@@ -161,6 +159,14 @@ void BlockView::editTriggered()
 //@@
 void BlockView::cutTriggered()
 {
+   // get selection index and make sure it is valid
+   QModelIndex index {getSelection()};
+   if ( index.isValid() )
+   {
+      // cut block from given index and update actions
+      setCopy(_model->cutRow(index.row(),_model->parent(index)));
+      updateActions();
+   }
 }
 
 
@@ -171,6 +177,14 @@ void BlockView::cutTriggered()
 //@@
 void BlockView::copyTriggered()
 {
+   // get selection index and make sure it is valid
+   QModelIndex index {getSelection()};
+   if ( index.isValid() )
+   {
+      // make new copy of block from index and update actions
+      setCopy(_model->copyRow(index.row(),_model->parent(index)));
+      updateActions();
+   }
 }
 
 
@@ -181,6 +195,11 @@ void BlockView::copyTriggered()
 //@@
 void BlockView::pasteTriggered()
 {
+   // if paste can happen insert new row in selection index
+   if ( canPaste() )
+   {
+      _model->insertRow(-1,getSelection(),_copy->makeCopy());
+   }
 }
 
 
@@ -191,6 +210,13 @@ void BlockView::pasteTriggered()
 //@@
 void BlockView::moveUpTriggered()
 {
+   // get selection index and make sure it is valid
+   QModelIndex index {getSelection()};
+   if ( index.isValid() )
+   {
+      // move index up by one
+      _model->moveRow(index.row(),index.row()-1,_model->parent(index));
+   }
 }
 
 
@@ -201,6 +227,13 @@ void BlockView::moveUpTriggered()
 //@@
 void BlockView::moveDownTriggered()
 {
+   // get selection index and make sure it is valid
+   QModelIndex index {getSelection()};
+   if ( index.isValid() )
+   {
+      // move index down by one
+      _model->moveRow(index.row(),index.row()+2,_model->parent(index));
+   }
 }
 
 
@@ -211,13 +244,18 @@ void BlockView::moveDownTriggered()
 //@@
 void BlockView::selectionModelChanged()
 {
+   // initialize view to null and get selection
    QWidget* view {nullptr};
    QModelIndex index {getSelection()};
+
+   // if index is valid set view pointer to view widget
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->getPointer(index)};
       view = _factory->makeView(pointer->getType(),pointer);;
    }
+
+   // set view, update actions and menu
    setView(view);
    updateActions();
    updateMenu();
@@ -385,6 +423,24 @@ void BlockView::setView(QWidget* view)
       _view = view;
       _area->setWidget(_view);
    }
+}
+
+
+
+
+
+
+//@@
+void BlockView::setCopy(AbstractBlock* copy)
+{
+   // if copy already exists delete it
+   if ( _copy )
+   {
+      delete _copy;
+   }
+
+   // set new copy pointer
+   _copy = copy;
 }
 
 

@@ -170,21 +170,25 @@ bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
       return false;
    }
 
-   // remove child from current row position
-   beginRemoveRows(parent,source,source);
-   AbstractBlock* child {parent_->takeChild(source)};
-   endRemoveRows();
+   // make sure destination is within range
+   if ( destination < 0 || destination > parent_->getChildrenSize() )
+   {
+      return false;
+   }
 
-   // decrement destination by one if it is at or after source
-   if ( destination >= source )
+   // remove child from current row position
+   beginMoveRows(parent,source,source,parent,destination);
+   AbstractBlock* child {parent_->takeChild(source)};
+
+   // decrement destination by one if it is after source
+   if ( destination > ( source + 1 ) )
    {
       --destination;
    }
 
    // insert child into new row position and return success
-   beginInsertRows(parent,destination,destination);
    parent_->insertChild(destination,child);
-   endInsertRows();
+   endMoveRows();
    return true;
 }
 

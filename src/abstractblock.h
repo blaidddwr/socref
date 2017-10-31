@@ -38,6 +38,7 @@ public:
 protected:
    AbstractBlock& getRoot();
    const QList<AbstractBlock*>& getChildren();
+   void copyChildren(const AbstractBlock* block);
    void notifyOfNameChange();
 signals:
    //@@

@@ -35,9 +35,6 @@ inline Namespace::Namespace(const AbstractBlockFactory &factory, int type):
 inline QString Namespace::getName() const { return _name; }
 
 //@@
-inline AbstractBlock* Namespace::makeCopy() const { return new Namespace(getFactory(),getType()); }
-
-//@@
 inline QString Namespace::getDescription() const { return _description; }
 
 }

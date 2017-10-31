@@ -46,13 +46,14 @@ private:
    void updateActions();
    void updateMenu();
    void setView(QWidget* view);
+   void setCopy(AbstractBlock* copy);
    QModelIndex getSelection() const;
    QScrollArea* _area;
    QTreeView* _treeView;
    BlockModel* _model {nullptr};
    const AbstractBlockFactory* _factory {nullptr};
    QItemSelectionModel* _selectionModel {nullptr};
-   AbstractBlock* _copy {nullptr};
+   static AbstractBlock* _copy;
    QWidget* _view {nullptr};
    QList<QAction*> _addActions;
    QAction* _removeAction;

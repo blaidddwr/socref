@@ -207,13 +207,31 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
 
 
 //@@
+void AbstractBlock::copyChildren(const AbstractBlock* block)
+{
+   // iterate through all children and make copies of each one
+   for (auto i = block->_children.constBegin(); i!= block->_children.constEnd() ;++i)
+   {
+      (*i)->makeCopy()->setBlockParent(this,getChildrenSize());
+   }
+}
+
+
+
+
+
+
+//@@
 void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
 {
    // check if current parent exists
    if ( _parent )
    {
-      // remove from parent and reset root to itself
+      // remove from parent
       _parent->_children.removeOne(this);
+      setParent(nullptr);
+
+      // disconnect signals from parent and clear root
       disconnect(_parent);
       _root = this;
    }
@@ -221,8 +239,11 @@ void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
    // check if new parent is not null
    if ( parent )
    {
-      // add to new parent as child and set root to parent's root
+      // set new parent
       parent->_children.insert(index,this);
+      setParent(parent);
+
+      // connect signals and set root to new parent's root
       connect(this,&AbstractBlock::modified,parent,&AbstractBlock::childModified);
       _root = parent->_root;
    }
