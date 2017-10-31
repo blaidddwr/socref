@@ -20,6 +20,7 @@ public:
    void setName(const QString& name);
    QString getDescription() const;
    void setDescription(const QString& description);
+   QList<QString> getVariableTypes() const;
 private:
    QString _name;
    QString _description;

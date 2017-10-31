@@ -15,7 +15,7 @@ using namespace std;
 
 
 //@@
-AbstractBlock* AbstractBlock::getChild(int index) const
+AbstractBlock* AbstractBlock::getChild(int index)
 {
    // make sure index given is valid
    if ( index < 0 || index >= _children.size() )
@@ -30,6 +30,28 @@ AbstractBlock* AbstractBlock::getChild(int index) const
    // return child document pointer
    return _children.at(index);
 }
+
+
+
+
+
+//@@
+const AbstractBlock* AbstractBlock::getChild(int index) const
+{
+   // make sure index given is valid
+   if ( index < 0 || index >= _children.size() )
+   {
+      Exception::OutOfRange e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot get child %1 when only %2 children exist.").arg(index)
+                   .arg(_children.size()));
+      throw e;
+   }
+
+   // return child document pointer
+   return _children.at(index);
+}
+
 
 
 

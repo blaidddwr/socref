@@ -1,4 +1,5 @@
 #include "cppqt_namespace.h"
+#include "cppqt_blockfactory.h"
 #include "xmlelementparser.h"
 #include "exception.h"
 
@@ -124,4 +125,47 @@ void CppQt::Namespace::setDescription(const QString& description)
       _description = description;
       emit modified();
    }
+}
+
+
+
+
+
+
+//@@
+QList<QString> Namespace::getVariableTypes() const
+{
+   // prepare return list
+   QList<QString> ret;
+
+   // if this is the root namespace add default types
+   if ( !getParent() )
+   {
+      ret << "bool" << "char" << "short int" << "int" << "long int" << "long long int"
+          << "short unsigned int" << "unsigned int" << "long unsigned int"
+          << "long long unsigned int" << "float" << "double" << "qint8" << "qint16" << "qint32"
+          << "qint64" << "quint8" << "quint16" << "quint32" << "quint64";
+   }
+
+   // iterate through all children
+   for (int i = 0; i < getChildrenSize() ;++i)
+   {
+      // check if child is a namespace
+      if ( getChild(i)->getType() == BlockFactory::NamespaceType )
+      {
+         // get list of variable types for child
+         const Namespace* child {qobject_cast<const Namespace*>(getChild(i))};
+         QList<QString> childList {child->getVariableTypes()};
+
+         // append name of child to its variable types and add to main list
+         for (auto x = childList.begin(); x != childList.end() ;++i)
+         {
+            (*x).prepend(child->getName() + "::");
+         }
+         ret << childList;
+      }
+   }
+
+   // return main list of variable types
+   return ret;
 }

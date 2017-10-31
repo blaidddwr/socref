@@ -30,5 +30,6 @@ NamespaceView::NamespaceView(AbstractBlock* block)
    setTextFormat(Qt::RichText);
 
    // set label text
-   setText(QString("<h3>%1</h3><p>%2</p>").arg(block_->getName()).arg(block_->getDescription()));
+   setText(QString("<p>namespace <b>%1</b></p><p>%2</p>").arg(block_->getName())
+           .arg(block_->getDescription()));
 }

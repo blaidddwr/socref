@@ -28,7 +28,8 @@ public:
    const AbstractBlockFactory& getFactory() const;
    AbstractBlock* getParent() const;
    int getChildrenSize() const;
-   AbstractBlock* getChild(int index) const;
+   AbstractBlock* getChild(int index);
+   const AbstractBlock* getChild(int index) const;
    int getChildIndex(AbstractBlock* child) const;
    void insertChild(int index, AbstractBlock* o_child);
    AbstractBlock* takeChild(int index);
@@ -37,7 +38,6 @@ public:
    void write(QXmlStreamWriter& xml) const;
 protected:
    AbstractBlock& getRoot();
-   const QList<AbstractBlock*>& getChildren();
    void copyChildren(const AbstractBlock* block);
    void notifyOfNameChange();
 signals:
@@ -82,9 +82,6 @@ inline int AbstractBlock::getChildIndex(AbstractBlock *child) const
 
 //@@
 inline AbstractBlock &AbstractBlock::getRoot() { return *_root; }
-
-//@@
-inline const QList<AbstractBlock *> &AbstractBlock::getChildren() { return _children; }
 
 //@@
 inline void AbstractBlock::notifyOfNameChange() { notifyOfNameChange(nullptr); }
