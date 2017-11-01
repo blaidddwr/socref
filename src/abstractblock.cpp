@@ -156,9 +156,9 @@ void AbstractBlock::read(QXmlStreamReader &xml)
 
    // add keywords for all block types this block can have as children
    const QList<int> buildList {_factory.getBuildList(_type)};
-   for (auto i = buildList.constBegin(); i != buildList.constEnd() ;++i)
+   for (const auto& i : buildList)
    {
-      parser.addKeyword(_factory.getElementName(*i),false,true);
+      parser.addKeyword(_factory.getElementName(i),false,true);
    }
 
    // parse xml until end of nested element is reached
@@ -202,14 +202,14 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
    xml.writeEndElement();
 
    // write out list of all children
-   for (auto i = _children.constBegin(); i != _children.constEnd() ;++i)
+   for (const auto& i : _children)
    {
       // write start of child element and its type attribute
-      xml.writeStartElement(_factory.getElementName((*i)->_type));
-      xml.writeAttribute("type",QString::number((*i)->_type));
+      xml.writeStartElement(_factory.getElementName(i->_type));
+      xml.writeAttribute("type",QString::number(i->_type));
 
       // write out child and end element
-      (*i)->write(xml);
+      i->write(xml);
       xml.writeEndElement();
    }
 
@@ -232,9 +232,9 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
 void AbstractBlock::copyChildren(const AbstractBlock* block)
 {
    // iterate through all children and make copies of each one
-   for (auto i = block->_children.constBegin(); i!= block->_children.constEnd() ;++i)
+   for (const auto& i : block->_children)
    {
-      (*i)->makeCopy()->setBlockParent(this,getChildrenSize());
+      i->makeCopy()->setBlockParent(this,getChildrenSize());
    }
 }
 

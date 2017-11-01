@@ -158,9 +158,9 @@ QList<QString> Namespace::getVariableTypes() const
          QList<QString> childList {child->getVariableTypes()};
 
          // append name of child to its variable types and add to main list
-         for (auto x = childList.begin(); x != childList.end() ;++i)
+         for (auto& x : childList)
          {
-            (*x).prepend(child->getName() + "::");
+            x.prepend(child->getName() + "::");
          }
          ret << childList;
       }

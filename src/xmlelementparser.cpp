@@ -79,10 +79,10 @@ bool XMLElementParser::allRead() const
 {
    // initialize return value to true and iterate through all keywords
    bool ret {true};
-   for (auto i = _keywordInfos.constBegin(); i != _keywordInfos.constEnd() ;++i)
+   for (const auto& i : _keywordInfos)
    {
       // if keyword read value is false make return value false
-      ret &= (*i).read;
+      ret &= i.read;
    }
 
    // return if all keywords read

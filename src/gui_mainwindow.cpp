@@ -302,9 +302,9 @@ void MainWindow::createMenus()
 
    // make new submenu for each project type
    QMenu* newMenu = fileMenu->addMenu(tr("&New"));
-   for (auto i = _newActions.constBegin(); i != _newActions.constEnd() ;++i)
+   for (const auto& i : _newActions)
    {
-      newMenu->addAction(*i);
+      newMenu->addAction(i);
    }
 
    // finish making file menu

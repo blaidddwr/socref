@@ -363,10 +363,10 @@ void BlockView::updateActions()
       QList<int> list {_factory->getBuildList(_model->getPointer(getSelection())->getType())};
 
       // iterate through build list and add action for each type
-      for (auto i = list.constBegin(); i != list.constEnd() ;++i)
+      for (const auto& i : list)
       {
-         _addActions.append(new QAction(_factory->getName(*i),this));
-         _addActions.back()->setData(*i);
+         _addActions.append(new QAction(_factory->getName(i),this));
+         _addActions.back()->setData(i);
          connect(_addActions.back(),&QAction::triggered,this,&BlockView::addTriggered);
       }
    }
@@ -396,9 +396,9 @@ void BlockView::updateMenu()
 {
    // clear menu and build from list of add actions
    _addMenu->clear();
-   for (auto i = _addActions.constBegin(); i != _addActions.constEnd() ;++i)
+   for (const auto& i : _addActions)
    {
-      _addMenu->addAction(*i);
+      _addMenu->addAction(i);
    }
 }
 
