@@ -23,7 +23,8 @@ SOURCES += \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
     cppqt_namespaceedit.cpp \
-    cppqt_namespaceview.cpp
+    cppqt_namespaceview.cpp \
+    cppqt_type.cpp
 
 HEADERS += \
     singleton.h \
@@ -44,7 +45,8 @@ HEADERS += \
     gui_blockview.h \
     gui_abstractedit.h \
     cppqt_namespaceedit.h \
-    cppqt_namespaceview.h
+    cppqt_namespaceview.h \
+    cppqt_type.h
 
 #AbstractParser
 #Gui::AbstractView
