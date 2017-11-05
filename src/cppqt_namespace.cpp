@@ -98,7 +98,7 @@ AbstractBlock* Namespace::makeCopy() const
 
 
 //@@
-void Namespace::setName(const QString &name)
+void Namespace::setName(const QString& name)
 {
    // check if new name is different
    if ( _name != name )
