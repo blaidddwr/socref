@@ -17,8 +17,9 @@ namespace CppQt
       //@@
       class Definition : public QLabel
       {
+         Q_OBJECT
       public:
-         Definition(AbstractBlock* block);
+         explicit Definition(AbstractBlock* block);
       };
    }
 }

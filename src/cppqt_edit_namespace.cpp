@@ -18,7 +18,7 @@ using namespace CppQt::Edit;
 
 
 //@@
-Namespace::Namespace(AbstractBlock *block, QWidget *parent):
+Namespace::Namespace(AbstractBlock* block, QWidget *parent):
    Gui::AbstractEdit(parent),
    _block(qobject_cast<CppQt::Namespace*>(block))
 {
