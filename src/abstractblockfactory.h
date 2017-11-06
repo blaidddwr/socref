@@ -7,12 +7,10 @@
 
 class AbstractBlock;
 
-namespace Gui {
-
-class AbstractView;
-class AbstractEdit;
-
-} // namespace Gui
+namespace Gui
+{
+   class AbstractEdit;
+}
 
 
 

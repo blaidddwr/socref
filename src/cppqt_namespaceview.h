@@ -9,15 +9,14 @@ class AbstractBlock;
 
 
 //@@
-namespace CppQt {
-
-//@@
-class NamespaceView : public QLabel
+namespace CppQt
 {
-public:
-   NamespaceView(AbstractBlock* block);
-};
-
+   //@@
+   class NamespaceView : public QLabel
+   {
+   public:
+      NamespaceView(AbstractBlock* block);
+   };
 }
 
 

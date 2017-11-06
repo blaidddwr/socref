@@ -12,27 +12,26 @@ class QFormLayout;
 
 
 //@@
-namespace Gui {
-
-//@@
-class ProjectDialog : public QDialog
+namespace Gui
 {
-   Q_OBJECT
-public:
-   explicit ProjectDialog(Project* project, QWidget* parent = nullptr);
-private slots:
-   void okClicked();
-   void applyClicked();
-   void browseClicked();
-private:
-   QFormLayout* createForm();
-   QHBoxLayout* createButtons();
-   Project* _project;
-   QLineEdit* _nameEdit;
-   QLineEdit* _scanDirectoryEdit;
-   QLineEdit* _filtersEdit;
-};
-
+   //@@
+   class ProjectDialog : public QDialog
+   {
+      Q_OBJECT
+   public:
+      explicit ProjectDialog(Project* project, QWidget* parent = nullptr);
+   private slots:
+      void okClicked();
+      void applyClicked();
+      void browseClicked();
+   private:
+      QFormLayout* createForm();
+      QHBoxLayout* createButtons();
+      Project* _project;
+      QLineEdit* _nameEdit;
+      QLineEdit* _scanDirectoryEdit;
+      QLineEdit* _filtersEdit;
+   };
 }
 
 

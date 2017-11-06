@@ -5,37 +5,36 @@
 
 
 //@@
-namespace CppQt {
-
-//@@
-class BlockFactory : public AbstractBlockFactory
+namespace CppQt
 {
-public:
-   enum
+   //@@
+   class BlockFactory : public AbstractBlockFactory
    {
-      NamespaceType = 0
-      ,Total
+   public:
+      enum
+      {
+         NamespaceType = 0
+         ,Total
+      };
+      BlockFactory(int type);
+      virtual int getSize() const override final;
+      virtual QString getName(int type) const override final;
+      virtual QString getElementName(int type) const override final;
+      virtual QIcon getIcon(int type) const override final;
+      virtual const QList<int> getBuildList(int type) const override final;
+      virtual AbstractBlock* makeRootBlock() const override final;
+      virtual AbstractBlock* makeBlock(int type) const override final;
+      virtual QWidget* makeView(int type, AbstractBlock* block) const override final;
+      virtual Gui::AbstractEdit* makeEdit(int type, AbstractBlock* block) const override final;
    };
-   BlockFactory(int type);
-   virtual int getSize() const override final;
-   virtual QString getName(int type) const override final;
-   virtual QString getElementName(int type) const override final;
-   virtual QIcon getIcon(int type) const override final;
-   virtual const QList<int> getBuildList(int type) const override final;
-   virtual AbstractBlock* makeRootBlock() const override final;
-   virtual AbstractBlock* makeBlock(int type) const override final;
-   virtual QWidget* makeView(int type, AbstractBlock* block) const override final;
-   virtual Gui::AbstractEdit* makeEdit(int type, AbstractBlock* block) const override final;
-};
 
 
 
-//@@
-inline BlockFactory::BlockFactory(int type): AbstractBlockFactory(type) {}
+   //@@
+   inline BlockFactory::BlockFactory(int type): AbstractBlockFactory(type) {}
 
-//@@
-inline int BlockFactory::getSize() const { return Total; }
-
+   //@@
+   inline int BlockFactory::getSize() const { return Total; }
 }
 
 

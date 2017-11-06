@@ -16,68 +16,69 @@ class AbstractBlockFactory;
 
 
 
-namespace Gui {
-
-class BlockView : public QSplitter
+//@@
+namespace Gui
 {
-   Q_OBJECT
-public:
-   explicit BlockView(QWidget *parent = nullptr);
-   void setModel(BlockModel* model);
-   QMenu* getContextMenu() const;
-   bool hasSelection() const;
-   bool canPaste() const;
-public slots:
-   void addTriggered();
-   void removeTriggered();
-   void editTriggered();
-   void cutTriggered();
-   void copyTriggered();
-   void pasteTriggered();
-   void moveUpTriggered();
-   void moveDownTriggered();
-private slots:
-   void selectionModelChanged();
-   void modelDestroyed();
-   void editFinished();
-private:
-   void createActions();
-   void createMenu();
-   void updateActions();
-   void updateMenu();
-   void setView(QWidget* view);
-   void setCopy(AbstractBlock* copy);
-   QModelIndex getSelection() const;
-   QScrollArea* _area;
-   QTreeView* _treeView;
-   BlockModel* _model {nullptr};
-   const AbstractBlockFactory* _factory {nullptr};
-   QItemSelectionModel* _selectionModel {nullptr};
-   static AbstractBlock* _copy;
-   QWidget* _view {nullptr};
-   QList<QAction*> _addActions;
-   QAction* _removeAction;
-   QAction* _editAction;
-   QAction* _copyAction;
-   QAction* _cutAction;
-   QAction* _pasteAction;
-   QAction* _moveUpAction;
-   QAction* _moveDownAction;
-   QMenu* _addMenu;
-   QMenu* _contextMenu;
-};
+   //@@
+   class BlockView : public QSplitter
+   {
+      Q_OBJECT
+   public:
+      explicit BlockView(QWidget *parent = nullptr);
+      void setModel(BlockModel* model);
+      QMenu* getContextMenu() const;
+      bool hasSelection() const;
+      bool canPaste() const;
+   public slots:
+      void addTriggered();
+      void removeTriggered();
+      void editTriggered();
+      void cutTriggered();
+      void copyTriggered();
+      void pasteTriggered();
+      void moveUpTriggered();
+      void moveDownTriggered();
+   private slots:
+      void selectionModelChanged();
+      void modelDestroyed();
+      void editFinished();
+   private:
+      void createActions();
+      void createMenu();
+      void updateActions();
+      void updateMenu();
+      void setView(QWidget* view);
+      void setCopy(AbstractBlock* copy);
+      QModelIndex getSelection() const;
+      QScrollArea* _area;
+      QTreeView* _treeView;
+      BlockModel* _model {nullptr};
+      const AbstractBlockFactory* _factory {nullptr};
+      QItemSelectionModel* _selectionModel {nullptr};
+      static AbstractBlock* _copy;
+      QWidget* _view {nullptr};
+      QList<QAction*> _addActions;
+      QAction* _removeAction;
+      QAction* _editAction;
+      QAction* _copyAction;
+      QAction* _cutAction;
+      QAction* _pasteAction;
+      QAction* _moveUpAction;
+      QAction* _moveDownAction;
+      QMenu* _addMenu;
+      QMenu* _contextMenu;
+   };
 
 
 
-//@@
-inline QMenu *BlockView::getContextMenu() const { return _contextMenu; }
+   //@@
+   inline QMenu *BlockView::getContextMenu() const { return _contextMenu; }
 
-//@@
-inline bool BlockView::hasSelection() const { return getSelection().isValid(); }
+   //@@
+   inline bool BlockView::hasSelection() const { return getSelection().isValid(); }
 
-//@@
-inline void BlockView::editFinished() { selectionModelChanged(); }
-
+   //@@
+   inline void BlockView::editFinished() { selectionModelChanged(); }
 }
 
 
