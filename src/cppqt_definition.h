@@ -31,10 +31,10 @@ namespace CppQt
    inline QString Definition::getName() const { return _type.getName(); }
 
    //@@
-   inline void Definition::readData(QXmlStreamReader& xml) { _type.readData(xml); }
+   inline void Definition::readData(QXmlStreamReader& xml) { xml >> _type; }
 
    //@@
-   inline void Definition::writeData(QXmlStreamWriter& xml) const { _type.writeData(xml); }
+   inline void Definition::writeData(QXmlStreamWriter& xml) const { xml << _type; }
 }
 
 

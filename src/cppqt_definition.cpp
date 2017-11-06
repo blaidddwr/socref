@@ -32,12 +32,12 @@ AbstractBlock* Definition::makeCopy() const
 //@@
 void Definition::setType(const Type& type)
 {
-   // make sure the type is not a concrete template
-   if ( type.isTemplate() && type.isConcrete() )
+   // make sure the type is basic
+   if ( !type.isBasic() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set definition type that is concrete template."));
+      e.setDetails(tr("Cannot set definition type that is not basic."));
       throw e;
    }
 

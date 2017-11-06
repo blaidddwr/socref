@@ -25,24 +25,27 @@ namespace CppQt
       QString getName(const QList<QString>& scope = QList<QString>()) const;
       bool isTemplate() const;
       bool isConcrete() const;
+      bool isBasic() const;
       int getTemplateSize() const;
       QString getTemplateName(int index) const;
       Type& setTemplateValues(const QList<Type>& values);
       Type& clearTemplateValues();
-      Type& setPointer(const QList<bool>& pointers, bool reference);
-      Type& setConstant(bool valueConstant);
+      Type& setPointers(const QList<bool>& pointers, bool reference);
+      Type& setConstants(bool valueConstant, bool expressionConstant);
+      Type& setStatic(bool isStatic);
       Type& appendNamespace(const QString& name);
       Type& prependNamespace(const QString& name);
       bool isConstantValue() const;
       int getPointerSize() const;
       bool isConstantPointer(int index) const;
       bool isReference() const;
-      Type& readData(QXmlStreamReader& xml);
-      const Type& writeData(QXmlStreamWriter& xml) const;
       bool operator!=(const Type& type);
       bool operator==(const Type& type);
+      friend QXmlStreamReader& operator>>(QXmlStreamReader& xml, Type& type);
+      friend QXmlStreamWriter& operator<<(QXmlStreamWriter& xml, const Type& type);
    private:
       void readTemplateElement(QXmlStreamReader& xml);
+      static bool readBoolean(QXmlStreamReader& xml);
       QList<QString> _scope;
       QString _name;
       QList<QString> _templateArguments;
@@ -50,6 +53,8 @@ namespace CppQt
       QList<bool> _pointers;
       bool _reference {false};
       bool _valueConstant {false};
+      bool _expressionConstant {false};
+      bool _static {false};
    };
 
 
@@ -74,8 +79,8 @@ namespace CppQt
    inline bool Type::isTemplate() const { return _templateArguments.isEmpty(); }
 
    //@@
-   inline bool Type::isConcrete() const
-   { return _templateArguments.size() == _templateValues.size(); }
+   inline bool Type::isBasic() const { return _templateValues.isEmpty() && _pointers.isEmpty()
+            && !_reference && !_valueConstant && !_expressionConstant && !_static; }
 
    //@@
    inline int Type::getTemplateSize() const { return _templateArguments.size(); }
@@ -100,6 +105,11 @@ namespace CppQt
             && _name == type._name && _templateArguments == type._templateArguments
             && _templateValues == type._templateValues && _pointers == type._pointers
             && _reference == type._reference && _valueConstant == type._valueConstant; }
+
+
+
+   QXmlStreamReader& operator>>(QXmlStreamReader& xml, Type& type);
+   QXmlStreamWriter& operator<<(QXmlStreamWriter& xml, const Type& type);
 }
 
 

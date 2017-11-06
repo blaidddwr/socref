@@ -21,6 +21,18 @@ QString Type::getName(const QList<QString>& scope) const
    // create return string
    QString ret;
 
+   // if type is expression constant add it to string
+   if ( _expressionConstant )
+   {
+      ret.append("constexpr ");
+   }
+
+   // if type is static add it to string
+   if ( _static )
+   {
+      ret.append("static ");
+   }
+
    // if type is constant value add it to string
    if ( _valueConstant )
    {
@@ -106,6 +118,30 @@ QString Type::getName(const QList<QString>& scope) const
 
 
 //@@
+bool CppQt::Type::isConcrete() const
+{
+   // initialize return value and check if template argument and value sizes are the same
+   bool ret {false};
+   if ( _templateArguments.size() == _templateValues.size() )
+   {
+      // set return value to true and make sure all template values are also concrete
+      ret = true;
+      for (const auto& value : _templateValues)
+      {
+         ret &= value.isConcrete();
+      }
+   }
+
+   // return value
+   return ret;
+}
+
+
+
+
+
+
+//@@
 QString Type::getTemplateName(int index) const
 {
    // make sure index is within range
@@ -164,7 +200,7 @@ Type& Type::clearTemplateValues()
 
 
 //@@
-Type& Type::setPointer(const QList<bool>& pointers, bool reference)
+Type& Type::setPointers(const QList<bool>& pointers, bool reference)
 {
    // set pointers and reference
    _pointers = pointers;
@@ -180,10 +216,26 @@ Type& Type::setPointer(const QList<bool>& pointers, bool reference)
 
 
 //@@
-Type& Type::setConstant(bool valueConstant)
+Type& Type::setConstants(bool valueConstant, bool expressionConstant)
 {
-   // set value constantness and return reference to this
+   // set value and expression constness
    _valueConstant = valueConstant;
+   _expressionConstant = expressionConstant;
+
+   // return reference to this
+   return *this;
+}
+
+
+
+
+
+
+//@@
+Type& Type::setStatic(bool isStatic)
+{
+   // set static and return reference ot this
+   _static = isStatic;
    return *this;
 }
 
@@ -244,172 +296,6 @@ bool Type::isConstantPointer(int index) const
 
 
 //@@
-Type& Type::readData(QXmlStreamReader& xml)
-{
-   // enumeration of elements to read
-   enum
-   {
-      Name = 0
-      ,Namespace
-      ,Template
-      ,Pointer
-      ,Reference
-      ,Constant
-   };
-
-   // clear all lists
-   _scope.clear();
-   _templateArguments.clear();
-   _templateValues.clear();
-   _pointers.clear();
-
-   // initialize xml element parser
-   XMLElementParser parser(xml);
-   parser.addKeyword("name",true).addKeyword("namespace",false,true)
-         .addKeyword("template",true,true).addKeyword("pointer",false,true)
-         .addKeyword("reference",true).addKeyword("constant",true);
-   int element;
-
-   // parse xml until end of root element is reached
-   while ( ( element = parser() ) != XMLElementParser::End )
-   {
-      // determine which element is found and set data
-      switch (element)
-      {
-      case Name:
-         _name = xml.readElementText();
-         break;
-      case Namespace:
-         _scope.append(xml.readElementText());
-         break;
-      case Template:
-         readTemplateElement(xml);
-         break;
-      case Pointer:
-         {
-            // append new boolean to pointer list making sure it worked
-            bool ok;
-            _pointers.append(xml.readElementText().toInt(&ok));
-            if ( !ok )
-            {
-               Exception::ReadError e;
-               MARK_EXCEPTION(e);
-               e.setDetails(QObject::tr("Failed reading pointer element."));
-               throw e;
-            }
-            break;
-         }
-      case Reference:
-         {
-            // set reference boolean making sure it worked
-            bool ok;
-            _reference = xml.readElementText().toInt(&ok);
-            if ( !ok )
-            {
-               Exception::ReadError e;
-               MARK_EXCEPTION(e);
-               e.setDetails(QObject::tr("Failed reading reference element."));
-               throw e;
-            }
-            break;
-         }
-      case Constant:
-         {
-            // set value constant boolean making sure it worked
-            bool ok;
-            _valueConstant = xml.readElementText().toInt(&ok);
-            if ( !ok )
-            {
-               Exception::ReadError e;
-               MARK_EXCEPTION(e);
-               e.setDetails(QObject::tr("Failed reading constant element."));
-               throw e;
-            }
-            break;
-         }
-      }
-   }
-
-   // make sure all required elements were read in
-   if ( !parser.allRead() )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Failed reading in all required elements."));
-      throw e;
-   }
-
-   // make sure template lists are correct and return reference to this
-   if ( _templateValues.size() > 0 && _templateValues.size() != _templateArguments.size() )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Template argument size of %1 and value size of %2 is incorrect.")
-                   .arg(_templateArguments.size()).arg(_templateValues.size()));
-      throw e;
-   }
-   return *this;
-}
-
-
-
-
-
-
-//@@
-const Type& Type::writeData(QXmlStreamWriter& xml) const
-{
-   // write out name and all namespaces
-   xml.writeTextElement("name",_name);
-   for (const auto& name : _scope)
-   {
-      xml.writeTextElement("namespace",name);
-   }
-
-   // write start element for templates and initialize iterators
-   xml.writeStartElement("template");
-   auto templateArg {_templateArguments.cbegin()};
-   auto templateValue {_templateValues.cbegin()};
-
-   // iterate through all template arguments
-   while ( templateArg != _templateArguments.cend() )
-   {
-      // write out template argument and check if it has a value set
-      xml.writeTextElement("argument",*templateArg);
-      if ( templateValue != _templateValues.cend() )
-      {
-         // write out value type within value element and increment iterator
-         xml.writeStartElement("value");
-         (*templateValue).writeData(xml);
-         xml.writeEndElement();
-         ++templateValue;
-      }
-
-      // increment argument iterator
-      ++templateArg;
-   }
-
-   // write end of template element
-   xml.writeEndElement();
-
-   // write our all pointers with constantness value for each one
-   for (const auto& pointer : _pointers)
-   {
-      xml.writeTextElement("pointer",QString::number(pointer));
-   }
-
-   // write out reference and constantness and return reference to this
-   xml.writeTextElement("reference",QString::number(_reference));
-   xml.writeTextElement("constant",QString::number(_valueConstant));
-   return *this;
-}
-
-
-
-
-
-
-//@@
 void Type::readTemplateElement(QXmlStreamReader& xml)
 {
    // enumeration of elements to read
@@ -421,7 +307,7 @@ void Type::readTemplateElement(QXmlStreamReader& xml)
 
    // initialize xml element parser
    XMLElementParser parser(xml);
-   parser.addKeyword("argument",false,true).addKeyword("value",false,true);
+   parser.addKeyword("arg",false,true).addKeyword("val",false,true);
    int element;
 
    // parse xml until end of root element is reached
@@ -434,8 +320,184 @@ void Type::readTemplateElement(QXmlStreamReader& xml)
          _templateArguments.append(xml.readElementText());
          break;
       case Value:
-         _templateValues.append(Type().readData(xml));
-         break;
+         {
+            Type child;
+            xml >> child;
+            _templateValues.append(child);
+            break;
+         }
       }
+   }
+
+   // make sure template lists are correct
+   if ( _templateValues.size() > 0 && _templateValues.size() != _templateArguments.size() )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(QObject::tr("Template argument size of %1 and value size of %2 is incorrect.")
+                   .arg(_templateArguments.size()).arg(_templateValues.size()));
+      throw e;
+   }
+}
+
+
+
+
+
+
+//@@
+bool Type::readBoolean(QXmlStreamReader& xml)
+{
+   // read in boolean value and make sure it worked
+   bool ok;
+   bool ret {xml.readElementText().toInt(&ok)};
+   if ( !ok )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(QObject::tr("Failed reading boolean element."));
+      throw e;
+   }
+
+   // return boolean value
+   return ret;
+}
+
+
+
+
+
+
+namespace CppQt
+{
+   //@@
+   QXmlStreamReader& operator>>(QXmlStreamReader& xml, Type& type)
+   {
+      // enumeration of elements to read
+      enum
+      {
+         Name = 0
+         ,Namespace
+         ,Template
+         ,Pointer
+         ,Reference
+         ,Constant
+         ,ConstantExpression
+         ,Static
+      };
+
+      // clear all lists
+      type._scope.clear();
+      type._templateArguments.clear();
+      type._templateValues.clear();
+      type._pointers.clear();
+
+      // initialize xml element parser
+      XMLElementParser parser(xml);
+      parser.addKeyword("name",true).addKeyword("namespace",false,true)
+            .addKeyword("template",true,true).addKeyword("pointer",false,true)
+            .addKeyword("ref",true).addKeyword("const",true).addKeyword("constexpr",true)
+            .addKeyword("static",true);
+      int element;
+
+      // parse xml until end of root element is reached
+      while ( ( element = parser() ) != XMLElementParser::End )
+      {
+         // determine which element is found and set data
+         switch (element)
+         {
+         case Name:
+            type._name = xml.readElementText();
+            break;
+         case Namespace:
+            type._scope.append(xml.readElementText());
+            break;
+         case Template:
+            type.readTemplateElement(xml);
+            break;
+         case Pointer:
+            type._pointers.append(Type::readBoolean(xml));
+            break;
+         case Reference:
+            type._reference = Type::readBoolean(xml);
+            break;
+         case Constant:
+            type._valueConstant = Type::readBoolean(xml);
+            break;
+         case ConstantExpression:
+            type._expressionConstant = Type::readBoolean(xml);
+            break;
+         case Static:
+            type._static = Type::readBoolean(xml);
+            break;
+         }
+      }
+
+      // make sure all required elements were read in
+      if ( !parser.allRead() )
+      {
+         Exception::ReadError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(QObject::tr("Failed reading in all required elements."));
+         throw e;
+      }
+
+      // return reference to this
+      return xml;
+   }
+
+
+
+
+
+
+   //@@
+   QXmlStreamWriter& operator<<(QXmlStreamWriter& xml, const Type& type)
+   {
+      // write out name and all namespaces
+      xml.writeTextElement("name",type._name);
+      for (const auto& name : type._scope)
+      {
+         xml.writeTextElement("namespace",name);
+      }
+
+      // write start element for templates and initialize iterators
+      xml.writeStartElement("template");
+      auto templateArg {type._templateArguments.cbegin()};
+      auto templateValue {type._templateValues.cbegin()};
+
+      // iterate through all template arguments
+      while ( templateArg != type._templateArguments.cend() )
+      {
+         // write out template argument and check if it has a value set
+         xml.writeTextElement("arg",*templateArg);
+         if ( templateValue != type._templateValues.cend() )
+         {
+            // write out value type within value element and increment iterator
+            xml.writeStartElement("val");
+            xml << *templateValue;
+            xml.writeEndElement();
+            ++templateValue;
+         }
+
+         // increment argument iterator
+         ++templateArg;
+      }
+
+      // write end of template element
+      xml.writeEndElement();
+
+      // write our all pointers with constantness value for each one
+      for (const auto& pointer : type._pointers)
+      {
+         xml.writeTextElement("pointer",QString::number(pointer));
+      }
+
+      // write out constantness and reference and return reference to this
+      xml.writeTextElement("const",QString::number(type._valueConstant));
+      xml.writeTextElement("constexpr",QString::number(type._expressionConstant));
+      xml.writeTextElement("static",QString::number(type._static));
+      xml.writeTextElement("ref",QString::number(type._reference));
+      return xml;
    }
 }
