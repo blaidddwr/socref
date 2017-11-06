@@ -1,10 +1,10 @@
 #include "exception.h"
-#include "cppqt_namespaceview.h"
+#include "cppqt_view_namespace.h"
 #include "cppqt_namespace.h"
 
 
 
-using namespace CppQt;
+using namespace CppQt::View;
 
 
 
@@ -12,10 +12,10 @@ using namespace CppQt;
 
 
 //@@
-NamespaceView::NamespaceView(AbstractBlock* block)
+Namespace::Namespace(AbstractBlock* block)
 {
    // get namespace block pointer from abstract one and make sure it worked
-   Namespace* block_ {qobject_cast<Namespace*>(block)};
+   CppQt::Namespace* block_ {qobject_cast<CppQt::Namespace*>(block)};
    if ( !block_ )
    {
       Exception::InvalidArgument e;
