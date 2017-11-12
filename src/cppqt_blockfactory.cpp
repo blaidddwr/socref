@@ -12,10 +12,8 @@ using namespace CppQt;
 
 
 
-//@@
 QString BlockFactory::getName(int type) const
 {
-   // determine which type and return name
    switch (type)
    {
    case NamespaceType: return QString("Namespace");
@@ -28,10 +26,8 @@ QString BlockFactory::getName(int type) const
 
 
 
-//@@
 QString BlockFactory::getElementName(int type) const
 {
-   // determine which type and return name
    switch (type)
    {
    case NamespaceType: return QString("namespace");
@@ -44,10 +40,8 @@ QString BlockFactory::getElementName(int type) const
 
 
 
-//@@
 QIcon BlockFactory::getIcon(int type) const
 {
-   //TODO; need to do in the future
    Q_UNUSED(type);
    return QIcon();
 }
@@ -57,10 +51,8 @@ QIcon BlockFactory::getIcon(int type) const
 
 
 
-//@@
 const QList<int> BlockFactory::getBuildList(int type) const
 {
-   // determine which type and return build list
    switch (type)
    {
    case NamespaceType: return QList<int>() << NamespaceType;
@@ -73,10 +65,8 @@ const QList<int> BlockFactory::getBuildList(int type) const
 
 
 
-//@@
 AbstractBlock* BlockFactory::makeRootBlock() const
 {
-   // create global namespace with no name and return
    Namespace* ret {new Namespace(*this,NamespaceType)};
    ret->setName("");
    return ret;
@@ -87,10 +77,8 @@ AbstractBlock* BlockFactory::makeRootBlock() const
 
 
 
-//@@
 AbstractBlock* BlockFactory::makeBlock(int type) const
 {
-   // determine which type and return pointer to created block
    switch (type)
    {
    case NamespaceType: return new Namespace(*this,NamespaceType);
@@ -103,10 +91,8 @@ AbstractBlock* BlockFactory::makeBlock(int type) const
 
 
 
-//@@
 QWidget* BlockFactory::makeView(int type, AbstractBlock* block) const
 {
-   // determine which type and return pointer to created view
    switch (type)
    {
    case NamespaceType: return new View::Namespace(block);
@@ -119,10 +105,8 @@ QWidget* BlockFactory::makeView(int type, AbstractBlock* block) const
 
 
 
-//@@
 Gui::AbstractEdit* BlockFactory::makeEdit(int type, AbstractBlock* block) const
 {
-   // determine which type and return pointer to created edit widget
    switch (type)
    {
    case NamespaceType: return new Edit::Namespace(block);

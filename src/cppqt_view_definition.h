@@ -8,13 +8,10 @@ class AbstractBlock;
 
 
 
-//@@
 namespace CppQt
 {
-   //@@
    namespace View
    {
-      //@@
       class Definition : public QLabel
       {
          Q_OBJECT

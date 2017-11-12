@@ -9,24 +9,33 @@ class QXmlStreamWriter;
 
 
 
-//@@
 namespace CppQt
 {
-   //@@
    class Type
    {
    public:
       Type() = default;
-      Type(const QString& name);
-      Type(const QString& name, const QList<QString>& templateArguments);
-      Type(const QList<QString>& scope, const QString& name);
+      Type(const QString& name): _name(name) {}
+      Type(const QString& name, const QList<QString>& templateArguments):
+         _name(name),
+         _templateArguments(templateArguments)
+         {}
+      Type(const QList<QString>& scope, const QString& name):
+         _scope(scope),
+         _name(name)
+         {}
       Type(const QList<QString>& scope, const QString& name
-           , const QList<QString>& templateArguments);
+           , const QList<QString>& templateArguments):
+         _scope(scope),
+         _name(name),
+         _templateArguments(templateArguments)
+         {}
       QString getName(const QList<QString>& scope = QList<QString>()) const;
-      bool isTemplate() const;
+      bool isTemplate() const { return _templateArguments.isEmpty(); }
       bool isConcrete() const;
-      bool isBasic() const;
-      int getTemplateSize() const;
+      bool isBasic() const { return _templateValues.isEmpty() && _pointers.isEmpty()
+               && !_reference && !_valueConstant && !_expressionConstant && !_static; }
+      int getTemplateSize() const { return _templateArguments.size(); }
       QString getTemplateName(int index) const;
       Type& setTemplateValues(const QList<Type>& values);
       Type& clearTemplateValues();
@@ -35,16 +44,27 @@ namespace CppQt
       Type& setStatic(bool isStatic);
       Type& appendNamespace(const QString& name);
       Type& prependNamespace(const QString& name);
-      bool isConstantValue() const;
-      int getPointerSize() const;
+      bool isConstantValue() const { return _valueConstant; }
+      int getPointerSize() const { return _pointers.size(); }
       bool isConstantPointer(int index) const;
-      bool isReference() const;
-      bool operator!=(const Type& type);
-      bool operator==(const Type& type);
+      bool isReference() const { return _reference; }
+      bool operator!=(const Type& type) { return _scope != type._scope || _name != type._name
+               || _templateArguments != type._templateArguments
+               || _templateValues != type._templateValues || _pointers != type._pointers
+               || _reference != type._reference || _valueConstant != type._valueConstant; }
+      bool operator==(const Type& type) { return _scope == type._scope && _name == type._name
+               && _templateArguments == type._templateArguments
+               && _templateValues == type._templateValues && _pointers == type._pointers
+               && _reference == type._reference && _valueConstant == type._valueConstant; }
       friend QXmlStreamReader& operator>>(QXmlStreamReader& xml, Type& type);
       friend QXmlStreamWriter& operator<<(QXmlStreamWriter& xml, const Type& type);
    private:
+      void appendPrefix(QString* text) const;
+      void appendNamespace(QString* text, const QList<QString>& scope) const;
+      void appendTemplate(QString* text, const QList<QString>& scope) const;
+      void appendPointers(QString* text) const;
       void readTemplateElement(QXmlStreamReader& xml);
+      void writeTemplateElement(QXmlStreamWriter& xml) const;
       static bool readBoolean(QXmlStreamReader& xml);
       QList<QString> _scope;
       QString _name;
@@ -56,55 +76,6 @@ namespace CppQt
       bool _expressionConstant {false};
       bool _static {false};
    };
-
-
-
-   //@@
-   inline Type::Type(const QString& name): _name(name) {}
-
-   //@@
-   inline Type::Type(const QString& name, const QList<QString>& templateArguments): _name(name),
-      _templateArguments(templateArguments) {}
-
-   //@@
-   inline Type::Type(const QList<QString>& scope, const QString& name): _scope(scope), _name(name)
-      {}
-
-   //@@
-   inline Type::Type(const QList<QString>& scope, const QString& name
-                     , const QList<QString>& templateArguments): _scope(scope), _name(name),
-      _templateArguments(templateArguments) {}
-
-   //@@
-   inline bool Type::isTemplate() const { return _templateArguments.isEmpty(); }
-
-   //@@
-   inline bool Type::isBasic() const { return _templateValues.isEmpty() && _pointers.isEmpty()
-            && !_reference && !_valueConstant && !_expressionConstant && !_static; }
-
-   //@@
-   inline int Type::getTemplateSize() const { return _templateArguments.size(); }
-
-   //@@
-   inline bool Type::isConstantValue() const { return _valueConstant; }
-
-   //@@
-   inline int Type::getPointerSize() const { return _pointers.size(); }
-
-   //@@
-   inline bool Type::isReference() const { return _reference; }
-
-   //@@
-   inline bool Type::operator!=(const Type& type) { return _scope != type._scope
-            || _name != type._name || _templateArguments != type._templateArguments
-            || _templateValues != type._templateValues || _pointers != type._pointers
-            || _reference != type._reference || _valueConstant != type._valueConstant; }
-
-   //@@
-   inline bool Type::operator==(const Type& type) { return _scope == type._scope
-            && _name == type._name && _templateArguments == type._templateArguments
-            && _templateValues == type._templateValues && _pointers == type._pointers
-            && _reference == type._reference && _valueConstant == type._valueConstant; }
 
 
 

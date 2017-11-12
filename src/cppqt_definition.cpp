@@ -13,13 +13,9 @@ using namespace CppQt;
 
 
 
-//@@
 AbstractBlock* Definition::makeCopy() const
 {
-   // create new definition
    unique_ptr<Definition> ret {new Definition(getFactory(),getType())};
-
-   // copy data to new definition and return its pointer
    ret->_type = _type;
    return ret.release();
 }
@@ -29,10 +25,8 @@ AbstractBlock* Definition::makeCopy() const
 
 
 
-//@@
 void Definition::setType(const Type& type)
 {
-   // make sure the type is basic
    if ( !type.isBasic() )
    {
       Exception::InvalidArgument e;
@@ -40,11 +34,8 @@ void Definition::setType(const Type& type)
       e.setDetails(tr("Cannot set definition type that is not basic."));
       throw e;
    }
-
-   // check if new type is different from current
    if ( _type != type )
    {
-      // set new type, notify of name change, and emit modified signal
       _type = type;
       notifyOfNameChange();
       emit modified();

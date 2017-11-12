@@ -4,10 +4,8 @@
 
 
 
-//@@
 namespace CppQt
 {
-   //@@
    class BlockFactory : public AbstractBlockFactory
    {
    public:
@@ -16,8 +14,8 @@ namespace CppQt
          NamespaceType = 0
          ,Total
       };
-      BlockFactory(int type);
-      virtual int getSize() const override final;
+      BlockFactory(int type): AbstractBlockFactory(type) {}
+      virtual int getSize() const override final { return Total; }
       virtual QString getName(int type) const override final;
       virtual QString getElementName(int type) const override final;
       virtual QIcon getIcon(int type) const override final;
@@ -27,14 +25,6 @@ namespace CppQt
       virtual QWidget* makeView(int type, AbstractBlock* block) const override final;
       virtual Gui::AbstractEdit* makeEdit(int type, AbstractBlock* block) const override final;
    };
-
-
-
-   //@@
-   inline BlockFactory::BlockFactory(int type): AbstractBlockFactory(type) {}
-
-   //@@
-   inline int BlockFactory::getSize() const { return Total; }
 }
 
 

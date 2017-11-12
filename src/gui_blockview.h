@@ -16,18 +16,16 @@ class AbstractBlockFactory;
 
 
 
-//@@
 namespace Gui
 {
-   //@@
    class BlockView : public QSplitter
    {
       Q_OBJECT
    public:
       explicit BlockView(QWidget *parent = nullptr);
       void setModel(BlockModel* model);
-      QMenu* getContextMenu() const;
-      bool hasSelection() const;
+      QMenu* getContextMenu() const { return _contextMenu; }
+      bool hasSelection() const { return getSelection().isValid(); }
       bool canPaste() const;
    public slots:
       void addTriggered();
@@ -41,11 +39,21 @@ namespace Gui
    private slots:
       void selectionModelChanged();
       void modelDestroyed();
-      void editFinished();
+      void editFinished() { selectionModelChanged(); }
    private:
+      void createTreeView();
+      void createArea();
       void createActions();
+      void createRemoveAction();
+      void createEditAction();
+      void createCutAction();
+      void createCopyAction();
+      void createPasteAction();
+      void createMoveUpAction();
+      void createMoveDownAction();
       void createMenu();
       void updateActions();
+      void updateAddActions();
       void updateMenu();
       void setView(QWidget* view);
       void setCopy(AbstractBlock* copy);
@@ -60,25 +68,14 @@ namespace Gui
       QList<QAction*> _addActions;
       QAction* _removeAction;
       QAction* _editAction;
-      QAction* _copyAction;
       QAction* _cutAction;
+      QAction* _copyAction;
       QAction* _pasteAction;
       QAction* _moveUpAction;
       QAction* _moveDownAction;
       QMenu* _addMenu;
       QMenu* _contextMenu;
    };
-
-
-
-   //@@
-   inline QMenu *BlockView::getContextMenu() const { return _contextMenu; }
-
-   //@@
-   inline bool BlockView::hasSelection() const { return getSelection().isValid(); }
-
-   //@@
-   inline void BlockView::editFinished() { selectionModelChanged(); }
 }
 
 

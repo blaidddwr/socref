@@ -11,10 +11,8 @@ using namespace CppQt::View;
 
 
 
-//@@
 Namespace::Namespace(AbstractBlock* block)
 {
-   // get namespace block pointer from abstract one and make sure it worked
    CppQt::Namespace* block_ {qobject_cast<CppQt::Namespace*>(block)};
    if ( !block_ )
    {
@@ -23,13 +21,9 @@ Namespace::Namespace(AbstractBlock* block)
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
-
-   // set attributes of label
    setAlignment(Qt::AlignTop);
    setWordWrap(true);
    setTextFormat(Qt::RichText);
-
-   // set label text
    setText(QString("<p>namespace <b>%1</b></p><p>%2</p>").arg(block_->getName())
            .arg(block_->getDescription()));
 }

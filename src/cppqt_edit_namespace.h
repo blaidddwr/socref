@@ -10,17 +10,14 @@ class QPlainTextEdit;
 
 
 
-//@@
 namespace CppQt
 {
    class Namespace;
 
 
 
-   //@@
    namespace Edit
    {
-      //@@
       class Namespace : public Gui::AbstractEdit
       {
          Q_OBJECT
@@ -30,17 +27,14 @@ namespace CppQt
       protected slots:
          virtual void okClicked() override final;
          virtual void applyClicked() override final;
-         virtual void cancelClicked() override final;
+         virtual void cancelClicked() override final { emit finished(); }
       private:
+         void createNameEdit();
+         void createDescriptionEdit();
          CppQt::Namespace* _block;
          QLineEdit* _nameEdit;
          QPlainTextEdit* _descriptionEdit;
       };
-
-
-
-      //@@
-      inline void Namespace::cancelClicked() { emit finished(); }
    }
 }
 

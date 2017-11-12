@@ -5,36 +5,24 @@
 
 
 
-//@@
 namespace CppQt
 {
-   //@@
    class Definition : public AbstractBlock
    {
       Q_OBJECT
    public:
-      explicit Definition(const AbstractBlockFactory& factory, int type);
-      virtual QString getName() const override final;
-      virtual void readData(QXmlStreamReader& xml) override final;
-      virtual void writeData(QXmlStreamWriter& xml) const override final;
+      explicit Definition(const AbstractBlockFactory& factory, int type):
+         AbstractBlock(factory,type),
+         _type("unnamed_type_definition")
+         {}
+      virtual QString getName() const override final { return _type.getName(); }
+      virtual void readData(QXmlStreamReader& xml) override final { xml >> _type; }
+      virtual void writeData(QXmlStreamWriter& xml) const override final { xml << _type; }
       virtual AbstractBlock* makeCopy() const override final;
       void setType(const Type& type);
    private:
       Type _type;
    };
-
-   //@@
-   inline Definition::Definition(const AbstractBlockFactory& factory, int type):
-      AbstractBlock(factory,type), _type("unnamed_type_definition") {}
-
-   //@@
-   inline QString Definition::getName() const { return _type.getName(); }
-
-   //@@
-   inline void Definition::readData(QXmlStreamReader& xml) { xml >> _type; }
-
-   //@@
-   inline void Definition::writeData(QXmlStreamWriter& xml) const { xml << _type; }
 }
 
 

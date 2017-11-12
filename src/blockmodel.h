@@ -17,11 +17,11 @@ public:
    virtual QModelIndex index(int row, int column, const QModelIndex &parent) const override final;
    virtual QModelIndex parent(const QModelIndex &child) const override final;
    virtual int rowCount(const QModelIndex& parent) const override final;
-   virtual int columnCount(const QModelIndex& parent) const override final;
+   virtual int columnCount(const QModelIndex&) const override final { return 1; }
    AbstractBlock* getPointer(const QModelIndex& index) const;
    virtual QVariant data(const QModelIndex& index, int role) const override final;
    //Qt::ItemFlags flags(const QModelIndex& index) const override final;
-   bool insertRow(int row, const QModelIndex& parent, AbstractBlock* o_object);
+   bool insertRow(int row, const QModelIndex& parent, AbstractBlock* takenObject);
    bool moveRow(int source, int destination, const QModelIndex& parent);
    bool removeRow(int row, const QModelIndex& parent);
    AbstractBlock* copyRow(int row, const QModelIndex& parent) const;
@@ -31,7 +31,7 @@ public:
    //QMimeData* mimeData(const QModelIndexList& indexes) const override final;
    //bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column
    //                  , const QModelIndex& parent) override final;
-   const AbstractBlockFactory* getFactory() const;
+   const AbstractBlockFactory* getFactory() const { return _factory; }
    void setRoot(AbstractBlock* root);
 private slots:
    void blockNameChanged(AbstractBlock* object);
@@ -39,14 +39,6 @@ private:
    AbstractBlock* _root;
    const AbstractBlockFactory* _factory {nullptr};
 };
-
-
-
-//@@
-inline int BlockModel::columnCount(const QModelIndex&) const { return 1; }
-
-//@@
-inline const AbstractBlockFactory* BlockModel::getFactory() const { return _factory; }
 
 
 

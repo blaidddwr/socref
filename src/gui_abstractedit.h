@@ -4,20 +4,20 @@
 
 
 
-//@@
+class QPushButton;
+
+
+
 namespace Gui
 {
-   //@@
    class AbstractEdit : public QWidget
    {
       Q_OBJECT
    public:
-      explicit AbstractEdit(QWidget* parent);
-      //@@
+      explicit AbstractEdit(QWidget* parent): QWidget(parent) {}
       virtual QLayout* createForm() = 0;
       void initialize();
    signals:
-      //@@
       void finished();
    protected slots:
       virtual void okClicked() = 0;
@@ -25,12 +25,10 @@ namespace Gui
       virtual void cancelClicked() = 0;
    private:
       QLayout* createButtons();
+      QPushButton* createOkButton();
+      QPushButton* createApplyButton();
+      QPushButton* createCancelButton();
    };
-
-
-
-   //@@
-   inline AbstractEdit::AbstractEdit(QWidget *parent): QWidget(parent) {}
 }
 
 

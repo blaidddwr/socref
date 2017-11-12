@@ -14,34 +14,38 @@ class AbstractBlock;
 
 
 
-//@@
 namespace Gui
 {
    class BlockView;
 
 
 
-   //@@
    class MainWindow : public QMainWindow
    {
       Q_OBJECT
    public:
       explicit MainWindow(QWidget* parent = nullptr);
-      void setProject(Project* o_project);
+      void setProject(Project* takenProject);
    private slots:
       void newTriggered();
       void openTriggered();
-      void saveTriggered();
-      void saveAsTriggered();
+      void saveTriggered() { save(); }
+      void saveAsTriggered() { saveAs(); }
       void propertiesTriggered();
       void closeTriggered();
-      void projectNameChanged();
-      void projectModified();
-      void projectSaved();
+      void projectNameChanged() { updateTitle(); }
+      void projectModified() { setWindowModified(true); }
+      void projectSaved() { setWindowModified(false); }
       void projectFileChanged();
    private:
       virtual void closeEvent(QCloseEvent* event) override final;
       void createActions();
+      void createOpenAction();
+      void createSaveAction();
+      void createSaveAsAction();
+      void createPropertiesAction();
+      void createCloseAction();
+      void createExitAction();
       void createMenus();
       void createView();
       void updateTitle();
@@ -59,23 +63,6 @@ namespace Gui
       QAction* _closeAction;
       QAction* _exitAction;
    };
-
-
-
-   //@@
-   inline void MainWindow::saveTriggered() { save(); }
-
-   //@@
-   inline void MainWindow::saveAsTriggered() { saveAs(); }
-
-   //@@
-   inline void MainWindow::projectNameChanged() { updateTitle(); }
-
-   //@@
-   inline void MainWindow::projectModified() { setWindowModified(true); }
-
-   //@@
-   inline void MainWindow::projectSaved() { setWindowModified(false); }
 }
 
 

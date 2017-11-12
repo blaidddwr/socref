@@ -3,7 +3,6 @@
 
 
 
-//@@
 template<class T>
 class Singleton
 {
@@ -16,7 +15,6 @@ private:
 
 
 
-//@@
 template<class T> T* Singleton<T>::_instance {nullptr};
 
 
@@ -24,18 +22,12 @@ template<class T> T* Singleton<T>::_instance {nullptr};
 
 
 
-//@@
-template<class T>
-T& Singleton<T>::getInstance()
+template<class T> T& Singleton<T>::getInstance()
 {
-   // make sure there is an instance to return
    if ( !_instance )
    {
-      // create singleton instance
       _instance = new T();
    }
-
-   // return reference to object
    return *_instance;
 }
 

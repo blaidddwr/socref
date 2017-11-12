@@ -10,7 +10,6 @@ class BlockModel;
 
 
 
-//@@
 class Project : public QFileSystemWatcher
 {
    Q_OBJECT
@@ -20,31 +19,29 @@ public:
    void save();
    void saveAs(const QString& path);
    void setName(const QString& name);
-   QString getName() const;
-   QString getPath() const;
-   int getType() const;
-   QString getScanDirectory() const;
+   QString getName() const { return _name; }
+   QString getPath() const { return _path; }
+   int getType() const { return _type; }
+   QString getScanDirectory() const { return _scanDirectory; }
    void setScanDirectory(const QString& path);
-   QString getScanFilters() const;
+   QString getScanFilters() const { return _scanFilters; }
    void setScanFilters(const QString& filters);
-   bool isNew() const;
-   bool isModified() const;
-   BlockModel* getModel() const;
+   bool isNew() const { return _path.isEmpty(); }
+   bool isModified() const { return _modified; }
+   BlockModel* getModel() const { return _model; }
 signals:
-   //@@
    void nameChanged();
-   //@@
    void modified();
-   //@@
    void saved();
-   //@@
    void changed();
 private slots:
-   void blockModified();
+   void blockModified() { signalModified(); }
    void handleFileChanged();
 private:
    void readTypeElement(QXmlStreamReader& xml);
    void signalModified();
+   void setFileHash(const QByteArray& bytes);
+   void createRoot();
    QString _path;
    QByteArray _hash;
    QString _name;
@@ -55,35 +52,6 @@ private:
    AbstractBlock* _root;
    BlockModel* _model;
 };
-
-
-
-//@@
-inline QString Project::getName() const { return _name; }
-
-//@@
-inline QString Project::getPath() const { return _path; }
-
-//@@
-inline int Project::getType() const { return _type; }
-
-//@@
-inline QString Project::getScanDirectory() const { return _scanDirectory; }
-
-//@@
-inline QString Project::getScanFilters() const { return _scanFilters; }
-
-//@@
-inline bool Project::isNew() const { return _path.isEmpty(); }
-
-//@@
-inline bool Project::isModified() const { return _modified; }
-
-//@@
-inline BlockModel* Project::getModel() const { return _model; }
-
-//@@
-inline void Project::blockModified() { signalModified(); }
 
 
 

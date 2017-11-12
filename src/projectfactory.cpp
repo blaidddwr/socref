@@ -6,11 +6,9 @@
 
 
 
-//@@
-namespace CppQt {
-
-BlockFactory g_factory(ProjectFactory::CppQtType);
-
+namespace CppQt
+{
+   BlockFactory g_factory(ProjectFactory::CppQtType);
 }
 
 
@@ -18,10 +16,8 @@ BlockFactory g_factory(ProjectFactory::CppQtType);
 
 
 
-//@@
 QString ProjectFactory::getName(int type) const
 {
-   // figure out which project type and return its name
    switch (type)
    {
    case CppQtType: return QObject::tr("C++/Qt");
@@ -34,10 +30,8 @@ QString ProjectFactory::getName(int type) const
 
 
 
-//@@
 QString ProjectFactory::getDefaultFilters(int type) const
 {
-   // figure out which project type and return its default filters
    switch (type)
    {
    case CppQtType: return QString("*.cpp *.h");
@@ -50,15 +44,12 @@ QString ProjectFactory::getDefaultFilters(int type) const
 
 
 
-//@@
 const AbstractBlockFactory& ProjectFactory::getBlockFactory(int type) const
 {
-   // figure out which project type and return reference to its block factory
    switch (type)
    {
    case CppQtType: return CppQt::g_factory;
    default:
-      // this is an unknown type so throw error
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);

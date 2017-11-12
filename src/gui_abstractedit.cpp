@@ -13,10 +13,8 @@ using namespace Gui;
 
 
 
-//@@
 void AbstractEdit::initialize()
 {
-   // create form and buttons
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addLayout(createForm());
    layout->addLayout(createButtons());
@@ -28,26 +26,48 @@ void AbstractEdit::initialize()
 
 
 
-//@@
 QLayout* AbstractEdit::createButtons()
 {
-   // create buttons
-   QPushButton* ok {new QPushButton(tr("Ok"))};
-   QPushButton* apply {new QPushButton(tr("Apply"))};
-   QPushButton* cancel {new QPushButton(tr("Cancel"))};
-
-   // connect clicked signals for all buttons
-   connect(ok,&QPushButton::clicked,this,&AbstractEdit::okClicked);
-   connect(apply,&QPushButton::clicked,this,&AbstractEdit::applyClicked);
-   connect(cancel,&QPushButton::clicked,this,&AbstractEdit::cancelClicked);
-
-   // create layout and add all buttons
    QHBoxLayout* ret {new QHBoxLayout};
-   ret->addWidget(ok);
-   ret->addWidget(apply);
+   ret->addWidget(createOkButton());
+   ret->addWidget(createApplyButton());
    ret->addStretch();
-   ret->addWidget(cancel);
+   ret->addWidget(createCancelButton());
+   return ret;
+}
 
-   // return created layout
+
+
+
+
+
+QPushButton*AbstractEdit::createOkButton()
+{
+   QPushButton* ret {new QPushButton(tr("&Ok"))};
+   connect(ret,&QPushButton::clicked,this,&AbstractEdit::okClicked);
+   return ret;
+}
+
+
+
+
+
+
+QPushButton*AbstractEdit::createApplyButton()
+{
+   QPushButton* ret {new QPushButton(tr("&Apply"))};
+   connect(ret,&QPushButton::clicked,this,&AbstractEdit::applyClicked);
+   return ret;
+}
+
+
+
+
+
+
+QPushButton*AbstractEdit::createCancelButton()
+{
+   QPushButton* ret {new QPushButton(tr("&Cancel"))};
+   connect(ret,&QPushButton::clicked,this,&AbstractEdit::cancelClicked);
    return ret;
 }

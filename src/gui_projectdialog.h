@@ -11,10 +11,8 @@ class QFormLayout;
 
 
 
-//@@
 namespace Gui
 {
-   //@@
    class ProjectDialog : public QDialog
    {
       Q_OBJECT
@@ -25,8 +23,10 @@ namespace Gui
       void applyClicked();
       void browseClicked();
    private:
+      void createDialog();
       QFormLayout* createForm();
       QHBoxLayout* createButtons();
+      QPushButton* createButton(const QString& text, void (ProjectDialog::*pointer)());
       Project* _project;
       QLineEdit* _nameEdit;
       QLineEdit* _scanDirectoryEdit;

@@ -7,10 +7,8 @@
 
 
 
-//@@
 namespace Exception
 {
-   //@@
    enum class Icon
    {
       Warning
@@ -19,22 +17,21 @@ namespace Exception
 
 
 
-   //@@
    class Base
    {
    public:
       virtual ~Base() = default;
-      virtual const char* what() const noexcept;
-      void setFile(const char* file) noexcept;
-      void setLine(int line) noexcept;
-      void setFunction(const char* function) noexcept;
-      void setTitle(const QString& title) noexcept;
-      void setDetails(const QString& details) noexcept;
-      const char* getFile() const noexcept;
-      int getLine() const noexcept;
-      const char* getFunction() const noexcept;
-      QString getTitle() const noexcept;
-      QString getDetails() const noexcept;
+      virtual const char* what() const noexcept { return "Base"; }
+      void setFile(const char* file) noexcept { _file = file; }
+      void setLine(int line) noexcept { _line = line; }
+      void setFunction(const char* function) noexcept { _function = function; }
+      void setTitle(const QString& title) noexcept { _title = title; }
+      void setDetails(const QString& details) noexcept { _details = details; }
+      const char* getFile() const noexcept { return _file; }
+      int getLine() const noexcept { return _line; }
+      const char* getFunction() const noexcept { return _function; }
+      QString getTitle() const noexcept { return _title; }
+      QString getDetails() const noexcept { return _details; }
       void show(const QString& text, Icon icon, bool debug = false) const noexcept;
    private:
       const char* _file;
@@ -46,42 +43,6 @@ namespace Exception
 
 
 
-   //@@
-   inline const char* Base::what() const noexcept { return "Base"; }
-
-   //@@
-   inline void Base::setFile(const char* file) noexcept { _file = file; }
-
-   //@@
-   inline void Base::setLine(int line) noexcept { _line = line; }
-
-   //@@
-   inline void Base::setFunction(const char* function) noexcept { _function = function; }
-
-   //@@
-   inline void Base::setTitle(const QString& title) noexcept { _title = title; }
-
-   //@@
-   inline void Base::setDetails(const QString& details) noexcept { _details = details; }
-
-   //@@
-   inline const char* Base::getFile() const noexcept { return _file; }
-
-   //@@
-   inline int Base::getLine() const noexcept { return _line; }
-
-   //@@
-   inline const char* Base::getFunction() const noexcept { return _function; }
-
-   //@@
-   inline QString Base::getTitle() const noexcept { return _title; }
-
-   //@@
-   inline QString Base::getDetails() const noexcept { return _details; }
-
-
-
-   //@@
    struct OpenError : public Base
    {
       OpenError() { setTitle(QObject::tr("Open Error")); }
@@ -90,7 +51,6 @@ namespace Exception
 
 
 
-   //@@
    struct ReadError : public Base
    {
       ReadError() { setTitle(QObject::tr("Read Error")); }
@@ -99,7 +59,6 @@ namespace Exception
 
 
 
-   //@@
    struct WriteError : public Base
    {
       WriteError() { setTitle(QObject::tr("Write Error")); }
@@ -108,7 +67,14 @@ namespace Exception
 
 
 
-   //@@
+   struct LogicError : public Base
+   {
+      LogicError() { setTitle(QObject::tr("Logic Error")); }
+      virtual const char* what() const noexcept override final { return "LogicError"; }
+   };
+
+
+
    struct SystemError : public Base
    {
       SystemError() { setTitle(QObject::tr("System Error")); }
@@ -117,7 +83,6 @@ namespace Exception
 
 
 
-   //@@
    struct InvalidArgument : public Base
    {
       InvalidArgument() { setTitle(QObject::tr("Invalid Argument")); }
@@ -126,7 +91,6 @@ namespace Exception
 
 
 
-   //@@
    struct InvalidUse : public Base
    {
       InvalidUse() { setTitle(QObject::tr("Invalid Use")); }
@@ -135,7 +99,6 @@ namespace Exception
 
 
 
-   //@@
    struct OutOfRange : public Base
    {
       OutOfRange() { setTitle(QObject::tr("Out Of Range")); }
@@ -144,7 +107,6 @@ namespace Exception
 
 
 
-   //@@
    struct DomainError : public Base
    {
       DomainError() { setTitle(QObject::tr("Domain Error")); }
@@ -153,7 +115,6 @@ namespace Exception
 
 
 
-   //@@
    struct RangeError : public Base
    {
       RangeError() { setTitle(QObject::tr("Range Error")); }
