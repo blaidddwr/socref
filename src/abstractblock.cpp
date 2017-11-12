@@ -182,6 +182,21 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
 
 
 
+AbstractBlock& AbstractBlock::getRoot()
+{
+   AbstractBlock* root {this};
+   while ( root->_parent )
+   {
+      root = root->_parent;
+   }
+   return *root;
+}
+
+
+
+
+
+
 void AbstractBlock::copyChildren(const AbstractBlock* block)
 {
    for (const auto& i : block->_children)
@@ -202,14 +217,12 @@ void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
       _parent->_children.removeOne(this);
       setParent(nullptr);
       disconnect(_parent);
-      _root = this;
    }
    if ( parent )
    {
       parent->_children.insert(index,this);
       setParent(parent);
       connect(this,&AbstractBlock::modified,parent,&AbstractBlock::childModified);
-      _root = parent->_root;
    }
    _parent = parent;
    setParent(parent);

@@ -16,8 +16,7 @@ class AbstractBlock : public QObject
 public:
    explicit AbstractBlock(const AbstractBlockFactory& factory, int type):
       _factory(factory),
-      _type(type),
-      _root(this)
+      _type(type)
       {}
    virtual QString getName() const = 0;
    virtual void readData(QXmlStreamReader& xml) = 0;
@@ -37,7 +36,7 @@ public:
    void read(QXmlStreamReader& xml);
    void write(QXmlStreamWriter& xml) const;
 protected:
-   AbstractBlock& getRoot() { return *_root; }
+   AbstractBlock& getRoot();
    void copyChildren(const AbstractBlock* block);
    void notifyOfNameChange() { notifyOfNameChange(nullptr); }
 signals:
@@ -52,7 +51,6 @@ private:
    const AbstractBlockFactory& _factory;
    int _type {-1};
    AbstractBlock* _parent {nullptr};
-   AbstractBlock* _root;
    QList<AbstractBlock*> _children;
 };
 
