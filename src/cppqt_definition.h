@@ -15,7 +15,7 @@ namespace CppQt
          AbstractBlock(factory,type),
          _type("unnamed_type_definition")
          {}
-      virtual QString getName() const override final { return _type.getName(); }
+      virtual QString getName() const override final { return _type.fullName(); }
       virtual void readData(QXmlStreamReader& xml) override final { xml >> _type; }
       virtual void writeData(QXmlStreamWriter& xml) const override final { xml << _type; }
       virtual AbstractBlock* makeCopy() const override final;

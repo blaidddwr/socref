@@ -15,7 +15,7 @@ using namespace CppQt;
 
 
 
-QString Type::getName(const QList<QString>& scope) const
+QString Type::fullName(const QList<QString>& scope) const
 {
    QString ret;
    appendPrefix(&ret);
@@ -34,7 +34,7 @@ QString Type::getName(const QList<QString>& scope) const
 bool CppQt::Type::isConcrete() const
 {
    bool ret {false};
-   if ( _templateArguments.size() == _templateValues.size() )
+   if ( _templateNames.size() == _templateValues.size() )
    {
       ret = true;
       for (const auto& value : _templateValues)
@@ -50,17 +50,11 @@ bool CppQt::Type::isConcrete() const
 
 
 
-QString Type::getTemplateName(int index) const
+Type& Type::setTemplateNames(const QList<QString>& names)
 {
-   if ( index < 0 || index >= _templateArguments.size() )
-   {
-      Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Template index %1 is out of range for %2 size list.").arg(index)
-                   .arg(_templateArguments.size()));
-      throw e;
-   }
-   return _templateArguments.at(index);
+   _templateNames = names;
+   _templateValues.clear();
+   return *this;
 }
 
 
@@ -70,12 +64,12 @@ QString Type::getTemplateName(int index) const
 
 Type& Type::setTemplateValues(const QList<Type>& values)
 {
-   if ( values.size() != _templateArguments.size() )
+   if ( values.size() != _templateNames.size() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Cannot set template values from list of size %1 when arguments list"
-                               " is size %2.").arg(values.size()).arg(_templateArguments.size()));
+                               " is size %2.").arg(values.size()).arg(_templateNames.size()));
       throw e;
    }
    _templateValues = values;
@@ -162,7 +156,7 @@ bool Type::isConstantPointer(int index) const
       Exception::OutOfRange e;
       MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Pointer index %1 is out of range for %2 size list.").arg(index)
-                   .arg(_templateArguments.size()));
+                   .arg(_pointers.size()));
       throw e;
    }
    return _pointers.at(index);
@@ -226,18 +220,18 @@ void Type::appendTemplate(QString* text, const QList<QString>& scope) const
       text->append("<");
       for (int i = 0; i < (_templateValues.size() - 1) ;++i)
       {
-         text->append(_templateValues.at(i).getName(scope)).append(",");
+         text->append(_templateValues.at(i).fullName(scope)).append(",");
       }
-      text->append(_templateValues.constLast().getName(scope)).append(">");
+      text->append(_templateValues.constLast().fullName(scope)).append(">");
    }
-   else if ( !_templateArguments.isEmpty() )
+   else if ( !_templateNames.isEmpty() )
    {
       text->append("<");
-      for (int i = 0; i < (_templateArguments.size() - 1) ;++i)
+      for (int i = 0; i < (_templateNames.size() - 1) ;++i)
       {
-         text->append(_templateArguments.at(i)).append(",");
+         text->append(_templateNames.at(i)).append(",");
       }
-      text->append(_templateArguments.constLast()).append(">");
+      text->append(_templateNames.constLast()).append(">");
    }
 }
 
@@ -282,7 +276,7 @@ void Type::readTemplateElement(QXmlStreamReader& xml)
       switch (element)
       {
       case Argument:
-         _templateArguments.append(xml.readElementText());
+         _templateNames.append(xml.readElementText());
          break;
       case Value:
          {
@@ -293,12 +287,12 @@ void Type::readTemplateElement(QXmlStreamReader& xml)
          }
       }
    }
-   if ( _templateValues.size() > 0 && _templateValues.size() != _templateArguments.size() )
+   if ( _templateValues.size() > 0 && _templateValues.size() != _templateNames.size() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Template argument size of %1 and value size of %2 is incorrect.")
-                   .arg(_templateArguments.size()).arg(_templateValues.size()));
+                   .arg(_templateNames.size()).arg(_templateValues.size()));
       throw e;
    }
 }
@@ -310,11 +304,11 @@ void Type::readTemplateElement(QXmlStreamReader& xml)
 
 void Type::writeTemplateElement(QXmlStreamWriter& xml) const
 {
-   auto templateArg {_templateArguments.cbegin()};
+   auto templateName {_templateNames.cbegin()};
    auto templateValue {_templateValues.cbegin()};
-   while ( templateArg != _templateArguments.cend() )
+   while ( templateName != _templateNames.cend() )
    {
-      xml.writeTextElement("arg",*templateArg);
+      xml.writeTextElement("arg",*templateName);
       if ( templateValue != _templateValues.cend() )
       {
          xml.writeStartElement("val");
@@ -322,7 +316,7 @@ void Type::writeTemplateElement(QXmlStreamWriter& xml) const
          xml.writeEndElement();
          ++templateValue;
       }
-      ++templateArg;
+      ++templateName;
    }
 }
 
@@ -366,7 +360,7 @@ namespace CppQt
          ,Static
       };
       type._scope.clear();
-      type._templateArguments.clear();
+      type._templateNames.clear();
       type._templateValues.clear();
       type._pointers.clear();
       XMLElementParser parser(xml);
