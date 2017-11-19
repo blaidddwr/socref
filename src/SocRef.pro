@@ -23,10 +23,8 @@ SOURCES += \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
     cppqt_type.cpp \
-    cppqt_definition.cpp \
     cppqt_edit_namespace.cpp \
-    cppqt_view_namespace.cpp \
-    cppqt_view_definition.cpp
+    cppqt_view_namespace.cpp
 
 HEADERS += \
     singleton.h \
@@ -47,20 +45,5 @@ HEADERS += \
     gui_blockview.h \
     gui_abstractedit.h \
     cppqt_type.h \
-    cppqt_definition.h \
     cppqt_edit_namespace.h \
-    cppqt_view_namespace.h \
-    cppqt_view_definition.h
-
-#AbstractParser
-#Gui::AbstractView
-#Gui::AbstractEdit
-
-#BlockModel (QAbstractItemModel)
-#Gui::BlockView (QTreeView)
-
-
-#....
-#CppQt::Namespace::Block
-#CppQt::Namespace::View
-#CppQt::Namespace::Edit
+    cppqt_view_namespace.h
