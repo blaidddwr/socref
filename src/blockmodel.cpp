@@ -14,7 +14,7 @@ BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
 {
    if ( _root )
    {
-      _factory = &(_root->getFactory());
+      _factory = &(_root->factory());
       connect(_root,&AbstractBlock::nameChanged,this,&BlockModel::blockNameChanged);
    }
 }
@@ -30,12 +30,12 @@ QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) co
    {
       return QModelIndex();
    }
-   AbstractBlock* parent_ {getPointer(parent)};
-   if ( row >= parent_->getChildrenSize() )
+   AbstractBlock* parent_ {pointer(parent)};
+   if ( row >= parent_->childrenSize() )
    {
       return QModelIndex();
    }
-   return createIndex(row,column,parent_->getChild(row));
+   return createIndex(row,column,parent_->child(row));
 }
 
 
@@ -45,13 +45,13 @@ QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) co
 
 QModelIndex BlockModel::parent(const QModelIndex& child) const
 {
-   AbstractBlock* parent = getPointer(child)->getParent();
-   if ( !parent || !parent->getParent() )
+   AbstractBlock* parent = pointer(child)->parent();
+   if ( !parent || !parent->parent() )
    {
       return QModelIndex();
    }
-   AbstractBlock* grandparent = parent->getParent();
-   return createIndex(grandparent->getChildIndex(parent),0,parent);
+   AbstractBlock* grandparent = parent->parent();
+   return createIndex(grandparent->childIndex(parent),0,parent);
 }
 
 
@@ -65,7 +65,7 @@ int BlockModel::rowCount(const QModelIndex& parent) const
    {
       return 0;
    }
-   return getPointer(parent)->getChildrenSize();
+   return pointer(parent)->childrenSize();
 }
 
 
@@ -73,7 +73,7 @@ int BlockModel::rowCount(const QModelIndex& parent) const
 
 
 
-AbstractBlock *BlockModel::getPointer(const QModelIndex& index) const
+AbstractBlock *BlockModel::pointer(const QModelIndex& index) const
 {
    AbstractBlock* ret;
    if ( index.isValid() )
@@ -97,9 +97,9 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
    switch (role)
    {
    case Qt::DisplayRole:
-      return QVariant(getPointer(index)->getName());
+      return QVariant(pointer(index)->name());
    case Qt::DecorationRole:
-      return QVariant(_factory->getIcon(getPointer(index)->getType()));
+      return QVariant(_factory->icon(pointer(index)->type()));
    default:
       return QVariant();
    }
@@ -117,7 +117,7 @@ bool BlockModel::insertRow(int row, const QModelIndex& parent, AbstractBlock* ta
       return false;
    }
    beginInsertRows(parent,row,row);
-   getPointer(parent)->insertChild(row,takenObject);
+   pointer(parent)->insertChild(row,takenObject);
    endInsertRows();
    return true;
 }
@@ -129,12 +129,12 @@ bool BlockModel::insertRow(int row, const QModelIndex& parent, AbstractBlock* ta
 
 bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 {
-   AbstractBlock* parent_ {getPointer(parent)};
-   if ( source < 0 || source >= parent_->getChildrenSize() )
+   AbstractBlock* parent_ {pointer(parent)};
+   if ( source < 0 || source >= parent_->childrenSize() )
    {
       return false;
    }
-   if ( destination < 0 || destination > parent_->getChildrenSize() )
+   if ( destination < 0 || destination > parent_->childrenSize() )
    {
       return false;
    }
@@ -156,8 +156,8 @@ bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 
 bool BlockModel::removeRow(int row, const QModelIndex& parent)
 {
-   AbstractBlock* parent_ {getPointer(parent)};
-   if ( row < 0 || row >= parent_->getChildrenSize() )
+   AbstractBlock* parent_ {pointer(parent)};
+   if ( row < 0 || row >= parent_->childrenSize() )
    {
       return false;
    }
@@ -174,12 +174,12 @@ bool BlockModel::removeRow(int row, const QModelIndex& parent)
 
 AbstractBlock* BlockModel::copyRow(int row, const QModelIndex& parent) const
 {
-   AbstractBlock* parent_ {getPointer(parent)};
-   if ( row < 0 || row >= parent_->getChildrenSize() )
+   AbstractBlock* parent_ {pointer(parent)};
+   if ( row < 0 || row >= parent_->childrenSize() )
    {
       return nullptr;
    }
-   return parent_->getChild(row)->makeCopy();
+   return parent_->child(row)->makeCopy();
 }
 
 
@@ -189,8 +189,8 @@ AbstractBlock* BlockModel::copyRow(int row, const QModelIndex& parent) const
 
 AbstractBlock* BlockModel::cutRow(int row, const QModelIndex& parent)
 {
-   AbstractBlock* parent_ {getPointer(parent)};
-   if ( row < 0 || row >= parent_->getChildrenSize() )
+   AbstractBlock* parent_ {pointer(parent)};
+   if ( row < 0 || row >= parent_->childrenSize() )
    {
       return nullptr;
    }
@@ -211,7 +211,7 @@ void BlockModel::setRoot(AbstractBlock* root)
    _root = root;
    if ( _root )
    {
-      _factory = &(_root->getFactory());
+      _factory = &(_root->factory());
       connect(_root,&AbstractBlock::nameChanged,this,&BlockModel::blockNameChanged);
    }
    endResetModel();
@@ -224,13 +224,13 @@ void BlockModel::setRoot(AbstractBlock* root)
 
 void BlockModel::blockNameChanged(AbstractBlock* object)
 {
-   if ( !object->getParent() )
+   if ( !object->parent() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("A name changed signal was emitted with the root block."));
       throw e;
    }
-   QModelIndex index = createIndex(object->getParent()->getChildIndex(object),0,object);
+   QModelIndex index = createIndex(object->parent()->childIndex(object),0,object);
    emit dataChanged(index,index);
 }

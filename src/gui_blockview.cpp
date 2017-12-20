@@ -39,7 +39,7 @@ void BlockView::setModel(BlockModel* model)
 {
    _treeView->setModel(model);
    _model = model;
-   _factory = model->getFactory();
+   _factory = model->factory();
    _selectionModel = _treeView->selectionModel();
    connect(_selectionModel,&QItemSelectionModel::selectionChanged,this
            ,&BlockView::selectionModelChanged);
@@ -56,12 +56,12 @@ bool BlockView::canPaste() const
 {
    if ( _model && _copy )
    {
-      int a = _factory->getType();
-      int b = _copy->getFactory().getType();
+      int a = _factory->type();
+      int b = _copy->factory().type();
       if ( a == b )
       {
-         AbstractBlock* index {_model->getPointer(getSelection())};
-         if ( index && _factory->getBuildList(index->getType()).contains(_copy->getType()) )
+         AbstractBlock* index {_model->pointer(selection())};
+         if ( index && _factory->buildList(index->type()).contains(_copy->type()) )
          {
             return true;
          }
@@ -80,7 +80,7 @@ void BlockView::addTriggered()
    QAction* from {qobject_cast<QAction*>(sender())};
    if ( _model )
    {
-      _model->insertRow(-1,getSelection(),_factory->makeBlock(from->data().toInt()));
+      _model->insertRow(-1,selection(),_factory->makeBlock(from->data().toInt()));
    }
 }
 
@@ -91,7 +91,7 @@ void BlockView::addTriggered()
 
 void BlockView::removeTriggered()
 {
-   QModelIndex index {getSelection()};
+   QModelIndex index {selection()};
    if ( index.isValid() )
    {
       _model->removeRow(index.row(),_model->parent(index));
@@ -105,11 +105,11 @@ void BlockView::removeTriggered()
 
 void BlockView::editTriggered()
 {
-   QModelIndex index {getSelection()};
+   QModelIndex index {selection()};
    if ( index.isValid() )
    {
-      AbstractBlock* pointer {_model->getPointer(index)};
-      AbstractEdit* edit {_factory->makeEdit(pointer->getType(),pointer)};
+      AbstractBlock* pointer {_model->pointer(index)};
+      AbstractEdit* edit {_factory->makeEdit(pointer->type(),pointer)};
       edit->initialize();
       connect(edit,&AbstractEdit::finished,this,&BlockView::editFinished);
       setView(edit);
@@ -123,7 +123,7 @@ void BlockView::editTriggered()
 
 void BlockView::cutTriggered()
 {
-   QModelIndex index {getSelection()};
+   QModelIndex index {selection()};
    if ( index.isValid() )
    {
       setCopy(_model->cutRow(index.row(),_model->parent(index)));
@@ -138,7 +138,7 @@ void BlockView::cutTriggered()
 
 void BlockView::copyTriggered()
 {
-   QModelIndex index {getSelection()};
+   QModelIndex index {selection()};
    if ( index.isValid() )
    {
       setCopy(_model->copyRow(index.row(),_model->parent(index)));
@@ -155,7 +155,7 @@ void BlockView::pasteTriggered()
 {
    if ( canPaste() )
    {
-      _model->insertRow(-1,getSelection(),_copy->makeCopy());
+      _model->insertRow(-1,selection(),_copy->makeCopy());
    }
 }
 
@@ -166,7 +166,7 @@ void BlockView::pasteTriggered()
 
 void BlockView::moveUpTriggered()
 {
-   QModelIndex index {getSelection()};
+   QModelIndex index {selection()};
    if ( index.isValid() )
    {
       _model->moveRow(index.row(),index.row()-1,_model->parent(index));
@@ -180,7 +180,7 @@ void BlockView::moveUpTriggered()
 
 void BlockView::moveDownTriggered()
 {
-   QModelIndex index {getSelection()};
+   QModelIndex index {selection()};
    if ( index.isValid() )
    {
       _model->moveRow(index.row(),index.row()+2,_model->parent(index));
@@ -195,11 +195,11 @@ void BlockView::moveDownTriggered()
 void BlockView::selectionModelChanged()
 {
    QWidget* view {nullptr};
-   QModelIndex index {getSelection()};
+   QModelIndex index {selection()};
    if ( index.isValid() )
    {
-      AbstractBlock* pointer {_model->getPointer(index)};
-      view = _factory->makeView(pointer->getType(),pointer);;
+      AbstractBlock* pointer {_model->pointer(index)};
+      view = _factory->makeView(pointer->type(),pointer);;
    }
    setView(view);
    updateActions();
@@ -391,10 +391,10 @@ void BlockView::updateAddActions()
    _addActions.clear();
    if ( _model )
    {
-      QList<int> list {_factory->getBuildList(_model->getPointer(getSelection())->getType())};
+      QList<int> list {_factory->buildList(_model->pointer(selection())->type())};
       for (const auto& i : list)
       {
-         _addActions.append(new QAction(_factory->getName(i),this));
+         _addActions.append(new QAction(_factory->name(i),this));
          _addActions.back()->setData(i);
          connect(_addActions.back(),&QAction::triggered,this,&BlockView::addTriggered);
       }
@@ -454,7 +454,7 @@ void BlockView::setCopy(AbstractBlock* copy)
 
 
 
-QModelIndex BlockView::getSelection() const
+QModelIndex BlockView::selection() const
 {
    QModelIndex ret;
    if ( _selectionModel && !_selectionModel->selection().isEmpty() )

@@ -71,7 +71,7 @@ void Namespace::writeData(QXmlStreamWriter& xml) const
 
 AbstractBlock* Namespace::makeCopy() const
 {
-   unique_ptr<Namespace> ret {new Namespace(getFactory(),getType())};
+   unique_ptr<Namespace> ret {new Namespace(factory(),type())};
    ret->_name = _name;
    ret->_description = _description;
    ret->copyChildren(this);
@@ -112,25 +112,25 @@ void CppQt::Namespace::setDescription(const QString& description)
 
 
 
-QList<QString> Namespace::getVariableTypes() const
+QList<QString> Namespace::variableTypes() const
 {
    QList<QString> ret;
-   if ( !getParent() )
+   if ( !parent() )
    {
       ret << "bool" << "char" << "short int" << "int" << "long int" << "long long int"
           << "short unsigned int" << "unsigned int" << "long unsigned int"
           << "long long unsigned int" << "float" << "double" << "qint8" << "qint16" << "qint32"
           << "qint64" << "quint8" << "quint16" << "quint32" << "quint64";
    }
-   for (int i = 0; i < getChildrenSize() ;++i)
+   for (int i = 0; i < childrenSize() ;++i)
    {
-      if ( getChild(i)->getType() == BlockFactory::NamespaceType )
+      if ( child(i)->type() == BlockFactory::NamespaceType )
       {
-         const Namespace* child {qobject_cast<const Namespace*>(getChild(i))};
-         QList<QString> childList {child->getVariableTypes()};
+         const Namespace* child_ {qobject_cast<const Namespace*>(child(i))};
+         QList<QString> childList {child_->variableTypes()};
          for (auto& x : childList)
          {
-            x.prepend(child->getName() + "::");
+            x.prepend(child_->name() + "::");
          }
          ret << childList;
       }

@@ -18,17 +18,17 @@ public:
       _factory(factory),
       _type(type)
       {}
-   virtual QString getName() const = 0;
+   virtual QString name() const = 0;
    virtual void readData(QXmlStreamReader& xml) = 0;
    virtual void writeData(QXmlStreamWriter& xml) const = 0;
    virtual AbstractBlock* makeCopy() const = 0;
-   int getType() const { return _type; }
-   const AbstractBlockFactory& getFactory() const { return _factory; }
-   AbstractBlock* getParent() const { return _parent; }
-   int getChildrenSize() const { return _children.size(); }
-   AbstractBlock* getChild(int index);
-   const AbstractBlock* getChild(int index) const;
-   int getChildIndex(AbstractBlock* child) const
+   int type() const { return _type; }
+   const AbstractBlockFactory& factory() const { return _factory; }
+   AbstractBlock* parent() const { return _parent; }
+   int childrenSize() const { return _children.size(); }
+   AbstractBlock* child(int index);
+   const AbstractBlock* child(int index) const;
+   int childIndex(AbstractBlock* child) const
    { return _children.indexOf(child); }
    void insertChild(int index, AbstractBlock* takenChild);
    AbstractBlock* takeChild(int index);
@@ -36,7 +36,7 @@ public:
    void read(QXmlStreamReader& xml);
    void write(QXmlStreamWriter& xml) const;
 protected:
-   AbstractBlock& getRoot();
+   AbstractBlock& root();
    void copyChildren(const AbstractBlock* block);
    void notifyOfNameChange() { notifyOfNameChange(nullptr); }
 signals:

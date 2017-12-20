@@ -75,7 +75,7 @@ void Namespace::applyClicked()
 void Namespace::createNameEdit()
 {
    _nameEdit = new QLineEdit;
-   _nameEdit->setText(_block->getName());
+   _nameEdit->setText(_block->name());
    _nameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*"),this));
 }
 
@@ -87,5 +87,5 @@ void Namespace::createNameEdit()
 void Namespace::createDescriptionEdit()
 {
    _descriptionEdit = new QPlainTextEdit;
-   _descriptionEdit->setPlainText(_block->getDescription());
+   _descriptionEdit->setPlainText(_block->description());
 }

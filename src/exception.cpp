@@ -14,9 +14,9 @@ using namespace Exception;
 void Base::show(const QString& text, Icon icon, bool debug) const noexcept
 {
    QMessageBox info;
-   info.setWindowTitle(getTitle());
+   info.setWindowTitle(title());
    info.setText(text);
-   info.setInformativeText(getDetails());
+   info.setInformativeText(details());
    switch (icon)
    {
    case Icon::Warning:
@@ -28,8 +28,7 @@ void Base::show(const QString& text, Icon icon, bool debug) const noexcept
    }
    if ( debug )
    {
-      info.setDetailedText(QObject::tr("%1:%2\n\n%3\n").arg(getFile()).arg(getLine())
-                           .arg(getFunction()));
+      info.setDetailedText(QObject::tr("%1:%2\n\n%3\n").arg(file()).arg(line()).arg(function()));
    }
    info.exec();
 }

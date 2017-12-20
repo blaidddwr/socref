@@ -27,11 +27,11 @@ namespace Exception
       void setFunction(const char* function) noexcept { _function = function; }
       void setTitle(const QString& title) noexcept { _title = title; }
       void setDetails(const QString& details) noexcept { _details = details; }
-      const char* getFile() const noexcept { return _file; }
-      int getLine() const noexcept { return _line; }
-      const char* getFunction() const noexcept { return _function; }
-      QString getTitle() const noexcept { return _title; }
-      QString getDetails() const noexcept { return _details; }
+      const char* file() const noexcept { return _file; }
+      int line() const noexcept { return _line; }
+      const char* function() const noexcept { return _function; }
+      QString title() const noexcept { return _title; }
+      QString details() const noexcept { return _details; }
       void show(const QString& text, Icon icon, bool debug = false) const noexcept;
    private:
       const char* _file;

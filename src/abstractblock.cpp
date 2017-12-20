@@ -14,7 +14,7 @@ using namespace std;
 
 
 
-AbstractBlock* AbstractBlock::getChild(int index)
+AbstractBlock* AbstractBlock::child(int index)
 {
    if ( index < 0 || index >= _children.size() )
    {
@@ -31,7 +31,7 @@ AbstractBlock* AbstractBlock::getChild(int index)
 
 
 
-const AbstractBlock* AbstractBlock::getChild(int index) const
+const AbstractBlock* AbstractBlock::child(int index) const
 {
    if ( index < 0 || index >= _children.size() )
    {
@@ -59,7 +59,7 @@ void AbstractBlock::insertChild(int index, AbstractBlock* takenChild)
       e.setDetails(tr("Cannot insert child block with null pointer."));
       throw e;
    }
-   if ( !_factory.getBuildList(_type).contains(takenChild->_type) )
+   if ( !_factory.buildList(_type).contains(takenChild->_type) )
    {
       Exception::InvalidUse e;
       MARK_EXCEPTION(e);
@@ -125,10 +125,10 @@ void AbstractBlock::read(QXmlStreamReader &xml)
    };
    XMLElementParser parser(xml);
    parser.addKeyword("data",true);
-   const QList<int> buildList {_factory.getBuildList(_type)};
+   const QList<int> buildList {_factory.buildList(_type)};
    for (const auto& i : buildList)
    {
-      parser.addKeyword(_factory.getElementName(i),false,true);
+      parser.addKeyword(_factory.elementName(i),false,true);
    }
    int element;
    while ( ( element = parser() ) != XMLElementParser::End )
@@ -163,7 +163,7 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
    xml.writeEndElement();
    for (const auto& i : _children)
    {
-      xml.writeStartElement(_factory.getElementName(i->_type));
+      xml.writeStartElement(_factory.elementName(i->_type));
       xml.writeAttribute("type",QString::number(i->_type));
       i->write(xml);
       xml.writeEndElement();
@@ -182,7 +182,7 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
 
 
 
-AbstractBlock& AbstractBlock::getRoot()
+AbstractBlock& AbstractBlock::root()
 {
    AbstractBlock* root {this};
    while ( root->_parent )
@@ -201,7 +201,7 @@ void AbstractBlock::copyChildren(const AbstractBlock* block)
 {
    for (const auto& i : block->_children)
    {
-      i->makeCopy()->setBlockParent(this,getChildrenSize());
+      i->makeCopy()->setBlockParent(this,childrenSize());
    }
 }
 
@@ -251,16 +251,16 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
       e.setDetails(tr("Failed reading in type attribute."));
       throw e;
    }
-   if ( type < 0 || type >= _factory.getSize() )
+   if ( type < 0 || type >= _factory.size() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(type).arg(_factory.getSize()));
+      e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(type).arg(_factory.size()));
       throw e;
    }
    unique_ptr<AbstractBlock> child {_factory.makeBlock(type)};
    child->read(xml);
-   child.release()->setBlockParent(this,getChildrenSize());
+   child.release()->setBlockParent(this,childrenSize());
 }
 
 
@@ -272,7 +272,7 @@ void AbstractBlock::notifyOfNameChange(AbstractBlock* block)
 {
    if ( !block )
    {
-      getRoot().notifyOfNameChange(this);
+      root().notifyOfNameChange(this);
    }
    else
    {

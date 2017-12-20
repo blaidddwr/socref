@@ -9,7 +9,7 @@ class SingletonFactory
 {
 public:
    virtual ~SingletonFactory() = default;
-   static T& getInstance();
+   static T& instance();
    static void setInstance(T* instance);
 private:
    static T* _instance;
@@ -24,7 +24,7 @@ template<class T> T* SingletonFactory<T>::_instance {nullptr};
 
 
 
-template<class T> T& SingletonFactory<T>::getInstance()
+template<class T> T& SingletonFactory<T>::instance()
 {
    if ( !_instance )
    {

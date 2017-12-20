@@ -24,8 +24,8 @@ namespace Gui
    public:
       explicit BlockView(QWidget *parent = nullptr);
       void setModel(BlockModel* model);
-      QMenu* getContextMenu() const { return _contextMenu; }
-      bool hasSelection() const { return getSelection().isValid(); }
+      QMenu* contextMenu() const { return _contextMenu; }
+      bool hasSelection() const { return selection().isValid(); }
       bool canPaste() const;
    public slots:
       void addTriggered();
@@ -57,7 +57,7 @@ namespace Gui
       void updateMenu();
       void setView(QWidget* view);
       void setCopy(AbstractBlock* copy);
-      QModelIndex getSelection() const;
+      QModelIndex selection() const;
       QScrollArea* _area;
       QTreeView* _treeView;
       BlockModel* _model {nullptr};

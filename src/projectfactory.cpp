@@ -16,7 +16,7 @@ namespace CppQt
 
 
 
-QString ProjectFactory::getName(int type) const
+QString ProjectFactory::name(int type) const
 {
    switch (type)
    {
@@ -30,7 +30,7 @@ QString ProjectFactory::getName(int type) const
 
 
 
-QString ProjectFactory::getDefaultFilters(int type) const
+QString ProjectFactory::defaultFilters(int type) const
 {
    switch (type)
    {
@@ -44,7 +44,7 @@ QString ProjectFactory::getDefaultFilters(int type) const
 
 
 
-const AbstractBlockFactory& ProjectFactory::getBlockFactory(int type) const
+const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 {
    switch (type)
    {

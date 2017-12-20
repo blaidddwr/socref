@@ -8,7 +8,7 @@ class Singleton
 {
 public:
    virtual ~Singleton() = default;
-   static T& getInstance();
+   static T& instance();
 private:
    static T* _instance;
 };

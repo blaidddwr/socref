@@ -50,7 +50,7 @@ void MainWindow::setProject(Project* takenProject)
    if ( takenProject )
    {
       takenProject->setParent(this);
-      _view->setModel(takenProject->getModel());
+      _view->setModel(takenProject->model());
       setWindowModified(takenProject->isModified());
       connect(takenProject,&Project::nameChanged,this,&MainWindow::projectNameChanged);
       connect(takenProject,&Project::modified,this,&MainWindow::projectModified);
@@ -158,7 +158,7 @@ void MainWindow::projectFileChanged()
    {
       try
       {
-         unique_ptr<Project> project {new Project(_project->getPath())};
+         unique_ptr<Project> project {new Project(_project->path())};
          setProject(project.release());
       }
       catch (Exception::Base e)
@@ -193,10 +193,10 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::createActions()
 {
-   AbstractProjectFactory& factory = AbstractProjectFactory::getInstance();
-   for (int i = 0; i < factory.getSize() ;++i)
+   AbstractProjectFactory& factory = AbstractProjectFactory::instance();
+   for (int i = 0; i < factory.size() ;++i)
    {
-      _newActions.append(new QAction(factory.getName(i),this));
+      _newActions.append(new QAction(factory.name(i),this));
       _newActions.back()->setData(i);
       connect(_newActions.back(),&QAction::triggered,this,&MainWindow::newTriggered);
    }
@@ -304,7 +304,7 @@ void MainWindow::createMenus()
    fileMenu->addAction(_propertiesAction);
    fileMenu->addAction(_closeAction);
    fileMenu->addAction(_exitAction);
-   menuBar()->addMenu(_view->getContextMenu());
+   menuBar()->addMenu(_view->contextMenu());
 }
 
 
@@ -327,8 +327,8 @@ void MainWindow::updateTitle()
 {
    if ( _project )
    {
-      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->getName())
-                     .arg(AbstractProjectFactory::getInstance().getName(_project->getType())));
+      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->name())
+                     .arg(AbstractProjectFactory::instance().name(_project->type())));
    }
    else
    {

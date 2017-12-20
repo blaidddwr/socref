@@ -19,16 +19,16 @@ public:
    void save();
    void saveAs(const QString& path);
    void setName(const QString& name);
-   QString getName() const { return _name; }
-   QString getPath() const { return _path; }
-   int getType() const { return _type; }
-   QString getScanDirectory() const { return _scanDirectory; }
+   QString name() const { return _name; }
+   QString path() const { return _path; }
+   int type() const { return _type; }
+   QString scanDirectory() const { return _scanDirectory; }
    void setScanDirectory(const QString& path);
-   QString getScanFilters() const { return _scanFilters; }
+   QString scanFilters() const { return _scanFilters; }
    void setScanFilters(const QString& filters);
    bool isNew() const { return _path.isEmpty(); }
    bool isModified() const { return _modified; }
-   BlockModel* getModel() const { return _model; }
+   BlockModel* model() const { return _model; }
 signals:
    void nameChanged();
    void modified();

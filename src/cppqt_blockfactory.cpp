@@ -12,7 +12,7 @@ using namespace CppQt;
 
 
 
-QString BlockFactory::getName(int type) const
+QString BlockFactory::name(int type) const
 {
    switch (type)
    {
@@ -26,7 +26,7 @@ QString BlockFactory::getName(int type) const
 
 
 
-QString BlockFactory::getElementName(int type) const
+QString BlockFactory::elementName(int type) const
 {
    switch (type)
    {
@@ -40,7 +40,7 @@ QString BlockFactory::getElementName(int type) const
 
 
 
-QIcon BlockFactory::getIcon(int type) const
+QIcon BlockFactory::icon(int type) const
 {
    Q_UNUSED(type);
    return QIcon();
@@ -51,7 +51,7 @@ QIcon BlockFactory::getIcon(int type) const
 
 
 
-const QList<int> BlockFactory::getBuildList(int type) const
+const QList<int> BlockFactory::buildList(int type) const
 {
    switch (type)
    {

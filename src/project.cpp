@@ -121,7 +121,7 @@ void Project::save()
    xml.writeTextElement("name",_name);
    xml.writeStartElement("type");
    xml.writeTextElement("id",QString::number(_type));
-   xml.writeTextElement("name",AbstractProjectFactory::getInstance().getName(_type));
+   xml.writeTextElement("name",AbstractProjectFactory::instance().name(_type));
    xml.writeEndElement();
    QFileInfo info(_path);
    xml.writeTextElement("scandir",info.dir().relativeFilePath(_scanDirectory));
@@ -254,7 +254,7 @@ void Project::readTypeElement(QXmlStreamReader& xml)
       Id = 0
       ,Name
    };
-   AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
+   AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
    XMLElementParser parser(xml);
    parser.addKeyword("id",true).addKeyword("name",true);
    int element;
@@ -273,12 +273,12 @@ void Project::readTypeElement(QXmlStreamReader& xml)
                e.setDetails(tr("Failed reading in type as integer."));
                throw e;
             }
-            if ( _type < 0 || _type >= factory.getSize() )
+            if ( _type < 0 || _type >= factory.size() )
             {
                Exception::ReadError e;
                MARK_EXCEPTION(e);
                e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type)
-                            .arg(factory.getSize()-1));
+                            .arg(factory.size()-1));
                throw e;
             }
             break;
@@ -286,12 +286,12 @@ void Project::readTypeElement(QXmlStreamReader& xml)
       case Name:
          {
             QString typeName = xml.readElementText();
-            if ( typeName != factory.getName(_type) )
+            if ( typeName != factory.name(_type) )
             {
                Exception::ReadError e;
                MARK_EXCEPTION(e);
                e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(typeName)
-                            .arg(factory.getName(_type)));
+                            .arg(factory.name(_type)));
                throw e;
             }
             break;
@@ -340,15 +340,15 @@ void Project::setFileHash(const QByteArray& bytes)
 
 void Project::createRoot()
 {
-   AbstractProjectFactory& factory {AbstractProjectFactory::getInstance()};
-   if ( _type < 0 || _type >= factory.getSize() )
+   AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
+   if ( _type < 0 || _type >= factory.size() )
    {
       Exception::LogicError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Invald project type %1 when max is %2.").arg(_type).arg(factory.getSize()-1));
+      e.setDetails(tr("Invald project type %1 when max is %2.").arg(_type).arg(factory.size()-1));
       throw e;
    }
-   _root = factory.getBlockFactory(_type).makeRootBlock();
+   _root = factory.blockFactory(_type).makeRootBlock();
    if ( !_root )
    {
       Exception::LogicError e;
