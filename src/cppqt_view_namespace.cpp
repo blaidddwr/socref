@@ -24,6 +24,5 @@ Namespace::Namespace(AbstractBlock* block)
    setAlignment(Qt::AlignTop);
    setWordWrap(true);
    setTextFormat(Qt::RichText);
-   setText(QString("<p>namespace <b>%1</b></p><p>%2</p>").arg(block_->name())
-           .arg(block_->description()));
+   setText(QString("<p>namespace <b>%1</b></p><p>%2</p>").arg(block_->name()).arg(block_->description()));
 }

@@ -38,24 +38,24 @@ MainWindow::MainWindow(QWidget *parent):
 
 
 
-void MainWindow::setProject(Project* takenProject)
+void MainWindow::setProject(unique_ptr<Project>&& project)
 {
    if ( _project )
    {
       delete _project;
    }
-   _project = takenProject;
+   _project = project.release();
    updateTitle();
    updateActions();
-   if ( takenProject )
+   if ( _project )
    {
-      takenProject->setParent(this);
-      _view->setModel(takenProject->model());
-      setWindowModified(takenProject->isModified());
-      connect(takenProject,&Project::nameChanged,this,&MainWindow::projectNameChanged);
-      connect(takenProject,&Project::modified,this,&MainWindow::projectModified);
-      connect(takenProject,&Project::saved,this,&MainWindow::projectSaved);
-      connect(takenProject,&Project::changed,this,&MainWindow::projectFileChanged);
+      _view->setModel(_project->model());
+      setWindowModified(_project->isModified());
+      connect(_project,&Project::nameChanged,this,&MainWindow::projectNameChanged);
+      connect(_project,&Project::modified,this,&MainWindow::projectModified);
+      connect(_project,&Project::saved,this,&MainWindow::projectSaved);
+      connect(_project,&Project::changed,this,&MainWindow::projectFileChanged);
+      _project->setParent(this);
    }
 }
 
@@ -71,12 +71,12 @@ void MainWindow::newTriggered()
    project->setName(tr("Untitled Project"));
    if ( !_project )
    {
-      setProject(project.release());
+      setProject(std::move(project));
    }
    else
    {
       MainWindow* window {new MainWindow};
-      window->setProject(project.release());
+      window->setProject(std::move(project));
       window->show();
    }
 }
@@ -99,19 +99,18 @@ void MainWindow::openTriggered()
          unique_ptr<Project> project {new Project(path)};
          if ( !_project )
          {
-            setProject(project.release());
+            setProject(std::move(project));
          }
          else
          {
             MainWindow* window = new MainWindow;
-            window->setProject(project.release());
+            window->setProject(std::move(project));
             window->show();
          }
       }
       catch (Exception::Base e)
       {
-         e.show(tr("An error occured while attempting to open the project.")
-                ,Exception::Icon::Warning);
+         e.show(tr("An error occured while attempting to open the project."),Exception::Icon::Warning);
       }
    }
 }
@@ -159,12 +158,11 @@ void MainWindow::projectFileChanged()
       try
       {
          unique_ptr<Project> project {new Project(_project->path())};
-         setProject(project.release());
+         setProject(std::move(project));
       }
       catch (Exception::Base e)
       {
-         e.show(tr("An error occured while attempting to reload the project.")
-                ,Exception::Icon::Warning);
+         e.show(tr("An error occured while attempting to reload the project."),Exception::Icon::Warning);
       }
    }
 }
@@ -327,8 +325,7 @@ void MainWindow::updateTitle()
 {
    if ( _project )
    {
-      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->name())
-                     .arg(AbstractProjectFactory::instance().name(_project->type())));
+      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->name()).arg(AbstractProjectFactory::instance().name(_project->type())));
    }
    else
    {
@@ -369,8 +366,7 @@ bool MainWindow::isOkToContinue()
    }
    QMessageBox confirm;
    confirm.setWindowTitle(tr("Unsaved Project Changes"));
-   confirm.setText(tr("The currently open project has unsaved changes. Closing the project will"
-                      " cause all unsaved changes to be lost!"));
+   confirm.setText(tr("The currently open project has unsaved changes. Closing the project will cause all unsaved changes to be lost!"));
    confirm.setIcon(QMessageBox::Question);
    confirm.setStandardButtons(QMessageBox::Save|QMessageBox::Cancel|QMessageBox::Discard);
    int answer = confirm.exec();

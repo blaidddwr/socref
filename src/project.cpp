@@ -198,8 +198,7 @@ void Project::setScanDirectory(const QString& path)
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
-         e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
-                      .arg(path));
+         e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.").arg(path));
          throw e;
       }
       _scanDirectory = info.canonicalFilePath();
@@ -345,10 +344,10 @@ void Project::createRoot()
    {
       Exception::LogicError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Invald project type %1 when max is %2.").arg(_type).arg(factory.size()-1));
+      e.setDetails(tr("Invald project type %1 when max is %2.").arg(_type).arg(factory.size() - 1));
       throw e;
    }
-   _root = factory.blockFactory(_type).makeRootBlock();
+   _root = factory.blockFactory(_type).makeRootBlock().release();
    if ( !_root )
    {
       Exception::LogicError e;

@@ -1,5 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
+#include <memory>
 #include <QMainWindow>
 
 
@@ -25,7 +26,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit MainWindow(QWidget* parent = nullptr);
-      void setProject(Project* takenProject);
+      void setProject(std::unique_ptr<Project>&& project);
    private slots:
       void newTriggered();
       void openTriggered();

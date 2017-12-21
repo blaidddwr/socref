@@ -16,8 +16,7 @@ public:
       _level(level),
       _stopLevel(stopLevel)
       {}
-   XMLElementParser& addKeyword(const QString& keyword, bool onlyOnce = false
-         , bool markRead = false);
+   XMLElementParser& addKeyword(const QString& keyword, bool onlyOnce = false, bool markRead = false);
    int operator()();
    bool allRead() const;
    bool keyRead(const QString& keyword);

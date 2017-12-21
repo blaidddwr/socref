@@ -23,7 +23,7 @@ namespace CppQt
          Q_OBJECT
       public:
          explicit Namespace(AbstractBlock* block, QWidget* parent = nullptr);
-         virtual QLayout* createForm() override final;
+         virtual std::unique_ptr<QLayout> createForm() override final;
       protected slots:
          virtual void okClicked() override final;
          virtual void applyClicked() override final;

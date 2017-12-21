@@ -5,6 +5,10 @@
 
 
 
+using namespace std;
+
+
+
 
 
 
@@ -73,7 +77,7 @@ int BlockModel::rowCount(const QModelIndex& parent) const
 
 
 
-AbstractBlock *BlockModel::pointer(const QModelIndex& index) const
+AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
 {
    AbstractBlock* ret;
    if ( index.isValid() )
@@ -110,14 +114,14 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
 
 
 
-bool BlockModel::insertRow(int row, const QModelIndex& parent, AbstractBlock* takenObject)
+bool BlockModel::insertRow(int row, const QModelIndex& parent, unique_ptr<AbstractBlock>&& object)
 {
-   if ( !takenObject )
+   if ( !object )
    {
       return false;
    }
    beginInsertRows(parent,row,row);
-   pointer(parent)->insertChild(row,takenObject);
+   pointer(parent)->insertChild(row,std::move(object));
    endInsertRows();
    return true;
 }
@@ -139,12 +143,12 @@ bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
       return false;
    }
    beginMoveRows(parent,source,source,parent,destination);
-   AbstractBlock* child {parent_->takeChild(source)};
+   unique_ptr<AbstractBlock> child {parent_->takeChild(source)};
    if ( destination > ( source + 1 ) )
    {
       --destination;
    }
-   parent_->insertChild(destination,child);
+   parent_->insertChild(destination,std::move(child));
    endMoveRows();
    return true;
 }
@@ -172,7 +176,7 @@ bool BlockModel::removeRow(int row, const QModelIndex& parent)
 
 
 
-AbstractBlock* BlockModel::copyRow(int row, const QModelIndex& parent) const
+unique_ptr<AbstractBlock> BlockModel::copyRow(int row, const QModelIndex& parent) const
 {
    AbstractBlock* parent_ {pointer(parent)};
    if ( row < 0 || row >= parent_->childrenSize() )
@@ -187,7 +191,7 @@ AbstractBlock* BlockModel::copyRow(int row, const QModelIndex& parent) const
 
 
 
-AbstractBlock* BlockModel::cutRow(int row, const QModelIndex& parent)
+unique_ptr<AbstractBlock> BlockModel::cutRow(int row, const QModelIndex& parent)
 {
    AbstractBlock* parent_ {pointer(parent)};
    if ( row < 0 || row >= parent_->childrenSize() )
@@ -195,7 +199,7 @@ AbstractBlock* BlockModel::cutRow(int row, const QModelIndex& parent)
       return nullptr;
    }
    beginRemoveRows(parent,row,row);
-   AbstractBlock* ret {parent_->takeChild(row)};
+   unique_ptr<AbstractBlock> ret {parent_->takeChild(row)};
    endRemoveRows();
    return ret;
 }

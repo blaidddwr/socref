@@ -5,6 +5,7 @@
 
 
 
+using namespace std;
 using namespace CppQt;
 
 
@@ -65,9 +66,9 @@ const QList<int> BlockFactory::buildList(int type) const
 
 
 
-AbstractBlock* BlockFactory::makeRootBlock() const
+unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
 {
-   Namespace* ret {new Namespace(*this,NamespaceType)};
+   unique_ptr<Namespace> ret {new Namespace(*this,NamespaceType)};
    ret->setName("");
    return ret;
 }
@@ -77,11 +78,11 @@ AbstractBlock* BlockFactory::makeRootBlock() const
 
 
 
-AbstractBlock* BlockFactory::makeBlock(int type) const
+unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 {
    switch (type)
    {
-   case NamespaceType: return new Namespace(*this,NamespaceType);
+   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace(*this,NamespaceType));
    default: return nullptr;
    }
 }
@@ -91,11 +92,11 @@ AbstractBlock* BlockFactory::makeBlock(int type) const
 
 
 
-QWidget* BlockFactory::makeView(int type, AbstractBlock* block) const
+unique_ptr<QWidget> BlockFactory::makeView(int type, AbstractBlock* block) const
 {
    switch (type)
    {
-   case NamespaceType: return new View::Namespace(block);
+   case NamespaceType: return unique_ptr<QWidget>(new View::Namespace(block));
    default: return nullptr;
    }
 }
@@ -105,11 +106,11 @@ QWidget* BlockFactory::makeView(int type, AbstractBlock* block) const
 
 
 
-Gui::AbstractEdit* BlockFactory::makeEdit(int type, AbstractBlock* block) const
+unique_ptr<Gui::AbstractEdit> BlockFactory::makeEdit(int type, AbstractBlock* block) const
 {
    switch (type)
    {
-   case NamespaceType: return new Edit::Namespace(block);
+   case NamespaceType: return unique_ptr<Gui::AbstractEdit>(new Edit::Namespace(block));
    default: return nullptr;
    }
 }

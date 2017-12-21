@@ -1,5 +1,6 @@
 #ifndef BLOCKMODEL_H
 #define BLOCKMODEL_H
+#include <memory>
 #include <QtCore>
 
 
@@ -21,16 +22,15 @@ public:
    AbstractBlock* pointer(const QModelIndex& index) const;
    virtual QVariant data(const QModelIndex& index, int role) const override final;
    //Qt::ItemFlags flags(const QModelIndex& index) const override final;
-   bool insertRow(int row, const QModelIndex& parent, AbstractBlock* takenObject);
+   bool insertRow(int row, const QModelIndex& parent, std::unique_ptr<AbstractBlock>&& object);
    bool moveRow(int source, int destination, const QModelIndex& parent);
    bool removeRow(int row, const QModelIndex& parent);
-   AbstractBlock* copyRow(int row, const QModelIndex& parent) const;
-   AbstractBlock* cutRow(int row, const QModelIndex& parent);
+   std::unique_ptr<AbstractBlock> copyRow(int row, const QModelIndex& parent) const;
+   std::unique_ptr<AbstractBlock> cutRow(int row, const QModelIndex& parent);
    //QStringList mimeTypes() const override final;
    //Qt::DropActions supportedDropActions() const override final;
    //QMimeData* mimeData(const QModelIndexList& indexes) const override final;
-   //bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column
-   //                  , const QModelIndex& parent) override final;
+   //bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent) override final;
    const AbstractBlockFactory* factory() const { return _factory; }
    void setRoot(AbstractBlock* root);
 private slots:

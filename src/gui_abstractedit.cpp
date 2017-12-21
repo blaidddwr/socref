@@ -16,7 +16,7 @@ using namespace Gui;
 void AbstractEdit::initialize()
 {
    QVBoxLayout* layout {new QVBoxLayout};
-   layout->addLayout(createForm());
+   layout->addLayout(createForm().release());
    layout->addLayout(createButtons());
    setLayout(layout);
 }

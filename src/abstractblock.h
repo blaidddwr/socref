@@ -1,5 +1,6 @@
 #ifndef ABSTRACTBLOCK_H
 #define ABSTRACTBLOCK_H
+#include <memory>
 #include <QObject>
 
 
@@ -21,7 +22,7 @@ public:
    virtual QString name() const = 0;
    virtual void readData(QXmlStreamReader& xml) = 0;
    virtual void writeData(QXmlStreamWriter& xml) const = 0;
-   virtual AbstractBlock* makeCopy() const = 0;
+   virtual std::unique_ptr<AbstractBlock> makeCopy() const = 0;
    int type() const { return _type; }
    const AbstractBlockFactory& factory() const { return _factory; }
    AbstractBlock* parent() const { return _parent; }
@@ -30,8 +31,8 @@ public:
    const AbstractBlock* child(int index) const;
    int childIndex(AbstractBlock* child) const
    { return _children.indexOf(child); }
-   void insertChild(int index, AbstractBlock* takenChild);
-   AbstractBlock* takeChild(int index);
+   void insertChild(int index, std::unique_ptr<AbstractBlock> child);
+   std::unique_ptr<AbstractBlock> takeChild(int index);
    void removeChild(int index);
    void read(QXmlStreamReader& xml);
    void write(QXmlStreamWriter& xml) const;

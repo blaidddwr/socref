@@ -1,5 +1,6 @@
 #ifndef GUI_ABSTRACTEDIT_H
 #define GUI_ABSTRACTEDIT_H
+#include <memory>
 #include <QWidget>
 
 
@@ -15,7 +16,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit AbstractEdit(QWidget* parent): QWidget(parent) {}
-      virtual QLayout* createForm() = 0;
+      virtual std::unique_ptr<QLayout> createForm() = 0;
       void initialize();
    signals:
       void finished();

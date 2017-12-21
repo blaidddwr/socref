@@ -17,11 +17,10 @@ namespace CppQt
       virtual QString name() const override final { return _name; }
       virtual void readData(QXmlStreamReader& xml) override final;
       virtual void writeData(QXmlStreamWriter& xml) const override final;
-      virtual AbstractBlock* makeCopy() const override final;
+      virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       void setName(const QString& name);
       QString description() const { return _description; }
       void setDescription(const QString& description);
-      QList<QString> variableTypes() const;
    private:
       QString _name;
       QString _description;

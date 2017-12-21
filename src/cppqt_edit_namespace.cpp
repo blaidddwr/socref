@@ -10,6 +10,7 @@
 
 
 
+using namespace std;
 using namespace CppQt::Edit;
 
 
@@ -35,11 +36,11 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
 
 
 
-QLayout* Namespace::createForm()
+unique_ptr<QLayout> Namespace::createForm()
 {
    createNameEdit();
    createDescriptionEdit();
-   QFormLayout* form {new QFormLayout};
+   unique_ptr<QFormLayout> form {new QFormLayout};
    form->addRow(new QLabel(tr("Name:")),_nameEdit);
    form->addRow(new QLabel(tr("Description:")),_descriptionEdit);
    return form;

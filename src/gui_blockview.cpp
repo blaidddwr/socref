@@ -10,7 +10,11 @@
 
 
 
+using namespace std;
 using namespace Gui;
+
+
+
 AbstractBlock* BlockView::_copy {nullptr};
 
 
@@ -41,8 +45,7 @@ void BlockView::setModel(BlockModel* model)
    _model = model;
    _factory = model->factory();
    _selectionModel = _treeView->selectionModel();
-   connect(_selectionModel,&QItemSelectionModel::selectionChanged,this
-           ,&BlockView::selectionModelChanged);
+   connect(_selectionModel,&QItemSelectionModel::selectionChanged,this,&BlockView::selectionModelChanged);
    connect(model,&BlockModel::destroyed,this,&BlockView::modelDestroyed);
    selectionModelChanged();
 }
@@ -109,10 +112,10 @@ void BlockView::editTriggered()
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->pointer(index)};
-      AbstractEdit* edit {_factory->makeEdit(pointer->type(),pointer)};
+      unique_ptr<AbstractEdit> edit {_factory->makeEdit(pointer->type(),pointer)};
       edit->initialize();
-      connect(edit,&AbstractEdit::finished,this,&BlockView::editFinished);
-      setView(edit);
+      connect(edit.get(),&AbstractEdit::finished,this,&BlockView::editFinished);
+      setView(edit.release());
    }
 }
 
@@ -126,7 +129,7 @@ void BlockView::cutTriggered()
    QModelIndex index {selection()};
    if ( index.isValid() )
    {
-      setCopy(_model->cutRow(index.row(),_model->parent(index)));
+      setCopy(_model->cutRow(index.row(),_model->parent(index)).release());
       updateActions();
    }
 }
@@ -141,7 +144,7 @@ void BlockView::copyTriggered()
    QModelIndex index {selection()};
    if ( index.isValid() )
    {
-      setCopy(_model->copyRow(index.row(),_model->parent(index)));
+      setCopy(_model->copyRow(index.row(),_model->parent(index)).release());
       updateActions();
    }
 }
@@ -169,7 +172,7 @@ void BlockView::moveUpTriggered()
    QModelIndex index {selection()};
    if ( index.isValid() )
    {
-      _model->moveRow(index.row(),index.row()-1,_model->parent(index));
+      _model->moveRow(index.row(),index.row() - 1,_model->parent(index));
    }
 }
 
@@ -183,7 +186,7 @@ void BlockView::moveDownTriggered()
    QModelIndex index {selection()};
    if ( index.isValid() )
    {
-      _model->moveRow(index.row(),index.row()+2,_model->parent(index));
+      _model->moveRow(index.row(),index.row() + 2,_model->parent(index));
    }
 }
 
@@ -194,14 +197,14 @@ void BlockView::moveDownTriggered()
 
 void BlockView::selectionModelChanged()
 {
-   QWidget* view {nullptr};
+   unique_ptr<QWidget> view;
    QModelIndex index {selection()};
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->pointer(index)};
       view = _factory->makeView(pointer->type(),pointer);;
    }
-   setView(view);
+   setView(view.release());
    updateActions();
    updateMenu();
 }

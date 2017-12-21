@@ -69,13 +69,13 @@ void Namespace::writeData(QXmlStreamWriter& xml) const
 
 
 
-AbstractBlock* Namespace::makeCopy() const
+unique_ptr<AbstractBlock> Namespace::makeCopy() const
 {
    unique_ptr<Namespace> ret {new Namespace(factory(),type())};
    ret->_name = _name;
    ret->_description = _description;
    ret->copyChildren(this);
-   return ret.release();
+   return ret;
 }
 
 
@@ -105,35 +105,4 @@ void CppQt::Namespace::setDescription(const QString& description)
       _description = description;
       emit modified();
    }
-}
-
-
-
-
-
-
-QList<QString> Namespace::variableTypes() const
-{
-   QList<QString> ret;
-   if ( !parent() )
-   {
-      ret << "bool" << "char" << "short int" << "int" << "long int" << "long long int"
-          << "short unsigned int" << "unsigned int" << "long unsigned int"
-          << "long long unsigned int" << "float" << "double" << "qint8" << "qint16" << "qint32"
-          << "qint64" << "quint8" << "quint16" << "quint32" << "quint64";
-   }
-   for (int i = 0; i < childrenSize() ;++i)
-   {
-      if ( child(i)->type() == BlockFactory::NamespaceType )
-      {
-         const Namespace* child_ {qobject_cast<const Namespace*>(child(i))};
-         QList<QString> childList {child_->variableTypes()};
-         for (auto& x : childList)
-         {
-            x.prepend(child_->name() + "::");
-         }
-         ret << childList;
-      }
-   }
-   return ret;
 }

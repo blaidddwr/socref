@@ -20,8 +20,7 @@ AbstractBlock* AbstractBlock::child(int index)
    {
       Exception::OutOfRange e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot get child %1 when only %2 children exist.").arg(index)
-                   .arg(_children.size()));
+      e.setDetails(tr("Cannot get child %1 when only %2 children exist.").arg(index).arg(_children.size()));
       throw e;
    }
    return _children.at(index);
@@ -37,8 +36,7 @@ const AbstractBlock* AbstractBlock::child(int index) const
    {
       Exception::OutOfRange e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot get child %1 when only %2 children exist.").arg(index)
-                   .arg(_children.size()));
+      e.setDetails(tr("Cannot get child %1 when only %2 children exist.").arg(index).arg(_children.size()));
       throw e;
    }
    return _children.at(index);
@@ -50,24 +48,23 @@ const AbstractBlock* AbstractBlock::child(int index) const
 
 
 
-void AbstractBlock::insertChild(int index, AbstractBlock* takenChild)
+void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock> child)
 {
-   if ( !takenChild )
+   if ( !child )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot insert child block with null pointer."));
       throw e;
    }
-   if ( !_factory.buildList(_type).contains(takenChild->_type) )
+   if ( !_factory.buildList(_type).contains(child->_type) )
    {
       Exception::InvalidUse e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.")
-                   .arg(takenChild->_type).arg(_type));
+      e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.").arg(child->_type).arg(_type));
       throw e;
    }
-   takenChild->setBlockParent(this,index);
+   child.release()->setBlockParent(this,index);
    emit modified();
 }
 
@@ -76,20 +73,19 @@ void AbstractBlock::insertChild(int index, AbstractBlock* takenChild)
 
 
 
-AbstractBlock* AbstractBlock::takeChild(int index)
+unique_ptr<AbstractBlock> AbstractBlock::takeChild(int index)
 {
    if ( index < 0 && index >= _children.size() )
    {
       Exception::OutOfRange e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot take child %1 when only %2 children exist.").arg(index)
-                   .arg(_children.size()));
+      e.setDetails(tr("Cannot take child %1 when only %2 children exist.").arg(index).arg(_children.size()));
       throw e;
    }
    AbstractBlock* ret = _children.at(index);
    ret->setBlockParent(nullptr,-1);
    emit modified();
-   return ret;
+   return unique_ptr<AbstractBlock>(ret);
 }
 
 
@@ -103,8 +99,7 @@ void AbstractBlock::removeChild(int index)
    {
       Exception::OutOfRange e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot remove child %1 when only %2 children exist.").arg(index)
-                   .arg(_children.size()));
+      e.setDetails(tr("Cannot remove child %1 when only %2 children exist.").arg(index).arg(_children.size()));
       throw e;
    }
    delete _children.takeAt(index);
@@ -199,9 +194,9 @@ AbstractBlock& AbstractBlock::root()
 
 void AbstractBlock::copyChildren(const AbstractBlock* block)
 {
-   for (const auto& i : block->_children)
+   for (const auto& child : block->_children)
    {
-      i->makeCopy()->setBlockParent(this,childrenSize());
+      child->makeCopy()->setBlockParent(this,childrenSize());
    }
 }
 
