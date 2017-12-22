@@ -196,7 +196,7 @@ void AbstractBlock::copyChildren(const AbstractBlock* block)
 {
    for (const auto& child : block->_children)
    {
-      child->makeCopy()->setBlockParent(this,childrenSize());
+      child->makeCopy().release()->setBlockParent(this,childrenSize());
    }
 }
 
