@@ -1,6 +1,7 @@
 #ifndef ABSTRACTBLOCKFACTORY_H
 #define ABSTRACTBLOCKFACTORY_H
 #include <memory>
+
 #include <QString>
 #include <QIcon>
 

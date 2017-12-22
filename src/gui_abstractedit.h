@@ -1,6 +1,7 @@
 #ifndef GUI_ABSTRACTEDIT_H
 #define GUI_ABSTRACTEDIT_H
 #include <memory>
+
 #include <QWidget>
 
 

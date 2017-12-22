@@ -1,4 +1,3 @@
-#include <memory>
 #include <QAction>
 #include <QMenuBar>
 #include <QMessageBox>

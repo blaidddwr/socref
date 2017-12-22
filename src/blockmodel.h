@@ -1,6 +1,7 @@
 #ifndef BLOCKMODEL_H
 #define BLOCKMODEL_H
 #include <memory>
+
 #include <QtCore>
 
 

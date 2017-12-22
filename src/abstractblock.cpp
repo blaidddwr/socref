@@ -1,5 +1,3 @@
-#include <memory>
-
 #include "abstractblockfactory.h"
 #include "abstractblock.h"
 #include "exception.h"

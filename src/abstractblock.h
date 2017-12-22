@@ -1,6 +1,7 @@
 #ifndef ABSTRACTBLOCK_H
 #define ABSTRACTBLOCK_H
 #include <memory>
+
 #include <QObject>
 
 
