@@ -3,6 +3,10 @@
 
 
 
+using namespace CppQt;
+
+
+
 
 
 
@@ -34,18 +38,30 @@ QString AbstractType::name(const QList<QString> scope) const
 
 
 
-void AbstractType::setScope(const QList<QString> scope)
+AbstractType* AbstractType::clearScope()
 {
-   QRegExp regexp("[a-zA-Z_]+[a-zA-Z0-9_]*");
-   for (const auto& name : _scope)
+   _scope.clear();
+   return this;
+}
+
+
+
+
+
+
+AbstractType* AbstractType::prependScope(const QString& scope)
+{
+   if ( scope.isEmpty() )
    {
-      if ( !regexp.exactMatch(name) )
-      {
-         Exception::InvalidArgument e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Cannot set invalid namespace '%1'.").arg(name));
-         throw e;
-      }
+      return this;
    }
-   _scope = scope;
+   if ( !QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*").exactMatch(scope) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(QObject::tr("Cannot prepend invalid namespace '%1'.").arg(scope));
+      throw e;
+   }
+   _scope.prepend(scope);
+   return this;
 }
