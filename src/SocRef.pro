@@ -24,7 +24,8 @@ SOURCES += \
     gui_abstractedit.cpp \
     cppqt_type.cpp \
     cppqt_edit_namespace.cpp \
-    cppqt_view_namespace.cpp
+    cppqt_view_namespace.cpp \
+    cppqt_abstracttype.cpp
 
 HEADERS += \
     singleton.h \
@@ -46,4 +47,5 @@ HEADERS += \
     gui_abstractedit.h \
     cppqt_type.h \
     cppqt_edit_namespace.h \
-    cppqt_view_namespace.h
+    cppqt_view_namespace.h \
+    cppqt_abstracttype.h
