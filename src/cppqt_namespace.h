@@ -1,17 +1,17 @@
 #ifndef CPPQT_ENUMERATION_H
 #define CPPQT_ENUMERATION_H
-#include "abstractblock.h"
+#include "cppqt_abstractcontainer.h"
 
 
 
 namespace CppQt
 {
-   class Namespace : public AbstractBlock
+   class Namespace : public AbstractContainer
    {
       Q_OBJECT
    public:
       explicit Namespace(const AbstractBlockFactory& factory, int type):
-         AbstractBlock(factory,type),
+         AbstractContainer(factory,type),
          _name(tr("unnamed_namespace"))
          {}
       virtual QString name() const override final { return _name; }
@@ -22,6 +22,7 @@ namespace CppQt
       QString description() const { return _description; }
       void setDescription(const QString& description);
    private:
+      virtual QString scopeName() const override final { return _name; }
       QString _name;
       QString _description;
    };

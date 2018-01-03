@@ -12,6 +12,7 @@ namespace CppQt
    {
    public:
       virtual bool isConcrete() const = 0;
+      virtual bool isTemplate() const = 0;
       virtual bool isClass() const = 0;
       virtual bool isEquivalent(const AbstractType* type) const = 0;
       virtual QList<const AbstractType*> contains() const = 0;
