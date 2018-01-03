@@ -3,10 +3,7 @@
 #include <QString>
 
 #include "singletonfactory.h"
-
-
-
-class AbstractBlockFactory;
+#include "abstractblockfactory.h"
 
 
 

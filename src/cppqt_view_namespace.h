@@ -2,9 +2,7 @@
 #define CPPQT_NAMESPACEVIEW_H
 #include <QLabel>
 
-
-
-class AbstractBlock;
+#include "abstractblock.h"
 
 
 

@@ -1,4 +1,3 @@
-#include "abstractblockfactory.h"
 #include "abstractblock.h"
 #include "exception.h"
 #include "xmlelementparser.h"

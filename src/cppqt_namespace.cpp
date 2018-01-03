@@ -85,7 +85,7 @@ unique_ptr<AbstractBlock> Namespace::makeCopy() const
 
 void Namespace::setName(const QString& name)
 {
-   if ( !QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*").exactMatch(name) )
+   if ( !QRegExp("[a-zA-Z_]*[a-zA-Z0-9_]*").exactMatch(name) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

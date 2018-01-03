@@ -2,9 +2,10 @@
 #define GUI_PROJECTDIALOG_H
 #include <QDialog>
 
+#include "project.h"
 
 
-class Project;
+
 class QLineEdit;
 class QHBoxLayout;
 class QFormLayout;

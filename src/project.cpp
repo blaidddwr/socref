@@ -8,8 +8,6 @@
 #include "project.h"
 #include "abstractprojectfactory.h"
 #include "abstractblockfactory.h"
-#include "abstractblock.h"
-#include "blockmodel.h"
 #include "xmlelementparser.h"
 #include "exception.h"
 

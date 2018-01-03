@@ -1,15 +1,12 @@
 #ifndef CPPQT_ABSTRACTCONTAINER_H
 #define CPPQT_ABSTRACTCONTAINER_H
 #include "abstractblock.h"
+#include "cppqt_abstracttype.h"
 
 
 
 namespace CppQt
 {
-   class AbstractType;
-
-
-
    class AbstractContainer : public AbstractBlock
    {
       Q_OBJECT

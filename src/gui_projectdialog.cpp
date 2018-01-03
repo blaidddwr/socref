@@ -7,7 +7,6 @@
 
 #include "gui_projectdialog.h"
 #include "exception.h"
-#include "project.h"
 
 
 

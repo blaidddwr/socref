@@ -4,10 +4,8 @@
 
 #include <QtCore>
 
-
-
-class AbstractBlockFactory;
-class AbstractBlock;
+#include "abstractblockfactory.h"
+#include "abstractblock.h"
 
 
 

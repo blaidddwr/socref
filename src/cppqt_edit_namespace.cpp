@@ -5,7 +5,6 @@
 #include <QRegExpValidator>
 
 #include "cppqt_edit_namespace.h"
-#include "cppqt_namespace.h"
 #include "exception.h"
 
 

@@ -5,14 +5,12 @@
 #include <QString>
 #include <QIcon>
 
+#include "abstractblock.h"
+#include "gui_abstractedit.h"
+
 
 
 class AbstractBlock;
-
-namespace Gui
-{
-   class AbstractEdit;
-}
 
 
 

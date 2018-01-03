@@ -4,15 +4,16 @@
 #include <QModelIndex>
 #include <QItemSelection>
 
+#include "abstractblock.h"
+#include "abstractblockfactory.h"
+#include "blockmodel.h"
+
 
 
 class QHBoxLayout;
 class QTreeView;
 class QScrollArea;
 class QMenu;
-class BlockModel;
-class AbstractBlock;
-class AbstractBlockFactory;
 
 
 

@@ -1,15 +1,12 @@
 #ifndef CPPQT_ABSTRACTDEFINITION_H
 #define CPPQT_ABSTRACTDEFINITION_H
 #include "cppqt_abstracttype.h"
+#include "cppqt_abstracttype.h"
 
 
 
 namespace CppQt
 {
-   class AbstractType;
-
-
-
    class AbstractDefinition
    {
    public:

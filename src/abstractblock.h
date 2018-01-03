@@ -4,11 +4,13 @@
 
 #include <QObject>
 
+#include "abstractblockfactory.h"
 
 
-class AbstractBlockFactory;
+
 class QXmlStreamReader;
 class QXmlStreamWriter;
+class AbstractBlockFactory;
 
 
 

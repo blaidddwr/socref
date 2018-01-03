@@ -3,10 +3,7 @@
 #include <QMenu>
 
 #include "gui_blockview.h"
-#include "blockmodel.h"
-#include "abstractblock.h"
 #include "gui_abstractedit.h"
-#include "abstractblockfactory.h"
 
 
 

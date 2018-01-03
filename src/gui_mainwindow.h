@@ -4,24 +4,15 @@
 
 #include <QMainWindow>
 
-
-
-namespace Exception
-{
-   class Base;
-}
-
-class Project;
-class AbstractBlock;
+#include "exception.h"
+#include "project.h"
+#include "abstractblock.h"
+#include "gui_blockview.h"
 
 
 
 namespace Gui
 {
-   class BlockView;
-
-
-
    class MainWindow : public QMainWindow
    {
       Q_OBJECT

@@ -1,6 +1,7 @@
 #ifndef CPPQT_NAMESPACEEDIT_H
 #define CPPQT_NAMESPACEEDIT_H
 #include "gui_abstractedit.h"
+#include "cppqt_namespace.h"
 
 
 
@@ -12,10 +13,6 @@ class QPlainTextEdit;
 
 namespace CppQt
 {
-   class Namespace;
-
-
-
    namespace Edit
    {
       class Namespace : public Gui::AbstractEdit
