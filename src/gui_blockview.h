@@ -24,7 +24,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit BlockView(QWidget *parent = nullptr);
-      void setModel(BlockModel* model);
+      BlockView& setModel(BlockModel* model);
       QMenu* contextMenu() const { return _contextMenu; }
       bool hasSelection() const { return selection().isValid(); }
       bool canPaste() const;

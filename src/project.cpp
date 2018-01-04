@@ -94,7 +94,7 @@ Project::Project(const QString &path):
 
 
 
-void Project::save()
+Project& Project::save()
 {
    if ( _path.isEmpty() )
    {
@@ -139,6 +139,7 @@ void Project::save()
    xmlFile.write(xmlBytes);
    _modified = false;
    emit saved();
+   return *this;
 }
 
 
@@ -146,7 +147,7 @@ void Project::save()
 
 
 
-void Project::saveAs(const QString& path)
+Project& Project::saveAs(const QString& path)
 {
    QString oldPath = _path;
    _path = path;
@@ -164,6 +165,7 @@ void Project::saveAs(const QString& path)
       removePath(oldPath);
    }
    addPath(_path);
+   return *this;
 }
 
 
@@ -171,7 +173,7 @@ void Project::saveAs(const QString& path)
 
 
 
-void Project::setName(const QString& name)
+Project& Project::setName(const QString& name)
 {
    if ( _name != name )
    {
@@ -179,6 +181,7 @@ void Project::setName(const QString& name)
       emit nameChanged();
       signalModified();
    }
+   return *this;
 }
 
 
@@ -186,7 +189,7 @@ void Project::setName(const QString& name)
 
 
 
-void Project::setScanDirectory(const QString& path)
+Project& Project::setScanDirectory(const QString& path)
 {
    QFileInfo current(_scanDirectory);
    QFileInfo info(path);
@@ -202,6 +205,7 @@ void Project::setScanDirectory(const QString& path)
       _scanDirectory = info.canonicalFilePath();
       signalModified();
    }
+   return *this;
 }
 
 
@@ -209,13 +213,14 @@ void Project::setScanDirectory(const QString& path)
 
 
 
-void Project::setScanFilters(const QString& filters)
+Project& Project::setScanFilters(const QString& filters)
 {
    if ( _scanFilters != filters )
    {
       _scanFilters = filters;
       signalModified();
    }
+   return *this;
 }
 
 

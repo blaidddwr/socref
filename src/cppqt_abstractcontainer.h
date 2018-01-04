@@ -12,7 +12,7 @@ namespace CppQt
       Q_OBJECT
    public:
       friend class ContainerModel;
-      AbstractContainer(const AbstractBlockFactory& factory, int type):
+      explicit AbstractContainer(const AbstractBlockFactory& factory, int type):
          AbstractBlock(factory,type)
          {}
       const QList<AbstractType*> contains();

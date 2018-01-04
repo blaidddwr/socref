@@ -20,12 +20,12 @@ namespace CppQt
          Q_OBJECT
       public:
          explicit Namespace(AbstractBlock* block, QWidget* parent = nullptr);
-         virtual std::unique_ptr<QLayout> createForm() override final;
       protected slots:
          virtual void okClicked() override final;
          virtual void applyClicked() override final;
          virtual void cancelClicked() override final { emit finished(); }
       private:
+         virtual std::unique_ptr<QLayout> createForm() override final;
          void createNameEdit();
          void createDescriptionEdit();
          CppQt::Namespace* _block;

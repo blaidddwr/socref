@@ -45,7 +45,7 @@ const AbstractBlock* AbstractBlock::child(int index) const
 
 
 
-void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock> child)
+AbstractBlock* AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock> child)
 {
    if ( !child )
    {
@@ -63,6 +63,7 @@ void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock> child)
    }
    child.release()->setBlockParent(this,index);
    emit modified();
+   return this;
 }
 
 
@@ -90,7 +91,7 @@ unique_ptr<AbstractBlock> AbstractBlock::takeChild(int index)
 
 
 
-void AbstractBlock::removeChild(int index)
+AbstractBlock* AbstractBlock::removeChild(int index)
 {
    if ( index < 0 && index >= _children.size() )
    {
@@ -101,6 +102,7 @@ void AbstractBlock::removeChild(int index)
    }
    delete _children.takeAt(index);
    emit modified();
+   return this;
 }
 
 
@@ -108,7 +110,7 @@ void AbstractBlock::removeChild(int index)
 
 
 
-void AbstractBlock::read(QXmlStreamReader &xml)
+AbstractBlock* AbstractBlock::read(QXmlStreamReader &xml)
 {
    enum
    {
@@ -141,6 +143,7 @@ void AbstractBlock::read(QXmlStreamReader &xml)
       e.setDetails(tr("Failed reading in all required elements."));
       throw e;
    }
+   return this;
 }
 
 
@@ -148,7 +151,7 @@ void AbstractBlock::read(QXmlStreamReader &xml)
 
 
 
-void AbstractBlock::write(QXmlStreamWriter& xml) const
+const AbstractBlock* AbstractBlock::write(QXmlStreamWriter& xml) const
 {
    xml.writeStartElement("data");
    writeData(xml);
@@ -167,6 +170,7 @@ void AbstractBlock::write(QXmlStreamWriter& xml) const
       e.setDetails(tr("Xml Error writing to file."));
       throw e;
    }
+   return this;
 }
 
 
@@ -189,12 +193,13 @@ AbstractBlock& AbstractBlock::root()
 
 
 
-void AbstractBlock::copyChildren(const AbstractBlock* block)
+AbstractBlock* AbstractBlock::copyChildren(const AbstractBlock* block)
 {
    for (const auto& child : block->_children)
    {
       child->makeCopy().release()->setBlockParent(this,childrenSize());
    }
+   return this;
 }
 
 

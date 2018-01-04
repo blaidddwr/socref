@@ -15,7 +15,7 @@ using namespace CppQt;
 
 
 
-void Namespace::readData(QXmlStreamReader& xml)
+AbstractBlock* Namespace::readData(QXmlStreamReader& xml)
 {
    enum
    {
@@ -44,6 +44,7 @@ void Namespace::readData(QXmlStreamReader& xml)
       e.setDetails(tr("Failed reading in all required elements."));
       throw e;
    }
+   return this;
 }
 
 
@@ -51,7 +52,7 @@ void Namespace::readData(QXmlStreamReader& xml)
 
 
 
-void Namespace::writeData(QXmlStreamWriter& xml) const
+const AbstractBlock* Namespace::writeData(QXmlStreamWriter& xml) const
 {
    xml.writeTextElement("name",_name);
    xml.writeTextElement("description",_description);
@@ -62,6 +63,7 @@ void Namespace::writeData(QXmlStreamWriter& xml) const
       e.setDetails(tr("Xml Error writing to file."));
       throw e;
    }
+   return this;
 }
 
 
@@ -83,7 +85,7 @@ unique_ptr<AbstractBlock> Namespace::makeCopy() const
 
 
 
-void Namespace::setName(const QString& name)
+Namespace& Namespace::setName(const QString& name)
 {
    if ( !QRegExp("[a-zA-Z_]*[a-zA-Z0-9_]*").exactMatch(name) )
    {
@@ -98,6 +100,7 @@ void Namespace::setName(const QString& name)
       notifyOfNameChange();
       emit modified();
    }
+   return *this;
 }
 
 
@@ -105,11 +108,12 @@ void Namespace::setName(const QString& name)
 
 
 
-void CppQt::Namespace::setDescription(const QString& description)
+Namespace& CppQt::Namespace::setDescription(const QString& description)
 {
    if ( _description != description )
    {
       _description = description;
       emit modified();
    }
+   return *this;
 }

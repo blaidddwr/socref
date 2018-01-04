@@ -35,21 +35,6 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
 
 
 
-unique_ptr<QLayout> Namespace::createForm()
-{
-   createNameEdit();
-   createDescriptionEdit();
-   unique_ptr<QFormLayout> form {new QFormLayout};
-   form->addRow(new QLabel(tr("Name:")),_nameEdit);
-   form->addRow(new QLabel(tr("Description:")),_descriptionEdit);
-   return form;
-}
-
-
-
-
-
-
 void Namespace::okClicked()
 {
    applyClicked();
@@ -65,6 +50,21 @@ void Namespace::applyClicked()
 {
    _block->setName(_nameEdit->text());
    _block->setDescription(_descriptionEdit->toPlainText());
+}
+
+
+
+
+
+
+unique_ptr<QLayout> Namespace::createForm()
+{
+   createNameEdit();
+   createDescriptionEdit();
+   unique_ptr<QFormLayout> form {new QFormLayout};
+   form->addRow(new QLabel(tr("Name:")),_nameEdit);
+   form->addRow(new QLabel(tr("Description:")),_descriptionEdit);
+   return form;
 }
 
 

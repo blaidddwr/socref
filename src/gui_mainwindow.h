@@ -18,7 +18,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit MainWindow(QWidget* parent = nullptr);
-      void setProject(std::unique_ptr<Project>&& project);
+      MainWindow& setProject(std::unique_ptr<Project>&& project);
    private slots:
       void newTriggered();
       void openTriggered();

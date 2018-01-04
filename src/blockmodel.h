@@ -31,7 +31,7 @@ public:
    //QMimeData* mimeData(const QModelIndexList& indexes) const override final;
    //bool dropMimeData(const QMimeData* data, Qt::DropAction action, int row, int column, const QModelIndex& parent) override final;
    const AbstractBlockFactory* factory() const { return _factory; }
-   void setRoot(AbstractBlock* root);
+   BlockModel& setRoot(AbstractBlock* root);
 private slots:
    void blockNameChanged(AbstractBlock* object);
 private:

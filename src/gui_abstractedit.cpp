@@ -13,12 +13,13 @@ using namespace Gui;
 
 
 
-void AbstractEdit::initialize()
+AbstractEdit* AbstractEdit::initialize()
 {
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addLayout(createForm().release());
    layout->addLayout(createButtons());
    setLayout(layout);
+   return this;
 }
 
 

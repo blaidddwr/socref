@@ -11,6 +11,9 @@ namespace CppQt
       class Concrete : public AbstractType
       {
       public:
+         Concrete(const QString& name):
+            _name(name)
+            {}
          virtual bool isConcrete() const override final { return true; }
          virtual bool isTemplate() const override final { return false; }
          virtual bool isClass() const override final { return false; }
@@ -20,8 +23,9 @@ namespace CppQt
          QString name() const { return _name; }
          Concrete& setName(const QString& name);
       private:
+         Concrete() = default;
          virtual QString rawName() const override final { return _name; }
-         QString _name {"unnamed_type"};
+         QString _name;
       };
    }
 }

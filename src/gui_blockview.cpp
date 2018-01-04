@@ -36,7 +36,7 @@ BlockView::BlockView(QWidget* parent):
 
 
 
-void BlockView::setModel(BlockModel* model)
+BlockView& BlockView::setModel(BlockModel* model)
 {
    _treeView->setModel(model);
    _model = model;
@@ -45,6 +45,7 @@ void BlockView::setModel(BlockModel* model)
    connect(_selectionModel,&QItemSelectionModel::selectionChanged,this,&BlockView::selectionModelChanged);
    connect(model,&BlockModel::destroyed,this,&BlockView::modelDestroyed);
    selectionModelChanged();
+   return *this;
 }
 
 

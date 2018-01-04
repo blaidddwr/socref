@@ -17,16 +17,16 @@ class Project : public QFileSystemWatcher
 public:
    explicit Project(int type);
    explicit Project(const QString& path);
-   void save();
-   void saveAs(const QString& path);
-   void setName(const QString& name);
+   Project& save();
+   Project& saveAs(const QString& path);
+   Project& setName(const QString& name);
    QString name() const { return _name; }
    QString path() const { return _path; }
    int type() const { return _type; }
    QString scanDirectory() const { return _scanDirectory; }
-   void setScanDirectory(const QString& path);
+   Project& setScanDirectory(const QString& path);
    QString scanFilters() const { return _scanFilters; }
-   void setScanFilters(const QString& filters);
+   Project& setScanFilters(const QString& filters);
    bool isNew() const { return _path.isEmpty(); }
    bool isModified() const { return _modified; }
    BlockModel* model() const { return _model; }
