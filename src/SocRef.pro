@@ -54,3 +54,6 @@ HEADERS += \
     cppqt_abstractcontainer.h \
     cppqt_abstractdefinition.h \
     cppqt_type_concrete.h
+
+RESOURCES += \
+    resources.qrc

@@ -21,6 +21,12 @@ using namespace Gui;
 MainWindow::MainWindow(QWidget *parent):
    QMainWindow(parent)
 {
+   static QIcon icon;
+   if ( icon.isNull() )
+   {
+      icon = QIcon(":/icons/main.svg");
+   }
+   setWindowIcon(icon);
    createView();
    createActions();
    createMenus();

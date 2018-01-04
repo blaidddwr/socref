@@ -43,8 +43,21 @@ QString BlockFactory::elementName(int type) const
 
 QIcon BlockFactory::icon(int type) const
 {
-   Q_UNUSED(type);
-   return QIcon();
+   static QIcon namespace_;
+   static QIcon definition;
+   if ( namespace_.isNull() )
+   {
+      namespace_ = QIcon(":/icons/namespace.svg");
+   }
+   if ( definition.isNull() )
+   {
+      definition = QIcon(":/icons/definition.svg");
+   }
+   switch (type)
+   {
+   case NamespaceType: return namespace_;
+   default: return QIcon();
+   }
 }
 
 
