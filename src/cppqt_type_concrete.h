@@ -20,11 +20,10 @@ namespace CppQt
          virtual bool isEquivalent(const AbstractType* type) const override final;
          virtual QList<const AbstractType*> contains() const override final { return QList<const AbstractType*>(); }
          virtual std::unique_ptr<AbstractType> makeCopy() const override final;
-         QString name() const { return _name; }
+         virtual QString name() const override final { return _name; }
          Concrete& setName(const QString& name);
       private:
          Concrete() = default;
-         virtual QString rawName() const override final { return _name; }
          QString _name;
       };
    }
