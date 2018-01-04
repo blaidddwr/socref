@@ -32,3 +32,30 @@ const QList<AbstractType*> AbstractContainer::contains()
    }
    return ret;
 }
+
+
+
+
+
+
+bool AbstractContainer::exists(const QList<AbstractType*> allTypes, const QList<AbstractType*> types)
+{
+   for (auto type : types)
+   {
+      bool found {false};
+      for (auto subType : allTypes)
+      {
+         if ( *subType == *type && exists(allTypes,type->contains()) )
+         {
+            found = true;
+            break;
+         }
+      }
+      if ( found )
+      {
+         break;
+      }
+      return false;
+   }
+   return true;
+}

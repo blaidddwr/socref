@@ -18,9 +18,9 @@ namespace CppQt
          virtual bool isTemplate() const override final { return false; }
          virtual bool isClass() const override final { return false; }
          virtual bool isEquivalent(const AbstractType* type) const override final;
-         virtual QList<const AbstractType*> contains() const override final { return QList<const AbstractType*>(); }
+         virtual const QList<AbstractType*> contains() const override final { return QList<AbstractType*>(); }
          virtual std::unique_ptr<AbstractType> makeCopy() const override final;
-         virtual QString name() const override final { return _name; }
+         virtual QString name(const QList<QString>) const override final { return _name; }
          Concrete& setName(const QString& name);
       private:
          Concrete() = default;

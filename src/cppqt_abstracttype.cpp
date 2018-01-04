@@ -29,7 +29,7 @@ QString AbstractType::scopedName(const QList<QString> scope) const
       }
       ++count;
    }
-   ret.append(name());
+   ret.append(name(scope));
    return ret;
 }
 
