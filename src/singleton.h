@@ -22,7 +22,7 @@ template<class T> T* Singleton<T>::_instance {nullptr};
 
 
 
-template<class T> T& Singleton<T>::getInstance()
+template<class T> T& Singleton<T>::instance()
 {
    if ( !_instance )
    {

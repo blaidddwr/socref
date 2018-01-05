@@ -1,5 +1,8 @@
+#include <QXmlStreamWriter>
+
 #include "cppqt_abstracttype.h"
 #include "exception.h"
+#include "cppqt_typefactory.h"
 
 
 
@@ -29,7 +32,7 @@ QString AbstractType::scopedName(const QList<QString> scope) const
       }
       ++count;
    }
-   ret.append(name(scope));
+   ret.append(fullName(scope));
    return ret;
 }
 
@@ -63,5 +66,45 @@ AbstractType* AbstractType::prependScope(const QString& scope)
       throw e;
    }
    _scope.prepend(scope);
+   return this;
+}
+
+
+
+
+
+
+AbstractType* AbstractType::setName(const QString& name)
+{
+   if ( !QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*").exactMatch(name) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(QObject::tr("Cannot set type name to '%1'.").arg(name));
+      throw e;
+   }
+   _name = name;
+   return this;
+}
+
+
+
+
+
+
+AbstractType* AbstractType::write(const QString& elementName, QXmlStreamWriter& xml)
+{
+   xml.writeStartElement(elementName);
+   xml.writeAttribute("type",QString::number(type()));
+   xml.writeAttribute("typename",TypeFactory::instance().name(type()));
+   writeData(xml);
+   xml.writeEndElement();
+   if ( xml.hasError() )
+   {
+      Exception::WriteError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(QObject::tr("Xml Error writing to file."));
+      throw e;
+   }
    return this;
 }

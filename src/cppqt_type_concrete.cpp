@@ -1,5 +1,10 @@
+#include <QXmlStreamWriter>
+#include <QXmlStreamReader>
+
 #include "cppqt_type_concrete.h"
 #include "exception.h"
+#include "xmlelementparser.h"
+#include "cppqt_typefactory.h"
 
 
 
@@ -16,7 +21,7 @@ bool Concrete::isEquivalent(const AbstractType* type) const
 {
    if ( const Concrete* type_ = dynamic_cast<const Concrete*>(type) )
    {
-      return _name == type_->_name;
+      return name() == type_->name();
    }
    return false;
 }
@@ -26,11 +31,32 @@ bool Concrete::isEquivalent(const AbstractType* type) const
 
 
 
-unique_ptr<AbstractType> Concrete::makeCopy() const
+AbstractType* Concrete::read(QXmlStreamReader& xml)
 {
-   unique_ptr<Concrete> ret {new Concrete()};
-   ret->_name = _name;
-   return ret;
+   enum
+   {
+      Name = 0
+   };
+   XMLElementParser parser(xml);
+   parser.addKeyword("name",true);
+   int element;
+   while ( ( element = parser() ) != XMLElementParser::End )
+   {
+      switch (element)
+      {
+      case Name:
+         setName(xml.readElementText());
+         break;
+      }
+   }
+   if ( !parser.allRead() )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(QObject::tr("Failed reading in all required elements."));
+      throw e;
+   }
+   return this;
 }
 
 
@@ -38,15 +64,24 @@ unique_ptr<AbstractType> Concrete::makeCopy() const
 
 
 
-Concrete& Concrete::setName(const QString& name)
+int Concrete::type() const
 {
-   if ( !QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*").exactMatch(name) )
+   return TypeFactory::ConcreteType;
+}
+
+
+
+
+
+
+void Concrete::writeData(QXmlStreamWriter& xml) const
+{
+   xml.writeTextElement("name",name());
+   if ( xml.hasError() )
    {
-      Exception::InvalidArgument e;
+      Exception::WriteError e;
       MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Cannot set concrete type name to '%1'.").arg(name));
+      e.setDetails(QObject::tr("Xml Error writing to file."));
       throw e;
    }
-   _name = name;
-   return *this;
 }

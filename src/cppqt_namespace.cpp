@@ -15,6 +15,58 @@ using namespace CppQt;
 
 
 
+unique_ptr<AbstractBlock> Namespace::makeCopy() const
+{
+   unique_ptr<Namespace> ret {new Namespace(factory(),type())};
+   ret->_name = _name;
+   ret->_description = _description;
+   ret->copyChildren(this);
+   return ret;
+}
+
+
+
+
+
+
+Namespace& Namespace::setName(const QString& name)
+{
+   if ( !QRegExp("[a-zA-Z_]*[a-zA-Z0-9_]*").exactMatch(name) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid namespace '%1'.").arg(name));
+      throw e;
+   }
+   if ( _name != name )
+   {
+      _name = name;
+      notifyOfNameChange();
+      emit modified();
+   }
+   return *this;
+}
+
+
+
+
+
+
+Namespace& CppQt::Namespace::setDescription(const QString& description)
+{
+   if ( _description != description )
+   {
+      _description = description;
+      emit modified();
+   }
+   return *this;
+}
+
+
+
+
+
+
 AbstractBlock* Namespace::readData(QXmlStreamReader& xml)
 {
    enum
@@ -64,56 +116,4 @@ const AbstractBlock* Namespace::writeData(QXmlStreamWriter& xml) const
       throw e;
    }
    return this;
-}
-
-
-
-
-
-
-unique_ptr<AbstractBlock> Namespace::makeCopy() const
-{
-   unique_ptr<Namespace> ret {new Namespace(factory(),type())};
-   ret->_name = _name;
-   ret->_description = _description;
-   ret->copyChildren(this);
-   return ret;
-}
-
-
-
-
-
-
-Namespace& Namespace::setName(const QString& name)
-{
-   if ( !QRegExp("[a-zA-Z_]*[a-zA-Z0-9_]*").exactMatch(name) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid namespace '%1'.").arg(name));
-      throw e;
-   }
-   if ( _name != name )
-   {
-      _name = name;
-      notifyOfNameChange();
-      emit modified();
-   }
-   return *this;
-}
-
-
-
-
-
-
-Namespace& CppQt::Namespace::setDescription(const QString& description)
-{
-   if ( _description != description )
-   {
-      _description = description;
-      emit modified();
-   }
-   return *this;
 }

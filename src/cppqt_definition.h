@@ -17,12 +17,12 @@ namespace CppQt
          AbstractBlock(factory,type),
          _type(new Type::Concrete("unnamed_type"))
          {}
-      virtual QString name() const override final { return _type->name(); }
+      virtual QString name() const override final { return _type->fullName(); }
+      virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
+      Definition& setType(std::unique_ptr<AbstractType>&& type);
+   private:
       virtual AbstractBlock* readData(QXmlStreamReader& xml) override final;
       virtual const AbstractBlock* writeData(QXmlStreamWriter& xml) const override final;
-      virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
-      Definition& setName(const QString& name);
-   private:
       virtual AbstractType* rawType() override final { return _type.get(); }
       std::unique_ptr<AbstractType> _type;
    };

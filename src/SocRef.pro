@@ -29,7 +29,8 @@ SOURCES += \
     cppqt_abstractcontainer.cpp \
     cppqt_type_concrete.cpp \
     cppqt_definition.cpp \
-    cppqt_type_template.cpp
+    cppqt_type_template.cpp \
+    cppqt_typefactory.cpp
 
 HEADERS += \
     singleton.h \
@@ -57,7 +58,8 @@ HEADERS += \
     cppqt_abstractdefinition.h \
     cppqt_type_concrete.h \
     cppqt_definition.h \
-    cppqt_type_template.h
+    cppqt_type_template.h \
+    cppqt_typefactory.h
 
 RESOURCES += \
     resources.qrc

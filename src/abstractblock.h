@@ -23,8 +23,6 @@ public:
       _type(type)
       {}
    virtual QString name() const = 0;
-   virtual AbstractBlock* readData(QXmlStreamReader& xml) = 0;
-   virtual const AbstractBlock* writeData(QXmlStreamWriter& xml) const = 0;
    virtual std::unique_ptr<AbstractBlock> makeCopy() const = 0;
    int type() const { return _type; }
    const AbstractBlockFactory& factory() const { return _factory; }
@@ -40,6 +38,8 @@ public:
    AbstractBlock* read(QXmlStreamReader& xml);
    const AbstractBlock* write(QXmlStreamWriter& xml) const;
 protected:
+   virtual AbstractBlock* readData(QXmlStreamReader& xml) = 0;
+   virtual const AbstractBlock* writeData(QXmlStreamWriter& xml) const = 0;
    AbstractBlock& root();
    AbstractBlock* copyChildren(const AbstractBlock* block);
    void notifyOfNameChange() { notifyOfNameChange(nullptr); }
