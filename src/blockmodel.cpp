@@ -211,6 +211,7 @@ BlockModel& BlockModel::setRoot(AbstractBlock* root)
 {
    beginResetModel();
    _root = root;
+   _factory = nullptr;
    if ( _root )
    {
       _factory = &(_root->factory());

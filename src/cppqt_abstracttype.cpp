@@ -13,7 +13,7 @@ using namespace CppQt;
 
 
 
-QString AbstractType::scopedName(const QList<QString> scope) const
+QString AbstractType::scopedName(const QList<QString>& scope) const
 {
    QString ret;
    int contextCount {0};

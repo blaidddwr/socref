@@ -38,7 +38,7 @@ const QList<AbstractType*> AbstractContainer::contains()
 
 
 
-bool AbstractContainer::exists(const QList<AbstractType*> allTypes, const QList<AbstractType*> types)
+bool AbstractContainer::exists(const QList<AbstractType*>& allTypes, const QList<AbstractType*>& types)
 {
    for (auto type : types)
    {

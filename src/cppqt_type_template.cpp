@@ -17,7 +17,7 @@ using namespace CppQt::Type;
 
 
 
-Template::Template(const QString& name, const QList<QString> variants):
+Template::Template(const QString& name, const QList<QString>& variants):
    AbstractType(name),
    _variants(variants)
 {
@@ -67,7 +67,7 @@ bool Template::isEquivalent(const AbstractType* type) const
 
 
 
-QString Template::fullName(const QList<QString> scope) const
+QString Template::fullName(const QList<QString>& scope) const
 {
    QString ret {name()};
    if ( !_variants.isEmpty() )

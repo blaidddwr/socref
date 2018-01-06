@@ -14,7 +14,7 @@ namespace CppQt
       {
       public:
          Template() = default;
-         Template(const QString& name, const QList<QString> variants = QList<QString>());
+         Template(const QString& name, const QList<QString>& variants = QList<QString>());
          virtual ~Template() { qDeleteAll(_values); }
          virtual bool isConcrete() const override final;
          virtual bool isTemplate() const override final { return true; }
@@ -22,7 +22,7 @@ namespace CppQt
          virtual bool isEquivalent(const AbstractType* type) const override final;
          virtual const QList<AbstractType*> contains() const override final { return _values; }
          virtual std::unique_ptr<AbstractType> makeCopy() const override final { return std::unique_ptr<Template>(new Template(name(),_variants)); }
-         virtual QString fullName(const QList<QString> scope) const override final;
+         virtual QString fullName(const QList<QString>& scope) const override final;
          virtual AbstractType* read(QXmlStreamReader& xml) override final;
          virtual int type() const override final;
          const QList<QString> variants() const { return _variants; }

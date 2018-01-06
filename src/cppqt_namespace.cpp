@@ -17,11 +17,31 @@ using namespace CppQt;
 
 unique_ptr<AbstractBlock> Namespace::makeCopy() const
 {
-   unique_ptr<Namespace> ret {new Namespace(factory(),type())};
+   unique_ptr<Namespace> ret {new Namespace};
    ret->_name = _name;
    ret->_description = _description;
    ret->copyChildren(this);
    return ret;
+}
+
+
+
+
+
+
+int Namespace::type() const
+{
+   return BlockFactory::NamespaceType;
+}
+
+
+
+
+
+
+const AbstractBlockFactory&Namespace::factory() const
+{
+   return BlockFactory::instance();
 }
 
 

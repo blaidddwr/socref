@@ -27,10 +27,10 @@ namespace CppQt
       virtual bool isEquivalent(const AbstractType* type) const = 0;
       virtual const QList<AbstractType*> contains() const = 0;
       virtual std::unique_ptr<AbstractType> makeCopy() const = 0;
-      virtual QString fullName(const QList<QString> scope = QList<QString>()) const = 0;
+      virtual QString fullName(const QList<QString>& scope = QList<QString>()) const = 0;
       virtual AbstractType* read(QXmlStreamReader& xml) = 0;
       virtual int type() const = 0;
-      QString scopedName(const QList<QString> scope = QList<QString>()) const;
+      QString scopedName(const QList<QString>& scope = QList<QString>()) const;
       const QList<QString> scope() const { return _scope; }
       AbstractType* clearScope();
       AbstractType* prependScope(const QString& scope);

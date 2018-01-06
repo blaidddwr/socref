@@ -2,6 +2,7 @@
 #include "cppqt_namespace.h"
 #include "cppqt_view_namespace.h"
 #include "cppqt_edit_namespace.h"
+#include "projectfactory.h"
 
 
 
@@ -81,7 +82,7 @@ const QList<int> BlockFactory::buildList(int type) const
 
 unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
 {
-   unique_ptr<Namespace> ret {new Namespace(*this,NamespaceType)};
+   unique_ptr<Namespace> ret {new Namespace};
    ret->setName("");
    return ret;
 }
@@ -95,7 +96,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 {
    switch (type)
    {
-   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace(*this,NamespaceType));
+   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace);
    default: return nullptr;
    }
 }
@@ -126,4 +127,14 @@ unique_ptr<Gui::AbstractEdit> BlockFactory::makeEdit(int type, AbstractBlock* bl
    case NamespaceType: return unique_ptr<Gui::AbstractEdit>(new Edit::Namespace(block));
    default: return nullptr;
    }
+}
+
+
+
+
+
+
+int BlockFactory::type() const
+{
+   return ProjectFactory::CppQtType;
 }

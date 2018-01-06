@@ -6,13 +6,6 @@
 
 
 
-namespace CppQt
-{
-   BlockFactory g_factory(ProjectFactory::CppQtType);
-}
-
-
-
 
 
 
@@ -48,7 +41,7 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 {
    switch (type)
    {
-   case CppQtType: return CppQt::g_factory;
+   case CppQtType: return CppQt::BlockFactory::instance();
    default:
       {
          Exception::InvalidArgument e;

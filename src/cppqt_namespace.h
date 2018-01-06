@@ -10,12 +10,10 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      explicit Namespace(const AbstractBlockFactory& factory, int type):
-         AbstractContainer(factory,type),
-         _name(tr("unnamed_namespace"))
-         {}
       virtual QString name() const override final { return _name; }
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
+      virtual int type() const override final;
+      virtual const AbstractBlockFactory& factory() const override final;
       Namespace& setName(const QString& name);
       QString description() const { return _description; }
       Namespace& setDescription(const QString& description);

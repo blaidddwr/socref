@@ -22,7 +22,6 @@ SOURCES += \
     cppqt_namespace.cpp \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
-    cppqt_type.cpp \
     cppqt_edit_namespace.cpp \
     cppqt_view_namespace.cpp \
     cppqt_abstracttype.cpp \
@@ -50,7 +49,6 @@ HEADERS += \
     cppqt_namespace.h \
     gui_blockview.h \
     gui_abstractedit.h \
-    cppqt_type.h \
     cppqt_edit_namespace.h \
     cppqt_view_namespace.h \
     cppqt_abstracttype.h \

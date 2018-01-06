@@ -11,14 +11,10 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      friend class ContainerModel;
-      explicit AbstractContainer(const AbstractBlockFactory& factory, int type):
-         AbstractBlock(factory,type)
-         {}
       const QList<AbstractType*> contains();
       bool exists(AbstractType* type) { return exists(contains(),{type}); }
    protected:
-      bool exists(const QList<AbstractType*> allTypes, const QList<AbstractType*> types);
+      bool exists(const QList<AbstractType*>& allTypes, const QList<AbstractType*>& types);
       virtual QString scopeName() const = 0;
    };
 }

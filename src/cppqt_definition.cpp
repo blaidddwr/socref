@@ -2,6 +2,7 @@
 #include <QXmlStreamWriter>
 
 #include "cppqt_definition.h"
+#include "cppqt_blockfactory.h"
 #include "exception.h"
 #include "xmlelementparser.h"
 #include "cppqt_typefactory.h"
@@ -18,9 +19,29 @@ using namespace CppQt;
 
 unique_ptr<AbstractBlock> Definition::makeCopy() const
 {
-   unique_ptr<Definition> ret {new Definition(factory(),AbstractBlock::type())};
+   unique_ptr<Definition> ret {new Definition};
    ret->_type = _type->makeCopy();
    return ret;
+}
+
+
+
+
+
+
+int Definition::type() const
+{
+   return -1;
+}
+
+
+
+
+
+
+const AbstractBlockFactory&Definition::factory() const
+{
+   return BlockFactory::instance();
 }
 
 

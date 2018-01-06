@@ -54,11 +54,11 @@ AbstractBlock* AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock> c
       e.setDetails(tr("Cannot insert child block with null pointer."));
       throw e;
    }
-   if ( !_factory.buildList(_type).contains(child->_type) )
+   if ( !factory().buildList(type()).contains(child->type()) )
    {
       Exception::InvalidUse e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.").arg(child->_type).arg(_type));
+      e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.").arg(child->type()).arg(type()));
       throw e;
    }
    child.release()->setBlockParent(this,index);
@@ -119,10 +119,10 @@ AbstractBlock* AbstractBlock::read(QXmlStreamReader &xml)
    };
    XMLElementParser parser(xml);
    parser.addKeyword("data",true);
-   const QList<int> buildList {_factory.buildList(_type)};
+   const QList<int> buildList {factory().buildList(type())};
    for (const auto& i : buildList)
    {
-      parser.addKeyword(_factory.elementName(i),false,true);
+      parser.addKeyword(factory().elementName(i),false,true);
    }
    int element;
    while ( ( element = parser() ) != XMLElementParser::End )
@@ -158,8 +158,8 @@ const AbstractBlock* AbstractBlock::write(QXmlStreamWriter& xml) const
    xml.writeEndElement();
    for (const auto& i : _children)
    {
-      xml.writeStartElement(_factory.elementName(i->_type));
-      xml.writeAttribute("type",QString::number(i->_type));
+      xml.writeStartElement(factory().elementName(i->type()));
+      xml.writeAttribute("type",QString::number(i->type()));
       i->write(xml);
       xml.writeEndElement();
    }
@@ -248,14 +248,14 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
       e.setDetails(tr("Failed reading in type attribute."));
       throw e;
    }
-   if ( type < 0 || type >= _factory.size() )
+   if ( type < 0 || type >= factory().size() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(type).arg(_factory.size()));
+      e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(type).arg(factory().size()));
       throw e;
    }
-   unique_ptr<AbstractBlock> child {_factory.makeBlock(type)};
+   unique_ptr<AbstractBlock> child {factory().makeBlock(type)};
    child->read(xml);
    child.release()->setBlockParent(this,childrenSize());
 }

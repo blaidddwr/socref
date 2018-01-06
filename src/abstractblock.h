@@ -18,14 +18,10 @@ class AbstractBlock : public QObject
 {
    Q_OBJECT
 public:
-   explicit AbstractBlock(const AbstractBlockFactory& factory, int type):
-      _factory(factory),
-      _type(type)
-      {}
    virtual QString name() const = 0;
    virtual std::unique_ptr<AbstractBlock> makeCopy() const = 0;
-   int type() const { return _type; }
-   const AbstractBlockFactory& factory() const { return _factory; }
+   virtual int type() const = 0;
+   virtual const AbstractBlockFactory& factory() const = 0;
    AbstractBlock* parent() const { return _parent; }
    int childrenSize() const { return _children.size(); }
    AbstractBlock* child(int index);
@@ -52,8 +48,6 @@ private:
    void setBlockParent(AbstractBlock* parent, int index);
    void readChild(QXmlStreamReader& xml);
    void notifyOfNameChange(AbstractBlock* block);
-   const AbstractBlockFactory& _factory;
-   int _type {-1};
    AbstractBlock* _parent {nullptr};
    QList<AbstractBlock*> _children;
 };
