@@ -1,6 +1,9 @@
 #include <QXmlStreamReader>
+#include <QDomElement>
 
 #include "cppqt_typefactory.h"
+#include "cppqt_type_concrete.h"
+#include "cppqt_type_template.h"
 #include "exception.h"
 
 
@@ -13,17 +16,17 @@ using namespace CppQt;
 
 
 
-unique_ptr<AbstractType> TypeFactory::read(QXmlStreamReader& xml) const
+unique_ptr<AbstractType> TypeFactory::read(const QDomElement& type) const
 {
-   if ( !xml.attributes().hasAttribute("type") )
+   if ( !type.hasAttribute("id") )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Type element missing type attribute."));
+      e.setDetails(QObject::tr("Type element missing id attribute."));
       throw e;
    }
    bool ok;
-   int type {xml.attributes().value("type").toInt(&ok)};
+   int type_ {type.attribute("id").toInt(&ok)};
    if ( !ok )
    {
       Exception::ReadError e;
@@ -31,15 +34,15 @@ unique_ptr<AbstractType> TypeFactory::read(QXmlStreamReader& xml) const
       e.setDetails(QObject::tr("Failed reading in type attribute."));
       throw e;
    }
-   if ( type < 0 || type >= Total )
+   if ( type_ < 0 || type_ >= Total )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Read in invalid type %1 when max is %2.").arg(type).arg(Total));
+      e.setDetails(QObject::tr("Read in invalid type %1 when max is %2.").arg(type_).arg(Total));
       throw e;
    }
-   unique_ptr<AbstractType> ret {makeType(type)};
-   ret->read(xml);
+   unique_ptr<AbstractType> ret {makeType(type_)};
+   ret->read(type);
    return ret;
 }
 

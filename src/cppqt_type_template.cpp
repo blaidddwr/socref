@@ -1,5 +1,6 @@
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+#include <QDomElement>
 
 #include "cppqt_type_template.h"
 #include "exception.h"
@@ -98,44 +99,46 @@ QString Template::fullName(const QList<QString>& scope) const
 
 
 
-AbstractType* Template::read(QXmlStreamReader& xml)
+AbstractType* Template::read(const QDomElement& type)
 {
    enum
    {
-      Name = 0
-      ,Variant
+      Variant = 0
       ,Value
+      ,Total
    };
-   XMLElementParser parser(xml);
-   parser.addKeyword("name",true).addKeyword("variant",false,true).addKeyword("value",false,true);
-   int element;
-   while ( ( element = parser() ) != XMLElementParser::End )
+   QStringList tags {"variant","value"};
+   if ( !type.hasAttribute("name") )
    {
-      switch (element)
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(QObject::tr("C++/Qt template type missing name attribute."));
+      throw e;
+   }
+   setName(type.attribute("name"));
+   QDomNode node = type.firstChild();
+   while ( !node.isNull() )
+   {
+      if ( node.isElement() )
       {
-      case Name:
-         setName(xml.readElementText());
-         break;
-      case Variant:
-         _variants.push_back(xml.readElementText());
-         break;
-      case Value:
-         _values.push_back(TypeFactory::instance().read(xml).release());
-         break;
+         QDomElement element {node.toElement()};
+         switch (tags.indexOf(element.tagName()))
+         {
+         case Variant:
+            _variants.push_back(element.text());
+            break;
+         case Value:
+            _values.push_back(TypeFactory::instance().read(element).release());
+            break;
+         }
       }
+      node = node.nextSibling();
    }
    if ( _variants.size() != _values.size() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Corrupt template element; variant and value size does not match."));
-      throw e;
-   }
-   if ( !parser.allRead() )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Failed reading in all required elements."));
       throw e;
    }
    return this;
@@ -210,22 +213,21 @@ Template& Template::clearValues()
 
 
 
-void Template::writeData(QXmlStreamWriter& xml) const
+QDomElement Template::writeData(QDomDocument& document) const
 {
-   xml.writeTextElement("name",name());
+   QDomElement ret {document.createElement("na")};
+   ret.setAttribute("name",name());
    for (const auto variant : _variants)
    {
-      xml.writeTextElement("variant",variant);
+      QDomElement variant_ {document.createElement("variant")};
+      variant_.setAttribute("name",variant);
+      ret.appendChild(variant_);
    }
    for (auto value : _values)
    {
-      value->write("value",xml);
+      QDomElement value_ {value->write(document)};
+      value_.setTagName("value");
+      ret.appendChild(value_);
    }
-   if ( xml.hasError() )
-   {
-      Exception::WriteError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Xml Error writing to file."));
-      throw e;
-   }
+   return ret;
 }

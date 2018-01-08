@@ -3,11 +3,11 @@
 #include <memory>
 
 #include <QList>
+#include <QDomElement>
 
 
 
-class QXmlStreamReader;
-class QXmlStreamWriter;
+class QDomDocument;
 
 
 
@@ -28,7 +28,7 @@ namespace CppQt
       virtual const QList<AbstractType*> contains() const = 0;
       virtual std::unique_ptr<AbstractType> makeCopy() const = 0;
       virtual QString fullName(const QList<QString>& scope = QList<QString>()) const = 0;
-      virtual AbstractType* read(QXmlStreamReader& xml) = 0;
+      virtual AbstractType* read(const QDomElement& type) = 0;
       virtual int type() const = 0;
       QString scopedName(const QList<QString>& scope = QList<QString>()) const;
       const QList<QString> scope() const { return _scope; }
@@ -36,11 +36,11 @@ namespace CppQt
       AbstractType* prependScope(const QString& scope);
       QString name() const { return _name; }
       AbstractType* setName(const QString& name);
-      AbstractType* write(const QString& elementName, QXmlStreamWriter& xml);
+      QDomElement write(QDomDocument& document);
       bool operator!=(const AbstractType& type) { return _scope != type._scope || !isEquivalent(&type); }
       bool operator==(const AbstractType& type) { return _scope == type._scope && isEquivalent(&type); }
    protected:
-      virtual void writeData(QXmlStreamWriter& xml) const = 0;
+      virtual QDomElement writeData(QDomDocument& document) const = 0;
    private:
       int _type {-1};
       QList<QString> _scope;

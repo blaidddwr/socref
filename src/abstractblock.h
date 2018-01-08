@@ -3,13 +3,13 @@
 #include <memory>
 
 #include <QObject>
+#include <QDomElement>
 
 #include "abstractblockfactory.h"
 
 
 
-class QXmlStreamReader;
-class QXmlStreamWriter;
+class QDomDocument;
 class AbstractBlockFactory;
 
 
@@ -31,11 +31,11 @@ public:
    AbstractBlock* insertChild(int index, std::unique_ptr<AbstractBlock> child);
    std::unique_ptr<AbstractBlock> takeChild(int index);
    AbstractBlock* removeChild(int index);
-   AbstractBlock* read(QXmlStreamReader& xml);
-   const AbstractBlock* write(QXmlStreamWriter& xml) const;
+   AbstractBlock* read(const QDomElement& parent);
+   QDomElement write(QDomDocument& document) const;
 protected:
-   virtual AbstractBlock* readData(QXmlStreamReader& xml) = 0;
-   virtual const AbstractBlock* writeData(QXmlStreamWriter& xml) const = 0;
+   virtual void readData(const QDomElement& data) = 0;
+   virtual QDomElement writeData(QDomDocument& document) const = 0;
    AbstractBlock& root();
    AbstractBlock* copyChildren(const AbstractBlock* block);
    void notifyOfNameChange() { notifyOfNameChange(nullptr); }
@@ -46,7 +46,7 @@ private slots:
    void childModified() { emit modified(); }
 private:
    void setBlockParent(AbstractBlock* parent, int index);
-   void readChild(QXmlStreamReader& xml);
+   void readChild(const QDomElement& child);
    void notifyOfNameChange(AbstractBlock* block);
    AbstractBlock* _parent {nullptr};
    QList<AbstractBlock*> _children;

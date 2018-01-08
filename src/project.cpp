@@ -1,9 +1,9 @@
 #include <QFile>
 #include <QFileInfo>
-#include <QXmlStreamReader>
-#include <QFileSystemWatcher>
 #include <QDir>
+#include <QFileSystemWatcher>
 #include <QCryptographicHash>
+#include <QDomDocument>
 
 #include "project.h"
 #include "abstractprojectfactory.h"
@@ -22,6 +22,7 @@ Project::Project(int type):
 {
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
    createRoot();
+   _scanFilters = AbstractProjectFactory::instance().defaultFilters(_type);
 }
 
 
@@ -39,7 +40,10 @@ Project::Project(const QString &path):
       ,ScanDirectory
       ,ScanFilters
       ,Root
+      ,Total
    };
+   QStringList tags {"name","type","scandir","filters","root"};
+   QVector<bool> readTags(5,false);
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
@@ -50,34 +54,42 @@ Project::Project(const QString &path):
       throw e;
    }
    QByteArray xmlBytes = file.readAll();
-   QXmlStreamReader xml(xmlBytes);
-   XMLElementParser parser(xml,0,-1);
-   parser.addKeyword("name",true).addKeyword("type",true).addKeyword("scandir",true)
-         .addKeyword("filters",true).addKeyword("root",true);
-   int element;
-   while ( ( element = parser() ) != XMLElementParser::End )
+   QDomDocument document;
+   document.setContent(xmlBytes);
+   QDomNode node = document.documentElement().firstChild();
+   while ( !node.isNull() )
    {
-      switch (element)
+      if ( node.isElement() )
       {
-      case Name:
-         _name = xml.readElementText();
-         break;
-      case Type:
-         readTypeElement(xml);
-         break;
-      case ScanDirectory:
-         _scanDirectory = xml.readElementText();
-         break;
-      case ScanFilters:
-         _scanFilters = xml.readElementText();
-         break;
-      case Root:
-         createRoot();
-         _root->read(xml);
-         break;
+         QDomElement element {node.toElement()};
+         switch (tags.indexOf(element.tagName()))
+         {
+         case Name:
+            _name = element.text();
+            readTags[Name] = true;
+            break;
+         case Type:
+            readTypeElement(element);
+            readTags[Type] = true;
+            break;
+         case ScanDirectory:
+            _scanDirectory = element.text();
+            readTags[ScanDirectory] = true;
+            break;
+         case ScanFilters:
+            _scanFilters = element.text();
+            readTags[ScanFilters] = true;
+            break;
+         case Root:
+            createRoot();
+            _root->read(element);
+            readTags[Root] = true;
+            break;
+         }
       }
+      node = node.nextSibling();
    }
-   if ( !parser.allRead() )
+   if ( readTags.contains(false) )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
@@ -111,32 +123,35 @@ Project& Project::save()
       e.setDetails(tr("Cannot open file %1 for writing: %2").arg(_path).arg(xmlFile.errorString()));
       throw e;
    }
-   QByteArray xmlBytes;
-   QXmlStreamWriter xml(&xmlBytes);
-   xml.setAutoFormatting(true);
-   xml.writeStartDocument();
-   xml.writeStartElement("project");
-   xml.writeTextElement("name",_name);
-   xml.writeStartElement("type");
-   xml.writeTextElement("id",QString::number(_type));
-   xml.writeTextElement("name",AbstractProjectFactory::instance().name(_type));
-   xml.writeEndElement();
-   QFileInfo info(_path);
-   xml.writeTextElement("scandir",info.dir().relativeFilePath(_scanDirectory));
-   xml.writeTextElement("filters",_scanFilters);
-   xml.writeStartElement("root");
-   _root->write(xml);
-   xml.writeEndElement();
-   xml.writeEndDocument();
-   if ( xml.hasError() )
+   QDomDocument document;
+   document.appendChild(document.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\""));
+   QDomElement project {document.createElement("project")};
+   QDomElement name {document.createElement("name")};
+   QDomElement type {document.createElement("type")};
+   QDomElement scandir {document.createElement("scandir")};
+   QDomElement filters {document.createElement("filters")};
+   QDomElement root {_root->write(document)};
+   name.appendChild(document.createTextNode(_name));
+   type.setAttribute("id",QString::number(_type));
+   type.appendChild(document.createTextNode(AbstractProjectFactory::instance().name(_type)));
+   scandir.appendChild(document.createTextNode(QFileInfo(_path).dir().relativeFilePath(_scanDirectory)));
+   filters.appendChild(document.createTextNode(_scanFilters));
+   root.setTagName("root");
+   project.appendChild(name);
+   project.appendChild(type);
+   project.appendChild(scandir);
+   project.appendChild(filters);
+   project.appendChild(root);
+   document.appendChild(project);
+   QByteArray xmlBytes {document.toByteArray(3)};
+   if ( xmlFile.write(xmlBytes) == -1 )
    {
       Exception::WriteError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Xml Error writing to file %1.").arg(_path));
+      e.setDetails(tr("Error writing to file %1.").arg(_path));
       throw e;
    }
    setFileHash(xmlBytes);
-   xmlFile.write(xmlBytes);
    _modified = false;
    emit saved();
    return *this;
@@ -249,62 +264,38 @@ void Project::handleFileChanged()
 
 
 
-void Project::readTypeElement(QXmlStreamReader& xml)
+void Project::readTypeElement(const QDomElement& type)
 {
-   enum
-   {
-      Id = 0
-      ,Name
-   };
-   AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
-   XMLElementParser parser(xml);
-   parser.addKeyword("id",true).addKeyword("name",true);
-   int element;
-   while ( ( element = parser() ) != XMLElementParser::End )
-   {
-      switch (element)
-      {
-      case Id:
-         {
-            bool ok;
-            _type = xml.readElementText().toInt(&ok);
-            if ( !ok )
-            {
-               Exception::ReadError e;
-               MARK_EXCEPTION(e);
-               e.setDetails(tr("Failed reading in type as integer."));
-               throw e;
-            }
-            if ( _type < 0 || _type >= factory.size() )
-            {
-               Exception::ReadError e;
-               MARK_EXCEPTION(e);
-               e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type)
-                            .arg(factory.size()-1));
-               throw e;
-            }
-            break;
-         }
-      case Name:
-         {
-            QString typeName = xml.readElementText();
-            if ( typeName != factory.name(_type) )
-            {
-               Exception::ReadError e;
-               MARK_EXCEPTION(e);
-               e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(typeName)
-                            .arg(factory.name(_type)));
-               throw e;
-            }
-            break;
-         }
-      }
-   }
-   if ( !parser.allRead() )
+   if ( !type.hasAttribute("id") )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading in all required elements for project type."));
+      e.setDetails(tr("Type attribute missing from project file."));
+      throw e;
+   }
+   bool ok;
+   _type = type.attribute("id").toInt(&ok);
+   if ( !ok )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed reading in type as integer."));
+      throw e;
+   }
+   AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
+   if ( _type < 0 || _type >= factory.size() )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type).arg(factory.size()-1));
+      throw e;
+   }
+   QString typeName = type.text();
+   if ( typeName != factory.name(_type) )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(typeName).arg(factory.name(_type)));
       throw e;
    }
 }

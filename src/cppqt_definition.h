@@ -19,8 +19,8 @@ namespace CppQt
       virtual const AbstractBlockFactory& factory() const override final;
       Definition& setType(std::unique_ptr<AbstractType>&& type);
    private:
-      virtual AbstractBlock* readData(QXmlStreamReader& xml) override final;
-      virtual const AbstractBlock* writeData(QXmlStreamWriter& xml) const override final;
+      virtual void readData(const QDomElement& data) override final;
+      virtual QDomElement writeData(QDomDocument& document) const override final;
       virtual AbstractType* rawType() override final { return _type.get(); }
       std::unique_ptr<AbstractType> _type;
    };

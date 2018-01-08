@@ -1,3 +1,5 @@
+#include <QDomDocument>
+
 #include "abstractblock.h"
 #include "exception.h"
 #include "xmlelementparser.h"
@@ -110,33 +112,42 @@ AbstractBlock* AbstractBlock::removeChild(int index)
 
 
 
-AbstractBlock* AbstractBlock::read(QXmlStreamReader &xml)
+AbstractBlock* AbstractBlock::read(const QDomElement& parent)
 {
    enum
    {
-      Data
-      ,Child
+      Data = 0
+      ,Total
    };
-   XMLElementParser parser(xml);
-   parser.addKeyword("data",true);
+   QStringList tags {"data"};
+   QVector<bool> readTags(1,false);
+   qDeleteAll(_children);
+   _children.clear();
    const QList<int> buildList {factory().buildList(type())};
+   QStringList buildNames;
    for (const auto& i : buildList)
    {
-      parser.addKeyword(factory().elementName(i),false,true);
+      buildNames.push_back(factory().elementName(i));
    }
-   int element;
-   while ( ( element = parser() ) != XMLElementParser::End )
+   QDomNode node {parent.firstChild()};
+   while ( !node.isNull() )
    {
-      if ( element == Data )
+      if ( node.isElement() )
       {
-         readData(xml);
+         QDomElement element {node.toElement()};
+         if ( element.tagName() == tags.at(Data) )
+         {
+            readData(element);
+            readTags[Data] = true;
+         }
+         else if ( buildNames.contains(element.tagName()) )
+         {
+            readChild(element);
+         }
       }
-      else
-      {
-         readChild(xml);
-      }
+      node = node.nextSibling();
    }
-   if ( !parser.allRead() )
+   if ( readTags.contains(false) )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
@@ -151,26 +162,20 @@ AbstractBlock* AbstractBlock::read(QXmlStreamReader &xml)
 
 
 
-const AbstractBlock* AbstractBlock::write(QXmlStreamWriter& xml) const
+QDomElement AbstractBlock::write(QDomDocument& document) const
 {
-   xml.writeStartElement("data");
-   writeData(xml);
-   xml.writeEndElement();
-   for (const auto& i : _children)
+   QDomElement ret {document.createElement("na")};
+   QDomElement data {writeData(document)};
+   data.setTagName("data");
+   ret.appendChild(data);
+   for (auto child : _children)
    {
-      xml.writeStartElement(factory().elementName(i->type()));
-      xml.writeAttribute("type",QString::number(i->type()));
-      i->write(xml);
-      xml.writeEndElement();
+      QDomElement child_ {child->write(document)};
+      child_.setTagName(factory().elementName(child->type()));
+      child_.setAttribute("type",QString::number(child->type()));
+      ret.appendChild(child_);
    }
-   if ( xml.hasError() )
-   {
-      Exception::WriteError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Xml Error writing to file."));
-      throw e;
-   }
-   return this;
+   return ret;
 }
 
 
@@ -230,9 +235,9 @@ void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
 
 
 
-void AbstractBlock::readChild(QXmlStreamReader& xml)
+void AbstractBlock::readChild(const QDomElement& child)
 {
-   if ( !xml.attributes().hasAttribute("type") )
+   if ( !child.hasAttribute("type") )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
@@ -240,7 +245,7 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
       throw e;
    }
    bool ok;
-   int type {xml.attributes().value("type").toInt(&ok)};
+   int type {child.attribute("type").toInt(&ok)};
    if ( !ok )
    {
       Exception::ReadError e;
@@ -255,9 +260,9 @@ void AbstractBlock::readChild(QXmlStreamReader& xml)
       e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(type).arg(factory().size()));
       throw e;
    }
-   unique_ptr<AbstractBlock> child {factory().makeBlock(type)};
-   child->read(xml);
-   child.release()->setBlockParent(this,childrenSize());
+   unique_ptr<AbstractBlock> child_ {factory().makeBlock(type)};
+   child_->read(child);
+   child_.release()->setBlockParent(this,childrenSize());
 }
 
 

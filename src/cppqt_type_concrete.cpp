@@ -1,5 +1,6 @@
 #include <QXmlStreamWriter>
 #include <QXmlStreamReader>
+#include <QDomElement>
 
 #include "cppqt_type_concrete.h"
 #include "exception.h"
@@ -31,31 +32,16 @@ bool Concrete::isEquivalent(const AbstractType* type) const
 
 
 
-AbstractType* Concrete::read(QXmlStreamReader& xml)
+AbstractType* Concrete::read(const QDomElement& type)
 {
-   enum
-   {
-      Name = 0
-   };
-   XMLElementParser parser(xml);
-   parser.addKeyword("name",true);
-   int element;
-   while ( ( element = parser() ) != XMLElementParser::End )
-   {
-      switch (element)
-      {
-      case Name:
-         setName(xml.readElementText());
-         break;
-      }
-   }
-   if ( !parser.allRead() )
+   if ( !type.hasAttribute("name") )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Failed reading in all required elements."));
+      e.setDetails(QObject::tr("C++/Qt concrete type missing name attribute."));
       throw e;
    }
+   setName(type.attribute("name"));
    return this;
 }
 
@@ -74,14 +60,9 @@ int Concrete::type() const
 
 
 
-void Concrete::writeData(QXmlStreamWriter& xml) const
+QDomElement Concrete::writeData(QDomDocument& document) const
 {
-   xml.writeTextElement("name",name());
-   if ( xml.hasError() )
-   {
-      Exception::WriteError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Xml Error writing to file."));
-      throw e;
-   }
+   QDomElement ret {document.createElement("na")};
+   ret.setAttribute("name",name());
+   return ret;
 }

@@ -82,9 +82,7 @@ const QList<int> BlockFactory::buildList(int type) const
 
 unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
 {
-   unique_ptr<Namespace> ret {new Namespace};
-   ret->setName("");
-   return ret;
+   return unique_ptr<AbstractBlock>(new Namespace);
 }
 
 
@@ -96,7 +94,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 {
    switch (type)
    {
-   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace);
+   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace("unnamed_namespace"));
    default: return nullptr;
    }
 }

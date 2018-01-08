@@ -7,7 +7,7 @@
 
 
 
-class QXmlStreamReader;
+class QDomElement;
 
 
 
@@ -39,10 +39,16 @@ private slots:
    void blockModified() { signalModified(); }
    void handleFileChanged();
 private:
-   void readTypeElement(QXmlStreamReader& xml);
+   void readTypeElement(const QDomElement& type);
    void signalModified();
    void setFileHash(const QByteArray& bytes);
    void createRoot();
+   static const char* _nameString;
+   static const char* _typeString;
+   static const char* _scandirString;
+   static const char* _filtersString;
+   static const char* _rootString;
+   static constexpr int _readTotal {5};
    QString _path;
    QByteArray _hash;
    QString _name;

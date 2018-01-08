@@ -1,5 +1,6 @@
 #include <QXmlStreamReader>
 #include <QXmlStreamWriter>
+#include <QDomElement>
 
 #include "cppqt_definition.h"
 #include "cppqt_blockfactory.h"
@@ -65,32 +66,9 @@ Definition& Definition::setType(unique_ptr<AbstractType>&& type)
 
 
 
-AbstractBlock* Definition::readData(QXmlStreamReader& xml)
+void Definition::readData(const QDomElement& data)
 {
-   enum
-   {
-      Type = 0
-   };
-   XMLElementParser parser(xml);
-   parser.addKeyword("type",true);
-   int element;
-   while ( ( element = parser() ) != XMLElementParser::End )
-   {
-      switch (element)
-      {
-      case Type:
-         _type = TypeFactory::instance().read(xml);
-         break;
-      }
-   }
-   if ( !parser.allRead() )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading in all required elements."));
-      throw e;
-   }
-   return this;
+   _type = TypeFactory::instance().read(data);
 }
 
 
@@ -98,8 +76,7 @@ AbstractBlock* Definition::readData(QXmlStreamReader& xml)
 
 
 
-const AbstractBlock* Definition::writeData(QXmlStreamWriter& xml) const
+QDomElement Definition::writeData(QDomDocument& document) const
 {
-   _type->write("type",xml);
-   return this;
+   return _type->write(document);
 }

@@ -23,14 +23,14 @@ namespace CppQt
          virtual const QList<AbstractType*> contains() const override final { return _values; }
          virtual std::unique_ptr<AbstractType> makeCopy() const override final { return std::unique_ptr<Template>(new Template(name(),_variants)); }
          virtual QString fullName(const QList<QString>& scope) const override final;
-         virtual AbstractType* read(QXmlStreamReader& xml) override final;
+         virtual AbstractType* read(const QDomElement& type) override final;
          virtual int type() const override final;
          const QList<QString> variants() const { return _variants; }
          Template& setVariants(const QList<QString>& variants);
          Template& setValue(int index, std::unique_ptr<AbstractType>&& type);
          Template& clearValues();
       private:
-         virtual void writeData(QXmlStreamWriter& xml) const override final;
+         virtual QDomElement writeData(QDomDocument& document) const override final;
          QList<QString> _variants;
          QList<AbstractType*> _values;
       };

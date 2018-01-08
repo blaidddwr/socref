@@ -1,5 +1,3 @@
-#include <QXmlStreamWriter>
-
 #include "cppqt_abstracttype.h"
 #include "exception.h"
 #include "cppqt_typefactory.h"
@@ -92,19 +90,10 @@ AbstractType* AbstractType::setName(const QString& name)
 
 
 
-AbstractType* AbstractType::write(const QString& elementName, QXmlStreamWriter& xml)
+QDomElement AbstractType::write(QDomDocument& document)
 {
-   xml.writeStartElement(elementName);
-   xml.writeAttribute("type",QString::number(type()));
-   xml.writeAttribute("typename",TypeFactory::instance().name(type()));
-   writeData(xml);
-   xml.writeEndElement();
-   if ( xml.hasError() )
-   {
-      Exception::WriteError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Xml Error writing to file."));
-      throw e;
-   }
-   return this;
+   QDomElement ret {writeData(document)};
+   ret.setAttribute("id",QString::number(type()));
+   ret.setAttribute("type",TypeFactory::instance().name(type()));
+   return ret;
 }

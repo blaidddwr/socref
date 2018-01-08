@@ -4,8 +4,10 @@
 
 #include "singleton.h"
 #include "cppqt_abstracttype.h"
-#include "cppqt_type_concrete.h"
-#include "cppqt_type_template.h"
+
+
+
+class QDomElement;
 
 
 
@@ -20,7 +22,7 @@ namespace CppQt
          ,TemplateType
          ,Total
       };
-      std::unique_ptr<AbstractType> read(QXmlStreamReader& xml) const;
+      std::unique_ptr<AbstractType> read(const QDomElement& type) const;
       QString name(int type) const;
    private:
       std::unique_ptr<AbstractType> makeType(int type) const;

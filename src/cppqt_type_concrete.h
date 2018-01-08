@@ -22,10 +22,10 @@ namespace CppQt
          virtual const QList<AbstractType*> contains() const override final { return QList<AbstractType*>(); }
          virtual std::unique_ptr<AbstractType> makeCopy() const override final { return std::unique_ptr<Concrete>(new Concrete(name())); }
          virtual QString fullName(const QList<QString>&) const override final { return name(); }
-         virtual AbstractType* read(QXmlStreamReader& xml) override final;
+         virtual AbstractType* read(const QDomElement& type) override final;
          virtual int type() const override final;
       private:
-         virtual void writeData(QXmlStreamWriter& xml) const override final;
+         virtual QDomElement writeData(QDomDocument& document) const override final;
       };
    }
 }

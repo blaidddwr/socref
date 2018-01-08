@@ -1,5 +1,7 @@
 #include <memory>
 
+#include <QDomDocument>
+
 #include "cppqt_namespace.h"
 #include "cppqt_blockfactory.h"
 #include "xmlelementparser.h"
@@ -87,36 +89,17 @@ Namespace& CppQt::Namespace::setDescription(const QString& description)
 
 
 
-AbstractBlock* Namespace::readData(QXmlStreamReader& xml)
+void Namespace::readData(const QDomElement& data)
 {
-   enum
-   {
-      Name = 0
-      ,Description
-   };
-   XMLElementParser parser(xml);
-   parser.addKeyword("name",true).addKeyword("description",true);
-   int element;
-   while ( ( element = parser() ) != XMLElementParser::End )
-   {
-      switch (element)
-      {
-      case Name:
-         _name = xml.readElementText();
-         break;
-      case Description:
-         _description = xml.readElementText();
-         break;
-      }
-   }
-   if ( !parser.allRead() )
+   if ( !data.hasAttribute("name") )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading in all required elements."));
+      e.setDetails(tr("C++/Qt Namespace block missing name attribute."));
       throw e;
    }
-   return this;
+   _name = data.attribute("name");
+   _description = data.text();
 }
 
 
@@ -124,16 +107,10 @@ AbstractBlock* Namespace::readData(QXmlStreamReader& xml)
 
 
 
-const AbstractBlock* Namespace::writeData(QXmlStreamWriter& xml) const
+QDomElement Namespace::writeData(QDomDocument& document) const
 {
-   xml.writeTextElement("name",_name);
-   xml.writeTextElement("description",_description);
-   if ( xml.hasError() )
-   {
-      Exception::WriteError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Xml Error writing to file."));
-      throw e;
-   }
-   return this;
+   QDomElement ret {document.createElement("na")};
+   ret.setAttribute("name",_name);
+   ret.appendChild(document.createTextNode(_description));
+   return ret;
 }
