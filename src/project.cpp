@@ -9,6 +9,8 @@
 #include "abstractprojectfactory.h"
 #include "abstractblockfactory.h"
 #include "xmlelementparser.h"
+#include "abstractblock.h"
+#include "blockmodel.h"
 #include "exception.h"
 
 

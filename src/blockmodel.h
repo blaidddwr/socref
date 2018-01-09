@@ -4,8 +4,7 @@
 
 #include <QtCore>
 
-#include "abstractblockfactory.h"
-#include "abstractblock.h"
+#include "classes.h"
 
 
 

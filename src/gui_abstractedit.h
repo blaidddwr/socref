@@ -4,9 +4,7 @@
 
 #include <QWidget>
 
-
-
-class QPushButton;
+#include "classes.h"
 
 
 

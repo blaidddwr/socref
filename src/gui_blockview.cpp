@@ -4,6 +4,9 @@
 
 #include "gui_blockview.h"
 #include "gui_abstractedit.h"
+#include "abstractblock.h"
+#include "abstractblockfactory.h"
+#include "blockmodel.h"
 
 
 

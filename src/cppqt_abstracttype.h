@@ -7,10 +7,6 @@
 
 
 
-class QDomDocument;
-
-
-
 namespace CppQt
 {
    class AbstractType

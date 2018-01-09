@@ -7,6 +7,10 @@
 #include "gui_mainwindow.h"
 #include "abstractprojectfactory.h"
 #include "gui_projectdialog.h"
+#include "exception.h"
+#include "project.h"
+#include "abstractblock.h"
+#include "gui_blockview.h"
 
 
 

@@ -1,4 +1,6 @@
 #include "blockmodel.h"
+#include "abstractblockfactory.h"
+#include "abstractblock.h"
 #include "exception.h"
 
 

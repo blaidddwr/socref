@@ -7,11 +7,22 @@
 #include "exception.h"
 #include "xmlelementparser.h"
 #include "cppqt_typefactory.h"
+#include "cppqt_abstracttype.h"
 
 
 
 using namespace std;
 using namespace CppQt;
+
+
+
+
+
+
+QString Definition::name() const
+{
+   return _type->fullName();
+}
 
 
 

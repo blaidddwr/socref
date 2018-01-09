@@ -2,12 +2,7 @@
 #define PROJECT_H
 #include <QFileSystemWatcher>
 
-#include "abstractblock.h"
-#include "blockmodel.h"
-
-
-
-class QDomElement;
+#include "classes.h"
 
 
 

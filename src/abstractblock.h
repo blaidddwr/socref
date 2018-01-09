@@ -5,12 +5,7 @@
 #include <QObject>
 #include <QDomElement>
 
-#include "abstractblockfactory.h"
-
-
-
-class QDomDocument;
-class AbstractBlockFactory;
+#include "classes.h"
 
 
 

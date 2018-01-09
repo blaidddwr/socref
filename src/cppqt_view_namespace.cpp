@@ -1,6 +1,7 @@
-#include "exception.h"
 #include "cppqt_view_namespace.h"
+#include "abstractblock.h"
 #include "cppqt_namespace.h"
+#include "exception.h"
 
 
 

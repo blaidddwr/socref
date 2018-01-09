@@ -1,13 +1,7 @@
 #ifndef CPPQT_NAMESPACEEDIT_H
 #define CPPQT_NAMESPACEEDIT_H
+#include "classes.h"
 #include "gui_abstractedit.h"
-#include "cppqt_namespace.h"
-
-
-
-class AbstractBlock;
-class QLineEdit;
-class QPlainTextEdit;
 
 
 

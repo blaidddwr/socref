@@ -1,5 +1,6 @@
 #include "cppqt_abstractcontainer.h"
 #include "cppqt_abstractdefinition.h"
+#include "cppqt_abstracttype.h"
 
 
 

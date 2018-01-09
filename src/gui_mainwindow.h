@@ -4,10 +4,7 @@
 
 #include <QMainWindow>
 
-#include "exception.h"
-#include "project.h"
-#include "abstractblock.h"
-#include "gui_blockview.h"
+#include "classes.h"
 
 
 

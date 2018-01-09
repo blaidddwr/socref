@@ -1,7 +1,7 @@
 #ifndef CPPQT_ABSTRACTCONTAINER_H
 #define CPPQT_ABSTRACTCONTAINER_H
+#include "classes.h"
 #include "abstractblock.h"
-#include "cppqt_abstracttype.h"
 
 
 

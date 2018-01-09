@@ -2,9 +2,9 @@
 #define CPPQT_DEFINITION_H
 #include <memory>
 
+#include "classes.h"
 #include "abstractblock.h"
 #include "cppqt_abstractdefinition.h"
-#include "cppqt_type_concrete.h"
 
 
 
@@ -13,7 +13,7 @@ namespace CppQt
    class Definition : public AbstractBlock, public AbstractDefinition
    {
    public:
-      virtual QString name() const override final { return _type->fullName(); }
+      virtual QString name() const override final;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
       virtual const AbstractBlockFactory& factory() const override final;

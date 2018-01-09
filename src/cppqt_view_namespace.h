@@ -2,7 +2,7 @@
 #define CPPQT_NAMESPACEVIEW_H
 #include <QLabel>
 
-#include "abstractblock.h"
+#include "classes.h"
 
 
 

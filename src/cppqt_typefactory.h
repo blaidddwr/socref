@@ -2,12 +2,8 @@
 #define CPPQT_TYPEFACTORY_H
 #include <memory>
 
+#include "classes.h"
 #include "singleton.h"
-#include "cppqt_abstracttype.h"
-
-
-
-class QDomElement;
 
 
 
