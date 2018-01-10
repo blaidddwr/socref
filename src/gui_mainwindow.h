@@ -5,6 +5,7 @@
 #include <QMainWindow>
 
 #include "classes.h"
+#include "gui_classes.h"
 
 
 

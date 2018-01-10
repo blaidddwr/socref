@@ -2,8 +2,8 @@
 #define ABSTRACTPROJECTFACTORY_H
 #include <QString>
 
-#include "classes.h"
 #include "singletonfactory.h"
+#include "classes.h"
 
 
 

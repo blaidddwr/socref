@@ -2,7 +2,6 @@
 #define CPPQT_DEFINITION_H
 #include <memory>
 
-#include "classes.h"
 #include "abstractblock.h"
 #include "cppqt_abstractdefinition.h"
 

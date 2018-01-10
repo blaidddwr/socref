@@ -6,6 +6,12 @@
 
 
 
+class QFormLayout;
+class QHBoxLayout;
+class QLineEdit;
+
+
+
 namespace Gui
 {
    class ProjectDialog : public QDialog

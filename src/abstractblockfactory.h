@@ -6,6 +6,7 @@
 #include <QIcon>
 
 #include "classes.h"
+#include "gui_classes.h"
 
 
 

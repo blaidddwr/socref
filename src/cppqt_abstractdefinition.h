@@ -1,6 +1,6 @@
 #ifndef CPPQT_ABSTRACTDEFINITION_H
 #define CPPQT_ABSTRACTDEFINITION_H
-#include "classes.h"
+#include "cppqt_classes.h"
 
 
 

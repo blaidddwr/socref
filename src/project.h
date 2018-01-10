@@ -6,6 +6,10 @@
 
 
 
+class QDomElement;
+
+
+
 class Project : public QFileSystemWatcher
 {
    Q_OBJECT

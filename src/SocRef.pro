@@ -59,7 +59,12 @@ HEADERS += \
     cppqt_definition.h \
     cppqt_type_template.h \
     cppqt_typefactory.h \
-    classes.h
+    classes.h \
+    cppqt_classes.h \
+    gui_classes.h \
+    cppqt_type_classes.h \
+    cppqt_edit_classes.h \
+    cppqt_view_classes.h
 
 RESOURCES += \
     resources.qrc

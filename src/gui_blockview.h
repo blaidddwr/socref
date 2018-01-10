@@ -8,6 +8,12 @@
 
 
 
+class QScrollArea;
+class QTreeView;
+class QMenu;
+
+
+
 namespace Gui
 {
    class BlockView : public QSplitter
