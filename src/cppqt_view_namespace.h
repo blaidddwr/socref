@@ -14,7 +14,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Namespace(AbstractBlock* block);
+         explicit Namespace(AbstractBlock* block, QWidget* parent = nullptr);
       };
    }
 }

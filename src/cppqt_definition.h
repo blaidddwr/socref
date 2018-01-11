@@ -4,6 +4,7 @@
 
 #include "abstractblock.h"
 #include "cppqt_abstractdefinition.h"
+#include "cppqt_abstracttype.h"
 
 
 
@@ -11,7 +12,10 @@ namespace CppQt
 {
    class Definition : public AbstractBlock, public AbstractDefinition
    {
+      Q_OBJECT
    public:
+      Definition();
+      Definition(const QString& name);
       virtual QString name() const override final;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;

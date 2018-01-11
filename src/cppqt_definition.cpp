@@ -1,18 +1,30 @@
-#include <QXmlStreamReader>
-#include <QXmlStreamWriter>
-#include <QDomElement>
-
 #include "cppqt_definition.h"
 #include "cppqt_blockfactory.h"
-#include "exception.h"
-#include "xmlelementparser.h"
 #include "cppqt_typefactory.h"
-#include "cppqt_abstracttype.h"
+#include "cppqt_type_concrete.h"
 
 
 
 using namespace std;
 using namespace CppQt;
+
+
+
+
+
+
+Definition::Definition():
+   _type(new Type::Concrete)
+{}
+
+
+
+
+
+
+Definition::Definition(const QString& name):
+   _type(new Type::Concrete(name))
+{}
 
 
 
@@ -43,7 +55,7 @@ unique_ptr<AbstractBlock> Definition::makeCopy() const
 
 int Definition::type() const
 {
-   return -1;
+   return BlockFactory::DefinitionType;
 }
 
 

@@ -1,5 +1,5 @@
-#include "cppqt_view_namespace.h"
-#include "cppqt_namespace.h"
+#include "cppqt_view_definition.h"
+#include "cppqt_definition.h"
 #include "exception.h"
 
 
@@ -11,10 +11,10 @@ using namespace CppQt::View;
 
 
 
-Namespace::Namespace(AbstractBlock* block, QWidget* parent):
+Definition::Definition(AbstractBlock* block, QWidget* parent):
    QLabel(parent)
 {
-   CppQt::Namespace* block_ {qobject_cast<CppQt::Namespace*>(block)};
+   CppQt::Definition* block_ {qobject_cast<CppQt::Definition*>(block)};
    if ( !block_ )
    {
       Exception::InvalidArgument e;
@@ -25,5 +25,5 @@ Namespace::Namespace(AbstractBlock* block, QWidget* parent):
    setAlignment(Qt::AlignTop);
    setWordWrap(true);
    setTextFormat(Qt::RichText);
-   setText(QString("<p>namespace <b>%1</b></p><p>%2</p>").arg(block_->name()).arg(block_->description()));
+   setText(QString("<p>type <b>%1</b></p>").arg(block_->name()));
 }
