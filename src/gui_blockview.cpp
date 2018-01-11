@@ -1,6 +1,9 @@
 #include <QTreeView>
 #include <QScrollArea>
 #include <QMenu>
+#include <QLabel>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 
 #include "gui_blockview.h"
 #include "gui_abstractedit.h"
@@ -27,8 +30,6 @@ BlockView::BlockView(QWidget* parent):
 {
    createTreeView();
    createArea();
-   addWidget(_treeView);
-   addWidget(_area);
    createActions();
    createMenu();
    updateActions();
@@ -110,12 +111,16 @@ void BlockView::removeTriggered()
 void BlockView::editTriggered()
 {
    QModelIndex index {selection()};
+   _titleIcon->clear();
+   _titleText->clear();
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->pointer(index)};
       unique_ptr<AbstractEdit> edit {_factory->makeEdit(pointer->type(),pointer)};
       edit->initialize();
       connect(edit.get(),&AbstractEdit::finished,this,&BlockView::editFinished);
+      _titleIcon->setPixmap(_factory->icon(pointer->type()).pixmap(_titleIconSize,_titleIconSize));
+      _titleText->setText(QString("<b>").append(pointer->name()).append("</b>"));
       setView(edit.release());
    }
 }
@@ -200,10 +205,14 @@ void BlockView::selectionModelChanged()
 {
    unique_ptr<QWidget> view;
    QModelIndex index {selection()};
+   _titleIcon->clear();
+   _titleText->clear();
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->pointer(index)};
-      view = _factory->makeView(pointer->type(),pointer);;
+      view = _factory->makeView(pointer->type(),pointer);
+      _titleIcon->setPixmap(_factory->icon(pointer->type()).pixmap(_titleIconSize,_titleIconSize));
+      _titleText->setText(QString("<b>").append(pointer->name()).append("</b>"));
    }
    setView(view.release());
    updateActions();
@@ -217,6 +226,8 @@ void BlockView::selectionModelChanged()
 
 void BlockView::modelDestroyed()
 {
+   _titleIcon->clear();
+   _titleText->clear();
    setView(nullptr);
    _model = nullptr;
    _factory = nullptr;
@@ -234,6 +245,7 @@ void BlockView::createTreeView()
 {
    _treeView = new QTreeView;
    _treeView->setHeaderHidden(true);
+   addWidget(_treeView);
 }
 
 
@@ -243,8 +255,32 @@ void BlockView::createTreeView()
 
 void BlockView::createArea()
 {
+   QVBoxLayout* layout {new QVBoxLayout};
    _area = new QScrollArea;
    _area->setWidgetResizable(true);
+   layout->addLayout(createTitleBar());
+   layout->addSpacing(8);
+   layout->addWidget(_area);
+   QWidget* widget {new QWidget};
+   widget->setLayout(layout);
+   addWidget(widget);
+}
+
+
+
+
+
+
+QLayout* BlockView::createTitleBar()
+{
+   QHBoxLayout* ret {new QHBoxLayout};
+   _titleIcon = new QLabel;
+   _titleText = new QLabel;
+   _titleText->setTextFormat(Qt::RichText);
+   ret->addWidget(_titleIcon);
+   ret->addWidget(_titleText);
+   ret->addStretch();
+   return ret;
 }
 
 

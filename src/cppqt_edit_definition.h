@@ -14,7 +14,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Definition(AbstractBlock* block, QWidget* parent = nullptr): Gui::AbstractEdit(parent) {}
+         explicit Definition(AbstractBlock* /*block*/, QWidget* parent = nullptr): Gui::AbstractEdit(parent) {}
       protected slots:
          virtual void okClicked() override final {}
          virtual void applyClicked() override final {}

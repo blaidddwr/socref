@@ -11,6 +11,7 @@
 class QScrollArea;
 class QTreeView;
 class QMenu;
+class QLabel;
 
 
 
@@ -41,6 +42,7 @@ namespace Gui
    private:
       void createTreeView();
       void createArea();
+      QLayout* createTitleBar();
       void createActions();
       void createRemoveAction();
       void createEditAction();
@@ -56,6 +58,7 @@ namespace Gui
       void setView(QWidget* view);
       void setCopy(AbstractBlock* copy);
       QModelIndex selection() const;
+      constexpr static int _titleIconSize {32};
       QScrollArea* _area;
       QTreeView* _treeView;
       BlockModel* _model {nullptr};
@@ -73,6 +76,8 @@ namespace Gui
       QAction* _moveDownAction;
       QMenu* _addMenu;
       QMenu* _contextMenu;
+      QLabel* _titleIcon;
+      QLabel* _titleText;
    };
 }
 

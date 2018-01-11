@@ -25,5 +25,17 @@ Definition::Definition(AbstractBlock* block, QWidget* parent):
    setAlignment(Qt::AlignTop);
    setWordWrap(true);
    setTextFormat(Qt::RichText);
-   setText(QString("<p>type <b>%1</b></p>").arg(block_->name()));
+   AbstractType* type {block_->getType()};
+   if ( type->isConcrete() )
+   {
+      setText(tr("Concrete"));
+   }
+   else if ( type->isTemplate() )
+   {
+      setText(tr("Template"));
+   }
+   else
+   {
+      setText(tr("Unknown"));
+   }
 }

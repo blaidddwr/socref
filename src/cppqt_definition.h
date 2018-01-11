@@ -20,6 +20,7 @@ namespace CppQt
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
       virtual const AbstractBlockFactory& factory() const override final;
+      AbstractType* getType() const { return _type.get(); }
       Definition& setType(std::unique_ptr<AbstractType>&& type);
    private:
       virtual void readData(const QDomElement& data) override final;
