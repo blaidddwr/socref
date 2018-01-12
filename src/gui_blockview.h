@@ -39,6 +39,7 @@ namespace Gui
       void selectionModelChanged();
       void modelDestroyed();
       void editFinished() { selectionModelChanged(); }
+      void titleNameChanged(AbstractBlock* block);
    private:
       void createTreeView();
       void createArea();

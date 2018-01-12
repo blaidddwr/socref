@@ -111,17 +111,15 @@ void BlockView::removeTriggered()
 void BlockView::editTriggered()
 {
    QModelIndex index {selection()};
-   _titleIcon->clear();
-   _titleText->clear();
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->pointer(index)};
       unique_ptr<AbstractEdit> edit {_factory->makeEdit(pointer->type(),pointer)};
       edit->initialize();
       connect(edit.get(),&AbstractEdit::finished,this,&BlockView::editFinished);
-      _titleIcon->setPixmap(_factory->icon(pointer->type()).pixmap(_titleIconSize,_titleIconSize));
-      _titleText->setText(QString("<b>").append(pointer->name()).append("</b>"));
       setView(edit.release());
+      titleNameChanged(pointer);
+      connect(pointer,&AbstractBlock::nameChanged,this,&BlockView::titleNameChanged);
    }
 }
 
@@ -205,14 +203,12 @@ void BlockView::selectionModelChanged()
 {
    unique_ptr<QWidget> view;
    QModelIndex index {selection()};
-   _titleIcon->clear();
-   _titleText->clear();
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->pointer(index)};
       view = _factory->makeView(pointer->type(),pointer);
-      _titleIcon->setPixmap(_factory->icon(pointer->type()).pixmap(_titleIconSize,_titleIconSize));
-      _titleText->setText(QString("<b>").append(pointer->name()).append("</b>"));
+      titleNameChanged(pointer);
+      connect(pointer,&AbstractBlock::nameChanged,this,&BlockView::titleNameChanged);
    }
    setView(view.release());
    updateActions();
@@ -234,6 +230,22 @@ void BlockView::modelDestroyed()
    _selectionModel = nullptr;
    updateActions();
    updateMenu();
+}
+
+
+
+
+
+
+void BlockView::titleNameChanged(AbstractBlock* block)
+{
+   _titleIcon->clear();
+   _titleText->clear();
+   if ( block )
+   {
+      _titleIcon->setPixmap(_factory->icon(block->type()).pixmap(_titleIconSize,_titleIconSize));
+      _titleText->setText(block->name());
+   }
 }
 
 
@@ -276,7 +288,10 @@ QLayout* BlockView::createTitleBar()
    QHBoxLayout* ret {new QHBoxLayout};
    _titleIcon = new QLabel;
    _titleText = new QLabel;
-   _titleText->setTextFormat(Qt::RichText);
+   QFont font;
+   font.setBold(true);
+   _titleText->setFont(font);
+   _titleText->setTextFormat(Qt::PlainText);
    ret->addWidget(_titleIcon);
    ret->addWidget(_titleText);
    ret->addStretch();

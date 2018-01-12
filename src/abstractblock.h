@@ -33,7 +33,7 @@ protected:
    virtual QDomElement writeData(QDomDocument& document) const = 0;
    AbstractBlock& root();
    AbstractBlock* copyChildren(const AbstractBlock* block);
-   void notifyOfNameChange() { notifyOfNameChange(nullptr); }
+   void notifyOfNameChange();
 signals:
    void modified();
    void nameChanged(AbstractBlock* object);

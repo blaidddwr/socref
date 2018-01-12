@@ -1,5 +1,4 @@
 #include <QDomDocument>
-
 #include "abstractblock.h"
 #include "abstractblockfactory.h"
 #include "exception.h"
@@ -206,6 +205,17 @@ AbstractBlock* AbstractBlock::copyChildren(const AbstractBlock* block)
       child->makeCopy().release()->setBlockParent(this,childrenSize());
    }
    return this;
+}
+
+
+
+
+
+
+void AbstractBlock::notifyOfNameChange()
+{
+   notifyOfNameChange(nullptr);
+   emit nameChanged(this);
 }
 
 
