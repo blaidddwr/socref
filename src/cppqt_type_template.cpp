@@ -68,7 +68,7 @@ bool Template::isEquivalent(const AbstractType* type) const
 
 
 
-QString Template::fullName(const QList<QString>& scope) const
+QString Template::fullName() const
 {
    QString ret {name()};
    if ( !_variants.isEmpty() )
@@ -78,7 +78,7 @@ QString Template::fullName(const QList<QString>& scope) const
       {
          if ( _values.at(i) )
          {
-            ret.append(_values.at(i)->fullName(scope));
+            ret.append(_values.at(i)->fullName());
          }
          else
          {

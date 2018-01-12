@@ -23,11 +23,14 @@ namespace CppQt
       virtual bool isEquivalent(const AbstractType* type) const = 0;
       virtual const QList<AbstractType*> contains() const = 0;
       virtual std::unique_ptr<AbstractType> makeCopy() const = 0;
-      virtual QString fullName(const QList<QString>& scope = QList<QString>()) const = 0;
+      virtual QString fullName() const = 0;
       virtual AbstractType* read(const QDomElement& type) = 0;
       virtual int type() const = 0;
-      QString scopedName(const QList<QString>& scope = QList<QString>()) const;
-      const QList<QString> scope() const { return _scope; }
+      QString scopedName() const;
+      AbstractType* setDepth(int depth);
+      int depth() const { return _depth; }
+      const QStringList scope() const { return _scope; }
+      AbstractType* setScope(const QStringList& scope);
       AbstractType* clearScope();
       AbstractType* prependScope(const QString& scope);
       QString name() const { return _name; }
@@ -39,7 +42,8 @@ namespace CppQt
       virtual QDomElement writeData(QDomDocument& document) const = 0;
    private:
       int _type {-1};
-      QList<QString> _scope;
+      int _depth {-1};
+      QStringList _scope;
       QString _name;
    };
 }

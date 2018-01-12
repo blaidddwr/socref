@@ -43,6 +43,8 @@ unique_ptr<AbstractType> TypeFactory::read(const QDomElement& type) const
    }
    unique_ptr<AbstractType> ret {makeType(type_)};
    ret->read(type);
+   ret->setScope(type.attribute("scope").split("::"));
+   ret->setDepth(type.attribute("depth").toInt());
    return ret;
 }
 

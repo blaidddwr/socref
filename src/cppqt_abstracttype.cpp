@@ -11,27 +11,41 @@ using namespace CppQt;
 
 
 
-QString AbstractType::scopedName(const QList<QString>& scope) const
+QString AbstractType::scopedName() const
 {
    QString ret;
-   int contextCount {0};
    int count {0};
-   auto contextName {scope.cbegin()};
-   for (const auto& name : _scope)
+   for (int i = _scope.size() - 1; i >-1 ;--i)
    {
-      if ( count == contextCount && name == *contextName )
+      if ( _depth == -1 || count++ < _depth )
       {
-         ++contextName;
-         ++contextCount;
+         ret.prepend("::").prepend(_scope.at(i));
       }
-      else
-      {
-         ret.append(name).append("::");
-      }
-      ++count;
    }
-   ret.append(fullName(scope));
+   ret.append(fullName());
    return ret;
+}
+
+
+
+
+
+
+AbstractType* AbstractType::setDepth(int depth)
+{
+   _depth = depth;
+   return this;
+}
+
+
+
+
+
+
+AbstractType* AbstractType::setScope(const QStringList& scope)
+{
+   _scope = scope;
+   return this;
 }
 
 
@@ -95,5 +109,7 @@ QDomElement AbstractType::write(QDomDocument& document)
    QDomElement ret {writeData(document)};
    ret.setAttribute("id",QString::number(type()));
    ret.setAttribute("type",TypeFactory::instance().name(type()));
+   ret.setAttribute("scope",_scope.join("::"));
+   ret.setAttribute("depth",QString::number(_depth));
    return ret;
 }

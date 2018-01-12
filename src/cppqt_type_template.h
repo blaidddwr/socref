@@ -22,7 +22,7 @@ namespace CppQt
          virtual bool isEquivalent(const AbstractType* type) const override final;
          virtual const QList<AbstractType*> contains() const override final { return _values; }
          virtual std::unique_ptr<AbstractType> makeCopy() const override final { return std::unique_ptr<Template>(new Template(name(),_variants)); }
-         virtual QString fullName(const QList<QString>& scope) const override final;
+         virtual QString fullName() const override final;
          virtual AbstractType* read(const QDomElement& type) override final;
          virtual int type() const override final;
          const QList<QString> variants() const { return _variants; }
