@@ -128,7 +128,7 @@ AbstractType* Template::read(const QDomElement& type)
             _variants.push_back(element.text());
             break;
          case Value:
-            _values.push_back(TypeFactory::instance().read(element).release());
+            _values.push_back(readValue(element));
             break;
          }
       }
@@ -220,14 +220,36 @@ QDomElement Template::writeData(QDomDocument& document) const
    for (const auto variant : _variants)
    {
       QDomElement variant_ {document.createElement("variant")};
-      variant_.setAttribute("name",variant);
+      variant_.appendChild(document.createTextNode(variant));
       ret.appendChild(variant_);
    }
    for (auto value : _values)
    {
-      QDomElement value_ {value->write(document)};
-      value_.setTagName("value");
-      ret.appendChild(value_);
+      if ( value )
+      {
+         QDomElement value_ {value->write(document)};
+         value_.setTagName("value");
+         ret.appendChild(value_);
+      }
+      else
+      {
+         ret.appendChild(document.createElement("value"));
+      }
    }
    return ret;
+}
+
+
+
+
+
+
+AbstractType* Template::readValue(const QDomElement& value)
+{
+   TypeFactory& factory {TypeFactory::instance()};
+   if ( factory.isValidTypeElement(value) )
+   {
+      return TypeFactory::instance().read(value).release();
+   }
+   return nullptr;
 }

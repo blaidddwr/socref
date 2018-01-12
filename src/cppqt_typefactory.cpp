@@ -51,6 +51,16 @@ unique_ptr<AbstractType> TypeFactory::read(const QDomElement& type) const
 
 
 
+bool TypeFactory::isValidTypeElement(const QDomElement& element)
+{
+   return element.hasAttribute("id") && element.hasAttribute("type");
+}
+
+
+
+
+
+
 QString TypeFactory::name(int type) const
 {
    switch (type)

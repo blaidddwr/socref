@@ -1,9 +1,13 @@
 #ifndef CPPQT_TYPEFACTORY_H
 #define CPPQT_TYPEFACTORY_H
 #include <memory>
-
+#include <QString>
 #include "singleton.h"
 #include "cppqt_classes.h"
+
+
+
+class QDomElement;
 
 
 
@@ -19,6 +23,7 @@ namespace CppQt
          ,Total
       };
       std::unique_ptr<AbstractType> read(const QDomElement& type) const;
+      bool isValidTypeElement(const QDomElement& element);
       QString name(int type) const;
    private:
       std::unique_ptr<AbstractType> makeType(int type) const;

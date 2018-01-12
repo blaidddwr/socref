@@ -3,6 +3,7 @@
 #include "gui_abstractedit.h"
 #include "classes.h"
 #include "cppqt_classes.h"
+#include "cppqt_type_classes.h"
 
 
 
@@ -14,14 +15,15 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Definition(AbstractBlock* /*block*/, QWidget* parent = nullptr): Gui::AbstractEdit(parent) {}
+         explicit Definition(AbstractBlock* block, QWidget* parent = nullptr);
       protected slots:
-         virtual void okClicked() override final {}
-         virtual void applyClicked() override final {}
+         virtual void okClicked() override final;
+         virtual void applyClicked() override final;
          virtual void cancelClicked() override final { emit finished(); }
       private:
          virtual std::unique_ptr<QLayout> createForm() override final;
          CppQt::Definition* _block;
+         Type::Edit* _typeEdit;
       };
    }
 }

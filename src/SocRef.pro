@@ -32,7 +32,8 @@ SOURCES += \
     cppqt_typefactory.cpp \
     cppqt_abstractdefinition.cpp \
     cppqt_view_definition.cpp \
-    cppqt_edit_definition.cpp
+    cppqt_edit_definition.cpp \
+    cppqt_type_edit.cpp
 
 HEADERS += \
     singleton.h \
@@ -68,7 +69,8 @@ HEADERS += \
     cppqt_edit_classes.h \
     cppqt_view_classes.h \
     cppqt_view_definition.h \
-    cppqt_edit_definition.h
+    cppqt_edit_definition.h \
+    cppqt_type_edit.h
 
 RESOURCES += \
     resources.qrc

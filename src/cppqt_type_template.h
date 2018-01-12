@@ -31,6 +31,7 @@ namespace CppQt
          Template& clearValues();
       private:
          virtual QDomElement writeData(QDomDocument& document) const override final;
+         AbstractType* readValue(const QDomElement& value);
          QList<QString> _variants;
          QList<AbstractType*> _values;
       };

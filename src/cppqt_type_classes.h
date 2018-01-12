@@ -5,5 +5,6 @@ namespace CppQt
    {
       class Concrete;
       class Template;
+      class Edit;
    }
 }
