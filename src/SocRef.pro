@@ -10,7 +10,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
     main.cpp \
     project.cpp \
-    xmlelementparser.cpp \
     abstractblock.cpp \
     gui_mainwindow.cpp \
     projectfactory.cpp \
@@ -29,11 +28,11 @@ SOURCES += \
     cppqt_type_concrete.cpp \
     cppqt_definition.cpp \
     cppqt_type_template.cpp \
-    cppqt_typefactory.cpp \
     cppqt_abstractdefinition.cpp \
     cppqt_view_definition.cpp \
     cppqt_edit_definition.cpp \
-    cppqt_type_edit.cpp
+    cppqt_type_edit.cpp \
+    cppqt_type_factory.cpp
 
 HEADERS += \
     singleton.h \
@@ -42,7 +41,6 @@ HEADERS += \
     abstractprojectfactory.h \
     project.h \
     abstractblockfactory.h \
-    xmlelementparser.h \
     abstractblock.h \
     gui_mainwindow.h \
     projectfactory.h \
@@ -61,7 +59,6 @@ HEADERS += \
     cppqt_type_concrete.h \
     cppqt_definition.h \
     cppqt_type_template.h \
-    cppqt_typefactory.h \
     classes.h \
     cppqt_classes.h \
     gui_classes.h \
@@ -70,7 +67,8 @@ HEADERS += \
     cppqt_view_classes.h \
     cppqt_view_definition.h \
     cppqt_edit_definition.h \
-    cppqt_type_edit.h
+    cppqt_type_edit.h \
+    cppqt_type_factory.h
 
 RESOURCES += \
     resources.qrc

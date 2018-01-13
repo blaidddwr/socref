@@ -4,7 +4,6 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-
 #include "gui_blockview.h"
 #include "gui_abstractedit.h"
 #include "abstractblock.h"

@@ -1,11 +1,7 @@
-#include <QXmlStreamWriter>
-#include <QXmlStreamReader>
 #include <QDomElement>
-
 #include "cppqt_type_template.h"
 #include "exception.h"
-#include "xmlelementparser.h"
-#include "cppqt_typefactory.h"
+#include "cppqt_type_factory.h"
 
 
 
@@ -151,7 +147,7 @@ AbstractType* Template::read(const QDomElement& type)
 
 int Template::type() const
 {
-   return TypeFactory::TemplateType;
+   return Type::Factory::TemplateType;
 }
 
 
@@ -246,10 +242,10 @@ QDomElement Template::writeData(QDomDocument& document) const
 
 AbstractType* Template::readValue(const QDomElement& value)
 {
-   TypeFactory& factory {TypeFactory::instance()};
+   Type::Factory& factory {Type::Factory::instance()};
    if ( factory.isValidTypeElement(value) )
    {
-      return TypeFactory::instance().read(value).release();
+      return Type::Factory::instance().read(value).release();
    }
    return nullptr;
 }

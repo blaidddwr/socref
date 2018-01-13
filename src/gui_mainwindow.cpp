@@ -3,7 +3,6 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QCloseEvent>
-
 #include "gui_mainwindow.h"
 #include "abstractprojectfactory.h"
 #include "gui_projectdialog.h"

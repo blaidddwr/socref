@@ -1,13 +1,4 @@
 #include <QHBoxLayout>
-#include <QVBoxLayout>
-#include <QTableWidget>
-#include <QSpinBox>
-#include <QGroupBox>
-#include <QGridLayout>
-#include <QLabel>
-#include <QLineEdit>
-#include <QFormLayout>
-
 #include "cppqt_edit_definition.h"
 #include "cppqt_definition.h"
 #include "cppqt_type_edit.h"
@@ -36,15 +27,23 @@ Definition::Definition(AbstractBlock* block, QWidget* parent):
    }
 }
 
-void Definition::okClicked() {}
 
-void Definition::applyClicked()
+
+
+
+
+void Definition::okClicked()
 {
-   if ( _typeEdit->isValid(true) )
+   if ( apply() )
    {
-      _block->setType(_typeEdit->type());
+      finished();
    }
 }
+
+
+
+
+
 
 unique_ptr<QLayout> Definition::createForm()
 {
@@ -52,4 +51,19 @@ unique_ptr<QLayout> Definition::createForm()
    _typeEdit = new Type::Edit(_block->getType());
    ret->addWidget(_typeEdit);
    return ret;
+}
+
+
+
+
+
+
+bool Definition::apply()
+{
+   if ( _typeEdit->isValid(true) )
+   {
+      _block->setType(_typeEdit->type());
+      return true;
+   }
+   return false;
 }

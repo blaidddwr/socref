@@ -1,7 +1,6 @@
 #ifndef CPPQT_TYPE_TEMPLATE_H
 #define CPPQT_TYPE_TEMPLATE_H
 #include <memory>
-
 #include "cppqt_abstracttype.h"
 
 

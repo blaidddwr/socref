@@ -1,7 +1,6 @@
 #ifndef ABSTRACTPROJECTFACTORY_H
 #define ABSTRACTPROJECTFACTORY_H
 #include <QString>
-
 #include "singletonfactory.h"
 #include "classes.h"
 

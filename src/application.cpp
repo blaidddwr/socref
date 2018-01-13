@@ -1,5 +1,4 @@
 #include <QMessageBox>
-
 #include "application.h"
 #include "exception.h"
 

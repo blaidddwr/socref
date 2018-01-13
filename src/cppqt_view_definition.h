@@ -1,7 +1,6 @@
 #ifndef CPPQT_VIEW_DEFINITION_H
 #define CPPQT_VIEW_DEFINITION_H
 #include <QLabel>
-
 #include "classes.h"
 
 

@@ -7,5 +7,4 @@ namespace CppQt
    class BlockFactory;
    class Definition;
    class Namespace;
-   class TypeFactory;
 }

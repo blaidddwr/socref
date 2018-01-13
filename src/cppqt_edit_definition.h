@@ -18,10 +18,11 @@ namespace CppQt
          explicit Definition(AbstractBlock* block, QWidget* parent = nullptr);
       protected slots:
          virtual void okClicked() override final;
-         virtual void applyClicked() override final;
+         virtual void applyClicked() override final { apply(); }
          virtual void cancelClicked() override final { emit finished(); }
       private:
          virtual std::unique_ptr<QLayout> createForm() override final;
+         bool apply();
          CppQt::Definition* _block;
          Type::Edit* _typeEdit;
       };

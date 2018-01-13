@@ -1,6 +1,6 @@
 #include "cppqt_abstracttype.h"
 #include "exception.h"
-#include "cppqt_typefactory.h"
+#include "cppqt_type_factory.h"
 
 
 
@@ -108,7 +108,7 @@ QDomElement AbstractType::write(QDomDocument& document)
 {
    QDomElement ret {writeData(document)};
    ret.setAttribute("id",QString::number(type()));
-   ret.setAttribute("type",TypeFactory::instance().name(type()));
+   ret.setAttribute("type",Type::Factory::instance().name(type()));
    ret.setAttribute("scope",_scope.join("::"));
    ret.setAttribute("depth",QString::number(_depth));
    return ret;

@@ -1,7 +1,6 @@
 #ifndef CPPQT_ABSTRACTTYPE_H
 #define CPPQT_ABSTRACTTYPE_H
 #include <memory>
-
 #include <QList>
 #include <QDomElement>
 

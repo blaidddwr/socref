@@ -1,11 +1,7 @@
-#include <QXmlStreamWriter>
-#include <QXmlStreamReader>
 #include <QDomElement>
-
 #include "cppqt_type_concrete.h"
 #include "exception.h"
-#include "xmlelementparser.h"
-#include "cppqt_typefactory.h"
+#include "cppqt_type_factory.h"
 
 
 
@@ -52,7 +48,7 @@ AbstractType* Concrete::read(const QDomElement& type)
 
 int Concrete::type() const
 {
-   return TypeFactory::ConcreteType;
+   return Type::Factory::ConcreteType;
 }
 
 

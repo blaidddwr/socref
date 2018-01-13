@@ -4,7 +4,6 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QFileDialog>
-
 #include "gui_projectdialog.h"
 #include "project.h"
 #include "exception.h"

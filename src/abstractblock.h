@@ -1,10 +1,8 @@
 #ifndef ABSTRACTBLOCK_H
 #define ABSTRACTBLOCK_H
 #include <memory>
-
 #include <QObject>
 #include <QDomElement>
-
 #include "classes.h"
 
 

@@ -1,10 +1,7 @@
 #include <memory>
-
 #include <QDomDocument>
-
 #include "cppqt_namespace.h"
 #include "cppqt_blockfactory.h"
-#include "xmlelementparser.h"
 #include "exception.h"
 
 

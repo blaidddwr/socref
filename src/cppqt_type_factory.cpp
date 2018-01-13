@@ -1,7 +1,5 @@
-#include <QXmlStreamReader>
 #include <QDomElement>
-
-#include "cppqt_typefactory.h"
+#include "cppqt_type_factory.h"
 #include "cppqt_type_concrete.h"
 #include "cppqt_type_template.h"
 #include "exception.h"
@@ -10,13 +8,14 @@
 
 using namespace std;
 using namespace CppQt;
+using namespace CppQt::Type;
 
 
 
 
 
 
-unique_ptr<AbstractType> TypeFactory::read(const QDomElement& type) const
+unique_ptr<AbstractType> Factory::read(const QDomElement& type) const
 {
    if ( !type.hasAttribute("id") )
    {
@@ -53,7 +52,7 @@ unique_ptr<AbstractType> TypeFactory::read(const QDomElement& type) const
 
 
 
-bool TypeFactory::isValidTypeElement(const QDomElement& element)
+bool Factory::isValidTypeElement(const QDomElement& element)
 {
    return element.hasAttribute("id") && element.hasAttribute("type");
 }
@@ -63,7 +62,7 @@ bool TypeFactory::isValidTypeElement(const QDomElement& element)
 
 
 
-QString TypeFactory::name(int type) const
+QString Factory::name(int type) const
 {
    switch (type)
    {
@@ -81,7 +80,7 @@ QString TypeFactory::name(int type) const
 
 
 
-unique_ptr<AbstractType> TypeFactory::makeType(int type) const
+unique_ptr<AbstractType> Factory::makeType(int type) const
 {
    switch (type)
    {

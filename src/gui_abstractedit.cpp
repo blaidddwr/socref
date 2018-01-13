@@ -1,7 +1,6 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
-
 #include "gui_abstractedit.h"
 
 

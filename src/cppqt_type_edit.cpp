@@ -119,7 +119,7 @@ bool Edit::isValid(bool informUser) const
       {
          QMessageBox box;
          box.setWindowTitle(tr("Invalid base name."));
-         box.setText(tr("'%1' is not a valid base type name!").arg(_nameEdit->text()));
+         box.setText(tr("'%1' is not a valid base type name.").arg(_nameEdit->text()));
          box.setIcon(QMessageBox::Warning);
          box.exec();
       }
@@ -134,7 +134,7 @@ bool Edit::isValid(bool informUser) const
          {
             QMessageBox box;
             box.setWindowTitle(tr("Invalid variant name."));
-            box.setText(tr("'' is not a valid variant name!"));
+            box.setText(tr("'' is not a valid variant name."));
             box.setIcon(QMessageBox::Warning);
             box.exec();
          }
@@ -146,7 +146,7 @@ bool Edit::isValid(bool informUser) const
          {
             QMessageBox box;
             box.setWindowTitle(tr("Invalid variant name."));
-            box.setText(tr("'%1' is not a valid variant name!").arg(_variantTable->item(i,0)->text()));
+            box.setText(tr("'%1' is not a valid variant name.").arg(_variantTable->item(i,0)->text()));
             box.setIcon(QMessageBox::Warning);
             box.exec();
          }

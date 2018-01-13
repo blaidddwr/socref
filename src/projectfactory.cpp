@@ -1,5 +1,4 @@
 #include <QObject>
-
 #include "projectfactory.h"
 #include "cppqt_blockfactory.h"
 #include "exception.h"

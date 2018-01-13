@@ -1,10 +1,8 @@
 #ifndef ABSTRACTBLOCKFACTORY_H
 #define ABSTRACTBLOCKFACTORY_H
 #include <memory>
-
 #include <QString>
 #include <QIcon>
-
 #include "classes.h"
 #include "gui_classes.h"
 

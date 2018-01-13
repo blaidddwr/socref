@@ -1,7 +1,6 @@
 #ifndef CPPQT_DEFINITION_H
 #define CPPQT_DEFINITION_H
 #include <memory>
-
 #include "abstractblock.h"
 #include "cppqt_abstractdefinition.h"
 #include "cppqt_abstracttype.h"

@@ -3,7 +3,6 @@
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QRegExpValidator>
-
 #include "cppqt_namespace.h"
 #include "cppqt_edit_namespace.h"
 #include "exception.h"

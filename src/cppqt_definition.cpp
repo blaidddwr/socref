@@ -1,6 +1,6 @@
 #include "cppqt_definition.h"
 #include "cppqt_blockfactory.h"
-#include "cppqt_typefactory.h"
+#include "cppqt_type_factory.h"
 #include "cppqt_type_concrete.h"
 
 
@@ -91,7 +91,7 @@ Definition& Definition::setType(unique_ptr<AbstractType>&& type)
 
 void Definition::readData(const QDomElement& data)
 {
-   _type = TypeFactory::instance().read(data);
+   _type = Type::Factory::instance().read(data);
 }
 
 
