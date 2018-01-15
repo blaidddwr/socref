@@ -44,6 +44,10 @@ unique_ptr<AbstractType> Factory::read(const QDomElement& type) const
    ret->read(type);
    ret->setScope(type.attribute("scope").split("::"));
    ret->setDepth(type.attribute("depth").toInt());
+   if ( type.hasAttribute("mods") )
+   {
+      ret->setModifiers(Type::Modifiers(type.attribute("mods")));
+   }
    return ret;
 }
 

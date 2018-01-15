@@ -104,12 +104,27 @@ AbstractType* AbstractType::setName(const QString& name)
 
 
 
-QDomElement AbstractType::write(QDomDocument& document)
+AbstractType* AbstractType::setModifiers(const Type::Modifiers& modifiers)
+{
+   _modifiers = modifiers;
+   return this;
+}
+
+
+
+
+
+
+QDomElement AbstractType::write(QDomDocument& document) const
 {
    QDomElement ret {writeData(document)};
    ret.setAttribute("id",QString::number(type()));
    ret.setAttribute("type",Type::Factory::instance().name(type()));
    ret.setAttribute("scope",_scope.join("::"));
    ret.setAttribute("depth",QString::number(_depth));
+   if ( !_modifiers.isNull() )
+   {
+      ret.setAttribute("mods",_modifiers.toString());
+   }
    return ret;
 }

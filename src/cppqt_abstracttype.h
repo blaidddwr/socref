@@ -3,6 +3,7 @@
 #include <memory>
 #include <QList>
 #include <QDomElement>
+#include "cppqt_type_modifiers.h"
 
 
 
@@ -34,7 +35,9 @@ namespace CppQt
       AbstractType* prependScope(const QString& scope);
       QString name() const { return _name; }
       AbstractType* setName(const QString& name);
-      QDomElement write(QDomDocument& document);
+      const Type::Modifiers& modifiers() const { return _modifiers; }
+      AbstractType* setModifiers(const Type::Modifiers& modifiers);
+      QDomElement write(QDomDocument& document) const;
       bool operator!=(const AbstractType& type) { return _scope != type._scope || !isEquivalent(&type); }
       bool operator==(const AbstractType& type) { return _scope == type._scope && isEquivalent(&type); }
    protected:
@@ -44,6 +47,7 @@ namespace CppQt
       int _depth {-1};
       QStringList _scope;
       QString _name;
+      Type::Modifiers _modifiers;
    };
 }
 
