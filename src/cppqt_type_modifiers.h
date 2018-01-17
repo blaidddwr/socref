@@ -25,10 +25,13 @@ namespace CppQt
             _isStatic(isStatic),
             _pointers(pointers)
             {}
+         QString fullNameWithModifers(const QString& name) const;
          int base() const { return _base; }
          Modifiers& setBase(int base);
          bool isStatic() const { return _isStatic; }
          Modifiers& setStatic(bool isStatic);
+         bool isReference() const { return _isReference; }
+         Modifiers& setReference(bool isReference);
          const QList<int> pointers() const { return _pointers; }
          Modifiers& setPointers(const QList<int>& pointers);
          bool isNull() const { return _base == NotConst && _isStatic == false && _pointers.isEmpty(); }
@@ -37,6 +40,7 @@ namespace CppQt
       private:
          int _base {NotConst};
          bool _isStatic {false};
+         bool _isReference {false};
          QList<int> _pointers;
       };
    }

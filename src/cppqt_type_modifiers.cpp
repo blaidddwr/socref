@@ -10,6 +10,42 @@ using namespace CppQt::Type;
 
 
 
+QString Modifiers::fullNameWithModifers(const QString& name) const
+{
+   QString ret;
+   switch (_base)
+   {
+   case Const:
+      ret.append("const ");
+      break;
+   case ConstExpr:
+      ret.append("constexpr ");
+   }
+   if ( _isStatic )
+   {
+      ret.append("static ");
+   }
+   ret.append(name);
+   for (auto pointer : _pointers)
+   {
+      ret.append("*");
+      if ( pointer == Const )
+      {
+         ret.append("const");
+      }
+   }
+   if ( _isReference )
+   {
+      ret.append("&");
+   }
+   return ret;
+}
+
+
+
+
+
+
 Modifiers& Modifiers::setBase(int base)
 {
    if ( base < 0 || base >= Total )
@@ -31,6 +67,17 @@ Modifiers& Modifiers::setBase(int base)
 Modifiers& Modifiers::setStatic(bool isStatic)
 {
    _isStatic = isStatic;
+   return *this;
+}
+
+
+
+
+
+
+Modifiers& Modifiers::setReference(bool isReference)
+{
+   _isReference = isReference;
    return *this;
 }
 
@@ -65,6 +112,7 @@ QString Modifiers::toString() const
    QStringList ret;
    ret.append(QString::number(_base));
    ret.append(QString::number(_isStatic));
+   ret.append(QString::number(_isReference));
    for (auto pointer : _pointers)
    {
       ret.append(QString::number(pointer));
@@ -90,7 +138,7 @@ Modifiers& Modifiers::fromString(const QString& text)
       throw e;
    };
    QStringList data {text.split(":")};
-   if ( data.size() < 2 )
+   if ( data.size() < 3 )
    {
       fail();
    }
@@ -105,7 +153,12 @@ Modifiers& Modifiers::fromString(const QString& text)
    {
       fail();
    }
-   for (int i = 2; i < data.size() ;++i)
+   _isReference = data.at(2).toInt(&ok);
+   if ( !ok )
+   {
+      fail();
+   }
+   for (int i = 3; i < data.size() ;++i)
    {
       _pointers.append(data.at(i).toInt(&ok));
       if ( !ok )

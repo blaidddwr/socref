@@ -11,7 +11,7 @@ using namespace CppQt;
 
 
 
-QString AbstractType::scopedName() const
+QString AbstractType::scopedName(bool withModifiers) const
 {
    QString ret;
    int count {0};
@@ -23,6 +23,10 @@ QString AbstractType::scopedName() const
       }
    }
    ret.append(fullName());
+   if ( withModifiers )
+   {
+      ret = _modifiers.fullNameWithModifers(ret);
+   }
    return ret;
 }
 
