@@ -21,7 +21,7 @@ public:
    const AbstractBlock* child(int index) const;
    int childIndex(AbstractBlock* child) const
    { return _children.indexOf(child); }
-   AbstractBlock* insertChild(int index, std::unique_ptr<AbstractBlock> child);
+   AbstractBlock* insertChild(int index, std::unique_ptr<AbstractBlock>&& child);
    std::unique_ptr<AbstractBlock> takeChild(int index);
    AbstractBlock* removeChild(int index);
    AbstractBlock* read(const QDomElement& parent);

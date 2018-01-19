@@ -46,7 +46,7 @@ const AbstractBlock* AbstractBlock::child(int index) const
 
 
 
-AbstractBlock* AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock> child)
+AbstractBlock* AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
 {
    if ( !child )
    {
