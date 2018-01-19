@@ -26,8 +26,6 @@ namespace CppQt
          std::unique_ptr<AbstractType> type() const;
          Edit& setTitle(const QString& title);
          bool isValid(bool informUser = false) const;
-      signals:
-         void foo(int i);
       private slots:
          void sizeValueChanged(int i);
       private:
