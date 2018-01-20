@@ -11,13 +11,13 @@ using namespace CppQt;
 
 
 
-QString AbstractType::scopedName(bool withModifiers) const
+QString AbstractType::scopedNameWithDepth(int depth, bool withModifiers) const
 {
    QString ret;
    int count {0};
    for (int i = _scope.size() - 1; i >-1 ;--i)
    {
-      if ( _depth == -1 || count++ < _depth )
+      if ( depth == -1 || count++ < _depth )
       {
          ret.prepend("::").prepend(_scope.at(i));
       }

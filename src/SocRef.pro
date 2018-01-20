@@ -33,7 +33,8 @@ SOURCES += \
     cppqt_edit_definition.cpp \
     cppqt_type_factory.cpp \
     cppqt_type_modifiers.cpp \
-    cppqt_type_gui_edit.cpp
+    cppqt_type_gui_edit.cpp \
+    cppqt_type_gui_combobox.cpp
 
 HEADERS += \
     singleton.h \
@@ -71,7 +72,8 @@ HEADERS += \
     cppqt_type_factory.h \
     cppqt_type_modifiers.h \
     cppqt_type_gui_edit.h \
-    cppqt_type_gui_classes.h
+    cppqt_type_gui_classes.h \
+    cppqt_type_gui_combobox.h
 
 RESOURCES += \
     resources.qrc

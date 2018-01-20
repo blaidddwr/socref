@@ -26,7 +26,8 @@ namespace CppQt
       virtual QString fullName() const = 0;
       virtual AbstractType* read(const QDomElement& type) = 0;
       virtual int type() const = 0;
-      QString scopedName(bool withModifiers = false) const;
+      QString scopedName(bool withModifiers = false) const { return scopedNameWithDepth(_depth,withModifiers); }
+      QString scopedNameWithDepth(int depth, bool withModifiers = false) const;
       AbstractType* setDepth(int depth);
       int depth() const { return _depth; }
       const QStringList scope() const { return _scope; }
