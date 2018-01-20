@@ -1,7 +1,7 @@
 #include <QHBoxLayout>
 #include "cppqt_edit_definition.h"
 #include "cppqt_definition.h"
-#include "cppqt_type_edit.h"
+#include "cppqt_type_gui_edit.h"
 #include "exception.h"
 
 
@@ -48,7 +48,7 @@ void Definition::okClicked()
 unique_ptr<QLayout> Definition::createForm()
 {
    unique_ptr<QLayout> ret{new QHBoxLayout};
-   _typeEdit = new Type::Edit(_block->getType());
+   _typeEdit = new Type::Gui::Edit(_block->getType());
    ret->addWidget(_typeEdit);
    return ret;
 }

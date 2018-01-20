@@ -6,6 +6,5 @@ namespace CppQt
       class Factory;
       class Concrete;
       class Template;
-      class Edit;
    }
 }

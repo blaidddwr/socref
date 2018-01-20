@@ -3,7 +3,7 @@
 #include "gui_abstractedit.h"
 #include "classes.h"
 #include "cppqt_classes.h"
-#include "cppqt_type_classes.h"
+#include "cppqt_type_gui_classes.h"
 
 
 
@@ -24,7 +24,7 @@ namespace CppQt
          virtual std::unique_ptr<QLayout> createForm() override final;
          bool apply();
          CppQt::Definition* _block;
-         Type::Edit* _typeEdit;
+         Type::Gui::Edit* _typeEdit;
       };
    }
 }

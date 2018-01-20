@@ -6,7 +6,7 @@
 #include <QSpinBox>
 #include <QLabel>
 #include <QMessageBox>
-#include "cppqt_type_edit.h"
+#include "cppqt_type_gui_edit.h"
 #include "cppqt_abstracttype.h"
 #include "cppqt_type_concrete.h"
 #include "cppqt_type_template.h"
@@ -15,7 +15,7 @@
 
 using namespace std;
 using namespace CppQt;
-using namespace CppQt::Type;
+using namespace CppQt::Type::Gui;
 
 
 
