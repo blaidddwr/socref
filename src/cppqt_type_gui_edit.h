@@ -1,7 +1,7 @@
 #ifndef CPPQT_TYPE_GUI_EDIT_H
 #define CPPQT_TYPE_GUI_EDIT_H
 #include <memory>
-#include <QWidget>
+#include <QGroupBox>
 #include "cppqt_classes.h"
 
 
@@ -19,14 +19,13 @@ namespace CppQt
    {
       namespace Gui
       {
-         class Edit : public QWidget
+         class Edit : public QGroupBox
          {
             Q_OBJECT
          public:
             explicit Edit(AbstractType* type = nullptr, QWidget* parent = nullptr);
             Edit& setType(AbstractType* type);
             std::unique_ptr<AbstractType> type() const;
-            Edit& setTitle(const QString& title);
             bool isValid(bool informUser = false) const;
          private slots:
             void sizeValueChanged(int i);
@@ -34,11 +33,9 @@ namespace CppQt
             void createNameEdit();
             void createSpinBox();
             void createTable();
-            void createGroupBox(QLayout* layout);
             QLineEdit* _nameEdit;
             QSpinBox* _spinBox;
             QTableWidget* _variantTable;
-            QGroupBox* _groupBox;
          };
       }
    }

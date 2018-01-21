@@ -2,7 +2,6 @@
 #include <QTableWidget>
 #include <QFormLayout>
 #include <QHBoxLayout>
-#include <QGroupBox>
 #include <QSpinBox>
 #include <QLabel>
 #include <QMessageBox>
@@ -23,18 +22,15 @@ using namespace CppQt::Type::Gui;
 
 
 Edit::Edit(AbstractType* type, QWidget* parent):
-   QWidget(parent)
+   QGroupBox(parent)
 {
    createNameEdit();
    createSpinBox();
    createTable();
-   QFormLayout* formLayout {new QFormLayout};
-   formLayout->addRow(new QLabel(tr("Name:")),_nameEdit);
-   formLayout->addRow(new QLabel(tr("Size:")),_spinBox);
-   formLayout->addRow(new QLabel(tr("Variants:")),_variantTable);
-   createGroupBox(formLayout);
-   QHBoxLayout* layout{new QHBoxLayout};
-   layout->addWidget(_groupBox);
+   QFormLayout* layout {new QFormLayout};
+   layout->addRow(new QLabel(tr("Name:")),_nameEdit);
+   layout->addRow(new QLabel(tr("Size:")),_spinBox);
+   layout->addRow(new QLabel(tr("Variants:")),_variantTable);
    setLayout(layout);
    setType(type);
 }
@@ -93,17 +89,6 @@ unique_ptr<AbstractType> Edit::type() const
    }
    ret->setName(_nameEdit->text());
    return ret;
-}
-
-
-
-
-
-
-Edit& Edit::setTitle(const QString& title)
-{
-   _groupBox->setTitle(title);
-   return *this;
 }
 
 
@@ -201,15 +186,4 @@ void Edit::createTable()
    _variantTable = new QTableWidget;
    _variantTable->setColumnCount(1);
    _variantTable->setHorizontalHeaderLabels(QStringList() << "Name");
-}
-
-
-
-
-
-
-void Edit::createGroupBox(QLayout* layout)
-{
-   _groupBox = new QGroupBox;
-   _groupBox->setLayout(layout);
 }
