@@ -445,11 +445,11 @@ void BlockView::updateAddActions()
    _addActions.clear();
    if ( _model )
    {
-      QList<int> list {_factory->buildList(_model->pointer(selection())->type())};
-      for (const auto& i : list)
+      const QList<int> list {_factory->buildList(_model->pointer(selection())->type())};
+      for (auto type : list)
       {
-         _addActions.append(new QAction(_factory->name(i),this));
-         _addActions.back()->setData(i);
+         _addActions.append(new QAction(_factory->name(type),this));
+         _addActions.back()->setData(type);
          connect(_addActions.back(),&QAction::triggered,this,&BlockView::addTriggered);
       }
    }
@@ -463,9 +463,9 @@ void BlockView::updateAddActions()
 void BlockView::updateMenu()
 {
    _addMenu->clear();
-   for (const auto& i : _addActions)
+   for (auto action : qAsConst(_addActions))
    {
-      _addMenu->addAction(i);
+      _addMenu->addAction(action);
    }
 }
 

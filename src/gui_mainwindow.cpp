@@ -297,9 +297,9 @@ void MainWindow::createMenus()
 {
    QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
    QMenu* newMenu = fileMenu->addMenu(tr("&New"));
-   for (const auto& i : _newActions)
+   for (auto action : qAsConst(_newActions))
    {
-      newMenu->addAction(i);
+      newMenu->addAction(action);
    }
    fileMenu->addAction(_openAction);
    fileMenu->addAction(_saveAction);

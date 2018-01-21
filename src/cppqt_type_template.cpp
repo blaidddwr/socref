@@ -213,7 +213,7 @@ QDomElement Template::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
    ret.setAttribute("name",name());
-   for (const auto variant : _variants)
+   for (auto variant : _variants)
    {
       QDomElement variant_ {document.createElement("variant")};
       variant_.appendChild(document.createTextNode(variant));

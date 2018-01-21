@@ -124,9 +124,9 @@ AbstractBlock* AbstractBlock::read(const QDomElement& parent)
    _children.clear();
    const QList<int> buildList {factory().buildList(type())};
    QStringList buildNames;
-   for (const auto& i : buildList)
+   for (auto type : buildList)
    {
-      buildNames.push_back(factory().elementName(i));
+      buildNames.push_back(factory().elementName(type));
    }
    QDomNode node {parent.firstChild()};
    while ( !node.isNull() )
@@ -199,7 +199,7 @@ AbstractBlock& AbstractBlock::root()
 
 AbstractBlock* AbstractBlock::copyChildren(const AbstractBlock* block)
 {
-   for (const auto& child : block->_children)
+   for (auto child : qAsConst(block->_children))
    {
       child->makeCopy().release()->setBlockParent(this,childrenSize());
    }
