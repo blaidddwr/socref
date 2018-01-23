@@ -43,7 +43,7 @@ Project::Project(const QString &path):
       ,Total
    };
    QStringList tags {"name","type","scandir","filters","root"};
-   QVector<bool> readTags(5,false);
+   QVector<bool> readTags(Total,false);
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )

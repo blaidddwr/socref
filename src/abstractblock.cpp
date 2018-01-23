@@ -119,7 +119,7 @@ AbstractBlock* AbstractBlock::read(const QDomElement& parent)
       ,Total
    };
    QStringList tags {"data"};
-   QVector<bool> readTags(1,false);
+   QVector<bool> readTags(Total,false);
    qDeleteAll(_children);
    _children.clear();
    const QList<int> buildList {factory().buildList(type())};
@@ -182,14 +182,14 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
 
 
 
-AbstractBlock& AbstractBlock::root()
+AbstractBlock* AbstractBlock::root()
 {
    AbstractBlock* root {this};
    while ( root->_parent )
    {
       root = root->_parent;
    }
-   return *root;
+   return root;
 }
 
 
@@ -284,7 +284,7 @@ void AbstractBlock::notifyOfNameChange(AbstractBlock* block)
 {
    if ( !block )
    {
-      root().notifyOfNameChange(this);
+      root()->notifyOfNameChange(this);
    }
    else
    {

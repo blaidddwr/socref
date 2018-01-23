@@ -21,11 +21,16 @@ namespace CppQt
       Namespace& setName(const QString& name);
       QString description() const { return _description; }
       Namespace& setDescription(const QString& description);
+      QStringList types();
+      Namespace& setTypes(const QStringList& types);
+      Namespace* root();
    private:
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
+      void readType(const QDomElement& type);
       QString _name;
       QString _description;
+      QStringList _types;
    };
 }
 

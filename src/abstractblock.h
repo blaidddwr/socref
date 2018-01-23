@@ -29,7 +29,7 @@ public:
 protected:
    virtual void readData(const QDomElement& data) = 0;
    virtual QDomElement writeData(QDomDocument& document) const = 0;
-   AbstractBlock& root();
+   AbstractBlock* root();
    AbstractBlock* copyChildren(const AbstractBlock* block);
    void notifyOfNameChange();
 signals:

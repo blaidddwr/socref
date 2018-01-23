@@ -3,6 +3,8 @@
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QRegExpValidator>
+#include <QListWidget>
+#include <QPushButton>
 #include "cppqt_namespace.h"
 #include "cppqt_edit_namespace.h"
 #include "exception.h"
@@ -57,6 +59,26 @@ void Namespace::applyClicked()
 
 
 
+void Namespace::editGlobalTypesClicked()
+{
+   //TODO; launch Gui::TypeListDialog
+}
+
+
+
+
+
+
+void Namespace::editLocalTypesClicked()
+{
+   //TODO; launch Gui::TypeListDialog
+}
+
+
+
+
+
+
 unique_ptr<QLayout> Namespace::createForm()
 {
    createNameEdit();
@@ -64,6 +86,7 @@ unique_ptr<QLayout> Namespace::createForm()
    unique_ptr<QFormLayout> form {new QFormLayout};
    form->addRow(new QLabel(tr("Name:")),_nameEdit);
    form->addRow(new QLabel(tr("Description:")),_descriptionEdit);
+   form->addRow(new QLabel(tr("Types:")),createTypeButtons());
    return form;
 }
 
@@ -88,4 +111,21 @@ void Namespace::createDescriptionEdit()
 {
    _descriptionEdit = new QPlainTextEdit;
    _descriptionEdit->setPlainText(_block->description());
+}
+
+
+
+
+
+
+QLayout* Namespace::createTypeButtons()
+{
+   QVBoxLayout* ret {new QVBoxLayout};
+   QPushButton* global {new QPushButton(tr("Global List"))};
+   QPushButton* local {new QPushButton(tr("Local List"))};
+   ret->addWidget(global);
+   ret->addWidget(local);
+   connect(global,&QPushButton::clicked,this,&Namespace::editGlobalTypesClicked);
+   connect(local,&QPushButton::clicked,this,&Namespace::editLocalTypesClicked);
+   return ret;
 }

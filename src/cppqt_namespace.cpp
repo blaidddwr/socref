@@ -28,20 +28,14 @@ unique_ptr<AbstractBlock> Namespace::makeCopy() const
 
 
 
-int Namespace::type() const
-{
-   return BlockFactory::NamespaceType;
-}
+int Namespace::type() const { return BlockFactory::NamespaceType; }
 
 
 
 
 
 
-const AbstractBlockFactory&Namespace::factory() const
-{
-   return BlockFactory::instance();
-}
+const AbstractBlockFactory& Namespace::factory() const { return BlockFactory::instance(); }
 
 
 
@@ -86,17 +80,74 @@ Namespace& CppQt::Namespace::setDescription(const QString& description)
 
 
 
-void Namespace::readData(const QDomElement& data)
+QStringList Namespace::types() { return _types; }
+
+
+
+
+
+
+Namespace& Namespace::setTypes(const QStringList& types)
 {
-   if ( !data.hasAttribute("name") )
+   //TODO check each type for correctness
+   _types = types;
+   return *this;
+}
+
+
+
+
+
+
+Namespace* Namespace::root()
+{
+   Namespace* ret {qobject_cast<Namespace*>(AbstractBlock::root())};
+   if ( !ret )
    {
-      Exception::ReadError e;
+      Exception::LogicError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("C++/Qt Namespace block missing name attribute."));
+      e.setDetails(tr("Root block is not expected Namespace type."));
       throw e;
    }
-   _name = data.attribute("name");
-   _description = data.text();
+   return ret;
+}
+
+
+
+
+
+
+void Namespace::readData(const QDomElement& data)
+{
+   enum
+   {
+      Description = 0
+      ,Type
+      ,Total
+   };
+   QStringList tags {"description","type"};
+   if ( data.hasAttribute("name") )
+   {
+      _name = data.attribute("name");
+   }
+   QDomNode node {data.firstChild()};
+   while ( !node.isNull() )
+   {
+      if ( node.isElement() )
+      {
+         QDomElement element {node.toElement()};
+         switch (tags.indexOf(element.tagName()))
+         {
+         case Description:
+            _description = element.text();
+            break;
+         case Type:
+            readType(element);
+            break;
+         }
+      }
+      node = node.nextSibling();
+   }
 }
 
 
@@ -107,7 +158,50 @@ void Namespace::readData(const QDomElement& data)
 QDomElement Namespace::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
-   ret.setAttribute("name",_name);
-   ret.appendChild(document.createTextNode(_description));
+   if ( !_name.isEmpty() )
+   {
+      ret.setAttribute("name",_name);
+   }
+   if ( !_description.isEmpty() )
+   {
+      QDomElement description {document.createElement("description")};
+      description.appendChild(document.createTextNode(_description));
+      ret.appendChild(description);
+   }
+   for (auto typeName : qAsConst(_types))
+   {
+      typeName.replace("<","(");
+      typeName.replace(">",")");
+      QDomElement type {document.createElement("type")};
+      type.setAttribute("name",typeName);
+      ret.appendChild(type);
+   }
    return ret;
+}
+
+
+
+
+
+
+void Namespace::readType(const QDomElement &type)
+{
+   if ( !type.hasAttribute("name") )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("C++/Qt Namespace type element missing name attribute."));
+      throw e;
+   }
+   if ( _types.contains(type.attribute("name")) )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("C++/Qt Namespace type element found with duplicate entry."));
+      throw e;
+   }
+   QString name {type.attribute("name")};
+   name.replace("(","<");
+   name.replace(")",">");
+   _types.append(name);
 }

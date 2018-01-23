@@ -24,10 +24,14 @@ namespace CppQt
          virtual void okClicked() override final;
          virtual void applyClicked() override final;
          virtual void cancelClicked() override final { emit finished(); }
+      private slots:
+         void editGlobalTypesClicked();
+         void editLocalTypesClicked();
       private:
          virtual std::unique_ptr<QLayout> createForm() override final;
          void createNameEdit();
          void createDescriptionEdit();
+         QLayout* createTypeButtons();
          CppQt::Namespace* _block;
          QLineEdit* _nameEdit;
          QPlainTextEdit* _descriptionEdit;

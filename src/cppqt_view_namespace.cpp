@@ -25,5 +25,11 @@ Namespace::Namespace(AbstractBlock* block, QWidget* parent):
    setAlignment(Qt::AlignTop);
    setWordWrap(true);
    setTextFormat(Qt::RichText);
-   setText(QString("<h3>Description</h3><p>%1</p>").arg(block_->description()));
+   const QStringList paragraphs {block_->description().split("\n\n")};
+   QString description;
+   for (auto paragraph : paragraphs)
+   {
+      description.append("<p>").append(paragraph).append("</p>");
+   }
+   setText(QString("<h3>Description</h3><p>%1</p>").arg(description));
 }
