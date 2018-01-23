@@ -1,12 +1,12 @@
 #ifndef CPPQT_ENUMERATION_H
 #define CPPQT_ENUMERATION_H
-#include "cppqt_abstractcontainer.h"
+#include "abstractblock.h"
 
 
 
 namespace CppQt
 {
-   class Namespace : public AbstractContainer
+   class Namespace : public AbstractBlock
    {
       Q_OBJECT
    public:
@@ -24,7 +24,6 @@ namespace CppQt
    private:
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
-      virtual QString scopeName() const override final { return _name; }
       QString _name;
       QString _description;
    };

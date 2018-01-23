@@ -22,19 +22,7 @@ SOURCES += \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
     cppqt_edit_namespace.cpp \
-    cppqt_view_namespace.cpp \
-    cppqt_abstracttype.cpp \
-    cppqt_abstractcontainer.cpp \
-    cppqt_type_concrete.cpp \
-    cppqt_definition.cpp \
-    cppqt_type_template.cpp \
-    cppqt_abstractdefinition.cpp \
-    cppqt_view_definition.cpp \
-    cppqt_edit_definition.cpp \
-    cppqt_type_factory.cpp \
-    cppqt_type_modifiers.cpp \
-    cppqt_type_gui_edit.cpp \
-    cppqt_type_gui_combobox.cpp
+    cppqt_view_namespace.cpp
 
 HEADERS += \
     singleton.h \
@@ -55,25 +43,11 @@ HEADERS += \
     gui_abstractedit.h \
     cppqt_edit_namespace.h \
     cppqt_view_namespace.h \
-    cppqt_abstracttype.h \
-    cppqt_abstractcontainer.h \
-    cppqt_abstractdefinition.h \
-    cppqt_type_concrete.h \
-    cppqt_definition.h \
-    cppqt_type_template.h \
     classes.h \
     cppqt_classes.h \
     gui_classes.h \
-    cppqt_type_classes.h \
     cppqt_edit_classes.h \
-    cppqt_view_classes.h \
-    cppqt_view_definition.h \
-    cppqt_edit_definition.h \
-    cppqt_type_factory.h \
-    cppqt_type_modifiers.h \
-    cppqt_type_gui_edit.h \
-    cppqt_type_gui_classes.h \
-    cppqt_type_gui_combobox.h
+    cppqt_view_classes.h
 
 RESOURCES += \
     resources.qrc

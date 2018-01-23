@@ -12,8 +12,7 @@ namespace CppQt
    public:
       enum
       {
-         DefinitionType = 0
-         ,NamespaceType
+         NamespaceType = 0
          ,Total
       };
       virtual int size() const override final { return Total; }

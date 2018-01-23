@@ -2,7 +2,6 @@
     <qresource prefix="/">
         <file>icons/namespace.svg</file>
         <file>icons/main.svg</file>
-        <file>icons/definition.svg</file>
         <file>icons/variable.svg</file>
     </qresource>
 </RCC>
