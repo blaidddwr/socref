@@ -22,7 +22,8 @@ SOURCES += \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
     cppqt_edit_namespace.cpp \
-    cppqt_view_namespace.cpp
+    cppqt_view_namespace.cpp \
+    cppqt_gui_typelistdialog.cpp
 
 HEADERS += \
     singleton.h \
@@ -47,7 +48,8 @@ HEADERS += \
     cppqt_classes.h \
     gui_classes.h \
     cppqt_edit_classes.h \
-    cppqt_view_classes.h
+    cppqt_view_classes.h \
+    cppqt_gui_typelistdialog.h
 
 RESOURCES += \
     resources.qrc

@@ -8,11 +8,14 @@
 #include "cppqt_namespace.h"
 #include "cppqt_edit_namespace.h"
 #include "exception.h"
+#include "cppqt_gui_typelistdialog.h"
 
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt::Edit;
+using namespace CppQt::Gui;
 
 
 
@@ -20,7 +23,7 @@ using namespace CppQt::Edit;
 
 
 Namespace::Namespace(AbstractBlock* block, QWidget *parent):
-   Gui::AbstractEdit(parent),
+   AbstractEdit(parent),
    _block(qobject_cast<CppQt::Namespace*>(block))
 {
    if ( !_block )
@@ -61,7 +64,9 @@ void Namespace::applyClicked()
 
 void Namespace::editGlobalTypesClicked()
 {
-   //TODO; launch Gui::TypeListDialog
+   TypeListDialog dialog(_block->root());
+   dialog.setWindowTitle(tr("Edit Global Type List"));
+   dialog.exec();
 }
 
 
@@ -71,7 +76,9 @@ void Namespace::editGlobalTypesClicked()
 
 void Namespace::editLocalTypesClicked()
 {
-   //TODO; launch Gui::TypeListDialog
+   TypeListDialog dialog(_block);
+   dialog.setWindowTitle(tr("Edit Local Type List"));
+   dialog.exec();
 }
 
 
@@ -121,8 +128,8 @@ void Namespace::createDescriptionEdit()
 QLayout* Namespace::createTypeButtons()
 {
    QVBoxLayout* ret {new QVBoxLayout};
-   QPushButton* global {new QPushButton(tr("Global List"))};
-   QPushButton* local {new QPushButton(tr("Local List"))};
+   QPushButton* global {new QPushButton(tr("Global"))};
+   QPushButton* local {new QPushButton(tr("Local"))};
    ret->addWidget(global);
    ret->addWidget(local);
    connect(global,&QPushButton::clicked,this,&Namespace::editGlobalTypesClicked);
