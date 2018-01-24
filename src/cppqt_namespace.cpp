@@ -89,7 +89,17 @@ QStringList Namespace::types() { return _types; }
 
 Namespace& Namespace::setTypes(const QStringList& types)
 {
-   //TODO check each type for correctness
+   QRegExp regexp("\\s*(static\\s+)?(const(expr)?\\s+)?[a-zA-Z]+[a-zA-Z0-9_]*(\\s*\\*(\\s*const)?)*\\s*");
+   for (auto type : types)
+   {
+      if ( !regexp.exactMatch(type) )
+      {
+         Exception::InvalidArgument e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set invalid type '%1'.").arg(type));
+         throw e;
+      }
+   }
    _types = types;
    return *this;
 }
