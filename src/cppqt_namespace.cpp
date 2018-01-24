@@ -3,6 +3,7 @@
 #include "cppqt_namespace.h"
 #include "cppqt_blockfactory.h"
 #include "exception.h"
+#include "cppqt_gui_typedialog.h"
 
 
 
@@ -89,7 +90,7 @@ QStringList Namespace::types() { return _types; }
 
 Namespace& Namespace::setTypes(const QStringList& types)
 {
-   QRegExp regexp("\\s*(static\\s+)?(const(expr)?\\s+)?[a-zA-Z]+[a-zA-Z0-9_]*(\\s*\\*(\\s*const)?)*\\s*");
+   QRegExp regexp(Gui::TypeDialog::_typeRegExp);
    for (auto type : types)
    {
       if ( !regexp.exactMatch(type) )
@@ -101,6 +102,7 @@ Namespace& Namespace::setTypes(const QStringList& types)
       }
    }
    _types = types;
+   emit modified();
    return *this;
 }
 
@@ -180,8 +182,6 @@ QDomElement Namespace::writeData(QDomDocument& document) const
    }
    for (auto typeName : qAsConst(_types))
    {
-      typeName.replace("<","(");
-      typeName.replace(">",")");
       QDomElement type {document.createElement("type")};
       type.setAttribute("name",typeName);
       ret.appendChild(type);
@@ -211,7 +211,5 @@ void Namespace::readType(const QDomElement &type)
       throw e;
    }
    QString name {type.attribute("name")};
-   name.replace("(","<");
-   name.replace(")",">");
    _types.append(name);
 }

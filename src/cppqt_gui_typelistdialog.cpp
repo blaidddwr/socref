@@ -4,6 +4,7 @@
 #include <QPushButton>
 #include "cppqt_gui_typelistdialog.h"
 #include "cppqt_namespace.h"
+#include "cppqt_gui_typedialog.h"
 
 
 
@@ -32,7 +33,12 @@ TypeListDialog::TypeListDialog(Namespace* block, QWidget* parent):
 
 void TypeListDialog::itemDoubleClicked(QListWidgetItem* item)
 {
-   //TODO; open TypeDialog to edit item
+   TypeDialog dialog(item->text());
+   dialog.setWindowTitle(tr("Edit Type"));
+   if ( dialog.exec() )
+   {
+      item->setText(dialog.name());
+   }
 }
 
 
@@ -42,7 +48,12 @@ void TypeListDialog::itemDoubleClicked(QListWidgetItem* item)
 
 void TypeListDialog::addClicked()
 {
-   //TODO; open TypeDialog to query for new item
+   TypeDialog dialog;
+   dialog.setWindowTitle(tr("New Type"));
+   if ( dialog.exec() )
+   {
+      _list->addItem(dialog.name());
+   }
 }
 
 
