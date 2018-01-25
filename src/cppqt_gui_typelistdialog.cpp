@@ -63,7 +63,7 @@ void TypeListDialog::addClicked()
 
 void TypeListDialog::removeClicked()
 {
-   //TODO; remove currently selected item
+   delete _list->currentItem();
 }
 
 
@@ -109,6 +109,7 @@ QLayout* TypeListDialog::createTop()
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_list);
    ret->addLayout(createTopButtons());
+   connect(_list,&QListWidget::itemDoubleClicked,this,&TypeListDialog::itemDoubleClicked);
    return ret;
 }
 
