@@ -46,7 +46,7 @@ const AbstractBlock* AbstractBlock::child(int index) const
 
 
 
-AbstractBlock* AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
+void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
 {
    if ( !child )
    {
@@ -64,7 +64,6 @@ AbstractBlock* AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&&
    }
    child.release()->setBlockParent(this,index);
    emit modified();
-   return this;
 }
 
 
@@ -92,7 +91,7 @@ unique_ptr<AbstractBlock> AbstractBlock::takeChild(int index)
 
 
 
-AbstractBlock* AbstractBlock::removeChild(int index)
+void AbstractBlock::removeChild(int index)
 {
    if ( index < 0 && index >= _children.size() )
    {
@@ -103,7 +102,6 @@ AbstractBlock* AbstractBlock::removeChild(int index)
    }
    delete _children.takeAt(index);
    emit modified();
-   return this;
 }
 
 
@@ -111,7 +109,7 @@ AbstractBlock* AbstractBlock::removeChild(int index)
 
 
 
-AbstractBlock* AbstractBlock::read(const QDomElement& parent)
+void AbstractBlock::read(const QDomElement& parent)
 {
    enum
    {
@@ -153,7 +151,6 @@ AbstractBlock* AbstractBlock::read(const QDomElement& parent)
       e.setDetails(tr("Failed reading in all required elements."));
       throw e;
    }
-   return this;
 }
 
 
@@ -197,13 +194,12 @@ AbstractBlock* AbstractBlock::root()
 
 
 
-AbstractBlock* AbstractBlock::copyChildren(const AbstractBlock* block)
+void AbstractBlock::copyChildren(const AbstractBlock* block)
 {
    for (auto child : qAsConst(block->_children))
    {
       child->makeCopy().release()->setBlockParent(this,childrenSize());
    }
-   return this;
 }
 
 

@@ -15,7 +15,7 @@ namespace CppQt
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
       QStringList types();
-      Namespace& setTypes(const QStringList& types);
+      void setTypes(const QStringList& types);
       Namespace* root();
    signals:
       void typesChanged();

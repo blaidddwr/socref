@@ -27,8 +27,9 @@ Namespace::Namespace(const QString& name):
 unique_ptr<AbstractBlock> Namespace::makeCopy() const
 {
    unique_ptr<Namespace> ret {new Namespace};
-   ret->copyDataFrom(*this);
    ret->copyChildren(this);
+   ret->copyDataFrom(*this);
+   ret->_types = _types;
    return ret;
 }
 
@@ -57,7 +58,7 @@ QStringList Namespace::types()
 
 
 
-Namespace& Namespace::setTypes(const QStringList& types)
+void Namespace::setTypes(const QStringList& types)
 {
    QRegExp regexp(Gui::TypeDialog::_typeRegExp);
    for (auto type : types)
@@ -73,7 +74,6 @@ Namespace& Namespace::setTypes(const QStringList& types)
    _types = types;
    emit modified();
    emit typesChanged();
-   return *this;
 }
 
 

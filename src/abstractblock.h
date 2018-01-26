@@ -21,16 +21,16 @@ public:
    const AbstractBlock* child(int index) const;
    int childIndex(AbstractBlock* child) const
    { return _children.indexOf(child); }
-   AbstractBlock* insertChild(int index, std::unique_ptr<AbstractBlock>&& child);
+   void insertChild(int index, std::unique_ptr<AbstractBlock>&& child);
    std::unique_ptr<AbstractBlock> takeChild(int index);
-   AbstractBlock* removeChild(int index);
-   AbstractBlock* read(const QDomElement& parent);
+   void removeChild(int index);
+   void read(const QDomElement& parent);
    QDomElement write(QDomDocument& document) const;
 protected:
    virtual void readData(const QDomElement& data) = 0;
    virtual QDomElement writeData(QDomDocument& document) const = 0;
    AbstractBlock* root();
-   AbstractBlock* copyChildren(const AbstractBlock* block);
+   void copyChildren(const AbstractBlock* block);
    void notifyOfNameChange();
 signals:
    void modified();

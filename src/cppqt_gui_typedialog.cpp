@@ -56,7 +56,7 @@ QString TypeDialog::name()
 
 
 
-TypeDialog& TypeDialog::setName(const QString& name)
+void TypeDialog::setName(const QString& name)
 {
    if ( !QRegExp(_typeRegExp).exactMatch(name) )
    {
@@ -66,7 +66,6 @@ TypeDialog& TypeDialog::setName(const QString& name)
       throw e;
    }
    _text->setText(name);
-   return *this;
 }
 
 

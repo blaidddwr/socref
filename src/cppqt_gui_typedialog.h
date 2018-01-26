@@ -19,7 +19,7 @@ namespace CppQt
          explicit TypeDialog(QWidget* parent = nullptr);
          explicit TypeDialog(const QString& name, QWidget* parent = nullptr);
          QString name();
-         TypeDialog& setName(const QString& name);
+         void setName(const QString& name);
          static const char* _typeRegExp;
       private slots:
          void textChanged(const QString& text);

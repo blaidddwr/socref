@@ -209,7 +209,7 @@ unique_ptr<AbstractBlock> BlockModel::cutRow(int row, const QModelIndex& parent)
 
 
 
-BlockModel& BlockModel::setRoot(AbstractBlock* root)
+void BlockModel::setRoot(AbstractBlock* root)
 {
    beginResetModel();
    _root = root;
@@ -220,7 +220,6 @@ BlockModel& BlockModel::setRoot(AbstractBlock* root)
       connect(_root,&AbstractBlock::nameChanged,this,&BlockModel::blockNameChanged);
    }
    endResetModel();
-   return *this;
 }
 
 

@@ -23,7 +23,7 @@ public:
    std::unique_ptr<AbstractBlock> copyRow(int row, const QModelIndex& parent) const;
    std::unique_ptr<AbstractBlock> cutRow(int row, const QModelIndex& parent);
    const AbstractBlockFactory* factory() const { return _factory; }
-   BlockModel& setRoot(AbstractBlock* root);
+   void setRoot(AbstractBlock* root);
 private slots:
    void blockNameChanged(AbstractBlock* object);
 private:

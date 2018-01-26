@@ -42,7 +42,7 @@ MainWindow::MainWindow(QWidget *parent):
 
 
 
-MainWindow& MainWindow::setProject(unique_ptr<Project>&& project)
+void MainWindow::setProject(unique_ptr<Project>&& project)
 {
    if ( _project )
    {
@@ -61,7 +61,6 @@ MainWindow& MainWindow::setProject(unique_ptr<Project>&& project)
       connect(_project,&Project::changed,this,&MainWindow::projectFileChanged);
       _project->setParent(this);
    }
-   return *this;
 }
 
 

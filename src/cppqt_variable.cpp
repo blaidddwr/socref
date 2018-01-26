@@ -47,6 +47,7 @@ QString Variable::name() const
 std::unique_ptr<AbstractBlock> Variable::makeCopy() const
 {
    unique_ptr<Variable> ret {new Variable};
+   ret->copyChildren(this);
    ret->copyDataFrom(*this);
    ret->_type = _type;
    return ret;
