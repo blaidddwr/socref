@@ -18,6 +18,7 @@ namespace CppQt
          TypeComboBox& setCurrentIndex(const QString& text);
       private slots:
          void comboActivated(int index);
+         void typeListChanged();
       private:
          void findNamespaces(AbstractBlock* block);
          void buildComboList();

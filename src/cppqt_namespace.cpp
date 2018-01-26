@@ -103,6 +103,7 @@ Namespace& Namespace::setTypes(const QStringList& types)
    }
    _types = types;
    emit modified();
+   emit typesChanged();
    return *this;
 }
 

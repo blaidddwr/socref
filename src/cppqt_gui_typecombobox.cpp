@@ -2,6 +2,7 @@
 #include "abstractblock.h"
 #include "cppqt_namespace.h"
 #include "exception.h"
+#include "cppqt_gui_typelistdialog.h"
 
 
 
@@ -38,7 +39,32 @@ TypeComboBox& TypeComboBox::setCurrentIndex(const QString& text)
 
 void TypeComboBox::comboActivated(int index)
 {
-   //TODO Open TypeDialog and add to appropriate list
+   Namespace* edit {nullptr};
+   if ( index == _localIndex )
+   {
+      edit = _local;
+   }
+   else if ( index == _globalIndex )
+   {
+      edit = _global;
+   }
+   if ( edit )
+   {
+      TypeListDialog dialog(edit);
+      dialog.exec();
+   }
+}
+
+
+
+
+
+
+void TypeComboBox::typeListChanged()
+{
+   QString current {itemText(currentIndex())};
+   buildComboList();
+   setCurrentIndex(current);
 }
 
 
@@ -71,6 +97,15 @@ void TypeComboBox::findNamespaces(AbstractBlock* block)
       e.setDetails(tr("Root block is not a namespace."));
       throw e;
    }
+   if ( _local == _global )
+   {
+      _local = nullptr;
+   }
+   else
+   {
+      connect(_local,&Namespace::typesChanged,this,&TypeComboBox::typeListChanged);
+   }
+   connect(_global,&Namespace::typesChanged,this,&TypeComboBox::typeListChanged);
 }
 
 
@@ -80,10 +115,10 @@ void TypeComboBox::findNamespaces(AbstractBlock* block)
 
 void TypeComboBox::buildComboList()
 {
-   QStringList types {_local->types()};
-   if ( _local != _global )
+   QStringList types {_global->types()};
+   if ( _local )
    {
-      types.append(_global->types());
+      types.append(_local->types());
    }
    sort(types.begin(),types.end());
    clear();
@@ -91,12 +126,15 @@ void TypeComboBox::buildComboList()
    {
       addItem(type);
    }
-   _globalIndex = -2;
-   _localIndex = count();
-   addItem(tr("+ Add Local..."));
-   if ( _local != _global )
+   _globalIndex = count();
+   addItem(tr("+ Edit Global..."));
+   if ( _local )
    {
-      _globalIndex = count();
-      addItem(tr("+ Add Global..."));
+      _localIndex = count();
+      addItem(tr("+ Edit Local..."));
+   }
+   else
+   {
+      _localIndex = -2;
    }
 }

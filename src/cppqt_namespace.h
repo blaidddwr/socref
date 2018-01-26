@@ -24,6 +24,8 @@ namespace CppQt
       QStringList types();
       Namespace& setTypes(const QStringList& types);
       Namespace* root();
+   signals:
+      void typesChanged();
    private:
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
