@@ -15,11 +15,19 @@ using namespace CppQt;
 
 
 
+Namespace::Namespace(const QString& name):
+   Base(name)
+{}
+
+
+
+
+
+
 unique_ptr<AbstractBlock> Namespace::makeCopy() const
 {
    unique_ptr<Namespace> ret {new Namespace};
-   ret->_name = _name;
-   ret->_description = _description;
+   ret->copyDataFrom(*this);
    ret->copyChildren(this);
    return ret;
 }
@@ -29,36 +37,9 @@ unique_ptr<AbstractBlock> Namespace::makeCopy() const
 
 
 
-int Namespace::type() const { return BlockFactory::NamespaceType; }
-
-
-
-
-
-
-const AbstractBlockFactory& Namespace::factory() const { return BlockFactory::instance(); }
-
-
-
-
-
-
-Namespace& Namespace::setName(const QString& name)
+int Namespace::type() const
 {
-   if ( !QRegExp("[a-zA-Z_]*[a-zA-Z0-9_]*").exactMatch(name) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid namespace '%1'.").arg(name));
-      throw e;
-   }
-   if ( _name != name )
-   {
-      _name = name;
-      notifyOfNameChange();
-      emit modified();
-   }
-   return *this;
+   return BlockFactory::NamespaceType;
 }
 
 
@@ -66,22 +47,10 @@ Namespace& Namespace::setName(const QString& name)
 
 
 
-Namespace& CppQt::Namespace::setDescription(const QString& description)
+QStringList Namespace::types()
 {
-   if ( _description != description )
-   {
-      _description = description;
-      emit modified();
-   }
-   return *this;
+   return _types;
 }
-
-
-
-
-
-
-QStringList Namespace::types() { return _types; }
 
 
 
@@ -132,17 +101,13 @@ Namespace* Namespace::root()
 
 void Namespace::readData(const QDomElement& data)
 {
+   Base::readData(data);
    enum
    {
-      Description = 0
-      ,Type
+      Type = 0
       ,Total
    };
-   QStringList tags {"description","type"};
-   if ( data.hasAttribute("name") )
-   {
-      _name = data.attribute("name");
-   }
+   QStringList tags {"type"};
    QDomNode node {data.firstChild()};
    while ( !node.isNull() )
    {
@@ -151,9 +116,6 @@ void Namespace::readData(const QDomElement& data)
          QDomElement element {node.toElement()};
          switch (tags.indexOf(element.tagName()))
          {
-         case Description:
-            _description = element.text();
-            break;
          case Type:
             readType(element);
             break;
@@ -170,17 +132,7 @@ void Namespace::readData(const QDomElement& data)
 
 QDomElement Namespace::writeData(QDomDocument& document) const
 {
-   QDomElement ret {document.createElement("na")};
-   if ( !_name.isEmpty() )
-   {
-      ret.setAttribute("name",_name);
-   }
-   if ( !_description.isEmpty() )
-   {
-      QDomElement description {document.createElement("description")};
-      description.appendChild(document.createTextNode(_description));
-      ret.appendChild(description);
-   }
+   QDomElement ret {Base::writeData(document)};
    for (auto typeName : qAsConst(_types))
    {
       QDomElement type {document.createElement("type")};

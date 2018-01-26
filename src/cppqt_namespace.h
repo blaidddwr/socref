@@ -1,37 +1,29 @@
 #ifndef CPPQT_ENUMERATION_H
 #define CPPQT_ENUMERATION_H
-#include "abstractblock.h"
+#include "cppqt_base.h"
 
 
 
 namespace CppQt
 {
-   class Namespace : public AbstractBlock
+   class Namespace : public Base
    {
       Q_OBJECT
    public:
       Namespace() = default;
-      Namespace(const QString& name):
-         _name(name)
-         {}
-      virtual QString name() const override final { return _name; }
+      Namespace(const QString& name);
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
-      virtual const AbstractBlockFactory& factory() const override final;
-      Namespace& setName(const QString& name);
-      QString description() const { return _description; }
-      Namespace& setDescription(const QString& description);
       QStringList types();
       Namespace& setTypes(const QStringList& types);
       Namespace* root();
    signals:
       void typesChanged();
+   protected:
+      virtual void readData(const QDomElement& data) override;
+      virtual QDomElement writeData(QDomDocument& document) const override;
    private:
-      virtual void readData(const QDomElement& data) override final;
-      virtual QDomElement writeData(QDomDocument& document) const override final;
       void readType(const QDomElement& type);
-      QString _name;
-      QString _description;
       QStringList _types;
    };
 }

@@ -25,7 +25,9 @@ SOURCES += \
     cppqt_view_namespace.cpp \
     cppqt_gui_typelistdialog.cpp \
     cppqt_gui_typedialog.cpp \
-    cppqt_gui_typecombobox.cpp
+    cppqt_gui_typecombobox.cpp \
+    cppqt_variable.cpp \
+    cppqt_base.cpp
 
 HEADERS += \
     singleton.h \
@@ -54,7 +56,9 @@ HEADERS += \
     cppqt_gui_typelistdialog.h \
     cppqt_gui_typedialog.h \
     cppqt_gui_typecombobox.h \
-    cppqt_gui_classes.h
+    cppqt_gui_classes.h \
+    cppqt_variable.h \
+    cppqt_base.h
 
 RESOURCES += \
     resources.qrc
