@@ -27,7 +27,8 @@ SOURCES += \
     cppqt_gui_typedialog.cpp \
     cppqt_gui_typecombobox.cpp \
     cppqt_variable.cpp \
-    cppqt_base.cpp
+    cppqt_base.cpp \
+    domelementreader.cpp
 
 HEADERS += \
     singleton.h \
@@ -58,7 +59,8 @@ HEADERS += \
     cppqt_gui_typecombobox.h \
     cppqt_gui_classes.h \
     cppqt_variable.h \
-    cppqt_base.h
+    cppqt_base.h \
+    domelementreader.h
 
 RESOURCES += \
     resources.qrc
