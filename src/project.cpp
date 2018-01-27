@@ -10,6 +10,16 @@
 #include "abstractblock.h"
 #include "blockmodel.h"
 #include "exception.h"
+#include "domelementreader.h"
+
+
+
+const char* Project::_nameTag {"name"};
+const char* Project::_typeTag {"type"};
+const char* Project::_scandirectoryTag {"scandir"};
+const char* Project::_scanFiltersTag {"filters"};
+const char* Project::_rootTag {"root"};
+const char* Project::_idTag {"id"};
 
 
 
@@ -33,17 +43,6 @@ Project::Project(int type):
 Project::Project(const QString &path):
    _path(path)
 {
-   enum
-   {
-      Name = 0
-      ,Type
-      ,ScanDirectory
-      ,ScanFilters
-      ,Root
-      ,Total
-   };
-   QStringList tags {"name","type","scandir","filters","root"};
-   QVector<bool> readTags(Total,false);
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
@@ -56,46 +55,25 @@ Project::Project(const QString &path):
    QByteArray xmlBytes = file.readAll();
    QDomDocument document;
    document.setContent(xmlBytes);
-   QDomNode node = document.documentElement().firstChild();
-   while ( !node.isNull() )
-   {
-      if ( node.isElement() )
-      {
-         QDomElement element {node.toElement()};
-         switch (tags.indexOf(element.tagName()))
-         {
-         case Name:
-            _name = element.text();
-            readTags[Name] = true;
-            break;
-         case Type:
-            readTypeElement(element);
-            readTags[Type] = true;
-            break;
-         case ScanDirectory:
-            _scanDirectory = element.text();
-            readTags[ScanDirectory] = true;
-            break;
-         case ScanFilters:
-            _scanFilters = element.text();
-            readTags[ScanFilters] = true;
-            break;
-         case Root:
-            createRoot();
-            _root->read(element);
-            readTags[Root] = true;
-            break;
-         }
-      }
-      node = node.nextSibling();
-   }
-   if ( readTags.contains(false) )
+   DomElementReader reader(document.documentElement());
+   QDomElement type;
+   QDomElement root;
+   reader.set(_nameTag,&_name);
+   reader.set(_typeTag,&type);
+   reader.set(_scandirectoryTag,&_scanDirectory);
+   reader.set(_scanFiltersTag,&_scanFilters);
+   reader.set(_rootTag,&root);
+   reader.read();
+   if ( !reader.allRequiredFound() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Could not find all required xml elements of project."));
+      e.setDetails(tr("Could not find all required XML elements of project."));
       throw e;
    }
+   readTypeElement(type);
+   createRoot();
+   _root->read(root);
    setFileHash(xmlBytes);
    addPath(_path);
    emit saved();
@@ -126,17 +104,17 @@ void Project::save()
    QDomDocument document;
    document.appendChild(document.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\""));
    QDomElement project {document.createElement("project")};
-   QDomElement name {document.createElement("name")};
-   QDomElement type {document.createElement("type")};
-   QDomElement scandir {document.createElement("scandir")};
-   QDomElement filters {document.createElement("filters")};
+   QDomElement name {document.createElement(_nameTag)};
+   QDomElement type {document.createElement(_typeTag)};
+   QDomElement scandir {document.createElement(_scandirectoryTag)};
+   QDomElement filters {document.createElement(_scanFiltersTag)};
    QDomElement root {_root->write(document)};
    name.appendChild(document.createTextNode(_name));
-   type.setAttribute("id",QString::number(_type));
+   type.setAttribute(_idTag,QString::number(_type));
    type.appendChild(document.createTextNode(AbstractProjectFactory::instance().name(_type)));
    scandir.appendChild(document.createTextNode(QFileInfo(_path).dir().relativeFilePath(_scanDirectory)));
    filters.appendChild(document.createTextNode(_scanFilters));
-   root.setTagName("root");
+   root.setTagName(_rootTag);
    project.appendChild(name);
    project.appendChild(type);
    project.appendChild(scandir);
@@ -261,22 +239,8 @@ void Project::handleFileChanged()
 
 void Project::readTypeElement(const QDomElement& type)
 {
-   if ( !type.hasAttribute("id") )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Type attribute missing from project file."));
-      throw e;
-   }
-   bool ok;
-   _type = type.attribute("id").toInt(&ok);
-   if ( !ok )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading in type as integer."));
-      throw e;
-   }
+   DomElementReader reader(type);
+   _type = reader.attributeToInt(_idTag);
    AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
    if ( _type < 0 || _type >= factory.size() )
    {

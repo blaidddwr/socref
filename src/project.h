@@ -41,12 +41,12 @@ private:
    void signalModified();
    void setFileHash(const QByteArray& bytes);
    void createRoot();
-   static const char* _nameString;
-   static const char* _typeString;
-   static const char* _scandirString;
-   static const char* _filtersString;
-   static const char* _rootString;
-   static constexpr int _readTotal {5};
+   static const char* _nameTag;
+   static const char* _typeTag;
+   static const char* _scandirectoryTag;
+   static const char* _scanFiltersTag;
+   static const char* _rootTag;
+   static const char* _idTag;
    QString _path;
    QByteArray _hash;
    QString _name;

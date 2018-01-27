@@ -6,7 +6,6 @@
 
 
 
-class QDomNode;
 class QDomElement;
 
 
@@ -14,10 +13,12 @@ class QDomElement;
 class DomElementReader
 {
 public:
-   DomElementReader(const QDomNode& node);
+   DomElementReader(const QDomElement& element);
    DomElementReader& set(const QString& tagName, QString* pointer, bool onlyOnce = true, bool required = true);
    DomElementReader& set(const QString& tagName, int* pointer, bool onlyOnce = true, bool required = true);
    DomElementReader& set(const QString& tagName, QDomElement* pointer, bool onlyOnce = true, bool required = true);
+   QString attribute(const QString& name, bool required = true);
+   int attributeToInt(const QString& name, bool required = true);
    void read();
    bool allRequiredFound() const;
 private:
@@ -28,7 +29,7 @@ private:
       ,Element
    };
    DomElementReader& append(const QString& tagName, void* pointer, Type type, bool onlyOnce, bool required);
-   const QDomNode& _node;
+   const QDomElement& _element;
    QHash<QString,int> _lookup;
    QList<Type> _type;
    QList<void*> _data;
