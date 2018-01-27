@@ -8,6 +8,16 @@
 
 
 
+int ProjectFactory::size() const
+{
+   return Total;
+}
+
+
+
+
+
+
 QString ProjectFactory::name(int type) const
 {
    switch (type)

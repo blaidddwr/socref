@@ -62,6 +62,16 @@ void Namespace::applyClicked()
 
 
 
+void Namespace::cancelClicked()
+{
+   emit finished();
+}
+
+
+
+
+
+
 void Namespace::editGlobalTypesClicked()
 {
    TypeListDialog dialog(_block->root());

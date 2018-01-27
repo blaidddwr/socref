@@ -124,6 +124,26 @@ void MainWindow::openTriggered()
 
 
 
+void MainWindow::saveTriggered()
+{
+   save();
+}
+
+
+
+
+
+
+void MainWindow::saveAsTriggered()
+{
+   saveAs();
+}
+
+
+
+
+
+
 void MainWindow::propertiesTriggered()
 {
    ProjectDialog settings(_project,this);
@@ -141,6 +161,36 @@ void MainWindow::closeTriggered()
    {
       setProject(nullptr);
    }
+}
+
+
+
+
+
+
+void MainWindow::projectNameChanged()
+{
+   updateTitle();
+}
+
+
+
+
+
+
+void MainWindow::projectModified()
+{
+   setWindowModified(true);
+}
+
+
+
+
+
+
+void MainWindow::projectSaved()
+{
+   setWindowModified(false);
 }
 
 

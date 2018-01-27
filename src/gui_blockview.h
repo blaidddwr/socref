@@ -22,8 +22,8 @@ namespace Gui
    public:
       explicit BlockView(QWidget *parent = nullptr);
       void setModel(BlockModel* model);
-      QMenu* contextMenu() const { return _contextMenu; }
-      bool hasSelection() const { return selection().isValid(); }
+      QMenu* contextMenu() const;
+      bool hasSelection() const;
       bool canPaste() const;
    public slots:
       void addTriggered();
@@ -37,7 +37,7 @@ namespace Gui
    private slots:
       void selectionModelChanged();
       void modelDestroyed();
-      void editFinished() { selectionModelChanged(); }
+      void editFinished();
       void titleNameChanged(AbstractBlock* block);
    private:
       void createTreeView();

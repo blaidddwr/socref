@@ -179,6 +179,46 @@ void Project::setName(const QString& name)
 
 
 
+QString Project::name() const
+{
+   return _name;
+}
+
+
+
+
+
+
+QString Project::path() const
+{
+   return _path;
+}
+
+
+
+
+
+
+int Project::type() const
+{
+   return _type;
+}
+
+
+
+
+
+
+QString Project::scanDirectory() const
+{
+   return _scanDirectory;
+}
+
+
+
+
+
+
 void Project::setScanDirectory(const QString& path)
 {
    QFileInfo current(_scanDirectory);
@@ -202,6 +242,16 @@ void Project::setScanDirectory(const QString& path)
 
 
 
+QString Project::scanFilters() const
+{
+   return _scanFilters;
+}
+
+
+
+
+
+
 void Project::setScanFilters(const QString& filters)
 {
    if ( _scanFilters != filters )
@@ -209,6 +259,46 @@ void Project::setScanFilters(const QString& filters)
       _scanFilters = filters;
       signalModified();
    }
+}
+
+
+
+
+
+
+bool Project::isNew() const
+{
+   return _path.isEmpty();
+}
+
+
+
+
+
+
+bool Project::isModified() const
+{
+   return _modified;
+}
+
+
+
+
+
+
+BlockModel* Project::model() const
+{
+   return _model;
+}
+
+
+
+
+
+
+void Project::blockModified()
+{
+   signalModified();
 }
 
 

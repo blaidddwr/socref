@@ -7,6 +7,15 @@
 
 
 
+Application::Application(int& argc, char** argv):
+   QApplication(argc,argv)
+{}
+
+
+
+
+
+
 bool Application::notify(QObject* receiver, QEvent* event)
 {
    try

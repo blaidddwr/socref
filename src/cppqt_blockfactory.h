@@ -16,7 +16,7 @@ namespace CppQt
          ,VariableType
          ,Total
       };
-      virtual int size() const override final { return Total; }
+      virtual int size() const override final;
       virtual QString name(int type) const override final;
       virtual QString elementName(int type) const override final;
       virtual QIcon icon(int type) const override final;

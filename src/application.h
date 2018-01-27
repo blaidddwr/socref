@@ -8,7 +8,7 @@ class Application : public QApplication
 {
    Q_OBJECT
 public:
-   explicit Application(int& argc, char** argv): QApplication(argc,argv) {}
+   explicit Application(int& argc, char** argv);
    virtual bool notify(QObject* receiver, QEvent* event) override final;
 };
 

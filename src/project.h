@@ -18,23 +18,23 @@ public:
    void save();
    void saveAs(const QString& path);
    void setName(const QString& name);
-   QString name() const { return _name; }
-   QString path() const { return _path; }
-   int type() const { return _type; }
-   QString scanDirectory() const { return _scanDirectory; }
+   QString name() const;
+   QString path() const;
+   int type() const;
+   QString scanDirectory() const;
    void setScanDirectory(const QString& path);
-   QString scanFilters() const { return _scanFilters; }
+   QString scanFilters() const;
    void setScanFilters(const QString& filters);
-   bool isNew() const { return _path.isEmpty(); }
-   bool isModified() const { return _modified; }
-   BlockModel* model() const { return _model; }
+   bool isNew() const;
+   bool isModified() const;
+   BlockModel* model() const;
 signals:
    void nameChanged();
    void modified();
    void saved();
    void changed();
 private slots:
-   void blockModified() { signalModified(); }
+   void blockModified();
    void handleFileChanged();
 private:
    void readTypeElement(const QDomElement& type);

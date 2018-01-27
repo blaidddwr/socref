@@ -18,13 +18,13 @@ namespace Gui
    private slots:
       void newTriggered();
       void openTriggered();
-      void saveTriggered() { save(); }
-      void saveAsTriggered() { saveAs(); }
+      void saveTriggered();
+      void saveAsTriggered();
       void propertiesTriggered();
       void closeTriggered();
-      void projectNameChanged() { updateTitle(); }
-      void projectModified() { setWindowModified(true); }
-      void projectSaved() { setWindowModified(false); }
+      void projectNameChanged();
+      void projectModified();
+      void projectSaved();
       void projectFileChanged();
    private:
       virtual void closeEvent(QCloseEvent* event) override final;

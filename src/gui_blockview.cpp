@@ -55,6 +55,26 @@ void BlockView::setModel(BlockModel* model)
 
 
 
+QMenu* BlockView::contextMenu() const
+{
+   return _contextMenu;
+}
+
+
+
+
+
+
+bool BlockView::hasSelection() const
+{
+   return selection().isValid();
+}
+
+
+
+
+
+
 bool BlockView::canPaste() const
 {
    if ( _model && _copy )
@@ -228,6 +248,16 @@ void BlockView::modelDestroyed()
    _selectionModel = nullptr;
    updateActions();
    updateMenu();
+}
+
+
+
+
+
+
+void BlockView::editFinished()
+{
+   selectionModelChanged();
 }
 
 

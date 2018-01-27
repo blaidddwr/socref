@@ -23,7 +23,7 @@ namespace CppQt
       protected slots:
          virtual void okClicked() override final;
          virtual void applyClicked() override final;
-         virtual void cancelClicked() override final { emit finished(); }
+         virtual void cancelClicked() override final;
       private slots:
          void editGlobalTypesClicked();
          void editLocalTypesClicked();

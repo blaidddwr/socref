@@ -18,6 +18,26 @@ const char* AbstractBlock::_typeTag {"type"};
 
 
 
+AbstractBlock*AbstractBlock::parent() const
+{
+   return _parent;
+}
+
+
+
+
+
+
+int AbstractBlock::childrenSize() const
+{
+   return _children.size();
+}
+
+
+
+
+
+
 AbstractBlock* AbstractBlock::child(int index)
 {
    if ( index < 0 || index >= _children.size() )
@@ -46,6 +66,15 @@ const AbstractBlock* AbstractBlock::child(int index) const
    return _children.at(index);
 }
 
+
+
+
+
+
+int AbstractBlock::childIndex(AbstractBlock* child) const
+{
+   return _children.indexOf(child);
+}
 
 
 
@@ -201,6 +230,16 @@ void AbstractBlock::notifyOfNameChange()
 {
    notifyOfNameChange(nullptr);
    emit nameChanged(this);
+}
+
+
+
+
+
+
+void AbstractBlock::childModified()
+{
+   emit modified();
 }
 
 

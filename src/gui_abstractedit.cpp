@@ -12,6 +12,15 @@ using namespace Gui;
 
 
 
+AbstractEdit::AbstractEdit(QWidget* parent):
+   QWidget(parent)
+{}
+
+
+
+
+
+
 AbstractEdit* AbstractEdit::initialize()
 {
    QVBoxLayout* layout {new QVBoxLayout};

@@ -77,6 +77,17 @@ int BlockModel::rowCount(const QModelIndex& parent) const
 
 
 
+int BlockModel::columnCount(const QModelIndex& parent) const
+{
+   Q_UNUSED(parent);
+   return 1;
+}
+
+
+
+
+
+
 AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
 {
    AbstractBlock* ret;
@@ -202,6 +213,16 @@ unique_ptr<AbstractBlock> BlockModel::cutRow(int row, const QModelIndex& parent)
    unique_ptr<AbstractBlock> ret {parent_->takeChild(row)};
    endRemoveRows();
    return ret;
+}
+
+
+
+
+
+
+const AbstractBlockFactory*BlockModel::factory() const
+{
+   return _factory;
 }
 
 

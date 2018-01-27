@@ -15,12 +15,11 @@ public:
    virtual std::unique_ptr<AbstractBlock> makeCopy() const = 0;
    virtual int type() const = 0;
    virtual const AbstractBlockFactory& factory() const = 0;
-   AbstractBlock* parent() const { return _parent; }
-   int childrenSize() const { return _children.size(); }
+   AbstractBlock* parent() const;
+   int childrenSize() const;
    AbstractBlock* child(int index);
    const AbstractBlock* child(int index) const;
-   int childIndex(AbstractBlock* child) const
-   { return _children.indexOf(child); }
+   int childIndex(AbstractBlock* child) const;
    void insertChild(int index, std::unique_ptr<AbstractBlock>&& child);
    std::unique_ptr<AbstractBlock> takeChild(int index);
    void removeChild(int index);
@@ -36,7 +35,7 @@ signals:
    void modified();
    void nameChanged(AbstractBlock* object);
 private slots:
-   void childModified() { emit modified(); }
+   void childModified();
 private:
    void setBlockParent(AbstractBlock* parent, int index);
    void readChild(const QDomElement& child);

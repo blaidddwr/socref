@@ -14,6 +14,16 @@ using namespace CppQt;
 
 
 
+int BlockFactory::size() const
+{
+   return Total;
+}
+
+
+
+
+
+
 QString BlockFactory::name(int type) const
 {
    switch (type)
