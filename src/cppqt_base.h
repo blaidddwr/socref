@@ -22,6 +22,8 @@ namespace CppQt
       virtual QDomElement writeData(QDomDocument& document) const override;
       void copyDataFrom(const Base& object);
    private:
+      static const char* _nameTag;
+      static const char* _descriptionTag;
       QString _name;
       QString _description;
    };

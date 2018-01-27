@@ -4,11 +4,17 @@
 #include "cppqt_blockfactory.h"
 #include "exception.h"
 #include "cppqt_gui_typedialog.h"
+#include "domelementreader.h"
 
 
 
 using namespace std;
 using namespace CppQt;
+
+
+
+const char* Namespace::_typeTag {"type"};
+const char* Namespace::_nameTag {"name"};
 
 
 
@@ -102,26 +108,13 @@ Namespace* Namespace::root()
 void Namespace::readData(const QDomElement& data)
 {
    Base::readData(data);
-   enum
+   QList<QDomElement> types;
+   DomElementReader reader(data);
+   reader.set(_typeTag,&types,false);
+   reader.read();
+   for (auto type : qAsConst(types))
    {
-      Type = 0
-      ,Total
-   };
-   QStringList tags {"type"};
-   QDomNode node {data.firstChild()};
-   while ( !node.isNull() )
-   {
-      if ( node.isElement() )
-      {
-         QDomElement element {node.toElement()};
-         switch (tags.indexOf(element.tagName()))
-         {
-         case Type:
-            readType(element);
-            break;
-         }
-      }
-      node = node.nextSibling();
+      readType(type);
    }
 }
 
@@ -135,8 +128,8 @@ QDomElement Namespace::writeData(QDomDocument& document) const
    QDomElement ret {Base::writeData(document)};
    for (auto typeName : qAsConst(_types))
    {
-      QDomElement type {document.createElement("type")};
-      type.setAttribute("name",typeName);
+      QDomElement type {document.createElement(_typeTag)};
+      type.setAttribute(_nameTag,typeName);
       ret.appendChild(type);
    }
    return ret;
@@ -147,22 +140,16 @@ QDomElement Namespace::writeData(QDomDocument& document) const
 
 
 
-void Namespace::readType(const QDomElement &type)
+void Namespace::readType(const QDomElement& type)
 {
-   if ( !type.hasAttribute("name") )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("C++/Qt Namespace type element missing name attribute."));
-      throw e;
-   }
-   if ( _types.contains(type.attribute("name")) )
+   DomElementReader reader(type);
+   QString name {reader.attribute(_nameTag)};
+   if ( _types.contains(name) )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("C++/Qt Namespace type element found with duplicate entry."));
       throw e;
    }
-   QString name {type.attribute("name")};
    _types.append(name);
 }

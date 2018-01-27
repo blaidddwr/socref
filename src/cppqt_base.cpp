@@ -1,11 +1,17 @@
 #include "cppqt_base.h"
 #include "cppqt_blockfactory.h"
 #include "exception.h"
+#include "domelementreader.h"
 
 
 
 using namespace std;
 using namespace CppQt;
+
+
+
+const char* Base::_nameTag {"name"};
+const char* Base::_descriptionTag {"description"};
 
 
 
@@ -89,31 +95,11 @@ void Base::setDescription(const QString& description)
 
 void Base::readData(const QDomElement& data)
 {
-   enum
-   {
-      Description = 0
-      ,Total
-   };
-   QStringList tags {"description"};
-   if ( data.hasAttribute("name") )
-   {
-      _name = data.attribute("name");
-   }
-   QDomNode node {data.firstChild()};
-   while ( !node.isNull() )
-   {
-      if ( node.isElement() )
-      {
-         QDomElement element {node.toElement()};
-         switch (tags.indexOf(element.tagName()))
-         {
-         case Description:
-            _description = element.text();
-            break;
-         }
-      }
-      node = node.nextSibling();
-   }
+   DomElementReader reader(data);
+   _name = reader.attribute(_nameTag,false);
+   _description.clear();
+   reader.set(_descriptionTag,&_description,false);
+   reader.read();
 }
 
 

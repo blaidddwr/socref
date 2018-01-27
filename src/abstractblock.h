@@ -41,6 +41,8 @@ private:
    void setBlockParent(AbstractBlock* parent, int index);
    void readChild(const QDomElement& child);
    void notifyOfNameChange(AbstractBlock* block);
+   static const char* _dataTag;
+   static const char* _typeTag;
    AbstractBlock* _parent {nullptr};
    QList<AbstractBlock*> _children;
 };

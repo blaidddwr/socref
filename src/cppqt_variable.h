@@ -22,6 +22,7 @@ namespace CppQt
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
       void checkTypeSyntax(const QString& type);
+      static const char* _typeTag;
       QString _type {"int"};
    };
 }

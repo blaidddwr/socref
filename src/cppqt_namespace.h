@@ -24,6 +24,8 @@ namespace CppQt
       virtual QDomElement writeData(QDomDocument& document) const override;
    private:
       void readType(const QDomElement& type);
+      static const char* _typeTag;
+      static const char* _nameTag;
       QStringList _types;
    };
 }

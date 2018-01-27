@@ -17,9 +17,9 @@ DomElementReader::DomElementReader(const QDomElement& element):
 
 
 
-DomElementReader& DomElementReader::set(const QString& tagName, QString* pointer, bool onlyOnce, bool required)
+DomElementReader& DomElementReader::set(const QString& tagName, QString* pointer, bool required)
 {
-   return append(tagName,pointer,Type::String,onlyOnce,required);
+   return append(tagName,pointer,Type::String,required);
 }
 
 
@@ -27,9 +27,9 @@ DomElementReader& DomElementReader::set(const QString& tagName, QString* pointer
 
 
 
-DomElementReader& DomElementReader::set(const QString& tagName, int* pointer, bool onlyOnce, bool required)
+DomElementReader& DomElementReader::set(const QString& tagName, int* pointer, bool required)
 {
-   return append(tagName,pointer,Type::Number,onlyOnce,required);
+   return append(tagName,pointer,Type::Number,required);
 }
 
 
@@ -37,9 +37,19 @@ DomElementReader& DomElementReader::set(const QString& tagName, int* pointer, bo
 
 
 
-DomElementReader& DomElementReader::set(const QString& tagName, QDomElement* pointer, bool onlyOnce, bool required)
+DomElementReader& DomElementReader::set(const QString& tagName, QDomElement* pointer, bool required)
 {
-   return append(tagName,pointer,Type::Element,onlyOnce,required);
+   return append(tagName,pointer,Type::Element,required);
+}
+
+
+
+
+
+
+DomElementReader&DomElementReader::set(const QString& tagName, QList<QDomElement>* pointer, bool required)
+{
+   return append(tagName,pointer,Type::ElementList,required);
 }
 
 
@@ -108,7 +118,7 @@ void DomElementReader::read()
          QDomElement element {node.toElement()};
          const QHash<QString,int>& lookup {_lookup};
          auto i {lookup.find(element.tagName())};
-         if ( i != lookup.end() && ( !_read.at(*i) || !_onlyOnce.at(*i) ) )
+         if ( i != lookup.end() )
          {
             switch (_type.at(*i))
             {
@@ -130,6 +140,9 @@ void DomElementReader::read()
                }
             case Type::Element:
                *static_cast<QDomElement*>(_data[*i]) = element;
+               break;
+            case Type::ElementList:
+               static_cast<QList<QDomElement>*>(_data[*i])->append(element);
                break;
             }
             _read[*i] = true;
@@ -154,7 +167,7 @@ bool DomElementReader::allRequiredFound() const
 
 
 
-DomElementReader& DomElementReader::append(const QString& tagName, void* pointer, Type type, bool onlyOnce, bool required)
+DomElementReader& DomElementReader::append(const QString& tagName, void* pointer, Type type, bool required)
 {
    if ( _lookup.contains(tagName) )
    {
@@ -167,6 +180,5 @@ DomElementReader& DomElementReader::append(const QString& tagName, void* pointer
    _type.append(type);
    _data.append(static_cast<void*>(pointer));
    _read.append(!required);
-   _onlyOnce.append(onlyOnce);
    return *this;
 }

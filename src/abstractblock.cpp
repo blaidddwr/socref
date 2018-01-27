@@ -2,10 +2,16 @@
 #include "abstractblock.h"
 #include "abstractblockfactory.h"
 #include "exception.h"
+#include "domelementreader.h"
 
 
 
 using namespace std;
+
+
+
+const char* AbstractBlock::_dataTag {"data"};
+const char* AbstractBlock::_typeTag {"type"};
 
 
 
@@ -111,45 +117,29 @@ void AbstractBlock::removeChild(int index)
 
 void AbstractBlock::read(const QDomElement& parent)
 {
-   enum
-   {
-      Data = 0
-      ,Total
-   };
-   QStringList tags {"data"};
-   QVector<bool> readTags(Total,false);
    qDeleteAll(_children);
    _children.clear();
+   QDomElement data;
+   QList<QDomElement> children;
+   DomElementReader reader(parent);
+   reader.set(_dataTag,&data);
    const QList<int> buildList {factory().buildList(type())};
-   QStringList buildNames;
    for (auto type : buildList)
    {
-      buildNames.push_back(factory().elementName(type));
+      reader.set(factory().elementName(type),&children,false);
    }
-   QDomNode node {parent.firstChild()};
-   while ( !node.isNull() )
-   {
-      if ( node.isElement() )
-      {
-         QDomElement element {node.toElement()};
-         if ( element.tagName() == tags.at(Data) )
-         {
-            readData(element);
-            readTags[Data] = true;
-         }
-         else if ( buildNames.contains(element.tagName()) )
-         {
-            readChild(element);
-         }
-      }
-      node = node.nextSibling();
-   }
-   if ( readTags.contains(false) )
+   reader.read();
+   if ( !reader.allRequiredFound() )
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Failed reading in all required elements."));
       throw e;
+   }
+   readData(data);
+   for (auto child : qAsConst(children))
+   {
+      readChild(child);
    }
 }
 
@@ -162,13 +152,13 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
    QDomElement data {writeData(document)};
-   data.setTagName("data");
+   data.setTagName(_dataTag);
    ret.appendChild(data);
    for (auto child : _children)
    {
       QDomElement child_ {child->write(document)};
       child_.setTagName(factory().elementName(child->type()));
-      child_.setAttribute("type",QString::number(child->type()));
+      child_.setAttribute(_typeTag,QString::number(child->type()));
       ret.appendChild(child_);
    }
    return ret;
@@ -243,22 +233,8 @@ void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
 
 void AbstractBlock::readChild(const QDomElement& child)
 {
-   if ( !child.hasAttribute("type") )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Child element missing type attribute."));
-      throw e;
-   }
-   bool ok;
-   int type {child.attribute("type").toInt(&ok)};
-   if ( !ok )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading in type attribute."));
-      throw e;
-   }
+   DomElementReader reader(child);
+   int type {reader.attributeToInt(_typeTag)};
    if ( type < 0 || type >= factory().size() )
    {
       Exception::ReadError e;

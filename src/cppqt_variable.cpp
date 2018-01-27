@@ -2,11 +2,16 @@
 #include "cppqt_gui_typedialog.h"
 #include "exception.h"
 #include "cppqt_blockfactory.h"
+#include "domelementreader.h"
 
 
 
 using namespace std;
 using namespace CppQt;
+
+
+
+const char* Variable::_typeTag {"type"};
 
 
 
@@ -96,35 +101,8 @@ void Variable::setVariableType(const QString& type)
 
 void Variable::readData(const QDomElement& data)
 {
-   Base::readData(data);
-   enum
-   {
-      Type = 0
-      ,Total
-   };
-   QStringList tags {"type"};
-   QDomNode node {data.firstChild()};
-   while ( !node.isNull() )
-   {
-      if ( node.isElement() )
-      {
-         QDomElement element {node.toElement()};
-         switch (tags.indexOf(element.tagName()))
-         {
-         case Type:
-            if ( !element.hasAttribute("name") )
-            {
-               Exception::ReadError e;
-               MARK_EXCEPTION(e);
-               e.setDetails(tr("C++/Qt Variable type element missing name attribute."));
-               throw e;
-            }
-            _type = element.attribute("name");
-            break;
-         }
-      }
-      node = node.nextSibling();
-   }
+   DomElementReader reader(data);
+   _type = reader.attribute(_typeTag);
 }
 
 
@@ -135,9 +113,7 @@ void Variable::readData(const QDomElement& data)
 QDomElement Variable::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
-   QDomElement type {document.createElement("type")};
-   type.setAttribute("name",_type);
-   ret.appendChild(type);
+   ret.setAttribute(_typeTag,_type);
    return ret;
 }
 
