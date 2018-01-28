@@ -28,7 +28,7 @@ template<class T> T& SingletonFactory<T>::instance()
 {
    if ( !_instance )
    {
-      Exception::InvalidUse e;
+      Exception::LogicError e;
       MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Attempted to get factory when none has been set."));
       throw e;

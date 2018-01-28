@@ -4,6 +4,7 @@
 #include <QMainWindow>
 #include "classes.h"
 #include "gui_classes.h"
+#include "exception_base.h"
 
 
 
@@ -42,6 +43,7 @@ namespace Gui
       bool isOkToContinue();
       bool saveAs();
       bool save();
+      void showException(const QString& text, const Exception::Base& exception) const;
       Project* _project {nullptr};
       QList<QAction*> _newActions;
       BlockView* _view;

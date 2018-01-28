@@ -92,7 +92,7 @@ void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
    }
    if ( !factory().buildList(type()).contains(child->type()) )
    {
-      Exception::InvalidUse e;
+      Exception::LogicError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.").arg(child->type()).arg(type()));
       throw e;

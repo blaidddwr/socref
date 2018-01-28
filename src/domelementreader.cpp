@@ -1,5 +1,6 @@
 #include <QDomNode>
 #include <QDomElement>
+#include <QObject>
 #include "domelementreader.h"
 #include "exception.h"
 

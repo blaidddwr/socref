@@ -6,7 +6,6 @@
 #include "gui_mainwindow.h"
 #include "abstractprojectfactory.h"
 #include "gui_projectdialog.h"
-#include "exception.h"
 #include "project.h"
 #include "abstractblock.h"
 #include "gui_blockview.h"
@@ -114,7 +113,7 @@ void MainWindow::openTriggered()
       }
       catch (Exception::Base e)
       {
-         e.show(tr("An error occured while attempting to open the project."),Exception::Icon::Warning);
+         showException(tr("An error occured while attempting to open the project."),e);
       }
    }
 }
@@ -216,7 +215,7 @@ void MainWindow::projectFileChanged()
       }
       catch (Exception::Base e)
       {
-         e.show(tr("An error occured while attempting to reload the project."),Exception::Icon::Warning);
+         showException(tr("An error occured while attempting to reload the project."),e);
       }
    }
 }
@@ -467,7 +466,7 @@ bool MainWindow::saveAs()
    }
    catch (Exception::Base e)
    {
-      e.show(tr("An error occured while attempting to save the project."),Exception::Icon::Warning);
+      showException(tr("An error occured while attempting to save the project."),e);
       return false;
    }
    updateActions();
@@ -491,8 +490,23 @@ bool MainWindow::save()
    }
    catch (Exception::Base e)
    {
-      e.show(tr("An error occured while attempting to save the project."),Exception::Icon::Warning);
+      showException(tr("An error occured while attempting to save the project."),e);
       return false;
    }
    return true;
+}
+
+
+
+
+
+
+void MainWindow::showException(const QString& text, const Exception::Base& exception) const
+{
+   QMessageBox info;
+   info.setWindowTitle(exception.title());
+   info.setText(text);
+   info.setInformativeText(exception.details());
+   info.setIcon(QMessageBox::Warning);
+   info.exec();
 }

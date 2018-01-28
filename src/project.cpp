@@ -88,7 +88,7 @@ void Project::save()
 {
    if ( _path.isEmpty() )
    {
-      Exception::InvalidUse e;
+      Exception::LogicError e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Attempting to save new project that has no path."));
       throw e;

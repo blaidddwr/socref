@@ -1,6 +1,6 @@
-#include <QMessageBox>
+#include <QDebug>
 #include "application.h"
-#include "exception.h"
+#include "exception_base.h"
 
 
 
@@ -24,23 +24,20 @@ bool Application::notify(QObject* receiver, QEvent* event)
    }
    catch (Exception::Base e)
    {
-      e.show(QObject::tr("An unexpected error occured!"),Exception::Icon::Critical,true);
+      qDebug().nospace() << "Exception Caught!";
+      qDebug().nospace() << "Location: " << e.file() << ":" << e.line();
+      qDebug().nospace() << "Function: " << e.function();
+      qDebug().nospace() << "Title: " << e.title();
+      qDebug().nospace() << "Details: " << e.details() << "\n";
    }
    catch (std::exception e)
    {
-      QMessageBox info;
-      info.setIcon(QMessageBox::Critical);
-      info.setWindowTitle(e.what());
-      info.setText(tr("An unexpected standard library exception occured!"));
-      info.exec();
+      qDebug().nospace() << "Exception Caught!";
+      qDebug().nospace() << e.what() << "\n";
    }
    catch (...)
    {
-      QMessageBox info;
-      info.setIcon(QMessageBox::Critical);
-      info.setWindowTitle(tr("Unknown Exception"));
-      info.setText(tr("An unexpected and unknown exception occured!"));
-      info.exec();
+      qDebug() << "Exception Caught!\n";
    }
    return false;
 }

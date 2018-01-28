@@ -1,3 +1,4 @@
+#include <QDebug>
 #include "application.h"
 #include "gui_mainwindow.h"
 #include "projectfactory.h"
@@ -21,7 +22,10 @@ int main(int argc, char** argv)
    }
    catch (Exception::Base e)
    {
-      e.show(QObject::tr("An unexpected error occured! Application will terminate immediately."),Exception::Icon::Critical,true);
+      qDebug().nospace() << "Location: " << e.file() << ":" << e.line();
+      qDebug().nospace() << "Function: " << e.function();
+      qDebug().nospace() << "Title: " << e.title();
+      qDebug().nospace() << "Details: " << e.details();
       return -1;
    }
 }

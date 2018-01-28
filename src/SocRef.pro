@@ -5,6 +5,9 @@ CONFIG += c++11
 TARGET = socref
 TEMPLATE = app
 
+INCLUDEPATH += ../../socerr/src
+LIBS += -L../../socerr/build -lsocerr
+
 DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
@@ -13,7 +16,6 @@ SOURCES += \
     abstractblock.cpp \
     gui_mainwindow.cpp \
     projectfactory.cpp \
-    exception.cpp \
     application.cpp \
     gui_projectdialog.cpp \
     blockmodel.cpp \
@@ -33,7 +35,6 @@ SOURCES += \
 HEADERS += \
     singleton.h \
     singletonfactory.h \
-    exception.h \
     abstractprojectfactory.h \
     project.h \
     abstractblockfactory.h \
@@ -59,8 +60,7 @@ HEADERS += \
     cppqt_gui_typecombobox.h \
     cppqt_gui_classes.h \
     cppqt_variable.h \
-    cppqt_base.h \
-    domelementreader.h
+    cppqt_base.h
 
 RESOURCES += \
     resources.qrc
