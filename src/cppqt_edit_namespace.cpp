@@ -1,4 +1,5 @@
-#include <QFormLayout>
+#include <QVBoxLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
 #include <QGroupBox>

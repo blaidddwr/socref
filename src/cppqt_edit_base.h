@@ -8,6 +8,7 @@
 
 class QLineEdit;
 class QPlainTextEdit;
+class QLabel;
 
 
 
@@ -28,6 +29,7 @@ namespace CppQt
       private:
          void createNameEdit();
          void createDescriptionEdit();
+         QLabel* createLabel(const QString& name);
          CppQt::Base* _block;
          QLineEdit* _nameEdit;
          QPlainTextEdit* _descriptionEdit;

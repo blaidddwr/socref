@@ -1,4 +1,4 @@
-#include <QFormLayout>
+#include <QGridLayout>
 #include <QLineEdit>
 #include <QPlainTextEdit>
 #include <QLabel>
@@ -31,10 +31,12 @@ Base::Base(AbstractBlock* block, QWidget* parent):
    }
    createNameEdit();
    createDescriptionEdit();
-   QFormLayout* form {new QFormLayout};
-   form->addRow(new QLabel(tr("Name:")),_nameEdit);
-   form->addRow(new QLabel(tr("Description:")),_descriptionEdit);
-   _layout = form;
+   QGridLayout* layout {new QGridLayout};
+   layout->addWidget(createLabel(tr("Name:")),0,0);
+   layout->addWidget(_nameEdit,0,1);
+   layout->addWidget(createLabel(tr("Description:")),1,0);
+   layout->addWidget(_descriptionEdit,1,1);
+   _layout = layout;
 }
 
 
@@ -79,4 +81,16 @@ void Base::createDescriptionEdit()
 {
    _descriptionEdit = new QPlainTextEdit;
    _descriptionEdit->setPlainText(_block->description());
+}
+
+
+
+
+
+
+QLabel* Base::createLabel(const QString& name)
+{
+   QLabel* ret {new QLabel(name)};
+   ret->setAlignment(Qt::AlignTop|Qt::AlignRight);
+   return ret;
 }
