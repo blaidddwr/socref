@@ -26,9 +26,19 @@ TypeComboBox::TypeComboBox(AbstractBlock* block, QWidget* parent):
 
 
 
-void TypeComboBox::setCurrentIndex(const QString& text)
+void TypeComboBox::setCurrentIndex(const QString& type)
 {
-   QComboBox::setCurrentIndex(findText(text));
+   QComboBox::setCurrentIndex(findText(type));
+}
+
+
+
+
+
+
+QString TypeComboBox::value() const
+{
+   return itemText(currentIndex());
 }
 
 
@@ -61,7 +71,7 @@ void TypeComboBox::comboActivated(int index)
 
 void TypeComboBox::typeListChanged()
 {
-   QString current {itemText(currentIndex())};
+   QString current {value()};
    buildComboList();
    setCurrentIndex(current);
 }

@@ -31,10 +31,10 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
       throw e;
    }
    QVBoxLayout* layout {new QVBoxLayout};
-   QGroupBox* types {new QGroupBox(tr("Types"))};
    QGroupBox* basic {new QGroupBox(tr("Basic Information"))};
-   types->setLayout(createTypeButtons());
+   QGroupBox* types {new QGroupBox(tr("Types"))};
    basic->setLayout(Base::layout());
+   types->setLayout(createTypeButtons());
    layout->addWidget(basic);
    layout->addWidget(types);
    layout->addStretch();

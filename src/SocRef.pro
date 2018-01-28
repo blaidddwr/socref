@@ -31,7 +31,8 @@ SOURCES += \
     cppqt_variable.cpp \
     cppqt_base.cpp \
     domelementreader.cpp \
-    cppqt_edit_base.cpp
+    cppqt_edit_base.cpp \
+    cppqt_edit_variable.cpp
 
 HEADERS += \
     singleton.h \
@@ -62,7 +63,8 @@ HEADERS += \
     cppqt_edit.h \
     cppqt_gui.h \
     cppqt_view.h \
-    cppqt_edit_base.h
+    cppqt_edit_base.h \
+    cppqt_edit_variable.h
 
 RESOURCES += \
     resources.qrc

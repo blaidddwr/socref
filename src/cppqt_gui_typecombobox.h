@@ -14,8 +14,9 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit TypeComboBox(AbstractBlock* block, QWidget* parent);
-         void setCurrentIndex(const QString& text);
+         explicit TypeComboBox(AbstractBlock* block, QWidget* parent = nullptr);
+         void setCurrentIndex(const QString& type);
+         QString value() const;
       private slots:
          void comboActivated(int index);
          void typeListChanged();
