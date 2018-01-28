@@ -18,7 +18,7 @@ namespace Gui
       explicit AbstractEdit(QWidget* parent);
       AbstractEdit* initialize();
    protected:
-      virtual std::unique_ptr<QLayout> createForm() = 0;
+      virtual QLayout* layout() = 0;
    signals:
       void finished();
    protected slots:

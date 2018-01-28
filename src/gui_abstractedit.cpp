@@ -23,10 +23,10 @@ AbstractEdit::AbstractEdit(QWidget* parent):
 
 AbstractEdit* AbstractEdit::initialize()
 {
-   QVBoxLayout* layout {new QVBoxLayout};
-   layout->addLayout(createForm().release());
-   layout->addLayout(createButtons());
-   setLayout(layout);
+   QVBoxLayout* main {new QVBoxLayout};
+   main->addLayout(layout());
+   main->addLayout(createButtons());
+   setLayout(main);
    return this;
 }
 

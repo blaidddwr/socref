@@ -1,10 +1,7 @@
 #include <QFormLayout>
 #include <QLabel>
-#include <QLineEdit>
-#include <QPlainTextEdit>
-#include <QRegExpValidator>
-#include <QListWidget>
 #include <QPushButton>
+#include <QGroupBox>
 #include "cppqt_namespace.h"
 #include "cppqt_edit_namespace.h"
 #include "exception.h"
@@ -23,7 +20,7 @@ using namespace CppQt::Gui;
 
 
 Namespace::Namespace(AbstractBlock* block, QWidget *parent):
-   AbstractEdit(parent),
+   Base(block,parent),
    _block(qobject_cast<CppQt::Namespace*>(block))
 {
    if ( !_block )
@@ -33,6 +30,25 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
+   QVBoxLayout* layout {new QVBoxLayout};
+   QGroupBox* types {new QGroupBox(tr("Types"))};
+   QGroupBox* basic {new QGroupBox(tr("Basic Information"))};
+   types->setLayout(createTypeButtons());
+   basic->setLayout(Base::layout());
+   layout->addWidget(basic);
+   layout->addWidget(types);
+   layout->addStretch();
+   _layout = layout;
+}
+
+
+
+
+
+
+QLayout* Namespace::layout()
+{
+   return _layout;
 }
 
 
@@ -53,8 +69,7 @@ void Namespace::okClicked()
 
 void Namespace::applyClicked()
 {
-   _block->setName(_nameEdit->text());
-   _block->setDescription(_descriptionEdit->toPlainText());
+   Base::applyClicked();
 }
 
 
@@ -96,52 +111,15 @@ void Namespace::editLocalTypesClicked()
 
 
 
-unique_ptr<QLayout> Namespace::createForm()
-{
-   createNameEdit();
-   createDescriptionEdit();
-   unique_ptr<QFormLayout> form {new QFormLayout};
-   form->addRow(new QLabel(tr("Name:")),_nameEdit);
-   form->addRow(new QLabel(tr("Description:")),_descriptionEdit);
-   form->addRow(new QLabel(tr("Types:")),createTypeButtons());
-   return form;
-}
-
-
-
-
-
-
-void Namespace::createNameEdit()
-{
-   _nameEdit = new QLineEdit;
-   _nameEdit->setText(_block->name());
-   _nameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*"),this));
-}
-
-
-
-
-
-
-void Namespace::createDescriptionEdit()
-{
-   _descriptionEdit = new QPlainTextEdit;
-   _descriptionEdit->setPlainText(_block->description());
-}
-
-
-
-
-
-
 QLayout* Namespace::createTypeButtons()
 {
-   QVBoxLayout* ret {new QVBoxLayout};
+   QHBoxLayout* ret {new QHBoxLayout};
    QPushButton* global {new QPushButton(tr("Global"))};
    QPushButton* local {new QPushButton(tr("Local"))};
+   ret->addStretch();
    ret->addWidget(global);
    ret->addWidget(local);
+   ret->addStretch();
    connect(global,&QPushButton::clicked,this,&Namespace::editGlobalTypesClicked);
    connect(local,&QPushButton::clicked,this,&Namespace::editLocalTypesClicked);
    return ret;

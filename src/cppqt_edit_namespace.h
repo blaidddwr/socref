@@ -1,13 +1,6 @@
 #ifndef CPPQT_NAMESPACEEDIT_H
 #define CPPQT_NAMESPACEEDIT_H
-#include "gui_abstractedit.h"
-#include "global.h"
-#include "cppqt.h"
-
-
-
-class QLineEdit;
-class QPlainTextEdit;
+#include "cppqt_edit_base.h"
 
 
 
@@ -15,26 +8,24 @@ namespace CppQt
 {
    namespace Edit
    {
-      class Namespace : public Gui::AbstractEdit
+      class Namespace : public Base
       {
          Q_OBJECT
       public:
          explicit Namespace(AbstractBlock* block, QWidget* parent = nullptr);
+      protected:
+         virtual QLayout* layout() override;
       protected slots:
-         virtual void okClicked() override final;
-         virtual void applyClicked() override final;
-         virtual void cancelClicked() override final;
+         virtual void okClicked() override;
+         virtual void applyClicked() override;
+         virtual void cancelClicked() override;
       private slots:
          void editGlobalTypesClicked();
          void editLocalTypesClicked();
       private:
-         virtual std::unique_ptr<QLayout> createForm() override final;
-         void createNameEdit();
-         void createDescriptionEdit();
          QLayout* createTypeButtons();
          CppQt::Namespace* _block;
-         QLineEdit* _nameEdit;
-         QPlainTextEdit* _descriptionEdit;
+         QLayout* _layout;
       };
    }
 }
