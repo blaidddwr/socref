@@ -50,17 +50,17 @@ HEADERS += \
     gui_abstractedit.h \
     cppqt_edit_namespace.h \
     cppqt_view_namespace.h \
-    classes.h \
-    cppqt_classes.h \
-    gui_classes.h \
-    cppqt_edit_classes.h \
-    cppqt_view_classes.h \
     cppqt_gui_typelistdialog.h \
     cppqt_gui_typedialog.h \
     cppqt_gui_typecombobox.h \
-    cppqt_gui_classes.h \
     cppqt_variable.h \
-    cppqt_base.h
+    cppqt_base.h \
+    global.h \
+    gui.h \
+    cppqt.h \
+    cppqt_edit.h \
+    cppqt_gui.h \
+    cppqt_view.h
 
 RESOURCES += \
     resources.qrc

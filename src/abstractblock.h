@@ -3,7 +3,7 @@
 #include <memory>
 #include <QObject>
 #include <QDomElement>
-#include "classes.h"
+#include "global.h"
 
 
 

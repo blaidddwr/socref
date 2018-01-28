@@ -6,4 +6,3 @@ namespace Gui
    class MainWindow;
    class ProjectDialog;
 }
-

@@ -1,8 +1,8 @@
 #ifndef CPPQT_GUI_TYPECOMBOBOX_H
 #define CPPQT_GUI_TYPECOMBOBOX_H
 #include <QComboBox>
-#include "classes.h"
-#include "cppqt_classes.h"
+#include "global.h"
+#include "cppqt.h"
 
 
 

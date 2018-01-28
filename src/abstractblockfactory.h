@@ -3,8 +3,8 @@
 #include <memory>
 #include <QString>
 #include <QIcon>
-#include "classes.h"
-#include "gui_classes.h"
+#include "global.h"
+#include "gui.h"
 
 
 

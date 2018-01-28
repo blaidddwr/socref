@@ -1,8 +1,8 @@
 #ifndef CPPQT_NAMESPACEEDIT_H
 #define CPPQT_NAMESPACEEDIT_H
 #include "gui_abstractedit.h"
-#include "classes.h"
-#include "cppqt_classes.h"
+#include "global.h"
+#include "cppqt.h"
 
 
 

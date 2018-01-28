@@ -1,7 +1,7 @@
 #ifndef CPPQT_GUI_TYPELISTDIALOG_H
 #define CPPQT_GUI_TYPELISTDIALOG_H
 #include <QDialog>
-#include "cppqt_classes.h"
+#include "cppqt.h"
 
 
 

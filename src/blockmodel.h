@@ -2,7 +2,7 @@
 #define BLOCKMODEL_H
 #include <memory>
 #include <QtCore>
-#include "classes.h"
+#include "global.h"
 
 
 

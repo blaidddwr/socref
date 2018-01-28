@@ -2,8 +2,8 @@
 #define MAINWINDOW_H
 #include <memory>
 #include <QMainWindow>
-#include "classes.h"
-#include "gui_classes.h"
+#include "global.h"
+#include "gui.h"
 #include "exception_base.h"
 
 

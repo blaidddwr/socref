@@ -1,7 +1,7 @@
 #ifndef GUI_PROJECTDIALOG_H
 #define GUI_PROJECTDIALOG_H
 #include <QDialog>
-#include "classes.h"
+#include "global.h"
 
 
 

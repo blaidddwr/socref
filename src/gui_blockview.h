@@ -3,7 +3,7 @@
 #include <QSplitter>
 #include <QModelIndex>
 #include <QItemSelection>
-#include "classes.h"
+#include "global.h"
 
 
 

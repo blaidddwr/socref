@@ -1,7 +1,7 @@
 #ifndef CPPQT_NAMESPACEVIEW_H
 #define CPPQT_NAMESPACEVIEW_H
 #include <QLabel>
-#include "classes.h"
+#include "global.h"
 
 
 
