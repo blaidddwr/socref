@@ -11,25 +11,21 @@ using namespace CppQt::View;
 
 
 
-Namespace::Namespace(AbstractBlock* block, QWidget* parent):
-   QLabel(parent)
+Namespace::Namespace(AbstractBlock* block, bool wait, QWidget* parent):
+   Base(block,parent)
 {
-   CppQt::Namespace* block_ {qobject_cast<CppQt::Namespace*>(block)};
-   if ( !block_ )
+   if ( !wait )
    {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
+      setText(Base::displayText());
    }
-   setAlignment(Qt::AlignTop);
-   setWordWrap(true);
-   setTextFormat(Qt::RichText);
-   const QStringList paragraphs {block_->description().split("\n\n")};
-   QString description;
-   for (auto paragraph : paragraphs)
-   {
-      description.append("<p>").append(paragraph).append("</p>");
-   }
-   setText(QString("<h3>Description</h3><p>%1</p>").arg(description));
+}
+
+
+
+
+
+
+QString Namespace::displayText()
+{
+   return Base::displayText();
 }

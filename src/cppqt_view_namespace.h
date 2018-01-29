@@ -1,7 +1,6 @@
 #ifndef CPPQT_NAMESPACEVIEW_H
 #define CPPQT_NAMESPACEVIEW_H
-#include <QLabel>
-#include "global.h"
+#include "cppqt_view_base.h"
 
 
 
@@ -9,11 +8,13 @@ namespace CppQt
 {
    namespace View
    {
-      class Namespace : public QLabel
+      class Namespace : public Base
       {
          Q_OBJECT
       public:
-         explicit Namespace(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Namespace(AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
+      protected:
+         QString displayText();
       };
    }
 }
