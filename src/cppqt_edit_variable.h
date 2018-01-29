@@ -11,6 +11,7 @@ namespace CppQt
    {
       class Variable : public Base
       {
+         Q_OBJECT
       public:
          Variable(AbstractBlock* block, QWidget* parent = nullptr);
       protected:

@@ -68,7 +68,7 @@ void Base::applyClicked()
 void Base::createNameEdit()
 {
    _nameEdit = new QLineEdit;
-   _nameEdit->setText(_block->name());
+   _nameEdit->setText(_block->Base::name());
    _nameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*"),this));
 }
 

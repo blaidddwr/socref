@@ -38,7 +38,6 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
    types->setLayout(createTypeButtons());
    layout->addWidget(basic);
    layout->addWidget(types);
-   layout->addStretch();
    _layout = layout;
 }
 

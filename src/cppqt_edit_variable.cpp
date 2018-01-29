@@ -1,6 +1,6 @@
 #include <QVBoxLayout>
 #include <QGroupBox>
-#include <QGridLayout>
+#include <QHBoxLayout>
 #include <QLabel>
 #include "cppqt_edit_variable.h"
 #include "exception.h"
@@ -35,7 +35,6 @@ Variable::Variable(AbstractBlock* block, QWidget* parent):
    basic->setLayout(Base::layout());
    layout->addWidget(type);
    layout->addWidget(basic);
-   layout->addStretch();
    _layout = layout;
 }
 
@@ -89,12 +88,13 @@ void Variable::cancelClicked()
 
 QLayout* Variable::createTypeCombo()
 {
-   QGridLayout* ret {new QGridLayout};
+   QHBoxLayout* ret {new QHBoxLayout};
    QLabel* label {new QLabel(tr("Value:"))};
-   label->setAlignment(Qt::AlignTop|Qt::AlignRight);
    _type = new TypeComboBox(_block);
    _type->setCurrentIndex(_block->variableType());
-   ret->addWidget(label,0,0);
-   ret->addWidget(_type,0,1);
+   ret->addStretch();
+   ret->addWidget(label);
+   ret->addWidget(_type);
+   ret->addStretch();
    return ret;
 }

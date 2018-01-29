@@ -101,6 +101,7 @@ void Variable::setVariableType(const QString& type)
 
 void Variable::readData(const QDomElement& data)
 {
+   Base::readData(data);
    DomElementReader reader(data);
    _type = reader.attribute(_typeTag);
 }
