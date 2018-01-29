@@ -15,6 +15,9 @@ namespace CppQt
          explicit Namespace(AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
       protected:
          QString displayText();
+         QString displayTypes();
+      private:
+         CppQt::Namespace* _block;
       };
    }
 }

@@ -27,6 +27,7 @@ Base::Base(AbstractBlock* block, QWidget* parent):
    setAlignment(Qt::AlignTop);
    setWordWrap(true);
    setTextFormat(Qt::RichText);
+   setMargin(8);
 }
 
 
@@ -36,5 +37,5 @@ Base::Base(AbstractBlock* block, QWidget* parent):
 
 QString Base::displayText()
 {
-   return QString("<h1>Description</h1><p>").append(_block->description().split("\n\n").join("</p><p>")).append("</p>");
+   return QString("<h2>Description</h2><p>").append(_block->description().split("\n\n").join("</p><p>")).append("</p>");
 }
