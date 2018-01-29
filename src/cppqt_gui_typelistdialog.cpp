@@ -2,6 +2,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
+#include <QMessageBox>
 #include "cppqt_gui_typelistdialog.h"
 #include "cppqt_namespace.h"
 #include "cppqt_gui_typedialog.h"
@@ -37,7 +38,11 @@ void TypeListDialog::itemDoubleClicked(QListWidgetItem* item)
    dialog.setWindowTitle(tr("Edit Type"));
    if ( dialog.exec() )
    {
-      item->setText(dialog.name());
+      QString type {dialog.name()};
+      if ( item->text() == type || !isDuplicate(type) )
+      {
+         item->setText(type);
+      }
    }
 }
 
@@ -52,7 +57,11 @@ void TypeListDialog::addClicked()
    dialog.setWindowTitle(tr("New Type"));
    if ( dialog.exec() )
    {
-      _list->addItem(dialog.name());
+      QString type {dialog.name()};
+      if ( !isDuplicate(type) )
+      {
+         _list->addItem(type);
+      }
    }
 }
 
@@ -90,6 +99,36 @@ void TypeListDialog::applyClicked()
       types << _list->item(i)->text();
    }
    _block->setTypes(types);
+}
+
+
+
+
+
+
+bool TypeListDialog::isDuplicate(const QString& name)
+{
+   auto alertOfDuplicate = [](const QString& name)
+   {
+      QMessageBox box;
+      box.setWindowTitle(tr("Duplicate Type Name"));
+      box.setText(tr("The type name given already exists in the %1 list.").arg(name));
+      box.setIcon(QMessageBox::Warning);
+      box.addButton(tr("Ok"),QMessageBox::AcceptRole);
+      box.exec();
+   };
+   bool ret {false};
+   if ( _block != _block->root() && _block->root()->types().contains(name) )
+   {
+      (*alertOfDuplicate)("global");
+      ret = true;
+   }
+   else if ( !(_list->findItems(name,Qt::MatchExactly).isEmpty()) )
+   {
+      (*alertOfDuplicate)("local");
+      ret = true;
+   }
+   return ret;
 }
 
 

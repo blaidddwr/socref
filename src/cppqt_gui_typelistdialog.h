@@ -26,6 +26,7 @@ namespace CppQt
          void okClicked();
          void applyClicked();
       private:
+         bool isDuplicate(const QString& name);
          QLayout* createTop();
          QLayout* createTopButtons();
          QLayout* createBottomButtons();
