@@ -30,6 +30,7 @@ protected:
    virtual QDomElement writeData(QDomDocument& document) const = 0;
    AbstractBlock* root();
    void copyChildren(const AbstractBlock* block);
+   QList<AbstractBlock*> children() const;
    void notifyOfNameChange();
 signals:
    void modified();

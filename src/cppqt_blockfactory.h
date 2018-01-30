@@ -14,6 +14,7 @@ namespace CppQt
       {
          NamespaceType = 0
          ,VariableType
+         ,FunctionType
          ,Total
       };
       virtual int size() const override final;

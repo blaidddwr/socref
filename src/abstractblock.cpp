@@ -226,6 +226,16 @@ void AbstractBlock::copyChildren(const AbstractBlock* block)
 
 
 
+QList<AbstractBlock*> AbstractBlock::children() const
+{
+   return _children;
+}
+
+
+
+
+
+
 void AbstractBlock::notifyOfNameChange()
 {
    notifyOfNameChange(nullptr);
