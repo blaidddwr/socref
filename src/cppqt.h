@@ -6,4 +6,5 @@ namespace CppQt
    class Namespace;
    class Variable;
    class Signal;
+   class Function;
 }

@@ -3,5 +3,6 @@
         <file>icons/namespace.svg</file>
         <file>icons/main.svg</file>
         <file>icons/variable.svg</file>
+        <file>icons/function.svg</file>
     </qresource>
 </RCC>
