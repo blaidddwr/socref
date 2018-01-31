@@ -24,6 +24,10 @@ namespace CppQt
       QStringList operations() const;
       void setOperations(const QStringList& operations);
       QList<Variable*> arguments() const;
+   private slots:
+      virtual void childNameChanged(AbstractBlock* child) override final;
+      virtual void childAdded(AbstractBlock* child) override final;
+      virtual void childRemoved(AbstractBlock* child) override final;
    private:
       virtual void readData(const QDomElement& data) override;
       virtual QDomElement writeData(QDomDocument& document) const override;

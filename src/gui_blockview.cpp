@@ -137,7 +137,6 @@ void BlockView::editTriggered()
       connect(edit.get(),&AbstractEdit::finished,this,&BlockView::editFinished);
       setView(edit.release());
       titleNameChanged(pointer);
-      connect(pointer,&AbstractBlock::nameChanged,this,&BlockView::titleNameChanged);
    }
 }
 
@@ -227,6 +226,7 @@ void BlockView::selectionModelChanged()
       view = _factory->makeView(pointer->type(),pointer);
       titleNameChanged(pointer);
       connect(pointer,&AbstractBlock::nameChanged,this,&BlockView::titleNameChanged);
+      connect(pointer,&AbstractBlock::bodyChanged,this,&BlockView::selectionModelChanged);
    }
    setView(view.release());
    updateActions();

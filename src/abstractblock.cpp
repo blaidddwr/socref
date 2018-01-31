@@ -97,7 +97,9 @@ void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
       e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.").arg(child->type()).arg(type()));
       throw e;
    }
-   child.release()->setBlockParent(this,index);
+   AbstractBlock* child_ {child.release()};
+   child_->setBlockParent(this,index);
+   childAdded(child_);
    emit modified();
 }
 
@@ -115,10 +117,11 @@ unique_ptr<AbstractBlock> AbstractBlock::takeChild(int index)
       e.setDetails(tr("Cannot take child %1 when only %2 children exist.").arg(index).arg(_children.size()));
       throw e;
    }
-   AbstractBlock* ret = _children.at(index);
+   unique_ptr<AbstractBlock> ret {_children.at(index)};
    ret->setBlockParent(nullptr,-1);
+   childRemoved(ret.get());
    emit modified();
-   return unique_ptr<AbstractBlock>(ret);
+   return ret;
 }
 
 
@@ -135,7 +138,8 @@ void AbstractBlock::removeChild(int index)
       e.setDetails(tr("Cannot remove child %1 when only %2 children exist.").arg(index).arg(_children.size()));
       throw e;
    }
-   delete _children.takeAt(index);
+   unique_ptr<AbstractBlock> dead {_children.takeAt(index)};
+   childRemoved(dead.get());
    emit modified();
 }
 
@@ -247,6 +251,30 @@ void AbstractBlock::notifyOfNameChange()
 
 
 
+void AbstractBlock::childNameChanged(AbstractBlock*)
+{}
+
+
+
+
+
+
+void AbstractBlock::childAdded(AbstractBlock*)
+{}
+
+
+
+
+
+
+void AbstractBlock::childRemoved(AbstractBlock*)
+{}
+
+
+
+
+
+
 void AbstractBlock::childModified()
 {
    emit modified();
@@ -305,7 +333,13 @@ void AbstractBlock::notifyOfNameChange(AbstractBlock* block)
 {
    if ( !block )
    {
-      root()->notifyOfNameChange(this);
+      AbstractBlock* root {this};
+      while ( root->_parent )
+      {
+         root = root->_parent;
+         root->childNameChanged(this);
+      }
+      root->notifyOfNameChange(this);
    }
    else
    {

@@ -53,7 +53,7 @@ QString Function::name() const
       }
       else
       {
-         ret.append(", ");
+         ret.append(",");
       }
       ret.append(variable->variableType());
    }
@@ -177,6 +177,39 @@ QList<Variable*> Function::arguments() const
 
 
 
+void Function::childNameChanged(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   emit bodyChanged();
+}
+
+
+
+
+
+
+void Function::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   emit bodyChanged();
+}
+
+
+
+
+
+
+void Function::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   emit bodyChanged();
+}
+
+
+
+
+
+
 void Function::readData(const QDomElement& data)
 {
    _operations.clear();
@@ -201,7 +234,7 @@ void Function::readData(const QDomElement& data)
 
 QDomElement Function::writeData(QDomDocument& document) const
 {
-   QDomElement ret {document.createElement("na")};
+   QDomElement ret {Base::writeData(document)};
    ret.setAttribute(_typeTag,_returnType);
    if ( !_returnDescription.isEmpty() )
    {

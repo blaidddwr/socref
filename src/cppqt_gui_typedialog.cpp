@@ -75,7 +75,7 @@ void TypeDialog::setName(const QString& name)
 
 void TypeDialog::textChanged(const QString& text)
 {
-   Q_UNUSED(text);
+   Q_UNUSED(text)
    _ok->setDisabled(!_text->hasAcceptableInput());
 }
 
