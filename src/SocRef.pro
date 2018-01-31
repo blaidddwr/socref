@@ -36,7 +36,8 @@ SOURCES += \
     cppqt_view_base.cpp \
     cppqt_view_variable.cpp \
     cppqt_signal.cpp \
-    cppqt_function.cpp
+    cppqt_function.cpp \
+    cppqt_view_function.cpp
 
 HEADERS += \
     singleton.h \
@@ -72,7 +73,8 @@ HEADERS += \
     cppqt_view_base.h \
     cppqt_view_variable.h \
     cppqt_signal.h \
-    cppqt_function.h
+    cppqt_function.h \
+    cppqt_view_function.h
 
 RESOURCES += \
     resources.qrc

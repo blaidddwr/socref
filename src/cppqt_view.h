@@ -6,5 +6,6 @@ namespace CppQt
       class Base;
       class Namespace;
       class Variable;
+      class Function;
    }
 }

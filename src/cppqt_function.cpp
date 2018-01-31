@@ -13,6 +13,7 @@ using namespace CppQt;
 
 
 const char* Function::_typeTag {"type"};
+const char* Function::_descriptionTag {"description"};
 const char* Function::_operationTag {"operation"};
 
 
@@ -43,21 +44,18 @@ QString Function::name() const
 {
    QString ret {returnType().append(" ").append(Base::name()).append("(")};
    bool first {true};
-   const auto list {children()};
-   for (auto child : list)
+   const auto list {arguments()};
+   for (auto variable : list)
    {
-      if ( Variable* variable = qobject_cast<Variable*>(child) )
+      if ( first )
       {
-         if ( first )
-         {
-            first = false;
-         }
-         else
-         {
-            ret.append(", ");
-         }
-         ret.append(variable->variableType());
+         first = false;
       }
+      else
+      {
+         ret.append(", ");
+      }
+      ret.append(variable->variableType());
    }
    ret.append(")");
    return ret;
@@ -120,6 +118,26 @@ void Function::setReturnType(const QString& type)
 
 
 
+QString Function::returnDescription() const
+{
+   return _returnDescription;
+}
+
+
+
+
+
+
+void Function::setReturnDescription(const QString& description)
+{
+   _returnDescription = description;
+}
+
+
+
+
+
+
 QStringList Function::operations() const
 {
    return _operations;
@@ -140,15 +158,36 @@ void Function::setOperations(const QStringList& operations)
 
 
 
+QList<Variable*> Function::arguments() const
+{
+   QList<Variable*> ret;
+   const auto list {children()};
+   for (auto child : list)
+   {
+      if ( Variable* variable = qobject_cast<Variable*>(child) )
+      {
+         ret.append(variable);
+      }
+   }
+   return ret;
+}
+
+
+
+
+
+
 void Function::readData(const QDomElement& data)
 {
+   _operations.clear();
+   _returnDescription.clear();
    Base::readData(data);
    QList<QDomElement> operations;
    DomElementReader reader(data);
    _returnType = reader.attribute(_typeTag);
    reader.set(_operationTag,&operations,false);
+   reader.set(_descriptionTag,&_returnDescription,false);
    reader.read();
-   _operations.clear();
    for (auto operation : qAsConst(operations))
    {
       _operations.append(operation.text());
@@ -164,6 +203,12 @@ QDomElement Function::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
    ret.setAttribute(_typeTag,_returnType);
+   if ( !_returnDescription.isEmpty() )
+   {
+      QDomElement element {document.createElement(_descriptionTag)};
+      element.appendChild(document.createTextNode(_returnDescription));
+      ret.appendChild(element);
+   }
    for (auto operation : qAsConst(_operations))
    {
       QDomElement element {document.createElement(_operationTag)};
