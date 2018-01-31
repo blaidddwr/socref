@@ -67,7 +67,7 @@ void Base::applyClicked()
 
 void Base::createNameEdit()
 {
-   _nameEdit = new QLineEdit;
+   _nameEdit = new QLineEdit(this);
    _nameEdit->setText(_block->Base::name());
    _nameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*"),this));
 }
@@ -79,7 +79,7 @@ void Base::createNameEdit()
 
 void Base::createDescriptionEdit()
 {
-   _descriptionEdit = new QPlainTextEdit;
+   _descriptionEdit = new QPlainTextEdit(this);
    _descriptionEdit->setPlainText(_block->description());
 }
 
@@ -90,7 +90,7 @@ void Base::createDescriptionEdit()
 
 QLabel* Base::createLabel(const QString& name)
 {
-   QLabel* ret {new QLabel(name)};
+   QLabel* ret {new QLabel(name,this)};
    ret->setAlignment(Qt::AlignTop|Qt::AlignRight);
    return ret;
 }

@@ -32,8 +32,8 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
       throw e;
    }
    QVBoxLayout* layout {new QVBoxLayout};
-   QGroupBox* basic {new QGroupBox(tr("Basic Information"))};
-   QGroupBox* types {new QGroupBox(tr("Types"))};
+   QGroupBox* basic {new QGroupBox(tr("Basic Information"),this)};
+   QGroupBox* types {new QGroupBox(tr("Types"),this)};
    basic->setLayout(Base::layout());
    types->setLayout(createTypeButtons());
    layout->addWidget(basic);
@@ -114,8 +114,8 @@ void Namespace::editLocalTypesClicked()
 QLayout* Namespace::createTypeButtons()
 {
    QHBoxLayout* ret {new QHBoxLayout};
-   QPushButton* global {new QPushButton(tr("Global"))};
-   QPushButton* local {new QPushButton(tr("Local"))};
+   QPushButton* global {new QPushButton(tr("Global"),this)};
+   QPushButton* local {new QPushButton(tr("Local"),this)};
    ret->addStretch();
    ret->addWidget(global);
    ret->addWidget(local);
