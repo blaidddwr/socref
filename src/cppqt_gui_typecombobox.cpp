@@ -1,3 +1,7 @@
+#include <QMenu>
+#include <QPushButton>
+#include <QComboBox>
+#include <QHBoxLayout>
 #include "cppqt_gui_typecombobox.h"
 #include "abstractblock.h"
 #include "cppqt_namespace.h"
@@ -15,10 +19,15 @@ using namespace CppQt::Gui;
 
 
 TypeComboBox::TypeComboBox(AbstractBlock* block, QWidget* parent):
-   QComboBox(parent)
+   QWidget(parent)
 {
    findNamespaces(block);
+   _box = new QComboBox;
    buildComboList();
+   QHBoxLayout* layout {new QHBoxLayout};
+   layout->addWidget(_box);
+   layout->addWidget(createButton());
+   setLayout(layout);
 }
 
 
@@ -28,7 +37,7 @@ TypeComboBox::TypeComboBox(AbstractBlock* block, QWidget* parent):
 
 void TypeComboBox::setCurrentIndex(const QString& type)
 {
-   QComboBox::setCurrentIndex(findText(type));
+   _box->setCurrentIndex(_box->findText(type));
 }
 
 
@@ -38,7 +47,7 @@ void TypeComboBox::setCurrentIndex(const QString& type)
 
 QString TypeComboBox::value() const
 {
-   return itemText(currentIndex());
+   return _box->itemText(_box->currentIndex());
 }
 
 
@@ -46,22 +55,21 @@ QString TypeComboBox::value() const
 
 
 
-void TypeComboBox::comboActivated(int index)
+void TypeComboBox::editGlobalTriggered()
 {
-   Namespace* edit {nullptr};
-   if ( index == _localIndex )
-   {
-      edit = _local;
-   }
-   else if ( index == _globalIndex )
-   {
-      edit = _global;
-   }
-   if ( edit )
-   {
-      TypeListDialog dialog(edit);
-      dialog.exec();
-   }
+   TypeListDialog dialog(_global);
+   dialog.exec();
+}
+
+
+
+
+
+
+void TypeComboBox::editLocalTriggered()
+{
+   TypeListDialog dialog(_local);
+   dialog.exec();
 }
 
 
@@ -74,6 +82,57 @@ void TypeComboBox::typeListChanged()
    QString current {value()};
    buildComboList();
    setCurrentIndex(current);
+}
+
+
+
+
+
+
+QPushButton* TypeComboBox::createButton()
+{
+   QPushButton* ret {new QPushButton(tr("&Edit"))};
+   ret->setMenu(createMenu());
+   return ret;
+}
+
+
+
+
+
+
+QMenu* TypeComboBox::createMenu()
+{
+   QMenu* ret {new QMenu(this)};
+   ret->addAction(createGlobalAction());
+   ret->addAction(createLocalAction());
+   return ret;
+}
+
+
+
+
+
+
+QAction* TypeComboBox::createGlobalAction()
+{
+   QAction* ret {new QAction(tr("&Global"),this)};
+   ret->setStatusTip(tr("Edit global list of C++ types."));
+   connect(ret,&QAction::triggered,this,&TypeComboBox::editGlobalTriggered);
+   return ret;
+}
+
+
+
+
+
+
+QAction* TypeComboBox::createLocalAction()
+{
+   QAction* ret {new QAction(tr("&Local"),this)};
+   ret->setStatusTip(tr("Edit local list of C++ types."));
+   connect(ret,&QAction::triggered,this,&TypeComboBox::editLocalTriggered);
+   return ret;
 }
 
 
@@ -130,20 +189,9 @@ void TypeComboBox::buildComboList()
       types.append(_local->types());
    }
    sort(types.begin(),types.end());
-   clear();
+   _box->clear();
    for (auto type : qAsConst(types))
    {
-      addItem(type);
-   }
-   _globalIndex = count();
-   addItem(tr("+ Edit Global..."));
-   if ( _local )
-   {
-      _localIndex = count();
-      addItem(tr("+ Edit Local..."));
-   }
-   else
-   {
-      _localIndex = -2;
+      _box->addItem(type);
    }
 }
