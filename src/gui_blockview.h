@@ -38,7 +38,7 @@ namespace Gui
       void selectionModelChanged();
       void modelDestroyed();
       void editFinished();
-      void titleNameChanged(AbstractBlock* block);
+      void modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles);
    private:
       void createTreeView();
       void createArea();
@@ -57,6 +57,7 @@ namespace Gui
       void updateMenu();
       void setView(QWidget* view);
       void setCopy(AbstractBlock* copy);
+      void updateTitle(AbstractBlock* block);
       QModelIndex selection() const;
       constexpr static int _titleIconSize {32};
       QScrollArea* _area;

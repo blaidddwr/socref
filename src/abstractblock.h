@@ -35,7 +35,6 @@ protected:
 signals:
    void modified();
    void nameChanged(AbstractBlock* object);
-   void bodyChanged();
 protected slots:
    virtual void childNameChanged(AbstractBlock* child);
    virtual void childAdded(AbstractBlock* child);

@@ -46,7 +46,8 @@ void BlockView::setModel(BlockModel* model)
    _factory = model->factory();
    _selectionModel = _treeView->selectionModel();
    connect(_selectionModel,&QItemSelectionModel::selectionChanged,this,&BlockView::selectionModelChanged);
-   connect(model,&BlockModel::destroyed,this,&BlockView::modelDestroyed);
+   connect(_model,&BlockModel::dataChanged,this,&BlockView::modelDataChanged);
+   connect(_model,&BlockModel::destroyed,this,&BlockView::modelDestroyed);
    selectionModelChanged();
 }
 
@@ -136,7 +137,7 @@ void BlockView::editTriggered()
       edit->initialize();
       connect(edit.get(),&AbstractEdit::finished,this,&BlockView::editFinished);
       setView(edit.release());
-      titleNameChanged(pointer);
+      updateTitle(pointer);
    }
 }
 
@@ -224,9 +225,7 @@ void BlockView::selectionModelChanged()
    {
       AbstractBlock* pointer {_model->pointer(index)};
       view = _factory->makeView(pointer->type(),pointer);
-      titleNameChanged(pointer);
-      connect(pointer,&AbstractBlock::nameChanged,this,&BlockView::titleNameChanged);
-      connect(pointer,&AbstractBlock::bodyChanged,this,&BlockView::selectionModelChanged);
+      updateTitle(pointer);
    }
    setView(view.release());
    updateActions();
@@ -265,14 +264,13 @@ void BlockView::editFinished()
 
 
 
-void BlockView::titleNameChanged(AbstractBlock* block)
+void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
 {
-   _titleIcon->clear();
-   _titleText->clear();
-   if ( block )
+   Q_UNUSED(bottomRight)
+   Q_UNUSED(roles)
+   if ( topLeft == selection() && topLeft.isValid() )
    {
-      _titleIcon->setPixmap(_factory->icon(block->type()).pixmap(_titleIconSize,_titleIconSize));
-      _titleText->setText(block->name());
+      updateTitle(_model->pointer(topLeft));
    }
 }
 
@@ -529,6 +527,19 @@ void BlockView::setCopy(AbstractBlock* copy)
       delete _copy;
    }
    _copy = copy;
+}
+
+
+
+
+
+
+void BlockView::updateTitle(AbstractBlock* block)
+{
+   _titleIcon->clear();
+   _titleText->clear();
+   _titleIcon->setPixmap(_factory->icon(block->type()).pixmap(_titleIconSize,_titleIconSize));
+   _titleText->setText(block->name());
 }
 
 

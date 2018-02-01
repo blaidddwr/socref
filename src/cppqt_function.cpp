@@ -180,7 +180,7 @@ QList<Variable*> Function::arguments() const
 void Function::childNameChanged(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   emit bodyChanged();
+   notifyOfNameChange();
 }
 
 
@@ -191,7 +191,7 @@ void Function::childNameChanged(AbstractBlock* child)
 void Function::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   emit bodyChanged();
+   notifyOfNameChange();
 }
 
 
@@ -202,7 +202,7 @@ void Function::childAdded(AbstractBlock* child)
 void Function::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   emit bodyChanged();
+   notifyOfNameChange();
 }
 
 

@@ -243,7 +243,6 @@ QList<AbstractBlock*> AbstractBlock::children() const
 void AbstractBlock::notifyOfNameChange()
 {
    notifyOfNameChange(nullptr);
-   emit nameChanged(this);
 }
 
 
