@@ -34,8 +34,8 @@
      units="px"
      inkscape:window-width="1682"
      inkscape:window-height="1166"
-     inkscape:window-x="1577"
-     inkscape:window-y="401"
+     inkscape:window-x="1612"
+     inkscape:window-y="416"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata4191">
@@ -55,7 +55,7 @@
      id="layer1"
      transform="translate(0,-796.36216)">
     <path
-       style="fill:#00fff4;fill-opacity:1;fill-rule:evenodd;stroke:#00fff4;stroke-width:1px;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1"
+       style="fill:#00fff4;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-opacity:1;stroke-miterlimit:4;stroke-dasharray:none"
        d="m 32,952.36216 68,68.00004 124,-124.00004 -68,-68 z"
        id="path4135"
        inkscape:connector-curvature="0"

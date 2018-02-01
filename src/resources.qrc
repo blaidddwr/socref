@@ -4,5 +4,11 @@
         <file>icons/main.svg</file>
         <file>icons/variable.svg</file>
         <file>icons/function.svg</file>
+        <file>icons/class.svg</file>
+        <file>icons/private.svg</file>
+        <file>icons/protected.svg</file>
+        <file>icons/signal.svg</file>
+        <file>icons/slot.svg</file>
+        <file>icons/template.svg</file>
     </qresource>
 </RCC>
