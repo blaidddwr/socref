@@ -4,6 +4,7 @@
 #include "cppqt_gui_typedialog.h"
 #include "cppqt_blockfactory.h"
 #include "domelementreader.h"
+#include "cppqt_template.h"
 
 
 
@@ -42,10 +43,30 @@ Function::Function(const QString& returnType, const QString& name):
 
 QString Function::name() const
 {
-   QString ret {returnType().append(" ").append(Base::name()).append("(")};
+   QString ret;
+   const auto templateList {templates()};
+   if ( !templateList.isEmpty() )
+   {
+      ret.append("template<");
+      bool first {true};
+      for (auto template_ : templateList)
+      {
+         if ( first )
+         {
+            first = false;
+         }
+         else
+         {
+            ret.append(", ");
+         }
+         ret.append(template_->name());
+      }
+      ret.append("> ");
+   }
+   ret.append(returnType()).append(" ").append(Base::name()).append("(");
    bool first {true};
-   const auto list {arguments()};
-   for (auto variable : list)
+   const auto variableList {arguments()};
+   for (auto variable : variableList)
    {
       if ( first )
       {
@@ -164,9 +185,34 @@ QList<Variable*> Function::arguments() const
    const auto list {children()};
    for (auto child : list)
    {
-      if ( Variable* variable = qobject_cast<Variable*>(child) )
+      if ( child->type() == BlockFactory::VariableType )
       {
-         ret.append(variable);
+         if ( Variable* variable = qobject_cast<Variable*>(child) )
+         {
+            ret.append(variable);
+         }
+      }
+   }
+   return ret;
+}
+
+
+
+
+
+
+QList<Template*> Function::templates() const
+{
+   QList<Template*> ret;
+   const auto list {children()};
+   for (auto child : list)
+   {
+      if ( child->type() == BlockFactory::TemplateType )
+      {
+         if ( Template* variable = qobject_cast<Template*>(child) )
+         {
+            ret.append(variable);
+         }
       }
    }
    return ret;
@@ -181,6 +227,7 @@ void Function::childNameChanged(AbstractBlock* child)
 {
    Q_UNUSED(child)
    notifyOfNameChange();
+   emit bodyChanged();
 }
 
 
@@ -192,6 +239,7 @@ void Function::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
    notifyOfNameChange();
+   emit bodyChanged();
 }
 
 
@@ -203,6 +251,7 @@ void Function::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
    notifyOfNameChange();
+   emit bodyChanged();
 }
 
 

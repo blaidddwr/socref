@@ -24,6 +24,9 @@ namespace CppQt
       QStringList operations() const;
       void setOperations(const QStringList& operations);
       QList<Variable*> arguments() const;
+      QList<Template*> templates() const;
+   signals:
+      void bodyChanged();
    private slots:
       virtual void childNameChanged(AbstractBlock* child) override final;
       virtual void childAdded(AbstractBlock* child) override final;
@@ -34,7 +37,7 @@ namespace CppQt
       static const char* _typeTag;
       static const char* _descriptionTag;
       static const char* _operationTag;
-      QString _returnType {"void"};
+      QString _returnType;
       QString _returnDescription;
       QStringList _operations;
    };

@@ -7,4 +7,5 @@ namespace CppQt
    class Variable;
    class Signal;
    class Function;
+   class Template;
 }

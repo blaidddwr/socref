@@ -2,6 +2,7 @@
 #include "cppqt_function.h"
 #include "cppqt_variable.h"
 #include "exception.h"
+#include "cppqt_template.h"
 
 
 
@@ -23,6 +24,7 @@ Function::Function(AbstractBlock* block, bool wait, QWidget* parent):
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
+   connect(_block,&CppQt::Function::bodyChanged,this,&Function::bodyChanged);
    if ( !wait )
    {
       setText(displayText());
@@ -34,9 +36,40 @@ Function::Function(AbstractBlock* block, bool wait, QWidget* parent):
 
 
 
+void Function::bodyChanged()
+{
+   setText(displayText());
+}
+
+
+
+
+
+
 QString Function::displayText()
 {
-   return Base::displayText().append(displayArgumentsText()).append(displayReturnText()).append(displayOperationsText());
+   return Base::displayText().append(displayTemplatesText()).append(displayArgumentsText()).append(displayReturnText()).append(displayOperationsText());
+}
+
+
+
+
+
+
+QString Function::displayTemplatesText()
+{
+   QString ret;
+   const QList<Template*> list {_block->templates()};
+   if ( !list.isEmpty() )
+   {
+      ret.append("<h2>Templates</h2>");
+      for (auto template_ : list)
+      {
+         ret.append("<p><b>").append(template_->name()).append(" :</b> ");
+         ret.append(template_->description()).append("</p>");
+      }
+   }
+   return ret;
 }
 
 

@@ -54,7 +54,6 @@ std::unique_ptr<AbstractBlock> Variable::makeCopy() const
    unique_ptr<Variable> ret {new Variable};
    ret->copyChildren(this);
    ret->copyDataFrom(*this);
-   ret->_type = _type;
    return ret;
 }
 
@@ -92,6 +91,17 @@ void Variable::setVariableType(const QString& type)
       notifyOfNameChange();
       emit modified();
    }
+}
+
+
+
+
+
+
+void Variable::copyDataFrom(const Variable& object)
+{
+   Base::copyDataFrom(object);
+   _type = object._type;
 }
 
 
