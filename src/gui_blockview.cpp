@@ -9,6 +9,7 @@
 #include "abstractblock.h"
 #include "abstractblockfactory.h"
 #include "blockmodel.h"
+#include "exception.h"
 
 
 
@@ -134,6 +135,13 @@ void BlockView::editTriggered()
    {
       AbstractBlock* pointer {_model->pointer(index)};
       unique_ptr<AbstractEdit> edit {_factory->makeEdit(pointer->type(),pointer)};
+      if ( !edit )
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Got unexpected nullptr when creating abstract edit class."));
+         throw e;
+      }
       edit->initialize();
       connect(edit.get(),&AbstractEdit::finished,this,&BlockView::editFinished);
       setView(edit.release());
@@ -225,6 +233,13 @@ void BlockView::selectionModelChanged()
    {
       AbstractBlock* pointer {_model->pointer(index)};
       view = _factory->makeView(pointer->type(),pointer);
+      if ( !view )
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
+         throw e;
+      }
       updateTitle(pointer);
    }
    setView(view.release());
