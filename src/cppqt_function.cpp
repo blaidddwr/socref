@@ -13,8 +13,12 @@ using namespace CppQt;
 
 
 
+const char* Function::_preFlagRegExp {"((virtual)|(static))?"};
+const char* Function::_postFlagRegExp {"(const\\s+)?(noexcept\\s+)?(override\\s+)?(final\\s)?"};
 const char* Function::_typeTag {"type"};
 const char* Function::_descriptionTag {"description"};
+const char* Function::_preFlagTag {"pre"};
+const char* Function::_postFlagTag {"post"};
 const char* Function::_operationTag {"operation"};
 
 
@@ -63,7 +67,7 @@ QString Function::name() const
       }
       ret.append("> ");
    }
-   ret.append(returnType()).append(" ").append(Base::name()).append("(");
+   ret.append(_preFlags).append(" ").append(returnType()).append(" ").append(Base::name()).append("(");
    bool first {true};
    const auto variableList {arguments()};
    for (auto variable : variableList)
@@ -79,6 +83,10 @@ QString Function::name() const
       ret.append(variable->variableType());
    }
    ret.append(")");
+   if ( !_postFlags.isEmpty() )
+   {
+      ret.append(" ").append(_postFlags);
+   }
    return ret;
 }
 
@@ -152,6 +160,60 @@ QString Function::returnDescription() const
 void Function::setReturnDescription(const QString& description)
 {
    _returnDescription = description;
+}
+
+
+
+
+
+
+QString Function::preFlags() const
+{
+   return _preFlags;
+}
+
+
+
+
+
+
+void Function::setPreFlags(const QString& flags)
+{
+   if ( !QRegExp(_preFlagRegExp).exactMatch(flags) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function pre flags to '%1'.").arg(flags));
+      throw e;
+   }
+   _preFlags = flags;
+}
+
+
+
+
+
+
+QString Function::postFlags() const
+{
+   return _postFlags;
+}
+
+
+
+
+
+
+void Function::setPostFlags(const QString& flags)
+{
+   if ( !QRegExp(_postFlagRegExp).exactMatch(flags) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function post flags to '%1'.").arg(flags));
+      throw e;
+   }
+   _postFlags = flags;
 }
 
 
@@ -267,6 +329,8 @@ void Function::readData(const QDomElement& data)
    QList<QDomElement> operations;
    DomElementReader reader(data);
    _returnType = reader.attribute(_typeTag);
+   _preFlags = reader.attribute(_preFlagTag,false);
+   _postFlags = reader.attribute(_postFlagTag,false);
    reader.set(_operationTag,&operations,false);
    reader.set(_descriptionTag,&_returnDescription,false);
    reader.read();
@@ -290,6 +354,14 @@ QDomElement Function::writeData(QDomDocument& document) const
       QDomElement element {document.createElement(_descriptionTag)};
       element.appendChild(document.createTextNode(_returnDescription));
       ret.appendChild(element);
+   }
+   if ( !_preFlags.isEmpty() )
+   {
+      ret.setAttribute(_preFlagTag,_preFlags);
+   }
+   if ( !_postFlags.isEmpty() )
+   {
+      ret.setAttribute(_postFlagTag,_postFlags);
    }
    for (auto operation : qAsConst(_operations))
    {

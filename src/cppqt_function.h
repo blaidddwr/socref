@@ -21,10 +21,16 @@ namespace CppQt
       void setReturnType(const QString& type);
       QString returnDescription() const;
       void setReturnDescription(const QString& description);
+      QString preFlags() const;
+      void setPreFlags(const QString& flags);
+      QString postFlags() const;
+      void setPostFlags(const QString& flags);
       QStringList operations() const;
       void setOperations(const QStringList& operations);
       QList<Variable*> arguments() const;
       QList<Template*> templates() const;
+      static const char* _preFlagRegExp;
+      static const char* _postFlagRegExp;
    signals:
       void bodyChanged();
    private slots:
@@ -36,9 +42,13 @@ namespace CppQt
       virtual QDomElement writeData(QDomDocument& document) const override;
       static const char* _typeTag;
       static const char* _descriptionTag;
+      static const char* _preFlagTag;
+      static const char* _postFlagTag;
       static const char* _operationTag;
       QString _returnType;
       QString _returnDescription;
+      QString _preFlags;
+      QString _postFlags;
       QStringList _operations;
    };
 }
