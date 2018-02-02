@@ -33,7 +33,6 @@ namespace CppQt
          CppQt::Base* _block;
          QLineEdit* _nameEdit;
          QPlainTextEdit* _descriptionEdit;
-         QLayout* _layout;
       };
    }
 }

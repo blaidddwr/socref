@@ -24,7 +24,6 @@ namespace CppQt
          QLayout* createTypeCombo();
          CppQt::Variable* _block;
          Gui::TypeComboBox* _type;
-         QLayout* _layout;
       };
    }
 }

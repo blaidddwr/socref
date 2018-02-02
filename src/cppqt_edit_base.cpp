@@ -29,14 +29,6 @@ Base::Base(AbstractBlock* block, QWidget* parent):
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
-   createNameEdit();
-   createDescriptionEdit();
-   QGridLayout* layout {new QGridLayout};
-   layout->addWidget(createLabel(tr("Name:")),0,0);
-   layout->addWidget(_nameEdit,0,1);
-   layout->addWidget(createLabel(tr("Description:")),1,0);
-   layout->addWidget(_descriptionEdit,1,1);
-   _layout = layout;
 }
 
 
@@ -46,7 +38,14 @@ Base::Base(AbstractBlock* block, QWidget* parent):
 
 QLayout* Base::layout()
 {
-   return _layout;
+   createNameEdit();
+   createDescriptionEdit();
+   QGridLayout* ret {new QGridLayout};
+   ret->addWidget(createLabel(tr("Name:")),0,0);
+   ret->addWidget(_nameEdit,0,1);
+   ret->addWidget(createLabel(tr("Description:")),1,0);
+   ret->addWidget(_descriptionEdit,1,1);
+   return ret;
 }
 
 
@@ -67,9 +66,9 @@ void Base::applyClicked()
 
 void Base::createNameEdit()
 {
-   _nameEdit = new QLineEdit(this);
+   _nameEdit = new QLineEdit;
    _nameEdit->setText(_block->Base::name());
-   _nameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*"),this));
+   _nameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*")));
 }
 
 
@@ -79,7 +78,7 @@ void Base::createNameEdit()
 
 void Base::createDescriptionEdit()
 {
-   _descriptionEdit = new QPlainTextEdit(this);
+   _descriptionEdit = new QPlainTextEdit;
    _descriptionEdit->setPlainText(_block->description());
 }
 
@@ -90,7 +89,7 @@ void Base::createDescriptionEdit()
 
 QLabel* Base::createLabel(const QString& name)
 {
-   QLabel* ret {new QLabel(name,this)};
+   QLabel* ret {new QLabel(name)};
    ret->setAlignment(Qt::AlignTop|Qt::AlignRight);
    return ret;
 }

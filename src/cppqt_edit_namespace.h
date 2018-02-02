@@ -25,7 +25,6 @@ namespace CppQt
       private:
          QLayout* createTypeButtons();
          CppQt::Namespace* _block;
-         QLayout* _layout;
       };
    }
 }
