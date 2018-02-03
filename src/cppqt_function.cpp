@@ -14,7 +14,7 @@ using namespace CppQt;
 
 
 const char* Function::_preFlagRegExp {"((virtual)|(static))?"};
-const char* Function::_postFlagRegExp {"(const\\s+)?(noexcept\\s+)?(override\\s+)?(final\\s)?"};
+const char* Function::_postFlagRegExp {"(const)?(\\s+noexcept)?(\\s+override)?(\\s+final)?"};
 const char* Function::_typeTag {"type"};
 const char* Function::_descriptionTag {"description"};
 const char* Function::_preFlagTag {"pre"};
@@ -67,7 +67,11 @@ QString Function::name() const
       }
       ret.append("> ");
    }
-   ret.append(_preFlags).append(" ").append(returnType()).append(" ").append(Base::name()).append("(");
+   if ( !_preFlags.isEmpty() )
+   {
+      ret.append(_preFlags).append(" ");
+   }
+   ret.append(returnType()).append(" ").append(Base::name()).append("(");
    bool first {true};
    const auto variableList {arguments()};
    for (auto variable : variableList)
@@ -139,7 +143,12 @@ void Function::setReturnType(const QString& type)
       e.setDetails(tr("Cannot set invalid return type '%1'.").arg(type));
       throw e;
    }
-   _returnType = type;
+   if ( _returnType != type )
+   {
+      _returnType = type;
+      notifyOfNameChange();
+      emit modified();
+   }
 }
 
 
@@ -159,7 +168,12 @@ QString Function::returnDescription() const
 
 void Function::setReturnDescription(const QString& description)
 {
-   _returnDescription = description;
+   if ( _returnDescription != description )
+   {
+      _returnDescription = description;
+      notifyOfNameChange();
+      emit modified();
+   }
 }
 
 
@@ -186,7 +200,12 @@ void Function::setPreFlags(const QString& flags)
       e.setDetails(tr("Cannot set function pre flags to '%1'.").arg(flags));
       throw e;
    }
-   _preFlags = flags;
+   if ( _preFlags != flags )
+   {
+      _preFlags = flags;
+      notifyOfNameChange();
+      emit modified();
+   }
 }
 
 
@@ -213,7 +232,12 @@ void Function::setPostFlags(const QString& flags)
       e.setDetails(tr("Cannot set function post flags to '%1'.").arg(flags));
       throw e;
    }
-   _postFlags = flags;
+   if ( _postFlags != flags )
+   {
+      _postFlags = flags;
+      notifyOfNameChange();
+      emit modified();
+   }
 }
 
 

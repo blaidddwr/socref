@@ -58,7 +58,7 @@ QLayout* Namespace::layout()
 void Namespace::okClicked()
 {
    applyClicked();
-   finished();
+   emit finished();
 }
 
 

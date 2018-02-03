@@ -9,7 +9,7 @@
 #include "cppqt_view_template.h"
 #include "cppqt_edit_namespace.h"
 #include "cppqt_edit_variable.h"
-//#include "cppqt_edit_function.h"
+#include "cppqt_edit_function.h"
 //#include "cppqt_edit_template.h"
 #include "projectfactory.h"
 
@@ -165,7 +165,7 @@ unique_ptr<AbstractEdit> BlockFactory::makeEdit(int type, AbstractBlock* block) 
    {
    case NamespaceType: return unique_ptr<AbstractEdit>(new Edit::Namespace(block));
    case VariableType: return unique_ptr<AbstractEdit>(new Edit::Variable(block));
-   case FunctionType: return unique_ptr<AbstractEdit>();
+   case FunctionType: return unique_ptr<AbstractEdit>(new Edit::Function(block));
    case TemplateType: return unique_ptr<AbstractEdit>();
    default: return nullptr;
    }

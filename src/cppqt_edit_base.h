@@ -24,12 +24,12 @@ namespace CppQt
          explicit Base(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
+         QLabel* createLabel(const QString& name, Qt::Alignment vertical = Qt::AlignTop);
       protected slots:
          virtual void applyClicked() override;
       private:
          void createNameEdit();
          void createDescriptionEdit();
-         QLabel* createLabel(const QString& name);
          CppQt::Base* _block;
          QLineEdit* _nameEdit;
          QPlainTextEdit* _descriptionEdit;

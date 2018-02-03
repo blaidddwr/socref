@@ -56,7 +56,7 @@ QLayout* Variable::layout()
 void Variable::okClicked()
 {
    applyClicked();
-   finished();
+   emit finished();
 }
 
 
@@ -77,7 +77,7 @@ void Variable::applyClicked()
 
 void Variable::cancelClicked()
 {
-   finished();
+   emit finished();
 }
 
 

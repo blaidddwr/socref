@@ -41,10 +41,22 @@ QLayout* Base::layout()
    createNameEdit();
    createDescriptionEdit();
    QGridLayout* ret {new QGridLayout};
-   ret->addWidget(createLabel(tr("Name:")),0,0);
+   ret->addWidget(createLabel(tr("Name:"),Qt::AlignCenter),0,0);
    ret->addWidget(_nameEdit,0,1);
    ret->addWidget(createLabel(tr("Description:")),1,0);
    ret->addWidget(_descriptionEdit,1,1);
+   return ret;
+}
+
+
+
+
+
+
+QLabel* Base::createLabel(const QString& name, Qt::Alignment vertical)
+{
+   QLabel* ret {new QLabel(name)};
+   ret->setAlignment(vertical|Qt::AlignRight);
    return ret;
 }
 
@@ -80,16 +92,4 @@ void Base::createDescriptionEdit()
 {
    _descriptionEdit = new QPlainTextEdit;
    _descriptionEdit->setPlainText(_block->description());
-}
-
-
-
-
-
-
-QLabel* Base::createLabel(const QString& name)
-{
-   QLabel* ret {new QLabel(name)};
-   ret->setAlignment(Qt::AlignTop|Qt::AlignRight);
-   return ret;
 }
