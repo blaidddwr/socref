@@ -10,5 +10,12 @@
         <file>icons/signal.svg</file>
         <file>icons/slot.svg</file>
         <file>icons/template.svg</file>
+        <file>icons/aclass.svg</file>
+        <file>icons/abstract.svg</file>
+        <file>icons/static.svg</file>
+        <file>icons/vclass.svg</file>
+        <file>icons/virtual.svg</file>
+        <file>icons/aslot.svg</file>
+        <file>icons/vslot.svg</file>
     </qresource>
 </RCC>
