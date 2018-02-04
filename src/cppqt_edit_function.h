@@ -29,9 +29,14 @@ namespace CppQt
          virtual void okClicked() override;
          virtual void applyClicked() override;
          virtual void cancelClicked() override;
+      private slots:
+         void checkBoxChanged(int state);
       private:
          void createReturnWidgets();
          void createPropertiesWidgets();
+         void connectProperties();
+         void fillProperties();
+         void updateProperties();
          CppQt::Function* _block;
          Gui::TypeComboBox* _returnCombo;
          QPlainTextEdit* _returnEdit;

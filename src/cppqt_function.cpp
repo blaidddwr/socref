@@ -261,7 +261,7 @@ bool Function::isVirtual() const
 
 void Function::setVirtual(bool isVirtual)
 {
-   if ( isVirtual && ( _static || hasTemplates() ) )
+   if ( isVirtual && ( _static || hasTemplates() || !isMethod() ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

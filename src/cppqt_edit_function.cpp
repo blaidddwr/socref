@@ -130,6 +130,17 @@ void Function::cancelClicked()
 
 
 
+void Function::checkBoxChanged(int state)
+{
+   Q_UNUSED(state)
+   updateProperties();
+}
+
+
+
+
+
+
 void Function::createReturnWidgets()
 {
    _returnCombo = new Gui::TypeComboBox(_block);
@@ -151,10 +162,52 @@ void Function::createPropertiesWidgets()
    _overrideBox = new QCheckBox(tr("Override"));
    _finalBox = new QCheckBox(tr("Final"));
    _abstractBox = new QCheckBox(tr("Abstract(Pure Virtual)"));
+   connectProperties();
+   fillProperties();
+   updateProperties();
+}
+
+
+
+
+
+
+void Function::connectProperties()
+{
+   connect(_virtualBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   connect(_staticBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   connect(_constBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   connect(_overrideBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   connect(_finalBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   connect(_abstractBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+}
+
+
+
+
+
+
+void Function::fillProperties()
+{
    _virtualBox->setChecked(_block->isVirtual());
    _staticBox->setChecked(_block->isStatic());
    _constBox->setChecked(_block->isConst());
    _overrideBox->setChecked(_block->isOverride());
    _finalBox->setChecked(_block->isFinal());
    _abstractBox->setChecked(_block->isAbstract());
+}
+
+
+
+
+
+
+void Function::updateProperties()
+{
+   _virtualBox->setCheckable( !_staticBox->isChecked() && !_block->hasTemplates() && _block->isMethod() );
+   _staticBox->setCheckable( !_virtualBox->isChecked() && _block->isMethod() );
+   _constBox->setCheckable(_block->isMethod());
+   _overrideBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
+   _finalBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
+   _abstractBox->setCheckable( _virtualBox->isChecked() && !_overrideBox->isChecked() && !_finalBox->isChecked() );
 }
