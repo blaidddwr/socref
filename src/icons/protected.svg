@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="58.44151"
+     inkscape:cx="-47.624506"
      inkscape:cy="188.85148"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -34,8 +34,8 @@
      units="px"
      inkscape:window-width="1682"
      inkscape:window-height="1166"
-     inkscape:window-x="343"
-     inkscape:window-y="395"
+     inkscape:window-x="1678"
+     inkscape:window-y="447"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata4191">
@@ -60,40 +60,6 @@
        id="path4135"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccc" />
-    <g
-       id="g4157"
-       transform="matrix(1.3232691,0,0,1.3232691,-36.131951,-299.67071)">
-      <circle
-         r="13.531084"
-         cy="906.53223"
-         cx="124.11169"
-         id="path4136"
-         style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:7.9378314;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         rx="3.4152001e-17"
-         y="911.95093"
-         x="121.72338"
-         height="44.951786"
-         width="5.0507627"
-         id="rect4138"
-         style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         rx="3.4152001e-17"
-         y="937.70984"
-         x="121.72338"
-         height="1.0101526"
-         width="11.111678"
-         id="rect4140"
-         style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-      <rect
-         rx="3.4152001e-17"
-         y="948.82153"
-         x="121.72337"
-         height="1.0101526"
-         width="11.111678"
-         id="rect4140-3"
-         style="opacity:1;fill:#000000;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1" />
-    </g>
   </g>
   <g
      inkscape:groupmode="layer"

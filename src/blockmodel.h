@@ -27,6 +27,7 @@ public:
 private slots:
    void blockNameChanged(AbstractBlock* object);
 private:
+   constexpr static int _iconSize {24};
    AbstractBlock* _root;
    const AbstractBlockFactory* _factory {nullptr};
 };

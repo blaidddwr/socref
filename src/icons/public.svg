@@ -15,7 +15,7 @@
    id="svg4186"
    version="1.1"
    inkscape:version="0.91 r13725"
-   sodipodi:docname="private.svg">
+   sodipodi:docname="public.svg">
   <defs
      id="defs4188" />
   <sodipodi:namedview
@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="-47.624506"
+     inkscape:cx="44.44295"
      inkscape:cy="188.85148"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -34,8 +34,8 @@
      units="px"
      inkscape:window-width="1682"
      inkscape:window-height="1166"
-     inkscape:window-x="323"
-     inkscape:window-y="510"
+     inkscape:window-x="1582"
+     inkscape:window-y="354"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata4191">
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,7 +55,7 @@
      id="layer1"
      transform="translate(0,-796.36216)">
     <path
-       style="fill:#ff3c3c;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="fill:#00ff0e;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        d="m 94,842.76217 68,0 47.6,47.59998 0,67.99994 -47.6,47.60011 -68,0 -47.600001,-47.60011 0,-67.99994 z"
        id="path4135"
        inkscape:connector-curvature="0"
