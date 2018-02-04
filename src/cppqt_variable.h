@@ -13,19 +13,19 @@ namespace CppQt
       Variable() = default;
       Variable(const QString& name);
       Variable(const QString& type, const QString& name);
-      virtual QString name() const override final;
+      virtual QString name() const override;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override;
       virtual int type() const override;
       virtual QString elementName() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
-      QString variableType();
+      QString variableType() const;
       void setVariableType(const QString& type);
    protected:
+      virtual void readData(const QDomElement& data) override;
+      virtual QDomElement writeData(QDomDocument& document) const override;
       void copyDataFrom(const Variable& object);
    private:
-      virtual void readData(const QDomElement& data) override final;
-      virtual QDomElement writeData(QDomDocument& document) const override final;
       void checkTypeSyntax(const QString& type);
       static const char* _typeTag;
       QString _type;

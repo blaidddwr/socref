@@ -286,6 +286,8 @@ void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& 
    if ( topLeft == selection() && topLeft.isValid() )
    {
       updateTitle(_model->pointer(topLeft));
+      updateActions();
+      updateMenu();
    }
 }
 

@@ -1,13 +1,13 @@
 #ifndef CPPQT_FUNCTION_H
 #define CPPQT_FUNCTION_H
-#include "cppqt_base.h"
+#include "cppqt_variable.h"
 #include "cppqt.h"
 
 
 
 namespace CppQt
 {
-   class Function : public Base
+   class Function : public Variable
    {
       Q_OBJECT
    public:
@@ -24,34 +24,52 @@ namespace CppQt
       void setReturnType(const QString& type);
       QString returnDescription() const;
       void setReturnDescription(const QString& description);
-      QString preFlags() const;
-      void setPreFlags(const QString& flags);
-      QString postFlags() const;
-      void setPostFlags(const QString& flags);
+      bool isVirtual() const;
+      void setVirtual(bool isVirtual);
+      bool isStatic() const;
+      void setStatic(bool isStatic);
+      bool isConst() const;
+      void setConst(bool isConst);
+      bool isOverride() const;
+      void setOverride(bool isOverride);
+      bool isFinal() const;
+      void setFinal(bool isFinal);
+      bool isAbstract() const;
+      void setAbstract(bool isAbstract);
+      bool isMethod() const;
+      bool hasTemplates() const;
       QStringList operations() const;
       void setOperations(const QStringList& operations);
       QList<Variable*> arguments() const;
       QList<Template*> templates() const;
-      static const char* _preFlagRegExp;
-      static const char* _postFlagRegExp;
    signals:
       void bodyChanged();
+   protected:
+      virtual void readData(const QDomElement& data) override;
+      virtual QDomElement writeData(QDomDocument& document) const override;
    private slots:
       virtual void childNameChanged(AbstractBlock* child) override final;
       virtual void childAdded(AbstractBlock* child) override final;
       virtual void childRemoved(AbstractBlock* child) override final;
    private:
-      virtual void readData(const QDomElement& data) override;
-      virtual QDomElement writeData(QDomDocument& document) const override;
+      using Variable::variableType;
+      using Variable::setVariableType;
       static const char* _typeTag;
-      static const char* _descriptionTag;
-      static const char* _preFlagTag;
-      static const char* _postFlagTag;
+      static const char* _returnDescriptionTag;
+      static const char* _virtualTag;
+      static const char* _staticTag;
+      static const char* _constTag;
+      static const char* _overrideTag;
+      static const char* _finalTag;
+      static const char* _abstractTag;
       static const char* _operationTag;
-      QString _returnType;
       QString _returnDescription;
-      QString _preFlags;
-      QString _postFlags;
+      bool _virtual {false};
+      bool _static {false};
+      bool _const {false};
+      bool _override {false};
+      bool _final {false};
+      bool _abstract {false};
       QStringList _operations;
    };
 }

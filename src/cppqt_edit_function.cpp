@@ -3,7 +3,7 @@
 #include <QPlainTextEdit>
 #include <QLabel>
 #include <QVBoxLayout>
-#include <QLineEdit>
+#include <QCheckBox>
 #include <QRegExpValidator>
 #include "cppqt_edit_function.h"
 #include "cppqt_function.h"
@@ -43,7 +43,7 @@ QLayout* Function::layout()
    QGroupBox* basic {new QGroupBox(tr("Basic Information"))};
    basic->setLayout(Base::layout());
    ret->addWidget(basic);
-   ret->addWidget(createFlagsEdit());
+   ret->addWidget(createPropertiesEdit());
    ret->addWidget(createReturnEdit());
    return ret;
 }
@@ -71,15 +71,17 @@ QGroupBox* Function::createReturnEdit()
 
 
 
-QGroupBox* Function::createFlagsEdit()
+QGroupBox* Function::createPropertiesEdit()
 {
-   createFlagWidgets();
-   QGroupBox* ret {new QGroupBox(tr("Flags"))};
-   QGridLayout* layout {new QGridLayout};
-   layout->addWidget(createLabel(tr("Pre:"),Qt::AlignCenter),0,0);
-   layout->addWidget(_preFlags,0,1);
-   layout->addWidget(createLabel(tr("Post:"),Qt::AlignCenter),1,0);
-   layout->addWidget(_postFlags);
+   createPropertiesWidgets();
+   QGroupBox* ret {new QGroupBox(tr("Properties"))};
+   QVBoxLayout* layout {new QVBoxLayout};
+   layout->addWidget(_virtualBox);
+   layout->addWidget(_staticBox);
+   layout->addWidget(_constBox);
+   layout->addWidget(_overrideBox);
+   layout->addWidget(_finalBox);
+   layout->addWidget(_abstractBox);
    ret->setLayout(layout);
    return ret;
 }
@@ -105,8 +107,12 @@ void Function::applyClicked()
    Base::applyClicked();
    _block->setReturnType(_returnCombo->value());
    _block->setReturnDescription(_returnEdit->toPlainText());
-   _block->setPreFlags(_preFlags->text());
-   _block->setPostFlags(_postFlags->text());
+   _block->setVirtual(_virtualBox->isChecked());
+   _block->setStatic(_staticBox->isChecked());
+   _block->setConst(_constBox->isChecked());
+   _block->setOverride(_overrideBox->isChecked());
+   _block->setFinal(_finalBox->isChecked());
+   _block->setAbstract(_abstractBox->isChecked());
 }
 
 
@@ -137,12 +143,18 @@ void Function::createReturnWidgets()
 
 
 
-void Function::createFlagWidgets()
+void Function::createPropertiesWidgets()
 {
-   _preFlags = new QLineEdit;
-   _postFlags = new QLineEdit;
-   _preFlags->setText(_block->preFlags());
-   _preFlags->setValidator(new QRegExpValidator(QRegExp(CppQt::Function::_preFlagRegExp)));
-   _postFlags->setText(_block->postFlags());
-   _postFlags->setValidator(new QRegExpValidator(QRegExp(CppQt::Function::_postFlagRegExp)));
+   _virtualBox = new QCheckBox(tr("Virtual"));
+   _staticBox = new QCheckBox(tr("Static"));
+   _constBox = new QCheckBox(tr("Constant"));
+   _overrideBox = new QCheckBox(tr("Override"));
+   _finalBox = new QCheckBox(tr("Final"));
+   _abstractBox = new QCheckBox(tr("Abstract(Pure Virtual)"));
+   _virtualBox->setChecked(_block->isVirtual());
+   _staticBox->setChecked(_block->isStatic());
+   _constBox->setChecked(_block->isConst());
+   _overrideBox->setChecked(_block->isOverride());
+   _finalBox->setChecked(_block->isFinal());
+   _abstractBox->setChecked(_block->isAbstract());
 }

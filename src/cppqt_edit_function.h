@@ -7,7 +7,7 @@
 
 class QGroupBox;
 class QPlainTextEdit;
-class QLineEdit;
+class QCheckBox;
 
 
 
@@ -23,7 +23,7 @@ namespace CppQt
       protected:
          virtual QLayout* layout() override;
          QGroupBox* createReturnEdit();
-         QGroupBox* createFlagsEdit();
+         QGroupBox* createPropertiesEdit();
          //QWidget* createOperationsEdit();
       protected slots:
          virtual void okClicked() override;
@@ -31,12 +31,16 @@ namespace CppQt
          virtual void cancelClicked() override;
       private:
          void createReturnWidgets();
-         void createFlagWidgets();
+         void createPropertiesWidgets();
          CppQt::Function* _block;
          Gui::TypeComboBox* _returnCombo;
          QPlainTextEdit* _returnEdit;
-         QLineEdit* _preFlags;
-         QLineEdit* _postFlags;
+         QCheckBox* _virtualBox;
+         QCheckBox* _staticBox;
+         QCheckBox* _constBox;
+         QCheckBox* _overrideBox;
+         QCheckBox* _finalBox;
+         QCheckBox* _abstractBox;
       };
    }
 }

@@ -65,7 +65,7 @@ QString Function::displayTemplatesText()
       ret.append("<h2>Templates</h2>");
       for (auto template_ : list)
       {
-         ret.append("<p><b>").append(template_->name()).append(" :</b> ");
+         ret.append("<p>").append(template_->variableType()).append(" <b>").append(template_->Base::name()).append("</b> : ");
          ret.append(template_->description()).append("</p>");
       }
    }
@@ -86,7 +86,7 @@ QString Function::displayArgumentsText()
       ret.append("<h2>Arguments</h2>");
       for (auto variable : list)
       {
-         ret.append("<p><b>").append(variable->name()).append(" :</b> ");
+         ret.append("<p>").append(variable->variableType()).append(" <b>").append(variable->Base::name()).append("</b> : ");
          ret.append(variable->description()).append("</p>");
       }
    }

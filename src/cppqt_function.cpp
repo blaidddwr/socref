@@ -13,12 +13,13 @@ using namespace CppQt;
 
 
 
-const char* Function::_preFlagRegExp {"((virtual)|(static))?"};
-const char* Function::_postFlagRegExp {"(const)?(\\s+noexcept)?((\\s+override)?(\\s+final)?|(\\s+=\\s0;)?)"};
-const char* Function::_typeTag {"type"};
-const char* Function::_descriptionTag {"description"};
-const char* Function::_preFlagTag {"pre"};
-const char* Function::_postFlagTag {"post"};
+const char* Function::_returnDescriptionTag {"return_description"};
+const char* Function::_virtualTag {"virtual"};
+const char* Function::_staticTag {"static"};
+const char* Function::_constTag {"const"};
+const char* Function::_overrideTag {"override"};
+const char* Function::_finalTag {"final"};
+const char* Function::_abstractTag {"abstract"};
 const char* Function::_operationTag {"operation"};
 
 
@@ -27,7 +28,7 @@ const char* Function::_operationTag {"operation"};
 
 
 Function::Function(const QString& name):
-   Base(name)
+   Variable(name)
 {}
 
 
@@ -36,8 +37,7 @@ Function::Function(const QString& name):
 
 
 Function::Function(const QString& returnType, const QString& name):
-   Base(name),
-   _returnType(returnType)
+   Variable(returnType,name)
 {}
 
 
@@ -67,9 +67,13 @@ QString Function::name() const
       }
       ret.append("> ");
    }
-   if ( !_preFlags.isEmpty() )
+   if ( _virtual )
    {
-      ret.append(_preFlags).append(" ");
+      ret.append("virtual ");
+   }
+   if ( _static )
+   {
+      ret.append("static ");
    }
    ret.append(returnType()).append(" ").append(Base::name()).append("(");
    bool first {true};
@@ -87,9 +91,21 @@ QString Function::name() const
       ret.append(variable->variableType());
    }
    ret.append(")");
-   if ( !_postFlags.isEmpty() )
+   if ( _const )
    {
-      ret.append(" ").append(_postFlags);
+      ret.append(" const");
+   }
+   if ( _override )
+   {
+      ret.append(" override");
+   }
+   if ( _final )
+   {
+      ret.append(" final");
+   }
+   if ( _abstract )
+   {
+      ret.append(" = 0");
    }
    return ret;
 }
@@ -104,7 +120,13 @@ unique_ptr<AbstractBlock> Function::makeCopy() const
    unique_ptr<Function> ret {new Function};
    ret->copyChildren(this);
    ret->copyDataFrom(*this);
-   ret->_returnType = _returnType;
+   ret->_returnDescription = _returnDescription;
+   ret->_virtual = _virtual;
+   ret->_static = _static;
+   ret->_const = _const;
+   ret->_override = _override;
+   ret->_final = _final;
+   ret->_abstract = _abstract;
    ret->_operations = _operations;
    return ret;
 }
@@ -136,12 +158,29 @@ QString Function::elementName() const
 
 QIcon Function::icon() const
 {
-   static QIcon ret;
-   if ( ret.isNull() )
+   static bool isLoaded {false};
+   static QIcon regular;
+   static QIcon virtual_;
+   static QIcon abstract;
+   if ( !isLoaded )
    {
-      ret = QIcon(":/icons/function.svg");
+      regular = QIcon(":/icons/function.svg");
+      virtual_ = QIcon(":/icons/virtual.svg");
+      abstract = QIcon(":/icons/abstract.svg");
+      isLoaded = true;
    }
-   return ret;
+   if ( _abstract )
+   {
+      return abstract;
+   }
+   else if ( _virtual )
+   {
+      return virtual_;
+   }
+   else
+   {
+      return regular;
+   }
 }
 
 
@@ -151,11 +190,11 @@ QIcon Function::icon() const
 
 QList<int> Function::buildList() const
 {
-   static QList<int> ret;
-   if ( ret.isEmpty() )
+   QList<int> ret;
+   ret << BlockFactory::VariableType;
+   if ( !_virtual )
    {
       ret << BlockFactory::TemplateType;
-      ret << BlockFactory::VariableType;
    }
    return ret;
 }
@@ -167,7 +206,7 @@ QList<int> Function::buildList() const
 
 QString Function::returnType() const
 {
-   return _returnType;
+   return variableType();
 }
 
 
@@ -177,19 +216,7 @@ QString Function::returnType() const
 
 void Function::setReturnType(const QString& type)
 {
-   if ( !QRegExp(Gui::TypeDialog::_typeRegExp).exactMatch(type) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid return type '%1'.").arg(type));
-      throw e;
-   }
-   if ( _returnType != type )
-   {
-      _returnType = type;
-      notifyOfNameChange();
-      emit modified();
-   }
+   setVariableType(type);
 }
 
 
@@ -222,9 +249,9 @@ void Function::setReturnDescription(const QString& description)
 
 
 
-QString Function::preFlags() const
+bool Function::isVirtual() const
 {
-   return _preFlags;
+   return _virtual;
 }
 
 
@@ -232,18 +259,18 @@ QString Function::preFlags() const
 
 
 
-void Function::setPreFlags(const QString& flags)
+void Function::setVirtual(bool isVirtual)
 {
-   if ( !QRegExp(_preFlagRegExp).exactMatch(flags) )
+   if ( isVirtual && ( _static || hasTemplates() ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function pre flags to '%1'.").arg(flags));
+      e.setDetails(tr("Cannot set function as virtual when it is static or has templates."));
       throw e;
    }
-   if ( _preFlags != flags )
+   if ( _virtual != isVirtual )
    {
-      _preFlags = flags;
+      _virtual = isVirtual;
       notifyOfNameChange();
       emit modified();
    }
@@ -254,9 +281,9 @@ void Function::setPreFlags(const QString& flags)
 
 
 
-QString Function::postFlags() const
+bool Function::isStatic() const
 {
-   return _postFlags;
+   return _static;
 }
 
 
@@ -264,21 +291,193 @@ QString Function::postFlags() const
 
 
 
-void Function::setPostFlags(const QString& flags)
+void Function::setStatic(bool isStatic)
 {
-   if ( !QRegExp(_postFlagRegExp).exactMatch(flags) )
+   if ( isStatic && _virtual )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function post flags to '%1'.").arg(flags));
+      e.setDetails(tr("Cannot set function as static when it is also virtual."));
       throw e;
    }
-   if ( _postFlags != flags )
+   if ( _static != isStatic )
    {
-      _postFlags = flags;
+      _static = isStatic;
       notifyOfNameChange();
       emit modified();
    }
+}
+
+
+
+
+
+
+bool Function::isConst() const
+{
+   return _const;
+}
+
+
+
+
+
+
+void Function::setConst(bool isConst)
+{
+   if ( isConst && !isMethod() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as const when it is not a class method."));
+      throw e;
+   }
+   if ( _const != isConst )
+   {
+      _const = isConst;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+bool Function::isOverride() const
+{
+   return _override;
+}
+
+
+
+
+
+
+void Function::setOverride(bool isOverride)
+{
+   if ( isOverride && ( !_virtual || _abstract ) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as override when it is not virtual or it is abstract."));
+      throw e;
+   }
+   if ( _override != isOverride )
+   {
+      _override = isOverride;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+bool Function::isFinal() const
+{
+   return _final;
+}
+
+
+
+
+
+
+void Function::setFinal(bool isFinal)
+{
+   if ( isFinal && ( !_virtual || _abstract ) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as final when it is not virtual or it is abstract."));
+      throw e;
+   }
+   if ( _final != isFinal )
+   {
+      _final = isFinal;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+bool Function::isAbstract() const
+{
+   return _abstract;
+}
+
+
+
+
+
+
+void Function::setAbstract(bool isAbstract)
+{
+   if ( isAbstract && ( !_virtual || _override || _final ) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as abstract when it is not virtual or it is override/final."));
+      throw e;
+   }
+   if ( _abstract != isAbstract )
+   {
+      _abstract = isAbstract;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+bool Function::isMethod() const
+{
+   const AbstractBlock* root {this};
+   while ( root->parent() )
+   {
+      root = root->parent();
+      if ( root->type() == BlockFactory::ClassType )
+      {
+         return true;
+      }
+      else if ( root->type() == BlockFactory::NamespaceType )
+      {
+         return false;
+      }
+   }
+   Exception::LogicError e;
+   MARK_EXCEPTION(e);
+   e.setDetails(tr("Reached root of project without finding a single namespace or class."));
+   throw e;
+}
+
+
+
+
+
+
+bool Function::hasTemplates() const
+{
+   const QList<AbstractBlock*> list {children()};
+   for (auto child : list)
+   {
+      if ( child->type() == BlockFactory::TemplateType )
+      {
+         return true;
+      }
+   }
+   return false;
 }
 
 
@@ -309,7 +508,7 @@ void Function::setOperations(const QStringList& operations)
 QList<Variable*> Function::arguments() const
 {
    QList<Variable*> ret;
-   const auto list {children()};
+   const QList<AbstractBlock*> list {children()};
    for (auto child : list)
    {
       if ( child->type() == BlockFactory::VariableType )
@@ -331,7 +530,7 @@ QList<Variable*> Function::arguments() const
 QList<Template*> Function::templates() const
 {
    QList<Template*> ret;
-   const auto list {children()};
+   const QList<AbstractBlock*> list {children()};
    for (auto child : list)
    {
       if ( child->type() == BlockFactory::TemplateType )
@@ -341,6 +540,62 @@ QList<Template*> Function::templates() const
             ret.append(variable);
          }
       }
+   }
+   return ret;
+}
+
+
+
+
+
+
+void Function::readData(const QDomElement& data)
+{
+   _operations.clear();
+   _returnDescription.clear();
+   Variable::readData(data);
+   QList<QDomElement> operations;
+   DomElementReader reader(data);
+   _virtual = reader.attributeToInt(_virtualTag,false);
+   _static = reader.attributeToInt(_staticTag,false);
+   _const = reader.attributeToInt(_constTag,false);
+   _override = reader.attributeToInt(_overrideTag,false);
+   _final = reader.attributeToInt(_finalTag,false);
+   _abstract = reader.attributeToInt(_abstractTag,false);
+   reader.set(_operationTag,&operations,false);
+   reader.set(_returnDescriptionTag,&_returnDescription,false);
+   reader.read();
+   for (auto operation : qAsConst(operations))
+   {
+      _operations.append(operation.text());
+   }
+}
+
+
+
+
+
+
+QDomElement Function::writeData(QDomDocument& document) const
+{
+   QDomElement ret {Variable::writeData(document)};
+   ret.setAttribute(_virtualTag,_virtual);
+   ret.setAttribute(_staticTag,_static);
+   ret.setAttribute(_constTag,_const);
+   ret.setAttribute(_overrideTag,_override);
+   ret.setAttribute(_finalTag,_final);
+   ret.setAttribute(_abstractTag,_abstract);
+   if ( !_returnDescription.isEmpty() )
+   {
+      QDomElement element {document.createElement(_returnDescriptionTag)};
+      element.appendChild(document.createTextNode(_returnDescription));
+      ret.appendChild(element);
+   }
+   for (auto operation : qAsConst(_operations))
+   {
+      QDomElement element {document.createElement(_operationTag)};
+      element.appendChild(document.createTextNode(operation));
+      ret.appendChild(element);
    }
    return ret;
 }
@@ -379,60 +634,4 @@ void Function::childRemoved(AbstractBlock* child)
    Q_UNUSED(child)
    notifyOfNameChange();
    emit bodyChanged();
-}
-
-
-
-
-
-
-void Function::readData(const QDomElement& data)
-{
-   _operations.clear();
-   _returnDescription.clear();
-   Base::readData(data);
-   QList<QDomElement> operations;
-   DomElementReader reader(data);
-   _returnType = reader.attribute(_typeTag);
-   _preFlags = reader.attribute(_preFlagTag,false);
-   _postFlags = reader.attribute(_postFlagTag,false);
-   reader.set(_operationTag,&operations,false);
-   reader.set(_descriptionTag,&_returnDescription,false);
-   reader.read();
-   for (auto operation : qAsConst(operations))
-   {
-      _operations.append(operation.text());
-   }
-}
-
-
-
-
-
-
-QDomElement Function::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Base::writeData(document)};
-   ret.setAttribute(_typeTag,_returnType);
-   if ( !_returnDescription.isEmpty() )
-   {
-      QDomElement element {document.createElement(_descriptionTag)};
-      element.appendChild(document.createTextNode(_returnDescription));
-      ret.appendChild(element);
-   }
-   if ( !_preFlags.isEmpty() )
-   {
-      ret.setAttribute(_preFlagTag,_preFlags);
-   }
-   if ( !_postFlags.isEmpty() )
-   {
-      ret.setAttribute(_postFlagTag,_postFlags);
-   }
-   for (auto operation : qAsConst(_operations))
-   {
-      QDomElement element {document.createElement(_operationTag)};
-      element.appendChild(document.createTextNode(operation));
-      ret.appendChild(element);
-   }
-   return ret;
 }

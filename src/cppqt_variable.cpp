@@ -107,7 +107,7 @@ QList<int> Variable::buildList() const
 
 
 
-QString Variable::variableType()
+QString Variable::variableType() const
 {
    return _type;
 }
@@ -133,17 +133,6 @@ void Variable::setVariableType(const QString& type)
 
 
 
-void Variable::copyDataFrom(const Variable& object)
-{
-   Base::copyDataFrom(object);
-   _type = object._type;
-}
-
-
-
-
-
-
 void Variable::readData(const QDomElement& data)
 {
    Base::readData(data);
@@ -161,6 +150,17 @@ QDomElement Variable::writeData(QDomDocument& document) const
    QDomElement ret {Base::writeData(document)};
    ret.setAttribute(_typeTag,_type);
    return ret;
+}
+
+
+
+
+
+
+void Variable::copyDataFrom(const Variable& object)
+{
+   Base::copyDataFrom(object);
+   _type = object._type;
 }
 
 
