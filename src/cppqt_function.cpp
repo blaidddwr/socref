@@ -14,7 +14,7 @@ using namespace CppQt;
 
 
 const char* Function::_preFlagRegExp {"((virtual)|(static))?"};
-const char* Function::_postFlagRegExp {"(const)?(\\s+noexcept)?(\\s+override)?(\\s+final)?"};
+const char* Function::_postFlagRegExp {"(const)?(\\s+noexcept)?((\\s+override)?(\\s+final)?|(\\s+=\\s0;)?)"};
 const char* Function::_typeTag {"type"};
 const char* Function::_descriptionTag {"description"};
 const char* Function::_preFlagTag {"pre"};
@@ -117,6 +117,47 @@ unique_ptr<AbstractBlock> Function::makeCopy() const
 int Function::type() const
 {
    return BlockFactory::FunctionType;
+}
+
+
+
+
+
+
+QString Function::elementName() const
+{
+   return QString("function");
+}
+
+
+
+
+
+
+QIcon Function::icon() const
+{
+   static QIcon ret;
+   if ( ret.isNull() )
+   {
+      ret = QIcon(":/icons/function.svg");
+   }
+   return ret;
+}
+
+
+
+
+
+
+QList<int> Function::buildList() const
+{
+   static QList<int> ret;
+   if ( ret.isEmpty() )
+   {
+      ret << BlockFactory::TemplateType;
+      ret << BlockFactory::VariableType;
+   }
+   return ret;
 }
 
 

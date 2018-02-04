@@ -72,6 +72,41 @@ int Variable::type() const
 
 
 
+QString Variable::elementName() const
+{
+   return QString("variable");
+}
+
+
+
+
+
+
+QIcon Variable::icon() const
+{
+   static QIcon ret;
+   if ( ret.isNull() )
+   {
+      ret = QIcon(":/icons/variable.svg");
+   }
+   return ret;
+}
+
+
+
+
+
+
+QList<int> Variable::buildList() const
+{
+   return QList<int>();
+}
+
+
+
+
+
+
 QString Variable::variableType()
 {
    return _type;

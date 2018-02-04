@@ -14,8 +14,6 @@ public:
    virtual int size() const = 0;
    virtual QString name(int type) const = 0;
    virtual QString elementName(int type) const = 0;
-   virtual QIcon icon(int type) const = 0;
-   virtual QList<int> buildList(int type) const = 0;
    virtual std::unique_ptr<AbstractBlock> makeRootBlock() const = 0;
    virtual std::unique_ptr<AbstractBlock> makeBlock(int type) const = 0;
    virtual std::unique_ptr<QWidget> makeView(int type, AbstractBlock* block) const = 0;

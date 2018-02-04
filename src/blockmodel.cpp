@@ -114,7 +114,7 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
    case Qt::DisplayRole:
       return QVariant(pointer(index)->name());
    case Qt::DecorationRole:
-      return QVariant(_factory->icon(pointer(index)->type()));
+      return QVariant(pointer(index)->icon());
    default:
       return QVariant();
    }

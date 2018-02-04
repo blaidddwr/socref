@@ -14,14 +14,17 @@ namespace CppQt
       Namespace(const QString& name);
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
+      virtual QString elementName() const override final;
+      virtual QIcon icon() const override final;
+      virtual QList<int> buildList() const override final;
       QStringList types();
       void setTypes(const QStringList& types);
       Namespace* root();
    signals:
       void typesChanged();
    protected:
-      virtual void readData(const QDomElement& data) override;
-      virtual QDomElement writeData(QDomDocument& document) const override;
+      virtual void readData(const QDomElement& data) override final;
+      virtual QDomElement writeData(QDomDocument& document) const override final;
    private:
       void readType(const QDomElement& type);
       static const char* _typeTag;

@@ -68,53 +68,6 @@ QString BlockFactory::elementName(int type) const
 
 
 
-QIcon BlockFactory::icon(int type) const
-{
-   static bool isLoaded {false};
-   static QIcon namespace_;
-   static QIcon variable;
-   static QIcon function_;
-   static QIcon template_;
-   if ( !isLoaded )
-   {
-      namespace_ = QIcon(":/icons/namespace.svg");
-      variable = QIcon(":/icons/variable.svg");
-      function_ = QIcon(":/icons/function.svg");
-      template_ = QIcon(":/icons/template.svg");
-      isLoaded = true;
-   }
-   switch (type)
-   {
-   case NamespaceType: return namespace_;
-   case VariableType: return variable;
-   case FunctionType: return function_;
-   case TemplateType: return template_;
-   default: return QIcon();
-   }
-}
-
-
-
-
-
-
-QList<int> BlockFactory::buildList(int type) const
-{
-   switch (type)
-   {
-   case NamespaceType: return QList<int>() << NamespaceType << VariableType << FunctionType;
-   case VariableType: return QList<int>();
-   case FunctionType: return QList<int>() << VariableType << TemplateType;
-   case TemplateType: return QList<int>();
-   default: return QList<int>();
-   }
-}
-
-
-
-
-
-
 unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
 {
    return unique_ptr<AbstractBlock>(new Namespace);

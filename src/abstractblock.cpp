@@ -90,7 +90,7 @@ void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
       e.setDetails(tr("Cannot insert child block with null pointer."));
       throw e;
    }
-   if ( !factory().buildList(type()).contains(child->type()) )
+   if ( !buildList().contains(child->type()) )
    {
       Exception::LogicError e;
       MARK_EXCEPTION(e);
@@ -156,8 +156,8 @@ void AbstractBlock::read(const QDomElement& parent)
    QList<QDomElement> children;
    DomElementReader reader(parent);
    reader.set(_dataTag,&data);
-   const QList<int> buildList {factory().buildList(type())};
-   for (auto type : buildList)
+   const QList<int> list {buildList()};
+   for (auto type : list)
    {
       reader.set(factory().elementName(type),&children,false);
    }

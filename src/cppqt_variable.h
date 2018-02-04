@@ -16,6 +16,9 @@ namespace CppQt
       virtual QString name() const override final;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override;
       virtual int type() const override;
+      virtual QString elementName() const override;
+      virtual QIcon icon() const override;
+      virtual QList<int> buildList() const override;
       QString variableType();
       void setVariableType(const QString& type);
    protected:

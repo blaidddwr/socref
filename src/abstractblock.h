@@ -15,6 +15,9 @@ public:
    virtual std::unique_ptr<AbstractBlock> makeCopy() const = 0;
    virtual int type() const = 0;
    virtual const AbstractBlockFactory& factory() const = 0;
+   virtual QString elementName() const = 0;
+   virtual QIcon icon() const = 0;
+   virtual QList<int> buildList() const = 0;
    AbstractBlock* parent() const;
    int childrenSize() const;
    AbstractBlock* child(int index);

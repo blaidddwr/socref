@@ -54,6 +54,48 @@ int Namespace::type() const
 
 
 
+QString Namespace::elementName() const
+{
+   return QString("namespace");
+}
+
+
+
+
+
+
+QIcon Namespace::icon() const
+{
+   static QIcon ret;
+   if ( ret.isNull() )
+   {
+      ret = QIcon(":/icons/namespace.svg");
+   }
+   return ret;
+}
+
+
+
+
+
+
+QList<int> Namespace::buildList() const
+{
+   static QList<int> ret;
+   if ( ret.isEmpty() )
+   {
+      ret << BlockFactory::NamespaceType;
+      ret << BlockFactory::VariableType;
+      ret << BlockFactory::FunctionType;
+   }
+   return ret;
+}
+
+
+
+
+
+
 QStringList Namespace::types()
 {
    return _types;

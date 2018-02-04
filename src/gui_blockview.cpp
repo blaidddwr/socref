@@ -86,7 +86,7 @@ bool BlockView::canPaste() const
       if ( a == b )
       {
          AbstractBlock* index {_model->pointer(selection())};
-         if ( index && _factory->buildList(index->type()).contains(_copy->type()) )
+         if ( index && index->buildList().contains(_copy->type()) )
          {
             return true;
          }
@@ -487,7 +487,7 @@ void BlockView::updateAddActions()
    _addActions.clear();
    if ( _model )
    {
-      const QList<int> list {_factory->buildList(_model->pointer(selection())->type())};
+      const QList<int> list {_model->pointer(selection())->buildList()};
       for (auto type : list)
       {
          _addActions.append(new QAction(_factory->name(type),this));
@@ -553,7 +553,7 @@ void BlockView::updateTitle(AbstractBlock* block)
 {
    _titleIcon->clear();
    _titleText->clear();
-   _titleIcon->setPixmap(_factory->icon(block->type()).pixmap(_titleIconSize,_titleIconSize));
+   _titleIcon->setPixmap(block->icon().pixmap(_titleIconSize,_titleIconSize));
    _titleText->setText(block->name());
 }
 

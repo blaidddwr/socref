@@ -45,3 +45,38 @@ int Template::type() const
 {
    return BlockFactory::TemplateType;
 }
+
+
+
+
+
+
+QString Template::elementName() const
+{
+   return QString("template");
+}
+
+
+
+
+
+
+QIcon Template::icon() const
+{
+   static QIcon ret;
+   if ( ret.isNull() )
+   {
+      ret = QIcon(":/icons/template.svg");
+   }
+   return ret;
+}
+
+
+
+
+
+
+QList<int> Template::buildList() const
+{
+   return QList<int>();
+}
