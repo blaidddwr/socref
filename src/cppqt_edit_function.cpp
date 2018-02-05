@@ -1,8 +1,6 @@
-#include <QGroupBox>
-#include <QGridLayout>
+#include <QFormLayout>
 #include <QPlainTextEdit>
 #include <QLabel>
-#include <QVBoxLayout>
 #include <QCheckBox>
 #include <QRegExpValidator>
 #include "cppqt_edit_function.h"
@@ -20,7 +18,7 @@ using namespace CppQt::Edit;
 
 
 Function::Function(AbstractBlock* block, QWidget* parent):
-   Base(block,parent),
+   Variable(block,parent),
    _block(qobject_cast<CppQt::Function*>(block))
 {
    if ( !_block )
@@ -39,12 +37,13 @@ Function::Function(AbstractBlock* block, QWidget* parent):
 
 QLayout* Function::layout()
 {
-   QVBoxLayout* ret {new QVBoxLayout};
-   QGroupBox* basic {new QGroupBox(tr("Basic Information"))};
-   basic->setLayout(Base::layout());
-   ret->addWidget(basic);
-   ret->addWidget(createPropertiesEdit());
-   ret->addWidget(createReturnEdit());
+   QFormLayout* ret {new QFormLayout};
+   ret->addRow(createTitle(tr("Return")));
+   addReturn(ret);
+   ret->addRow(createTitle(tr("Basic Information")));
+   Base::addFields(ret);
+   ret->addRow(createTitle(tr("Properties")));
+   addProperties(ret);
    return ret;
 }
 
@@ -53,17 +52,12 @@ QLayout* Function::layout()
 
 
 
-QGroupBox* Function::createReturnEdit()
+void Function::addReturn(QFormLayout* layout)
 {
-   createReturnWidgets();
-   QGroupBox* ret {new QGroupBox(tr("Return"))};
-   QGridLayout* layout {new QGridLayout};
-   layout->addWidget(createLabel(tr("Type:"),Qt::AlignCenter),0,0);
-   layout->addWidget(_returnCombo,0,1);
-   layout->addWidget(createLabel(tr("Description:")),1,0);
-   layout->addWidget(_returnEdit);
-   ret->setLayout(layout);
-   return ret;
+   _returnEdit = new QPlainTextEdit;
+   _returnEdit->setPlainText(_block->returnDescription());
+   Variable::addCombo(layout);
+   layout->addRow(new QLabel(tr("Description:")),_returnEdit);
 }
 
 
@@ -71,19 +65,16 @@ QGroupBox* Function::createReturnEdit()
 
 
 
-QGroupBox* Function::createPropertiesEdit()
+void Function::addProperties(QFormLayout* layout)
 {
+   Variable::addProperties(layout);
    createPropertiesWidgets();
-   QGroupBox* ret {new QGroupBox(tr("Properties"))};
-   QVBoxLayout* layout {new QVBoxLayout};
-   layout->addWidget(_virtualBox);
-   layout->addWidget(_staticBox);
-   layout->addWidget(_constBox);
-   layout->addWidget(_overrideBox);
-   layout->addWidget(_finalBox);
-   layout->addWidget(_abstractBox);
-   ret->setLayout(layout);
-   return ret;
+   layout->addRow(_virtualBox);
+   layout->addRow(_constBox);
+   layout->addRow(_noExceptBox);
+   layout->addRow(_overrideBox);
+   layout->addRow(_finalBox);
+   layout->addRow(_abstractBox);
 }
 
 
@@ -104,12 +95,11 @@ void Function::okClicked()
 
 void Function::applyClicked()
 {
-   Base::applyClicked();
-   _block->setReturnType(_returnCombo->value());
+   Variable::applyClicked();
    _block->setReturnDescription(_returnEdit->toPlainText());
    _block->setVirtual(_virtualBox->isChecked());
-   _block->setStatic(_staticBox->isChecked());
    _block->setConst(_constBox->isChecked());
+   _block->setNoExcept(_noExceptBox->isChecked());
    _block->setOverride(_overrideBox->isChecked());
    _block->setFinal(_finalBox->isChecked());
    _block->setAbstract(_abstractBox->isChecked());
@@ -143,9 +133,7 @@ void Function::checkBoxChanged(int state)
 
 void Function::createReturnWidgets()
 {
-   _returnCombo = new Gui::TypeComboBox(_block);
    _returnEdit = new QPlainTextEdit;
-   _returnCombo->setCurrentIndex(_block->returnType());
    _returnEdit->setPlainText(_block->returnDescription());
 }
 
@@ -157,11 +145,11 @@ void Function::createReturnWidgets()
 void Function::createPropertiesWidgets()
 {
    _virtualBox = new QCheckBox(tr("Virtual"));
-   _staticBox = new QCheckBox(tr("Static"));
    _constBox = new QCheckBox(tr("Constant"));
+   _noExceptBox = new QCheckBox(tr("No Exceptions"));
    _overrideBox = new QCheckBox(tr("Override"));
    _finalBox = new QCheckBox(tr("Final"));
-   _abstractBox = new QCheckBox(tr("Abstract(Pure Virtual)"));
+   _abstractBox = new QCheckBox(tr("Abstract (Pure Virtual)"));
    connectProperties();
    fillProperties();
    updateProperties();
@@ -175,8 +163,8 @@ void Function::createPropertiesWidgets()
 void Function::connectProperties()
 {
    connect(_virtualBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   connect(_staticBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
    connect(_constBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   connect(_noExceptBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
    connect(_overrideBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
    connect(_finalBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
    connect(_abstractBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
@@ -190,8 +178,8 @@ void Function::connectProperties()
 void Function::fillProperties()
 {
    _virtualBox->setChecked(_block->isVirtual());
-   _staticBox->setChecked(_block->isStatic());
    _constBox->setChecked(_block->isConst());
+   _noExceptBox->setChecked(_block->isNoExcept());
    _overrideBox->setChecked(_block->isOverride());
    _finalBox->setChecked(_block->isFinal());
    _abstractBox->setChecked(_block->isAbstract());
@@ -204,8 +192,7 @@ void Function::fillProperties()
 
 void Function::updateProperties()
 {
-   _virtualBox->setCheckable( !_staticBox->isChecked() && !_block->hasTemplates() && _block->isMethod() );
-   _staticBox->setCheckable( !_virtualBox->isChecked() && _block->isMethod() );
+   _virtualBox->setCheckable( !staticBox()->isChecked() && !_block->hasTemplates() && _block->isMethod() );
    _constBox->setCheckable(_block->isMethod());
    _overrideBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
    _finalBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );

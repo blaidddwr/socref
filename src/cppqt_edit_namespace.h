@@ -23,7 +23,7 @@ namespace CppQt
          void editGlobalTypesClicked();
          void editLocalTypesClicked();
       private:
-         QLayout* createTypeButtons();
+         void addTypeButtons(QFormLayout* layout);
          CppQt::Namespace* _block;
       };
    }

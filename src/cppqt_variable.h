@@ -19,16 +19,27 @@ namespace CppQt
       virtual QString elementName() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
+      bool isConstExpr() const;
+      void setConstExpr(bool isConstExpr);
+      bool isStatic() const;
+      void setStatic(bool isStatic);
       QString variableType() const;
       void setVariableType(const QString& type);
+      bool isClassMember() const;
+      bool isFunctionArgument() const;
    protected:
       virtual void readData(const QDomElement& data) override;
       virtual QDomElement writeData(QDomDocument& document) const override;
       void copyDataFrom(const Variable& object);
+      QString properties() const;
    private:
       void checkTypeSyntax(const QString& type);
       static const char* _typeTag;
+      static const char* _constExprTag;
+      static const char* _staticTag;
       QString _type;
+      bool _constExpr {false};
+      bool _static {false};
    };
 }
 

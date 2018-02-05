@@ -18,6 +18,11 @@ namespace CppQt
       virtual QString elementName() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
+   private:
+      using Variable::isConstExpr;
+      using Variable::setConstExpr;
+      using Variable::isStatic;
+      using Variable::setStatic;
    };
 }
 

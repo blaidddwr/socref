@@ -1,11 +1,10 @@
 #ifndef CPPQT_EDIT_FUNCTION_H
 #define CPPQT_EDIT_FUNCTION_H
-#include "cppqt_edit_base.h"
+#include "cppqt_edit_variable.h"
 #include "cppqt_gui.h"
 
 
 
-class QGroupBox;
 class QPlainTextEdit;
 class QCheckBox;
 
@@ -15,16 +14,15 @@ namespace CppQt
 {
    namespace Edit
    {
-      class Function : public Base
+      class Function : public Variable
       {
          Q_OBJECT
       public:
          Function(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
-         QGroupBox* createReturnEdit();
-         QGroupBox* createPropertiesEdit();
-         //QWidget* createOperationsEdit();
+         void addReturn(QFormLayout* layout);
+         void addProperties(QFormLayout* layout);
       protected slots:
          virtual void okClicked() override;
          virtual void applyClicked() override;
@@ -38,11 +36,10 @@ namespace CppQt
          void fillProperties();
          void updateProperties();
          CppQt::Function* _block;
-         Gui::TypeComboBox* _returnCombo;
          QPlainTextEdit* _returnEdit;
          QCheckBox* _virtualBox;
-         QCheckBox* _staticBox;
          QCheckBox* _constBox;
+         QCheckBox* _noExceptBox;
          QCheckBox* _overrideBox;
          QCheckBox* _finalBox;
          QCheckBox* _abstractBox;

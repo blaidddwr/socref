@@ -9,6 +9,7 @@
 class QLineEdit;
 class QPlainTextEdit;
 class QLabel;
+class QFormLayout;
 
 
 
@@ -24,7 +25,8 @@ namespace CppQt
          explicit Base(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
-         QLabel* createLabel(const QString& name, Qt::Alignment vertical = Qt::AlignTop);
+         void addFields(QFormLayout* layout);
+         QLabel* createTitle(const QString& title);
       protected slots:
          virtual void applyClicked() override;
       private:

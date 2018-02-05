@@ -1,7 +1,6 @@
-#include <QVBoxLayout>
-#include <QGroupBox>
-#include <QHBoxLayout>
 #include <QLabel>
+#include <QCheckBox>
+#include <QFormLayout>
 #include "cppqt_edit_variable.h"
 #include "exception.h"
 #include "cppqt_variable.h"
@@ -35,17 +34,86 @@ Variable::Variable(AbstractBlock* block, QWidget* parent):
 
 
 
-
 QLayout* Variable::layout()
 {
-   QVBoxLayout* ret {new QVBoxLayout};
-   QGroupBox* type {new QGroupBox(tr("Type"))};
-   QGroupBox* basic {new QGroupBox(tr("Basic Information"))};
-   type->setLayout(createTypeCombo());
-   basic->setLayout(Base::layout());
-   ret->addWidget(type);
-   ret->addWidget(basic);
+   QFormLayout* ret {new QFormLayout};
+   ret->addRow(createTitle(tr("Type")));
+   addCombo(ret);
+   ret->addRow(createTitle(tr("Basic Information")));
+   Base::addFields(ret);
+   ret->addRow(createTitle(tr("Properties")));
+   addProperties(ret);
    return ret;
+}
+
+
+
+
+
+
+void Variable::addCombo(QFormLayout* layout)
+{
+   _type = new TypeComboBox(_block);
+   _type->setCurrentIndex(_block->variableType());
+   layout->addRow(new QLabel(tr("Type:")),_type);
+}
+
+
+
+
+
+
+void Variable::addProperties(QFormLayout* layout)
+{
+   _constExprBox = new QCheckBox(tr("Constant Expression"));
+   _staticBox = new QCheckBox(tr("Static"));
+   _constExprBox->setChecked(_block->isConstExpr());
+   _staticBox->setChecked(_block->isStatic());
+   checkBoxChanged(0);
+   connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
+   connect(_staticBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
+   layout->addRow(_constExprBox);
+   layout->addRow(_staticBox);
+}
+
+
+
+
+
+
+bool Variable::isConstExprCheckable() const
+{
+   return !_block->isFunctionArgument();
+}
+
+
+
+
+
+
+bool Variable::isStaticCheckable() const
+{
+   return _block->isClassMember();
+}
+
+
+
+
+
+
+const QCheckBox* Variable::constExprBox() const
+{
+   return _constExprBox;
+}
+
+
+
+
+
+
+const QCheckBox* Variable::staticBox() const
+{
+   return _staticBox;
 }
 
 
@@ -67,7 +135,15 @@ void Variable::okClicked()
 void Variable::applyClicked()
 {
    Base::applyClicked();
-   _block->setVariableType(_type->value());
+   if ( _type )
+   {
+      _block->setVariableType(_type->value());
+   }
+   if ( _constExprBox )
+   {
+      _block->setConstExpr(_constExprBox->isChecked());
+      _block->setStatic(_staticBox->isChecked());
+   }
 }
 
 
@@ -85,14 +161,24 @@ void Variable::cancelClicked()
 
 
 
-QLayout* Variable::createTypeCombo()
+void Variable::checkBoxChanged(int state)
 {
-   QHBoxLayout* ret {new QHBoxLayout};
-   QLabel* label {new QLabel(tr("Value:"))};
+   Q_UNUSED(state)
+   _constExprBox->setCheckable(isConstExprCheckable());
+   _staticBox->setCheckable(isStaticCheckable());
+}
+
+
+
+
+
+
+QLayout* Variable::createCombo()
+{
    _type = new TypeComboBox(_block);
    _type->setCurrentIndex(_block->variableType());
-   ret->addStretch();
-   ret->addWidget(label);
+   QHBoxLayout* ret {new QHBoxLayout};
+   ret->addWidget(new QLabel(tr("Type:")));
    ret->addWidget(_type);
    ret->addStretch();
    return ret;

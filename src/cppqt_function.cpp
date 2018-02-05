@@ -15,8 +15,8 @@ using namespace CppQt;
 
 const char* Function::_returnDescriptionTag {"return_description"};
 const char* Function::_virtualTag {"virtual"};
-const char* Function::_staticTag {"static"};
 const char* Function::_constTag {"const"};
+const char* Function::_noExceptTag {"noexcept"};
 const char* Function::_overrideTag {"override"};
 const char* Function::_finalTag {"final"};
 const char* Function::_abstractTag {"abstract"};
@@ -71,10 +71,7 @@ QString Function::name() const
    {
       ret.append("virtual ");
    }
-   if ( _static )
-   {
-      ret.append("static ");
-   }
+   ret.append(properties());
    ret.append(returnType()).append(" ").append(Base::name()).append("(");
    bool first {true};
    const auto variableList {arguments()};
@@ -94,6 +91,10 @@ QString Function::name() const
    if ( _const )
    {
       ret.append(" const");
+   }
+   if ( _noExcept )
+   {
+      ret.append(" noexcept");
    }
    if ( _override )
    {
@@ -122,8 +123,8 @@ unique_ptr<AbstractBlock> Function::makeCopy() const
    ret->copyDataFrom(*this);
    ret->_returnDescription = _returnDescription;
    ret->_virtual = _virtual;
-   ret->_static = _static;
    ret->_const = _const;
+   ret->_noExcept = _noExcept;
    ret->_override = _override;
    ret->_final = _final;
    ret->_abstract = _abstract;
@@ -261,7 +262,7 @@ bool Function::isVirtual() const
 
 void Function::setVirtual(bool isVirtual)
 {
-   if ( isVirtual && ( _static || hasTemplates() || !isMethod() ) )
+   if ( isVirtual && ( isStatic() || hasTemplates() || !isMethod() ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -281,9 +282,16 @@ void Function::setVirtual(bool isVirtual)
 
 
 
-bool Function::isStatic() const
+void Function::setConstExpr(bool isConstExpr)
 {
-   return _static;
+   if ( isConstExpr && _virtual )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as constexpr when it is virtual."));
+      throw e;
+   }
+   Variable::setConstExpr(isConstExpr);
 }
 
 
@@ -297,15 +305,10 @@ void Function::setStatic(bool isStatic)
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as static when it is also virtual."));
+      e.setDetails(tr("Cannot set function as static when it is virtual."));
       throw e;
    }
-   if ( _static != isStatic )
-   {
-      _static = isStatic;
-      notifyOfNameChange();
-      emit modified();
-   }
+   Variable::setStatic(isStatic);
 }
 
 
@@ -335,6 +338,31 @@ void Function::setConst(bool isConst)
    if ( _const != isConst )
    {
       _const = isConst;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+bool Function::isNoExcept() const
+{
+   return _noExcept;
+}
+
+
+
+
+
+
+void Function::setNoExcept(bool isNoExcept)
+{
+   if ( _noExcept != isNoExcept )
+   {
+      _noExcept = isNoExcept;
       notifyOfNameChange();
       emit modified();
    }
@@ -443,23 +471,7 @@ void Function::setAbstract(bool isAbstract)
 
 bool Function::isMethod() const
 {
-   const AbstractBlock* root {this};
-   while ( root->parent() )
-   {
-      root = root->parent();
-      if ( root->type() == BlockFactory::ClassType )
-      {
-         return true;
-      }
-      else if ( root->type() == BlockFactory::NamespaceType )
-      {
-         return false;
-      }
-   }
-   Exception::LogicError e;
-   MARK_EXCEPTION(e);
-   e.setDetails(tr("Reached root of project without finding a single namespace or class."));
-   throw e;
+   return isClassMember();
 }
 
 
@@ -557,8 +569,8 @@ void Function::readData(const QDomElement& data)
    QList<QDomElement> operations;
    DomElementReader reader(data);
    _virtual = reader.attributeToInt(_virtualTag,false);
-   _static = reader.attributeToInt(_staticTag,false);
    _const = reader.attributeToInt(_constTag,false);
+   _noExcept = reader.attributeToInt(_noExceptTag,false);
    _override = reader.attributeToInt(_overrideTag,false);
    _final = reader.attributeToInt(_finalTag,false);
    _abstract = reader.attributeToInt(_abstractTag,false);
@@ -580,8 +592,8 @@ QDomElement Function::writeData(QDomDocument& document) const
 {
    QDomElement ret {Variable::writeData(document)};
    ret.setAttribute(_virtualTag,_virtual);
-   ret.setAttribute(_staticTag,_static);
    ret.setAttribute(_constTag,_const);
+   ret.setAttribute(_noExceptTag,_noExcept);
    ret.setAttribute(_overrideTag,_override);
    ret.setAttribute(_finalTag,_final);
    ret.setAttribute(_abstractTag,_abstract);

@@ -1,8 +1,6 @@
-#include <QVBoxLayout>
-#include <QHBoxLayout>
+#include <QFormLayout>
 #include <QLabel>
 #include <QPushButton>
-#include <QGroupBox>
 #include "cppqt_namespace.h"
 #include "cppqt_edit_namespace.h"
 #include "exception.h"
@@ -40,13 +38,11 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
 
 QLayout* Namespace::layout()
 {
-   QVBoxLayout* ret {new QVBoxLayout};
-   QGroupBox* basic {new QGroupBox(tr("Basic Information"))};
-   QGroupBox* types {new QGroupBox(tr("Types"))};
-   basic->setLayout(Base::layout());
-   types->setLayout(createTypeButtons());
-   ret->addWidget(basic);
-   ret->addWidget(types);
+   QFormLayout* ret {new QFormLayout};
+   ret->addRow(createTitle(tr("Basic Information")));
+   Base::addFields(ret);
+   ret->addRow(createTitle(tr("Types")));
+   addTypeButtons(ret);
    return ret;
 }
 
@@ -110,16 +106,12 @@ void Namespace::editLocalTypesClicked()
 
 
 
-QLayout* Namespace::createTypeButtons()
+void Namespace::addTypeButtons(QFormLayout* layout)
 {
-   QHBoxLayout* ret {new QHBoxLayout};
-   QPushButton* global {new QPushButton(tr("Global"))};
-   QPushButton* local {new QPushButton(tr("Local"))};
-   ret->addStretch();
-   ret->addWidget(global);
-   ret->addWidget(local);
-   ret->addStretch();
+   QPushButton* global {new QPushButton(tr("Global Types"))};
+   QPushButton* local {new QPushButton(tr("Local Types"))};
    connect(global,&QPushButton::clicked,this,&Namespace::editGlobalTypesClicked);
    connect(local,&QPushButton::clicked,this,&Namespace::editLocalTypesClicked);
-   return ret;
+   layout->addRow(global);
+   layout->addRow(local);
 }
