@@ -198,17 +198,15 @@ void Variable::setVariableType(const QString& type)
 
 bool Variable::isClassMember() const
 {
-   const AbstractBlock* root {this};
-   while ( root->parent() )
+   if ( parent()->type() == BlockFactory::ClassType ) return true;
+   else if ( parent()->type() == BlockFactory::NamespaceType || parent()->type() == BlockFactory::FunctionType ) return false;
+   else
    {
-      root = root->parent();
-      if ( root->type() == BlockFactory::ClassType ) return true;
-      else if ( root->type() == BlockFactory::NamespaceType || root->type() == BlockFactory::FunctionType ) return false;
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Variable's parent is of an unexpected type '%1'.").arg(parent()->elementName()));
+      throw e;
    }
-   Exception::LogicError e;
-   MARK_EXCEPTION(e);
-   e.setDetails(tr("Reached root of project without finding a single namespace or class."));
-   throw e;
 }
 
 
@@ -218,13 +216,7 @@ bool Variable::isClassMember() const
 
 bool Variable::isFunctionArgument() const
 {
-   const AbstractBlock* root {this};
-   while ( root->parent() )
-   {
-      root = root->parent();
-      if ( root->type() == BlockFactory::FunctionType ) return true;
-   }
-   return false;
+   return parent()->type() == BlockFactory::FunctionType;
 }
 
 

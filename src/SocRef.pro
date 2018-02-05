@@ -42,7 +42,8 @@ SOURCES += \
     cppqt_view_template.cpp \
     cppqt_edit_function.cpp \
     cppqt_edit_template.cpp \
-    cppqt_class.cpp
+    cppqt_class.cpp \
+    cppqt_access.cpp
 
 HEADERS += \
     singleton.h \
@@ -84,7 +85,8 @@ HEADERS += \
     cppqt_view_template.h \
     cppqt_edit_function.h \
     cppqt_edit_template.h \
-    cppqt_class.h
+    cppqt_class.h \
+    cppqt_access.h
 
 RESOURCES += \
     resources.qrc

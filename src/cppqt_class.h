@@ -1,6 +1,7 @@
 #ifndef CPPQT_CLASS_H
 #define CPPQT_CLASS_H
 #include "cppqt_namespace.h"
+#include "cppqt.h"
 
 
 
@@ -21,11 +22,13 @@ namespace CppQt
       void setQtObject(bool isQtObject);
       bool isVirtual() const;
       bool isAbstract() const;
-      bool hasSlotsOrSignals() const;
+      bool hasSignalsOrSlots() const;
    protected:
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
    private:
+      QList<Access*> accessChildren() const;
+      static const char* _qtObjectTag;
       bool _qtObject;
    };
 }

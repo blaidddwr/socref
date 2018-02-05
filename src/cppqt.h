@@ -8,4 +8,6 @@ namespace CppQt
    class Signal;
    class Function;
    class Template;
+   class Class;
+   class Access;
 }

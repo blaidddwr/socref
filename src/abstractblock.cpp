@@ -250,6 +250,34 @@ void AbstractBlock::notifyOfNameChange()
 
 
 
+bool AbstractBlock::hasChildOfType(int type) const
+{
+   for (auto child : _children)
+   {
+      if ( child->type() == type || child->hasChildOfType(type) ) return true;
+   }
+   return false;
+}
+
+
+
+
+
+
+bool AbstractBlock::hasChildOfTypes(const QList<int>& types) const
+{
+   for (auto child : _children)
+   {
+      if ( types.contains(child->type()) || child->hasChildOfTypes(types) ) return true;
+   }
+   return false;
+}
+
+
+
+
+
+
 void AbstractBlock::childNameChanged(AbstractBlock*)
 {}
 

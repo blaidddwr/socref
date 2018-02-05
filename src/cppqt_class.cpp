@@ -2,11 +2,16 @@
 #include "cppqt_blockfactory.h"
 #include "exception.h"
 #include "domelementreader.h"
+#include "cppqt_access.h"
 
 
 
 using namespace std;
 using namespace CppQt;
+
+
+
+const char* Class::_qtObjectTag {"qtobject"};
 
 
 
@@ -107,7 +112,7 @@ bool Class::isQtObject() const
 
 void Class::setQtObject(bool isQtObject)
 {
-   if ( !isQtObject && hasSlotsOrSignals() )
+   if ( !isQtObject && hasSignalsOrSlots() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -129,7 +134,11 @@ void Class::setQtObject(bool isQtObject)
 
 bool Class::isVirtual() const
 {
-   //TODO requires AccessType first
+   for (auto access : accessChildren())
+   {
+      if ( access->hasVirtual() ) return true;
+   }
+   return false;
 }
 
 
@@ -139,7 +148,11 @@ bool Class::isVirtual() const
 
 bool Class::isAbstract() const
 {
-   //TODO requires AccessType first
+   for (auto access : accessChildren())
+   {
+      if ( access->hasAbstract() ) return true;
+   }
+   return false;
 }
 
 
@@ -147,9 +160,13 @@ bool Class::isAbstract() const
 
 
 
-bool Class::hasSlotsOrSignals() const
+bool Class::hasSignalsOrSlots() const
 {
-   //TODO requires AccessType first
+   for (auto access : accessChildren())
+   {
+      if ( access->hasSignalsOrSlots() ) return true;
+   }
+   return false;
 }
 
 
@@ -161,7 +178,7 @@ void Class::readData(const QDomElement& data)
 {
    Namespace::readData(data);
    DomElementReader reader(data);
-   _qtObject = reader.attributeToInt("qtobject",false);
+   _qtObject = reader.attributeToInt(_qtObjectTag,false);
 }
 
 
@@ -172,6 +189,25 @@ void Class::readData(const QDomElement& data)
 QDomElement Class::writeData(QDomDocument& document) const
 {
    QDomElement ret {Namespace::writeData(document)};
-   if ( _qtObject ) ret.setAttribute("qtobject",_qtObject);
+   if ( _qtObject ) ret.setAttribute(_qtObjectTag,_qtObject);
+   return ret;
+}
+
+
+
+
+
+
+QList<Access*> Class::accessChildren() const
+{
+   QList<Access*> ret;
+   QList<AbstractBlock*> list {children()};
+   for (auto child : list)
+   {
+      if ( child->type() == BlockFactory::AccessType )
+      {
+         if ( Access* access = qobject_cast<Access*>(child) ) ret << access;
+      }
+   }
    return ret;
 }

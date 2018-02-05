@@ -118,9 +118,12 @@ void Namespace::setTypes(const QStringList& types)
          throw e;
       }
    }
-   _types = types;
-   emit modified();
-   emit typesChanged();
+   if ( _types != types )
+   {
+      _types = types;
+      emit modified();
+      emit typesChanged();
+   }
 }
 
 

@@ -199,7 +199,6 @@ void Function::setReturnDescription(const QString& description)
    if ( _returnDescription != description )
    {
       _returnDescription = description;
-      notifyOfNameChange();
       emit modified();
    }
 }
@@ -440,12 +439,7 @@ bool Function::isMethod() const
 
 bool Function::hasTemplates() const
 {
-   const QList<AbstractBlock*> list {children()};
-   for (auto child : list)
-   {
-      if ( child->type() == BlockFactory::TemplateType ) return true;
-   }
-   return false;
+   return hasChildOfType(BlockFactory::TemplateType);
 }
 
 
@@ -465,7 +459,11 @@ QStringList Function::operations() const
 
 void Function::setOperations(const QStringList& operations)
 {
-   _operations = operations;
+   if ( _operations != operations )
+   {
+      _operations = operations;
+      emit modified();
+   }
 }
 
 

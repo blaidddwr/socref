@@ -35,6 +35,8 @@ protected:
    void copyChildren(const AbstractBlock* block);
    QList<AbstractBlock*> children() const;
    void notifyOfNameChange();
+   bool hasChildOfType(int type) const;
+   bool hasChildOfTypes(const QList<int>& types) const;
 signals:
    void modified();
    void nameChanged(AbstractBlock* object);
