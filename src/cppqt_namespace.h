@@ -12,19 +12,20 @@ namespace CppQt
    public:
       Namespace() = default;
       Namespace(const QString& name);
-      virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
-      virtual int type() const override final;
-      virtual QString elementName() const override final;
-      virtual QIcon icon() const override final;
-      virtual QList<int> buildList() const override final;
+      virtual std::unique_ptr<AbstractBlock> makeCopy() const override;
+      virtual int type() const override;
+      virtual QString elementName() const override;
+      virtual QIcon icon() const override;
+      virtual QList<int> buildList() const override;
       QStringList types();
       void setTypes(const QStringList& types);
       Namespace* root();
    signals:
       void typesChanged();
    protected:
-      virtual void readData(const QDomElement& data) override final;
-      virtual QDomElement writeData(QDomDocument& document) const override final;
+      virtual void readData(const QDomElement& data) override;
+      virtual QDomElement writeData(QDomDocument& document) const override;
+      void copyDataFrom(const Namespace& object);
    private:
       void readType(const QDomElement& type);
       static const char* _typeTag;

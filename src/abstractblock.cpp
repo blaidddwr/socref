@@ -191,7 +191,7 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
    {
       QDomElement child_ {child->write(document)};
       child_.setTagName(factory().elementName(child->type()));
-      child_.setAttribute(_typeTag,QString::number(child->type()));
+      child_.setAttribute(_typeTag,child->type());
       ret.appendChild(child_);
    }
    return ret;

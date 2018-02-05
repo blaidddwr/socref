@@ -35,7 +35,6 @@ unique_ptr<AbstractBlock> Namespace::makeCopy() const
    unique_ptr<Namespace> ret {new Namespace};
    ret->copyChildren(this);
    ret->copyDataFrom(*this);
-   ret->_types = _types;
    return ret;
 }
 
@@ -175,6 +174,17 @@ QDomElement Namespace::writeData(QDomDocument& document) const
       ret.appendChild(type);
    }
    return ret;
+}
+
+
+
+
+
+
+void Namespace::copyDataFrom(const Namespace& object)
+{
+   Base::copyDataFrom(object);
+   _types = object._types;
 }
 
 

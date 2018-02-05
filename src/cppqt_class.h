@@ -1,0 +1,35 @@
+#ifndef CPPQT_CLASS_H
+#define CPPQT_CLASS_H
+#include "cppqt_namespace.h"
+
+
+
+namespace CppQt
+{
+   class Class : public Namespace
+   {
+      Q_OBJECT
+   public:
+      Class() = default;
+      Class(const QString& name);
+      virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
+      virtual int type() const override final;
+      virtual QString elementName() const override final;
+      virtual QIcon icon() const override final;
+      virtual QList<int> buildList() const override final;
+      bool isQtObject() const;
+      void setQtObject(bool isQtObject);
+      bool isVirtual() const;
+      bool isAbstract() const;
+      bool hasSlotsOrSignals() const;
+   protected:
+      virtual void readData(const QDomElement& data) override final;
+      virtual QDomElement writeData(QDomDocument& document) const override final;
+   private:
+      bool _qtObject;
+   };
+}
+
+
+
+#endif
