@@ -20,13 +20,13 @@ namespace CppQt
       public:
          Function(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
-         virtual QLayout* layout() override;
+         virtual QLayout* layout() override final;
          void addReturn(QFormLayout* layout);
          void addProperties(QFormLayout* layout);
       protected slots:
-         virtual void okClicked() override;
-         virtual void applyClicked() override;
-         virtual void cancelClicked() override;
+         virtual void okClicked() override final;
+         virtual void applyClicked() override final;
+         virtual void cancelClicked() override final;
       private slots:
          void checkBoxChanged(int state);
       private:
