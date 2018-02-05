@@ -87,10 +87,7 @@ QString Variable::elementName() const
 QIcon Variable::icon() const
 {
    static QIcon ret;
-   if ( ret.isNull() )
-   {
-      ret = QIcon(":/icons/variable.svg");
-   }
+   if ( ret.isNull() ) ret = QIcon(":/icons/variable.svg");
    return ret;
 }
 
@@ -205,14 +202,8 @@ bool Variable::isClassMember() const
    while ( root->parent() )
    {
       root = root->parent();
-      if ( root->type() == BlockFactory::ClassType )
-      {
-         return true;
-      }
-      else if ( root->type() == BlockFactory::NamespaceType || root->type() == BlockFactory::FunctionType )
-      {
-         return false;
-      }
+      if ( root->type() == BlockFactory::ClassType ) return true;
+      else if ( root->type() == BlockFactory::NamespaceType || root->type() == BlockFactory::FunctionType ) return false;
    }
    Exception::LogicError e;
    MARK_EXCEPTION(e);
@@ -231,10 +222,7 @@ bool Variable::isFunctionArgument() const
    while ( root->parent() )
    {
       root = root->parent();
-      if ( root->type() == BlockFactory::FunctionType )
-      {
-         return true;
-      }
+      if ( root->type() == BlockFactory::FunctionType ) return true;
    }
    return false;
 }
@@ -262,8 +250,8 @@ QDomElement Variable::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
    ret.setAttribute(_typeTag,_type);
-   ret.setAttribute(_constExprTag,_constExpr);
-   ret.setAttribute(_staticTag,_static);
+   if ( _constExpr ) ret.setAttribute(_constExprTag,_constExpr);
+   if ( _static ) ret.setAttribute(_staticTag,_static);
    return ret;
 }
 
@@ -288,14 +276,8 @@ void Variable::copyDataFrom(const Variable& object)
 QString Variable::properties() const
 {
    QString ret;
-   if ( _constExpr )
-   {
-      ret.append("constexpr ");
-   }
-   if ( _static )
-   {
-      ret.append("static ");
-   }
+   if ( _constExpr ) ret.append("constexpr ");
+   if ( _static ) ret.append("static ");
    return ret;
 }
 

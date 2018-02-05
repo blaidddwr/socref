@@ -55,59 +55,29 @@ QString Function::name() const
       bool first {true};
       for (auto template_ : templateList)
       {
-         if ( first )
-         {
-            first = false;
-         }
-         else
-         {
-            ret.append(", ");
-         }
+         if ( first ) first = false;
+         else ret.append(", ");
          ret.append(template_->name());
       }
       ret.append("> ");
    }
-   if ( _virtual )
-   {
-      ret.append("virtual ");
-   }
+   if ( _virtual ) ret.append("virtual ");
    ret.append(properties());
    ret.append(returnType()).append(" ").append(Base::name()).append("(");
    bool first {true};
    const auto variableList {arguments()};
    for (auto variable : variableList)
    {
-      if ( first )
-      {
-         first = false;
-      }
-      else
-      {
-         ret.append(",");
-      }
+      if ( first ) first = false;
+      else ret.append(",");
       ret.append(variable->variableType());
    }
    ret.append(")");
-   if ( _const )
-   {
-      ret.append(" const");
-   }
-   if ( _noExcept )
-   {
-      ret.append(" noexcept");
-   }
-   if ( _override )
-   {
-      ret.append(" override");
-   }
-   if ( _final )
-   {
-      ret.append(" final");
-   }
-   if ( _abstract )
-   {
-      ret.append(" = 0");
-   }
+   if ( _const ) ret.append(" const");
+   if ( _noExcept ) ret.append(" noexcept");
+   if ( _override ) ret.append(" override");
+   if ( _final ) ret.append(" final");
+   if ( _abstract ) ret.append(" = 0");
    return ret;
 }
 
@@ -170,18 +140,10 @@ QIcon Function::icon() const
       abstract = QIcon(":/icons/abstract.svg");
       isLoaded = true;
    }
-   if ( _abstract )
-   {
-      return abstract;
-   }
-   else if ( _virtual )
-   {
-      return virtual_;
-   }
-   else
-   {
-      return regular;
-   }
+   if ( _abstract ) return abstract;
+   else if ( _virtual ) return virtual_;
+   else return regular;
+
 }
 
 
@@ -193,10 +155,7 @@ QList<int> Function::buildList() const
 {
    QList<int> ret;
    ret << BlockFactory::VariableType;
-   if ( !_virtual )
-   {
-      ret << BlockFactory::TemplateType;
-   }
+   if ( !_virtual ) ret << BlockFactory::TemplateType;
    return ret;
 }
 
@@ -484,10 +443,7 @@ bool Function::hasTemplates() const
    const QList<AbstractBlock*> list {children()};
    for (auto child : list)
    {
-      if ( child->type() == BlockFactory::TemplateType )
-      {
-         return true;
-      }
+      if ( child->type() == BlockFactory::TemplateType ) return true;
    }
    return false;
 }
@@ -525,10 +481,7 @@ QList<Variable*> Function::arguments() const
    {
       if ( child->type() == BlockFactory::VariableType )
       {
-         if ( Variable* variable = qobject_cast<Variable*>(child) )
-         {
-            ret.append(variable);
-         }
+         if ( Variable* variable = qobject_cast<Variable*>(child) ) ret.append(variable);
       }
    }
    return ret;
@@ -547,10 +500,7 @@ QList<Template*> Function::templates() const
    {
       if ( child->type() == BlockFactory::TemplateType )
       {
-         if ( Template* variable = qobject_cast<Template*>(child) )
-         {
-            ret.append(variable);
-         }
+         if ( Template* variable = qobject_cast<Template*>(child) ) ret.append(variable);
       }
    }
    return ret;
@@ -577,10 +527,7 @@ void Function::readData(const QDomElement& data)
    reader.set(_operationTag,&operations,false);
    reader.set(_returnDescriptionTag,&_returnDescription,false);
    reader.read();
-   for (auto operation : qAsConst(operations))
-   {
-      _operations.append(operation.text());
-   }
+   for (auto operation : qAsConst(operations)) _operations.append(operation.text());
 }
 
 
@@ -591,12 +538,12 @@ void Function::readData(const QDomElement& data)
 QDomElement Function::writeData(QDomDocument& document) const
 {
    QDomElement ret {Variable::writeData(document)};
-   ret.setAttribute(_virtualTag,_virtual);
-   ret.setAttribute(_constTag,_const);
-   ret.setAttribute(_noExceptTag,_noExcept);
-   ret.setAttribute(_overrideTag,_override);
-   ret.setAttribute(_finalTag,_final);
-   ret.setAttribute(_abstractTag,_abstract);
+   if ( _virtual ) ret.setAttribute(_virtualTag,_virtual);
+   if ( _const ) ret.setAttribute(_constTag,_const);
+   if ( _noExcept ) ret.setAttribute(_noExceptTag,_noExcept);
+   if ( _override ) ret.setAttribute(_overrideTag,_override);
+   if ( _final ) ret.setAttribute(_finalTag,_final);
+   if ( _abstract ) ret.setAttribute(_abstractTag,_abstract);
    if ( !_returnDescription.isEmpty() )
    {
       QDomElement element {document.createElement(_returnDescriptionTag)};
