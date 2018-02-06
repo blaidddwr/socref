@@ -47,7 +47,8 @@ SOURCES += \
     cppqt_view_class.cpp \
     cppqt_common.cpp \
     cppqt_view_common.cpp \
-    cppqt_view_access.cpp
+    cppqt_view_access.cpp \
+    cppqt_gui_listdialog.cpp
 
 HEADERS += \
     singleton.h \
@@ -94,7 +95,8 @@ HEADERS += \
     cppqt_view_class.h \
     cppqt_common.h \
     cppqt_view_common.h \
-    cppqt_view_access.h
+    cppqt_view_access.h \
+    cppqt_gui_listdialog.h
 
 RESOURCES += \
     resources.qrc
