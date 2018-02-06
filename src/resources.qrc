@@ -22,5 +22,7 @@
         <file>icons/public.svg</file>
         <file>icons/pubslots.svg</file>
         <file>icons/signals.svg</file>
+        <file>icons/parent.svg</file>
+        <file>icons/svariable.svg</file>
     </qresource>
 </RCC>
