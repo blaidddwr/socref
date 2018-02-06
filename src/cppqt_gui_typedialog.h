@@ -20,7 +20,7 @@ namespace CppQt
          explicit TypeDialog(const QString& name, QWidget* parent = nullptr);
          QString name();
          void setName(const QString& name);
-         static const char* _typeRegExp;
+         static bool isValidTypeString(const QString& input);
       private slots:
          void textChanged(const QString& text);
       private:

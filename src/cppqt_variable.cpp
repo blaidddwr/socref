@@ -293,7 +293,7 @@ QString Variable::properties() const
 
 void Variable::checkTypeSyntax(const QString& type)
 {
-   if ( !QRegExp(Gui::TypeDialog::_typeRegExp).exactMatch(type) )
+   if ( !Gui::TypeDialog::isValidTypeString(type) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

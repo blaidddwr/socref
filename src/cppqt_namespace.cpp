@@ -118,10 +118,9 @@ QStringList Namespace::types() const
 
 void Namespace::setTypes(const QStringList& types)
 {
-   QRegExp regexp(Gui::TypeDialog::_typeRegExp);
    for (auto type : types)
    {
-      if ( !regexp.exactMatch(type) )
+      if ( !Gui::TypeDialog::isValidTypeString(type) )
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);

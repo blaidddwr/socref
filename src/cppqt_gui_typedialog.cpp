@@ -12,10 +12,6 @@ using namespace CppQt::Gui;
 
 
 
-const char* TypeDialog::_typeRegExp {"\\s*(static\\s+)?(const(expr)?\\s+)?[a-zA-Z]+[a-zA-Z0-9_]*(<[a-zA-Z]+[a-zA-Z0-9_]*(,[a-zA-Z]+[a-zA-Z0-9_]*)*>)?(\\s*\\*(\\s*const)?)*\\s*&?\\s*"};
-
-
-
 
 
 
@@ -55,7 +51,7 @@ QString TypeDialog::name()
 
 void TypeDialog::setName(const QString& name)
 {
-   if ( !QRegExp(_typeRegExp).exactMatch(name) )
+   if ( !TypeDialog::isValidTypeString(name) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -70,10 +66,35 @@ void TypeDialog::setName(const QString& name)
 
 
 
+bool TypeDialog::isValidTypeString(const QString& input)
+{
+   bool ret {false};
+   if ( QRegExp("\\s*(const\\s+)?[a-zA-Z_]+[a-z-A-Z0-9_]*(<(.*)>)?(\\s*\\*(\\s*const)?)*\\s*&?\\s*").exactMatch(input) )
+   {
+      ret = true;
+      if ( input.contains('<') )
+      {
+         int begin {input.indexOf('<')};
+         int end {input.lastIndexOf('>')};
+         QStringList args {input.mid(begin+1,end-begin-1).split(',')};
+         for (auto arg : args)
+         {
+            ret &= isValidTypeString(arg);
+         }
+      }
+   }
+   return ret;
+}
+
+
+
+
+
+
 void TypeDialog::textChanged(const QString& text)
 {
    Q_UNUSED(text)
-   _ok->setDisabled(!_text->hasAcceptableInput());
+   _ok->setDisabled(!isValidTypeString(text));
 }
 
 
@@ -98,7 +119,6 @@ void TypeDialog::createGui()
 void TypeDialog::createLineEdit()
 {
    _text = new QLineEdit;
-   _text->setValidator(new QRegExpValidator(QRegExp(_typeRegExp)));
    connect(_text,&QLineEdit::textChanged,this,&TypeDialog::textChanged);
 }
 

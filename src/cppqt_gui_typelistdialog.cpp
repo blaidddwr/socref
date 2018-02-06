@@ -36,10 +36,18 @@ void TypeListDialog::itemDoubleClicked(QListWidgetItem* item)
 {
    TypeDialog dialog(item->text());
    dialog.setWindowTitle(tr("Edit Type"));
-   if ( dialog.exec() )
+   while (true)
    {
-      QString type {dialog.name()};
-      if ( item->text() == type || !isDuplicate(type) ) item->setText(type);
+      if ( dialog.exec() )
+      {
+         QString type {dialog.name()};
+         if ( item->text() == type || !isDuplicate(type) )
+         {
+            item->setText(type);
+            break;
+         }
+      }
+      else break;
    }
 }
 
@@ -52,10 +60,18 @@ void TypeListDialog::addClicked()
 {
    TypeDialog dialog;
    dialog.setWindowTitle(tr("New Type"));
-   if ( dialog.exec() )
+   while (true)
    {
-      QString type {dialog.name()};
-      if ( !isDuplicate(type) ) _list->addItem(type);
+      if ( dialog.exec() )
+      {
+         QString type {dialog.name()};
+         if ( !isDuplicate(type) )
+         {
+            _list->addItem(type);
+            break;
+         }
+      }
+      else break;
    }
 }
 
