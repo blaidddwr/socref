@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Function(AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
+         explicit Function(const AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
       protected:
          QString displayText();
          QString displayTemplatesText();
@@ -22,7 +22,7 @@ namespace CppQt
       private slots:
          void bodyChanged();
       private:
-         CppQt::Function* _block;
+         const CppQt::Function* _block;
       };
    }
 }

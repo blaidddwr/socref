@@ -7,7 +7,7 @@
 
 
 
-QString CppQt::View::displayTemplatesText(AbstractBlock* block)
+QString CppQt::View::displayTemplatesText(const AbstractBlock* block)
 {
    QString ret;
    const QList<Template*> list {block->makeChildListOfType<Template>(BlockFactory::TemplateType)};

@@ -13,9 +13,9 @@ using namespace CppQt::View;
 
 
 
-Class::Class(AbstractBlock* block, QWidget* parent):
+Class::Class(const AbstractBlock* block, QWidget* parent):
    Namespace(block,true,parent),
-   _block(qobject_cast<CppQt::Class*>(block))
+   _block(qobject_cast<const CppQt::Class*>(block))
 {
    if ( !_block )
    {

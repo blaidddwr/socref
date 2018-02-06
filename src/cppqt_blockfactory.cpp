@@ -105,42 +105,6 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 
 
 
-unique_ptr<QWidget> BlockFactory::makeView(int type, AbstractBlock* block) const
-{
-   switch (type)
-   {
-   case NamespaceType: return unique_ptr<QWidget>(new View::Namespace(block));
-   case VariableType: return unique_ptr<QWidget>(new View::Variable(block));
-   case FunctionType: return unique_ptr<QWidget>(new View::Function(block));
-   case TemplateType: return unique_ptr<QWidget>(new View::Template(block));
-   case ClassType: return unique_ptr<QWidget>(new View::Class(block));
-   case AccessType: return unique_ptr<QWidget>(new View::Access(block));
-   default: return nullptr;
-   }
-}
-
-
-
-
-
-
-unique_ptr<AbstractEdit> BlockFactory::makeEdit(int type, AbstractBlock* block) const
-{
-   switch (type)
-   {
-   case NamespaceType: return unique_ptr<AbstractEdit>(new Edit::Namespace(block));
-   case VariableType: return unique_ptr<AbstractEdit>(new Edit::Variable(block));
-   case FunctionType: return unique_ptr<AbstractEdit>(new Edit::Function(block));
-   case TemplateType: return unique_ptr<AbstractEdit>(new Edit::Template(block));
-   default: return nullptr;
-   }
-}
-
-
-
-
-
-
 int BlockFactory::type() const
 {
    return ProjectFactory::CppQtType;

@@ -12,9 +12,9 @@ using namespace CppQt::View;
 
 
 
-Access::Access(AbstractBlock* block, QWidget* parent):
+Access::Access(const AbstractBlock* block, QWidget* parent):
    QLabel(parent),
-   _block(qobject_cast<CppQt::Access*>(block))
+   _block(qobject_cast<const CppQt::Access*>(block))
 {
    if ( !_block )
    {

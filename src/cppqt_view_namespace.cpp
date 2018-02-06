@@ -11,9 +11,9 @@ using namespace CppQt::View;
 
 
 
-Namespace::Namespace(AbstractBlock* block, bool wait, QWidget* parent):
+Namespace::Namespace(const AbstractBlock* block, bool wait, QWidget* parent):
    Base(block,parent),
-   _block(qobject_cast<CppQt::Namespace*>(block))
+   _block(qobject_cast<const CppQt::Namespace*>(block))
 {
    if ( !_block )
    {

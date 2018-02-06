@@ -9,6 +9,6 @@ using namespace CppQt::View;
 
 
 
-Template::Template(AbstractBlock* block, QWidget* parent):
+Template::Template(const AbstractBlock* block, QWidget* parent):
    Variable(block,false,parent)
 {}

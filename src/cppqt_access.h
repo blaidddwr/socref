@@ -28,6 +28,8 @@ namespace CppQt
       virtual const AbstractBlockFactory& factory() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
+      virtual std::unique_ptr<QWidget> makeView() const override final;
+      virtual std::unique_ptr<Gui::AbstractEdit> makeEdit() override final;
       Type accessType();
       void setAccessType(Type type);
       bool hasSignals() const;

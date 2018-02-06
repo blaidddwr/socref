@@ -131,7 +131,7 @@ void BlockView::editTriggered()
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->pointer(index)};
-      unique_ptr<AbstractEdit> edit {_factory->makeEdit(pointer->type(),pointer)};
+      unique_ptr<AbstractEdit> edit {pointer->makeEdit()};
       if ( !edit )
       {
          Exception::LogicError e;
@@ -220,7 +220,7 @@ void BlockView::selectionModelChanged()
    if ( index.isValid() )
    {
       AbstractBlock* pointer {_model->pointer(index)};
-      view = _factory->makeView(pointer->type(),pointer);
+      view = pointer->makeView();
       if ( !view )
       {
          Exception::LogicError e;

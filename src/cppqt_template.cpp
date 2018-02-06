@@ -1,9 +1,12 @@
 #include "cppqt_template.h"
+#include "cppqt_view_template.h"
+#include "cppqt_edit_template.h"
 #include "cppqt_blockfactory.h"
 
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt;
 
 
@@ -66,4 +69,24 @@ QIcon Template::icon() const
 QList<int> Template::buildList() const
 {
    return QList<int>();
+}
+
+
+
+
+
+
+unique_ptr<QWidget> Template::makeView() const
+{
+   return unique_ptr<QWidget>(new View::Template(this));
+}
+
+
+
+
+
+
+unique_ptr<AbstractEdit> Template::makeEdit()
+{
+   return unique_ptr<AbstractEdit>(new Edit::Template(this));
 }

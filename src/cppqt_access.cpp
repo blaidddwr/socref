@@ -1,4 +1,5 @@
 #include "cppqt_access.h"
+#include "cppqt_view_access.h"
 #include "cppqt_blockfactory.h"
 #include "exception.h"
 #include "domelementreader.h"
@@ -7,6 +8,7 @@
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt;
 
 
@@ -137,6 +139,25 @@ QList<int> Access::buildList() const
    else if ( _type == Type::Signals ) ret << BlockFactory::SignalType;
    else ret << BlockFactory::FunctionType << BlockFactory::VariableType;
    return ret;
+}
+
+
+
+
+
+
+unique_ptr<QWidget> Access::makeView() const
+{
+   return unique_ptr<QWidget>(new View::Access(this));
+}
+
+
+
+
+
+
+unique_ptr<AbstractEdit> Access::makeEdit()
+{
 }
 
 

@@ -30,6 +30,18 @@ AbstractBlock* AbstractBlock::root()
 
 
 
+const AbstractBlock* AbstractBlock::root() const
+{
+   const AbstractBlock* root {this};
+   while ( root->_parent ) root = root->_parent;
+   return root;
+}
+
+
+
+
+
+
 AbstractBlock*AbstractBlock::parent() const
 {
    return _parent;

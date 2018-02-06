@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Variable(AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
+         explicit Variable(const AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
       protected:
          QString displayText();
       };

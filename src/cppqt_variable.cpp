@@ -1,4 +1,6 @@
 #include "cppqt_variable.h"
+#include "cppqt_view_variable.h"
+#include "cppqt_edit_variable.h"
 #include "cppqt_gui_typedialog.h"
 #include "exception.h"
 #include "cppqt_blockfactory.h"
@@ -7,6 +9,7 @@
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt;
 
 
@@ -89,6 +92,26 @@ QIcon Variable::icon() const
 QList<int> Variable::buildList() const
 {
    return QList<int>();
+}
+
+
+
+
+
+
+unique_ptr<QWidget> Variable::makeView() const
+{
+   return unique_ptr<QWidget>(new View::Variable(this));
+}
+
+
+
+
+
+
+unique_ptr<AbstractEdit> Variable::makeEdit()
+{
+   return unique_ptr<AbstractEdit>(new Edit::Variable(this));
 }
 
 

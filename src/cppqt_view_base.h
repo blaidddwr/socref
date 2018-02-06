@@ -14,11 +14,11 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Base(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Base(const AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          QString displayText();
       private:
-         CppQt::Base* _block;
+         const CppQt::Base* _block;
       };
    }
 }

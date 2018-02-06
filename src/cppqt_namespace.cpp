@@ -1,6 +1,8 @@
 #include <memory>
 #include <QDomDocument>
 #include "cppqt_namespace.h"
+#include "cppqt_view_namespace.h"
+#include "cppqt_edit_namespace.h"
 #include "cppqt_blockfactory.h"
 #include "exception.h"
 #include "cppqt_gui_typedialog.h"
@@ -9,6 +11,7 @@
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt;
 
 
@@ -83,7 +86,27 @@ QList<int> Namespace::buildList() const
 
 
 
-QStringList Namespace::types()
+unique_ptr<QWidget> Namespace::makeView() const
+{
+   return unique_ptr<QWidget>(new View::Namespace(this));
+}
+
+
+
+
+
+
+unique_ptr<AbstractEdit> Namespace::makeEdit()
+{
+   return unique_ptr<AbstractEdit>(new Edit::Namespace(this));
+}
+
+
+
+
+
+
+QStringList Namespace::types() const
 {
    return _types;
 }
@@ -122,6 +145,24 @@ void Namespace::setTypes(const QStringList& types)
 Namespace* Namespace::root()
 {
    Namespace* ret {qobject_cast<Namespace*>(AbstractBlock::root())};
+   if ( !ret )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Root block is not expected Namespace type."));
+      throw e;
+   }
+   return ret;
+}
+
+
+
+
+
+
+const Namespace* Namespace::root() const
+{
+   const Namespace* ret {qobject_cast<const Namespace*>(AbstractBlock::root())};
    if ( !ret )
    {
       Exception::LogicError e;

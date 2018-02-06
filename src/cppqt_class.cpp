@@ -1,4 +1,5 @@
 #include "cppqt_class.h"
+#include "cppqt_view_class.h"
 #include "cppqt_blockfactory.h"
 #include "exception.h"
 #include "domelementreader.h"
@@ -9,6 +10,7 @@
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt;
 
 
@@ -95,6 +97,25 @@ QList<int> Class::buildList() const
       ret << BlockFactory::AccessType;
    }
    return ret;
+}
+
+
+
+
+
+
+unique_ptr<QWidget> Class::makeView() const
+{
+   return unique_ptr<QWidget>(new View::Class(this));
+}
+
+
+
+
+
+
+unique_ptr<AbstractEdit> Class::makeEdit()
+{
 }
 
 

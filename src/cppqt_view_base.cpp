@@ -13,9 +13,9 @@ using namespace CppQt::View;
 
 
 
-Base::Base(AbstractBlock* block, QWidget* parent):
+Base::Base(const AbstractBlock* block, QWidget* parent):
    QLabel(parent),
-   _block(qobject_cast<CppQt::Base*>(block))
+   _block(qobject_cast<const CppQt::Base*>(block))
 {
    if ( !_block )
    {

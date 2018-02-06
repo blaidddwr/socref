@@ -18,6 +18,8 @@ namespace CppQt
       virtual int type() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
+      virtual std::unique_ptr<QWidget> makeView() const override;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
       bool isConstExpr() const;
       void setConstExpr(bool isConstExpr);
       bool isStatic() const;

@@ -1,4 +1,6 @@
 #include "cppqt_function.h"
+#include "cppqt_view_function.h"
+#include "cppqt_edit_function.h"
 #include "cppqt_variable.h"
 #include "exception.h"
 #include "cppqt_gui_typedialog.h"
@@ -10,6 +12,7 @@
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt;
 
 
@@ -138,6 +141,26 @@ QList<int> Function::buildList() const
    ret << BlockFactory::VariableType;
    if ( !_virtual ) ret << BlockFactory::TemplateType;
    return ret;
+}
+
+
+
+
+
+
+unique_ptr<QWidget> Function::makeView() const
+{
+   return unique_ptr<QWidget>(new View::Function(this));
+}
+
+
+
+
+
+
+unique_ptr<AbstractEdit> Function::makeEdit()
+{
+   return unique_ptr<AbstractEdit>(new Edit::Function(this));
 }
 
 

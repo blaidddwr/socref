@@ -14,9 +14,9 @@ using namespace CppQt::View;
 
 
 
-Function::Function(AbstractBlock* block, bool wait, QWidget* parent):
+Function::Function(const AbstractBlock* block, bool wait, QWidget* parent):
    Base(block,parent),
-   _block(qobject_cast<CppQt::Function*>(block))
+   _block(qobject_cast<const CppQt::Function*>(block))
 {
    if ( !_block )
    {

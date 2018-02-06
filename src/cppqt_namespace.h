@@ -16,9 +16,12 @@ namespace CppQt
       virtual int type() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
-      QStringList types();
+      virtual std::unique_ptr<QWidget> makeView() const override;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      QStringList types() const;
       void setTypes(const QStringList& types);
       Namespace* root();
+      const Namespace* root() const;
    signals:
       void typesChanged();
    protected:

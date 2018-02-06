@@ -9,7 +9,7 @@ namespace CppQt
 {
    namespace View
    {
-      QString displayTemplatesText(AbstractBlock* block);
+      QString displayTemplatesText(const AbstractBlock* block);
    }
 }
 

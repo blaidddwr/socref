@@ -4,6 +4,7 @@
 #include <QObject>
 #include <QDomElement>
 #include "global.h"
+#include "gui.h"
 
 
 
@@ -17,7 +18,10 @@ public:
    virtual const AbstractBlockFactory& factory() const = 0;
    virtual QIcon icon() const = 0;
    virtual QList<int> buildList() const = 0;
+   virtual std::unique_ptr<QWidget> makeView() const = 0;
+   virtual std::unique_ptr<Gui::AbstractEdit> makeEdit() = 0;
    AbstractBlock* root();
+   const AbstractBlock* root() const;
    AbstractBlock* parent() const;
    int childrenSize() const;
    AbstractBlock* child(int index);
