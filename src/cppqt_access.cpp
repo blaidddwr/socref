@@ -25,17 +25,33 @@ Access::Access(Type type):
 
 QString Access::name() const
 {
+   QString ret;
    switch (_type)
    {
-   case Type::Public: return "public:";
-   case Type::Signals: return "signals:";
-   case Type::PublicSlots: return "public slots:";
-   case Type::Protected: return "protected:";
-   case Type::ProtectedSlots: return "protected slots:";
-   case Type::Private: return "private:";
-   case Type::PrivateSlots: return "private slots:";
-   default: return "public:";
+   case Type::Public:
+      ret.append("public:");
+      break;
+   case Type::Signals:
+      ret.append("signals:");
+      break;
+   case Type::PublicSlots:
+      ret.append("public slots:");
+      break;
+   case Type::Protected:
+      ret.append("protected:");
+      break;
+   case Type::ProtectedSlots:
+      ret.append("protected slots:");
+      break;
+   case Type::Private:
+      ret.append("private:");
+      break;
+   case Type::PrivateSlots:
+      ret.append("private slots:");
+      break;
    }
+   ret.append(" (").append(QString::number(childrenSize())).append(")");
+   return ret;
 }
 
 
@@ -269,6 +285,30 @@ bool Access::isSlot(Type type)
 bool Access::isNormal(Type type)
 {
    return ( type == Type::Public || type == Type::Protected || type == Type::Private );
+}
+
+
+
+
+
+
+void Access::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyOfNameChange();
+   emit bodyChanged();
+}
+
+
+
+
+
+
+void Access::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyOfNameChange();
+   emit bodyChanged();
 }
 
 

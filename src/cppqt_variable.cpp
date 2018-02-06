@@ -188,7 +188,7 @@ void Variable::setVariableType(const QString& type)
 
 bool Variable::isClassMember() const
 {
-   if ( parent()->type() == BlockFactory::ClassType ) return true;
+   if ( parent()->type() == BlockFactory::AccessType ) return true;
    else if ( parent()->type() == BlockFactory::NamespaceType || parent()->type() == BlockFactory::FunctionType ) return false;
    else
    {

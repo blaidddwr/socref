@@ -20,18 +20,17 @@ namespace CppQt
          Variable(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
-         void addCombo(QFormLayout* layout);
-         void addProperties(QFormLayout* layout);
          virtual bool isConstExprCheckable() const;
          virtual bool isStaticCheckable() const;
+         void addCombo(QFormLayout* layout);
+         void addProperties(QFormLayout* layout);
          const QCheckBox* constExprBox() const;
          const QCheckBox* staticBox() const;
       protected slots:
          virtual void okClicked() override;
          virtual void applyClicked() override;
          virtual void cancelClicked() override;
-      private slots:
-         void checkBoxChanged(int state);
+         virtual void checkBoxChanged(int state);
       private:
          QLayout* createCombo();
          CppQt::Variable* _block;

@@ -51,6 +51,26 @@ QLayout* Variable::layout()
 
 
 
+bool Variable::isConstExprCheckable() const
+{
+   return !_block->isFunctionArgument();
+}
+
+
+
+
+
+
+bool Variable::isStaticCheckable() const
+{
+   return _block->isClassMember();
+}
+
+
+
+
+
+
 void Variable::addCombo(QFormLayout* layout)
 {
    _type = new TypeComboBox(_block);
@@ -69,31 +89,11 @@ void Variable::addProperties(QFormLayout* layout)
    _staticBox = new QCheckBox(tr("Static"));
    _constExprBox->setChecked(_block->isConstExpr());
    _staticBox->setChecked(_block->isStatic());
-   checkBoxChanged(0);
+   Variable::checkBoxChanged(0);
    connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
    connect(_staticBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
    layout->addRow(_constExprBox);
    layout->addRow(_staticBox);
-}
-
-
-
-
-
-
-bool Variable::isConstExprCheckable() const
-{
-   return !_block->isFunctionArgument();
-}
-
-
-
-
-
-
-bool Variable::isStaticCheckable() const
-{
-   return _block->isClassMember();
 }
 
 

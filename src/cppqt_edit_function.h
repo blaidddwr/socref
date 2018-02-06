@@ -27,8 +27,7 @@ namespace CppQt
          virtual void okClicked() override final;
          virtual void applyClicked() override final;
          virtual void cancelClicked() override final;
-      private slots:
-         void checkBoxChanged(int state);
+         virtual void checkBoxChanged(int state) override final;
       private:
          void createReturnWidgets();
          void createPropertiesWidgets();

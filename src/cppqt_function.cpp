@@ -111,15 +111,18 @@ QIcon Function::icon() const
    static QIcon regular;
    static QIcon virtual_;
    static QIcon abstract;
+   static QIcon static_;
    if ( !isLoaded )
    {
       regular = QIcon(":/icons/function.svg");
       virtual_ = QIcon(":/icons/virtual.svg");
       abstract = QIcon(":/icons/abstract.svg");
+      static_ = QIcon(":/icons/static.svg");
       isLoaded = true;
    }
    if ( _abstract ) return abstract;
    else if ( _virtual ) return virtual_;
+   else if ( isStatic() ) return static_;
    else return regular;
 
 }
