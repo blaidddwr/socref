@@ -7,24 +7,18 @@
 
 
 
-namespace CppQt
+QString CppQt::View::displayTemplatesText(AbstractBlock* block)
 {
-   namespace View
+   QString ret;
+   const QList<Template*> list {block->makeChildListOfType<Template>(BlockFactory::TemplateType)};
+   if ( !list.isEmpty() )
    {
-      QString displayTemplatesText(AbstractBlock* block)
+      ret.append("<h2>Templates</h2>");
+      for (auto template_ : list)
       {
-         QString ret;
-         const QList<Template*> list {block->makeChildListOfType<Template>(BlockFactory::TemplateType)};
-         if ( !list.isEmpty() )
-         {
-            ret.append("<h2>Templates</h2>");
-            for (auto template_ : list)
-            {
-               ret.append("<p>").append(template_->variableType()).append(" <b>").append(template_->Base::name()).append("</b> : ");
-               ret.append(template_->description()).append("</p>");
-            }
-         }
-         return ret;
+         ret.append("<p>").append(template_->variableType()).append(" <b>").append(template_->Base::name()).append("</b> : ");
+         ret.append(template_->description()).append("</p>");
       }
    }
+   return ret;
 }

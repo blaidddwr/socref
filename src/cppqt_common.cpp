@@ -8,24 +8,21 @@
 
 
 
-namespace CppQt
+QString CppQt::templateName(const AbstractBlock* block)
 {
-   QString templateName(const AbstractBlock* block)
+   QString ret;
+   const QList<Template*> list {block->makeChildListOfType<Template>(BlockFactory::TemplateType)};
+   if ( !list.isEmpty() )
    {
-      QString ret;
-      const QList<Template*> list {block->makeChildListOfType<Template>(BlockFactory::TemplateType)};
-      if ( !list.isEmpty() )
+      ret.append("template<");
+      bool first {true};
+      for (auto template_ : list)
       {
-         ret.append("template<");
-         bool first {true};
-         for (auto template_ : list)
-         {
-            if ( first ) first = false;
-            else ret.append(", ");
-            ret.append(template_->name());
-         }
-         ret.append("> ");
+         if ( first ) first = false;
+         else ret.append(", ");
+         ret.append(template_->name());
       }
-      return ret;
+      ret.append("> ");
    }
+   return ret;
 }
