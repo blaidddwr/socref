@@ -17,17 +17,6 @@ using namespace CppQt;
 
 
 
-const char* Function::_returnDescriptionTag {"return_description"};
-const char* Function::_virtualTag {"virtual"};
-const char* Function::_constTag {"const"};
-const char* Function::_noExceptTag {"noexcept"};
-const char* Function::_overrideTag {"override"};
-const char* Function::_finalTag {"final"};
-const char* Function::_abstractTag {"abstract"};
-const char* Function::_operationTag {"operation"};
-
-
-
 
 
 

@@ -35,9 +35,9 @@ namespace CppQt
       QString properties() const;
    private:
       void checkTypeSyntax(const QString& type);
-      static const char* _typeTag;
-      static const char* _constExprTag;
-      static const char* _staticTag;
+      const char* _typeTag {"type"};
+      const char* _constExprTag {"constexpr"};
+      const char* _staticTag {"static"};
       QString _type;
       bool _constExpr {false};
       bool _static {false};

@@ -49,7 +49,7 @@ namespace CppQt
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
    private:
-      static const char* _typeTag;
+      const char* _typeTag {"type"};
       Type _type;
    };
 }

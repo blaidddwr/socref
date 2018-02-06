@@ -10,11 +10,6 @@ using namespace std;
 
 
 
-const char* AbstractBlock::_dataTag {"data"};
-const char* AbstractBlock::_typeTag {"type"};
-
-
-
 
 
 

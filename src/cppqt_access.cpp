@@ -340,7 +340,7 @@ void Access::childRemoved(AbstractBlock* child)
 void Access::readData(const QDomElement& data)
 {
    DomElementReader reader(data);
-   _type = static_cast<Type>(reader.attributeToInt("type",false));
+   _type = static_cast<Type>(reader.attributeToInt(_typeTag,false));
 }
 
 
@@ -351,6 +351,6 @@ void Access::readData(const QDomElement& data)
 QDomElement Access::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
-   ret.setAttribute("type",static_cast<int>(_type));
+   ret.setAttribute(_typeTag,static_cast<int>(_type));
    return ret;
 }

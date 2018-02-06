@@ -16,11 +16,6 @@ using namespace CppQt;
 
 
 
-const char* Namespace::_typeTag {"type"};
-const char* Namespace::_nameTag {"name"};
-
-
-
 
 
 

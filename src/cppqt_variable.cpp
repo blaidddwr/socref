@@ -14,12 +14,6 @@ using namespace CppQt;
 
 
 
-const char* Variable::_typeTag {"type"};
-const char* Variable::_constExprTag {"constexpr"};
-const char* Variable::_staticTag {"static"};
-
-
-
 
 
 
