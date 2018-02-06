@@ -63,8 +63,9 @@ QString Function::displayArgumentsText()
       ret.append("<h2>Arguments</h2>");
       for (auto variable : list)
       {
-         ret.append("<p>").append(variable->variableType()).append(" <b>").append(variable->Base::name()).append("</b> : ");
-         ret.append(variable->description()).append("</p>");
+         ret.append("<p>").append(variable->variableType()).append(" <b>").append(variable->Base::name()).append("</b>");
+         if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
+         ret.append(variable->description()).append(" : </p>");
       }
    }
    return ret;

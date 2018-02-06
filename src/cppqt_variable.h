@@ -26,6 +26,9 @@ namespace CppQt
       void setStatic(bool isStatic);
       QString variableType() const;
       void setVariableType(const QString& type);
+      bool hasInitializer() const;
+      QString initializer() const;
+      void setInitializer(const QString& initializer);
       bool isClassMember() const;
       bool isFunctionArgument() const;
    protected:
@@ -35,12 +38,14 @@ namespace CppQt
       QString properties() const;
    private:
       void checkTypeSyntax(const QString& type);
-      const char* _typeTag {"type"};
       const char* _constExprTag {"constexpr"};
       const char* _staticTag {"static"};
-      QString _type;
+      const char* _typeTag {"type"};
+      const char* _initializerTag {"initializer"};
       bool _constExpr {false};
       bool _static {false};
+      QString _type;
+      QString _initializer;
    };
 }
 

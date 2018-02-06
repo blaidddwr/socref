@@ -24,6 +24,7 @@ namespace CppQt
          virtual bool isStaticCheckable() const;
          void addCombo(QFormLayout* layout);
          void addProperties(QFormLayout* layout);
+         void addInitializer(QFormLayout* layout);
          const QCheckBox* constExprBox() const;
          const QCheckBox* staticBox() const;
       protected slots:
@@ -32,11 +33,11 @@ namespace CppQt
          virtual void cancelClicked() override;
          virtual void checkBoxChanged(int state);
       private:
-         QLayout* createCombo();
          CppQt::Variable* _block;
          Gui::TypeComboBox* _type {nullptr};
          QCheckBox* _constExprBox {nullptr};
          QCheckBox* _staticBox {nullptr};
+         QLineEdit* _initializerEdit {nullptr};
       };
    }
 }

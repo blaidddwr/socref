@@ -1,6 +1,7 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QLineEdit>
 #include "cppqt_edit_variable.h"
 #include "exception.h"
 #include "cppqt_variable.h"
@@ -41,6 +42,8 @@ QLayout* Variable::layout()
    addCombo(ret);
    ret->addRow(createTitle(tr("Basic Information")));
    Base::addFields(ret);
+   ret->addRow(createTitle(tr("Initializer")));
+   addInitializer(ret);
    ret->addRow(createTitle(tr("Properties")));
    addProperties(ret);
    return ret;
@@ -101,6 +104,18 @@ void Variable::addProperties(QFormLayout* layout)
 
 
 
+void Variable::addInitializer(QFormLayout* layout)
+{
+   _initializerEdit = new QLineEdit;
+   _initializerEdit->setText(_block->initializer());
+   layout->addRow(new QLabel(tr("Value:")),_initializerEdit);
+}
+
+
+
+
+
+
 const QCheckBox* Variable::constExprBox() const
 {
    return _constExprBox;
@@ -141,6 +156,7 @@ void Variable::applyClicked()
       _block->setConstExpr(_constExprBox->isChecked());
       _block->setStatic(_staticBox->isChecked());
    }
+   if ( _initializerEdit ) _block->setInitializer(_initializerEdit->text());
 }
 
 
@@ -163,20 +179,4 @@ void Variable::checkBoxChanged(int state)
    Q_UNUSED(state)
    _constExprBox->setCheckable(isConstExprCheckable());
    _staticBox->setCheckable(isStaticCheckable());
-}
-
-
-
-
-
-
-QLayout* Variable::createCombo()
-{
-   _type = new TypeComboBox(_block);
-   _type->setCurrentIndex(_block->variableType());
-   QHBoxLayout* ret {new QHBoxLayout};
-   ret->addWidget(new QLabel(tr("Type:")));
-   ret->addWidget(_type);
-   ret->addStretch();
-   return ret;
 }

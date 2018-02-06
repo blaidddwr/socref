@@ -45,12 +45,13 @@ QString Function::name() const
    ret.append(properties());
    ret.append(returnType()).append(" ").append(Base::name()).append("(");
    bool first {true};
-   const auto variableList {arguments()};
+   const QList<Variable*> variableList {arguments()};
    for (auto variable : variableList)
    {
       if ( first ) first = false;
       else ret.append(",");
       ret.append(variable->variableType());
+      if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
    }
    ret.append(")");
    if ( _const ) ret.append(" const");

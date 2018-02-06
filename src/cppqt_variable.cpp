@@ -40,7 +40,14 @@ Variable::Variable(const QString& type, const QString& name):
 
 QString Variable::name() const
 {
-   return properties().append(_type).append(" ").append(Base::name());
+   QString ret {properties()};
+   ret.append(_type).append(" ").append(Base::name());
+   if ( !_initializer.isEmpty() )
+   {
+      if ( isFunctionArgument() ) ret.append(" = ").append(_initializer);
+      else ret.append(" {").append(_initializer).append("}");
+   }
+   return ret;
 }
 
 
@@ -203,6 +210,41 @@ void Variable::setVariableType(const QString& type)
 
 
 
+bool Variable::hasInitializer() const
+{
+   return !_initializer.isEmpty();
+}
+
+
+
+
+
+
+QString Variable::initializer() const
+{
+   return _initializer;
+}
+
+
+
+
+
+
+void Variable::setInitializer(const QString& initializer)
+{
+   if ( _initializer != initializer )
+   {
+      _initializer = initializer;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
 bool Variable::isClassMember() const
 {
    if ( parent()->type() == BlockFactory::AccessType ) return true;
@@ -235,9 +277,10 @@ void Variable::readData(const QDomElement& data)
 {
    Base::readData(data);
    DomElementReader reader(data);
-   _type = reader.attribute(_typeTag);
    _constExpr = reader.attributeToInt(_constExprTag,false);
    _static = reader.attributeToInt(_staticTag,false);
+   _type = reader.attribute(_typeTag);
+   _initializer = reader.attribute(_initializerTag,false);
 }
 
 
@@ -248,9 +291,10 @@ void Variable::readData(const QDomElement& data)
 QDomElement Variable::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
-   ret.setAttribute(_typeTag,_type);
    if ( _constExpr ) ret.setAttribute(_constExprTag,_constExpr);
    if ( _static ) ret.setAttribute(_staticTag,_static);
+   ret.setAttribute(_typeTag,_type);
+   if ( !_initializer.isEmpty() ) ret.setAttribute(_initializerTag,_initializer);
    return ret;
 }
 
