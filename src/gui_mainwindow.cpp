@@ -24,10 +24,7 @@ MainWindow::MainWindow(QWidget *parent):
    QMainWindow(parent)
 {
    static QIcon icon;
-   if ( icon.isNull() )
-   {
-      icon = QIcon(":/icons/main.svg");
-   }
+   if ( icon.isNull() ) icon = QIcon(":/icons/main.svg");
    setWindowIcon(icon);
    createView();
    createActions();
@@ -43,10 +40,7 @@ MainWindow::MainWindow(QWidget *parent):
 
 void MainWindow::setProject(unique_ptr<Project>&& project)
 {
-   if ( _project )
-   {
-      delete _project;
-   }
+   delete _project;
    _project = project.release();
    updateTitle();
    updateActions();
@@ -72,10 +66,7 @@ void MainWindow::newTriggered()
    QAction* from {qobject_cast<QAction*>(sender())};
    unique_ptr<Project> project {new Project(from->data().toInt())};
    project->setName(tr("Untitled Project"));
-   if ( !_project )
-   {
-      setProject(std::move(project));
-   }
+   if ( !_project ) setProject(std::move(project));
    else
    {
       MainWindow* window {new MainWindow};
@@ -100,10 +91,7 @@ void MainWindow::openTriggered()
       try
       {
          unique_ptr<Project> project {new Project(path)};
-         if ( !_project )
-         {
-            setProject(std::move(project));
-         }
+         if ( !_project ) setProject(std::move(project));
          else
          {
             MainWindow* window = new MainWindow;
@@ -156,10 +144,7 @@ void MainWindow::propertiesTriggered()
 
 void MainWindow::closeTriggered()
 {
-   if ( isOkToContinue() )
-   {
-      setProject(nullptr);
-   }
+   if ( isOkToContinue() ) setProject(nullptr);
 }
 
 
@@ -227,14 +212,8 @@ void MainWindow::projectFileChanged()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-   if ( isOkToContinue() )
-   {
-      event->accept();
-   }
-   else
-   {
-      event->ignore();
-   }
+   if ( isOkToContinue() ) event->accept();
+   else event->ignore();
 }
 
 
@@ -345,10 +324,7 @@ void MainWindow::createMenus()
 {
    QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
    QMenu* newMenu = fileMenu->addMenu(tr("&New"));
-   for (auto action : qAsConst(_newActions))
-   {
-      newMenu->addAction(action);
-   }
+   for (auto action : qAsConst(_newActions)) newMenu->addAction(action);
    fileMenu->addAction(_openAction);
    fileMenu->addAction(_saveAction);
    fileMenu->addAction(_saveAsAction);
@@ -376,14 +352,8 @@ void MainWindow::createView()
 
 void MainWindow::updateTitle()
 {
-   if ( _project )
-   {
-      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->name()).arg(AbstractProjectFactory::instance().name(_project->type())));
-   }
-   else
-   {
-      setWindowTitle(tr("Socrates' Reference"));
-   }
+   if ( _project ) setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->name()).arg(AbstractProjectFactory::instance().name(_project->type())));
+   else setWindowTitle(tr("Socrates' Reference"));
 }
 
 
@@ -393,14 +363,8 @@ void MainWindow::updateTitle()
 
 void MainWindow::updateActions()
 {
-   if ( _project )
-   {
-      _saveAction->setDisabled(_project->isNew());
-   }
-   else
-   {
-      _saveAction->setDisabled(true);
-   }
+   if ( _project ) _saveAction->setDisabled(_project->isNew());
+   else _saveAction->setDisabled(true);
    _saveAsAction->setDisabled(!_project);
    _closeAction->setDisabled(!_project);
    _propertiesAction->setDisabled(!_project);
@@ -413,10 +377,7 @@ void MainWindow::updateActions()
 
 bool MainWindow::isOkToContinue()
 {
-   if ( !_project || !_project->isModified() )
-   {
-      return true;
-   }
+   if ( !_project || !_project->isModified() ) return true;
    QMessageBox confirm;
    confirm.setWindowTitle(tr("Unsaved Project Changes"));
    confirm.setText(tr("The currently open project has unsaved changes. Closing the project will cause all unsaved changes to be lost!"));
@@ -428,14 +389,8 @@ bool MainWindow::isOkToContinue()
    case QMessageBox::Cancel:
       return false;
    case QMessageBox::Save:
-      if ( _project->isNew() )
-      {
-         return saveAs();
-      }
-      else
-      {
-         return save();
-      }
+      if ( _project->isNew() ) return saveAs();
+      else return save();
       break;
    }
    return true;
@@ -448,16 +403,10 @@ bool MainWindow::isOkToContinue()
 
 bool MainWindow::saveAs()
 {
-   if ( !_project )
-   {
-      return false;
-   }
+   if ( !_project ) return false;
    QFileDialog fileDialog(nullptr,tr("Save Project"),"",tr("Socrates' Reference File (*.scr)"));
    fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-   if ( !fileDialog.exec() )
-   {
-      return false;
-   }
+   if ( !fileDialog.exec() ) return false;
    QStringList files = fileDialog.selectedFiles();
    const QString path = files.constFirst();
    try
@@ -480,10 +429,7 @@ bool MainWindow::saveAs()
 
 bool MainWindow::save()
 {
-   if ( !_project )
-   {
-      return false;
-   }
+   if ( !_project ) return false;
    try
    {
       _project->save();

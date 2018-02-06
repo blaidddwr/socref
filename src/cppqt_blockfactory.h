@@ -12,7 +12,7 @@ namespace CppQt
    public:
       enum
       {
-         NamespaceType = 0
+         NamespaceType
          ,VariableType
          ,FunctionType
          ,TemplateType

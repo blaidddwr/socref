@@ -54,10 +54,7 @@ int Template::type() const
 QIcon Template::icon() const
 {
    static QIcon ret;
-   if ( ret.isNull() )
-   {
-      ret = QIcon(":/icons/template.svg");
-   }
+   if ( ret.isNull() ) ret = QIcon(":/icons/template.svg");
    return ret;
 }
 

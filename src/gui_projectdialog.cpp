@@ -68,10 +68,7 @@ void ProjectDialog::browseClicked()
    {
       QStringList directories = dialog.selectedFiles();
       QFileInfo info(directories.constFirst());
-      if ( info.exists() && info.isDir() )
-      {
-         _scanDirectoryEdit->setText(info.filePath());
-      }
+      if ( info.exists() && info.isDir() ) _scanDirectoryEdit->setText(info.filePath());
    }
 }
 

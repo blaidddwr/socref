@@ -44,10 +44,7 @@ TypeDialog::TypeDialog(const QString& name, QWidget* parent):
 
 QString TypeDialog::name()
 {
-   if ( !_text->hasAcceptableInput() )
-   {
-      return QString();
-   }
+   if ( !_text->hasAcceptableInput() ) return QString();
    return _text->text();
 }
 

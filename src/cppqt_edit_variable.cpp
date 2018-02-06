@@ -135,10 +135,7 @@ void Variable::okClicked()
 void Variable::applyClicked()
 {
    Base::applyClicked();
-   if ( _type )
-   {
-      _block->setVariableType(_type->value());
-   }
+   if ( _type ) _block->setVariableType(_type->value());
    if ( _constExprBox )
    {
       _block->setConstExpr(_constExprBox->isChecked());

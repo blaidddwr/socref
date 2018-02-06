@@ -54,19 +54,13 @@ QString Namespace::displayTypes()
       if ( !local.isEmpty() )
       {
          ret.append("<h3>Local</h3>");
-         for (int i = 0; i < (local.size() - 1) ;++i)
-         {
-            ret.append(local.at(i)).append("<br/>");
-         }
+         for (int i = 0; i < (local.size() - 1) ;++i) ret.append(local.at(i)).append("<br/>");
          ret.append(local.back());
       }
       if ( !global.isEmpty() )
       {
          ret.append("<h3>Global</h3>");
-         for (int i = 0; i < (global.size() - 1) ;++i)
-         {
-            ret.append(global.at(i)).append("<br/>");
-         }
+         for (int i = 0; i < (global.size() - 1) ;++i) ret.append(global.at(i)).append("<br/>");
          ret.append(global.back());
       }
    }

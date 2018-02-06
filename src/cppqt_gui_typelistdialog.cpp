@@ -39,10 +39,7 @@ void TypeListDialog::itemDoubleClicked(QListWidgetItem* item)
    if ( dialog.exec() )
    {
       QString type {dialog.name()};
-      if ( item->text() == type || !isDuplicate(type) )
-      {
-         item->setText(type);
-      }
+      if ( item->text() == type || !isDuplicate(type) ) item->setText(type);
    }
 }
 
@@ -58,10 +55,7 @@ void TypeListDialog::addClicked()
    if ( dialog.exec() )
    {
       QString type {dialog.name()};
-      if ( !isDuplicate(type) )
-      {
-         _list->addItem(type);
-      }
+      if ( !isDuplicate(type) ) _list->addItem(type);
    }
 }
 
@@ -94,10 +88,7 @@ void TypeListDialog::okClicked()
 void TypeListDialog::applyClicked()
 {
    QStringList types;
-   for (int i = 0; i < _list->count() ;++i)
-   {
-      types << _list->item(i)->text();
-   }
+   for (int i = 0; i < _list->count() ;++i) types << _list->item(i)->text();
    _block->setTypes(types);
 }
 
@@ -141,10 +132,7 @@ QLayout* TypeListDialog::createTop()
    _list = new QListWidget;
    _list->setSortingEnabled(true);
    const QStringList list {_block->types()};
-   for (auto type : list)
-   {
-      _list->addItem(type);
-   }
+   for (auto type : list) _list->addItem(type);
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_list);
    ret->addLayout(createTopButtons());

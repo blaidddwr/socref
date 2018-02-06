@@ -152,10 +152,7 @@ void Project::saveAs(const QString& path)
       _path = oldPath;
       throw;
    }
-   if ( !oldPath.isEmpty() )
-   {
-      removePath(oldPath);
-   }
+   if ( !oldPath.isEmpty() ) removePath(oldPath);
    addPath(_path);
 }
 
@@ -309,17 +306,11 @@ void Project::blockModified()
 void Project::handleFileChanged()
 {
    QFile file(_path);
-   if ( !file.open(QIODevice::ReadOnly) )
-   {
-      return;
-   }
+   if ( !file.open(QIODevice::ReadOnly) ) return;
    QByteArray data = file.readAll();
    QCryptographicHash hash(QCryptographicHash::Md5);
    hash.addData(data);
-   if ( hash.result() != _hash )
-   {
-      emit changed();
-   }
+   if ( hash.result() != _hash ) emit changed();
 }
 
 

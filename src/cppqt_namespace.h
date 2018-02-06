@@ -1,5 +1,5 @@
-#ifndef CPPQT_ENUMERATION_H
-#define CPPQT_ENUMERATION_H
+#ifndef CPPQT_NAMESPACE_H
+#define CPPQT_NAMESPACE_H
 #include "cppqt_base.h"
 
 

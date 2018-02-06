@@ -86,10 +86,7 @@ bool BlockView::canPaste() const
       if ( a == b )
       {
          AbstractBlock* index {_model->pointer(selection())};
-         if ( index && index->buildList().contains(_copy->type()) )
-         {
-            return true;
-         }
+         if ( index && index->buildList().contains(_copy->type()) ) return true;
       }
    }
    return false;
@@ -186,10 +183,7 @@ void BlockView::copyTriggered()
 
 void BlockView::pasteTriggered()
 {
-   if ( canPaste() )
-   {
-      _model->insertRow(-1,selection(),_copy->makeCopy());
-   }
+   if ( canPaste() ) _model->insertRow(-1,selection(),_copy->makeCopy());
 }
 
 
@@ -200,10 +194,7 @@ void BlockView::pasteTriggered()
 void BlockView::moveUpTriggered()
 {
    QModelIndex index {selection()};
-   if ( index.isValid() )
-   {
-      _model->moveRow(index.row(),index.row() - 1,_model->parent(index));
-   }
+   if ( index.isValid() ) _model->moveRow(index.row(),index.row() - 1,_model->parent(index));
 }
 
 
@@ -214,10 +205,7 @@ void BlockView::moveUpTriggered()
 void BlockView::moveDownTriggered()
 {
    QModelIndex index {selection()};
-   if ( index.isValid() )
-   {
-      _model->moveRow(index.row(),index.row() + 2,_model->parent(index));
-   }
+   if ( index.isValid() ) _model->moveRow(index.row(),index.row() + 2,_model->parent(index));
 }
 
 
@@ -507,10 +495,7 @@ void BlockView::updateAddActions()
 void BlockView::updateMenu()
 {
    _addMenu->clear();
-   for (auto action : qAsConst(_addActions))
-   {
-      _addMenu->addAction(action);
-   }
+   for (auto action : qAsConst(_addActions)) _addMenu->addAction(action);
 }
 
 
@@ -520,14 +505,10 @@ void BlockView::updateMenu()
 
 void BlockView::setView(QWidget* view)
 {
+   delete _view;
+   _view = view;
    if ( _view )
    {
-      delete _view;
-      _view = nullptr;
-   }
-   if ( view )
-   {
-      _view = view;
       _area->setWidget(_view);
    }
 }
@@ -539,10 +520,7 @@ void BlockView::setView(QWidget* view)
 
 void BlockView::setCopy(AbstractBlock* copy)
 {
-   if ( _copy )
-   {
-      delete _copy;
-   }
+   delete _copy;
    _copy = copy;
 }
 
@@ -568,9 +546,6 @@ void BlockView::updateTitle(AbstractBlock* block)
 QModelIndex BlockView::selection() const
 {
    QModelIndex ret;
-   if ( _selectionModel && !_selectionModel->selection().isEmpty() )
-   {
-      ret = _selectionModel->selection().first().indexes().first();
-   }
+   if ( _selectionModel && !_selectionModel->selection().isEmpty() ) ret = _selectionModel->selection().first().indexes().first();
    return ret;
 }

@@ -56,10 +56,7 @@ int Namespace::type() const
 QIcon Namespace::icon() const
 {
    static QIcon ret;
-   if ( ret.isNull() )
-   {
-      ret = QIcon(":/icons/namespace.svg");
-   }
+   if ( ret.isNull() ) ret = QIcon(":/icons/namespace.svg");
    return ret;
 }
 
@@ -147,10 +144,7 @@ void Namespace::readData(const QDomElement& data)
    DomElementReader reader(data);
    reader.set(_typeTag,&types,false);
    reader.read();
-   for (auto type : qAsConst(types))
-   {
-      readType(type);
-   }
+   for (auto type : qAsConst(types)) readType(type);
 }
 
 

@@ -21,10 +21,7 @@ const char* AbstractBlock::_typeTag {"type"};
 AbstractBlock* AbstractBlock::root()
 {
    AbstractBlock* root {this};
-   while ( root->_parent )
-   {
-      root = root->_parent;
-   }
+   while ( root->_parent ) root = root->_parent;
    return root;
 }
 
@@ -182,10 +179,7 @@ void AbstractBlock::read(const QDomElement& parent)
    DomElementReader reader(parent);
    reader.set(_dataTag,&data);
    const QList<int> list {buildList()};
-   for (auto type : list)
-   {
-      reader.set(factory().elementName(type),&children,false);
-   }
+   for (auto type : list) reader.set(factory().elementName(type),&children,false);
    reader.read();
    if ( !reader.allRequiredFound() )
    {
@@ -195,10 +189,7 @@ void AbstractBlock::read(const QDomElement& parent)
       throw e;
    }
    readData(data);
-   for (auto child : qAsConst(children))
-   {
-      readChild(child);
-   }
+   for (auto child : qAsConst(children)) readChild(child);
 }
 
 
@@ -257,10 +248,7 @@ bool AbstractBlock::hasChildOfTypes(const QList<int>& types) const
 
 void AbstractBlock::copyChildren(const AbstractBlock* block)
 {
-   for (auto child : qAsConst(block->_children))
-   {
-      child->makeCopy().release()->setBlockParent(this,childrenSize());
-   }
+   for (auto child : qAsConst(block->_children)) child->makeCopy().release()->setBlockParent(this,childrenSize());
 }
 
 
@@ -368,8 +356,5 @@ void AbstractBlock::notifyOfNameChange(AbstractBlock* block)
       }
       root->notifyOfNameChange(this);
    }
-   else
-   {
-      emit nameChanged(block);
-   }
+   else emit nameChanged(block);
 }

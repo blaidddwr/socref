@@ -153,10 +153,7 @@ void TypeComboBox::findNamespaces(AbstractBlock* block)
          throw e;
       }
    }
-   while ( block->parent() )
-   {
-      block = block->parent();
-   }
+   while ( block->parent() ) block = block->parent();
    _global = qobject_cast<Namespace*>(block);
    if ( !_global )
    {
@@ -165,14 +162,8 @@ void TypeComboBox::findNamespaces(AbstractBlock* block)
       e.setDetails(tr("Root block is not a namespace."));
       throw e;
    }
-   if ( _local == _global )
-   {
-      _local = nullptr;
-   }
-   else
-   {
-      connect(_local,&Namespace::typesChanged,this,&TypeComboBox::typeListChanged);
-   }
+   if ( _local == _global ) _local = nullptr;
+   else connect(_local,&Namespace::typesChanged,this,&TypeComboBox::typeListChanged);
    connect(_global,&Namespace::typesChanged,this,&TypeComboBox::typeListChanged);
 }
 
@@ -184,14 +175,8 @@ void TypeComboBox::findNamespaces(AbstractBlock* block)
 void TypeComboBox::buildComboList()
 {
    QStringList types {_global->types()};
-   if ( _local )
-   {
-      types.append(_local->types());
-   }
+   if ( _local ) types.append(_local->types());
    sort(types.begin(),types.end());
    _box->clear();
-   for (auto type : qAsConst(types))
-   {
-      _box->addItem(type);
-   }
+   for (auto type : qAsConst(types)) _box->addItem(type);
 }

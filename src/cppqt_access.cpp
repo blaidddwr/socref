@@ -329,7 +329,7 @@ void Access::readData(const QDomElement& data)
 
 QDomElement Access::writeData(QDomDocument& document) const
 {
-   QDomElement ret {document.createElement(factory().elementName(type()))};
+   QDomElement ret {document.createElement("na")};
    ret.setAttribute("type",static_cast<int>(_type));
    return ret;
 }

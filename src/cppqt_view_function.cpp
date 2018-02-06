@@ -26,10 +26,7 @@ Function::Function(AbstractBlock* block, bool wait, QWidget* parent):
       throw e;
    }
    connect(_block,&CppQt::Function::bodyChanged,this,&Function::bodyChanged);
-   if ( !wait )
-   {
-      setText(displayText());
-   }
+   if ( !wait ) setText(displayText());
 }
 
 
@@ -101,10 +98,7 @@ QString Function::displayOperationsText()
    if ( !list.isEmpty() )
    {
       ret.append("<h2>Operations</h2><ol>");
-      for (auto operation : list)
-      {
-         ret.append("<li>").append(operation).append("</li>");
-      }
+      for (auto operation : list) ret.append("<li>").append(operation).append("</li>");
       ret.append("</ol>");
    }
    return ret;

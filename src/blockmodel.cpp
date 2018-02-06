@@ -30,15 +30,9 @@ BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
 
 QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) const
 {
-   if ( row < 0 || column != 0 )
-   {
-      return QModelIndex();
-   }
+   if ( row < 0 || column != 0 ) return QModelIndex();
    AbstractBlock* parent_ {pointer(parent)};
-   if ( row >= parent_->childrenSize() )
-   {
-      return QModelIndex();
-   }
+   if ( row >= parent_->childrenSize() ) return QModelIndex();
    return createIndex(row,column,parent_->child(row));
 }
 
@@ -50,10 +44,7 @@ QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) co
 QModelIndex BlockModel::parent(const QModelIndex& child) const
 {
    AbstractBlock* parent = pointer(child)->parent();
-   if ( !parent || !parent->parent() )
-   {
-      return QModelIndex();
-   }
+   if ( !parent || !parent->parent() ) return QModelIndex();
    AbstractBlock* grandparent = parent->parent();
    return createIndex(grandparent->childIndex(parent),0,parent);
 }
@@ -65,10 +56,7 @@ QModelIndex BlockModel::parent(const QModelIndex& child) const
 
 int BlockModel::rowCount(const QModelIndex& parent) const
 {
-   if ( !_root )
-   {
-      return 0;
-   }
+   if ( !_root ) return 0;
    return pointer(parent)->childrenSize();
 }
 
@@ -91,14 +79,8 @@ int BlockModel::columnCount(const QModelIndex& parent) const
 AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
 {
    AbstractBlock* ret;
-   if ( index.isValid() )
-   {
-      ret = reinterpret_cast<AbstractBlock*>(index.internalPointer());
-   }
-   else
-   {
-      ret = _root;
-   }
+   if ( index.isValid() ) ret = reinterpret_cast<AbstractBlock*>(index.internalPointer());
+   else ret = _root;
    return ret;
 }
 
@@ -127,10 +109,7 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
 
 bool BlockModel::insertRow(int row, const QModelIndex& parent, unique_ptr<AbstractBlock>&& object)
 {
-   if ( !object )
-   {
-      return false;
-   }
+   if ( !object ) return false;
    beginInsertRows(parent,row,row);
    pointer(parent)->insertChild(row,std::move(object));
    endInsertRows();
@@ -145,20 +124,11 @@ bool BlockModel::insertRow(int row, const QModelIndex& parent, unique_ptr<Abstra
 bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 {
    AbstractBlock* parent_ {pointer(parent)};
-   if ( source < 0 || source >= parent_->childrenSize() )
-   {
-      return false;
-   }
-   if ( destination < 0 || destination > parent_->childrenSize() )
-   {
-      return false;
-   }
+   if ( source < 0 || source >= parent_->childrenSize() ) return false;
+   if ( destination < 0 || destination > parent_->childrenSize() ) return false;
    beginMoveRows(parent,source,source,parent,destination);
    unique_ptr<AbstractBlock> child {parent_->takeChild(source)};
-   if ( destination > ( source + 1 ) )
-   {
-      --destination;
-   }
+   if ( destination > ( source + 1 ) ) --destination;
    parent_->insertChild(destination,std::move(child));
    endMoveRows();
    return true;
@@ -172,10 +142,7 @@ bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 bool BlockModel::removeRow(int row, const QModelIndex& parent)
 {
    AbstractBlock* parent_ {pointer(parent)};
-   if ( row < 0 || row >= parent_->childrenSize() )
-   {
-      return false;
-   }
+   if ( row < 0 || row >= parent_->childrenSize() ) return false;
    beginRemoveRows(parent,row,row);
    parent_->removeChild(row);
    endRemoveRows();
@@ -190,10 +157,7 @@ bool BlockModel::removeRow(int row, const QModelIndex& parent)
 unique_ptr<AbstractBlock> BlockModel::copyRow(int row, const QModelIndex& parent) const
 {
    AbstractBlock* parent_ {pointer(parent)};
-   if ( row < 0 || row >= parent_->childrenSize() )
-   {
-      return nullptr;
-   }
+   if ( row < 0 || row >= parent_->childrenSize() ) return nullptr;
    return parent_->child(row)->makeCopy();
 }
 
@@ -205,10 +169,7 @@ unique_ptr<AbstractBlock> BlockModel::copyRow(int row, const QModelIndex& parent
 unique_ptr<AbstractBlock> BlockModel::cutRow(int row, const QModelIndex& parent)
 {
    AbstractBlock* parent_ {pointer(parent)};
-   if ( row < 0 || row >= parent_->childrenSize() )
-   {
-      return nullptr;
-   }
+   if ( row < 0 || row >= parent_->childrenSize() ) return nullptr;
    beginRemoveRows(parent,row,row);
    unique_ptr<AbstractBlock> ret {parent_->takeChild(row)};
    endRemoveRows();

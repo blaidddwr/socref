@@ -110,10 +110,7 @@ void Base::readData(const QDomElement& data)
 QDomElement Base::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
-   if ( !_name.isEmpty() )
-   {
-      ret.setAttribute("name",_name);
-   }
+   if ( !_name.isEmpty() ) ret.setAttribute("name",_name);
    if ( !_description.isEmpty() )
    {
       QDomElement description {document.createElement("description")};
