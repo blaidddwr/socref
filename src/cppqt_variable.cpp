@@ -74,16 +74,6 @@ int Variable::type() const
 
 
 
-QString Variable::elementName() const
-{
-   return QString("variable");
-}
-
-
-
-
-
-
 QIcon Variable::icon() const
 {
    static QIcon ret;
@@ -204,7 +194,7 @@ bool Variable::isClassMember() const
    {
       Exception::LogicError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Variable's parent is of an unexpected type '%1'.").arg(parent()->elementName()));
+      e.setDetails(tr("Variable's parent is of an unexpected type '%1'.").arg(factory().name(parent()->type())));
       throw e;
    }
 }

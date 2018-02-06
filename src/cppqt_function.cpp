@@ -5,6 +5,7 @@
 #include "cppqt_blockfactory.h"
 #include "domelementreader.h"
 #include "cppqt_template.h"
+#include "cppqt_common.h"
 
 
 
@@ -47,20 +48,7 @@ Function::Function(const QString& returnType, const QString& name):
 
 QString Function::name() const
 {
-   QString ret;
-   const auto templateList {templates()};
-   if ( !templateList.isEmpty() )
-   {
-      ret.append("template<");
-      bool first {true};
-      for (auto template_ : templateList)
-      {
-         if ( first ) first = false;
-         else ret.append(", ");
-         ret.append(template_->name());
-      }
-      ret.append("> ");
-   }
+   QString ret {templateName(this)};
    if ( _virtual ) ret.append("virtual ");
    ret.append(properties());
    ret.append(returnType()).append(" ").append(Base::name()).append("(");
@@ -110,16 +98,6 @@ unique_ptr<AbstractBlock> Function::makeCopy() const
 int Function::type() const
 {
    return BlockFactory::FunctionType;
-}
-
-
-
-
-
-
-QString Function::elementName() const
-{
-   return QString("function");
 }
 
 
@@ -473,16 +451,7 @@ void Function::setOperations(const QStringList& operations)
 
 QList<Variable*> Function::arguments() const
 {
-   QList<Variable*> ret;
-   const QList<AbstractBlock*> list {children()};
-   for (auto child : list)
-   {
-      if ( child->type() == BlockFactory::VariableType )
-      {
-         if ( Variable* variable = qobject_cast<Variable*>(child) ) ret.append(variable);
-      }
-   }
-   return ret;
+   return makeChildListOfType<Variable>(BlockFactory::VariableType);
 }
 
 
@@ -492,16 +461,43 @@ QList<Variable*> Function::arguments() const
 
 QList<Template*> Function::templates() const
 {
-   QList<Template*> ret;
-   const QList<AbstractBlock*> list {children()};
-   for (auto child : list)
-   {
-      if ( child->type() == BlockFactory::TemplateType )
-      {
-         if ( Template* variable = qobject_cast<Template*>(child) ) ret.append(variable);
-      }
-   }
-   return ret;
+   return makeChildListOfType<Template>(BlockFactory::TemplateType);
+}
+
+
+
+
+
+
+void Function::childNameChanged(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyOfNameChange();
+   emit bodyChanged();
+}
+
+
+
+
+
+
+void Function::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyOfNameChange();
+   emit bodyChanged();
+}
+
+
+
+
+
+
+void Function::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyOfNameChange();
+   emit bodyChanged();
 }
 
 
@@ -555,40 +551,4 @@ QDomElement Function::writeData(QDomDocument& document) const
       ret.appendChild(element);
    }
    return ret;
-}
-
-
-
-
-
-
-void Function::childNameChanged(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
-}
-
-
-
-
-
-
-void Function::childAdded(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
-}
-
-
-
-
-
-
-void Function::childRemoved(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
 }

@@ -13,14 +13,14 @@ namespace CppQt
          Q_OBJECT
       public:
          explicit Function(AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
-      protected slots:
-         virtual void bodyChanged();
       protected:
          QString displayText();
          QString displayTemplatesText();
          QString displayArgumentsText();
          QString displayReturnText();
          QString displayOperationsText();
+      private slots:
+         void bodyChanged();
       private:
          CppQt::Function* _block;
       };

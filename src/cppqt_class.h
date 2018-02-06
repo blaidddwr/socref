@@ -13,9 +13,9 @@ namespace CppQt
    public:
       Class() = default;
       Class(const QString& name);
+      virtual QString name() const override final;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
-      virtual QString elementName() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
       bool isQtObject() const;
@@ -23,6 +23,13 @@ namespace CppQt
       bool isVirtual() const;
       bool isAbstract() const;
       bool hasSignalsOrSlots() const;
+      QList<Template*> templates() const;
+   signals:
+      void bodyChanged();
+   protected slots:
+      virtual void childNameChanged(AbstractBlock* child) override final;
+      virtual void childAdded(AbstractBlock* child) override final;
+      virtual void childRemoved(AbstractBlock* child) override final;
    protected:
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;

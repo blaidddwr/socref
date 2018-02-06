@@ -20,11 +20,12 @@ namespace CppQt
          ,Private
          ,PrivateSlots
       };
+      Access() = default;
+      Access(Type type);
       virtual QString name() const override final;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
       virtual const AbstractBlockFactory& factory() const override final;
-      virtual QString elementName() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
       Type accessType();

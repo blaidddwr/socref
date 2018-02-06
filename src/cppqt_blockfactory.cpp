@@ -3,10 +3,13 @@
 #include "cppqt_variable.h"
 #include "cppqt_function.h"
 #include "cppqt_template.h"
+#include "cppqt_class.h"
+#include "cppqt_access.h"
 #include "cppqt_view_namespace.h"
 #include "cppqt_view_variable.h"
 #include "cppqt_view_function.h"
 #include "cppqt_view_template.h"
+#include "cppqt_view_class.h"
 #include "cppqt_edit_namespace.h"
 #include "cppqt_edit_variable.h"
 #include "cppqt_edit_function.h"
@@ -42,6 +45,7 @@ QString BlockFactory::name(int type) const
    case VariableType: return QString("Variable");
    case FunctionType: return QString("Function");
    case TemplateType: return QString("Template");
+   case ClassType: return QString("Class");
    default: return QString();
    }
 }
@@ -59,6 +63,7 @@ QString BlockFactory::elementName(int type) const
    case VariableType: return QString("variable");
    case FunctionType: return QString("function");
    case TemplateType: return QString("template");
+   case ClassType: return QString("class");
    default: return QString("unknown");
    }
 }
@@ -86,6 +91,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case VariableType: return unique_ptr<AbstractBlock>(new Variable("int","unnamed_variable"));
    case FunctionType: return unique_ptr<AbstractBlock>(new Function("void","unnamed_function"));
    case TemplateType: return unique_ptr<AbstractBlock>(new Template("class","unnamed_template"));
+   case ClassType: return unique_ptr<AbstractBlock>(new Class("unnamed_class"));
    default: return nullptr;
    }
 }
@@ -103,6 +109,7 @@ unique_ptr<QWidget> BlockFactory::makeView(int type, AbstractBlock* block) const
    case VariableType: return unique_ptr<QWidget>(new View::Variable(block));
    case FunctionType: return unique_ptr<QWidget>(new View::Function(block));
    case TemplateType: return unique_ptr<QWidget>(new View::Template(block));
+   case ClassType: return unique_ptr<QWidget>(new View::Class(block));
    default: return nullptr;
    }
 }

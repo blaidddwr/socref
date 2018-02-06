@@ -18,6 +18,21 @@ const char* AbstractBlock::_typeTag {"type"};
 
 
 
+AbstractBlock* AbstractBlock::root()
+{
+   AbstractBlock* root {this};
+   while ( root->_parent )
+   {
+      root = root->_parent;
+   }
+   return root;
+}
+
+
+
+
+
+
 AbstractBlock*AbstractBlock::parent() const
 {
    return _parent;
@@ -54,7 +69,7 @@ AbstractBlock* AbstractBlock::child(int index)
 
 
 
-const AbstractBlock* AbstractBlock::child(int index) const
+AbstractBlock* AbstractBlock::child(int index) const
 {
    if ( index < 0 || index >= _children.size() )
    {
@@ -64,6 +79,16 @@ const AbstractBlock* AbstractBlock::child(int index) const
       throw e;
    }
    return _children.at(index);
+}
+
+
+
+
+
+
+QList<AbstractBlock*> AbstractBlock::children() const
+{
+   return _children;
 }
 
 
@@ -202,54 +227,6 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
 
 
 
-AbstractBlock* AbstractBlock::root()
-{
-   AbstractBlock* root {this};
-   while ( root->_parent )
-   {
-      root = root->_parent;
-   }
-   return root;
-}
-
-
-
-
-
-
-void AbstractBlock::copyChildren(const AbstractBlock* block)
-{
-   for (auto child : qAsConst(block->_children))
-   {
-      child->makeCopy().release()->setBlockParent(this,childrenSize());
-   }
-}
-
-
-
-
-
-
-QList<AbstractBlock*> AbstractBlock::children() const
-{
-   return _children;
-}
-
-
-
-
-
-
-void AbstractBlock::notifyOfNameChange()
-{
-   notifyOfNameChange(nullptr);
-}
-
-
-
-
-
-
 bool AbstractBlock::hasChildOfType(int type) const
 {
    for (auto child : _children)
@@ -271,6 +248,29 @@ bool AbstractBlock::hasChildOfTypes(const QList<int>& types) const
       if ( types.contains(child->type()) || child->hasChildOfTypes(types) ) return true;
    }
    return false;
+}
+
+
+
+
+
+
+void AbstractBlock::copyChildren(const AbstractBlock* block)
+{
+   for (auto child : qAsConst(block->_children))
+   {
+      child->makeCopy().release()->setBlockParent(this,childrenSize());
+   }
+}
+
+
+
+
+
+
+void AbstractBlock::notifyOfNameChange()
+{
+   notifyOfNameChange(nullptr);
 }
 
 

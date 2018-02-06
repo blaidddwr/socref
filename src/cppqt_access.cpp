@@ -14,6 +14,15 @@ using namespace CppQt;
 
 
 
+Access::Access(Type type):
+   _type(type)
+{}
+
+
+
+
+
+
 QString Access::name() const
 {
    switch (_type)
@@ -59,16 +68,6 @@ int Access::type() const
 const AbstractBlockFactory& Access::factory() const
 {
    return BlockFactory::instance();
-}
-
-
-
-
-
-
-QString Access::elementName() const
-{
-   return "access";
 }
 
 
@@ -290,7 +289,7 @@ void Access::readData(const QDomElement& data)
 
 QDomElement Access::writeData(QDomDocument& document) const
 {
-   QDomElement ret {document.createElement(elementName())};
+   QDomElement ret {document.createElement(factory().elementName(type()))};
    ret.setAttribute("type",static_cast<int>(_type));
    return ret;
 }

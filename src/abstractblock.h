@@ -15,28 +15,28 @@ public:
    virtual std::unique_ptr<AbstractBlock> makeCopy() const = 0;
    virtual int type() const = 0;
    virtual const AbstractBlockFactory& factory() const = 0;
-   virtual QString elementName() const = 0;
    virtual QIcon icon() const = 0;
    virtual QList<int> buildList() const = 0;
+   AbstractBlock* root();
    AbstractBlock* parent() const;
    int childrenSize() const;
    AbstractBlock* child(int index);
-   const AbstractBlock* child(int index) const;
+   AbstractBlock* child(int index) const;
+   QList<AbstractBlock*> children() const;
    int childIndex(AbstractBlock* child) const;
    void insertChild(int index, std::unique_ptr<AbstractBlock>&& child);
    std::unique_ptr<AbstractBlock> takeChild(int index);
    void removeChild(int index);
    void read(const QDomElement& parent);
    QDomElement write(QDomDocument& document) const;
+   bool hasChildOfType(int type) const;
+   bool hasChildOfTypes(const QList<int>& types) const;
+   template<class T> QList<T*> makeChildListOfType(int type) const;
 protected:
    virtual void readData(const QDomElement& data) = 0;
    virtual QDomElement writeData(QDomDocument& document) const = 0;
-   AbstractBlock* root();
    void copyChildren(const AbstractBlock* block);
-   QList<AbstractBlock*> children() const;
    void notifyOfNameChange();
-   bool hasChildOfType(int type) const;
-   bool hasChildOfTypes(const QList<int>& types) const;
 signals:
    void modified();
    void nameChanged(AbstractBlock* object);
@@ -55,6 +55,25 @@ private:
    AbstractBlock* _parent {nullptr};
    QList<AbstractBlock*> _children;
 };
+
+
+
+
+
+
+template<class T> QList<T*> AbstractBlock::makeChildListOfType(int type) const
+{
+   QList<T*> ret;
+   const QList<AbstractBlock*> list {children()};
+   for (auto child : list)
+   {
+      if ( child->type() == type )
+      {
+         if ( T* variable = qobject_cast<T*>(child) ) ret.append(variable);
+      }
+   }
+   return ret;
+}
 
 
 

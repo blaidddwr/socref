@@ -53,16 +53,6 @@ int Namespace::type() const
 
 
 
-QString Namespace::elementName() const
-{
-   return QString("namespace");
-}
-
-
-
-
-
-
 QIcon Namespace::icon() const
 {
    static QIcon ret;
@@ -86,6 +76,7 @@ QList<int> Namespace::buildList() const
       ret << BlockFactory::NamespaceType;
       ret << BlockFactory::VariableType;
       ret << BlockFactory::FunctionType;
+      ret << BlockFactory::ClassType;
    }
    return ret;
 }

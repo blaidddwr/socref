@@ -3,6 +3,8 @@
 #include "exception.h"
 #include "domelementreader.h"
 #include "cppqt_access.h"
+#include "cppqt_template.h"
+#include "cppqt_common.h"
 
 
 
@@ -27,6 +29,16 @@ Class::Class(const QString& name):
 
 
 
+QString Class::name() const
+{
+   return templateName(this).append(Base::name());
+}
+
+
+
+
+
+
 unique_ptr<AbstractBlock> Class::makeCopy() const
 {
    unique_ptr<Class> ret {new Class};
@@ -44,16 +56,6 @@ unique_ptr<AbstractBlock> Class::makeCopy() const
 int Class::type() const
 {
    return BlockFactory::ClassType;
-}
-
-
-
-
-
-
-QString Class::elementName() const
-{
-   return "class";
 }
 
 
@@ -89,8 +91,8 @@ QList<int> Class::buildList() const
    static QList<int> ret;
    if ( ret.isEmpty() )
    {
-      ret << BlockFactory::VariableType;
       ret << BlockFactory::TemplateType;
+      ret << BlockFactory::AccessType;
    }
    return ret;
 }
@@ -167,6 +169,61 @@ bool Class::hasSignalsOrSlots() const
       if ( access->hasSignalsOrSlots() ) return true;
    }
    return false;
+}
+
+
+
+
+
+
+QList<Template*> Class::templates() const
+{
+   QList<Template*> ret;
+   const QList<AbstractBlock*> list {children()};
+   for (auto child : list)
+   {
+      if ( child->type() == BlockFactory::TemplateType )
+      {
+         if ( Template* variable = qobject_cast<Template*>(child) ) ret.append(variable);
+      }
+   }
+   return ret;
+}
+
+
+
+
+
+
+void Class::childNameChanged(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyOfNameChange();
+   emit bodyChanged();
+}
+
+
+
+
+
+
+void Class::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyOfNameChange();
+   emit bodyChanged();
+}
+
+
+
+
+
+
+void Class::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyOfNameChange();
+   emit bodyChanged();
 }
 
 

@@ -51,16 +51,6 @@ int Template::type() const
 
 
 
-QString Template::elementName() const
-{
-   return QString("template");
-}
-
-
-
-
-
-
 QIcon Template::icon() const
 {
    static QIcon ret;
