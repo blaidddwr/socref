@@ -5,4 +5,6 @@ namespace Gui
    class BlockView;
    class MainWindow;
    class ProjectDialog;
+   class TextEdit;
+   class TextDialog;
 }

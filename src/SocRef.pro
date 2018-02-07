@@ -6,7 +6,7 @@ TARGET = socref
 TEMPLATE = app
 
 INCLUDEPATH += ../../socerr/src
-LIBS += -L../../socerr/build -lsocerr
+LIBS += -L../../socerr/build -lsocerr -laspell
 
 DEFINES += QT_DEPRECATED_WARNINGS
 
@@ -48,7 +48,11 @@ SOURCES += \
     cppqt_common.cpp \
     cppqt_view_common.cpp \
     cppqt_view_access.cpp \
-    cppqt_gui_listdialog.cpp
+    cppqt_gui_listdialog.cpp \
+    gui_textedit.cpp \
+    gui_textedit_highlighter.cpp \
+    gui_textedit_dialog.cpp \
+    gui_textdialog.cpp
 
 HEADERS += \
     singleton.h \
@@ -96,7 +100,11 @@ HEADERS += \
     cppqt_common.h \
     cppqt_view_common.h \
     cppqt_view_access.h \
-    cppqt_gui_listdialog.h
+    cppqt_gui_listdialog.h \
+    gui_textedit.h \
+    gui_textedit_highlighter.h \
+    gui_textedit_dialog.h \
+    gui_textdialog.h
 
 RESOURCES += \
     resources.qrc
