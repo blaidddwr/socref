@@ -1,5 +1,4 @@
 #include <QFormLayout>
-#include <QPlainTextEdit>
 #include <QLabel>
 #include <QCheckBox>
 #include <QRegExpValidator>
@@ -7,6 +6,7 @@
 #include "cppqt_function.h"
 #include "exception.h"
 #include "cppqt_gui_typecombobox.h"
+#include "gui_textedit.h"
 
 
 
@@ -54,7 +54,7 @@ QLayout* Function::layout()
 
 void Function::addReturn(QFormLayout* layout)
 {
-   _returnEdit = new QPlainTextEdit;
+   _returnEdit = new ::Gui::TextEdit;
    _returnEdit->setPlainText(_block->returnDescription());
    Variable::addCombo(layout);
    layout->addRow(new QLabel(tr("Description:")),_returnEdit);
@@ -68,7 +68,7 @@ void Function::addReturn(QFormLayout* layout)
 void Function::addProperties(QFormLayout* layout)
 {
    Variable::addProperties(layout);
-   createPropertiesWidgets();
+   setupProperties();
    layout->addRow(_virtualBox);
    layout->addRow(_constBox);
    layout->addRow(_noExceptBox);
@@ -131,18 +131,7 @@ void Function::checkBoxChanged(int state)
 
 
 
-void Function::createReturnWidgets()
-{
-   _returnEdit = new QPlainTextEdit;
-   _returnEdit->setPlainText(_block->returnDescription());
-}
-
-
-
-
-
-
-void Function::createPropertiesWidgets()
+void Function::setupProperties()
 {
    _virtualBox = new QCheckBox(tr("Virtual"));
    _constBox = new QCheckBox(tr("Constant"));

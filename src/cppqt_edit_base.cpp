@@ -1,11 +1,11 @@
 #include <QFormLayout>
 #include <QLineEdit>
-#include <QPlainTextEdit>
 #include <QLabel>
 #include <QRegExpValidator>
 #include "cppqt_edit_base.h"
 #include "exception.h"
 #include "cppqt_base.h"
+#include "gui_textedit.h"
 
 
 
@@ -50,8 +50,8 @@ QLayout* Base::layout()
 
 void Base::addFields(QFormLayout* layout)
 {
-   createNameEdit();
-   createDescriptionEdit();
+   setupNameEdit();
+   setupDescriptionEdit();
    layout->addRow(new QLabel(tr("Name:")),_nameEdit);
    layout->addRow(new QLabel(tr("Description:")),_descriptionEdit);
 }
@@ -84,7 +84,7 @@ void Base::applyClicked()
 
 
 
-void Base::createNameEdit()
+void Base::setupNameEdit()
 {
    _nameEdit = new QLineEdit;
    _nameEdit->setText(_block->Base::name());
@@ -96,8 +96,8 @@ void Base::createNameEdit()
 
 
 
-void Base::createDescriptionEdit()
+void Base::setupDescriptionEdit()
 {
-   _descriptionEdit = new QPlainTextEdit;
+   _descriptionEdit = new Gui::TextEdit;
    _descriptionEdit->setPlainText(_block->description());
 }

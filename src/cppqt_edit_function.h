@@ -2,10 +2,10 @@
 #define CPPQT_EDIT_FUNCTION_H
 #include "cppqt_edit_variable.h"
 #include "cppqt_gui.h"
+#include "gui.h"
 
 
 
-class QPlainTextEdit;
 class QCheckBox;
 
 
@@ -29,13 +29,12 @@ namespace CppQt
          virtual void cancelClicked() override final;
          virtual void checkBoxChanged(int state) override final;
       private:
-         void createReturnWidgets();
-         void createPropertiesWidgets();
+         void setupProperties();
          void connectProperties();
          void fillProperties();
          void updateProperties();
          CppQt::Function* _block;
-         QPlainTextEdit* _returnEdit;
+         ::Gui::TextEdit* _returnEdit;
          QCheckBox* _virtualBox;
          QCheckBox* _constBox;
          QCheckBox* _noExceptBox;

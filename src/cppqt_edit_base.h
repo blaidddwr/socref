@@ -3,11 +3,11 @@
 #include "gui_abstractedit.h"
 #include "global.h"
 #include "cppqt.h"
+#include "gui.h"
 
 
 
 class QLineEdit;
-class QPlainTextEdit;
 class QLabel;
 class QFormLayout;
 
@@ -30,11 +30,11 @@ namespace CppQt
       protected slots:
          virtual void applyClicked() override;
       private:
-         void createNameEdit();
-         void createDescriptionEdit();
+         void setupNameEdit();
+         void setupDescriptionEdit();
          CppQt::Base* _block;
          QLineEdit* _nameEdit;
-         QPlainTextEdit* _descriptionEdit;
+         Gui::TextEdit* _descriptionEdit;
       };
    }
 }

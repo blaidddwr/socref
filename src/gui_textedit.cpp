@@ -82,7 +82,7 @@ void TextEdit::keyPressEvent(QKeyEvent* event)
             setPlainText(dialog.text());
          }
       }
-      else if ( event->key() == Qt::Key_S )
+      else if ( event->key() == Qt::Key_C )
       {
          Dialog spellCheck(this);
          spellCheck.exec();
