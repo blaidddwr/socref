@@ -3,8 +3,7 @@
 
 
 
-template<class T>
-class Singleton
+template<class T> class Singleton
 {
 public:
    virtual ~Singleton() = default;

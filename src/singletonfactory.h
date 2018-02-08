@@ -4,8 +4,7 @@
 
 
 
-template<class T>
-class SingletonFactory
+template<class T> class SingletonFactory
 {
 public:
    virtual ~SingletonFactory() = default;
