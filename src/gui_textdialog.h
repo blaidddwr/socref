@@ -14,7 +14,7 @@ namespace Gui
       QString text() const;
       void setText(const QString& text);
    private:
-      QLayout* setupLayout();
+      void setupGui();
       QLayout* setupButtons();
       TextEdit* _edit;
    };

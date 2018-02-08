@@ -31,7 +31,7 @@ Project::Project(int type):
    _scanDirectory(".")
 {
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
-   createRoot();
+   makeRoot();
    _scanFilters = AbstractProjectFactory::instance().defaultFilters(_type);
 }
 
@@ -72,7 +72,7 @@ Project::Project(const QString &path):
       throw e;
    }
    readTypeElement(type);
-   createRoot();
+   makeRoot();
    _root->read(root);
    setFileHash(xmlBytes);
    addPath(_path);
@@ -371,7 +371,7 @@ void Project::setFileHash(const QByteArray& bytes)
 
 
 
-void Project::createRoot()
+void Project::makeRoot()
 {
    AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
    if ( _type < 0 || _type >= factory.size() )

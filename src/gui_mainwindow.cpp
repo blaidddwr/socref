@@ -23,12 +23,7 @@ using namespace Gui;
 MainWindow::MainWindow(QWidget *parent):
    QMainWindow(parent)
 {
-   static QIcon icon;
-   if ( icon.isNull() ) icon = QIcon(":/icons/main.svg");
-   setWindowIcon(icon);
-   createView();
-   createActions();
-   createMenus();
+   setupGui();
    updateTitle();
    updateActions();
 }
@@ -221,7 +216,38 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 
 
-void MainWindow::createActions()
+void MainWindow::setupGui()
+{
+   static QIcon icon;
+   if ( icon.isNull() ) icon = QIcon(":/icons/main.svg");
+   setWindowIcon(icon);
+   setupView();
+   setupActions();
+   setupMenus();
+}
+
+
+
+
+
+
+void MainWindow::setupActions()
+{
+   setupNewActions();
+   setupOpenAction();
+   setupSaveAction();
+   setupSaveAsAction();
+   setupPropertiesAction();
+   setupCloseAction();
+   setupExitAction();
+}
+
+
+
+
+
+
+void MainWindow::setupNewActions()
 {
    AbstractProjectFactory& factory = AbstractProjectFactory::instance();
    for (int i = 0; i < factory.size() ;++i)
@@ -230,12 +256,6 @@ void MainWindow::createActions()
       _newActions.back()->setData(i);
       connect(_newActions.back(),&QAction::triggered,this,&MainWindow::newTriggered);
    }
-   createOpenAction();
-   createSaveAction();
-   createSaveAsAction();
-   createPropertiesAction();
-   createCloseAction();
-   createExitAction();
 }
 
 
@@ -243,7 +263,7 @@ void MainWindow::createActions()
 
 
 
-void MainWindow::createOpenAction()
+void MainWindow::setupOpenAction()
 {
    _openAction = new QAction(tr("&Open"),this);
    _openAction->setShortcut(QKeySequence::Open);
@@ -256,7 +276,7 @@ void MainWindow::createOpenAction()
 
 
 
-void MainWindow::createSaveAction()
+void MainWindow::setupSaveAction()
 {
    _saveAction = new QAction(tr("&Save"),this);
    _saveAction->setShortcut(QKeySequence::Save);
@@ -269,7 +289,7 @@ void MainWindow::createSaveAction()
 
 
 
-void MainWindow::createSaveAsAction()
+void MainWindow::setupSaveAsAction()
 {
    _saveAsAction = new QAction(tr("Save &As"),this);
    _saveAsAction->setShortcut(QKeySequence::SaveAs);
@@ -282,7 +302,7 @@ void MainWindow::createSaveAsAction()
 
 
 
-void MainWindow::createPropertiesAction()
+void MainWindow::setupPropertiesAction()
 {
    _propertiesAction = new QAction(tr("&Properties"),this);
    _propertiesAction->setStatusTip(tr("Edit basic properties of a project."));
@@ -294,7 +314,7 @@ void MainWindow::createPropertiesAction()
 
 
 
-void MainWindow::createCloseAction()
+void MainWindow::setupCloseAction()
 {
    _closeAction = new QAction(tr("&Close"),this);
    _closeAction->setShortcut(QKeySequence::Close);
@@ -307,7 +327,7 @@ void MainWindow::createCloseAction()
 
 
 
-void MainWindow::createExitAction()
+void MainWindow::setupExitAction()
 {
    _exitAction = new QAction(tr("&Exit"),this);
    _exitAction->setShortcut(QKeySequence::Quit);
@@ -320,7 +340,7 @@ void MainWindow::createExitAction()
 
 
 
-void MainWindow::createMenus()
+void MainWindow::setupMenus()
 {
    QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
    QMenu* newMenu = fileMenu->addMenu(tr("&New"));
@@ -339,7 +359,7 @@ void MainWindow::createMenus()
 
 
 
-void MainWindow::createView()
+void MainWindow::setupView()
 {
    _view = new BlockView(this);
    setCentralWidget(_view);

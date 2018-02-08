@@ -10,6 +10,7 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+const char* Access::_typeTag {"type"};
 
 
 

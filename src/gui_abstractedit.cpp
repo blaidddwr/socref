@@ -25,7 +25,7 @@ AbstractEdit* AbstractEdit::initialize()
 {
    QVBoxLayout* main {new QVBoxLayout};
    main->addLayout(layout());
-   main->addLayout(createButtons());
+   main->addLayout(setupButtons());
    setLayout(main);
    return this;
 }
@@ -35,13 +35,13 @@ AbstractEdit* AbstractEdit::initialize()
 
 
 
-QLayout* AbstractEdit::createButtons()
+QLayout* AbstractEdit::setupButtons()
 {
    QHBoxLayout* ret {new QHBoxLayout};
-   ret->addWidget(createOkButton());
-   ret->addWidget(createApplyButton());
+   ret->addWidget(setupOkButton());
+   ret->addWidget(setupApplyButton());
    ret->addStretch();
-   ret->addWidget(createCancelButton());
+   ret->addWidget(setupCancelButton());
    return ret;
 }
 
@@ -50,7 +50,7 @@ QLayout* AbstractEdit::createButtons()
 
 
 
-QPushButton*AbstractEdit::createOkButton()
+QPushButton*AbstractEdit::setupOkButton()
 {
    QPushButton* ret {new QPushButton(tr("&Ok"))};
    connect(ret,&QPushButton::clicked,this,&AbstractEdit::okClicked);
@@ -62,7 +62,7 @@ QPushButton*AbstractEdit::createOkButton()
 
 
 
-QPushButton*AbstractEdit::createApplyButton()
+QPushButton*AbstractEdit::setupApplyButton()
 {
    QPushButton* ret {new QPushButton(tr("&Apply"))};
    connect(ret,&QPushButton::clicked,this,&AbstractEdit::applyClicked);
@@ -74,7 +74,7 @@ QPushButton*AbstractEdit::createApplyButton()
 
 
 
-QPushButton*AbstractEdit::createCancelButton()
+QPushButton*AbstractEdit::setupCancelButton()
 {
    QPushButton* ret {new QPushButton(tr("&Cancel"))};
    connect(ret,&QPushButton::clicked,this,&AbstractEdit::cancelClicked);

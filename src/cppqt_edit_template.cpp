@@ -23,9 +23,9 @@ Template::Template(AbstractBlock* block, QWidget* parent):
 QLayout* Template::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   ret->addRow(createTitle(tr("Type")));
+   ret->addRow(setupTitle(tr("Type")));
    addCombo(ret);
-   ret->addRow(createTitle(tr("Basic Information")));
+   ret->addRow(setupTitle(tr("Basic Information")));
    Base::addFields(ret);
    return ret;
 }

@@ -27,9 +27,10 @@ namespace CppQt
          void applyClicked();
       private:
          bool isDuplicate(const QString& name);
-         QLayout* createTop();
-         QLayout* createTopButtons();
-         QLayout* createBottomButtons();
+         void setupGui();
+         QLayout* setupTop();
+         QLayout* setupTopButtons();
+         QLayout* setupBottomButtons();
          Namespace* _block;
          QListWidget* _list;
       };

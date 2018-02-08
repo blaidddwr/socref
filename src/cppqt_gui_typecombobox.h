@@ -28,10 +28,11 @@ namespace CppQt
          void editLocalTriggered();
          void typeListChanged();
       private:
-         QPushButton* createButton();
-         QMenu* createMenu();
-         QAction* createGlobalAction();
-         QAction* createLocalAction();
+         void setupGui();
+         QPushButton* setupButton();
+         QMenu* setupMenu();
+         QAction* setupGlobalAction();
+         QAction* setupLocalAction();
          void findNamespaces(AbstractBlock* block);
          void buildComboList();
          Namespace* _local;

@@ -39,9 +39,9 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
 QLayout* Namespace::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   ret->addRow(createTitle(tr("Basic Information")));
+   ret->addRow(setupTitle(tr("Basic Information")));
    Base::addFields(ret);
-   ret->addRow(createTitle(tr("Types")));
+   ret->addRow(setupTitle(tr("Types")));
    addTypeButtons(ret);
    return ret;
 }

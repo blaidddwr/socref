@@ -7,9 +7,6 @@
 
 using namespace std;
 using namespace CppQt;
-
-
-
 const char* Base::_nameTag {"name"};
 const char* Base::_descriptionTag {"description"};
 

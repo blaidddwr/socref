@@ -61,7 +61,7 @@ void Base::addFields(QFormLayout* layout)
 
 
 
-QLabel* Base::createTitle(const QString& title)
+QLabel* Base::setupTitle(const QString& title)
 {
    QLabel* ret {new QLabel(QString("<h3>").append(title).append("</h3>"))};
    ret->setStyleSheet("margin-top:16px;");

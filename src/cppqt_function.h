@@ -57,14 +57,14 @@ namespace CppQt
    private:
       using Variable::variableType;
       using Variable::setVariableType;
-      const char* _returnDescriptionTag {"return_description"};
-      const char* _virtualTag {"virtual"};
-      const char* _constTag {"const"};
-      const char* _noExceptTag {"noexcept"};
-      const char* _overrideTag {"override"};
-      const char* _finalTag {"final"};
-      const char* _abstractTag {"abstract"};
-      const char* _operationTag {"operation"};
+      static const char* _returnDescriptionTag;
+      static const char* _virtualTag;
+      static const char* _constTag;
+      static const char* _noExceptTag;
+      static const char* _overrideTag;
+      static const char* _finalTag;
+      static const char* _abstractTag;
+      static const char* _operationTag;
       QString _returnDescription;
       bool _virtual {false};
       bool _const {false};

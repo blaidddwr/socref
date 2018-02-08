@@ -22,12 +22,7 @@ TypeComboBox::TypeComboBox(AbstractBlock* block, QWidget* parent):
    QWidget(parent)
 {
    findNamespaces(block);
-   _box = new QComboBox;
-   buildComboList();
-   QHBoxLayout* layout {new QHBoxLayout};
-   layout->addWidget(_box);
-   layout->addWidget(createButton());
-   setLayout(layout);
+   setupGui();
 }
 
 
@@ -89,10 +84,25 @@ void TypeComboBox::typeListChanged()
 
 
 
-QPushButton* TypeComboBox::createButton()
+void TypeComboBox::setupGui()
+{
+   _box = new QComboBox;
+   buildComboList();
+   QHBoxLayout* layout {new QHBoxLayout};
+   layout->addWidget(_box);
+   layout->addWidget(setupButton());
+   setLayout(layout);
+}
+
+
+
+
+
+
+QPushButton* TypeComboBox::setupButton()
 {
    QPushButton* ret {new QPushButton(tr("&Edit"))};
-   ret->setMenu(createMenu());
+   ret->setMenu(setupMenu());
    return ret;
 }
 
@@ -101,11 +111,11 @@ QPushButton* TypeComboBox::createButton()
 
 
 
-QMenu* TypeComboBox::createMenu()
+QMenu* TypeComboBox::setupMenu()
 {
    QMenu* ret {new QMenu(this)};
-   ret->addAction(createGlobalAction());
-   ret->addAction(createLocalAction());
+   ret->addAction(setupGlobalAction());
+   ret->addAction(setupLocalAction());
    return ret;
 }
 
@@ -114,7 +124,7 @@ QMenu* TypeComboBox::createMenu()
 
 
 
-QAction* TypeComboBox::createGlobalAction()
+QAction* TypeComboBox::setupGlobalAction()
 {
    QAction* ret {new QAction(tr("&Global"),this)};
    ret->setStatusTip(tr("Edit global list of C++ types."));
@@ -127,7 +137,7 @@ QAction* TypeComboBox::createGlobalAction()
 
 
 
-QAction* TypeComboBox::createLocalAction()
+QAction* TypeComboBox::setupLocalAction()
 {
    QAction* ret {new QAction(tr("&Local"),this)};
    ret->setStatusTip(tr("Edit local list of C++ types."));

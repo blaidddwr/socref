@@ -23,10 +23,10 @@ namespace Gui
       void applyClicked();
       void browseClicked();
    private:
-      void createDialog();
-      QFormLayout* createForm();
-      QHBoxLayout* createButtons();
-      QPushButton* createButton(const QString& text, void (ProjectDialog::*pointer)());
+      void setupGui();
+      QFormLayout* setupForm();
+      QHBoxLayout* setupButtons();
+      QPushButton* setupButton(const QString& text, void (ProjectDialog::*pointer)());
       Project* _project;
       QLineEdit* _nameEdit;
       QLineEdit* _scanDirectoryEdit;

@@ -21,10 +21,7 @@ TypeListDialog::TypeListDialog(Namespace* block, QWidget* parent):
    QDialog(parent),
    _block(block)
 {
-   QVBoxLayout* layout {new QVBoxLayout};
-   layout->addLayout(createTop());
-   layout->addLayout(createBottomButtons());
-   setLayout(layout);
+   setupGui();
 }
 
 
@@ -143,7 +140,20 @@ bool TypeListDialog::isDuplicate(const QString& name)
 
 
 
-QLayout* TypeListDialog::createTop()
+void TypeListDialog::setupGui()
+{
+   QVBoxLayout* layout {new QVBoxLayout};
+   layout->addLayout(setupTop());
+   layout->addLayout(setupBottomButtons());
+   setLayout(layout);
+}
+
+
+
+
+
+
+QLayout* TypeListDialog::setupTop()
 {
    _list = new QListWidget;
    _list->setSortingEnabled(true);
@@ -151,7 +161,7 @@ QLayout* TypeListDialog::createTop()
    for (auto type : list) _list->addItem(type);
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_list);
-   ret->addLayout(createTopButtons());
+   ret->addLayout(setupTopButtons());
    connect(_list,&QListWidget::itemDoubleClicked,this,&TypeListDialog::itemDoubleClicked);
    return ret;
 }
@@ -161,7 +171,7 @@ QLayout* TypeListDialog::createTop()
 
 
 
-QLayout* TypeListDialog::createTopButtons()
+QLayout* TypeListDialog::setupTopButtons()
 {
    QPushButton* add {new QPushButton(tr("Add"))};
    QPushButton* remove {new QPushButton(tr("Remove"))};
@@ -179,7 +189,7 @@ QLayout* TypeListDialog::createTopButtons()
 
 
 
-QLayout* TypeListDialog::createBottomButtons()
+QLayout* TypeListDialog::setupBottomButtons()
 {
    QPushButton* ok {new QPushButton(tr("Ok"))};
    QPushButton* apply {new QPushButton(tr("Apply"))};

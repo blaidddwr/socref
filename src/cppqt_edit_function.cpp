@@ -38,11 +38,11 @@ Function::Function(AbstractBlock* block, QWidget* parent):
 QLayout* Function::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   ret->addRow(createTitle(tr("Return")));
+   ret->addRow(setupTitle(tr("Return")));
    addReturn(ret);
-   ret->addRow(createTitle(tr("Basic Information")));
+   ret->addRow(setupTitle(tr("Basic Information")));
    Base::addFields(ret);
-   ret->addRow(createTitle(tr("Properties")));
+   ret->addRow(setupTitle(tr("Properties")));
    addProperties(ret);
    return ret;
 }

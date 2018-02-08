@@ -18,7 +18,7 @@ using namespace CppQt::Gui;
 TypeDialog::TypeDialog(QWidget* parent):
    QDialog(parent)
 {
-   createGui();
+   setupGui();
 }
 
 
@@ -29,7 +29,7 @@ TypeDialog::TypeDialog(QWidget* parent):
 TypeDialog::TypeDialog(const QString& name, QWidget* parent):
    QDialog(parent)
 {
-   createGui();
+   setupGui();
    setName(name);
 }
 
@@ -102,12 +102,12 @@ void TypeDialog::textChanged(const QString& text)
 
 
 
-void TypeDialog::createGui()
+void TypeDialog::setupGui()
 {
-   createLineEdit();
+   setupLineEdit();
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addWidget(_text);
-   layout->addLayout(createButtons());
+   layout->addLayout(setupButtons());
    setLayout(layout);
 }
 
@@ -116,7 +116,7 @@ void TypeDialog::createGui()
 
 
 
-void TypeDialog::createLineEdit()
+void TypeDialog::setupLineEdit()
 {
    _text = new QLineEdit;
    connect(_text,&QLineEdit::textChanged,this,&TypeDialog::textChanged);
@@ -127,7 +127,7 @@ void TypeDialog::createLineEdit()
 
 
 
-QLayout* TypeDialog::createButtons()
+QLayout* TypeDialog::setupButtons()
 {
    _ok = new QPushButton(tr("Ok"));
    _ok->setDisabled(true);

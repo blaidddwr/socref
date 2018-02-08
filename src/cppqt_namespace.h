@@ -30,8 +30,8 @@ namespace CppQt
       void copyDataFrom(const Namespace& object);
    private:
       void readType(const QDomElement& type);
-      const char* _typeTag {"type"};
-      const char* _nameTag {"name"};
+      static const char* _typeTag;
+      static const char* _nameTag;
       QStringList _types;
    };
 }

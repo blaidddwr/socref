@@ -40,7 +40,7 @@ private:
    void readTypeElement(const QDomElement& type);
    void signalModified();
    void setFileHash(const QByteArray& bytes);
-   void createRoot();
+   void makeRoot();
    static const char* _nameTag;
    static const char* _typeTag;
    static const char* _scandirectoryTag;

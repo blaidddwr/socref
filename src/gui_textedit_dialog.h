@@ -33,9 +33,12 @@ namespace Gui
       void clearWord();
       void setSnippet(const QString& text, int begin, int length);
       void updateSuggested();
+      void setupGui();
       QLayout* setupTop();
       QLayout* setupButtons();
       QLayout* setupWordEdit();
+      void setupSnippet();
+      void setupSuggestions();
       constexpr static int _snippetRadius {256};
       const char* _defaultLang {"en_US"};
       const char* _snippetDots {"..."};

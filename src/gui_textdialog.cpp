@@ -16,7 +16,7 @@ using namespace Gui;
 TextDialog::TextDialog(QWidget* parent):
    QDialog(parent)
 {
-   setLayout(setupLayout());
+   setupGui();
 }
 
 
@@ -44,14 +44,14 @@ void TextDialog::setText(const QString& text)
 
 
 
-QLayout* TextDialog::setupLayout()
+void TextDialog::setupGui()
 {
    _edit = new TextEdit;
    _edit->setDialogPopupEnabled(false);
-   QVBoxLayout* ret {new QVBoxLayout};
-   ret->addWidget(_edit);
-   ret->addLayout(setupButtons());
-   return ret;
+   QVBoxLayout* layout {new QVBoxLayout};
+   layout->addWidget(_edit);
+   layout->addLayout(setupButtons());
+   setLayout(layout);
 }
 
 

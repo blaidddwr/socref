@@ -11,6 +11,10 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+const char* Variable::_constExprTag {"constexpr"};
+const char* Variable::_staticTag {"static"};
+const char* Variable::_typeTag {"type"};
+const char* Variable::_initializerTag {"initializer"};
 
 
 

@@ -26,10 +26,10 @@ namespace Gui
       virtual void applyClicked() = 0;
       virtual void cancelClicked() = 0;
    private:
-      QLayout* createButtons();
-      QPushButton* createOkButton();
-      QPushButton* createApplyButton();
-      QPushButton* createCancelButton();
+      QLayout* setupButtons();
+      QPushButton* setupOkButton();
+      QPushButton* setupApplyButton();
+      QPushButton* setupCancelButton();
    };
 }
 

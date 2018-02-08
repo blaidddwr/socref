@@ -28,7 +28,7 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
       e.setDetails(tr("Cannot give nullptr as argument for project settings constructor."));
       throw e;
    }
-   createDialog();
+   setupGui();
    setWindowTitle(tr("Project Properties"));
 }
 
@@ -77,12 +77,12 @@ void ProjectDialog::browseClicked()
 
 
 
-void ProjectDialog::createDialog()
+void ProjectDialog::setupGui()
 {
    QVBoxLayout* layout {new QVBoxLayout};
-   layout->addLayout(createForm());
+   layout->addLayout(setupForm());
    layout->addStretch();
-   layout->addLayout(createButtons());
+   layout->addLayout(setupButtons());
    setLayout(layout);
 }
 
@@ -91,7 +91,7 @@ void ProjectDialog::createDialog()
 
 
 
-QFormLayout* ProjectDialog::createForm()
+QFormLayout* ProjectDialog::setupForm()
 {
    QFormLayout* ret {new QFormLayout};
    QHBoxLayout* directory {new QHBoxLayout};
@@ -117,13 +117,13 @@ QFormLayout* ProjectDialog::createForm()
 
 
 
-QHBoxLayout* ProjectDialog::createButtons()
+QHBoxLayout* ProjectDialog::setupButtons()
 {
    QHBoxLayout* ret {new QHBoxLayout};
-   ret->addWidget(createButton(tr("&Ok"),&ProjectDialog::okClicked));
-   ret->addWidget(createButton(tr("&Apply"),&ProjectDialog::applyClicked));
+   ret->addWidget(setupButton(tr("&Ok"),&ProjectDialog::okClicked));
+   ret->addWidget(setupButton(tr("&Apply"),&ProjectDialog::applyClicked));
    ret->addStretch();
-   ret->addWidget(createButton(tr("&Cancel"),&ProjectDialog::reject));
+   ret->addWidget(setupButton(tr("&Cancel"),&ProjectDialog::reject));
    return ret;
 }
 
@@ -132,7 +132,7 @@ QHBoxLayout* ProjectDialog::createButtons()
 
 
 
-QPushButton*ProjectDialog::createButton(const QString& text, void (ProjectDialog::*pointer)())
+QPushButton* ProjectDialog::setupButton(const QString& text, void (ProjectDialog::*pointer)())
 {
    QPushButton* ret {new QPushButton(text)};
    connect(ret,&QPushButton::clicked,this,pointer);

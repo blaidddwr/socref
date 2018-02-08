@@ -15,9 +15,6 @@
 
 using namespace std;
 using namespace Gui;
-
-
-
 AbstractBlock* BlockView::_copy {nullptr};
 
 
@@ -28,10 +25,7 @@ AbstractBlock* BlockView::_copy {nullptr};
 BlockView::BlockView(QWidget* parent):
    QSplitter(parent)
 {
-   createTreeView();
-   createArea();
-   createActions();
-   createMenu();
+   setupGui();
    updateActions();
 }
 
@@ -284,7 +278,20 @@ void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& 
 
 
 
-void BlockView::createTreeView()
+void BlockView::setupGui()
+{
+   setupTreeView();
+   setupArea();
+   setupActions();
+   setupMenu();
+}
+
+
+
+
+
+
+void BlockView::setupTreeView()
 {
    _treeView = new QTreeView;
    _treeView->setHeaderHidden(true);
@@ -296,12 +303,12 @@ void BlockView::createTreeView()
 
 
 
-void BlockView::createArea()
+void BlockView::setupArea()
 {
    QVBoxLayout* layout {new QVBoxLayout};
    _area = new QScrollArea;
    _area->setWidgetResizable(true);
-   layout->addLayout(createTitleBar());
+   layout->addLayout(setupTitleBar());
    layout->addSpacing(8);
    layout->addWidget(_area);
    QWidget* widget {new QWidget};
@@ -314,7 +321,7 @@ void BlockView::createArea()
 
 
 
-QLayout* BlockView::createTitleBar()
+QLayout* BlockView::setupTitleBar()
 {
    QHBoxLayout* ret {new QHBoxLayout};
    _titleIcon = new QLabel;
@@ -334,15 +341,15 @@ QLayout* BlockView::createTitleBar()
 
 
 
-void BlockView::createActions()
+void BlockView::setupActions()
 {
-   createRemoveAction();
-   createEditAction();
-   createCutAction();
-   createCopyAction();
-   createPasteAction();
-   createMoveUpAction();
-   createMoveDownAction();
+   setupRemoveAction();
+   setupEditAction();
+   setupCutAction();
+   setupCopyAction();
+   setupPasteAction();
+   setupMoveUpAction();
+   setupMoveDownAction();
 }
 
 
@@ -350,7 +357,7 @@ void BlockView::createActions()
 
 
 
-void BlockView::createRemoveAction()
+void BlockView::setupRemoveAction()
 {
    _removeAction = new QAction(tr("&Remove"),this);
    _removeAction->setStatusTip(tr("Remove a block."));
@@ -362,7 +369,7 @@ void BlockView::createRemoveAction()
 
 
 
-void BlockView::createEditAction()
+void BlockView::setupEditAction()
 {
    _editAction = new QAction(tr("&Edit"),this);
    _editAction->setStatusTip(tr("Edit currently selected block."));
@@ -374,7 +381,7 @@ void BlockView::createEditAction()
 
 
 
-void BlockView::createCutAction()
+void BlockView::setupCutAction()
 {
    _cutAction = new QAction(tr("&Cut"),this);
    _cutAction->setStatusTip(tr("Cut currently selected block."));
@@ -386,7 +393,7 @@ void BlockView::createCutAction()
 
 
 
-void BlockView::createCopyAction()
+void BlockView::setupCopyAction()
 {
    _copyAction = new QAction(tr("C&opy"),this);
    _copyAction->setStatusTip(tr("Copy currently selected block."));
@@ -398,7 +405,7 @@ void BlockView::createCopyAction()
 
 
 
-void BlockView::createPasteAction()
+void BlockView::setupPasteAction()
 {
    _pasteAction = new QAction(tr("&Paste"),this);
    _pasteAction->setStatusTip(tr("Paste block into selected block as child."));
@@ -410,7 +417,7 @@ void BlockView::createPasteAction()
 
 
 
-void BlockView::createMoveUpAction()
+void BlockView::setupMoveUpAction()
 {
    _moveUpAction = new QAction(tr("Move &Up"),this);
    _moveUpAction->setStatusTip(tr("Move currently selected block up by one."));
@@ -422,7 +429,7 @@ void BlockView::createMoveUpAction()
 
 
 
-void BlockView::createMoveDownAction()
+void BlockView::setupMoveDownAction()
 {
    _moveDownAction = new QAction(tr("Move &Down"),this);
    _moveDownAction->setStatusTip(tr("Move currently selected block down by one."));
@@ -434,7 +441,7 @@ void BlockView::createMoveDownAction()
 
 
 
-void BlockView::createMenu()
+void BlockView::setupMenu()
 {
    _contextMenu = new QMenu(tr("&Edit"),this);
    _addMenu = _contextMenu->addMenu(tr("&Add"));

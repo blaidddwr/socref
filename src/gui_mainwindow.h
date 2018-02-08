@@ -29,15 +29,17 @@ namespace Gui
       void projectFileChanged();
    private:
       virtual void closeEvent(QCloseEvent* event) override final;
-      void createActions();
-      void createOpenAction();
-      void createSaveAction();
-      void createSaveAsAction();
-      void createPropertiesAction();
-      void createCloseAction();
-      void createExitAction();
-      void createMenus();
-      void createView();
+      void setupGui();
+      void setupActions();
+      void setupNewActions();
+      void setupOpenAction();
+      void setupSaveAction();
+      void setupSaveAsAction();
+      void setupPropertiesAction();
+      void setupCloseAction();
+      void setupExitAction();
+      void setupMenus();
+      void setupView();
       void updateTitle();
       void updateActions();
       bool isOkToContinue();

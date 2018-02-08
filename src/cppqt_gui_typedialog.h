@@ -24,9 +24,9 @@ namespace CppQt
       private slots:
          void textChanged(const QString& text);
       private:
-         void createGui();
-         void createLineEdit();
-         QLayout* createButtons();
+         void setupGui();
+         void setupLineEdit();
+         QLayout* setupButtons();
          QPushButton* _ok;
          QLineEdit* _text;
       };

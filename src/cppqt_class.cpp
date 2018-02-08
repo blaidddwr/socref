@@ -12,9 +12,6 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
-
-
-
 const char* Class::_qtObjectTag {"qtobject"};
 
 

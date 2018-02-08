@@ -33,10 +33,7 @@ TextEdit::Dialog::Dialog(TextEdit* parent):
       throw e;
    }
    _spell = to_aspell_speller(temp);
-   QVBoxLayout* layout {new QVBoxLayout};
-   layout->addLayout(setupTop());
-   layout->addLayout(setupButtons());
-   setLayout(layout);
+   setupGui();
    setWindowTitle("Spell Checker");
 }
 
@@ -229,7 +226,7 @@ void TextEdit::Dialog::updateSuggested()
    while ( (suggest = aspell_string_enumeration_next(elements)) != nullptr )
    {
       if ( first ) first = false;
-      else text.append("<br/>");
+      else text.append(" ");
       text.append(suggest);
    }
    _suggestionsView->setText(text);
@@ -241,11 +238,22 @@ void TextEdit::Dialog::updateSuggested()
 
 
 
+void TextEdit::Dialog::setupGui()
+{
+   QVBoxLayout* layout {new QVBoxLayout};
+   layout->addLayout(setupTop());
+   layout->addLayout(setupButtons());
+   setLayout(layout);
+}
+
+
+
+
+
+
 QLayout* TextEdit::Dialog::setupTop()
 {
-   _suggestionsView = new QLabel;
-   _suggestionsView->setAlignment(Qt::AlignTop);
-   _suggestionsView->setStyleSheet("margin-left:16px;");
+   setupSuggestions();
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addLayout(setupWordEdit());
    ret->addWidget(_suggestionsView);
@@ -284,12 +292,36 @@ QLayout* TextEdit::Dialog::setupButtons()
 QLayout* TextEdit::Dialog::setupWordEdit()
 {
    _wordEdit = new QLineEdit;
-   _snippetView = new QLabel;
-   _snippetView->setWordWrap(true);
-   _snippetView->setAlignment(Qt::AlignTop);
+   setupSnippet();
    connect(_wordEdit,&QLineEdit::textChanged,this,&Dialog::wordTextChanged);
    QVBoxLayout* ret {new QVBoxLayout};
    ret->addWidget(_wordEdit);
    ret->addWidget(_snippetView);
    return ret;
+}
+
+
+
+
+
+
+void TextEdit::Dialog::setupSnippet()
+{
+   _snippetView = new QLabel;
+   _snippetView->setWordWrap(true);
+   _snippetView->setAlignment(Qt::AlignTop);
+   _snippetView->setTextFormat(Qt::RichText);
+}
+
+
+
+
+
+
+void TextEdit::Dialog::setupSuggestions()
+{
+   _suggestionsView = new QLabel;
+   _suggestionsView->setAlignment(Qt::AlignTop);
+   _suggestionsView->setStyleSheet("margin-left:16px;");
+   _suggestionsView->setWordWrap(true);
 }
