@@ -65,7 +65,7 @@ QString Function::displayArgumentsText()
       {
          ret.append("<p>").append(variable->variableType()).append(" <b>").append(variable->Base::name()).append("</b>");
          if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
-         ret.append(variable->description()).append(" : </p>");
+         ret.append(" : ").append(variable->description()).append("</p>");
       }
    }
    return ret;
