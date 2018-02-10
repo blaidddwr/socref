@@ -1,15 +1,16 @@
 #include <QFormLayout>
 #include <QLabel>
 #include <QCheckBox>
-#include <QRegExpValidator>
+#include <QPushButton>
 #include "cppqt_edit_function.h"
 #include "cppqt_function.h"
 #include "exception.h"
-#include "cppqt_gui_typecombobox.h"
 #include "gui_textedit.h"
+#include "cppqt_gui_listdialog.h"
 
 
 
+using namespace CppQt::Gui;
 using namespace CppQt::Edit;
 
 
@@ -42,6 +43,8 @@ QLayout* Function::layout()
    addReturn(ret);
    ret->addRow(setupTitle(tr("Basic Information")));
    Base::addFields(ret);
+   ret->addRow(setupTitle(tr("Operations")));
+   addOperations(ret);
    ret->addRow(setupTitle(tr("Properties")));
    addProperties(ret);
    return ret;
@@ -69,12 +72,24 @@ void Function::addProperties(QFormLayout* layout)
 {
    Variable::addProperties(layout);
    setupProperties();
-   layout->addRow(_virtualBox);
    layout->addRow(_constBox);
    layout->addRow(_noExceptBox);
+   layout->addRow(_virtualBox);
+   layout->addRow(_abstractBox);
    layout->addRow(_overrideBox);
    layout->addRow(_finalBox);
-   layout->addRow(_abstractBox);
+}
+
+
+
+
+
+
+void Function::addOperations(QFormLayout* layout)
+{
+   QPushButton* edit {new QPushButton(tr("Edit"))};
+   connect(edit,&QPushButton::clicked,this,&Function::operationsClicked);
+   layout->addRow(edit);
 }
 
 
@@ -124,6 +139,22 @@ void Function::checkBoxChanged(int state)
 {
    Q_UNUSED(state)
    updateProperties();
+}
+
+
+
+
+
+
+void Function::operationsClicked()
+{
+   ListDialog dialog;
+   dialog.setWindowTitle(tr("Edit Function Operations"));
+   dialog.setValue(_block->operations());
+   if ( dialog.exec() )
+   {
+      _block->setOperations(dialog.value());
+   }
 }
 
 

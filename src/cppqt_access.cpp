@@ -138,7 +138,7 @@ QList<int> Access::buildList() const
    QList<int> ret;
    if ( isSlot(_type) ) ret << BlockFactory::SlotType;
    else if ( _type == Type::Signals ) ret << BlockFactory::SignalType;
-   else ret << BlockFactory::FunctionType << BlockFactory::VariableType;
+   else ret << BlockFactory::FunctionType << BlockFactory::VariableType << BlockFactory::ClassType;
    return ret;
 }
 
