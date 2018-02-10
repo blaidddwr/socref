@@ -503,6 +503,7 @@ void BlockView::updateMenu()
 {
    _addMenu->clear();
    for (auto action : qAsConst(_addActions)) _addMenu->addAction(action);
+   _addMenu->setDisabled(_addMenu->isEmpty());
 }
 
 

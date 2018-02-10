@@ -71,7 +71,7 @@ void TextEdit::setDialogPopupEnabled(bool enabled)
 
 void TextEdit::keyPressEvent(QKeyEvent* event)
 {
-   if ( event->modifiers() & Qt::ControlModifier )
+   if ( event->modifiers()&Qt::ControlModifier && event->modifiers()&Qt::ShiftModifier )
    {
       if ( event->key() == Qt::Key_E && _dialogPopupEnabled )
       {
