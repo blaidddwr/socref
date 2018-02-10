@@ -28,9 +28,7 @@ namespace CppQt
          const QCheckBox* constExprBox() const;
          const QCheckBox* staticBox() const;
       protected slots:
-         virtual void okClicked() override;
          virtual void applyClicked() override;
-         virtual void cancelClicked() override;
          virtual void checkBoxChanged(int state);
       private:
          CppQt::Variable* _block;

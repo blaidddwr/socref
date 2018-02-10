@@ -29,24 +29,3 @@ QLayout* Template::layout()
    Base::addFields(ret);
    return ret;
 }
-
-
-
-
-
-
-void Template::okClicked()
-{
-   applyClicked();
-   emit finished();
-}
-
-
-
-
-
-
-void Template::cancelClicked()
-{
-   emit finished();
-}

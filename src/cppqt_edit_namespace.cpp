@@ -68,30 +68,9 @@ void Namespace::addTypeButtons(QFormLayout* layout)
 
 
 
-void Namespace::okClicked()
-{
-   applyClicked();
-   emit finished();
-}
-
-
-
-
-
-
 void Namespace::applyClicked()
 {
    Base::applyClicked();
-}
-
-
-
-
-
-
-void Namespace::cancelClicked()
-{
-   emit finished();
 }
 
 

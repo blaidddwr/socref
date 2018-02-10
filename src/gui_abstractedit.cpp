@@ -35,6 +35,27 @@ AbstractEdit* AbstractEdit::initialize()
 
 
 
+void AbstractEdit::okClicked()
+{
+   applyClicked();
+   emit finished();
+}
+
+
+
+
+
+
+void AbstractEdit::cancelClicked()
+{
+   emit finished();
+}
+
+
+
+
+
+
 QLayout* AbstractEdit::setupButtons()
 {
    QHBoxLayout* ret {new QHBoxLayout};

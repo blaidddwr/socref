@@ -22,9 +22,10 @@ namespace Gui
    signals:
       void finished();
    protected slots:
-      virtual void okClicked() = 0;
       virtual void applyClicked() = 0;
-      virtual void cancelClicked() = 0;
+   private slots:
+      void okClicked();
+      void cancelClicked();
    private:
       QLayout* setupButtons();
       QPushButton* setupOkButton();

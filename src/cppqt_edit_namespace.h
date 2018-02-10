@@ -17,9 +17,7 @@ namespace CppQt
          virtual QLayout* layout() override;
          void addTypeButtons(QFormLayout* layout);
       protected slots:
-         virtual void okClicked() override final;
          virtual void applyClicked() override;
-         virtual void cancelClicked() override final;
       private slots:
          void editGlobalTypesClicked();
          void editLocalTypesClicked();

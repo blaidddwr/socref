@@ -15,9 +15,6 @@ namespace CppQt
          Template(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
-      protected slots:
-         virtual void okClicked() override final;
-         virtual void cancelClicked() override final;
       };
    }
 }

@@ -97,17 +97,6 @@ void Function::addOperations(QFormLayout* layout)
 
 
 
-void Function::okClicked()
-{
-   applyClicked();
-   emit finished();
-}
-
-
-
-
-
-
 void Function::applyClicked()
 {
    Variable::applyClicked();
@@ -118,16 +107,6 @@ void Function::applyClicked()
    _block->setOverride(_overrideBox->isChecked());
    _block->setFinal(_finalBox->isChecked());
    _block->setAbstract(_abstractBox->isChecked());
-}
-
-
-
-
-
-
-void Function::cancelClicked()
-{
-   emit finished();
 }
 
 

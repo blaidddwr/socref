@@ -136,17 +136,6 @@ const QCheckBox* Variable::staticBox() const
 
 
 
-void Variable::okClicked()
-{
-   applyClicked();
-   emit finished();
-}
-
-
-
-
-
-
 void Variable::applyClicked()
 {
    Base::applyClicked();
@@ -157,16 +146,6 @@ void Variable::applyClicked()
       _block->setStatic(_staticBox->isChecked());
    }
    if ( _initializerEdit ) _block->setInitializer(_initializerEdit->text());
-}
-
-
-
-
-
-
-void Variable::cancelClicked()
-{
-   emit finished();
 }
 
 

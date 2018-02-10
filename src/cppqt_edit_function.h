@@ -25,9 +25,7 @@ namespace CppQt
          void addProperties(QFormLayout* layout);
          void addOperations(QFormLayout* layout);
       protected slots:
-         virtual void okClicked() override final;
          virtual void applyClicked() override final;
-         virtual void cancelClicked() override final;
          virtual void checkBoxChanged(int state) override final;
       private slots:
          void operationsClicked();
