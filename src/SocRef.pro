@@ -52,7 +52,8 @@ SOURCES += \
     gui_textedit.cpp \
     gui_textedit_highlighter.cpp \
     gui_textedit_dialog.cpp \
-    gui_textdialog.cpp
+    gui_textdialog.cpp \
+    cppqt_gui_listdialog_model.cpp
 
 HEADERS += \
     singleton.h \
@@ -104,7 +105,8 @@ HEADERS += \
     gui_textedit.h \
     gui_textedit_highlighter.h \
     gui_textedit_dialog.h \
-    gui_textdialog.h
+    gui_textdialog.h \
+    cppqt_gui_listdialog_model.h
 
 RESOURCES += \
     resources.qrc
