@@ -6,9 +6,14 @@
 
 
 
+class QFormLayout;
+
+
+
 namespace CppQt
 {
    QString templateName(const AbstractBlock* block);
+   void addTitle(QFormLayout* layout, const QString& title);
 }
 
 

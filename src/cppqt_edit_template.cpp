@@ -1,6 +1,7 @@
 #include <QFormLayout>
 #include <QLabel>
 #include "cppqt_edit_template.h"
+#include "cppqt_common.h"
 
 
 
@@ -23,9 +24,9 @@ Template::Template(AbstractBlock* block, QWidget* parent):
 QLayout* Template::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   ret->addRow(setupTitle(tr("Type")));
+   addTitle(ret,tr("Type"));
    addCombo(ret);
-   ret->addRow(setupTitle(tr("Basic Information")));
+   addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
    return ret;
 }

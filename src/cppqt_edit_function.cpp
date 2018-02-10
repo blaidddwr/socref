@@ -7,6 +7,7 @@
 #include "exception.h"
 #include "gui_textedit.h"
 #include "cppqt_gui_listdialog.h"
+#include "cppqt_common.h"
 
 
 
@@ -39,13 +40,13 @@ Function::Function(AbstractBlock* block, QWidget* parent):
 QLayout* Function::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   ret->addRow(setupTitle(tr("Return")));
+   addTitle(ret,tr("Return"));
    addReturn(ret);
-   ret->addRow(setupTitle(tr("Basic Information")));
+   addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
-   ret->addRow(setupTitle(tr("Operations")));
+   addTitle(ret,tr("Operations"));
    addOperations(ret);
-   ret->addRow(setupTitle(tr("Properties")));
+   addTitle(ret,tr("Properties"));
    addProperties(ret);
    return ret;
 }

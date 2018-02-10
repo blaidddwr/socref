@@ -13,11 +13,11 @@ namespace CppQt
       enum class Type
       {
          Public
+         ,Protected
+         ,Private
          ,Signals
          ,PublicSlots
-         ,Protected
          ,ProtectedSlots
-         ,Private
          ,PrivateSlots
       };
       Access() = default;

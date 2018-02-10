@@ -6,6 +6,7 @@
 #include "exception.h"
 #include "cppqt_variable.h"
 #include "cppqt_gui_typecombobox.h"
+#include "cppqt_common.h"
 
 
 
@@ -38,13 +39,13 @@ Variable::Variable(AbstractBlock* block, QWidget* parent):
 QLayout* Variable::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   ret->addRow(setupTitle(tr("Type")));
+   addTitle(ret,tr("Type"));
    addCombo(ret);
-   ret->addRow(setupTitle(tr("Basic Information")));
+   addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
-   ret->addRow(setupTitle(tr("Initializer")));
+   addTitle(ret,tr("Initializer"));
    addInitializer(ret);
-   ret->addRow(setupTitle(tr("Properties")));
+   addTitle(ret,tr("Properties"));
    addProperties(ret);
    return ret;
 }

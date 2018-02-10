@@ -4,6 +4,7 @@
 #include <exception.h>
 #include "cppqt_edit_class.h"
 #include "cppqt_class.h"
+#include "cppqt_common.h"
 
 
 
@@ -35,11 +36,11 @@ Class::Class(AbstractBlock* block, QWidget* parent):
 QLayout* Class::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   ret->addRow(setupTitle(tr("Qt")));
+   addTitle(ret,tr("Qt"));
    addQtObject(ret);
-   ret->addRow(setupTitle(tr("Basic Information")));
+   addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
-   ret->addRow(setupTitle(tr("Types")));
+   addTitle(ret,tr("Types"));
    addTypeButtons(ret);
    return ret;
 }

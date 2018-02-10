@@ -12,14 +12,18 @@ namespace CppQt
    public:
       enum
       {
-         NamespaceType
-         ,VariableType
-         ,FunctionType
-         ,TemplateType
-         ,ClassType
+         NamespaceType//
+         ,VariableType//
+         ,FunctionType//
+         ,TemplateType//
+         ,ClassType//
          ,AccessType
          ,SlotType
          ,SignalType
+         ,ConstructorType
+         ,DestructorType
+         ,EnumerationType
+         ,EnumValueType
          ,Total
       };
       virtual int size() const override final;

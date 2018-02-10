@@ -5,6 +5,7 @@
 #include "cppqt_edit_namespace.h"
 #include "exception.h"
 #include "cppqt_gui_typelistdialog.h"
+#include "cppqt_common.h"
 
 
 
@@ -39,9 +40,9 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
 QLayout* Namespace::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   ret->addRow(setupTitle(tr("Basic Information")));
+   addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
-   ret->addRow(setupTitle(tr("Types")));
+   addTitle(ret,tr("Types"));
    addTypeButtons(ret);
    return ret;
 }

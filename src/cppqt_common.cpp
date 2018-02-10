@@ -1,3 +1,5 @@
+#include <QFormLayout>
+#include <QLabel>
 #include "cppqt_common.h"
 #include "abstractblock.h"
 #include "cppqt_template.h"
@@ -25,4 +27,16 @@ QString CppQt::templateName(const AbstractBlock* block)
       ret.append("> ");
    }
    return ret;
+}
+
+
+
+
+
+
+void CppQt::addTitle(QFormLayout* layout, const QString& title)
+{
+   QLabel* label {new QLabel(QString("<h3>").append(title).append("</h3>"))};
+   label->setStyleSheet("margin-top:16px;");
+   layout->addRow(label);
 }

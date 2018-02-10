@@ -26,7 +26,6 @@ namespace CppQt
       protected:
          virtual QLayout* layout() override;
          void addFields(QFormLayout* layout);
-         QLabel* setupTitle(const QString& title);
       protected slots:
          virtual void applyClicked() override;
       private:

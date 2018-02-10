@@ -1,5 +1,6 @@
 #include "cppqt_access.h"
 #include "cppqt_view_access.h"
+#include "cppqt_edit_access.h"
 #include "cppqt_blockfactory.h"
 #include "exception.h"
 #include "domelementreader.h"
@@ -159,6 +160,7 @@ unique_ptr<QWidget> Access::makeView() const
 
 unique_ptr<AbstractEdit> Access::makeEdit()
 {
+   return unique_ptr<AbstractEdit>(new Edit::Access(this));
 }
 
 

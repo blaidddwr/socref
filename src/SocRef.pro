@@ -54,7 +54,8 @@ SOURCES += \
     gui_textedit_dialog.cpp \
     gui_textdialog.cpp \
     cppqt_gui_listdialog_model.cpp \
-    cppqt_edit_class.cpp
+    cppqt_edit_class.cpp \
+    cppqt_edit_access.cpp
 
 HEADERS += \
     singleton.h \
@@ -108,7 +109,8 @@ HEADERS += \
     gui_textedit_dialog.h \
     gui_textdialog.h \
     cppqt_gui_listdialog_model.h \
-    cppqt_edit_class.h
+    cppqt_edit_class.h \
+    cppqt_edit_access.h
 
 RESOURCES += \
     resources.qrc
