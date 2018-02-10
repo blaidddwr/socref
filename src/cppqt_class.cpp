@@ -1,5 +1,6 @@
 #include "cppqt_class.h"
 #include "cppqt_view_class.h"
+#include "cppqt_edit_class.h"
 #include "cppqt_blockfactory.h"
 #include "exception.h"
 #include "domelementreader.h"
@@ -113,6 +114,7 @@ unique_ptr<QWidget> Class::makeView() const
 
 unique_ptr<AbstractEdit> Class::makeEdit()
 {
+   return unique_ptr<AbstractEdit>(new Edit::Class(this));
 }
 
 
