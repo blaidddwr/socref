@@ -21,8 +21,17 @@ namespace CppQt
          Function(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
+         virtual bool isConstExprCheckable() const override final;
+         virtual bool isStaticCheckable() const override final;
+         virtual void updateProperties() override final;
          void addReturn(QFormLayout* layout);
          void addProperties(QFormLayout* layout);
+         void addConst(QFormLayout* layout);
+         void addNoExcept(QFormLayout* layout);
+         void addVirtual(QFormLayout* layout);
+         void addOverride(QFormLayout* layout);
+         void addFinal(QFormLayout* layout);
+         void addAbstract(QFormLayout* layout);
          void addOperations(QFormLayout* layout);
       protected slots:
          virtual void applyClicked() override final;
@@ -30,18 +39,14 @@ namespace CppQt
       private slots:
          void operationsClicked();
       private:
-         void setupProperties();
-         void connectProperties();
-         void fillProperties();
-         void updateProperties();
          CppQt::Function* _block;
          ::Gui::TextEdit* _returnEdit;
-         QCheckBox* _virtualBox;
-         QCheckBox* _constBox;
-         QCheckBox* _noExceptBox;
-         QCheckBox* _overrideBox;
-         QCheckBox* _finalBox;
-         QCheckBox* _abstractBox;
+         QCheckBox* _virtualBox {nullptr};
+         QCheckBox* _constBox {nullptr};
+         QCheckBox* _noExceptBox {nullptr};
+         QCheckBox* _overrideBox {nullptr};
+         QCheckBox* _finalBox {nullptr};
+         QCheckBox* _abstractBox {nullptr};
       };
    }
 }

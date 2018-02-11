@@ -48,6 +48,13 @@ QString BlockFactory::name(int type) const
    case TemplateType: return QString("Template");
    case ClassType: return QString("Class");
    case AccessType: return QString("Access");
+   case OperatorType: return QString("Operator");
+   case SlotType: return QString("Slot");
+   case SignalType: return QString("Signal");
+   case ConstructorType: return QString("Constructor");
+   case DestructorType: return QString("Destructor");
+   case EnumerationType: return QString("Enumeration");
+   case EnumValueType: return QString("Enum Value");
    default: return QString();
    }
 }
@@ -67,6 +74,13 @@ QString BlockFactory::elementName(int type) const
    case TemplateType: return QString("template");
    case ClassType: return QString("class");
    case AccessType: return QString("access");
+   case OperatorType: return QString("operator");
+   case SlotType: return QString("slot");
+   case SignalType: return QString("signal");
+   case ConstructorType: return QString("constructor");
+   case DestructorType: return QString("destructor");
+   case EnumerationType: return QString("enumeration");
+   case EnumValueType: return QString("enumval");
    default: return QString("unknown");
    }
 }

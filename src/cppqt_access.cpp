@@ -139,7 +139,7 @@ QList<int> Access::buildList() const
    QList<int> ret;
    if ( isSlot(_type) ) ret << BlockFactory::SlotType;
    else if ( _type == Type::Signals ) ret << BlockFactory::SignalType;
-   else ret << BlockFactory::FunctionType << BlockFactory::VariableType << BlockFactory::ClassType;
+   else ret << BlockFactory::FunctionType << BlockFactory::OperatorType << BlockFactory::ConstructorType << BlockFactory::DestructorType << BlockFactory::VariableType << BlockFactory::EnumerationType << BlockFactory::ClassType;
    return ret;
 }
 
@@ -187,14 +187,14 @@ void Access::setAccessType(Type type)
       e.setDetails(tr("Normal access types cannot contain signals and/or slots."));
       throw e;
    }
-   if ( isSlot(type) && ( hasFunctionsOrVariables() || hasSignals() ) )
+   if ( isSlot(type) && ( hasRegularMembers() || hasSignals() ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Slot access types cannot contain functions, variables, and/or signals."));
       throw e;
    }
-   if ( type == Type::Signals && ( hasFunctionsOrVariables() || hasSlots() ) )
+   if ( type == Type::Signals && ( hasRegularMembers() || hasSlots() ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -244,9 +244,9 @@ bool Access::hasSignalsOrSlots() const
 
 
 
-bool Access::hasFunctionsOrVariables() const
+bool Access::hasRegularMembers() const
 {
-   return hasChildOfTypes(QList<int>() << BlockFactory::FunctionType << BlockFactory::VariableType);
+   return hasChildOfTypes(QList<int>() << BlockFactory::FunctionType << BlockFactory::OperatorType << BlockFactory::ConstructorType << BlockFactory::DestructorType << BlockFactory::VariableType << BlockFactory::EnumerationType << BlockFactory::ClassType);
 }
 
 

@@ -66,11 +66,11 @@ void Access::addComboBox(QFormLayout* layout)
       _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::Protected)));
       _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::Private)));
    }
-   if ( !_block->hasSlots() && !_block->hasFunctionsOrVariables() )
+   if ( !_block->hasSlots() && !_block->hasRegularMembers() )
    {
       _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::Signals)));
    }
-   if ( !_block->hasSignals() && !_block->hasFunctionsOrVariables() )
+   if ( !_block->hasSignals() && !_block->hasRegularMembers() )
    {
       _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::PublicSlots)));
       _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::ProtectedSlots)));

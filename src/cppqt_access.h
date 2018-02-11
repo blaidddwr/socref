@@ -35,7 +35,7 @@ namespace CppQt
       bool hasSignals() const;
       bool hasSlots() const;
       bool hasSignalsOrSlots() const;
-      bool hasFunctionsOrVariables() const;
+      bool hasRegularMembers() const;
       bool hasVirtual() const;
       bool hasAbstract() const;
       static bool isSlot(Type type);

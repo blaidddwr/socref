@@ -75,6 +75,17 @@ bool Variable::isStaticCheckable() const
 
 
 
+void Variable::updateProperties()
+{
+   if ( _constExprBox ) _constExprBox->setCheckable(isConstExprCheckable());
+   if ( _staticBox ) _staticBox->setCheckable(isStaticCheckable());
+}
+
+
+
+
+
+
 void Variable::addCombo(QFormLayout* layout)
 {
    _type = new TypeComboBox(_block);
@@ -89,14 +100,35 @@ void Variable::addCombo(QFormLayout* layout)
 
 void Variable::addProperties(QFormLayout* layout)
 {
+   addConstExpr(layout);
+   addStatic(layout);
+}
+
+
+
+
+
+
+void Variable::addConstExpr(QFormLayout* layout)
+{
    _constExprBox = new QCheckBox(tr("Constant Expression"));
-   _staticBox = new QCheckBox(tr("Static"));
+   updateProperties();
    _constExprBox->setChecked(_block->isConstExpr());
-   _staticBox->setChecked(_block->isStatic());
-   Variable::checkBoxChanged(0);
    connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
-   connect(_staticBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
    layout->addRow(_constExprBox);
+}
+
+
+
+
+
+
+void Variable::addStatic(QFormLayout* layout)
+{
+   _staticBox = new QCheckBox(tr("Static"));
+   updateProperties();
+   _staticBox->setChecked(_block->isStatic());
+   connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
    layout->addRow(_staticBox);
 }
 
@@ -141,11 +173,8 @@ void Variable::applyClicked()
 {
    Base::applyClicked();
    if ( _type ) _block->setVariableType(_type->value());
-   if ( _constExprBox )
-   {
-      _block->setConstExpr(_constExprBox->isChecked());
-      _block->setStatic(_staticBox->isChecked());
-   }
+   if ( _constExprBox ) _block->setConstExpr(_constExprBox->isChecked());
+   if ( _staticBox ) _block->setStatic(_staticBox->isChecked());
    if ( _initializerEdit ) _block->setInitializer(_initializerEdit->text());
 }
 
@@ -157,6 +186,5 @@ void Variable::applyClicked()
 void Variable::checkBoxChanged(int state)
 {
    Q_UNUSED(state)
-   _constExprBox->setCheckable(isConstExprCheckable());
-   _staticBox->setCheckable(isStaticCheckable());
+   updateProperties();
 }

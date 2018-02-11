@@ -56,6 +56,41 @@ QLayout* Function::layout()
 
 
 
+bool Function::isConstExprCheckable() const
+{
+   return Variable::isConstExprCheckable() && ( !_virtualBox || !_virtualBox->isChecked() );
+}
+
+
+
+
+
+
+bool Function::isStaticCheckable() const
+{
+   return Variable::isStaticCheckable() &&  ( !_virtualBox || !_virtualBox->isChecked() );
+}
+
+
+
+
+
+
+void Function::updateProperties()
+{
+   Variable::updateProperties();
+   if ( _virtualBox ) _virtualBox->setCheckable( !constExprBox()->isChecked() && !staticBox()->isChecked() && !_block->hasTemplates() && _block->isMethod() );
+   if ( _constBox ) _constBox->setCheckable(_block->isMethod());
+   if ( _overrideBox ) _overrideBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
+   if ( _finalBox ) _finalBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
+   if ( _abstractBox ) _abstractBox->setCheckable( _virtualBox->isChecked() && !_overrideBox->isChecked() && !_finalBox->isChecked() );
+}
+
+
+
+
+
+
 void Function::addReturn(QFormLayout* layout)
 {
    _returnEdit = new ::Gui::TextEdit;
@@ -71,14 +106,98 @@ void Function::addReturn(QFormLayout* layout)
 
 void Function::addProperties(QFormLayout* layout)
 {
-   Variable::addProperties(layout);
-   setupProperties();
+   Variable::addConstExpr(layout);
+   Variable::addStatic(layout);
+   addConst(layout);
+   addNoExcept(layout);
+   addVirtual(layout);
+   addAbstract(layout);
+   addOverride(layout);
+   addFinal(layout);
+}
+
+
+
+
+
+
+void Function::addConst(QFormLayout* layout)
+{
+   _constBox = new QCheckBox(tr("Constant"));
+   connect(_constBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _constBox->setChecked(_block->isConst());
    layout->addRow(_constBox);
+}
+
+
+
+
+
+
+void Function::addNoExcept(QFormLayout* layout)
+{
+   _noExceptBox = new QCheckBox(tr("No Exceptions"));
+   connect(_noExceptBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _noExceptBox->setChecked(_block->isNoExcept());
    layout->addRow(_noExceptBox);
+}
+
+
+
+
+
+
+void Function::addVirtual(QFormLayout* layout)
+{
+   _virtualBox = new QCheckBox(tr("Virtual"));
+   connect(_virtualBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _virtualBox->setChecked(_block->isVirtual());
    layout->addRow(_virtualBox);
-   layout->addRow(_abstractBox);
+}
+
+
+
+
+
+
+void Function::addOverride(QFormLayout* layout)
+{
+   _overrideBox = new QCheckBox(tr("Override"));
+   connect(_overrideBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _overrideBox->setChecked(_block->isOverride());
    layout->addRow(_overrideBox);
+}
+
+
+
+
+
+
+void Function::addFinal(QFormLayout* layout)
+{
+   _finalBox = new QCheckBox(tr("Final"));
+   connect(_finalBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _finalBox->setChecked(_block->isFinal());
    layout->addRow(_finalBox);
+}
+
+
+
+
+
+
+void Function::addAbstract(QFormLayout* layout)
+{
+   _abstractBox = new QCheckBox(tr("Abstract (Pure Virtual)"));
+   connect(_abstractBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _abstractBox->setChecked(_block->isAbstract());
+   layout->addRow(_abstractBox);
 }
 
 
@@ -90,7 +209,7 @@ void Function::addOperations(QFormLayout* layout)
 {
    QPushButton* edit {new QPushButton(tr("Edit"))};
    connect(edit,&QPushButton::clicked,this,&Function::operationsClicked);
-   layout->addRow(edit);
+   layout->addRow(new QLabel(tr("List:")),edit);
 }
 
 
@@ -102,12 +221,12 @@ void Function::applyClicked()
 {
    Variable::applyClicked();
    _block->setReturnDescription(_returnEdit->toPlainText());
-   _block->setVirtual(_virtualBox->isChecked());
-   _block->setConst(_constBox->isChecked());
-   _block->setNoExcept(_noExceptBox->isChecked());
-   _block->setOverride(_overrideBox->isChecked());
-   _block->setFinal(_finalBox->isChecked());
-   _block->setAbstract(_abstractBox->isChecked());
+   if ( _virtualBox ) _block->setVirtual(_virtualBox->isChecked());
+   if ( _constBox ) _block->setConst(_constBox->isChecked());
+   if ( _noExceptBox ) _block->setNoExcept(_noExceptBox->isChecked());
+   if ( _overrideBox ) _block->setOverride(_overrideBox->isChecked());
+   if ( _finalBox ) _block->setFinal(_finalBox->isChecked());
+   if ( _abstractBox ) _block->setAbstract(_abstractBox->isChecked());
 }
 
 
@@ -135,66 +254,4 @@ void Function::operationsClicked()
    {
       _block->setOperations(dialog.value());
    }
-}
-
-
-
-
-
-
-void Function::setupProperties()
-{
-   _virtualBox = new QCheckBox(tr("Virtual"));
-   _constBox = new QCheckBox(tr("Constant"));
-   _noExceptBox = new QCheckBox(tr("No Exceptions"));
-   _overrideBox = new QCheckBox(tr("Override"));
-   _finalBox = new QCheckBox(tr("Final"));
-   _abstractBox = new QCheckBox(tr("Abstract (Pure Virtual)"));
-   connectProperties();
-   fillProperties();
-   updateProperties();
-}
-
-
-
-
-
-
-void Function::connectProperties()
-{
-   connect(_virtualBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   connect(_constBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   connect(_noExceptBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   connect(_overrideBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   connect(_finalBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   connect(_abstractBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-}
-
-
-
-
-
-
-void Function::fillProperties()
-{
-   _virtualBox->setChecked(_block->isVirtual());
-   _constBox->setChecked(_block->isConst());
-   _noExceptBox->setChecked(_block->isNoExcept());
-   _overrideBox->setChecked(_block->isOverride());
-   _finalBox->setChecked(_block->isFinal());
-   _abstractBox->setChecked(_block->isAbstract());
-}
-
-
-
-
-
-
-void Function::updateProperties()
-{
-   _virtualBox->setCheckable( !staticBox()->isChecked() && !_block->hasTemplates() && _block->isMethod() );
-   _constBox->setCheckable(_block->isMethod());
-   _overrideBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
-   _finalBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
-   _abstractBox->setCheckable( _virtualBox->isChecked() && !_overrideBox->isChecked() && !_finalBox->isChecked() );
 }

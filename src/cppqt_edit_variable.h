@@ -22,8 +22,11 @@ namespace CppQt
          virtual QLayout* layout() override;
          virtual bool isConstExprCheckable() const;
          virtual bool isStaticCheckable() const;
+         virtual void updateProperties();
          void addCombo(QFormLayout* layout);
          void addProperties(QFormLayout* layout);
+         void addConstExpr(QFormLayout* layout);
+         void addStatic(QFormLayout* layout);
          void addInitializer(QFormLayout* layout);
          const QCheckBox* constExprBox() const;
          const QCheckBox* staticBox() const;

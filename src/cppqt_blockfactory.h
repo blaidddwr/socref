@@ -17,7 +17,8 @@ namespace CppQt
          ,FunctionType//
          ,TemplateType//
          ,ClassType//
-         ,AccessType
+         ,AccessType//
+         ,OperatorType
          ,SlotType
          ,SignalType
          ,ConstructorType
