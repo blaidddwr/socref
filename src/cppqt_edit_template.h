@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         Template(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Template(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
       };

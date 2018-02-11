@@ -49,25 +49,7 @@ Function::Function(const QString& returnType, const QString& name):
 QString Function::name() const
 {
    QString ret {templateName(this)};
-   if ( _virtual ) ret.append("virtual ");
-   ret.append(properties());
-   ret.append(returnType()).append(" ").append(Base::name()).append("(");
-   bool first {true};
-   const QList<Variable*> variableList {arguments()};
-   for (auto variable : variableList)
-   {
-      if ( first ) first = false;
-      else ret.append(",");
-      ret.append(variable->variableType());
-      if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
-   }
-   ret.append(")");
-   if ( _const ) ret.append(" const");
-   if ( _noExcept ) ret.append(" noexcept");
-   if ( _override ) ret.append(" override");
-   if ( _final ) ret.append(" final");
-   if ( _abstract ) ret.append(" = 0");
-   return ret;
+   return ret.append(fullName(returnType(),Base::name()));
 }
 
 
@@ -80,14 +62,6 @@ unique_ptr<AbstractBlock> Function::makeCopy() const
    unique_ptr<Function> ret {new Function};
    ret->copyChildren(this);
    ret->copyDataFrom(*this);
-   ret->_returnDescription = _returnDescription;
-   ret->_virtual = _virtual;
-   ret->_const = _const;
-   ret->_noExcept = _noExcept;
-   ret->_override = _override;
-   ret->_final = _final;
-   ret->_abstract = _abstract;
-   ret->_operations = _operations;
    return ret;
 }
 
@@ -574,5 +548,52 @@ QDomElement Function::writeData(QDomDocument& document) const
       element.appendChild(document.createTextNode(operation));
       ret.appendChild(element);
    }
+   return ret;
+}
+
+
+
+
+
+
+void Function::copyDataFrom(const Function& object)
+{
+   Variable::copyDataFrom(object);
+   _returnDescription = object._returnDescription;
+   _virtual = object._virtual;
+   _const = object._const;
+   _noExcept = object._noExcept;
+   _override = object._override;
+   _final = object._final;
+   _abstract = object._abstract;
+   _operations = object._operations;
+}
+
+
+
+
+
+
+QString Function::fullName(const QString& returnType, const QString& name) const
+{
+   QString ret;
+   if ( _virtual ) ret.append("virtual ");
+   ret.append(properties());
+   ret.append(returnType).append(" ").append(name).append("(");
+   bool first {true};
+   const QList<Variable*> variableList {arguments()};
+   for (auto variable : variableList)
+   {
+      if ( first ) first = false;
+      else ret.append(",");
+      ret.append(variable->variableType());
+      if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
+   }
+   ret.append(")");
+   if ( _const ) ret.append(" const");
+   if ( _noExcept ) ret.append(" noexcept");
+   if ( _override ) ret.append(" override");
+   if ( _final ) ret.append(" final");
+   if ( _abstract ) ret.append(" = 0");
    return ret;
 }

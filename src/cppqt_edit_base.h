@@ -26,14 +26,14 @@ namespace CppQt
       protected:
          virtual QLayout* layout() override;
          void addFields(QFormLayout* layout);
+         void addName(QFormLayout* layout);
+         void addDescription(QFormLayout* layout);
       protected slots:
          virtual void applyClicked() override;
       private:
-         void setupNameEdit();
-         void setupDescriptionEdit();
          CppQt::Base* _block;
-         QLineEdit* _nameEdit;
-         Gui::TextEdit* _descriptionEdit;
+         QLineEdit* _nameEdit {nullptr};
+         Gui::TextEdit* _descriptionEdit {nullptr};
       };
    }
 }

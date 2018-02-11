@@ -10,9 +10,9 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      Template() = default;
-      Template(const QString& name);
-      Template(const QString& type, const QString& name);
+      explicit Template() = default;
+      explicit Template(const QString& name);
+      explicit Template(const QString& type, const QString& name);
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
       virtual QIcon icon() const override final;

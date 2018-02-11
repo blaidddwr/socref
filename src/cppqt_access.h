@@ -20,8 +20,8 @@ namespace CppQt
          ,ProtectedSlots
          ,PrivateSlots
       };
-      Access() = default;
-      Access(Type type);
+      explicit Access() = default;
+      explicit Access(Type type);
       virtual QString name() const override final;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;

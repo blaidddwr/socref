@@ -74,6 +74,7 @@ QList<int> Namespace::buildList() const
       ret << BlockFactory::VariableType;
       ret << BlockFactory::FunctionType;
       ret << BlockFactory::ClassType;
+      ret << BlockFactory::OperatorType;
    }
    return ret;
 }

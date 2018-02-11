@@ -11,8 +11,8 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      Class() = default;
-      Class(const QString& name);
+      explicit Class() = default;
+      explicit Class(const QString& name);
       virtual QString name() const override final;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;

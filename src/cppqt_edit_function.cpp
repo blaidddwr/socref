@@ -47,6 +47,7 @@ QLayout* Function::layout()
    addTitle(ret,tr("Operations"));
    addOperations(ret);
    addTitle(ret,tr("Properties"));
+   Variable::addProperties(ret);
    addProperties(ret);
    return ret;
 }
@@ -79,7 +80,7 @@ bool Function::isStaticCheckable() const
 void Function::updateProperties()
 {
    Variable::updateProperties();
-   if ( _virtualBox ) _virtualBox->setCheckable( !constExprBox()->isChecked() && !staticBox()->isChecked() && !_block->hasTemplates() && _block->isMethod() );
+   if ( _virtualBox ) _virtualBox->setCheckable( !isConstExprChecked() && !isStaticChecked() && !_block->hasTemplates() && _block->isMethod() );
    if ( _constBox ) _constBox->setCheckable(_block->isMethod());
    if ( _overrideBox ) _overrideBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
    if ( _finalBox ) _finalBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
@@ -106,8 +107,6 @@ void Function::addReturn(QFormLayout* layout)
 
 void Function::addProperties(QFormLayout* layout)
 {
-   Variable::addConstExpr(layout);
-   Variable::addStatic(layout);
    addConst(layout);
    addNoExcept(layout);
    addVirtual(layout);

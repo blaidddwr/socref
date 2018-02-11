@@ -11,16 +11,16 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      Function() = default;
-      Function(const QString& name);
-      Function(const QString& returnType, const QString& name);
-      virtual QString name() const override final;
-      virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
-      virtual int type() const override final;
-      virtual QIcon icon() const override final;
-      virtual QList<int> buildList() const override final;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+      explicit Function() = default;
+      explicit Function(const QString& name);
+      explicit Function(const QString& returnType, const QString& name);
+      virtual QString name() const override;
+      virtual std::unique_ptr<AbstractBlock> makeCopy() const override;
+      virtual int type() const override;
+      virtual QIcon icon() const override;
+      virtual QList<int> buildList() const override;
+      virtual std::unique_ptr<QWidget> makeView() const override;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
       QString returnType() const;
       void setReturnType(const QString& type);
       QString returnDescription() const;
@@ -52,11 +52,16 @@ namespace CppQt
       virtual void childAdded(AbstractBlock* child) override final;
       virtual void childRemoved(AbstractBlock* child) override final;
    protected:
-      virtual void readData(const QDomElement& data) override final;
-      virtual QDomElement writeData(QDomDocument& document) const override final;
+      virtual void readData(const QDomElement& data) override;
+      virtual QDomElement writeData(QDomDocument& document) const override;
+      void copyDataFrom(const Function& object);
+      QString fullName(const QString& returnType, const QString& name) const;
    private:
       using Variable::variableType;
       using Variable::setVariableType;
+      using Variable::hasInitializer;
+      using Variable::initializer;
+      using Variable::setInitializer;
       static const char* _returnDescriptionTag;
       static const char* _virtualTag;
       static const char* _constTag;

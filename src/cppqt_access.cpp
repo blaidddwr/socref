@@ -139,7 +139,16 @@ QList<int> Access::buildList() const
    QList<int> ret;
    if ( isSlot(_type) ) ret << BlockFactory::SlotType;
    else if ( _type == Type::Signals ) ret << BlockFactory::SignalType;
-   else ret << BlockFactory::FunctionType << BlockFactory::OperatorType << BlockFactory::ConstructorType << BlockFactory::DestructorType << BlockFactory::VariableType << BlockFactory::EnumerationType << BlockFactory::ClassType;
+   else
+   {
+      ret << BlockFactory::FunctionType;
+      ret << BlockFactory::OperatorType;
+      ret << BlockFactory::ConstructorType;
+      ret << BlockFactory::DestructorType;
+      ret << BlockFactory::VariableType;
+      ret << BlockFactory::EnumerationType;
+      ret << BlockFactory::ClassType;
+   }
    return ret;
 }
 
@@ -246,7 +255,8 @@ bool Access::hasSignalsOrSlots() const
 
 bool Access::hasRegularMembers() const
 {
-   return hasChildOfTypes(QList<int>() << BlockFactory::FunctionType << BlockFactory::OperatorType << BlockFactory::ConstructorType << BlockFactory::DestructorType << BlockFactory::VariableType << BlockFactory::EnumerationType << BlockFactory::ClassType);
+   QList<int> types {BlockFactory::FunctionType,BlockFactory::OperatorType,BlockFactory::ConstructorType,BlockFactory::DestructorType,BlockFactory::VariableType,BlockFactory::EnumerationType,BlockFactory::ClassType};
+   return hasChildOfTypes(types);
 }
 
 

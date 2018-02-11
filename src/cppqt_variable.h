@@ -10,9 +10,9 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      Variable() = default;
-      Variable(const QString& name);
-      Variable(const QString& type, const QString& name);
+      explicit Variable() = default;
+      explicit Variable(const QString& name);
+      explicit Variable(const QString& type, const QString& name);
       virtual QString name() const override;
       virtual std::unique_ptr<AbstractBlock> makeCopy() const override;
       virtual int type() const override;

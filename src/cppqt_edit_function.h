@@ -18,9 +18,9 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         Function(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Function(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
-         virtual QLayout* layout() override final;
+         virtual QLayout* layout() override;
          virtual bool isConstExprCheckable() const override final;
          virtual bool isStaticCheckable() const override final;
          virtual void updateProperties() override final;
@@ -34,7 +34,7 @@ namespace CppQt
          void addAbstract(QFormLayout* layout);
          void addOperations(QFormLayout* layout);
       protected slots:
-         virtual void applyClicked() override final;
+         virtual void applyClicked() override;
          virtual void checkBoxChanged(int state) override final;
       private slots:
          void operationsClicked();

@@ -149,9 +149,9 @@ void Variable::addInitializer(QFormLayout* layout)
 
 
 
-const QCheckBox* Variable::constExprBox() const
+bool Variable::isConstExprChecked() const
 {
-   return _constExprBox;
+   return _constExprBox && _constExprBox->isChecked();
 }
 
 
@@ -159,9 +159,9 @@ const QCheckBox* Variable::constExprBox() const
 
 
 
-const QCheckBox* Variable::staticBox() const
+bool Variable::isStaticChecked() const
 {
-   return _staticBox;
+   return _staticBox && _staticBox->isChecked();
 }
 
 

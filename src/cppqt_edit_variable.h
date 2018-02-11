@@ -17,7 +17,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         Variable(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Variable(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
          virtual bool isConstExprCheckable() const;
@@ -28,8 +28,8 @@ namespace CppQt
          void addConstExpr(QFormLayout* layout);
          void addStatic(QFormLayout* layout);
          void addInitializer(QFormLayout* layout);
-         const QCheckBox* constExprBox() const;
-         const QCheckBox* staticBox() const;
+         bool isConstExprChecked() const;
+         bool isStaticChecked() const;
       protected slots:
          virtual void applyClicked() override;
          virtual void checkBoxChanged(int state);

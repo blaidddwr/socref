@@ -10,4 +10,5 @@ namespace CppQt
    class Template;
    class Class;
    class Access;
+   class Operator;
 }
