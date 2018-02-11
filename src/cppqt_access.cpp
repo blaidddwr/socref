@@ -63,18 +63,6 @@ QString Access::name() const
 
 
 
-unique_ptr<AbstractBlock> Access::makeCopy() const
-{
-   unique_ptr<Access> ret {new Access};
-   ret->_type = _type;
-   return ret;
-}
-
-
-
-
-
-
 int Access::type() const
 {
    return BlockFactory::AccessType;
@@ -366,4 +354,34 @@ QDomElement Access::writeData(QDomDocument& document) const
    QDomElement ret {document.createElement("na")};
    ret.setAttribute(_typeTag,static_cast<int>(_type));
    return ret;
+}
+
+
+
+
+
+
+unique_ptr<AbstractBlock> Access::makeBlank() const
+{
+   return unique_ptr<AbstractBlock>(new Access);
+}
+
+
+
+
+
+
+void Access::copyDataFrom(const AbstractBlock* object)
+{
+   if ( const Access* object_ = qobject_cast<const Access*>(object) )
+   {
+      _type = object_->_type;
+   }
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
 }

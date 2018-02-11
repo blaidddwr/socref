@@ -39,20 +39,6 @@ QString Class::name() const
 
 
 
-unique_ptr<AbstractBlock> Class::makeCopy() const
-{
-   unique_ptr<Class> ret {new Class};
-   ret->copyChildren(this);
-   ret->copyDataFrom(*this);
-   ret->_qtObject = _qtObject;
-   return ret;
-}
-
-
-
-
-
-
 int Class::type() const
 {
    return BlockFactory::ClassType;
@@ -268,6 +254,37 @@ QDomElement Class::writeData(QDomDocument& document) const
    QDomElement ret {Namespace::writeData(document)};
    if ( _qtObject ) ret.setAttribute(_qtObjectTag,_qtObject);
    return ret;
+}
+
+
+
+
+
+
+unique_ptr<AbstractBlock> Class::makeBlank() const
+{
+   return unique_ptr<AbstractBlock>(new Class);
+}
+
+
+
+
+
+
+void Class::copyDataFrom(const AbstractBlock* object)
+{
+   if ( const Class* object_ = qobject_cast<const Class*>(object) )
+   {
+      Namespace::copyDataFrom(object);
+      _qtObject = object_->_qtObject;
+   }
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
 }
 
 

@@ -14,7 +14,6 @@ namespace CppQt
       explicit Class() = default;
       explicit Class(const QString& name);
       virtual QString name() const override final;
-      virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
@@ -35,6 +34,8 @@ namespace CppQt
    protected:
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
+      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
+      virtual void copyDataFrom(const AbstractBlock* object) override final;
    private:
       QList<Access*> accessChildren() const;
       static const char* _qtObjectTag;

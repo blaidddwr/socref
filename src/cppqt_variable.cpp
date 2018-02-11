@@ -59,19 +59,6 @@ QString Variable::name() const
 
 
 
-std::unique_ptr<AbstractBlock> Variable::makeCopy() const
-{
-   unique_ptr<Variable> ret {new Variable};
-   ret->copyChildren(this);
-   ret->copyDataFrom(*this);
-   return ret;
-}
-
-
-
-
-
-
 int Variable::type() const
 {
    return BlockFactory::VariableType;
@@ -307,12 +294,33 @@ QDomElement Variable::writeData(QDomDocument& document) const
 
 
 
-void Variable::copyDataFrom(const Variable& object)
+unique_ptr<AbstractBlock> Variable::makeBlank() const
 {
-   Base::copyDataFrom(object);
-   _type = object._type;
-   _constExpr = object._constExpr;
-   _static = object._static;
+   return unique_ptr<AbstractBlock>(new Variable);
+}
+
+
+
+
+
+
+void Variable::copyDataFrom(const AbstractBlock* object)
+{
+   if ( const Variable* object_ = qobject_cast<const Variable*>(object) )
+   {
+      Base::copyDataFrom(object);
+      _type = object_->_type;
+      _constExpr = object_->_constExpr;
+      _static = object_->_static;
+      _initializer = object_->_initializer;
+   }
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
 }
 
 

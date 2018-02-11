@@ -13,12 +13,13 @@ namespace CppQt
       explicit Template() = default;
       explicit Template(const QString& name);
       explicit Template(const QString& type, const QString& name);
-      virtual std::unique_ptr<AbstractBlock> makeCopy() const override final;
       virtual int type() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
       virtual std::unique_ptr<QWidget> makeView() const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+   protected:
+      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
    private:
       using Variable::isConstExpr;
       using Variable::setConstExpr;

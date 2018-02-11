@@ -15,7 +15,6 @@ namespace CppQt
       explicit Function(const QString& name);
       explicit Function(const QString& returnType, const QString& name);
       virtual QString name() const override;
-      virtual std::unique_ptr<AbstractBlock> makeCopy() const override;
       virtual int type() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
@@ -54,7 +53,8 @@ namespace CppQt
    protected:
       virtual void readData(const QDomElement& data) override;
       virtual QDomElement writeData(QDomDocument& document) const override;
-      void copyDataFrom(const Function& object);
+      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
+      virtual void copyDataFrom(const AbstractBlock* object) override;
       QString fullName(const QString& returnType, const QString& name) const;
    private:
       using Variable::variableType;

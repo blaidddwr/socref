@@ -13,13 +13,13 @@ class AbstractBlock : public QObject
    Q_OBJECT
 public:
    virtual QString name() const = 0;
-   virtual std::unique_ptr<AbstractBlock> makeCopy() const = 0;
    virtual int type() const = 0;
    virtual const AbstractBlockFactory& factory() const = 0;
    virtual QIcon icon() const = 0;
    virtual QList<int> buildList() const = 0;
    virtual std::unique_ptr<QWidget> makeView() const = 0;
    virtual std::unique_ptr<Gui::AbstractEdit> makeEdit() = 0;
+   virtual std::unique_ptr<AbstractBlock> makeCopy() const;
    AbstractBlock* root();
    const AbstractBlock* root() const;
    AbstractBlock* parent() const;
@@ -39,7 +39,8 @@ public:
 protected:
    virtual void readData(const QDomElement& data) = 0;
    virtual QDomElement writeData(QDomDocument& document) const = 0;
-   void copyChildren(const AbstractBlock* block);
+   virtual std::unique_ptr<AbstractBlock> makeBlank() const = 0;
+   virtual void copyDataFrom(const AbstractBlock* object) = 0;
    void notifyOfNameChange();
 signals:
    void modified();
@@ -51,6 +52,7 @@ protected slots:
 private slots:
    void childModified();
 private:
+   void copyChildren(const AbstractBlock* block);
    void setBlockParent(AbstractBlock* parent, int index);
    void readChild(const QDomElement& child);
    void notifyOfNameChange(AbstractBlock* block);

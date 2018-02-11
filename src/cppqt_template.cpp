@@ -32,18 +32,6 @@ Template::Template(const QString& type, const QString& name):
 
 
 
-unique_ptr<AbstractBlock> Template::makeCopy() const
-{
-   unique_ptr<Template> ret {new Template};
-   ret->copyDataFrom(*this);
-   return ret;
-}
-
-
-
-
-
-
 int Template::type() const
 {
    return BlockFactory::TemplateType;
@@ -89,4 +77,14 @@ unique_ptr<QWidget> Template::makeView() const
 unique_ptr<AbstractEdit> Template::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Template(this));
+}
+
+
+
+
+
+
+unique_ptr<AbstractBlock> Template::makeBlank() const
+{
+   return unique_ptr<AbstractBlock>(new Template);
 }

@@ -13,6 +13,19 @@ using namespace std;
 
 
 
+unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
+{
+   unique_ptr<AbstractBlock> ret {makeBlank()};
+   ret->copyChildren(this);
+   ret->copyDataFrom(this);
+   return ret;
+}
+
+
+
+
+
+
 AbstractBlock* AbstractBlock::root()
 {
    AbstractBlock* root {this};
@@ -253,16 +266,6 @@ bool AbstractBlock::hasChildOfTypes(const QList<int>& types) const
 
 
 
-void AbstractBlock::copyChildren(const AbstractBlock* block)
-{
-   for (auto child : qAsConst(block->_children)) child->makeCopy().release()->setBlockParent(this,childrenSize());
-}
-
-
-
-
-
-
 void AbstractBlock::notifyOfNameChange()
 {
    notifyOfNameChange(nullptr);
@@ -300,6 +303,16 @@ void AbstractBlock::childRemoved(AbstractBlock*)
 void AbstractBlock::childModified()
 {
    emit modified();
+}
+
+
+
+
+
+
+void AbstractBlock::copyChildren(const AbstractBlock* block)
+{
+   for (auto child : qAsConst(block->_children)) child->makeCopy().release()->setBlockParent(this,childrenSize());
 }
 
 

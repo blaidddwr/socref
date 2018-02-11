@@ -1,3 +1,4 @@
+#include <exception.h>
 #include "cppqt_operator.h"
 #include "cppqt_view_operator.h"
 #include "cppqt_edit_operator.h"
@@ -29,20 +30,6 @@ Operator::Operator(const QString& returnType)
 QString Operator::name() const
 {
    return fullName(returnType(),QString("operator").append(_operation));
-}
-
-
-
-
-
-
-unique_ptr<AbstractBlock> Operator::makeCopy() const
-{
-   unique_ptr<Operator> ret {new Operator};
-   ret->copyChildren(this);
-   ret->copyDataFrom(*this);
-   ret->_operation = _operation;
-   return ret;
 }
 
 
@@ -147,4 +134,35 @@ QDomElement Operator::writeData(QDomDocument& document) const
    QDomElement ret {Function::writeData(document)};
    ret.setAttribute(_operationTag,_operation);
    return ret;
+}
+
+
+
+
+
+
+unique_ptr<AbstractBlock> Operator::makeBlank() const
+{
+   return unique_ptr<AbstractBlock>(new Operator);
+}
+
+
+
+
+
+
+void Operator::copyDataFrom(const AbstractBlock* object)
+{
+   if ( const Operator* object_ = qobject_cast<const Operator*>(object) )
+   {
+      Function::copyDataFrom(object);
+      _operation = object_->_operation;
+   }
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
 }

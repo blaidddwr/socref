@@ -122,8 +122,18 @@ QDomElement Base::writeData(QDomDocument& document) const
 
 
 
-void Base::copyDataFrom(const Base& object)
+void Base::copyDataFrom(const AbstractBlock* object)
 {
-   _name = object._name;
-   _description = object._description;
+   if ( const Base* object_ = qobject_cast<const Base*>(object) )
+   {
+      _name = object_->_name;
+      _description = object_->_description;
+   }
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
 }

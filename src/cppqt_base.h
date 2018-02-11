@@ -20,7 +20,7 @@ namespace CppQt
    protected:
       virtual void readData(const QDomElement& data) override;
       virtual QDomElement writeData(QDomDocument& document) const override;
-      void copyDataFrom(const Base& object);
+      virtual void copyDataFrom(const AbstractBlock* object) override;
    private:
       static const char* _nameTag;
       static const char* _descriptionTag;

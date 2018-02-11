@@ -57,19 +57,6 @@ QString Function::name() const
 
 
 
-unique_ptr<AbstractBlock> Function::makeCopy() const
-{
-   unique_ptr<Function> ret {new Function};
-   ret->copyChildren(this);
-   ret->copyDataFrom(*this);
-   return ret;
-}
-
-
-
-
-
-
 int Function::type() const
 {
    return BlockFactory::FunctionType;
@@ -556,17 +543,37 @@ QDomElement Function::writeData(QDomDocument& document) const
 
 
 
-void Function::copyDataFrom(const Function& object)
+unique_ptr<AbstractBlock> Function::makeBlank() const
 {
-   Variable::copyDataFrom(object);
-   _returnDescription = object._returnDescription;
-   _virtual = object._virtual;
-   _const = object._const;
-   _noExcept = object._noExcept;
-   _override = object._override;
-   _final = object._final;
-   _abstract = object._abstract;
-   _operations = object._operations;
+   return unique_ptr<AbstractBlock>(new Function);
+}
+
+
+
+
+
+
+void Function::copyDataFrom(const AbstractBlock* object)
+{
+   if ( const Function* object_ = qobject_cast<const Function*>(object) )
+   {
+      Variable::copyDataFrom(object);
+      _returnDescription = object_->_returnDescription;
+      _virtual = object_->_virtual;
+      _const = object_->_const;
+      _noExcept = object_->_noExcept;
+      _override = object_->_override;
+      _final = object_->_final;
+      _abstract = object_->_abstract;
+      _operations = object_->_operations;
+   }
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
 }
 
 

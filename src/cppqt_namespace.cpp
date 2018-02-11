@@ -1,5 +1,6 @@
 #include <memory>
 #include <QDomDocument>
+#include <exception.h>
 #include "cppqt_namespace.h"
 #include "cppqt_view_namespace.h"
 #include "cppqt_edit_namespace.h"
@@ -24,19 +25,6 @@ const char* Namespace::_nameTag {"name"};
 Namespace::Namespace(const QString& name):
    Base(name)
 {}
-
-
-
-
-
-
-unique_ptr<AbstractBlock> Namespace::makeCopy() const
-{
-   unique_ptr<Namespace> ret {new Namespace};
-   ret->copyChildren(this);
-   ret->copyDataFrom(*this);
-   return ret;
-}
 
 
 
@@ -207,10 +195,30 @@ QDomElement Namespace::writeData(QDomDocument& document) const
 
 
 
-void Namespace::copyDataFrom(const Namespace& object)
+unique_ptr<AbstractBlock> Namespace::makeBlank() const
 {
-   Base::copyDataFrom(object);
-   _types = object._types;
+   return unique_ptr<AbstractBlock>(new Namespace);
+}
+
+
+
+
+
+
+void Namespace::copyDataFrom(const AbstractBlock* object)
+{
+   if ( const Namespace* object_ = qobject_cast<const Namespace*>(object) )
+   {
+      Base::copyDataFrom(object);
+      _types = object_->_types;
+   }
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
 }
 
 
