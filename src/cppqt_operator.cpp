@@ -49,7 +49,20 @@ int Operator::type() const
 
 QIcon Operator::icon() const
 {
-   return Function::icon();
+   static bool isLoaded {false};
+   static QIcon regular;
+   static QIcon virtual_;
+   static QIcon abstract;
+   if ( !isLoaded )
+   {
+      regular = QIcon(":/icons/operator.svg");
+      virtual_ = QIcon(":/icons/voperator.svg");
+      abstract = QIcon(":/icons/aoperator.svg");
+      isLoaded = true;
+   }
+   if ( isAbstract() ) return abstract;
+   else if ( isVirtual() ) return virtual_;
+   else return regular;
 }
 
 
