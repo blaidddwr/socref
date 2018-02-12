@@ -71,9 +71,16 @@ int Variable::type() const
 
 QIcon Variable::icon() const
 {
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/variable.svg");
-   return ret;
+   static bool isLoaded {false};
+   static QIcon regular;
+   static QIcon static_;
+   if ( !isLoaded )
+   {
+      regular = QIcon(":/icons/variable.svg");
+      static_ = QIcon(":/icons/svariable.svg");
+   }
+   if ( _static ) return static_;
+   else return regular;
 }
 
 
