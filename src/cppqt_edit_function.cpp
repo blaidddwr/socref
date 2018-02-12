@@ -82,9 +82,69 @@ void Function::updateProperties()
    Variable::updateProperties();
    if ( _virtualBox ) _virtualBox->setCheckable( !isConstExprChecked() && !isStaticChecked() && !_block->hasTemplates() && _block->isMethod() );
    if ( _constBox ) _constBox->setCheckable(_block->isMethod());
-   if ( _overrideBox ) _overrideBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
-   if ( _finalBox ) _finalBox->setCheckable( _virtualBox->isChecked() && !_abstractBox->isChecked() );
-   if ( _abstractBox ) _abstractBox->setCheckable( _virtualBox->isChecked() && !_overrideBox->isChecked() && !_finalBox->isChecked() );
+   if ( _overrideBox ) _overrideBox->setCheckable( isVirtualChecked() && !isAbstractChecked() );
+   if ( _finalBox ) _finalBox->setCheckable( isVirtualChecked() && !isAbstractChecked() );
+   if ( _abstractBox ) _abstractBox->setCheckable( isVirtualChecked() && !isOverrideChecked() && !isFinalChecked() );
+}
+
+
+
+
+
+
+bool Function::isConstChecked() const
+{
+   return _constBox && _constBox->isChecked();
+}
+
+
+
+
+
+
+bool Function::isNoExceptChecked() const
+{
+   return _noExceptBox && _noExceptBox->isChecked();
+}
+
+
+
+
+
+
+bool Function::isVirtualChecked() const
+{
+   return _virtualBox && _virtualBox->isChecked();
+}
+
+
+
+
+
+
+bool Function::isOverrideChecked() const
+{
+   return _overrideBox && _overrideBox->isChecked();
+}
+
+
+
+
+
+
+bool Function::isFinalChecked() const
+{
+   return _finalBox && _finalBox->isChecked();
+}
+
+
+
+
+
+
+bool Function::isAbstractChecked() const
+{
+   return _abstractBox && _abstractBox->isChecked();
 }
 
 

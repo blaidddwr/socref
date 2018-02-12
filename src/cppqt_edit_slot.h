@@ -14,7 +14,7 @@ namespace CppQt
       public:
          explicit Slot(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
-         virtual QLayout* layout() override final;
+         virtual QLayout* layout() override;
       };
    }
 }

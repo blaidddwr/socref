@@ -204,7 +204,7 @@ QList<Template*> Class::templates() const
 
 void Class::childNameChanged(AbstractBlock* child)
 {
-   if ( qobject_cast<Template*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child) )
    {
       notifyOfNameChange();
       emit bodyChanged();
@@ -218,7 +218,7 @@ void Class::childNameChanged(AbstractBlock* child)
 
 void Class::childAdded(AbstractBlock* child)
 {
-   if ( qobject_cast<Template*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child) )
    {
       notifyOfNameChange();
       emit bodyChanged();
@@ -236,7 +236,7 @@ void Class::childAdded(AbstractBlock* child)
 
 void Class::childRemoved(AbstractBlock* child)
 {
-   if ( qobject_cast<Template*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child) )
    {
       notifyOfNameChange();
       emit bodyChanged();

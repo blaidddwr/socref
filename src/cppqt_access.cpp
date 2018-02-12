@@ -257,12 +257,9 @@ bool Access::hasVirtual() const
    const QList<AbstractBlock*> list {children()};
    for (auto child : list)
    {
-      if ( child->type() == BlockFactory::FunctionType )
+      if ( Function* func = qobject_cast<Function*>(child) )
       {
-         if ( Function* func = qobject_cast<Function*>(child) )
-         {
-            if ( func->isVirtual() ) return true;
-         }
+         if ( func->isVirtual() ) return true;
       }
    }
    return false;
@@ -278,12 +275,9 @@ bool Access::hasAbstract() const
    const QList<AbstractBlock*> list {children()};
    for (auto child : list)
    {
-      if ( child->type() == BlockFactory::FunctionType )
+      if ( Function* func = qobject_cast<Function*>(child) )
       {
-         if ( Function* func = qobject_cast<Function*>(child) )
-         {
-            if ( func->isAbstract() ) return true;
-         }
+         if ( func->isAbstract() ) return true;
       }
    }
    return false;

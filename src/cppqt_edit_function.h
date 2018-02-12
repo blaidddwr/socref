@@ -24,6 +24,12 @@ namespace CppQt
          virtual bool isConstExprCheckable() const override final;
          virtual bool isStaticCheckable() const override final;
          virtual void updateProperties() override final;
+         bool isConstChecked() const;
+         bool isNoExceptChecked() const;
+         bool isVirtualChecked() const;
+         bool isOverrideChecked() const;
+         bool isFinalChecked() const;
+         bool isAbstractChecked() const;
          void addReturn(QFormLayout* layout);
          void addProperties(QFormLayout* layout);
          void addConst(QFormLayout* layout);

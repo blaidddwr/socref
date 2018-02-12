@@ -64,6 +64,7 @@ void Class::applyClicked()
 void Class::addQtObject(QFormLayout* layout)
 {
    _qtObjectBox = new QCheckBox(tr("Qt Object"));
-   _qtObjectBox->setChecked(_block->isQtObject());
+   _qtObjectBox->setChecked(_block->isQtObject() || _block->hasSignalsOrSlots());
+   _qtObjectBox->setDisabled(_block->hasSignalsOrSlots());
    layout->addRow(_qtObjectBox);
 }
