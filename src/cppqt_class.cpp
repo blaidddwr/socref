@@ -14,6 +14,8 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+const char* Class::_inheritanceRegExp {"((public)|(protected)|(private))\\s+((::)?[a-zA-Z_]+[a-zA-Z0-9_]*)+(\\s*,\\s+((public)|(protected)|(private))\\s+((::)?[a-zA-Z_]+[a-zA-Z0-9_]*)+)*"};
+const char* Class::_inheritanceTag {"inherits"};
 const char* Class::_qtObjectTag {"qtobject"};
 
 
@@ -32,7 +34,10 @@ Class::Class(const QString& name):
 
 QString Class::name() const
 {
-   return templateName(this).append(Base::name());
+   QString ret {templateName(this)};
+   ret.append(Base::name());
+   if ( !_inheritance.isEmpty() ) ret.append(" : ").append(_inheritance);
+   return ret;
 }
 
 
@@ -102,6 +107,38 @@ unique_ptr<QWidget> Class::makeView() const
 unique_ptr<AbstractEdit> Class::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Class(this));
+}
+
+
+
+
+
+
+QString Class::inheritance()
+{
+   return _inheritance;
+}
+
+
+
+
+
+
+void Class::setInheritance(const QString& inheritance)
+{
+   if ( !QRegExp(_inheritanceRegExp).exactMatch(inheritance) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid inheritance '%1'").arg(inheritance));
+      throw e;
+   }
+   if ( _inheritance != inheritance )
+   {
+      _inheritance = inheritance;
+      notifyOfNameChange();
+      emit modified();
+   }
 }
 
 
@@ -256,6 +293,7 @@ void Class::readData(const QDomElement& data)
 {
    Namespace::readData(data);
    DomElementReader reader(data);
+   _inheritance = reader.attribute(_inheritanceTag,false);
    _qtObject = reader.attributeToInt(_qtObjectTag,false);
 }
 
@@ -267,6 +305,7 @@ void Class::readData(const QDomElement& data)
 QDomElement Class::writeData(QDomDocument& document) const
 {
    QDomElement ret {Namespace::writeData(document)};
+   if ( !_inheritance.isEmpty() ) ret.setAttribute(_inheritanceTag,_inheritance);
    if ( _qtObject ) ret.setAttribute(_qtObjectTag,_qtObject);
    return ret;
 }
@@ -291,6 +330,7 @@ void Class::copyDataFrom(const AbstractBlock* object)
    if ( const Class* object_ = qobject_cast<const Class*>(object) )
    {
       Namespace::copyDataFrom(object);
+      _inheritance = object_->_inheritance;
       _qtObject = object_->_qtObject;
    }
    else

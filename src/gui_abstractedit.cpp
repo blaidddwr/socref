@@ -37,8 +37,7 @@ AbstractEdit* AbstractEdit::initialize()
 
 void AbstractEdit::okClicked()
 {
-   applyClicked();
-   emit finished();
+   if ( applyClicked() ) emit finished();
 }
 
 

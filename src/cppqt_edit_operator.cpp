@@ -53,10 +53,11 @@ QLayout* Operator::layout()
 
 
 
-void Operator::applyClicked()
+bool Operator::applyClicked()
 {
-   Function::applyClicked();
+   if ( !Function::applyClicked() ) return false;
    _block->setOperation(_operationEdit->text());
+   return true;
 }
 
 

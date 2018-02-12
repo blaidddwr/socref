@@ -16,7 +16,7 @@ namespace CppQt
       protected:
          virtual QLayout* layout() override final;
       protected slots:
-         virtual void applyClicked() override final;
+         virtual bool applyClicked() override final;
       private:
          void addOperation(QFormLayout* layout);
          QLineEdit* _operationEdit;

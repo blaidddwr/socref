@@ -20,10 +20,12 @@ namespace CppQt
       protected:
          virtual QLayout* layout() override final;
       protected slots:
-         virtual void applyClicked() override final;
+         virtual bool applyClicked() override final;
       private:
+         void addInheritance(QFormLayout* layout);
          void addQtObject(QFormLayout* layout);
          CppQt::Class* _block;
+         QLineEdit* _inheritanceEdit;
          QCheckBox* _qtObjectBox;
       };
    }

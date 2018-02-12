@@ -69,9 +69,9 @@ void Namespace::addTypeButtons(QFormLayout* layout)
 
 
 
-void Namespace::applyClicked()
+bool Namespace::applyClicked()
 {
-   Base::applyClicked();
+   return Base::applyClicked();
 }
 
 

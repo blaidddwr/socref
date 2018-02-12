@@ -1,6 +1,9 @@
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QLabel>
+#include <QLineEdit>
+#include <QRegularExpressionValidator>
+#include <QMessageBox>
 #include <exception.h>
 #include "cppqt_edit_class.h"
 #include "cppqt_class.h"
@@ -39,6 +42,7 @@ QLayout* Class::layout()
    addTitle(ret,tr("Qt"));
    addQtObject(ret);
    addTitle(ret,tr("Basic Information"));
+   addInheritance(ret);
    Base::addFields(ret);
    addTitle(ret,tr("Types"));
    addTypeButtons(ret);
@@ -50,10 +54,35 @@ QLayout* Class::layout()
 
 
 
-void Class::applyClicked()
+bool Class::applyClicked()
 {
-   Namespace::applyClicked();
+   if ( !_inheritanceEdit->text().isEmpty() && !_inheritanceEdit->hasAcceptableInput() )
+   {
+      QMessageBox box;
+      box.setWindowTitle(tr("Invalid Inheritance String"));
+      box.setText(tr("The inheritance string is not valid. Please change to valid string and try again."));
+      box.setIcon(QMessageBox::Warning);
+      box.addButton(QMessageBox::Ok);
+      box.exec();
+      return false;
+   }
+   if ( !Namespace::applyClicked() ) return false;
+   _block->setInheritance(_inheritanceEdit->text());
    _block->setQtObject(_qtObjectBox->isChecked());
+   return true;
+}
+
+
+
+
+
+
+void Class::addInheritance(QFormLayout* layout)
+{
+   _inheritanceEdit = new QLineEdit;
+   _inheritanceEdit->setValidator(new QRegularExpressionValidator(QRegularExpression(CppQt::Class::_inheritanceRegExp)));
+   _inheritanceEdit->setText(_block->inheritance());
+   layout->addRow(new QLabel(tr("Inheritance:")),_inheritanceEdit);
 }
 
 

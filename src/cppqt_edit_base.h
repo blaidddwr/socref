@@ -29,7 +29,7 @@ namespace CppQt
          void addName(QFormLayout* layout);
          void addDescription(QFormLayout* layout);
       protected slots:
-         virtual void applyClicked() override;
+         virtual bool applyClicked() override;
       private:
          CppQt::Base* _block;
          QLineEdit* _nameEdit {nullptr};

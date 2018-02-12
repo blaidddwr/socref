@@ -40,7 +40,7 @@ namespace CppQt
          void addAbstract(QFormLayout* layout);
          void addOperations(QFormLayout* layout);
       protected slots:
-         virtual void applyClicked() override;
+         virtual bool applyClicked() override;
          virtual void checkBoxChanged(int state) override final;
       private slots:
          void operationsClicked();

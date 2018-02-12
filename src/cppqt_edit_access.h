@@ -24,7 +24,7 @@ namespace CppQt
       protected:
          virtual QLayout* layout() override;
       protected slots:
-         virtual void applyClicked() override;
+         virtual bool applyClicked() override;
       private:
          void addComboBox(QFormLayout* layout);
          static const QStringList _options;

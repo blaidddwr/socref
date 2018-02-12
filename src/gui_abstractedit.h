@@ -22,7 +22,7 @@ namespace Gui
    signals:
       void finished();
    protected slots:
-      virtual void applyClicked() = 0;
+      virtual bool applyClicked() = 0;
    private slots:
       void okClicked();
       void cancelClicked();

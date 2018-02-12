@@ -19,12 +19,15 @@ namespace CppQt
       virtual QList<int> buildList() const override final;
       virtual std::unique_ptr<QWidget> makeView() const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+      QString inheritance();
+      void setInheritance(const QString& inheritance);
       bool isQtObject() const;
       void setQtObject(bool isQtObject);
       bool isVirtual() const;
       bool isAbstract() const;
       bool hasSignalsOrSlots() const;
       QList<Template*> templates() const;
+      static const char* _inheritanceRegExp;
    signals:
       void bodyChanged();
       void nameChanged();
@@ -40,7 +43,9 @@ namespace CppQt
    private:
       void notifyOfNameChange();
       QList<Access*> accessChildren() const;
+      static const char* _inheritanceTag;
       static const char* _qtObjectTag;
+      QString _inheritance;
       bool _qtObject;
    };
 }

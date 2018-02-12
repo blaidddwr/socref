@@ -276,9 +276,9 @@ void Function::addOperations(QFormLayout* layout)
 
 
 
-void Function::applyClicked()
+bool Function::applyClicked()
 {
-   Variable::applyClicked();
+   if ( !Variable::applyClicked() ) return false;
    if ( _returnEdit ) _block->setReturnDescription(_returnEdit->toPlainText());
    if ( _virtualBox ) _block->setVirtual(_virtualBox->isChecked());
    if ( _constBox ) _block->setConst(_constBox->isChecked());
@@ -286,6 +286,7 @@ void Function::applyClicked()
    if ( _overrideBox ) _block->setOverride(_overrideBox->isChecked());
    if ( _finalBox ) _block->setFinal(_finalBox->isChecked());
    if ( _abstractBox ) _block->setAbstract(_abstractBox->isChecked());
+   return true;
 }
 
 

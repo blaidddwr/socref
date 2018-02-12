@@ -31,7 +31,7 @@ namespace CppQt
          bool isConstExprChecked() const;
          bool isStaticChecked() const;
       protected slots:
-         virtual void applyClicked() override;
+         virtual bool applyClicked() override;
          virtual void checkBoxChanged(int state);
       private:
          CppQt::Variable* _block;

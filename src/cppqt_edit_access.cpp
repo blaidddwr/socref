@@ -47,9 +47,10 @@ QLayout* Access::layout()
 
 
 
-void Access::applyClicked()
+bool Access::applyClicked()
 {
    _block->setAccessType(static_cast<CppQt::Access::Type>(_options.indexOf(_box->itemText(_box->currentIndex()))));
+   return true;
 }
 
 
