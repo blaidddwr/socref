@@ -54,14 +54,12 @@ QLayout* Namespace::layout()
 
 void Namespace::addTypeButtons(QFormLayout* layout)
 {
-   QPushButton* global {new QPushButton(tr("Global"))};
-   QPushButton* local {new QPushButton(tr("Local"))};
+   QPushButton* global {new QPushButton(tr("Edit"))};
+   QPushButton* local {new QPushButton(tr("Edit"))};
    connect(global,&QPushButton::clicked,this,&Namespace::editGlobalTypesClicked);
    connect(local,&QPushButton::clicked,this,&Namespace::editLocalTypesClicked);
-   QHBoxLayout* buttons {new QHBoxLayout};
-   buttons->addWidget(global);
-   buttons->addWidget(local);
-   layout->addRow(buttons);
+   layout->addRow(new QLabel(tr("Global:")),global);
+   layout->addRow(new QLabel(tr("Local:")),local);
 }
 
 

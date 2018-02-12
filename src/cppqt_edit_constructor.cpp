@@ -26,7 +26,6 @@ QLayout* Constructor::layout()
    QFormLayout* ret {new QFormLayout};
    addTitle(ret,tr("Basic Information"));
    Base::addDescription(ret);
-   addTitle(ret,tr("Operations"));
    addOperations(ret);
    addTitle(ret,tr("Properties"));
    addNoExcept(ret);

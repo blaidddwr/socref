@@ -44,7 +44,6 @@ QLayout* Function::layout()
    addReturn(ret);
    addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
-   addTitle(ret,tr("Operations"));
    addOperations(ret);
    addTitle(ret,tr("Properties"));
    Variable::addProperties(ret);
@@ -268,7 +267,7 @@ void Function::addOperations(QFormLayout* layout)
 {
    QPushButton* edit {new QPushButton(tr("Edit"))};
    connect(edit,&QPushButton::clicked,this,&Function::operationsClicked);
-   layout->addRow(new QLabel(tr("List:")),edit);
+   layout->addRow(new QLabel(tr("Operations:")),edit);
 }
 
 

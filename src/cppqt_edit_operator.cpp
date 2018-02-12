@@ -41,7 +41,6 @@ QLayout* Operator::layout()
    addTitle(ret,tr("Basic Information"));
    addOperation(ret);
    Base::addDescription(ret);
-   addTitle(ret,tr("Operations"));
    addOperations(ret);
    addTitle(ret,tr("Properties"));
    addProperties(ret);
