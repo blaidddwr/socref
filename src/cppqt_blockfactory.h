@@ -22,7 +22,7 @@ namespace CppQt
          ,SlotType
          ,SignalType
          ,ConstructorType//
-         ,DestructorType
+         ,DestructorType//
          ,EnumerationType
          ,EnumValueType
          ,Total

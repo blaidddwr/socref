@@ -7,6 +7,7 @@
 #include "cppqt_access.h"
 #include "cppqt_operator.h"
 #include "cppqt_constructor.h"
+#include "cppqt_destructor.h"
 #include "projectfactory.h"
 
 
@@ -104,6 +105,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case AccessType: return unique_ptr<AbstractBlock>(new Access(Access::Type::Public));
    case OperatorType: return unique_ptr<AbstractBlock>(new Operator("void"));
    case ConstructorType: return unique_ptr<AbstractBlock>(new Constructor);
+   case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
    default: return nullptr;
    }
 }
