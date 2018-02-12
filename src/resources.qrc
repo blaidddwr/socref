@@ -24,5 +24,11 @@
         <file>icons/signals.svg</file>
         <file>icons/parent.svg</file>
         <file>icons/svariable.svg</file>
+        <file>icons/vdestructor.svg</file>
+        <file>icons/adestructor.svg</file>
+        <file>icons/constructor.svg</file>
+        <file>icons/destructor.svg</file>
+        <file>icons/enumeration.svg</file>
+        <file>icons/enumvalue.svg</file>
     </qresource>
 </RCC>

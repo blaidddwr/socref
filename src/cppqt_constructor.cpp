@@ -37,7 +37,9 @@ int Constructor::type() const
 
 QIcon Constructor::icon() const
 {
-   return Function::icon();
+   static QIcon ret;
+   if ( ret.isNull() ) ret = QIcon(":/icons/constructor.svg");
+   return ret;
 }
 
 

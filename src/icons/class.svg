@@ -14,7 +14,7 @@
    viewBox="0 0 256 256"
    id="svg4186"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="class.svg">
   <defs
      id="defs4188" />
@@ -34,8 +34,8 @@
      units="px"
      inkscape:window-width="1682"
      inkscape:window-height="1166"
-     inkscape:window-x="1628"
-     inkscape:window-y="393"
+     inkscape:window-x="540"
+     inkscape:window-y="397"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata4191">
@@ -56,24 +56,24 @@
      transform="translate(0,-796.36216)">
     <path
        style="fill:#00fff4;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.91362429;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 129.88319,988.25743 33.80176,32.73847 61.63852,-59.69945 -33.80177,-32.73834 z"
+       d="m 143.01517,1004.4199 33.80176,32.7384 61.63852,-59.69941 -33.80177,-32.73834 z"
        id="path4135"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
     <path
        style="fill:#fe3d97;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:3.95949841;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 138.20043,848.64148 33.88715,-33.42591 61.79421,60.95313 -33.88714,33.4259 z"
+       d="m 143.25119,845.10595 33.88715,-33.42591 61.79421,60.95313 -33.88714,33.4259 z"
        id="path4135-3"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccc" />
     <rect
-       style="opacity:1;fill:#74ff00;fill-opacity:1;stroke:#000000;stroke-width:8.30408764;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#74ff00;fill-opacity:1;stroke:#000000;stroke-width:10.18567753;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4141"
-       width="141.69591"
-       height="91.695915"
-       x="33.379768"
-       y="871.22302"
-       rx="3.4152001e-17" />
+       width="139.81432"
+       height="139.81432"
+       x="37.092838"
+       y="854.45502"
+       rx="3.3698494e-17" />
   </g>
   <g
      inkscape:groupmode="layer"

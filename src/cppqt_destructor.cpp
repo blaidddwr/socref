@@ -36,7 +36,20 @@ int Destructor::type() const
 
 QIcon Destructor::icon() const
 {
-   return Function::icon();
+   static bool isLoaded {false};
+   static QIcon regular;
+   static QIcon virtual_;
+   static QIcon abstract;
+   if ( !isLoaded )
+   {
+      regular = QIcon(":/icons/destructor.svg");
+      virtual_ = QIcon(":/icons/vdestructor.svg");
+      abstract = QIcon(":/icons/adestructor.svg");
+      isLoaded = true;
+   }
+   if ( isAbstract() ) return abstract;
+   else if ( isVirtual() ) return virtual_;
+   else return regular;
 }
 
 

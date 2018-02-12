@@ -69,16 +69,6 @@ void Namespace::addTypeButtons(QFormLayout* layout)
 
 
 
-bool Namespace::applyClicked()
-{
-   return Base::applyClicked();
-}
-
-
-
-
-
-
 void Namespace::editGlobalTypesClicked()
 {
    TypeListDialog dialog(_block->root());

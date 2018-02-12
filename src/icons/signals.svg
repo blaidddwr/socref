@@ -14,7 +14,7 @@
    viewBox="0 0 256 256"
    id="svg4186"
    version="1.1"
-   inkscape:version="0.91 r13725"
+   inkscape:version="0.92.2 5c3e80d, 2017-08-06"
    sodipodi:docname="signals.svg">
   <defs
      id="defs4188" />
@@ -26,7 +26,7 @@
      inkscape:pageopacity="0.0"
      inkscape:pageshadow="2"
      inkscape:zoom="1.979899"
-     inkscape:cx="44.44295"
+     inkscape:cx="58.44151"
      inkscape:cy="188.85148"
      inkscape:document-units="px"
      inkscape:current-layer="layer1"
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title></dc:title>
+        <dc:title />
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,8 +55,8 @@
      id="layer1"
      transform="translate(0,-796.36216)">
     <path
-       style="fill:#00ff0e;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
-       d="m 94,842.76217 68,0 47.6,47.59998 0,67.99994 -47.6,47.60011 -68,0 -47.600001,-47.60011 0,-67.99994 z"
+       style="fill:#00ff0e;fill-opacity:1;fill-rule:evenodd;stroke:#000000;stroke-width:8.02608967;stroke-linecap:butt;stroke-linejoin:miter;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       d="m 91.338769,836.37526 h 73.322471 l 51.32571,51.32569 v 73.32236 l -51.32571,51.32589 H 91.338769 L 40.013045,961.02331 v -73.32236 z"
        id="path4135"
        inkscape:connector-curvature="0"
        sodipodi:nodetypes="ccccccccc" />
