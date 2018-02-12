@@ -57,11 +57,6 @@ namespace CppQt
       virtual void copyDataFrom(const AbstractBlock* object) override;
       QString fullName(const QString& returnType, const QString& name) const;
    private:
-      using Variable::variableType;
-      using Variable::setVariableType;
-      using Variable::hasInitializer;
-      using Variable::initializer;
-      using Variable::setInitializer;
       static const char* _returnDescriptionTag;
       static const char* _virtualTag;
       static const char* _constTag;

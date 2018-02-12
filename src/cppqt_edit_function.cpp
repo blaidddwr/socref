@@ -219,7 +219,7 @@ void Function::addOperations(QFormLayout* layout)
 void Function::applyClicked()
 {
    Variable::applyClicked();
-   _block->setReturnDescription(_returnEdit->toPlainText());
+   if ( _returnEdit ) _block->setReturnDescription(_returnEdit->toPlainText());
    if ( _virtualBox ) _block->setVirtual(_virtualBox->isChecked());
    if ( _constBox ) _block->setConst(_constBox->isChecked());
    if ( _noExceptBox ) _block->setNoExcept(_noExceptBox->isChecked());

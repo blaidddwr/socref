@@ -18,10 +18,10 @@ namespace CppQt
          ,TemplateType//
          ,ClassType//
          ,AccessType//
-         ,OperatorType
+         ,OperatorType//
          ,SlotType
          ,SignalType
-         ,ConstructorType
+         ,ConstructorType//
          ,DestructorType
          ,EnumerationType
          ,EnumValueType

@@ -20,11 +20,6 @@ namespace CppQt
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
    protected:
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
-   private:
-      using Variable::isConstExpr;
-      using Variable::setConstExpr;
-      using Variable::isStatic;
-      using Variable::setStatic;
    };
 }
 

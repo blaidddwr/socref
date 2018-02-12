@@ -7,6 +7,7 @@
 #include "cppqt_access.h"
 #include "cppqt_template.h"
 #include "cppqt_common.h"
+#include "cppqt_constructor.h"
 
 
 
@@ -203,9 +204,11 @@ QList<Template*> Class::templates() const
 
 void Class::childNameChanged(AbstractBlock* child)
 {
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   if ( qobject_cast<Template*>(child) )
+   {
+      notifyOfNameChange();
+      emit bodyChanged();
+   }
 }
 
 
@@ -215,9 +218,15 @@ void Class::childNameChanged(AbstractBlock* child)
 
 void Class::childAdded(AbstractBlock* child)
 {
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   if ( qobject_cast<Template*>(child) )
+   {
+      notifyOfNameChange();
+      emit bodyChanged();
+   }
+   else if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
+   {
+      connect(this,&Class::nameChanged,constructor,&Constructor::classNameChanged);
+   }
 }
 
 
@@ -227,9 +236,15 @@ void Class::childAdded(AbstractBlock* child)
 
 void Class::childRemoved(AbstractBlock* child)
 {
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   if ( qobject_cast<Template*>(child) )
+   {
+      notifyOfNameChange();
+      emit bodyChanged();
+   }
+   else if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
+   {
+      disconnect(constructor);
+   }
 }
 
 
@@ -285,6 +300,17 @@ void Class::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+void Class::notifyOfNameChange()
+{
+   emit nameChanged();
+   AbstractBlock::notifyOfNameChange();
 }
 
 

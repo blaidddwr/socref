@@ -40,7 +40,7 @@ namespace CppQt
          void operationsClicked();
       private:
          CppQt::Function* _block;
-         ::Gui::TextEdit* _returnEdit;
+         ::Gui::TextEdit* _returnEdit {nullptr};
          QCheckBox* _virtualBox {nullptr};
          QCheckBox* _constBox {nullptr};
          QCheckBox* _noExceptBox {nullptr};

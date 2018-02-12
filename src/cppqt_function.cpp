@@ -586,7 +586,8 @@ QString Function::fullName(const QString& returnType, const QString& name) const
    QString ret;
    if ( _virtual ) ret.append("virtual ");
    ret.append(properties());
-   ret.append(returnType).append(" ").append(name).append("(");
+   if ( !returnType.isEmpty() ) ret.append(returnType).append(" ");
+   ret.append(name).append("(");
    bool first {true};
    const QList<Variable*> variableList {arguments()};
    for (auto variable : variableList)

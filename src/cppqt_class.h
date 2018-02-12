@@ -27,6 +27,7 @@ namespace CppQt
       QList<Template*> templates() const;
    signals:
       void bodyChanged();
+      void nameChanged();
    protected slots:
       virtual void childNameChanged(AbstractBlock* child) override final;
       virtual void childAdded(AbstractBlock* child) override final;
@@ -37,6 +38,7 @@ namespace CppQt
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
       virtual void copyDataFrom(const AbstractBlock* object) override final;
    private:
+      void notifyOfNameChange();
       QList<Access*> accessChildren() const;
       static const char* _qtObjectTag;
       bool _qtObject;

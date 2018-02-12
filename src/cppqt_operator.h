@@ -26,13 +26,6 @@ namespace CppQt
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
       virtual void copyDataFrom(const AbstractBlock* object) override final;
    private:
-      using Base::setName;
-      using Variable::isConstExpr;
-      using Variable::setConstExpr;
-      using Variable::isStatic;
-      using Variable::setStatic;
-      using Function::hasTemplates;
-      using Function::templates;
       static const char* _operationTag;
       QString _operation {"++"};
    };

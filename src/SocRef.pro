@@ -58,7 +58,10 @@ SOURCES += \
     cppqt_edit_access.cpp \
     cppqt_operator.cpp \
     cppqt_view_operator.cpp \
-    cppqt_edit_operator.cpp
+    cppqt_edit_operator.cpp \
+    cppqt_constructor.cpp \
+    cppqt_view_constructor.cpp \
+    cppqt_edit_constructor.cpp
 
 HEADERS += \
     singleton.h \
@@ -116,7 +119,10 @@ HEADERS += \
     cppqt_edit_access.h \
     cppqt_operator.h \
     cppqt_view_operator.h \
-    cppqt_edit_operator.h
+    cppqt_edit_operator.h \
+    cppqt_constructor.h \
+    cppqt_view_constructor.h \
+    cppqt_edit_constructor.h
 
 RESOURCES += \
     resources.qrc
