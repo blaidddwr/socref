@@ -23,8 +23,7 @@ namespace CppQt
          explicit Access(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
-      protected slots:
-         virtual bool applyClicked() override;
+         virtual bool apply() override;
       private:
          void addComboBox(QFormLayout* layout);
          static const QStringList _options;

@@ -54,7 +54,7 @@ QLayout* Class::layout()
 
 
 
-bool Class::applyClicked()
+bool Class::apply()
 {
    if ( !_inheritanceEdit->text().isEmpty() && !_inheritanceEdit->hasAcceptableInput() )
    {
@@ -66,7 +66,7 @@ bool Class::applyClicked()
       box.exec();
       return false;
    }
-   if ( !Namespace::applyClicked() ) return false;
+   if ( !Namespace::apply() ) return false;
    _block->setInheritance(_inheritanceEdit->text());
    _block->setQtObject(_qtObjectBox->isChecked());
    return true;

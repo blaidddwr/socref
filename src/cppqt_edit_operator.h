@@ -15,8 +15,7 @@ namespace CppQt
          explicit Operator(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
-      protected slots:
-         virtual bool applyClicked() override final;
+         virtual bool apply() override final;
       private:
          void addOperation(QFormLayout* layout);
          QLineEdit* _operationEdit;

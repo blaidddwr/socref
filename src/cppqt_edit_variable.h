@@ -30,8 +30,8 @@ namespace CppQt
          void addInitializer(QFormLayout* layout);
          bool isConstExprChecked() const;
          bool isStaticChecked() const;
+         virtual bool apply() override;
       protected slots:
-         virtual bool applyClicked() override;
          virtual void checkBoxChanged(int state);
       private:
          CppQt::Variable* _block;

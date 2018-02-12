@@ -169,9 +169,9 @@ bool Variable::isStaticChecked() const
 
 
 
-bool Variable::applyClicked()
+bool Variable::apply()
 {
-   if ( !Base::applyClicked() ) return false;
+   if ( !Base::apply() ) return false;
    if ( _type ) _block->setVariableType(_type->value());
    if ( _constExprBox ) _block->setConstExpr(_constExprBox->isChecked());
    if ( _staticBox ) _block->setStatic(_staticBox->isChecked());

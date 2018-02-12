@@ -28,8 +28,8 @@ namespace CppQt
          void addFields(QFormLayout* layout);
          void addName(QFormLayout* layout);
          void addDescription(QFormLayout* layout);
-      protected slots:
-         virtual bool applyClicked() override;
+      protected:
+         virtual bool apply() override;
       private:
          CppQt::Base* _block;
          QLineEdit* _nameEdit {nullptr};

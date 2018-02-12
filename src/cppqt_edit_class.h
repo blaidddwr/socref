@@ -19,8 +19,7 @@ namespace CppQt
          explicit Class(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
-      protected slots:
-         virtual bool applyClicked() override final;
+         virtual bool apply() override final;
       private:
          void addInheritance(QFormLayout* layout);
          void addQtObject(QFormLayout* layout);
