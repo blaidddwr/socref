@@ -86,7 +86,6 @@ QIcon Function::icon() const
    else if ( _virtual ) return virtual_;
    else if ( isStatic() ) return static_;
    else return regular;
-
 }
 
 

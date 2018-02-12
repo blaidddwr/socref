@@ -19,7 +19,7 @@ namespace CppQt
          ,ClassType//
          ,AccessType//
          ,OperatorType//
-         ,SlotType
+         ,SlotType//
          ,SignalType
          ,ConstructorType//
          ,DestructorType//

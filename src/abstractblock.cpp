@@ -198,9 +198,8 @@ void AbstractBlock::read(const QDomElement& parent)
    QList<QDomElement> children;
    DomElementReader reader(parent);
    reader.set(_dataTag,&data);
-   const QList<int> list {buildList()};
-   for (auto type : list) reader.set(factory().elementName(type),&children,false);
    reader.read();
+   readData(data);
    if ( !reader.allRequiredFound() )
    {
       Exception::ReadError e;
@@ -208,7 +207,9 @@ void AbstractBlock::read(const QDomElement& parent)
       e.setDetails(tr("Failed reading in all required elements."));
       throw e;
    }
-   readData(data);
+   const QList<int> list {buildList()};
+   for (auto type : list) reader.set(factory().elementName(type),&children,false);
+   reader.read();
    for (auto child : qAsConst(children)) readChild(child);
 }
 

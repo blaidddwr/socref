@@ -64,7 +64,10 @@ SOURCES += \
     cppqt_edit_constructor.cpp \
     cppqt_destructor.cpp \
     cppqt_edit_destructor.cpp \
-    cppqt_view_destructor.cpp
+    cppqt_view_destructor.cpp \
+    cppqt_slot.cpp \
+    cppqt_view_slot.cpp \
+    cppqt_edit_slot.cpp
 
 HEADERS += \
     singleton.h \
@@ -128,7 +131,10 @@ HEADERS += \
     cppqt_edit_constructor.h \
     cppqt_destructor.h \
     cppqt_edit_destructor.h \
-    cppqt_view_destructor.h
+    cppqt_view_destructor.h \
+    cppqt_slot.h \
+    cppqt_view_slot.h \
+    cppqt_edit_slot.h
 
 RESOURCES += \
     resources.qrc
