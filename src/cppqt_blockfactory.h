@@ -12,18 +12,18 @@ namespace CppQt
    public:
       enum
       {
-         NamespaceType//
-         ,VariableType//
-         ,FunctionType//
-         ,TemplateType//
-         ,ClassType//
-         ,AccessType//
-         ,OperatorType//
-         ,SlotType//
-         ,SignalType//
-         ,ConstructorType//
-         ,DestructorType//
-         ,EnumerationType//
+         NamespaceType
+         ,VariableType
+         ,FunctionType
+         ,TemplateType
+         ,ClassType
+         ,AccessType
+         ,OperatorType
+         ,SlotType
+         ,SignalType
+         ,ConstructorType
+         ,DestructorType
+         ,EnumerationType
          ,EnumValueType
          ,Total
       };

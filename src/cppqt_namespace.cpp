@@ -63,6 +63,7 @@ QList<int> Namespace::buildList() const
       ret << BlockFactory::FunctionType;
       ret << BlockFactory::ClassType;
       ret << BlockFactory::OperatorType;
+      ret << BlockFactory::EnumerationType;
    }
    return ret;
 }

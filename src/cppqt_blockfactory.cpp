@@ -11,6 +11,7 @@
 #include "cppqt_constructor.h"
 #include "cppqt_destructor.h"
 #include "cppqt_enumeration.h"
+#include "cppqt_enumvalue.h"
 #include "projectfactory.h"
 
 
@@ -112,6 +113,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case ConstructorType: return unique_ptr<AbstractBlock>(new Constructor);
    case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
    case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
+   case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
    default: return nullptr;
    }
 }

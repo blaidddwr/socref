@@ -72,7 +72,10 @@ SOURCES += \
     cppqt_edit_signal.cpp \
     cppqt_enumeration.cpp \
     cppqt_view_enumeration.cpp \
-    cppqt_edit_enumeration.cpp
+    cppqt_edit_enumeration.cpp \
+    cppqt_enumvalue.cpp \
+    cppqt_view_enumvalue.cpp \
+    cppqt_edit_enumvalue.cpp
 
 HEADERS += \
     singleton.h \
@@ -144,7 +147,10 @@ HEADERS += \
     cppqt_edit_signal.h \
     cppqt_enumeration.h \
     cppqt_view_enumeration.h \
-    cppqt_edit_enumeration.h
+    cppqt_edit_enumeration.h \
+    cppqt_enumvalue.h \
+    cppqt_view_enumvalue.h \
+    cppqt_edit_enumvalue.h
 
 RESOURCES += \
     resources.qrc

@@ -12,4 +12,5 @@ namespace CppQt
    class Access;
    class Operator;
    class Enumeration;
+   class EnumValue;
 }
