@@ -10,6 +10,7 @@
 #include "cppqt_signal.h"
 #include "cppqt_constructor.h"
 #include "cppqt_destructor.h"
+#include "cppqt_enumeration.h"
 #include "projectfactory.h"
 
 
@@ -110,6 +111,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case SignalType: return unique_ptr<AbstractBlock>(new Signal("unnamed_slot"));
    case ConstructorType: return unique_ptr<AbstractBlock>(new Constructor);
    case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
+   case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
    default: return nullptr;
    }
 }

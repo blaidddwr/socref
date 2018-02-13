@@ -19,7 +19,6 @@ namespace CppQt
    {
       class Base : public Gui::AbstractEdit
       {
-      public:
          Q_OBJECT
       public:
          explicit Base(AbstractBlock* block, QWidget* parent = nullptr);

@@ -37,5 +37,5 @@ Base::Base(const AbstractBlock* block, QWidget* parent):
 
 QString Base::displayText()
 {
-   return QString("<h2>Description</h2><p>").append(_block->description().split("\n\n").join("</p><p>")).append("</p>");
+   return QString("<h2>Description</h2><p>").append(_block->description()).append("</p>");
 }
