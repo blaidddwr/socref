@@ -190,6 +190,34 @@ void AbstractBlock::removeChild(int index)
 
 
 
+void AbstractBlock::moveChildUp(int index)
+{
+   if ( index > 0 && index < _children.size() )
+   {
+      std::swap(_children[index - 1],_children[index]);
+      childMoved(_children.at(index - 1));
+   }
+}
+
+
+
+
+
+
+void AbstractBlock::moveChildDown(int index)
+{
+   if ( index >= 0 && index < (_children.size() - 1) )
+   {
+      std::swap(_children[index],_children[index + 1]);
+      childMoved(_children.at(index + 1));
+   }
+}
+
+
+
+
+
+
 void AbstractBlock::read(const QDomElement& parent)
 {
    qDeleteAll(_children);
@@ -277,24 +305,40 @@ void AbstractBlock::notifyOfNameChange()
 
 
 
-void AbstractBlock::childNameChanged(AbstractBlock*)
-{}
+void AbstractBlock::childNameChanged(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+}
 
 
 
 
 
 
-void AbstractBlock::childAdded(AbstractBlock*)
-{}
+void AbstractBlock::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+}
 
 
 
 
 
 
-void AbstractBlock::childRemoved(AbstractBlock*)
-{}
+void AbstractBlock::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+}
+
+
+
+
+
+
+void AbstractBlock::childMoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+}
 
 
 

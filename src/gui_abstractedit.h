@@ -1,7 +1,7 @@
 #ifndef GUI_ABSTRACTEDIT_H
 #define GUI_ABSTRACTEDIT_H
 #include <memory>
-#include <QWidget>
+#include <QDialog>
 
 
 
@@ -11,7 +11,7 @@ class QPushButton;
 
 namespace Gui
 {
-   class AbstractEdit : public QWidget
+   class AbstractEdit : public QDialog
    {
       Q_OBJECT
    public:
@@ -20,8 +20,6 @@ namespace Gui
    protected:
       virtual QLayout* layout() = 0;
       void setDisabled(bool disabled);
-   signals:
-      void finished();
    protected:
       virtual bool apply() = 0;
    private slots:

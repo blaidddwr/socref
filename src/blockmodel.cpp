@@ -76,19 +76,6 @@ int BlockModel::columnCount(const QModelIndex& parent) const
 
 
 
-AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
-{
-   AbstractBlock* ret;
-   if ( index.isValid() ) ret = reinterpret_cast<AbstractBlock*>(index.internalPointer());
-   else ret = _root;
-   return ret;
-}
-
-
-
-
-
-
 QVariant BlockModel::data(const QModelIndex& index, int role) const
 {
    switch (role)
@@ -107,11 +94,24 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
 
 
 
-bool BlockModel::insertRow(int row, const QModelIndex& parent, unique_ptr<AbstractBlock>&& object)
+AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
+{
+   AbstractBlock* ret;
+   if ( index.isValid() ) ret = reinterpret_cast<AbstractBlock*>(index.internalPointer());
+   else ret = _root;
+   return ret;
+}
+
+
+
+
+
+
+bool BlockModel::insert(const QModelIndex& index, unique_ptr<AbstractBlock>&& object)
 {
    if ( !object ) return false;
-   beginInsertRows(parent,row,row);
-   pointer(parent)->insertChild(row,std::move(object));
+   beginInsertRows(index,0,0);
+   pointer(index)->insertChild(0,std::move(object));
    endInsertRows();
    return true;
 }
@@ -121,17 +121,16 @@ bool BlockModel::insertRow(int row, const QModelIndex& parent, unique_ptr<Abstra
 
 
 
-bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
+QModelIndex BlockModel::moveUp(const QModelIndex& index)
 {
-   AbstractBlock* parent_ {pointer(parent)};
-   if ( source < 0 || source >= parent_->childrenSize() ) return false;
-   if ( destination < 0 || destination > parent_->childrenSize() ) return false;
-   beginMoveRows(parent,source,source,parent,destination);
-   unique_ptr<AbstractBlock> child {parent_->takeChild(source)};
-   if ( destination > ( source + 1 ) ) --destination;
-   parent_->insertChild(destination,std::move(child));
+   if ( index.row() == 0 ) return index;
+   AbstractBlock* block {pointer(index)};
+   AbstractBlock* parent {block->parent()};
+   int row {index.row()};
+   beginMoveRows(index.parent(),row,row,index.parent(),row - 1);
+   parent->moveChildUp(row);
    endMoveRows();
-   return true;
+   return createIndex(row - 1,0,block);
 }
 
 
@@ -139,12 +138,30 @@ bool BlockModel::moveRow(int source, int destination, const QModelIndex& parent)
 
 
 
-bool BlockModel::removeRow(int row, const QModelIndex& parent)
+QModelIndex BlockModel::moveDown(const QModelIndex& index)
 {
-   AbstractBlock* parent_ {pointer(parent)};
-   if ( row < 0 || row >= parent_->childrenSize() ) return false;
-   beginRemoveRows(parent,row,row);
-   parent_->removeChild(row);
+   if ( index.row() >= (rowCount(index.parent()) - 1) ) return index;
+   AbstractBlock* block {pointer(index)};
+   AbstractBlock* parent {block->parent()};
+   int row {index.row()};
+   beginMoveRows(index.parent(),row,row,index.parent(),row + 2);
+   parent->moveChildDown(row);
+   endMoveRows();
+   return createIndex(row + 1,0,block);
+}
+
+
+
+
+
+
+bool BlockModel::remove(const QModelIndex& index)
+{
+   if ( !index.isValid() ) return false;
+   AbstractBlock* parent {pointer(index.parent())};
+   int row {index.row()};
+   beginRemoveRows(index.parent(),row,row);
+   parent->removeChild(row);
    endRemoveRows();
    return true;
 }
@@ -154,11 +171,10 @@ bool BlockModel::removeRow(int row, const QModelIndex& parent)
 
 
 
-unique_ptr<AbstractBlock> BlockModel::copyRow(int row, const QModelIndex& parent) const
+unique_ptr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
 {
-   AbstractBlock* parent_ {pointer(parent)};
-   if ( row < 0 || row >= parent_->childrenSize() ) return nullptr;
-   return parent_->child(row)->makeCopy();
+   if ( !index.isValid() ) return nullptr;
+   return pointer(index.parent())->child(index.row())->makeCopy();
 }
 
 
@@ -166,12 +182,13 @@ unique_ptr<AbstractBlock> BlockModel::copyRow(int row, const QModelIndex& parent
 
 
 
-unique_ptr<AbstractBlock> BlockModel::cutRow(int row, const QModelIndex& parent)
+unique_ptr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
 {
-   AbstractBlock* parent_ {pointer(parent)};
-   if ( row < 0 || row >= parent_->childrenSize() ) return nullptr;
-   beginRemoveRows(parent,row,row);
-   unique_ptr<AbstractBlock> ret {parent_->takeChild(row)};
+   if ( !index.isValid() ) return nullptr;
+   AbstractBlock* parent {pointer(index.parent())};
+   int row {index.row()};
+   beginRemoveRows(index.parent(),row,row);
+   unique_ptr<AbstractBlock> ret {parent->takeChild(row)};
    endRemoveRows();
    return ret;
 }

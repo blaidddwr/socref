@@ -13,7 +13,7 @@ using namespace Gui;
 
 
 AbstractEdit::AbstractEdit(QWidget* parent):
-   QWidget(parent)
+   QDialog(parent)
 {}
 
 
@@ -50,7 +50,7 @@ void AbstractEdit::setDisabled(bool disabled)
 
 void AbstractEdit::okClicked()
 {
-   if ( apply() ) emit finished();
+   if ( apply() ) accept();
 }
 
 
@@ -70,7 +70,7 @@ void AbstractEdit::applyClicked()
 
 void AbstractEdit::cancelClicked()
 {
-   emit finished();
+   emit reject();
 }
 
 

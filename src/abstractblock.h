@@ -31,6 +31,8 @@ public:
    void insertChild(int index, std::unique_ptr<AbstractBlock>&& child);
    std::unique_ptr<AbstractBlock> takeChild(int index);
    void removeChild(int index);
+   void moveChildUp(int index);
+   void moveChildDown(int index);
    void read(const QDomElement& parent);
    QDomElement write(QDomDocument& document) const;
    bool hasChildOfType(int type) const;
@@ -49,6 +51,7 @@ protected slots:
    virtual void childNameChanged(AbstractBlock* child);
    virtual void childAdded(AbstractBlock* child);
    virtual void childRemoved(AbstractBlock* child);
+   virtual void childMoved(AbstractBlock* child);
 private slots:
    void childModified();
 private:

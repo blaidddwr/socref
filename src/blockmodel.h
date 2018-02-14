@@ -15,13 +15,14 @@ public:
    virtual QModelIndex parent(const QModelIndex &child) const override final;
    virtual int rowCount(const QModelIndex& parent) const override final;
    virtual int columnCount(const QModelIndex& parent) const override final;
-   AbstractBlock* pointer(const QModelIndex& index) const;
    virtual QVariant data(const QModelIndex& index, int role) const override final;
-   bool insertRow(int row, const QModelIndex& parent, std::unique_ptr<AbstractBlock>&& object);
-   bool moveRow(int source, int destination, const QModelIndex& parent);
-   bool removeRow(int row, const QModelIndex& parent);
-   std::unique_ptr<AbstractBlock> copyRow(int row, const QModelIndex& parent) const;
-   std::unique_ptr<AbstractBlock> cutRow(int row, const QModelIndex& parent);
+   AbstractBlock* pointer(const QModelIndex& index) const;
+   bool insert(const QModelIndex& index, std::unique_ptr<AbstractBlock>&& object);
+   QModelIndex moveUp(const QModelIndex& index);
+   QModelIndex moveDown(const QModelIndex& index);
+   bool remove(const QModelIndex& index);
+   std::unique_ptr<AbstractBlock> copy(const QModelIndex& index) const;
+   std::unique_ptr<AbstractBlock> cut(const QModelIndex& index);
    const AbstractBlockFactory* factory() const;
    void setRoot(AbstractBlock* root);
 private slots:

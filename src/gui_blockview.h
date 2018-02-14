@@ -23,7 +23,6 @@ namespace Gui
       explicit BlockView(QWidget *parent = nullptr);
       void setModel(BlockModel* model);
       QMenu* contextMenu() const;
-      bool hasSelection() const;
       bool canPaste() const;
    public slots:
       void addTriggered();
@@ -35,11 +34,17 @@ namespace Gui
       void moveUpTriggered();
       void moveDownTriggered();
    private slots:
-      void selectionModelChanged();
+      void selectionModelChanged(const QItemSelection& selected, const QItemSelection& deselected);
       void modelDestroyed();
-      void editFinished();
       void modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles);
+      void contextMenuRequested(const QPoint& position);
    private:
+      void updateActions();
+      void updateAddActions();
+      void updateMenu();
+      void setView();
+      void setCopy(AbstractBlock* copy);
+      void updateTitle(AbstractBlock* block);
       void setupGui();
       void setupTreeView();
       void setupArea();
@@ -53,19 +58,13 @@ namespace Gui
       void setupMoveUpAction();
       void setupMoveDownAction();
       void setupMenu();
-      void updateActions();
-      void updateAddActions();
-      void updateMenu();
-      void setView(QWidget* view);
-      void setCopy(AbstractBlock* copy);
-      void updateTitle(AbstractBlock* block);
-      QModelIndex selection() const;
       constexpr static int _titleIconSize {32};
       QScrollArea* _area;
       QTreeView* _treeView;
       BlockModel* _model {nullptr};
       const AbstractBlockFactory* _factory {nullptr};
       QItemSelectionModel* _selectionModel {nullptr};
+      QModelIndex _current;
       static AbstractBlock* _copy;
       QWidget* _view {nullptr};
       QList<QAction*> _addActions;

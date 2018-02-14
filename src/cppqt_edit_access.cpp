@@ -58,6 +58,7 @@ bool Access::apply()
 
 void Access::addCombo(QFormLayout* layout)
 {
+   setupCombo();
    layout->addRow(new QLabel(tr("Type:")),_box);
 }
 

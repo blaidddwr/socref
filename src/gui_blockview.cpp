@@ -40,10 +40,10 @@ void BlockView::setModel(BlockModel* model)
    _model = model;
    _factory = model->factory();
    _selectionModel = _treeView->selectionModel();
+   _current = QModelIndex();
    connect(_selectionModel,&QItemSelectionModel::selectionChanged,this,&BlockView::selectionModelChanged);
    connect(_model,&BlockModel::dataChanged,this,&BlockView::modelDataChanged);
    connect(_model,&BlockModel::destroyed,this,&BlockView::modelDestroyed);
-   selectionModelChanged();
 }
 
 
@@ -61,27 +61,12 @@ QMenu* BlockView::contextMenu() const
 
 
 
-bool BlockView::hasSelection() const
-{
-   return selection().isValid();
-}
-
-
-
-
-
-
 bool BlockView::canPaste() const
 {
-   if ( _model && _copy )
+   if ( _model && _copy && _factory->type() == _copy->factory().type() )
    {
-      int a = _factory->type();
-      int b = _copy->factory().type();
-      if ( a == b )
-      {
-         AbstractBlock* index {_model->pointer(selection())};
-         if ( index && index->buildList().contains(_copy->type()) ) return true;
-      }
+      AbstractBlock* index {_model->pointer(_current)};
+      if ( index && index->buildList().contains(_copy->type()) ) return true;
    }
    return false;
 }
@@ -96,7 +81,7 @@ void BlockView::addTriggered()
    QAction* from {qobject_cast<QAction*>(sender())};
    if ( _model )
    {
-      _model->insertRow(-1,selection(),_factory->makeBlock(from->data().toInt()));
+      _model->insert(_current,_factory->makeBlock(from->data().toInt()));
    }
 }
 
@@ -107,11 +92,7 @@ void BlockView::addTriggered()
 
 void BlockView::removeTriggered()
 {
-   QModelIndex index {selection()};
-   if ( index.isValid() )
-   {
-      _model->removeRow(index.row(),_model->parent(index));
-   }
+   if ( _current.isValid() ) _model->remove(_current);
 }
 
 
@@ -121,10 +102,9 @@ void BlockView::removeTriggered()
 
 void BlockView::editTriggered()
 {
-   QModelIndex index {selection()};
-   if ( index.isValid() )
+   if ( _current.isValid() )
    {
-      AbstractBlock* pointer {_model->pointer(index)};
+      AbstractBlock* pointer {_model->pointer(_current)};
       unique_ptr<AbstractEdit> edit {pointer->makeEdit()};
       if ( !edit )
       {
@@ -134,9 +114,9 @@ void BlockView::editTriggered()
          throw e;
       }
       edit->initialize();
-      connect(edit.get(),&AbstractEdit::finished,this,&BlockView::editFinished);
-      setView(edit.release());
-      updateTitle(pointer);
+      edit->setWindowIcon(pointer->icon());
+      edit->setWindowTitle(tr("Edit %1").arg(_factory->name(pointer->type())));
+      edit->exec();
    }
 }
 
@@ -147,10 +127,9 @@ void BlockView::editTriggered()
 
 void BlockView::cutTriggered()
 {
-   QModelIndex index {selection()};
-   if ( index.isValid() )
+   if ( _current.isValid() )
    {
-      setCopy(_model->cutRow(index.row(),_model->parent(index)).release());
+      setCopy(_model->cut(_current).release());
       updateActions();
    }
 }
@@ -162,10 +141,9 @@ void BlockView::cutTriggered()
 
 void BlockView::copyTriggered()
 {
-   QModelIndex index {selection()};
-   if ( index.isValid() )
+   if ( _current.isValid() )
    {
-      setCopy(_model->copyRow(index.row(),_model->parent(index)).release());
+      setCopy(_model->copy(_current).release());
       updateActions();
    }
 }
@@ -177,7 +155,7 @@ void BlockView::copyTriggered()
 
 void BlockView::pasteTriggered()
 {
-   if ( canPaste() ) _model->insertRow(-1,selection(),_copy->makeCopy());
+   if ( canPaste() ) _model->insert(_current,_copy->makeCopy());
 }
 
 
@@ -187,8 +165,7 @@ void BlockView::pasteTriggered()
 
 void BlockView::moveUpTriggered()
 {
-   QModelIndex index {selection()};
-   if ( index.isValid() ) _model->moveRow(index.row(),index.row() - 1,_model->parent(index));
+   if ( _current.isValid() ) _current = _model->moveUp(_current);
 }
 
 
@@ -198,8 +175,7 @@ void BlockView::moveUpTriggered()
 
 void BlockView::moveDownTriggered()
 {
-   QModelIndex index {selection()};
-   if ( index.isValid() ) _model->moveRow(index.row(),index.row() + 2,_model->parent(index));
+   if ( _current.isValid() ) _current = _model->moveDown(_current);
 }
 
 
@@ -207,24 +183,12 @@ void BlockView::moveDownTriggered()
 
 
 
-void BlockView::selectionModelChanged()
+void BlockView::selectionModelChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
-   unique_ptr<QWidget> view;
-   QModelIndex index {selection()};
-   if ( index.isValid() )
-   {
-      AbstractBlock* pointer {_model->pointer(index)};
-      view = pointer->makeView();
-      if ( !view )
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
-         throw e;
-      }
-      updateTitle(pointer);
-   }
-   setView(view.release());
+   Q_UNUSED(deselected)
+   if ( selected.isEmpty() ) _current = QModelIndex();
+   else _current = selected.indexes().first();
+   setView();
    updateActions();
    updateMenu();
 }
@@ -238,22 +202,13 @@ void BlockView::modelDestroyed()
 {
    _titleIcon->clear();
    _titleText->clear();
-   setView(nullptr);
    _model = nullptr;
    _factory = nullptr;
    _selectionModel = nullptr;
+   _current = QModelIndex();
+   setView();
    updateActions();
    updateMenu();
-}
-
-
-
-
-
-
-void BlockView::editFinished()
-{
-   selectionModelChanged();
 }
 
 
@@ -265,12 +220,127 @@ void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& 
 {
    Q_UNUSED(bottomRight)
    Q_UNUSED(roles)
-   if ( topLeft == selection() && topLeft.isValid() )
+   if ( topLeft == _current && _current.isValid() )
    {
-      updateTitle(_model->pointer(topLeft));
+      updateTitle(_model->pointer(_current));
       updateActions();
       updateMenu();
    }
+}
+
+
+
+
+
+
+void BlockView::contextMenuRequested(const QPoint& position)
+{
+   _current = _treeView->indexAt(position);
+   setView();
+   updateActions();
+   updateMenu();
+   _contextMenu->exec(QCursor::pos());
+}
+
+
+
+
+
+
+void BlockView::updateActions()
+{
+   updateAddActions();
+   bool selected {_current.isValid()};
+   _removeAction->setDisabled(!selected);
+   _editAction->setDisabled(!selected);
+   _copyAction->setDisabled(!selected);
+   _cutAction->setDisabled(!selected);
+   _moveUpAction->setDisabled(!selected);
+   _moveDownAction->setDisabled(!selected);
+   _pasteAction->setDisabled(!canPaste());
+   _addMenu->setDisabled(!_model);
+}
+
+
+
+
+
+
+void BlockView::updateAddActions()
+{
+   qDeleteAll(_addActions);
+   _addActions.clear();
+   if ( _model )
+   {
+      const QList<int> list {_model->pointer(_current)->buildList()};
+      for (auto type : list)
+      {
+         _addActions.append(new QAction(_factory->name(type),this));
+         _addActions.back()->setData(type);
+         connect(_addActions.back(),&QAction::triggered,this,&BlockView::addTriggered);
+      }
+   }
+}
+
+
+
+
+
+
+void BlockView::updateMenu()
+{
+   _addMenu->clear();
+   for (auto action : qAsConst(_addActions)) _addMenu->addAction(action);
+   _addMenu->setDisabled(_addMenu->isEmpty());
+}
+
+
+
+
+
+
+void BlockView::setView()
+{
+   delete _view;
+   if ( _current.isValid() )
+   {
+      AbstractBlock* pointer {_model->pointer(_current)};
+      _view = pointer->makeView().release();
+      if ( !_view )
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
+         throw e;
+      }
+      _area->setWidget(_view);
+      updateTitle(pointer);
+   }
+   else _view = nullptr;
+}
+
+
+
+
+
+
+void BlockView::setCopy(AbstractBlock* copy)
+{
+   delete _copy;
+   _copy = copy;
+}
+
+
+
+
+
+
+void BlockView::updateTitle(AbstractBlock* block)
+{
+   _titleIcon->clear();
+   _titleText->clear();
+   _titleIcon->setPixmap(block->icon().pixmap(_titleIconSize,_titleIconSize));
+   _titleText->setText(block->name());
 }
 
 
@@ -295,6 +365,8 @@ void BlockView::setupTreeView()
 {
    _treeView = new QTreeView;
    _treeView->setHeaderHidden(true);
+   _treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+   connect(_treeView,&QTreeView::customContextMenuRequested,this,&BlockView::contextMenuRequested);
    addWidget(_treeView);
 }
 
@@ -361,6 +433,7 @@ void BlockView::setupRemoveAction()
 {
    _removeAction = new QAction(tr("&Remove"),this);
    _removeAction->setStatusTip(tr("Remove a block."));
+   _removeAction->setShortcut(Qt::CTRL + Qt::Key_Delete);
    connect(_removeAction,&QAction::triggered,this,&BlockView::removeTriggered);
 }
 
@@ -373,6 +446,7 @@ void BlockView::setupEditAction()
 {
    _editAction = new QAction(tr("&Edit"),this);
    _editAction->setStatusTip(tr("Edit currently selected block."));
+   _editAction->setShortcut(Qt::CTRL + Qt::Key_E);
    connect(_editAction,&QAction::triggered,this,&BlockView::editTriggered);
 }
 
@@ -385,6 +459,7 @@ void BlockView::setupCutAction()
 {
    _cutAction = new QAction(tr("&Cut"),this);
    _cutAction->setStatusTip(tr("Cut currently selected block."));
+   _cutAction->setShortcut(Qt::CTRL + Qt::Key_X);
    connect(_cutAction,&QAction::triggered,this,&BlockView::cutTriggered);
 }
 
@@ -397,6 +472,7 @@ void BlockView::setupCopyAction()
 {
    _copyAction = new QAction(tr("C&opy"),this);
    _copyAction->setStatusTip(tr("Copy currently selected block."));
+   _copyAction->setShortcut(Qt::CTRL + Qt::Key_C);
    connect(_copyAction,&QAction::triggered,this,&BlockView::copyTriggered);
 }
 
@@ -409,6 +485,7 @@ void BlockView::setupPasteAction()
 {
    _pasteAction = new QAction(tr("&Paste"),this);
    _pasteAction->setStatusTip(tr("Paste block into selected block as child."));
+   _pasteAction->setShortcut(Qt::CTRL + Qt::Key_V);
    connect(_pasteAction,&QAction::triggered,this,&BlockView::pasteTriggered);
 }
 
@@ -421,6 +498,7 @@ void BlockView::setupMoveUpAction()
 {
    _moveUpAction = new QAction(tr("Move &Up"),this);
    _moveUpAction->setStatusTip(tr("Move currently selected block up by one."));
+   _moveUpAction->setShortcut(Qt::CTRL + Qt::Key_Up);
    connect(_moveUpAction,&QAction::triggered,this,&BlockView::moveUpTriggered);
 }
 
@@ -433,6 +511,7 @@ void BlockView::setupMoveDownAction()
 {
    _moveDownAction = new QAction(tr("Move &Down"),this);
    _moveDownAction->setStatusTip(tr("Move currently selected block down by one."));
+   _moveDownAction->setShortcut(Qt::CTRL + Qt::Key_Down);
    connect(_moveDownAction,&QAction::triggered,this,&BlockView::moveDownTriggered);
 }
 
@@ -452,108 +531,4 @@ void BlockView::setupMenu()
    _contextMenu->addAction(_pasteAction);
    _contextMenu->addAction(_moveUpAction);
    _contextMenu->addAction(_moveDownAction);
-}
-
-
-
-
-
-
-void BlockView::updateActions()
-{
-   updateAddActions();
-   bool selected {hasSelection()};
-   _removeAction->setDisabled(!selected);
-   _editAction->setDisabled(!selected);
-   _copyAction->setDisabled(!selected);
-   _cutAction->setDisabled(!selected);
-   _moveUpAction->setDisabled(!selected);
-   _moveDownAction->setDisabled(!selected);
-   _pasteAction->setDisabled(!canPaste());
-   _addMenu->setDisabled(!_model);
-}
-
-
-
-
-
-
-void BlockView::updateAddActions()
-{
-   qDeleteAll(_addActions);
-   _addActions.clear();
-   if ( _model )
-   {
-      const QList<int> list {_model->pointer(selection())->buildList()};
-      for (auto type : list)
-      {
-         _addActions.append(new QAction(_factory->name(type),this));
-         _addActions.back()->setData(type);
-         connect(_addActions.back(),&QAction::triggered,this,&BlockView::addTriggered);
-      }
-   }
-}
-
-
-
-
-
-
-void BlockView::updateMenu()
-{
-   _addMenu->clear();
-   for (auto action : qAsConst(_addActions)) _addMenu->addAction(action);
-   _addMenu->setDisabled(_addMenu->isEmpty());
-}
-
-
-
-
-
-
-void BlockView::setView(QWidget* view)
-{
-   delete _view;
-   _view = view;
-   if ( _view )
-   {
-      _area->setWidget(_view);
-   }
-}
-
-
-
-
-
-
-void BlockView::setCopy(AbstractBlock* copy)
-{
-   delete _copy;
-   _copy = copy;
-}
-
-
-
-
-
-
-void BlockView::updateTitle(AbstractBlock* block)
-{
-   _titleIcon->clear();
-   _titleText->clear();
-   _titleIcon->setPixmap(block->icon().pixmap(_titleIconSize,_titleIconSize));
-   _titleText->setText(block->name());
-}
-
-
-
-
-
-
-
-QModelIndex BlockView::selection() const
-{
-   QModelIndex ret;
-   if ( _selectionModel && !_selectionModel->selection().isEmpty() ) ret = _selectionModel->selection().first().indexes().first();
-   return ret;
 }
