@@ -40,9 +40,7 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
 QLayout* Namespace::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
-   addTitle(ret,tr("Types"));
    addTypeButtons(ret);
    return ret;
 }
@@ -54,12 +52,8 @@ QLayout* Namespace::layout()
 
 void Namespace::addTypeButtons(QFormLayout* layout)
 {
-   QPushButton* global {new QPushButton(tr("Edit"))};
-   QPushButton* local {new QPushButton(tr("Edit"))};
-   connect(global,&QPushButton::clicked,this,&Namespace::editGlobalTypesClicked);
-   connect(local,&QPushButton::clicked,this,&Namespace::editLocalTypesClicked);
-   layout->addRow(new QLabel(tr("Global Types:")),global);
-   layout->addRow(new QLabel(tr("Local Types:")),local);
+   layout->addRow(new QLabel(tr("Global Types:")),setupGlobalButton());
+   layout->addRow(new QLabel(tr("Local Types:")),setupLocalButton());
 }
 
 
@@ -84,4 +78,28 @@ void Namespace::editLocalTypesClicked()
    TypeListDialog dialog(_block);
    dialog.setWindowTitle(tr("Edit Local Type List"));
    dialog.exec();
+}
+
+
+
+
+
+
+QWidget* Namespace::setupGlobalButton()
+{
+   QPushButton* ret {new QPushButton(tr("Edit"))};
+   connect(ret,&QPushButton::clicked,this,&Namespace::editGlobalTypesClicked);
+   return ret;
+}
+
+
+
+
+
+
+QWidget* Namespace::setupLocalButton()
+{
+   QPushButton* ret {new QPushButton(tr("Edit"))};
+   connect(ret,&QPushButton::clicked,this,&Namespace::editLocalTypesClicked);
+   return ret;
 }

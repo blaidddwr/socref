@@ -39,8 +39,8 @@ Class::Class(AbstractBlock* block, QWidget* parent):
 QLayout* Class::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   addQtObject(ret);
    Base::addFields(ret);
+   addProperties(ret);
    addTypeButtons(ret);
    return ret;
 }
@@ -62,10 +62,10 @@ bool Class::apply()
 
 
 
-void Class::addQtObject(QFormLayout* layout)
+void Class::addProperties(QFormLayout* layout)
 {
    setupObject();
-   layout->addRow(_qtObjectBox);
+   layout->addRow(new QLabel(tr("Properties:")),_qtObjectBox);
 }
 
 

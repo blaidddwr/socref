@@ -36,14 +36,11 @@ Operator::Operator(AbstractBlock* block, QWidget* parent):
 QLayout* Operator::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   addTitle(ret,tr("Return"));
-   addReturn(ret);
-   addTitle(ret,tr("Basic Information"));
    addOperation(ret);
    Base::addDescription(ret);
-   addOperations(ret);
-   addTitle(ret,tr("Properties"));
-   addProperties(ret);
+   Function::addReturn(ret);
+   Function::addOperations(ret);
+   Function::addProperties(ret);
    return ret;
 }
 
@@ -66,7 +63,17 @@ bool Operator::apply()
 
 void Operator::addOperation(QFormLayout* layout)
 {
+   setupOperation();
+   layout->addRow(new QLabel(tr("Operator:")),_operationEdit);
+}
+
+
+
+
+
+
+void Operator::setupOperation()
+{
    _operationEdit = new QLineEdit;
    _operationEdit->setText(_block->operation());
-   layout->addRow(new QLabel(tr("Operator:")),_operationEdit);
 }

@@ -1,4 +1,5 @@
 #include <QFormLayout>
+#include <QGridLayout>
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
@@ -40,15 +41,29 @@ Function::Function(AbstractBlock* block, QWidget* parent):
 QLayout* Function::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   addTitle(ret,tr("Return"));
-   addReturn(ret);
-   addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
+   addReturn(ret);
    addOperations(ret);
-   addTitle(ret,tr("Properties"));
-   Variable::addProperties(ret);
    addProperties(ret);
    return ret;
+}
+
+
+
+
+
+
+bool Function::apply()
+{
+   if ( !Variable::apply() ) return false;
+   if ( _returnEdit ) _block->setReturnDescription(_returnEdit->toPlainText());
+   if ( _virtualBox ) _block->setVirtual(_virtualBox->isChecked());
+   if ( _constBox ) _block->setConst(_constBox->isChecked());
+   if ( _noExceptBox ) _block->setNoExcept(_noExceptBox->isChecked());
+   if ( _overrideBox ) _block->setOverride(_overrideBox->isChecked());
+   if ( _finalBox ) _block->setFinal(_finalBox->isChecked());
+   if ( _abstractBox ) _block->setAbstract(_abstractBox->isChecked());
+   return true;
 }
 
 
@@ -153,10 +168,9 @@ bool Function::isAbstractChecked() const
 
 void Function::addReturn(QFormLayout* layout)
 {
-   _returnEdit = new ::Gui::TextEdit;
-   _returnEdit->setPlainText(_block->returnDescription());
+   setupReturn();
    Variable::addCombo(layout);
-   layout->addRow(new QLabel(tr("Description:")),_returnEdit);
+   layout->addRow(new QLabel(tr("Return Description:")),_returnEdit);
 }
 
 
@@ -166,96 +180,7 @@ void Function::addReturn(QFormLayout* layout)
 
 void Function::addProperties(QFormLayout* layout)
 {
-   addConst(layout);
-   addNoExcept(layout);
-   addVirtual(layout);
-   addAbstract(layout);
-   addOverride(layout);
-   addFinal(layout);
-}
-
-
-
-
-
-
-void Function::addConst(QFormLayout* layout)
-{
-   _constBox = new QCheckBox(tr("Constant"));
-   connect(_constBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   updateProperties();
-   _constBox->setChecked(_block->isConst());
-   layout->addRow(_constBox);
-}
-
-
-
-
-
-
-void Function::addNoExcept(QFormLayout* layout)
-{
-   _noExceptBox = new QCheckBox(tr("No Exceptions"));
-   connect(_noExceptBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   updateProperties();
-   _noExceptBox->setChecked(_block->isNoExcept());
-   layout->addRow(_noExceptBox);
-}
-
-
-
-
-
-
-void Function::addVirtual(QFormLayout* layout)
-{
-   _virtualBox = new QCheckBox(tr("Virtual"));
-   connect(_virtualBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   updateProperties();
-   _virtualBox->setChecked(_block->isVirtual());
-   layout->addRow(_virtualBox);
-}
-
-
-
-
-
-
-void Function::addOverride(QFormLayout* layout)
-{
-   _overrideBox = new QCheckBox(tr("Override"));
-   connect(_overrideBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   updateProperties();
-   _overrideBox->setChecked(_block->isOverride());
-   layout->addRow(_overrideBox);
-}
-
-
-
-
-
-
-void Function::addFinal(QFormLayout* layout)
-{
-   _finalBox = new QCheckBox(tr("Final"));
-   connect(_finalBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   updateProperties();
-   _finalBox->setChecked(_block->isFinal());
-   layout->addRow(_finalBox);
-}
-
-
-
-
-
-
-void Function::addAbstract(QFormLayout* layout)
-{
-   _abstractBox = new QCheckBox(tr("Abstract (Pure Virtual)"));
-   connect(_abstractBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
-   updateProperties();
-   _abstractBox->setChecked(_block->isAbstract());
-   layout->addRow(_abstractBox);
+   layout->addRow(new QLabel(tr("Propreties:")),setupProperties());
 }
 
 
@@ -265,9 +190,7 @@ void Function::addAbstract(QFormLayout* layout)
 
 void Function::addOperations(QFormLayout* layout)
 {
-   QPushButton* edit {new QPushButton(tr("Edit"))};
-   connect(edit,&QPushButton::clicked,this,&Function::operationsClicked);
-   layout->addRow(new QLabel(tr("Operations:")),edit);
+   layout->addRow(new QLabel(tr("Operations:")),setupOperations());
 }
 
 
@@ -275,17 +198,83 @@ void Function::addOperations(QFormLayout* layout)
 
 
 
-bool Function::apply()
+QWidget* Function::setupConst()
 {
-   if ( !Variable::apply() ) return false;
-   if ( _returnEdit ) _block->setReturnDescription(_returnEdit->toPlainText());
-   if ( _virtualBox ) _block->setVirtual(_virtualBox->isChecked());
-   if ( _constBox ) _block->setConst(_constBox->isChecked());
-   if ( _noExceptBox ) _block->setNoExcept(_noExceptBox->isChecked());
-   if ( _overrideBox ) _block->setOverride(_overrideBox->isChecked());
-   if ( _finalBox ) _block->setFinal(_finalBox->isChecked());
-   if ( _abstractBox ) _block->setAbstract(_abstractBox->isChecked());
-   return true;
+   _constBox = new QCheckBox(tr("Constant"));
+   connect(_constBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _constBox->setChecked(_block->isConst());
+   return _constBox;
+}
+
+
+
+
+
+
+QWidget* Function::setupNoExcept()
+{
+   _noExceptBox = new QCheckBox(tr("No Exceptions"));
+   connect(_noExceptBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _noExceptBox->setChecked(_block->isNoExcept());
+   return _noExceptBox;
+}
+
+
+
+
+
+
+QWidget* Function::setupVirtual()
+{
+   _virtualBox = new QCheckBox(tr("Virtual"));
+   connect(_virtualBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _virtualBox->setChecked(_block->isVirtual());
+   return _virtualBox;
+}
+
+
+
+
+
+
+QWidget* Function::setupOverride()
+{
+   _overrideBox = new QCheckBox(tr("Override"));
+   connect(_overrideBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _overrideBox->setChecked(_block->isOverride());
+   return _overrideBox;
+}
+
+
+
+
+
+
+QWidget* Function::setupFinal()
+{
+   _finalBox = new QCheckBox(tr("Final"));
+   connect(_finalBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _finalBox->setChecked(_block->isFinal());
+   return _finalBox;
+}
+
+
+
+
+
+
+QWidget* Function::setupAbstract()
+{
+   _abstractBox = new QCheckBox(tr("Abstract (Pure Virtual)"));
+   connect(_abstractBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _abstractBox->setChecked(_block->isAbstract());
+   return _abstractBox;
 }
 
 
@@ -313,4 +302,46 @@ void Function::operationsClicked()
    {
       _block->setOperations(dialog.value());
    }
+}
+
+
+
+
+
+
+void Function::setupReturn()
+{
+   _returnEdit = new ::Gui::TextEdit;
+   _returnEdit->setPlainText(_block->returnDescription());
+}
+
+
+
+
+
+
+QLayout* Function::setupProperties()
+{
+   QGridLayout* ret {new QGridLayout};
+   ret->addWidget(setupConstExpr(),0,0);
+   ret->addWidget(setupStatic(),1,0);
+   ret->addWidget(setupConst(),2,0);
+   ret->addWidget(setupNoExcept(),3,0);
+   ret->addWidget(setupVirtual(),0,1);
+   ret->addWidget(setupAbstract(),1,1);
+   ret->addWidget(setupOverride(),2,1);
+   ret->addWidget(setupFinal(),3,1);
+   return ret;
+}
+
+
+
+
+
+
+QPushButton*Function::setupOperations()
+{
+   QPushButton* ret {new QPushButton(tr("Edit"))};
+   connect(ret,&QPushButton::clicked,this,&Function::operationsClicked);
+   return ret;
 }

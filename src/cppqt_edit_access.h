@@ -25,7 +25,8 @@ namespace CppQt
          virtual QLayout* layout() override;
          virtual bool apply() override;
       private:
-         void addComboBox(QFormLayout* layout);
+         void addCombo(QFormLayout* layout);
+         void setupCombo();
          CppQt::Access* _block;
          QComboBox* _box;
       };

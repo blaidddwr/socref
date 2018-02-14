@@ -15,6 +15,8 @@ namespace CppQt
          explicit Constructor(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
+      private:
+         void addProperties(QFormLayout* layout);
       };
    }
 }

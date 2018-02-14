@@ -20,6 +20,8 @@ namespace CppQt
          void editGlobalTypesClicked();
          void editLocalTypesClicked();
       private:
+         QWidget* setupGlobalButton();
+         QWidget* setupLocalButton();
          CppQt::Namespace* _block;
       };
    }

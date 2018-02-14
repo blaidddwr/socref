@@ -1,6 +1,7 @@
 #include <QLabel>
 #include <QCheckBox>
 #include <QFormLayout>
+#include <QGridLayout>
 #include <QLineEdit>
 #include "cppqt_edit_variable.h"
 #include "exception.h"
@@ -39,15 +40,26 @@ Variable::Variable(AbstractBlock* block, QWidget* parent):
 QLayout* Variable::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   addTitle(ret,tr("Type"));
    addCombo(ret);
-   addTitle(ret,tr("Basic Information"));
    Base::addFields(ret);
-   addTitle(ret,tr("Initializer"));
    addInitializer(ret);
-   addTitle(ret,tr("Properties"));
    addProperties(ret);
    return ret;
+}
+
+
+
+
+
+
+bool Variable::apply()
+{
+   if ( !Base::apply() ) return false;
+   if ( _type ) _block->setVariableType(_type->value());
+   if ( _constExprBox ) _block->setConstExpr(_constExprBox->isChecked());
+   if ( _staticBox ) _block->setStatic(_staticBox->isChecked());
+   if ( _initializerEdit ) _block->setInitializer(_initializerEdit->text());
+   return true;
 }
 
 
@@ -88,8 +100,7 @@ void Variable::updateProperties()
 
 void Variable::addCombo(QFormLayout* layout)
 {
-   _type = new TypeComboBox(_block);
-   _type->setCurrentIndex(_block->variableType());
+   setupCombo();
    layout->addRow(new QLabel(tr("Type:")),_type);
 }
 
@@ -100,36 +111,7 @@ void Variable::addCombo(QFormLayout* layout)
 
 void Variable::addProperties(QFormLayout* layout)
 {
-   addConstExpr(layout);
-   addStatic(layout);
-}
-
-
-
-
-
-
-void Variable::addConstExpr(QFormLayout* layout)
-{
-   _constExprBox = new QCheckBox(tr("Constant Expression"));
-   updateProperties();
-   _constExprBox->setChecked(_block->isConstExpr());
-   connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
-   layout->addRow(_constExprBox);
-}
-
-
-
-
-
-
-void Variable::addStatic(QFormLayout* layout)
-{
-   _staticBox = new QCheckBox(tr("Static"));
-   updateProperties();
-   _staticBox->setChecked(_block->isStatic());
-   connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
-   layout->addRow(_staticBox);
+   layout->addRow(new QLabel(tr("Properties:")),setupProperties());
 }
 
 
@@ -139,9 +121,8 @@ void Variable::addStatic(QFormLayout* layout)
 
 void Variable::addInitializer(QFormLayout* layout)
 {
-   _initializerEdit = new QLineEdit;
-   _initializerEdit->setText(_block->initializer());
-   layout->addRow(new QLabel(tr("Value:")),_initializerEdit);
+   setupInitializer();
+   layout->addRow(new QLabel(tr("Initializer:")),_initializerEdit);
 }
 
 
@@ -169,14 +150,27 @@ bool Variable::isStaticChecked() const
 
 
 
-bool Variable::apply()
+QWidget* Variable::setupConstExpr()
 {
-   if ( !Base::apply() ) return false;
-   if ( _type ) _block->setVariableType(_type->value());
-   if ( _constExprBox ) _block->setConstExpr(_constExprBox->isChecked());
-   if ( _staticBox ) _block->setStatic(_staticBox->isChecked());
-   if ( _initializerEdit ) _block->setInitializer(_initializerEdit->text());
-   return true;
+   _constExprBox = new QCheckBox(tr("Constant Expression"));
+   updateProperties();
+   _constExprBox->setChecked(_block->isConstExpr());
+   connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
+   return _constExprBox;
+}
+
+
+
+
+
+
+QWidget* Variable::setupStatic()
+{
+   _staticBox = new QCheckBox(tr("Static"));
+   updateProperties();
+   _staticBox->setChecked(_block->isStatic());
+   connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
+   return _staticBox;
 }
 
 
@@ -188,4 +182,39 @@ void Variable::checkBoxChanged(int state)
 {
    Q_UNUSED(state)
    updateProperties();
+}
+
+
+
+
+
+
+void Variable::setupCombo()
+{
+   _type = new TypeComboBox(_block);
+   _type->setCurrentIndex(_block->variableType());
+}
+
+
+
+
+
+
+QLayout*Variable::setupProperties()
+{
+   QGridLayout* ret {new QGridLayout};
+   ret->addWidget(setupConstExpr(),0,0);
+   ret->addWidget(setupStatic(),1,0);
+   return ret;
+}
+
+
+
+
+
+
+void Variable::setupInitializer()
+{
+   _initializerEdit = new QLineEdit;
+   _initializerEdit->setText(_block->initializer());
 }

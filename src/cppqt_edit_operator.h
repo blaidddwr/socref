@@ -18,6 +18,7 @@ namespace CppQt
          virtual bool apply() override final;
       private:
          void addOperation(QFormLayout* layout);
+         void setupOperation();
          QLineEdit* _operationEdit;
          CppQt::Operator* _block;
       };

@@ -36,8 +36,7 @@ Access::Access(AbstractBlock* block, QWidget* parent):
 QLayout* Access::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   addTitle(ret,"Basic");
-   addComboBox(ret);
+   addCombo(ret);
    return ret;
 }
 
@@ -57,7 +56,17 @@ bool Access::apply()
 
 
 
-void Access::addComboBox(QFormLayout* layout)
+void Access::addCombo(QFormLayout* layout)
+{
+   layout->addRow(new QLabel(tr("Type:")),_box);
+}
+
+
+
+
+
+
+void Access::setupCombo()
 {
    _box = new QComboBox;
    if ( !_block->hasSignalsOrSlots() )
@@ -76,5 +85,4 @@ void Access::addComboBox(QFormLayout* layout)
       _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::ProtectedSlots)));
       _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::PrivateSlots)));
    }
-   layout->addRow(new QLabel(tr("Type:")),_box);
 }

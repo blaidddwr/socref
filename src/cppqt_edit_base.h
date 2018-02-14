@@ -30,6 +30,8 @@ namespace CppQt
       protected:
          virtual bool apply() override;
       private:
+         void setupName();
+         void setupDescription();
          CppQt::Base* _block;
          QLineEdit* _nameEdit {nullptr};
          Gui::TextEdit* _descriptionEdit {nullptr};

@@ -24,10 +24,18 @@ Constructor::Constructor(AbstractBlock* block, QWidget* parent):
 QLayout* Constructor::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   addTitle(ret,tr("Basic Information"));
    Base::addDescription(ret);
    addOperations(ret);
-   addTitle(ret,tr("Properties"));
-   addNoExcept(ret);
+   addProperties(ret);
    return ret;
+}
+
+
+
+
+
+
+void Constructor::addProperties(QFormLayout* layout)
+{
+   layout->addRow(new QLabel(tr("Properties:")),setupNoExcept());
 }

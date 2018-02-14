@@ -61,9 +61,7 @@ void Base::addFields(QFormLayout* layout)
 
 void Base::addName(QFormLayout* layout)
 {
-   _nameEdit = new QLineEdit;
-   _nameEdit->setText(_block->Base::name());
-   _nameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*")));
+   setupName();
    layout->addRow(new QLabel(tr("Name:")),_nameEdit);
 }
 
@@ -74,8 +72,7 @@ void Base::addName(QFormLayout* layout)
 
 void Base::addDescription(QFormLayout* layout)
 {
-   _descriptionEdit = new Gui::TextEdit;
-   _descriptionEdit->setPlainText(_block->description());
+   setupDescription();
    layout->addRow(new QLabel(tr("Description:")),_descriptionEdit);
 }
 
@@ -89,4 +86,27 @@ bool Base::apply()
    if ( _nameEdit ) _block->setName(_nameEdit->text());
    if ( _descriptionEdit ) _block->setDescription(_descriptionEdit->toPlainText());
    return true;
+}
+
+
+
+
+
+
+void Base::setupName()
+{
+   _nameEdit = new QLineEdit;
+   _nameEdit->setText(_block->Base::name());
+   _nameEdit->setValidator(new QRegExpValidator(QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*")));
+}
+
+
+
+
+
+
+void Base::setupDescription()
+{
+   _descriptionEdit = new Gui::TextEdit;
+   _descriptionEdit->setPlainText(_block->description());
 }
