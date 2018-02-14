@@ -21,10 +21,9 @@ namespace CppQt
          virtual QLayout* layout() override final;
          virtual bool apply() override final;
       private:
-         void addInheritance(QFormLayout* layout);
          void addQtObject(QFormLayout* layout);
+         void setupObject();
          CppQt::Class* _block;
-         QLineEdit* _inheritanceEdit;
          QCheckBox* _qtObjectBox;
       };
    }

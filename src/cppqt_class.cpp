@@ -8,14 +8,13 @@
 #include "cppqt_template.h"
 #include "cppqt_common.h"
 #include "cppqt_constructor.h"
+#include "cppqt_parent.h"
 
 
 
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
-const char* Class::_inheritanceRegExp {"((public)|(protected)|(private))\\s+((::)?[a-zA-Z_]+[a-zA-Z0-9_]*)+(\\s*,\\s+((public)|(protected)|(private))\\s+((::)?[a-zA-Z_]+[a-zA-Z0-9_]*)+)*"};
-const char* Class::_inheritanceTag {"inherits"};
 const char* Class::_qtObjectTag {"qtobject"};
 
 
@@ -36,7 +35,18 @@ QString Class::name() const
 {
    QString ret {templateName(this)};
    ret.append(Base::name());
-   if ( !_inheritance.isEmpty() ) ret.append(" : ").append(_inheritance);
+   const QList<Parent*> list {makeChildListOfType<Parent>(BlockFactory::ParentType)};
+   if ( !list.isEmpty() )
+   {
+      ret.append(" : ");
+      bool first {true};
+      for (auto parent : list)
+      {
+         if ( first ) first = false;
+         else ret.append(", ");
+         ret.append(parent->name());
+      }
+   }
    return ret;
 }
 
@@ -108,38 +118,6 @@ unique_ptr<QWidget> Class::makeView() const
 unique_ptr<AbstractEdit> Class::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Class(this));
-}
-
-
-
-
-
-
-QString Class::inheritance()
-{
-   return _inheritance;
-}
-
-
-
-
-
-
-void Class::setInheritance(const QString& inheritance)
-{
-   if ( !QRegExp(_inheritanceRegExp).exactMatch(inheritance) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid inheritance '%1'").arg(inheritance));
-      throw e;
-   }
-   if ( _inheritance != inheritance )
-   {
-      _inheritance = inheritance;
-      notifyOfNameChange();
-      emit modified();
-   }
 }
 
 
@@ -242,7 +220,7 @@ QList<Template*> Class::templates() const
 
 void Class::childNameChanged(AbstractBlock* child)
 {
-   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child)  || qobject_cast<Parent*>(child) )
    {
       notifyOfNameChange();
       emit bodyChanged();
@@ -256,7 +234,7 @@ void Class::childNameChanged(AbstractBlock* child)
 
 void Class::childAdded(AbstractBlock* child)
 {
-   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child) || qobject_cast<Parent*>(child) )
    {
       notifyOfNameChange();
       emit bodyChanged();
@@ -274,7 +252,7 @@ void Class::childAdded(AbstractBlock* child)
 
 void Class::childRemoved(AbstractBlock* child)
 {
-   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Function*>(child) || qobject_cast<Parent*>(child) )
    {
       notifyOfNameChange();
       emit bodyChanged();
@@ -294,7 +272,6 @@ void Class::readData(const QDomElement& data)
 {
    Namespace::readData(data);
    DomElementReader reader(data);
-   _inheritance = reader.attribute(_inheritanceTag,false);
    _qtObject = reader.attributeToInt(_qtObjectTag,false);
 }
 
@@ -306,7 +283,6 @@ void Class::readData(const QDomElement& data)
 QDomElement Class::writeData(QDomDocument& document) const
 {
    QDomElement ret {Namespace::writeData(document)};
-   if ( !_inheritance.isEmpty() ) ret.setAttribute(_inheritanceTag,_inheritance);
    if ( _qtObject ) ret.setAttribute(_qtObjectTag,_qtObject);
    return ret;
 }
@@ -331,7 +307,6 @@ void Class::copyDataFrom(const AbstractBlock* object)
    if ( const Class* object_ = qobject_cast<const Class*>(object) )
    {
       Namespace::copyDataFrom(object);
-      _inheritance = object_->_inheritance;
       _qtObject = object_->_qtObject;
    }
    else
