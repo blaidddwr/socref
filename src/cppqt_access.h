@@ -39,6 +39,7 @@ namespace CppQt
       bool hasAbstract() const;
       static bool isSlot(Type type);
       static bool isNormal(Type type);
+      static const QStringList _typeNames;
    signals:
       void bodyChanged();
    protected slots:

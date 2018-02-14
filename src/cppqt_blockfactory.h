@@ -25,6 +25,7 @@ namespace CppQt
          ,DestructorType
          ,EnumerationType
          ,EnumValueType
+         ,ParentType
          ,Total
       };
       virtual int size() const override final;

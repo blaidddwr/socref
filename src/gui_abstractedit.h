@@ -19,6 +19,7 @@ namespace Gui
       AbstractEdit* initialize();
    protected:
       virtual QLayout* layout() = 0;
+      void setDisabled(bool disabled);
    signals:
       void finished();
    protected:
@@ -29,9 +30,11 @@ namespace Gui
       void cancelClicked();
    private:
       QLayout* setupButtons();
-      QPushButton* setupOkButton();
-      QPushButton* setupApplyButton();
+      void setupOkButton();
+      void setupApplyButton();
       QPushButton* setupCancelButton();
+      QPushButton* _ok;
+      QPushButton* _apply;
    };
 }
 

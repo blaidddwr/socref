@@ -13,4 +13,5 @@ namespace CppQt
    class Operator;
    class Enumeration;
    class EnumValue;
+   class Parent;
 }

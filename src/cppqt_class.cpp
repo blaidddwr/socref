@@ -85,6 +85,7 @@ QList<int> Class::buildList() const
    {
       ret << BlockFactory::TemplateType;
       ret << BlockFactory::AccessType;
+      ret << BlockFactory::ParentType;
    }
    return ret;
 }

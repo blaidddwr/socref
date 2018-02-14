@@ -11,6 +11,7 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+const QStringList Access::_typeNames {"public:","protected:","private:","signals:","public slots:","protected slots:","private slots:"};
 const char* Access::_typeTag {"type"};
 
 
@@ -29,31 +30,7 @@ Access::Access(Type type):
 
 QString Access::name() const
 {
-   QString ret;
-   switch (_type)
-   {
-   case Type::Public:
-      ret.append("public:");
-      break;
-   case Type::Signals:
-      ret.append("signals:");
-      break;
-   case Type::PublicSlots:
-      ret.append("public slots:");
-      break;
-   case Type::Protected:
-      ret.append("protected:");
-      break;
-   case Type::ProtectedSlots:
-      ret.append("protected slots:");
-      break;
-   case Type::Private:
-      ret.append("private:");
-      break;
-   case Type::PrivateSlots:
-      ret.append("private slots:");
-      break;
-   }
+   QString ret {_typeNames.at(static_cast<int>(_type))};
    ret.append(" (").append(QString::number(childrenSize())).append(")");
    return ret;
 }
@@ -335,7 +312,7 @@ void Access::childRemoved(AbstractBlock* child)
 void Access::readData(const QDomElement& data)
 {
    DomElementReader reader(data);
-   _type = static_cast<Type>(reader.attributeToInt(_typeTag,false));
+   _type = static_cast<Type>(_typeNames.indexOf(reader.attribute(_typeTag)));
 }
 
 
@@ -346,7 +323,7 @@ void Access::readData(const QDomElement& data)
 QDomElement Access::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
-   ret.setAttribute(_typeTag,static_cast<int>(_type));
+   ret.setAttribute(_typeTag,_typeNames.at(static_cast<int>(_type)));
    return ret;
 }
 

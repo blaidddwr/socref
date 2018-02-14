@@ -3,8 +3,9 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <exception.h>
 #include "cppqt_gui_typedialog.h"
-#include "exception.h"
+#include "cppqt_common.h"
 
 
 
@@ -76,11 +77,7 @@ bool TypeDialog::isValidTypeString(const QString& input)
       {
          int begin {input.indexOf('<')};
          int end {input.lastIndexOf('>')};
-         QStringList args {input.mid(begin+1,end-begin-1).split(',')};
-         for (auto arg : args)
-         {
-            ret &= isValidTypeString(arg);
-         }
+         if ( !isValidTemplateArgument(input.mid(begin+1,end-begin-1)) ) ret = false;
       }
    }
    return ret;

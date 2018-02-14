@@ -12,6 +12,7 @@
 #include "cppqt_destructor.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
+#include "cppqt_parent.h"
 #include "projectfactory.h"
 
 
@@ -52,6 +53,7 @@ QString BlockFactory::name(int type) const
    case DestructorType: return QString("Destructor");
    case EnumerationType: return QString("Enumeration");
    case EnumValueType: return QString("Enum Value");
+   case ParentType: return QString("Parent");
    default: return QString();
    }
 }
@@ -78,6 +80,7 @@ QString BlockFactory::elementName(int type) const
    case DestructorType: return QString("destructor");
    case EnumerationType: return QString("enumeration");
    case EnumValueType: return QString("enumval");
+   case ParentType: return QString("parent");
    default: return QString("unknown");
    }
 }
@@ -114,6 +117,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
    case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
    case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
+   case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
    default: return nullptr;
    }
 }

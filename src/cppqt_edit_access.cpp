@@ -9,7 +9,6 @@
 
 
 using namespace CppQt::Edit;
-const QStringList Access::_options {"public","protected","private","signals","public slots","protected slots","private slots"};
 
 
 
@@ -49,7 +48,7 @@ QLayout* Access::layout()
 
 bool Access::apply()
 {
-   _block->setAccessType(static_cast<CppQt::Access::Type>(_options.indexOf(_box->itemText(_box->currentIndex()))));
+   _block->setAccessType(static_cast<CppQt::Access::Type>(CppQt::Access::_typeNames.indexOf(_box->itemText(_box->currentIndex()))));
    return true;
 }
 
@@ -63,19 +62,19 @@ void Access::addComboBox(QFormLayout* layout)
    _box = new QComboBox;
    if ( !_block->hasSignalsOrSlots() )
    {
-      _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::Public)));
-      _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::Protected)));
-      _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::Private)));
+      _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::Public)));
+      _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::Protected)));
+      _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::Private)));
    }
    if ( !_block->hasSlots() && !_block->hasRegularMembers() )
    {
-      _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::Signals)));
+      _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::Signals)));
    }
    if ( !_block->hasSignals() && !_block->hasRegularMembers() )
    {
-      _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::PublicSlots)));
-      _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::ProtectedSlots)));
-      _box->addItem(_options.at(static_cast<int>(CppQt::Access::Type::PrivateSlots)));
+      _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::PublicSlots)));
+      _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::ProtectedSlots)));
+      _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::PrivateSlots)));
    }
    layout->addRow(new QLabel(tr("Type:")),_box);
 }

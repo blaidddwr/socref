@@ -26,7 +26,6 @@ namespace CppQt
          virtual bool apply() override;
       private:
          void addComboBox(QFormLayout* layout);
-         static const QStringList _options;
          CppQt::Access* _block;
          QComboBox* _box;
       };

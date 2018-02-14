@@ -75,7 +75,10 @@ SOURCES += \
     cppqt_edit_enumeration.cpp \
     cppqt_enumvalue.cpp \
     cppqt_view_enumvalue.cpp \
-    cppqt_edit_enumvalue.cpp
+    cppqt_edit_enumvalue.cpp \
+    cppqt_parent.cpp \
+    cppqt_view_parent.cpp \
+    cppqt_edit_parent.cpp
 
 HEADERS += \
     singleton.h \
@@ -150,7 +153,10 @@ HEADERS += \
     cppqt_edit_enumeration.h \
     cppqt_enumvalue.h \
     cppqt_view_enumvalue.h \
-    cppqt_edit_enumvalue.h
+    cppqt_edit_enumvalue.h \
+    cppqt_parent.h \
+    cppqt_view_parent.h \
+    cppqt_edit_parent.h
 
 RESOURCES += \
     resources.qrc
