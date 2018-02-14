@@ -15,7 +15,7 @@
    id="svg4186"
    version="1.1"
    inkscape:version="0.92.2 5c3e80d, 2017-08-06"
-   sodipodi:docname="parent.svg">
+   sodipodi:docname="priparent.svg">
   <defs
      id="defs4188" />
   <sodipodi:namedview
@@ -34,8 +34,8 @@
      units="px"
      inkscape:window-width="1682"
      inkscape:window-height="1166"
-     inkscape:window-x="362"
-     inkscape:window-y="545"
+     inkscape:window-x="1480"
+     inkscape:window-y="273"
      inkscape:window-maximized="0" />
   <metadata
      id="metadata4191">
@@ -45,7 +45,7 @@
         <dc:format>image/svg+xml</dc:format>
         <dc:type
            rdf:resource="http://purl.org/dc/dcmitype/StillImage" />
-        <dc:title />
+        <dc:title></dc:title>
       </cc:Work>
     </rdf:RDF>
   </metadata>
@@ -55,7 +55,7 @@
      id="layer1"
      transform="translate(0,-796.36216)">
     <rect
-       style="opacity:1;fill:#00ff0e;fill-opacity:1;stroke:#000000;stroke-width:6.64327002;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#ff3c3c;fill-opacity:1;stroke:#000000;stroke-width:6.64327002;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4141"
        width="113.35673"
        height="73.356728"
@@ -63,7 +63,7 @@
        y="930.68378"
        rx="2.7321602e-17" />
     <rect
-       style="opacity:1;fill:#00ff0e;fill-opacity:1;stroke:#000000;stroke-width:5.38665152;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#ff3c3c;fill-opacity:1;stroke:#000000;stroke-width:5.38665152;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4141-6"
        width="84.61335"
        height="64.613358"
@@ -71,7 +71,7 @@
        y="845.05548"
        rx="2.0393781e-17" />
     <rect
-       style="opacity:1;fill:#00ff0e;fill-opacity:1;stroke:#000000;stroke-width:5.38665152;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
+       style="opacity:1;fill:#ff3c3c;fill-opacity:1;stroke:#000000;stroke-width:5.38665152;stroke-miterlimit:4;stroke-dasharray:none;stroke-opacity:1"
        id="rect4141-6-7"
        width="84.61335"
        height="64.613358"

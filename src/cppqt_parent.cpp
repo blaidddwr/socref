@@ -61,8 +61,8 @@ QIcon Parent::icon() const
    if ( !isLoaded )
    {
       public_ = QIcon(":/icons/parent.svg");
-      protected_ = QIcon(":/icons/parent.svg");
-      private_ = QIcon(":/icons/parent.svg");
+      protected_ = QIcon(":/icons/proparent.svg");
+      private_ = QIcon(":/icons/priparent.svg");
       isLoaded = true;
    }
    switch (_access)
