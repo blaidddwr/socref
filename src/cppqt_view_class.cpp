@@ -35,7 +35,7 @@ Class::Class(const AbstractBlock* block, QWidget* parent):
 
 QString Class::displayText()
 {
-   return displayQtObjectText().append(displayTemplatesText()).append(Namespace::displayText());
+   return Namespace::displayText().append(displayTemplatesText()).append(displayQtObjectText());
 }
 
 

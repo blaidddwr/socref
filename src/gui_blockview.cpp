@@ -117,6 +117,7 @@ void BlockView::editTriggered()
       edit->setWindowIcon(pointer->icon());
       edit->setWindowTitle(tr("Edit %1").arg(_factory->name(pointer->type())));
       edit->exec();
+      updateView();
    }
 }
 
@@ -188,7 +189,7 @@ void BlockView::selectionModelChanged(const QItemSelection& selected, const QIte
    Q_UNUSED(deselected)
    if ( selected.isEmpty() ) _current = QModelIndex();
    else _current = selected.indexes().first();
-   setView();
+   updateView();
    updateActions();
    updateMenu();
 }
@@ -206,7 +207,7 @@ void BlockView::modelDestroyed()
    _factory = nullptr;
    _selectionModel = nullptr;
    _current = QModelIndex();
-   setView();
+   updateView();
    updateActions();
    updateMenu();
 }
@@ -236,7 +237,7 @@ void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& 
 void BlockView::contextMenuRequested(const QPoint& position)
 {
    _current = _treeView->indexAt(position);
-   setView();
+   updateView();
    updateActions();
    updateMenu();
    _contextMenu->exec(QCursor::pos());
@@ -299,7 +300,7 @@ void BlockView::updateMenu()
 
 
 
-void BlockView::setView()
+void BlockView::updateView()
 {
    delete _view;
    if ( _current.isValid() )

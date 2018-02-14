@@ -60,7 +60,7 @@ QString Function::displayArgumentsText()
    const QList<Variable*> list {_block->arguments()};
    if ( !list.isEmpty() )
    {
-      ret.append("<h2>Arguments</h2>");
+      ret.append("<h3>Arguments</h3>");
       for (auto variable : list)
       {
          ret.append("<p>").append(variable->variableType()).append(" <b>").append(variable->Base::name()).append("</b>");
@@ -81,7 +81,7 @@ QString Function::displayReturnText()
    QString ret;
    if ( !_block->returnDescription().isEmpty() )
    {
-      ret.append("<h2>Return</h2><p><b>").append(_block->returnType()).append(" :</b> ");
+      ret.append("<h3>Return</h3><p><b>").append(_block->returnType()).append(" :</b> ");
       ret.append(_block->returnDescription()).append("</p>");
    }
    return ret;
@@ -98,7 +98,7 @@ QString Function::displayOperationsText()
    const QStringList list {_block->operations()};
    if ( !list.isEmpty() )
    {
-      ret.append("<h2>Operations</h2><ol>");
+      ret.append("<h3>Operations</h3><ol>");
       for (auto operation : list) ret.append("<li>").append(operation).append("</li>");
       ret.append("</ol>");
    }

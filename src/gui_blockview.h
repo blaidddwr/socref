@@ -42,7 +42,7 @@ namespace Gui
       void updateActions();
       void updateAddActions();
       void updateMenu();
-      void setView();
+      void updateView();
       void setCopy(AbstractBlock* copy);
       void updateTitle(AbstractBlock* block);
       void setupGui();
