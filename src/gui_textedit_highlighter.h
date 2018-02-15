@@ -22,7 +22,6 @@ namespace Gui
       virtual void highlightBlock(const QString& text) override final;
    private:
       void setupSpeller();
-      const char* _defaultLang {"en_US"};
       QTextCharFormat _format;
       AspellConfig* _spellConfig;
       AspellSpeller* _spell;

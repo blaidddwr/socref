@@ -10,6 +10,8 @@ class Application : public QApplication
 public:
    explicit Application(int& argc, char** argv);
    virtual bool notify(QObject* receiver, QEvent* event) override final;
+   static const char* _companyKey;
+   static const char* _programKey;
 };
 
 

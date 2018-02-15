@@ -27,8 +27,17 @@ namespace Gui
       void projectModified();
       void projectSaved();
       void projectFileChanged();
-   private:
+   protected:
       virtual void closeEvent(QCloseEvent* event) override final;
+   private:
+      void updateTitle();
+      void updateActions();
+      bool isOkToContinue();
+      bool saveAs();
+      bool save();
+      void showException(const QString& text, const Exception::Base& exception) const;
+      void restoreSettings();
+      void saveSettings();
       void setupGui();
       void setupActions();
       void setupNewActions();
@@ -40,12 +49,8 @@ namespace Gui
       void setupExitAction();
       void setupMenus();
       void setupView();
-      void updateTitle();
-      void updateActions();
-      bool isOkToContinue();
-      bool saveAs();
-      bool save();
-      void showException(const QString& text, const Exception::Base& exception) const;
+      static const char* _geometryKey;
+      static const char* _stateKey;
       Project* _project {nullptr};
       QList<QAction*> _newActions;
       BlockView* _view;

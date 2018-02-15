@@ -3,14 +3,17 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
+#include <QSettings>
 #include "cppqt_gui_typelistdialog.h"
 #include "cppqt_namespace.h"
 #include "cppqt_gui_typedialog.h"
+#include "application.h"
 
 
 
 using namespace CppQt;
 using namespace CppQt::Gui;
+const char* TypeListDialog::_geometryKey {"cppqt.gui.typelistdialog.geometry"};
 
 
 
@@ -22,6 +25,17 @@ TypeListDialog::TypeListDialog(Namespace* block, QWidget* parent):
    _block(block)
 {
    setupGui();
+   restoreSettings();
+}
+
+
+
+
+
+
+TypeListDialog::~TypeListDialog()
+{
+   saveSettings();
 }
 
 
@@ -133,6 +147,28 @@ bool TypeListDialog::isDuplicate(const QString& name)
       ret = true;
    }
    return ret;
+}
+
+
+
+
+
+
+void TypeListDialog::restoreSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   restoreGeometry(settings.value(_geometryKey).toByteArray());
+}
+
+
+
+
+
+
+void TypeListDialog::saveSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   settings.setValue(_geometryKey,saveGeometry());
 }
 
 

@@ -21,6 +21,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit BlockView(QWidget *parent = nullptr);
+      virtual ~BlockView() override final;
       void setModel(BlockModel* model);
       QMenu* contextMenu() const;
       bool canPaste() const;
@@ -45,6 +46,8 @@ namespace Gui
       void updateView();
       void setCopy(AbstractBlock* copy);
       void updateTitle(AbstractBlock* block);
+      void restoreSettings();
+      void saveSettings();
       void setupGui();
       void setupTreeView();
       void setupArea();
@@ -59,6 +62,7 @@ namespace Gui
       void setupMoveDownAction();
       void setupMenu();
       constexpr static int _titleIconSize {32};
+      static const char* _stateKey;
       QScrollArea* _area;
       QTreeView* _treeView;
       BlockModel* _model {nullptr};

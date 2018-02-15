@@ -20,6 +20,7 @@ namespace CppQt
       public:
          explicit ListDialog(QWidget* parent = nullptr);
          explicit ListDialog(const QString& listItemTitle, QWidget* parent = nullptr);
+         virtual ~ListDialog() override final;
          void setListItemTitle(const QString& listItemTitle);
          QStringList value() const;
          void setValue(const QStringList& list);
@@ -33,13 +34,16 @@ namespace CppQt
          void doubleClicked(const QModelIndex& index);
          void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
       private:
+         class Model;
          void autoFitText();
          void autoFitText(int row);
+         void restoreSettings();
+         void saveSettings();
          void setupGui();
          QLayout* setupTop();
          QLayout* setupSideButtons();
          QLayout* setupBottomButtons();
-         class Model;
+         static const char* _geometryKey;
          QString _listItemTitle {"Step"};
          QTableView* _view;
          Model* _model;

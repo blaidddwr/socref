@@ -10,12 +10,14 @@
 #include "abstractblockfactory.h"
 #include "blockmodel.h"
 #include "exception.h"
+#include "application.h"
 
 
 
 using namespace std;
 using namespace Gui;
 AbstractBlock* BlockView::_copy {nullptr};
+const char* BlockView::_stateKey {"gui.blockview.state"};
 
 
 
@@ -26,7 +28,18 @@ BlockView::BlockView(QWidget* parent):
    QSplitter(parent)
 {
    setupGui();
+   restoreSettings();
    updateActions();
+}
+
+
+
+
+
+
+BlockView::~BlockView()
+{
+   saveSettings();
 }
 
 
@@ -342,6 +355,28 @@ void BlockView::updateTitle(AbstractBlock* block)
    _titleText->clear();
    _titleIcon->setPixmap(block->icon().pixmap(_titleIconSize,_titleIconSize));
    _titleText->setText(block->name());
+}
+
+
+
+
+
+
+void BlockView::restoreSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   restoreState(settings.value(_stateKey).toByteArray());
+}
+
+
+
+
+
+
+void BlockView::saveSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   settings.setValue(_stateKey,saveState());
 }
 
 

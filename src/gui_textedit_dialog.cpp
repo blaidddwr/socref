@@ -6,12 +6,16 @@
 #include <QPushButton>
 #include <QRegularExpression>
 #include <QMessageBox>
+#include <QSettings>
+#include <exception.h>
 #include "gui_textedit_dialog.h"
-#include "exception.h"
+#include "application.h"
 
 
 
 using namespace Gui;
+const char* TextEdit::Dialog::_snippetDots {"..."};
+const char* TextEdit::Dialog::_geometryKey {"gui.textedit.dialog.geometry"};
 
 
 
@@ -22,18 +26,9 @@ TextEdit::Dialog::Dialog(TextEdit* parent):
    QDialog(parent),
    _edit(parent)
 {
-   _spellConfig = new_aspell_config();
-   aspell_config_replace(_spellConfig,"lang",_defaultLang);
-   AspellCanHaveError* temp {new_aspell_speller(_spellConfig)};
-   if ( aspell_error_number(temp) )
-   {
-      Exception::SystemError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed initializing Aspell library for spell checking: %1").arg(aspell_error_message(temp)));
-      throw e;
-   }
-   _spell = to_aspell_speller(temp);
+   setupSpeller();
    setupGui();
+   restoreSettings();
    setWindowTitle("Spell Checker");
 }
 
@@ -46,6 +41,7 @@ TextEdit::Dialog::~Dialog()
 {
    delete_aspell_speller(_spell);
    delete_aspell_config(_spellConfig);
+   saveSettings();
 }
 
 
@@ -238,6 +234,28 @@ void TextEdit::Dialog::updateSuggested()
 
 
 
+void TextEdit::Dialog::restoreSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   restoreGeometry(settings.value(_geometryKey).toByteArray());
+}
+
+
+
+
+
+
+void TextEdit::Dialog::saveSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   settings.setValue(_geometryKey,saveGeometry());
+}
+
+
+
+
+
+
 void TextEdit::Dialog::setupGui()
 {
    QVBoxLayout* layout {new QVBoxLayout};
@@ -324,4 +342,24 @@ void TextEdit::Dialog::setupSuggestions()
    _suggestionsView->setAlignment(Qt::AlignTop);
    _suggestionsView->setStyleSheet("margin-left:16px;");
    _suggestionsView->setWordWrap(true);
+}
+
+
+
+
+
+
+void TextEdit::Dialog::setupSpeller()
+{
+   _spellConfig = new_aspell_config();
+   aspell_config_replace(_spellConfig,"lang",_defaultLang);
+   AspellCanHaveError* temp {new_aspell_speller(_spellConfig)};
+   if ( aspell_error_number(temp) )
+   {
+      Exception::SystemError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed initializing Aspell library for spell checking: %1").arg(aspell_error_message(temp)));
+      throw e;
+   }
+   _spell = to_aspell_speller(temp);
 }

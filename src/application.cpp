@@ -4,6 +4,11 @@
 
 
 
+const char* Application::_companyKey {"blaidddwr"};
+const char* Application::_programKey {"socref"};
+
+
+
 
 
 

@@ -6,6 +6,7 @@
 
 
 using namespace Gui;
+const char* TextEdit::_defaultLang {"en_US"};
 
 
 
@@ -76,6 +77,7 @@ void TextEdit::keyPressEvent(QKeyEvent* event)
       if ( event->key() == Qt::Key_E && _dialogPopupEnabled )
       {
          TextDialog dialog;
+         dialog.setWindowTitle("Text Editor");
          dialog.setText(toPlainText());
          if ( dialog.exec() )
          {

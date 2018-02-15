@@ -3,17 +3,21 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QCloseEvent>
+#include <QSettings>
 #include "gui_mainwindow.h"
 #include "abstractprojectfactory.h"
 #include "gui_projectdialog.h"
 #include "project.h"
 #include "abstractblock.h"
 #include "gui_blockview.h"
+#include "application.h"
 
 
 
 using namespace std;
 using namespace Gui;
+const char* MainWindow::_geometryKey {"gui.mainwindow.geometry"};
+const char* MainWindow::_stateKey {"gui.mainwindow.state"};
 
 
 
@@ -24,6 +28,7 @@ MainWindow::MainWindow(QWidget *parent):
    QMainWindow(parent)
 {
    setupGui();
+   restoreSettings();
    updateTitle();
    updateActions();
 }
@@ -207,8 +212,149 @@ void MainWindow::projectFileChanged()
 
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-   if ( isOkToContinue() ) event->accept();
+   if ( isOkToContinue() )
+   {
+      event->accept();
+      saveSettings();
+      deleteLater();
+   }
    else event->ignore();
+}
+
+
+
+
+
+
+void MainWindow::updateTitle()
+{
+   if ( _project ) setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->name()).arg(AbstractProjectFactory::instance().name(_project->type())));
+   else setWindowTitle(tr("Socrates' Reference"));
+}
+
+
+
+
+
+
+void MainWindow::updateActions()
+{
+   if ( _project ) _saveAction->setDisabled(_project->isNew());
+   else _saveAction->setDisabled(true);
+   _saveAsAction->setDisabled(!_project);
+   _closeAction->setDisabled(!_project);
+   _propertiesAction->setDisabled(!_project);
+}
+
+
+
+
+
+
+bool MainWindow::isOkToContinue()
+{
+   if ( !_project || !_project->isModified() ) return true;
+   QMessageBox confirm;
+   confirm.setWindowTitle(tr("Unsaved Project Changes"));
+   confirm.setText(tr("The currently open project has unsaved changes. Closing the project will cause all unsaved changes to be lost!"));
+   confirm.setIcon(QMessageBox::Question);
+   confirm.setStandardButtons(QMessageBox::Save|QMessageBox::Cancel|QMessageBox::Discard);
+   int answer = confirm.exec();
+   switch (answer)
+   {
+   case QMessageBox::Cancel:
+      return false;
+   case QMessageBox::Save:
+      if ( _project->isNew() ) return saveAs();
+      else return save();
+      break;
+   }
+   return true;
+}
+
+
+
+
+
+
+bool MainWindow::saveAs()
+{
+   if ( !_project ) return false;
+   QFileDialog fileDialog(nullptr,tr("Save Project"),"",tr("Socrates' Reference File (*.scr)"));
+   fileDialog.setAcceptMode(QFileDialog::AcceptSave);
+   if ( !fileDialog.exec() ) return false;
+   QStringList files = fileDialog.selectedFiles();
+   const QString path = files.constFirst();
+   try
+   {
+      _project->saveAs(path);
+   }
+   catch (Exception::Base e)
+   {
+      showException(tr("An error occured while attempting to save the project."),e);
+      return false;
+   }
+   updateActions();
+   return true;
+}
+
+
+
+
+
+
+bool MainWindow::save()
+{
+   if ( !_project ) return false;
+   try
+   {
+      _project->save();
+   }
+   catch (Exception::Base e)
+   {
+      showException(tr("An error occured while attempting to save the project."),e);
+      return false;
+   }
+   return true;
+}
+
+
+
+
+
+
+void MainWindow::showException(const QString& text, const Exception::Base& exception) const
+{
+   QMessageBox info;
+   info.setWindowTitle(exception.title());
+   info.setText(text);
+   info.setInformativeText(exception.details());
+   info.setIcon(QMessageBox::Warning);
+   info.exec();
+}
+
+
+
+
+
+
+void MainWindow::restoreSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   restoreGeometry(settings.value(_geometryKey).toByteArray());
+   restoreState(settings.value(_stateKey).toByteArray());
+}
+
+
+
+
+
+
+void MainWindow::saveSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   settings.setValue(_geometryKey,saveGeometry());
+   settings.setValue(_stateKey,saveState());
 }
 
 
@@ -363,116 +509,4 @@ void MainWindow::setupView()
 {
    _view = new BlockView(this);
    setCentralWidget(_view);
-}
-
-
-
-
-
-
-void MainWindow::updateTitle()
-{
-   if ( _project ) setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->name()).arg(AbstractProjectFactory::instance().name(_project->type())));
-   else setWindowTitle(tr("Socrates' Reference"));
-}
-
-
-
-
-
-
-void MainWindow::updateActions()
-{
-   if ( _project ) _saveAction->setDisabled(_project->isNew());
-   else _saveAction->setDisabled(true);
-   _saveAsAction->setDisabled(!_project);
-   _closeAction->setDisabled(!_project);
-   _propertiesAction->setDisabled(!_project);
-}
-
-
-
-
-
-
-bool MainWindow::isOkToContinue()
-{
-   if ( !_project || !_project->isModified() ) return true;
-   QMessageBox confirm;
-   confirm.setWindowTitle(tr("Unsaved Project Changes"));
-   confirm.setText(tr("The currently open project has unsaved changes. Closing the project will cause all unsaved changes to be lost!"));
-   confirm.setIcon(QMessageBox::Question);
-   confirm.setStandardButtons(QMessageBox::Save|QMessageBox::Cancel|QMessageBox::Discard);
-   int answer = confirm.exec();
-   switch (answer)
-   {
-   case QMessageBox::Cancel:
-      return false;
-   case QMessageBox::Save:
-      if ( _project->isNew() ) return saveAs();
-      else return save();
-      break;
-   }
-   return true;
-}
-
-
-
-
-
-
-bool MainWindow::saveAs()
-{
-   if ( !_project ) return false;
-   QFileDialog fileDialog(nullptr,tr("Save Project"),"",tr("Socrates' Reference File (*.scr)"));
-   fileDialog.setAcceptMode(QFileDialog::AcceptSave);
-   if ( !fileDialog.exec() ) return false;
-   QStringList files = fileDialog.selectedFiles();
-   const QString path = files.constFirst();
-   try
-   {
-      _project->saveAs(path);
-   }
-   catch (Exception::Base e)
-   {
-      showException(tr("An error occured while attempting to save the project."),e);
-      return false;
-   }
-   updateActions();
-   return true;
-}
-
-
-
-
-
-
-bool MainWindow::save()
-{
-   if ( !_project ) return false;
-   try
-   {
-      _project->save();
-   }
-   catch (Exception::Base e)
-   {
-      showException(tr("An error occured while attempting to save the project."),e);
-      return false;
-   }
-   return true;
-}
-
-
-
-
-
-
-void MainWindow::showException(const QString& text, const Exception::Base& exception) const
-{
-   QMessageBox info;
-   info.setWindowTitle(exception.title());
-   info.setText(text);
-   info.setInformativeText(exception.details());
-   info.setIcon(QMessageBox::Warning);
-   info.exec();
 }

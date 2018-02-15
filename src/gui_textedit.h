@@ -22,6 +22,8 @@ namespace Gui
       bool _spellCheckEnabled {true};
       bool _dialogPopupEnabled {true};
       Highlighter* _spellHighliter;
+   private:
+      static const char* _defaultLang;
    };
 }
 

@@ -19,6 +19,7 @@ namespace CppQt
          Q_OBJECT
       public:
          explicit TypeListDialog(Namespace* block, QWidget* parent = nullptr);
+         virtual ~TypeListDialog() override final;
       private slots:
          void itemDoubleClicked(QListWidgetItem* item);
          void addClicked();
@@ -27,10 +28,13 @@ namespace CppQt
          void applyClicked();
       private:
          bool isDuplicate(const QString& name);
+         void restoreSettings();
+         void saveSettings();
          void setupGui();
          QLayout* setupTop();
          QLayout* setupTopButtons();
          QLayout* setupBottomButtons();
+         static const char* _geometryKey;
          Namespace* _block;
          QListWidget* _list;
       };

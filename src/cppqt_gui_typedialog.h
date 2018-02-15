@@ -18,15 +18,19 @@ namespace CppQt
       public:
          explicit TypeDialog(QWidget* parent = nullptr);
          explicit TypeDialog(const QString& name, QWidget* parent = nullptr);
+         virtual ~TypeDialog() override final;
          QString name();
          void setName(const QString& name);
          static bool isValidTypeString(const QString& input);
       private slots:
          void textChanged(const QString& text);
       private:
+         void restoreSettings();
+         void saveSettings();
          void setupGui();
          void setupLineEdit();
          QLayout* setupButtons();
+         static const char* _geometryKey;
          QPushButton* _ok;
          QLineEdit* _text;
       };

@@ -3,13 +3,16 @@
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QVBoxLayout>
+#include <QSettings>
 #include <exception.h>
 #include "cppqt_gui_typedialog.h"
 #include "cppqt_common.h"
+#include "application.h"
 
 
 
 using namespace CppQt::Gui;
+const char* TypeDialog::_geometryKey {"cppqt.gui.typedialog.geometry"};
 
 
 
@@ -20,6 +23,7 @@ TypeDialog::TypeDialog(QWidget* parent):
    QDialog(parent)
 {
    setupGui();
+   restoreSettings();
 }
 
 
@@ -31,7 +35,18 @@ TypeDialog::TypeDialog(const QString& name, QWidget* parent):
    QDialog(parent)
 {
    setupGui();
+   restoreSettings();
    setName(name);
+}
+
+
+
+
+
+
+TypeDialog::~TypeDialog()
+{
+   saveSettings();
 }
 
 
@@ -92,6 +107,28 @@ void TypeDialog::textChanged(const QString& text)
 {
    Q_UNUSED(text)
    _ok->setDisabled(!isValidTypeString(text));
+}
+
+
+
+
+
+
+void TypeDialog::restoreSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   restoreGeometry(settings.value(_geometryKey).toByteArray());
+}
+
+
+
+
+
+
+void TypeDialog::saveSettings()
+{
+   QSettings settings(Application::_companyKey,Application::_programKey);
+   settings.setValue(_geometryKey,saveGeometry());
 }
 
 
