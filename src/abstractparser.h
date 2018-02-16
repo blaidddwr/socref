@@ -12,14 +12,14 @@ class AbstractParser : public QObject
 {
    Q_OBJECT
 public:
-   AbstractParser() = default;
-   AbstractParser(AbstractParser* parent);
+   explicit AbstractParser() = default;
+   explicit AbstractParser(AbstractParser* parent);
    virtual ~AbstractParser();
    void execute(QFile* file);
 protected:
    virtual AbstractParser* readLine(const QString& line) = 0;
    virtual void makeOutput() = 0;
-   void addLine(const QString& line);
+   void addLine(const QString& line = QString(), int indent = 0);
 private:
    void read(QFile* file);
    void processInput();

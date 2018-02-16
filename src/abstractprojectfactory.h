@@ -1,5 +1,6 @@
 #ifndef ABSTRACTPROJECTFACTORY_H
 #define ABSTRACTPROJECTFACTORY_H
+#include <memory>
 #include <QString>
 #include "singletonfactory.h"
 #include "global.h"
@@ -13,7 +14,7 @@ public:
    virtual QString name(int type) const = 0;
    virtual QString defaultFilters(int type) const = 0;
    virtual const AbstractBlockFactory& blockFactory(int type) const = 0;
-   virtual const AbstractParserFactory& parserFactory(int type) const = 0;
+   virtual std::unique_ptr<AbstractParserFactory> parserFactory(int type, AbstractBlock* root) const = 0;
 };
 
 

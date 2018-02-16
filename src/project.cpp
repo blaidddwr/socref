@@ -6,6 +6,7 @@
 #include <QDomDocument>
 #include "project.h"
 #include "abstractprojectfactory.h"
+#include "abstractparserfactory.h"
 #include "abstractblockfactory.h"
 #include "abstractblock.h"
 #include "blockmodel.h"
@@ -297,7 +298,7 @@ BlockModel* Project::model() const
 
 std::unique_ptr<ScanThread> Project::prepareScanner() const
 {
-   return unique_ptr<ScanThread>(new ScanThread(AbstractProjectFactory::instance().parserFactory(_type),_scanDirectory,_scanFilters.split(' ')));
+   return unique_ptr<ScanThread>(new ScanThread(AbstractProjectFactory::instance().parserFactory(_type,_root),_scanDirectory,_scanFilters.split(' ')));
 }
 
 

@@ -16,10 +16,11 @@ using namespace std;
 
 
 
-ScanThread::ScanThread(const AbstractParserFactory& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent):
+ScanThread::ScanThread(unique_ptr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent):
    QThread(parent),
-   _factory(factory)
+   _factory(factory.get())
 {
+   factory.release()->setParent(this);
    buildList(scanDirectory,filters);
 }
 
@@ -49,7 +50,7 @@ void ScanThread::run()
          {
             return;
          }
-         unique_ptr<AbstractParser> parser {_factory.makeParser(_list.at(i).completeBaseName(),_list.at(i).suffix())};
+         unique_ptr<AbstractParser> parser {_factory->makeParser(_list.at(i).completeBaseName(),_list.at(i).suffix())};
          if ( parser )
          {
             QFile file(_list.at(i).canonicalFilePath());

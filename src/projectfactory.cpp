@@ -6,6 +6,10 @@
 
 
 
+using namespace std;
+
+
+
 
 
 
@@ -67,11 +71,11 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 
 
 
-const AbstractParserFactory& ProjectFactory::parserFactory(int type) const
+std::unique_ptr<AbstractParserFactory> ProjectFactory::parserFactory(int type, AbstractBlock* root) const
 {
    switch (type)
    {
-   case CppQtType: return CppQt::ParserFactory::instance();
+   case CppQtType: return unique_ptr<AbstractParserFactory>(new CppQt::ParserFactory(root));
    default:
       {
          Exception::InvalidArgument e;

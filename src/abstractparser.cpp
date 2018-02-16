@@ -55,9 +55,11 @@ void AbstractParser::execute(QFile* file)
 
 
 
-void AbstractParser::addLine(const QString& line)
+void AbstractParser::addLine(const QString& line, int indent)
 {
-   *_output << line;
+   QString whitespace;
+   while ( indent-- > 0 ) whitespace.append(' ');
+   *_output << whitespace.append(line);
 }
 
 
@@ -113,19 +115,22 @@ void AbstractParser::processOutput()
 
 void AbstractParser::write(QFile* file)
 {
-   if ( !file->resize(0) )
-   {
-      Exception::SystemError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed truncating file: %1").arg(file->errorString()));
-      throw e;
-   }
    QString new_ {_output->join('\n').append('\n')};
-   if ( _origional != new_ && file->write(new_.toLocal8Bit()) == -1 )
+   if ( _origional != new_ )
    {
-      Exception::SystemError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed writing to file: %1").arg(file->errorString()));
-      throw e;
+      if ( !file->resize(0) )
+      {
+         Exception::SystemError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Failed truncating file: %1").arg(file->errorString()));
+         throw e;
+      }
+      if ( file->write(new_.toLocal8Bit()) == -1 )
+      {
+         Exception::SystemError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Failed writing to file: %1").arg(file->errorString()));
+         throw e;
+      }
    }
 }

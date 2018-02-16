@@ -83,7 +83,8 @@ SOURCES += \
     cppqt_parserfactory.cpp \
     scanthread.cpp \
     common.cpp \
-    gui_scandialog.cpp
+    gui_scandialog.cpp \
+    cppqt_parse_global.cpp
 
 HEADERS += \
     singleton.h \
@@ -167,7 +168,9 @@ HEADERS += \
     cppqt_parserfactory.h \
     scanthread.h \
     common.h \
-    gui_scandialog.h
+    gui_scandialog.h \
+    cppqt_parse.h \
+    cppqt_parse_global.h
 
 RESOURCES += \
     resources.qrc
