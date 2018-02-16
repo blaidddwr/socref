@@ -1,5 +1,6 @@
 #ifndef PROJECT_H
 #define PROJECT_H
+#include <memory>
 #include <QFileSystemWatcher>
 #include "global.h"
 
@@ -28,6 +29,7 @@ public:
    bool isNew() const;
    bool isModified() const;
    BlockModel* model() const;
+   std::unique_ptr<ScanThread> prepareScanner() const;
 signals:
    void nameChanged();
    void modified();

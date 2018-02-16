@@ -7,3 +7,4 @@ class AbstractProjectFactory;
 class BlockModel;
 class Project;
 class ProjectFactory;
+class ScanThread;

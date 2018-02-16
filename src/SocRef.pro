@@ -80,7 +80,10 @@ SOURCES += \
     cppqt_view_parent.cpp \
     cppqt_edit_parent.cpp \
     abstractparser.cpp \
-    cppqt_parserfactory.cpp
+    cppqt_parserfactory.cpp \
+    scanthread.cpp \
+    common.cpp \
+    gui_scandialog.cpp
 
 HEADERS += \
     singleton.h \
@@ -161,7 +164,10 @@ HEADERS += \
     cppqt_edit_parent.h \
     abstractparser.h \
     abstractparserfactory.h \
-    cppqt_parserfactory.h
+    cppqt_parserfactory.h \
+    scanthread.h \
+    common.h \
+    gui_scandialog.h
 
 RESOURCES += \
     resources.qrc

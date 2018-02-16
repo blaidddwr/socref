@@ -11,6 +11,9 @@
 #include "abstractblock.h"
 #include "gui_blockview.h"
 #include "application.h"
+#include "common.h"
+#include "gui_scandialog.h"
+#include "scanthread.h"
 
 
 
@@ -142,6 +145,18 @@ void MainWindow::propertiesTriggered()
 
 
 
+void MainWindow::scanTriggered()
+{
+   unique_ptr<ScanThread> scanner {_project->prepareScanner()};
+   ScanDialog dialog(scanner.get());
+   dialog.exec();
+}
+
+
+
+
+
+
 void MainWindow::closeTriggered()
 {
    if ( isOkToContinue() ) setProject(nullptr);
@@ -244,6 +259,7 @@ void MainWindow::updateActions()
    _saveAsAction->setDisabled(!_project);
    _closeAction->setDisabled(!_project);
    _propertiesAction->setDisabled(!_project);
+   _scanAction->setDisabled(!_project);
 }
 
 
@@ -323,21 +339,6 @@ bool MainWindow::save()
 
 
 
-void MainWindow::showException(const QString& text, const Exception::Base& exception) const
-{
-   QMessageBox info;
-   info.setWindowTitle(exception.title());
-   info.setText(text);
-   info.setInformativeText(exception.details());
-   info.setIcon(QMessageBox::Warning);
-   info.exec();
-}
-
-
-
-
-
-
 void MainWindow::restoreSettings()
 {
    QSettings settings(Application::_companyKey,Application::_programKey);
@@ -384,6 +385,7 @@ void MainWindow::setupActions()
    setupSaveAction();
    setupSaveAsAction();
    setupPropertiesAction();
+   setupScanAction();
    setupCloseAction();
    setupExitAction();
 }
@@ -460,6 +462,19 @@ void MainWindow::setupPropertiesAction()
 
 
 
+void MainWindow::setupScanAction()
+{
+   _scanAction = new QAction(tr("Scan"),this);
+   _scanAction->setStatusTip(tr("Scan and parse source files to add documentation."));
+   _scanAction->setShortcut(Qt::CTRL + Qt::Key_B);
+   connect(_scanAction,&QAction::triggered,this,&MainWindow::scanTriggered);
+}
+
+
+
+
+
+
 void MainWindow::setupCloseAction()
 {
    _closeAction = new QAction(tr("&Close"),this);
@@ -494,8 +509,11 @@ void MainWindow::setupMenus()
    fileMenu->addAction(_openAction);
    fileMenu->addAction(_saveAction);
    fileMenu->addAction(_saveAsAction);
-   fileMenu->addAction(_propertiesAction);
    fileMenu->addAction(_closeAction);
+   fileMenu->addSeparator();
+   fileMenu->addAction(_propertiesAction);
+   fileMenu->addAction(_scanAction);
+   fileMenu->addSeparator();
    fileMenu->addAction(_exitAction);
    menuBar()->addMenu(_view->contextMenu());
 }

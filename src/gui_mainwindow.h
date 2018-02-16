@@ -4,7 +4,6 @@
 #include <QMainWindow>
 #include "global.h"
 #include "gui.h"
-#include "exception_base.h"
 
 
 
@@ -22,6 +21,7 @@ namespace Gui
       void saveTriggered();
       void saveAsTriggered();
       void propertiesTriggered();
+      void scanTriggered();
       void closeTriggered();
       void projectNameChanged();
       void projectModified();
@@ -35,7 +35,6 @@ namespace Gui
       bool isOkToContinue();
       bool saveAs();
       bool save();
-      void showException(const QString& text, const Exception::Base& exception) const;
       void restoreSettings();
       void saveSettings();
       void setupGui();
@@ -45,6 +44,7 @@ namespace Gui
       void setupSaveAction();
       void setupSaveAsAction();
       void setupPropertiesAction();
+      void setupScanAction();
       void setupCloseAction();
       void setupExitAction();
       void setupMenus();
@@ -58,6 +58,7 @@ namespace Gui
       QAction* _saveAction;
       QAction* _saveAsAction;
       QAction* _propertiesAction;
+      QAction* _scanAction;
       QAction* _closeAction;
       QAction* _exitAction;
    };

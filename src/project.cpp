@@ -11,9 +11,11 @@
 #include "blockmodel.h"
 #include "exception.h"
 #include "domelementreader.h"
+#include "scanthread.h"
 
 
 
+using namespace std;
 const char* Project::_nameTag {"name"};
 const char* Project::_typeTag {"type"};
 const char* Project::_scandirectoryTag {"scandir"};
@@ -286,6 +288,16 @@ bool Project::isModified() const
 BlockModel* Project::model() const
 {
    return _model;
+}
+
+
+
+
+
+
+std::unique_ptr<ScanThread> Project::prepareScanner() const
+{
+   return unique_ptr<ScanThread>(new ScanThread(AbstractProjectFactory::instance().parserFactory(_type),_scanDirectory,_scanFilters.split(' ')));
 }
 
 
