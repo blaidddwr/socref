@@ -13,13 +13,12 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         Global(Namespace* root);
+         explicit Global(Namespace* root);
       protected:
-         virtual AbstractParser* readLine(const QString& line) override final;
+         virtual bool readLine(const QString& line) override final;
          virtual void makeOutput() override final;
       private:
          Namespace* _root;
-         QStringList _output;
       };
    }
 }

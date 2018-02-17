@@ -55,6 +55,23 @@ void AbstractParser::execute(QFile* file)
 
 
 
+void AbstractParser::stepIntoChild(AbstractParser* child)
+{
+   if ( child->parent() != this )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot step into abstract pointer that is not a child."));
+      throw e;
+   }
+   _child = child;
+}
+
+
+
+
+
+
 void AbstractParser::addLine(const QString& line, int indent)
 {
    QString whitespace;
@@ -91,8 +108,12 @@ void AbstractParser::processInput()
    *_index = 0;
    while ( *_index < _input->size() )
    {
-      if ( AbstractParser* child = readLine(_input->at(*_index)) ) child->processInput();
-      else ++(*_index);
+      if ( !readLine(_input->at((*_index)++)) ) return;
+      if ( _child )
+      {
+         _child->processInput();
+         _child = nullptr;
+      }
    }
 }
 

@@ -199,6 +199,16 @@ bool Class::hasSignalsOrSlots() const
 
 
 
+bool Class::hasTemplates() const
+{
+   return hasChildOfType(BlockFactory::TemplateType);
+}
+
+
+
+
+
+
 QList<Template*> Class::templates() const
 {
    QList<Template*> ret;

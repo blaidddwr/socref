@@ -22,10 +22,10 @@ Global::Global(Namespace* root):
 
 
 
-AbstractParser* Global::readLine(const QString& line)
+bool Global::readLine(const QString& line)
 {
    Q_UNUSED(line)
-   return nullptr;
+   return false;
 }
 
 

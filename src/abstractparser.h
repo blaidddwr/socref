@@ -17,8 +17,9 @@ public:
    virtual ~AbstractParser();
    void execute(QFile* file);
 protected:
-   virtual AbstractParser* readLine(const QString& line) = 0;
+   virtual bool readLine(const QString& line) = 0;
    virtual void makeOutput() = 0;
+   void stepIntoChild(AbstractParser* child);
    void addLine(const QString& line = QString(), int indent = 0);
 private:
    void read(QFile* file);
@@ -31,6 +32,7 @@ private:
    QStringList* _output {nullptr};
    AbstractParser* _root {nullptr};
    QList<AbstractParser*> _children;
+   AbstractParser* _child {nullptr};
 };
 
 

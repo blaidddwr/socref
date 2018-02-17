@@ -24,6 +24,7 @@ namespace CppQt
       bool isVirtual() const;
       bool isAbstract() const;
       bool hasSignalsOrSlots() const;
+      bool hasTemplates() const;
       QList<Template*> templates() const;
    signals:
       void bodyChanged();
