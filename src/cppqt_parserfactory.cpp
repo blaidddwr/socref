@@ -1,6 +1,7 @@
 #include <exception.h>
 #include "cppqt_parserfactory.h"
 #include "cppqt_parse_global.h"
+#include "cppqt_parse_commonheader.h"
 #include "abstractblock.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
@@ -43,7 +44,11 @@ std::unique_ptr<AbstractParser> ParserFactory::makeParser(const QString& name, c
          QStringList names {name.split('_')};
          if ( names.back() == QString("common") )
          {
-            ;
+            names.takeLast();
+            Namespace* item;
+            if ( names.isEmpty() ) item = _root;
+            else item = find(_root,&names);
+            if ( item && item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::CommonHeader(item));
          }
          else if ( Namespace* item = find(_root,&names) )
          {
@@ -61,6 +66,7 @@ std::unique_ptr<AbstractParser> ParserFactory::makeParser(const QString& name, c
 
 Namespace* ParserFactory::find(const Namespace* current, QStringList* names) const
 {
+   if ( names->isEmpty() ) return nullptr;
    const QList<AbstractBlock*> list {current->children()};
    for (auto child : list)
    {

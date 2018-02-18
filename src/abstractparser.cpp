@@ -7,6 +7,18 @@
 
 
 
+AbstractParser::AbstractParser():
+   _input(new QStringList),
+   _index(new int(0)),
+   _indent(new int(0)),
+   _output(new QStringList)
+{}
+
+
+
+
+
+
 AbstractParser::AbstractParser(AbstractParser* parent)
 {
    setParent(parent);
@@ -15,6 +27,7 @@ AbstractParser::AbstractParser(AbstractParser* parent)
    else _root = parent;
    _input = _root->_input;
    _index = _root->_index;
+   _indent = _root->_indent;
    _output = _root->_output;
 }
 
@@ -41,9 +54,7 @@ AbstractParser::~AbstractParser()
 void AbstractParser::execute(QFile* file)
 {
    if ( _root ) return;
-   _input = new QStringList;
-   _index = new int;
-   _output = new QStringList;
+   *_index = 0;
    read(file);
    processInput();
    processOutput();
@@ -72,11 +83,48 @@ void AbstractParser::stepIntoChild(AbstractParser* child)
 
 
 
-void AbstractParser::addLine(const QString& line, int indent)
+int AbstractParser::indent()
+{
+   return *_indent;
+}
+
+
+
+
+
+
+void AbstractParser::setIndent(int indent)
+{
+   if ( indent < 0 )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set indent to %1.").arg(indent));
+      throw e;
+   }
+   *_indent = indent;
+}
+
+
+
+
+
+
+void AbstractParser::addLine(const QString& line)
 {
    QString whitespace;
-   while ( indent-- > 0 ) whitespace.append(' ');
+   for (int i = 0; i < *_indent ;++i) whitespace.append(' ');
    *_output << whitespace.append(line);
+}
+
+
+
+
+
+
+void AbstractParser::addBlankLines(int count)
+{
+   while ( count-- > 0 ) *_output << QString();
 }
 
 
@@ -105,7 +153,6 @@ void AbstractParser::read(QFile* file)
 
 void AbstractParser::processInput()
 {
-   *_index = 0;
    while ( *_index < _input->size() )
    {
       if ( !readLine(_input->at((*_index)++)) ) return;
@@ -124,8 +171,8 @@ void AbstractParser::processInput()
 
 void AbstractParser::processOutput()
 {
-   qDeleteAll(_children);
    _output->clear();
+   *_indent = 0;
    makeOutput();
 }
 

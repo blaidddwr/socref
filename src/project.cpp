@@ -74,6 +74,15 @@ Project::Project(const QString &path):
       e.setDetails(tr("Could not find all required XML elements of project."));
       throw e;
    }
+   QDir directory {QFileInfo(path).dir()};
+   if ( !directory.cd(_scanDirectory) )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Scan directory in XML file is invalid; failed changing directory from %1 to %2.").arg(directory.canonicalPath()).arg(_scanDirectory));
+      throw e;
+   }
+   _scanDirectory = directory.canonicalPath();
    readTypeElement(type);
    makeRoot();
    _root->read(root);

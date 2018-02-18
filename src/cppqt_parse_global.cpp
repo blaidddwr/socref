@@ -35,8 +35,7 @@ bool Global::readLine(const QString& line)
 
 void Global::makeOutput()
 {
-   int indent {0};
-   addLine();
+   addBlankLines(1);
    QStack<AbstractBlock*> scope;
    AbstractBlock* parent {_root->parent()};
    while ( parent )
@@ -48,20 +47,20 @@ void Global::makeOutput()
    {
       if ( Namespace* name = qobject_cast<Namespace*>(scope.pop()) )
       {
-         addLine(QString("namespace ").append(name->Base::name()),indent);
-         addLine("{",indent);
-         indent += 3;
+         addLine(QString("namespace ").append(name->Base::name()));
+         addLine("{");
+         setIndent(indent() + 3);
       }
    }
    QList<Class*> list {_root->makeChildListOfType<Class>(BlockFactory::ClassType)};
    for (auto item : list)
    {
-      addLine(QString("class ").append(item->Base::name()).append(";"),indent);
+      addLine(QString("class ").append(item->Base::name()).append(";"));
    }
-   while ( indent > 0 )
+   while ( indent() > 0 )
    {
-      indent -= 3;
+      setIndent(indent() - 3);
       addLine("}");
    }
-   addLine();
+   addBlankLines(1);
 }

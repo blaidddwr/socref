@@ -18,10 +18,21 @@ using namespace CppQt::Parse;
 
 
 
-Function::Function(int indent, CppQt::Function* block):
-   _block(block),
-   _header(buildHeader()),
-   _baseIndent(indent)
+Function::Function(CppQt::Function* block, AbstractParser* parent):
+   AbstractParser(parent),
+   _block(block)
+{
+   _header = buildHeader();
+}
+
+
+
+
+
+
+Function::Function(const QString& header, AbstractParser* parent):
+   AbstractParser(parent),
+   _header(header)
 {}
 
 
@@ -29,10 +40,45 @@ Function::Function(int indent, CppQt::Function* block):
 
 
 
-Function::Function(int indent, const QString& header):
-   _header(header),
-   _baseIndent(indent)
-{}
+QString Function::header() const
+{
+   return _header;
+}
+
+
+
+
+
+
+bool Function::hasCode() const
+{
+   return !_initializers.isEmpty() || !_code.isEmpty();
+}
+
+
+
+
+
+
+void Function::makeOutput()
+{
+   if ( _block )
+   {
+      outputComments();
+   }
+   else
+   {
+      outputComment("!!! UNKNOWN FUNCTION !!!");
+   }
+   addLine(_header);
+   if ( _code.isEmpty() ) addLine("{}");
+   else
+   {
+      addLine("{");
+      for (auto line : _code) addLine(line);
+      addLine("}");
+   }
+}
 
 
 
@@ -56,27 +102,6 @@ bool Function::readLine(const QString& line)
    if ( _level == 0) _initializers << line;
    else _code << line;
    return true;
-}
-
-
-
-
-
-
-void Function::makeOutput()
-{
-   if ( _block )
-   {
-      outputComments();
-   }
-   else
-   {
-      outputComment("!!! UNKNOWN FUNCTION !!!");
-   }
-   addLine(_header,_baseIndent);
-   addLine("{",_baseIndent);
-   for (auto line : _code) addLine(line);
-   addLine("}",_baseIndent);
 }
 
 
@@ -187,7 +212,7 @@ void Function::appendNamespace(QString* line)
       e.setDetails(tr("Parent of function is type '%1' when it should be namespace.").arg(BlockFactory::instance().name(parent->type())));
       throw e;
    }
-   line->append(parent->Base::name()).append("::");
+   if ( parent->parent() ) line->append(parent->Base::name()).append("::");
 }
 
 
@@ -204,7 +229,7 @@ void Function::appendArguments(QString* line)
    {
       if ( first ) first = false;
       else line->append(", ");
-      line->append(argument->name());
+      line->append(argument->variableType()).append(" ").append(argument->Base::name());
    }
    line->append(")");
 }
@@ -220,6 +245,7 @@ void Function::outputComments()
    outputArgumentComments();
    outputReturnDescriptionComment();
    outputOperationComments();
+   addLine("///");
 }
 
 
@@ -249,7 +275,7 @@ void Function::outputReturnDescriptionComment()
    const QString returnDescription {_block->returnDescription()};
    if ( !returnDescription.isEmpty() )
    {
-      addLine("///",_baseIndent);
+      addLine("///");
       QString base {"@return "};
       int indent {base.size()};
       outputComment(base.append(returnDescription),indent);
@@ -266,12 +292,12 @@ void Function::outputOperationComments()
    const QStringList operations {_block->operations()};
    if ( !operations.isEmpty() )
    {
-      addLine("///",_baseIndent);
-      addLine("///",_baseIndent);
+      addLine("///");
+      addLine("///");
       outputComment("Steps of Operation:");
       for (int i = 0; i < operations.size() ;++i)
       {
-         addLine("///",_baseIndent);
+         addLine("///");
          QString base {QString::number(i + 1).append(". ")};
          int indent {base.size()};
          outputComment(base.append(operations.at(i)),indent);
@@ -284,45 +310,36 @@ void Function::outputOperationComments()
 
 
 
-/// blah blah
-///
-/// @param text big long text that goes
-///             really far like this.
-///
-/// @param indent another long winded
-///               thing that does this
-///               far.
-///
-/// @return NOTHING, you get NOTHING sir
-///         now good day SIR.
-///
-///
-/// Steps of Operation:
-///
-/// 1. blah blah blah
-///    blah
-///
-/// 2. Do this other thing
-///    haha
-void Function::outputComment(const QString& text, int indent)
+void Function::outputComment(const QString& text, int justified)
 {
-   bool first {true};
-   QStringList words {text.split(QRegExp("\\s"),QString::SkipEmptyParts)};
-   while ( !words.isEmpty() )
+   if ( justified < 0 )
    {
-      QString line {QString("/// ").append(words.takeFirst().append(" "))};
-      if ( !first )
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Invalid justification of %1.").arg(justified));
+      throw e;
+   }
+   if ( !text.isEmpty() )
+   {
+      bool first {true};
+      QStringList words {text.split(QRegExp("\\s+"))};
+      while ( !words.isEmpty() )
       {
-         for (int i = 0; i < indent ;++i) line.append(" ");
-      }
-      int total {_baseIndent + 4 + words.first().size()};
-      if ( first ) first = false;
-      else total += indent;
-      while ( !words.isEmpty() && (total + words.first().size() + 1) <= 100 )
-      {
-         total += words.first().size() + 1;
+         int total {indent() + 4 + words.first().size()};
+         QString line {"/// "};
+         if ( first ) first = false;
+         else
+         {
+            for (int i = 0; i < justified ;++i) line.append(" ");
+            total += justified;
+         }
          line.append(words.takeFirst()).append(" ");
+         while ( !words.isEmpty() && (total + words.first().size() + 1) <= 80 )
+         {
+            total += words.first().size() + 1;
+            line.append(words.takeFirst()).append(" ");
+         }
+         addLine(line);
       }
-      addLine(line,_baseIndent);
    }
 }

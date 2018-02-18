@@ -13,11 +13,13 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Function(int indent, CppQt::Function* block);
-         explicit Function(int indent, const QString& header);
+         explicit Function(CppQt::Function* block, AbstractParser* parent);
+         explicit Function(const QString& header, AbstractParser* parent);
+         QString header() const;
+         bool hasCode() const;
+         virtual void makeOutput() override final;
       protected:
          virtual bool readLine(const QString& line) override final;
-         virtual void makeOutput() override final;
       private:
          QString buildHeader();
          void appendScope(QString* line);
@@ -29,10 +31,9 @@ namespace CppQt
          void outputArgumentComments();
          void outputReturnDescriptionComment();
          void outputOperationComments();
-         void outputComment(const QString& text, int indent = 0);
+         void outputComment(const QString& text, int justified = 0);
          CppQt::Function* _block {nullptr};
          QString _header;
-         int _baseIndent;
          int _level {0};
          QStringList _code;
          QStringList _initializers;
