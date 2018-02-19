@@ -17,6 +17,7 @@ public:
    virtual ~AbstractParser();
    void execute(QFile* file);
 protected:
+   virtual void initialize();
    virtual bool readLine(const QString& line) = 0;
    virtual void makeOutput() = 0;
    void stepIntoChild(AbstractParser* child);

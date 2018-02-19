@@ -55,11 +55,20 @@ void AbstractParser::execute(QFile* file)
 {
    if ( _root ) return;
    *_index = 0;
+   initialize();
    read(file);
    processInput();
    processOutput();
    write(file);
 }
+
+
+
+
+
+
+void AbstractParser::initialize()
+{}
 
 
 

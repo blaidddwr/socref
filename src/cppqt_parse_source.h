@@ -1,13 +1,55 @@
 #ifndef CPPQT_PARSE_SOURCE_H
 #define CPPQT_PARSE_SOURCE_H
+#include "cppqt_parse_global.h"
+#include "cppqt_parse.h"
+#include "global.h"
 
 
 
-class Source
+namespace CppQt
 {
-public:
-   Source();
-};
+   namespace Parse
+   {
+      class Source : public Global
+      {
+         Q_OBJECT
+      public:
+         Source(Namespace* block);
+      protected:
+         virtual void initialize() override final;
+         virtual bool readLine(const QString& line) override final;
+         virtual void makeOutput() override;
+         virtual void readTop(const QString& line);
+         virtual void evaluateVariable(CppQt::Variable* block);
+         virtual void evaluateFunction(CppQt::Function* block);
+         virtual void evaluateOther(AbstractBlock* block);
+         void outputPreProcesser();
+         void outputMisc();
+         void outputDefinitions();
+         Function* findDefined(const QString& definition);
+         QList<AbstractBlock*> children() const;
+         void addPreProcess(const QString& line);
+         void addMisc(const QString& line);
+         void addVariable(Variable* parser);
+         void addDefined(Function* defined);
+         void addUndefined(Function* undefined);
+         bool isTemplate() const;
+      private:
+         void makeUsingName();
+         void buildAll();
+         Namespace* _block;
+         QList<AbstractBlock*> _children;
+         QStringList _preProcess;
+         QStringList _misc;
+         QList<Variable*> _variables;
+         QList<Function*> _defined;
+         QList<Function*> _undefined;
+         bool _pastTop {false};
+         bool _isTemplate;
+         QString _usingName;
+      };
+   }
+}
 
 
 

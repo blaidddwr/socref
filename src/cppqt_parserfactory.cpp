@@ -2,10 +2,11 @@
 #include "cppqt_parserfactory.h"
 #include "cppqt_parse_global.h"
 #include "cppqt_parse_header.h"
-#include "abstractblock.h"
+#include "cppqt_parse_source.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
+#include "abstractblock.h"
 
 
 
@@ -36,25 +37,26 @@ ParserFactory::ParserFactory(AbstractBlock* root):
 
 std::unique_ptr<AbstractParser> ParserFactory::makeParser(const QString& name, const QString& extension) const
 {
-   if ( extension == QString("h") )
+   if ( name == QString("global") && extension == QString("h") )
    {
-      if ( name == QString("global") ) return unique_ptr<AbstractParser>(new Parse::Global(_root));
-      else
+      return unique_ptr<AbstractParser>(new Parse::Global(_root));
+   }
+   else if ( !name.isEmpty() )
+   {
+      bool isCommon {false};
+      QStringList names {name.split('_')};
+      if ( names.back() == QString("common") )
       {
-         QStringList names {name.split('_')};
-         if ( names.back() == QString("common") )
-         {
-            names.takeLast();
-            Namespace* item;
-            if ( names.isEmpty() ) item = _root;
-            else item = find(_root,&names);
-            if ( item && item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::Header(item,name));
-         }
-         else if ( Namespace* item = find(_root,&names) )
-         {
-            if ( item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::Global(item));
-            else if ( item->type() == BlockFactory::ClassType )  return unique_ptr<AbstractParser>(new Parse::Header(item,name));
-         }
+         names.takeLast();
+         isCommon = true;
+      }
+      if ( extension == QString("h") )
+      {
+         return unique_ptr<AbstractParser>(find(_root,names,name,true,isCommon));
+      }
+      else if ( extension == QString("cpp") )
+      {
+         return unique_ptr<AbstractParser>(find(_root,names,name,false,isCommon));
       }
    }
    return nullptr;
@@ -64,23 +66,37 @@ std::unique_ptr<AbstractParser> ParserFactory::makeParser(const QString& name, c
 
 
 
-
-Namespace* ParserFactory::find(const Namespace* current, QStringList* names) const
+AbstractParser* ParserFactory::find(Namespace* current, const QStringList& names, const QString& name, bool isHeader, bool isCommon, int index) const
 {
-   if ( names->isEmpty() ) return nullptr;
+   if ( names.isEmpty() )
+   {
+      if ( isCommon )
+      {
+         if ( isHeader ) return new Parse::Header(current,name);
+         else return new Parse::Source(current);
+      }
+      else return nullptr;
+   }
    QList<AbstractBlock*> list {current->realChildren()};
    for (auto child : list)
    {
       if ( Namespace* next = qobject_cast<Namespace*>(child) )
       {
-         if ( next->Base::name().toLower() == names->first() )
+         if ( next->Base::name().toLower() == names.at(index) )
          {
-            names->takeFirst();
-            if ( names->isEmpty() )
+            if ( ++index == names.size() )
             {
-               return next;
+               if ( !isCommon && next->type() == BlockFactory::NamespaceType )
+               {
+                  return new Parse::Global(next);
+               }
+               else
+               {
+                  if ( isHeader ) return new Parse::Header(next,name);
+                  else return new Parse::Source(next);
+               }
             }
-            else return find(next,names);
+            else return find(next,names,name,isHeader,isCommon,index);
          }
       }
    }

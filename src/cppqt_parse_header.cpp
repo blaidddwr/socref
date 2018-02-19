@@ -22,45 +22,12 @@ using namespace CppQt::Parse;
 
 
 Header::Header(Namespace* block, const QString& name):
-   Global(block),
-   _block(block),
-   _isTemplate(block->hasAnyTemplates())
+   Source(block),
+   _block(block)
 {
    QString define {name.toUpper().append("_H")};
    _header1 = QString("#ifndef ").append(define);
    _header2 = QString("#define ").append(define);
-   buildDeclarations();
-}
-
-
-
-
-
-
-bool Header::readLine(const QString& line)
-{
-   if ( line.trimmed() == QString("{") ) _pastHeader = true;
-   if ( !_pastHeader )
-   {
-      if ( QRegExp("#.*").exactMatch(line) && line != _header1 && line != _header2 )
-      {
-         _preprocesser << line;
-      }
-      else if ( QRegExp("\\s*class\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*").exactMatch(line) )
-      {
-         _misc << line.trimmed();
-      }
-   }
-   if ( QRegExp(".*\\([a-zA-Z0-9_,<>: ]*\\):?\\s*").exactMatch(line) )
-   {
-      if ( Function* child = findDefined(line) ) stepIntoChild(child);
-      else
-      {
-         _undefined.append(new Function(line,this));
-         stepIntoChild(_undefined.back());
-      }
-   }
-   return true;
 }
 
 
@@ -73,9 +40,73 @@ void Header::makeOutput()
    outputHeader();
    outputPreProcesser();
    outputMisc();
+   addBlankLines(3);
+   beginNamespaceNesting();
    outputDeclarations();
    outputDefinitions();
+   endNamespaceNesting();
    outputFooter();
+}
+
+
+
+
+
+
+void Header::readTop(const QString& line)
+{
+   if ( QRegExp("#.*").exactMatch(line) && line != _header1 && line != _header2 )
+   {
+      addPreProcess(line);
+   }
+   else if ( QRegExp("\\s*class\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*").exactMatch(line) )
+   {
+      addMisc(line.trimmed());
+   }
+}
+
+
+
+
+
+
+void Header::evaluateVariable(CppQt::Variable* block)
+{
+   Variable* base {new Variable(block,this)};
+   _declarations.append(base);
+   if ( block->isStatic() && isTemplate() ) addVariable(base);
+}
+
+
+
+
+
+
+void Header::evaluateFunction(CppQt::Function* block)
+{
+   Function* base {new Function(block,this)};
+   _declarations.append(base);
+   if ( block->type() != BlockFactory::SignalType && ( isTemplate() || block->hasTemplates() ) && !block->isAbstract() )
+   {
+      addDefined(base);
+   }
+}
+
+
+
+
+
+
+void Header::evaluateOther(AbstractBlock* block)
+{
+   if ( CppQt::Access* valid = block->cast<CppQt::Access>(BlockFactory::AccessType) )
+   {
+      _declarations.append(new Access(valid,this));
+   }
+   else if ( CppQt::Enumeration* valid = block->cast<CppQt::Enumeration>(BlockFactory::EnumerationType) )
+   {
+      _declarations.append(new Enumeration(valid,this));
+   }
 }
 
 
@@ -94,40 +125,14 @@ void Header::outputHeader()
 
 
 
-void Header::outputPreProcesser()
-{
-   for (auto line : _preprocesser) addLine(line);
-}
-
-
-
-
-
-
-void Header::outputMisc()
-{
-   if ( !_misc.isEmpty() )
-   {
-      addBlankLines(3);
-      for (auto line : _misc) addLine(line);
-   }
-}
-
-
-
-
-
-
 void Header::outputDeclarations()
 {
    if ( !_declarations.isEmpty() )
    {
-      addBlankLines(3);
-      beginNamespaceNesting();
       Class* block;
       if ( ( block = qobject_cast<Class*>(_block) ) )
       {
-         if ( _isTemplate ) outputClassComments(block);
+         if ( isTemplate() ) outputClassComments(block);
          outputClassDeclaration(block);
          addLine("{");
          setIndent(indent() + 3);
@@ -173,86 +178,9 @@ void Header::outputClassDeclaration(Class* block)
 
 
 
-void Header::outputDefinitions()
-{
-   if ( !_variables.isEmpty() )
-   {
-      addBlankLines(3);
-      for (auto variable : qAsConst(_variables)) variable->outputDefinition();
-   }
-   for (auto function : _defined)
-   {
-      addBlankLines(6);
-      function->outputComments();
-      function->outputDefinition();
-   }
-   for (auto function : _undefined)
-   {
-      addBlankLines(6);
-      function->outputComments();
-      function->outputDefinition();
-   }
-   endNamespaceNesting();
-}
-
-
-
-
-
-
 void Header::outputFooter()
 {
    addBlankLines(1);
    addLine("#endif");
    addBlankLines(1);
-}
-
-
-
-
-
-
-Function* Header::findDefined(const QString& definition)
-{
-   for (auto function : qAsConst(_defined))
-   {
-      if ( function->isMatch(definition) ) return function;
-   }
-   return nullptr;
-}
-
-
-
-
-
-
-void Header::buildDeclarations()
-{
-   const QList<AbstractBlock*> list {_block->realChildren()};
-   for (auto child : list)
-   {
-      if ( CppQt::Access* valid = child->cast<CppQt::Access>(BlockFactory::AccessType) )
-      {
-         _declarations.append(new Access(valid,this));
-      }
-      else if ( CppQt::Enumeration* valid = child->cast<CppQt::Enumeration>(BlockFactory::EnumerationType) )
-      {
-         _declarations.append(new Enumeration(valid,this));
-      }
-      else if ( CppQt::Variable* valid = child->cast<CppQt::Variable>(BlockFactory::VariableType) )
-      {
-         Variable* base {new Variable(valid,this)};
-         _declarations.append(base);
-         if ( valid->isStatic() && _isTemplate ) _variables.append(base);
-      }
-      else if ( CppQt::Function* valid = qobject_cast<CppQt::Function*>(child) )
-      {
-         Function* base {new Function(valid,this)};
-         _declarations.append(base);
-         if ( valid->type() != BlockFactory::SignalType && ( _isTemplate || valid->hasTemplates() ) )
-         {
-            _defined.append(base);
-         }
-      }
-   }
 }
