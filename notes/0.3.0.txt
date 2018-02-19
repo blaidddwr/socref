@@ -1,0 +1,4 @@
+
+* Added support for scanning directories and parsing code files. This makes the code a slave to its documentation because this program produces the basic skeleton code along with all comments and changes it based off what is in the program's view.
+* Added C++/Qt support to scanning and parsing code.
+

@@ -1,0 +1,18 @@
+* Add && for C++/Qt types.
+
+* Remove addTitle and rename templateName in CppQt::Common.
+
+* Use new AbstractBlock::cast<T> where appropriate.
+
+* Remove unneeded qAsConst. (Especially when a list is returned from a function, perhaps return lists as pointers or references?)
+
+* Make it so templates and virtual functions do not mix in C++/Qt.
+
+* Cleanup really long conditional lines if they exceed 100 length.
+
+* Make qt object and templates mutually exclusive in C++/Qt.
+
+* Make it so you cannot add signals/slots if class is not qt object in C++/Qt.
+
+* Cleanup includes and sort by namespaces.
+
