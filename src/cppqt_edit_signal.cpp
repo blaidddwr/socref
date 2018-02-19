@@ -24,6 +24,6 @@ Signal::Signal(AbstractBlock* block, QWidget* parent):
 QLayout* Signal::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   Base::addDescription(ret);
+   Base::addFields(ret);
    return ret;
 }

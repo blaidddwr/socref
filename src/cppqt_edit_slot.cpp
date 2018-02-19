@@ -24,7 +24,7 @@ Slot::Slot(AbstractBlock* block, QWidget* parent):
 QLayout* Slot::layout()
 {
    QFormLayout* ret {new QFormLayout};
-   Base::addDescription(ret);
+   Base::addFields(ret);
    addOperations(ret);
    Function::addProperties(ret);
    return ret;

@@ -151,6 +151,7 @@ QList<AbstractBlock*> Class::realChildren() const
    const QList<Access*> accessList {makeChildListOfType<Access>(BlockFactory::AccessType)};
    for (auto child : accessList)
    {
+      ret << child;
       ret << child->children();
    }
    return ret;

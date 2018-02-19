@@ -14,7 +14,6 @@ namespace CppQt
          Q_OBJECT
       public:
          explicit Enumeration(CppQt::Enumeration* block, AbstractParser* parent);
-         virtual void outputDetachedComments() override final;
          virtual void outputComments() override final;
          virtual void outputDeclaration() override final;
          virtual void outputDefinition() override final;

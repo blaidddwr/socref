@@ -112,7 +112,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case AccessType: return unique_ptr<AbstractBlock>(new Access(Access::Type::Public));
    case OperatorType: return unique_ptr<AbstractBlock>(new Operator("void"));
    case SlotType: return unique_ptr<AbstractBlock>(new Slot("unnamed_slot"));
-   case SignalType: return unique_ptr<AbstractBlock>(new Signal("unnamed_slot"));
+   case SignalType: return unique_ptr<AbstractBlock>(new Signal("unnamed_signal"));
    case ConstructorType: return unique_ptr<AbstractBlock>(new Constructor);
    case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
    case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));

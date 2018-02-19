@@ -48,12 +48,12 @@ std::unique_ptr<AbstractParser> ParserFactory::makeParser(const QString& name, c
             Namespace* item;
             if ( names.isEmpty() ) item = _root;
             else item = find(_root,&names);
-            if ( item && item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::Header(item));
+            if ( item && item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::Header(item,name));
          }
          else if ( Namespace* item = find(_root,&names) )
          {
             if ( item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::Global(item));
-            else if ( item->type() == BlockFactory::ClassType )  return unique_ptr<AbstractParser>(new Parse::Header(item));
+            else if ( item->type() == BlockFactory::ClassType )  return unique_ptr<AbstractParser>(new Parse::Header(item,name));
          }
       }
    }

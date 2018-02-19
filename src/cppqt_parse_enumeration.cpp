@@ -22,14 +22,6 @@ Enumeration::Enumeration(CppQt::Enumeration* block, AbstractParser* parent):
 
 
 
-void Enumeration::outputDetachedComments()
-{}
-
-
-
-
-
-
 void Enumeration::outputComments()
 {}
 

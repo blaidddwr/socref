@@ -41,23 +41,19 @@ Function::Function(const QString& definition, AbstractParser* parent):
 
 
 
-void Function::outputDetachedComments()
-{}
-
-
-
-
-
-
 void Function::outputComments()
 {
    if ( _block )
    {
+      addLine("///");
       addLines(makeComment(_block->description()));
-      addLines(makeTemplateComments(_block));
-      outputArgumentComments();
-      outputReturnDescriptionComment();
-      outputOperationComments();
+      if ( _block->type() != BlockFactory::SignalType )
+      {
+         if ( _block->type() != BlockFactory::ConstructorType || _block->type() != BlockFactory::DestructorType || _block->type() != BlockFactory::SlotType ) addLines(makeTemplateComments(_block));
+         outputArgumentComments();
+         if ( _block->type() != BlockFactory::SlotType ) outputReturnDescriptionComment();
+         if ( !_block->isAbstract() ) outputOperationComments();
+      }
       addLine("///");
    }
    else addLine("/// !!! UNKNOWN FUNCTION !!!");
@@ -72,6 +68,7 @@ void Function::outputDeclaration()
 {
    if ( _block )
    {
+      if ( _block->isAbstract() || _block->type() == BlockFactory::SignalType ) outputComments();
       QString line {templateName(_block)};
       if ( _block->isVirtual() ) line.append("virtual ");
       line.append(getReturnValue()).append(getName()).append(getArguments(true));
@@ -92,7 +89,7 @@ void Function::outputDeclaration()
 
 void Function::outputDefinition()
 {
-   if ( _block )
+   if ( _block && _block->type() != BlockFactory::SignalType )
    {
       QString line;
       QString templateString {getTemplateDeclaration(_block)};
@@ -232,7 +229,8 @@ void Function::outputOperationComments()
 QString Function::getReturnValue()
 {
    QString ret;
-   if ( _block->type() != BlockFactory::ConstructorType && _block->type() != BlockFactory::DestructorType ) ret.append(_block->returnType()).append(" ");
+   if ( _block->type() == BlockFactory::SlotType || _block->type() == BlockFactory::SignalType ) ret = QString("void ");
+   else if ( _block->type() != BlockFactory::ConstructorType && _block->type() != BlockFactory::DestructorType ) ret.append(_block->returnType()).append(" ");
    return ret;
 }
 
