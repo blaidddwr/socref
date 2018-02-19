@@ -5,5 +5,7 @@ namespace CppQt
    {
       class Global;
       class Function;
+      class Base;
+      class Enumeration;
    }
 }

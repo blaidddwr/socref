@@ -7,6 +7,9 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_access.h"
 #include "cppqt_class.h"
+#include "cppqt_parse_common.h"
+#include "cppqt_parse_variable.h"
+#include "cppqt_parse_enumeration.h"
 
 
 
@@ -18,9 +21,10 @@ using namespace CppQt::Parse;
 
 
 Header::Header(Namespace* block):
+   Global(block),
    _block(block)
 {
-   buildDefined();
+   buildDeclarations();
 }
 
 
@@ -38,11 +42,10 @@ bool Header::readLine(const QString& line)
    }
    if ( QRegExp(".*\\([a-zA-Z0-9_,<>: ]*\\):?\\s*").exactMatch(line) )
    {
-      QString header {line.trimmed()};
-      if ( Function* child = findDefined(header) ) stepIntoChild(child);
+      if ( Function* child = findDefined(line) ) stepIntoChild(child);
       else
       {
-         _undefined.append(new Function(header,this));
+         _undefined.append(new Function(line,this));
          stepIntoChild(_undefined.back());
       }
    }
@@ -58,23 +61,8 @@ void Header::makeOutput()
 {
    outputPreProcesser();
    outputHeader();
-   addBlankLines(3);
-   beginNamespaceNesting(_block);
-   Class* block;
-   if ( ( block = qobject_cast<Class*>(_block) ) )
-   {
-      outputClassDefinition(block);
-      addLine("{");
-      setIndent(indent() + 3);
-   }
-   outputDeclarations(_block);
-   if ( block )
-   {
-      setIndent(indent() - 3);
-      addLine("};");
-   }
-   outputFunctions();
-   endNamespaceNesting();
+   outputDeclarations();
+   outputDefinitions();
    addBlankLines(1);
 }
 
@@ -107,36 +95,25 @@ void Header::outputHeader()
 
 
 
-void Header::outputClassDefinition(Class* block)
+void Header::outputDeclarations()
 {
-   QString line {"class "};
-   appendClass(block,&line,false);
-   addLine(line);
-}
-
-
-
-
-
-
-void Header::outputDeclarations(AbstractBlock* block)
-{
-   if ( Access* access = qobject_cast<Access*>(block) )
+   if ( !_declarations.isEmpty() )
    {
-      setIndent(indent() - 3);
-      addLine(Access::_typeNames.at(static_cast<int>(access->accessType())));
-      setIndent(indent() + 3);
-   }
-   const QList<AbstractBlock*> list {block->children()};
-   for (auto child : list)
-   {
-      if ( block->type() == BlockFactory::ClassType )
+      addBlankLines(3);
+      beginNamespaceNesting();
+      Class* block;
+      if ( ( block = qobject_cast<Class*>(_block) ) )
       {
-         if ( child->type() == BlockFactory::AccessType ) outputDeclarations(child);
+         outputClassDeclaration(block);
+         addLine("{");
+         setIndent(indent() + 3);
       }
-      else if ( child->type() == BlockFactory::VariableType ) outputVariable(qobject_cast<CppQt::Variable*>(child));
-      else if ( child->type() == BlockFactory::EnumerationType ) outputEnumeration(qobject_cast<CppQt::Enumeration*>(child));
-      else if ( CppQt::Function* func = qobject_cast<CppQt::Function*>(child) ) outputFunction(func);
+      for (auto declaration : qAsConst(_declarations)) declaration->outputDeclaration();
+      if ( block )
+      {
+         setIndent(indent() - 3);
+         addLine("};");
+      }
    }
 }
 
@@ -145,67 +122,38 @@ void Header::outputDeclarations(AbstractBlock* block)
 
 
 
-void Header::outputFunctions()
+void Header::outputClassDeclaration(Class* block)
 {
-   for (auto func : _defined)
-   {
-      addBlankLines(6);
-      func->makeOutput();
-   }
-   for (auto func : _undefined)
-   {
-      addBlankLines(6);
-      func->makeOutput();
-   }
-}
-
-
-
-
-
-
-void Header::outputVariable(const CppQt::Variable* block)
-{
-   addLine(variableDefinition(block,true));
-}
-
-
-
-
-
-
-void Header::outputFunction(const CppQt::Function* block)
-{
-   QString line {Base::functionDefinition(block,true,false,true,true)};
-   if ( !line.isEmpty() ) addLine(line.append(";"));
-}
-
-
-
-
-
-
-void Header::outputEnumeration(const Enumeration* block)
-{
-   if ( !block ) return;
-   QString line {"enum"};
-   if ( block->isClass() ) line.append(" class");
+   QString line;
+   QString templateString {getTemplateDeclaration(block)};
+   if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
+   line.append("class ");
+   QString scope {getClassScope(block->parent())};
+   if ( !scope.isEmpty() ) line.append(scope).append("::");
+   line.append(block->Base::name());
    addLine(line);
-   addLine("{");
-   setIndent(indent() + 3);
-   const QList<EnumValue*> list {block->makeChildListOfType<EnumValue>(BlockFactory::EnumValueType)};
-   bool first {true};
-   for (auto value : list)
+}
+
+
+
+
+
+
+void Header::outputDefinitions()
+{
+   for (auto function : _defined)
    {
-      QString line;
-      if ( first ) first = false;
-      else line.append(",");
-      line.append(value->Base::name());
-      if ( value->hasValue() ) line.append(" = ").append(value->value());
-      addLine(line);
+      addBlankLines(6);
+      function->outputComments();
+      function->outputDefinition();
    }
-   setIndent(indent() - 3);
-   addLine("}");
+   for (auto function : _undefined)
+   {
+      addBlankLines(6);
+      function->outputComments();
+      function->outputDefinition();
+   }
+   endNamespaceNesting();
 }
 
 
@@ -227,15 +175,19 @@ Function* Header::findDefined(const QString& definition)
 
 
 
-void Header::buildDefined()
+void Header::buildDeclarations()
 {
    bool isTemplate {_block->hasAnyTemplates()};
-   QList<AbstractBlock*> list {_block->realChildren()};
+   const QList<AbstractBlock*> list {_block->realChildren()};
    for (auto child : list)
    {
-      if ( CppQt::Function* func = qobject_cast<CppQt::Function*>(child) )
+      if ( CppQt::Variable* valid = child->cast<CppQt::Variable>(BlockFactory::VariableType) ) _declarations.append(new Variable(valid,this));
+      else if ( CppQt::Enumeration* valid = child->cast<CppQt::Enumeration>(BlockFactory::EnumerationType) ) _declarations.append(new Enumeration(valid,this));
+      else if ( CppQt::Function* valid = qobject_cast<CppQt::Function*>(child) )
       {
-         if ( isTemplate || func->hasTemplates() ) _defined.append(new Function(func,this));
+         Function* base {new Function(valid,this)};
+         _declarations.append(base);
+         if ( isTemplate || valid->hasTemplates() ) _defined.append(base);
       }
    }
 }

@@ -122,6 +122,16 @@ void AbstractParser::addLine(const QString& line)
 
 
 
+void AbstractParser::addLines(const QStringList& lines)
+{
+   for (auto line : lines) addLine(line);
+}
+
+
+
+
+
+
 void AbstractParser::addBlankLines(int count)
 {
    while ( count-- > 0 ) *_output << QString();

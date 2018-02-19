@@ -1,7 +1,8 @@
 #ifndef CPPQT_PARSE_HEADER_H
 #define CPPQT_PARSE_HEADER_H
-#include "cppqt_parse_base.h"
+#include "cppqt_parse_global.h"
 #include "cppqt_parse.h"
+#include "global.h"
 
 
 
@@ -9,7 +10,7 @@ namespace CppQt
 {
    namespace Parse
    {
-      class Header : public Base
+      class Header : public Global
       {
          Q_OBJECT
       public:
@@ -20,17 +21,15 @@ namespace CppQt
       private:
          void outputPreProcesser();
          void outputHeader();
-         void outputClassDefinition(Class* block);
-         void outputDeclarations(AbstractBlock* block);
-         void outputFunctions();
-         void outputVariable(const Variable* block);
-         void outputFunction(const CppQt::Function* block);
-         void outputEnumeration(const Enumeration* block);
+         void outputDeclarations();
+         void outputClassDeclaration(Class* block);
+         void outputDefinitions();
          Function* findDefined(const QString& definition);
-         void buildDefined();
+         void buildDeclarations();
          Namespace* _block;
          QStringList _preprocesser;
          QStringList _header;
+         QList<Base*> _declarations;
          QList<Function*> _defined;
          QList<Function*> _undefined;
          bool _pastHeader {false};

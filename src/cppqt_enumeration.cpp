@@ -3,6 +3,7 @@
 #include "cppqt_view_enumeration.h"
 #include "cppqt_edit_enumeration.h"
 #include "cppqt_blockfactory.h"
+#include "cppqt_enumvalue.h"
 #include "domelementreader.h"
 
 
@@ -110,6 +111,16 @@ void Enumeration::setClass(bool isClass)
       notifyOfNameChange();
       emit modified();
    }
+}
+
+
+
+
+
+
+QList<EnumValue*> Enumeration::values() const
+{
+   return makeChildListOfType<EnumValue>(BlockFactory::EnumValueType);
 }
 
 

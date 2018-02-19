@@ -1,6 +1,7 @@
 #ifndef CPPQT_PARSE_GLOBAL_H
 #define CPPQT_PARSE_GLOBAL_H
-#include "cppqt_parse_base.h"
+#include "abstractparser.h"
+#include "cppqt.h"
 
 
 
@@ -8,16 +9,19 @@ namespace CppQt
 {
    namespace Parse
    {
-      class Global : public Base
+      class Global : public AbstractParser
       {
          Q_OBJECT
       public:
-         explicit Global(Namespace* root);
+         explicit Global(Namespace* block);
       protected:
-         virtual bool readLine(const QString& line) override final;
-         virtual void makeOutput() override final;
+         virtual bool readLine(const QString& line) override;
+         virtual void makeOutput() override;
+         void beginNamespaceNesting();
+         void endNamespaceNesting();
       private:
-         Namespace* _root;
+         Namespace* _block;
+         int _depth {0};
       };
    }
 }

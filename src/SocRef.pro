@@ -87,7 +87,10 @@ SOURCES += \
     cppqt_parse_global.cpp \
     cppqt_parse_function.cpp \
     cppqt_parse_base.cpp \
-    cppqt_parse_header.cpp
+    cppqt_parse_header.cpp \
+    cppqt_parse_variable.cpp \
+    cppqt_parse_enumeration.cpp \
+    cppqt_parse_common.cpp
 
 HEADERS += \
     singleton.h \
@@ -176,7 +179,10 @@ HEADERS += \
     cppqt_parse_global.h \
     cppqt_parse_function.h \
     cppqt_parse_base.h \
-    cppqt_parse_header.h
+    cppqt_parse_header.h \
+    cppqt_parse_variable.h \
+    cppqt_parse_enumeration.h \
+    cppqt_parse_common.h
 
 RESOURCES += \
     resources.qrc

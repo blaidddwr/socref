@@ -1,6 +1,7 @@
 #ifndef CPPQT_ENUMERATION_H
 #define CPPQT_ENUMERATION_H
 #include "cppqt_base.h"
+#include "cppqt.h"
 
 
 
@@ -20,6 +21,7 @@ namespace CppQt
       virtual std::unique_ptr<Gui::AbstractEdit> makeEdit() override final;
       bool isClass() const;
       void setClass(bool isClass);
+      QList<EnumValue*> values() const;
    protected:
       virtual void readData(const QDomElement& data) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;

@@ -23,6 +23,7 @@ protected:
    int indent();
    void setIndent(int indent);
    void addLine(const QString& line);
+   void addLines(const QStringList& lines);
    void addBlankLines(int count);
 private:
    void read(QFile* file);
