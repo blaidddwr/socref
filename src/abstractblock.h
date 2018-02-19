@@ -3,6 +3,7 @@
 #include <memory>
 #include <QObject>
 #include <QDomElement>
+#include <exception.h>
 #include "global.h"
 #include "gui.h"
 
@@ -38,6 +39,8 @@ public:
    bool hasChildOfType(int type) const;
    bool hasChildOfTypes(const QList<int>& types) const;
    template<class T> QList<T*> makeChildListOfType(int type) const;
+   template<class T> T* cast(int type);
+   template<class T> const T* cast(int type) const;
 protected:
    virtual void readData(const QDomElement& data) = 0;
    virtual QDomElement writeData(QDomDocument& document) const = 0;
@@ -76,12 +79,51 @@ template<class T> QList<T*> AbstractBlock::makeChildListOfType(int type) const
    const QList<AbstractBlock*> list {children()};
    for (auto child : list)
    {
-      if ( child->type() == type )
-      {
-         if ( T* variable = qobject_cast<T*>(child) ) ret.append(variable);
-      }
+      if ( T* variable = child->cast<T>(type) ) ret.append(variable);
    }
    return ret;
+}
+
+
+
+
+
+
+template<class T> T* AbstractBlock::cast(int beType)
+{
+   if ( type() == beType )
+   {
+      if ( T* ret = qobject_cast<T*>(this) ) return ret;
+      else
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Failed casting object to required type."));
+         throw e;
+      }
+   }
+   return nullptr;
+}
+
+
+
+
+
+
+template<class T> const T* AbstractBlock::cast(int beType) const
+{
+   if ( type() == beType )
+   {
+      if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
+      else
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Failed casting object to required type."));
+         throw e;
+      }
+   }
+   return nullptr;
 }
 
 

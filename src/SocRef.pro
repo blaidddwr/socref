@@ -86,8 +86,8 @@ SOURCES += \
     gui_scandialog.cpp \
     cppqt_parse_global.cpp \
     cppqt_parse_function.cpp \
-    cppqt_parse_commonheader.cpp \
-    cppqt_parse_base.cpp
+    cppqt_parse_base.cpp \
+    cppqt_parse_header.cpp
 
 HEADERS += \
     singleton.h \
@@ -175,8 +175,8 @@ HEADERS += \
     cppqt_parse.h \
     cppqt_parse_global.h \
     cppqt_parse_function.h \
-    cppqt_parse_commonheader.h \
-    cppqt_parse_base.h
+    cppqt_parse_base.h \
+    cppqt_parse_header.h
 
 RESOURCES += \
     resources.qrc

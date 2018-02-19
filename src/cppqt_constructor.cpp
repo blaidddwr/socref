@@ -82,26 +82,6 @@ std::unique_ptr<AbstractEdit> Constructor::makeEdit()
 
 
 
-void Constructor::classNameChanged()
-{
-   notifyOfNameChange();
-}
-
-
-
-
-
-
-std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
-{
-   return unique_ptr<AbstractBlock>(new Constructor);
-}
-
-
-
-
-
-
 QString Constructor::className() const
 {
    AbstractBlock* access {parent()};
@@ -123,4 +103,24 @@ QString Constructor::className() const
       e.setDetails(tr("Grandparent does not contain CppQt::Base class."));
       throw e;
    }
+}
+
+
+
+
+
+
+void Constructor::classNameChanged()
+{
+   notifyOfNameChange();
+}
+
+
+
+
+
+
+std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
+{
+   return unique_ptr<AbstractBlock>(new Constructor);
 }

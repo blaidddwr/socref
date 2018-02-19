@@ -1,7 +1,6 @@
 #ifndef CPPQT_PARSE_GLOBAL_H
 #define CPPQT_PARSE_GLOBAL_H
-#include "abstractparser.h"
-#include "cppqt.h"
+#include "cppqt_parse_base.h"
 
 
 
@@ -9,7 +8,7 @@ namespace CppQt
 {
    namespace Parse
    {
-      class Global : public AbstractParser
+      class Global : public Base
       {
          Q_OBJECT
       public:

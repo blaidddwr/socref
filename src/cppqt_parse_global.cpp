@@ -36,31 +36,12 @@ bool Global::readLine(const QString& line)
 void Global::makeOutput()
 {
    addBlankLines(1);
-   QStack<AbstractBlock*> scope;
-   AbstractBlock* parent {_root->parent()};
-   while ( parent )
-   {
-      scope.push(parent);
-      parent = parent->parent();
-   }
-   while ( !scope.isEmpty() )
-   {
-      if ( Namespace* name = qobject_cast<Namespace*>(scope.pop()) )
-      {
-         addLine(QString("namespace ").append(name->Base::name()));
-         addLine("{");
-         setIndent(indent() + 3);
-      }
-   }
+   beginNamespaceNesting(_root);
    QList<Class*> list {_root->makeChildListOfType<Class>(BlockFactory::ClassType)};
    for (auto item : list)
    {
       addLine(QString("class ").append(item->Base::name()).append(";"));
    }
-   while ( indent() > 0 )
-   {
-      setIndent(indent() - 3);
-      addLine("}");
-   }
+   endNamespaceNesting();
    addBlankLines(1);
 }

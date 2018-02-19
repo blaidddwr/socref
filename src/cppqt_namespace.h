@@ -17,6 +17,8 @@ namespace CppQt
       virtual QList<int> buildList() const override;
       virtual std::unique_ptr<QWidget> makeView() const override;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      virtual bool hasAnyTemplates() const;
+      virtual QList<AbstractBlock*> realChildren() const;
       QStringList types() const;
       void setTypes(const QStringList& types);
       Namespace* root();

@@ -1,7 +1,7 @@
 #include <exception.h>
 #include "cppqt_parserfactory.h"
 #include "cppqt_parse_global.h"
-#include "cppqt_parse_commonheader.h"
+#include "cppqt_parse_header.h"
 #include "abstractblock.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
@@ -48,11 +48,12 @@ std::unique_ptr<AbstractParser> ParserFactory::makeParser(const QString& name, c
             Namespace* item;
             if ( names.isEmpty() ) item = _root;
             else item = find(_root,&names);
-            if ( item && item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::CommonHeader(item));
+            if ( item && item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::Header(item));
          }
          else if ( Namespace* item = find(_root,&names) )
          {
             if ( item->type() == BlockFactory::NamespaceType ) return unique_ptr<AbstractParser>(new Parse::Global(item));
+            else if ( item->type() == BlockFactory::ClassType )  return unique_ptr<AbstractParser>(new Parse::Header(item));
          }
       }
    }
@@ -67,7 +68,7 @@ std::unique_ptr<AbstractParser> ParserFactory::makeParser(const QString& name, c
 Namespace* ParserFactory::find(const Namespace* current, QStringList* names) const
 {
    if ( names->isEmpty() ) return nullptr;
-   const QList<AbstractBlock*> list {current->children()};
+   QList<AbstractBlock*> list {current->realChildren()};
    for (auto child : list)
    {
       if ( Namespace* next = qobject_cast<Namespace*>(child) )

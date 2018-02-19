@@ -125,6 +125,41 @@ unique_ptr<AbstractEdit> Class::makeEdit()
 
 
 
+bool Class::hasAnyTemplates() const
+{
+   if ( hasTemplates() ) return true;
+   AbstractBlock* back {parent()};
+   while ( back && back->type() != BlockFactory::NamespaceType )
+   {
+      if ( Class* back_ = qobject_cast<Class*>(back) )
+      {
+         if ( back_->hasTemplates() ) return true;
+      }
+   }
+   return false;
+}
+
+
+
+
+
+
+QList<AbstractBlock*> Class::realChildren() const
+{
+   QList<AbstractBlock*> ret;
+   const QList<Access*> accessList {makeChildListOfType<Access>(BlockFactory::AccessType)};
+   for (auto child : accessList)
+   {
+      ret << child->children();
+   }
+   return ret;
+}
+
+
+
+
+
+
 bool Class::isQtObject() const
 {
    return _qtObject;
