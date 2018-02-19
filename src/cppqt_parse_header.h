@@ -22,6 +22,8 @@ namespace CppQt
          void outputPreProcesser();
          void outputHeader();
          void outputDeclarations();
+         void outputClassComments(Class* block);
+         void outputComments();
          void outputClassDeclaration(Class* block);
          void outputDefinitions();
          Function* findDefined(const QString& definition);
@@ -30,9 +32,11 @@ namespace CppQt
          QStringList _preprocesser;
          QStringList _header;
          QList<Base*> _declarations;
+         QList<Variable*> _variables;
          QList<Function*> _defined;
          QList<Function*> _undefined;
          bool _pastHeader {false};
+         bool _isTemplate;
       };
    }
 }

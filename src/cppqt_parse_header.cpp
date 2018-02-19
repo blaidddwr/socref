@@ -22,7 +22,8 @@ using namespace CppQt::Parse;
 
 Header::Header(Namespace* block):
    Global(block),
-   _block(block)
+   _block(block),
+   _isTemplate(block->hasAnyTemplates())
 {
    buildDeclarations();
 }
@@ -62,6 +63,7 @@ void Header::makeOutput()
    outputPreProcesser();
    outputHeader();
    outputDeclarations();
+   outputComments();
    outputDefinitions();
    addBlankLines(1);
 }
@@ -104,6 +106,7 @@ void Header::outputDeclarations()
       Class* block;
       if ( ( block = qobject_cast<Class*>(_block) ) )
       {
+         if ( _isTemplate ) outputClassComments(block);
          outputClassDeclaration(block);
          addLine("{");
          setIndent(indent() + 3);
@@ -122,15 +125,41 @@ void Header::outputDeclarations()
 
 
 
+void Header::outputClassComments(Class* block)
+{
+   addLines(makeComment(block->description()));
+   addLines(makeTemplateComments(_block));
+   addLine("///");
+}
+
+
+
+
+
+
+void Header::outputComments()
+{
+   if ( _isTemplate )
+   {
+      for (Base* base : qAsConst(_declarations))
+      {
+         addBlankLines(1);
+         base->outputDetachedComments();
+      }
+   }
+}
+
+
+
+
+
+
 void Header::outputClassDeclaration(Class* block)
 {
    QString line;
    QString templateString {getTemplateDeclaration(block)};
    if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
-   line.append("class ");
-   QString scope {getClassScope(block->parent())};
-   if ( !scope.isEmpty() ) line.append(scope).append("::");
-   line.append(block->Base::name());
+   line.append("class ").append(getClassScope(block->parent())).append(block->Base::name());
    addLine(line);
 }
 
@@ -141,6 +170,11 @@ void Header::outputClassDeclaration(Class* block)
 
 void Header::outputDefinitions()
 {
+   if ( !_variables.isEmpty() )
+   {
+      addBlankLines(3);
+      for (auto variable : qAsConst(_variables)) variable->outputDefinition();
+   }
    for (auto function : _defined)
    {
       addBlankLines(6);
@@ -177,17 +211,21 @@ Function* Header::findDefined(const QString& definition)
 
 void Header::buildDeclarations()
 {
-   bool isTemplate {_block->hasAnyTemplates()};
    const QList<AbstractBlock*> list {_block->realChildren()};
    for (auto child : list)
    {
-      if ( CppQt::Variable* valid = child->cast<CppQt::Variable>(BlockFactory::VariableType) ) _declarations.append(new Variable(valid,this));
-      else if ( CppQt::Enumeration* valid = child->cast<CppQt::Enumeration>(BlockFactory::EnumerationType) ) _declarations.append(new Enumeration(valid,this));
+      if ( CppQt::Enumeration* valid = child->cast<CppQt::Enumeration>(BlockFactory::EnumerationType) ) _declarations.append(new Enumeration(valid,this));
+      else if ( CppQt::Variable* valid = child->cast<CppQt::Variable>(BlockFactory::VariableType) )
+      {
+         Variable* base {new Variable(valid,this)};
+         _declarations.append(base);
+         if ( _isTemplate ) _variables.append(base);
+      }
       else if ( CppQt::Function* valid = qobject_cast<CppQt::Function*>(child) )
       {
          Function* base {new Function(valid,this)};
          _declarations.append(base);
-         if ( isTemplate || valid->hasTemplates() ) _defined.append(base);
+         if ( _isTemplate || valid->hasTemplates() ) _defined.append(base);
       }
    }
 }

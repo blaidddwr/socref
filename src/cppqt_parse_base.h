@@ -13,6 +13,7 @@ namespace CppQt
          Q_OBJECT
       public:
          explicit Base(AbstractParser* parent);
+         virtual void outputDetachedComments() = 0;
          virtual void outputComments() = 0;
          virtual void outputDeclaration() = 0;
          virtual void outputDefinition() = 0;

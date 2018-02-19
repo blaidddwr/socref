@@ -7,5 +7,6 @@ namespace CppQt
       class Function;
       class Base;
       class Enumeration;
+      class Variable;
    }
 }

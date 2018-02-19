@@ -22,21 +22,16 @@ Enumeration::Enumeration(CppQt::Enumeration* block, AbstractParser* parent):
 
 
 
+void Enumeration::outputDetachedComments()
+{}
+
+
+
+
+
+
 void Enumeration::outputComments()
-{
-   addLines(makeComment(_block->description()));
-   const QList<EnumValue*> list {_block->values()};
-   for (auto value : list)
-   {
-      addLine("///");
-      QString line {"@var "};
-      line.append(value->Base::name()).append(" ");
-      int justified {line.size()};
-      line.append(value->description());
-      addLines(makeComment(line,justified));
-      addLine("///");
-   }
-}
+{}
 
 
 
@@ -45,8 +40,12 @@ void Enumeration::outputComments()
 
 void Enumeration::outputDeclaration()
 {
-   QString line {"enum"};
-   if ( _block->isClass() ) line.append(" class");
+   addLine("///");
+   addLines(makeComment(_block->description()));
+   addLine("///");
+   QString line {"enum "};
+   if ( _block->isClass() ) line.append("class ");
+   line.append(_block->Base::name());
    addLine(line);
    addLine("{");
    setIndent(indent() + 3);
@@ -54,6 +53,7 @@ void Enumeration::outputDeclaration()
    bool first {true};
    for (auto value : list)
    {
+      addLines(makeComment(value->description()));
       QString line;
       if ( first ) first = false;
       else line.append(",");

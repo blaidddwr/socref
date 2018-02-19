@@ -5,10 +5,31 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_class.h"
 #include "cppqt_namespace.h"
+#include "cppqt_template.h"
 
 
 
 using namespace CppQt;
+
+
+
+
+
+
+QStringList Parse::makeTemplateComments(const AbstractBlock* block)
+{
+   QStringList ret;
+   for (auto child : block->makeChildListOfType<Template>(BlockFactory::TemplateType))
+   {
+      ret << QString("///");
+      QString line {"@tparam "};
+      line.append(child->Base::name()).append(" ");
+      int justified {line.size()};
+      line.append(child->description());
+      ret << makeComment(line,justified);
+   }
+   return ret;
+}
 
 
 
@@ -90,8 +111,7 @@ QString Parse::getClassScope(const AbstractBlock* block)
    {
       while ( !classes.isEmpty() )
       {
-         ret.append(getClass(classes.pop()));
-         if ( !classes.isEmpty() ) ret.append("::");
+         ret.append(getClass(classes.pop())).append("::");
       }
    }
    return ret;

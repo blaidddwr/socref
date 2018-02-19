@@ -10,6 +10,7 @@ namespace CppQt
 {
    namespace Parse
    {
+      QStringList makeTemplateComments(const AbstractBlock* block);
       QStringList makeComment(const QString& text, int justified = 0);
       QString getNamespace(const AbstractBlock* block);
       QString getClassScope(const AbstractBlock* block);

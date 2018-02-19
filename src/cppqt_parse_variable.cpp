@@ -21,16 +21,25 @@ Variable::Variable(CppQt::Variable* block, AbstractParser* parent):
 
 
 
-void Variable::outputComments()
+void Variable::outputDetachedComments()
 {
    QString line {"/// @var "};
    if ( _block->isClassMember() ) line.append(getClassScope(_block));
    else line.append(getNamespace(_block));
    line.append(_block->Base::name());
    addLine(line);
+   addLine("///");
    addLines(makeComment(_block->description()));
    addLine("///");
 }
+
+
+
+
+
+
+void Variable::outputComments()
+{}
 
 
 

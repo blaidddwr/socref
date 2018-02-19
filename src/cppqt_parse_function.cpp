@@ -41,11 +41,20 @@ Function::Function(const QString& definition, AbstractParser* parent):
 
 
 
+void Function::outputDetachedComments()
+{}
+
+
+
+
+
+
 void Function::outputComments()
 {
    if ( _block )
    {
       addLines(makeComment(_block->description()));
+      addLines(makeTemplateComments(_block));
       outputArgumentComments();
       outputReturnDescriptionComment();
       outputOperationComments();
@@ -235,7 +244,7 @@ QString Function::getReturnValue()
 QString Function::getScope(bool hasTemplates)
 {
    QString ret;
-   if ( _block->isMethod() ) ret.append(getClassScope(_block)).append("::");
+   if ( _block->isMethod() ) ret.append(getClassScope(_block));
    else if ( !hasTemplates ) ret.append(getNamespace(_block));
    return ret;
 }
