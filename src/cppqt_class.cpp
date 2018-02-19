@@ -135,6 +135,7 @@ bool Class::hasAnyTemplates() const
       {
          if ( back_->hasTemplates() ) return true;
       }
+      back = back->parent();
    }
    return false;
 }

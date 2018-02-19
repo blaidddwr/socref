@@ -50,7 +50,7 @@ void ScanThread::run()
          {
             return;
          }
-         unique_ptr<AbstractParser> parser {_factory->makeParser(_list.at(i).completeBaseName(),_list.at(i).suffix())};
+         unique_ptr<AbstractParser> parser {_factory->makeParser(_list.at(i).completeBaseName().toLower(),_list.at(i).suffix().toLower())};
          if ( parser )
          {
             QFile file(_list.at(i).canonicalFilePath());

@@ -73,7 +73,7 @@ Namespace* ParserFactory::find(const Namespace* current, QStringList* names) con
    {
       if ( Namespace* next = qobject_cast<Namespace*>(child) )
       {
-         if ( next->Base::name() == names->first() )
+         if ( next->Base::name().toLower() == names->first() )
          {
             names->takeFirst();
             if ( names->isEmpty() )
