@@ -1,0 +1,9 @@
+
+* Fixed bug that prevented editing C++/Qt variables whose parents were specialized functions.
+* C++/Qt source parser now additional outputs:
+  * Default header include directive at beginning of file.
+  * Comments now prepended to variable definitions.
+* Fixed C++/Qt header parser output for functions; it now correctly outputs static property.
+* Changed C++/Qt parser comments to use /*! */ now instead of ///.
+* Added explicit property for C++/Qt constructor type.
+
