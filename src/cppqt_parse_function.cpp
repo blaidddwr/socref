@@ -47,10 +47,10 @@ void Function::outputComments()
    {
       addLine("/*!");
       addLines(makeComment(_block->description()));
+      addLines(makeTemplateComments(_block));
+      outputArgumentComments();
       if ( _block->type() != BlockFactory::SignalType )
       {
-         if ( _block->type() != BlockFactory::ConstructorType || _block->type() != BlockFactory::DestructorType || _block->type() != BlockFactory::SlotType ) addLines(makeTemplateComments(_block));
-         outputArgumentComments();
          if ( _block->type() != BlockFactory::SlotType ) outputReturnDescriptionComment();
          if ( !_block->isAbstract() ) outputOperationComments();
       }
