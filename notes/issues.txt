@@ -26,6 +26,4 @@
 
 * Fix the whole dialog out of thread warning if exception is thrown while in scanning thread.
 
-* Fix bug where C++/Qt functions do not output static in their declaration parsing.
-
 * Add comments to C++/Qt variables definition parsing.
