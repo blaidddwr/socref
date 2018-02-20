@@ -167,7 +167,11 @@ void Source::outputDefinitions()
    if ( !_variables.isEmpty() )
    {
       addBlankLines(3);
-      for (auto variable : qAsConst(_variables)) variable->outputDefinition();
+      for (auto variable : qAsConst(_variables))
+      {
+         variable->outputComments();
+         variable->outputDefinition();
+      }
    }
    for (auto function : _defined)
    {

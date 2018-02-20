@@ -23,5 +23,3 @@
 * Make a settings menu which will currently just have C++/Qt for things like indent size, remembering it all in QSettings.
 
 * Fix the whole dialog out of thread warning if exception is thrown while in scanning thread.
-
-* Add comments to C++/Qt variables definition parsing.
