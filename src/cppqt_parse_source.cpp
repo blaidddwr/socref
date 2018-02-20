@@ -75,7 +75,7 @@ void Source::makeOutput()
 {
    addLine(_include);
    outputPreProcesser();
-   outputMisc();
+   outputMisc(true);
    outputDefinitions();
    addBlankLines(1);
 }
@@ -148,13 +148,13 @@ void Source::outputPreProcesser()
 
 
 
-void Source::outputMisc()
+void Source::outputMisc(bool addUsingName)
 {
-   if ( !_misc.isEmpty() || !_usingName.isEmpty() )
+   if ( !_misc.isEmpty() || ( addUsingName && !_usingName.isEmpty() ) )
    {
       addBlankLines(3);
       for (auto line : _misc) addLine(line);
-      if ( !_usingName.isEmpty() ) addLine(_usingName);
+      if ( addUsingName && !_usingName.isEmpty() ) addLine(_usingName);
    }
 }
 
@@ -207,7 +207,7 @@ Function* Source::findDefined(const QString& definition)
 
 
 
-QList<AbstractBlock*> Source::children() const
+const QList<AbstractBlock*>& Source::children() const
 {
    return _children;
 }

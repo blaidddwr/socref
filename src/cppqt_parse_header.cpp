@@ -1,16 +1,17 @@
-#include <QStack>
 #include "cppqt_parse_header.h"
+#include <QStack>
 #include "cppqt_parse_function.h"
+#include "cppqt_parse_common.h"
+#include "cppqt_parse_variable.h"
+#include "cppqt_parse_enumeration.h"
+#include "cppqt_parse_access.h"
 #include "cppqt_function.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_access.h"
 #include "cppqt_class.h"
-#include "cppqt_parse_common.h"
-#include "cppqt_parse_variable.h"
-#include "cppqt_parse_enumeration.h"
-#include "cppqt_parse_access.h"
+#include "cppqt_parent.h"
 
 
 
@@ -132,7 +133,7 @@ void Header::outputDeclarations()
       Class* block;
       if ( ( block = qobject_cast<Class*>(_block) ) )
       {
-         if ( isTemplate() ) outputClassComments(block);
+         outputClassComments(block);
          outputClassDeclaration(block);
          addLine("{");
          setIndent(indent() + 3);
@@ -156,7 +157,7 @@ void Header::outputClassComments(Class* block)
 {
    addLine("/*!");
    addLines(makeComment(block->description()));
-   addLines(makeTemplateComments(_block));
+   if ( isTemplate() ) addLines(makeTemplateComments(_block));
    addLine(" */");
 }
 
@@ -171,6 +172,20 @@ void Header::outputClassDeclaration(Class* block)
    QString templateString {getTemplateDeclaration(block)};
    if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
    line.append("class ").append(getClassScope(block->parent())).append(block->Base::name());
+   bool first {true};
+   for (auto child : _block->children())
+   {
+      if ( Parent* valid = child->cast<Parent>(BlockFactory::ParentType) )
+      {
+         if ( first )
+         {
+            line.append(" : ");
+            first = false;
+         }
+         else line.append(", ");
+         line.append(Parent::_accessNames.at(static_cast<int>(valid->access()))).append(" ").append(valid->Base::name());
+      }
+   }
    addLine(line);
 }
 

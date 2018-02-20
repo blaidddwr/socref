@@ -25,10 +25,10 @@ namespace CppQt
          virtual void evaluateFunction(CppQt::Function* block);
          virtual void evaluateOther(AbstractBlock* block);
          void outputPreProcesser();
-         void outputMisc();
+         void outputMisc(bool addUsingName = false);
          void outputDefinitions();
          Function* findDefined(const QString& definition);
-         QList<AbstractBlock*> children() const;
+         const QList<AbstractBlock*>& children() const;
          void addPreProcess(const QString& line);
          void addMisc(const QString& line);
          void addVariable(Variable* parser);
