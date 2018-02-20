@@ -14,7 +14,8 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         Source(Namespace* block);
+         explicit Source(Namespace* block);
+         explicit Source(Namespace* block, const QString& name);
       protected:
          virtual void initialize() override final;
          virtual bool readLine(const QString& line) override final;
@@ -47,6 +48,7 @@ namespace CppQt
          bool _pastTop {false};
          bool _isTemplate;
          QString _usingName;
+         QString _include;
       };
    }
 }

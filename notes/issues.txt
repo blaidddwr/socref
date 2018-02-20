@@ -29,5 +29,3 @@
 * Fix bug where C++/Qt functions do not output static in their declaration parsing.
 
 * Add comments to C++/Qt variables definition parsing.
-
-* Include header file for source file in C++/Qt parsing.

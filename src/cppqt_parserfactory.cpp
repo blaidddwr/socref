@@ -73,7 +73,7 @@ AbstractParser* ParserFactory::find(Namespace* current, const QStringList& names
       if ( isCommon )
       {
          if ( isHeader ) return new Parse::Header(current,name);
-         else return new Parse::Source(current);
+         else return new Parse::Source(current,name);
       }
       else return nullptr;
    }
@@ -93,7 +93,7 @@ AbstractParser* ParserFactory::find(Namespace* current, const QStringList& names
                else
                {
                   if ( isHeader ) return new Parse::Header(next,name);
-                  else return new Parse::Source(next);
+                  else return new Parse::Source(next,name);
                }
             }
             else return find(next,names,name,isHeader,isCommon,index);

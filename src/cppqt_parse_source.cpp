@@ -29,6 +29,17 @@ Source::Source(CppQt::Namespace* block):
 
 
 
+Source::Source(CppQt::Namespace* block, const QString& name):
+   Source(block)
+{
+   _include = QString("#include \"").append(name).append(".h\"");
+}
+
+
+
+
+
+
 void Source::initialize()
 {
    buildAll();
@@ -62,9 +73,9 @@ bool Source::readLine(const QString& line)
 
 void Source::makeOutput()
 {
+   addLine(_include);
    outputPreProcesser();
    outputMisc();
-   if ( !_usingName.isEmpty() ) addLine(_usingName);
    outputDefinitions();
 }
 
@@ -138,10 +149,11 @@ void Source::outputPreProcesser()
 
 void Source::outputMisc()
 {
-   if ( !_misc.isEmpty() )
+   if ( !_misc.isEmpty() || !_usingName.isEmpty() )
    {
       addBlankLines(3);
       for (auto line : _misc) addLine(line);
+      if ( !_usingName.isEmpty() ) addLine(_usingName);
    }
 }
 
