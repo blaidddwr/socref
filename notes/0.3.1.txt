@@ -6,4 +6,5 @@
 * Fixed C++/Qt header parser output for functions; it now correctly outputs static property.
 * Changed C++/Qt parser comments to use /*! */ now instead of ///.
 * Added explicit property for C++/Qt constructor type.
+* Added ability to use C++/Qt move operator && when adding types.
 
