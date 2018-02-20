@@ -54,7 +54,7 @@ bool Source::readLine(const QString& line)
 {
    if ( line.trimmed() == QString("{") ) _pastTop = true;
    if ( !_pastTop ) readTop(line);
-   else if ( QRegExp(".*\\([a-zA-Z0-9_,<>: ]*\\):?\\s*").exactMatch(line) )
+   if ( QRegExp(".*\\([a-zA-Z0-9_,<>:&\\* ]*\\):?[ constexp]*").exactMatch(line) )
    {
       if ( Function* child = findDefined(line) ) stepIntoChild(child);
       else

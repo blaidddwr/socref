@@ -130,8 +130,11 @@ bool Function::isMatch(const QString& line)
    if ( hasCode() ) return false;
    QString regular {".*"};
    regular.append(_block->Base::name()).append("\\(\\s*");
-   for (auto argument : _block->arguments()) regular.append(argument->variableType()).append(".*");
-   regular.append("\\):?\\s*");
+   for (auto argument : _block->arguments()) regular.append(argument->variableType().replace("*","\\*")).append(".*");
+   regular.append("\\):?");
+   if ( _block->isConst() ) regular.append("\\s+const");
+   if ( _block->isNoExcept() ) regular.append("\\s+noexcept");
+   regular.append("\\s*");
    return QRegExp(regular).exactMatch(line);
 }
 
