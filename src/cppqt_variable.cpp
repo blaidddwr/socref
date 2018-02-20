@@ -1,9 +1,10 @@
+#include <exception.h>
 #include "cppqt_variable.h"
 #include "cppqt_view_variable.h"
 #include "cppqt_edit_variable.h"
 #include "cppqt_gui_typedialog.h"
-#include "exception.h"
 #include "cppqt_blockfactory.h"
+#include "cppqt_function.h"
 #include "domelementreader.h"
 
 
@@ -246,14 +247,7 @@ void Variable::setInitializer(const QString& initializer)
 bool Variable::isClassMember() const
 {
    if ( parent()->type() == BlockFactory::AccessType ) return true;
-   else if ( parent()->type() == BlockFactory::NamespaceType || parent()->type() == BlockFactory::FunctionType ) return false;
-   else
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Variable's parent is of an unexpected type '%1'.").arg(factory().name(parent()->type())));
-      throw e;
-   }
+   else return false;
 }
 
 
@@ -263,7 +257,7 @@ bool Variable::isClassMember() const
 
 bool Variable::isFunctionArgument() const
 {
-   return parent()->type() == BlockFactory::FunctionType;
+   return qobject_cast<Function*>(parent());
 }
 
 

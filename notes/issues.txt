@@ -18,8 +18,6 @@
 
 * Add explicit property for constructors in C++/Qt.
 
-* Fix bug that prevents editing C++/Qt variables of constructor(or signal or slot).
-
 * Change comments to /*! */ blocks instead of /// for C++/Qt.
 
 * Make all the C++/Qt edit dialogs remember their size.
