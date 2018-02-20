@@ -45,7 +45,7 @@ void Function::outputComments()
 {
    if ( _block )
    {
-      addLine("///");
+      addLine("/*!");
       addLines(makeComment(_block->description()));
       if ( _block->type() != BlockFactory::SignalType )
       {
@@ -54,9 +54,9 @@ void Function::outputComments()
          if ( _block->type() != BlockFactory::SlotType ) outputReturnDescriptionComment();
          if ( !_block->isAbstract() ) outputOperationComments();
       }
-      addLine("///");
+      addLine(" */");
    }
-   else addLine("/// !!! UNKNOWN FUNCTION !!!");
+   else addLine("/*! !!! UNKNOWN FUNCTION !!! */");
 }
 
 
@@ -172,7 +172,7 @@ void Function::outputArgumentComments()
    const QList<Variable*> arguments {_block->arguments()};
    for (auto argument : arguments)
    {
-      addLine("/// ");
+      addLine(" *");
       QString base {"@param "};
       base.append(argument->Base::name()).append(" ");
       int justified {base.size()};
@@ -191,7 +191,7 @@ void Function::outputReturnDescriptionComment()
    const QString returnDescription {_block->returnDescription()};
    if ( !returnDescription.isEmpty() )
    {
-      addLine("///");
+      addLine(" *");
       QString base {"@return "};
       int justified {base.size()};
       base.append(returnDescription);
@@ -209,12 +209,12 @@ void Function::outputOperationComments()
    const QStringList operations {_block->operations()};
    if ( !operations.isEmpty() )
    {
-      addLine("///");
-      addLine("///");
+      addLine(" *");
+      addLine(" *");
       addLines(makeComment("Steps of Operation:"));
       for (int i = 0; i < operations.size() ;++i)
       {
-         addLine("///");
+         addLine(" *");
          QString base {QString::number(i + 1).append(". ")};
          int justified {base.size()};
          base.append(operations.at(i));

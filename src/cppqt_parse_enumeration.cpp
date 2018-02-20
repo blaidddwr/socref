@@ -32,9 +32,9 @@ void Enumeration::outputComments()
 
 void Enumeration::outputDeclaration()
 {
-   addLine("///");
+   addLine("/*!");
    addLines(makeComment(_block->description()));
-   addLine("///");
+   addLine(" */");
    QString line {"enum "};
    if ( _block->isClass() ) line.append("class ");
    line.append(_block->Base::name());
@@ -45,7 +45,9 @@ void Enumeration::outputDeclaration()
    bool first {true};
    for (auto value : list)
    {
+      addLine("/*!");
       addLines(makeComment(value->description()));
+      addLine(" */");
       QString line;
       if ( first ) first = false;
       else line.append(",");

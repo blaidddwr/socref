@@ -154,9 +154,10 @@ void Header::outputDeclarations()
 
 void Header::outputClassComments(Class* block)
 {
+   addLine("/*!");
    addLines(makeComment(block->description()));
    addLines(makeTemplateComments(_block));
-   addLine("///");
+   addLine(" */");
 }
 
 

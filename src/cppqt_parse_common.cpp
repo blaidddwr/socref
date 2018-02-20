@@ -21,7 +21,7 @@ QStringList Parse::makeTemplateComments(const AbstractBlock* block)
    QStringList ret;
    for (auto child : block->makeChildListOfType<Template>(BlockFactory::TemplateType))
    {
-      ret << QString("///");
+      ret << QString(" *");
       QString line {"@tparam "};
       line.append(child->Base::name()).append(" ");
       int justified {line.size()};
@@ -52,8 +52,8 @@ QStringList Parse::makeComment(const QString& text, int justified)
       QStringList words {text.split(QRegExp("\\s+"))};
       while ( !words.isEmpty() )
       {
-         int total {4 + words.first().size()};
-         QString line {"/// "};
+         int total {3 + words.first().size()};
+         QString line {" * "};
          if ( first ) first = false;
          else
          {

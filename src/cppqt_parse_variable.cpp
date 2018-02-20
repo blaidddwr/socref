@@ -23,9 +23,9 @@ Variable::Variable(CppQt::Variable* block, AbstractParser* parent):
 
 void Variable::outputComments()
 {
-   addLine("///");
+   addLine("/*!");
    addLines(makeComment(_block->description()));
-   addLine("///");
+   addLine(" */");
 }
 
 
