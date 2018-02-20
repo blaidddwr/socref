@@ -1,14 +1,16 @@
-#include <exception.h>
 #include "cppqt_constructor.h"
+#include <exception.h>
 #include "cppqt_view_constructor.h"
 #include "cppqt_edit_constructor.h"
 #include "cppqt_blockfactory.h"
+#include "domelementreader.h"
 
 
 
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+const char* Constructor::_explicitTag {"explicit"};
 
 
 
@@ -17,7 +19,9 @@ using namespace CppQt;
 
 QString Constructor::name() const
 {
-   return fullName(QString(),className());
+   QString ret;
+   if ( _explicit ) ret.append("explicit ");
+   return ret.append(fullName(QString(),className()));
 }
 
 
@@ -110,6 +114,31 @@ QString Constructor::className() const
 
 
 
+bool Constructor::isExplicit() const
+{
+   return _explicit;
+}
+
+
+
+
+
+
+void Constructor::setExplicit(bool isExplicit)
+{
+   if ( _explicit != isExplicit )
+   {
+      _explicit = isExplicit;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
 void Constructor::classNameChanged()
 {
    notifyOfNameChange();
@@ -120,7 +149,52 @@ void Constructor::classNameChanged()
 
 
 
+void Constructor::readData(const QDomElement& data)
+{
+   Function::readData(data);
+   DomElementReader reader(data);
+   _explicit = reader.attributeToInt(_explicitTag,false);
+}
+
+
+
+
+
+
+QDomElement Constructor::writeData(QDomDocument& document) const
+{
+   QDomElement ret {Function::writeData(document)};
+   if ( _explicit ) ret.setAttribute(_explicitTag,_explicit);
+   return ret;
+}
+
+
+
+
+
+
 std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Constructor);
+}
+
+
+
+
+
+
+void Constructor::copyDataFrom(const AbstractBlock* object)
+{
+   if ( const Constructor* object_ = qobject_cast<const Constructor*>(object) )
+   {
+      Function::copyDataFrom(object);
+      _explicit = object_->_explicit;
+   }
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
 }

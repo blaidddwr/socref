@@ -11,14 +11,14 @@ namespace CppQt
       Q_OBJECT
    public:
       explicit Destructor() = default;
-      virtual QString name() const override;
-      virtual int type() const override;
-      virtual QIcon icon() const override;
-      virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<QWidget> makeView() const override;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      virtual QString name() const override final;
+      virtual int type() const override final;
+      virtual QIcon icon() const override final;
+      virtual QList<int> buildList() const override final;
+      virtual std::unique_ptr<QWidget> makeView() const override final;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
    protected:
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
+      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
    };
 }
 

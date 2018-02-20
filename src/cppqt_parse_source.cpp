@@ -77,6 +77,7 @@ void Source::makeOutput()
    outputPreProcesser();
    outputMisc();
    outputDefinitions();
+   addBlankLines(1);
 }
 
 
@@ -86,7 +87,7 @@ void Source::makeOutput()
 
 void Source::readTop(const QString& line)
 {
-   if ( QRegExp("#.*").exactMatch(line) )
+   if ( QRegExp("#.*").exactMatch(line) && line != _include )
    {
       addPreProcess(line);
    }

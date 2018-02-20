@@ -70,9 +70,16 @@ void Function::outputDeclaration()
    {
       if ( _block->isAbstract() || _block->type() == BlockFactory::SignalType ) outputComments();
       QString line {templateName(_block)};
-      if ( _block->isVirtual() ) line.append("virtual ");
-      if ( _block->isConstExpr() ) line.append("constexpr ");
-      if ( _block->isStatic() ) line.append("static ");
+      if ( Constructor* valid = _block->cast<Constructor>(BlockFactory::ConstructorType) )
+      {
+         if ( valid->isExplicit() ) line.append("explicit ");
+      }
+      else
+      {
+         if ( _block->isVirtual() ) line.append("virtual ");
+         if ( _block->isConstExpr() ) line.append("constexpr ");
+         if ( _block->isStatic() ) line.append("static ");
+      }
       line.append(getReturnValue()).append(getName()).append(getArguments(true));
       if ( _block->isConst() ) line.append(" const");
       if ( _block->isNoExcept() ) line.append(" noexcept");

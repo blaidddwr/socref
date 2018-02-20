@@ -4,6 +4,10 @@
 
 
 
+class QCheckBox;
+
+
+
 namespace CppQt
 {
    namespace Edit
@@ -15,8 +19,13 @@ namespace CppQt
          explicit Constructor(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
+         virtual bool apply() override final;
       private:
          void addProperties(QFormLayout* layout);
+         QLayout* setupProperties();
+         QWidget* setupExplicit();
+         CppQt::Constructor* _block;
+         QCheckBox* _explicitBox;
       };
    }
 }
