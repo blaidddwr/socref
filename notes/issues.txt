@@ -1,3 +1,4 @@
+
 * Remove addTitle and rename templateName in CppQt::Common.
 
 * Use new AbstractBlock::cast<T> where appropriate.
@@ -19,3 +20,8 @@
 * Make a settings menu which will currently just have C++/Qt for things like indent size, remembering it all in QSettings.
 
 * Fix the whole dialog out of thread warning if exception is thrown while in scanning thread.
+
+* Fix bug where moving blocks does not modify the project.
+
+* Fix C++/Qt parsing bug where matching of constuctors(and possibly destructors?) will match any function.
+
