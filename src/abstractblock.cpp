@@ -196,6 +196,7 @@ void AbstractBlock::moveChildUp(int index)
    {
       std::swap(_children[index - 1],_children[index]);
       childMoved(_children.at(index - 1));
+      emit modified();
    }
 }
 
@@ -210,6 +211,7 @@ void AbstractBlock::moveChildDown(int index)
    {
       std::swap(_children[index],_children[index + 1]);
       childMoved(_children.at(index + 1));
+      emit modified();
    }
 }
 
