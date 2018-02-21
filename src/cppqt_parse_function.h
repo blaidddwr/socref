@@ -28,7 +28,7 @@ namespace CppQt
          void outputOperationComments();
          QString getReturnValue();
          QString getScope(bool hasTemplates);
-         QString getName();
+         QString getName(bool isRegExp = false);
          QString getArguments(bool withInitializers);
          bool hasAnyTemplates();
          CppQt::Function* _block {nullptr};

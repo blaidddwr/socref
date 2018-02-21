@@ -129,7 +129,8 @@ bool Function::isMatch(const QString& line)
 {
    if ( hasCode() ) return false;
    QString regular {".*"};
-   regular.append(_block->Base::name()).append("\\(\\s*");
+   regular.append(getName(true));
+   regular.append("\\(\\s*");
    for (auto argument : _block->arguments()) regular.append(argument->variableType().replace("*","\\*")).append(".*");
    regular.append("\\):?");
    if ( _block->isConst() ) regular.append("\\s+const");
@@ -264,12 +265,20 @@ QString Function::getScope(bool hasTemplates)
 
 
 
-QString Function::getName()
+QString Function::getName(bool isRegExp)
 {
    QString ret;
-   if ( const Operator* operator_ = qobject_cast<const Operator*>(_block) ) ret.append("operator").append(operator_->operation());
-   else if ( const Destructor* destructor = qobject_cast<const Destructor*>(_block) ) ret.append("~").append(destructor->className());
-   else if ( const Constructor* constructor = qobject_cast<const Constructor*>(_block) ) ret.append(constructor->className());
+   if ( const Operator* valid = qobject_cast<const Operator*>(_block) )
+   {
+      ret.append("operator");
+      if ( isRegExp )
+      {
+         for (auto ch : valid->operation()) ret.append("\\").append(ch);
+      }
+      else ret.append(valid->operation());
+   }
+   else if ( const Destructor* valid = qobject_cast<const Destructor*>(_block) ) ret.append("~").append(valid->className());
+   else if ( const Constructor* valid = qobject_cast<const Constructor*>(_block) ) ret.append(valid->className());
    else ret.append(_block->Base::name());
    return ret;
 }

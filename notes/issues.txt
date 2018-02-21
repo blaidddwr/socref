@@ -23,5 +23,3 @@
 
 * Fix bug where moving blocks does not modify the project.
 
-* Fix C++/Qt parsing bug where matching of constuctors(and possibly destructors?) will match any function.
-
