@@ -7,6 +7,7 @@
 #include <QCloseEvent>
 #include "scanthread.h"
 #include "application.h"
+#include "common.h"
 
 
 
@@ -87,6 +88,10 @@ void ScanDialog::progressChanged(int complete)
 
 void ScanDialog::scanFinished()
 {
+   if ( _scanner->hasException() )
+   {
+      showException(tr("An error occured while scanning and parsing files."),_scanner->exception());
+   }
    accept();
 }
 

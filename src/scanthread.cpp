@@ -2,10 +2,8 @@
 #include <memory>
 #include <QDebug>
 #include <QDir>
-#include <exception.h>
 #include "abstractparserfactory.h"
 #include "abstractparser.h"
-#include "common.h"
 
 
 
@@ -39,8 +37,37 @@ int ScanThread::size() const
 
 
 
+bool ScanThread::hasException() const
+{
+   return _exception;
+}
+
+
+
+
+
+
+const Exception::Base& ScanThread::exception() const
+{
+   if ( !_exception )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot get exception when none has been set."));
+      throw e;
+   }
+   return *_exception;
+}
+
+
+
+
+
+
 void ScanThread::run()
 {
+   delete _exception;
+   _exception = nullptr;
    try
    {
       for (int i = 0; i < _list.size() ;++i)
@@ -74,7 +101,7 @@ void ScanThread::run()
    }
    catch (Exception::Base e)
    {
-      showException(tr("An error occured while scanning and parsing files."),e);
+      _exception = new Exception::Base(e);
       return;
    }
    catch (std::exception e)

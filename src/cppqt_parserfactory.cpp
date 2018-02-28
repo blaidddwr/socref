@@ -25,7 +25,9 @@ ParserFactory::ParserFactory(AbstractBlock* root):
    {
       Exception::LogicError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Root block is type '%1' intead of namespace.").arg(root->factory().name(root->type())));
+      e.setDetails(
+               tr("Root block is type '%1' intead of namespace.")
+               .arg(root->factory().name(root->type())));
       throw e;
    }
 }
