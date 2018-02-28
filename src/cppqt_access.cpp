@@ -249,8 +249,7 @@ bool Access::hasRegularMembers() const
 
 bool Access::hasVirtual() const
 {
-   const QList<AbstractBlock*> list {children()};
-   for (auto child : list)
+   for (auto child : children())
    {
       if ( Function* func = qobject_cast<Function*>(child) )
       {
@@ -267,8 +266,7 @@ bool Access::hasVirtual() const
 
 bool Access::hasAbstract() const
 {
-   const QList<AbstractBlock*> list {children()};
-   for (auto child : list)
+   for (auto child : children())
    {
       if ( Function* func = qobject_cast<Function*>(child) )
       {

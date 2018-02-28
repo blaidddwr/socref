@@ -42,8 +42,7 @@ void Access::bodyChanged()
    int variables {0};
    int signals_ {0};
    int slots_ {0};
-   const QList<AbstractBlock*> list {_block->children()};
-   for (auto child : list)
+   for (auto child : _block->children())
    {
       switch (child->type())
       {

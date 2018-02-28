@@ -63,9 +63,7 @@ QIcon Enumeration::icon() const
 
 QList<int> Enumeration::buildList() const
 {
-   static QList<int> ret;
-   if ( ret.isEmpty() ) ret << BlockFactory::EnumValueType;
-   return ret;
+   return QList<int>{BlockFactory::EnumValueType};
 }
 
 

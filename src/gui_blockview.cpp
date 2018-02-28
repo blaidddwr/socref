@@ -290,8 +290,7 @@ void BlockView::updateAddActions()
    _addActions.clear();
    if ( _model )
    {
-      const QList<int> list {_model->pointer(_current)->buildList()};
-      for (auto type : list)
+      for (auto type : _model->pointer(_current)->buildList())
       {
          _addActions.append(new QAction(_factory->name(type),this));
          _addActions.back()->setData(type);

@@ -90,14 +90,7 @@ QIcon Class::icon() const
 
 QList<int> Class::buildList() const
 {
-   static QList<int> ret;
-   if ( ret.isEmpty() )
-   {
-      ret << BlockFactory::TemplateType;
-      ret << BlockFactory::AccessType;
-      ret << BlockFactory::ParentType;
-   }
-   return ret;
+   return QList<int>{BlockFactory::TemplateType,BlockFactory::AccessType,BlockFactory::ParentType};
 }
 
 
@@ -249,8 +242,7 @@ bool Class::hasTemplates() const
 QList<Template*> Class::templates() const
 {
    QList<Template*> ret;
-   const QList<AbstractBlock*> list {children()};
-   for (auto child : list)
+   for (auto child : children())
    {
       if ( Template* valid = child->cast<Template>(BlockFactory::TemplateType) ) ret.append(valid);
    }
@@ -387,8 +379,7 @@ void Class::notifyOfNameChange()
 QList<Access*> Class::accessChildren() const
 {
    QList<Access*> ret;
-   QList<AbstractBlock*> list {children()};
-   for (auto child : list)
+   for (auto child : children())
    {
       if ( Access* valid = child->cast<Access>(BlockFactory::AccessType) ) ret << valid;
    }

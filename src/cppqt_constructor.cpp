@@ -53,12 +53,7 @@ QIcon Constructor::icon() const
 
 QList<int> Constructor::buildList() const
 {
-   static QList<int> ret;
-   if ( ret.isEmpty() )
-   {
-      ret << BlockFactory::VariableType;
-   }
-   return ret;
+   return QList<int>{BlockFactory::VariableType};
 }
 
 

@@ -109,7 +109,7 @@ AbstractBlock* AbstractBlock::child(int index) const
 
 
 
-QList<AbstractBlock*> AbstractBlock::children() const
+const QList<AbstractBlock*>& AbstractBlock::children() const
 {
    return _children;
 }
@@ -252,8 +252,7 @@ void AbstractBlock::read(const QDomElement& parent)
       e.setDetails(tr("Failed reading in all required elements."));
       throw e;
    }
-   const QList<int> list {buildList()};
-   for (auto type : list) reader.set(factory().elementName(type),&children,false);
+   for (auto type : buildList()) reader.set(factory().elementName(type),&children,false);
    reader.read();
    for (auto child : qAsConst(children)) readChild(child);
 }

@@ -68,12 +68,7 @@ QIcon Slot::icon() const
 
 QList<int> Slot::buildList() const
 {
-   static QList<int> ret;
-   if ( ret.isEmpty() )
-   {
-      ret << BlockFactory::VariableType;
-   }
-   return ret;
+   return QList<int>{BlockFactory::VariableType};
 }
 
 

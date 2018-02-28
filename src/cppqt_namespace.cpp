@@ -55,17 +55,15 @@ QIcon Namespace::icon() const
 
 QList<int> Namespace::buildList() const
 {
-   static QList<int> ret;
-   if ( ret.isEmpty() )
+   return QList<int>
    {
-      ret << BlockFactory::NamespaceType;
-      ret << BlockFactory::VariableType;
-      ret << BlockFactory::FunctionType;
-      ret << BlockFactory::ClassType;
-      ret << BlockFactory::OperatorType;
-      ret << BlockFactory::EnumerationType;
-   }
-   return ret;
+      BlockFactory::NamespaceType
+      ,BlockFactory::VariableType
+      ,BlockFactory::FunctionType
+      ,BlockFactory::ClassType
+      ,BlockFactory::OperatorType
+      ,BlockFactory::EnumerationType
+   };
 }
 
 

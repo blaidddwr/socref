@@ -27,7 +27,7 @@ public:
    int childrenSize() const;
    AbstractBlock* child(int index);
    AbstractBlock* child(int index) const;
-   QList<AbstractBlock*> children() const;
+   const QList<AbstractBlock*>& children() const;
    int childIndex(AbstractBlock* child) const;
    void insertChild(int index, std::unique_ptr<AbstractBlock>&& child);
    std::unique_ptr<AbstractBlock> takeChild(int index);
@@ -76,8 +76,7 @@ private:
 template<class T> QList<T*> AbstractBlock::makeChildListOfType(int type) const
 {
    QList<T*> ret;
-   const QList<AbstractBlock*> list {children()};
-   for (auto child : list)
+   for (auto child : children())
    {
       if ( T* variable = child->cast<T>(type) ) ret.append(variable);
    }
