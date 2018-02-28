@@ -21,3 +21,15 @@
 
 * Fix the whole dialog out of thread warning if exception is thrown while in scanning thread.
 
+* Fix C++/Qt parsing bug where if destructor comes before constuctor then mismatch of functions occurs.
+
+* Add friend and using declarations for classes in C++/Qt.
+
+* Fix C++/Qt parse formatting of header files at end. (missing spaces)
+
+* Fix C++/Qt bug where variable initializers are not present if normal class members.
+
+* Fix C++/Qt parsing bug where enumerations do not write and ending semicolon.
+
+* Fix C++/Qt class bug where qt object checkbox has no name.
+
