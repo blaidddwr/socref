@@ -69,7 +69,7 @@ void Function::outputDeclaration()
    if ( _block )
    {
       if ( _block->isAbstract() || _block->type() == BlockFactory::SignalType ) outputComments();
-      QString line {templateName(_block)};
+      QString line {getTemplateName(_block)};
       if ( Constructor* valid = _block->cast<Constructor>(BlockFactory::ConstructorType) )
       {
          if ( valid->isExplicit() ) line.append("explicit ");

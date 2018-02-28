@@ -43,7 +43,7 @@ bool CppQt::isValidTemplateArgument(const QString& argument)
 
 
 
-QString CppQt::templateName(const AbstractBlock* block)
+QString CppQt::getTemplateName(const AbstractBlock* block)
 {
    QString ret;
    const QList<Template*> list {block->makeChildListOfType<Template>(BlockFactory::TemplateType)};
@@ -60,16 +60,4 @@ QString CppQt::templateName(const AbstractBlock* block)
       ret.append("> ");
    }
    return ret;
-}
-
-
-
-
-
-
-void CppQt::addTitle(QFormLayout* layout, const QString& title)
-{
-   QLabel* label {new QLabel(QString("<h3>").append(title).append("</h3>"))};
-   label->setStyleSheet("margin-top:16px;");
-   layout->addRow(label);
 }

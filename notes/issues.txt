@@ -1,6 +1,4 @@
 
-* Remove addTitle and rename templateName in CppQt::Common.
-
 * Use new AbstractBlock::cast<T> where appropriate.
 
 * Remove unneeded qAsConst. (Especially when a list is returned from a function, perhaps return lists as pointers or references?)

@@ -33,7 +33,7 @@ Class::Class(const QString& name):
 
 QString Class::name() const
 {
-   QString ret {templateName(this)};
+   QString ret {getTemplateName(this)};
    ret.append(Base::name());
    const QList<Parent*> list {makeChildListOfType<Parent>(BlockFactory::ParentType)};
    if ( !list.isEmpty() )

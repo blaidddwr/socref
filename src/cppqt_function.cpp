@@ -48,7 +48,7 @@ Function::Function(const QString& returnType, const QString& name):
 
 QString Function::name() const
 {
-   QString ret {templateName(this)};
+   QString ret {getTemplateName(this)};
    return ret.append(fullName(returnType(),Base::name()));
 }
 

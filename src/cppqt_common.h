@@ -13,8 +13,7 @@ class QFormLayout;
 namespace CppQt
 {
    bool isValidTemplateArgument(const QString& argument);
-   QString templateName(const AbstractBlock* block);
-   void addTitle(QFormLayout* layout, const QString& title);
+   QString getTemplateName(const AbstractBlock* block);
 }
 
 
