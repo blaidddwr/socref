@@ -1,12 +1,12 @@
+#include "gui_projectdialog.h"
 #include <QLineEdit>
 #include <QLayout>
 #include <QFormLayout>
 #include <QPushButton>
 #include <QLabel>
 #include <QFileDialog>
-#include "gui_projectdialog.h"
+#include <exception.h>
 #include "project.h"
-#include "exception.h"
 
 
 

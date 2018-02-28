@@ -1,7 +1,7 @@
+#include "gui_textedit_highlighter.h"
 #include <aspell.h>
 #include <QRegularExpression>
-#include "gui_textedit_highlighter.h"
-#include "exception.h"
+#include <exception.h>
 
 
 

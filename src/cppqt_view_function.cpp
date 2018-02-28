@@ -1,9 +1,9 @@
 #include "cppqt_view_function.h"
+#include <exception.h>
+#include "cppqt_view_common.h"
 #include "cppqt_function.h"
 #include "cppqt_variable.h"
-#include "exception.h"
 #include "cppqt_template.h"
-#include "cppqt_view_common.h"
 
 
 

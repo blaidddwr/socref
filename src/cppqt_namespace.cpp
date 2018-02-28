@@ -1,12 +1,11 @@
+#include "cppqt_namespace.h"
 #include <memory>
 #include <QDomDocument>
 #include <exception.h>
-#include "cppqt_namespace.h"
 #include "cppqt_view_namespace.h"
 #include "cppqt_edit_namespace.h"
-#include "cppqt_blockfactory.h"
-#include "exception.h"
 #include "cppqt_gui_typedialog.h"
+#include "cppqt_blockfactory.h"
 #include "domelementreader.h"
 
 

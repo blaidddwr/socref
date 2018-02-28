@@ -1,14 +1,14 @@
 #include "cppqt_class.h"
+#include <exception.h>
 #include "cppqt_view_class.h"
 #include "cppqt_edit_class.h"
 #include "cppqt_blockfactory.h"
-#include "exception.h"
-#include "domelementreader.h"
 #include "cppqt_access.h"
 #include "cppqt_template.h"
 #include "cppqt_common.h"
 #include "cppqt_constructor.h"
 #include "cppqt_parent.h"
+#include "domelementreader.h"
 
 
 

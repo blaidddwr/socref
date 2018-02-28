@@ -1,16 +1,16 @@
+#include "project.h"
 #include <QFile>
 #include <QFileInfo>
 #include <QDir>
 #include <QFileSystemWatcher>
 #include <QCryptographicHash>
 #include <QDomDocument>
-#include "project.h"
+#include <exception.h>
 #include "abstractprojectfactory.h"
 #include "abstractparserfactory.h"
 #include "abstractblockfactory.h"
 #include "abstractblock.h"
 #include "blockmodel.h"
-#include "exception.h"
 #include "domelementreader.h"
 #include "scanthread.h"
 

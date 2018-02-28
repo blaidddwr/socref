@@ -1,8 +1,8 @@
+#include "cppqt_edit_operator.h"
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QLabel>
 #include <exception.h>
-#include "cppqt_edit_operator.h"
 #include "cppqt_operator.h"
 #include "cppqt_common.h"
 

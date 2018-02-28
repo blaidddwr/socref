@@ -1,6 +1,6 @@
 #include "cppqt_base.h"
+#include <exception.h>
 #include "cppqt_blockfactory.h"
-#include "exception.h"
 #include "domelementreader.h"
 
 

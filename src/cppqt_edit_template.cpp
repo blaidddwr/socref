@@ -1,6 +1,6 @@
+#include "cppqt_edit_template.h"
 #include <QFormLayout>
 #include <QLabel>
-#include "cppqt_edit_template.h"
 #include "cppqt_common.h"
 
 

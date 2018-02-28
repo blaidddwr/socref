@@ -1,3 +1,4 @@
+#include "cppqt_edit_class.h"
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QLabel>
@@ -5,7 +6,6 @@
 #include <QRegularExpressionValidator>
 #include <QMessageBox>
 #include <exception.h>
-#include "cppqt_edit_class.h"
 #include "cppqt_class.h"
 #include "cppqt_common.h"
 

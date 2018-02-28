@@ -1,9 +1,9 @@
+#include "cppqt_edit_base.h"
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QLabel>
 #include <QRegExpValidator>
-#include "cppqt_edit_base.h"
-#include "exception.h"
+#include <exception.h>
 #include "cppqt_base.h"
 #include "gui_textedit.h"
 

@@ -1,8 +1,8 @@
+#include "scanthread.h"
 #include <memory>
 #include <QDebug>
 #include <QDir>
 #include <exception.h>
-#include "scanthread.h"
 #include "abstractparserfactory.h"
 #include "abstractparser.h"
 #include "common.h"

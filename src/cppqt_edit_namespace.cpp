@@ -1,10 +1,10 @@
+#include "cppqt_edit_namespace.h"
 #include <QFormLayout>
 #include <QLabel>
 #include <QPushButton>
-#include "cppqt_namespace.h"
-#include "cppqt_edit_namespace.h"
-#include "exception.h"
+#include <exception.h>
 #include "cppqt_gui_typelistdialog.h"
+#include "cppqt_namespace.h"
 #include "cppqt_common.h"
 
 

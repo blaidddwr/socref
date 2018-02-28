@@ -186,7 +186,8 @@ HEADERS += \
     cppqt_parse_enumeration.h \
     cppqt_parse_common.h \
     cppqt_parse_source.h \
-    cppqt_parse_access.h
+    cppqt_parse_access.h \
+    domelementreader.h
 
 RESOURCES += \
     resources.qrc

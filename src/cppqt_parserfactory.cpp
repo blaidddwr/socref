@@ -1,5 +1,5 @@
-#include <exception.h>
 #include "cppqt_parserfactory.h"
+#include <exception.h>
 #include "cppqt_parse_global.h"
 #include "cppqt_parse_header.h"
 #include "cppqt_parse_source.h"

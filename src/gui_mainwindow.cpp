@@ -1,18 +1,18 @@
+#include "gui_mainwindow.h"
 #include <QAction>
 #include <QMenuBar>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QSettings>
-#include "gui_mainwindow.h"
-#include "abstractprojectfactory.h"
 #include "gui_projectdialog.h"
+#include "gui_scandialog.h"
+#include "gui_blockview.h"
+#include "abstractprojectfactory.h"
 #include "project.h"
 #include "abstractblock.h"
-#include "gui_blockview.h"
 #include "application.h"
 #include "common.h"
-#include "gui_scandialog.h"
 #include "scanthread.h"
 
 

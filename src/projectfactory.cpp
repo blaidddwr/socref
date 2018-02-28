@@ -1,6 +1,6 @@
+#include "projectfactory.h"
 #include <QObject>
 #include <exception.h>
-#include "projectfactory.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_parserfactory.h"
 

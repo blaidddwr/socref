@@ -1,7 +1,7 @@
 #include "cppqt_parse_enumeration.h"
+#include "cppqt_parse_common.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
-#include "cppqt_parse_common.h"
 
 
 

@@ -1,12 +1,12 @@
+#include "cppqt_gui_typecombobox.h"
 #include <QMenu>
 #include <QPushButton>
 #include <QComboBox>
 #include <QHBoxLayout>
-#include "cppqt_gui_typecombobox.h"
-#include "abstractblock.h"
-#include "cppqt_namespace.h"
-#include "exception.h"
+#include <exception.h>
 #include "cppqt_gui_typelistdialog.h"
+#include "cppqt_namespace.h"
+#include "abstractblock.h"
 
 
 

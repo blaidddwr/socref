@@ -1,7 +1,7 @@
+#include "cppqt_edit_destructor.h"
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QLabel>
-#include "cppqt_edit_destructor.h"
 #include "cppqt_common.h"
 
 

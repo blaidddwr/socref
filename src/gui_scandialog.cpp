@@ -1,10 +1,10 @@
+#include "gui_scandialog.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QProgressBar>
 #include <QPushButton>
 #include <QSettings>
 #include <QCloseEvent>
-#include "gui_scandialog.h"
 #include "scanthread.h"
 #include "application.h"
 

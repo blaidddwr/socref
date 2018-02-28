@@ -1,5 +1,5 @@
-#include <exception.h>
 #include "cppqt_enumeration.h"
+#include <exception.h>
 #include "cppqt_view_enumeration.h"
 #include "cppqt_edit_enumeration.h"
 #include "cppqt_blockfactory.h"

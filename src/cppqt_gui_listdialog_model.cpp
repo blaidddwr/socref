@@ -1,5 +1,5 @@
-#include <exception.h>
 #include "cppqt_gui_listdialog_model.h"
+#include <exception.h>
 
 
 

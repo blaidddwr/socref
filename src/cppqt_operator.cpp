@@ -1,5 +1,5 @@
-#include <exception.h>
 #include "cppqt_operator.h"
+#include <exception.h>
 #include "cppqt_view_operator.h"
 #include "cppqt_edit_operator.h"
 #include "cppqt_blockfactory.h"

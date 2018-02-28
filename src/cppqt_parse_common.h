@@ -1,8 +1,8 @@
 #ifndef CPPQT_PARSE_COMMON_H
 #define CPPQT_PARSE_COMMON_H
 #include <QStringList>
-#include "global.h"
 #include "cppqt.h"
+#include "global.h"
 
 
 

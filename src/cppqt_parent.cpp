@@ -1,10 +1,10 @@
-#include <exception.h>
 #include "cppqt_parent.h"
+#include <exception.h>
 #include "cppqt_view_parent.h"
 #include "cppqt_edit_parent.h"
 #include "cppqt_blockfactory.h"
-#include "domelementreader.h"
 #include "cppqt_common.h"
+#include "domelementreader.h"
 
 
 

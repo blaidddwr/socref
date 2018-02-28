@@ -1,5 +1,5 @@
-#ifndef CPPQT_NAMESPACEVIEW_H
-#define CPPQT_NAMESPACEVIEW_H
+#ifndef CPPQT_VIEW_NAMESPACE_H
+#define CPPQT_VIEW_NAMESPACE_H
 #include "cppqt_view_base.h"
 
 

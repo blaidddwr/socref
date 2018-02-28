@@ -1,8 +1,8 @@
 #ifndef CPPQT_GUI_TYPECOMBOBOX_H
 #define CPPQT_GUI_TYPECOMBOBOX_H
 #include <QWidget>
-#include "global.h"
 #include "cppqt.h"
+#include "global.h"
 
 
 

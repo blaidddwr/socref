@@ -1,3 +1,4 @@
+#include "cppqt_gui_typedialog.h"
 #include <QLineEdit>
 #include <QRegExpValidator>
 #include <QHBoxLayout>
@@ -5,7 +6,6 @@
 #include <QVBoxLayout>
 #include <QSettings>
 #include <exception.h>
-#include "cppqt_gui_typedialog.h"
 #include "cppqt_common.h"
 #include "application.h"
 

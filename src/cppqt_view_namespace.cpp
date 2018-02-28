@@ -1,6 +1,6 @@
 #include "cppqt_view_namespace.h"
+#include <exception.h>
 #include "cppqt_namespace.h"
-#include "exception.h"
 
 
 

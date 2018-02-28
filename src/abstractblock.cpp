@@ -1,7 +1,7 @@
-#include <QDomDocument>
 #include "abstractblock.h"
+#include <QDomDocument>
+#include <exception.h>
 #include "abstractblockfactory.h"
-#include "exception.h"
 #include "domelementreader.h"
 
 

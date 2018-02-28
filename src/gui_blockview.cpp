@@ -1,15 +1,15 @@
+#include "gui_blockview.h"
 #include <QTreeView>
 #include <QScrollArea>
 #include <QMenu>
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include "gui_blockview.h"
+#include <exception.h>
 #include "gui_abstractedit.h"
 #include "abstractblock.h"
 #include "abstractblockfactory.h"
 #include "blockmodel.h"
-#include "exception.h"
 #include "application.h"
 
 

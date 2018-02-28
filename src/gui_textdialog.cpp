@@ -1,8 +1,8 @@
+#include "gui_textdialog.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QSettings>
-#include "gui_textdialog.h"
 #include "gui_textedit.h"
 #include "application.h"
 

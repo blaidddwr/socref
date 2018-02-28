@@ -1,9 +1,9 @@
+#include "cppqt_edit_enumvalue.h"
 #include <QFormLayout>
 #include <QLineEdit>
 #include <QIntValidator>
 #include <QLabel>
 #include <exception.h>
-#include "cppqt_edit_enumvalue.h"
 #include "cppqt_enumvalue.h"
 
 

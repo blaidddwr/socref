@@ -1,6 +1,7 @@
 #ifndef SINGLETONFACTORY_H
 #define SINGLETONFACTORY_H
-#include "exception.h"
+#include <QObject>
+#include <exception.h>
 
 
 

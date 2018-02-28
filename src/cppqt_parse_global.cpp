@@ -1,5 +1,5 @@
-#include <QStack>
 #include "cppqt_parse_global.h"
+#include <QStack>
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"

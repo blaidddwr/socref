@@ -1,9 +1,9 @@
+#include "cppqt_edit_parent.h"
 #include <QFormLayout>
 #include <QLabel>
 #include <QComboBox>
 #include <QLineEdit>
 #include <exception.h>
-#include "cppqt_edit_parent.h"
 #include "cppqt_parent.h"
 #include "cppqt_common.h"
 

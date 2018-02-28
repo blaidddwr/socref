@@ -1,5 +1,5 @@
-#include <exception.h>
 #include "cppqt_variable.h"
+#include <exception.h>
 #include "cppqt_view_variable.h"
 #include "cppqt_edit_variable.h"
 #include "cppqt_gui_typedialog.h"

@@ -1,6 +1,6 @@
 #include "cppqt_parse_variable.h"
-#include "cppqt_variable.h"
 #include "cppqt_parse_common.h"
+#include "cppqt_variable.h"
 
 
 

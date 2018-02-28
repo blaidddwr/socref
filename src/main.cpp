@@ -1,8 +1,8 @@
 #include <QDebug>
+#include <exception.h>
 #include "application.h"
 #include "gui_mainwindow.h"
 #include "projectfactory.h"
-#include "exception.h"
 
 
 

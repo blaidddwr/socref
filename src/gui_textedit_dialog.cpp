@@ -1,3 +1,4 @@
+#include "gui_textedit_dialog.h"
 #include <aspell.h>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
@@ -8,7 +9,6 @@
 #include <QMessageBox>
 #include <QSettings>
 #include <exception.h>
-#include "gui_textedit_dialog.h"
 #include "application.h"
 
 

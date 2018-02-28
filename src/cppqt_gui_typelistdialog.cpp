@@ -1,12 +1,12 @@
+#include "cppqt_gui_typelistdialog.h"
 #include <QListWidget>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
 #include <QSettings>
-#include "cppqt_gui_typelistdialog.h"
-#include "cppqt_namespace.h"
 #include "cppqt_gui_typedialog.h"
+#include "cppqt_namespace.h"
 #include "application.h"
 
 

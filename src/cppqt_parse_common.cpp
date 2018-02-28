@@ -1,6 +1,6 @@
+#include "cppqt_parse_common.h"
 #include <QStack>
 #include <exception.h>
-#include "cppqt_parse_common.h"
 #include "cppqt_template.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_class.h"

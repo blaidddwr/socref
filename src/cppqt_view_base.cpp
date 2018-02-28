@@ -1,6 +1,6 @@
-#include <QStringList>
 #include "cppqt_view_base.h"
-#include "exception.h"
+#include <QStringList>
+#include <exception.h>
 #include "cppqt_base.h"
 
 

@@ -1,14 +1,14 @@
+#include "cppqt_edit_function.h"
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QLabel>
 #include <QCheckBox>
 #include <QPushButton>
-#include "cppqt_edit_function.h"
-#include "cppqt_function.h"
-#include "exception.h"
-#include "gui_textedit.h"
+#include <exception.h>
 #include "cppqt_gui_listdialog.h"
+#include "cppqt_function.h"
 #include "cppqt_common.h"
+#include "gui_textedit.h"
 
 
 

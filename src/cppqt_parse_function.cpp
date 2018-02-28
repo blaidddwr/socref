@@ -1,6 +1,7 @@
+#include "cppqt_parse_function.h"
 #include <QStack>
 #include <exception.h>
-#include "cppqt_parse_function.h"
+#include "cppqt_parse_common.h"
 #include "cppqt_function.h"
 #include "cppqt_common.h"
 #include "cppqt_blockfactory.h"
@@ -10,7 +11,6 @@
 #include "cppqt_operator.h"
 #include "cppqt_constructor.h"
 #include "cppqt_destructor.h"
-#include "cppqt_parse_common.h"
 
 
 

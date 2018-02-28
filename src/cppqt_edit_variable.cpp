@@ -1,12 +1,12 @@
+#include "cppqt_edit_variable.h"
 #include <QLabel>
 #include <QCheckBox>
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QLineEdit>
-#include "cppqt_edit_variable.h"
-#include "exception.h"
-#include "cppqt_variable.h"
+#include <exception.h>
 #include "cppqt_gui_typecombobox.h"
+#include "cppqt_variable.h"
 #include "cppqt_common.h"
 
 

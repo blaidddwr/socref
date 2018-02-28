@@ -1,3 +1,4 @@
+#include "cppqt_gui_listdialog.h"
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QPushButton>
@@ -5,7 +6,6 @@
 #include <QTableView>
 #include <QHeaderView>
 #include <QSettings>
-#include "cppqt_gui_listdialog.h"
 #include "cppqt_gui_listdialog_model.h"
 #include "gui_textdialog.h"
 #include "application.h"
@@ -270,7 +270,7 @@ void ListDialog::setupGui()
 
 
 
-QLayout*ListDialog::setupTop()
+QLayout* ListDialog::setupTop()
 {
    _model = new Model(&_list,this);
    _view = new QTableView;

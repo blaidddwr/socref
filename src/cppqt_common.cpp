@@ -1,9 +1,9 @@
+#include "cppqt_common.h"
 #include <QFormLayout>
 #include <QLabel>
-#include "cppqt_common.h"
-#include "abstractblock.h"
 #include "cppqt_template.h"
 #include "cppqt_blockfactory.h"
+#include "abstractblock.h"
 
 
 

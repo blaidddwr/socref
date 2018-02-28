@@ -1,8 +1,8 @@
+#include "cppqt_edit_enumeration.h"
 #include <QFormLayout>
 #include <QCheckBox>
 #include <QLabel>
 #include <exception.h>
-#include "cppqt_edit_enumeration.h"
 #include "cppqt_enumeration.h"
 
 

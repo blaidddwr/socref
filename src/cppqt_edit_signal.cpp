@@ -1,6 +1,6 @@
+#include "cppqt_edit_signal.h"
 #include <QFormLayout>
 #include <QLabel>
-#include "cppqt_edit_signal.h"
 #include "cppqt_common.h"
 
 
