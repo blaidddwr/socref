@@ -118,26 +118,6 @@ unique_ptr<AbstractEdit> Class::makeEdit()
 
 
 
-bool Class::hasAnyTemplates() const
-{
-   if ( hasTemplates() ) return true;
-   AbstractBlock* back {parent()};
-   while ( back && back->type() != BlockFactory::NamespaceType )
-   {
-      if ( Class* valid = back->cast<Class>(BlockFactory::ClassType) )
-      {
-         if ( valid->hasTemplates() ) return true;
-      }
-      back = back->parent();
-   }
-   return false;
-}
-
-
-
-
-
-
 QList<AbstractBlock*> Class::realChildren() const
 {
    QList<AbstractBlock*> ret;
@@ -232,6 +212,26 @@ bool Class::hasSignalsOrSlots() const
 bool Class::hasTemplates() const
 {
    return hasChildOfType(BlockFactory::TemplateType);
+}
+
+
+
+
+
+
+bool Class::hasAnyTemplates() const
+{
+   if ( hasTemplates() ) return true;
+   AbstractBlock* back {parent()};
+   while ( back && back->type() != BlockFactory::NamespaceType )
+   {
+      if ( Class* valid = back->cast<Class>(BlockFactory::ClassType) )
+      {
+         if ( valid->hasTemplates() ) return true;
+      }
+      back = back->parent();
+   }
+   return false;
 }
 
 

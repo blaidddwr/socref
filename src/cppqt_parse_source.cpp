@@ -4,6 +4,7 @@
 #include "cppqt_function.h"
 #include "cppqt_variable.h"
 #include "cppqt_namespace.h"
+#include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
 
 
@@ -18,9 +19,12 @@ using namespace CppQt::Parse;
 Source::Source(CppQt::Namespace* block):
    Global(block),
    _block(block),
-   _children(block->realChildren()),
-   _isTemplate(block->hasAnyTemplates())
+   _children(block->realChildren())
 {
+   if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )
+   {
+      _isTemplate = valid->hasAnyTemplates();
+   }
    makeUsingName();
 }
 

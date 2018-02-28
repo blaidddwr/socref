@@ -46,7 +46,7 @@ namespace CppQt
          QList<Function*> _defined;
          QList<Function*> _undefined;
          bool _pastTop {false};
-         bool _isTemplate;
+         bool _isTemplate {false};
          QString _usingName;
          QString _include;
       };

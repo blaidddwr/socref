@@ -19,7 +19,6 @@ namespace CppQt
       virtual QList<int> buildList() const override final;
       virtual std::unique_ptr<QWidget> makeView() const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
-      virtual bool hasAnyTemplates() const override final;
       virtual QList<AbstractBlock*> realChildren() const override final;
       bool isQtObject() const;
       void setQtObject(bool isQtObject);
@@ -27,6 +26,7 @@ namespace CppQt
       bool isAbstract() const;
       bool hasSignalsOrSlots() const;
       bool hasTemplates() const;
+      bool hasAnyTemplates() const;
       QList<Template*> templates() const;
    signals:
       void bodyChanged();

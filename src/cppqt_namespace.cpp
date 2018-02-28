@@ -90,16 +90,6 @@ unique_ptr<AbstractEdit> Namespace::makeEdit()
 
 
 
-bool Namespace::hasAnyTemplates() const
-{
-   return false;
-}
-
-
-
-
-
-
 QList<AbstractBlock*> Namespace::realChildren() const
 {
    return children();
