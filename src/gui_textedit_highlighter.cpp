@@ -45,7 +45,10 @@ void TextEdit::Highlighter::highlightBlock(const QString& text)
    {
       QRegularExpressionMatch match {matches.next()};
       QByteArray word {match.captured().toLocal8Bit()};
-      if ( !aspell_speller_check(_spell,word.data(),word.size()) ) setFormat(match.capturedStart(),match.capturedLength(),_format);
+      if ( !aspell_speller_check(_spell,word.data(),word.size()) )
+      {
+         setFormat(match.capturedStart(),match.capturedLength(),_format);
+      }
    }
 }
 
@@ -63,7 +66,9 @@ void TextEdit::Highlighter::setupSpeller()
    {
       Exception::SystemError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed initializing Aspell library for spell checking: %1").arg(aspell_error_message(temp)));
+      e.setDetails(
+               tr("Failed initializing Aspell library for spell checking: %1")
+               .arg(aspell_error_message(temp)));
       throw e;
    }
    _spell = to_aspell_speller(temp);

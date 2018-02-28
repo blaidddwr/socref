@@ -79,7 +79,10 @@ Project::Project(const QString &path):
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Scan directory in XML file is invalid; failed changing directory from %1 to %2.").arg(directory.canonicalPath()).arg(_scanDirectory));
+      e.setDetails(
+               tr("Scan directory in XML file is invalid; failed changing directory from %1 to %2.")
+               .arg(directory.canonicalPath())
+               .arg(_scanDirectory));
       throw e;
    }
    _scanDirectory = directory.canonicalPath();
@@ -124,7 +127,8 @@ void Project::save()
    name.appendChild(document.createTextNode(_name));
    type.setAttribute(_idTag,QString::number(_type));
    type.appendChild(document.createTextNode(AbstractProjectFactory::instance().name(_type)));
-   scandir.appendChild(document.createTextNode(QFileInfo(_path).dir().relativeFilePath(_scanDirectory)));
+   scandir.appendChild(
+            document.createTextNode(QFileInfo(_path).dir().relativeFilePath(_scanDirectory)));
    filters.appendChild(document.createTextNode(_scanFilters));
    root.setTagName(_rootTag);
    project.appendChild(name);
@@ -238,7 +242,9 @@ void Project::setScanDirectory(const QString& path)
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
-         e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.").arg(path));
+         e.setDetails(
+                  tr("Attempting to set scan directory as '%1' which is not a directory.")
+                  .arg(path));
          throw e;
       }
       _scanDirectory = info.canonicalFilePath();
@@ -307,7 +313,11 @@ BlockModel* Project::model() const
 
 std::unique_ptr<ScanThread> Project::prepareScanner() const
 {
-   return unique_ptr<ScanThread>(new ScanThread(AbstractProjectFactory::instance().parserFactory(_type,_root),_scanDirectory,_scanFilters.split(' ')));
+   return unique_ptr<ScanThread>(
+            new ScanThread(
+               AbstractProjectFactory::instance().parserFactory(_type,_root)
+               ,_scanDirectory
+               ,_scanFilters.split(' ')));
 }
 
 
@@ -357,7 +367,10 @@ void Project::readTypeElement(const QDomElement& type)
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Read in invalid type name %1 when it should be %2.").arg(typeName).arg(factory.name(_type)));
+      e.setDetails(
+               tr("Read in invalid type name %1 when it should be %2.")
+               .arg(typeName)
+               .arg(factory.name(_type)));
       throw e;
    }
 }

@@ -103,7 +103,11 @@ void Function::outputDefinition()
       QString line;
       QString templateString {getTemplateDeclaration(_block)};
       if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
-      line.append(getReturnValue()).append(getScope(!templateString.isEmpty())).append(getName()).append(getArguments(false));
+      line
+            .append(getReturnValue())
+            .append(getScope(!templateString.isEmpty()))
+            .append(getName())
+            .append(getArguments(false));
       if ( _block->isConst() ) line.append(" const");
       if ( _block->isNoExcept() ) line.append(" noexcept");
       if ( !_initializers.isEmpty() ) line.append(":");
@@ -131,7 +135,10 @@ bool Function::isMatch(const QString& line)
    QString regular {".*"};
    regular.append(getName(true));
    regular.append("\\(\\s*");
-   for (auto argument : _block->arguments()) regular.append(argument->variableType().replace("*","\\*")).append(".*");
+   for (auto argument : _block->arguments())
+   {
+      regular.append(argument->variableType().replace("*","\\*")).append(".*");
+   }
    regular.append("\\):?");
    if ( _block->isConst() ) regular.append("\\s+const");
    if ( _block->isNoExcept() ) regular.append("\\s+noexcept");
@@ -242,8 +249,15 @@ void Function::outputOperationComments()
 QString Function::getReturnValue()
 {
    QString ret;
-   if ( _block->type() == BlockFactory::SlotType || _block->type() == BlockFactory::SignalType ) ret = QString("void ");
-   else if ( _block->type() != BlockFactory::ConstructorType && _block->type() != BlockFactory::DestructorType ) ret.append(_block->returnType()).append(" ");
+   if ( _block->type() == BlockFactory::SlotType || _block->type() == BlockFactory::SignalType )
+   {
+      ret = QString("void ");
+   }
+   else if ( _block->type() != BlockFactory::ConstructorType
+             && _block->type() != BlockFactory::DestructorType )
+   {
+      ret.append(_block->returnType()).append(" ");
+   }
    return ret;
 }
 
@@ -277,8 +291,14 @@ QString Function::getName(bool isRegExp)
       }
       else ret.append(valid->operation());
    }
-   else if ( const Destructor* valid = qobject_cast<const Destructor*>(_block) ) ret.append("~").append(valid->className());
-   else if ( const Constructor* valid = qobject_cast<const Constructor*>(_block) ) ret.append(valid->className());
+   else if ( const Destructor* valid = qobject_cast<const Destructor*>(_block) )
+   {
+      ret.append("~").append(valid->className());
+   }
+   else if ( const Constructor* valid = qobject_cast<const Constructor*>(_block) )
+   {
+      ret.append(valid->className());
+   }
    else ret.append(_block->Base::name());
    return ret;
 }
@@ -298,7 +318,10 @@ QString Function::getArguments(bool withInitializers)
       if ( first ) first = false;
       else ret.append(", ");
       ret.append(argument->variableType()).append(" ").append(argument->Base::name());
-      if ( withInitializers && argument->hasInitializer() ) ret.append(" = ").append(argument->initializer());
+      if ( withInitializers && argument->hasInitializer() )
+      {
+         ret.append(" = ").append(argument->initializer());
+      }
    }
    ret.append(")");
    return ret;
@@ -315,7 +338,10 @@ bool Function::hasAnyTemplates()
    while ( back )
    {
       if ( back->type() == BlockFactory::NamespaceType ) break;
-      else if ( Class* block = back->cast<Class>(BlockFactory::ClassType) ) return block->hasAnyTemplates();
+      else if ( Class* block = back->cast<Class>(BlockFactory::ClassType) )
+      {
+         return block->hasAnyTemplates();
+      }
       back = back->parent();
    }
    return false;

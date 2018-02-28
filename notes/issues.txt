@@ -3,8 +3,6 @@
 
 * Make it so templates and virtual functions do not mix in C++/Qt.
 
-* Cleanup really long conditional lines if they exceed 100 length.
-
 * Make qt object and templates mutually exclusive in C++/Qt.
 
 * Make it so you cannot add signals/slots if class is not qt object in C++/Qt.
@@ -28,4 +26,6 @@
 * Fix C++/Qt parsing bug where enumerations do not write and ending semicolon.
 
 * Fix C++/Qt class bug where qt object checkbox has no name.
+
+* Add indented definition of initializer lists for variables in C++/Qt parser if it exceeds a 100 lines.
 

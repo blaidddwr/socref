@@ -87,7 +87,9 @@ void Header::evaluateFunction(CppQt::Function* block)
 {
    Function* base {new Function(block,this)};
    _declarations.append(base);
-   if ( block->type() != BlockFactory::SignalType && ( isTemplate() || block->hasTemplates() ) && !block->isAbstract() )
+   if ( block->type() != BlockFactory::SignalType
+        && ( isTemplate() || block->hasTemplates() )
+        && !block->isAbstract() )
    {
       addDefined(base);
    }
@@ -183,7 +185,9 @@ void Header::outputClassDeclaration(Class* block)
             first = false;
          }
          else line.append(", ");
-         line.append(Parent::_accessNames.at(static_cast<int>(valid->access()))).append(" ").append(valid->Base::name());
+         line
+               .append(Parent::_accessNames.at(static_cast<int>(valid->access())))
+               .append(" ").append(valid->Base::name());
       }
    }
    addLine(line);

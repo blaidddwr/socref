@@ -16,8 +16,14 @@ QString CppQt::View::displayTemplatesText(const AbstractBlock* block)
       ret.append("<h3>Templates</h3>");
       for (auto template_ : list)
       {
-         ret.append("<p>").append(template_->variableType()).append(" <b>").append(template_->Base::name()).append("</b> : ");
-         ret.append(template_->description()).append("</p>");
+         ret
+               .append("<p>")
+               .append(template_->variableType())
+               .append(" <b>")
+               .append(template_->Base::name())
+               .append("</b> : ")
+               .append(template_->description())
+               .append("</p>");
       }
    }
    return ret;

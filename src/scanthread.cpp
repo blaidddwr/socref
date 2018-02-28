@@ -50,7 +50,11 @@ void ScanThread::run()
          {
             return;
          }
-         unique_ptr<AbstractParser> parser {_factory->makeParser(_list.at(i).completeBaseName().toLower(),_list.at(i).suffix().toLower())};
+         unique_ptr<AbstractParser> parser
+         {
+            _factory->makeParser(_list.at(i).completeBaseName().toLower()
+                                 ,_list.at(i).suffix().toLower())
+         };
          if ( parser )
          {
             QFile file(_list.at(i).canonicalFilePath());
@@ -58,7 +62,10 @@ void ScanThread::run()
             {
                Exception::SystemError e;
                MARK_EXCEPTION(e);
-               e.setDetails(tr("Failed opening file %1: %2").arg(_list.at(i).canonicalFilePath()).arg(file.errorString()));
+               e.setDetails(
+                        tr("Failed opening file %1: %2")
+                        .arg(_list.at(i).canonicalFilePath())
+                        .arg(file.errorString()));
                throw e;
             }
             parser->execute(&file);

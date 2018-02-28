@@ -66,7 +66,10 @@ QString DomElementReader::attribute(const QString& name, bool required)
       {
          Exception::ReadError e;
          MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Cannot find attribute '%1' in XML element '%2'.").arg(name).arg(_element.tagName()));
+         e.setDetails(
+                  QObject::tr("Cannot find attribute '%1' in XML element '%2'.")
+                  .arg(name)
+                  .arg(_element.tagName()));
          throw e;
       }
       return QString();
@@ -87,7 +90,10 @@ int DomElementReader::attributeToInt(const QString& name, bool required)
       {
          Exception::ReadError e;
          MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Cannot find attribute '%1' in XML element '%2'.").arg(name).arg(_element.tagName()));
+         e.setDetails(
+                  QObject::tr("Cannot find attribute '%1' in XML element '%2'.")
+                  .arg(name)
+                  .arg(_element.tagName()));
          throw e;
       }
       return 0;
@@ -98,7 +104,10 @@ int DomElementReader::attributeToInt(const QString& name, bool required)
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Failed reading attribute '%1' in XML element '%2' as integer.").arg(name).arg(_element.tagName()));
+      e.setDetails(
+               QObject::tr("Failed reading attribute '%1' in XML element '%2' as integer.")
+               .arg(name)
+               .arg(_element.tagName()));
       throw e;
    }
    return ret;
@@ -134,7 +143,9 @@ void DomElementReader::read()
                   {
                      Exception::ReadError e;
                      MARK_EXCEPTION(e);
-                     e.setDetails(QObject::tr("Failed reading XML element '%1' as integer.").arg(element.tagName()));
+                     e.setDetails(
+                              QObject::tr("Failed reading XML element '%1' as integer.")
+                              .arg(element.tagName()));
                      throw e;
                   }
                   break;
@@ -174,7 +185,9 @@ DomElementReader& DomElementReader::append(const QString& tagName, void* pointer
    {
       Exception::LogicError e;
       MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Tag name '%1' already exists in list of elements to find.").arg(tagName));
+      e.setDetails(
+               QObject::tr("Tag name '%1' already exists in list of elements to find.")
+               .arg(tagName));
       throw e;
    }
    _lookup.insert(tagName,_type.size());

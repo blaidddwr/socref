@@ -94,11 +94,16 @@ bool Function::isStaticCheckable() const
 void Function::updateProperties()
 {
    Variable::updateProperties();
-   if ( _virtualBox ) _virtualBox->setCheckable( !isConstExprChecked() && !isStaticChecked() && !_block->hasTemplates() && _block->isMethod() );
+   if ( _virtualBox ) _virtualBox->setCheckable( !isConstExprChecked()
+                                                 && !isStaticChecked()
+                                                 && !_block->hasTemplates()
+                                                 && _block->isMethod() );
    if ( _constBox ) _constBox->setCheckable(_block->isMethod());
    if ( _overrideBox ) _overrideBox->setCheckable( isVirtualChecked() && !isAbstractChecked() );
    if ( _finalBox ) _finalBox->setCheckable( isVirtualChecked() && !isAbstractChecked() );
-   if ( _abstractBox ) _abstractBox->setCheckable( isVirtualChecked() && !isOverrideChecked() && !isFinalChecked() );
+   if ( _abstractBox ) _abstractBox->setCheckable( isVirtualChecked()
+                                                   && !isOverrideChecked()
+                                                   && !isFinalChecked() );
 }
 
 

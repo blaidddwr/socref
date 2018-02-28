@@ -11,7 +11,16 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
-const QStringList Access::_typeNames {"public:","protected:","private:","signals:","public slots:","protected slots:","private slots:"};
+const QStringList Access::_typeNames
+{
+   "public:"
+   ,"protected:"
+   ,"private:"
+   ,"signals:"
+   ,"public slots:"
+   ,"protected slots:"
+   ,"private slots:"
+};
 const char* Access::_typeTag {"type"};
 
 
@@ -220,7 +229,16 @@ bool Access::hasSignalsOrSlots() const
 
 bool Access::hasRegularMembers() const
 {
-   QList<int> types {BlockFactory::FunctionType,BlockFactory::OperatorType,BlockFactory::ConstructorType,BlockFactory::DestructorType,BlockFactory::VariableType,BlockFactory::EnumerationType,BlockFactory::ClassType};
+   QList<int> types
+   {
+      BlockFactory::FunctionType
+      ,BlockFactory::OperatorType
+      ,BlockFactory::ConstructorType
+      ,BlockFactory::DestructorType
+      ,BlockFactory::VariableType
+      ,BlockFactory::EnumerationType
+      ,BlockFactory::ClassType
+   };
    return hasChildOfTypes(types);
 }
 
@@ -267,7 +285,9 @@ bool Access::hasAbstract() const
 
 bool Access::isSlot(Type type)
 {
-   return ( type == Type::PublicSlots || type == Type::ProtectedSlots || type == Type::PrivateSlots );
+   return ( type == Type::PublicSlots
+            || type == Type::ProtectedSlots
+            || type == Type::PrivateSlots );
 }
 
 

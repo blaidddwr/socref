@@ -91,7 +91,8 @@ void Source::readTop(const QString& line)
    {
       addPreProcess(line);
    }
-   else if ( QRegExp("\\s*using\\s+namespace\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*").exactMatch(line) && line != _usingName )
+   else if ( QRegExp("\\s*using\\s+namespace\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*").exactMatch(line)
+             && line != _usingName )
    {
       addMisc(line.trimmed());
    }
@@ -117,7 +118,10 @@ void Source::evaluateVariable(CppQt::Variable* block)
 
 void Source::evaluateFunction(CppQt::Function* block)
 {
-   if ( !isTemplate() && !block->isAbstract() && block->type() != BlockFactory::SignalType && !block->hasTemplates() )
+   if ( !isTemplate()
+        && !block->isAbstract()
+        && block->type() != BlockFactory::SignalType
+        && !block->hasTemplates() )
    {
       addDefined(new Function(block,this));
    }

@@ -41,7 +41,10 @@ void Variable::outputDeclaration()
    if ( _block->isStatic() ) line.append("static ");
    if ( line.isEmpty() && !_block->isClassMember() ) line.append("extern ");
    line.append(_block->variableType()).append(" ").append(_block->Base::name());
-   if ( _block->hasInitializer() && _block->isConstExpr() ) line.append(" {").append(_block->initializer()).append("}");
+   if ( _block->hasInitializer() && _block->isConstExpr() )
+   {
+      line.append(" {").append(_block->initializer()).append("}");
+   }
    line.append(";");
    addLine(line);
 }
@@ -62,7 +65,10 @@ void Variable::outputDefinition()
       if ( _block->isClassMember() ) line.append(getClassScope(_block));
       else line.append(getNamespace(_block));
       line.append(_block->Base::name());
-      if ( _block->hasInitializer() && !_block->isConstExpr() ) line.append(" {").append(_block->initializer()).append("}");
+      if ( _block->hasInitializer() && !_block->isConstExpr() )
+      {
+         line.append(" {").append(_block->initializer()).append("}");
+      }
       line.append(";");
       addLine(line);
    }

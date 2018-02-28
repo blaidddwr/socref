@@ -56,7 +56,10 @@ int ListDialog::Model::rowCount(const QModelIndex& parent) const
 
 QVariant ListDialog::Model::data(const QModelIndex& index, int role) const
 {
-   if ( index.row() < _list->size() && ( role == Qt::DisplayRole || role == Qt::EditRole ) ) return _list->at(index.row());
+   if ( index.row() < _list->size() && ( role == Qt::DisplayRole || role == Qt::EditRole ) )
+   {
+      return _list->at(index.row());
+   }
    return QVariant();
 }
 
