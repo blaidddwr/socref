@@ -131,9 +131,9 @@ bool Class::hasAnyTemplates() const
    AbstractBlock* back {parent()};
    while ( back && back->type() != BlockFactory::NamespaceType )
    {
-      if ( Class* back_ = qobject_cast<Class*>(back) )
+      if ( Class* valid = back->cast<Class>(BlockFactory::ClassType) )
       {
-         if ( back_->hasTemplates() ) return true;
+         if ( valid->hasTemplates() ) return true;
       }
       back = back->parent();
    }
@@ -252,10 +252,7 @@ QList<Template*> Class::templates() const
    const QList<AbstractBlock*> list {children()};
    for (auto child : list)
    {
-      if ( child->type() == BlockFactory::TemplateType )
-      {
-         if ( Template* variable = qobject_cast<Template*>(child) ) ret.append(variable);
-      }
+      if ( Template* valid = child->cast<Template>(BlockFactory::TemplateType) ) ret.append(valid);
    }
    return ret;
 }
@@ -387,10 +384,7 @@ QList<Access*> Class::accessChildren() const
    QList<AbstractBlock*> list {children()};
    for (auto child : list)
    {
-      if ( child->type() == BlockFactory::AccessType )
-      {
-         if ( Access* access = qobject_cast<Access*>(child) ) ret << access;
-      }
+      if ( Access* valid = child->cast<Access>(BlockFactory::AccessType) ) ret << valid;
    }
    return ret;
 }
