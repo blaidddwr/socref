@@ -132,7 +132,7 @@ void Function::outputDefinition()
 bool Function::isMatch(const QString& line)
 {
    if ( hasCode() ) return false;
-   QString regular {".*"};
+   QString regular {".*[: ]"};
    regular.append(getName(true));
    regular.append("\\(\\s*");
    for (auto argument : _block->arguments())
@@ -143,7 +143,8 @@ bool Function::isMatch(const QString& line)
    if ( _block->isConst() ) regular.append("\\s+const");
    if ( _block->isNoExcept() ) regular.append("\\s+noexcept");
    regular.append("\\s*");
-   return QRegExp(regular).exactMatch(line);
+   bool ret = QRegExp(regular).exactMatch(line);
+   return ret;
 }
 
 

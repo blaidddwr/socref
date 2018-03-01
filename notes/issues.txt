@@ -9,8 +9,6 @@
 
 * Make a settings menu which will currently just have C++/Qt for things like indent size, remembering it all in QSettings.
 
-* Fix C++/Qt parsing bug where if destructor comes before constuctor then mismatch of functions occurs.
-
 * Add friend and using declarations for classes in C++/Qt.
 
 * Fix C++/Qt parse formatting of header files at end. (missing spaces)
