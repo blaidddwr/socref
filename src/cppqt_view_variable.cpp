@@ -32,7 +32,37 @@ Variable::Variable(const AbstractBlock* block, bool wait, QWidget* parent):
 
 QString Variable::displayText()
 {
-   return Base::displayText().append(displayInitializer());
+   return Base::displayText()
+         .append(displayProperties(getProperties()))
+         .append(displayInitializer());
+}
+
+
+
+
+
+
+QString Variable::displayProperties(QStringList list)
+{
+   QString ret;
+   if ( !list.isEmpty() )
+   {
+      ret.append("<h3>Properties</h3><ul><li>").append(list.join("</li><li>")).append("</li></ul>");
+   }
+   return ret;
+}
+
+
+
+
+
+
+QStringList Variable::getProperties()
+{
+   QStringList ret;
+   if ( _block->isConstExpr() ) ret << "constexpr";
+   if ( _block->isStatic() ) ret << "static";
+   return ret;
 }
 
 

@@ -599,8 +599,6 @@ void Function::copyDataFrom(const AbstractBlock* object)
 QString Function::fullName(const QString& returnType, const QString& name) const
 {
    QString ret;
-   if ( _virtual ) ret.append("virtual ");
-   ret.append(properties());
    if ( !returnType.isEmpty() ) ret.append(returnType).append(" ");
    ret.append(name).append("(");
    bool first {true};
@@ -610,13 +608,24 @@ QString Function::fullName(const QString& returnType, const QString& name) const
       if ( first ) first = false;
       else ret.append(",");
       ret.append(variable->variableType());
-      if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
+      if ( variable->hasInitializer() ) ret.append("(=)");
    }
-   ret.append(")");
-   if ( _const ) ret.append(" const");
-   if ( _noExcept ) ret.append(" noexcept");
-   if ( _override ) ret.append(" override");
-   if ( _final ) ret.append(" final");
-   if ( _abstract ) ret.append(" = 0");
+   return ret.append(")").append(attributes());
+}
+
+
+
+
+
+
+QString Function::attributes() const
+{
+   QString ret;
+   if ( _const ) ret.append("C");
+   if ( _noExcept ) ret.append("N");
+   if ( _override ) ret.append("O");
+   if ( _final ) ret.append("F");
+   if ( _abstract ) ret.append("0");
+   if ( !ret.isEmpty() ) ret.prepend(" ");
    return ret;
 }

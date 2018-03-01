@@ -25,7 +25,7 @@ Slot::Slot(const QString& name):
 
 QString Slot::name() const
 {
-   return fullName("void",Base::name());
+   return fullName(QString(),Base::name());
 }
 
 

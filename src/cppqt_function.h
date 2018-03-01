@@ -58,6 +58,7 @@ namespace CppQt
       virtual void copyDataFrom(const AbstractBlock* object) override;
       QString fullName(const QString& returnType, const QString& name) const;
    private:
+      QString attributes() const;
       static const char* _returnDescriptionTag;
       static const char* _virtualTag;
       static const char* _constTag;

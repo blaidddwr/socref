@@ -45,7 +45,7 @@ Variable::Variable(const QString& type, const QString& name):
 
 QString Variable::name() const
 {
-   QString ret {properties()};
+   QString ret;
    ret.append(_type).append(" ").append(Base::name());
    if ( !_initializer.isEmpty() )
    {
@@ -322,19 +322,6 @@ void Variable::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
-}
-
-
-
-
-
-
-QString Variable::properties() const
-{
-   QString ret;
-   if ( _constExpr ) ret.append("constexpr ");
-   if ( _static ) ret.append("static ");
-   return ret;
 }
 
 

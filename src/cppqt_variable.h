@@ -35,7 +35,6 @@ namespace CppQt
       virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;
-      QString properties() const;
    private:
       void checkTypeSyntax(const QString& type);
       static const char* _constExprTag;

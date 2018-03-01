@@ -15,7 +15,7 @@ using namespace CppQt::View;
 
 
 Function::Function(const AbstractBlock* block, bool wait, QWidget* parent):
-   Base(block,parent),
+   Variable(block,parent),
    _block(qobject_cast<const CppQt::Function*>(block))
 {
    if ( !_block )
@@ -37,6 +37,7 @@ Function::Function(const AbstractBlock* block, bool wait, QWidget* parent):
 QString Function::displayText()
 {
    return Base::displayText()
+         .append(displayProperties(getProperties()))
          .append(displayTemplatesText())
          .append(displayArgumentsText())
          .append(displayReturnText())
@@ -61,7 +62,7 @@ QString Function::displayTemplatesText()
 QString Function::displayArgumentsText()
 {
    QString ret;
-   const QList<Variable*> list {_block->arguments()};
+   const QList<CppQt::Variable*> list {_block->arguments()};
    if ( !list.isEmpty() )
    {
       ret.append("<h3>Arguments</h3>");
@@ -111,6 +112,23 @@ QString Function::displayOperationsText()
       for (auto operation : list) ret.append("<li>").append(operation).append("</li>");
       ret.append("</ol>");
    }
+   return ret;
+}
+
+
+
+
+
+
+QStringList Function::getProperties()
+{
+   QStringList ret {Variable::getProperties()};
+   if ( _block->isVirtual() ) ret << "virtual";
+   if ( _block->isConst() ) ret << "const";
+   if ( _block->isNoExcept() ) ret << "noexcept";
+   if ( _block->isOverride() ) ret << "override";
+   if ( _block->isFinal() ) ret << "final";
+   if ( _block->isAbstract() ) ret << "abstract(= 0)";
    return ret;
 }
 
