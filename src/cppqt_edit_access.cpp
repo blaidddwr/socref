@@ -4,6 +4,8 @@
 #include <QLabel>
 #include <exception.h>
 #include "cppqt_access.h"
+#include "cppqt_class.h"
+#include "cppqt_blockfactory.h"
 #include "cppqt_common.h"
 
 
@@ -69,6 +71,7 @@ void Access::addCombo(QFormLayout* layout)
 
 void Access::setupCombo()
 {
+   Class* parent_ {_block->parent()->cast<Class>(BlockFactory::ClassType)};
    _box = new QComboBox;
    if ( !_block->hasSignalsOrSlots() )
    {
@@ -76,11 +79,11 @@ void Access::setupCombo()
       _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::Protected)));
       _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::Private)));
    }
-   if ( !_block->hasSlots() && !_block->hasRegularMembers() )
+   if ( !_block->hasSlots() && !_block->hasRegularMembers() && parent_->isQtObject() )
    {
       _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::Signals)));
    }
-   if ( !_block->hasSignals() && !_block->hasRegularMembers() )
+   if ( !_block->hasSignals() && !_block->hasRegularMembers() && parent_->isQtObject() )
    {
       _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::PublicSlots)));
       _box->addItem(CppQt::Access::_typeNames.at(static_cast<int>(CppQt::Access::Type::ProtectedSlots)));
