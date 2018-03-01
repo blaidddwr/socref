@@ -41,7 +41,8 @@ void Variable::outputDeclaration()
    if ( _block->isStatic() ) line.append("static ");
    if ( line.isEmpty() && !_block->isClassMember() ) line.append("extern ");
    line.append(_block->variableType()).append(" ").append(_block->Base::name());
-   if ( _block->hasInitializer() && _block->isConstExpr() )
+   if ( _block->hasInitializer()
+        && ( _block->isConstExpr() || ( _block->isClassMember() && !_block->isStatic() ) ) )
    {
       line.append(" {").append(_block->initializer()).append("}");
    }
