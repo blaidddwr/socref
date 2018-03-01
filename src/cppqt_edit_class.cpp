@@ -75,7 +75,9 @@ void Class::addProperties(QFormLayout* layout)
 
 void Class::setupObject()
 {
+   bool isTemplate {_block->hasAnyTemplates()};
    _qtObjectBox = new QCheckBox(tr("Qt Object"));
-   _qtObjectBox->setChecked(_block->isQtObject() || _block->hasSignalsOrSlots());
-   _qtObjectBox->setDisabled(_block->hasSignalsOrSlots());
+   _qtObjectBox->setChecked( ( _block->isQtObject() || _block->hasSignalsOrSlots() )
+                             && !isTemplate );
+   _qtObjectBox->setDisabled( _block->hasSignalsOrSlots() || isTemplate );
 }

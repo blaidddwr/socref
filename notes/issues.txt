@@ -1,6 +1,4 @@
 
-* Make qt object and templates mutually exclusive in C++/Qt.
-
 * Make all the C++/Qt edit dialogs remember their size.
 
 * Make a settings menu which will currently just have C++/Qt for things like indent size, remembering it all in QSettings.

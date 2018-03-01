@@ -44,7 +44,7 @@ namespace CppQt
       void notifyOfNameChange();
       QList<Access*> accessChildren() const;
       static const char* _qtObjectTag;
-      bool _qtObject;
+      bool _qtObject {false};
    };
 }
 
