@@ -84,7 +84,7 @@ QLayout* Constructor::setupProperties()
 
 QWidget*Constructor::setupExplicit()
 {
-   _explicitBox = new QCheckBox;
+   _explicitBox = new QCheckBox(tr("Explicit"));
    _explicitBox->setChecked(_block->isExplicit());
    return _explicitBox;
 }

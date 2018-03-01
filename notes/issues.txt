@@ -11,9 +11,5 @@
 
 * Add friend and using declarations for classes in C++/Qt.
 
-* Fix C++/Qt parsing bug where enumerations do not write and ending semicolon.
-
-* Fix C++/Qt class bug where qt object checkbox has no name.
-
 * Add indented definition of initializer lists for variables in C++/Qt parser if it exceeds a 100 lines.
 

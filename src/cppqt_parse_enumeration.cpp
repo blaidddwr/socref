@@ -56,7 +56,7 @@ void Enumeration::outputDeclaration()
       addLine(line);
    }
    setIndent(indent() - 3);
-   addLine("}");
+   addLine("};");
 }
 
 
