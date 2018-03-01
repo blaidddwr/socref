@@ -1,6 +1,4 @@
 
-* Make it so templates and virtual functions do not mix in C++/Qt.
-
 * Make qt object and templates mutually exclusive in C++/Qt.
 
 * Make it so you cannot add signals/slots if class is not qt object in C++/Qt.

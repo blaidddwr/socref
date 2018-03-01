@@ -4,6 +4,7 @@
 #include "cppqt_edit_function.h"
 #include "cppqt_gui_typedialog.h"
 #include "cppqt_variable.h"
+#include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_template.h"
 #include "cppqt_common.h"
@@ -392,6 +393,21 @@ void Function::setAbstract(bool isAbstract)
 bool Function::isMethod() const
 {
    return isClassMember();
+}
+
+
+
+
+
+
+bool Function::hasAnyTemplates() const
+{
+   if ( hasTemplates() ) return true;
+   if ( parent()->type() == BlockFactory::AccessType )
+   {
+      return parent()->parent()->cast<Class>(BlockFactory::ClassType)->hasAnyTemplates();
+   }
+   return false;
 }
 
 

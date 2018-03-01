@@ -96,7 +96,7 @@ void Function::updateProperties()
    Variable::updateProperties();
    if ( _virtualBox ) _virtualBox->setCheckable( !isConstExprChecked()
                                                  && !isStaticChecked()
-                                                 && !_block->hasTemplates()
+                                                 && !_block->hasAnyTemplates()
                                                  && _block->isMethod() );
    if ( _constBox ) _constBox->setCheckable(_block->isMethod());
    if ( _overrideBox ) _overrideBox->setCheckable( isVirtualChecked() && !isAbstractChecked() );
