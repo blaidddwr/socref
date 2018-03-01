@@ -200,7 +200,6 @@ void Header::outputClassDeclaration(Class* block)
 
 void Header::outputFooter()
 {
-   addBlankLines(1);
+   addBlankLines(3);
    addLine("#endif");
-   addBlankLines(1);
 }

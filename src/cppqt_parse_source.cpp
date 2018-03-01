@@ -81,7 +81,6 @@ void Source::makeOutput()
    outputPreProcesser();
    outputMisc(true);
    outputDefinitions();
-   addBlankLines(1);
 }
 
 
