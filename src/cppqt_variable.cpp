@@ -50,7 +50,7 @@ QString Variable::name() const
    if ( !_initializer.isEmpty() )
    {
       if ( isFunctionArgument() ) ret.append(" = ").append(_initializer);
-      else ret.append(" {").append(_initializer).append("}");
+      else ret.append(" {}");
    }
    return ret;
 }

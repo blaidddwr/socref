@@ -20,6 +20,7 @@ namespace CppQt
       protected:
          virtual bool readLine(const QString& line) override final;
       private:
+         void outputEnd(QString* line, bool withInitializer);
          CppQt::Variable* _block;
       };
    }

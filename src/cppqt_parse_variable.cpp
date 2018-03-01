@@ -41,13 +41,8 @@ void Variable::outputDeclaration()
    if ( _block->isStatic() ) line.append("static ");
    if ( line.isEmpty() && !_block->isClassMember() ) line.append("extern ");
    line.append(_block->variableType()).append(" ").append(_block->Base::name());
-   if ( _block->hasInitializer()
-        && ( _block->isConstExpr() || ( _block->isClassMember() && !_block->isStatic() ) ) )
-   {
-      line.append(" {").append(_block->initializer()).append("}");
-   }
-   line.append(";");
-   addLine(line);
+   outputEnd(&line, _block->hasInitializer()
+             && ( _block->isConstExpr() || ( _block->isClassMember() && !_block->isStatic() ) ));
 }
 
 
@@ -66,12 +61,7 @@ void Variable::outputDefinition()
       if ( _block->isClassMember() ) line.append(getClassScope(_block));
       else line.append(getNamespace(_block));
       line.append(_block->Base::name());
-      if ( _block->hasInitializer() && !_block->isConstExpr() )
-      {
-         line.append(" {").append(_block->initializer()).append("}");
-      }
-      line.append(";");
-      addLine(line);
+      outputEnd(&line, _block->hasInitializer() && !_block->isConstExpr() );
    }
 }
 
@@ -84,4 +74,45 @@ bool Variable::readLine(const QString& line)
 {
    Q_UNUSED(line)
    return false;
+}
+
+
+
+
+
+
+void Variable::outputEnd(QString* line, bool withInitializer)
+{
+   if ( withInitializer )
+   {
+      const QString initialize {_block->initializer()};
+      if ( (initialize.size() + line->size() + indent() + 1) > 100 )
+      {
+         addLine(*line);
+         addLine("{");
+         setIndent(indent() + 3);
+         bool first {true};
+         const QStringList parts {initialize.split(',')};
+         for (auto part : parts)
+         {
+            QString line;
+            if ( first ) first = false;
+            else line.append(",");
+            line.append(part);
+            addLine(line);
+         }
+         setIndent(indent() - 3);
+         addLine("};");
+      }
+      else
+      {
+         line->append(" {").append(initialize).append("};");
+         addLine(*line);
+      }
+   }
+   else
+   {
+      line->append(";");
+      addLine(*line);
+   }
 }

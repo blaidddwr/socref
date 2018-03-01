@@ -15,6 +15,9 @@ namespace CppQt
          explicit Variable(const AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
       protected:
          QString displayText();
+      private:
+         QString displayInitializer();
+         const CppQt::Variable* _block;
       };
    }
 }
