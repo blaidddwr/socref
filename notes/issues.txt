@@ -5,5 +5,3 @@
 
 * Add friend and using declarations for classes in C++/Qt.
 
-* Fix issue where C++/Qt parsing does not output template arguments for inherited classes.
-

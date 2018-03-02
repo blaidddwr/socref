@@ -188,6 +188,8 @@ void Header::outputClassDeclaration(Class* block)
          line
                .append(Parent::_accessNames.at(static_cast<int>(valid->access())))
                .append(" ").append(valid->Base::name());
+         QString templateArgument {valid->templateArgument()};
+         if ( !templateArgument.isEmpty() ) line.append("<").append(templateArgument).append(">");
       }
    }
    addLine(line);
