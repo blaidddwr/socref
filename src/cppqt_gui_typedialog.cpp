@@ -85,14 +85,19 @@ void TypeDialog::setName(const QString& name)
 bool TypeDialog::isValidTypeString(const QString& input)
 {
    bool ret {false};
-   if ( QRegExp("\\s*(const\\s+)?((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*)+(<(.*)>)?(\\s*\\*(\\s*const)?)*\\s*&{0,2}\\s*").exactMatch(input) )
+   if ( QRegExp("\\s*(const\\s+)?((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*(<(.*)>)?)+(\\s*\\*(\\s*const)?)*\\s*&{0,2}\\s*").exactMatch(input) )
    {
       ret = true;
-      if ( input.contains('<') )
+      QRegularExpression regExp("<(.*)>");
+      QRegularExpressionMatchIterator matches {regExp.globalMatch(input)};
+      while ( matches.hasNext() )
       {
-         int begin {input.indexOf('<')};
-         int end {input.lastIndexOf('>')};
-         if ( !isValidTemplateArgument(input.mid(begin+1,end-begin-1)) ) ret = false;
+         QRegularExpressionMatch match {matches.next()};
+         if ( !isValidTemplateArgument(match.captured(1)) )
+         {
+            ret = false;
+            break;
+         }
       }
    }
    return ret;

@@ -7,5 +7,3 @@
 
 * Fix issue where C++/Qt parsing does not output template arguments for inherited classes.
 
-* Fix issue in C++/Qt types where the scope is prevented from having any template arguments.
-
