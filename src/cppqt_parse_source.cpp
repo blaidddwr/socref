@@ -56,7 +56,7 @@ void Source::initialize()
 
 bool Source::readLine(const QString& line)
 {
-   if ( line.trimmed() == QString("{") ) _pastTop = true;
+   if ( line == QString("//") ) _pastTop = true;
    if ( !_pastTop ) readTop(line);
    if ( QRegExp(".*\\([a-zA-Z0-9_,<>:&\\* ]*\\):?[ constexp]*").exactMatch(line) )
    {
@@ -163,6 +163,7 @@ void Source::outputMisc(bool addUsingName)
       for (auto line : _misc) addLine(line);
       if ( addUsingName && !_usingName.isEmpty() ) addLine(_usingName);
    }
+   addLine("//");
 }
 
 

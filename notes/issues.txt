@@ -9,7 +9,5 @@
 
 * Make function names shorter in context of templates and trimming the return to ... if larger than a certain length.
 
-* Fix C++/Qt parsing bug where additional endif is added to header at the beginning.
-
 * Fix C++/Qt parsing bug where nested classes are not declared within their parent's declaration.
 
