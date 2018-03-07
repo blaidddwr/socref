@@ -92,7 +92,8 @@ SOURCES += \
     cppqt_parse_enumeration.cpp \
     cppqt_parse_common.cpp \
     cppqt_parse_source.cpp \
-    cppqt_parse_access.cpp
+    cppqt_parse_access.cpp \
+    cppqt_parse_forward.cpp
 
 HEADERS += \
     singleton.h \
@@ -187,7 +188,8 @@ HEADERS += \
     cppqt_parse_common.h \
     cppqt_parse_source.h \
     cppqt_parse_access.h \
-    domelementreader.h
+    domelementreader.h \
+    cppqt_parse_forward.h
 
 RESOURCES += \
     resources.qrc

@@ -5,6 +5,7 @@
 #include "cppqt_parse_variable.h"
 #include "cppqt_parse_enumeration.h"
 #include "cppqt_parse_access.h"
+#include "cppqt_parse_forward.h"
 #include "cppqt_function.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
@@ -109,6 +110,10 @@ void Header::evaluateOther(AbstractBlock* block)
    else if ( CppQt::Enumeration* valid = block->cast<CppQt::Enumeration>(BlockFactory::EnumerationType) )
    {
       _declarations.append(new Enumeration(valid,this));
+   }
+   else if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )
+   {
+      _declarations.append(new Forward(valid,this));
    }
 }
 
