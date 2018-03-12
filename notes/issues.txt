@@ -9,3 +9,7 @@
 
 * Make function names shorter in context of templates and trimming the return to ... if larger than a certain length.
 
+* If updating a block fails post some kind of message about it.
+
+* Fix C++/Qt bug where virtual and template functions cannot coexist in the same non-template class.
+
