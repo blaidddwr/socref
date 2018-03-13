@@ -43,7 +43,7 @@ std::unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
 AbstractBlock* AbstractBlock::root()
 {
    AbstractBlock* root {this};
-   while ( root->_parent ) root = root->_parent;
+   while ( root->parent() ) root = root->parent();
    return root;
 }
 
@@ -57,7 +57,7 @@ AbstractBlock* AbstractBlock::root()
 const AbstractBlock* AbstractBlock::root() const
 {
    const AbstractBlock* root {this};
-   while ( root->_parent ) root = root->_parent;
+   while ( root->parent() ) root = root->parent();
    return root;
 }
 
@@ -70,7 +70,7 @@ const AbstractBlock* AbstractBlock::root() const
  */
 AbstractBlock* AbstractBlock::parent() const
 {
-   return _parent;
+   return qobject_cast<AbstractBlock*>(QObject::parent());
 }
 
 
@@ -465,16 +465,16 @@ void AbstractBlock::copyChildren(const AbstractBlock* parent)
  */
 void AbstractBlock::setParent(AbstractBlock* parent, int index)
 {
-   setParent(parent);
-   if ( _parent )
+   if ( AbstractBlock* oldParent = AbstractBlock::parent() )
    {
-      _parent->_children.removeOne(this);
-      disconnect(_parent);
+      oldParent->_children.removeOne(this);
+      disconnect(oldParent);
    }
-   if ( ( _parent = parent ) )
+   QObject::setParent(parent);
+   if ( parent )
    {
-      _parent->_children.insert(index,this);
-      connect(this,&AbstractBlock::modified,_parent,&AbstractBlock::childModified);
+      parent->_children.insert(index,this);
+      connect(this,&AbstractBlock::modified,parent,&AbstractBlock::childModified);
    }
 }
 
@@ -517,9 +517,9 @@ void AbstractBlock::notifyOfNameChange(AbstractBlock* changed)
    if ( !changed )
    {
       AbstractBlock* root {this};
-      while ( root->_parent )
+      while ( root->parent() )
       {
-         root = root->_parent;
+         root = root->parent();
          root->childNameChanged(this);
       }
       root->notifyOfNameChange(this);

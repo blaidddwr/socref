@@ -10,7 +10,7 @@
 QString CppQt::View::displayTemplatesText(const AbstractBlock* block)
 {
    QString ret;
-   const QList<Template*> list {block->makeChildListOfType<Template>(BlockFactory::TemplateType)};
+   const QList<Template*> list {block->makeListOfType<Template>(BlockFactory::TemplateType)};
    if ( !list.isEmpty() )
    {
       ret.append("<h3>Templates</h3>");

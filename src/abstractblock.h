@@ -48,8 +48,8 @@ public:
    bool containsType(int type) const;
    bool containsType(const QList<int>& types) const;
    template<class T> QList<T*> makeListOfType(int type) const;
-   template<class T> const T* cast(int type) const;
-   template<class T> T* cast(int type);
+   template<class T> const T* cast(int toType) const;
+   template<class T> T* cast(int toType);
    void moveUp(int index);
    void moveDown(int index);
    void insert(int index, std::unique_ptr<AbstractBlock>&& child);
@@ -106,9 +106,6 @@ private:
    static const char* _typeTag;
    /*!
     */
-   AbstractBlock* _parent {nullptr};
-   /*!
-    */
    QList<AbstractBlock*> _children;
 };
 
@@ -142,11 +139,11 @@ template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
  *
  * @tparam T  
  *
- * @param type  
+ * @param toType  
  */
-template<class T> const T* AbstractBlock::cast(int type) const
+template<class T> const T* AbstractBlock::cast(int toType) const
 {
-   if ( AbstractBlock::type() == type )
+   if ( type() == toType )
    {
       if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
       else
@@ -169,11 +166,11 @@ template<class T> const T* AbstractBlock::cast(int type) const
  *
  * @tparam T  
  *
- * @param type  
+ * @param toType  
  */
-template<class T> T* AbstractBlock::cast(int type)
+template<class T> T* AbstractBlock::cast(int toType)
 {
-   if ( AbstractBlock::type() == type )
+   if ( type() == toType )
    {
       if ( T* ret = qobject_cast<T*>(this) ) return ret;
       else

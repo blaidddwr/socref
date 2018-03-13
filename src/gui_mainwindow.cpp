@@ -147,7 +147,7 @@ void MainWindow::propertiesTriggered()
 
 void MainWindow::scanTriggered()
 {
-   unique_ptr<ScanThread> scanner {_project->prepareScanner()};
+   unique_ptr<ScanThread> scanner {_project->makeScanner()};
    ScanDialog dialog(scanner.get());
    dialog.exec();
 }

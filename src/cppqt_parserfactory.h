@@ -12,7 +12,7 @@ namespace CppQt
       Q_OBJECT
    public:
       explicit ParserFactory(AbstractBlock* root);
-      virtual std::unique_ptr<AbstractParser> makeParser(const QString& name, const QString& extension) const override final;
+      virtual std::unique_ptr<AbstractParser> make(const QString& name, const QString& extension) const override final;
    private:
       AbstractParser* find(Namespace* current, const QStringList& names, const QString& name, bool isHeader, bool isCommon, int index = 0) const;
       Namespace* _root;

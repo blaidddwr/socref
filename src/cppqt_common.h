@@ -3,7 +3,6 @@
 #include <QString>
 #include "global.h"
 #include "cppqt.h"
-#endif
 
 
 
@@ -14,6 +13,8 @@ class QFormLayout;
 
 namespace CppQt
 {
+   bool isValidTemplateArgument(const QString& argument);
+   QString getTemplateName(const AbstractBlock* block);
 }
 
 

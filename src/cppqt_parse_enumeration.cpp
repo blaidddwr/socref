@@ -32,31 +32,31 @@ void Enumeration::outputComments()
 
 void Enumeration::outputDeclaration()
 {
-   addLine("/*!");
-   addLines(makeComment(_block->description()));
-   addLine(" */");
+   add("/*!");
+   add(makeComment(_block->description()));
+   add(" */");
    QString line {"enum "};
    if ( _block->isClass() ) line.append("class ");
    line.append(_block->Base::name());
-   addLine(line);
-   addLine("{");
+   add(line);
+   add("{");
    setIndent(indent() + 3);
    const QList<EnumValue*> list {_block->values()};
    bool first {true};
    for (auto value : list)
    {
-      addLine("/*!");
-      addLines(makeComment(value->description()));
-      addLine(" */");
+      add("/*!");
+      add(makeComment(value->description()));
+      add(" */");
       QString line;
       if ( first ) first = false;
       else line.append(",");
       line.append(value->Base::name());
       if ( value->hasValue() ) line.append(" = ").append(QString::number(value->value()));
-      addLine(line);
+      add(line);
    }
    setIndent(indent() - 3);
-   addLine("};");
+   add("};");
 }
 
 

@@ -31,7 +31,7 @@ void Access::outputComments()
 void Access::outputDeclaration()
 {
    setIndent(indent() - 3);
-   addLine(CppQt::Access::_typeNames.at(static_cast<int>(_block->accessType())));
+   add(CppQt::Access::_typeNames.at(static_cast<int>(_block->accessType())));
    setIndent(indent() + 3);
 }
 

@@ -77,7 +77,7 @@ bool Source::readLine(const QString& line)
 
 void Source::makeOutput()
 {
-   addLine(_include);
+   add(_include);
    outputPreProcesser();
    outputMisc(true);
    outputDefinitions();
@@ -147,7 +147,7 @@ void Source::evaluateOther(AbstractBlock* block)
 
 void Source::outputPreProcesser()
 {
-   for (auto line : _preProcess) addLine(line);
+   for (auto line : _preProcess) add(line);
 }
 
 
@@ -159,11 +159,11 @@ void Source::outputMisc(bool addUsingName)
 {
    if ( !_misc.isEmpty() || ( addUsingName && !_usingName.isEmpty() ) )
    {
-      addBlankLines(3);
-      for (auto line : _misc) addLine(line);
-      if ( addUsingName && !_usingName.isEmpty() ) addLine(_usingName);
+      add(3);
+      for (auto line : _misc) add(line);
+      if ( addUsingName && !_usingName.isEmpty() ) add(_usingName);
    }
-   addLine("//");
+   add("//");
 }
 
 
@@ -175,7 +175,7 @@ void Source::outputDefinitions()
 {
    if ( !_variables.isEmpty() )
    {
-      addBlankLines(3);
+      add(3);
       for (auto variable : qAsConst(_variables))
       {
          variable->outputComments();
@@ -184,13 +184,13 @@ void Source::outputDefinitions()
    }
    for (auto function : _defined)
    {
-      addBlankLines(6);
+      add(6);
       function->outputComments();
       function->outputDefinition();
    }
    for (auto function : _undefined)
    {
-      addBlankLines(6);
+      add(6);
       function->outputComments();
       function->outputDefinition();
    }

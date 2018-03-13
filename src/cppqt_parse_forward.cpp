@@ -30,7 +30,7 @@ void Forward::outputComments()
 
 void Forward::outputDeclaration()
 {
-   addLine(QString("class ").append(_block->Base::name()).append(";"));
+   add(QString("class ").append(_block->Base::name()).append(";"));
 }
 
 

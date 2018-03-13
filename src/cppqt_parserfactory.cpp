@@ -37,7 +37,7 @@ ParserFactory::ParserFactory(AbstractBlock* root):
 
 
 
-std::unique_ptr<AbstractParser> ParserFactory::makeParser(const QString& name, const QString& extension) const
+std::unique_ptr<AbstractParser> ParserFactory::make(const QString& name, const QString& extension) const
 {
    if ( name == QString("global") && extension == QString("h") )
    {

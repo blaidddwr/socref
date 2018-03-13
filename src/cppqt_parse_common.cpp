@@ -19,7 +19,7 @@ using namespace CppQt;
 QStringList Parse::makeTemplateComments(const AbstractBlock* block)
 {
    QStringList ret;
-   for (auto child : block->makeChildListOfType<Template>(BlockFactory::TemplateType))
+   for (auto child : block->makeListOfType<Template>(BlockFactory::TemplateType))
    {
       ret << QString(" *");
       QString line {"@tparam "};
@@ -141,7 +141,7 @@ QString Parse::getTemplateDeclaration(const AbstractBlock* block)
    while ( block->parent() )
    {
       if ( block->type() == BlockFactory::NamespaceType ) break;
-      else if ( block->hasChildOfType(BlockFactory::TemplateType) ) return getTemplates(block,true);
+      else if ( block->containsType(BlockFactory::TemplateType) ) return getTemplates(block,true);
       block = block->parent();
    }
    return QString();
@@ -155,7 +155,7 @@ QString Parse::getTemplateDeclaration(const AbstractBlock* block)
 QString Parse::getTemplates(const AbstractBlock* block, bool declare)
 {
    QString ret;
-   const QList<Template*> list {block->makeChildListOfType<Template>(BlockFactory::TemplateType)};
+   const QList<Template*> list {block->makeListOfType<Template>(BlockFactory::TemplateType)};
    if ( !list.isEmpty() )
    {
       bool first {true};

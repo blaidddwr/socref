@@ -92,7 +92,7 @@ unique_ptr<AbstractEdit> Namespace::makeEdit()
 
 QList<AbstractBlock*> Namespace::realChildren() const
 {
-   return children();
+   return list();
 }
 
 

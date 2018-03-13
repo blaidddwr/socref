@@ -35,15 +35,15 @@ bool Global::readLine(const QString& line)
 
 void Global::makeOutput()
 {
-   addBlankLines(1);
+   add(1);
    beginNamespaceNesting();
-   QList<Class*> list {_block->makeChildListOfType<Class>(BlockFactory::ClassType)};
+   QList<Class*> list {_block->makeListOfType<Class>(BlockFactory::ClassType)};
    for (auto item : list)
    {
-      addLine(QString("class ").append(item->Base::name()).append(";"));
+      add(QString("class ").append(item->Base::name()).append(";"));
    }
    endNamespaceNesting();
-   addBlankLines(1);
+   add(1);
 }
 
 
@@ -62,8 +62,8 @@ void Global::beginNamespaceNesting()
    }
    while ( !scope.isEmpty() )
    {
-      addLine(QString("namespace ").append(scope.pop()->Base::name()));
-      addLine("{");
+      add(QString("namespace ").append(scope.pop()->Base::name()));
+      add("{");
       setIndent(indent() + 3);
       ++_depth;
    }
@@ -80,6 +80,6 @@ void Global::endNamespaceNesting()
    {
       setIndent(indent() - 3);
       --_depth;
-      addLine("}");
+      add("}");
    }
 }

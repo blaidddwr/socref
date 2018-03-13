@@ -417,7 +417,7 @@ bool Function::hasAnyTemplates() const
 
 bool Function::hasTemplates() const
 {
-   return hasChildOfType(BlockFactory::TemplateType);
+   return containsType(BlockFactory::TemplateType);
 }
 
 
@@ -451,7 +451,7 @@ void Function::setOperations(const QStringList& operations)
 
 QList<Variable*> Function::arguments() const
 {
-   return makeChildListOfType<Variable>(BlockFactory::VariableType);
+   return makeListOfType<Variable>(BlockFactory::VariableType);
 }
 
 
@@ -461,7 +461,7 @@ QList<Variable*> Function::arguments() const
 
 QList<Template*> Function::templates() const
 {
-   return makeChildListOfType<Template>(BlockFactory::TemplateType);
+   return makeListOfType<Template>(BlockFactory::TemplateType);
 }
 
 

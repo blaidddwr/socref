@@ -42,7 +42,7 @@ void Access::bodyChanged()
    int variables {0};
    int signals_ {0};
    int slots_ {0};
-   for (auto child : _block->children())
+   for (auto child : _block->list())
    {
       switch (child->type())
       {

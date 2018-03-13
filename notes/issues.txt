@@ -13,3 +13,5 @@
 
 * Fix C++/Qt parsing bug where common headers will output forward class declarations.
 
+* Add mutable property for C++/Qt variables.
+

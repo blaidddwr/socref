@@ -17,11 +17,27 @@
 
 
 using namespace std;
+//
+
+
+
+/*!
+ */
 const char* Project::_nameTag {"name"};
+/*!
+ */
 const char* Project::_typeTag {"type"};
-const char* Project::_scandirectoryTag {"scandir"};
+/*!
+ */
+const char* Project::_scanDirectoryTag {"scandir"};
+/*!
+ */
 const char* Project::_scanFiltersTag {"filters"};
+/*!
+ */
 const char* Project::_rootTag {"root"};
+/*!
+ */
 const char* Project::_idTag {"id"};
 
 
@@ -29,11 +45,15 @@ const char* Project::_idTag {"id"};
 
 
 
+/*!
+ *
+ * @param type  
+ */
 Project::Project(int type):
    _type(type),
    _scanDirectory(".")
 {
-   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
+   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
    makeRoot();
    _scanFilters = AbstractProjectFactory::instance().defaultFilters(_type);
 }
@@ -43,10 +63,14 @@ Project::Project(int type):
 
 
 
-Project::Project(const QString &path):
+/*!
+ *
+ * @param path  
+ */
+Project::Project(const QString& path):
    _path(path)
 {
-   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::handleFileChanged);
+   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
@@ -63,7 +87,7 @@ Project::Project(const QString &path):
    QDomElement root;
    reader.set(_nameTag,&_name);
    reader.set(_typeTag,&type);
-   reader.set(_scandirectoryTag,&_scanDirectory);
+   reader.set(_scanDirectoryTag,&_scanDirectory);
    reader.set(_scanFiltersTag,&_scanFilters);
    reader.set(_rootTag,&root);
    reader.read();
@@ -99,6 +123,186 @@ Project::Project(const QString &path):
 
 
 
+/*!
+ */
+bool Project::isNew() const
+{
+   return _path.isEmpty();
+}
+
+
+
+
+
+
+/*!
+ */
+bool Project::isModified() const
+{
+   return _modified;
+}
+
+
+
+
+
+
+/*!
+ */
+int Project::type() const
+{
+   return _type;
+}
+
+
+
+
+
+
+/*!
+ */
+QString Project::path() const
+{
+   return _path;
+}
+
+
+
+
+
+
+/*!
+ */
+BlockModel* Project::model()
+{
+   return _model;
+}
+
+
+
+
+
+
+/*!
+ */
+QString Project::name() const
+{
+   return _name;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param newName  
+ */
+void Project::setName(const QString& newName)
+{
+   if ( _name != newName )
+   {
+      _name = newName;
+      emit nameChanged();
+      signalModified();
+   }
+}
+
+
+
+
+
+
+/*!
+ */
+QString Project::scanDirectory() const
+{
+   return _scanDirectory;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param newPath  
+ */
+void Project::setScanDirectory(const QString& newPath)
+{
+   QFileInfo current(_scanDirectory);
+   QFileInfo info(newPath);
+   if ( current.canonicalFilePath() != info.canonicalFilePath() )
+   {
+      if ( !info.isDir() )
+      {
+         Exception::InvalidArgument e;
+         MARK_EXCEPTION(e);
+         e.setDetails(
+                  tr("Attempting to set scan directory as '%1' which is not a directory.")
+                  .arg(newPath));
+         throw e;
+      }
+      _scanDirectory = info.canonicalFilePath();
+      signalModified();
+   }
+}
+
+
+
+
+
+
+/*!
+ */
+QString Project::scanFilters() const
+{
+   return _scanFilters;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param newFilters  
+ */
+void Project::setScanFilters(const QString& newFilters)
+{
+   if ( _scanFilters != newFilters )
+   {
+      _scanFilters = newFilters;
+      signalModified();
+   }
+}
+
+
+
+
+
+
+/*!
+ */
+std::unique_ptr<ScanThread> Project::makeScanner() const
+{
+   return unique_ptr<ScanThread>(
+            new ScanThread(
+               AbstractProjectFactory::instance().makeParserFactory(_type,_root)
+               ,_scanDirectory
+               ,_scanFilters.split(' ')));
+}
+
+
+
+
+
+
+/*!
+ */
 void Project::save()
 {
    if ( _path.isEmpty() )
@@ -121,7 +325,7 @@ void Project::save()
    QDomElement project {document.createElement("project")};
    QDomElement name {document.createElement(_nameTag)};
    QDomElement type {document.createElement(_typeTag)};
-   QDomElement scandir {document.createElement(_scandirectoryTag)};
+   QDomElement scandir {document.createElement(_scanDirectoryTag)};
    QDomElement filters {document.createElement(_scanFiltersTag)};
    QDomElement root {_root->write(document)};
    name.appendChild(document.createTextNode(_name));
@@ -155,6 +359,10 @@ void Project::save()
 
 
 
+/*!
+ *
+ * @param path  
+ */
 void Project::saveAs(const QString& path)
 {
    QString oldPath = _path;
@@ -177,154 +385,8 @@ void Project::saveAs(const QString& path)
 
 
 
-void Project::setName(const QString& name)
-{
-   if ( _name != name )
-   {
-      _name = name;
-      emit nameChanged();
-      signalModified();
-   }
-}
-
-
-
-
-
-
-QString Project::name() const
-{
-   return _name;
-}
-
-
-
-
-
-
-QString Project::path() const
-{
-   return _path;
-}
-
-
-
-
-
-
-int Project::type() const
-{
-   return _type;
-}
-
-
-
-
-
-
-QString Project::scanDirectory() const
-{
-   return _scanDirectory;
-}
-
-
-
-
-
-
-void Project::setScanDirectory(const QString& path)
-{
-   QFileInfo current(_scanDirectory);
-   QFileInfo info(path);
-   if ( current.canonicalFilePath() != info.canonicalFilePath() )
-   {
-      if ( !info.isDir() )
-      {
-         Exception::InvalidArgument e;
-         MARK_EXCEPTION(e);
-         e.setDetails(
-                  tr("Attempting to set scan directory as '%1' which is not a directory.")
-                  .arg(path));
-         throw e;
-      }
-      _scanDirectory = info.canonicalFilePath();
-      signalModified();
-   }
-}
-
-
-
-
-
-
-QString Project::scanFilters() const
-{
-   return _scanFilters;
-}
-
-
-
-
-
-
-void Project::setScanFilters(const QString& filters)
-{
-   if ( _scanFilters != filters )
-   {
-      _scanFilters = filters;
-      signalModified();
-   }
-}
-
-
-
-
-
-
-bool Project::isNew() const
-{
-   return _path.isEmpty();
-}
-
-
-
-
-
-
-bool Project::isModified() const
-{
-   return _modified;
-}
-
-
-
-
-
-
-BlockModel* Project::model() const
-{
-   return _model;
-}
-
-
-
-
-
-
-std::unique_ptr<ScanThread> Project::prepareScanner() const
-{
-   return unique_ptr<ScanThread>(
-            new ScanThread(
-               AbstractProjectFactory::instance().parserFactory(_type,_root)
-               ,_scanDirectory
-               ,_scanFilters.split(' ')));
-}
-
-
-
-
-
-
+/*!
+ */
 void Project::blockModified()
 {
    signalModified();
@@ -335,7 +397,9 @@ void Project::blockModified()
 
 
 
-void Project::handleFileChanged()
+/*!
+ */
+void Project::fileChanged()
 {
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) ) return;
@@ -350,9 +414,45 @@ void Project::handleFileChanged()
 
 
 
-void Project::readTypeElement(const QDomElement& type)
+/*!
+ */
+void Project::signalModified()
 {
-   DomElementReader reader(type);
+   if ( !_modified )
+   {
+      _modified = true;
+      emit modified();
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param bytes  
+ */
+void Project::setFileHash(const QByteArray& bytes)
+{
+   QCryptographicHash hash(QCryptographicHash::Md5);
+   hash.addData(bytes);
+   _hash = hash.result();
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param element  
+ */
+void Project::readTypeElement(const QDomElement& element)
+{
+   DomElementReader reader(element);
    _type = reader.attributeToInt(_idTag);
    AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
    if ( _type < 0 || _type >= factory.size() )
@@ -362,7 +462,7 @@ void Project::readTypeElement(const QDomElement& type)
       e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(_type).arg(factory.size()-1));
       throw e;
    }
-   QString typeName = type.text();
+   QString typeName = element.text();
    if ( typeName != factory.name(_type) )
    {
       Exception::ReadError e;
@@ -380,32 +480,8 @@ void Project::readTypeElement(const QDomElement& type)
 
 
 
-void Project::signalModified()
-{
-   if ( !_modified )
-   {
-      _modified = true;
-      emit modified();
-   }
-}
-
-
-
-
-
-
-void Project::setFileHash(const QByteArray& bytes)
-{
-   QCryptographicHash hash(QCryptographicHash::Md5);
-   hash.addData(bytes);
-   _hash = hash.result();
-}
-
-
-
-
-
-
+/*!
+ */
 void Project::makeRoot()
 {
    AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
@@ -424,7 +500,7 @@ void Project::makeRoot()
       e.setDetails(tr("Expected pointer to new root block object when null was given."));
       throw e;
    }
-   _root->setParent(this);
+   _root->QObject::setParent(this);
    connect(_root,&AbstractBlock::modified,this,&Project::blockModified);
    _model = new BlockModel(_root,this);
 }

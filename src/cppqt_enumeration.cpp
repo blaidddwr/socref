@@ -118,7 +118,7 @@ void Enumeration::setClass(bool isClass)
 
 QList<EnumValue*> Enumeration::values() const
 {
-   return makeChildListOfType<EnumValue>(BlockFactory::EnumValueType);
+   return makeListOfType<EnumValue>(BlockFactory::EnumValueType);
 }
 
 

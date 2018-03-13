@@ -45,18 +45,18 @@ void Function::outputComments()
 {
    if ( _block )
    {
-      addLine("/*!");
-      addLines(makeComment(_block->description()));
-      addLines(makeTemplateComments(_block));
+      add("/*!");
+      add(makeComment(_block->description()));
+      add(makeTemplateComments(_block));
       outputArgumentComments();
       if ( _block->type() != BlockFactory::SignalType )
       {
          if ( _block->type() != BlockFactory::SlotType ) outputReturnDescriptionComment();
          if ( !_block->isAbstract() ) outputOperationComments();
       }
-      addLine(" */");
+      add(" */");
    }
-   else addLine("/*! !!! UNKNOWN FUNCTION !!! */");
+   else add("/*! !!! UNKNOWN FUNCTION !!! */");
 }
 
 
@@ -87,7 +87,7 @@ void Function::outputDeclaration()
       if ( _block->isFinal() ) line.append(" final");
       if ( _block->isAbstract() ) line.append(" = 0");
       line.append(";");
-      addLine(line);
+      add(line);
    }
 }
 
@@ -111,16 +111,16 @@ void Function::outputDefinition()
       if ( _block->isConst() ) line.append(" const");
       if ( _block->isNoExcept() ) line.append(" noexcept");
       if ( !_initializers.isEmpty() ) line.append(":");
-      addLine(line);
+      add(line);
    }
-   else addLine(_definition);
-   for (auto line : _initializers) addLine(line);
-   if ( _code.isEmpty() ) addLine("{}");
+   else add(_definition);
+   for (auto line : _initializers) add(line);
+   if ( _code.isEmpty() ) add("{}");
    else
    {
-      addLine("{");
-      for (auto line : _code) addLine(line);
-      addLine("}");
+      add("{");
+      for (auto line : _code) add(line);
+      add("}");
    }
 }
 
@@ -164,14 +164,13 @@ bool Function::hasCode() const
 
 bool Function::readLine(const QString& line)
 {
-   QString trim {line.trimmed()};
-   if ( _level == 0 && trim == QString("{}") ) return false;
-   if ( trim == QString("{") )
+   if ( _level == 0 && line == QString("{}") ) return false;
+   if ( line == QString("{") )
    {
       ++_level;
       if ( _level == 1 ) return true;
    }
-   else if ( trim == QString("}") )
+   else if ( line == QString("}") )
    {
       --_level;
       if ( _level == 0 ) return false;
@@ -191,12 +190,12 @@ void Function::outputArgumentComments()
    const QList<Variable*> arguments {_block->arguments()};
    for (auto argument : arguments)
    {
-      addLine(" *");
+      add(" *");
       QString base {"@param "};
       base.append(argument->Base::name()).append(" ");
       int justified {base.size()};
       base.append(argument->description());
-      addLines(makeComment(base,justified));
+      add(makeComment(base,justified));
    }
 }
 
@@ -210,11 +209,11 @@ void Function::outputReturnDescriptionComment()
    const QString returnDescription {_block->returnDescription()};
    if ( !returnDescription.isEmpty() )
    {
-      addLine(" *");
+      add(" *");
       QString base {"@return "};
       int justified {base.size()};
       base.append(returnDescription);
-      addLines(makeComment(base,justified));
+      add(makeComment(base,justified));
    }
 }
 
@@ -228,16 +227,16 @@ void Function::outputOperationComments()
    const QStringList operations {_block->operations()};
    if ( !operations.isEmpty() )
    {
-      addLine(" *");
-      addLine(" *");
-      addLines(makeComment("Steps of Operation:"));
+      add(" *");
+      add(" *");
+      add(makeComment("Steps of Operation:"));
       for (int i = 0; i < operations.size() ;++i)
       {
-         addLine(" *");
+         add(" *");
          QString base {QString::number(i + 1).append(". ")};
          int justified {base.size()};
          base.append(operations.at(i));
-         addLines(makeComment(base,justified));
+         add(makeComment(base,justified));
       }
    }
 }

@@ -35,7 +35,7 @@ QString Class::name() const
 {
    QString ret {getTemplateName(this)};
    ret.append(Base::name());
-   const QList<Parent*> list {makeChildListOfType<Parent>(BlockFactory::ParentType)};
+   const QList<Parent*> list {makeListOfType<Parent>(BlockFactory::ParentType)};
    if ( !list.isEmpty() )
    {
       ret.append(" : ");
@@ -123,11 +123,10 @@ unique_ptr<AbstractEdit> Class::makeEdit()
 QList<AbstractBlock*> Class::realChildren() const
 {
    QList<AbstractBlock*> ret;
-   const QList<Access*> accessList {makeChildListOfType<Access>(BlockFactory::AccessType)};
-   for (auto child : accessList)
+   for (auto child : makeListOfType<Access>(BlockFactory::AccessType))
    {
       ret << child;
-      ret << child->children();
+      ret << child->list();
    }
    return ret;
 }
@@ -213,7 +212,7 @@ bool Class::hasSignalsOrSlots() const
 
 bool Class::hasTemplates() const
 {
-   return hasChildOfType(BlockFactory::TemplateType);
+   return containsType(BlockFactory::TemplateType);
 }
 
 
@@ -244,7 +243,7 @@ bool Class::hasAnyTemplates() const
 QList<Template*> Class::templates() const
 {
    QList<Template*> ret;
-   for (auto child : children())
+   for (auto child : list())
    {
       if ( Template* valid = child->cast<Template>(BlockFactory::TemplateType) ) ret.append(valid);
    }
@@ -381,7 +380,7 @@ void Class::notifyOfNameChange()
 QList<Access*> Class::accessChildren() const
 {
    QList<Access*> ret;
-   for (auto child : children())
+   for (auto child : list())
    {
       if ( Access* valid = child->cast<Access>(BlockFactory::AccessType) ) ret << valid;
    }

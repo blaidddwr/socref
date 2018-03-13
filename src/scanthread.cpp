@@ -96,7 +96,8 @@ void ScanThread::run()
          {
             return;
          }
-         unique_ptr<AbstractParser> parser {
+         unique_ptr<AbstractParser> parser
+         {
             _factory->make(_list.at(i).completeBaseName().toLower(),_list.at(i).suffix().toLower())
          };
          if ( parser )

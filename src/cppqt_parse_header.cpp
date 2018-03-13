@@ -42,7 +42,7 @@ void Header::makeOutput()
    outputHeader();
    outputPreProcesser();
    outputMisc();
-   addBlankLines(3);
+   add(3);
    beginNamespaceNesting();
    outputDeclarations();
    outputDefinitions();
@@ -124,8 +124,8 @@ void Header::evaluateOther(AbstractBlock* block)
 
 void Header::outputHeader()
 {
-   addLine(_header1);
-   addLine(_header2);
+   add(_header1);
+   add(_header2);
 }
 
 
@@ -142,15 +142,15 @@ void Header::outputDeclarations()
       {
          outputClassComments(block);
          outputClassDeclaration(block);
-         addLine("{");
+         add("{");
          setIndent(indent() + 3);
-         if ( block->isQtObject() ) addLine("Q_OBJECT");
+         if ( block->isQtObject() ) add("Q_OBJECT");
       }
       for (auto declaration : qAsConst(_declarations)) declaration->outputDeclaration();
       if ( block )
       {
          setIndent(indent() - 3);
-         addLine("};");
+         add("};");
       }
    }
 }
@@ -162,10 +162,10 @@ void Header::outputDeclarations()
 
 void Header::outputClassComments(Class* block)
 {
-   addLine("/*!");
-   addLines(makeComment(block->description()));
-   if ( isTemplate() ) addLines(makeTemplateComments(_block));
-   addLine(" */");
+   add("/*!");
+   add(makeComment(block->description()));
+   if ( isTemplate() ) add(makeTemplateComments(_block));
+   add(" */");
 }
 
 
@@ -180,7 +180,7 @@ void Header::outputClassDeclaration(Class* block)
    if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
    line.append("class ").append(getClassScope(block->parent())).append(block->Base::name());
    bool first {true};
-   for (auto child : _block->children())
+   for (auto child : _block->list())
    {
       if ( Parent* valid = child->cast<Parent>(BlockFactory::ParentType) )
       {
@@ -197,7 +197,7 @@ void Header::outputClassDeclaration(Class* block)
          if ( !templateArgument.isEmpty() ) line.append("<").append(templateArgument).append(">");
       }
    }
-   addLine(line);
+   add(line);
 }
 
 
@@ -207,6 +207,6 @@ void Header::outputClassDeclaration(Class* block)
 
 void Header::outputFooter()
 {
-   addBlankLines(3);
-   addLine("#endif");
+   add(3);
+   add("#endif");
 }

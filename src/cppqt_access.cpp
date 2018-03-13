@@ -40,7 +40,7 @@ Access::Access(Type type):
 QString Access::name() const
 {
    QString ret {_typeNames.at(static_cast<int>(_type))};
-   ret.append(" (").append(QString::number(childrenSize())).append(")");
+   ret.append(" (").append(QString::number(size())).append(")");
    return ret;
 }
 
@@ -199,7 +199,7 @@ void Access::setAccessType(Type type)
 
 bool Access::hasSignals() const
 {
-   return hasChildOfType(BlockFactory::SignalType);
+   return containsType(BlockFactory::SignalType);
 }
 
 
@@ -209,7 +209,7 @@ bool Access::hasSignals() const
 
 bool Access::hasSlots() const
 {
-   return hasChildOfType(BlockFactory::SlotType);
+   return containsType(BlockFactory::SlotType);
 }
 
 
@@ -219,7 +219,7 @@ bool Access::hasSlots() const
 
 bool Access::hasSignalsOrSlots() const
 {
-   return hasChildOfTypes(QList<int>() << BlockFactory::SignalType << BlockFactory::SlotType);
+   return containsType(QList<int>() << BlockFactory::SignalType << BlockFactory::SlotType);
 }
 
 
@@ -239,7 +239,7 @@ bool Access::hasRegularMembers() const
       ,BlockFactory::EnumerationType
       ,BlockFactory::ClassType
    };
-   return hasChildOfTypes(types);
+   return containsType(types);
 }
 
 

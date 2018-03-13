@@ -11,54 +11,94 @@ class QDomElement;
 
 
 
+/*!
+ */
 class Project : public QFileSystemWatcher
 {
    Q_OBJECT
 public:
-   explicit Project(int type);
-   explicit Project(const QString& path);
-   void save();
-   void saveAs(const QString& path);
-   void setName(const QString& name);
-   QString name() const;
-   QString path() const;
-   int type() const;
-   QString scanDirectory() const;
-   void setScanDirectory(const QString& path);
-   QString scanFilters() const;
-   void setScanFilters(const QString& filters);
+   Project(int type);
+   Project(const QString& path);
    bool isNew() const;
    bool isModified() const;
-   BlockModel* model() const;
-   std::unique_ptr<ScanThread> prepareScanner() const;
+   int type() const;
+   QString path() const;
+   BlockModel* model();
+   QString name() const;
+   void setName(const QString& newName);
+   QString scanDirectory() const;
+   void setScanDirectory(const QString& newPath);
+   QString scanFilters() const;
+   void setScanFilters(const QString& newFilters);
+   std::unique_ptr<ScanThread> makeScanner() const;
+   void save();
+   void saveAs(const QString& path);
 signals:
+   /*!
+    */
    void nameChanged();
+   /*!
+    */
    void modified();
+   /*!
+    */
    void saved();
+   /*!
+    */
    void changed();
 private slots:
    void blockModified();
-   void handleFileChanged();
+   void fileChanged();
 private:
-   void readTypeElement(const QDomElement& type);
    void signalModified();
    void setFileHash(const QByteArray& bytes);
+   void readTypeElement(const QDomElement& element);
    void makeRoot();
+   /*!
+    */
    static const char* _nameTag;
+   /*!
+    */
    static const char* _typeTag;
-   static const char* _scandirectoryTag;
+   /*!
+    */
+   static const char* _scanDirectoryTag;
+   /*!
+    */
    static const char* _scanFiltersTag;
+   /*!
+    */
    static const char* _rootTag;
+   /*!
+    */
    static const char* _idTag;
-   QString _path;
-   QByteArray _hash;
-   QString _name;
-   int _type {-1};
-   QString _scanDirectory;
-   QString _scanFilters;
+   /*!
+    */
    bool _modified {false};
+   /*!
+    */
+   int _type {-1};
+   /*!
+    */
+   QString _path;
+   /*!
+    */
+   QString _name;
+   /*!
+    */
+   QString _scanDirectory;
+   /*!
+    */
+   QString _scanFilters;
+   /*!
+    */
    AbstractBlock* _root;
+   /*!
+    */
    BlockModel* _model;
+   /*!
+    */
+   QByteArray _hash;
 };
 
 

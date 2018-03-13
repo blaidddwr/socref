@@ -20,7 +20,7 @@ public:
     *
     * @param extension  
     */
-   virtual std::unique_ptr<AbstractParser> make(const QString& name, const QString& extension) = 0;
+   virtual std::unique_ptr<AbstractParser> make(const QString& name, const QString& extension) const = 0;
 };
 
 

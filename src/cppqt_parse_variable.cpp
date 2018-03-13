@@ -23,9 +23,9 @@ Variable::Variable(CppQt::Variable* block, AbstractParser* parent):
 
 void Variable::outputComments()
 {
-   addLine("/*!");
-   addLines(makeComment(_block->description()));
-   addLine(" */");
+   add("/*!");
+   add(makeComment(_block->description()));
+   add(" */");
 }
 
 
@@ -88,8 +88,8 @@ void Variable::outputEnd(QString* line, bool withInitializer)
       const QString initialize {_block->initializer()};
       if ( (initialize.size() + line->size() + indent() + 1) > 100 )
       {
-         addLine(*line);
-         addLine("{");
+         add(*line);
+         add("{");
          setIndent(indent() + 3);
          bool first {true};
          const QStringList parts {initialize.split(',')};
@@ -99,20 +99,20 @@ void Variable::outputEnd(QString* line, bool withInitializer)
             if ( first ) first = false;
             else line.append(",");
             line.append(part);
-            addLine(line);
+            add(line);
          }
          setIndent(indent() - 3);
-         addLine("};");
+         add("};");
       }
       else
       {
          line->append(" {").append(initialize).append("};");
-         addLine(*line);
+         add(*line);
       }
    }
    else
    {
       line->append(";");
-      addLine(*line);
+      add(*line);
    }
 }
