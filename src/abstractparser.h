@@ -5,9 +5,12 @@
 
 
 class QFile;
+//
 
 
 
+/*!
+ */
 class AbstractParser : public QObject
 {
    Q_OBJECT
@@ -17,27 +20,49 @@ public:
    virtual ~AbstractParser();
    void execute(QFile* file);
 protected:
-   virtual void initialize();
+   /*!
+    *
+    * @param line  
+    */
    virtual bool readLine(const QString& line) = 0;
+   /*!
+    */
    virtual void makeOutput() = 0;
+   virtual void initialize();
    void stepIntoChild(AbstractParser* child);
    int indent();
    void setIndent(int indent);
-   void addLine(const QString& line);
-   void addLines(const QStringList& lines);
-   void addBlankLines(int count);
+   void add(const QString& line);
+   void add(const QStringList& lines);
+   void add(int count);
 private:
    void read(QFile* file);
    void processInput();
    void processOutput();
    void write(QFile* file);
-   QString _origional;
+   /*!
+    */
+   QString _original;
+   /*!
+    */
    QStringList* _input {nullptr};
+   /*!
+    */
    int* _index {nullptr};
+   /*!
+    */
    int* _indent {nullptr};
+   /*!
+    */
    QStringList* _output {nullptr};
+   /*!
+    */
    AbstractParser* _root {nullptr};
+   /*!
+    */
    QList<AbstractParser*> _children;
+   /*!
+    */
    AbstractParser* _child {nullptr};
 };
 

@@ -4,7 +4,8 @@ class AbstractBlockFactory;
 class AbstractParser;
 class AbstractParserFactory;
 class AbstractProjectFactory;
-class BlockModel;
-class Project;
 class ProjectFactory;
+class BlockModel;
 class ScanThread;
+class Project;
+

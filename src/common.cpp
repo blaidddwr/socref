@@ -1,11 +1,18 @@
 #include "common.h"
 #include <QMessageBox>
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param text  
+ *
+ * @param exception  
+ */
 void showException(const QString& text, const Exception::Base& exception)
 {
    QMessageBox info;

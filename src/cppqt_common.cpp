@@ -4,12 +4,14 @@
 #include "cppqt_template.h"
 #include "cppqt_blockfactory.h"
 #include "abstractblock.h"
+//
 
 
 
 
 
 
+/*! !!! UNKNOWN FUNCTION !!! */
 bool CppQt::isValidTemplateArgument(const QString& argument)
 {
    bool ret {true};
@@ -43,6 +45,7 @@ bool CppQt::isValidTemplateArgument(const QString& argument)
 
 
 
+/*! !!! UNKNOWN FUNCTION !!! */
 QString CppQt::getTemplateName(const AbstractBlock* block)
 {
    QString ret;

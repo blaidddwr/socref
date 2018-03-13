@@ -7,12 +7,15 @@
 
 
 using namespace std;
+//
 
 
 
 
 
 
+/*!
+ */
 int ProjectFactory::size() const
 {
    return Total;
@@ -23,6 +26,10 @@ int ProjectFactory::size() const
 
 
 
+/*!
+ *
+ * @param type  
+ */
 QString ProjectFactory::name(int type) const
 {
    switch (type)
@@ -37,6 +44,10 @@ QString ProjectFactory::name(int type) const
 
 
 
+/*!
+ *
+ * @param type  
+ */
 QString ProjectFactory::defaultFilters(int type) const
 {
    switch (type)
@@ -51,6 +62,10 @@ QString ProjectFactory::defaultFilters(int type) const
 
 
 
+/*!
+ *
+ * @param type  
+ */
 const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 {
    switch (type)
@@ -74,7 +89,13 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 
 
 
-std::unique_ptr<AbstractParserFactory> ProjectFactory::parserFactory(int type, AbstractBlock* root) const
+/*!
+ *
+ * @param type  
+ *
+ * @param root  
+ */
+std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, AbstractBlock* root) const
 {
    switch (type)
    {

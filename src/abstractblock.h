@@ -6,65 +6,109 @@
 #include <exception.h>
 #include "global.h"
 #include "gui.h"
+//
 
 
 
+/*!
+ */
 class AbstractBlock : public QObject
 {
    Q_OBJECT
 public:
-   virtual QString name() const = 0;
+   /*!
+    */
    virtual int type() const = 0;
+   /*!
+    */
    virtual const AbstractBlockFactory& factory() const = 0;
+   /*!
+    */
+   virtual QString name() const = 0;
+   /*!
+    */
    virtual QIcon icon() const = 0;
+   /*!
+    */
    virtual QList<int> buildList() const = 0;
+   /*!
+    */
    virtual std::unique_ptr<QWidget> makeView() const = 0;
-   virtual std::unique_ptr<Gui::AbstractEdit> makeEdit() = 0;
+   /*!
+    */
+   virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() = 0;
    virtual std::unique_ptr<AbstractBlock> makeCopy() const;
    AbstractBlock* root();
    const AbstractBlock* root() const;
    AbstractBlock* parent() const;
-   int childrenSize() const;
-   AbstractBlock* child(int index);
-   AbstractBlock* child(int index) const;
-   const QList<AbstractBlock*>& children() const;
-   int childIndex(AbstractBlock* child) const;
-   void insertChild(int index, std::unique_ptr<AbstractBlock>&& child);
-   std::unique_ptr<AbstractBlock> takeChild(int index);
-   void removeChild(int index);
-   void moveChildUp(int index);
-   void moveChildDown(int index);
-   void read(const QDomElement& parent);
-   QDomElement write(QDomDocument& document) const;
-   bool hasChildOfType(int type) const;
-   bool hasChildOfTypes(const QList<int>& types) const;
-   template<class T> QList<T*> makeChildListOfType(int type) const;
-   template<class T> T* cast(int type);
+   int size() const;
+   const QList<AbstractBlock*>& list() const;
+   int indexOf(AbstractBlock* pointer) const;
+   AbstractBlock* get(int index) const;
+   bool containsType(int type) const;
+   bool containsType(const QList<int>& types) const;
+   template<class T> QList<T*> makeListOfType(int type) const;
    template<class T> const T* cast(int type) const;
-protected:
-   virtual void readData(const QDomElement& data) = 0;
-   virtual QDomElement writeData(QDomDocument& document) const = 0;
-   virtual std::unique_ptr<AbstractBlock> makeBlank() const = 0;
-   virtual void copyDataFrom(const AbstractBlock* object) = 0;
-   void notifyOfNameChange();
+   template<class T> T* cast(int type);
+   void moveUp(int index);
+   void moveDown(int index);
+   void insert(int index, std::unique_ptr<AbstractBlock>&& child);
+   std::unique_ptr<AbstractBlock> take(int index);
+   void remove(int index);
+   void read(const QDomElement& element);
+   QDomElement write(QDomDocument& document) const;
 signals:
+   /*!
+    */
    void modified();
+   /*!
+    *
+    * @param object  
+    */
    void nameChanged(AbstractBlock* object);
 protected slots:
    virtual void childNameChanged(AbstractBlock* child);
    virtual void childAdded(AbstractBlock* child);
    virtual void childRemoved(AbstractBlock* child);
    virtual void childMoved(AbstractBlock* child);
+protected:
+   /*!
+    *
+    * @param element  
+    */
+   virtual void readData(const QDomElement& element) = 0;
+   /*!
+    *
+    * @param document  
+    */
+   virtual QDomElement writeData(QDomDocument& document) const = 0;
+   /*!
+    */
+   virtual std::unique_ptr<AbstractBlock> makeBlank() const = 0;
+   /*!
+    *
+    * @param other  
+    */
+   virtual void copyDataFrom(const AbstractBlock* other) = 0;
+   void notifyOfNameChange();
 private slots:
    void childModified();
 private:
-   void copyChildren(const AbstractBlock* block);
-   void setBlockParent(AbstractBlock* parent, int index);
-   void readChild(const QDomElement& child);
-   void notifyOfNameChange(AbstractBlock* block);
-   const char* _dataTag {"data"};
-   const char* _typeTag {"type"};
+   void copyChildren(const AbstractBlock* parent);
+   void setParent(AbstractBlock* parent, int index = -1);
+   void readChild(const QDomElement& element);
+   void notifyOfNameChange(AbstractBlock* changed);
+   /*!
+    */
+   static const char* _dataTag;
+   /*!
+    */
+   static const char* _typeTag;
+   /*!
+    */
    AbstractBlock* _parent {nullptr};
+   /*!
+    */
    QList<AbstractBlock*> _children;
 };
 
@@ -73,10 +117,16 @@ private:
 
 
 
-template<class T> QList<T*> AbstractBlock::makeChildListOfType(int type) const
+/*!
+ *
+ * @tparam T  
+ *
+ * @param type  
+ */
+template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 {
    QList<T*> ret;
-   for (auto child : children())
+   for (auto child : list())
    {
       if ( T* variable = child->cast<T>(type) ) ret.append(variable);
    }
@@ -88,11 +138,17 @@ template<class T> QList<T*> AbstractBlock::makeChildListOfType(int type) const
 
 
 
-template<class T> T* AbstractBlock::cast(int beType)
+/*!
+ *
+ * @tparam T  
+ *
+ * @param type  
+ */
+template<class T> const T* AbstractBlock::cast(int type) const
 {
-   if ( type() == beType )
+   if ( AbstractBlock::type() == type )
    {
-      if ( T* ret = qobject_cast<T*>(this) ) return ret;
+      if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
       else
       {
          Exception::LogicError e;
@@ -109,11 +165,17 @@ template<class T> T* AbstractBlock::cast(int beType)
 
 
 
-template<class T> const T* AbstractBlock::cast(int beType) const
+/*!
+ *
+ * @tparam T  
+ *
+ * @param type  
+ */
+template<class T> T* AbstractBlock::cast(int type)
 {
-   if ( type() == beType )
+   if ( AbstractBlock::type() == type )
    {
-      if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
+      if ( T* ret = qobject_cast<T*>(this) ) return ret;
       else
       {
          Exception::LogicError e;

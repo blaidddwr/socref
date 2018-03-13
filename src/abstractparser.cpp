@@ -1,12 +1,15 @@
 #include "abstractparser.h"
 #include <QFile>
 #include <exception.h>
+//
 
 
 
 
 
 
+/*!
+ */
 AbstractParser::AbstractParser():
    _input(new QStringList),
    _index(new int(0)),
@@ -19,6 +22,10 @@ AbstractParser::AbstractParser():
 
 
 
+/*!
+ *
+ * @param parent  
+ */
 AbstractParser::AbstractParser(AbstractParser* parent)
 {
    setParent(parent);
@@ -36,6 +43,8 @@ AbstractParser::AbstractParser(AbstractParser* parent)
 
 
 
+/*!
+ */
 AbstractParser::~AbstractParser()
 {
    if ( !_root )
@@ -51,6 +60,10 @@ AbstractParser::~AbstractParser()
 
 
 
+/*!
+ *
+ * @param file  
+ */
 void AbstractParser::execute(QFile* file)
 {
    if ( _root ) return;
@@ -67,6 +80,8 @@ void AbstractParser::execute(QFile* file)
 
 
 
+/*!
+ */
 void AbstractParser::initialize()
 {}
 
@@ -75,6 +90,10 @@ void AbstractParser::initialize()
 
 
 
+/*!
+ *
+ * @param child  
+ */
 void AbstractParser::stepIntoChild(AbstractParser* child)
 {
    if ( child->parent() != this )
@@ -92,6 +111,8 @@ void AbstractParser::stepIntoChild(AbstractParser* child)
 
 
 
+/*!
+ */
 int AbstractParser::indent()
 {
    return *_indent;
@@ -102,6 +123,10 @@ int AbstractParser::indent()
 
 
 
+/*!
+ *
+ * @param indent  
+ */
 void AbstractParser::setIndent(int indent)
 {
    if ( indent < 0 )
@@ -119,7 +144,11 @@ void AbstractParser::setIndent(int indent)
 
 
 
-void AbstractParser::addLine(const QString& line)
+/*!
+ *
+ * @param line  
+ */
+void AbstractParser::add(const QString& line)
 {
    QString whitespace;
    for (int i = 0; i < *_indent ;++i) whitespace.append(' ');
@@ -131,9 +160,13 @@ void AbstractParser::addLine(const QString& line)
 
 
 
-void AbstractParser::addLines(const QStringList& lines)
+/*!
+ *
+ * @param lines  
+ */
+void AbstractParser::add(const QStringList& lines)
 {
-   for (auto line : lines) addLine(line);
+   for (auto line : lines) add(line);
 }
 
 
@@ -141,7 +174,11 @@ void AbstractParser::addLines(const QStringList& lines)
 
 
 
-void AbstractParser::addBlankLines(int count)
+/*!
+ *
+ * @param count  
+ */
+void AbstractParser::add(int count)
 {
    while ( count-- > 0 ) *_output << QString();
 }
@@ -151,9 +188,13 @@ void AbstractParser::addBlankLines(int count)
 
 
 
+/*!
+ *
+ * @param file  
+ */
 void AbstractParser::read(QFile* file)
 {
-   _origional = file->readAll();
+   _original = file->readAll();
    if ( file->error() )
    {
       Exception::SystemError e;
@@ -161,7 +202,7 @@ void AbstractParser::read(QFile* file)
       e.setDetails(tr("Failed reading in file: %1").arg(file->errorString()));
       throw e;
    }
-   *_input = _origional.split('\n');
+   *_input = _original.split('\n');
    _output->clear();
 }
 
@@ -170,6 +211,8 @@ void AbstractParser::read(QFile* file)
 
 
 
+/*!
+ */
 void AbstractParser::processInput()
 {
    while ( *_index < _input->size() )
@@ -188,6 +231,8 @@ void AbstractParser::processInput()
 
 
 
+/*!
+ */
 void AbstractParser::processOutput()
 {
    _output->clear();
@@ -200,10 +245,14 @@ void AbstractParser::processOutput()
 
 
 
+/*!
+ *
+ * @param file  
+ */
 void AbstractParser::write(QFile* file)
 {
    QString new_ {_output->join('\n').append('\n')};
-   if ( _origional != new_ )
+   if ( _original != new_ )
    {
       if ( !file->resize(0) )
       {

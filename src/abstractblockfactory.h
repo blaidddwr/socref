@@ -5,20 +5,39 @@
 #include <QIcon>
 #include "global.h"
 #include "gui.h"
+//
 
 
 
+/*!
+ */
 class AbstractBlockFactory
 {
 public:
-   virtual int size() const = 0;
-   virtual QString name(int type) const = 0;
-   virtual QString elementName(int type) const = 0;
-   virtual std::unique_ptr<AbstractBlock> makeRootBlock() const = 0;
-   virtual std::unique_ptr<AbstractBlock> makeBlock(int type) const = 0;
+   /*!
+    */
    virtual int type() const = 0;
-private:
-   int _type;
+   /*!
+    */
+   virtual int size() const = 0;
+   /*!
+    *
+    * @param type  
+    */
+   virtual QString name(int type) const = 0;
+   /*!
+    *
+    * @param type  
+    */
+   virtual QString elementName(int type) const = 0;
+   /*!
+    *
+    * @param type  
+    */
+   virtual std::unique_ptr<AbstractBlock> makeBlock(int type) const = 0;
+   /*!
+    */
+   virtual std::unique_ptr<AbstractBlock> makeRootBlock() const = 0;
 };
 
 

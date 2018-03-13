@@ -7,13 +7,25 @@
 
 
 using namespace std;
+//
+
+
+
+/*!
+ */
+const char* AbstractBlock::_dataTag {"data"};
+/*!
+ */
+const char* AbstractBlock::_typeTag {"type"};
 
 
 
 
 
 
-unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
+/*!
+ */
+std::unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
 {
    unique_ptr<AbstractBlock> ret {makeBlank()};
    ret->copyChildren(this);
@@ -26,6 +38,8 @@ unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
 
 
 
+/*!
+ */
 AbstractBlock* AbstractBlock::root()
 {
    AbstractBlock* root {this};
@@ -38,6 +52,8 @@ AbstractBlock* AbstractBlock::root()
 
 
 
+/*!
+ */
 const AbstractBlock* AbstractBlock::root() const
 {
    const AbstractBlock* root {this};
@@ -50,7 +66,9 @@ const AbstractBlock* AbstractBlock::root() const
 
 
 
-AbstractBlock*AbstractBlock::parent() const
+/*!
+ */
+AbstractBlock* AbstractBlock::parent() const
 {
    return _parent;
 }
@@ -60,7 +78,9 @@ AbstractBlock*AbstractBlock::parent() const
 
 
 
-int AbstractBlock::childrenSize() const
+/*!
+ */
+int AbstractBlock::size() const
 {
    return _children.size();
 }
@@ -70,46 +90,9 @@ int AbstractBlock::childrenSize() const
 
 
 
-AbstractBlock* AbstractBlock::child(int index)
-{
-   if ( index < 0 || index >= _children.size() )
-   {
-      Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
-      e.setDetails(
-               tr("Cannot get child %1 when only %2 children exist.")
-               .arg(index)
-               .arg(_children.size()));
-      throw e;
-   }
-   return _children.at(index);
-}
-
-
-
-
-
-AbstractBlock* AbstractBlock::child(int index) const
-{
-   if ( index < 0 || index >= _children.size() )
-   {
-      Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
-      e.setDetails(
-               tr("Cannot get child %1 when only %2 children exist.")
-               .arg(index)
-               .arg(_children.size()));
-      throw e;
-   }
-   return _children.at(index);
-}
-
-
-
-
-
-
-const QList<AbstractBlock*>& AbstractBlock::children() const
+/*!
+ */
+const QList<AbstractBlock*>& AbstractBlock::list() const
 {
    return _children;
 }
@@ -119,9 +102,13 @@ const QList<AbstractBlock*>& AbstractBlock::children() const
 
 
 
-int AbstractBlock::childIndex(AbstractBlock* child) const
+/*!
+ *
+ * @param pointer  
+ */
+int AbstractBlock::indexOf(AbstractBlock* pointer) const
 {
-   return _children.indexOf(child);
+   return _children.indexOf(pointer);
 }
 
 
@@ -129,7 +116,111 @@ int AbstractBlock::childIndex(AbstractBlock* child) const
 
 
 
-void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
+/*!
+ *
+ * @param index  
+ */
+AbstractBlock* AbstractBlock::get(int index) const
+{
+   if ( index < 0 || index >= _children.size() )
+   {
+      Exception::OutOfRange e;
+      MARK_EXCEPTION(e);
+      e.setDetails(
+               tr("Cannot get child %1 when only %2 children exist.")
+               .arg(index)
+               .arg(_children.size()));
+      throw e;
+   }
+   return _children.at(index);
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param type  
+ */
+bool AbstractBlock::containsType(int type) const
+{
+   for (auto child : qAsConst(_children))
+   {
+      if ( child->type() == type ) return true;
+   }
+   return false;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param types  
+ */
+bool AbstractBlock::containsType(const QList<int>& types) const
+{
+   for (auto child : qAsConst(_children))
+   {
+      if ( types.contains(child->type()) ) return true;
+   }
+   return false;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+void AbstractBlock::moveUp(int index)
+{
+   if ( index > 0 && index < _children.size() )
+   {
+      std::swap(_children[index - 1],_children[index]);
+      childMoved(_children.at(index - 1));
+      emit modified();
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+void AbstractBlock::moveDown(int index)
+{
+   if ( index >= 0 && index < (_children.size() - 1) )
+   {
+      std::swap(_children[index],_children[index + 1]);
+      childMoved(_children.at(index + 1));
+      emit modified();
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ *
+ * @param child  
+ */
+void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
 {
    if ( !child )
    {
@@ -149,7 +240,7 @@ void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
       throw e;
    }
    AbstractBlock* child_ {child.release()};
-   child_->setBlockParent(this,index);
+   child_->setParent(this,index);
    childAdded(child_);
    emit modified();
 }
@@ -159,7 +250,11 @@ void AbstractBlock::insertChild(int index, unique_ptr<AbstractBlock>&& child)
 
 
 
-unique_ptr<AbstractBlock> AbstractBlock::takeChild(int index)
+/*!
+ *
+ * @param index  
+ */
+std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
 {
    if ( index < 0 && index >= _children.size() )
    {
@@ -172,7 +267,7 @@ unique_ptr<AbstractBlock> AbstractBlock::takeChild(int index)
       throw e;
    }
    unique_ptr<AbstractBlock> ret {_children.at(index)};
-   ret->setBlockParent(nullptr,-1);
+   ret->setParent(nullptr);
    childRemoved(ret.get());
    emit modified();
    return ret;
@@ -183,7 +278,11 @@ unique_ptr<AbstractBlock> AbstractBlock::takeChild(int index)
 
 
 
-void AbstractBlock::removeChild(int index)
+/*!
+ *
+ * @param index  
+ */
+void AbstractBlock::remove(int index)
 {
    if ( index < 0 && index >= _children.size() )
    {
@@ -205,43 +304,17 @@ void AbstractBlock::removeChild(int index)
 
 
 
-void AbstractBlock::moveChildUp(int index)
-{
-   if ( index > 0 && index < _children.size() )
-   {
-      std::swap(_children[index - 1],_children[index]);
-      childMoved(_children.at(index - 1));
-      emit modified();
-   }
-}
-
-
-
-
-
-
-void AbstractBlock::moveChildDown(int index)
-{
-   if ( index >= 0 && index < (_children.size() - 1) )
-   {
-      std::swap(_children[index],_children[index + 1]);
-      childMoved(_children.at(index + 1));
-      emit modified();
-   }
-}
-
-
-
-
-
-
-void AbstractBlock::read(const QDomElement& parent)
+/*!
+ *
+ * @param element  
+ */
+void AbstractBlock::read(const QDomElement& element)
 {
    qDeleteAll(_children);
    _children.clear();
    QDomElement data;
    QList<QDomElement> children;
-   DomElementReader reader(parent);
+   DomElementReader reader(element);
    reader.set(_dataTag,&data);
    reader.read();
    readData(data);
@@ -262,6 +335,10 @@ void AbstractBlock::read(const QDomElement& parent)
 
 
 
+/*!
+ *
+ * @param document  
+ */
 QDomElement AbstractBlock::write(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
@@ -283,44 +360,10 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
 
 
 
-bool AbstractBlock::hasChildOfType(int type) const
-{
-   for (auto child : _children)
-   {
-      if ( child->type() == type ) return true;
-   }
-   return false;
-}
-
-
-
-
-
-
-bool AbstractBlock::hasChildOfTypes(const QList<int>& types) const
-{
-   for (auto child : _children)
-   {
-      if ( types.contains(child->type()) ) return true;
-   }
-   return false;
-}
-
-
-
-
-
-
-void AbstractBlock::notifyOfNameChange()
-{
-   notifyOfNameChange(nullptr);
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param child  
+ */
 void AbstractBlock::childNameChanged(AbstractBlock* child)
 {
    Q_UNUSED(child)
@@ -331,6 +374,10 @@ void AbstractBlock::childNameChanged(AbstractBlock* child)
 
 
 
+/*!
+ *
+ * @param child  
+ */
 void AbstractBlock::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
@@ -341,6 +388,10 @@ void AbstractBlock::childAdded(AbstractBlock* child)
 
 
 
+/*!
+ *
+ * @param child  
+ */
 void AbstractBlock::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
@@ -351,6 +402,10 @@ void AbstractBlock::childRemoved(AbstractBlock* child)
 
 
 
+/*!
+ *
+ * @param child  
+ */
 void AbstractBlock::childMoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
@@ -361,6 +416,20 @@ void AbstractBlock::childMoved(AbstractBlock* child)
 
 
 
+/*!
+ */
+void AbstractBlock::notifyOfNameChange()
+{
+   notifyOfNameChange(nullptr);
+}
+
+
+
+
+
+
+/*!
+ */
 void AbstractBlock::childModified()
 {
    emit modified();
@@ -371,11 +440,15 @@ void AbstractBlock::childModified()
 
 
 
-void AbstractBlock::copyChildren(const AbstractBlock* block)
+/*!
+ *
+ * @param parent  
+ */
+void AbstractBlock::copyChildren(const AbstractBlock* parent)
 {
-   for (auto child : qAsConst(block->_children))
+   for (auto child : qAsConst(parent->_children))
    {
-      child->makeCopy().release()->setBlockParent(this,childrenSize());
+      child->makeCopy().release()->setParent(this,size());
    }
 }
 
@@ -384,22 +457,25 @@ void AbstractBlock::copyChildren(const AbstractBlock* block)
 
 
 
-void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
+/*!
+ *
+ * @param parent  
+ *
+ * @param index  
+ */
+void AbstractBlock::setParent(AbstractBlock* parent, int index)
 {
+   setParent(parent);
    if ( _parent )
    {
       _parent->_children.removeOne(this);
-      setParent(nullptr);
       disconnect(_parent);
    }
-   if ( parent )
+   if ( ( _parent = parent ) )
    {
-      parent->_children.insert(index,this);
-      setParent(parent);
-      connect(this,&AbstractBlock::modified,parent,&AbstractBlock::childModified);
+      _parent->_children.insert(index,this);
+      connect(this,&AbstractBlock::modified,_parent,&AbstractBlock::childModified);
    }
-   _parent = parent;
-   setParent(parent);
 }
 
 
@@ -407,9 +483,13 @@ void AbstractBlock::setBlockParent(AbstractBlock* parent, int index)
 
 
 
-void AbstractBlock::readChild(const QDomElement& child)
+/*!
+ *
+ * @param element  
+ */
+void AbstractBlock::readChild(const QDomElement& element)
 {
-   DomElementReader reader(child);
+   DomElementReader reader(element);
    int type {reader.attributeToInt(_typeTag)};
    if ( type < 0 || type >= factory().size() )
    {
@@ -418,9 +498,9 @@ void AbstractBlock::readChild(const QDomElement& child)
       e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(type).arg(factory().size()));
       throw e;
    }
-   unique_ptr<AbstractBlock> child_ {factory().makeBlock(type)};
-   child_->read(child);
-   child_.release()->setBlockParent(this,childrenSize());
+   unique_ptr<AbstractBlock> child {factory().makeBlock(type)};
+   child->read(element);
+   child.release()->setParent(this,size());
 }
 
 
@@ -428,9 +508,13 @@ void AbstractBlock::readChild(const QDomElement& child)
 
 
 
-void AbstractBlock::notifyOfNameChange(AbstractBlock* block)
+/*!
+ *
+ * @param changed  
+ */
+void AbstractBlock::notifyOfNameChange(AbstractBlock* changed)
 {
-   if ( !block )
+   if ( !changed )
    {
       AbstractBlock* root {this};
       while ( root->_parent )
@@ -440,5 +524,5 @@ void AbstractBlock::notifyOfNameChange(AbstractBlock* block)
       }
       root->notifyOfNameChange(this);
    }
-   else emit nameChanged(block);
+   else emit nameChanged(changed);
 }

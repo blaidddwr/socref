@@ -8,13 +8,24 @@
 
 
 using namespace std;
+//
 
 
 
 
 
 
-ScanThread::ScanThread(unique_ptr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent):
+/*!
+ *
+ * @param factory  
+ *
+ * @param scanDirectory  
+ *
+ * @param filters  
+ *
+ * @param parent  
+ */
+ScanThread::ScanThread(std::unique_ptr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent):
    QThread(parent),
    _factory(factory.get())
 {
@@ -27,6 +38,8 @@ ScanThread::ScanThread(unique_ptr<AbstractParserFactory>&& factory, const QStrin
 
 
 
+/*!
+ */
 int ScanThread::size() const
 {
    return _list.size();
@@ -37,6 +50,8 @@ int ScanThread::size() const
 
 
 
+/*!
+ */
 bool ScanThread::hasException() const
 {
    return _exception;
@@ -47,6 +62,8 @@ bool ScanThread::hasException() const
 
 
 
+/*!
+ */
 const Exception::Base& ScanThread::exception() const
 {
    if ( !_exception )
@@ -64,6 +81,8 @@ const Exception::Base& ScanThread::exception() const
 
 
 
+/*!
+ */
 void ScanThread::run()
 {
    delete _exception;
@@ -77,10 +96,8 @@ void ScanThread::run()
          {
             return;
          }
-         unique_ptr<AbstractParser> parser
-         {
-            _factory->makeParser(_list.at(i).completeBaseName().toLower()
-                                 ,_list.at(i).suffix().toLower())
+         unique_ptr<AbstractParser> parser {
+            _factory->make(_list.at(i).completeBaseName().toLower(),_list.at(i).suffix().toLower())
          };
          if ( parser )
          {
@@ -122,6 +139,12 @@ void ScanThread::run()
 
 
 
+/*!
+ *
+ * @param scanDirectory  
+ *
+ * @param filters  
+ */
 void ScanThread::buildList(const QString& scanDirectory, const QStringList& filters)
 {
    QDir dir(scanDirectory);
