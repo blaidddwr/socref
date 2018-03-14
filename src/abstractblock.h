@@ -11,30 +11,67 @@
 
 
 /*!
+ * This represents a single block of data in the reference system. It conforms 
+ * to a parent child relationship where each block can have any number of 
+ * children that are also blocks. The children are structured in an ordered list 
+ * so they can be represented as a tree like structure in a view. Blocks also 
+ * spawn the GUI elements that represent their models. Copying of blocks is also 
+ * performed with other virtual interface functions. Many helper functions are 
+ * available to navigate the tree structure of children and parents. Blocks are 
+ * identified by a type which is an integer value that must be unique among all 
+ * block types of a project type supplied by the block factory. 
  */
 class AbstractBlock : public QObject
 {
    Q_OBJECT
 public:
    /*!
+    * This must return this block's type. 
+    *
+    * @return This block's type. 
     */
    virtual int type() const = 0;
    /*!
+    * This must return a reference to this block's factory which produces all block 
+    * types for this project type. 
+    *
+    * @return Reference to block factory. 
     */
    virtual const AbstractBlockFactory& factory() const = 0;
    /*!
+    * This must return the name of this block. The name is used to display the 
+    * block as text in a tree view and as a title when selected. 
+    *
+    * @return The name of this block. 
     */
    virtual QString name() const = 0;
    /*!
+    * This must return the icon of this block. The icon is displayed in a tree view 
+    * of this block and its title if selected. 
+    *
+    * @return The icon of this block. 
     */
    virtual QIcon icon() const = 0;
    /*!
+    * This must return a list of types that this block can contain as children. If 
+    * the same type is listed more than once any repeated occurrences are ignored 
+    * and the type is allowed to be this block's parent. 
+    *
+    * @return List of allowed types this block can contain as children. 
     */
    virtual QList<int> buildList() const = 0;
    /*!
+    * This must return a View that provides a detailed read only GUI representation 
+    * of this block's data. 
+    *
+    * @return New GUI view that represents this block's data. 
     */
    virtual std::unique_ptr<QWidget> makeView() const = 0;
    /*!
+    * This must return a editable GUI widget that provides the ability to edit this 
+    * block's data. 
+    *
+    * @return New editable GUI widget to edit this block's data. 
     */
    virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() = 0;
    virtual std::unique_ptr<AbstractBlock> makeCopy() const;

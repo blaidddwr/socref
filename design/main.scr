@@ -48,6 +48,7 @@
       </data>
       <class type="4">
          <data qtobject="1" name="AbstractBlock">
+            <description>This represents a single block of data in the reference system. It conforms to a parent child relationship where each block can have any number of children that are also blocks. The children are structured in an ordered list so they can be represented as a tree like structure in a view. Blocks also spawn the GUI elements that represent their models. Copying of blocks is also performed with other virtual interface functions. Many helper functions are available to navigate the tree structure of children and parents. Blocks are identified by a type which is an integer value that must be unique among all block types of a project type supplied by the block factory.</description>
             <type name="const QList&lt;AbstractBlock*>&amp;"/>
             <type name="const T*"/>
             <type name="QList&lt;AbstractBlock*>"/>
@@ -55,255 +56,328 @@
             <type name="T*"/>
          </data>
          <parent type="13">
-            <data name="QObject" access="public"/>
+            <data access="public" name="QObject"/>
          </parent>
          <access type="5">
             <data type="public:"/>
             <function type="2">
-               <data name="type" type="int" virtual="1" const="1" abstract="1"/>
+               <data type="int" abstract="1" virtual="1" const="1" name="type">
+                  <description>This must return this block's type.</description>
+                  <return_description>This block's type.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="factory" type="const AbstractBlockFactory&amp;" virtual="1" const="1" abstract="1"/>
+               <data type="const AbstractBlockFactory&amp;" abstract="1" virtual="1" const="1" name="factory">
+                  <description>This must return a reference to this block's factory which produces all block types for this project type.</description>
+                  <return_description>Reference to block factory.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="name" type="QString" virtual="1" const="1" abstract="1"/>
+               <data type="QString" abstract="1" virtual="1" const="1" name="name">
+                  <description>This must return the name of this block. The name is used to display the block as text in a tree view and as a title when selected.</description>
+                  <return_description>The name of this block.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="icon" type="QIcon" virtual="1" const="1" abstract="1"/>
+               <data type="QIcon" abstract="1" virtual="1" const="1" name="icon">
+                  <description>This must return the icon of this block. The icon is displayed in a tree view of this block and its title if selected.</description>
+                  <return_description>The icon of this block.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="buildList" type="QList&lt;int>" virtual="1" const="1" abstract="1"/>
+               <data type="QList&lt;int>" abstract="1" virtual="1" const="1" name="buildList">
+                  <description>This must return a list of types that this block can contain as children. If the same type is listed more than once any repeated occurrences are ignored and the type is allowed to be this block's parent.</description>
+                  <return_description>List of allowed types this block can contain as children.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="makeView" type="std::unique_ptr&lt;QWidget>" virtual="1" const="1" abstract="1"/>
+               <data type="std::unique_ptr&lt;QWidget>" abstract="1" virtual="1" const="1" name="makeView">
+                  <description>This must return a View that provides a detailed read only GUI representation of this block's data.</description>
+                  <return_description>New GUI view that represents this block's data.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="makeEdit" type="std::unique_ptr&lt;::Gui::AbstractEdit>" virtual="1" abstract="1"/>
+               <data type="std::unique_ptr&lt;::Gui::AbstractEdit>" abstract="1" virtual="1" name="makeEdit">
+                  <description>This must return a editable GUI widget that provides the ability to edit this block's data.</description>
+                  <return_description>New editable GUI widget to edit this block's data.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="makeCopy" type="std::unique_ptr&lt;AbstractBlock>" virtual="1" const="1"/>
+               <data type="std::unique_ptr&lt;AbstractBlock>" virtual="1" const="1" name="makeCopy">
+                  <description>This must make an exact copy of this block. A default implementation of this block is given that uses other virtual functions to create a copy of this block. The new block returned has no parent.</description>
+                  <return_description>Exact copy of this block's data as a new block.</return_description>
+                  <operation>Make a null instance of this block type as the return variable.</operation>
+                  <operation>Copy the children of this block to the new block instance return variable.</operation>
+                  <operation>Copy all data from this block to the new block instance return variable.</operation>
+                  <operation>Return the new block return variable.</operation>
+               </data>
             </function>
             <function type="2">
-               <data name="root" type="AbstractBlock*"/>
+               <data type="AbstractBlock*" name="root">
+                  <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
+                  <return_description>Pointer to the root block.</return_description>
+                  <operation>Initialize the return pointer with the pointer to this block.</operation>
+                  <operation>Iterate the return pointer, setting it to its parent, until the return pointer does not have a parent.</operation>
+                  <operation>Return the return pointer.</operation>
+               </data>
             </function>
             <function type="2">
-               <data name="root" type="const AbstractBlock*" const="1"/>
+               <data type="const AbstractBlock*" const="1" name="root">
+                  <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
+                  <return_description>Read only pointer to the root block.</return_description>
+                  <operation>Initialize the return pointer with the pointer to this block.</operation>
+                  <operation>Iterate the return pointer, setting it to its parent, until the return pointer does not have a parent.</operation>
+                  <operation>Return the return pointer.</operation>
+               </data>
             </function>
             <function type="2">
-               <data name="parent" type="AbstractBlock*" const="1"/>
+               <data type="AbstractBlock*" const="1" name="parent">
+                  <description>This returns a pointer to the parent of this block. If this block is the root block then null is returned.</description>
+                  <return_description>Pointer to parent block, if any.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="size" type="int" const="1"/>
+               <data type="int" const="1" name="size">
+                  <description>This returns the number of children this block contains.</description>
+                  <return_description>Number of children this block contains.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="list" type="const QList&lt;AbstractBlock*>&amp;" const="1"/>
+               <data type="const QList&lt;AbstractBlock*>&amp;" const="1" name="list">
+                  <description>This returns a read only reference to this block's list of children blocks. The list is a list of pointers to all child blocks.</description>
+                  <return_description>Reference to this block's list of children.</return_description>
+               </data>
             </function>
             <function type="2">
-               <data name="indexOf" type="int" const="1"/>
+               <data type="int" const="1" name="indexOf">
+                  <description>This gets the index where the child with the given pointer it stored in this node's list of children, if any. If no child with the given pointer is found then -1 is returned.</description>
+                  <return_description>Index of child with given pointer, if any.</return_description>
+               </data>
                <variable type="1">
-                  <data name="pointer" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="pointer">
+                     <description>Pointer of child block to match in this node's list and return its index.</description>
+                  </data>
                </variable>
             </function>
             <function type="2">
-               <data name="get" type="AbstractBlock*" const="1"/>
+               <data type="AbstractBlock*" const="1" name="get">
+                  <description>This returns a pointer to this node's child with the given index. If the index is out of range an exception is thrown.</description>
+                  <return_description>Pointer to this node's child with given index.</return_description>
+                  <operation>If the given index is out of range then throw an exception, else go to next step.</operation>
+                  <operation>Return a pointer to this node's child with the given index.</operation>
+               </data>
                <variable type="1">
-                  <data name="index" type="int"/>
+                  <data type="int" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="containsType" type="bool" const="1"/>
+               <data type="bool" const="1" name="containsType">
+                  <description>Tests if this node contains any children of the given type.</description>
+                  <return_description>Returns true if this node contains any children of the given type, else returns false.</return_description>
+                  <operation>Iterate through list of this node's children. If a child that matches the given type is found then return true.</operation>
+                  <operation>No match found after reaching end of list so return false.</operation>
+               </data>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type">
+                     <description>The block type to search for within this block's list of children.</description>
+                  </data>
                </variable>
             </function>
             <function type="2">
-               <data name="containsType" type="bool" const="1"/>
+               <data type="bool" const="1" name="containsType">
+                  <description>Tests if this node contains any children of any type given.</description>
+                  <return_description>Returns true if this node contains any children of any type given, else returns false.</return_description>
+                  <operation>Iterate through list of this node's children. If a child that matches any of the given types is found then return true.</operation>
+                  <operation>No match found after reaching end of list so return false.</operation>
+               </data>
                <variable type="1">
-                  <data name="types" type="const QList&lt;int>&amp;"/>
+                  <data type="const QList&lt;int>&amp;" name="types">
+                     <description>List of block types to search for within this block's list of children.</description>
+                  </data>
                </variable>
             </function>
             <function type="2">
-               <data name="makeListOfType" type="QList&lt;T*>" const="1"/>
+               <data type="QList&lt;T*>" const="1" name="makeListOfType"/>
                <template type="3">
-                  <data name="T" type="class"/>
+                  <data type="class" name="T"/>
                </template>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data name="cast" type="const T*" const="1"/>
+               <data type="const T*" const="1" name="cast"/>
                <template type="3">
-                  <data name="T" type="class"/>
+                  <data type="class" name="T"/>
                </template>
                <variable type="1">
-                  <data name="toType" type="int"/>
+                  <data type="int" name="toType"/>
                </variable>
             </function>
             <function type="2">
-               <data name="cast" type="T*"/>
+               <data type="T*" name="cast"/>
                <template type="3">
-                  <data name="T" type="class"/>
+                  <data type="class" name="T"/>
                </template>
                <variable type="1">
-                  <data name="toType" type="int"/>
+                  <data type="int" name="toType"/>
                </variable>
             </function>
             <function type="2">
-               <data name="moveUp" type="void"/>
+               <data type="void" name="moveUp"/>
                <variable type="1">
-                  <data name="index" type="int"/>
+                  <data type="int" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="moveDown" type="void"/>
+               <data type="void" name="moveDown"/>
                <variable type="1">
-                  <data name="index" type="int"/>
+                  <data type="int" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="insert" type="void"/>
+               <data type="void" name="insert"/>
                <variable type="1">
-                  <data name="index" type="int"/>
+                  <data type="int" name="index"/>
                </variable>
                <variable type="1">
-                  <data name="child" type="std::unique_ptr&lt;AbstractBlock>&amp;&amp;"/>
-               </variable>
-            </function>
-            <function type="2">
-               <data name="take" type="std::unique_ptr&lt;AbstractBlock>"/>
-               <variable type="1">
-                  <data name="index" type="int"/>
+                  <data type="std::unique_ptr&lt;AbstractBlock>&amp;&amp;" name="child"/>
                </variable>
             </function>
             <function type="2">
-               <data name="remove" type="void"/>
+               <data type="std::unique_ptr&lt;AbstractBlock>" name="take"/>
                <variable type="1">
-                  <data name="index" type="int"/>
+                  <data type="int" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="read" type="void"/>
+               <data type="void" name="remove"/>
                <variable type="1">
-                  <data name="element" type="const QDomElement&amp;"/>
+                  <data type="int" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="write" type="QDomElement" const="1"/>
+               <data type="void" name="read"/>
                <variable type="1">
-                  <data name="document" type="QDomDocument&amp;"/>
+                  <data type="const QDomElement&amp;" name="element"/>
+               </variable>
+            </function>
+            <function type="2">
+               <data type="QDomElement" const="1" name="write"/>
+               <variable type="1">
+                  <data type="QDomDocument&amp;" name="document"/>
                </variable>
             </function>
          </access>
          <access type="5">
             <data type="signals:"/>
             <signal type="8">
-               <data name="modified" type=""/>
+               <data type="" name="modified"/>
             </signal>
             <signal type="8">
-               <data name="nameChanged" type=""/>
+               <data type="" name="nameChanged"/>
                <variable type="1">
-                  <data name="object" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="object"/>
                </variable>
             </signal>
          </access>
          <access type="5">
             <data type="protected slots:"/>
             <slot type="7">
-               <data name="childNameChanged" type="" virtual="1"/>
+               <data type="" virtual="1" name="childNameChanged"/>
                <variable type="1">
-                  <data name="child" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="child"/>
                </variable>
             </slot>
             <slot type="7">
-               <data name="childAdded" type="" virtual="1"/>
+               <data type="" virtual="1" name="childAdded"/>
                <variable type="1">
-                  <data name="child" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="child"/>
                </variable>
             </slot>
             <slot type="7">
-               <data name="childRemoved" type="" virtual="1"/>
+               <data type="" virtual="1" name="childRemoved"/>
                <variable type="1">
-                  <data name="child" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="child"/>
                </variable>
             </slot>
             <slot type="7">
-               <data name="childMoved" type="" virtual="1"/>
+               <data type="" virtual="1" name="childMoved"/>
                <variable type="1">
-                  <data name="child" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="child"/>
                </variable>
             </slot>
          </access>
          <access type="5">
             <data type="protected:"/>
             <function type="2">
-               <data name="readData" type="void" virtual="1" abstract="1"/>
+               <data type="void" abstract="1" virtual="1" name="readData"/>
                <variable type="1">
-                  <data name="element" type="const QDomElement&amp;"/>
+                  <data type="const QDomElement&amp;" name="element"/>
                </variable>
             </function>
             <function type="2">
-               <data name="writeData" type="QDomElement" virtual="1" const="1" abstract="1"/>
+               <data type="QDomElement" abstract="1" virtual="1" const="1" name="writeData"/>
                <variable type="1">
-                  <data name="document" type="QDomDocument&amp;"/>
+                  <data type="QDomDocument&amp;" name="document"/>
                </variable>
             </function>
             <function type="2">
-               <data name="makeBlank" type="std::unique_ptr&lt;AbstractBlock>" virtual="1" const="1" abstract="1"/>
+               <data type="std::unique_ptr&lt;AbstractBlock>" abstract="1" virtual="1" const="1" name="makeBlank"/>
             </function>
             <function type="2">
-               <data name="copyDataFrom" type="void" virtual="1" abstract="1"/>
+               <data type="void" abstract="1" virtual="1" name="copyDataFrom"/>
                <variable type="1">
-                  <data name="other" type="const AbstractBlock*"/>
+                  <data type="const AbstractBlock*" name="other"/>
                </variable>
             </function>
             <function type="2">
-               <data name="notifyOfNameChange" type="void"/>
+               <data type="void" name="notifyOfNameChange"/>
             </function>
          </access>
          <access type="5">
             <data type="private slots:"/>
             <slot type="7">
-               <data name="childModified" type=""/>
+               <data type="" name="childModified"/>
             </slot>
          </access>
          <access type="5">
             <data type="private:"/>
             <function type="2">
-               <data name="copyChildren" type="void"/>
+               <data type="void" name="copyChildren"/>
                <variable type="1">
-                  <data name="parent" type="const AbstractBlock*"/>
+                  <data type="const AbstractBlock*" name="parent"/>
                </variable>
             </function>
             <function type="2">
-               <data name="setParent" type="void"/>
+               <data type="void" name="setParent"/>
                <variable type="1">
-                  <data name="parent" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="parent"/>
                </variable>
                <variable type="1">
-                  <data name="index" type="int" initializer="-1"/>
-               </variable>
-            </function>
-            <function type="2">
-               <data name="readChild" type="void"/>
-               <variable type="1">
-                  <data name="element" type="const QDomElement&amp;"/>
+                  <data type="int" initializer="-1" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="notifyOfNameChange" type="void"/>
+               <data type="void" name="readChild"/>
                <variable type="1">
-                  <data name="changed" type="AbstractBlock*"/>
+                  <data type="const QDomElement&amp;" name="element"/>
+               </variable>
+            </function>
+            <function type="2">
+               <data type="void" name="notifyOfNameChange"/>
+               <variable type="1">
+                  <data type="AbstractBlock*" name="changed"/>
                </variable>
             </function>
             <variable type="1">
-               <data name="_dataTag" type="const char*" initializer="&quot;data&quot;" static="1"/>
+               <data type="const char*" static="1" initializer="&quot;data&quot;" name="_dataTag"/>
             </variable>
             <variable type="1">
-               <data name="_typeTag" type="const char*" initializer="&quot;type&quot;" static="1"/>
+               <data type="const char*" static="1" initializer="&quot;type&quot;" name="_typeTag"/>
             </variable>
             <variable type="1">
-               <data name="_children" type="QList&lt;AbstractBlock*>"/>
+               <data type="QList&lt;AbstractBlock*>" name="_children"/>
             </variable>
          </access>
       </class>
@@ -312,31 +386,31 @@
          <access type="5">
             <data type="public:"/>
             <function type="2">
-               <data name="type" type="int" virtual="1" const="1" abstract="1"/>
+               <data type="int" abstract="1" virtual="1" const="1" name="type"/>
             </function>
             <function type="2">
-               <data name="size" type="int" virtual="1" const="1" abstract="1"/>
+               <data type="int" abstract="1" virtual="1" const="1" name="size"/>
             </function>
             <function type="2">
-               <data name="name" type="QString" virtual="1" const="1" abstract="1"/>
+               <data type="QString" abstract="1" virtual="1" const="1" name="name"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data name="elementName" type="QString" virtual="1" const="1" abstract="1"/>
+               <data type="QString" abstract="1" virtual="1" const="1" name="elementName"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data name="makeBlock" type="std::unique_ptr&lt;AbstractBlock>" virtual="1" const="1" abstract="1"/>
+               <data type="std::unique_ptr&lt;AbstractBlock>" abstract="1" virtual="1" const="1" name="makeBlock"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data name="makeRootBlock" type="std::unique_ptr&lt;AbstractBlock>" virtual="1" const="1" abstract="1"/>
+               <data type="std::unique_ptr&lt;AbstractBlock>" abstract="1" virtual="1" const="1" name="makeRootBlock"/>
             </function>
          </access>
       </class>
@@ -345,7 +419,7 @@
             <type name="QList&lt;AbstractParser*>"/>
          </data>
          <parent type="13">
-            <data name="QObject" access="public"/>
+            <data access="public" name="QObject"/>
          </parent>
          <access type="5">
             <data type="public:"/>
@@ -355,127 +429,127 @@
             <constructor type="9">
                <data type="" explicit="1"/>
                <variable type="1">
-                  <data name="parent" type="AbstractParser*"/>
+                  <data type="AbstractParser*" name="parent"/>
                </variable>
             </constructor>
             <destructor type="10">
                <data type="" virtual="1"/>
             </destructor>
             <function type="2">
-               <data name="execute" type="void"/>
+               <data type="void" name="execute"/>
                <variable type="1">
-                  <data name="file" type="QFile*"/>
+                  <data type="QFile*" name="file"/>
                </variable>
             </function>
          </access>
          <access type="5">
             <data type="protected:"/>
             <function type="2">
-               <data name="readLine" type="bool" virtual="1" abstract="1"/>
+               <data type="bool" abstract="1" virtual="1" name="readLine"/>
                <variable type="1">
-                  <data name="line" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="line"/>
                </variable>
             </function>
             <function type="2">
-               <data name="makeOutput" type="void" virtual="1" abstract="1"/>
+               <data type="void" abstract="1" virtual="1" name="makeOutput"/>
             </function>
             <function type="2">
-               <data name="initialize" type="void" virtual="1"/>
+               <data type="void" virtual="1" name="initialize"/>
             </function>
             <function type="2">
-               <data name="stepIntoChild" type="void"/>
+               <data type="void" name="stepIntoChild"/>
                <variable type="1">
-                  <data name="child" type="AbstractParser*"/>
+                  <data type="AbstractParser*" name="child"/>
                </variable>
             </function>
             <function type="2">
-               <data name="indent" type="int"/>
+               <data type="int" name="indent"/>
             </function>
             <function type="2">
-               <data name="setIndent" type="void"/>
+               <data type="void" name="setIndent"/>
                <variable type="1">
-                  <data name="indent" type="int"/>
+                  <data type="int" name="indent"/>
                </variable>
             </function>
             <function type="2">
-               <data name="add" type="void"/>
+               <data type="void" name="add"/>
                <variable type="1">
-                  <data name="line" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="line"/>
                </variable>
             </function>
             <function type="2">
-               <data name="add" type="void"/>
+               <data type="void" name="add"/>
                <variable type="1">
-                  <data name="lines" type="const QStringList&amp;"/>
+                  <data type="const QStringList&amp;" name="lines"/>
                </variable>
             </function>
             <function type="2">
-               <data name="add" type="void"/>
+               <data type="void" name="add"/>
                <variable type="1">
-                  <data name="count" type="int"/>
+                  <data type="int" name="count"/>
                </variable>
             </function>
          </access>
          <access type="5">
             <data type="private:"/>
             <function type="2">
-               <data name="read" type="void"/>
+               <data type="void" name="read"/>
                <variable type="1">
-                  <data name="file" type="QFile*"/>
+                  <data type="QFile*" name="file"/>
                </variable>
             </function>
             <function type="2">
-               <data name="processInput" type="void"/>
+               <data type="void" name="processInput"/>
             </function>
             <function type="2">
-               <data name="processOutput" type="void"/>
+               <data type="void" name="processOutput"/>
             </function>
             <function type="2">
-               <data name="write" type="void"/>
+               <data type="void" name="write"/>
                <variable type="1">
-                  <data name="file" type="QFile*"/>
+                  <data type="QFile*" name="file"/>
                </variable>
             </function>
             <variable type="1">
-               <data name="_original" type="QString"/>
+               <data type="QString" name="_original"/>
             </variable>
             <variable type="1">
-               <data name="_input" type="QStringList*" initializer="nullptr"/>
+               <data type="QStringList*" initializer="nullptr" name="_input"/>
             </variable>
             <variable type="1">
-               <data name="_index" type="int*" initializer="nullptr"/>
+               <data type="int*" initializer="nullptr" name="_index"/>
             </variable>
             <variable type="1">
-               <data name="_indent" type="int*" initializer="nullptr"/>
+               <data type="int*" initializer="nullptr" name="_indent"/>
             </variable>
             <variable type="1">
-               <data name="_output" type="QStringList*" initializer="nullptr"/>
+               <data type="QStringList*" initializer="nullptr" name="_output"/>
             </variable>
             <variable type="1">
-               <data name="_root" type="AbstractParser*" initializer="nullptr"/>
+               <data type="AbstractParser*" initializer="nullptr" name="_root"/>
             </variable>
             <variable type="1">
-               <data name="_children" type="QList&lt;AbstractParser*>"/>
+               <data type="QList&lt;AbstractParser*>" name="_children"/>
             </variable>
             <variable type="1">
-               <data name="_child" type="AbstractParser*" initializer="nullptr"/>
+               <data type="AbstractParser*" initializer="nullptr" name="_child"/>
             </variable>
          </access>
       </class>
       <class type="4">
          <data qtobject="1" name="AbstractParserFactory"/>
          <parent type="13">
-            <data name="QObject" access="public"/>
+            <data access="public" name="QObject"/>
          </parent>
          <access type="5">
             <data type="public:"/>
             <function type="2">
-               <data name="make" type="std::unique_ptr&lt;AbstractParser>" virtual="1" const="1" abstract="1"/>
+               <data type="std::unique_ptr&lt;AbstractParser>" abstract="1" virtual="1" const="1" name="make"/>
                <variable type="1">
-                  <data name="name" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="name"/>
                </variable>
                <variable type="1">
-                  <data name="extension" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="extension"/>
                </variable>
             </function>
          </access>
@@ -483,38 +557,38 @@
       <class type="4">
          <data name="AbstractProjectFactory"/>
          <parent type="13">
-            <data name="SingletonFactory" template="AbstractProjectFactory" access="public"/>
+            <data access="public" template="AbstractProjectFactory" name="SingletonFactory"/>
          </parent>
          <access type="5">
             <data type="public:"/>
             <function type="2">
-               <data name="size" type="int" virtual="1" const="1" abstract="1"/>
+               <data type="int" abstract="1" virtual="1" const="1" name="size"/>
             </function>
             <function type="2">
-               <data name="name" type="QString" virtual="1" const="1" abstract="1"/>
+               <data type="QString" abstract="1" virtual="1" const="1" name="name"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data name="defaultFilters" type="QString" virtual="1" const="1" abstract="1"/>
+               <data type="QString" abstract="1" virtual="1" const="1" name="defaultFilters"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data name="blockFactory" type="const AbstractBlockFactory&amp;" virtual="1" const="1" abstract="1"/>
+               <data type="const AbstractBlockFactory&amp;" abstract="1" virtual="1" const="1" name="blockFactory"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data name="makeParserFactory" type="std::unique_ptr&lt;AbstractParserFactory>" virtual="1" const="1" abstract="1"/>
+               <data type="std::unique_ptr&lt;AbstractParserFactory>" abstract="1" virtual="1" const="1" name="makeParserFactory"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
                <variable type="1">
-                  <data name="root" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="root"/>
                </variable>
             </function>
          </access>
@@ -522,7 +596,7 @@
       <class type="4">
          <data name="ProjectFactory"/>
          <parent type="13">
-            <data name="AbstractProjectFactory" access="public"/>
+            <data access="public" name="AbstractProjectFactory"/>
          </parent>
          <access type="5">
             <data type="public:"/>
@@ -536,33 +610,33 @@
                </enumval>
             </enumeration>
             <function type="2">
-               <data override="1" name="size" type="int" virtual="1" const="1" final="1"/>
+               <data type="int" final="1" override="1" virtual="1" const="1" name="size"/>
             </function>
             <function type="2">
-               <data override="1" name="name" type="QString" virtual="1" const="1" final="1"/>
+               <data type="QString" final="1" override="1" virtual="1" const="1" name="name"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data override="1" name="defaultFilters" type="QString" virtual="1" const="1" final="1"/>
+               <data type="QString" final="1" override="1" virtual="1" const="1" name="defaultFilters"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data override="1" name="blockFactory" type="const AbstractBlockFactory&amp;" virtual="1" const="1" final="1"/>
+               <data type="const AbstractBlockFactory&amp;" final="1" override="1" virtual="1" const="1" name="blockFactory"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </function>
             <function type="2">
-               <data override="1" name="makeParserFactory" type="std::unique_ptr&lt;AbstractParserFactory>" virtual="1" const="1" final="1"/>
+               <data type="std::unique_ptr&lt;AbstractParserFactory>" final="1" override="1" virtual="1" const="1" name="makeParserFactory"/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
                <variable type="1">
-                  <data name="root" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="root"/>
                </variable>
             </function>
          </access>
@@ -570,201 +644,201 @@
       <class type="4">
          <data qtobject="1" name="BlockModel"/>
          <parent type="13">
-            <data name="QAbstractItemModel" access="public"/>
+            <data access="public" name="QAbstractItemModel"/>
          </parent>
          <access type="5">
             <data type="public:"/>
             <constructor type="9">
                <data type="" explicit="1"/>
                <variable type="1">
-                  <data name="root" type="AbstractBlock*" initializer="nullptr"/>
+                  <data type="AbstractBlock*" initializer="nullptr" name="root"/>
                </variable>
                <variable type="1">
-                  <data name="parent" type="QObject*" initializer="nullptr"/>
+                  <data type="QObject*" initializer="nullptr" name="parent"/>
                </variable>
             </constructor>
             <function type="2">
-               <data override="1" name="index" type="QModelIndex" virtual="1" const="1" final="1"/>
+               <data type="QModelIndex" final="1" override="1" virtual="1" const="1" name="index"/>
                <variable type="1">
-                  <data name="row" type="int"/>
+                  <data type="int" name="row"/>
                </variable>
                <variable type="1">
-                  <data name="column" type="int"/>
+                  <data type="int" name="column"/>
                </variable>
                <variable type="1">
-                  <data name="parent" type="const QModelIndex&amp;"/>
-               </variable>
-            </function>
-            <function type="2">
-               <data override="1" name="parent" type="QModelIndex" virtual="1" const="1" final="1"/>
-               <variable type="1">
-                  <data name="child" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="parent"/>
                </variable>
             </function>
             <function type="2">
-               <data override="1" name="rowCount" type="int" virtual="1" const="1" final="1"/>
+               <data type="QModelIndex" final="1" override="1" virtual="1" const="1" name="parent"/>
                <variable type="1">
-                  <data name="parent" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="child"/>
                </variable>
             </function>
             <function type="2">
-               <data override="1" name="columnCount" type="int" virtual="1" const="1" final="1"/>
+               <data type="int" final="1" override="1" virtual="1" const="1" name="rowCount"/>
                <variable type="1">
-                  <data name="parent" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="parent"/>
                </variable>
             </function>
             <function type="2">
-               <data override="1" name="data" type="QVariant" virtual="1" const="1" final="1"/>
+               <data type="int" final="1" override="1" virtual="1" const="1" name="columnCount"/>
                <variable type="1">
-                  <data name="index" type="const QModelIndex&amp;"/>
-               </variable>
-               <variable type="1">
-                  <data name="role" type="int"/>
+                  <data type="const QModelIndex&amp;" name="parent"/>
                </variable>
             </function>
             <function type="2">
-               <data name="pointer" type="AbstractBlock*" const="1"/>
+               <data type="QVariant" final="1" override="1" virtual="1" const="1" name="data"/>
                <variable type="1">
-                  <data name="index" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="index"/>
+               </variable>
+               <variable type="1">
+                  <data type="int" name="role"/>
                </variable>
             </function>
             <function type="2">
-               <data name="insert" type="bool"/>
+               <data type="AbstractBlock*" const="1" name="pointer"/>
                <variable type="1">
-                  <data name="index" type="const QModelIndex&amp;"/>
-               </variable>
-               <variable type="1">
-                  <data name="block" type="std::unique_ptr&lt;AbstractBlock>&amp;&amp;"/>
+                  <data type="const QModelIndex&amp;" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="moveUp" type="QModelIndex"/>
+               <data type="bool" name="insert"/>
                <variable type="1">
-                  <data name="index" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="index"/>
+               </variable>
+               <variable type="1">
+                  <data type="std::unique_ptr&lt;AbstractBlock>&amp;&amp;" name="block"/>
                </variable>
             </function>
             <function type="2">
-               <data name="moveDown" type="QModelIndex"/>
+               <data type="QModelIndex" name="moveUp"/>
                <variable type="1">
-                  <data name="index" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="remove" type="bool"/>
+               <data type="QModelIndex" name="moveDown"/>
                <variable type="1">
-                  <data name="index" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="copy" type="std::unique_ptr&lt;AbstractBlock>" const="1"/>
+               <data type="bool" name="remove"/>
                <variable type="1">
-                  <data name="index" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="cut" type="std::unique_ptr&lt;AbstractBlock>"/>
+               <data type="std::unique_ptr&lt;AbstractBlock>" const="1" name="copy"/>
                <variable type="1">
-                  <data name="index" type="const QModelIndex&amp;"/>
+                  <data type="const QModelIndex&amp;" name="index"/>
                </variable>
             </function>
             <function type="2">
-               <data name="factory" type="const AbstractBlockFactory*" const="1"/>
+               <data type="std::unique_ptr&lt;AbstractBlock>" name="cut"/>
+               <variable type="1">
+                  <data type="const QModelIndex&amp;" name="index"/>
+               </variable>
             </function>
             <function type="2">
-               <data name="setRoot" type="void"/>
+               <data type="const AbstractBlockFactory*" const="1" name="factory"/>
+            </function>
+            <function type="2">
+               <data type="void" name="setRoot"/>
                <variable type="1">
-                  <data name="newRoot" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="newRoot"/>
                </variable>
             </function>
          </access>
          <access type="5">
             <data type="private slots:"/>
             <slot type="7">
-               <data name="blockNameChanged" type=""/>
+               <data type="" name="blockNameChanged"/>
                <variable type="1">
-                  <data name="block" type="AbstractBlock*"/>
+                  <data type="AbstractBlock*" name="block"/>
                </variable>
             </slot>
          </access>
          <access type="5">
             <data type="private:"/>
             <variable type="1">
-               <data name="_iconSize" type="int" initializer="24" constexpr="1" static="1"/>
+               <data type="int" constexpr="1" static="1" initializer="24" name="_iconSize"/>
             </variable>
             <variable type="1">
-               <data name="_root" type="AbstractBlock*"/>
+               <data type="AbstractBlock*" name="_root"/>
             </variable>
             <variable type="1">
-               <data name="_factory" type="const AbstractBlockFactory*" initializer="nullptr"/>
+               <data type="const AbstractBlockFactory*" initializer="nullptr" name="_factory"/>
             </variable>
          </access>
       </class>
       <class type="4">
          <data qtobject="1" name="ScanThread"/>
          <parent type="13">
-            <data name="QThread" access="public"/>
+            <data access="public" name="QThread"/>
          </parent>
          <access type="5">
             <data type="public:"/>
             <constructor type="9">
                <data type=""/>
                <variable type="1">
-                  <data name="factory" type="std::unique_ptr&lt;AbstractParserFactory>&amp;&amp;"/>
+                  <data type="std::unique_ptr&lt;AbstractParserFactory>&amp;&amp;" name="factory"/>
                </variable>
                <variable type="1">
-                  <data name="scanDirectory" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="scanDirectory"/>
                </variable>
                <variable type="1">
-                  <data name="filters" type="const QStringList&amp;"/>
+                  <data type="const QStringList&amp;" name="filters"/>
                </variable>
                <variable type="1">
-                  <data name="parent" type="QObject*" initializer="nullptr"/>
+                  <data type="QObject*" initializer="nullptr" name="parent"/>
                </variable>
             </constructor>
             <function type="2">
-               <data name="size" type="int" const="1"/>
+               <data type="int" const="1" name="size"/>
             </function>
             <function type="2">
-               <data name="hasException" type="bool" const="1"/>
+               <data type="bool" const="1" name="hasException"/>
             </function>
             <function type="2">
-               <data name="exception" type="const Exception::Base&amp;" const="1"/>
+               <data type="const Exception::Base&amp;" const="1" name="exception"/>
             </function>
          </access>
          <access type="5">
             <data type="signals:"/>
             <signal type="8">
-               <data name="progressChanged" type=""/>
+               <data type="" name="progressChanged"/>
                <variable type="1">
-                  <data name="complete" type="int"/>
+                  <data type="int" name="complete"/>
                </variable>
             </signal>
          </access>
          <access type="5">
             <data type="protected:"/>
             <function type="2">
-               <data override="1" name="run" type="void" virtual="1" final="1"/>
+               <data type="void" final="1" override="1" virtual="1" name="run"/>
             </function>
          </access>
          <access type="5">
             <data type="private:"/>
             <function type="2">
-               <data name="buildList" type="void"/>
+               <data type="void" name="buildList"/>
                <variable type="1">
-                  <data name="scanDirectory" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="scanDirectory"/>
                </variable>
                <variable type="1">
-                  <data name="filters" type="const QStringList&amp;"/>
+                  <data type="const QStringList&amp;" name="filters"/>
                </variable>
             </function>
             <variable type="1">
-               <data name="_factory" type="AbstractParserFactory*"/>
+               <data type="AbstractParserFactory*" name="_factory"/>
             </variable>
             <variable type="1">
-               <data name="_list" type="QFileInfoList"/>
+               <data type="QFileInfoList" name="_list"/>
             </variable>
             <variable type="1">
-               <data name="_exception" type="Exception::Base*" initializer="nullptr"/>
+               <data type="Exception::Base*" initializer="nullptr" name="_exception"/>
             </variable>
          </access>
       </class>
@@ -774,175 +848,175 @@
             <type name="std::unique_ptr&lt;ScanThread>"/>
          </data>
          <parent type="13">
-            <data name="QFileSystemWatcher" access="public"/>
+            <data access="public" name="QFileSystemWatcher"/>
          </parent>
          <access type="5">
             <data type="public:"/>
             <constructor type="9">
                <data type=""/>
                <variable type="1">
-                  <data name="type" type="int"/>
+                  <data type="int" name="type"/>
                </variable>
             </constructor>
             <constructor type="9">
                <data type=""/>
                <variable type="1">
-                  <data name="path" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="path"/>
                </variable>
             </constructor>
             <function type="2">
-               <data name="isNew" type="bool" const="1"/>
+               <data type="bool" const="1" name="isNew"/>
             </function>
             <function type="2">
-               <data name="isModified" type="bool" const="1"/>
+               <data type="bool" const="1" name="isModified"/>
             </function>
             <function type="2">
-               <data name="type" type="int" const="1"/>
+               <data type="int" const="1" name="type"/>
             </function>
             <function type="2">
-               <data name="path" type="QString" const="1"/>
+               <data type="QString" const="1" name="path"/>
             </function>
             <function type="2">
-               <data name="model" type="BlockModel*"/>
+               <data type="BlockModel*" name="model"/>
             </function>
             <function type="2">
-               <data name="name" type="QString" const="1"/>
+               <data type="QString" const="1" name="name"/>
             </function>
             <function type="2">
-               <data name="setName" type="void"/>
+               <data type="void" name="setName"/>
                <variable type="1">
-                  <data name="newName" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="newName"/>
                </variable>
             </function>
             <function type="2">
-               <data name="scanDirectory" type="QString" const="1"/>
+               <data type="QString" const="1" name="scanDirectory"/>
             </function>
             <function type="2">
-               <data name="setScanDirectory" type="void"/>
+               <data type="void" name="setScanDirectory"/>
                <variable type="1">
-                  <data name="newPath" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="newPath"/>
                </variable>
             </function>
             <function type="2">
-               <data name="scanFilters" type="QString" const="1"/>
+               <data type="QString" const="1" name="scanFilters"/>
             </function>
             <function type="2">
-               <data name="setScanFilters" type="void"/>
+               <data type="void" name="setScanFilters"/>
                <variable type="1">
-                  <data name="newFilters" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="newFilters"/>
                </variable>
             </function>
             <function type="2">
-               <data name="makeScanner" type="std::unique_ptr&lt;ScanThread>" const="1"/>
+               <data type="std::unique_ptr&lt;ScanThread>" const="1" name="makeScanner"/>
             </function>
             <function type="2">
-               <data name="save" type="void"/>
+               <data type="void" name="save"/>
             </function>
             <function type="2">
-               <data name="saveAs" type="void"/>
+               <data type="void" name="saveAs"/>
                <variable type="1">
-                  <data name="path" type="const QString&amp;"/>
+                  <data type="const QString&amp;" name="path"/>
                </variable>
             </function>
          </access>
          <access type="5">
             <data type="signals:"/>
             <signal type="8">
-               <data name="nameChanged" type=""/>
+               <data type="" name="nameChanged"/>
             </signal>
             <signal type="8">
-               <data name="modified" type=""/>
+               <data type="" name="modified"/>
             </signal>
             <signal type="8">
-               <data name="saved" type=""/>
+               <data type="" name="saved"/>
             </signal>
             <signal type="8">
-               <data name="changed" type=""/>
+               <data type="" name="changed"/>
             </signal>
          </access>
          <access type="5">
             <data type="private slots:"/>
             <slot type="7">
-               <data name="blockModified" type=""/>
+               <data type="" name="blockModified"/>
             </slot>
             <slot type="7">
-               <data name="fileChanged" type=""/>
+               <data type="" name="fileChanged"/>
             </slot>
          </access>
          <access type="5">
             <data type="private:"/>
             <function type="2">
-               <data name="signalModified" type="void"/>
+               <data type="void" name="signalModified"/>
             </function>
             <function type="2">
-               <data name="setFileHash" type="void"/>
+               <data type="void" name="setFileHash"/>
                <variable type="1">
-                  <data name="bytes" type="const QByteArray&amp;"/>
+                  <data type="const QByteArray&amp;" name="bytes"/>
                </variable>
             </function>
             <function type="2">
-               <data name="readTypeElement" type="void"/>
+               <data type="void" name="readTypeElement"/>
                <variable type="1">
-                  <data name="element" type="const QDomElement&amp;"/>
+                  <data type="const QDomElement&amp;" name="element"/>
                </variable>
             </function>
             <function type="2">
-               <data name="makeRoot" type="void"/>
+               <data type="void" name="makeRoot"/>
             </function>
             <variable type="1">
-               <data name="_nameTag" type="const char*" initializer="&quot;name&quot;" static="1"/>
+               <data type="const char*" static="1" initializer="&quot;name&quot;" name="_nameTag"/>
             </variable>
             <variable type="1">
-               <data name="_typeTag" type="const char*" initializer="&quot;type&quot;" static="1"/>
+               <data type="const char*" static="1" initializer="&quot;type&quot;" name="_typeTag"/>
             </variable>
             <variable type="1">
-               <data name="_scanDirectoryTag" type="const char*" initializer="&quot;scandir&quot;" static="1"/>
+               <data type="const char*" static="1" initializer="&quot;scandir&quot;" name="_scanDirectoryTag"/>
             </variable>
             <variable type="1">
-               <data name="_scanFiltersTag" type="const char*" initializer="&quot;filters&quot;" static="1"/>
+               <data type="const char*" static="1" initializer="&quot;filters&quot;" name="_scanFiltersTag"/>
             </variable>
             <variable type="1">
-               <data name="_rootTag" type="const char*" initializer="&quot;root&quot;" static="1"/>
+               <data type="const char*" static="1" initializer="&quot;root&quot;" name="_rootTag"/>
             </variable>
             <variable type="1">
-               <data name="_idTag" type="const char*" initializer="&quot;id&quot;" static="1"/>
+               <data type="const char*" static="1" initializer="&quot;id&quot;" name="_idTag"/>
             </variable>
             <variable type="1">
-               <data name="_modified" type="bool" initializer="false"/>
+               <data type="bool" initializer="false" name="_modified"/>
             </variable>
             <variable type="1">
-               <data name="_type" type="int" initializer="-1"/>
+               <data type="int" initializer="-1" name="_type"/>
             </variable>
             <variable type="1">
-               <data name="_path" type="QString"/>
+               <data type="QString" name="_path"/>
             </variable>
             <variable type="1">
-               <data name="_name" type="QString"/>
+               <data type="QString" name="_name"/>
             </variable>
             <variable type="1">
-               <data name="_scanDirectory" type="QString"/>
+               <data type="QString" name="_scanDirectory"/>
             </variable>
             <variable type="1">
-               <data name="_scanFilters" type="QString"/>
+               <data type="QString" name="_scanFilters"/>
             </variable>
             <variable type="1">
-               <data name="_root" type="AbstractBlock*"/>
+               <data type="AbstractBlock*" name="_root"/>
             </variable>
             <variable type="1">
-               <data name="_model" type="BlockModel*"/>
+               <data type="BlockModel*" name="_model"/>
             </variable>
             <variable type="1">
-               <data name="_hash" type="QByteArray"/>
+               <data type="QByteArray" name="_hash"/>
             </variable>
          </access>
       </class>
       <function type="2">
-         <data name="showException" type="void"/>
+         <data type="void" name="showException"/>
          <variable type="1">
-            <data name="text" type="const QString&amp;"/>
+            <data type="const QString&amp;" name="text"/>
          </variable>
          <variable type="1">
-            <data name="exception" type="const Exception::Base&amp;"/>
+            <data type="const Exception::Base&amp;" name="exception"/>
          </variable>
       </function>
    </root>
