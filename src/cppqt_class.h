@@ -36,7 +36,7 @@ namespace CppQt
       virtual void childAdded(AbstractBlock* child) override final;
       virtual void childRemoved(AbstractBlock* child) override final;
    protected:
-      virtual void readData(const QDomElement& data) override final;
+      virtual void readData(const QDomElement& data, int version) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
       virtual void copyDataFrom(const AbstractBlock* object) override final;

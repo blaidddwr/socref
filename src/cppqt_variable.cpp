@@ -6,6 +6,7 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_function.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -265,14 +266,35 @@ bool Variable::isFunctionArgument() const
 
 
 
-void Variable::readData(const QDomElement& data)
+void Variable::readData(const QDomElement& data, int version)
 {
-   Base::readData(data);
-   DomElementReader reader(data);
-   _constExpr = reader.attributeToInt(_constExprTag,false);
-   _static = reader.attributeToInt(_staticTag,false);
-   _type = reader.attribute(_typeTag);
-   _initializer = reader.attribute(_initializerTag,false);
+   Base::readData(data,version);
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Variable::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -283,10 +305,13 @@ void Variable::readData(const QDomElement& data)
 QDomElement Variable::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
-   if ( _constExpr ) ret.setAttribute(_constExprTag,_constExpr);
-   if ( _static ) ret.setAttribute(_staticTag,_static);
-   ret.setAttribute(_typeTag,_type);
-   if ( !_initializer.isEmpty() ) ret.setAttribute(_initializerTag,_initializer);
+   if ( _constExpr ) ret.appendChild(makeElement(document,_constExprTag,true));
+   if ( _static ) ret.appendChild(makeElement(document,_staticTag,true));
+   ret.appendChild(makeElement(document,_typeTag,_type));
+   if ( !_initializer.isEmpty() )
+   {
+      ret.appendChild(makeElement(document,_initializerTag,_initializer));
+   }
    return ret;
 }
 
@@ -338,4 +363,36 @@ void Variable::checkTypeSyntax(const QString& type)
       e.setDetails(tr("Cannot set invalid type '%1'.").arg(type));
       throw e;
    }
+}
+
+
+
+
+
+
+void Variable::readVersion0(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _constExpr = reader.attributeToInt(_constExprTag,false);
+   _static = reader.attributeToInt(_staticTag,false);
+   _type = reader.attribute(_typeTag);
+   _initializer = reader.attribute(_initializerTag,false);
+}
+
+
+
+
+
+
+void Variable::readVersion1(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _constExpr = false;
+   _static = false;
+   _initializer.clear();
+   reader.set(_constExprTag,&_constExpr,false);
+   reader.set(_staticTag,&_static,false);
+   reader.set(_type,&_type);
+   reader.set(_initializer,&_initializer,false);
+   reader.read();
 }

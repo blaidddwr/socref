@@ -52,13 +52,17 @@ namespace CppQt
       virtual void childAdded(AbstractBlock* child) override final;
       virtual void childRemoved(AbstractBlock* child) override final;
    protected:
-      virtual void readData(const QDomElement& data) override;
+      virtual void readData(const QDomElement& data, int version) override;
+      virtual int writeVersion() const override;
       virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;
       QString fullName(const QString& returnType, const QString& name) const;
    private:
       QString attributes() const;
+      void readVersion0(const QDomElement& data);
+      void readVersion1(const QDomElement& data);
+      constexpr static int _version {1};
       static const char* _returnDescriptionTag;
       static const char* _virtualTag;
       static const char* _constTag;
@@ -67,13 +71,13 @@ namespace CppQt
       static const char* _finalTag;
       static const char* _abstractTag;
       static const char* _operationTag;
-      QString _returnDescription;
       bool _virtual {false};
       bool _const {false};
       bool _noExcept {false};
       bool _override {false};
       bool _final {false};
       bool _abstract {false};
+      QString _returnDescription;
       QStringList _operations;
    };
 }

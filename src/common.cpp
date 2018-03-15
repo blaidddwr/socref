@@ -22,3 +22,27 @@ void showException(const QString& text, const Exception::Base& exception)
    info.setIcon(QMessageBox::Warning);
    info.exec();
 }
+
+
+
+
+
+
+QDomElement makeElement(QDomDocument& document, const QString& tagName, const QString& text)
+{
+   QDomElement ret {document.createElement(tagName)};
+   ret.appendChild(document.createTextNode(text));
+   return ret;
+}
+
+
+
+
+
+
+QDomElement makeElement(QDomDocument& document, const QString& tagName, int value)
+{
+   QDomElement ret {document.createElement(tagName)};
+   ret.appendChild(document.createTextNode(QString::number(value)));
+   return ret;
+}

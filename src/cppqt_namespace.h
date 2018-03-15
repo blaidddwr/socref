@@ -25,7 +25,7 @@ namespace CppQt
    signals:
       void typesChanged();
    protected:
-      virtual void readData(const QDomElement& data) override;
+      virtual void readData(const QDomElement& data, int version) override;
       virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;

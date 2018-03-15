@@ -51,6 +51,9 @@ namespace CppQt
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
       virtual void copyDataFrom(const AbstractBlock* object) override final;
    private:
+      void readVersion0(const QDomElement& data);
+      void readVersion1(const QDomElement& data);
+      constexpr static int _version {1};
       static const char* _typeTag;
       Type _type;
    };

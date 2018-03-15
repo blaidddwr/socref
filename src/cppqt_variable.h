@@ -31,12 +31,16 @@ namespace CppQt
       bool isClassMember() const;
       bool isFunctionArgument() const;
    protected:
-      virtual void readData(const QDomElement& data) override;
+      virtual void readData(const QDomElement& data, int version) override;
+      virtual int writeVersion() const override;
       virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;
    private:
       void checkTypeSyntax(const QString& type);
+      void readVersion0(const QDomElement& data);
+      void readVersion1(const QDomElement& data);
+      constexpr static int _version {1};
       static const char* _constExprTag;
       static const char* _staticTag;
       static const char* _typeTag;

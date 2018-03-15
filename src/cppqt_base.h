@@ -18,10 +18,14 @@ namespace CppQt
       QString description() const;
       void setDescription(const QString& description);
    protected:
-      virtual void readData(const QDomElement& data) override;
+      virtual void readData(const QDomElement& data, int version) override;
+      virtual int writeVersion() const override;
       virtual QDomElement writeData(QDomDocument& document) const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;
    private:
+      void readVersion0(const QDomElement& data);
+      void readVersion1(const QDomElement& data);
+      constexpr static int _version {1};
       static const char* _nameTag;
       static const char* _descriptionTag;
       QString _name;

@@ -2,6 +2,7 @@
 #include <exception.h>
 #include "cppqt_blockfactory.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -90,13 +91,34 @@ void Base::setDescription(const QString& description)
 
 
 
-void Base::readData(const QDomElement& data)
+void Base::readData(const QDomElement& data, int version)
 {
-   DomElementReader reader(data);
-   _name = reader.attribute(_nameTag,false);
-   _description.clear();
-   reader.set(_descriptionTag,&_description,false);
-   reader.read();
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Base::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -107,12 +129,10 @@ void Base::readData(const QDomElement& data)
 QDomElement Base::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
-   if ( !_name.isEmpty() ) ret.setAttribute("name",_name);
+   if ( !_name.isEmpty() ) ret.appendChild(makeElement(document,_nameTag,_name));
    if ( !_description.isEmpty() )
    {
-      QDomElement description {document.createElement("description")};
-      description.appendChild(document.createTextNode(_description));
-      ret.appendChild(description);
+      ret.appendChild(makeElement(document,_descriptionTag,_description));
    }
    return ret;
 }
@@ -136,4 +156,33 @@ void Base::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+void Base::readVersion0(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _name = reader.attribute(_nameTag,false);
+   _description.clear();
+   reader.set(_descriptionTag,&_description,false);
+   reader.read();
+}
+
+
+
+
+
+
+void Base::readVersion1(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _name.clear();
+   _description.clear();
+   reader.set(_nameTag,&_name,false);
+   reader.set(_descriptionTag,&_description,false);
+   reader.read();
 }

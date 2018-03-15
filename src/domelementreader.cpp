@@ -38,6 +38,16 @@ DomElementReader& DomElementReader::set(const QString& tagName, int* pointer, bo
 
 
 
+DomElementReader& DomElementReader::set(const QString& tagName, bool* pointer, bool required)
+{
+   return append(tagName,pointer,Type::Boolean,required);
+}
+
+
+
+
+
+
 DomElementReader& DomElementReader::set(const QString& tagName, QDomElement* pointer, bool required)
 {
    return append(tagName,pointer,Type::Element,required);
@@ -145,6 +155,21 @@ void DomElementReader::read()
                      MARK_EXCEPTION(e);
                      e.setDetails(
                               QObject::tr("Failed reading XML element '%1' as integer.")
+                              .arg(element.tagName()));
+                     throw e;
+                  }
+                  break;
+               }
+            case Type::Boolean:
+               {
+                  bool ok;
+                  *static_cast<bool*>(_data[*i]) = element.text().toInt(&ok);
+                  if ( !ok )
+                  {
+                     Exception::ReadError e;
+                     MARK_EXCEPTION(e);
+                     e.setDetails(
+                              QObject::tr("Failed reading XML element '%1' as boolean.")
                               .arg(element.tagName()));
                      throw e;
                   }

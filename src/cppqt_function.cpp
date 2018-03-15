@@ -9,6 +9,7 @@
 #include "cppqt_template.h"
 #include "cppqt_common.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -505,23 +506,35 @@ void Function::childRemoved(AbstractBlock* child)
 
 
 
-void Function::readData(const QDomElement& data)
+void Function::readData(const QDomElement& data, int version)
 {
-   _operations.clear();
-   _returnDescription.clear();
-   Variable::readData(data);
-   QList<QDomElement> operations;
-   DomElementReader reader(data);
-   _virtual = reader.attributeToInt(_virtualTag,false);
-   _const = reader.attributeToInt(_constTag,false);
-   _noExcept = reader.attributeToInt(_noExceptTag,false);
-   _override = reader.attributeToInt(_overrideTag,false);
-   _final = reader.attributeToInt(_finalTag,false);
-   _abstract = reader.attributeToInt(_abstractTag,false);
-   reader.set(_operationTag,&operations,false);
-   reader.set(_returnDescriptionTag,&_returnDescription,false);
-   reader.read();
-   for (auto operation : qAsConst(operations)) _operations.append(operation.text());
+   Variable::readData(data,version);
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Function::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -532,23 +545,19 @@ void Function::readData(const QDomElement& data)
 QDomElement Function::writeData(QDomDocument& document) const
 {
    QDomElement ret {Variable::writeData(document)};
-   if ( _virtual ) ret.setAttribute(_virtualTag,_virtual);
-   if ( _const ) ret.setAttribute(_constTag,_const);
-   if ( _noExcept ) ret.setAttribute(_noExceptTag,_noExcept);
-   if ( _override ) ret.setAttribute(_overrideTag,_override);
-   if ( _final ) ret.setAttribute(_finalTag,_final);
-   if ( _abstract ) ret.setAttribute(_abstractTag,_abstract);
+   if ( _virtual ) ret.appendChild(makeElement(document,_virtualTag,true));
+   if ( _const ) ret.appendChild(makeElement(document,_constTag,true));
+   if ( _noExcept ) ret.appendChild(makeElement(document,_noExceptTag,true));
+   if ( _override ) ret.appendChild(makeElement(document,_overrideTag,true));
+   if ( _final ) ret.appendChild(makeElement(document,_finalTag,true));
+   if ( _abstract ) ret.appendChild(makeElement(document,_abstractTag,true));
    if ( !_returnDescription.isEmpty() )
    {
-      QDomElement element {document.createElement(_returnDescriptionTag)};
-      element.appendChild(document.createTextNode(_returnDescription));
-      ret.appendChild(element);
+      ret.appendChild(makeElement(document,_returnDescriptionTag,_returnDescription));
    }
    for (auto operation : qAsConst(_operations))
    {
-      QDomElement element {document.createElement(_operationTag)};
-      element.appendChild(document.createTextNode(operation));
-      ret.appendChild(element);
+      ret.appendChild(makeElement(document,_operationTag,operation));
    }
    return ret;
 }
@@ -628,4 +637,55 @@ QString Function::attributes() const
    if ( _abstract ) ret.append("0");
    if ( !ret.isEmpty() ) ret.prepend(" ");
    return ret;
+}
+
+
+
+
+
+
+void Function::readVersion0(const QDomElement& data)
+{
+   _operations.clear();
+   _returnDescription.clear();
+   QList<QDomElement> operations;
+   DomElementReader reader(data);
+   _virtual = reader.attributeToInt(_virtualTag,false);
+   _const = reader.attributeToInt(_constTag,false);
+   _noExcept = reader.attributeToInt(_noExceptTag,false);
+   _override = reader.attributeToInt(_overrideTag,false);
+   _final = reader.attributeToInt(_finalTag,false);
+   _abstract = reader.attributeToInt(_abstractTag,false);
+   reader.set(_operationTag,&operations,false);
+   reader.set(_returnDescriptionTag,&_returnDescription,false);
+   reader.read();
+   for (auto operation : qAsConst(operations)) _operations.append(operation.text());
+}
+
+
+
+
+
+
+void Function::readVersion1(const QDomElement& data)
+{
+   _virtual = false;
+   _const = false;
+   _noExcept = false;
+   _override = false;
+   _final = false;
+   _abstract = false;
+   _returnDescription.clear();
+   _operations.clear();
+   QList<QDomElement> operations;
+   DomElementReader reader(data);
+   reader.set(_virtualTag,&_virtual,false);
+   reader.set(_constTag,&_const,false);
+   reader.set(_noExceptTag,&_noExcept,false);
+   reader.set(_overrideTag,&_override,false);
+   reader.set(_finalTag,&_final,false);
+   reader.set(_abstractTag,&_abstract,false);
+   reader.set(_returnDescriptionTag,&_returnDescription,false);
+   reader.set(_operationTag,&operations,false);
+   reader.read();
 }

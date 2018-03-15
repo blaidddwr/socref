@@ -113,11 +113,12 @@ protected:
     *
     * @param element  
     */
-   virtual void readData(const QDomElement& element) = 0;
+   virtual void readData(const QDomElement& element, int version) = 0;
    /*!
     *
     * @param document  
     */
+   virtual int writeVersion() const = 0;
    virtual QDomElement writeData(QDomDocument& document) const = 0;
    /*!
     */
@@ -140,6 +141,7 @@ private:
    static const char* _dataTag;
    /*!
     */
+   static const char* _versionTag;
    static const char* _typeTag;
    /*!
     */

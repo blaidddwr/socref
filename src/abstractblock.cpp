@@ -14,6 +14,7 @@ using namespace std;
 /*!
  */
 const char* AbstractBlock::_dataTag {"data"};
+const char* AbstractBlock::_versionTag {"version"};
 /*!
  */
 const char* AbstractBlock::_typeTag {"type"};
@@ -416,7 +417,7 @@ void AbstractBlock::read(const QDomElement& element)
    DomElementReader reader(element);
    reader.set(_dataTag,&data);
    reader.read();
-   readData(data);
+   readData(data,data.attribute(_versionTag).toInt());
    if ( !reader.allRequiredFound() )
    {
       Exception::ReadError e;
@@ -443,6 +444,7 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
    QDomElement ret {document.createElement("na")};
    QDomElement data {writeData(document)};
    data.setTagName(_dataTag);
+   data.setAttribute(_versionTag,QString::number(writeVersion()));
    ret.appendChild(data);
    for (auto child : _children)
    {
