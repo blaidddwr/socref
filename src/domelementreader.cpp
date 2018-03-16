@@ -130,6 +130,7 @@ int DomElementReader::attributeToInt(const QString& name, bool required)
 
 void DomElementReader::read()
 {
+   clear();
    QDomNode node {_element.firstChild()};
    while ( !node.isNull() )
    {
@@ -161,20 +162,8 @@ void DomElementReader::read()
                   break;
                }
             case Type::Boolean:
-               {
-                  bool ok;
-                  *static_cast<bool*>(_data[*i]) = element.text().toInt(&ok);
-                  if ( !ok )
-                  {
-                     Exception::ReadError e;
-                     MARK_EXCEPTION(e);
-                     e.setDetails(
-                              QObject::tr("Failed reading XML element '%1' as boolean.")
-                              .arg(element.tagName()));
-                     throw e;
-                  }
-                  break;
-               }
+               *static_cast<bool*>(_data[*i]) = true;
+               break;
             case Type::Element:
                *static_cast<QDomElement*>(_data[*i]) = element;
                break;
@@ -220,4 +209,33 @@ DomElementReader& DomElementReader::append(const QString& tagName, void* pointer
    _data.append(static_cast<void*>(pointer));
    _read.append(!required);
    return *this;
+}
+
+
+
+
+
+
+void DomElementReader::clear()
+{
+   for (int i = 0; i < _data.size() ;++i)
+   {
+      switch (_type.at(i))
+      {
+      case Type::String:
+         static_cast<QString*>(_data[i])->clear();
+         break;
+      case Type::Number:
+         *static_cast<int*>(_data[i]) = 0;
+         break;
+      case Type::Boolean:
+         *static_cast<bool*>(_data[i]) = false;
+         break;
+      case Type::Element:
+         static_cast<QDomElement*>(_data[i])->clear();
+         break;
+      case Type::ElementList:
+         break;
+      }
+   }
 }

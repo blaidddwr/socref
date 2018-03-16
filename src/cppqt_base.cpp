@@ -180,8 +180,6 @@ void Base::readVersion0(const QDomElement& data)
 void Base::readVersion1(const QDomElement& data)
 {
    DomElementReader reader(data);
-   _name.clear();
-   _description.clear();
    reader.set(_nameTag,&_name,false);
    reader.set(_descriptionTag,&_description,false);
    reader.read();

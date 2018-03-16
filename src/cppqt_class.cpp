@@ -9,6 +9,7 @@
 #include "cppqt_constructor.h"
 #include "cppqt_parent.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -311,11 +312,35 @@ void Class::childRemoved(AbstractBlock* child)
 
 
 
-void Class::readData(const QDomElement& data)
+void Class::readData(const QDomElement& data, int version)
 {
-   Namespace::readData(data);
-   DomElementReader reader(data);
-   _qtObject = reader.attributeToInt(_qtObjectTag,false);
+   Namespace::readData(data,version);
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Class::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -326,7 +351,7 @@ void Class::readData(const QDomElement& data)
 QDomElement Class::writeData(QDomDocument& document) const
 {
    QDomElement ret {Namespace::writeData(document)};
-   if ( _qtObject ) ret.setAttribute(_qtObjectTag,_qtObject);
+   if ( _qtObject ) ret.appendChild(document.createElement(_qtObjectTag));
    return ret;
 }
 
@@ -385,4 +410,27 @@ QList<Access*> Class::accessChildren() const
       if ( Access* valid = child->cast<Access>(BlockFactory::AccessType) ) ret << valid;
    }
    return ret;
+}
+
+
+
+
+
+
+void Class::readVersion0(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _qtObject = reader.attributeToInt(_qtObjectTag,false);
+}
+
+
+
+
+
+
+void Class::readVersion1(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   reader.set(_qtObjectTag,&_qtObject,false);
+   reader.read();
 }

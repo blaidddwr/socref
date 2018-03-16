@@ -23,11 +23,15 @@ namespace CppQt
       void setClass(bool isClass);
       QList<EnumValue*> values() const;
    protected:
-      virtual void readData(const QDomElement& data) override final;
+      virtual void readData(const QDomElement& data, int version) override final;
+      virtual int writeVersion() const override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
       virtual void copyDataFrom(const AbstractBlock* object) override final;
    private:
+      void readVersion0(const QDomElement& data);
+      void readVersion1(const QDomElement& data);
+      constexpr static int _verison {1};
       static const char* _classTag;
       bool _class {false};
    };

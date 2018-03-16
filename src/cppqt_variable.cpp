@@ -305,8 +305,8 @@ int Variable::writeVersion() const
 QDomElement Variable::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
-   if ( _constExpr ) ret.appendChild(makeElement(document,_constExprTag,true));
-   if ( _static ) ret.appendChild(makeElement(document,_staticTag,true));
+   if ( _constExpr ) ret.appendChild(document.createElement(_constExprTag));
+   if ( _static ) ret.appendChild(document.createElement(_staticTag));
    ret.appendChild(makeElement(document,_typeTag,_type));
    if ( !_initializer.isEmpty() )
    {
@@ -387,12 +387,16 @@ void Variable::readVersion0(const QDomElement& data)
 void Variable::readVersion1(const QDomElement& data)
 {
    DomElementReader reader(data);
-   _constExpr = false;
-   _static = false;
-   _initializer.clear();
    reader.set(_constExprTag,&_constExpr,false);
    reader.set(_staticTag,&_static,false);
-   reader.set(_type,&_type);
-   reader.set(_initializer,&_initializer,false);
+   reader.set(_typeTag,&_type);
+   reader.set(_initializerTag,&_initializer,false);
    reader.read();
+   if ( !reader.allRequiredFound() )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed reading all required elements."));
+      throw e;
+   }
 }

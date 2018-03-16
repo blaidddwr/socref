@@ -5,6 +5,7 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_common.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -166,12 +167,35 @@ void Parent::setTemplateArgument(const QString& templateArgument)
 
 
 
-void Parent::readData(const QDomElement& data)
+void Parent::readData(const QDomElement& data, int version)
 {
-   Base::readData(data);
-   DomElementReader reader(data);
-   _access = static_cast<Access>(_accessNames.indexOf(reader.attribute(_accessTag)));
-   _templateArgument = reader.attribute(_templateArgumentTag,false);
+   Base::readData(data,version);
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Parent::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -182,8 +206,11 @@ void Parent::readData(const QDomElement& data)
 QDomElement Parent::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
-   ret.setAttribute(_accessTag,_accessNames.at(static_cast<int>(_access)));
-   if ( !_templateArgument.isEmpty() ) ret.setAttribute(_templateArgumentTag,_templateArgument);
+   ret.appendChild(makeElement(document,_accessTag,_accessNames.at(static_cast<int>(_access))));
+   if ( !_templateArgument.isEmpty() )
+   {
+      ret.appendChild(makeElement(document,_templateArgumentTag,_templateArgument));
+   }
    return ret;
 }
 
@@ -217,4 +244,40 @@ void Parent::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+void Parent::readVersion0(const QDomElement& data)
+{
+   _templateArgument.clear();
+   DomElementReader reader(data);
+   _access = static_cast<Access>(_accessNames.indexOf(reader.attribute(_accessTag)));
+   _templateArgument = reader.attribute(_templateArgumentTag,false);
+}
+
+
+
+
+
+
+void Parent::readVersion1(const QDomElement& data)
+{
+   _templateArgument.clear();
+   QString access;
+   DomElementReader reader(data);
+   reader.set(_accessTag,&access);
+   reader.set(_templateArgumentTag,&_templateArgument,false);
+   reader.read();
+   if ( !reader.allRequiredFound() )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed reading all required elements."));
+      throw e;
+   }
+   _access = static_cast<Access>(_accessNames.indexOf(access));
 }

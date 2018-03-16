@@ -5,6 +5,7 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_function.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -327,10 +328,34 @@ void Access::childRemoved(AbstractBlock* child)
 
 
 
-void Access::readData(const QDomElement& data)
+void Access::readData(const QDomElement& data, int version)
 {
-   DomElementReader reader(data);
-   _type = static_cast<Type>(_typeNames.indexOf(reader.attribute(_typeTag)));
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Access::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -341,7 +366,7 @@ void Access::readData(const QDomElement& data)
 QDomElement Access::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
-   ret.setAttribute(_typeTag,_typeNames.at(static_cast<int>(_type)));
+   ret.appendChild(makeElement(document,_typeTag,_typeNames.at(static_cast<int>(_type))));
    return ret;
 }
 
@@ -373,4 +398,36 @@ void Access::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+void Access::readVersion0(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _type = static_cast<Type>(_typeNames.indexOf(reader.attribute(_typeTag)));
+}
+
+
+
+
+
+
+void Access::readVersion1(const QDomElement& data)
+{
+   QString type;
+   DomElementReader reader(data);
+   reader.set(_typeTag,&type);
+   reader.read();
+   if ( !reader.allRequiredFound() )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed reading all required elements."));
+      throw e;
+   }
+   _type = static_cast<Type>(_typeNames.indexOf(type));
 }

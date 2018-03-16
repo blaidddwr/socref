@@ -33,6 +33,7 @@ private:
       ,ElementList
    };
    DomElementReader& append(const QString& tagName, void* pointer, Type type, bool required);
+   void clear();
    const QDomElement& _element;
    QHash<QString,int> _lookup;
    QList<Type> _type;

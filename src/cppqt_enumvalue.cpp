@@ -4,6 +4,7 @@
 #include "cppqt_edit_enumvalue.h"
 #include "cppqt_blockfactory.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -141,16 +142,35 @@ void EnumValue::setValue(int value)
 
 
 
-void EnumValue::readData(const QDomElement& data)
+void EnumValue::readData(const QDomElement& data, int version)
 {
-   Base::readData(data);
-   if ( data.hasAttribute(_valueTag) )
+   Base::readData(data,version);
+   switch (version)
    {
-      _hasValue = true;
-      DomElementReader reader(data);
-      _value = reader.attributeToInt(_valueTag);
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
    }
-   else _hasValue = false;
+}
+
+
+
+
+
+
+int EnumValue::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -161,7 +181,7 @@ void EnumValue::readData(const QDomElement& data)
 QDomElement EnumValue::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
-   if ( _hasValue ) ret.setAttribute(_valueTag,_value);
+   if ( _hasValue ) ret.appendChild(makeElement(document,_valueTag,QString::number(_value)));
    return ret;
 }
 
@@ -195,4 +215,34 @@ void EnumValue::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+void EnumValue::readVersion0(const QDomElement& data)
+{
+   if ( data.hasAttribute(_valueTag) )
+   {
+      _hasValue = true;
+      DomElementReader reader(data);
+      _value = reader.attributeToInt(_valueTag);
+   }
+   else _hasValue = false;
+}
+
+
+
+
+
+
+void EnumValue::readVersion1(const QDomElement& data)
+{
+   QDomElement value;
+   DomElementReader reader(data);
+   reader.set(_valueTag,&value,false);
+   reader.read();
+   _value = value.text().toInt(&_hasValue);
 }

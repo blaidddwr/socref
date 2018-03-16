@@ -4,6 +4,7 @@
 #include "cppqt_edit_operator.h"
 #include "cppqt_blockfactory.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -11,6 +12,7 @@ using namespace std;
 using namespace Gui;
 using namespace CppQt;
 const char* Operator::_operationTag {"operation"};
+const char* Operator::_operatorTag {"operator"};
 
 
 
@@ -125,11 +127,35 @@ void Operator::setOperation(const QString& operation)
 
 
 
-void Operator::readData(const QDomElement& data)
+void Operator::readData(const QDomElement& data, int version)
 {
-   Function::readData(data);
-   DomElementReader reader(data);
-   _operation = reader.attribute(_operationTag);
+   Function::readData(data,version);
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Operator::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -140,7 +166,7 @@ void Operator::readData(const QDomElement& data)
 QDomElement Operator::writeData(QDomDocument& document) const
 {
    QDomElement ret {Function::writeData(document)};
-   ret.setAttribute(_operationTag,_operation);
+   ret.appendChild(makeElement(document,_operatorTag,_operation));
    return ret;
 }
 
@@ -171,6 +197,36 @@ void Operator::copyDataFrom(const AbstractBlock* object)
       Exception::LogicError e;
       MARK_EXCEPTION(e);
       e.setDetails("Block object given to copy is not correct type");
+      throw e;
+   }
+}
+
+
+
+
+
+
+void Operator::readVersion0(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _operation = reader.attribute(_operationTag);
+}
+
+
+
+
+
+
+void Operator::readVersion1(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   reader.set(_operatorTag,&_operation);
+   reader.read();
+   if ( !reader.allRequiredFound() )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed reading all required elements."));
       throw e;
    }
 }

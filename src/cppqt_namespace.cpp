@@ -7,6 +7,7 @@
 #include "cppqt_gui_typedialog.h"
 #include "cppqt_blockfactory.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -171,14 +172,35 @@ const Namespace* Namespace::root() const
 
 
 
-void Namespace::readData(const QDomElement& data)
+void Namespace::readData(const QDomElement& data, int version)
 {
-   Base::readData(data);
-   QList<QDomElement> types;
-   DomElementReader reader(data);
-   reader.set(_typeTag,&types,false);
-   reader.read();
-   for (auto type : qAsConst(types)) readType(type);
+   Base::readData(data,version);
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Namespace::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -189,12 +211,7 @@ void Namespace::readData(const QDomElement& data)
 QDomElement Namespace::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
-   for (auto typeName : qAsConst(_types))
-   {
-      QDomElement type {document.createElement(_typeTag)};
-      type.setAttribute(_nameTag,typeName);
-      ret.appendChild(type);
-   }
+   for (auto typeName : qAsConst(_types)) ret.appendChild(makeElement(document,_typeTag,typeName));
    return ret;
 }
 
@@ -234,6 +251,20 @@ void Namespace::copyDataFrom(const AbstractBlock* object)
 
 
 
+void Namespace::readVersion0(const QDomElement& data)
+{
+   QList<QDomElement> types;
+   DomElementReader reader(data);
+   reader.set(_typeTag,&types,false);
+   reader.read();
+   for (auto type : qAsConst(types)) readType(type);
+}
+
+
+
+
+
+
 void Namespace::readType(const QDomElement& type)
 {
    DomElementReader reader(type);
@@ -246,4 +277,18 @@ void Namespace::readType(const QDomElement& type)
       throw e;
    }
    _types.append(name);
+}
+
+
+
+
+
+
+void Namespace::readVersion1(const QDomElement& data)
+{
+   QList<QDomElement> types;
+   DomElementReader reader(data);
+   reader.set(_typeTag,&types,false);
+   reader.read();
+   for (auto type : qAsConst(types)) _types.append(type.text());
 }

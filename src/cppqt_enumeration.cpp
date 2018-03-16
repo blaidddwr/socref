@@ -5,6 +5,7 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_enumvalue.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -126,11 +127,35 @@ QList<EnumValue*> Enumeration::values() const
 
 
 
-void Enumeration::readData(const QDomElement& data)
+void Enumeration::readData(const QDomElement& data, int version)
 {
-   Base::readData(data);
-   DomElementReader reader(data);
-   _class = reader.attributeToInt(_classTag,false);
+   Base::readData(data,version);
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Enumeration::writeVersion() const
+{
+   return _verison;
 }
 
 
@@ -141,7 +166,7 @@ void Enumeration::readData(const QDomElement& data)
 QDomElement Enumeration::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
-   if ( _class ) ret.setAttribute(_classTag,_class);
+   if ( _class ) ret.appendChild(document.createElement(_classTag));
    return ret;
 }
 
@@ -174,4 +199,27 @@ void Enumeration::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+void Enumeration::readVersion0(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _class = reader.attributeToInt(_classTag,false);
+}
+
+
+
+
+
+
+void Enumeration::readVersion1(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   reader.set(_classTag,&_class,false);
+   reader.read();
 }

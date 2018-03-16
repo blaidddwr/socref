@@ -15,7 +15,5 @@
 
 * Add mutable property for C++/Qt variables.
 
-* Fix XML file bug where attributes are not ordered the same everytime project is saved. Need to redo all blocks to use only a single attribute for each element so the XML file is deterministic. This will require adding a versioning system for blocks so they know what data version they are reading in since this application is already out in the field.
-
 * Fix C++/Qt parsing bug where paranthesis in comments is mistaken as a function header.
 

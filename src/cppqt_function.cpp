@@ -545,12 +545,12 @@ int Function::writeVersion() const
 QDomElement Function::writeData(QDomDocument& document) const
 {
    QDomElement ret {Variable::writeData(document)};
-   if ( _virtual ) ret.appendChild(makeElement(document,_virtualTag,true));
-   if ( _const ) ret.appendChild(makeElement(document,_constTag,true));
-   if ( _noExcept ) ret.appendChild(makeElement(document,_noExceptTag,true));
-   if ( _override ) ret.appendChild(makeElement(document,_overrideTag,true));
-   if ( _final ) ret.appendChild(makeElement(document,_finalTag,true));
-   if ( _abstract ) ret.appendChild(makeElement(document,_abstractTag,true));
+   if ( _virtual ) ret.appendChild(document.createElement(_virtualTag));
+   if ( _const ) ret.appendChild(document.createElement(_constTag));
+   if ( _noExcept ) ret.appendChild(document.createElement(_noExceptTag));
+   if ( _override ) ret.appendChild(document.createElement(_overrideTag));
+   if ( _final ) ret.appendChild(document.createElement(_finalTag));
+   if ( _abstract ) ret.appendChild(document.createElement(_abstractTag));
    if ( !_returnDescription.isEmpty() )
    {
       ret.appendChild(makeElement(document,_returnDescriptionTag,_returnDescription));
@@ -669,13 +669,6 @@ void Function::readVersion0(const QDomElement& data)
 
 void Function::readVersion1(const QDomElement& data)
 {
-   _virtual = false;
-   _const = false;
-   _noExcept = false;
-   _override = false;
-   _final = false;
-   _abstract = false;
-   _returnDescription.clear();
    _operations.clear();
    QList<QDomElement> operations;
    DomElementReader reader(data);
@@ -688,4 +681,5 @@ void Function::readVersion1(const QDomElement& data)
    reader.set(_returnDescriptionTag,&_returnDescription,false);
    reader.set(_operationTag,&operations,false);
    reader.read();
+   for (auto operation : qAsConst(operations)) _operations.append(operation.text());
 }

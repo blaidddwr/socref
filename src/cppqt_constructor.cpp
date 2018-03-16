@@ -4,6 +4,7 @@
 #include "cppqt_edit_constructor.h"
 #include "cppqt_blockfactory.h"
 #include "domelementreader.h"
+#include "common.h"
 
 
 
@@ -144,11 +145,35 @@ void Constructor::classNameChanged()
 
 
 
-void Constructor::readData(const QDomElement& data)
+void Constructor::readData(const QDomElement& data, int version)
 {
-   Function::readData(data);
-   DomElementReader reader(data);
-   _explicit = reader.attributeToInt(_explicitTag,false);
+   Function::readData(data,version);
+   switch (version)
+   {
+   case 0:
+      readVersion0(data);
+      break;
+   case 1:
+      readVersion1(data);
+      break;
+   default:
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+int Constructor::writeVersion() const
+{
+   return _version;
 }
 
 
@@ -159,7 +184,7 @@ void Constructor::readData(const QDomElement& data)
 QDomElement Constructor::writeData(QDomDocument& document) const
 {
    QDomElement ret {Function::writeData(document)};
-   if ( _explicit ) ret.setAttribute(_explicitTag,_explicit);
+   if ( _explicit ) ret.appendChild(document.createElement(_explicitTag));
    return ret;
 }
 
@@ -192,4 +217,27 @@ void Constructor::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+void Constructor::readVersion0(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   _explicit = reader.attributeToInt(_explicitTag,false);
+}
+
+
+
+
+
+
+void Constructor::readVersion1(const QDomElement& data)
+{
+   DomElementReader reader(data);
+   reader.set(_explicitTag,&_explicit,false);
+   reader.read();
 }

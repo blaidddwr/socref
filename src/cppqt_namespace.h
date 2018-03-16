@@ -26,11 +26,15 @@ namespace CppQt
       void typesChanged();
    protected:
       virtual void readData(const QDomElement& data, int version) override;
+      virtual int writeVersion() const override;
       virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;
    private:
+      void readVersion0(const QDomElement& data);
       void readType(const QDomElement& type);
+      void readVersion1(const QDomElement& data);
+      constexpr static int _version {1};
       static const char* _typeTag;
       static const char* _nameTag;
       QStringList _types;
