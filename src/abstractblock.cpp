@@ -13,8 +13,10 @@ using namespace std;
 
 /*!
  */
-const char* AbstractBlock::_dataTag {"data"};
 const char* AbstractBlock::_versionTag {"version"};
+/*!
+ */
+const char* AbstractBlock::_dataTag {"data"};
 /*!
  */
 const char* AbstractBlock::_typeTag {"type"};
@@ -25,22 +27,18 @@ const char* AbstractBlock::_typeTag {"type"};
 
 
 /*!
- * This must make an exact copy of this block. A default implementation of this 
- * block is given that uses other virtual functions to create a copy of this 
- * block. The new block returned has no parent. 
+ * This interface makes an exact copy of this block. A default implementation of 
+ * this interface is given that uses other virtual functions to create a copy of 
+ * this block. The new block returned has no parent. 
  *
  * @return Exact copy of this block's data as a new block. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Make a null instance of this block type as the return variable. 
- *
- * 2. Copy the children of this block to the new block instance return variable. 
- *
- * 3. Copy all data from this block to the new block instance return variable. 
- *
- * 4. Return the new block return variable. 
+ * 1. Create a new empty block that is the same type as this block, then copy 
+ *    all of this block's children, then copy all of this block's data, and then 
+ *    return a pointer to the newly created block. 
  */
 std::unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
 {
@@ -64,12 +62,8 @@ std::unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
  *
  * Steps of Operation: 
  *
- * 1. Initialize the return pointer with the pointer to this block. 
- *
- * 2. Iterate the return pointer, setting it to its parent, until the return 
- *    pointer does not have a parent. 
- *
- * 3. Return the return pointer. 
+ * 1. Iterate through the parents of this block until the root block with no 
+ *    parent is reached, then return the root node pointer. 
  */
 AbstractBlock* AbstractBlock::root()
 {
@@ -92,12 +86,8 @@ AbstractBlock* AbstractBlock::root()
  *
  * Steps of Operation: 
  *
- * 1. Initialize the return pointer with the pointer to this block. 
- *
- * 2. Iterate the return pointer, setting it to its parent, until the return 
- *    pointer does not have a parent. 
- *
- * 3. Return the return pointer. 
+ * 1. Iterate through the parents of this block until the root block with no 
+ *    parent is reached, then return the root node pointer. 
  */
 const AbstractBlock* AbstractBlock::root() const
 {
@@ -115,7 +105,8 @@ const AbstractBlock* AbstractBlock::root() const
  * This returns a pointer to the parent of this block. If this block is the root 
  * block then null is returned. 
  *
- * @return Pointer to parent block, if any. 
+ * @return If this block is the root then a null pointer, else a pointer to this 
+ *         block's parent. 
  */
 AbstractBlock* AbstractBlock::parent() const
 {
@@ -159,14 +150,15 @@ const QList<AbstractBlock*>& AbstractBlock::list() const
 
 
 /*!
- * This gets the index where the child with the given pointer it stored in this 
- * node's list of children, if any. If no child with the given pointer is found 
- * then -1 is returned. 
+ * This gets the index where the child with the given pointer is stored in this 
+ * node's list of children. If no child with the given pointer is found then -1 
+ * is returned. 
  *
  * @param pointer Pointer of child block to match in this node's list and return 
  *                its index. 
  *
- * @return Index of child with given pointer, if any. 
+ * @return If a match is found then the index of the child with the given 
+ *         pointer, else -1. 
  */
 int AbstractBlock::indexOf(AbstractBlock* pointer) const
 {
@@ -220,16 +212,15 @@ AbstractBlock* AbstractBlock::get(int index) const
  * @param type The block type to search for within this block's list of 
  *             children. 
  *
- * @return Returns true if this node contains any children of the given type, 
- *         else returns false. 
+ * @return True if this node contains any children of the given type, else 
+ *         false. 
  *
  *
  * Steps of Operation: 
  *
  * 1. Iterate through list of this node's children. If a child that matches the 
- *    given type is found then return true. 
- *
- * 2. No match found after reaching end of list so return false. 
+ *    given type is found then return true. If the end of the list is reached 
+ *    with no match then return false. 
  */
 bool AbstractBlock::containsType(int type) const
 {
@@ -251,16 +242,15 @@ bool AbstractBlock::containsType(int type) const
  * @param types List of block types to search for within this block's list of 
  *              children. 
  *
- * @return Returns true if this node contains any children of any type given, 
- *         else returns false. 
+ * @return True if this node contains any children of any type given, else 
+ *         false. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Iterate through list of this node's children. If a child that matches any 
- *    of the given types is found then return true. 
- *
- * 2. No match found after reaching end of list so return false. 
+ * 1. Iterate through list of this node's children. If a child that matches the 
+ *    given type is found then return true. If the end of the list is reached 
+ *    with no match then return false. 
  */
 bool AbstractBlock::containsType(const QList<int>& types) const
 {

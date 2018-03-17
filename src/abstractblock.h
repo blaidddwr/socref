@@ -26,50 +26,50 @@ class AbstractBlock : public QObject
    Q_OBJECT
 public:
    /*!
-    * This must return this block's type. 
+    * This interface returns this block's type. 
     *
     * @return This block's type. 
     */
    virtual int type() const = 0;
    /*!
-    * This must return a reference to this block's factory which produces all block 
-    * types for this project type. 
+    * This interface returns a reference to this block's factory which produces all 
+    * block types for this project type. 
     *
     * @return Reference to block factory. 
     */
    virtual const AbstractBlockFactory& factory() const = 0;
    /*!
-    * This must return the name of this block. The name is used to display the 
-    * block as text in a tree view and as a title when selected. 
+    * This interface returns the name of this block. The name is used to display 
+    * the block as text in a tree view and as a title when selected. 
     *
     * @return The name of this block. 
     */
    virtual QString name() const = 0;
    /*!
-    * This must return the icon of this block. The icon is displayed in a tree view 
-    * of this block and its title if selected. 
+    * This interface returns the icon of this block. The icon is displayed in a 
+    * tree view of this block and its title if selected. 
     *
     * @return The icon of this block. 
     */
    virtual QIcon icon() const = 0;
    /*!
-    * This must return a list of types that this block can contain as children. If 
-    * the same type is listed more than once any repeated occurrences are ignored 
-    * and the type is allowed to be this block's parent. 
+    * This interface returns a list of types that this block can contain as 
+    * children. If the same type is listed more than once any repeated occurrences 
+    * are ignored and the type is allowed to be this block's parent. 
     *
     * @return List of allowed types this block can contain as children. 
     */
    virtual QList<int> buildList() const = 0;
    /*!
-    * This must return a View that provides a detailed read only GUI representation 
-    * of this block's data. 
+    * This interface returns a View that provides a detailed read only GUI 
+    * representation of this block's data. 
     *
     * @return New GUI view that represents this block's data. 
     */
    virtual std::unique_ptr<QWidget> makeView() const = 0;
    /*!
-    * This must return a editable GUI widget that provides the ability to edit this 
-    * block's data. 
+    * This interface returns a editable GUI widget that provides the ability to 
+    * edit this block's data. 
     *
     * @return New editable GUI widget to edit this block's data. 
     */
@@ -112,13 +112,17 @@ protected:
    /*!
     *
     * @param element  
+    *
+    * @param version  
     */
    virtual void readData(const QDomElement& element, int version) = 0;
+   /*!
+    */
+   virtual int writeVersion() const = 0;
    /*!
     *
     * @param document  
     */
-   virtual int writeVersion() const = 0;
    virtual QDomElement writeData(QDomDocument& document) const = 0;
    /*!
     */
@@ -138,10 +142,12 @@ private:
    void notifyOfNameChange(AbstractBlock* changed);
    /*!
     */
+   static const char* _versionTag;
+   /*!
+    */
    static const char* _dataTag;
    /*!
     */
-   static const char* _versionTag;
    static const char* _typeTag;
    /*!
     */
@@ -154,10 +160,21 @@ private:
 
 
 /*!
+ * Build a list of this node's children that matches the given type. The 
+ * returned list has no other copies. 
  *
- * @tparam T  
+ * @tparam T The child class type that is matched. 
  *
- * @param type  
+ * @param type The type whose matches are added to the list. 
+ *
+ * @return List of this node's children that is given type. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Iterate through the list of this node's children, adding a pointer of 
+ *    every child that matches the given type to the new list. Then return the 
+ *    list of matched children. 
  */
 template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 {
@@ -175,10 +192,25 @@ template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 
 
 /*!
+ * This casts this block to a specific block type. If the given type does not 
+ * match this block's type then a null pointer is returned. If this object fails 
+ * to cast as the requested type an exception is thrown. 
  *
- * @tparam T  
+ * @tparam T The class type that is cast. 
  *
- * @param toType  
+ * @param toType The block type that this block is cast to. 
+ *
+ * @return If successful then a read only pointer of requested cast type, else a 
+ *         null pointer. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. If the given type to cast does not match this block's type then return a 
+ *    null pointer, else go to the next step. 
+ *
+ * 2. Cast this block's pointer to the requested class type and return the cast 
+ *    pointer. If the cast fails then throw an exception. 
  */
 template<class T> const T* AbstractBlock::cast(int toType) const
 {
@@ -202,10 +234,25 @@ template<class T> const T* AbstractBlock::cast(int toType) const
 
 
 /*!
+ * This casts this block to a specific block type. If the given type does not 
+ * match this block's type then a null pointer is returned. If this object fails 
+ * to cast as the requested type an exception is thrown. 
  *
- * @tparam T  
+ * @tparam T The class type that is cast. 
  *
- * @param toType  
+ * @param toType The block type that this block is cast to. 
+ *
+ * @return If successful then a pointer of requested cast type, else a null 
+ *         pointer. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. If the given type to cast does not match this block's type then return a 
+ *    null pointer, else go to the next step. 
+ *
+ * 2. Cast this block's pointer to the requested class type and return the cast 
+ *    pointer. If the cast fails then throw an exception. 
  */
 template<class T> T* AbstractBlock::cast(int toType)
 {

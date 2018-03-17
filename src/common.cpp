@@ -28,6 +28,14 @@ void showException(const QString& text, const Exception::Base& exception)
 
 
 
+/*!
+ *
+ * @param document  
+ *
+ * @param tagName  
+ *
+ * @param text  
+ */
 QDomElement makeElement(QDomDocument& document, const QString& tagName, const QString& text)
 {
    QDomElement ret {document.createElement(tagName)};
@@ -40,6 +48,14 @@ QDomElement makeElement(QDomDocument& document, const QString& tagName, const QS
 
 
 
+/*!
+ *
+ * @param document  
+ *
+ * @param tagName  
+ *
+ * @param value  
+ */
 QDomElement makeElement(QDomDocument& document, const QString& tagName, int value)
 {
    QDomElement ret {document.createElement(tagName)};
