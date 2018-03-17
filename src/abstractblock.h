@@ -19,7 +19,10 @@
  * performed with other virtual interface functions. Many helper functions are 
  * available to navigate the tree structure of children and parents. Blocks are 
  * identified by a type which is an integer value that must be unique among all 
- * block types of a project type supplied by the block factory. 
+ * block types of a project type supplied by the block factory. Blocks are saved 
+ * and opened using XML elements. The data for these XML elements have version 
+ * numbers so later versions of this software can identify and read previous 
+ * versions of XML elements. 
  */
 class AbstractBlock : public QObject
 {
@@ -96,13 +99,17 @@ public:
    QDomElement write(QDomDocument& document) const;
 signals:
    /*!
+    * Signals that this block has been modified and should set the project as 
+    * modified. 
     */
    void modified();
    /*!
+    * Signals that a child with the given pointer has changed its name. This child 
+    * could be any depth below this block. 
     *
-    * @param object  
+    * @param child Pointer of the child whose name has changed. 
     */
-   void nameChanged(AbstractBlock* object);
+   void nameChanged(AbstractBlock* child);
 protected slots:
    virtual void childNameChanged(AbstractBlock* child);
    virtual void childAdded(AbstractBlock* child);
@@ -110,46 +117,68 @@ protected slots:
    virtual void childMoved(AbstractBlock* child);
 protected:
    /*!
+    * This interface reads in the data for this block from the given XML element 
+    * and version number. 
     *
-    * @param element  
+    * @param element The XML element used to read in this blocks data. 
     *
-    * @param version  
+    * @param version The version of the data stored in the XML. 
     */
    virtual void readData(const QDomElement& element, int version) = 0;
    /*!
+    * This interface returns the current version number of XML elements written for 
+    * this block type. 
+    *
+    * @return Current version number. 
     */
    virtual int writeVersion() const = 0;
    /*!
+    * This interface returns a XML element containing the data for this block using 
+    * the current version number. Attributes should never be used with this element 
+    * because the block system already uses one for the version number. 
     *
-    * @param document  
+    * @param document XML document to use for creating new elements. 
+    *
+    * @return XML element containing the data of this block. 
     */
    virtual QDomElement writeData(QDomDocument& document) const = 0;
    /*!
+    * This interface makes a new block object of this block's type with no data and 
+    * returns a pointer to the new block. 
+    *
+    * @return Pointer to the newly created block. 
     */
    virtual std::unique_ptr<AbstractBlock> makeBlank() const = 0;
    /*!
+    * This interface copies all data from the given block to this block, 
+    * overwriting any data this block may already contain. This does not copy any 
+    * children. 
     *
-    * @param other  
+    * @param other The other block whose data will be copied. 
     */
    virtual void copyDataFrom(const AbstractBlock* other) = 0;
    void notifyOfNameChange();
 private slots:
    void childModified();
+   void childNameModified(AbstractBlock* child);
 private:
    void copyChildren(const AbstractBlock* parent);
    void setParent(AbstractBlock* parent, int index = -1);
    void readChild(const QDomElement& element);
-   void notifyOfNameChange(AbstractBlock* changed);
    /*!
+    * This stores the name for version attributes. 
     */
    static const char* _versionTag;
    /*!
+    * This stores the tag name for data elements. 
     */
    static const char* _dataTag;
    /*!
+    * This stores the name for type attributes. 
     */
    static const char* _typeTag;
    /*!
+    * This stores the pointer list of this block's children. 
     */
    QList<AbstractBlock*> _children;
 };
@@ -172,9 +201,12 @@ private:
  *
  * Steps of Operation: 
  *
- * 1. Iterate through the list of this node's children, adding a pointer of 
- *    every child that matches the given type to the new list. Then return the 
- *    list of matched children. 
+ * 1. Iterate through the list of this node's children. 
+ *
+ * 2. Add a pointer of every child that matches the given type to the return 
+ *    list. 
+ *
+ * 3. Return the list of matched children. 
  */
 template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 {

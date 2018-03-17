@@ -49,7 +49,7 @@
       <class type="4">
          <data version="1">
             <name>AbstractBlock</name>
-            <description>This represents a single block of data in the reference system. It conforms to a parent child relationship where each block can have any number of children that are also blocks. The children are structured in an ordered list so they can be represented as a tree like structure in a view. Blocks also spawn the GUI elements that represent their models. Copying of blocks is also performed with other virtual interface functions. Many helper functions are available to navigate the tree structure of children and parents. Blocks are identified by a type which is an integer value that must be unique among all block types of a project type supplied by the block factory.</description>
+            <description>This represents a single block of data in the reference system. It conforms to a parent child relationship where each block can have any number of children that are also blocks. The children are structured in an ordered list so they can be represented as a tree like structure in a view. Blocks also spawn the GUI elements that represent their models. Copying of blocks is also performed with other virtual interface functions. Many helper functions are available to navigate the tree structure of children and parents. Blocks are identified by a type which is an integer value that must be unique among all block types of a project type supplied by the block factory. Blocks are saved and opened using XML elements. The data for these XML elements have version numbers so later versions of this software can identify and read previous versions of XML elements.</description>
             <type>const QList&lt;AbstractBlock*>&amp;</type>
             <type>const T*</type>
             <type>QList&lt;AbstractBlock*></type>
@@ -151,7 +151,9 @@
                   <virtual/>
                   <const/>
                   <return_description>Exact copy of this block's data as a new block.</return_description>
-                  <operation>Create a new empty block that is the same type as this block, then copy all of this block's children, then copy all of this block's data, and then return a pointer to the newly created block.</operation>
+                  <operation>Create a new empty block that is the same type as this block.</operation>
+                  <operation>Copy all of this block's children and its data.</operation>
+                  <operation>Return a pointer to the newly created block.</operation>
                </data>
             </function>
             <function type="2">
@@ -160,7 +162,8 @@
                   <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
                   <type>AbstractBlock*</type>
                   <return_description>Pointer to the root block.</return_description>
-                  <operation>Iterate through the parents of this block until the root block with no parent is reached, then return the root node pointer.</operation>
+                  <operation>Iterate through the parents of this block until the root block with no parent is reached.</operation>
+                  <operation>Return the root node pointer.</operation>
                </data>
             </function>
             <function type="2">
@@ -170,7 +173,8 @@
                   <type>const AbstractBlock*</type>
                   <const/>
                   <return_description>Read only pointer to the root block.</return_description>
-                  <operation>Iterate through the parents of this block until the root block with no parent is reached, then return the root node pointer.</operation>
+                  <operation>Iterate through the parents of this block until the root block with no parent is reached.</operation>
+                  <operation>Return the root node pointer.</operation>
                </data>
             </function>
             <function type="2">
@@ -240,7 +244,8 @@
                   <type>bool</type>
                   <const/>
                   <return_description>True if this node contains any children of the given type, else false.</return_description>
-                  <operation>Iterate through list of this node's children. If a child that matches the given type is found then return true. If the end of the list is reached with no match then return false.</operation>
+                  <operation>Iterate through list of this node's children.</operation>
+                  <operation>If a child that matches the given type is found then return true, else if the end of the list is reached with no match then return false.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -257,7 +262,8 @@
                   <type>bool</type>
                   <const/>
                   <return_description>True if this node contains any children of any type given, else false.</return_description>
-                  <operation>Iterate through list of this node's children. If a child that matches the given type is found then return true. If the end of the list is reached with no match then return false.</operation>
+                  <operation>Iterate through list of this node's children.</operation>
+                  <operation>If a child that matches the given type is found then return true, else if the end of the list is reached with no match then return false.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -274,7 +280,9 @@
                   <type>QList&lt;T*></type>
                   <const/>
                   <return_description>List of this node's children that is given type.</return_description>
-                  <operation>Iterate through the list of this node's children, adding a pointer of every child that matches the given type to the new list. Then return the list of matched children.</operation>
+                  <operation>Iterate through the list of this node's children.</operation>
+                  <operation>Add a pointer of every child that matches the given type to the return list.</operation>
+                  <operation>Return the list of matched children.</operation>
                </data>
                <template type="3">
                   <data version="1">
@@ -343,11 +351,15 @@
             <function type="2">
                <data version="1">
                   <name>moveUp</name>
+                  <description>Moves the child block with the given index up the list by one where the very top of the list is index 0. If the given index is already at the top of the list or out of range then this does nothing.</description>
                   <type>void</type>
+                  <operation>If the given index is already at the top of the list or out of range then do nothing and exit, else go to the next step.</operation>
+                  <operation>Swap the given child in this block's list with the child just above it, calling the interface function notifying a child has moved and emitting the modified signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index of the child block moved up by one.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -355,11 +367,15 @@
             <function type="2">
                <data version="1">
                   <name>moveDown</name>
+                  <description>Moves the child block with the given index down the list by one where the very top of the list is index 0. If the given index is already at the bottom of the list or out of range then this does nothing.</description>
                   <type>void</type>
+                  <operation>If the given index is at the end of the list or out of range then do nothing and exit, else go to the next step.</operation>
+                  <operation>Swap the child with the given index in this block's list with the child just below it, calling the interface function notifying a child has moved and emitting the modified signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index of the child block moved down by one.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -367,17 +383,23 @@
             <function type="2">
                <data version="1">
                   <name>insert</name>
+                  <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
                   <type>void</type>
+                  <operation>If the given child pointer is null or its type is not contained in this blocks build list then throw an exception, else go to the next step.</operation>
+                  <operation>Insert the new block into this block's list of children at the given index, releasing it from its smart pointer and setting this block as its parent.</operation>
+                  <operation>Call the interface notifying a new child is added and emit the modified signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index where the new block is inserted.</description>
                      <type>int</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>child</name>
+                     <description>Pointer to the new block that is inserted as this block's child.</description>
                      <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
                   </data>
                </variable>
@@ -385,11 +407,17 @@
             <function type="2">
                <data version="1">
                   <name>take</name>
+                  <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. If the index is out of range then an exception is thrown.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
+                  <return_description>Pointer to child that was taken from this block.</return_description>
+                  <operation>If the given index is out of range then throw an exception, else go to the next step.</operation>
+                  <operation>Remove the child at the given index from this block's list of children saving its pointer to a smart pointer.</operation>
+                  <operation>Set the child's parent to nothing, call the interface that notifies a child is being removed, emit the modified signal, and return the smart pointer.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index of the child that is taken.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -397,11 +425,16 @@
             <function type="2">
                <data version="1">
                   <name>remove</name>
+                  <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
                   <type>void</type>
+                  <operation>If the given index is out of range then throw an exception, else go to the next step.</operation>
+                  <operation>Take the pointer to the child at the given index from this block's list of children, call the interface that notified a child is being removed, and emit the modified signal.</operation>
+                  <operation>Delete the pointer by using a smart pointer when it goes out of scope.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index of the child that is removed and deleted.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -409,11 +442,17 @@
             <function type="2">
                <data version="1">
                   <name>read</name>
+                  <description>Reads in block data from an XML element. This clears any existing data this block contains, including the removal and deletion of all existing children. This recursively adds any children contained in the XML reading in their data from child XML elements.</description>
                   <type>void</type>
+                  <operation>Clear and delete any existing children this block may contain. Then read in this blocks data element.</operation>
+                  <operation>If the data element could not be found in the XML element then throw an exception, else go to the next step.</operation>
+                  <operation>Call the interface which reads in the data for this block's type.</operation>
+                  <operation>Read in all children XML elements and add them to this block's list of children, creating a new child for each one and calling their read function.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>element</name>
+                     <description>The XML element that stores block data this block reads as input.</description>
                      <type>const QDomElement&amp;</type>
                   </data>
                </variable>
@@ -421,8 +460,13 @@
             <function type="2">
                <data version="1">
                   <name>write</name>
+                  <description>Writes out this blocks data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
                   <type>QDomElement</type>
                   <const/>
+                  <return_description>XML element that stores this block's data and all children underneath it.</return_description>
+                  <operation>Create a new XML element and add the data element to it derived by calling the interface for writing the data of this block's type as an XML element.</operation>
+                  <operation>Call each child's write function and add their returned elements to the new XML element as children.</operation>
+                  <operation>Return the newly created XML element containing the data and all children.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -439,17 +483,20 @@
             <signal type="8">
                <data version="1">
                   <name>modified</name>
+                  <description>Signals that this block has been modified and should set the project as modified.</description>
                   <type></type>
                </data>
             </signal>
             <signal type="8">
                <data version="1">
                   <name>nameChanged</name>
+                  <description>Signals that a child with the given pointer has changed its name. This child could be any depth below this block.</description>
                   <type></type>
                </data>
                <variable type="1">
                   <data version="1">
-                     <name>object</name>
+                     <name>child</name>
+                     <description>Pointer of the child whose name has changed.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -462,12 +509,14 @@
             <slot type="7">
                <data version="1">
                   <name>childNameChanged</name>
+                  <description>This interface is called whenever a child below this block has changed its name.</description>
                   <type></type>
                   <virtual/>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>child</name>
+                     <description>Pointer of the child whose name has changed.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -475,12 +524,14 @@
             <slot type="7">
                <data version="1">
                   <name>childAdded</name>
+                  <description>This interface is called when a new block has been added to this block as a new child.</description>
                   <type></type>
                   <virtual/>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>child</name>
+                     <description>Pointer of the new child just added to this block.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -488,12 +539,14 @@
             <slot type="7">
                <data version="1">
                   <name>childRemoved</name>
+                  <description>This interface is called when a direct child of this block is removed. The removed child could possibly be deleted right after this call.</description>
                   <type></type>
                   <virtual/>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>child</name>
+                     <description>Pointer of child that has been removed from this block.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -501,12 +554,14 @@
             <slot type="7">
                <data version="1">
                   <name>childMoved</name>
+                  <description>This interface is called when a direct child of this block has been moved up or down.</description>
                   <type></type>
                   <virtual/>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>child</name>
+                     <description>Pointer of child that has been moved up or down.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -519,6 +574,7 @@
             <function type="2">
                <data version="1">
                   <name>readData</name>
+                  <description>This interface reads in the data for this block from the given XML element and version number.</description>
                   <type>void</type>
                   <virtual/>
                   <abstract/>
@@ -526,12 +582,14 @@
                <variable type="1">
                   <data version="1">
                      <name>element</name>
+                     <description>The XML element used to read in this blocks data.</description>
                      <type>const QDomElement&amp;</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>version</name>
+                     <description>The version of the data stored in the XML.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -539,23 +597,28 @@
             <function type="2">
                <data version="1">
                   <name>writeVersion</name>
+                  <description>This interface returns the current version number of XML elements written for this block type.</description>
                   <type>int</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Current version number.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>writeData</name>
+                  <description>This interface returns a XML element containing the data for this block using the current version number. Attributes should never be used with this element because the block system already uses one for the version number.</description>
                   <type>QDomElement</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>XML element containing the data of this block.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>document</name>
+                     <description>XML document to use for creating new elements.</description>
                      <type>QDomDocument&amp;</type>
                   </data>
                </variable>
@@ -563,15 +626,18 @@
             <function type="2">
                <data version="1">
                   <name>makeBlank</name>
+                  <description>This interface makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Pointer to the newly created block.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>copyDataFrom</name>
+                  <description>This interface copies all data from the given block to this block, overwriting any data this block may already contain. This does not copy any children.</description>
                   <type>void</type>
                   <virtual/>
                   <abstract/>
@@ -579,6 +645,7 @@
                <variable type="1">
                   <data version="1">
                      <name>other</name>
+                     <description>The other block whose data will be copied.</description>
                      <type>const AbstractBlock*</type>
                   </data>
                </variable>
@@ -586,6 +653,7 @@
             <function type="2">
                <data version="1">
                   <name>notifyOfNameChange</name>
+                  <description>Notifies this block that its name has changed and the block system is notified.</description>
                   <type>void</type>
                </data>
             </function>
@@ -597,8 +665,24 @@
             <slot type="7">
                <data version="1">
                   <name>childModified</name>
+                  <description>Called when a child below this block has been modified.</description>
                   <type></type>
                </data>
+            </slot>
+            <slot type="7">
+               <data version="1">
+                  <name>childNameModified</name>
+                  <description>Called when a child below this block has modified its name.</description>
+                  <type></type>
+                  <operation>Call the interface that notifies a child's name has changed and emit the name changed signal.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>child</name>
+                     <description>Pointer to child block whose name has been modified.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
             </slot>
          </access>
          <access type="5">
@@ -608,11 +692,15 @@
             <function type="2">
                <data version="1">
                   <name>copyChildren</name>
+                  <description>Copies all children from the given block and appends the copies to the list of this block's children. This does not remove any previous children already part of this block.</description>
                   <type>void</type>
+                  <operation>Iterate through all the children of the given block.</operation>
+                  <operation>Make a copy of each child using the interface which does so, appending them to this block's list of children.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>parent</name>
+                     <description>Pointer to block whose children are copied.</description>
                      <type>const AbstractBlock*</type>
                   </data>
                </variable>
@@ -620,17 +708,23 @@
             <function type="2">
                <data version="1">
                   <name>setParent</name>
+                  <description>Sets this block's parent to the given block, adding it to its new parent's list with the given index. If the index is less than 1 it is prepended, else if it is greater than the size of the list it is appended. This will remove and disconnect any previous parent this block may have had. The new parent can be a null pointer which means this block will have no parent.</description>
                   <type>void</type>
+                  <operation>If a previous parent exists then remove this block from its list of children and disconnect any signal/slot connections they share.</operation>
+                  <operation>Set this block's parent to the new parent given.</operation>
+                  <operation>If the new parent is not null then insert this block into the new parent's list with the given index and connect the appropriate signals between the two of them.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>parent</name>
+                     <description>Pointer to the new parent for this block.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index where this block will be added to its new parent's list.</description>
                      <type>int</type>
                      <initializer>-1</initializer>
                   </data>
@@ -639,30 +733,23 @@
             <function type="2">
                <data version="1">
                   <name>readChild</name>
+                  <description>Creates a new child reading it in from the given XML element. The new child is then appended to this block's list of children.</description>
                   <type>void</type>
+                  <operation>If the type number for this block is out of range of possible types for this project type then throw an exception, else go to the next step.</operation>
+                  <operation>Create a new block with the given type and read it in from the XML element, appending it to this blocks list of children.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>element</name>
+                     <description>XML element used to read in the new child.</description>
                      <type>const QDomElement&amp;</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="1">
-                  <name>notifyOfNameChange</name>
-                  <type>void</type>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>changed</name>
-                     <type>AbstractBlock*</type>
                   </data>
                </variable>
             </function>
             <variable type="1">
                <data version="1">
                   <name>_versionTag</name>
+                  <description>This stores the name for version attributes.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"version"</initializer>
@@ -671,6 +758,7 @@
             <variable type="1">
                <data version="1">
                   <name>_dataTag</name>
+                  <description>This stores the tag name for data elements.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"data"</initializer>
@@ -679,6 +767,7 @@
             <variable type="1">
                <data version="1">
                   <name>_typeTag</name>
+                  <description>This stores the name for type attributes.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"type"</initializer>
@@ -687,6 +776,7 @@
             <variable type="1">
                <data version="1">
                   <name>_children</name>
+                  <description>This stores the pointer list of this block's children.</description>
                   <type>QList&lt;AbstractBlock*></type>
                </data>
             </variable>
