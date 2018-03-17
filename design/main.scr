@@ -785,6 +785,7 @@
       <class type="4">
          <data version="1">
             <name>AbstractBlockFactory</name>
+            <description>This represents the factory that can produce blocks for a specific project type. There should only be one instance of this class but it is not required. Along with making new blocks this factory also gives basic information about each block type such as its display and element names.</description>
          </data>
          <access type="5">
             <data version="1">
@@ -793,32 +794,39 @@
             <function type="2">
                <data version="1">
                   <name>type</name>
+                  <description>This interface returns the project type of this block factory.</description>
                   <type>int</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Project type.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>size</name>
+                  <description>This interface returns the number of block types that exist for this factory. Block types must be defined for all integers from 0 to one less than the number of block types returned by this interface.</description>
                   <type>int</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Number of block types that exist for this factory.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>name</name>
+                  <description>This interface returns the display name for the given block type.</description>
                   <type>QString</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Display name for the given block type.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Block type whose display name is returned.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -826,14 +834,17 @@
             <function type="2">
                <data version="1">
                   <name>elementName</name>
+                  <description>This interface returns the element name for the given block type. The element name is used as the tag name in XML elements for reading/writing of blocks.</description>
                   <type>QString</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Element name for the given block type.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Block type whose element name is returned.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -841,14 +852,17 @@
             <function type="2">
                <data version="1">
                   <name>makeBlock</name>
+                  <description>This interface makes a new block of the given type and returns its pointer. The new block is expected to have a null data state.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Pointer to new block with given type.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Block type which is made and returned.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -856,10 +870,12 @@
             <function type="2">
                <data version="1">
                   <name>makeRootBlock</name>
+                  <description>This interface makes a new root block and returns its pointer. The root block is used as the root block for all projects of this project type. The new root block is expected to have a null data state.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Pointer to new root block for this project type.</return_description>
                </data>
             </function>
          </access>
