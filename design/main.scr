@@ -883,6 +883,7 @@
       <class type="4">
          <data version="1">
             <name>AbstractParser</name>
+            <description>This represents a parser object which takes in a single source code file to parse and outputs the results, overwriting the file if the results are different from the original contents. It can contain child parser objects which can be used for parsing segments of the source file allowing for specializing of parsing within segments of the file. Children parser objects will write lines to its root parser object. This allows for parsing the same file but using different parser object types when different parts of the file are reached.</description>
             <type>QList&lt;AbstractParser*></type>
             <qtobject/>
          </data>
@@ -898,36 +899,51 @@
             </data>
             <constructor type="9">
                <data version="1">
+                  <description>This constructs a new parser object that will be a root or primary parser. This means this parser will be assumed to be the root parser of a source file.</description>
                   <type></type>
+                  <operation>Allocate new resources required for this new parser object.</operation>
                   <explicit/>
                </data>
             </constructor>
             <constructor type="9">
                <data version="1">
+                  <description>This constructs a new parser object that is a child of another parser object. This sets up this object to use the resources of its root parser object.</description>
                   <type></type>
+                  <operation>Set this object's parent as the given parent parser, add this parser to its parent's list of children, and set this object's root parser pointer.</operation>
+                  <operation>Set all resource pointers to point to this object's root parser resources.</operation>
                   <explicit/>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>parent</name>
+                     <description>The parent parser object for this new parser object.</description>
                      <type>AbstractParser*</type>
                   </data>
                </variable>
             </constructor>
             <destructor type="10">
                <data version="1">
+                  <description>This deletes the dynamically allocated resources if this parser if it is the root. If this is a child parser then this does nothing.</description>
                   <type></type>
                   <virtual/>
+                  <operation>If this is a root parser then delete all allocated resources else do nothing.</operation>
                </data>
             </destructor>
             <function type="2">
                <data version="1">
                   <name>execute</name>
+                  <description>This parses the given file using this parser as the root parser. If this is a child parser then this does nothing.</description>
                   <type>void</type>
+                  <operation>If this is not a root parser then do nothing and exit, else go to the next step.</operation>
+                  <operation>Set the read line index to the beginning, call the initialize interface, and read in all lines of the source file.</operation>
+                  <operation>Process the input lines.</operation>
+                  <operation>Process the output lines.</operation>
+                  <operation>Write the output to the source file if the output is different from the original.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>file</name>
+                     <description>Qt file handle to the file that is parsed.</description>
                      <type>QFile*</type>
                   </data>
                </variable>
@@ -939,14 +955,25 @@
             </data>
             <function type="2">
                <data version="1">
+                  <name>initialize</name>
+                  <description>This interface initializes this parser. The default implementation does nothing.</description>
+                  <type>void</type>
+                  <virtual/>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
                   <name>readLine</name>
+                  <description>This interface is called for each line of the input source file, reading in all lines of the file until the end is reached or this returns false. If false is returned and this is a child parser then this interface keeps getting called on this object's parent parser under the same conditions. A different function is used to signal this parser should start feeding input lines to a child parser this parser contains.</description>
                   <type>bool</type>
                   <virtual/>
                   <abstract/>
+                  <return_description>True signals this interface should continue being called on lines else false signals this parser is finished processing input.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>line</name>
+                     <description>The line from the source file that is processed.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
@@ -954,6 +981,7 @@
             <function type="2">
                <data version="1">
                   <name>makeOutput</name>
+                  <description>This interface creates the output lines for the source file, using the add and indent functions to do so.</description>
                   <type>void</type>
                   <virtual/>
                   <abstract/>
@@ -961,19 +989,16 @@
             </function>
             <function type="2">
                <data version="1">
-                  <name>initialize</name>
-                  <type>void</type>
-                  <virtual/>
-               </data>
-            </function>
-            <function type="2">
-               <data version="1">
                   <name>stepIntoChild</name>
+                  <description>Signals this parser that the given child parser should be used for calling the interface for reading lines until it returns false or the last line is processed. If the given parser is not a direct child of this parser then an exception is thrown.</description>
                   <type>void</type>
+                  <operation>If the given parser object's parent is not this parser then an exception is thrown, else go to the next step.</operation>
+                  <operation>Set the internal child pointer signal variable to the given parser.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>child</name>
+                     <description>Pointer to the child parser whose interface for reading lines will be called from now on.</description>
                      <type>AbstractParser*</type>
                   </data>
                </variable>
@@ -981,17 +1006,23 @@
             <function type="2">
                <data version="1">
                   <name>indent</name>
+                  <description>Returns the indent, in spaces, that is prepended to each line added to the output.</description>
                   <type>int</type>
+                  <return_description>Number of spaces prepended to each added line of output.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>setIndent</name>
+                  <description>Sets the indent, in spaces, that is prepended to each line added to output.</description>
                   <type>void</type>
+                  <operation>If the given indent is less than 0 then throw an exception, else go to the next step.</operation>
+                  <operation>Set the root parser object's indent to the new value given.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>indent</name>
+                     <description>The new indent value in spaces.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -999,11 +1030,15 @@
             <function type="2">
                <data version="1">
                   <name>add</name>
+                  <description>Adds the given line as a new line to output, appending it to the end of any existing lines. The line is prepended with a number of spaces equal to the indent.</description>
                   <type>void</type>
+                  <operation>Prepend the given line with spaces equal to the indent of the root parser.</operation>
+                  <operation>Append the given line to the list of output lines of the root parser.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>line</name>
+                     <description>The line that is prepended with the indent and appended to the output.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
@@ -1011,11 +1046,13 @@
             <function type="2">
                <data version="1">
                   <name>add</name>
+                  <description>Appends multiple lines to the output, each one being prepended with spaces equal to the indent.</description>
                   <type>void</type>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>lines</name>
+                     <description>Lines that are appended to the output.</description>
                      <type>const QStringList&amp;</type>
                   </data>
                </variable>
@@ -1023,11 +1060,13 @@
             <function type="2">
                <data version="1">
                   <name>add</name>
+                  <description>Appends the given number of blank lines to the output. If the given number is less than 1 then nothing is added to the output.</description>
                   <type>void</type>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>count</name>
+                     <description>The number of blank lines added to the output.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1040,11 +1079,16 @@
             <function type="2">
                <data version="1">
                   <name>read</name>
+                  <description>Reads in the source file, splitting them into lines, and prepares the output.</description>
                   <type>void</type>
+                  <operation>Read all contents of the given file, storing it as this object's original contents.</operation>
+                  <operation>If reading in the file failed and caused an error then throw an exception, else go to the next step.</operation>
+                  <operation>Split the original content by line and save it to this object's list of input lines to be processed.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>file</name>
+                     <description>The file used as input.</description>
                      <type>QFile*</type>
                   </data>
                </variable>
@@ -1052,23 +1096,34 @@
             <function type="2">
                <data version="1">
                   <name>processInput</name>
+                  <description>Processes the input of the source file, using the read line interface for processing.</description>
                   <type>void</type>
+                  <operation>While the root parser object's index is not at the end of the input line list do the proceeding steps.</operation>
+                  <operation>Call the read line interface with the next input line to process. If the interface returns false then break the while loop and exit this function.</operation>
+                  <operation>If the read line interface calls the step into child function then call the child's process input function and then set the child pointer signal back to null.</operation>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>processOutput</name>
+                  <description>Processes the output by calling the make output interface.</description>
                   <type>void</type>
+                  <operation>Clear the root parser object's output string list and set its indent to 0.</operation>
+                  <operation>Call the make output interface.</operation>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>write</name>
+                  <description>Write the processed output to the given file if, after joining the output lines, it is different from the original. If the output is the same as the original then this does nothing.</description>
                   <type>void</type>
+                  <operation>Join the output lines into one giant string. If the output is different from the root parser object's original file content then go to the next step, else do nothing and exist the function.</operation>
+                  <operation>Truncate the given file to 0 and write the root parser object's output to it. If any error occurred for either operation then throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>file</name>
+                     <description>The file that is truncated and written to if the output is different from the original.</description>
                      <type>QFile*</type>
                   </data>
                </variable>
@@ -1076,12 +1131,14 @@
             <variable type="1">
                <data version="1">
                   <name>_original</name>
+                  <description>This stores the original content of the file that is used to compare the output once parsing is complete.</description>
                   <type>QString</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_input</name>
+                  <description>This stores the input lines of the parsed source file. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
                   <type>QStringList*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1089,6 +1146,7 @@
             <variable type="1">
                <data version="1">
                   <name>_index</name>
+                  <description>This stores the index pointing to the next input line to be processed. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
                   <type>int*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1096,6 +1154,7 @@
             <variable type="1">
                <data version="1">
                   <name>_indent</name>
+                  <description>This stores the indent that is used for prepending spaces to all output lines when they are added. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
                   <type>int*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1103,6 +1162,7 @@
             <variable type="1">
                <data version="1">
                   <name>_output</name>
+                  <description>This stores the output lines of the parsed file. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
                   <type>QStringList*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1110,6 +1170,7 @@
             <variable type="1">
                <data version="1">
                   <name>_root</name>
+                  <description>This is a pointer to this parser object's root parser object. If this parser is the root then this is null.</description>
                   <type>AbstractParser*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1117,12 +1178,14 @@
             <variable type="1">
                <data version="1">
                   <name>_children</name>
+                  <description>This stores a list of pointers to all of this parser object's children.</description>
                   <type>QList&lt;AbstractParser*></type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_child</name>
+                  <description>This is a special pointer signal variable set by the step into child function. It is used to signal the process input function that it should step into the pointed to child parser object's process input function.</description>
                   <type>AbstractParser*</type>
                   <initializer>nullptr</initializer>
                </data>
