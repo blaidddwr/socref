@@ -1346,6 +1346,7 @@
       <class type="4">
          <data version="1">
             <name>ProjectFactory</name>
+            <description>This implements the abstract project factory class that is the factory for all information and factories needed for a project type.</description>
          </data>
          <parent type="13">
             <data version="1">
@@ -1358,40 +1359,50 @@
                <type>public:</type>
             </data>
             <enumeration type="11">
-               <data version="1"/>
+               <data version="1">
+                  <description>This defines all project types ending with the total size of all project types.</description>
+               </data>
                <enumval type="12">
                   <data version="1">
                      <name>CppQtType</name>
+                     <description>This defines the C++/Qt project type.</description>
                   </data>
                </enumval>
                <enumval type="12">
                   <data version="1">
                      <name>Total</name>
+                     <description>The defines the total number of all project types.</description>
                   </data>
                </enumval>
             </enumeration>
             <function type="2">
                <data version="1">
                   <name>size</name>
+                  <description>This implements the interface that returns the number of project types that exist for the program.</description>
                   <type>int</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>Number of project types that exist.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>name</name>
+                  <description>This implements the interface that returns the display name for the given project type.</description>
                   <type>QString</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>Display name for the given project type.</return_description>
+                  <operation>Return the display name of the given project type. If the given type does not exist then return an empty string.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Project type whose display name is returned.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1399,15 +1410,19 @@
             <function type="2">
                <data version="1">
                   <name>defaultFilters</name>
+                  <description>This implements the interface that returns the default file filters for the given project type.</description>
                   <type>QString</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>Default file filters for the given project type.</return_description>
+                  <operation>Return default file filters for the given project type. If the given type does not exist then return an empty string.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Project type whose default file filters are returned.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1415,15 +1430,19 @@
             <function type="2">
                <data version="1">
                   <name>blockFactory</name>
+                  <description>This implements the interface that returns a read only reference to the block factory for the given project type.</description>
                   <type>const AbstractBlockFactory&amp;</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>Read only reference to block factory for the given project type.</return_description>
+                  <operation>Return a reference to the block factory of the given project type. If the given project type does not exist then throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Project type whose block factory is returned as a reference.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1431,21 +1450,26 @@
             <function type="2">
                <data version="1">
                   <name>makeParserFactory</name>
+                  <description>This implements the interface that makes a new parser factory for the given project type.</description>
                   <type>std::unique_ptr&lt;AbstractParserFactory></type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>Pointer to created parser factory for the given project type.</return_description>
+                  <operation>Create a new parser factory for the given project type using the given block root. If the given project type does not exist then throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Project type whose parser factory type is made and returned.</description>
                      <type>int</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>root</name>
+                     <description>Pointer to root block of existing project that is used by returned parser object.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>

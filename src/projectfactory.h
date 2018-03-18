@@ -6,18 +6,24 @@
 
 
 /*!
+ * This implements the abstract project factory class that is the factory for 
+ * all information and factories needed for a project type. 
  */
 class ProjectFactory : public AbstractProjectFactory
 {
 public:
    /*!
+    * This defines all project types ending with the total size of all project 
+    * types. 
     */
    enum 
    {
       /*!
+       * This defines the C++/Qt project type. 
        */
       CppQtType
       /*!
+       * The defines the total number of all project types. 
        */
       ,Total
    };
