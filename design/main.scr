@@ -785,7 +785,7 @@
       <class type="4">
          <data version="1">
             <name>AbstractBlockFactory</name>
-            <description>This represents the factory that can produce blocks for a specific project type. There should only be one instance of this class but it is not required. Along with making new blocks this factory also gives basic information about each block type such as its display and element names.</description>
+            <description>This represents the factory that can produce blocks for a specific project type. There should only be one instance of this class for each project type. Along with making new blocks this factory also gives basic information about each block type such as its display and element names. To maintain backwards compatibility all previously defined block types must maintain the specific integer that defines them.</description>
          </data>
          <access type="5">
             <data version="1">
@@ -1195,6 +1195,7 @@
       <class type="4">
          <data version="1">
             <name>AbstractParserFactory</name>
+            <description>This represents the factory that can produce parser objects for a specific project type. It is a very simple class that has only one interface for producing new parser objects to parse individual source files.</description>
             <qtobject/>
          </data>
          <parent type="13">
@@ -1210,20 +1211,24 @@
             <function type="2">
                <data version="1">
                   <name>make</name>
+                  <description>This interface makes a new parser object from the given file and and extension. This can return a null pointer in which case the source file is ignored and skipped.</description>
                   <type>std::unique_ptr&lt;AbstractParser></type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Pointer to new parser object or null pointer.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>name</name>
+                     <description>Name of the source file that is parsed with the returned parser object.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>extension</name>
+                     <description>Extension of the file that is parsed with the returned parser object.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
@@ -1233,6 +1238,7 @@
       <class type="4">
          <data version="1">
             <name>AbstractProjectFactory</name>
+            <description>This represents the factory that defines all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire program. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project types must maintain the specific integer that defines them.</description>
          </data>
          <parent type="13">
             <data version="1">
@@ -1248,23 +1254,28 @@
             <function type="2">
                <data version="1">
                   <name>size</name>
+                  <description>This interface returns the number of project types that exist. Project types must be defined for all integers from 0 to one less than the number of project types returned by this interface.</description>
                   <type>int</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Number of project types that exist.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>name</name>
+                  <description>This interface returns the display name for the given project type.</description>
                   <type>QString</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Display name for the given project type.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Project type whose display name is returned.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1272,14 +1283,17 @@
             <function type="2">
                <data version="1">
                   <name>defaultFilters</name>
+                  <description>This interface returns the default filters for the scanning of source files the given project type possesses.</description>
                   <type>QString</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Default file filters for the given project type.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Project type whose default file filters are returned.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1287,14 +1301,17 @@
             <function type="2">
                <data version="1">
                   <name>blockFactory</name>
+                  <description>This interface returns a read only reference to the block factory for the given project type.</description>
                   <type>const AbstractBlockFactory&amp;</type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Read only reference to block factory for the given project type.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Project type whose block factory is returned as a reference.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1302,20 +1319,24 @@
             <function type="2">
                <data version="1">
                   <name>makeParserFactory</name>
+                  <description>This interface makes a new parser factory for the given project type with the given block pointer as the root of an existing project to be parsed.</description>
                   <type>std::unique_ptr&lt;AbstractParserFactory></type>
                   <virtual/>
                   <const/>
                   <abstract/>
+                  <return_description>Pointer to created parser factory for the given project type.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>Project type whose parser factory type is made and returned.</description>
                      <type>int</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>root</name>
+                     <description>Pointer to root block of existing project that will be parsed with the returned parser factory.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>

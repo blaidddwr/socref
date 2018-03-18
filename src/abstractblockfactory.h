@@ -11,9 +11,11 @@
 
 /*!
  * This represents the factory that can produce blocks for a specific project 
- * type. There should only be one instance of this class but it is not required. 
+ * type. There should only be one instance of this class for each project type. 
  * Along with making new blocks this factory also gives basic information about 
- * each block type such as its display and element names. 
+ * each block type such as its display and element names. To maintain backwards 
+ * compatibility all previously defined block types must maintain the specific 
+ * integer that defines them. 
  */
 class AbstractBlockFactory
 {
