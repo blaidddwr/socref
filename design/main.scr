@@ -1852,6 +1852,7 @@
       <class type="4">
          <data version="1">
             <name>ScanThread</name>
+            <description>This contains everything needed to scan and parse an entire directory of source files with the given file filters and parser factory. This is a threaded class that executes the scanning of files on a separate thread. Signals are emitted for the progress of the scanning and when it is complete. Because execution of parsing is done on a separate thread if an exception is thrown within that thread it is caught and saved within the class. This exception can be viewed from the main thread.</description>
             <qtobject/>
          </data>
          <parent type="13">
@@ -1866,29 +1867,36 @@
             </data>
             <constructor type="9">
                <data version="1">
+                  <description>This constructs a new scan thread with the given parser factory, directory to scan, file filters, and possible parent.</description>
                   <type></type>
+                  <operation>Set the given parser factory's parent to this scan thread and build a list of files that will be parsed in the given scan directory.</operation>
+                  <explicit/>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>factory</name>
+                     <description>The parser factory that this scan thread will use to make all parser objects for each matched source file. This scan thread takes ownership of the factory.</description>
                      <type>std::unique_ptr&lt;AbstractParserFactory>&amp;&amp;</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>scanDirectory</name>
+                     <description>The directory that this scan thread will scan for source files.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>filters</name>
+                     <description>The file filters this scan thread will use for filtering the files in the given scan directory. Only files that match any of these filters will be parsed.</description>
                      <type>const QStringList&amp;</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>parent</name>
+                     <description>The parent of this object if any.</description>
                      <type>QObject*</type>
                      <initializer>nullptr</initializer>
                   </data>
@@ -1897,22 +1905,29 @@
             <function type="2">
                <data version="1">
                   <name>size</name>
+                  <description>Returns the total number of files that were matched for parsing.</description>
                   <type>int</type>
                   <const/>
+                  <return_description>Total number of files matched for parsing.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>hasException</name>
+                  <description>Tests if an exception occurred in this scan thread's separate thread while parsing source files.</description>
                   <type>bool</type>
                   <const/>
+                  <return_description>True if an exception occurred else false it scanning was successful with no error.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>exception</name>
+                  <description>Returns a reference to the exception that occurred in this scan thread's separate thread causing failure. If this scan thread has no exception this itself will throw an exception.</description>
                   <type>const Exception::Base&amp;</type>
                   <const/>
+                  <return_description>Reference to exception that occurred while parsing source files.</return_description>
+                  <operation>If this scan thread has no saved exception then throw an exception, else return a reference to the exception that occurred in this scan thread.</operation>
                </data>
             </function>
          </access>
@@ -1923,11 +1938,13 @@
             <signal type="8">
                <data version="1">
                   <name>progressChanged</name>
+                  <description>Signals that the scan thread has started working on the given file index. The indexing starts at zero and ends at one less than the total number of files to process.</description>
                   <type></type>
                </data>
                <variable type="1">
                   <data version="1">
-                     <name>complete</name>
+                     <name>index</name>
+                     <description>The current file index that is being parsed.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1940,10 +1957,15 @@
             <function type="2">
                <data version="1">
                   <name>run</name>
+                  <description>This implements the interface that is called within the Qt thread when execution of that thread begins by calling the qt execute function. This scan thread using this function to implement the parsing of all matched files from the given scan directory.</description>
                   <type>void</type>
                   <virtual/>
                   <override/>
                   <final/>
+                  <operation>Delete this scan thread's saved exception if any and set the pointer to null. For the proceeding steps iterate through all the matched source files starting at index 0.</operation>
+                  <operation>Signal the index of the source file that is being worked on. If interruption of this thread is requested return and exit this function immediately, else go to the next step.</operation>
+                  <operation>Create a new parser object from the given parser factory. If the returned parser object is not null then run its execution method to parse the source file.</operation>
+                  <operation>If any exception occurs while running this function then catch it and exit from this function immediately. If the exception is a Socrates one then save it to this scan thread's exception pointer.</operation>
                </data>
             </function>
          </access>
@@ -1954,17 +1976,22 @@
             <function type="2">
                <data version="1">
                   <name>buildList</name>
+                  <description>Builds this scan thread's list of matched files that will be parsed from the given scan directory and file filters. A file must match only one file filter to be added to the list of matched files.</description>
                   <type>void</type>
+                  <operation>If the directory does not exist then throw an exception, else go to the next step.</operation>
+                  <operation>Get a directory listing of all files and directories within it that match the given filters. Iterate through the list and add all matches that are not directories to this scan thread's list of matched files.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>scanDirectory</name>
+                     <description>The directory where files will be matched and added to the list.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>filters</name>
+                     <description>The filters that will be used to match files. Each string in this list must be a single filter.</description>
                      <type>const QStringList&amp;</type>
                   </data>
                </variable>
@@ -1972,18 +1999,21 @@
             <variable type="1">
                <data version="1">
                   <name>_factory</name>
+                  <description>A pointer to the parser factory this scan thread uses for making parser objects.</description>
                   <type>AbstractParserFactory*</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_list</name>
+                  <description>A list of matched files that his scan thread parses.</description>
                   <type>QFileInfoList</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_exception</name>
+                  <description>A pointer that this scan thread uses to save any Socrates exception that occurs within its separate scanning thread.</description>
                   <type>Exception::Base*</type>
                   <initializer>nullptr</initializer>
                </data>
