@@ -1479,6 +1479,7 @@
       <class type="4">
          <data version="1">
             <name>BlockModel</name>
+            <description>This implements the Qt abstract item model class and is used to model the tree structure of a project's block data. It only implements the interfaces necessary for read only functionality through Qt view classes. However the writable functionality exists with custom functions outside the Qt framework. The custom write operations supported are inserting blocks, moving blocks up and down, removing blocks, copying blocks, and cutting blocks.</description>
             <qtobject/>
          </data>
          <parent type="13">
@@ -1493,12 +1494,15 @@
             </data>
             <constructor type="9">
                <data version="1">
+                  <description>This constructs a new block model with the given root block and parent. Both the root block and parent can be given as null. A null root block means this model is empty.</description>
                   <type></type>
+                  <operation>If the root given is not null then get the block type's block factory and connect the name changed signal with the new root block, else do nothing.</operation>
                   <explicit/>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>root</name>
+                     <description>The root block this model will use for its data or null to make this model empty.</description>
                      <type>AbstractBlock*</type>
                      <initializer>nullptr</initializer>
                   </data>
@@ -1506,6 +1510,7 @@
                <variable type="1">
                   <data version="1">
                      <name>parent</name>
+                     <description>The parent for this model.</description>
                      <type>QObject*</type>
                      <initializer>nullptr</initializer>
                   </data>
@@ -1514,27 +1519,35 @@
             <function type="2">
                <data version="1">
                   <name>index</name>
+                  <description>This implements the interface that returns a a model index for the given row, column, and parent.</description>
                   <type>QModelIndex</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>A model index for the given row, column, and parent.</return_description>
+                  <operation>If the given row is less than 0 or the column is not 0 then return an invalid index, else go to the next step.</operation>
+                  <operation>Get the block pointer of the given parent index. If the given row is out of range of the parent block's list of children then return an invalid index, else go to the next step.</operation>
+                  <operation>Return a new index with the given row, column, and parent index.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>row</name>
+                     <description>The row whose index is returned.</description>
                      <type>int</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>column</name>
+                     <description>The column whose index is returned.</description>
                      <type>int</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>parent</name>
+                     <description>The parent index of the index that is returned.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1542,15 +1555,20 @@
             <function type="2">
                <data version="1">
                   <name>parent</name>
+                  <description>This implements the interface that returns the parent index of a given index.</description>
                   <type>QModelIndex</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>Parent index of the given index.</return_description>
+                  <operation>Get the pointer to the given index's parent block. If the parent block pointer is null or the parent's parent is null then return an invalid index, else to go the next step.</operation>
+                  <operation>Return the given index's parent index using the grandparent to get the parent's row.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>child</name>
+                     <description>The index whose parent is returned.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1558,15 +1576,19 @@
             <function type="2">
                <data version="1">
                   <name>rowCount</name>
+                  <description>This implements the interface that returns the number of rows the given index contains.</description>
                   <type>int</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>Number of rows the given index contains.</return_description>
+                  <operation>If this model's root pointer is null then return 0, else return the number of block children this index's block contains.</operation>
                </data>
                <variable type="1">
                   <data version="1">
-                     <name>parent</name>
+                     <name>index</name>
+                     <description>The index whose contained number of rows is returned.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1574,15 +1596,18 @@
             <function type="2">
                <data version="1">
                   <name>columnCount</name>
+                  <description>This implements the interface that returns the number of columns the given index contains. This model always contains 1 column regardless of index.</description>
                   <type>int</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>This models column count is always 1.</return_description>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>parent</name>
+                     <description>The index is not used for this model because the number of columns is static.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1590,21 +1615,26 @@
             <function type="2">
                <data version="1">
                   <name>data</name>
+                  <description>This implements the interface that returns data for the given index with the given role. This model only implements the display and decoration roles.</description>
                   <type>QVariant</type>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
+                  <return_description>Data requested from given index and role. For this model this is a string or qt image.</return_description>
+                  <operation>If the given role is the display role then return the given index's block name, else if the given role is the decoration role then return the given index's block icon resized to this model's preferred icon size, else this is an unsupported role so return nothing.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index whose data is returned.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>role</name>
+                     <description>The role of the requested data.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1612,12 +1642,16 @@
             <function type="2">
                <data version="1">
                   <name>pointer</name>
+                  <description>Returns the block pointer the given index represents in this model. If the given index is invalid this model's root block pointer is returned.</description>
                   <type>AbstractBlock*</type>
                   <const/>
+                  <return_description>Block pointer of the given index or the root block pointer if the index is invalid.</return_description>
+                  <operation>If the given index is valid return the given index's internal pointer recast as a block pointer, else it is invalid so return this model's root block pointer.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index whose block pointer is returned.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1625,17 +1659,24 @@
             <function type="2">
                <data version="1">
                   <name>insert</name>
+                  <description>Inserts a new block into this model at the beginning of the given index's list of children.</description>
                   <type>bool</type>
+                  <return_description>True on success or false on failure.</return_description>
+                  <operation>If the given block pointer is null then return false, else go to the next step.</operation>
+                  <operation>Insert the given block pointer as a new child of the given index's block, signaling the model that a new row is being inserted. The new block is prepended to the block's list of children.</operation>
+                  <operation>Return true on success.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index where the given block is inserted.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>block</name>
+                     <description>Pointer to the block that is inserted into this model.</description>
                      <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
                   </data>
                </variable>
@@ -1643,11 +1684,17 @@
             <function type="2">
                <data version="1">
                   <name>moveUp</name>
+                  <description>Moves the given index up by one in the list of siblings it is part of. If the given index is already at row 0 then this does nothing. Returns the new index for the given index that was or was not moved.</description>
                   <type>QModelIndex</type>
+                  <return_description>New index for the given index that was possibly moved.</return_description>
+                  <operation>If the given index's row is already 0 then return the given index unchanged, else go to the next step.</operation>
+                  <operation>Move the block of the given index up by one in it's parent's list of children, signaling the model that the row is being moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
+                  <operation>Return a new index where this index has been successfully moved to.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index that will possibly be moved up by 1.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1655,11 +1702,17 @@
             <function type="2">
                <data version="1">
                   <name>moveDown</name>
+                  <description>Moves the given index down by one in the list of siblings it is part of. If the given index is already at the end of its list of siblings then this does nothing. Returns the new index for the given index that was or was not moved.</description>
                   <type>QModelIndex</type>
+                  <return_description>New index for the given index that was possibly moved.</return_description>
+                  <operation>If the given index's row is already at the end of its sibling list then return the given index unchanged, else go to the next step.</operation>
+                  <operation>Move the block of the given index down by one in it's parent's list of children, signaling the model that the row is being moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
+                  <operation>Return a new index where this index has been successfully moved to.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index that will possibly be moved up by 1.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1667,11 +1720,17 @@
             <function type="2">
                <data version="1">
                   <name>remove</name>
+                  <description>Removes the given index and its block for this model. If the index is not given this does nothing and returns false.</description>
                   <type>bool</type>
+                  <return_description>True on success or false on failure.</return_description>
+                  <operation>If the given index is invalid then return false, else go to the next step.</operation>
+                  <operation>Remove the given index's block from its parent block, signaling the model that a row is being removed. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
+                  <operation>Return true on success.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index that is removed from this model.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1679,12 +1738,16 @@
             <function type="2">
                <data version="1">
                   <name>copy</name>
+                  <description>Returns a pointer to a copy of the block at the given index. If the given index is not valid then a null pointer is returned.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <const/>
+                  <return_description>Pointer to a copy of the given index or a null pointer if the given index is invalid.</return_description>
+                  <operation>If the given index is not valid then return a null pointer, else return a pointer to a new copy of the block at the given index.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The given index whose block is copied and returned.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1692,11 +1755,17 @@
             <function type="2">
                <data version="1">
                   <name>cut</name>
+                  <description>Returns a pointer to the block at the given index, removing that index from the model but not deleting its block. Instead the ownership of the block is returned. If the given index is not valid then a null pointer is returned.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
+                  <return_description>Pointer to the block at the given index now removed or null pointer if the given index is not valid.</return_description>
+                  <operation>If the given index is not valid then return a null pointer, else go to the next step.</operation>
+                  <operation>Take the block at the given index from its parent block, signaling the model that a row is being removed. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
+                  <operation>Return a pointer to the block that was taken from its parent.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>The index that is removed from this model and its block returned.</description>
                      <type>const QModelIndex&amp;</type>
                   </data>
                </variable>
@@ -1704,18 +1773,25 @@
             <function type="2">
                <data version="1">
                   <name>factory</name>
+                  <description>Returns a read only pointer to the block factory of the project type for this model's blocks. If the model is not set to any block data then a null pointer is returned.</description>
                   <type>const AbstractBlockFactory*</type>
                   <const/>
+                  <return_description>Read only pointer to black factory for this model's block type or null pointer if this model is empty.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>setRoot</name>
+                  <description>Sets a new root block for this model's data. If the given pointer is null then this model is set to be empty with no data to represent.</description>
                   <type>void</type>
+                  <operation>For this entire operation signal to the model that the entire model is being reset to a new one.</operation>
+                  <operation>If this model already has a root block pointer then disconnect all qt signals between this model and that root block.</operation>
+                  <operation>Set this model's root block to the new pointer given. If the new pointer is not null then set this model's block factory pointer to this block type's block factory and connect the name changed signal, else set this model's block factory pointer to null.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>newRoot</name>
+                     <description>Pointer to root block that this model will use or null to set this model as empty.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -1728,11 +1804,15 @@
             <slot type="7">
                <data version="1">
                   <name>blockNameChanged</name>
+                  <description>Called when a block contained within this model has changed its display name.</description>
                   <type></type>
+                  <operation>If the given block pointer has no parent then throw an exception, else go to the next step.</operation>
+                  <operation>Determine the index for the given block pointer within this model and signal the model that the index's data has changed.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>block</name>
+                     <description>Pointer to the block whose display name has changed.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -1745,6 +1825,7 @@
             <variable type="1">
                <data version="1">
                   <name>_iconSize</name>
+                  <description>The preferred icon size for indexes of this model when displayed in a view. This represents both the width and height.</description>
                   <constexpr/>
                   <static/>
                   <type>int</type>
@@ -1754,12 +1835,14 @@
             <variable type="1">
                <data version="1">
                   <name>_root</name>
+                  <description>A pointer to the root block for this model's data. If this model is empty then this is null.</description>
                   <type>AbstractBlock*</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_factory</name>
+                  <description>A read only pointer to this model block type's block factory. If this model is empty then this is null.</description>
                   <type>const AbstractBlockFactory*</type>
                   <initializer>nullptr</initializer>
                </data>
