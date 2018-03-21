@@ -109,7 +109,11 @@ void BlockView::addTriggered()
 
 void BlockView::removeTriggered()
 {
-   if ( _current.isValid() ) _model->remove(_current);
+   if ( _current.isValid() )
+   {
+      _model->remove(_current);
+      _current = _selectionModel->selection().indexes().first();
+   }
 }
 
 

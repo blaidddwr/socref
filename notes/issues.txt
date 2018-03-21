@@ -19,5 +19,3 @@
 
 * Make C++/Qt private template functions exist in the source file when parsed.
 
-* Fix deletion bug where the index is not properly updated if an block is deleted.
-
