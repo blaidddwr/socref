@@ -5,6 +5,7 @@
 #include "cppqt_variable.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
+#include "cppqt_access.h"
 #include "cppqt_blockfactory.h"
 
 
@@ -124,7 +125,7 @@ void Source::evaluateFunction(CppQt::Function* block)
    if ( !isTemplate()
         && !block->isAbstract()
         && block->type() != BlockFactory::SignalType
-        && !block->hasTemplates() )
+        && ( !block->hasTemplates() || block->isPrivateMethod() ) )
    {
       addDefined(new Function(block,this));
    }

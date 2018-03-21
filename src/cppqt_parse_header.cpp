@@ -89,7 +89,7 @@ void Header::evaluateFunction(CppQt::Function* block)
    Function* base {new Function(block,this)};
    _declarations.append(base);
    if ( block->type() != BlockFactory::SignalType
-        && ( isTemplate() || block->hasTemplates() )
+        && ( isTemplate() || ( block->hasTemplates() && !block->isPrivateMethod() ) )
         && !block->isAbstract() )
    {
       addDefined(base);
@@ -111,9 +111,12 @@ void Header::evaluateOther(AbstractBlock* block)
    {
       _declarations.append(new Enumeration(valid,this));
    }
-   else if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )
+   else if ( _block->type() == BlockFactory::ClassType )
    {
-      _declarations.append(new Forward(valid,this));
+      if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )
+      {
+         _declarations.append(new Forward(valid,this));
+      }
    }
 }
 

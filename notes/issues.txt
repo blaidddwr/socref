@@ -11,11 +11,7 @@
 
 * If updating a block fails post some kind of message about it.
 
-* Fix C++/Qt parsing bug where common headers will output forward class declarations.
-
 * Add mutable property for C++/Qt variables.
 
 * Fix C++/Qt parsing bug where paranthesis in comments is mistaken as a function header.
-
-* Make C++/Qt private template functions exist in the source file when parsed.
 

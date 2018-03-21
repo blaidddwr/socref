@@ -39,6 +39,7 @@ namespace CppQt
       bool isAbstract() const;
       void setAbstract(bool isAbstract);
       bool isMethod() const;
+      bool isPrivateMethod() const;
       bool hasAnyTemplates() const;
       bool hasTemplates() const;
       QStringList operations() const;

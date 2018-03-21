@@ -7,6 +7,7 @@
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_template.h"
+#include "cppqt_access.h"
 #include "cppqt_common.h"
 #include "domelementreader.h"
 #include "common.h"
@@ -394,6 +395,17 @@ void Function::setAbstract(bool isAbstract)
 bool Function::isMethod() const
 {
    return isClassMember();
+}
+
+
+
+
+
+
+bool Function::isPrivateMethod() const
+{
+   if ( !isClassMember() ) return false;
+   return parent()->cast<Access>(BlockFactory::AccessType)->accessType() == Access::Type::Private;
 }
 
 
