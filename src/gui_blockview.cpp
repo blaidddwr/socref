@@ -112,7 +112,9 @@ void BlockView::removeTriggered()
    if ( _current.isValid() )
    {
       _model->remove(_current);
-      _current = _selectionModel->selection().indexes().first();
+      QModelIndexList list {_selectionModel->selection().indexes()};
+      if ( list.isEmpty() ) _current = QModelIndex();
+      else _current = list.first();
    }
 }
 
