@@ -652,6 +652,38 @@
             </function>
             <function type="2">
                <data version="1">
+                  <name>makeElement</name>
+                  <description>Makes a new XML element with the given tag name and text value enclosed within the new element.</description>
+                  <static/>
+                  <type>QDomElement</type>
+                  <return_description>New XML element with the given tag name and text.</return_description>
+                  <operation>Create a new XML element with the given tag name.</operation>
+                  <operation>Append a new text node with the given text to the new XML element as a child and then return the new XML element.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>document</name>
+                     <description>The XML document used to create the new XML element.</description>
+                     <type>QDomDocument&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>tagName</name>
+                     <description>The tag name for the new XML element.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>text</name>
+                     <description>The text enclosed within the new XML element.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
                   <name>notifyOfNameChange</name>
                   <description>Notifies this block that its name has changed and the block system is notified.</description>
                   <type>void</type>
@@ -1852,7 +1884,7 @@
       <class type="4">
          <data version="1">
             <name>ScanThread</name>
-            <description>This contains everything needed to scan and parse an entire directory of source files with the given file filters and parser factory. This is a threaded class that executes the scanning of files on a separate thread. Signals are emitted for the progress of the scanning and when it is complete. Because execution of parsing is done on a separate thread if an exception is thrown within that thread it is caught and saved within the class. This exception can be viewed from the main thread.</description>
+            <description>This implements the qt thread class and is used to scan and parse an entire directory of source files with the given file filters and parser factory. This executes the scanning of files on the separate thread started by the qt thread class. Signals are emitted for the progress of the scanning and when it is complete. Because execution of parsing is done on a separate thread if an exception is thrown within that thread it is caught and saved within the class. This exception can be viewed from the main thread.</description>
             <qtobject/>
          </data>
          <parent type="13">
@@ -2023,6 +2055,7 @@
       <class type="4">
          <data version="1">
             <name>Project</name>
+            <description>This is a single open project which contains everything for that project, watching the file it was opened or saved with for changes made by any outside source. If the file this project is associated with is changed by an outside source a signal is emitted. This class also provides all generic information of a project along with being able to edit it. This generic information includes the name, scan directory, and scan filters. The block model for this project's block tree data and the ability to create a scan thread object for scanning and parsing is also provided.</description>
             <type>BlockModel*</type>
             <type>std::unique_ptr&lt;ScanThread></type>
             <qtobject/>
@@ -2383,54 +2416,6 @@
             <data version="1">
                <name>exception</name>
                <type>const Exception::Base&amp;</type>
-            </data>
-         </variable>
-      </function>
-      <function type="2">
-         <data version="1">
-            <name>makeElement</name>
-            <type>QDomElement</type>
-         </data>
-         <variable type="1">
-            <data version="1">
-               <name>document</name>
-               <type>QDomDocument&amp;</type>
-            </data>
-         </variable>
-         <variable type="1">
-            <data version="1">
-               <name>tagName</name>
-               <type>const QString&amp;</type>
-            </data>
-         </variable>
-         <variable type="1">
-            <data version="1">
-               <name>text</name>
-               <type>const QString&amp;</type>
-            </data>
-         </variable>
-      </function>
-      <function type="2">
-         <data version="1">
-            <name>makeElement</name>
-            <type>QDomElement</type>
-         </data>
-         <variable type="1">
-            <data version="1">
-               <name>document</name>
-               <type>QDomDocument&amp;</type>
-            </data>
-         </variable>
-         <variable type="1">
-            <data version="1">
-               <name>tagName</name>
-               <type>const QString&amp;</type>
-            </data>
-         </variable>
-         <variable type="1">
-            <data version="1">
-               <name>value</name>
-               <type>int</type>
             </data>
          </variable>
       </function>

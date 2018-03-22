@@ -12,6 +12,14 @@ class QDomElement;
 
 
 /*!
+ * This is a single open project which contains everything for that project, 
+ * watching the file it was opened or saved with for changes made by any outside 
+ * source. If the file this project is associated with is changed by an outside 
+ * source a signal is emitted. This class also provides all generic information 
+ * of a project along with being able to edit it. This generic information 
+ * includes the name, scan directory, and scan filters. The block model for this 
+ * project's block tree data and the ability to create a scan thread object for 
+ * scanning and parsing is also provided. 
  */
 class Project : public QFileSystemWatcher
 {

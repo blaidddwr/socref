@@ -10,13 +10,13 @@
 
 
 /*!
- * This contains everything needed to scan and parse an entire directory of 
- * source files with the given file filters and parser factory. This is a 
- * threaded class that executes the scanning of files on a separate thread. 
- * Signals are emitted for the progress of the scanning and when it is complete. 
- * Because execution of parsing is done on a separate thread if an exception is 
- * thrown within that thread it is caught and saved within the class. This 
- * exception can be viewed from the main thread. 
+ * This implements the qt thread class and is used to scan and parse an entire 
+ * directory of source files with the given file filters and parser factory. 
+ * This executes the scanning of files on the separate thread started by the qt 
+ * thread class. Signals are emitted for the progress of the scanning and when 
+ * it is complete. Because execution of parsing is done on a separate thread if 
+ * an exception is thrown within that thread it is caught and saved within the 
+ * class. This exception can be viewed from the main thread. 
  */
 class ScanThread : public QThread
 {

@@ -639,6 +639,38 @@ void AbstractBlock::childMoved(AbstractBlock* child)
 
 
 /*!
+ * Makes a new XML element with the given tag name and text value enclosed 
+ * within the new element. 
+ *
+ * @param document The XML document used to create the new XML element. 
+ *
+ * @param tagName The tag name for the new XML element. 
+ *
+ * @param text The text enclosed within the new XML element. 
+ *
+ * @return New XML element with the given tag name and text. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a new XML element with the given tag name. 
+ *
+ * 2. Append a new text node with the given text to the new XML element as a 
+ *    child and then return the new XML element. 
+ */
+QDomElement AbstractBlock::makeElement(QDomDocument& document, const QString& tagName, const QString& text)
+{
+   QDomElement ret {document.createElement(tagName)};
+   ret.appendChild(document.createTextNode(text));
+   return ret;
+}
+
+
+
+
+
+
+/*!
  * Notifies this block that its name has changed and the block system is 
  * notified. 
  */

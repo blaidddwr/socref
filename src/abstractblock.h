@@ -157,6 +157,7 @@ protected:
     * @param other The other block whose data will be copied. 
     */
    virtual void copyDataFrom(const AbstractBlock* other) = 0;
+   static QDomElement makeElement(QDomDocument& document, const QString& tagName, const QString& text);
    void notifyOfNameChange();
 private slots:
    void childModified();
