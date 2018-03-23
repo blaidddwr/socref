@@ -1,0 +1,8 @@
+
+* Overhauled how blocks are saved as XML to no longer use attributes heavily so the save file no longer randomly changes each time it is saved and no changes were made.
+* Fixed segmentation fault bug caused by mishandling indexes when removing a block from the model.
+* C++/Qt private template methods now have their definitions in the source file instread of the header when parsed.
+* Fixed C++/Qt bugs:
+  * Virtual and template functions can now coexist in a class.
+  * Forward class declarations no longer outputed to common header files when parsed.
+
