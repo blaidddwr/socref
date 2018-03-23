@@ -12,15 +12,15 @@ using namespace std;
 
 
 /*!
- * This stores the name for version attributes. 
+ * The name for version attributes. 
  */
 const char* AbstractBlock::_versionTag {"version"};
 /*!
- * This stores the tag name for data elements. 
+ * The tag name for data elements. 
  */
 const char* AbstractBlock::_dataTag {"data"};
 /*!
- * This stores the name for type attributes. 
+ * The name for type attributes. 
  */
 const char* AbstractBlock::_typeTag {"type"};
 

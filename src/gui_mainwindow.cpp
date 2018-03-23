@@ -54,7 +54,7 @@ void MainWindow::setProject(unique_ptr<Project>&& project)
       connect(_project,&Project::nameChanged,this,&MainWindow::projectNameChanged);
       connect(_project,&Project::modified,this,&MainWindow::projectModified);
       connect(_project,&Project::saved,this,&MainWindow::projectSaved);
-      connect(_project,&Project::changed,this,&MainWindow::projectFileChanged);
+      connect(_project,&Project::saveFileChanged,this,&MainWindow::projectFileChanged);
       _project->setParent(this);
    }
 }

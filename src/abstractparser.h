@@ -60,12 +60,12 @@ private:
    void processOutput();
    void write(QFile* file);
    /*!
-    * This stores the original content of the file that is used to compare the 
-    * output once parsing is complete. 
+    * The original content of the file that is used to compare the output once 
+    * parsing is complete. 
     */
    QString _original;
    /*!
-    * This stores the input lines of the parsed source file. All parsing object's 
+    * Pointer to the input lines of the parsed source file. All parsing object's 
     * with the same root share this as a single resource where the root parser is 
     * responsible for allocating and destroying it. 
     */
@@ -77,31 +77,31 @@ private:
     */
    int* _index {nullptr};
    /*!
-    * This stores the indent that is used for prepending spaces to all output lines 
+    * Pointer to the indent that is used for prepending spaces to all output lines 
     * when they are added. All parsing object's with the same root share this as a 
     * single resource where the root parser is responsible for allocating and 
     * destroying it. 
     */
    int* _indent {nullptr};
    /*!
-    * This stores the output lines of the parsed file. All parsing object's with 
-    * the same root share this as a single resource where the root parser is 
+    * Pointer to the output lines of the parsed file. All parsing object's with the 
+    * same root share this as a single resource where the root parser is 
     * responsible for allocating and destroying it. 
     */
    QStringList* _output {nullptr};
    /*!
-    * This is a pointer to this parser object's root parser object. If this parser 
-    * is the root then this is null. 
+    * Pointer to this parser object's root parser object. If this parser is the 
+    * root then this is null. 
     */
    AbstractParser* _root {nullptr};
    /*!
-    * This stores a list of pointers to all of this parser object's children. 
+    * A list of pointers to all of this parser object's children. 
     */
    QList<AbstractParser*> _children;
    /*!
-    * This is a special pointer signal variable set by the step into child 
-    * function. It is used to signal the process input function that it should step 
-    * into the pointed to child parser object's process input function. 
+    * Special pointer signal variable set by the step into child function. It is 
+    * used to signal the process input function that it should step into the 
+    * pointed to child parser object's process input function. 
     */
    AbstractParser* _child {nullptr};
 };

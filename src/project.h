@@ -6,6 +6,7 @@
 
 
 
+class QDomDocument;
 class QDomElement;
 //
 
@@ -31,80 +32,106 @@ public:
    bool isModified() const;
    int type() const;
    QString path() const;
-   BlockModel* model();
    QString name() const;
-   void setName(const QString& newName);
    QString scanDirectory() const;
-   void setScanDirectory(const QString& newPath);
    QString scanFilters() const;
-   void setScanFilters(const QString& newFilters);
    std::unique_ptr<ScanThread> makeScanner() const;
+   BlockModel* model();
+   void setName(const QString& newName);
+   void setScanDirectory(const QString& newPath);
+   void setScanFilters(const QString& newFilters);
    void save();
    void saveAs(const QString& path);
 signals:
    /*!
+    * Signals that this project's name has changed. 
     */
    void nameChanged();
    /*!
+    * Signals that this project has been modified and now has unsaved changes. 
     */
    void modified();
    /*!
+    * Signals that this project has been saved and no longer has unsaved changes. 
     */
    void saved();
    /*!
+    * Signals that this project's file has been changed by an outside source and no 
+    * longer contains the last save of this project. 
     */
-   void changed();
+   void saveFileChanged();
 private slots:
    void blockModified();
    void fileChanged();
 private:
    void signalModified();
-   void setFileHash(const QByteArray& bytes);
+   QByteArray read();
+   void convertScanDirectory(const QString& path);
    void readTypeElement(const QDomElement& element);
+   void write(const QByteArray& data);
+   void saveBasicInfo(QDomDocument& document, QDomElement* project);
+   void setFileHash(const QByteArray& bytes);
    void makeRoot();
    /*!
+    * The tag name for the name element. 
     */
    static const char* _nameTag;
    /*!
+    * The tag name for the type element. 
     */
    static const char* _typeTag;
    /*!
+    * The tag name for the scan directory element. 
     */
    static const char* _scanDirectoryTag;
    /*!
+    * The tag name for the scanning file filters element. 
     */
    static const char* _scanFiltersTag;
    /*!
+    * The tag name for the root block element. 
     */
    static const char* _rootTag;
    /*!
+    * The name of the id attribute. 
     */
    static const char* _idTag;
    /*!
+    * The modification state of this project. True if this project has unsaved 
+    * modifications or false otherwise. 
     */
    bool _modified {false};
    /*!
+    * The project type for this project. 
     */
    int _type {-1};
    /*!
+    * The path where this project's save file is located. 
     */
    QString _path;
    /*!
+    * The name of this project. 
     */
    QString _name;
    /*!
+    * The absolute canonical path of this project's scanning directory. 
     */
    QString _scanDirectory;
    /*!
+    * The file filters this project uses to match files when scanning. 
     */
    QString _scanFilters;
    /*!
+    * Pointer to this project's root block. 
     */
    AbstractBlock* _root;
    /*!
+    * Pointer to this project's block model. 
     */
    BlockModel* _model;
    /*!
+    * The hash value of this project's save file used to determine if an outside 
+    * source wrote to said save file. 
     */
    QByteArray _hash;
 };

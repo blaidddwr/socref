@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
    <name>Socrates' Reference</name>
-   <type id="0">C++/Qt</type>
    <scandir>../src</scandir>
    <filters>*.cpp *.h</filters>
+   <type id="0">C++/Qt</type>
    <root>
       <data version="1">
          <type>AbstractBlock*</type>
@@ -781,7 +781,7 @@
             <variable type="1">
                <data version="1">
                   <name>_versionTag</name>
-                  <description>This stores the name for version attributes.</description>
+                  <description>The name for version attributes.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"version"</initializer>
@@ -790,7 +790,7 @@
             <variable type="1">
                <data version="1">
                   <name>_dataTag</name>
-                  <description>This stores the tag name for data elements.</description>
+                  <description>The tag name for data elements.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"data"</initializer>
@@ -799,7 +799,7 @@
             <variable type="1">
                <data version="1">
                   <name>_typeTag</name>
-                  <description>This stores the name for type attributes.</description>
+                  <description>The name for type attributes.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"type"</initializer>
@@ -808,7 +808,7 @@
             <variable type="1">
                <data version="1">
                   <name>_children</name>
-                  <description>This stores the pointer list of this block's children.</description>
+                  <description>Pointer list of this block's children.</description>
                   <type>QList&lt;AbstractBlock*></type>
                </data>
             </variable>
@@ -1163,14 +1163,14 @@
             <variable type="1">
                <data version="1">
                   <name>_original</name>
-                  <description>This stores the original content of the file that is used to compare the output once parsing is complete.</description>
+                  <description>The original content of the file that is used to compare the output once parsing is complete.</description>
                   <type>QString</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_input</name>
-                  <description>This stores the input lines of the parsed source file. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
+                  <description>Pointer to the input lines of the parsed source file. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
                   <type>QStringList*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1186,7 +1186,7 @@
             <variable type="1">
                <data version="1">
                   <name>_indent</name>
-                  <description>This stores the indent that is used for prepending spaces to all output lines when they are added. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
+                  <description>Pointer to the indent that is used for prepending spaces to all output lines when they are added. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
                   <type>int*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1194,7 +1194,7 @@
             <variable type="1">
                <data version="1">
                   <name>_output</name>
-                  <description>This stores the output lines of the parsed file. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
+                  <description>Pointer to the output lines of the parsed file. All parsing object's with the same root share this as a single resource where the root parser is responsible for allocating and destroying it.</description>
                   <type>QStringList*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1202,7 +1202,7 @@
             <variable type="1">
                <data version="1">
                   <name>_root</name>
-                  <description>This is a pointer to this parser object's root parser object. If this parser is the root then this is null.</description>
+                  <description>Pointer to this parser object's root parser object. If this parser is the root then this is null.</description>
                   <type>AbstractParser*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -1210,14 +1210,14 @@
             <variable type="1">
                <data version="1">
                   <name>_children</name>
-                  <description>This stores a list of pointers to all of this parser object's children.</description>
+                  <description>A list of pointers to all of this parser object's children.</description>
                   <type>QList&lt;AbstractParser*></type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_child</name>
-                  <description>This is a special pointer signal variable set by the step into child function. It is used to signal the process input function that it should step into the pointed to child parser object's process input function.</description>
+                  <description>Special pointer signal variable set by the step into child function. It is used to signal the process input function that it should step into the pointed to child parser object's process input function.</description>
                   <type>AbstractParser*</type>
                   <initializer>nullptr</initializer>
                </data>
@@ -2057,6 +2057,7 @@
             <name>Project</name>
             <description>This is a single open project which contains everything for that project, watching the file it was opened or saved with for changes made by any outside source. If the file this project is associated with is changed by an outside source a signal is emitted. This class also provides all generic information of a project along with being able to edit it. This generic information includes the name, scan directory, and scan filters. The block model for this project's block tree data and the ability to create a scan thread object for scanning and parsing is also provided.</description>
             <type>BlockModel*</type>
+            <type>QDomElement*</type>
             <type>std::unique_ptr&lt;ScanThread></type>
             <qtobject/>
          </data>
@@ -2072,22 +2073,31 @@
             </data>
             <constructor type="9">
                <data version="1">
+                  <description>This constructs a new project of the given type.</description>
                   <type></type>
+                  <operation>Connect the file changed signal, create this project's root block, and set this project's file filters to the default for this project's type.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>type</name>
+                     <description>The project type this new project is constructed as.</description>
                      <type>int</type>
                   </data>
                </variable>
             </constructor>
             <constructor type="9">
                <data version="1">
+                  <description>This constructs a project loaded from the file from the given path. If any error occurs from loading the project file an exception is thrown.</description>
                   <type></type>
+                  <operation>Connect the file changed signal and get the contents of this project's file as a byte array.</operation>
+                  <operation>Open a new Qt XML document with the byte array, reading in its contents for all required elements. If all required elements are not found then throw an exception, else go to the next step.</operation>
+                  <operation>Read in the scan directory, type element, and root block along with all of its children blocks after creating a new block root.</operation>
+                  <operation>Add this project's file path to the files being watched for changes and emit the saved signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>path</name>
+                     <description>The path of the file that this project is loaded from.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
@@ -2095,115 +2105,155 @@
             <function type="2">
                <data version="1">
                   <name>isNew</name>
+                  <description>Tests if this is a new project that has not yet been saved to a file.</description>
                   <type>bool</type>
                   <const/>
+                  <return_description>True if this is a new unsaved project or false otherwise.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>isModified</name>
+                  <description>Tests of this project has unsaved modifications.</description>
                   <type>bool</type>
                   <const/>
+                  <return_description>True if this project has unsaved content or false otherwise.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>type</name>
+                  <description>Returns the project type for this project.</description>
                   <type>int</type>
                   <const/>
+                  <return_description>This project's type.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>path</name>
+                  <description>Returns the path of the file associated with this open project. If this is a new project that has not been saved yet this returns an empty string.</description>
                   <type>QString</type>
                   <const/>
-               </data>
-            </function>
-            <function type="2">
-               <data version="1">
-                  <name>model</name>
-                  <type>BlockModel*</type>
+                  <return_description>Path to file associated with this project or an empty string.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>name</name>
+                  <description>Returns the name of this project.</description>
                   <type>QString</type>
                   <const/>
+                  <return_description>The project's name.</return_description>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>scanDirectory</name>
+                  <description>Returns the scan directory path of this project in its canonical form.</description>
+                  <type>QString</type>
+                  <const/>
+                  <return_description>Canonical path to this project's scan directory.</return_description>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>scanFilters</name>
+                  <description>Returns this project's file filters used for scanning of source files.</description>
+                  <type>QString</type>
+                  <const/>
+                  <return_description>File filters used for this project's scanning.</return_description>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>makeScanner</name>
+                  <description>Makes and returns a pointer to a new scan thread that can be used for scanning and parsing matched source files in the scan directory of this project.</description>
+                  <type>std::unique_ptr&lt;ScanThread></type>
+                  <const/>
+                  <return_description>Pointer to new scan thread object.</return_description>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>model</name>
+                  <description>Returns a pointer to the block model for this project used to edit the block data contained within it.</description>
+                  <type>BlockModel*</type>
+                  <return_description>Pointer to this project's block model.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>setName</name>
+                  <description>Sets a new name for this project with the given name.</description>
                   <type>void</type>
+                  <operation>If the given new name is the same as this project's current name then do nothing and exit, else go to the next step.</operation>
+                  <operation>Set this project's name to the new name given, emit the name changed signal, and signal this project has been modified.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>newName</name>
+                     <description>The new name this project's name is set to.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
-            </function>
-            <function type="2">
-               <data version="1">
-                  <name>scanDirectory</name>
-                  <type>QString</type>
-                  <const/>
-               </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>setScanDirectory</name>
+                  <description>Sets a new scan directory path for this project to the given path. The given path can be relative to this program's present working directory. If the given path is not a valid directory then an exception is thrown.</description>
                   <type>void</type>
+                  <operation>If the given path is the same as this project's current scan directory path then do nothing and exit, else go to the next step.</operation>
+                  <operation>If the given new path is not a valid directory then throw an exception, else go to the next step.</operation>
+                  <operation>Set this project's scan directory to the new path given in its canonical form and signal this project has been modified.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>newPath</name>
+                     <description>Path that this project's scan directory is set to.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
-            </function>
-            <function type="2">
-               <data version="1">
-                  <name>scanFilters</name>
-                  <type>QString</type>
-                  <const/>
-               </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>setScanFilters</name>
+                  <description>Sets new scanning file filters for this project. These filters are used to filter out what files are matched for parsing when a scan thread of this project is used. The filter filters must be separated by spaces.</description>
                   <type>void</type>
+                  <operation>If the given scan filters is the same of this project's current scan filters then do nothing and exit, else go to the next step.</operation>
+                  <operation>Set this project's scan filters to the new filters given and signal this project has been modified.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>newFilters</name>
+                     <description>The file filters that this project will use for scanning.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
             </function>
             <function type="2">
                <data version="1">
-                  <name>makeScanner</name>
-                  <type>std::unique_ptr&lt;ScanThread></type>
-                  <const/>
-               </data>
-            </function>
-            <function type="2">
-               <data version="1">
                   <name>save</name>
+                  <description>Saves this project to its associated file. If this is a new project that has never been saved then an exception is thrown. If any writing error occurs while saving an exception is thrown.</description>
                   <type>void</type>
+                  <operation>If this project has no path to save to then throw an exception, else go to the next step.</operation>
+                  <operation>Create a new Qt XML document, appending its XML processing instructions and creating the root project element.</operation>
+                  <operation>Save this project's basic information, its type element, and its root block along with all children blocks to the project element.</operation>
+                  <operation>Save the Qt XML document as a byte array and save the byte array to this project's file, setting this project as not modified and emitting the saved signal.</operation>
                </data>
             </function>
             <function type="2">
                <data version="1">
                   <name>saveAs</name>
+                  <description>Saves this project to a new file with the given path. If any writing error occurs while saving an exception is thrown.</description>
                   <type>void</type>
+                  <operation>Set this project's file path to the new path given, changing the file watcher path to the new path given and removing the old one.</operation>
+                  <operation>Save this project to the new file. If any exception is thrown while saving then revert this project and its file watcher back to the old path.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>path</name>
+                     <description>The path to the new file this project is saved to.</description>
                      <type>const QString&amp;</type>
                   </data>
                </variable>
@@ -2216,24 +2266,28 @@
             <signal type="8">
                <data version="1">
                   <name>nameChanged</name>
+                  <description>Signals that this project's name has changed.</description>
                   <type></type>
                </data>
             </signal>
             <signal type="8">
                <data version="1">
                   <name>modified</name>
+                  <description>Signals that this project has been modified and now has unsaved changes.</description>
                   <type></type>
                </data>
             </signal>
             <signal type="8">
                <data version="1">
                   <name>saved</name>
+                  <description>Signals that this project has been saved and no longer has unsaved changes.</description>
                   <type></type>
                </data>
             </signal>
             <signal type="8">
                <data version="1">
-                  <name>changed</name>
+                  <name>saveFileChanged</name>
+                  <description>Signals that this project's file has been changed by an outside source and no longer contains the last save of this project.</description>
                   <type></type>
                </data>
             </signal>
@@ -2245,13 +2299,17 @@
             <slot type="7">
                <data version="1">
                   <name>blockModified</name>
+                  <description>Called when a block contained within this project has been modified. This in turn causes this project to change its state to modified.</description>
                   <type></type>
                </data>
             </slot>
             <slot type="7">
                <data version="1">
                   <name>fileChanged</name>
+                  <description>Called when this project's file has changed. This is called even if the project itself is saved to the file, so this also checks to see it that is the case or not.</description>
                   <type></type>
+                  <operation>Open this project's file and read in its entire contents as a byte array. If opening or reading fails then return and do nothing, else go to the next step.</operation>
+                  <operation>Check the saved hash of the saved file with the current hash of the saved file. If the hashes are different then signal the save file has changed from an outside source, else do nothing.</operation>
                </data>
             </slot>
          </access>
@@ -2262,42 +2320,120 @@
             <function type="2">
                <data version="1">
                   <name>signalModified</name>
+                  <description>Emits the modified signal of this project if and only if this project is not already modified. If the project is already modified this does nothing.</description>
                   <type>void</type>
+                  <operation>If this project is not modified then set it as modified and signal this project is now modified, else do nothing.</operation>
                </data>
             </function>
             <function type="2">
                <data version="1">
-                  <name>setFileHash</name>
+                  <name>read</name>
+                  <description>Reads in this project's file and returns its entire contents as a byte array. If opening or reading this project's file fails then an exception is thrown.</description>
+                  <type>QByteArray</type>
+                  <return_description>Contents of this project's file as a byte array.</return_description>
+                  <operation>Open this project's file and read all its contents as a byte array. If opening or reading failed then throw an exception, else go to the next step.</operation>
+                  <operation>Set this project's file hash, used for file watching, and return the byte array.</operation>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>convertScanDirectory</name>
+                  <description>Converts the given scan directory path into its absolute canonical form and saves that form to this project's scan directory path. If the given path is not a valid directory than an exception is thrown.</description>
                   <type>void</type>
+                  <operation>If the given path is not a valid directory then throw an exception, else convert the path to its canonical form and save it to this project's scan directory path.</operation>
                </data>
                <variable type="1">
                   <data version="1">
-                     <name>bytes</name>
-                     <type>const QByteArray&amp;</type>
+                     <name>path</name>
+                     <description>The given path to that is converted to its canonical form and saved as this project's scan directory.</description>
+                     <type>const QString&amp;</type>
                   </data>
                </variable>
             </function>
             <function type="2">
                <data version="1">
                   <name>readTypeElement</name>
+                  <description>Reads the given element as the XML type element for this project, setting this project's type. If the given XML element is not a valid type element then an exception is thrown.</description>
                   <type>void</type>
+                  <operation>Read in the project type from the given XML element as an integer and set this project's type to that value. If the read in type is out of range for all possible project types then throw an exception, else go the next step.</operation>
+                  <operation>Read in the text field of the given XML element and make sure it matches the name of the project type read in. If they do not match then throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>element</name>
+                     <description>The XML element that is read in as this project's type element.</description>
                      <type>const QDomElement&amp;</type>
                   </data>
                </variable>
             </function>
             <function type="2">
                <data version="1">
-                  <name>makeRoot</name>
+                  <name>write</name>
+                  <description>Writes the given byte array to this project's file, overwriting anything the file contains beforehand. If opening or writing this project's file fails then an exception is thrown.</description>
                   <type>void</type>
+                  <operation>Open this project's file and write the given byte array to the file, overwriting and erasing any data the file contained beforehand. If opening or writing failed then throw an exception, else go to the next step.</operation>
+                  <operation>Set this project's file hash used for watching.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>data</name>
+                     <description>The byte array that is written to this project's file.</description>
+                     <type>const QByteArray&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>saveBasicInfo</name>
+                  <description>Saves this project's name, scan directory, and file filters to the given XML element as child elements.</description>
+                  <type>void</type>
+                  <operation>Add three new child elements to the given element that contains this project's name, scan directory, and file filters. The scan directory is saved using its relative path in relation to the directory where this project's save file is located.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>document</name>
+                     <description>The XML document that is used to create the child elements.</description>
+                     <type>QDomDocument&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>project</name>
+                     <description>Pointer to the element which has child elements added to it to save this project's basic information.</description>
+                     <type>QDomElement*</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>setFileHash</name>
+                  <description>Sets this project's file hash with the hash of the given byte array. This is used for this project to watch for changes to its file.</description>
+                  <type>void</type>
+                  <operation>Get the hash value of the given byte array using md5 and set this project's file hash to the new value.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>bytes</name>
+                     <description>The byte array whose hash is set as this project's file hash value.</description>
+                     <type>const QByteArray&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>makeRoot</name>
+                  <description>Makes a new root block for this project using the block factory this project's type, setting this project's root block pointer to the new root block created. If this project's type is out of range of possible project types or the block factory returns a null pointer than an exception is thrown.</description>
+                  <type>void</type>
+                  <operation>If this project's type is out of range for possible project types then throw an exception, else go to the next step.</operation>
+                  <operation>Create a new root block using this project type's block factory, setting this project's root block pointer to the new root block. If the block factory returns a null pointer than throw an exception, else go to the next step.</operation>
+                  <operation>Set the new root block's parent to this project, connecting the block modified signal between the new root block and this project.</operation>
+                  <operation>Create a new block model with the new root block and this project as its parent, setting this project's block model pointer to the new block model.</operation>
                </data>
             </function>
             <variable type="1">
                <data version="1">
                   <name>_nameTag</name>
+                  <description>The tag name for the name element.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"name"</initializer>
@@ -2306,6 +2442,7 @@
             <variable type="1">
                <data version="1">
                   <name>_typeTag</name>
+                  <description>The tag name for the type element.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"type"</initializer>
@@ -2314,6 +2451,7 @@
             <variable type="1">
                <data version="1">
                   <name>_scanDirectoryTag</name>
+                  <description>The tag name for the scan directory element.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"scandir"</initializer>
@@ -2322,6 +2460,7 @@
             <variable type="1">
                <data version="1">
                   <name>_scanFiltersTag</name>
+                  <description>The tag name for the scanning file filters element.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"filters"</initializer>
@@ -2330,6 +2469,7 @@
             <variable type="1">
                <data version="1">
                   <name>_rootTag</name>
+                  <description>The tag name for the root block element.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"root"</initializer>
@@ -2338,6 +2478,7 @@
             <variable type="1">
                <data version="1">
                   <name>_idTag</name>
+                  <description>The name of the id attribute.</description>
                   <static/>
                   <type>const char*</type>
                   <initializer>"id"</initializer>
@@ -2346,6 +2487,7 @@
             <variable type="1">
                <data version="1">
                   <name>_modified</name>
+                  <description>The modification state of this project. True if this project has unsaved modifications or false otherwise.</description>
                   <type>bool</type>
                   <initializer>false</initializer>
                </data>
@@ -2353,6 +2495,7 @@
             <variable type="1">
                <data version="1">
                   <name>_type</name>
+                  <description>The project type for this project.</description>
                   <type>int</type>
                   <initializer>-1</initializer>
                </data>
@@ -2360,42 +2503,49 @@
             <variable type="1">
                <data version="1">
                   <name>_path</name>
+                  <description>The path where this project's save file is located.</description>
                   <type>QString</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_name</name>
+                  <description>The name of this project.</description>
                   <type>QString</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_scanDirectory</name>
+                  <description>The absolute canonical path of this project's scanning directory.</description>
                   <type>QString</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_scanFilters</name>
+                  <description>The file filters this project uses to match files when scanning.</description>
                   <type>QString</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_root</name>
+                  <description>Pointer to this project's root block.</description>
                   <type>AbstractBlock*</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_model</name>
+                  <description>Pointer to this project's block model.</description>
                   <type>BlockModel*</type>
                </data>
             </variable>
             <variable type="1">
                <data version="1">
                   <name>_hash</name>
+                  <description>The hash value of this project's save file used to determine if an outside source wrote to said save file.</description>
                   <type>QByteArray</type>
                </data>
             </variable>

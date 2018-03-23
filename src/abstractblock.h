@@ -167,19 +167,19 @@ private:
    void setParent(AbstractBlock* parent, int index = -1);
    void readChild(const QDomElement& element);
    /*!
-    * This stores the name for version attributes. 
+    * The name for version attributes. 
     */
    static const char* _versionTag;
    /*!
-    * This stores the tag name for data elements. 
+    * The tag name for data elements. 
     */
    static const char* _dataTag;
    /*!
-    * This stores the name for type attributes. 
+    * The name for type attributes. 
     */
    static const char* _typeTag;
    /*!
-    * This stores the pointer list of this block's children. 
+    * Pointer list of this block's children. 
     */
    QList<AbstractBlock*> _children;
 };
