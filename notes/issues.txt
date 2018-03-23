@@ -15,3 +15,7 @@
 
 * Fix C++/Qt parsing bug where paranthesis in comments is mistaken as a function header.
 
+* Fix C++/Qt parsing bug where template classes are added to global headers.
+
+* Add default property for C++/Qt constructors, destructors, and method operators.
+
