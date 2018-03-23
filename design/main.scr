@@ -51,6 +51,51 @@
       </data>
       <class type="4">
          <data version="1">
+            <name>Singleton</name>
+            <description>This template can be inherited by any class that wants to be a singleton class. Any class that uses this template to be a singleton class must have a default constructor. A singleton class is a class that has only one global instance for the entire program.</description>
+            <type>T*</type>
+            <type>T&amp;</type>
+         </data>
+         <template type="3">
+            <data version="1">
+               <name>T</name>
+               <description>This must be the class type that inherits this class.</description>
+               <type>class</type>
+            </data>
+         </template>
+         <access type="5">
+            <data version="1">
+               <type>public:</type>
+            </data>
+            <function type="2">
+               <data version="1">
+                  <name>instance</name>
+                  <description>Returns the single global instance of the singleton class that inherits from this template class.</description>
+                  <static/>
+                  <type>T&amp;</type>
+                  <return_description>Reference to singleton class instance.</return_description>
+                  <operation>If the global pointer is null then make a new instance of the singleton class with its default constructor and set the global pointer to this new instance.</operation>
+                  <operation>Return a reference to the global singleton class instance.</operation>
+               </data>
+            </function>
+         </access>
+         <access type="5">
+            <data version="1">
+               <type>private:</type>
+            </data>
+            <variable type="1">
+               <data version="1">
+                  <name>_instance</name>
+                  <description>Pointer to the global single instance of the singleton class that inherits from this template class.</description>
+                  <static/>
+                  <type>T*</type>
+                  <initializer>nullptr</initializer>
+               </data>
+            </variable>
+         </access>
+      </class>
+      <class type="4">
+         <data version="1">
             <name>DomElementReader</name>
             <description>This is a helper class that makes is easier to read information stored in an XML element. This primarily helps with finding child elements and extracting information enclosed within them. This also helps with getting attributes in text or integer form and throwing exceptions if they don't exist. For searching child elements this class works by adding matches that will be looked for when the XML element given to this class is read. When a match is found the variable passed to the match is set to the value of the matched child element. This class is designed to only read its given XML element once and then be destroyed.</description>
             <type>DomElementReader&amp;</type>
