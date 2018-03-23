@@ -20,6 +20,7 @@
 class AbstractProjectFactory : public SingletonFactory<AbstractProjectFactory>
 {
 public:
+   virtual ~AbstractProjectFactory() = default;
    /*!
     * This interface returns the number of project types that exist. Project types 
     * must be defined for all integers from 0 to one less than the number of 
