@@ -13,17 +13,16 @@ class ProjectFactory : public AbstractProjectFactory
 {
 public:
    /*!
-    * This defines all project types ending with the total size of all project 
-    * types. 
+    * Defines all project types ending with the total size of all project types. 
     */
    enum 
    {
       /*!
-       * This defines the C++/Qt project type. 
+       * Defines the C++/Qt project type. 
        */
       CppQtType
       /*!
-       * The defines the total number of all project types. 
+       * Defines the total number of all project types. 
        */
       ,Total
    };

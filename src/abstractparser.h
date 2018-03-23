@@ -17,7 +17,8 @@ class QFile;
  * specializing of parsing within segments of the file. Children parser objects 
  * will write lines to its root parser object. This allows for parsing the same 
  * file but using different parser object types when different parts of the file 
- * are reached. 
+ * are reached. This class is designed to only have implementations executed 
+ * once and then destroyed. 
  */
 class AbstractParser : public QObject
 {

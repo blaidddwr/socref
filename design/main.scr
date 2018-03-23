@@ -10,6 +10,7 @@
          <type>AbstractParser*</type>
          <type>AbstractParserFactory*</type>
          <type>bool</type>
+         <type>bool*</type>
          <type>class</type>
          <type>const AbstractBlock*</type>
          <type>const AbstractBlockFactory*</type>
@@ -28,6 +29,7 @@
          <type>QByteArray</type>
          <type>QDomDocument&amp;</type>
          <type>QDomElement</type>
+         <type>QDomElement*</type>
          <type>QFile*</type>
          <type>QFileInfoList</type>
          <type>QIcon</type>
@@ -35,6 +37,7 @@
          <type>QModelIndex</type>
          <type>QObject*</type>
          <type>QString</type>
+         <type>QString*</type>
          <type>QStringList*</type>
          <type>QVariant</type>
          <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
@@ -46,6 +49,399 @@
          <type>std::unique_ptr&lt;QWidget></type>
          <type>void</type>
       </data>
+      <class type="4">
+         <data version="1">
+            <name>DomElementReader</name>
+            <description>This is a helper class that makes is easier to read information stored in an XML element. This primarily helps with finding child elements and extracting information enclosed within them. This also helps with getting attributes in text or integer form and throwing exceptions if they don't exist. For searching child elements this class works by adding matches that will be looked for when the XML element given to this class is read. When a match is found the variable passed to the match is set to the value of the matched child element. This class is designed to only read its given XML element once and then be destroyed.</description>
+            <type>DomElementReader&amp;</type>
+            <type>QHash&lt;QString,Match*></type>
+            <type>QList&lt;QDomElement>*</type>
+            <type>Type</type>
+            <type>void*</type>
+         </data>
+         <access type="5">
+            <data version="1">
+               <type>public:</type>
+            </data>
+            <constructor type="9">
+               <data version="1">
+                  <description>Constructs a new element reader with the given XML element that this object can read.</description>
+                  <type></type>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>element</name>
+                     <description>The XML element this object will read.</description>
+                     <type>const QDomElement&amp;</type>
+                  </data>
+               </variable>
+            </constructor>
+            <destructor type="10">
+               <data version="1">
+                  <description>Deletes all allocates matches in the lookup list.</description>
+                  <type></type>
+               </data>
+            </destructor>
+            <function type="2">
+               <data version="1">
+                  <name>attribute</name>
+                  <description>Returns the text value of the given attribute from this reader's element. If no attribute exists with the given name and it is required then an exception is thrown.</description>
+                  <type>QString</type>
+                  <const/>
+                  <return_description>Value of the attribute with the given name.</return_description>
+                  <operation>If the attribute is not found and it is required then throw an exception, else if the attribute is not found and it is not required then return an empty string, else return the value of the attribute.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>name</name>
+                     <description>Name of attribute whose value is returned.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>required</name>
+                     <description>True if an exception should be thrown if the attribute is not found otherwise false.</description>
+                     <type>bool</type>
+                     <initializer>true</initializer>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>attributeToInt</name>
+                  <description>Returns the integer value of the given attribute from this reader's element. If no attribute exists with the given name or the value is not an integer, and the attribute is required, then an exception is thrown.</description>
+                  <type>int</type>
+                  <const/>
+                  <return_description>Value of the attribute with the given name.</return_description>
+                  <operation>If the attribute is not found and it is required then throw an exception, else if the attribute is not found and it is not required then return 0, else go to the next step.</operation>
+                  <operation>Read in the attributes value as an integer setting it to 0 if it fails to read as an integer. If the value is not an integer and it is required then throw an exception.</operation>
+                  <operation>Return the integer value of the attribute.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>name</name>
+                     <description>Name of attribute whose integer value is returned.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>required</name>
+                     <description>True if an exception should be thrown if the attribute is not found or failed to read as an integer otherwise false.</description>
+                     <type>bool</type>
+                     <initializer>true</initializer>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>set</name>
+                  <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then the string pointed to by the given pointer will be set to the matched child element's text.</description>
+                  <type>DomElementReader&amp;</type>
+                  <return_description>Reference to this element reader.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>tagName</name>
+                     <description>Tag name to find in this reader's child elements.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>pointer</name>
+                     <description>Pointer to a string that will be set if a child element is matched.</description>
+                     <type>QString*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>required</name>
+                     <description>True if this match is required otherwise false.</description>
+                     <type>bool</type>
+                     <initializer>true</initializer>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>set</name>
+                  <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then the integer pointed to by the given pointer will be set to the matched child element's text. If the matched element's text cannot be converted to an integer then an exception will be thrown.</description>
+                  <type>DomElementReader&amp;</type>
+                  <return_description>Reference to this element reader.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>tagName</name>
+                     <description>Tag name to find in this reader's child elements.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>pointer</name>
+                     <description>Pointer to an integer that will be set if a child element is matched.</description>
+                     <type>int*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>required</name>
+                     <description>True if this match is required otherwise false.</description>
+                     <type>bool</type>
+                     <initializer>true</initializer>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>set</name>
+                  <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then the boolean pointed to by the given pointer will be set to true.</description>
+                  <type>DomElementReader&amp;</type>
+                  <return_description>Reference to this element reader.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>tagName</name>
+                     <description>Tag name to find in this reader's child elements.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>pointer</name>
+                     <description>Pointer to a boolean that will be set to true if a child element is matched.</description>
+                     <type>bool*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>required</name>
+                     <description>True if this match is required otherwise false.</description>
+                     <type>bool</type>
+                     <initializer>true</initializer>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>set</name>
+                  <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then the XML element pointed to by the given pointer will be set to the matched child element.</description>
+                  <type>DomElementReader&amp;</type>
+                  <return_description>Reference to this element reader.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>tagName</name>
+                     <description>Tag name to find in this reader's child elements.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>pointer</name>
+                     <description>Pointer to a XML element that will be set to a child element is matched.</description>
+                     <type>QDomElement*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>required</name>
+                     <description>True if this match is required otherwise false.</description>
+                     <type>bool</type>
+                     <initializer>true</initializer>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>set</name>
+                  <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then it is appended to the list of elements pointed to by the match.</description>
+                  <type>DomElementReader&amp;</type>
+                  <return_description>Reference to this element reader.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>tagName</name>
+                     <description>Tag name to find in this reader's child elements.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>pointer</name>
+                     <description>Pointer to a list of XML elements that will have any matched child elements appended to it.</description>
+                     <type>QList&lt;QDomElement>*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>required</name>
+                     <description>True if this match is required otherwise false.</description>
+                     <type>bool</type>
+                     <initializer>true</initializer>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>read</name>
+                  <description>Reads this reader's XML element for child elements, finding any matches set before this is called. Before reading begins this clears all variables pointed to by the list of matches set before this is called.</description>
+                  <type>void</type>
+                  <operation>Clear all variables pointed to by this reader's list of matches and iterate through all child elements of this reader's XML element for the proceeding steps.</operation>
+                  <operation>If the child element matches one of this reader's matches then go to the next step.</operation>
+                  <operation>If the match type is a string then set the string to the child element's text, else if the match type is a number then set the integer to the child element's text throwing an exception if it is not an integer, else if the match type is a boolean then set the boolean to true, else if the match type is an element then set the element to the child element, else if the match is an element list then append the child element to the list.</operation>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>allRequiredFound</name>
+                  <description>Tests if all required matches found at least one match after called the read method.</description>
+                  <type>bool</type>
+                  <const/>
+                  <return_description>True if all required matches were found or false otherwise.</return_description>
+                  <operation>Iterate through all matches. If a match is found that was not read then return false, else if all matches were read then return true.</operation>
+               </data>
+            </function>
+         </access>
+         <access type="5">
+            <data version="1">
+               <type>private:</type>
+            </data>
+            <class type="4">
+               <data version="1">
+                  <name>Match</name>
+                  <description>This holds a single match for an XML element reader.</description>
+                  <type>Type</type>
+                  <type>void*</type>
+               </data>
+               <access type="5">
+                  <data version="1">
+                     <type>public:</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>_type</name>
+                        <description>The type of match this is.</description>
+                        <type>Type</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>_data</name>
+                        <description>The pointer to the variable for this match.</description>
+                        <type>void*</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>_read</name>
+                        <description>The read state of this match. True if this data has been read otherwise false.</description>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </access>
+            </class>
+            <enumeration type="11">
+               <data version="1">
+                  <name>Type</name>
+                  <description>Defines all the possible match types that can be set in an element reader.</description>
+                  <class/>
+               </data>
+               <enumval type="12">
+                  <data version="1">
+                     <name>String</name>
+                     <description>Defines a match that sets a string.</description>
+                  </data>
+               </enumval>
+               <enumval type="12">
+                  <data version="1">
+                     <name>Number</name>
+                     <description>Defines a match that sets an integer.</description>
+                  </data>
+               </enumval>
+               <enumval type="12">
+                  <data version="1">
+                     <name>Boolean</name>
+                     <description>Defines a match that sets a boolean.</description>
+                  </data>
+               </enumval>
+               <enumval type="12">
+                  <data version="1">
+                     <name>Element</name>
+                     <description>Defines a match that sets another element.</description>
+                  </data>
+               </enumval>
+               <enumval type="12">
+                  <data version="1">
+                     <name>ElementList</name>
+                     <description>Defines a match that adds to an element list.</description>
+                  </data>
+               </enumval>
+            </enumeration>
+            <function type="2">
+               <data version="1">
+                  <name>append</name>
+                  <description>Inserts a new match to the lookup hash table of matches for this element reader. If a tag name already exists then an exception is thrown.</description>
+                  <type>DomElementReader&amp;</type>
+                  <return_description>Reference to this element reader.</return_description>
+                  <operation>If a match already exists in this element reader's lookup hash table with the given tag name then throw an exception, else go to the next step.</operation>
+                  <operation>Add a new match to this element reader's lookup hash table using the given tag name as the key. Use the inverse of the required condition for the new match's read condition which marks any matches that are not required as read.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>tagName</name>
+                     <description>Tag name for the new match that is inserted.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>pointer</name>
+                     <description>Pointer to the variable that is used for the given match that is inserted.</description>
+                     <type>void*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>type</name>
+                     <description>The type for the given match that is inserted.</description>
+                     <type>Type</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>required</name>
+                     <description>True if this match is required or false otherwise.</description>
+                     <type>bool</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>clear</name>
+                  <description>Clears the variables of all matches to default values. For integers that is 0 and for boolean that is false.</description>
+                  <type>void</type>
+                  <operation>Iterate through all matches of this element reader, setting the variables each for each match to its default value. For strings that is an empty string, for numbers that is 0, for boolean that is false, for element that is calling its clear method, and for element lists that is also calling its clear method.</operation>
+               </data>
+            </function>
+            <variable type="1">
+               <data version="1">
+                  <name>_element</name>
+                  <description>The XML element that this element reader reads the direct children of with the read method and extracts arguments from.</description>
+                  <type>const QDomElement&amp;</type>
+               </data>
+            </variable>
+            <variable type="1">
+               <data version="1">
+                  <name>_lookup</name>
+                  <description>The hash table used to store all matches and look them up by their tag name for this element reader used when reading the child elements of this reader's XML element.</description>
+                  <type>QHash&lt;QString,Match*></type>
+               </data>
+            </variable>
+         </access>
+      </class>
       <class type="4">
          <data version="1">
             <name>AbstractBlock</name>
@@ -915,7 +1311,7 @@
       <class type="4">
          <data version="1">
             <name>AbstractParser</name>
-            <description>This represents a parser object which takes in a single source code file to parse and outputs the results, overwriting the file if the results are different from the original contents. It can contain child parser objects which can be used for parsing segments of the source file allowing for specializing of parsing within segments of the file. Children parser objects will write lines to its root parser object. This allows for parsing the same file but using different parser object types when different parts of the file are reached.</description>
+            <description>This represents a parser object which takes in a single source code file to parse and outputs the results, overwriting the file if the results are different from the original contents. It can contain child parser objects which can be used for parsing segments of the source file allowing for specializing of parsing within segments of the file. Children parser objects will write lines to its root parser object. This allows for parsing the same file but using different parser object types when different parts of the file are reached. This class is designed to only have implementations executed once and then destroyed.</description>
             <type>QList&lt;AbstractParser*></type>
             <qtobject/>
          </data>
@@ -1392,18 +1788,18 @@
             </data>
             <enumeration type="11">
                <data version="1">
-                  <description>This defines all project types ending with the total size of all project types.</description>
+                  <description>Defines all project types ending with the total size of all project types.</description>
                </data>
                <enumval type="12">
                   <data version="1">
                      <name>CppQtType</name>
-                     <description>This defines the C++/Qt project type.</description>
+                     <description>Defines the C++/Qt project type.</description>
                   </data>
                </enumval>
                <enumval type="12">
                   <data version="1">
                      <name>Total</name>
-                     <description>The defines the total number of all project types.</description>
+                     <description>Defines the total number of all project types.</description>
                   </data>
                </enumval>
             </enumeration>
