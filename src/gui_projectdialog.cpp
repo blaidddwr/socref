@@ -5,12 +5,15 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QFileDialog>
+#include <QSettings>
 #include <exception.h>
 #include "project.h"
+#include "application.h"
 
 
 
 using namespace Gui;
+const char* ProjectDialog::_geometryKey {"gui.projectdialog.geometry"};
 
 
 
@@ -18,7 +21,7 @@ using namespace Gui;
 
 
 ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
-   QDialog(parent),
+   PersistentDialog(_geometryKey,parent),
    _project(project)
 {
    if ( !_project )

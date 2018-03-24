@@ -1,6 +1,6 @@
 #ifndef GUI_PROJECTDIALOG_H
 #define GUI_PROJECTDIALOG_H
-#include <QDialog>
+#include "gui_persistentdialog.h"
 #include "global.h"
 
 
@@ -13,7 +13,7 @@ class QLineEdit;
 
 namespace Gui
 {
-   class ProjectDialog : public QDialog
+   class ProjectDialog : public PersistentDialog
    {
       Q_OBJECT
    public:
@@ -27,6 +27,7 @@ namespace Gui
       QFormLayout* setupForm();
       QHBoxLayout* setupButtons();
       QPushButton* setupButton(const QString& text, void (ProjectDialog::*pointer)());
+      static const char* _geometryKey;
       Project* _project;
       QLineEdit* _nameEdit;
       QLineEdit* _scanDirectoryEdit;
