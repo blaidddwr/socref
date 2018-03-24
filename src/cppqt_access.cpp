@@ -116,13 +116,14 @@ QList<int> Access::buildList() const
    else if ( _type == Type::Signals ) ret << BlockFactory::SignalType;
    else
    {
-      ret << BlockFactory::FunctionType;
-      ret << BlockFactory::OperatorType;
-      ret << BlockFactory::ConstructorType;
-      ret << BlockFactory::DestructorType;
-      ret << BlockFactory::VariableType;
-      ret << BlockFactory::EnumerationType;
-      ret << BlockFactory::ClassType;
+      ret << BlockFactory::FunctionType
+          << BlockFactory::OperatorType
+          << BlockFactory::ConstructorType
+          << BlockFactory::DestructorType
+          << BlockFactory::VariableType
+          << BlockFactory::EnumerationType
+          << BlockFactory::ClassType
+          << BlockFactory::DeclarationType;
    }
    return ret;
 }

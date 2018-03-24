@@ -95,7 +95,11 @@ SOURCES += \
     cppqt_parse_access.cpp \
     cppqt_parse_forward.cpp \
     gui_persistentdialog.cpp \
-    cppqt_gui_settingsdialog.cpp
+    cppqt_gui_settingsdialog.cpp \
+    cppqt_declaration.cpp \
+    cppqt_view_declaration.cpp \
+    cppqt_edit_declaration.cpp \
+    cppqt_parse_declaration.cpp
 
 HEADERS += \
     singleton.h \
@@ -194,7 +198,11 @@ HEADERS += \
     cppqt_parse_forward.h \
     domelementreader_match.h \
     gui_persistentdialog.h \
-    cppqt_gui_settingsdialog.h
+    cppqt_gui_settingsdialog.h \
+    cppqt_declaration.h \
+    cppqt_view_declaration.h \
+    cppqt_edit_declaration.h \
+    cppqt_parse_declaration.h
 
 RESOURCES += \
     resources.qrc

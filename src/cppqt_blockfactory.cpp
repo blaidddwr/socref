@@ -13,6 +13,7 @@
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
 #include "cppqt_parent.h"
+#include "cppqt_declaration.h"
 #include "projectfactory.h"
 
 
@@ -54,6 +55,7 @@ QString BlockFactory::name(int type) const
    case EnumerationType: return QString("Enumeration");
    case EnumValueType: return QString("Enum Value");
    case ParentType: return QString("Parent");
+   case DeclarationType: return QString("Declaration");
    default: return QString();
    }
 }
@@ -81,6 +83,7 @@ QString BlockFactory::elementName(int type) const
    case EnumerationType: return QString("enumeration");
    case EnumValueType: return QString("enumval");
    case ParentType: return QString("parent");
+   case DeclarationType: return QString("declaration");
    default: return QString("unknown");
    }
 }
@@ -118,6 +121,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
    case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
    case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
+   case DeclarationType: return unique_ptr<AbstractBlock>(new Declaration(Declaration::Type::Friend,"this"));
    default: return nullptr;
    }
 }

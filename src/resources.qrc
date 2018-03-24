@@ -35,5 +35,6 @@
         <file>icons/operator.svg</file>
         <file>icons/priparent.svg</file>
         <file>icons/proparent.svg</file>
+        <file>icons/declaration.svg</file>
     </qresource>
 </RCC>
