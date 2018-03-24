@@ -3,6 +3,7 @@
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
+#include "cppqt_gui_settingsdialog.h"
 
 
 
@@ -14,7 +15,8 @@ using namespace CppQt::Parse;
 
 
 Global::Global(Namespace* block):
-   _block(block)
+   _block(block),
+   _indentSpaces(Gui::SettingsDialog::indentSpaces())
 {}
 
 
@@ -43,7 +45,6 @@ void Global::makeOutput()
       add(QString("class ").append(item->Base::name()).append(";"));
    }
    endNamespaceNesting();
-   add(1);
 }
 
 
@@ -64,7 +65,7 @@ void Global::beginNamespaceNesting()
    {
       add(QString("namespace ").append(scope.pop()->Base::name()));
       add("{");
-      setIndent(indent() + 3);
+      setIndent(indent() + _indentSpaces);
       ++_depth;
    }
 }
@@ -78,7 +79,7 @@ void Global::endNamespaceNesting()
 {
    while ( _depth > 0 )
    {
-      setIndent(indent() - 3);
+      setIndent(indent() - _indentSpaces);
       --_depth;
       add("}");
    }

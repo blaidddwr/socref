@@ -1,6 +1,7 @@
 #include "cppqt_parse_source.h"
 #include "cppqt_parse_function.h"
 #include "cppqt_parse_variable.h"
+#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_function.h"
 #include "cppqt_variable.h"
 #include "cppqt_namespace.h"
@@ -20,6 +21,8 @@ using namespace CppQt::Parse;
 Source::Source(CppQt::Namespace* block):
    Global(block),
    _block(block),
+   _headerLines(Gui::SettingsDialog::headerLines()),
+   _functionLines(Gui::SettingsDialog::functionLines()),
    _children(block->realChildren())
 {
    if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )
@@ -160,7 +163,7 @@ void Source::outputMisc(bool addUsingName)
 {
    if ( !_misc.isEmpty() || ( addUsingName && !_usingName.isEmpty() ) )
    {
-      add(3);
+      add(_headerLines);
       for (auto line : _misc) add(line);
       if ( addUsingName && !_usingName.isEmpty() ) add(_usingName);
    }
@@ -176,7 +179,7 @@ void Source::outputDefinitions()
 {
    if ( !_variables.isEmpty() )
    {
-      add(3);
+      add(_headerLines);
       for (auto variable : qAsConst(_variables))
       {
          variable->outputComments();
@@ -185,13 +188,13 @@ void Source::outputDefinitions()
    }
    for (auto function : _defined)
    {
-      add(6);
+      add(_functionLines);
       function->outputComments();
       function->outputDefinition();
    }
    for (auto function : _undefined)
    {
-      add(6);
+      add(_functionLines);
       function->outputComments();
       function->outputDefinition();
    }

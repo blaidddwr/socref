@@ -21,6 +21,7 @@ namespace CppQt
          void endNamespaceNesting();
       private:
          Namespace* _block;
+         int _indentSpaces;
          int _depth {0};
       };
    }

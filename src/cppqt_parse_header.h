@@ -26,6 +26,8 @@ namespace CppQt
          void outputClassDeclaration(Class* block);
          void outputFooter();
          Namespace* _block;
+         int _indentSpaces;
+         int _headerLines;
          QList<Base*> _declarations;
          QString _header1;
          QString _header2;

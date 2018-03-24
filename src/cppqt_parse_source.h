@@ -39,6 +39,8 @@ namespace CppQt
          void makeUsingName();
          void buildAll();
          Namespace* _block;
+         int _headerLines;
+         int _functionLines;
          QList<AbstractBlock*> _children;
          QStringList _preProcess;
          QStringList _misc;

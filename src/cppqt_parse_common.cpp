@@ -52,7 +52,7 @@ QStringList Parse::makeComment(const QString& text, int justified)
       QStringList words {text.split(QRegExp("\\s+"))};
       while ( !words.isEmpty() )
       {
-         int total {3 + words.first().size()};
+         int total {words.first().size()};
          QString line {" * "};
          if ( first ) first = false;
          else

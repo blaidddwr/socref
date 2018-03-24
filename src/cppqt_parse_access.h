@@ -21,6 +21,7 @@ namespace CppQt
          virtual bool readLine(const QString& line) override final;
       private:
          CppQt::Access* _block;
+         int _indentSpaces;
       };
    }
 }

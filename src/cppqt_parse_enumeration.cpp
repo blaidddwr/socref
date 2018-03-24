@@ -1,5 +1,6 @@
 #include "cppqt_parse_enumeration.h"
 #include "cppqt_parse_common.h"
+#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
 
@@ -14,7 +15,8 @@ using namespace CppQt::Parse;
 
 Enumeration::Enumeration(CppQt::Enumeration* block, AbstractParser* parent):
    Base(parent),
-   _block(block)
+   _block(block),
+   _indentSpaces(Gui::SettingsDialog::indentSpaces())
 {}
 
 
@@ -40,7 +42,7 @@ void Enumeration::outputDeclaration()
    line.append(_block->Base::name());
    add(line);
    add("{");
-   setIndent(indent() + 3);
+   setIndent(indent() + _indentSpaces);
    const QList<EnumValue*> list {_block->values()};
    bool first {true};
    for (auto value : list)
@@ -55,7 +57,7 @@ void Enumeration::outputDeclaration()
       if ( value->hasValue() ) line.append(" = ").append(QString::number(value->value()));
       add(line);
    }
-   setIndent(indent() - 3);
+   setIndent(indent() - _indentSpaces);
    add("};");
 }
 

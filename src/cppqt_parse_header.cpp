@@ -6,6 +6,7 @@
 #include "cppqt_parse_enumeration.h"
 #include "cppqt_parse_access.h"
 #include "cppqt_parse_forward.h"
+#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_function.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
@@ -25,7 +26,9 @@ using namespace CppQt::Parse;
 
 Header::Header(Namespace* block, const QString& name):
    Source(block),
-   _block(block)
+   _block(block),
+   _indentSpaces(Gui::SettingsDialog::indentSpaces()),
+   _headerLines(Gui::SettingsDialog::headerLines())
 {
    QString define {name.toUpper().append("_H")};
    _header1 = QString("#ifndef ").append(define);
@@ -42,7 +45,7 @@ void Header::makeOutput()
    outputHeader();
    outputPreProcesser();
    outputMisc();
-   add(3);
+   add(_headerLines);
    beginNamespaceNesting();
    outputDeclarations();
    outputDefinitions();
@@ -146,13 +149,13 @@ void Header::outputDeclarations()
          outputClassComments(block);
          outputClassDeclaration(block);
          add("{");
-         setIndent(indent() + 3);
+         setIndent(indent() + _indentSpaces);
          if ( block->isQtObject() ) add("Q_OBJECT");
       }
       for (auto declaration : qAsConst(_declarations)) declaration->outputDeclaration();
       if ( block )
       {
-         setIndent(indent() - 3);
+         setIndent(indent() - _indentSpaces);
          add("};");
       }
    }
@@ -210,6 +213,6 @@ void Header::outputClassDeclaration(Class* block)
 
 void Header::outputFooter()
 {
-   add(3);
+   add(_headerLines);
    add("#endif");
 }
