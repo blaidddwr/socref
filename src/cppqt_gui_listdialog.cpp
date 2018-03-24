@@ -19,12 +19,11 @@ const char* ListDialog::_geometryKey {"cppqt.gui.listdialog.geometry"};
 
 
 
-#include <QDebug>
+
 ListDialog::ListDialog(QWidget* parent):
-   QDialog(parent)
+   ::Gui::PersistentDialog(_geometryKey,parent)
 {
    setupGui();
-   restoreSettings();
 }
 
 
@@ -33,21 +32,10 @@ ListDialog::ListDialog(QWidget* parent):
 
 
 ListDialog::ListDialog(const QString& listItemTitle, QWidget* parent):
-   QDialog(parent),
+   ::Gui::PersistentDialog(_geometryKey,parent),
    _listItemTitle(listItemTitle)
 {
    setupGui();
-   restoreSettings();
-}
-
-
-
-
-
-
-ListDialog::~ListDialog()
-{
-   saveSettings();
 }
 
 
@@ -228,28 +216,6 @@ void ListDialog::autoFitText(int row)
       if ( ch == QChar('\n') ) times++;
    }
    _view->setRowHeight(row,metrics.boundingRect(text).height()*times - times + 12);
-}
-
-
-
-
-
-
-void ListDialog::restoreSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   restoreGeometry(settings.value(_geometryKey).toByteArray());
-}
-
-
-
-
-
-
-void ListDialog::saveSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   settings.setValue(_geometryKey,saveGeometry());
 }
 
 

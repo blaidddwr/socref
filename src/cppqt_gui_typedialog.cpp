@@ -20,10 +20,9 @@ const char* TypeDialog::_geometryKey {"cppqt.gui.typedialog.geometry"};
 
 
 TypeDialog::TypeDialog(QWidget* parent):
-   QDialog(parent)
+   ::Gui::PersistentDialog(_geometryKey,parent)
 {
    setupGui();
-   restoreSettings();
 }
 
 
@@ -32,21 +31,10 @@ TypeDialog::TypeDialog(QWidget* parent):
 
 
 TypeDialog::TypeDialog(const QString& name, QWidget* parent):
-   QDialog(parent)
+   ::Gui::PersistentDialog(_geometryKey,parent)
 {
    setupGui();
-   restoreSettings();
    setName(name);
-}
-
-
-
-
-
-
-TypeDialog::~TypeDialog()
-{
-   saveSettings();
 }
 
 
@@ -112,28 +100,6 @@ void TypeDialog::textChanged(const QString& text)
 {
    Q_UNUSED(text)
    _ok->setDisabled(!isValidTypeString(text));
-}
-
-
-
-
-
-
-void TypeDialog::restoreSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   restoreGeometry(settings.value(_geometryKey).toByteArray());
-}
-
-
-
-
-
-
-void TypeDialog::saveSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   settings.setValue(_geometryKey,saveGeometry());
 }
 
 

@@ -1,7 +1,7 @@
 #ifndef CPPQT_GUI_TYPELISTDIALOG_H
 #define CPPQT_GUI_TYPELISTDIALOG_H
-#include <QDialog>
 #include "cppqt.h"
+#include "gui_persistentdialog.h"
 
 
 
@@ -14,12 +14,11 @@ namespace CppQt
 {
    namespace Gui
    {
-      class TypeListDialog : public QDialog
+      class TypeListDialog : public ::Gui::PersistentDialog
       {
          Q_OBJECT
       public:
          explicit TypeListDialog(Namespace* block, QWidget* parent = nullptr);
-         virtual ~TypeListDialog() override final;
       private slots:
          void itemDoubleClicked(QListWidgetItem* item);
          void addClicked();
@@ -28,8 +27,6 @@ namespace CppQt
          void applyClicked();
       private:
          bool isDuplicate(const QString& name);
-         void restoreSettings();
-         void saveSettings();
          void setupGui();
          QLayout* setupTop();
          QLayout* setupTopButtons();

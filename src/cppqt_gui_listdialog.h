@@ -1,7 +1,7 @@
 #ifndef CPPQT_GUI_LISTDIALOG_H
 #define CPPQT_GUI_LISTDIALOG_H
-#include <QDialog>
 #include <QModelIndex>
+#include "gui_persistentdialog.h"
 
 
 
@@ -14,13 +14,12 @@ namespace CppQt
 {
    namespace Gui
    {
-      class ListDialog : public QDialog
+      class ListDialog : public ::Gui::PersistentDialog
       {
          Q_OBJECT
       public:
          explicit ListDialog(QWidget* parent = nullptr);
          explicit ListDialog(const QString& listItemTitle, QWidget* parent = nullptr);
-         virtual ~ListDialog() override final;
          void setListItemTitle(const QString& listItemTitle);
          QStringList value() const;
          void setValue(const QStringList& list);
@@ -37,8 +36,6 @@ namespace CppQt
          class Model;
          void autoFitText();
          void autoFitText(int row);
-         void restoreSettings();
-         void saveSettings();
          void setupGui();
          QLayout* setupTop();
          QLayout* setupSideButtons();
