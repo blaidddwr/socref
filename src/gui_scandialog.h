@@ -1,6 +1,6 @@
 #ifndef GUI_SCANDIALOG_H
 #define GUI_SCANDIALOG_H
-#include <QDialog>
+#include "gui_persistentdialog.h"
 #include "global.h"
 
 
@@ -11,12 +11,11 @@ class QProgressBar;
 
 namespace Gui
 {
-   class ScanDialog : public QDialog
+   class ScanDialog : public PersistentDialog
    {
       Q_OBJECT
    public:
       explicit ScanDialog(ScanThread* scanner, QWidget* parent = nullptr);
-      virtual ~ScanDialog() override final;
       virtual int exec() override final;
    protected:
       virtual void closeEvent(QCloseEvent* event) override final;
@@ -25,8 +24,6 @@ namespace Gui
       void progressChanged(int complete);
       void scanFinished();
    private:
-      void restoreSettings();
-      void saveSettings();
       void setupGui();
       void setupBar();
       QLayout* setupBottom();

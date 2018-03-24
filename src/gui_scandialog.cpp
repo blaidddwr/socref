@@ -20,23 +20,12 @@ const char* ScanDialog::_geometryKey {"gui.scandialog.geometry"};
 
 
 ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
-   QDialog(parent),
+   PersistentDialog(_geometryKey,parent),
    _scanner(scanner)
 {
    setupGui();
-   restoreSettings();
    connect(_scanner,&ScanThread::progressChanged,this,&ScanDialog::progressChanged);
    connect(_scanner,&ScanThread::finished,this,&ScanDialog::scanFinished);
-}
-
-
-
-
-
-
-ScanDialog::~ScanDialog()
-{
-   saveSettings();
 }
 
 
@@ -93,28 +82,6 @@ void ScanDialog::scanFinished()
       showException(tr("An error occured while scanning and parsing files."),_scanner->exception());
    }
    accept();
-}
-
-
-
-
-
-
-void ScanDialog::restoreSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   restoreGeometry(settings.value(_geometryKey).toByteArray());
-}
-
-
-
-
-
-
-void ScanDialog::saveSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   settings.setValue(_geometryKey,saveGeometry());
 }
 
 

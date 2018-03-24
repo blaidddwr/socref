@@ -13,7 +13,7 @@ using namespace Gui;
 
 
 AbstractEdit::AbstractEdit(QWidget* parent):
-   QDialog(parent)
+   PersistentDialog(nullptr,parent)
 {}
 
 

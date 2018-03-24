@@ -8,10 +8,12 @@ class PersistentDialog : public QDialog
 {
    Q_OBJECT
 public:
-   PersistentDialog(const char* geometryKey, QWidget* parent = nullptr);
+   PersistentDialog(const char* geometryKey = nullptr, QWidget* parent = nullptr);
    virtual ~PersistentDialog() override;
+protected:
+   void saveSettings(const char* geometryKey);
 private:
-   const char* _geometryKey;
+   const char* _geometryKey {nullptr};
 };
 
 

@@ -23,12 +23,11 @@ const char* TextEdit::Dialog::_geometryKey {"gui.textedit.dialog.geometry"};
 
 
 TextEdit::Dialog::Dialog(TextEdit* parent):
-   QDialog(parent),
+   PersistentDialog(_geometryKey,parent),
    _edit(parent)
 {
    setupSpeller();
    setupGui();
-   restoreSettings();
    setWindowTitle("Spell Checker");
 }
 
@@ -41,7 +40,6 @@ TextEdit::Dialog::~Dialog()
 {
    delete_aspell_speller(_spell);
    delete_aspell_config(_spellConfig);
-   saveSettings();
 }
 
 
@@ -227,28 +225,6 @@ void TextEdit::Dialog::updateSuggested()
    }
    _suggestionsView->setText(text);
    delete_aspell_string_enumeration(elements);
-}
-
-
-
-
-
-
-void TextEdit::Dialog::restoreSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   restoreGeometry(settings.value(_geometryKey).toByteArray());
-}
-
-
-
-
-
-
-void TextEdit::Dialog::saveSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   settings.setValue(_geometryKey,saveGeometry());
 }
 
 

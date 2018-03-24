@@ -1,23 +1,20 @@
 #ifndef GUI_TEXTDIALOG_H
 #define GUI_TEXTDIALOG_H
-#include <QDialog>
+#include "gui_persistentdialog.h"
 #include "gui.h"
 
 
 
 namespace Gui
 {
-   class TextDialog : public QDialog
+   class TextDialog : public PersistentDialog
    {
       Q_OBJECT
    public:
       explicit TextDialog(QWidget* parent = nullptr);
-      virtual ~TextDialog() override final;
       QString text() const;
       void setText(const QString& text);
    private:
-      void restoreSettings();
-      void saveSettings();
       void setupGui();
       QLayout* setupButtons();
       static const char* _geometryKey;

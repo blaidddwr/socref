@@ -1,7 +1,7 @@
 #ifndef GUI_ABSTRACTEDIT_H
 #define GUI_ABSTRACTEDIT_H
 #include <memory>
-#include <QDialog>
+#include "gui_persistentdialog.h"
 
 
 
@@ -11,11 +11,11 @@ class QPushButton;
 
 namespace Gui
 {
-   class AbstractEdit : public QDialog
+   class AbstractEdit : public PersistentDialog
    {
       Q_OBJECT
    public:
-      explicit AbstractEdit(QWidget* parent);
+      explicit AbstractEdit(QWidget* parent = nullptr);
       AbstractEdit* initialize();
    protected:
       virtual QLayout* layout() = 0;

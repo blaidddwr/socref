@@ -17,20 +17,9 @@ const char* TextDialog::_geometryKey {"gui.textdialog.geometry"};
 
 
 TextDialog::TextDialog(QWidget* parent):
-   QDialog(parent)
+   PersistentDialog(_geometryKey,parent)
 {
    setupGui();
-   restoreSettings();
-}
-
-
-
-
-
-
-TextDialog::~TextDialog()
-{
-   saveSettings();
 }
 
 
@@ -51,28 +40,6 @@ QString TextDialog::text() const
 void TextDialog::setText(const QString& text)
 {
    _edit->setPlainText(text);
-}
-
-
-
-
-
-
-void TextDialog::restoreSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   restoreGeometry(settings.value(_geometryKey).toByteArray());
-}
-
-
-
-
-
-
-void TextDialog::saveSettings()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   settings.setValue(_geometryKey,saveGeometry());
 }
 
 

@@ -1,6 +1,6 @@
 #ifndef GUI_TEXTEDIT_DIALOG_H
 #define GUI_TEXTEDIT_DIALOG_H
-#include <QDialog>
+#include "gui_persistentdialog.h"
 #include "gui_textedit.h"
 
 
@@ -14,8 +14,9 @@ class AspellSpeller;
 
 namespace Gui
 {
-   class TextEdit::Dialog : public QDialog
+   class TextEdit::Dialog : public PersistentDialog
    {
+      Q_OBJECT
    public:
       Dialog(TextEdit* parent);
       virtual ~Dialog() override final;
@@ -33,8 +34,6 @@ namespace Gui
       void clearWord();
       void setSnippet(const QString& text, int begin, int length);
       void updateSuggested();
-      void restoreSettings();
-      void saveSettings();
       void setupGui();
       QLayout* setupTop();
       QLayout* setupButtons();
