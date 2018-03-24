@@ -167,6 +167,25 @@ void MainWindow::closeTriggered()
 
 
 
+void MainWindow::settingTriggered()
+{
+   QAction* from {qobject_cast<QAction*>(sender())};
+   unique_ptr<QDialog> settings {AbstractProjectFactory::instance().makeSettings(from->data().toInt())};
+   if ( !settings )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Project factory's make settings returned a null pointer."));
+      throw e;
+   }
+   settings->exec();
+}
+
+
+
+
+
+
 void MainWindow::projectNameChanged()
 {
    updateTitle();
@@ -381,6 +400,7 @@ void MainWindow::setupGui()
 void MainWindow::setupActions()
 {
    setupNewActions();
+   setupSettingActions();
    setupOpenAction();
    setupSaveAction();
    setupSaveAsAction();
@@ -501,7 +521,35 @@ void MainWindow::setupExitAction()
 
 
 
+void MainWindow::setupSettingActions()
+{
+   AbstractProjectFactory& factory = AbstractProjectFactory::instance();
+   for (int i = 0; i < factory.size() ;++i)
+   {
+      _settingActions.append(new QAction(factory.name(i),this));
+      _newActions.back()->setData(i);
+      connect(_settingActions.back(),&QAction::triggered,this,&MainWindow::settingTriggered);
+   }
+}
+
+
+
+
+
+
 void MainWindow::setupMenus()
+{
+   setupFileMenu();
+   menuBar()->addMenu(_view->contextMenu());
+   setupSettingsMenu();
+}
+
+
+
+
+
+
+void MainWindow::setupFileMenu()
 {
    QMenu* fileMenu = menuBar()->addMenu(tr("&File"));
    QMenu* newMenu = fileMenu->addMenu(tr("&New"));
@@ -515,7 +563,17 @@ void MainWindow::setupMenus()
    fileMenu->addAction(_scanAction);
    fileMenu->addSeparator();
    fileMenu->addAction(_exitAction);
-   menuBar()->addMenu(_view->contextMenu());
+}
+
+
+
+
+
+
+void MainWindow::setupSettingsMenu()
+{
+   QMenu* settingsMenu = menuBar()->addMenu(tr("&Settings"));
+   for (auto action : qAsConst(_settingActions)) settingsMenu->addAction(action);
 }
 
 

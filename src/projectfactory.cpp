@@ -1,5 +1,6 @@
 #include "projectfactory.h"
 #include <QObject>
+#include <QDialog>// REMOVE THIS WHEN YOU GET CPPQT_GUI_SETTINGSDIALOG
 #include <exception.h>
 #include "cppqt_blockfactory.h"
 #include "cppqt_parserfactory.h"
@@ -79,6 +80,24 @@ QString ProjectFactory::defaultFilters(int type) const
    case CppQtType: return QString("*.cpp *.h");
    default: return QString();
    }
+}
+
+
+
+
+
+
+/*!
+ * This implements the interface that makes a new settings dialog for the given 
+ * project type. 
+ *
+ * @param type Project type whose settings dialog is returned. 
+ *
+ * @return Pointer to the new settings dialog for the given project type. 
+ */
+std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
+{
+   return nullptr;
 }
 
 

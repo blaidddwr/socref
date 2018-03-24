@@ -29,6 +29,7 @@
          <type>int*</type>
          <type>int&amp;</type>
          <type>QByteArray</type>
+         <type>QDialog*</type>
          <type>QDomDocument&amp;</type>
          <type>QDomElement</type>
          <type>QDomElement*</type>
@@ -48,6 +49,7 @@
          <type>std::unique_ptr&lt;AbstractParser></type>
          <type>std::unique_ptr&lt;AbstractParserFactory></type>
          <type>std::unique_ptr&lt;AbstractParserFactory>&amp;&amp;</type>
+         <type>std::unique_ptr&lt;QDialog></type>
          <type>std::unique_ptr&lt;QWidget></type>
          <type>void</type>
       </data>
@@ -1835,6 +1837,24 @@
             </function>
             <function type="2">
                <data version="1">
+                  <name>makeSettings</name>
+                  <description>This interface makes a new settings dialog for the given project type. The settings dialog for a project type should contain all general settings for that project type, saving the settings in the qt settings class.</description>
+                  <type>std::unique_ptr&lt;QDialog></type>
+                  <virtual/>
+                  <const/>
+                  <abstract/>
+                  <return_description>Pointer to the new settings dialog for the given project type.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>type</name>
+                     <description>Project type whose settings dialog is returned.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
                   <name>blockFactory</name>
                   <description>This interface returns a read only reference to the block factory for the given project type.</description>
                   <type>const AbstractBlockFactory&amp;</type>
@@ -1958,6 +1978,25 @@
                   <data version="1">
                      <name>type</name>
                      <description>Project type whose default file filters are returned.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>makeSettings</name>
+                  <description>This implements the interface that makes a new settings dialog for the given project type.</description>
+                  <type>std::unique_ptr&lt;QDialog></type>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <return_description>Pointer to the new settings dialog for the given project type.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>type</name>
+                     <description>Project type whose settings dialog is returned.</description>
                      <type>int</type>
                   </data>
                </variable>

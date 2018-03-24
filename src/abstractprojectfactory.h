@@ -4,6 +4,10 @@
 #include <QString>
 #include "singletonfactory.h"
 #include "global.h"
+
+
+
+class QDialog;
 //
 
 
@@ -46,6 +50,16 @@ public:
     * @return Default file filters for the given project type. 
     */
    virtual QString defaultFilters(int type) const = 0;
+   /*!
+    * This interface makes a new settings dialog for the given project type. The 
+    * settings dialog for a project type should contain all general settings for 
+    * that project type, saving the settings in the qt settings class. 
+    *
+    * @param type Project type whose settings dialog is returned. 
+    *
+    * @return Pointer to the new settings dialog for the given project type. 
+    */
+   virtual std::unique_ptr<QDialog> makeSettings(int type) const = 0;
    /*!
     * This interface returns a read only reference to the block factory for the 
     * given project type. 

@@ -23,6 +23,7 @@ namespace Gui
       void propertiesTriggered();
       void scanTriggered();
       void closeTriggered();
+      void settingTriggered();
       void projectNameChanged();
       void projectModified();
       void projectSaved();
@@ -47,12 +48,16 @@ namespace Gui
       void setupScanAction();
       void setupCloseAction();
       void setupExitAction();
+      void setupSettingActions();
       void setupMenus();
+      void setupFileMenu();
+      void setupSettingsMenu();
       void setupView();
       static const char* _geometryKey;
       static const char* _stateKey;
       Project* _project {nullptr};
       QList<QAction*> _newActions;
+      QList<QAction*> _settingActions;
       BlockView* _view;
       QAction* _openAction;
       QAction* _saveAction;
