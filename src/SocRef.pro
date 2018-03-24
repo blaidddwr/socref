@@ -94,7 +94,8 @@ SOURCES += \
     cppqt_parse_source.cpp \
     cppqt_parse_access.cpp \
     cppqt_parse_forward.cpp \
-    gui_persistentdialog.cpp
+    gui_persistentdialog.cpp \
+    cppqt_gui_settingsdialog.cpp
 
 HEADERS += \
     singleton.h \
@@ -192,7 +193,8 @@ HEADERS += \
     domelementreader.h \
     cppqt_parse_forward.h \
     domelementreader_match.h \
-    gui_persistentdialog.h
+    gui_persistentdialog.h \
+    cppqt_gui_settingsdialog.h
 
 RESOURCES += \
     resources.qrc

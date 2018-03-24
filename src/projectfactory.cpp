@@ -1,9 +1,9 @@
 #include "projectfactory.h"
 #include <QObject>
-#include <QDialog>// REMOVE THIS WHEN YOU GET CPPQT_GUI_SETTINGSDIALOG
 #include <exception.h>
 #include "cppqt_blockfactory.h"
 #include "cppqt_parserfactory.h"
+#include "cppqt_gui_settingsdialog.h"
 
 
 
@@ -97,7 +97,11 @@ QString ProjectFactory::defaultFilters(int type) const
  */
 std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
 {
-   return nullptr;
+   switch (type)
+   {
+   case CppQtType: return unique_ptr<QDialog>(new CppQt::Gui::SettingsDialog);
+   default: return nullptr;
+   }
 }
 
 
