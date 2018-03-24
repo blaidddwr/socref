@@ -13,7 +13,6 @@
 
 
 using namespace Gui;
-const char* ProjectDialog::_geometryKey {"gui.projectdialog.geometry"};
 
 
 
@@ -21,7 +20,7 @@ const char* ProjectDialog::_geometryKey {"gui.projectdialog.geometry"};
 
 
 ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
-   PersistentDialog(_geometryKey,parent),
+   PersistentDialog("gui.projectdialog.geometry",parent),
    _project(project)
 {
    if ( !_project )

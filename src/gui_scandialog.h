@@ -28,7 +28,6 @@ namespace Gui
       void setupBar();
       QLayout* setupBottom();
       QWidget* setupCancel();
-      static const char* _geometryKey;
       ScanThread* _scanner;
       QProgressBar* _bar;
    };

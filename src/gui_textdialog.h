@@ -17,7 +17,6 @@ namespace Gui
    private:
       void setupGui();
       QLayout* setupButtons();
-      static const char* _geometryKey;
       TextEdit* _edit;
    };
 }

@@ -43,7 +43,6 @@ namespace Gui
       void setupSpeller();
       constexpr static int _snippetRadius {256};
       static const char* _snippetDots;
-      static const char* _geometryKey;
       QString _currentWord;
       QStringList _ignored;
       TextEdit* _edit;

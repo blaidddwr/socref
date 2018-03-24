@@ -9,7 +9,6 @@
 
 
 using namespace Gui;
-const char* TextDialog::_geometryKey {"gui.textdialog.geometry"};
 
 
 
@@ -17,7 +16,7 @@ const char* TextDialog::_geometryKey {"gui.textdialog.geometry"};
 
 
 TextDialog::TextDialog(QWidget* parent):
-   PersistentDialog(_geometryKey,parent)
+   PersistentDialog("gui.textdialog.geometry",parent)
 {
    setupGui();
 }

@@ -12,7 +12,6 @@
 
 
 using namespace Gui;
-const char* ScanDialog::_geometryKey {"gui.scandialog.geometry"};
 
 
 
@@ -20,7 +19,7 @@ const char* ScanDialog::_geometryKey {"gui.scandialog.geometry"};
 
 
 ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
-   PersistentDialog(_geometryKey,parent),
+   PersistentDialog("gui.scandialog.geometry",parent),
    _scanner(scanner)
 {
    setupGui();

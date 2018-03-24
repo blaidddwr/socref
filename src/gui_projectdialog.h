@@ -27,7 +27,6 @@ namespace Gui
       QFormLayout* setupForm();
       QHBoxLayout* setupButtons();
       QPushButton* setupButton(const QString& text, void (ProjectDialog::*pointer)());
-      static const char* _geometryKey;
       Project* _project;
       QLineEdit* _nameEdit;
       QLineEdit* _scanDirectoryEdit;

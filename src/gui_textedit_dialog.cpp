@@ -15,7 +15,6 @@
 
 using namespace Gui;
 const char* TextEdit::Dialog::_snippetDots {"..."};
-const char* TextEdit::Dialog::_geometryKey {"gui.textedit.dialog.geometry"};
 
 
 
@@ -23,7 +22,7 @@ const char* TextEdit::Dialog::_geometryKey {"gui.textedit.dialog.geometry"};
 
 
 TextEdit::Dialog::Dialog(TextEdit* parent):
-   PersistentDialog(_geometryKey,parent),
+   PersistentDialog("gui.textedit.dialog.geometry",parent),
    _edit(parent)
 {
    setupSpeller();
