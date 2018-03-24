@@ -18,7 +18,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Function(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Function(AbstractBlock* block, QWidget* parent = nullptr, bool isFinal = true);
       protected:
          virtual QLayout* layout() override;
          virtual bool apply() override;

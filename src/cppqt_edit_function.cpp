@@ -20,7 +20,7 @@ using namespace CppQt::Edit;
 
 
 
-Function::Function(AbstractBlock* block, QWidget* parent):
+Function::Function(AbstractBlock* block, QWidget* parent, bool isFinal):
    Variable(block,parent),
    _block(qobject_cast<CppQt::Function*>(block))
 {
@@ -31,6 +31,7 @@ Function::Function(AbstractBlock* block, QWidget* parent):
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
+   if ( isFinal ) saveSettings("cppqt.edit.function.geometry");
 }
 
 

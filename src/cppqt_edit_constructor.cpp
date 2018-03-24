@@ -16,7 +16,7 @@ using namespace CppQt::Edit;
 
 
 Constructor::Constructor(AbstractBlock* block, QWidget* parent):
-   Function(block,parent),
+   Function(block,parent,false),
    _block(qobject_cast<CppQt::Constructor*>(block))
 {
    if ( !_block )
@@ -26,6 +26,7 @@ Constructor::Constructor(AbstractBlock* block, QWidget* parent):
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
+   saveSettings("cppqt.edit.constructor.geometry");
 }
 
 

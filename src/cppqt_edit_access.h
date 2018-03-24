@@ -22,8 +22,8 @@ namespace CppQt
       public:
          explicit Access(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
-         virtual QLayout* layout() override;
-         virtual bool apply() override;
+         virtual QLayout* layout() override final;
+         virtual bool apply() override final;
       private:
          void addCombo(QFormLayout* layout);
          void setupCombo();

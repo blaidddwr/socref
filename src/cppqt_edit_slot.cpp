@@ -12,9 +12,11 @@ using namespace CppQt::Edit;
 
 
 
-Slot::Slot(AbstractBlock* block, QWidget* parent):
-   Function(block,parent)
-{}
+Slot::Slot(AbstractBlock* block, QWidget* parent, bool isFinal):
+   Function(block,parent,false)
+{
+   if ( isFinal ) saveSettings("cppqt.edit.slot.geometry");
+}
 
 
 

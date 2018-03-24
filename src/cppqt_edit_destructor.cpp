@@ -14,8 +14,10 @@ using namespace CppQt::Edit;
 
 
 Destructor::Destructor(AbstractBlock* block, QWidget* parent):
-   Function(block,parent)
-{}
+   Function(block,parent,false)
+{
+   saveSettings("cppqt.edit.destructor.geometry");
+}
 
 
 

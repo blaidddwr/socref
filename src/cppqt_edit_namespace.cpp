@@ -19,7 +19,7 @@ using namespace CppQt::Gui;
 
 
 
-Namespace::Namespace(AbstractBlock* block, QWidget *parent):
+Namespace::Namespace(AbstractBlock* block, QWidget *parent, bool isFinal):
    Base(block,parent),
    _block(qobject_cast<CppQt::Namespace*>(block))
 {
@@ -30,6 +30,7 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent):
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
+   if ( isFinal ) saveSettings("cppqt.edit.namespace.geometry");
 }
 
 

@@ -13,8 +13,10 @@ using namespace CppQt::Edit;
 
 
 Signal::Signal(AbstractBlock* block, QWidget* parent):
-   Slot(block,parent)
-{}
+   Slot(block,parent,false)
+{
+   saveSettings("cppqt.edit.signal.geometry");
+}
 
 
 

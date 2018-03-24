@@ -25,6 +25,7 @@ Enumeration::Enumeration(AbstractBlock* block, QWidget* parent):
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
+   saveSettings("cppqt.edit.enumeration.geometry");
 }
 
 
