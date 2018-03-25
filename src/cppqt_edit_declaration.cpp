@@ -39,11 +39,10 @@ QLayout* Declaration::layout()
 
 
 
-bool Declaration::apply()
+void Declaration::apply()
 {
    _block->setDeclareType(_typeBox->currentText());
    _block->setField(_fieldEdit->text());
-   return true;
 }
 
 

@@ -21,7 +21,7 @@ namespace CppQt
          explicit Function(AbstractBlock* block, QWidget* parent = nullptr, bool isFinal = true);
       protected:
          virtual QLayout* layout() override;
-         virtual bool apply() override;
+         virtual void apply() override;
          virtual bool isConstExprCheckable() const override final;
          virtual bool isStaticCheckable() const override final;
          virtual void updateProperties() override final;

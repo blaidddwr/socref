@@ -46,11 +46,10 @@ QLayout* Enumeration::layout()
 
 
 
-bool Enumeration::apply()
+void Enumeration::apply()
 {
-   if ( !Base::apply() ) return false;
+   Base::apply();
    _block->setClass(_classBox->isChecked());
-   return true;
 }
 
 

@@ -51,11 +51,10 @@ QLayout* Class::layout()
 
 
 
-bool Class::apply()
+void Class::apply()
 {
-   if ( !Namespace::apply() ) return false;
+   Namespace::apply();
    _block->setQtObject(_qtObjectBox->isChecked());
-   return true;
 }
 
 

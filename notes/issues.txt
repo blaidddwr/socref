@@ -1,6 +1,4 @@
 
-* If updating a block fails post some kind of message about it.
-
 * Add mutable property for C++/Qt variables.
 
 * Fix C++/Qt parsing bug where paranthesis in comments is mistaken as a function header.

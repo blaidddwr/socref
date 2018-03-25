@@ -50,11 +50,10 @@ QLayout* Operator::layout()
 
 
 
-bool Operator::apply()
+void Operator::apply()
 {
-   if ( !Function::apply() ) return false;
+   Function::apply();
    _block->setOperation(_operationEdit->text());
-   return true;
 }
 
 

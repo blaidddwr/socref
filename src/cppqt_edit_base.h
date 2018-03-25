@@ -28,7 +28,7 @@ namespace CppQt
          void addName(QFormLayout* layout);
          void addDescription(QFormLayout* layout);
       protected:
-         virtual bool apply() override;
+         virtual void apply() override;
       private:
          void setupName();
          void setupDescription();

@@ -47,12 +47,11 @@ QLayout* EnumValue::layout()
 
 
 
-bool EnumValue::apply()
+void EnumValue::apply()
 {
-   if ( !Base::apply() ) return false;
+   Base::apply();
    if ( _valueEdit->hasAcceptableInput() ) _block->setValue(_valueEdit->text().toInt());
    else _block->clearValue();
-   return true;
 }
 
 

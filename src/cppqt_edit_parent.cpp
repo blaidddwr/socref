@@ -50,12 +50,18 @@ QLayout* Parent::layout()
 
 
 
-bool Parent::apply()
+void Parent::apply()
 {
-   if ( !isValidTemplate() || !Base::apply() ) return false;
+   if ( !isValidTemplate() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("The given template string is not a valid C++ template."));
+      throw e;
+   }
+   Base::apply();
    _block->setAccess(static_cast<CppQt::Parent::Access>(_accessBox->currentIndex()));
    _block->setTemplateArgument(_templateEdit->text());
-   return true;
 }
 
 

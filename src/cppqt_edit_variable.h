@@ -20,7 +20,7 @@ namespace CppQt
          explicit Variable(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
-         virtual bool apply() override;
+         virtual void apply() override;
          virtual bool isConstExprCheckable() const;
          virtual bool isStaticCheckable() const;
          virtual void updateProperties();

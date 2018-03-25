@@ -81,11 +81,10 @@ void Base::addDescription(QFormLayout* layout)
 
 
 
-bool Base::apply()
+void Base::apply()
 {
    if ( _nameEdit ) _block->setName(_nameEdit->text());
    if ( _descriptionEdit ) _block->setDescription(_descriptionEdit->toPlainText());
-   return true;
 }
 
 

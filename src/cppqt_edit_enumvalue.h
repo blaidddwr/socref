@@ -15,7 +15,7 @@ namespace CppQt
          explicit EnumValue(AbstractBlock* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
-         virtual bool apply() override final;
+         virtual void apply() override final;
       private:
          void addValue(QFormLayout* layout);
          CppQt::EnumValue* _block;

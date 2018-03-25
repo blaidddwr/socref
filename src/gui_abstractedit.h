@@ -21,12 +21,13 @@ namespace Gui
       virtual QLayout* layout() = 0;
       void setDisabled(bool disabled);
    protected:
-      virtual bool apply() = 0;
+      virtual void apply() = 0;
    private slots:
       void okClicked();
       void applyClicked();
       void cancelClicked();
    private:
+      bool tryApply();
       QLayout* setupButtons();
       void setupOkButton();
       void setupApplyButton();

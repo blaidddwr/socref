@@ -52,14 +52,13 @@ QLayout* Variable::layout()
 
 
 
-bool Variable::apply()
+void Variable::apply()
 {
-   if ( !Base::apply() ) return false;
+   Base::apply();
    if ( _type ) _block->setVariableType(_type->value());
    if ( _constExprBox ) _block->setConstExpr(_constExprBox->isChecked());
    if ( _staticBox ) _block->setStatic(_staticBox->isChecked());
    if ( _initializerEdit ) _block->setInitializer(_initializerEdit->text());
-   return true;
 }
 
 

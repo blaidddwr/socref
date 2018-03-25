@@ -48,11 +48,10 @@ QLayout* Constructor::layout()
 
 
 
-bool Constructor::apply()
+void Constructor::apply()
 {
-   if ( !Function::apply() ) return false;
+   Function::apply();
    _block->setExplicit(_explicitBox->isChecked());
-   return true;
 }
 
 

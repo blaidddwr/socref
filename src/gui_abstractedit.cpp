@@ -2,6 +2,8 @@
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QPushButton>
+#include <exception.h>
+#include "common.h"
 
 
 
@@ -50,7 +52,7 @@ void AbstractEdit::setDisabled(bool disabled)
 
 void AbstractEdit::okClicked()
 {
-   if ( apply() ) accept();
+   if ( tryApply() ) accept();
 }
 
 
@@ -60,7 +62,7 @@ void AbstractEdit::okClicked()
 
 void AbstractEdit::applyClicked()
 {
-   apply();
+   tryApply();
 }
 
 
@@ -71,6 +73,25 @@ void AbstractEdit::applyClicked()
 void AbstractEdit::cancelClicked()
 {
    emit reject();
+}
+
+
+
+
+
+
+bool AbstractEdit::tryApply()
+{
+   try
+   {
+      apply();
+   }
+   catch (Exception::Base e)
+   {
+      showException(tr("An error occured while attempting to save changes to this block."),e);
+      return false;
+   }
+   return true;
 }
 
 

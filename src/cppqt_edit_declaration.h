@@ -25,7 +25,7 @@ namespace CppQt
       protected:
          virtual QLayout* layout() override final;
       protected:
-         virtual bool apply() override final;
+         virtual void apply() override final;
       private:
          void addType(QFormLayout* layout);
          void addField(QFormLayout* layout);
