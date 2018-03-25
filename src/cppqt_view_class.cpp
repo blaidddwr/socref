@@ -3,6 +3,7 @@
 #include "cppqt_view_common.h"
 #include "cppqt_class.h"
 #include "cppqt_template.h"
+#include "cppqt_parent.h"
 
 
 
@@ -35,7 +36,9 @@ Class::Class(const AbstractBlock* block, QWidget* parent):
 
 QString Class::displayText()
 {
-   return Namespace::displayText().append(displayTemplatesText()).append(displayQtObjectText());
+   return Namespace::displayText().append(displayTemplatesText())
+                                  .append(displayParentText())
+                                  .append(displayQtObjectText());
 }
 
 
@@ -56,6 +59,34 @@ QString Class::displayQtObjectText()
 QString Class::displayTemplatesText()
 {
    return View::displayTemplatesText(_block);
+}
+
+
+
+
+
+
+QString Class::displayParentText()
+{
+   QString ret;
+   const QList<Parent*> list {_block->parents()};
+   if ( !list.isEmpty() )
+   {
+      ret.append("<h3>Inheritance</h3>");
+      for (auto parent : list)
+      {
+         ret.append("<p><b>")
+            .append(Parent::_accessNames.at(static_cast<int>(parent->access())))
+            .append("</b> ")
+            .append(parent->Base::name());
+         if ( !parent->templateArgument().isEmpty() )
+         {
+            ret.append("&lt;").append(parent->templateArgument().replace("<","&lt;")).append(">");
+         }
+         ret.append("</p>");
+      }
+   }
+   return ret;
 }
 
 

@@ -1,6 +1,4 @@
 
-* Make class names shorter in context of templates and inheritance.
-
 * Make function names shorter in context of templates and trimming the return to ... if larger than a certain length. Also remove the arguments and change it to the number of arguments.
 
 * If updating a block fails post some kind of message about it.

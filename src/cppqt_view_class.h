@@ -17,6 +17,7 @@ namespace CppQt
          QString displayText();
          QString displayQtObjectText();
          QString displayTemplatesText();
+         QString displayParentText();
       private slots:
          void bodyChanged();
       private:

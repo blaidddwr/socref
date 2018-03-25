@@ -28,6 +28,7 @@ namespace CppQt
       bool hasTemplates() const;
       bool hasAnyTemplates() const;
       QList<Template*> templates() const;
+      QList<Parent*> parents() const;
    signals:
       void bodyChanged();
       void nameChanged();

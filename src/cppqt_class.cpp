@@ -34,20 +34,10 @@ Class::Class(const QString& name):
 
 QString Class::name() const
 {
-   QString ret {getTemplateName(this)};
+   QString ret;
+   if ( hasTemplates() ) ret.append("<> ");
    ret.append(Base::name());
-   const QList<Parent*> list {makeListOfType<Parent>(BlockFactory::ParentType)};
-   if ( !list.isEmpty() )
-   {
-      ret.append(" : ");
-      bool first {true};
-      for (auto parent : list)
-      {
-         if ( first ) first = false;
-         else ret.append(", ");
-         ret.append(parent->name());
-      }
-   }
+   if ( containsType(BlockFactory::ParentType) ) ret.append(" :");
    return ret;
 }
 
@@ -249,6 +239,16 @@ QList<Template*> Class::templates() const
       if ( Template* valid = child->cast<Template>(BlockFactory::TemplateType) ) ret.append(valid);
    }
    return ret;
+}
+
+
+
+
+
+
+QList<Parent*> Class::parents() const
+{
+   return makeListOfType<Parent>(BlockFactory::ParentType);
 }
 
 
