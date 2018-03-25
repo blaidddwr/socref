@@ -51,8 +51,9 @@ Function::Function(const QString& returnType, const QString& name):
 
 QString Function::name() const
 {
-   QString ret {getTemplateName(this)};
-   return ret.append(fullName(returnType(),Base::name()));
+   QString ret;
+   if ( hasTemplates() ) ret.append("<> ");
+   return ret.append(fullName(!isVoidReturn(),Base::name()));
 }
 
 
@@ -122,6 +123,16 @@ unique_ptr<QWidget> Function::makeView() const
 unique_ptr<AbstractEdit> Function::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Function(this));
+}
+
+
+
+
+
+
+bool Function::isVoidReturn() const
+{
+   return variableType() == QString("void");
 }
 
 
@@ -617,21 +628,14 @@ void Function::copyDataFrom(const AbstractBlock* object)
 
 
 
-QString Function::fullName(const QString& returnType, const QString& name) const
+QString Function::fullName(bool hasReturn, const QString& name) const
 {
    QString ret;
-   if ( !returnType.isEmpty() ) ret.append(returnType).append(" ");
+   if ( hasReturn ) ret.append("... ");
    ret.append(name).append("(");
-   bool first {true};
-   const QList<Variable*> variableList {arguments()};
-   for (auto variable : variableList)
-   {
-      if ( first ) first = false;
-      else ret.append(",");
-      ret.append(variable->variableType());
-      if ( variable->hasInitializer() ) ret.append("(=)");
-   }
-   return ret.append(")").append(attributes());
+   const QList<Variable*> list {arguments()};
+   ret.append(QString::number(list.size())).append(")").append(attributes());
+   return ret;
 }
 
 

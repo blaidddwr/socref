@@ -36,10 +36,10 @@ Function::Function(const AbstractBlock* block, bool wait, QWidget* parent):
 
 QString Function::displayText()
 {
-   return Base::displayText()
+   return displayArgumentsText()
          .append(displayProperties(getProperties()))
          .append(displayTemplatesText())
-         .append(displayArgumentsText())
+         .append(Base::displayText())
          .append(displayReturnText())
          .append(displayOperationsText());
 }
@@ -70,7 +70,7 @@ QString Function::displayArgumentsText()
       {
          ret
                .append("<p>")
-               .append(variable->variableType())
+               .append(variable->variableType().replace("<","&lt;"))
                .append(" <b>")
                .append(variable->Base::name())
                .append("</b>");
@@ -108,9 +108,15 @@ QString Function::displayOperationsText()
    const QStringList list {_block->operations()};
    if ( !list.isEmpty() )
    {
-      ret.append("<h3>Operations</h3><ol>");
-      for (auto operation : list) ret.append("<li>").append(operation).append("</li>");
-      ret.append("</ol>");
+      ret.append("<h3>Operations</h3>");
+      for (int i = 0; i < list.size() ;++i)
+      {
+         ret.append("<p><b>#")
+            .append(QString::number(i + 1))
+            .append("</b> ")
+            .append(list.at(i))
+            .append("</p>");
+      }
    }
    return ret;
 }

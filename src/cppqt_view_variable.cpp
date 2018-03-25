@@ -32,9 +32,21 @@ Variable::Variable(const AbstractBlock* block, bool wait, QWidget* parent):
 
 QString Variable::displayText()
 {
-   return Base::displayText()
-         .append(displayProperties(getProperties()))
-         .append(displayInitializer());
+   return displayType().append(Base::displayText())
+                       .append(displayProperties(getProperties()))
+                       .append(displayInitializer());
+}
+
+
+
+
+
+
+QString Variable::displayType()
+{
+   QString ret {"<h3>Type</h3><p>"};
+   ret.append(_block->variableType().replace("<","&lt;")).append("</p>");
+   return ret;
 }
 
 

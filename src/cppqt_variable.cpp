@@ -46,11 +46,10 @@ Variable::Variable(const QString& type, const QString& name):
 
 QString Variable::name() const
 {
-   QString ret;
-   ret.append(_type).append(" ").append(Base::name());
+   QString ret {Base::name()};
    if ( !_initializer.isEmpty() )
    {
-      if ( isFunctionArgument() ) ret.append(" = ").append(_initializer);
+      if ( isFunctionArgument() ) ret.append(" =");
       else ret.append(" {}");
    }
    return ret;

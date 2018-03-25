@@ -15,6 +15,7 @@ namespace CppQt
          explicit Variable(const AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
       protected:
          QString displayText();
+         QString displayType();
          QString displayProperties(QStringList list);
          QStringList getProperties();
       private:

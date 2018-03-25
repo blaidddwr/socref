@@ -22,7 +22,7 @@ QString Constructor::name() const
 {
    QString ret;
    if ( _explicit ) ret.append("explicit ");
-   return ret.append(fullName(QString(),className()));
+   return ret.append(fullName(false,className()));
 }
 
 

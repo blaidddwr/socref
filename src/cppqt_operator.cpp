@@ -31,7 +31,7 @@ Operator::Operator(const QString& returnType)
 
 QString Operator::name() const
 {
-   return fullName(returnType(),QString("operator").append(_operation));
+   return fullName(!isVoidReturn(),QString("operator").append(_operation));
 }
 
 

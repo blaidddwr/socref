@@ -20,6 +20,7 @@ namespace CppQt
       virtual QList<int> buildList() const override;
       virtual std::unique_ptr<QWidget> makeView() const override;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      bool isVoidReturn() const;
       QString returnType() const;
       void setReturnType(const QString& type);
       QString returnDescription() const;
@@ -58,7 +59,7 @@ namespace CppQt
       virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;
-      QString fullName(const QString& returnType, const QString& name) const;
+      QString fullName(bool hasReturn, const QString& name) const;
    private:
       QString attributes() const;
       void readVersion0(const QDomElement& data);
