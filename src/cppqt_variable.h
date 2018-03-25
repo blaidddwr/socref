@@ -23,6 +23,8 @@ namespace CppQt
       void setConstExpr(bool isConstExpr);
       bool isStatic() const;
       void setStatic(bool isStatic);
+      bool isMutable() const;
+      void setMutable(bool isMutable);
       QString variableType() const;
       void setVariableType(const QString& type);
       bool hasInitializer() const;
@@ -37,16 +39,19 @@ namespace CppQt
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;
    private:
+      QString attributes() const;
       void checkTypeSyntax(const QString& type);
       void readVersion0(const QDomElement& data);
       void readVersion1(const QDomElement& data);
       constexpr static int _version {1};
       static const char* _constExprTag;
       static const char* _staticTag;
+      static const char* _mutableTag;
       static const char* _typeTag;
       static const char* _initializerTag;
       bool _constExpr {false};
       bool _static {false};
+      bool _mutable {false};
       QString _type;
       QString _initializer;
    };

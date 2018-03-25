@@ -74,6 +74,7 @@ QStringList Variable::getProperties()
    QStringList ret;
    if ( _block->isConstExpr() ) ret << "constexpr";
    if ( _block->isStatic() ) ret << "static";
+   if ( _block->isMutable() ) ret << "mutable";
    return ret;
 }
 

@@ -58,6 +58,7 @@ void Variable::apply()
    if ( _type ) _block->setVariableType(_type->value());
    if ( _constExprBox ) _block->setConstExpr(_constExprBox->isChecked());
    if ( _staticBox ) _block->setStatic(_staticBox->isChecked());
+   if ( _mutableBox ) _block->setMutable(_mutableBox->isChecked());
    if ( _initializerEdit ) _block->setInitializer(_initializerEdit->text());
 }
 
@@ -68,7 +69,7 @@ void Variable::apply()
 
 bool Variable::isConstExprCheckable() const
 {
-   return !_block->isFunctionArgument();
+   return !_block->isFunctionArgument() && !isMutableChecked();
 }
 
 
@@ -86,10 +87,21 @@ bool Variable::isStaticCheckable() const
 
 
 
+bool Variable::isMutableCheckable() const
+{
+   return _block->isClassMember() && !isConstExprChecked();
+}
+
+
+
+
+
+
 void Variable::updateProperties()
 {
    if ( _constExprBox ) _constExprBox->setCheckable(isConstExprCheckable());
    if ( _staticBox ) _staticBox->setCheckable(isStaticCheckable());
+   if ( _mutableBox ) _mutableBox->setCheckable(isMutableCheckable());
 }
 
 
@@ -149,6 +161,16 @@ bool Variable::isStaticChecked() const
 
 
 
+bool Variable::isMutableChecked() const
+{
+   return _mutableBox && _mutableBox->isChecked();
+}
+
+
+
+
+
+
 QWidget* Variable::setupConstExpr()
 {
    _constExprBox = new QCheckBox(tr("Constant Expression"));
@@ -168,8 +190,22 @@ QWidget* Variable::setupStatic()
    _staticBox = new QCheckBox(tr("Static"));
    updateProperties();
    _staticBox->setChecked(_block->isStatic());
-   connect(_constExprBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
+   connect(_staticBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
    return _staticBox;
+}
+
+
+
+
+
+
+QWidget* Variable::setupMutable()
+{
+   _mutableBox = new QCheckBox(tr("Mutable"));
+   updateProperties();
+   _mutableBox->setChecked(_block->isMutable());
+   connect(_mutableBox,&QCheckBox::stateChanged,this,&Variable::checkBoxChanged);
+   return _mutableBox;
 }
 
 
@@ -204,6 +240,7 @@ QLayout*Variable::setupProperties()
    QGridLayout* ret {new QGridLayout};
    ret->addWidget(setupConstExpr(),0,0);
    ret->addWidget(setupStatic(),1,0);
+   ret->addWidget(setupMutable(),2,0);
    return ret;
 }
 

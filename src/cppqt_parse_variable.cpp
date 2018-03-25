@@ -39,6 +39,7 @@ void Variable::outputDeclaration()
    QString line;
    if ( _block->isConstExpr() ) line.append("constexpr ");
    if ( _block->isStatic() ) line.append("static ");
+   if ( _block->isMutable() ) line.append("mutable ");
    if ( line.isEmpty() && !_block->isClassMember() ) line.append("extern ");
    line.append(_block->variableType()).append(" ").append(_block->Base::name());
    outputEnd(&line, _block->hasInitializer()

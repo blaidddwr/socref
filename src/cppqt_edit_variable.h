@@ -23,14 +23,17 @@ namespace CppQt
          virtual void apply() override;
          virtual bool isConstExprCheckable() const;
          virtual bool isStaticCheckable() const;
+         virtual bool isMutableCheckable() const;
          virtual void updateProperties();
          void addCombo(QFormLayout* layout);
          void addProperties(QFormLayout* layout);
          void addInitializer(QFormLayout* layout);
          bool isConstExprChecked() const;
          bool isStaticChecked() const;
+         bool isMutableChecked() const;
          QWidget* setupConstExpr();
          QWidget* setupStatic();
+         QWidget* setupMutable();
       protected slots:
          virtual void checkBoxChanged(int state);
       private:
@@ -41,6 +44,7 @@ namespace CppQt
          Gui::TypeComboBox* _type {nullptr};
          QCheckBox* _constExprBox {nullptr};
          QCheckBox* _staticBox {nullptr};
+         QCheckBox* _mutableBox {nullptr};
          QLineEdit* _initializerEdit {nullptr};
       };
    }

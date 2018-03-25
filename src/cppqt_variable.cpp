@@ -15,6 +15,7 @@ using namespace Gui;
 using namespace CppQt;
 const char* Variable::_constExprTag {"constexpr"};
 const char* Variable::_staticTag {"static"};
+const char* Variable::_mutableTag {"mutable"};
 const char* Variable::_typeTag {"type"};
 const char* Variable::_initializerTag {"initializer"};
 
@@ -52,6 +53,7 @@ QString Variable::name() const
       if ( isFunctionArgument() ) ret.append(" =");
       else ret.append(" {}");
    }
+   ret.append(attributes());
    return ret;
 }
 
@@ -173,6 +175,38 @@ void Variable::setStatic(bool isStatic)
    if ( _static != isStatic )
    {
       _static = isStatic;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+bool Variable::isMutable() const
+{
+   return _mutable;
+}
+
+
+
+
+
+
+void Variable::setMutable(bool isMutable)
+{
+   if ( isMutable && !isClassMember() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set as mutable when it is not a class member."));
+      throw e;
+   }
+   if ( _mutable != isMutable )
+   {
+      _mutable = isMutable;
       notifyOfNameChange();
       emit modified();
    }
@@ -306,6 +340,7 @@ QDomElement Variable::writeData(QDomDocument& document) const
    QDomElement ret {Base::writeData(document)};
    if ( _constExpr ) ret.appendChild(document.createElement(_constExprTag));
    if ( _static ) ret.appendChild(document.createElement(_staticTag));
+   if ( _mutable ) ret.appendChild(document.createElement(_mutableTag));
    ret.appendChild(makeElement(document,_typeTag,_type));
    if ( !_initializer.isEmpty() )
    {
@@ -337,6 +372,7 @@ void Variable::copyDataFrom(const AbstractBlock* object)
       _type = object_->_type;
       _constExpr = object_->_constExpr;
       _static = object_->_static;
+      _mutable = object_->_mutable;
       _initializer = object_->_initializer;
    }
    else
@@ -346,6 +382,20 @@ void Variable::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+QString Variable::attributes() const
+{
+   QString ret;
+   if ( _constExpr ) ret.append("X");
+   if ( _mutable ) ret.append("M");
+   if ( !ret.isEmpty() ) ret.prepend(" ");
+   return ret;
 }
 
 
@@ -388,6 +438,7 @@ void Variable::readVersion1(const QDomElement& data)
    DomElementReader reader(data);
    reader.set(_constExprTag,&_constExpr,false);
    reader.set(_staticTag,&_static,false);
+   reader.set(_mutableTag,&_mutable,false);
    reader.set(_typeTag,&_type);
    reader.set(_initializerTag,&_initializer,false);
    reader.read();
