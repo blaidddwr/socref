@@ -129,6 +129,7 @@ QString Function::displayOperationsText()
 QStringList Function::getProperties()
 {
    QStringList ret {Variable::getProperties()};
+   if ( _block->isDefault() ) ret << "default";
    if ( _block->isVirtual() ) ret << "virtual";
    if ( _block->isConst() ) ret << "const";
    if ( _block->isNoExcept() ) ret << "noexcept";

@@ -93,7 +93,8 @@ void Header::evaluateFunction(CppQt::Function* block)
 {
    Function* base {new Function(block,this)};
    _declarations.append(base);
-   if ( block->type() != BlockFactory::SignalType
+   if ( !block->isDefault()
+        && block->type() != BlockFactory::SignalType
         && ( isTemplate() || ( block->hasTemplates() && !block->isPrivateMethod() ) )
         && !block->isAbstract() )
    {

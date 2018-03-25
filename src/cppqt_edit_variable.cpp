@@ -19,7 +19,7 @@ using namespace CppQt::Gui;
 
 
 
-Variable::Variable(AbstractBlock* block, QWidget* parent):
+Variable::Variable(AbstractBlock* block, QWidget* parent, bool isFinal):
    Base(block,parent),
    _block(qobject_cast<CppQt::Variable*>(block))
 {
@@ -30,6 +30,7 @@ Variable::Variable(AbstractBlock* block, QWidget* parent):
       e.setDetails(tr("Abstract block is not correct type."));
       throw e;
    }
+   if ( isFinal ) saveSettings("cppqt.edit.variable.geometry");
 }
 
 

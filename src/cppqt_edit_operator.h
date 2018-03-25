@@ -19,6 +19,8 @@ namespace CppQt
       private:
          void addOperation(QFormLayout* layout);
          void setupOperation();
+         void addProperties(QFormLayout* layout);
+         QGridLayout* setupProperties();
          QLineEdit* _operationEdit;
          CppQt::Operator* _block;
       };

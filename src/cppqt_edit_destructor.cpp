@@ -56,5 +56,6 @@ QLayout* Destructor::setupProperties()
    ret->addWidget(setupOverride(),2,0);
    ret->addWidget(setupFinal(),3,0);
    ret->addWidget(setupNoExcept(),0,1);
+   ret->addWidget(setupDefault(),1,1);
    return ret;
 }

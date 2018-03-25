@@ -41,7 +41,7 @@ QLayout* Operator::layout()
    Base::addDescription(ret);
    Function::addReturn(ret);
    Function::addOperations(ret);
-   Function::addProperties(ret);
+   addProperties(ret);
    return ret;
 }
 
@@ -76,4 +76,26 @@ void Operator::setupOperation()
 {
    _operationEdit = new QLineEdit;
    _operationEdit->setText(_block->operation());
+}
+
+
+
+
+
+
+void Operator::addProperties(QFormLayout* layout)
+{
+   layout->addRow(new QLabel(tr("Propreties:")),setupProperties());
+}
+
+
+
+
+
+
+QGridLayout* Operator::setupProperties()
+{
+   QGridLayout* ret {Function::setupProperties()};
+   ret->addWidget(setupDefault(),4,0);
+   return ret;
 }

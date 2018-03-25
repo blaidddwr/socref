@@ -7,6 +7,7 @@
 
 
 class QCheckBox;
+class QGridLayout;
 
 
 
@@ -24,7 +25,9 @@ namespace CppQt
          virtual void apply() override;
          virtual bool isConstExprCheckable() const override final;
          virtual bool isStaticCheckable() const override final;
+         virtual bool isDefaultCheckable();
          virtual void updateProperties() override final;
+         bool isDefaultChecked() const;
          bool isConstChecked() const;
          bool isNoExceptChecked() const;
          bool isVirtualChecked() const;
@@ -34,6 +37,8 @@ namespace CppQt
          void addReturn(QFormLayout* layout);
          void addProperties(QFormLayout* layout);
          void addOperations(QFormLayout* layout);
+         QGridLayout* setupProperties();
+         QWidget* setupDefault();
          QWidget* setupConst();
          QWidget* setupNoExcept();
          QWidget* setupVirtual();
@@ -46,10 +51,10 @@ namespace CppQt
          void operationsClicked();
       private:
          void setupReturn();
-         QLayout* setupProperties();
          QPushButton* setupOperations();
          CppQt::Function* _block;
          ::Gui::TextEdit* _returnEdit {nullptr};
+         QCheckBox* _defaultBox {nullptr};
          QCheckBox* _virtualBox {nullptr};
          QCheckBox* _constBox {nullptr};
          QCheckBox* _noExceptBox {nullptr};

@@ -17,7 +17,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Variable(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Variable(AbstractBlock* block, QWidget* parent = nullptr, bool isFinal = true);
       protected:
          virtual QLayout* layout() override;
          virtual void apply() override;

@@ -18,6 +18,7 @@ using namespace std;
 using namespace Gui;
 using namespace CppQt;
 const char* Function::_returnDescriptionTag {"return_description"};
+const char* Function::_defaultTag {"default"};
 const char* Function::_virtualTag {"virtual"};
 const char* Function::_constTag {"const"};
 const char* Function::_noExceptTag {"noexcept"};
@@ -175,6 +176,38 @@ void Function::setReturnDescription(const QString& description)
    if ( _returnDescription != description )
    {
       _returnDescription = description;
+      emit modified();
+   }
+}
+
+
+
+
+
+
+bool Function::isDefault() const
+{
+   return _default;
+}
+
+
+
+
+
+
+void Function::setDefault(bool isDefault)
+{
+   if ( isDefault && !isClassMember() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as default when it is not a class member."));
+      throw e;
+   }
+   if ( _default != isDefault )
+   {
+      _default = isDefault;
+      notifyOfNameChange();
       emit modified();
    }
 }
@@ -568,6 +601,7 @@ int Function::writeVersion() const
 QDomElement Function::writeData(QDomDocument& document) const
 {
    QDomElement ret {Variable::writeData(document)};
+   if ( _default ) ret.appendChild(document.createElement(_defaultTag));
    if ( _virtual ) ret.appendChild(document.createElement(_virtualTag));
    if ( _const ) ret.appendChild(document.createElement(_constTag));
    if ( _noExcept ) ret.appendChild(document.createElement(_noExceptTag));
@@ -606,6 +640,7 @@ void Function::copyDataFrom(const AbstractBlock* object)
    {
       Variable::copyDataFrom(object);
       _returnDescription = object_->_returnDescription;
+      _default = object_->_default;
       _virtual = object_->_virtual;
       _const = object_->_const;
       _noExcept = object_->_noExcept;
@@ -635,6 +670,7 @@ QString Function::fullName(bool hasReturn, const QString& name) const
    ret.append(name).append("(");
    const QList<Variable*> list {arguments()};
    ret.append(QString::number(list.size())).append(")").append(attributes());
+   if ( _default ) ret.append(" = (dflt)");
    return ret;
 }
 
@@ -688,6 +724,7 @@ void Function::readVersion1(const QDomElement& data)
    _operations.clear();
    QList<QDomElement> operations;
    DomElementReader reader(data);
+   reader.set(_defaultTag,&_default,false);
    reader.set(_virtualTag,&_virtual,false);
    reader.set(_constTag,&_const,false);
    reader.set(_noExceptTag,&_noExcept,false);

@@ -21,7 +21,7 @@ using namespace CppQt::Edit;
 
 
 Function::Function(AbstractBlock* block, QWidget* parent, bool isFinal):
-   Variable(block,parent),
+   Variable(block,parent,false),
    _block(qobject_cast<CppQt::Function*>(block))
 {
    if ( !_block )
@@ -58,6 +58,7 @@ void Function::apply()
 {
    Variable::apply();
    if ( _returnEdit ) _block->setReturnDescription(_returnEdit->toPlainText());
+   if ( _defaultBox ) _block->setDefault(_defaultBox->isChecked());
    if ( _virtualBox ) _block->setVirtual(_virtualBox->isChecked());
    if ( _constBox ) _block->setConst(_constBox->isChecked());
    if ( _noExceptBox ) _block->setNoExcept(_noExceptBox->isChecked());
@@ -91,6 +92,16 @@ bool Function::isStaticCheckable() const
 
 
 
+bool Function::isDefaultCheckable()
+{
+   return true;
+}
+
+
+
+
+
+
 void Function::updateProperties()
 {
    Variable::updateProperties();
@@ -104,6 +115,16 @@ void Function::updateProperties()
    if ( _abstractBox ) _abstractBox->setCheckable( isVirtualChecked()
                                                    && !isOverrideChecked()
                                                    && !isFinalChecked() );
+}
+
+
+
+
+
+
+bool Function::isDefaultChecked() const
+{
+   return _defaultBox && _defaultBox->isChecked();
 }
 
 
@@ -196,6 +217,39 @@ void Function::addProperties(QFormLayout* layout)
 void Function::addOperations(QFormLayout* layout)
 {
    layout->addRow(new QLabel(tr("Operations:")),setupOperations());
+}
+
+
+
+
+
+
+QGridLayout* Function::setupProperties()
+{
+   QGridLayout* ret {new QGridLayout};
+   ret->addWidget(setupConstExpr(),0,0);
+   ret->addWidget(setupStatic(),1,0);
+   ret->addWidget(setupConst(),2,0);
+   ret->addWidget(setupNoExcept(),3,0);
+   ret->addWidget(setupVirtual(),0,1);
+   ret->addWidget(setupAbstract(),1,1);
+   ret->addWidget(setupOverride(),2,1);
+   ret->addWidget(setupFinal(),3,1);
+   return ret;
+}
+
+
+
+
+
+
+QWidget* Function::setupDefault()
+{
+   _defaultBox = new QCheckBox(tr("Default"));
+   connect(_defaultBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _defaultBox->setChecked(_block->isDefault());
+   return _defaultBox;
 }
 
 
@@ -318,25 +372,6 @@ void Function::setupReturn()
 {
    _returnEdit = new ::Gui::TextEdit;
    _returnEdit->setPlainText(_block->returnDescription());
-}
-
-
-
-
-
-
-QLayout* Function::setupProperties()
-{
-   QGridLayout* ret {new QGridLayout};
-   ret->addWidget(setupConstExpr(),0,0);
-   ret->addWidget(setupStatic(),1,0);
-   ret->addWidget(setupConst(),2,0);
-   ret->addWidget(setupNoExcept(),3,0);
-   ret->addWidget(setupVirtual(),0,1);
-   ret->addWidget(setupAbstract(),1,1);
-   ret->addWidget(setupOverride(),2,1);
-   ret->addWidget(setupFinal(),3,1);
-   return ret;
 }
 
 

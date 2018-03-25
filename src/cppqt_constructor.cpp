@@ -21,8 +21,9 @@ const char* Constructor::_explicitTag {"explicit"};
 QString Constructor::name() const
 {
    QString ret;
-   if ( _explicit ) ret.append("explicit ");
-   return ret.append(fullName(false,className()));
+   ret.append(fullName(false,className()));
+   if ( _explicit ) ret.append(" (xplct)");
+   return ret;
 }
 
 

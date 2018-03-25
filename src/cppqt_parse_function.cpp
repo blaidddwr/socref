@@ -68,7 +68,12 @@ void Function::outputDeclaration()
 {
    if ( _block )
    {
-      if ( _block->isAbstract() || _block->type() == BlockFactory::SignalType ) outputComments();
+      if ( _block->isAbstract()
+           || _block->type() == BlockFactory::SignalType
+           || _block->isDefault() )
+      {
+         outputComments();
+      }
       QString line {getTemplateName(_block)};
       if ( Constructor* valid = _block->cast<Constructor>(BlockFactory::ConstructorType) )
       {
@@ -86,6 +91,7 @@ void Function::outputDeclaration()
       if ( _block->isOverride() ) line.append(" override");
       if ( _block->isFinal() ) line.append(" final");
       if ( _block->isAbstract() ) line.append(" = 0");
+      if ( _block->isDefault() ) line.append(" = default");
       line.append(";");
       add(line);
    }
@@ -98,7 +104,7 @@ void Function::outputDeclaration()
 
 void Function::outputDefinition()
 {
-   if ( _block && _block->type() != BlockFactory::SignalType )
+   if ( _block )
    {
       QString line;
       QString templateString {getTemplateDeclaration(_block)};

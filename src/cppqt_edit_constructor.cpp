@@ -74,6 +74,7 @@ QLayout* Constructor::setupProperties()
    QVBoxLayout* ret {new QVBoxLayout};
    ret->addWidget(setupNoExcept());
    ret->addWidget(setupExplicit());
+   ret->addWidget(setupDefault());
    return ret;
 }
 

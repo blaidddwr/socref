@@ -13,8 +13,10 @@ using namespace CppQt::Edit;
 
 
 Template::Template(AbstractBlock* block, QWidget* parent):
-   Variable(block,parent)
-{}
+   Variable(block,parent,false)
+{
+   saveSettings("cppqt.edit.template.geometry");
+}
 
 
 
