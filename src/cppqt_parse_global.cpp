@@ -42,7 +42,7 @@ void Global::makeOutput()
    QList<Class*> list {_block->makeListOfType<Class>(BlockFactory::ClassType)};
    for (auto item : list)
    {
-      add(QString("class ").append(item->Base::name()).append(";"));
+      if ( !item->hasTemplates() ) add(QString("class ").append(item->Base::name()).append(";"));
    }
    endNamespaceNesting();
 }

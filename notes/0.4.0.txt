@@ -2,7 +2,9 @@
 * Edit block dialogs now properly handle failures, informing the user what went wrong.
 * Added Settings menu that opens a settings dialog for all project types.
   * Implemented settings dialog for C++/Qt.
-* Fixed C++/Qt bug where adding parenthesis to comments would cause the parser to mistake it as a function definition.
+* Fixed C++/Qt parsing bugs.
+    * Comments that contain parenthesis are no longer confused as function headers.
+    * Templated classes are no longer forward declared in global header files.
 * Added C++/Qt using and friend declarations.
 * Added C++/Qt mutable property for class variables.
 * Added C++/Qt default property for constructors, destructors, and operators.
