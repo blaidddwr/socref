@@ -60,15 +60,26 @@ void Source::initialize()
 
 bool Source::readLine(const QString& line)
 {
-   if ( line == QString("//") ) _pastTop = true;
-   if ( !_pastTop ) readTop(line);
-   if ( QRegExp(".*\\([a-zA-Z0-9_,<>:&\\* ]*\\):?[ constexp]*").exactMatch(line) )
+   if ( QRegExp("\\s*\\/\\*!").exactMatch(line) )
    {
-      if ( Function* child = findDefined(line) ) stepIntoChild(child);
-      else
+      _inComments = true;
+   }
+   else if ( QRegExp("\\s*\\*\\/").exactMatch(line) )
+   {
+      _inComments = false;
+   }
+   else if ( !_inComments )
+   {
+      if ( line == QString("//") ) _pastTop = true;
+      if ( !_pastTop ) readTop(line);
+      if ( QRegExp(".*\\([a-zA-Z0-9_,<>:&\\* ]*\\):?[ constexp]*").exactMatch(line) )
       {
-         addUndefined(new Function(line,this));
-         stepIntoChild(_undefined.back());
+         if ( Function* child = findDefined(line) ) stepIntoChild(child);
+         else
+         {
+            addUndefined(new Function(line,this));
+            stepIntoChild(_undefined.back());
+         }
       }
    }
    return true;
