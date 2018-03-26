@@ -76,14 +76,10 @@ QString Class::displayParentText()
       for (auto parent : list)
       {
          ret.append("<p><b>")
-            .append(Parent::_accessNames.at(static_cast<int>(parent->access())))
+            .append(parent->accessName())
             .append("</b> ")
-            .append(parent->Base::name());
-         if ( !parent->templateArgument().isEmpty() )
-         {
-            ret.append("&lt;").append(parent->templateArgument().replace("<","&lt;")).append(">");
-         }
-         ret.append("</p>");
+            .append(parent->className().replace("<","&lt;"))
+            .append("</p>");
       }
    }
    return ret;

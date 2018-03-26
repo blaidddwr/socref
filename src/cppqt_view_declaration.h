@@ -13,7 +13,7 @@ namespace CppQt
       class Declaration : public QLabel
       {
       public:
-         Declaration(const AbstractBlock* block);
+         Declaration(const AbstractBlock* block, QWidget* parent = nullptr);
       private:
          QString displayText();
          const CppQt::Declaration* _block;

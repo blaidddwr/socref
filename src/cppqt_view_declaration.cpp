@@ -11,7 +11,8 @@ using namespace CppQt::View;
 
 
 
-Declaration::Declaration(const AbstractBlock* block):
+Declaration::Declaration(const AbstractBlock* block, QWidget* parent):
+   QLabel(parent),
    _block(qobject_cast<const CppQt::Declaration*>(block))
 {
    if ( !_block )

@@ -2,6 +2,7 @@
 #include <exception.h>
 #include "cppqt_view_parent.h"
 #include "cppqt_edit_parent.h"
+#include "cppqt_gui_typedialog.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_common.h"
 #include "domelementreader.h"
@@ -15,14 +16,16 @@ using namespace CppQt;
 const QStringList Parent::_accessNames {"public","protected","private"};
 const char* Parent::_accessTag {"access"};
 const char* Parent::_templateArgumentTag {"template"};
+const char* Parent::_nameTag {"template"};
+const char* Parent::_classTag {"template"};
 
 
 
 
 
 
-Parent::Parent(const QString& name):
-   Base(name)
+Parent::Parent(const QString& className):
+   _class(className)
 {}
 
 
@@ -32,10 +35,7 @@ Parent::Parent(const QString& name):
 
 QString Parent::name() const
 {
-   QString ret {_accessNames.at(static_cast<int>(_access))};
-   ret.append(" ").append(Base::name());
-   if ( !_templateArgument.isEmpty() ) ret.append("<").append(_templateArgument).append(">");
-   return ret;
+   return accessName();
 }
 
 
@@ -46,6 +46,16 @@ QString Parent::name() const
 int Parent::type() const
 {
    return BlockFactory::ParentType;
+}
+
+
+
+
+
+
+const AbstractBlockFactory&Parent::factory() const
+{
+   return BlockFactory::instance();
 }
 
 
@@ -100,9 +110,29 @@ std::unique_ptr<QWidget> Parent::makeView() const
 
 
 
-std::unique_ptr<Gui::AbstractEdit> Parent::makeEdit()
+std::unique_ptr<::Gui::AbstractEdit> Parent::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Parent(this));
+}
+
+
+
+
+
+
+const QStringList&Parent::accessNames() const
+{
+   return _accessNames;
+}
+
+
+
+
+
+
+QString Parent::accessName() const
+{
+   return _accessNames.at(static_cast<int>(_access));
 }
 
 
@@ -135,9 +165,9 @@ void Parent::setAccess(Parent::Access access)
 
 
 
-QString Parent::templateArgument() const
+void Parent::setAccess(const QString& accessName)
 {
-   return _templateArgument;
+   setAccess(static_cast<Access>(_accessNames.indexOf(accessName)));
 }
 
 
@@ -145,19 +175,28 @@ QString Parent::templateArgument() const
 
 
 
-void Parent::setTemplateArgument(const QString& templateArgument)
+QString Parent::className() const
 {
-   if ( !templateArgument.isEmpty() && !isValidTemplateArgument(templateArgument) )
+   return _class;
+}
+
+
+
+
+
+
+void Parent::setClassName(const QString& className)
+{
+   if ( !Gui::TypeDialog::isValidTypeString(className) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Template argument '%1' is not valid.").arg(templateArgument));
+      e.setDetails(tr("Class name '%1' is not valid.").arg(className));
       throw e;
    }
-   if ( _templateArgument != templateArgument )
+   if ( _class != className )
    {
-      _templateArgument = templateArgument;
-      notifyOfNameChange();
+      _class = className;
       emit modified();
    }
 }
@@ -169,7 +208,6 @@ void Parent::setTemplateArgument(const QString& templateArgument)
 
 void Parent::readData(const QDomElement& data, int version)
 {
-   Base::readData(data,version);
    switch (version)
    {
    case 0:
@@ -178,11 +216,14 @@ void Parent::readData(const QDomElement& data, int version)
    case 1:
       readVersion1(data);
       break;
+   case 2:
+      readVersion2(data);
+      break;
    default:
       {
          Exception::LogicError e;
          MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
          throw e;
       }
    }
@@ -205,12 +246,9 @@ int Parent::writeVersion() const
 
 QDomElement Parent::writeData(QDomDocument& document) const
 {
-   QDomElement ret {Base::writeData(document)};
+   QDomElement ret {document.createElement("na")};
    ret.appendChild(makeElement(document,_accessTag,_accessNames.at(static_cast<int>(_access))));
-   if ( !_templateArgument.isEmpty() )
-   {
-      ret.appendChild(makeElement(document,_templateArgumentTag,_templateArgument));
-   }
+   ret.appendChild(makeElement(document,_classTag,_class));
    return ret;
 }
 
@@ -233,9 +271,8 @@ void Parent::copyDataFrom(const AbstractBlock* object)
 {
    if ( const Parent* object_ = qobject_cast<const Parent*>(object) )
    {
-      Base::copyDataFrom(object);
       _access = object_->_access;
-      _templateArgument = object_->_templateArgument;
+      _class = object_->_class;
    }
    else
    {
@@ -253,10 +290,11 @@ void Parent::copyDataFrom(const AbstractBlock* object)
 
 void Parent::readVersion0(const QDomElement& data)
 {
-   _templateArgument.clear();
    DomElementReader reader(data);
    _access = static_cast<Access>(_accessNames.indexOf(reader.attribute(_accessTag)));
-   _templateArgument = reader.attribute(_templateArgumentTag,false);
+   QString templateArgument {reader.attribute(_templateArgumentTag,false)};
+   _class = reader.attribute(_nameTag,false);
+   if ( !templateArgument.isEmpty() ) _class.append("<").append(templateArgument).append(">");
 }
 
 
@@ -266,11 +304,35 @@ void Parent::readVersion0(const QDomElement& data)
 
 void Parent::readVersion1(const QDomElement& data)
 {
-   _templateArgument.clear();
+   QString access;
+   QString templateArgument;
+   DomElementReader reader(data);
+   reader.set(_accessTag,&access);
+   reader.set(_templateArgumentTag,&templateArgument,false);
+   reader.set(_nameTag,&_class,false);
+   reader.read();
+   if ( !reader.allRequiredFound() )
+   {
+      Exception::ReadError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed reading all required elements."));
+      throw e;
+   }
+   _access = static_cast<Access>(_accessNames.indexOf(access));
+   if ( !templateArgument.isEmpty() ) _class.append("<").append(templateArgument).append(">");
+}
+
+
+
+
+
+
+void Parent::readVersion2(const QDomElement& data)
+{
    QString access;
    DomElementReader reader(data);
    reader.set(_accessTag,&access);
-   reader.set(_templateArgumentTag,&_templateArgument,false);
+   reader.set(_classTag,&_class);
    reader.read();
    if ( !reader.allRequiredFound() )
    {

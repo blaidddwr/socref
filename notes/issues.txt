@@ -1,5 +1,3 @@
 
-* Fix C++/Qt bug where you cannot add scope to the name of a parent.
-
 * Add a help menu on the right side that will just have an about action for now.
 

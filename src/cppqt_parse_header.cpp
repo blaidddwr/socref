@@ -203,11 +203,7 @@ void Header::outputClassDeclaration(Class* block)
             first = false;
          }
          else line.append(", ");
-         line
-               .append(Parent::_accessNames.at(static_cast<int>(valid->access())))
-               .append(" ").append(valid->Base::name());
-         QString templateArgument {valid->templateArgument()};
-         if ( !templateArgument.isEmpty() ) line.append("<").append(templateArgument).append(">");
+         line.append(valid->accessName()).append(" ").append(valid->className());
       }
    }
    add(line);

@@ -1,12 +1,12 @@
 #ifndef CPPQT_PARENT_H
 #define CPPQT_PARENT_H
-#include "cppqt_base.h"
+#include "abstractblock.h"
 
 
 
 namespace CppQt
 {
-   class Parent : public Base
+   class Parent : public AbstractBlock
    {
       Q_OBJECT
    public:
@@ -17,18 +17,21 @@ namespace CppQt
          ,Private
       };
       explicit Parent() = default;
-      explicit Parent(const QString& name);
+      explicit Parent(const QString& className);
       virtual QString name() const override final;
       virtual int type() const override final;
+      virtual const AbstractBlockFactory& factory() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
       virtual std::unique_ptr<QWidget> makeView() const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+      const QStringList& accessNames() const;
+      QString accessName() const;
       Access access() const;
       void setAccess(Access access);
-      QString templateArgument() const;
-      void setTemplateArgument(const QString& templateArgument);
-      static const QStringList _accessNames;
+      void setAccess(const QString& accessName);
+      QString className() const;
+      void setClassName(const QString& templateArgument);
    protected:
       virtual void readData(const QDomElement& data, int version) override final;
       virtual int writeVersion() const override final;
@@ -38,11 +41,15 @@ namespace CppQt
    private:
       void readVersion0(const QDomElement &data);
       void readVersion1(const QDomElement &data);
-      constexpr static int _version {1};
+      void readVersion2(const QDomElement &data);
+      constexpr static int _version {2};
+      static const QStringList _accessNames;
       static const char* _accessTag;
       static const char* _templateArgumentTag;
+      static const char* _nameTag;
+      static const char* _classTag;
       Access _access {Access::Public};
-      QString _templateArgument;
+      QString _class;
    };
 }
 

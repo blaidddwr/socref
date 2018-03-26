@@ -3,8 +3,9 @@
 * Added Settings menu that opens a settings dialog for all project types.
   * Implemented settings dialog for C++/Qt.
 * Fixed C++/Qt parsing bugs.
-    * Comments that contain parenthesis are no longer confused as function headers.
-    * Templated classes are no longer forward declared in global header files.
+  * Comments that contain parenthesis are no longer confused as function headers.
+  * Templated classes are no longer forward declared in global header files.
+* Complete overhaul of C++/Qt parents; now scope can be added to the class name.
 * Added C++/Qt using and friend declarations.
 * Added C++/Qt mutable property for class variables.
 * Added C++/Qt default property for constructors, destructors, and operators.
