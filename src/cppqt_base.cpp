@@ -105,7 +105,7 @@ void Base::readData(const QDomElement& data, int version)
       {
          Exception::LogicError e;
          MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown verison number %1 given for reading block."));
+         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
          throw e;
       }
    }
