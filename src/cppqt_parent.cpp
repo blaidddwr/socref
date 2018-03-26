@@ -16,8 +16,8 @@ using namespace CppQt;
 const QStringList Parent::_accessNames {"public","protected","private"};
 const char* Parent::_accessTag {"access"};
 const char* Parent::_templateArgumentTag {"template"};
-const char* Parent::_nameTag {"template"};
-const char* Parent::_classTag {"template"};
+const char* Parent::_nameTag {"name"};
+const char* Parent::_classTag {"class"};
 
 
 
