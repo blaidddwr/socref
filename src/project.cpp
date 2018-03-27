@@ -105,7 +105,8 @@ Project::Project(const QString& path):
    QByteArray xmlBytes {read()};
    QDomDocument document;
    document.setContent(xmlBytes);
-   DomElementReader reader(document.documentElement());
+   QDomElement project {document.documentElement()};
+   DomElementReader reader(project);
    QDomElement type;
    QDomElement root;
    QString scanDirectory;

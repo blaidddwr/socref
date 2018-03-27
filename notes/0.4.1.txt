@@ -1,0 +1,3 @@
+
+* Fixed segmentation fault caused using a reference after the object is deleted.
+
