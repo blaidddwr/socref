@@ -1,1 +1,17 @@
 
+* Remove casting from edits and views of blocks since that is no longer needed.
+
+* Add validating for C++/Qt declaration fields.
+
+* Refactor code for function arguments so arguments vertically line up.
+
+* Fix bug where the current view is not updated if apply is hit on the edit dialog.
+
+* Overhaul the C++/Qt type system so it is visible in the block system, make two new block types similar to enumerations but for types and have the special type combo box populate its list from that.
+
+* Move all C++/Qt function properties to the function block (like explicit) and change the flags in the name to be surrounded by [...], also changing explicit and default to have one letter flags.
+
+* Fix C++/Qt parsing bug where the description of namespaces do not appear anywhere in the code.
+
+* Add program version attributes to the application class.
+
