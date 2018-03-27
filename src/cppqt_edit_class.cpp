@@ -7,7 +7,6 @@
 #include <QMessageBox>
 #include <exception.h>
 #include "cppqt_class.h"
-#include "cppqt_common.h"
 
 
 

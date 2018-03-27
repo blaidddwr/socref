@@ -67,8 +67,8 @@ std::unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
  *
  * Steps of Operation: 
  *
- * 1. Iterate through the parents of this block until the root block with no 
- *    parent is reached. 
+ * 1. Iterate through the parents of this block until the root block with no parent 
+ *    is reached. 
  *
  * 2. Return the root node pointer. 
  */
@@ -93,8 +93,8 @@ AbstractBlock* AbstractBlock::root()
  *
  * Steps of Operation: 
  *
- * 1. Iterate through the parents of this block until the root block with no 
- *    parent is reached. 
+ * 1. Iterate through the parents of this block until the root block with no parent 
+ *    is reached. 
  *
  * 2. Return the root node pointer. 
  */
@@ -143,8 +143,8 @@ int AbstractBlock::size() const
 
 
 /*!
- * This returns a read only reference to this block's list of children blocks. 
- * The list is a list of pointers to all child blocks. 
+ * This returns a read only reference to this block's list of children blocks. The 
+ * list is a list of pointers to all child blocks. 
  *
  * @return Reference to this block's list of children. 
  */
@@ -160,14 +160,14 @@ const QList<AbstractBlock*>& AbstractBlock::list() const
 
 /*!
  * This gets the index where the child with the given pointer is stored in this 
- * node's list of children. If no child with the given pointer is found then -1 
- * is returned. 
+ * node's list of children. If no child with the given pointer is found then -1 is 
+ * returned. 
  *
  * @param pointer Pointer of child block to match in this node's list and return 
  *                its index. 
  *
- * @return If a match is found then the index of the child with the given 
- *         pointer, else -1. 
+ * @return If a match is found then the index of the child with the given pointer, 
+ *         else -1. 
  */
 int AbstractBlock::indexOf(AbstractBlock* pointer) const
 {
@@ -180,8 +180,8 @@ int AbstractBlock::indexOf(AbstractBlock* pointer) const
 
 
 /*!
- * This returns a pointer to this node's child with the given index. If the 
- * index is out of range an exception is thrown. 
+ * This returns a pointer to this node's child with the given index. If the index 
+ * is out of range an exception is thrown. 
  *
  * @param index  
  *
@@ -190,8 +190,8 @@ int AbstractBlock::indexOf(AbstractBlock* pointer) const
  *
  * Steps of Operation: 
  *
- * 1. If the given index is out of range then throw an exception, else go to 
- *    next step. 
+ * 1. If the given index is out of range then throw an exception, else go to next 
+ *    step. 
  *
  * 2. Return a pointer to this node's child with the given index. 
  */
@@ -218,19 +218,17 @@ AbstractBlock* AbstractBlock::get(int index) const
 /*!
  * Tests if this node contains any children of the given type. 
  *
- * @param type The block type to search for within this block's list of 
- *             children. 
+ * @param type The block type to search for within this block's list of children. 
  *
- * @return True if this node contains any children of the given type, else 
- *         false. 
+ * @return True if this node contains any children of the given type, else false. 
  *
  *
  * Steps of Operation: 
  *
  * 1. Iterate through list of this node's children. 
  *
- * 2. If a child that matches the given type is found then return true, else if 
- *    the end of the list is reached with no match then return false. 
+ * 2. If a child that matches the given type is found then return true, else if the 
+ *    end of the list is reached with no match then return false. 
  */
 bool AbstractBlock::containsType(int type) const
 {
@@ -252,16 +250,15 @@ bool AbstractBlock::containsType(int type) const
  * @param types List of block types to search for within this block's list of 
  *              children. 
  *
- * @return True if this node contains any children of any type given, else 
- *         false. 
+ * @return True if this node contains any children of any type given, else false. 
  *
  *
  * Steps of Operation: 
  *
  * 1. Iterate through list of this node's children. 
  *
- * 2. If a child that matches the given type is found then return true, else if 
- *    the end of the list is reached with no match then return false. 
+ * 2. If a child that matches the given type is found then return true, else if the 
+ *    end of the list is reached with no match then return false. 
  */
 bool AbstractBlock::containsType(const QList<int>& types) const
 {
@@ -278,21 +275,21 @@ bool AbstractBlock::containsType(const QList<int>& types) const
 
 
 /*!
- * Moves the child block with the given index up the list by one where the very 
- * top of the list is index 0. If the given index is already at the top of the 
- * list or out of range then this does nothing. 
+ * Moves the child block with the given index up the list by one where the very top 
+ * of the list is index 0. If the given index is already at the top of the list or 
+ * out of range then this does nothing. 
  *
  * @param index The index of the child block moved up by one. 
  *
  *
  * Steps of Operation: 
  *
- * 1. If the given index is already at the top of the list or out of range then 
- *    do nothing and exit, else go to the next step. 
+ * 1. If the given index is already at the top of the list or out of range then do 
+ *    nothing and exit, else go to the next step. 
  *
  * 2. Swap the given child in this block's list with the child just above it, 
- *    calling the interface function notifying a child has moved and emitting 
- *    the modified signal. 
+ *    calling the interface function notifying a child has moved and emitting the 
+ *    modified signal. 
  */
 void AbstractBlock::moveUp(int index)
 {
@@ -310,21 +307,21 @@ void AbstractBlock::moveUp(int index)
 
 
 /*!
- * Moves the child block with the given index down the list by one where the 
- * very top of the list is index 0. If the given index is already at the bottom 
- * of the list or out of range then this does nothing. 
+ * Moves the child block with the given index down the list by one where the very 
+ * top of the list is index 0. If the given index is already at the bottom of the 
+ * list or out of range then this does nothing. 
  *
  * @param index The index of the child block moved down by one. 
  *
  *
  * Steps of Operation: 
  *
- * 1. If the given index is at the end of the list or out of range then do 
- *    nothing and exit, else go to the next step. 
+ * 1. If the given index is at the end of the list or out of range then do nothing 
+ *    and exit, else go to the next step. 
  *
- * 2. Swap the child with the given index in this block's list with the child 
- *    just below it, calling the interface function notifying a child has moved 
- *    and emitting the modified signal. 
+ * 2. Swap the child with the given index in this block's list with the child just 
+ *    below it, calling the interface function notifying a child has moved and 
+ *    emitting the modified signal. 
  */
 void AbstractBlock::moveDown(int index)
 {
@@ -342,11 +339,11 @@ void AbstractBlock::moveDown(int index)
 
 
 /*!
- * Inserts a new child block into this block's list of children at the given 
- * index. If the given index is less than 0 it is prepended to this block's 
- * list, else if the given index is greater than this block's list size then it 
- * is appended. If the given pointer to the new block is null or it is a type 
- * this block cannot contain then an exception is thrown. 
+ * Inserts a new child block into this block's list of children at the given index. 
+ * If the given index is less than 0 it is prepended to this block's list, else if 
+ * the given index is greater than this block's list size then it is appended. If 
+ * the given pointer to the new block is null or it is a type this block cannot 
+ * contain then an exception is thrown. 
  *
  * @param index The index where the new block is inserted. 
  *
@@ -358,9 +355,8 @@ void AbstractBlock::moveDown(int index)
  * 1. If the given child pointer is null or its type is not contained in this 
  *    blocks build list then throw an exception, else go to the next step. 
  *
- * 2. Insert the new block into this block's list of children at the given 
- *    index, releasing it from its smart pointer and setting this block as its 
- *    parent. 
+ * 2. Insert the new block into this block's list of children at the given index, 
+ *    releasing it from its smart pointer and setting this block as its parent. 
  *
  * 3. Call the interface notifying a new child is added and emit the modified 
  *    signal. 
@@ -397,8 +393,8 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
 
 /*!
  * Takes the child block at the given index this block contains. The child block 
- * returned no longer has a parent. If the index is out of range then an 
- * exception is thrown. 
+ * returned no longer has a parent. If the index is out of range then an exception 
+ * is thrown. 
  *
  * @param index The index of the child that is taken. 
  *
@@ -410,12 +406,11 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
  * 1. If the given index is out of range then throw an exception, else go to the 
  *    next step. 
  *
- * 2. Remove the child at the given index from this block's list of children 
- *    saving its pointer to a smart pointer. 
+ * 2. Remove the child at the given index from this block's list of children saving 
+ *    its pointer to a smart pointer. 
  *
- * 3. Set the child's parent to nothing, call the interface that notifies a 
- *    child is being removed, emit the modified signal, and return the smart 
- *    pointer. 
+ * 3. Set the child's parent to nothing, call the interface that notifies a child 
+ *    is being removed, emit the modified signal, and return the smart pointer. 
  */
 std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
 {
@@ -442,8 +437,8 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
 
 
 /*!
- * Removes the child block at the given index, deleting it and any children it 
- * may contain. If the given index is out of range then an exception is thrown. 
+ * Removes the child block at the given index, deleting it and any children it may 
+ * contain. If the given index is out of range then an exception is thrown. 
  *
  * @param index The index of the child that is removed and deleted. 
  *
@@ -454,8 +449,8 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
  *    next step. 
  *
  * 2. Take the pointer to the child at the given index from this block's list of 
- *    children, call the interface that notified a child is being removed, and 
- *    emit the modified signal. 
+ *    children, call the interface that notified a child is being removed, and emit 
+ *    the modified signal. 
  *
  * 3. Delete the pointer by using a smart pointer when it goes out of scope. 
  */
@@ -487,14 +482,13 @@ void AbstractBlock::remove(int index)
  * This recursively adds any children contained in the XML reading in their data 
  * from child XML elements. 
  *
- * @param element The XML element that stores block data this block reads as 
- *                input. 
+ * @param element The XML element that stores block data this block reads as input. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Clear and delete any existing children this block may contain. Then read 
- *    in this blocks data element. 
+ * 1. Clear and delete any existing children this block may contain. Then read in 
+ *    this blocks data element. 
  *
  * 2. If the data element could not be found in the XML element then throw an 
  *    exception, else go to the next step. 
@@ -502,8 +496,7 @@ void AbstractBlock::remove(int index)
  * 3. Call the interface which reads in the data for this block's type. 
  *
  * 4. Read in all children XML elements and add them to this block's list of 
- *    children, creating a new child for each one and calling their read 
- *    function. 
+ *    children, creating a new child for each one and calling their read function. 
  */
 void AbstractBlock::read(const QDomElement& element)
 {
@@ -547,8 +540,8 @@ void AbstractBlock::read(const QDomElement& element)
  * 1. Create a new XML element and add the data element to it derived by calling 
  *    the interface for writing the data of this block's type as an XML element. 
  *
- * 2. Call each child's write function and add their returned elements to the 
- *    new XML element as children. 
+ * 2. Call each child's write function and add their returned elements to the new 
+ *    XML element as children. 
  *
  * 3. Return the newly created XML element containing the data and all children. 
  */
@@ -575,8 +568,7 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
 
 
 /*!
- * This interface is called whenever a child below this block has changed its 
- * name. 
+ * This interface is called whenever a child below this block has changed its name. 
  *
  * @param child Pointer of the child whose name has changed. 
  */
@@ -591,8 +583,8 @@ void AbstractBlock::childNameChanged(AbstractBlock* child)
 
 
 /*!
- * This interface is called when a new block has been added to this block as a 
- * new child. 
+ * This interface is called when a new block has been added to this block as a new 
+ * child. 
  *
  * @param child Pointer of the new child just added to this block. 
  */
@@ -623,8 +615,8 @@ void AbstractBlock::childRemoved(AbstractBlock* child)
 
 
 /*!
- * This interface is called when a direct child of this block has been moved up 
- * or down. 
+ * This interface is called when a direct child of this block has been moved up or 
+ * down. 
  *
  * @param child Pointer of child that has been moved up or down. 
  */
@@ -639,8 +631,8 @@ void AbstractBlock::childMoved(AbstractBlock* child)
 
 
 /*!
- * Makes a new XML element with the given tag name and text value enclosed 
- * within the new element. 
+ * Makes a new XML element with the given tag name and text value enclosed within 
+ * the new element. 
  *
  * @param document The XML document used to create the new XML element. 
  *
@@ -655,8 +647,8 @@ void AbstractBlock::childMoved(AbstractBlock* child)
  *
  * 1. Create a new XML element with the given tag name. 
  *
- * 2. Append a new text node with the given text to the new XML element as a 
- *    child and then return the new XML element. 
+ * 2. Append a new text node with the given text to the new XML element as a child 
+ *    and then return the new XML element. 
  */
 QDomElement AbstractBlock::makeElement(QDomDocument& document, const QString& tagName, const QString& text)
 {
@@ -671,8 +663,7 @@ QDomElement AbstractBlock::makeElement(QDomDocument& document, const QString& ta
 
 
 /*!
- * Notifies this block that its name has changed and the block system is 
- * notified. 
+ * Notifies this block that its name has changed and the block system is notified. 
  */
 void AbstractBlock::notifyOfNameChange()
 {
@@ -705,8 +696,8 @@ void AbstractBlock::childModified()
  *
  * Steps of Operation: 
  *
- * 1. Call the interface that notifies a child's name has changed and emit the 
- *    name changed signal. 
+ * 1. Call the interface that notifies a child's name has changed and emit the name 
+ *    changed signal. 
  */
 void AbstractBlock::childNameModified(AbstractBlock* child)
 {
@@ -720,9 +711,9 @@ void AbstractBlock::childNameModified(AbstractBlock* child)
 
 
 /*!
- * Copies all children from the given block and appends the copies to the list 
- * of this block's children. This does not remove any previous children already 
- * part of this block. 
+ * Copies all children from the given block and appends the copies to the list of 
+ * this block's children. This does not remove any previous children already part 
+ * of this block. 
  *
  * @param parent Pointer to block whose children are copied. 
  *
@@ -731,8 +722,8 @@ void AbstractBlock::childNameModified(AbstractBlock* child)
  *
  * 1. Iterate through all the children of the given block. 
  *
- * 2. Make a copy of each child using the interface which does so, appending 
- *    them to this block's list of children. 
+ * 2. Make a copy of each child using the interface which does so, appending them 
+ *    to this block's list of children. 
  */
 void AbstractBlock::copyChildren(const AbstractBlock* parent)
 {
@@ -748,28 +739,27 @@ void AbstractBlock::copyChildren(const AbstractBlock* parent)
 
 
 /*!
- * Sets this block's parent to the given block, adding it to its new parent's 
- * list with the given index. If the index is less than 1 it is prepended, else 
- * if it is greater than the size of the list it is appended. This will remove 
- * and disconnect any previous parent this block may have had. The new parent 
- * can be a null pointer which means this block will have no parent. 
+ * Sets this block's parent to the given block, adding it to its new parent's list 
+ * with the given index. If the index is less than 1 it is prepended, else if it is 
+ * greater than the size of the list it is appended. This will remove and 
+ * disconnect any previous parent this block may have had. The new parent can be a 
+ * null pointer which means this block will have no parent. 
  *
  * @param parent Pointer to the new parent for this block. 
  *
- * @param index The index where this block will be added to its new parent's 
- *              list. 
+ * @param index The index where this block will be added to its new parent's list. 
  *
  *
  * Steps of Operation: 
  *
- * 1. If a previous parent exists then remove this block from its list of 
- *    children and disconnect any signal/slot connections they share. 
+ * 1. If a previous parent exists then remove this block from its list of children 
+ *    and disconnect any signal/slot connections they share. 
  *
  * 2. Set this block's parent to the new parent given. 
  *
  * 3. If the new parent is not null then insert this block into the new parent's 
- *    list with the given index and connect the appropriate signals between the 
- *    two of them. 
+ *    list with the given index and connect the appropriate signals between the two 
+ *    of them. 
  */
 void AbstractBlock::setParent(AbstractBlock* parent, int index)
 {
@@ -793,19 +783,19 @@ void AbstractBlock::setParent(AbstractBlock* parent, int index)
 
 
 /*!
- * Creates a new child reading it in from the given XML element. The new child 
- * is then appended to this block's list of children. 
+ * Creates a new child reading it in from the given XML element. The new child is 
+ * then appended to this block's list of children. 
  *
  * @param element XML element used to read in the new child. 
  *
  *
  * Steps of Operation: 
  *
- * 1. If the type number for this block is out of range of possible types for 
- *    this project type then throw an exception, else go to the next step. 
+ * 1. If the type number for this block is out of range of possible types for this 
+ *    project type then throw an exception, else go to the next step. 
  *
- * 2. Create a new block with the given type and read it in from the XML 
- *    element, appending it to this blocks list of children. 
+ * 2. Create a new block with the given type and read it in from the XML element, 
+ *    appending it to this blocks list of children. 
  */
 void AbstractBlock::readChild(const QDomElement& element)
 {

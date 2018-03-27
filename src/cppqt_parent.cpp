@@ -4,7 +4,6 @@
 #include "cppqt_edit_parent.h"
 #include "cppqt_gui_typedialog.h"
 #include "cppqt_blockfactory.h"
-#include "cppqt_common.h"
 #include "domelementreader.h"
 #include "common.h"
 

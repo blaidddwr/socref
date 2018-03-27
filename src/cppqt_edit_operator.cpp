@@ -4,7 +4,6 @@
 #include <QLabel>
 #include <exception.h>
 #include "cppqt_operator.h"
-#include "cppqt_common.h"
 
 
 

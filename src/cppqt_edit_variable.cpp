@@ -7,7 +7,6 @@
 #include <exception.h>
 #include "cppqt_gui_typecombobox.h"
 #include "cppqt_variable.h"
-#include "cppqt_common.h"
 
 
 

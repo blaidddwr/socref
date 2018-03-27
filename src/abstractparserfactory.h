@@ -18,15 +18,15 @@ class AbstractParserFactory : public QObject
    Q_OBJECT
 public:
    /*!
-    * This interface makes a new parser object from the given file and and 
-    * extension. This can return a null pointer in which case the source file is 
-    * ignored and skipped. 
+    * This interface makes a new parser object from the given file and and extension. 
+    * This can return a null pointer in which case the source file is ignored and 
+    * skipped. 
     *
     * @param name Name of the source file that is parsed with the returned parser 
     *             object. 
     *
-    * @param extension Extension of the file that is parsed with the returned 
-    *                  parser object. 
+    * @param extension Extension of the file that is parsed with the returned parser 
+    *                  object. 
     *
     * @return Pointer to new parser object or null pointer. 
     */

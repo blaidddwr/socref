@@ -10,4 +10,3 @@ class BlockModel;
 class ScanThread;
 class Project;
 class Application;
-

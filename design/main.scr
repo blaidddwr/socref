@@ -563,9 +563,9 @@
             <qtobject/>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>QObject</name>
+            <data version="2">
                <access>public</access>
+               <class>QObject</class>
             </data>
          </parent>
          <access type="5">
@@ -1328,6 +1328,14 @@
             <data version="1">
                <type>public:</type>
             </data>
+            <destructor type="10">
+               <data version="1">
+                  <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
+                  <type></type>
+                  <default/>
+                  <virtual/>
+               </data>
+            </destructor>
             <function type="2">
                <data version="1">
                   <name>type</name>
@@ -1425,9 +1433,9 @@
             <qtobject/>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>QObject</name>
+            <data version="2">
                <access>public</access>
+               <class>QObject</class>
             </data>
          </parent>
          <access type="5">
@@ -1736,9 +1744,9 @@
             <qtobject/>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>QObject</name>
+            <data version="2">
                <access>public</access>
+               <class>QObject</class>
             </data>
          </parent>
          <access type="5">
@@ -1778,16 +1786,23 @@
             <description>This represents the factory that defines all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire program. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project types must maintain the specific integer that defines them.</description>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>SingletonFactory</name>
+            <data version="2">
                <access>public</access>
-               <template>AbstractProjectFactory</template>
+               <class>SingletonFactory&lt;AbstractProjectFactory></class>
             </data>
          </parent>
          <access type="5">
             <data version="1">
                <type>public:</type>
             </data>
+            <destructor type="10">
+               <data version="1">
+                  <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
+                  <type></type>
+                  <default/>
+                  <virtual/>
+               </data>
+            </destructor>
             <function type="2">
                <data version="1">
                   <name>size</name>
@@ -1904,9 +1919,9 @@
             <description>This implements the abstract project factory class that is the factory for all information and factories needed for a project type.</description>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>AbstractProjectFactory</name>
+            <data version="2">
                <access>public</access>
+               <class>AbstractProjectFactory</class>
             </data>
          </parent>
          <access type="5">
@@ -2057,9 +2072,9 @@
             <qtobject/>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>QAbstractItemModel</name>
+            <data version="2">
                <access>public</access>
+               <class>QAbstractItemModel</class>
             </data>
          </parent>
          <access type="5">
@@ -2430,9 +2445,9 @@
             <qtobject/>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>QThread</name>
+            <data version="2">
                <access>public</access>
+               <class>QThread</class>
             </data>
          </parent>
          <access type="5">
@@ -2604,9 +2619,9 @@
             <qtobject/>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>QFileSystemWatcher</name>
+            <data version="2">
                <access>public</access>
+               <class>QFileSystemWatcher</class>
             </data>
          </parent>
          <access type="5">
@@ -3101,9 +3116,9 @@
             <qtobject/>
          </data>
          <parent type="13">
-            <data version="1">
-               <name>QApplication</name>
+            <data version="2">
                <access>public</access>
+               <class>QApplication</class>
             </data>
          </parent>
          <access type="5">

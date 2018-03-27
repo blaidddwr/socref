@@ -5,7 +5,6 @@
 #include <exception.h>
 #include "cppqt_gui_typelistdialog.h"
 #include "cppqt_namespace.h"
-#include "cppqt_common.h"
 
 
 

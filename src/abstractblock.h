@@ -11,18 +11,18 @@
 
 
 /*!
- * This represents a single block of data in the reference system. It conforms 
- * to a parent child relationship where each block can have any number of 
- * children that are also blocks. The children are structured in an ordered list 
- * so they can be represented as a tree like structure in a view. Blocks also 
- * spawn the GUI elements that represent their models. Copying of blocks is also 
- * performed with other virtual interface functions. Many helper functions are 
- * available to navigate the tree structure of children and parents. Blocks are 
- * identified by a type which is an integer value that must be unique among all 
- * block types of a project type supplied by the block factory. Blocks are saved 
- * and opened using XML elements. The data for these XML elements have version 
- * numbers so later versions of this software can identify and read previous 
- * versions of XML elements. 
+ * This represents a single block of data in the reference system. It conforms to a 
+ * parent child relationship where each block can have any number of children that 
+ * are also blocks. The children are structured in an ordered list so they can be 
+ * represented as a tree like structure in a view. Blocks also spawn the GUI 
+ * elements that represent their models. Copying of blocks is also performed with 
+ * other virtual interface functions. Many helper functions are available to 
+ * navigate the tree structure of children and parents. Blocks are identified by a 
+ * type which is an integer value that must be unique among all block types of a 
+ * project type supplied by the block factory. Blocks are saved and opened using 
+ * XML elements. The data for these XML elements have version numbers so later 
+ * versions of this software can identify and read previous versions of XML 
+ * elements. 
  */
 class AbstractBlock : public QObject
 {
@@ -42,23 +42,23 @@ public:
     */
    virtual const AbstractBlockFactory& factory() const = 0;
    /*!
-    * This interface returns the name of this block. The name is used to display 
-    * the block as text in a tree view and as a title when selected. 
+    * This interface returns the name of this block. The name is used to display the 
+    * block as text in a tree view and as a title when selected. 
     *
     * @return The name of this block. 
     */
    virtual QString name() const = 0;
    /*!
-    * This interface returns the icon of this block. The icon is displayed in a 
-    * tree view of this block and its title if selected. 
+    * This interface returns the icon of this block. The icon is displayed in a tree 
+    * view of this block and its title if selected. 
     *
     * @return The icon of this block. 
     */
    virtual QIcon icon() const = 0;
    /*!
-    * This interface returns a list of types that this block can contain as 
-    * children. If the same type is listed more than once any repeated occurrences 
-    * are ignored and the type is allowed to be this block's parent. 
+    * This interface returns a list of types that this block can contain as children. 
+    * If the same type is listed more than once any repeated occurrences are ignored 
+    * and the type is allowed to be this block's parent. 
     *
     * @return List of allowed types this block can contain as children. 
     */
@@ -71,8 +71,8 @@ public:
     */
    virtual std::unique_ptr<QWidget> makeView() const = 0;
    /*!
-    * This interface returns a editable GUI widget that provides the ability to 
-    * edit this block's data. 
+    * This interface returns a editable GUI widget that provides the ability to edit 
+    * this block's data. 
     *
     * @return New editable GUI widget to edit this block's data. 
     */
@@ -117,8 +117,8 @@ protected slots:
    virtual void childMoved(AbstractBlock* child);
 protected:
    /*!
-    * This interface reads in the data for this block from the given XML element 
-    * and version number. 
+    * This interface reads in the data for this block from the given XML element and 
+    * version number. 
     *
     * @param element The XML element used to read in this blocks data. 
     *
@@ -150,9 +150,8 @@ protected:
     */
    virtual std::unique_ptr<AbstractBlock> makeBlank() const = 0;
    /*!
-    * This interface copies all data from the given block to this block, 
-    * overwriting any data this block may already contain. This does not copy any 
-    * children. 
+    * This interface copies all data from the given block to this block, overwriting 
+    * any data this block may already contain. This does not copy any children. 
     *
     * @param other The other block whose data will be copied. 
     */
@@ -190,8 +189,8 @@ private:
 
 
 /*!
- * Build a list of this node's children that matches the given type. The 
- * returned list has no other copies. 
+ * Build a list of this node's children that matches the given type. The returned 
+ * list has no other copies. 
  *
  * @tparam T The child class type that is matched. 
  *
@@ -204,8 +203,7 @@ private:
  *
  * 1. Iterate through the list of this node's children. 
  *
- * 2. Add a pointer of every child that matches the given type to the return 
- *    list. 
+ * 2. Add a pointer of every child that matches the given type to the return list. 
  *
  * 3. Return the list of matched children. 
  */
@@ -225,9 +223,9 @@ template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 
 
 /*!
- * This casts this block to a specific block type. If the given type does not 
- * match this block's type then a null pointer is returned. If this object fails 
- * to cast as the requested type an exception is thrown. 
+ * This casts this block to a specific block type. If the given type does not match 
+ * this block's type then a null pointer is returned. If this object fails to cast 
+ * as the requested type an exception is thrown. 
  *
  * @tparam T The class type that is cast. 
  *
@@ -239,8 +237,8 @@ template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
  *
  * Steps of Operation: 
  *
- * 1. If the given type to cast does not match this block's type then return a 
- *    null pointer, else go to the next step. 
+ * 1. If the given type to cast does not match this block's type then return a null 
+ *    pointer, else go to the next step. 
  *
  * 2. Cast this block's pointer to the requested class type and return the cast 
  *    pointer. If the cast fails then throw an exception. 
@@ -267,9 +265,9 @@ template<class T> const T* AbstractBlock::cast(int toType) const
 
 
 /*!
- * This casts this block to a specific block type. If the given type does not 
- * match this block's type then a null pointer is returned. If this object fails 
- * to cast as the requested type an exception is thrown. 
+ * This casts this block to a specific block type. If the given type does not match 
+ * this block's type then a null pointer is returned. If this object fails to cast 
+ * as the requested type an exception is thrown. 
  *
  * @tparam T The class type that is cast. 
  *
@@ -281,8 +279,8 @@ template<class T> const T* AbstractBlock::cast(int toType) const
  *
  * Steps of Operation: 
  *
- * 1. If the given type to cast does not match this block's type then return a 
- *    null pointer, else go to the next step. 
+ * 1. If the given type to cast does not match this block's type then return a null 
+ *    pointer, else go to the next step. 
  *
  * 2. Cast this block's pointer to the requested class type and return the cast 
  *    pointer. If the cast fails then throw an exception. 

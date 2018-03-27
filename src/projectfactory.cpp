@@ -42,8 +42,8 @@ int ProjectFactory::size() const
  *
  * Steps of Operation: 
  *
- * 1. Return the display name of the given project type. If the given type does 
- *    not exist then return an empty string. 
+ * 1. Return the display name of the given project type. If the given type does not 
+ *    exist then return an empty string. 
  */
 QString ProjectFactory::name(int type) const
 {
@@ -152,17 +152,16 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
  *
  * @param type Project type whose parser factory type is made and returned. 
  *
- * @param root Pointer to root block of existing project that is used by 
- *             returned parser object. 
+ * @param root Pointer to root block of existing project that is used by returned 
+ *             parser object. 
  *
  * @return Pointer to created parser factory for the given project type. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Create a new parser factory for the given project type using the given 
- *    block root. If the given project type does not exist then throw an 
- *    exception. 
+ * 1. Create a new parser factory for the given project type using the given block 
+ *    root. If the given project type does not exist then throw an exception. 
  */
 std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, AbstractBlock* root) const
 {

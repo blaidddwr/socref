@@ -4,7 +4,6 @@
 #include <QLabel>
 #include <QCheckBox>
 #include "cppqt_constructor.h"
-#include "cppqt_common.h"
 
 
 

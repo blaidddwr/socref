@@ -5,7 +5,6 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_access.h"
 #include "cppqt_template.h"
-#include "cppqt_common.h"
 #include "cppqt_constructor.h"
 #include "cppqt_parent.h"
 #include "domelementreader.h"

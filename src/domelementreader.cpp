@@ -12,8 +12,8 @@
 
 
 /*!
- * Constructs a new element reader with the given XML element that this object 
- * can read. 
+ * Constructs a new element reader with the given XML element that this object can 
+ * read. 
  *
  * @param element The XML element this object will read. 
  */
@@ -40,9 +40,9 @@ DomElementReader::~DomElementReader()
 
 
 /*!
- * Returns the text value of the given attribute from this reader's element. If 
- * no attribute exists with the given name and it is required then an exception 
- * is thrown. 
+ * Returns the text value of the given attribute from this reader's element. If no 
+ * attribute exists with the given name and it is required then an exception is 
+ * thrown. 
  *
  * @param name Name of attribute whose value is returned. 
  *
@@ -83,9 +83,9 @@ QString DomElementReader::attribute(const QString& name, bool required) const
 
 
 /*!
- * Returns the integer value of the given attribute from this reader's element. 
- * If no attribute exists with the given name or the value is not an integer, 
- * and the attribute is required, then an exception is thrown. 
+ * Returns the integer value of the given attribute from this reader's element. If 
+ * no attribute exists with the given name or the value is not an integer, and the 
+ * attribute is required, then an exception is thrown. 
  *
  * @param name Name of attribute whose integer value is returned. 
  *
@@ -98,8 +98,8 @@ QString DomElementReader::attribute(const QString& name, bool required) const
  * Steps of Operation: 
  *
  * 1. If the attribute is not found and it is required then throw an exception, 
- *    else if the attribute is not found and it is not required then return 0, 
- *    else go to the next step. 
+ *    else if the attribute is not found and it is not required then return 0, else 
+ *    go to the next step. 
  *
  * 2. Read in the attributes value as an integer setting it to 0 if it fails to 
  *    read as an integer. If the value is not an integer and it is required then 
@@ -145,9 +145,8 @@ int DomElementReader::attributeToInt(const QString& name, bool required) const
 
 /*!
  * Set a new child element match with the given tag name. When this reader reads 
- * its element, if a child element is found with the given tag name then the 
- * string pointed to by the given pointer will be set to the matched child 
- * element's text. 
+ * its element, if a child element is found with the given tag name then the string 
+ * pointed to by the given pointer will be set to the matched child element's text. 
  *
  * @param tagName Tag name to find in this reader's child elements. 
  *
@@ -172,8 +171,8 @@ DomElementReader& DomElementReader::set(const QString& tagName, QString* pointer
  * Set a new child element match with the given tag name. When this reader reads 
  * its element, if a child element is found with the given tag name then the 
  * integer pointed to by the given pointer will be set to the matched child 
- * element's text. If the matched element's text cannot be converted to an 
- * integer then an exception will be thrown. 
+ * element's text. If the matched element's text cannot be converted to an integer 
+ * then an exception will be thrown. 
  *
  * @param tagName Tag name to find in this reader's child elements. 
  *
@@ -201,8 +200,8 @@ DomElementReader& DomElementReader::set(const QString& tagName, int* pointer, bo
  *
  * @param tagName Tag name to find in this reader's child elements. 
  *
- * @param pointer Pointer to a boolean that will be set to true if a child 
- *                element is matched. 
+ * @param pointer Pointer to a boolean that will be set to true if a child element 
+ *                is matched. 
  *
  * @param required True if this match is required otherwise false. 
  *
@@ -226,8 +225,8 @@ DomElementReader& DomElementReader::set(const QString& tagName, bool* pointer, b
  *
  * @param tagName Tag name to find in this reader's child elements. 
  *
- * @param pointer Pointer to a XML element that will be set to a child element 
- *                is matched. 
+ * @param pointer Pointer to a XML element that will be set to a child element is 
+ *                matched. 
  *
  * @param required True if this match is required otherwise false. 
  *
@@ -269,25 +268,25 @@ DomElementReader& DomElementReader::set(const QString& tagName, QList<QDomElemen
 
 /*!
  * Reads this reader's XML element for child elements, finding any matches set 
- * before this is called. Before reading begins this clears all variables 
- * pointed to by the list of matches set before this is called. 
+ * before this is called. Before reading begins this clears all variables pointed 
+ * to by the list of matches set before this is called. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Clear all variables pointed to by this reader's list of matches and 
- *    iterate through all child elements of this reader's XML element for the 
- *    proceeding steps. 
+ * 1. Clear all variables pointed to by this reader's list of matches and iterate 
+ *    through all child elements of this reader's XML element for the proceeding 
+ *    steps. 
  *
- * 2. If the child element matches one of this reader's matches then go to the 
- *    next step. 
+ * 2. If the child element matches one of this reader's matches then go to the next 
+ *    step. 
  *
  * 3. If the match type is a string then set the string to the child element's 
  *    text, else if the match type is a number then set the integer to the child 
  *    element's text throwing an exception if it is not an integer, else if the 
- *    match type is a boolean then set the boolean to true, else if the match 
- *    type is an element then set the element to the child element, else if the 
- *    match is an element list then append the child element to the list. 
+ *    match type is a boolean then set the boolean to true, else if the match type 
+ *    is an element then set the element to the child element, else if the match is 
+ *    an element list then append the child element to the list. 
  */
 void DomElementReader::read()
 {
@@ -371,13 +370,13 @@ bool DomElementReader::allRequiredFound() const
 
 
 /*!
- * Inserts a new match to the lookup hash table of matches for this element 
- * reader. If a tag name already exists then an exception is thrown. 
+ * Inserts a new match to the lookup hash table of matches for this element reader. 
+ * If a tag name already exists then an exception is thrown. 
  *
  * @param tagName Tag name for the new match that is inserted. 
  *
- * @param pointer Pointer to the variable that is used for the given match that 
- *                is inserted. 
+ * @param pointer Pointer to the variable that is used for the given match that is 
+ *                inserted. 
  *
  * @param type The type for the given match that is inserted. 
  *
@@ -388,13 +387,12 @@ bool DomElementReader::allRequiredFound() const
  *
  * Steps of Operation: 
  *
- * 1. If a match already exists in this element reader's lookup hash table with 
- *    the given tag name then throw an exception, else go to the next step. 
+ * 1. If a match already exists in this element reader's lookup hash table with the 
+ *    given tag name then throw an exception, else go to the next step. 
  *
  * 2. Add a new match to this element reader's lookup hash table using the given 
  *    tag name as the key. Use the inverse of the required condition for the new 
- *    match's read condition which marks any matches that are not required as 
- *    read. 
+ *    match's read condition which marks any matches that are not required as read. 
  */
 DomElementReader& DomElementReader::append(const QString& tagName, void* pointer, Type type, bool required)
 {
@@ -425,9 +423,9 @@ DomElementReader& DomElementReader::append(const QString& tagName, void* pointer
  *
  * 1. Iterate through all matches of this element reader, setting the variables 
  *    each for each match to its default value. For strings that is an empty 
- *    string, for numbers that is 0, for boolean that is false, for element that 
- *    is calling its clear method, and for element lists that is also calling 
- *    its clear method. 
+ *    string, for numbers that is 0, for boolean that is false, for element that is 
+ *    calling its clear method, and for element lists that is also calling its 
+ *    clear method. 
  */
 void DomElementReader::clear()
 {

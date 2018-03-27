@@ -6,7 +6,6 @@
 #include <QVBoxLayout>
 #include <QSettings>
 #include <exception.h>
-#include "cppqt_common.h"
 #include "application.h"
 
 

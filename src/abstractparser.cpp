@@ -9,9 +9,8 @@
 
 
 /*!
- * This constructs a new parser object that will be a root or primary parser. 
- * This means this parser will be assumed to be the root parser of a source 
- * file. 
+ * This constructs a new parser object that will be a root or primary parser. This 
+ * means this parser will be assumed to be the root parser of a source file. 
  *
  *
  * Steps of Operation: 
@@ -39,8 +38,8 @@ AbstractParser::AbstractParser():
  *
  * Steps of Operation: 
  *
- * 1. Set this object's parent as the given parent parser, add this parser to 
- *    its parent's list of children, and set this object's root parser pointer. 
+ * 1. Set this object's parent as the given parent parser, add this parser to its 
+ *    parent's list of children, and set this object's root parser pointer. 
  *
  * 2. Set all resource pointers to point to this object's root parser resources. 
  */
@@ -68,8 +67,7 @@ AbstractParser::AbstractParser(AbstractParser* parent)
  *
  * Steps of Operation: 
  *
- * 1. If this is a root parser then delete all allocated resources else do 
- *    nothing. 
+ * 1. If this is a root parser then delete all allocated resources else do nothing. 
  */
 AbstractParser::~AbstractParser()
 {
@@ -98,8 +96,8 @@ AbstractParser::~AbstractParser()
  * 1. If this is not a root parser then do nothing and exit, else go to the next 
  *    step. 
  *
- * 2. Set the read line index to the beginning, call the initialize interface, 
- *    and read in all lines of the source file. 
+ * 2. Set the read line index to the beginning, call the initialize interface, and 
+ *    read in all lines of the source file. 
  *
  * 3. Process the input lines. 
  *
@@ -125,8 +123,7 @@ void AbstractParser::execute(QFile* file)
 
 
 /*!
- * This interface initializes this parser. The default implementation does 
- * nothing. 
+ * This interface initializes this parser. The default implementation does nothing. 
  */
 void AbstractParser::initialize()
 {}
@@ -137,19 +134,19 @@ void AbstractParser::initialize()
 
 
 /*!
- * Signals this parser that the given child parser should be used for calling 
- * the interface for reading lines until it returns false or the last line is 
+ * Signals this parser that the given child parser should be used for calling the 
+ * interface for reading lines until it returns false or the last line is 
  * processed. If the given parser is not a direct child of this parser then an 
  * exception is thrown. 
  *
- * @param child Pointer to the child parser whose interface for reading lines 
- *              will be called from now on. 
+ * @param child Pointer to the child parser whose interface for reading lines will 
+ *              be called from now on. 
  *
  *
  * Steps of Operation: 
  *
- * 1. If the given parser object's parent is not this parser then an exception 
- *    is thrown, else go to the next step. 
+ * 1. If the given parser object's parent is not this parser then an exception is 
+ *    thrown, else go to the next step. 
  *
  * 2. Set the internal child pointer signal variable to the given parser. 
  */
@@ -244,8 +241,8 @@ void AbstractParser::add(const QString& line)
 
 
 /*!
- * Appends multiple lines to the output, each one being prepended with spaces 
- * equal to the indent. 
+ * Appends multiple lines to the output, each one being prepended with spaces equal 
+ * to the indent. 
  *
  * @param lines Lines that are appended to the output. 
  */
@@ -289,8 +286,8 @@ void AbstractParser::add(int count)
  * 2. If reading in the file failed and caused an error then throw an exception, 
  *    else go to the next step. 
  *
- * 3. Split the original content by line and save it to this object's list of 
- *    input lines to be processed. 
+ * 3. Split the original content by line and save it to this object's list of input 
+ *    lines to be processed. 
  */
 void AbstractParser::read(QFile* file)
 {
@@ -317,15 +314,15 @@ void AbstractParser::read(QFile* file)
  *
  * Steps of Operation: 
  *
- * 1. While the root parser object's index is not at the end of the input line 
- *    list do the proceeding steps. 
+ * 1. While the root parser object's index is not at the end of the input line list 
+ *    do the proceeding steps. 
  *
  * 2. Call the read line interface with the next input line to process. If the 
  *    interface returns false then break the while loop and exit this function. 
  *
- * 3. If the read line interface calls the step into child function then call 
- *    the child's process input function and then set the child pointer signal 
- *    back to null. 
+ * 3. If the read line interface calls the step into child function then call the 
+ *    child's process input function and then set the child pointer signal back to 
+ *    null. 
  */
 void AbstractParser::processInput()
 {
@@ -368,22 +365,22 @@ void AbstractParser::processOutput()
 
 
 /*!
- * Write the processed output to the given file if, after joining the output 
- * lines, it is different from the original. If the output is the same as the 
- * original then this does nothing. 
+ * Write the processed output to the given file if, after joining the output lines, 
+ * it is different from the original. If the output is the same as the original 
+ * then this does nothing. 
  *
- * @param file The file that is truncated and written to if the output is 
- *             different from the original. 
+ * @param file The file that is truncated and written to if the output is different 
+ *             from the original. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Join the output lines into one giant string. If the output is different 
- *    from the root parser object's original file content then go to the next 
- *    step, else do nothing and exist the function. 
+ * 1. Join the output lines into one giant string. If the output is different from 
+ *    the root parser object's original file content then go to the next step, else 
+ *    do nothing and exist the function. 
  *
- * 2. Truncate the given file to 0 and write the root parser object's output to 
- *    it. If any error occurred for either operation then throw an exception. 
+ * 2. Truncate the given file to 0 and write the root parser object's output to it. 
+ *    If any error occurred for either operation then throw an exception. 
  */
 void AbstractParser::write(QFile* file)
 {

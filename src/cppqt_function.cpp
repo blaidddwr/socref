@@ -8,7 +8,6 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_template.h"
 #include "cppqt_access.h"
-#include "cppqt_common.h"
 #include "domelementreader.h"
 #include "common.h"
 

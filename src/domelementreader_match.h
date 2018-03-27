@@ -20,8 +20,7 @@ public:
     */
    void* _data;
    /*!
-    * The read state of this match. True if this data has been read otherwise 
-    * false. 
+    * The read state of this match. True if this data has been read otherwise false. 
     */
    bool _read;
 };

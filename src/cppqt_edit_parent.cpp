@@ -6,7 +6,6 @@
 #include <exception.h>
 #include "cppqt_gui_typedialog.h"
 #include "cppqt_parent.h"
-#include "cppqt_common.h"
 
 
 

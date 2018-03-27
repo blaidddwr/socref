@@ -77,26 +77,26 @@ Project::Project(int type):
 
 
 /*!
- * This constructs a project loaded from the file from the given path. If any 
- * error occurs from loading the project file an exception is thrown. 
+ * This constructs a project loaded from the file from the given path. If any error 
+ * occurs from loading the project file an exception is thrown. 
  *
  * @param path The path of the file that this project is loaded from. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Connect the file changed signal and get the contents of this project's 
- *    file as a byte array. 
+ * 1. Connect the file changed signal and get the contents of this project's file 
+ *    as a byte array. 
  *
- * 2. Open a new Qt XML document with the byte array, reading in its contents 
- *    for all required elements. If all required elements are not found then 
- *    throw an exception, else go to the next step. 
+ * 2. Open a new Qt XML document with the byte array, reading in its contents for 
+ *    all required elements. If all required elements are not found then throw an 
+ *    exception, else go to the next step. 
  *
  * 3. Read in the scan directory, type element, and root block along with all of 
  *    its children blocks after creating a new block root. 
  *
- * 4. Add this project's file path to the files being watched for changes and 
- *    emit the saved signal. 
+ * 4. Add this project's file path to the files being watched for changes and emit 
+ *    the saved signal. 
  */
 Project::Project(const QString& path):
    _path(path)
@@ -181,8 +181,8 @@ int Project::type() const
 
 
 /*!
- * Returns the path of the file associated with this open project. If this is a 
- * new project that has not been saved yet this returns an empty string. 
+ * Returns the path of the file associated with this open project. If this is a new 
+ * project that has not been saved yet this returns an empty string. 
  *
  * @return Path to file associated with this project or an empty string. 
  */
@@ -242,9 +242,8 @@ QString Project::scanFilters() const
 
 
 /*!
- * Makes and returns a pointer to a new scan thread that can be used for 
- * scanning and parsing matched source files in the scan directory of this 
- * project. 
+ * Makes and returns a pointer to a new scan thread that can be used for scanning 
+ * and parsing matched source files in the scan directory of this project. 
  *
  * @return Pointer to new scan thread object. 
  */
@@ -289,8 +288,8 @@ BlockModel* Project::model()
  * 1. If the given new name is the same as this project's current name then do 
  *    nothing and exit, else go to the next step. 
  *
- * 2. Set this project's name to the new name given, emit the name changed 
- *    signal, and signal this project has been modified. 
+ * 2. Set this project's name to the new name given, emit the name changed signal, 
+ *    and signal this project has been modified. 
  */
 void Project::setName(const QString& newName)
 {
@@ -309,22 +308,22 @@ void Project::setName(const QString& newName)
 
 /*!
  * Sets a new scan directory path for this project to the given path. The given 
- * path can be relative to this program's present working directory. If the 
- * given path is not a valid directory then an exception is thrown. 
+ * path can be relative to this program's present working directory. If the given 
+ * path is not a valid directory then an exception is thrown. 
  *
  * @param newPath Path that this project's scan directory is set to. 
  *
  *
  * Steps of Operation: 
  *
- * 1. If the given path is the same as this project's current scan directory 
- *    path then do nothing and exit, else go to the next step. 
+ * 1. If the given path is the same as this project's current scan directory path 
+ *    then do nothing and exit, else go to the next step. 
  *
- * 2. If the given new path is not a valid directory then throw an exception, 
- *    else go to the next step. 
+ * 2. If the given new path is not a valid directory then throw an exception, else 
+ *    go to the next step. 
  *
- * 3. Set this project's scan directory to the new path given in its canonical 
- *    form and signal this project has been modified. 
+ * 3. Set this project's scan directory to the new path given in its canonical form 
+ *    and signal this project has been modified. 
  */
 void Project::setScanDirectory(const QString& newPath)
 {
@@ -353,16 +352,16 @@ void Project::setScanDirectory(const QString& newPath)
 
 /*!
  * Sets new scanning file filters for this project. These filters are used to 
- * filter out what files are matched for parsing when a scan thread of this 
- * project is used. The filter filters must be separated by spaces. 
+ * filter out what files are matched for parsing when a scan thread of this project 
+ * is used. The filter filters must be separated by spaces. 
  *
  * @param newFilters The file filters that this project will use for scanning. 
  *
  *
  * Steps of Operation: 
  *
- * 1. If the given scan filters is the same of this project's current scan 
- *    filters then do nothing and exit, else go to the next step. 
+ * 1. If the given scan filters is the same of this project's current scan filters 
+ *    then do nothing and exit, else go to the next step. 
  *
  * 2. Set this project's scan filters to the new filters given and signal this 
  *    project has been modified. 
@@ -383,8 +382,8 @@ void Project::setScanFilters(const QString& newFilters)
 
 /*!
  * Saves this project to its associated file. If this is a new project that has 
- * never been saved then an exception is thrown. If any writing error occurs 
- * while saving an exception is thrown. 
+ * never been saved then an exception is thrown. If any writing error occurs while 
+ * saving an exception is thrown. 
  *
  *
  * Steps of Operation: 
@@ -392,15 +391,15 @@ void Project::setScanFilters(const QString& newFilters)
  * 1. If this project has no path to save to then throw an exception, else go to 
  *    the next step. 
  *
- * 2. Create a new Qt XML document, appending its XML processing instructions 
- *    and creating the root project element. 
+ * 2. Create a new Qt XML document, appending its XML processing instructions and 
+ *    creating the root project element. 
  *
- * 3. Save this project's basic information, its type element, and its root 
- *    block along with all children blocks to the project element. 
+ * 3. Save this project's basic information, its type element, and its root block 
+ *    along with all children blocks to the project element. 
  *
  * 4. Save the Qt XML document as a byte array and save the byte array to this 
- *    project's file, setting this project as not modified and emitting the 
- *    saved signal. 
+ *    project's file, setting this project as not modified and emitting the saved 
+ *    signal. 
  */
 void Project::save()
 {
@@ -444,8 +443,8 @@ void Project::save()
  *
  * Steps of Operation: 
  *
- * 1. Set this project's file path to the new path given, changing the file 
- *    watcher path to the new path given and removing the old one. 
+ * 1. Set this project's file path to the new path given, changing the file watcher 
+ *    path to the new path given and removing the old one. 
  *
  * 2. Save this project to the new file. If any exception is thrown while saving 
  *    then revert this project and its file watcher back to the old path. 
@@ -487,20 +486,20 @@ void Project::blockModified()
 
 
 /*!
- * Called when this project's file has changed. This is called even if the 
- * project itself is saved to the file, so this also checks to see it that is 
- * the case or not. 
+ * Called when this project's file has changed. This is called even if the project 
+ * itself is saved to the file, so this also checks to see it that is the case or 
+ * not. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Open this project's file and read in its entire contents as a byte array. 
- *    If opening or reading fails then return and do nothing, else go to the 
- *    next step. 
+ * 1. Open this project's file and read in its entire contents as a byte array. If 
+ *    opening or reading fails then return and do nothing, else go to the next 
+ *    step. 
  *
  * 2. Check the saved hash of the saved file with the current hash of the saved 
- *    file. If the hashes are different then signal the save file has changed 
- *    from an outside source, else do nothing. 
+ *    file. If the hashes are different then signal the save file has changed from 
+ *    an outside source, else do nothing. 
  */
 void Project::fileChanged()
 {
@@ -543,8 +542,8 @@ void Project::signalModified()
 
 
 /*!
- * Reads in this project's file and returns its entire contents as a byte array. 
- * If opening or reading this project's file fails then an exception is thrown. 
+ * Reads in this project's file and returns its entire contents as a byte array. If 
+ * opening or reading this project's file fails then an exception is thrown. 
  *
  * @return Contents of this project's file as a byte array. 
  *
@@ -552,8 +551,7 @@ void Project::signalModified()
  * Steps of Operation: 
  *
  * 1. Open this project's file and read all its contents as a byte array. If 
- *    opening or reading failed then throw an exception, else go to the next 
- *    step. 
+ *    opening or reading failed then throw an exception, else go to the next step. 
  *
  * 2. Set this project's file hash, used for file watching, and return the byte 
  *    array. 
@@ -587,11 +585,11 @@ QByteArray Project::read()
 
 /*!
  * Converts the given scan directory path into its absolute canonical form and 
- * saves that form to this project's scan directory path. If the given path is 
- * not a valid directory than an exception is thrown. 
+ * saves that form to this project's scan directory path. If the given path is not 
+ * a valid directory than an exception is thrown. 
  *
- * @param path The given path to that is converted to its canonical form and 
- *             saved as this project's scan directory. 
+ * @param path The given path to that is converted to its canonical form and saved 
+ *             as this project's scan directory. 
  *
  *
  * Steps of Operation: 
@@ -622,12 +620,11 @@ void Project::convertScanDirectory(const QString& path)
 
 
 /*!
- * Reads the given element as the XML type element for this project, setting 
- * this project's type. If the given XML element is not a valid type element 
- * then an exception is thrown. 
+ * Reads the given element as the XML type element for this project, setting this 
+ * project's type. If the given XML element is not a valid type element then an 
+ * exception is thrown. 
  *
- * @param element The XML element that is read in as this project's type 
- *                element. 
+ * @param element The XML element that is read in as this project's type element. 
  *
  *
  * Steps of Operation: 
@@ -636,8 +633,8 @@ void Project::convertScanDirectory(const QString& path)
  *    this project's type to that value. If the read in type is out of range for 
  *    all possible project types then throw an exception, else go the next step. 
  *
- * 2. Read in the text field of the given XML element and make sure it matches 
- *    the name of the project type read in. If they do not match then throw an 
+ * 2. Read in the text field of the given XML element and make sure it matches the 
+ *    name of the project type read in. If they do not match then throw an 
  *    exception. 
  */
 void Project::readTypeElement(const QDomElement& element)
@@ -673,8 +670,8 @@ void Project::readTypeElement(const QDomElement& element)
 
 /*!
  * Writes the given byte array to this project's file, overwriting anything the 
- * file contains beforehand. If opening or writing this project's file fails 
- * then an exception is thrown. 
+ * file contains beforehand. If opening or writing this project's file fails then 
+ * an exception is thrown. 
  *
  * @param data The byte array that is written to this project's file. 
  *
@@ -682,8 +679,8 @@ void Project::readTypeElement(const QDomElement& element)
  * Steps of Operation: 
  *
  * 1. Open this project's file and write the given byte array to the file, 
- *    overwriting and erasing any data the file contained beforehand. If opening 
- *    or writing failed then throw an exception, else go to the next step. 
+ *    overwriting and erasing any data the file contained beforehand. If opening or 
+ *    writing failed then throw an exception, else go to the next step. 
  *
  * 2. Set this project's file hash used for watching. 
  */
@@ -725,9 +722,9 @@ void Project::write(const QByteArray& data)
  * Steps of Operation: 
  *
  * 1. Add three new child elements to the given element that contains this 
- *    project's name, scan directory, and file filters. The scan directory is 
- *    saved using its relative path in relation to the directory where this 
- *    project's save file is located. 
+ *    project's name, scan directory, and file filters. The scan directory is saved 
+ *    using its relative path in relation to the directory where this project's 
+ *    save file is located. 
  */
 void Project::saveBasicInfo(QDomDocument& document, QDomElement* project)
 {
@@ -752,14 +749,13 @@ void Project::saveBasicInfo(QDomDocument& document, QDomElement* project)
  * Sets this project's file hash with the hash of the given byte array. This is 
  * used for this project to watch for changes to its file. 
  *
- * @param bytes The byte array whose hash is set as this project's file hash 
- *              value. 
+ * @param bytes The byte array whose hash is set as this project's file hash value. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Get the hash value of the given byte array using md5 and set this 
- *    project's file hash to the new value. 
+ * 1. Get the hash value of the given byte array using md5 and set this project's 
+ *    file hash to the new value. 
  */
 void Project::setFileHash(const QByteArray& bytes)
 {
@@ -774,22 +770,20 @@ void Project::setFileHash(const QByteArray& bytes)
 
 
 /*!
- * Makes a new root block for this project using the block factory this 
- * project's type, setting this project's root block pointer to the new root 
- * block created. If this project's type is out of range of possible project 
- * types or the block factory returns a null pointer than an exception is 
- * thrown. 
+ * Makes a new root block for this project using the block factory this project's 
+ * type, setting this project's root block pointer to the new root block created. 
+ * If this project's type is out of range of possible project types or the block 
+ * factory returns a null pointer than an exception is thrown. 
  *
  *
  * Steps of Operation: 
  *
- * 1. If this project's type is out of range for possible project types then 
- *    throw an exception, else go to the next step. 
+ * 1. If this project's type is out of range for possible project types then throw 
+ *    an exception, else go to the next step. 
  *
- * 2. Create a new root block using this project type's block factory, setting 
- *    this project's root block pointer to the new root block. If the block 
- *    factory returns a null pointer than throw an exception, else go to the 
- *    next step. 
+ * 2. Create a new root block using this project type's block factory, setting this 
+ *    project's root block pointer to the new root block. If the block factory 
+ *    returns a null pointer than throw an exception, else go to the next step. 
  *
  * 3. Set the new root block's parent to this project, connecting the block 
  *    modified signal between the new root block and this project. 

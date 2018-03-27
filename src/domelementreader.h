@@ -12,15 +12,14 @@ class QDomElement;
 
 
 /*!
- * This is a helper class that makes is easier to read information stored in an 
- * XML element. This primarily helps with finding child elements and extracting 
+ * This is a helper class that makes is easier to read information stored in an XML 
+ * element. This primarily helps with finding child elements and extracting 
  * information enclosed within them. This also helps with getting attributes in 
- * text or integer form and throwing exceptions if they don't exist. For 
- * searching child elements this class works by adding matches that will be 
- * looked for when the XML element given to this class is read. When a match is 
- * found the variable passed to the match is set to the value of the matched 
- * child element. This class is designed to only read its given XML element once 
- * and then be destroyed. 
+ * text or integer form and throwing exceptions if they don't exist. For searching 
+ * child elements this class works by adding matches that will be looked for when 
+ * the XML element given to this class is read. When a match is found the variable 
+ * passed to the match is set to the value of the matched child element. This class 
+ * is designed to only read its given XML element once and then be destroyed. 
  */
 class DomElementReader
 {
@@ -67,14 +66,14 @@ private:
    DomElementReader& append(const QString& tagName, void* pointer, Type type, bool required);
    void clear();
    /*!
-    * The XML element that this element reader reads the direct children of with 
-    * the read method and extracts arguments from. 
+    * The XML element that this element reader reads the direct children of with the 
+    * read method and extracts arguments from. 
     */
    const QDomElement& _element;
    /*!
-    * The hash table used to store all matches and look them up by their tag name 
-    * for this element reader used when reading the child elements of this reader's 
-    * XML element. 
+    * The hash table used to store all matches and look them up by their tag name for 
+    * this element reader used when reading the child elements of this reader's XML 
+    * element. 
     */
    QHash<QString,Match*> _lookup;
 };

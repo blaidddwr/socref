@@ -2,7 +2,6 @@
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QLabel>
-#include "cppqt_common.h"
 
 
 
