@@ -7,7 +7,8 @@
 
 /*!
  * This is the main application class for this program. It implements the notify 
- * interface to be able to handle exceptions and holds the keys for qt settings. 
+ * interface to be able to handle exceptions. It also contains the version of the 
+ * program, along with the keys used to access this program's qt settings. 
  */
 class Application : public QApplication
 {
@@ -15,6 +16,23 @@ class Application : public QApplication
 public:
    Application(int& argc, char** argv);
    virtual bool notify(QObject* receiver, QEvent* event) override final;
+   /*!
+    * Major version of this program. 
+    */
+   constexpr static int _majorVersion {0};
+   /*!
+    * Minor version of this program. 
+    */
+   constexpr static int _minorVersion {4};
+   /*!
+    * Revision number of this program. 
+    */
+   constexpr static int _revision {0};
+   /*!
+    * The version of this program as a string which includes the major version, minor 
+    * version, and revision. 
+    */
+   static const char* _versionString;
    /*!
     * The company key used to access this program's qt settings. 
     */

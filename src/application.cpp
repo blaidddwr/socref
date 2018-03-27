@@ -6,6 +6,11 @@
 
 
 /*!
+ * The version of this program as a string which includes the major version, minor 
+ * version, and revision. 
+ */
+const char* Application::_versionString {"0.4.0"};
+/*!
  * The company key used to access this program's qt settings. 
  */
 const char* Application::_companyKey {"blaidddwr"};

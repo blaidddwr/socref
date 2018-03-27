@@ -3225,7 +3225,7 @@
       <class type="4">
          <data version="1">
             <name>Application</name>
-            <description>This is the main application class for this program. It implements the notify interface to be able to handle exceptions and holds the keys for qt settings.</description>
+            <description>This is the main application class for this program. It implements the notify interface to be able to handle exceptions. It also contains the version of the program, along with the keys used to access this program's qt settings.</description>
             <type>QEvent*</type>
             <qtobject/>
          </data>
@@ -3285,6 +3285,45 @@
                   </data>
                </variable>
             </function>
+            <variable type="1">
+               <data version="1">
+                  <name>_majorVersion</name>
+                  <description>Major version of this program.</description>
+                  <constexpr/>
+                  <static/>
+                  <type>int</type>
+                  <initializer>0</initializer>
+               </data>
+            </variable>
+            <variable type="1">
+               <data version="1">
+                  <name>_minorVersion</name>
+                  <description>Minor version of this program.</description>
+                  <constexpr/>
+                  <static/>
+                  <type>int</type>
+                  <initializer>4</initializer>
+               </data>
+            </variable>
+            <variable type="1">
+               <data version="1">
+                  <name>_revision</name>
+                  <description>Revision number of this program.</description>
+                  <constexpr/>
+                  <static/>
+                  <type>int</type>
+                  <initializer>0</initializer>
+               </data>
+            </variable>
+            <variable type="1">
+               <data version="1">
+                  <name>_versionString</name>
+                  <description>The version of this program as a string which includes the major version, minor version, and revision.</description>
+                  <static/>
+                  <type>const char*</type>
+                  <initializer>"0.4.0"</initializer>
+               </data>
+            </variable>
             <variable type="1">
                <data version="1">
                   <name>_companyKey</name>

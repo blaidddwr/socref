@@ -11,5 +11,3 @@
 
 * Fix C++/Qt parsing bug where the description of namespaces do not appear anywhere in the code.
 
-* Add program version attributes to the application class.
-
