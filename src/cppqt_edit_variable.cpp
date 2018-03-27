@@ -18,19 +18,10 @@ using namespace CppQt::Gui;
 
 
 
-Variable::Variable(AbstractBlock* block, QWidget* parent, bool isFinal):
+Variable::Variable(CppQt::Variable* block, QWidget* parent):
    Base(block,parent),
-   _block(qobject_cast<CppQt::Variable*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   if ( isFinal ) saveSettings("cppqt.edit.variable.geometry");
-}
+   _block(block)
+{}
 
 
 
@@ -39,6 +30,7 @@ Variable::Variable(AbstractBlock* block, QWidget* parent, bool isFinal):
 
 QLayout* Variable::layout()
 {
+   saveSettings("cppqt.edit.variable.geometry");
    QFormLayout* ret {new QFormLayout};
    addCombo(ret);
    Base::addFields(ret);

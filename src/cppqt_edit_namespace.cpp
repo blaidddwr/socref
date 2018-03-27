@@ -18,19 +18,10 @@ using namespace CppQt::Gui;
 
 
 
-Namespace::Namespace(AbstractBlock* block, QWidget *parent, bool isFinal):
+Namespace::Namespace(CppQt::Namespace* block, QWidget *parent):
    Base(block,parent),
-   _block(qobject_cast<CppQt::Namespace*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   if ( isFinal ) saveSettings("cppqt.edit.namespace.geometry");
-}
+   _block(block)
+{}
 
 
 
@@ -39,6 +30,7 @@ Namespace::Namespace(AbstractBlock* block, QWidget *parent, bool isFinal):
 
 QLayout* Namespace::layout()
 {
+   saveSettings("cppqt.edit.namespace.geometry");
    QFormLayout* ret {new QFormLayout};
    Base::addFields(ret);
    addTypeButtons(ret);

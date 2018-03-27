@@ -14,17 +14,10 @@ using namespace CppQt::View;
 
 
 
-Class::Class(const AbstractBlock* block, QWidget* parent):
+Class::Class(const CppQt::Class* block, QWidget* parent):
    Namespace(block,true,parent),
-   _block(qobject_cast<const CppQt::Class*>(block))
+   _block(block)
 {
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
    connect(_block,&CppQt::Class::bodyChanged,this,&Class::bodyChanged);
    setText(displayText());
 }

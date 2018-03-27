@@ -14,19 +14,10 @@ using namespace CppQt::Edit;
 
 
 
-Enumeration::Enumeration(AbstractBlock* block, QWidget* parent):
+Enumeration::Enumeration(CppQt::Enumeration* block, QWidget* parent):
    Base(block,parent),
-   _block(qobject_cast<CppQt::Enumeration*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   saveSettings("cppqt.edit.enumeration.geometry");
-}
+   _block(block)
+{}
 
 
 
@@ -35,6 +26,7 @@ Enumeration::Enumeration(AbstractBlock* block, QWidget* parent):
 
 QLayout* Enumeration::layout()
 {
+   saveSettings("cppqt.edit.enumeration.geometry");
    QFormLayout* ret {new QFormLayout};
    Base::addFields(ret);
    addClass(ret);

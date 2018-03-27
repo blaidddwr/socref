@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit EnumValue(const AbstractBlock* block, QWidget* parent = nullptr);
+         using Base::Base;
       };
    }
 }

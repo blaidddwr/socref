@@ -14,19 +14,10 @@ using namespace CppQt::Edit;
 
 
 
-Constructor::Constructor(AbstractBlock* block, QWidget* parent):
-   Function(block,parent,false),
-   _block(qobject_cast<CppQt::Constructor*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   saveSettings("cppqt.edit.constructor.geometry");
-}
+Constructor::Constructor(CppQt::Constructor* block, QWidget* parent):
+   Function(block,parent),
+   _block(block)
+{}
 
 
 
@@ -35,6 +26,7 @@ Constructor::Constructor(AbstractBlock* block, QWidget* parent):
 
 QLayout* Constructor::layout()
 {
+   saveSettings("cppqt.edit.constructor.geometry");
    QFormLayout* ret {new QFormLayout};
    Base::addDescription(ret);
    addOperations(ret);

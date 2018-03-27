@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Slot(AbstractBlock* block, QWidget* parent = nullptr, bool isFinal = true);
+         explicit Slot(CppQt::Slot* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
       };

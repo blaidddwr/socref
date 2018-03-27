@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Operator(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Operator(CppQt::Operator* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
          virtual void apply() override final;

@@ -12,11 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Namespace(const AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
-      protected:
-         QString displayText();
-      private:
-         const CppQt::Namespace* _block;
+         explicit Namespace(const CppQt::Namespace* block, bool wait = false, QWidget* parent = nullptr);
       };
    }
 }

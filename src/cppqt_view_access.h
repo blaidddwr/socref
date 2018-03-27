@@ -14,7 +14,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Access(const AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Access(const CppQt::Access* block, QWidget* parent = nullptr);
       private:
          void bodyChanged();
          const CppQt::Access* _block;

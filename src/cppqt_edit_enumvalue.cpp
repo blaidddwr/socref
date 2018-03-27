@@ -15,19 +15,10 @@ using namespace CppQt::Edit;
 
 
 
-EnumValue::EnumValue(AbstractBlock* block, QWidget* parent):
+EnumValue::EnumValue(CppQt::EnumValue* block, QWidget* parent):
    Base(block,parent),
-   _block(qobject_cast<CppQt::EnumValue*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   saveSettings("cppqt.edit.enumvalue.geometry");
-}
+   _block(block)
+{}
 
 
 
@@ -36,6 +27,7 @@ EnumValue::EnumValue(AbstractBlock* block, QWidget* parent):
 
 QLayout* EnumValue::layout()
 {
+   saveSettings("cppqt.edit.enumvalue.geometry");
    QFormLayout* ret {new QFormLayout};
    Base::addFields(ret);
    addValue(ret);

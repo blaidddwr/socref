@@ -19,19 +19,10 @@ using namespace CppQt::Edit;
 
 
 
-Function::Function(AbstractBlock* block, QWidget* parent, bool isFinal):
-   Variable(block,parent,false),
-   _block(qobject_cast<CppQt::Function*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   if ( isFinal ) saveSettings("cppqt.edit.function.geometry");
-}
+Function::Function(CppQt::Function* block, QWidget* parent):
+   Variable(block,parent),
+   _block(block)
+{}
 
 
 
@@ -40,6 +31,7 @@ Function::Function(AbstractBlock* block, QWidget* parent, bool isFinal):
 
 QLayout* Function::layout()
 {
+   saveSettings("cppqt.edit.function.geometry");
    QFormLayout* ret {new QFormLayout};
    Base::addFields(ret);
    addReturn(ret);

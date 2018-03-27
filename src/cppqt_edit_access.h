@@ -20,7 +20,7 @@ namespace CppQt
       public:
          Q_OBJECT
       public:
-         explicit Access(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Access(CppQt::Access* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
          virtual void apply() override final;

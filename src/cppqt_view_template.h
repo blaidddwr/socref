@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Template(const AbstractBlock* block, QWidget* parent = nullptr);
+         using Variable::Variable;
       };
    }
 }

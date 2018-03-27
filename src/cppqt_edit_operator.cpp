@@ -14,19 +14,10 @@ using namespace CppQt::Edit;
 
 
 
-Operator::Operator(AbstractBlock* block, QWidget* parent):
-   Function(block,parent,false),
-   _block(qobject_cast<CppQt::Operator*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   saveSettings("cppqt.edit.operator.geometry");
-}
+Operator::Operator(CppQt::Operator* block, QWidget* parent):
+   Function(block,parent),
+   _block(block)
+{}
 
 
 
@@ -35,6 +26,7 @@ Operator::Operator(AbstractBlock* block, QWidget* parent):
 
 QLayout* Operator::layout()
 {
+   saveSettings("cppqt.edit.operator.geometry");
    QFormLayout* ret {new QFormLayout};
    addOperation(ret);
    Base::addDescription(ret);

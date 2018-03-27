@@ -16,19 +16,10 @@ using namespace CppQt::Edit;
 
 
 
-Access::Access(AbstractBlock* block, QWidget* parent):
+Access::Access(CppQt::Access* block, QWidget* parent):
    Gui::AbstractEdit(parent),
-   _block(qobject_cast<CppQt::Access*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   saveSettings("cppqt.edit.access.geometry");
-}
+   _block(block)
+{}
 
 
 
@@ -37,6 +28,7 @@ Access::Access(AbstractBlock* block, QWidget* parent):
 
 QLayout* Access::layout()
 {
+   saveSettings("cppqt.edit.access.geometry");
    QFormLayout* ret {new QFormLayout};
    addCombo(ret);
    return ret;

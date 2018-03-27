@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Namespace(AbstractBlock* block, QWidget* parent = nullptr, bool isFinal = true);
+         explicit Namespace(CppQt::Namespace* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
          void addTypeButtons(QFormLayout* layout);

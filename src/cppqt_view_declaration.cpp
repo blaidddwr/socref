@@ -11,17 +11,10 @@ using namespace CppQt::View;
 
 
 
-Declaration::Declaration(const AbstractBlock* block, QWidget* parent):
+Declaration::Declaration(const CppQt::Declaration* block, QWidget* parent):
    QLabel(parent),
-   _block(qobject_cast<const CppQt::Declaration*>(block))
+   _block(block)
 {
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
    setAlignment(Qt::AlignTop);
    setWordWrap(true);
    setTextFormat(Qt::RichText);

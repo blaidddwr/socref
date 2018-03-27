@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Function(const AbstractBlock* block, bool wait = false, QWidget* parent = nullptr);
+         explicit Function(const CppQt::Function* block, bool wait = false, QWidget* parent = nullptr);
       protected:
          QString displayText();
          QString displayTemplatesText();

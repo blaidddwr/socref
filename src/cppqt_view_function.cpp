@@ -14,17 +14,10 @@ using namespace CppQt::View;
 
 
 
-Function::Function(const AbstractBlock* block, bool wait, QWidget* parent):
-   Variable(block,parent),
-   _block(qobject_cast<const CppQt::Function*>(block))
+Function::Function(const CppQt::Function* block, bool wait, QWidget* parent):
+   Variable(block,true,parent),
+   _block(block)
 {
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
    connect(_block,&CppQt::Function::bodyChanged,this,&Function::bodyChanged);
    if ( !wait ) setText(displayText());
 }

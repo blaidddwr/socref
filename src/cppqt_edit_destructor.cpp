@@ -2,6 +2,7 @@
 #include <QFormLayout>
 #include <QGridLayout>
 #include <QLabel>
+#include "cppqt_destructor.h"
 
 
 
@@ -12,11 +13,9 @@ using namespace CppQt::Edit;
 
 
 
-Destructor::Destructor(AbstractBlock* block, QWidget* parent):
-   Function(block,parent,false)
-{
-   saveSettings("cppqt.edit.destructor.geometry");
-}
+Destructor::Destructor(CppQt::Destructor* block, QWidget* parent):
+   Function(block,parent)
+{}
 
 
 
@@ -25,6 +24,7 @@ Destructor::Destructor(AbstractBlock* block, QWidget* parent):
 
 QLayout* Destructor::layout()
 {
+   saveSettings("cppqt.edit.destructor.geometry");
    QFormLayout* ret {new QFormLayout};
    Base::addDescription(ret);
    addOperations(ret);

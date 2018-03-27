@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Class(const AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Class(const CppQt::Class* block, QWidget* parent = nullptr);
       protected:
          QString displayText();
          QString displayQtObjectText();

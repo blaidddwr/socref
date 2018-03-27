@@ -12,17 +12,10 @@ using namespace CppQt::View;
 
 
 
-Access::Access(const AbstractBlock* block, QWidget* parent):
+Access::Access(const CppQt::Access* block, QWidget* parent):
    QLabel(parent),
-   _block(qobject_cast<const CppQt::Access*>(block))
+   _block(block)
 {
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
    connect(_block,&CppQt::Access::bodyChanged,this,&Access::bodyChanged);
    setAlignment(Qt::AlignTop);
    setWordWrap(true);

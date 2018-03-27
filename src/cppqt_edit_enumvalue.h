@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit EnumValue(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit EnumValue(CppQt::EnumValue* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
          virtual void apply() override final;

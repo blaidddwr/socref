@@ -1,6 +1,7 @@
 #include "cppqt_view_variable.h"
 #include <exception.h>
 #include "cppqt_variable.h"
+#include "cppqt_blockfactory.h"
 
 
 
@@ -11,17 +12,10 @@ using namespace CppQt::View;
 
 
 
-Variable::Variable(const AbstractBlock* block, bool wait, QWidget* parent):
+Variable::Variable(const CppQt::Variable* block, bool wait, QWidget* parent):
    Base(block,parent),
-   _block(qobject_cast<const CppQt::Variable*>(block))
+   _block(block)
 {
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
    if ( !wait ) setText(displayText());
 }
 

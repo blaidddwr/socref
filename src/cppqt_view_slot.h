@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Slot(const AbstractBlock* block, QWidget* parent = nullptr);
+         using Function::Function;
       };
    }
 }

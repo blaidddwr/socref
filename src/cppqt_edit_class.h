@@ -16,7 +16,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Class(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Class(CppQt::Class* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
          virtual void apply() override final;

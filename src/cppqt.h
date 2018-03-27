@@ -15,5 +15,7 @@ namespace CppQt
    class EnumValue;
    class Parent;
    class Constructor;
+   class Destructor;
    class Declaration;
+   class Slot;
 }

@@ -17,19 +17,10 @@ using namespace CppQt::Edit;
 
 
 
-Class::Class(AbstractBlock* block, QWidget* parent):
+Class::Class(CppQt::Class* block, QWidget* parent):
    Namespace(block,parent),
-   _block(qobject_cast<CppQt::Class*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-   saveSettings("cppqt.edit.class.geometry");
-}
+   _block(block)
+{}
 
 
 
@@ -38,6 +29,7 @@ Class::Class(AbstractBlock* block, QWidget* parent):
 
 QLayout* Class::layout()
 {
+   saveSettings("cppqt.edit.class.geometry");
    QFormLayout* ret {new QFormLayout};
    Base::addFields(ret);
    addProperties(ret);

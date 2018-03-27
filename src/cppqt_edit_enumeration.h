@@ -16,7 +16,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Enumeration(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Enumeration(CppQt::Enumeration* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
          virtual void apply() override final;

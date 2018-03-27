@@ -17,9 +17,7 @@ using namespace CppQt::Edit;
 Declaration::Declaration(CppQt::Declaration* block, QWidget* parent):
    ::Gui::AbstractEdit(parent),
    _block(block)
-{
-   saveSettings("cppqt.edit.declaration.geometry");
-}
+{}
 
 
 
@@ -28,6 +26,7 @@ Declaration::Declaration(CppQt::Declaration* block, QWidget* parent):
 
 QLayout* Declaration::layout()
 {
+   saveSettings("cppqt.edit.declaration.geometry");
    QFormLayout* ret {new QFormLayout};
    addType(ret);
    addField(ret);

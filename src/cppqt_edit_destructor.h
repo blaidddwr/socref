@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Destructor(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Destructor(CppQt::Destructor* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
       private:

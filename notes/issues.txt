@@ -1,6 +1,4 @@
 
-* Remove casting from edits and views of blocks since that is no longer needed.
-
 * Add validating for C++/Qt declaration fields.
 
 * Refactor code for function arguments so arguments vertically line up.

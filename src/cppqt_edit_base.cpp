@@ -18,30 +18,10 @@ using namespace CppQt::Edit;
 
 
 
-Base::Base(AbstractBlock* block, QWidget* parent):
+Base::Base(CppQt::Base* block, QWidget* parent):
    AbstractEdit(parent),
-   _block(qobject_cast<CppQt::Base*>(block))
-{
-   if ( !_block )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Abstract block is not correct type."));
-      throw e;
-   }
-}
-
-
-
-
-
-
-QLayout* Base::layout()
-{
-   QFormLayout* ret {new QFormLayout};
-   addFields(ret);
-   return ret;
-}
+   _block(block)
+{}
 
 
 

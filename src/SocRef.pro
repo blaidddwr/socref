@@ -39,7 +39,6 @@ SOURCES += \
     cppqt_function.cpp \
     cppqt_view_function.cpp \
     cppqt_template.cpp \
-    cppqt_view_template.cpp \
     cppqt_edit_function.cpp \
     cppqt_edit_template.cpp \
     cppqt_class.cpp \
@@ -56,24 +55,17 @@ SOURCES += \
     cppqt_edit_class.cpp \
     cppqt_edit_access.cpp \
     cppqt_operator.cpp \
-    cppqt_view_operator.cpp \
     cppqt_edit_operator.cpp \
     cppqt_constructor.cpp \
-    cppqt_view_constructor.cpp \
     cppqt_edit_constructor.cpp \
     cppqt_destructor.cpp \
     cppqt_edit_destructor.cpp \
-    cppqt_view_destructor.cpp \
     cppqt_slot.cpp \
-    cppqt_view_slot.cpp \
     cppqt_edit_slot.cpp \
-    cppqt_view_signal.cpp \
     cppqt_edit_signal.cpp \
     cppqt_enumeration.cpp \
-    cppqt_view_enumeration.cpp \
     cppqt_edit_enumeration.cpp \
     cppqt_enumvalue.cpp \
-    cppqt_view_enumvalue.cpp \
     cppqt_edit_enumvalue.cpp \
     cppqt_parent.cpp \
     cppqt_view_parent.cpp \

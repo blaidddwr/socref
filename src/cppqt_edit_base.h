@@ -21,9 +21,8 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Base(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Base(CppQt::Base* block, QWidget* parent = nullptr);
       protected:
-         virtual QLayout* layout() override;
          void addFields(QFormLayout* layout);
          void addName(QFormLayout* layout);
          void addDescription(QFormLayout* layout);

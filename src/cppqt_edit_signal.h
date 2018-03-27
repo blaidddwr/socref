@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Signal(AbstractBlock* block, QWidget* parent = nullptr);
+         explicit Signal(CppQt::Signal* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
       };

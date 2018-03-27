@@ -19,9 +19,7 @@ using namespace CppQt::Edit;
 Parent::Parent(CppQt::Parent* block, QWidget* parent):
    ::Gui::AbstractEdit(parent),
    _block(block)
-{
-   saveSettings("cppqt.edit.parent.geometry");
-}
+{}
 
 
 
@@ -30,6 +28,7 @@ Parent::Parent(CppQt::Parent* block, QWidget* parent):
 
 QLayout* Parent::layout()
 {
+   saveSettings("cppqt.edit.parent.geometry");
    QFormLayout* ret {new QFormLayout};
    addAccess(ret);
    addClass(ret);
