@@ -98,7 +98,8 @@ SOURCES += \
     cppqt_declaration.cpp \
     cppqt_view_declaration.cpp \
     cppqt_edit_declaration.cpp \
-    cppqt_parse_declaration.cpp
+    cppqt_parse_declaration.cpp \
+    gui_aboutdialog.cpp
 
 HEADERS += \
     singleton.h \
@@ -200,7 +201,8 @@ HEADERS += \
     cppqt_declaration.h \
     cppqt_view_declaration.h \
     cppqt_edit_declaration.h \
-    cppqt_parse_declaration.h
+    cppqt_parse_declaration.h \
+    gui_aboutdialog.h
 
 RESOURCES += \
     resources.qrc

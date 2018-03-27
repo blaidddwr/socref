@@ -1,3 +1,1 @@
 
-* Add a help menu on the right side that will just have an about action for now.
-

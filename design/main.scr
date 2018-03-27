@@ -36,6 +36,7 @@
          <type>QFile*</type>
          <type>QFileInfoList</type>
          <type>QIcon</type>
+         <type>QLayout*</type>
          <type>QList&lt;int></type>
          <type>QModelIndex</type>
          <type>QObject*</type>
@@ -43,6 +44,7 @@
          <type>QString*</type>
          <type>QStringList*</type>
          <type>QVariant</type>
+         <type>QWidget*</type>
          <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
          <type>std::unique_ptr&lt;AbstractBlock></type>
          <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
@@ -53,6 +55,118 @@
          <type>std::unique_ptr&lt;QWidget></type>
          <type>void</type>
       </data>
+      <namespace type="0">
+         <data version="1">
+            <name>Gui</name>
+         </data>
+         <class type="4">
+            <data version="1">
+               <name>AboutDialog</name>
+               <description>This is a simple dialog that presents information about this program. The only functionality is to simply close it by clicking OK.</description>
+               <qtobject/>
+            </data>
+            <parent type="13">
+               <data version="2">
+                  <access>public</access>
+                  <class>PersistentDialog</class>
+               </data>
+            </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <description>Constructs a new about dialog with the given optional parent.</description>
+                     <type></type>
+                     <operation>Setup this object's GUI and set the dialog window's title.</operation>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>parent</name>
+                        <description>Pointer to this new about dialog object's parent or null for no parent.</description>
+                        <type>QWidget*</type>
+                        <initializer>nullptr</initializer>
+                     </data>
+                  </variable>
+               </constructor>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>private:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>setupGui</name>
+                     <description>Constructs all GUI elements for this new about dialog.</description>
+                     <type>void</type>
+                     <operation>Create a new vertical box layout, adding the top and bottom layout sections of this object's GUI in that order.</operation>
+                     <operation>Set this object's layout to the created vertical box layout.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupTop</name>
+                     <description>Constructs the top part of this object's GUI consisting of an image to the left and description to the right, returning the layout.</description>
+                     <type>QLayout*</type>
+                     <return_description>Pointer to layout of the top section of this object's GUI.</return_description>
+                     <operation>Create a new horizontal box layout, adding the image and text widgets of this object's GUI in that order.</operation>
+                     <operation>Return the created horizontal box layout.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupImage</name>
+                     <description>Constructs the image displayed in the top left of this object's GUI, returning a pointer to the widget.</description>
+                     <type>QWidget*</type>
+                     <return_description>Pointer to widget for the image displayed in the top left of this object's GUI.</return_description>
+                     <operation>Create a new label, set its pixmap to the program's icon scaled to the correct dimensions, and return it.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupText</name>
+                     <description>Constructs the rich text displayed in the top right of this object's GUI, returning a pointer to the widget.</description>
+                     <type>QWidget*</type>
+                     <return_description>Pointer to the widget of rich text displayed in the top right of this object's GUI.</return_description>
+                     <operation>Create a new label, setting its alignment, word wrapping, text format, and margin.</operation>
+                     <operation>Set the text of the created label; the name of this program and its version, the version of qt and the compiler used, and a funny couple paragraphs about copyright.</operation>
+                     <operation>Return the new label.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupBottom</name>
+                     <description>Constructs the bottom part of this object's GUI which simply consists of an OK button on the bottom right, returning the layout.</description>
+                     <type>QLayout*</type>
+                     <return_description>Pointer to layout of the bottom section of this object's GUI.</return_description>
+                     <operation>Create a new horizontal box layout, adding a stretch and the OK button of this object's GUI in that order so the OK button is on the right side.</operation>
+                     <operation>Return the created horizontal box layout.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupOk</name>
+                     <description>Constructs the OK button for this object's GUI, returning a pointer to the widget.</description>
+                     <type>QWidget*</type>
+                     <return_description>Pointer to the OK button widget of this object's GUI.</return_description>
+                     <operation>Create a new OK push button of this object's GUI, connecting its clicked signal to close this dialog, and return it.</operation>
+                  </data>
+               </function>
+               <variable type="1">
+                  <data version="1">
+                     <name>_iconSize</name>
+                     <description>The width and height of the program's icon displayed in the top left of this object's GUI.</description>
+                     <constexpr/>
+                     <static/>
+                     <type>int</type>
+                     <initializer>128</initializer>
+                  </data>
+               </variable>
+            </access>
+         </class>
+      </namespace>
       <class type="4">
          <data version="1">
             <name>Singleton</name>
@@ -1783,7 +1897,7 @@
       <class type="4">
          <data version="1">
             <name>AbstractProjectFactory</name>
-            <description>This represents the factory that defines all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire program. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project types must maintain the specific integer that defines them.</description>
+            <description>This represents the factory that provides all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire program. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project types must maintain the specific integer that defines them.</description>
          </data>
          <parent type="13">
             <data version="2">
@@ -1916,7 +2030,7 @@
       <class type="4">
          <data version="1">
             <name>ProjectFactory</name>
-            <description>This implements the abstract project factory class that is the factory for all information and factories needed for a project type.</description>
+            <description>This implements the abstract project factory class that provides all factories and information needed for a project type.</description>
          </data>
          <parent type="13">
             <data version="2">

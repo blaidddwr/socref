@@ -2,6 +2,8 @@
 * Edit block dialogs now properly handle failures, informing the user what went wrong.
 * Added Settings menu that opens a settings dialog for all project types.
   * Implemented settings dialog for C++/Qt.
+* Added help menu.
+  * Added about action for help menu that displays a simple about dialog for the program.
 * Fixed C++/Qt parsing bugs.
   * Comments that contain parenthesis are no longer confused as function headers.
   * Templated classes are no longer forward declared in global header files.

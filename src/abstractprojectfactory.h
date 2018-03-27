@@ -13,7 +13,7 @@ class QDialog;
 
 
 /*!
- * This represents the factory that defines all other factories and information to 
+ * This represents the factory that provides all other factories and information to 
  * define a project type. A project type is defined as a specific programming 
  * language that a project references. This is a global singleton class so only one 
  * instance of this factory is available for the entire program. A new factory 

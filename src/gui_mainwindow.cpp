@@ -8,6 +8,7 @@
 #include "gui_projectdialog.h"
 #include "gui_scandialog.h"
 #include "gui_blockview.h"
+#include "gui_aboutdialog.h"
 #include "abstractprojectfactory.h"
 #include "project.h"
 #include "abstractblock.h"
@@ -179,6 +180,17 @@ void MainWindow::settingTriggered()
       throw e;
    }
    settings->exec();
+}
+
+
+
+
+
+
+void MainWindow::aboutTriggered()
+{
+   AboutDialog dialog;
+   dialog.exec();
 }
 
 
@@ -400,7 +412,6 @@ void MainWindow::setupGui()
 void MainWindow::setupActions()
 {
    setupNewActions();
-   setupSettingActions();
    setupOpenAction();
    setupSaveAction();
    setupSaveAsAction();
@@ -408,6 +419,8 @@ void MainWindow::setupActions()
    setupScanAction();
    setupCloseAction();
    setupExitAction();
+   setupSettingActions();
+   setupAboutAction();
 }
 
 
@@ -537,11 +550,24 @@ void MainWindow::setupSettingActions()
 
 
 
+void MainWindow::setupAboutAction()
+{
+   _aboutAction = new QAction(tr("&About"),this);
+   _aboutAction->setStatusTip(tr("Get information about this program."));
+   connect(_aboutAction,&QAction::triggered,this,&MainWindow::aboutTriggered);
+}
+
+
+
+
+
+
 void MainWindow::setupMenus()
 {
    setupFileMenu();
    menuBar()->addMenu(_view->contextMenu());
    setupSettingsMenu();
+   setupHelpMenu();
 }
 
 
@@ -574,6 +600,17 @@ void MainWindow::setupSettingsMenu()
 {
    QMenu* settingsMenu = menuBar()->addMenu(tr("&Settings"));
    for (auto action : qAsConst(_settingActions)) settingsMenu->addAction(action);
+}
+
+
+
+
+
+
+void MainWindow::setupHelpMenu()
+{
+   QMenu* helpMenu = menuBar()->addMenu(tr("&Help"));
+   helpMenu->addAction(_aboutAction);
 }
 
 
