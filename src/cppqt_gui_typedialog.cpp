@@ -96,6 +96,39 @@ bool TypeDialog::isValidTypeString(const QString& input)
 
 
 
+bool TypeDialog::isValidTemplateArgument(const QString& argument)
+{
+   bool ret {true};
+   QStringList arguments {argument.split(',')};
+   for (auto arg : arguments)
+   {
+      if ( QRegExp("\\s*((((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*)+(<(.*)>)?(\\s*\\*(\\s*const)?)*\\s*&?)|([0-9]+(\\.[0-9]+)?))\\s*").exactMatch(arg) )
+      {
+         if ( arg.contains("<") )
+         {
+            int begin {arg.indexOf('<')};
+            int end {arg.lastIndexOf('>')};
+            if ( !isValidTemplateArgument(arg.mid(begin+1,end-begin-1)) )
+            {
+               ret = false;
+               break;
+            }
+         }
+      }
+      else
+      {
+         ret = false;
+         break;
+      }
+   }
+   return ret;
+}
+
+
+
+
+
+
 void TypeDialog::textChanged(const QString& text)
 {
    Q_UNUSED(text)

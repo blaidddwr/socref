@@ -74,18 +74,18 @@ void Function::outputDeclaration()
       {
          outputComments();
       }
-      QString line {getTemplateName(_block)};
+      QString line {getTemplates(_block,true)};
       if ( Constructor* valid = _block->cast<Constructor>(BlockFactory::ConstructorType) )
       {
-         if ( valid->isExplicit() ) line.append("explicit ");
+         if ( valid->isExplicit() ) line.append(" explicit");
       }
       else
       {
-         if ( _block->isVirtual() ) line.append("virtual ");
-         if ( _block->isConstExpr() ) line.append("constexpr ");
-         if ( _block->isStatic() ) line.append("static ");
+         if ( _block->isVirtual() ) line.append(" virtual");
+         if ( _block->isConstExpr() ) line.append(" constexpr");
+         if ( _block->isStatic() ) line.append(" static");
       }
-      line.append(getReturnValue()).append(getName()).append(getArguments(true));
+      line.append(" ").append(getReturnValue()).append(getName()).append(getArguments(true));
       if ( _block->isConst() ) line.append(" const");
       if ( _block->isNoExcept() ) line.append(" noexcept");
       if ( _block->isOverride() ) line.append(" override");

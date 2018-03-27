@@ -21,6 +21,7 @@ namespace CppQt
          QString name();
          void setName(const QString& name);
          static bool isValidTypeString(const QString& input);
+         static bool isValidTemplateArgument(const QString& argument);
       private slots:
          void textChanged(const QString& text);
       private:

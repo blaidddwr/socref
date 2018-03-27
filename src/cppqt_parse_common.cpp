@@ -165,7 +165,7 @@ QString Parse::getTemplates(const AbstractBlock* block, bool declare)
       {
          if ( first ) first = false;
          else ret.append(",");
-         if ( declare ) ret.append(item->name());
+         if ( declare ) ret.append(item->variableType()).append(" ").append(item->name());
          else ret.append(item->Base::name());
       }
       ret.append(">");

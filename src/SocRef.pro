@@ -45,7 +45,6 @@ SOURCES += \
     cppqt_class.cpp \
     cppqt_access.cpp \
     cppqt_view_class.cpp \
-    cppqt_common.cpp \
     cppqt_view_common.cpp \
     cppqt_view_access.cpp \
     cppqt_gui_listdialog.cpp \
@@ -144,7 +143,6 @@ HEADERS += \
     cppqt_class.h \
     cppqt_access.h \
     cppqt_view_class.h \
-    cppqt_common.h \
     cppqt_view_common.h \
     cppqt_view_access.h \
     cppqt_gui_listdialog.h \
