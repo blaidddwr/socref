@@ -1,6 +1,8 @@
 
 * Fixed segmentation fault caused using a reference after the object is deleted.
-* Fixed C++/Qt parsing bug where the default using namespace line for source files only included the very last namespace instead of all nested namespaces.
+* Fixed C++/Qt parsing bugs.
+  * Default using namespace line for source files now correctly includes all parent namespaces.
+  * Namespace descriptions are not written to global header files, excluding the global namespace.
 * Fixed C++/Qt viewing bugs.
   * Function views now display return variable unless the type is void.
   * Function views now correctly display return types that are templates.

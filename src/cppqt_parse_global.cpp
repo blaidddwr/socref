@@ -1,9 +1,10 @@
 #include "cppqt_parse_global.h"
 #include <QStack>
+#include "cppqt_parse_common.h"
+#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
-#include "cppqt_gui_settingsdialog.h"
 
 
 
@@ -38,6 +39,12 @@ bool Global::readLine(const QString& line)
 void Global::makeOutput()
 {
    add(1);
+   if ( _block->parent() )
+   {
+      add("/*!");
+      add(makeComment(_block->description()));
+      add(" */");
+   }
    beginNamespaceNesting();
    QList<Class*> list {_block->makeListOfType<Class>(BlockFactory::ClassType)};
    for (auto item : list)

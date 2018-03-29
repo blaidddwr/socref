@@ -9,5 +9,3 @@
 
 * Move all C++/Qt function properties to the function block (like explicit) and change the flags in the name to be surrounded by [...], also changing explicit and default to have one letter flags.
 
-* Fix C++/Qt parsing bug where the description of namespaces do not appear anywhere in the code.
-
