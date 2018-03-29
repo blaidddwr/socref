@@ -11,3 +11,9 @@
 
 * Fix C++/Qt parsing bug where the description of namespaces do not appear anywhere in the code.
 
+* Fix C++/Qt parsing bug where the default using declaration for source files not not include all namespaces.
+
+* Fix C++/Qt viewing bug with return types that contain templates.
+
+* Fix C++/Qt viewing bug where return type is not displayed even if not void.
+
