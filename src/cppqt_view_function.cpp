@@ -82,9 +82,9 @@ QString Function::displayArgumentsText()
 QString Function::displayReturnText()
 {
    QString ret;
-   if ( !_block->returnDescription().isEmpty() )
+   if ( _block->returnType() != QString("void") )
    {
-      ret.append("<h3>Return</h3><p><b>").append(_block->returnType()).append(" :</b> ");
+      ret.append("<h3>Return</h3><p><b>").append(_block->returnType().replace("<","&lt;")).append(" :</b> ");
       ret.append(_block->returnDescription()).append("</p>");
    }
    return ret;
