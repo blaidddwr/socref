@@ -1,4 +1,5 @@
 #include "cppqt_parse_source.h"
+#include <QStack>
 #include "cppqt_parse_function.h"
 #include "cppqt_parse_variable.h"
 #include "cppqt_gui_settingsdialog.h"
@@ -303,15 +304,22 @@ bool Source::isTemplate() const
 
 void Source::makeUsingName()
 {
-   Namespace* first {nullptr};
+   QStack<Namespace*> list;
    AbstractBlock* back {_block->parent()};
-   while ( back && !(first = back->cast<Namespace>(BlockFactory::NamespaceType)) )
+   while ( back )
    {
+      if ( Namespace* valid = back->cast<Namespace>(BlockFactory::NamespaceType) )
+      {
+         list.push(valid);
+      }
       back = back->parent();
    }
-   if ( first && first->parent() )
+   if ( list.size() > 1 )
    {
-      _usingName = QString("using namespace ").append(first->Base::name()).append(";");
+      list.pop();
+      _usingName.append("using namespace ");
+      while ( list.size() > 1 ) _usingName.append(list.pop()->Base::name()).append("::");
+      _usingName.append(list.pop()->Base::name()).append(";");
    }
 }
 

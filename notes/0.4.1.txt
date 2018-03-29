@@ -1,3 +1,4 @@
 
 * Fixed segmentation fault caused using a reference after the object is deleted.
+* Fixed C++/Qt parsing bug where the default using namespace line for source files only included the very last namespace instead of all nested namespaces.
 
