@@ -23,11 +23,11 @@ public:
    /*!
     * Minor version of this program. 
     */
-   constexpr static int _minorVersion {0};
+   constexpr static int _minorVersion {4};
    /*!
     * Revision number of this program. 
     */
-   constexpr static int _revision {9999};
+   constexpr static int _revision {2};
    /*!
     * The company key used to access this program's qt settings. 
     */
