@@ -3292,7 +3292,7 @@
                   <constexpr/>
                   <static/>
                   <type>int</type>
-                  <initializer>9999</initializer>
+                  <initializer>0</initializer>
                </data>
             </variable>
             <variable type="1">
@@ -3302,7 +3302,7 @@
                   <constexpr/>
                   <static/>
                   <type>int</type>
-                  <initializer>9999</initializer>
+                  <initializer>0</initializer>
                </data>
             </variable>
             <variable type="1">

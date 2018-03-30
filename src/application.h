@@ -19,11 +19,11 @@ public:
    /*!
     * Major version of this program. 
     */
-   constexpr static int _majorVersion {9999};
+   constexpr static int _majorVersion {0};
    /*!
     * Minor version of this program. 
     */
-   constexpr static int _minorVersion {9999};
+   constexpr static int _minorVersion {0};
    /*!
     * Revision number of this program. 
     */
