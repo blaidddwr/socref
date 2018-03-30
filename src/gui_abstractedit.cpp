@@ -3,6 +3,7 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <exception.h>
+#include "gui_blockview.h"
 #include "common.h"
 
 
@@ -23,8 +24,9 @@ AbstractEdit::AbstractEdit(QWidget* parent):
 
 
 
-AbstractEdit* AbstractEdit::initialize()
+AbstractEdit* AbstractEdit::initialize(BlockView* view)
 {
+   _view = view;
    setupOkButton();
    setupApplyButton();
    QVBoxLayout* main {new QVBoxLayout};
@@ -62,7 +64,7 @@ void AbstractEdit::okClicked()
 
 void AbstractEdit::applyClicked()
 {
-   tryApply();
+   if ( tryApply() ) _view->updateView();
 }
 
 

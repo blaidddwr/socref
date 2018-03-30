@@ -2,6 +2,7 @@
 #define GUI_ABSTRACTEDIT_H
 #include <memory>
 #include "gui_persistentdialog.h"
+#include "gui.h"
 
 
 
@@ -16,7 +17,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit AbstractEdit(QWidget* parent = nullptr);
-      AbstractEdit* initialize();
+      AbstractEdit* initialize(BlockView* view);
    protected:
       virtual QLayout* layout() = 0;
       void setDisabled(bool disabled);
@@ -32,6 +33,7 @@ namespace Gui
       void setupOkButton();
       void setupApplyButton();
       QPushButton* setupCancelButton();
+      BlockView* _view;
       QPushButton* _ok;
       QPushButton* _apply;
    };

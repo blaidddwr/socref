@@ -92,6 +92,31 @@ bool BlockView::canPaste() const
 
 
 
+void BlockView::updateView()
+{
+   delete _view;
+   if ( _current.isValid() )
+   {
+      AbstractBlock* pointer {_model->pointer(_current)};
+      _view = pointer->makeView().release();
+      if ( !_view )
+      {
+         Exception::LogicError e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
+         throw e;
+      }
+      _area->setWidget(_view);
+      updateTitle(pointer);
+   }
+   else _view = nullptr;
+}
+
+
+
+
+
+
 void BlockView::addTriggered()
 {
    QAction* from {qobject_cast<QAction*>(sender())};
@@ -135,7 +160,7 @@ void BlockView::editTriggered()
          e.setDetails(tr("Got unexpected nullptr when creating abstract edit class."));
          throw e;
       }
-      edit->initialize();
+      edit->initialize(this);
       edit->setWindowIcon(pointer->icon());
       edit->setWindowTitle(tr("Edit %1").arg(_factory->name(pointer->type())));
       edit->exec();
@@ -314,31 +339,6 @@ void BlockView::updateMenu()
    _addMenu->clear();
    for (auto action : qAsConst(_addActions)) _addMenu->addAction(action);
    _addMenu->setDisabled(_addMenu->isEmpty());
-}
-
-
-
-
-
-
-void BlockView::updateView()
-{
-   delete _view;
-   if ( _current.isValid() )
-   {
-      AbstractBlock* pointer {_model->pointer(_current)};
-      _view = pointer->makeView().release();
-      if ( !_view )
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
-         throw e;
-      }
-      _area->setWidget(_view);
-      updateTitle(pointer);
-   }
-   else _view = nullptr;
 }
 
 

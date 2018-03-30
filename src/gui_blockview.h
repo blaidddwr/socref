@@ -25,6 +25,7 @@ namespace Gui
       void setModel(BlockModel* model);
       QMenu* contextMenu() const;
       bool canPaste() const;
+      void updateView();
    public slots:
       void addTriggered();
       void removeTriggered();
@@ -43,7 +44,6 @@ namespace Gui
       void updateActions();
       void updateAddActions();
       void updateMenu();
-      void updateView();
       void setCopy(AbstractBlock* copy);
       void updateTitle(AbstractBlock* block);
       void restoreSettings();
