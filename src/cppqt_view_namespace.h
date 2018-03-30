@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Namespace(const CppQt::Namespace* block, bool wait = false, QWidget* parent = nullptr);
+         using Base::Base;
       };
    }
 }

@@ -14,7 +14,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Base(const CppQt::Base* block, QWidget* parent = nullptr);
+         explicit Base(const CppQt::Base* block, bool wait = false, QWidget* parent = nullptr);
       protected:
          QString displayText();
       private:

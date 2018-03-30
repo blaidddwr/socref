@@ -24,7 +24,6 @@ SOURCES += \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
     cppqt_edit_namespace.cpp \
-    cppqt_view_namespace.cpp \
     cppqt_gui_typelistdialog.cpp \
     cppqt_gui_typedialog.cpp \
     cppqt_gui_typecombobox.cpp \

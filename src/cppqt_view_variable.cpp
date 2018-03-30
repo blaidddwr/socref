@@ -13,7 +13,7 @@ using namespace CppQt::View;
 
 
 Variable::Variable(const CppQt::Variable* block, bool wait, QWidget* parent):
-   Base(block,parent),
+   Base(block,false,parent),
    _block(block)
 {
    if ( !wait ) setText(displayText());

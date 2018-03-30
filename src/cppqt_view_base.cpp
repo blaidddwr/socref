@@ -13,7 +13,7 @@ using namespace CppQt::View;
 
 
 
-Base::Base(const CppQt::Base* block, QWidget* parent):
+Base::Base(const CppQt::Base* block, bool wait, QWidget* parent):
    QLabel(parent),
    _block(block)
 {
@@ -21,6 +21,7 @@ Base::Base(const CppQt::Base* block, QWidget* parent):
    setWordWrap(true);
    setTextFormat(Qt::RichText);
    setMargin(8);
+   if ( !wait ) setText(displayText());
 }
 
 
