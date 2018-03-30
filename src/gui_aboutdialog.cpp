@@ -142,13 +142,13 @@ QWidget* AboutDialog::setupText()
    ret->setTextFormat(Qt::RichText);
    ret->setMargin(8);
    QString text {"<h3>Socrates' Reference "};
-   text.append(QString::number(Application::_majorVersion)).append(".");
-   text.append(QString::number(Application::_minorVersion)).append(".");
-   text.append(QString::number(Application::_revision)).append("</h3>");
-   text.append("<p>Based on Qt ").append(QT_VERSION_STR).append("</p>");
-   text.append("<p><b>FUCK COPYRIGHT LAWS</b></p>");
-   text.append("<p>Copyright has been perverted as a tool of oppression and censorship used by the kleptocrats of the fascist west to rape and pillage individual creators. This is a full 180 to what copyright should be; to protoect the individual creator. So FUCK COPYRIGHT.</p>");
-   text.append("<p>This program is provided as is with no warranty of any kind, including the warranty of design, merchantability and fitness for a particular purpose.</p>");
+   text.append(QString::number(Application::_majorVersion)).append(".")
+       .append(QString::number(Application::_minorVersion)).append(".")
+       .append(QString::number(Application::_revision)).append("</h3>")
+       .append("<p>Based on Qt ").append(QT_VERSION_STR).append("</p>")
+       .append("<p><b>FUCK COPYRIGHT LAWS</b></p>")
+       .append("<p>Copyright has been perverted as a tool of oppression and censorship used by the kleptocrats of the fascist west to rape and pillage individual creators. This is a full 180 to what copyright should be; to protoect the individual creator. So FUCK COPYRIGHT.</p>")
+       .append("<p>This program is provided as is with no warranty of any kind, including the warranty of design, merchantability and fitness for a particular purpose.</p>");
    ret->setText(text);
    return ret;
 }

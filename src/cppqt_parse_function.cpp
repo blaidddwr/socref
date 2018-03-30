@@ -109,11 +109,10 @@ void Function::outputDefinition()
       QString line;
       QString templateString {getTemplateDeclaration(_block)};
       if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
-      line
-            .append(getReturnValue())
-            .append(getScope(!templateString.isEmpty()))
-            .append(getName())
-            .append(getArguments(false));
+      line.append(getReturnValue())
+          .append(getScope(!templateString.isEmpty()))
+          .append(getName())
+          .append(getArguments(false));
       if ( _block->isConst() ) line.append(" const");
       if ( _block->isNoExcept() ) line.append(" noexcept");
       if ( !_initializers.isEmpty() ) line.append(":");
@@ -139,8 +138,7 @@ bool Function::isMatch(const QString& line)
 {
    if ( hasCode() ) return false;
    QString regular {".*[: ]"};
-   regular.append(getName(true));
-   regular.append("\\(\\s*");
+   regular.append(getName(true)).append("\\(\\s*");
    for (auto argument : _block->arguments())
    {
       regular.append(argument->variableType().replace("*","\\*")).append(".*");

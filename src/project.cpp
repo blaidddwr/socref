@@ -250,11 +250,9 @@ QString Project::scanFilters() const
  */
 std::unique_ptr<ScanThread> Project::makeScanner() const
 {
-   return unique_ptr<ScanThread>(
-            new ScanThread(
-               AbstractProjectFactory::instance().makeParserFactory(_type,_root)
-               ,_scanDirectory
-               ,_scanFilters.split(' ')));
+   return unique_ptr<ScanThread>(new ScanThread(AbstractProjectFactory::instance().makeParserFactory(_type,_root)
+                                                ,_scanDirectory
+                                                ,_scanFilters.split(' ')));
 }
 
 
@@ -336,9 +334,8 @@ void Project::setScanDirectory(const QString& newPath)
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
-         e.setDetails(
-                  tr("Attempting to set scan directory as '%1' which is not a directory.")
-                  .arg(newPath));
+         e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
+                      .arg(newPath));
          throw e;
       }
       _scanDirectory = info.canonicalFilePath();
@@ -412,8 +409,8 @@ void Project::save()
       throw e;
    }
    QDomDocument document;
-   document.appendChild(
-            document.createProcessingInstruction("xml","version=\"1.0\" encoding=\"UTF-8\""));
+   document.appendChild(document.createProcessingInstruction("xml"
+                                                             ,"version=\"1.0\" encoding=\"UTF-8\""));
    QDomElement project {document.createElement("project")};
    saveBasicInfo(document,&project);
    QDomElement type {document.createElement(_typeTag)};
@@ -606,10 +603,9 @@ void Project::convertScanDirectory(const QString& path)
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(
-               tr("Scan directory in XML file is invalid; failed changing directory from %1 to %2.")
-               .arg(directory.canonicalPath())
-               .arg(_scanDirectory));
+      e.setDetails(tr("Scan directory in XML file is invalid; failed changing directory from %1 to %2.")
+                   .arg(directory.canonicalPath())
+                   .arg(_scanDirectory));
       throw e;
    }
    _scanDirectory = directory.canonicalPath();
@@ -647,8 +643,9 @@ void Project::readTypeElement(const QDomElement& element)
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(
-               tr("Read in invalid type %1 when max is %2.").arg(_type).arg(factory.size() - 1));
+      e.setDetails(tr("Read in invalid type %1 when max is %2.")
+                   .arg(_type)
+                   .arg(factory.size() - 1));
       throw e;
    }
    QString typeName = element.text();
@@ -656,10 +653,9 @@ void Project::readTypeElement(const QDomElement& element)
    {
       Exception::ReadError e;
       MARK_EXCEPTION(e);
-      e.setDetails(
-               tr("Read in invalid type name %1 when it should be %2.")
-               .arg(typeName)
-               .arg(factory.name(_type)));
+      e.setDetails(tr("Read in invalid type name %1 when it should be %2.")
+                   .arg(typeName)
+                   .arg(factory.name(_type)));
       throw e;
    }
 }
@@ -733,8 +729,7 @@ void Project::saveBasicInfo(QDomDocument& document, QDomElement* project)
    name.appendChild(document.createTextNode(_name));
    project->appendChild(name);
    QDomElement scandir {document.createElement(_scanDirectoryTag)};
-   scandir.appendChild(
-            document.createTextNode(QFileInfo(_path).dir().relativeFilePath(_scanDirectory)));
+   scandir.appendChild(document.createTextNode(QFileInfo(_path).dir().relativeFilePath(_scanDirectory)));
    project->appendChild(scandir);
    QDomElement filters {document.createElement(_scanFiltersTag)};
    filters.appendChild(document.createTextNode(_scanFilters));

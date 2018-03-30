@@ -132,10 +132,9 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
-         e.setDetails(
-                  QObject::tr("Cannot reference block factory of invalid type %1 when max is %2.")
-                  .arg(type)
-                  .arg(Total));
+         e.setDetails(QObject::tr("Cannot reference block factory of invalid type %1 when max is %2.")
+                      .arg(type)
+                      .arg(Total));
          throw e;
       }
    }
@@ -172,10 +171,9 @@ std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int typ
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
-         e.setDetails(
-                  QObject::tr("Cannot reference parser factory of invalid type %1 when max is %2.")
-                  .arg(type)
-                  .arg(Total));
+         e.setDetails(QObject::tr("Cannot reference parser factory of invalid type %1 when max is %2.")
+                      .arg(type)
+                      .arg(Total));
          throw e;
       }
    }

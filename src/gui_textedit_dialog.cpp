@@ -333,9 +333,8 @@ void TextEdit::Dialog::setupSpeller()
    {
       Exception::SystemError e;
       MARK_EXCEPTION(e);
-      e.setDetails(
-               tr("Failed initializing Aspell library for spell checking: %1")
-               .arg(aspell_error_message(temp)));
+      e.setDetails(tr("Failed initializing Aspell library for spell checking: %1")
+                   .arg(aspell_error_message(temp)));
       throw e;
    }
    _spell = to_aspell_speller(temp);

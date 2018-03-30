@@ -29,12 +29,11 @@ Function::Function(const CppQt::Function* block, bool wait, QWidget* parent):
 
 QString Function::displayText()
 {
-   return displayArgumentsText()
-         .append(displayProperties(getProperties()))
-         .append(displayTemplatesText())
-         .append(Base::displayText())
-         .append(displayReturnText())
-         .append(displayOperationsText());
+   return displayArgumentsText().append(displayProperties(getProperties()))
+                                .append(displayTemplatesText())
+                                .append(Base::displayText())
+                                .append(displayReturnText())
+                                .append(displayOperationsText());
 }
 
 
@@ -61,12 +60,11 @@ QString Function::displayArgumentsText()
       ret.append("<h3>Arguments</h3>");
       for (auto variable : list)
       {
-         ret
-               .append("<p>")
-               .append(variable->variableType().replace("<","&lt;"))
-               .append(" <b>")
-               .append(variable->Base::name())
-               .append("</b>");
+         ret.append("<p>")
+            .append(variable->variableType().replace("<","&lt;"))
+            .append(" <b>")
+            .append(variable->Base::name())
+            .append("</b>");
          if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
          ret.append(" : ").append(variable->description()).append("</p>");
       }
@@ -85,8 +83,11 @@ QString Function::displayReturnText()
    QString returnType {_block->returnType()};
    if ( !returnType.isEmpty() && returnType != QString("void") )
    {
-      ret.append("<h3>Return</h3><p><b>").append(returnType.replace("<","&lt;")).append(" :</b> ");
-      ret.append(_block->returnDescription()).append("</p>");
+      ret.append("<h3>Return</h3><p><b>")
+         .append(returnType.replace("<","&lt;"))
+         .append(" :</b> ")
+         .append(_block->returnDescription())
+         .append("</p>");
    }
    return ret;
 }

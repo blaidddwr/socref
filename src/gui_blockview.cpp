@@ -54,11 +54,10 @@ void BlockView::setModel(BlockModel* model)
    _factory = model->factory();
    _selectionModel = _treeView->selectionModel();
    _current = QModelIndex();
-   connect(
-            _selectionModel
-            ,&QItemSelectionModel::selectionChanged
-            ,this
-            ,&BlockView::selectionModelChanged);
+   connect(_selectionModel
+           ,&QItemSelectionModel::selectionChanged
+           ,this
+           ,&BlockView::selectionModelChanged);
    connect(_model,&BlockModel::dataChanged,this,&BlockView::modelDataChanged);
    connect(_model,&BlockModel::destroyed,this,&BlockView::modelDestroyed);
 }

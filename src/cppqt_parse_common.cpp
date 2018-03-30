@@ -85,9 +85,8 @@ QString Parse::getNamespace(const AbstractBlock* block)
    {
       Exception::LogicError e;
       MARK_EXCEPTION(e);
-      e.setDetails(
-               QObject::tr("Parent of function is type '%1' when it should be namespace.")
-               .arg(BlockFactory::instance().name(parent->type())));
+      e.setDetails(QObject::tr("Parent of function is type '%1' when it should be namespace.")
+                   .arg(BlockFactory::instance().name(parent->type())));
       throw e;
    }
    if ( parent->parent() ) ret = parent->Base::name().append("::");

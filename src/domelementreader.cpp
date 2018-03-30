@@ -66,10 +66,9 @@ QString DomElementReader::attribute(const QString& name, bool required) const
       {
          Exception::ReadError e;
          MARK_EXCEPTION(e);
-         e.setDetails(
-                  QObject::tr("Cannot find attribute '%1' in XML element '%2'.")
-                  .arg(name)
-                  .arg(_element.tagName()));
+         e.setDetails(QObject::tr("Cannot find attribute '%1' in XML element '%2'.")
+                      .arg(name)
+                      .arg(_element.tagName()));
          throw e;
       }
       return QString();

@@ -29,5 +29,6 @@ Parent::Parent(const CppQt::Parent* block, QWidget* parent):
 QString Parent::displayText()
 {
    return QString("<b>").append(_block->accessName())
-                        .append("</b> ").append(_block->className().replace("<","&lt;"));
+                        .append("</b> ")
+                        .append(_block->className().replace("<","&lt;"));
 }

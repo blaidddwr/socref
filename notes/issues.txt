@@ -1,8 +1,6 @@
 
 * Add validating for C++/Qt declaration fields.
 
-* Refactor code for function arguments so arguments vertically line up.
-
 * Fix bug where the current view is not updated if apply is hit on the edit dialog.
 
 * Overhaul the C++/Qt type system so it is visible in the block system, make two new block types similar to enumerations but for types and have the special type combo box populate its list from that.

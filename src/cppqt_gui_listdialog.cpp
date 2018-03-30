@@ -148,10 +148,9 @@ void ListDialog::doubleClicked(const QModelIndex& index)
    if ( index.row() < _list.size() )
    {
       ::Gui::TextDialog dialog;
-      dialog.setWindowTitle(
-               QString(_listItemTitle)
-               .append(" #")
-               .append(QString::number(index.row() + 1)));
+      dialog.setWindowTitle(QString(_listItemTitle)
+                            .append(" #")
+                            .append(QString::number(index.row() + 1)));
       dialog.setText(_model->data(index,Qt::EditRole).toString());
       if ( dialog.exec() && dialog.text() != _list.at(index.row()) )
       {
@@ -243,11 +242,10 @@ QLayout* ListDialog::setupTop()
    _view->setModel(_model);
    _view->horizontalHeader()->setStretchLastSection(true);
    connect(_view,&QTableView::doubleClicked,this,&ListDialog::doubleClicked);
-   connect(
-            _view->selectionModel()
-            ,&QItemSelectionModel::selectionChanged
-            ,this
-            ,&ListDialog::selectionChanged);
+   connect(_view->selectionModel()
+           ,&QItemSelectionModel::selectionChanged
+           ,this
+           ,&ListDialog::selectionChanged);
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_view);
    ret->addLayout(setupSideButtons());

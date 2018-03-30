@@ -29,5 +29,7 @@ Declaration::Declaration(const CppQt::Declaration* block, QWidget* parent):
 
 QString Declaration::displayText()
 {
-   return QString("<b>").append(_block->declareTypeName()).append("</b> ").append(_block->field().replace("<","&lt;"));
+   return QString("<b>").append(_block->declareTypeName())
+                        .append("</b> ")
+                        .append(_block->field().replace("<","&lt;"));
 }

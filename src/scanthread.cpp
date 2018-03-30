@@ -162,10 +162,9 @@ void ScanThread::run()
             {
                Exception::SystemError e;
                MARK_EXCEPTION(e);
-               e.setDetails(
-                        tr("Failed opening file %1: %2")
-                        .arg(_list.at(i).canonicalFilePath())
-                        .arg(file.errorString()));
+               e.setDetails(tr("Failed opening file %1: %2")
+                            .arg(_list.at(i).canonicalFilePath())
+                            .arg(file.errorString()));
                throw e;
             }
             parser->execute(&file);

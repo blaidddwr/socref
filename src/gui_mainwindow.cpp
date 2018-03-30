@@ -274,7 +274,12 @@ void MainWindow::closeEvent(QCloseEvent* event)
 
 void MainWindow::updateTitle()
 {
-   if ( _project ) setWindowTitle(tr("%1[*] (%2) - Socrates' Reference").arg(_project->name()).arg(AbstractProjectFactory::instance().name(_project->type())));
+   if ( _project )
+   {
+      setWindowTitle(tr("%1[*] (%2) - Socrates' Reference")
+                     .arg(_project->name())
+                     .arg(AbstractProjectFactory::instance().name(_project->type())));
+   }
    else setWindowTitle(tr("Socrates' Reference"));
 }
 
