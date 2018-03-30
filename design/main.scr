@@ -3292,7 +3292,7 @@
                   <constexpr/>
                   <static/>
                   <type>int</type>
-                  <initializer>0</initializer>
+                  <initializer>9999</initializer>
                </data>
             </variable>
             <variable type="1">
@@ -3302,7 +3302,7 @@
                   <constexpr/>
                   <static/>
                   <type>int</type>
-                  <initializer>4</initializer>
+                  <initializer>9999</initializer>
                </data>
             </variable>
             <variable type="1">
@@ -3312,16 +3312,7 @@
                   <constexpr/>
                   <static/>
                   <type>int</type>
-                  <initializer>0</initializer>
-               </data>
-            </variable>
-            <variable type="1">
-               <data version="1">
-                  <name>_versionString</name>
-                  <description>The version of this program as a string which includes the major version, minor version, and revision.</description>
-                  <static/>
-                  <type>const char*</type>
-                  <initializer>"0.4.0"</initializer>
+                  <initializer>9999</initializer>
                </data>
             </variable>
             <variable type="1">

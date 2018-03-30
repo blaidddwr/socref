@@ -142,7 +142,9 @@ QWidget* AboutDialog::setupText()
    ret->setTextFormat(Qt::RichText);
    ret->setMargin(8);
    QString text {"<h3>Socrates' Reference "};
-   text.append(Application::_versionString).append("</h3>");
+   text.append(QString::number(Application::_majorVersion)).append(".");
+   text.append(QString::number(Application::_minorVersion)).append(".");
+   text.append(QString::number(Application::_revision)).append("</h3>");
    text.append("<p>Based on Qt ").append(QT_VERSION_STR).append("</p>");
    text.append("<p><b>FUCK COPYRIGHT LAWS</b></p>");
    text.append("<p>Copyright has been perverted as a tool of oppression and censorship used by the kleptocrats of the fascist west to rape and pillage individual creators. This is a full 180 to what copyright should be; to protoect the individual creator. So FUCK COPYRIGHT.</p>");

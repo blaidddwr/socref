@@ -19,20 +19,15 @@ public:
    /*!
     * Major version of this program. 
     */
-   constexpr static int _majorVersion {0};
+   constexpr static int _majorVersion {9999};
    /*!
     * Minor version of this program. 
     */
-   constexpr static int _minorVersion {4};
+   constexpr static int _minorVersion {9999};
    /*!
     * Revision number of this program. 
     */
-   constexpr static int _revision {1};
-   /*!
-    * The version of this program as a string which includes the major version, minor 
-    * version, and revision. 
-    */
-   static const char* _versionString;
+   constexpr static int _revision {9999};
    /*!
     * The company key used to access this program's qt settings. 
     */

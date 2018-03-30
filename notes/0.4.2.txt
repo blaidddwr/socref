@@ -1,0 +1,5 @@
+
+* Fixed C++/Qt viewing bugs.
+  * Enumerations and their values now display their descriptions.
+  * Function views no longer displays an empty return type on constructors/desctructors.
+
