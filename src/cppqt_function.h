@@ -27,6 +27,8 @@ namespace CppQt
       void setReturnDescription(const QString& description);
       bool isDefault() const;
       void setDefault(bool isDefault);
+      bool isExplicit() const;
+      void setExplicit(bool isExplicit);
       bool isVirtual() const;
       void setVirtual(bool isVirtual);
       void setConstExpr(bool isConstExpr);
@@ -69,6 +71,7 @@ namespace CppQt
       constexpr static int _version {1};
       static const char* _returnDescriptionTag;
       static const char* _defaultTag;
+      static const char* _explicitTag;
       static const char* _virtualTag;
       static const char* _constTag;
       static const char* _noExceptTag;
@@ -77,6 +80,7 @@ namespace CppQt
       static const char* _abstractTag;
       static const char* _operationTag;
       bool _default {false};
+      bool _explicit {false};
       bool _virtual {false};
       bool _const {false};
       bool _noExcept {false};

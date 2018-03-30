@@ -19,13 +19,9 @@ namespace CppQt
          explicit Constructor(CppQt::Constructor* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override final;
-         virtual void apply() override final;
       private:
          void addProperties(QFormLayout* layout);
          QLayout* setupProperties();
-         QWidget* setupExplicit();
-         CppQt::Constructor* _block;
-         QCheckBox* _explicitBox;
       };
    }
 }

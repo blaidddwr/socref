@@ -28,6 +28,7 @@ namespace CppQt
          virtual bool isDefaultCheckable();
          virtual void updateProperties() override final;
          bool isDefaultChecked() const;
+         bool isExplicitChecked() const;
          bool isConstChecked() const;
          bool isNoExceptChecked() const;
          bool isVirtualChecked() const;
@@ -39,6 +40,7 @@ namespace CppQt
          void addOperations(QFormLayout* layout);
          QGridLayout* setupProperties();
          QWidget* setupDefault();
+         QWidget* setupExplicit();
          QWidget* setupConst();
          QWidget* setupNoExcept();
          QWidget* setupVirtual();
@@ -55,6 +57,7 @@ namespace CppQt
          CppQt::Function* _block;
          ::Gui::TextEdit* _returnEdit {nullptr};
          QCheckBox* _defaultBox {nullptr};
+         QCheckBox* _explicitBox {nullptr};
          QCheckBox* _virtualBox {nullptr};
          QCheckBox* _constBox {nullptr};
          QCheckBox* _noExceptBox {nullptr};

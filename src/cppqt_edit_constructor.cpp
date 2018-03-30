@@ -15,8 +15,7 @@ using namespace CppQt::Edit;
 
 
 Constructor::Constructor(CppQt::Constructor* block, QWidget* parent):
-   Function(block,parent),
-   _block(block)
+   Function(block,parent)
 {}
 
 
@@ -32,17 +31,6 @@ QLayout* Constructor::layout()
    addOperations(ret);
    addProperties(ret);
    return ret;
-}
-
-
-
-
-
-
-void Constructor::apply()
-{
-   Function::apply();
-   _block->setExplicit(_explicitBox->isChecked());
 }
 
 
@@ -67,16 +55,4 @@ QLayout* Constructor::setupProperties()
    ret->addWidget(setupExplicit());
    ret->addWidget(setupDefault());
    return ret;
-}
-
-
-
-
-
-
-QWidget*Constructor::setupExplicit()
-{
-   _explicitBox = new QCheckBox(tr("Explicit"));
-   _explicitBox->setChecked(_block->isExplicit());
-   return _explicitBox;
 }

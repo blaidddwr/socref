@@ -50,6 +50,7 @@ void Function::apply()
    Variable::apply();
    if ( _returnEdit ) _block->setReturnDescription(_returnEdit->toPlainText());
    if ( _defaultBox ) _block->setDefault(_defaultBox->isChecked());
+   if ( _explicitBox ) _block->setExplicit(_explicitBox->isChecked());
    if ( _virtualBox ) _block->setVirtual(_virtualBox->isChecked());
    if ( _constBox ) _block->setConst(_constBox->isChecked());
    if ( _noExceptBox ) _block->setNoExcept(_noExceptBox->isChecked());
@@ -116,6 +117,16 @@ void Function::updateProperties()
 bool Function::isDefaultChecked() const
 {
    return _defaultBox && _defaultBox->isChecked();
+}
+
+
+
+
+
+
+bool Function::isExplicitChecked() const
+{
+   return _explicitBox && _explicitBox->isChecked();
 }
 
 
@@ -241,6 +252,20 @@ QWidget* Function::setupDefault()
    updateProperties();
    _defaultBox->setChecked(_block->isDefault());
    return _defaultBox;
+}
+
+
+
+
+
+
+QWidget* Function::setupExplicit()
+{
+   _explicitBox = new QCheckBox(tr("Explicit"));
+   connect(_explicitBox,&QCheckBox::stateChanged,this,&Function::checkBoxChanged);
+   updateProperties();
+   _explicitBox->setChecked(_block->isExplicit());
+   return _explicitBox;
 }
 
 

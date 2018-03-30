@@ -11,7 +11,6 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
-const char* Constructor::_explicitTag {"explicit"};
 
 
 
@@ -20,10 +19,7 @@ const char* Constructor::_explicitTag {"explicit"};
 
 QString Constructor::name() const
 {
-   QString ret;
-   ret.append(fullName(false,className()));
-   if ( _explicit ) ret.append(" (xplct)");
-   return ret;
+   return fullName(false,className());
 }
 
 
@@ -111,31 +107,6 @@ QString Constructor::className() const
 
 
 
-bool Constructor::isExplicit() const
-{
-   return _explicit;
-}
-
-
-
-
-
-
-void Constructor::setExplicit(bool isExplicit)
-{
-   if ( _explicit != isExplicit )
-   {
-      _explicit = isExplicit;
-      notifyOfNameChange();
-      emit modified();
-   }
-}
-
-
-
-
-
-
 void Constructor::classNameChanged()
 {
    notifyOfNameChange();
@@ -146,99 +117,7 @@ void Constructor::classNameChanged()
 
 
 
-void Constructor::readData(const QDomElement& data, int version)
-{
-   Function::readData(data,version);
-   switch (version)
-   {
-   case 0:
-      readVersion0(data);
-      break;
-   case 1:
-      readVersion1(data);
-      break;
-   default:
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
-         throw e;
-      }
-   }
-}
-
-
-
-
-
-
-int Constructor::writeVersion() const
-{
-   return _version;
-}
-
-
-
-
-
-
-QDomElement Constructor::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Function::writeData(document)};
-   if ( _explicit ) ret.appendChild(document.createElement(_explicitTag));
-   return ret;
-}
-
-
-
-
-
-
 std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Constructor);
-}
-
-
-
-
-
-
-void Constructor::copyDataFrom(const AbstractBlock* object)
-{
-   if ( const Constructor* object_ = qobject_cast<const Constructor*>(object) )
-   {
-      Function::copyDataFrom(object);
-      _explicit = object_->_explicit;
-   }
-   else
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
-      throw e;
-   }
-}
-
-
-
-
-
-
-void Constructor::readVersion0(const QDomElement& data)
-{
-   DomElementReader reader(data);
-   _explicit = reader.attributeToInt(_explicitTag,false);
-}
-
-
-
-
-
-
-void Constructor::readVersion1(const QDomElement& data)
-{
-   DomElementReader reader(data);
-   reader.set(_explicitTag,&_explicit,false);
-   reader.read();
 }

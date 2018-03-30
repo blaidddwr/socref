@@ -18,6 +18,7 @@ using namespace Gui;
 using namespace CppQt;
 const char* Function::_returnDescriptionTag {"return_description"};
 const char* Function::_defaultTag {"default"};
+const char* Function::_explicitTag {"explicit"};
 const char* Function::_virtualTag {"virtual"};
 const char* Function::_constTag {"const"};
 const char* Function::_noExceptTag {"noexcept"};
@@ -206,6 +207,31 @@ void Function::setDefault(bool isDefault)
    if ( _default != isDefault )
    {
       _default = isDefault;
+      notifyOfNameChange();
+      emit modified();
+   }
+}
+
+
+
+
+
+
+bool Function::isExplicit() const
+{
+   return _explicit;
+}
+
+
+
+
+
+
+void Function::setExplicit(bool isExplicit)
+{
+   if ( _explicit != isExplicit )
+   {
+      _explicit = isExplicit;
       notifyOfNameChange();
       emit modified();
    }
@@ -601,6 +627,7 @@ QDomElement Function::writeData(QDomDocument& document) const
 {
    QDomElement ret {Variable::writeData(document)};
    if ( _default ) ret.appendChild(document.createElement(_defaultTag));
+   if ( _explicit ) ret.appendChild(document.createElement(_explicitTag));
    if ( _virtual ) ret.appendChild(document.createElement(_virtualTag));
    if ( _const ) ret.appendChild(document.createElement(_constTag));
    if ( _noExcept ) ret.appendChild(document.createElement(_noExceptTag));
@@ -669,7 +696,6 @@ QString Function::fullName(bool hasReturn, const QString& name) const
    ret.append(name).append("(");
    const QList<Variable*> list {arguments()};
    ret.append(QString::number(list.size())).append(")").append(attributes());
-   if ( _default ) ret.append(" = (dflt)");
    return ret;
 }
 
@@ -681,12 +707,14 @@ QString Function::fullName(bool hasReturn, const QString& name) const
 QString Function::attributes() const
 {
    QString ret;
+   if ( _default ) ret.append("D");
+   if ( _explicit ) ret.append("X");
    if ( _const ) ret.append("C");
    if ( _noExcept ) ret.append("N");
    if ( _override ) ret.append("O");
    if ( _final ) ret.append("F");
    if ( _abstract ) ret.append("0");
-   if ( !ret.isEmpty() ) ret.prepend(" ");
+   if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
    return ret;
 }
 
@@ -724,6 +752,7 @@ void Function::readVersion1(const QDomElement& data)
    QList<QDomElement> operations;
    DomElementReader reader(data);
    reader.set(_defaultTag,&_default,false);
+   reader.set(_explicitTag,&_explicit,false);
    reader.set(_virtualTag,&_virtual,false);
    reader.set(_constTag,&_const,false);
    reader.set(_noExceptTag,&_noExcept,false);
