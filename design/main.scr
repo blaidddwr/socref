@@ -79,8 +79,8 @@
                   <data version="1">
                      <description>Constructs a new about dialog with the given optional parent.</description>
                      <type></type>
-                     <operation>Setup this object's GUI and set the dialog window's title.</operation>
                      <explicit/>
+                     <operation>Setup this object's GUI and set the dialog window's title.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -1560,17 +1560,17 @@
                <data version="1">
                   <description>This constructs a new parser object that will be a root or primary parser. This means this parser will be assumed to be the root parser of a source file.</description>
                   <type></type>
-                  <operation>Allocate new resources required for this new parser object.</operation>
                   <explicit/>
+                  <operation>Allocate new resources required for this new parser object.</operation>
                </data>
             </constructor>
             <constructor type="9">
                <data version="1">
                   <description>This constructs a new parser object that is a child of another parser object. This sets up this object to use the resources of its root parser object.</description>
                   <type></type>
+                  <explicit/>
                   <operation>Set this object's parent as the given parent parser, add this parser to its parent's list of children, and set this object's root parser pointer.</operation>
                   <operation>Set all resource pointers to point to this object's root parser resources.</operation>
-                  <explicit/>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2199,8 +2199,8 @@
                <data version="1">
                   <description>This constructs a new block model with the given root block and parent. Both the root block and parent can be given as null. A null root block means this model is empty.</description>
                   <type></type>
-                  <operation>If the root given is not null then get the block type's block factory and connect the name changed signal with the new root block, else do nothing.</operation>
                   <explicit/>
+                  <operation>If the root given is not null then get the block type's block factory and connect the name changed signal with the new root block, else do nothing.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2572,8 +2572,8 @@
                <data version="1">
                   <description>This constructs a new scan thread with the given parser factory, directory to scan, file filters, and possible parent.</description>
                   <type></type>
-                  <operation>Set the given parser factory's parent to this scan thread and build a list of files that will be parsed in the given scan directory.</operation>
                   <explicit/>
+                  <operation>Set the given parser factory's parent to this scan thread and build a list of files that will be parsed in the given scan directory.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2746,6 +2746,7 @@
                <data version="1">
                   <description>This constructs a new project of the given type.</description>
                   <type></type>
+                  <explicit/>
                   <operation>Connect the file changed signal, create this project's root block, and set this project's file filters to the default for this project's type.</operation>
                </data>
                <variable type="1">
@@ -2760,6 +2761,7 @@
                <data version="1">
                   <description>This constructs a project loaded from the file from the given path. If any error occurs from loading the project file an exception is thrown.</description>
                   <type></type>
+                  <explicit/>
                   <operation>Connect the file changed signal and get the contents of this project's file as a byte array.</operation>
                   <operation>Open a new Qt XML document with the byte array, reading in its contents for all required elements. If all required elements are not found then throw an exception, else go to the next step.</operation>
                   <operation>Read in the scan directory, type element, and root block along with all of its children blocks after creating a new block root.</operation>
@@ -3243,6 +3245,7 @@
                <data version="1">
                   <description>Constructs a new application instance.</description>
                   <type></type>
+                  <explicit/>
                </data>
                <variable type="1">
                   <data version="1">
