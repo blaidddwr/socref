@@ -127,7 +127,7 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
    case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
    case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
-   case DeclarationType: return unique_ptr<AbstractBlock>(new Declaration(Declaration::Type::Friend,"this"));
+   case DeclarationType: return unique_ptr<AbstractBlock>(new Declaration(Declaration::Type::Using,"this"));
    case TypeListType: return unique_ptr<AbstractBlock>(new TypeList);
    case TypeType: return unique_ptr<AbstractBlock>(new Type("unnamed_type"));
    default: return nullptr;

@@ -26,6 +26,8 @@ namespace CppQt
          virtual QLayout* layout() override final;
       protected:
          virtual void apply() override final;
+      private slots:
+         void inputChanged();
       private:
          void addType(QFormLayout* layout);
          void addField(QFormLayout* layout);

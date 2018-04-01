@@ -15,6 +15,9 @@ namespace CppQt
          Using
          ,Friend
       };
+      static bool isValidUsingString(const QString& text);
+      static bool isValidFriendString(const QString& text);
+      static bool isValidDeclare(const QString& type, const QString& field);
       Declaration() = default;
       Declaration(Type type);
       Declaration(Type type, const QString& field);
