@@ -153,18 +153,14 @@ void BlockView::editTriggered()
    {
       AbstractBlock* pointer {_model->pointer(_current)};
       unique_ptr<AbstractEdit> edit {pointer->makeEdit()};
-      if ( !edit )
+      if ( edit )
       {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Got unexpected nullptr when creating abstract edit class."));
-         throw e;
+         edit->initialize(this);
+         edit->setWindowIcon(pointer->icon());
+         edit->setWindowTitle(tr("Edit %1").arg(_factory->name(pointer->type())));
+         edit->exec();
+         updateView();
       }
-      edit->initialize(this);
-      edit->setWindowIcon(pointer->icon());
-      edit->setWindowTitle(tr("Edit %1").arg(_factory->name(pointer->type())));
-      edit->exec();
-      updateView();
    }
 }
 

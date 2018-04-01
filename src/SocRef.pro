@@ -24,8 +24,6 @@ SOURCES += \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
     cppqt_edit_namespace.cpp \
-    cppqt_gui_typelistdialog.cpp \
-    cppqt_gui_typedialog.cpp \
     cppqt_gui_typecombobox.cpp \
     cppqt_variable.cpp \
     cppqt_base.cpp \
@@ -90,7 +88,12 @@ SOURCES += \
     cppqt_view_declaration.cpp \
     cppqt_edit_declaration.cpp \
     cppqt_parse_declaration.cpp \
-    gui_aboutdialog.cpp
+    gui_aboutdialog.cpp \
+    cppqt_typelist.cpp \
+    cppqt_type.cpp \
+    cppqt_view_typelist.cpp \
+    cppqt_view_type.cpp \
+    cppqt_edit_type.cpp
 
 HEADERS += \
     singleton.h \
@@ -110,8 +113,6 @@ HEADERS += \
     gui_abstractedit.h \
     cppqt_edit_namespace.h \
     cppqt_view_namespace.h \
-    cppqt_gui_typelistdialog.h \
-    cppqt_gui_typedialog.h \
     cppqt_gui_typecombobox.h \
     cppqt_variable.h \
     cppqt_base.h \
@@ -193,7 +194,12 @@ HEADERS += \
     cppqt_view_declaration.h \
     cppqt_edit_declaration.h \
     cppqt_parse_declaration.h \
-    gui_aboutdialog.h
+    gui_aboutdialog.h \
+    cppqt_typelist.h \
+    cppqt_type.h \
+    cppqt_view_typelist.h \
+    cppqt_view_type.h \
+    cppqt_edit_type.h
 
 RESOURCES += \
     resources.qrc

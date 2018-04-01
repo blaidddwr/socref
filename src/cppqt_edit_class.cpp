@@ -33,7 +33,6 @@ QLayout* Class::layout()
    QFormLayout* ret {new QFormLayout};
    Base::addFields(ret);
    addProperties(ret);
-   addTypeButtons(ret);
    return ret;
 }
 

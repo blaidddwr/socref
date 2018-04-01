@@ -1,5 +1,4 @@
 #include "cppqt_view_class.h"
-#include <exception.h>
 #include "cppqt_view_common.h"
 #include "cppqt_class.h"
 #include "cppqt_template.h"

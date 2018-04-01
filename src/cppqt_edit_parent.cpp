@@ -4,7 +4,7 @@
 #include <QComboBox>
 #include <QLineEdit>
 #include <exception.h>
-#include "cppqt_gui_typedialog.h"
+#include "cppqt_type.h"
 #include "cppqt_parent.h"
 
 
@@ -42,7 +42,7 @@ QLayout* Parent::layout()
 
 void Parent::apply()
 {
-   if ( !Gui::TypeDialog::isValidTypeString(_classEdit->text()) )
+   if ( !Type::isValidTypeString(_classEdit->text()) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -61,7 +61,7 @@ void Parent::apply()
 void Parent::classChanged(const QString& text)
 {
    Q_UNUSED(text)
-   setDisabled(!Gui::TypeDialog::isValidTypeString(_classEdit->text()));
+   setDisabled(!Type::isValidTypeString(_classEdit->text()));
 }
 
 

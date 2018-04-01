@@ -80,7 +80,7 @@ QIcon Class::icon() const
 
 QList<int> Class::buildList() const
 {
-   QList<int> ret {BlockFactory::AccessType,BlockFactory::ParentType};
+   QList<int> ret {BlockFactory::AccessType,BlockFactory::ParentType,BlockFactory::TypeListType};
    if ( !isVirtual() && !_qtObject ) ret << BlockFactory::TemplateType;
    return ret;
 }

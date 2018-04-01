@@ -18,26 +18,12 @@ namespace CppQt
       virtual std::unique_ptr<QWidget> makeView() const override;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
       virtual QList<AbstractBlock*> realChildren() const;
-      QStringList types() const;
-      void setTypes(const QStringList& types);
       Namespace* root();
       const Namespace* root() const;
    signals:
       void typesChanged();
    protected:
-      virtual void readData(const QDomElement& data, int version) override;
-      virtual int writeVersion() const override;
-      virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
-      virtual void copyDataFrom(const AbstractBlock* object) override;
-   private:
-      void readVersion0(const QDomElement& data);
-      void readType(const QDomElement& type);
-      void readVersion1(const QDomElement& data);
-      constexpr static int _version {1};
-      static const char* _typeTag;
-      static const char* _nameTag;
-      QStringList _types;
    };
 }
 
