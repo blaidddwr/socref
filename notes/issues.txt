@@ -1,5 +1,3 @@
 
 * Add validating for C++/Qt declaration fields.
 
-* Overhaul the C++/Qt type system so it is visible in the block system, make two new block types similar to enumerations but for types and have the special type combo box populate its list from that.
-

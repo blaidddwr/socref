@@ -126,7 +126,9 @@ QString Type::name() const
 
 QIcon Type::icon() const
 {
-   return QIcon();
+   QIcon ret;
+   if ( ret.isNull() ) ret = QIcon(":/icons/type.svg");
+   return ret;
 }
 
 

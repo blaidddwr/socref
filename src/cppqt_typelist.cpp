@@ -45,7 +45,9 @@ QString TypeList::name() const
 
 QIcon TypeList::icon() const
 {
-   return QIcon();
+   QIcon ret;
+   if ( ret.isNull() ) ret = QIcon(":/icons/typelist.svg");
+   return ret;
 }
 
 

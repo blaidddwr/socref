@@ -36,5 +36,7 @@
         <file>icons/priparent.svg</file>
         <file>icons/proparent.svg</file>
         <file>icons/declaration.svg</file>
+        <file>icons/typelist.svg</file>
+        <file>icons/type.svg</file>
     </qresource>
 </RCC>
