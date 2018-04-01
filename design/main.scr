@@ -5,56 +5,7 @@
    <filters>*.cpp *.h</filters>
    <type id="0">C++/Qt</type>
    <root>
-      <data version="1">
-         <type>AbstractBlock*</type>
-         <type>AbstractParser*</type>
-         <type>AbstractParserFactory*</type>
-         <type>bool</type>
-         <type>bool*</type>
-         <type>char**</type>
-         <type>class</type>
-         <type>const AbstractBlock*</type>
-         <type>const AbstractBlockFactory*</type>
-         <type>const AbstractBlockFactory&amp;</type>
-         <type>const char*</type>
-         <type>const Exception::Base&amp;</type>
-         <type>const QByteArray&amp;</type>
-         <type>const QDomElement&amp;</type>
-         <type>const QList&lt;int>&amp;</type>
-         <type>const QModelIndex&amp;</type>
-         <type>const QString&amp;</type>
-         <type>const QStringList&amp;</type>
-         <type>Exception::Base*</type>
-         <type>int</type>
-         <type>int*</type>
-         <type>int&amp;</type>
-         <type>QByteArray</type>
-         <type>QDialog*</type>
-         <type>QDomDocument&amp;</type>
-         <type>QDomElement</type>
-         <type>QDomElement*</type>
-         <type>QFile*</type>
-         <type>QFileInfoList</type>
-         <type>QIcon</type>
-         <type>QLayout*</type>
-         <type>QList&lt;int></type>
-         <type>QModelIndex</type>
-         <type>QObject*</type>
-         <type>QString</type>
-         <type>QString*</type>
-         <type>QStringList*</type>
-         <type>QVariant</type>
-         <type>QWidget*</type>
-         <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-         <type>std::unique_ptr&lt;AbstractBlock></type>
-         <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
-         <type>std::unique_ptr&lt;AbstractParser></type>
-         <type>std::unique_ptr&lt;AbstractParserFactory></type>
-         <type>std::unique_ptr&lt;AbstractParserFactory>&amp;&amp;</type>
-         <type>std::unique_ptr&lt;QDialog></type>
-         <type>std::unique_ptr&lt;QWidget></type>
-         <type>void</type>
-      </data>
+      <data version="1"/>
       <namespace type="0">
          <data version="1">
             <name>Gui</name>
@@ -171,9 +122,20 @@
          <data version="1">
             <name>Singleton</name>
             <description>This template can be inherited by any class that wants to be a singleton class. Any class that uses this template to be a singleton class must have a default constructor. A singleton class is a class that has only one global instance for the entire program.</description>
-            <type>T*</type>
-            <type>T&amp;</type>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>T&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>T*</type>
+               </data>
+            </type>
+         </typeList>
          <template type="3">
             <data version="1">
                <name>T</name>
@@ -216,9 +178,20 @@
          <data version="1">
             <name>SingletonFactory</name>
             <description>This template can be inherited by any class that wants to be a singleton factory. A singleton class is a class that has only one global instance for the entire program. The global instance can be set to a new instance at anytime, deleting any existing instance. The is most commonly used with abstract factories that have a single global instance in a program.</description>
-            <type>T*</type>
-            <type>T&amp;</type>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>T&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>T*</type>
+               </data>
+            </type>
+         </typeList>
          <template type="3">
             <data version="1">
                <name>T</name>
@@ -276,12 +249,65 @@
          <data version="1">
             <name>DomElementReader</name>
             <description>This is a helper class that makes is easier to read information stored in an XML element. This primarily helps with finding child elements and extracting information enclosed within them. This also helps with getting attributes in text or integer form and throwing exceptions if they don't exist. For searching child elements this class works by adding matches that will be looked for when the XML element given to this class is read. When a match is found the variable passed to the match is set to the value of the matched child element. This class is designed to only read its given XML element once and then be destroyed.</description>
-            <type>DomElementReader&amp;</type>
-            <type>QHash&lt;QString,Match*></type>
-            <type>QList&lt;QDomElement>*</type>
-            <type>Type</type>
-            <type>void*</type>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>Type</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>bool</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>void*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>bool*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QDomElement*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;QDomElement>*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QString&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QDomElement&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QHash&lt;QString,Match*></type>
+               </data>
+            </type>
+         </typeList>
          <access type="5">
             <data version="1">
                <type>public:</type>
@@ -536,8 +562,6 @@
                <data version="1">
                   <name>Match</name>
                   <description>This holds a single match for an XML element reader.</description>
-                  <type>Type</type>
-                  <type>void*</type>
                </data>
                <access type="5">
                   <data version="1">
@@ -669,13 +693,126 @@
          <data version="1">
             <name>AbstractBlock</name>
             <description>This represents a single block of data in the reference system. It conforms to a parent child relationship where each block can have any number of children that are also blocks. The children are structured in an ordered list so they can be represented as a tree like structure in a view. Blocks also spawn the GUI elements that represent their models. Copying of blocks is also performed with other virtual interface functions. Many helper functions are available to navigate the tree structure of children and parents. Blocks are identified by a type which is an integer value that must be unique among all block types of a project type supplied by the block factory. Blocks are saved and opened using XML elements. The data for these XML elements have version numbers so later versions of this software can identify and read previous versions of XML elements.</description>
-            <type>const QList&lt;AbstractBlock*>&amp;</type>
-            <type>const T*</type>
-            <type>QList&lt;AbstractBlock*></type>
-            <type>QList&lt;T*></type>
-            <type>T*</type>
             <qtobject/>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>bool</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QIcon</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;int></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QString&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const char*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const AbstractBlockFactory&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractBlock*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const AbstractBlock*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;AbstractBlock*></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;QWidget></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractBlock></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QList&lt;AbstractBlock*>&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QList&lt;int>&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>T*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const T*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;T*></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QDomElement</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QDomElement&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QDomDocument&amp;</type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
@@ -852,6 +989,7 @@
                <variable type="1">
                   <data version="1">
                      <name>index</name>
+                     <description>Index of the child whose pointer is returned.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -1438,6 +1576,24 @@
             <name>AbstractBlockFactory</name>
             <description>This represents the factory that can produce blocks for a specific project type. There should only be one instance of this class for each project type. Along with making new blocks this factory also gives basic information about each block type such as its display and element names. To maintain backwards compatibility all previously defined block types must maintain the specific integer that defines them.</description>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractBlock></type>
+               </data>
+            </type>
+         </typeList>
          <access type="5">
             <data version="1">
                <type>public:</type>
@@ -1543,9 +1699,61 @@
          <data version="1">
             <name>AbstractParser</name>
             <description>This represents a parser object which takes in a single source code file to parse and outputs the results, overwriting the file if the results are different from the original contents. It can contain child parser objects which can be used for parsing segments of the source file allowing for specializing of parsing within segments of the file. Children parser objects will write lines to its root parser object. This allows for parsing the same file but using different parser object types when different parts of the file are reached. This class is designed to only have implementations executed once and then destroyed.</description>
-            <type>QList&lt;AbstractParser*></type>
             <qtobject/>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>bool</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QStringList*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QFile*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractParser*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QString&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QStringList&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;AbstractParser*></type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
@@ -1857,6 +2065,19 @@
             <description>This represents the factory that can produce parser objects for a specific project type. It is a very simple class that has only one interface for producing new parser objects to parse individual source files.</description>
             <qtobject/>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>const QString&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractParser></type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
@@ -1899,6 +2120,39 @@
             <name>AbstractProjectFactory</name>
             <description>This represents the factory that provides all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire program. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project types must maintain the specific integer that defines them.</description>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractBlock*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const AbstractBlockFactory&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;QDialog></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractParserFactory></type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
@@ -2032,6 +2286,39 @@
             <name>ProjectFactory</name>
             <description>This implements the abstract project factory class that provides all factories and information needed for a project type.</description>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractBlock*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const AbstractBlockFactory&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;QDialog></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractParserFactory></type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
@@ -2185,6 +2472,59 @@
             <description>This implements the Qt abstract item model class and is used to model the tree structure of a project's block data. It only implements the interfaces necessary for read only functionality through Qt view classes. However the writable functionality exists with custom functions outside the Qt framework. The custom write operations supported are inserting blocks, moving blocks up and down, removing blocks, copying blocks, and cutting blocks.</description>
             <qtobject/>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>bool</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QVariant</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QModelIndex</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QObject*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractBlock*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QModelIndex&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const AbstractBlockFactory*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractBlock></type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
@@ -2558,6 +2898,59 @@
             <description>This implements the qt thread class and is used to scan and parse an entire directory of source files with the given file filters and parser factory. This executes the scanning of files on the separate thread started by the qt thread class. Signals are emitted for the progress of the scanning and when it is complete. Because execution of parsing is done on a separate thread if an exception is thrown within that thread it is caught and saved within the class. This exception can be viewed from the main thread.</description>
             <qtobject/>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>bool</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QFileInfoList</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QString&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QStringList&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const Exception::Base&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QObject*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>Exception::Base*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractParserFactory*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractParserFactory></type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
@@ -2727,11 +3120,76 @@
          <data version="1">
             <name>Project</name>
             <description>This is a single open project which contains everything for that project, watching the file it was opened or saved with for changes made by any outside source. If the file this project is associated with is changed by an outside source a signal is emitted. This class also provides all generic information of a project along with being able to edit it. This generic information includes the name, scan directory, and scan filters. The block model for this project's block tree data and the ability to create a scan thread object for scanning and parsing is also provided.</description>
-            <type>BlockModel*</type>
-            <type>QDomElement*</type>
-            <type>std::unique_ptr&lt;ScanThread></type>
             <qtobject/>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>bool</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QString&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QByteArray</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QByteArray&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QDomDocument&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QDomElement&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QDomElement*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractBlock*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const char*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>BlockModel*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;ScanThread></type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
@@ -3228,9 +3686,41 @@
          <data version="1">
             <name>Application</name>
             <description>This is the main application class for this program. It implements the notify interface to be able to handle exceptions. It also contains the version of the program, along with the keys used to access this program's qt settings.</description>
-            <type>QEvent*</type>
             <qtobject/>
          </data>
+         <typeList type="15">
+            <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>char**</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const char*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QObject*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QEvent*</type>
+               </data>
+            </type>
+         </typeList>
          <parent type="13">
             <data version="2">
                <access>public</access>
