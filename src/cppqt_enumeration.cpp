@@ -30,9 +30,9 @@ Enumeration::Enumeration(const QString& name):
 
 QString Enumeration::name() const
 {
-   QString ret {"enum "};
-   if ( _class ) ret.append("class ");
-   return ret.append(Base::name());
+   QString ret {Base::name()};
+   if ( _class ) ret.append(" [C]");
+   return ret;
 }
 
 

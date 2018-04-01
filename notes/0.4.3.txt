@@ -2,4 +2,5 @@
 * C++/Qt types are now visisble in the main block system as two new block types.
   * Added C++/Qt type list block which can hold a list of types.
   * Added C++/Qt type block which defines a specific type.
+* C++/Qt enumerations now only display their name and a [C] flag if it is classed.
 
