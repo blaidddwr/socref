@@ -2,8 +2,8 @@
 #include <exception.h>
 #include "cppqt_view_parent.h"
 #include "cppqt_edit_parent.h"
-#include "cppqt_gui_typedialog.h"
 #include "cppqt_blockfactory.h"
+#include "cppqt_type.h"
 #include "domelementreader.h"
 #include "common.h"
 
@@ -186,7 +186,7 @@ QString Parent::className() const
 
 void Parent::setClassName(const QString& className)
 {
-   if ( !Gui::TypeDialog::isValidTypeString(className) )
+   if ( !Type::isValidTypeString(className) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

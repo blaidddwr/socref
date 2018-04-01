@@ -14,6 +14,8 @@
 #include "cppqt_enumvalue.h"
 #include "cppqt_parent.h"
 #include "cppqt_declaration.h"
+#include "cppqt_typelist.h"
+#include "cppqt_type.h"
 #include "projectfactory.h"
 
 
@@ -41,21 +43,23 @@ QString BlockFactory::name(int type) const
 {
    switch (type)
    {
-   case NamespaceType: return QString("Namespace");
-   case VariableType: return QString("Variable");
-   case FunctionType: return QString("Function");
-   case TemplateType: return QString("Template");
-   case ClassType: return QString("Class");
-   case AccessType: return QString("Access");
-   case OperatorType: return QString("Operator");
-   case SlotType: return QString("Slot");
-   case SignalType: return QString("Signal");
-   case ConstructorType: return QString("Constructor");
-   case DestructorType: return QString("Destructor");
-   case EnumerationType: return QString("Enumeration");
-   case EnumValueType: return QString("Enum Value");
-   case ParentType: return QString("Parent");
-   case DeclarationType: return QString("Declaration");
+   case NamespaceType: return "Namespace";
+   case VariableType: return "Variable";
+   case FunctionType: return "Function";
+   case TemplateType: return "Template";
+   case ClassType: return "Class";
+   case AccessType: return "Access";
+   case OperatorType: return "Operator";
+   case SlotType: return "Slot";
+   case SignalType: return "Signal";
+   case ConstructorType: return "Constructor";
+   case DestructorType: return "Destructor";
+   case EnumerationType: return "Enumeration";
+   case EnumValueType: return "Enum Value";
+   case ParentType: return "Parent";
+   case DeclarationType: return "Declaration";
+   case TypeListType: return "Type List";
+   case TypeType: return "Type";
    default: return QString();
    }
 }
@@ -69,22 +73,24 @@ QString BlockFactory::elementName(int type) const
 {
    switch (type)
    {
-   case NamespaceType: return QString("namespace");
-   case VariableType: return QString("variable");
-   case FunctionType: return QString("function");
-   case TemplateType: return QString("template");
-   case ClassType: return QString("class");
-   case AccessType: return QString("access");
-   case OperatorType: return QString("operator");
-   case SlotType: return QString("slot");
-   case SignalType: return QString("signal");
-   case ConstructorType: return QString("constructor");
-   case DestructorType: return QString("destructor");
-   case EnumerationType: return QString("enumeration");
-   case EnumValueType: return QString("enumval");
-   case ParentType: return QString("parent");
-   case DeclarationType: return QString("declaration");
-   default: return QString("unknown");
+   case NamespaceType: return "namespace";
+   case VariableType: return "variable";
+   case FunctionType: return "function";
+   case TemplateType: return "template";
+   case ClassType: return "class";
+   case AccessType: return "access";
+   case OperatorType: return "operator";
+   case SlotType: return "slot";
+   case SignalType: return "signal";
+   case ConstructorType: return "constructor";
+   case DestructorType: return "destructor";
+   case EnumerationType: return "enumeration";
+   case EnumValueType: return "enumval";
+   case ParentType: return "parent";
+   case DeclarationType: return "declaration";
+   case TypeListType: return "typeList";
+   case TypeType: return "type";
+   default: return "unknown";
    }
 }
 
@@ -121,7 +127,9 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
    case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
    case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
-   case DeclarationType: return unique_ptr<AbstractBlock>(new Declaration(Declaration::Type::Friend,"this"));
+   case DeclarationType: return unique_ptr<AbstractBlock>(new Declaration(Declaration::Type::Using,"this"));
+   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList);
+   case TypeType: return unique_ptr<AbstractBlock>(new Type("unnamed_type"));
    default: return nullptr;
    }
 }

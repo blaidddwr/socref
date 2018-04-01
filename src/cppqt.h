@@ -18,4 +18,6 @@ namespace CppQt
    class Destructor;
    class Declaration;
    class Slot;
+   class TypeList;
+   class Type;
 }

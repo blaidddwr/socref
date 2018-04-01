@@ -183,7 +183,7 @@ int AbstractBlock::indexOf(AbstractBlock* pointer) const
  * This returns a pointer to this node's child with the given index. If the index 
  * is out of range an exception is thrown. 
  *
- * @param index  
+ * @param index Index of the child whose pointer is returned. 
  *
  * @return Pointer to this node's child with given index. 
  *

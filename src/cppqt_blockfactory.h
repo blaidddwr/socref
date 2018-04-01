@@ -27,6 +27,8 @@ namespace CppQt
          ,EnumValueType
          ,ParentType
          ,DeclarationType
+         ,TypeListType
+         ,TypeType
          ,Total
       };
       virtual int size() const override final;

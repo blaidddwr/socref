@@ -19,6 +19,39 @@ const char* Declaration::_fieldTag {"field"};
 
 
 
+bool Declaration::isValidUsingString(const QString& text)
+{
+   return QRegExp("((::)?[a-zA-Z_]+[a-zA-Z_0-9]*)+").exactMatch(text);
+}
+
+
+
+
+
+
+bool Declaration::isValidFriendString(const QString& text)
+{
+   return QRegExp("[a-zA-Z_]+[a-zA-Z_0-9<>\\*& ]*\\([a-zA-Z_0-9<>\\*&, ]*\\)").exactMatch(text);
+}
+
+
+
+
+
+
+bool Declaration::isValidDeclare(const QString& type, const QString& field)
+{
+   Type typeEnum {static_cast<Type>(_typeNames.indexOf(type))};
+   if ( typeEnum == Type::Using && !isValidUsingString(field) ) return false;
+   if ( typeEnum == Type::Friend && !isValidFriendString(field) ) return false;
+   return true;
+}
+
+
+
+
+
+
 Declaration::Declaration(Declaration::Type type):
    _type(type)
 {}
@@ -177,6 +210,20 @@ QString Declaration::field() const
 
 void Declaration::setField(const QString& field)
 {
+   if ( _type == Type::Using && !isValidUsingString(field) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("The field '%1' is not a valid using string.").arg(field));
+      throw e;
+   }
+   if ( _type == Type::Friend && !isValidFriendString(field) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("The field '%1' is not a valid friend string.").arg(field));
+      throw e;
+   }
    if ( _field != field )
    {
       _field = field;

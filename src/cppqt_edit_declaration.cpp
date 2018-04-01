@@ -49,11 +49,22 @@ void Declaration::apply()
 
 
 
+void Declaration::inputChanged()
+{
+   setDisabled(!CppQt::Declaration::isValidDeclare(_typeBox->currentText(),_fieldEdit->text()));
+}
+
+
+
+
+
+
 void Declaration::addType(QFormLayout* layout)
 {
    _typeBox = new QComboBox;
    for (auto text: _block->declareTypes()) _typeBox->addItem(text);
    _typeBox->setCurrentIndex(_typeBox->findText(_block->declareTypeName()));
+   connect(_typeBox,&QComboBox::currentTextChanged,this,&Declaration::inputChanged);
    layout->addRow(new QLabel(tr("Type:")),_typeBox);
 }
 
@@ -65,6 +76,7 @@ void Declaration::addType(QFormLayout* layout)
 void Declaration::addField(QFormLayout* layout)
 {
    _fieldEdit = new QLineEdit;
+   connect(_fieldEdit,&QLineEdit::textChanged,this,&Declaration::inputChanged);
    _fieldEdit->setText(_block->field());
    layout->addRow(new QLabel(tr("Field:")),_fieldEdit);
 }

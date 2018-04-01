@@ -2,7 +2,6 @@
 #include <exception.h>
 #include "cppqt_view_function.h"
 #include "cppqt_edit_function.h"
-#include "cppqt_gui_typedialog.h"
 #include "cppqt_variable.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"

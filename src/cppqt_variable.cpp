@@ -2,9 +2,9 @@
 #include <exception.h>
 #include "cppqt_view_variable.h"
 #include "cppqt_edit_variable.h"
-#include "cppqt_gui_typedialog.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_function.h"
+#include "cppqt_type.h"
 #include "domelementreader.h"
 #include "common.h"
 
@@ -405,7 +405,7 @@ QString Variable::attributes() const
 
 void Variable::checkTypeSyntax(const QString& type)
 {
-   if ( !Gui::TypeDialog::isValidTypeString(type) )
+   if ( !Type::isValidTypeString(type) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

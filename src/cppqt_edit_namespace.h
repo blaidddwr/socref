@@ -15,14 +15,6 @@ namespace CppQt
          explicit Namespace(CppQt::Namespace* block, QWidget* parent = nullptr);
       protected:
          virtual QLayout* layout() override;
-         void addTypeButtons(QFormLayout* layout);
-      private slots:
-         void editGlobalTypesClicked();
-         void editLocalTypesClicked();
-      private:
-         QWidget* setupGlobalButton();
-         QWidget* setupLocalButton();
-         CppQt::Namespace* _block;
       };
    }
 }
