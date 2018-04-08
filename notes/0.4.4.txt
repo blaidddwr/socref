@@ -1,4 +1,7 @@
 
 * Added C++/Qt settings for max columns used for limiting the column length of comments and variable initializers.
 * C++/Qt type combo boxes are now populated with all type lists above the block being edited.
+* Fixed C++/Qt bugs:
+  * The explicit property of functions are now correctly copied.
+  * Template functions nested within a namespace are now correctly parsed.
 

@@ -20,6 +20,7 @@ namespace CppQt
          virtual void outputDefinition() override final;
          bool isMatch(const QString& line);
          bool hasCode() const;
+         void setCutOff(int cutOff);
       protected:
          virtual bool readLine(const QString& line) override final;
       private:
@@ -34,6 +35,7 @@ namespace CppQt
          CppQt::Function* _block {nullptr};
          QString _definition;
          int _level {0};
+         int _cutOff {0};
          QStringList _code;
          QStringList _initializers;
       };

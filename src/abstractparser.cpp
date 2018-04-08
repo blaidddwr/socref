@@ -173,7 +173,7 @@ void AbstractParser::stepIntoChild(AbstractParser* child)
  *
  * @return Number of spaces prepended to each added line of output. 
  */
-int AbstractParser::indent()
+int AbstractParser::indent() const
 {
    return *_indent;
 }

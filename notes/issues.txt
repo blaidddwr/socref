@@ -1,5 +1,1 @@
 
-* Fix C++/Qt parsing bug where the opening/closing brackets of a function are not recognized if they have spaces before or after.
-
-* Fix C++/Qt bug where the explicit function property is not copied.
-

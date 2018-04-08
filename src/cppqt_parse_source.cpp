@@ -75,7 +75,11 @@ bool Source::readLine(const QString& line)
       if ( !_pastTop ) readTop(line);
       if ( QRegExp(".*\\([a-zA-Z0-9_,<>:&\\* ]*\\):?[ constexp]*").exactMatch(line) )
       {
-         if ( Function* child = findDefined(line) ) stepIntoChild(child);
+         if ( Function* child = findDefined(line) )
+         {
+            child->setCutOff(line.indexOf(QRegExp("\\S")));
+            stepIntoChild(child);
+         }
          else
          {
             addUndefined(new Function(line,this));
