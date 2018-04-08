@@ -1,3 +1,4 @@
 
 * Added C++/Qt settings for max columns used for limiting the column length of comments and variable initializers.
+* C++/Qt type combo boxes are now populated with all type lists above the block being edited.
 

@@ -25,7 +25,7 @@ TypeComboBox::TypeComboBox(AbstractBlock* block, QWidget* parent):
 
 void TypeComboBox::buildTypeList(AbstractBlock* block)
 {
-   if ( block )
+   while ( block )
    {
       const QList<TypeList*> list {block->makeListOfType<TypeList>(BlockFactory::TypeListType)};
       if ( !list.isEmpty() )
@@ -36,6 +36,6 @@ void TypeComboBox::buildTypeList(AbstractBlock* block)
             for (auto type: list) addItem(type->name());
          }
       }
-      else buildTypeList(block->parent());
+      block = block->parent();
    }
 }
