@@ -49,7 +49,7 @@ protected:
     */
    virtual void makeOutput() = 0;
    void stepIntoChild(AbstractParser* child);
-   int indent();
+   int indent() const;
    void setIndent(int indent);
    void add(const QString& line);
    void add(const QStringList& lines);

@@ -7,7 +7,6 @@
 #include "cppqt_parse_access.h"
 #include "cppqt_parse_forward.h"
 #include "cppqt_parse_declaration.h"
-#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_function.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
@@ -16,6 +15,7 @@
 #include "cppqt_class.h"
 #include "cppqt_parent.h"
 #include "cppqt_declaration.h"
+#include "cppqt_settings.h"
 
 
 
@@ -29,8 +29,8 @@ using namespace CppQt::Parse;
 Header::Header(Namespace* block, const QString& name):
    Source(block),
    _block(block),
-   _indentSpaces(Gui::SettingsDialog::indentSpaces()),
-   _headerLines(Gui::SettingsDialog::headerLines())
+   _indentSpaces(Settings::instance().indentSpaces()),
+   _headerLines(Settings::instance().headerLines())
 {
    QString define {name.toUpper().append("_H")};
    _header1 = QString("#ifndef ").append(define);

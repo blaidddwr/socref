@@ -666,6 +666,7 @@ void Function::copyDataFrom(const AbstractBlock* object)
       Variable::copyDataFrom(object);
       _returnDescription = object_->_returnDescription;
       _default = object_->_default;
+      _explicit = object_->_explicit;
       _virtual = object_->_virtual;
       _const = object_->_const;
       _noExcept = object_->_noExcept;

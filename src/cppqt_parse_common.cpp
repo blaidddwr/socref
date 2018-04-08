@@ -6,6 +6,7 @@
 #include "cppqt_class.h"
 #include "cppqt_namespace.h"
 #include "cppqt_template.h"
+#include "cppqt_settings.h"
 
 
 
@@ -45,6 +46,7 @@ QStringList Parse::makeComment(const QString& text, int justified)
       e.setDetails(QObject::tr("Invalid justification of %1.").arg(justified));
       throw e;
    }
+   Settings& settings {Settings::instance()};
    QStringList ret;
    if ( !text.isEmpty() )
    {
@@ -61,7 +63,7 @@ QStringList Parse::makeComment(const QString& text, int justified)
             total += justified;
          }
          line.append(words.takeFirst()).append(" ");
-         while ( !words.isEmpty() && (total + words.first().size() + 1) <= 80 )
+         while ( !words.isEmpty() && (total + words.first().size() + 1) <= settings.maxColumns() )
          {
             total += words.first().size() + 1;
             line.append(words.takeFirst()).append(" ");

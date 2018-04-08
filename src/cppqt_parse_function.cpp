@@ -31,9 +31,11 @@ Function::Function(CppQt::Function* block, AbstractParser* parent):
 
 
 Function::Function(const QString& definition, AbstractParser* parent):
-   Base(parent),
-   _definition(definition)
-{}
+   Base(parent)
+{
+   _cutOff = definition.indexOf(QRegExp("\\S"));
+   _definition = definition.mid(_cutOff);
+}
 
 
 
@@ -166,21 +168,31 @@ bool Function::hasCode() const
 
 
 
+void Function::setCutOff(int cutOff)
+{
+   _cutOff = cutOff;
+}
+
+
+
+
+
+
 bool Function::readLine(const QString& line)
 {
-   if ( _level == 0 && line == QString("{}") ) return false;
-   if ( line == QString("{") )
+   if ( _level == 0 && QRegExp("\\s*\\{\\}\\s*").exactMatch(line) ) return false;
+   if ( QRegExp("\\s*\\{\\s*").exactMatch(line) )
    {
       ++_level;
       if ( _level == 1 ) return true;
    }
-   else if ( line == QString("}") )
+   else if ( QRegExp("\\s*\\}\\s*").exactMatch(line) )
    {
       --_level;
       if ( _level == 0 ) return false;
    }
-   if ( _level == 0) _initializers << line;
-   else _code << line;
+   if ( _level == 0) _initializers << line.mid(_cutOff);
+   else _code << line.mid(_cutOff);
    return true;
 }
 

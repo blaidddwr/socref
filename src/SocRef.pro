@@ -93,7 +93,8 @@ SOURCES += \
     cppqt_type.cpp \
     cppqt_view_typelist.cpp \
     cppqt_view_type.cpp \
-    cppqt_edit_type.cpp
+    cppqt_edit_type.cpp \
+    cppqt_settings.cpp
 
 HEADERS += \
     singleton.h \
@@ -199,7 +200,8 @@ HEADERS += \
     cppqt_type.h \
     cppqt_view_typelist.h \
     cppqt_view_type.h \
-    cppqt_edit_type.h
+    cppqt_edit_type.h \
+    cppqt_settings.h
 
 RESOURCES += \
     resources.qrc

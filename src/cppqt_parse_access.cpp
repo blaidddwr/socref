@@ -1,6 +1,6 @@
 #include "cppqt_parse_access.h"
-#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_access.h"
+#include "cppqt_settings.h"
 
 
 
@@ -14,7 +14,7 @@ using namespace CppQt::Parse;
 Access::Access(CppQt::Access* block, AbstractParser* parent):
    Base(parent),
    _block(block),
-   _indentSpaces(Gui::SettingsDialog::indentSpaces())
+   _indentSpaces(Settings::instance().indentSpaces())
 {}
 
 
