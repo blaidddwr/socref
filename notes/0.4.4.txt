@@ -1,0 +1,3 @@
+
+* Added C++/Qt settings for max columns used for limiting the column length of comments and variable initializers.
+

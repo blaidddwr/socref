@@ -46,6 +46,7 @@ void SettingsDialog::applyClicked()
    settings.setIndentSpaces(_indentSpacesBox->value());
    settings.setHeaderLines(_headerLinesBox->value());
    settings.setFunctionLines(_functionLinesBox->value());
+   settings.setMaxColumns(_maxColumnsBox->value());
 }
 
 
@@ -72,6 +73,7 @@ QLayout* SettingsDialog::setupForm()
    addIndentSpaces(ret);
    addHeaderLines(ret);
    addFunctionLines(ret);
+   addMaxColumns(ret);
    return ret;
 }
 
@@ -109,6 +111,19 @@ void SettingsDialog::addFunctionLines(QFormLayout* layout)
    _functionLinesBox = new QSpinBox;
    _functionLinesBox->setValue(Settings::instance().functionLines());
    layout->addRow(new QLabel(tr("Function Header Lines:")),_functionLinesBox);
+}
+
+
+
+
+
+
+void SettingsDialog::addMaxColumns(QFormLayout* layout)
+{
+   _maxColumnsBox = new QSpinBox;
+   _maxColumnsBox->setMaximum(999);
+   _maxColumnsBox->setValue(Settings::instance().maxColumns());
+   layout->addRow(new QLabel(tr("Maximum Columns:")),_maxColumnsBox);
 }
 
 

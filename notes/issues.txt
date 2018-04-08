@@ -1,6 +1,4 @@
 
-* Add new C++/Qt setting fields for comment column width and max line width of variables.
-
 * Modify C++/Qt type combo box to populate from all levels a type list is found up to the root namespace.
 
 * Fix C++/Qt parsing bug where the opening/closing brackets of a function are not recognized if they have spaces before or after.

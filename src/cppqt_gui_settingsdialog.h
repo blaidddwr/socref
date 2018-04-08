@@ -27,6 +27,7 @@ namespace CppQt
          void addIndentSpaces(QFormLayout* layout);
          void addHeaderLines(QFormLayout* layout);
          void addFunctionLines(QFormLayout* layout);
+         void addMaxColumns(QFormLayout* layout);
          QLayout* setupButtons();
          QWidget* setupOkButton();
          QWidget* setupApplyButton();
@@ -34,6 +35,7 @@ namespace CppQt
          QSpinBox* _indentSpacesBox;
          QSpinBox* _headerLinesBox;
          QSpinBox* _functionLinesBox;
+         QSpinBox* _maxColumnsBox;
       };
    }
 }

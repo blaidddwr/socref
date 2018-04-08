@@ -1,6 +1,7 @@
 #include "cppqt_parse_variable.h"
 #include "cppqt_parse_common.h"
 #include "cppqt_variable.h"
+#include "cppqt_settings.h"
 
 
 
@@ -88,7 +89,7 @@ void Variable::outputEnd(QString* line, bool withInitializer)
    if ( withInitializer )
    {
       const QString initialize {_block->initializer()};
-      if ( (initialize.size() + line->size() + indent() + 1) > 100 )
+      if ( (initialize.size() + line->size() + indent() + 1) > Settings::instance().maxColumns() )
       {
          add(*line);
          add("{");
