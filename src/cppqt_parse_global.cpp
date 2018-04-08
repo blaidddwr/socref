@@ -1,10 +1,10 @@
 #include "cppqt_parse_global.h"
 #include <QStack>
 #include "cppqt_parse_common.h"
-#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
+#include "cppqt_settings.h"
 
 
 
@@ -17,7 +17,7 @@ using namespace CppQt::Parse;
 
 Global::Global(Namespace* block):
    _block(block),
-   _indentSpaces(Gui::SettingsDialog::indentSpaces())
+   _indentSpaces(Settings::instance().indentSpaces())
 {}
 
 

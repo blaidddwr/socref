@@ -1,8 +1,8 @@
 #include "cppqt_parse_enumeration.h"
 #include "cppqt_parse_common.h"
-#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
+#include "cppqt_settings.h"
 
 
 
@@ -16,7 +16,7 @@ using namespace CppQt::Parse;
 Enumeration::Enumeration(CppQt::Enumeration* block, AbstractParser* parent):
    Base(parent),
    _block(block),
-   _indentSpaces(Gui::SettingsDialog::indentSpaces())
+   _indentSpaces(Settings::instance().indentSpaces())
 {}
 
 

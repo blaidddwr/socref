@@ -2,13 +2,13 @@
 #include <QStack>
 #include "cppqt_parse_function.h"
 #include "cppqt_parse_variable.h"
-#include "cppqt_gui_settingsdialog.h"
 #include "cppqt_function.h"
 #include "cppqt_variable.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_access.h"
 #include "cppqt_blockfactory.h"
+#include "cppqt_settings.h"
 
 
 
@@ -22,8 +22,8 @@ using namespace CppQt::Parse;
 Source::Source(CppQt::Namespace* block):
    Global(block),
    _block(block),
-   _headerLines(Gui::SettingsDialog::headerLines()),
-   _functionLines(Gui::SettingsDialog::functionLines()),
+   _headerLines(Settings::instance().headerLines()),
+   _functionLines(Settings::instance().functionLines()),
    _children(block->realChildren())
 {
    if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )

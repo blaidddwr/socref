@@ -5,14 +5,11 @@
 #include <QSpinBox>
 #include <QLabel>
 #include "cppqt_gui_settingsdialog.h"
-#include "application.h"
+#include "cppqt_settings.h"
 
 
 
 using namespace CppQt::Gui;
-const char* SettingsDialog::_indentSpacesKey {"settings.cppqt.indent.spaces"};
-const char* SettingsDialog::_headerLinesKey {"settings.cppqt.header.lines"};
-const char* SettingsDialog::_functionLinesKey {"settings.cppqt.header.functionlines"};
 //
 
 
@@ -21,44 +18,10 @@ const char* SettingsDialog::_functionLinesKey {"settings.cppqt.header.functionli
 
 
 SettingsDialog::SettingsDialog():
-   ::Gui::PersistentDialog("cppqt.gui.settingsdialog.geometry"),
-   _settings(Application::_companyKey,Application::_programKey)
+   ::Gui::PersistentDialog("cppqt.gui.settingsdialog.geometry")
 {
    setupGui();
    setWindowTitle(tr("C++/Qt Settings"));
-}
-
-
-
-
-
-
-int SettingsDialog::indentSpaces()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   return settings.value(_indentSpacesKey).toInt();
-}
-
-
-
-
-
-
-int SettingsDialog::headerLines()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   return settings.value(_headerLinesKey).toInt();
-}
-
-
-
-
-
-
-int SettingsDialog::functionLines()
-{
-   QSettings settings(Application::_companyKey,Application::_programKey);
-   return settings.value(_functionLinesKey).toInt();
 }
 
 
@@ -79,9 +42,10 @@ void SettingsDialog::okClicked()
 
 void SettingsDialog::applyClicked()
 {
-   _settings.setValue(_indentSpacesKey,_indentSpacesBox->value());
-   _settings.setValue(_headerLinesKey,_headerLinesBox->value());
-   _settings.setValue(_functionLinesKey,_functionLinesBox->value());
+   Settings& settings {Settings::instance()};
+   settings.setIndentSpaces(_indentSpacesBox->value());
+   settings.setHeaderLines(_headerLinesBox->value());
+   settings.setFunctionLines(_functionLinesBox->value());
 }
 
 
@@ -119,7 +83,7 @@ QLayout* SettingsDialog::setupForm()
 void SettingsDialog::addIndentSpaces(QFormLayout* layout)
 {
    _indentSpacesBox = new QSpinBox;
-   _indentSpacesBox->setValue(_settings.value(_indentSpacesKey).toInt());
+   _indentSpacesBox->setValue(Settings::instance().indentSpaces());
    layout->addRow(new QLabel(tr("Indent Spacing:")),_indentSpacesBox);
 }
 
@@ -131,7 +95,7 @@ void SettingsDialog::addIndentSpaces(QFormLayout* layout)
 void SettingsDialog::addHeaderLines(QFormLayout* layout)
 {
    _headerLinesBox = new QSpinBox;
-   _headerLinesBox->setValue(_settings.value(_headerLinesKey).toInt());
+   _headerLinesBox->setValue(Settings::instance().headerLines());
    layout->addRow(new QLabel(tr("Header Lines:")),_headerLinesBox);
 }
 
@@ -143,7 +107,7 @@ void SettingsDialog::addHeaderLines(QFormLayout* layout)
 void SettingsDialog::addFunctionLines(QFormLayout* layout)
 {
    _functionLinesBox = new QSpinBox;
-   _functionLinesBox->setValue(_settings.value(_functionLinesKey).toInt());
+   _functionLinesBox->setValue(Settings::instance().functionLines());
    layout->addRow(new QLabel(tr("Function Header Lines:")),_functionLinesBox);
 }
 

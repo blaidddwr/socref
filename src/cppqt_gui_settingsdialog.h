@@ -1,6 +1,5 @@
 #ifndef CPPQT_GUI_SETTINGSDIALOG_H
 #define CPPQT_GUI_SETTINGSDIALOG_H
-#include <QSettings>
 #include "gui_persistentdialog.h"
 
 
@@ -19,9 +18,6 @@ namespace CppQt
       {
       public:
          SettingsDialog();
-         static int indentSpaces();
-         static int headerLines();
-         static int functionLines();
       private slots:
          void okClicked();
          void applyClicked();
@@ -35,10 +31,6 @@ namespace CppQt
          QWidget* setupOkButton();
          QWidget* setupApplyButton();
          QWidget* setupCancelButton();
-         static const char* _indentSpacesKey;
-         static const char* _headerLinesKey;
-         static const char* _functionLinesKey;
-         QSettings _settings;
          QSpinBox* _indentSpacesBox;
          QSpinBox* _headerLinesBox;
          QSpinBox* _functionLinesBox;
