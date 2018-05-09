@@ -254,6 +254,31 @@
             <data version="0"/>
             <type type="16">
                <data version="0">
+                  <type>const QDomElement&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>void</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>Match*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
                   <type>Type</type>
                </data>
             </type>
@@ -338,7 +363,8 @@
                   <type>QString</type>
                   <const/>
                   <return_description>Value of the attribute with the given name.</return_description>
-                  <operation>If the attribute is not found and it is required then throw an exception, else if the attribute is not found and it is not required then return an empty string, else return the value of the attribute.</operation>
+                  <operation>If the attribute with the given name is not found then continue. If the attribute is required then throw an exception, else return an empty string.</operation>
+                  <operation>Return the value of the attribute with the given name.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -363,9 +389,9 @@
                   <type>int</type>
                   <const/>
                   <return_description>Value of the attribute with the given name.</return_description>
-                  <operation>If the attribute is not found and it is required then throw an exception, else if the attribute is not found and it is not required then return 0, else go to the next step.</operation>
-                  <operation>Read in the attributes value as an integer setting it to 0 if it fails to read as an integer. If the value is not an integer and it is required then throw an exception.</operation>
-                  <operation>Return the integer value of the attribute.</operation>
+                  <operation>If the attribute with the given name is not found then continue. If the attribute is required then throw an exception, else return 0.</operation>
+                  <operation>Read in the value of the attribute with the given name as an integer to _ret_. If reading the value as an integer fails then throw an exception.</operation>
+                  <operation>Return _ret_.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -536,11 +562,10 @@
             <function type="2">
                <data version="1">
                   <name>read</name>
-                  <description>Reads this reader's XML element for child elements, finding any matches set before this is called. Before reading begins this clears all variables pointed to by the list of matches set before this is called.</description>
+                  <description>Reads this reader's XML element for child elements, finding any matches set before this is called. Before reading begins this clears all variables pointed to by the list of set matches.</description>
                   <type>void</type>
-                  <operation>Clear all variables pointed to by this reader's list of matches and iterate through all child elements of this reader's XML element for the proceeding steps.</operation>
-                  <operation>If the child element matches one of this reader's matches then go to the next step.</operation>
-                  <operation>If the match type is a string then set the string to the child element's text, else if the match type is a number then set the integer to the child element's text throwing an exception if it is not an integer, else if the match type is a boolean then set the boolean to true, else if the match type is an element then set the element to the child element, else if the match is an element list then append the child element to the list.</operation>
+                  <operation>Clear all variables pointed to by this reader's list of matches.</operation>
+                  <operation>Iterate through all child nodes of this reader's XML element. If the node is an element and its name matches one of the set matches then read in the match with the matched element.</operation>
                </data>
             </function>
             <function type="2">
@@ -629,11 +654,35 @@
             </enumeration>
             <function type="2">
                <data version="1">
+                  <name>read</name>
+                  <description>Reads in a single match found with the given match and given XML element, marking the match as being read.</description>
+                  <static/>
+                  <type>void</type>
+                  <operation>Determine the match type of the given match. Assign the match's data based off its type, taking the value of the given element if required. If the match type is an integer and the given element cannot be read as an integer then throw an exception.</operation>
+                  <operation>Mark the given match as being read.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>match</name>
+                     <description>The match that was matched with the given element.</description>
+                     <type>Match*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>element</name>
+                     <description>The element whose tag name was matched with the given match.</description>
+                     <type>const QDomElement&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
                   <name>append</name>
                   <description>Inserts a new match to the lookup hash table of matches for this element reader. If a tag name already exists then an exception is thrown.</description>
                   <type>DomElementReader&amp;</type>
                   <return_description>Reference to this element reader.</return_description>
-                  <operation>If a match already exists in this element reader's lookup hash table with the given tag name then throw an exception, else go to the next step.</operation>
+                  <operation>If a match already exists in this element reader's lookup hash table with the given tag name then throw an exception.</operation>
                   <operation>Add a new match to this element reader's lookup hash table using the given tag name as the key. Use the inverse of the required condition for the new match's read condition which marks any matches that are not required as read.</operation>
                </data>
                <variable type="1">
@@ -670,7 +719,7 @@
                   <name>clear</name>
                   <description>Clears the variables of all matches to default values. For integers that is 0 and for boolean that is false.</description>
                   <type>void</type>
-                  <operation>Iterate through all matches of this element reader, setting the variables each for each match to its default value. For strings that is an empty string, for numbers that is 0, for boolean that is false, for element that is calling its clear method, and for element lists that is also calling its clear method.</operation>
+                  <operation>Iterate through all matches of this reader. Set the match's data to its default type based off the match's type. For strings, elements, and element lists that is calling their clear method. For numbers that is setting it to 0. For booleans that is setting it to false.</operation>
                </data>
             </function>
             <variable type="1">
@@ -697,6 +746,11 @@
          </data>
          <typeList type="15">
             <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>void</type>
+               </data>
+            </type>
             <type type="16">
                <data version="0">
                   <type>bool</type>
@@ -907,9 +961,8 @@
                   <virtual/>
                   <const/>
                   <return_description>Exact copy of this block's data as a new block.</return_description>
-                  <operation>Create a new empty block that is the same type as this block.</operation>
-                  <operation>Copy all of this block's children and its data.</operation>
-                  <operation>Return a pointer to the newly created block.</operation>
+                  <operation>Create a new empty block _ret_ that is the same type as this block. Copy this block's children and implementation data to _ret_.</operation>
+                  <operation>Return _ret_.</operation>
                </data>
             </function>
             <function type="2">
@@ -918,8 +971,8 @@
                   <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
                   <type>AbstractBlock*</type>
                   <return_description>Pointer to the root block.</return_description>
-                  <operation>Iterate through the parents of this block until the root block with no parent is reached.</operation>
-                  <operation>Return the root node pointer.</operation>
+                  <operation>Create an abstract block pointer _root_ with it pointing to this abstract block. While _root_ has a parent set its pointer to its parent.</operation>
+                  <operation>Return _root_.</operation>
                </data>
             </function>
             <function type="2">
@@ -929,8 +982,8 @@
                   <type>const AbstractBlock*</type>
                   <const/>
                   <return_description>Read only pointer to the root block.</return_description>
-                  <operation>Iterate through the parents of this block until the root block with no parent is reached.</operation>
-                  <operation>Return the root node pointer.</operation>
+                  <operation>Create a constant abstract block pointer _root_ with it pointing to this abstract block. While _root_ has a parent set its pointer to its parent.</operation>
+                  <operation>Return _root_.</operation>
                </data>
             </function>
             <function type="2">
@@ -983,7 +1036,7 @@
                   <type>AbstractBlock*</type>
                   <const/>
                   <return_description>Pointer to this node's child with given index.</return_description>
-                  <operation>If the given index is out of range then throw an exception, else go to next step.</operation>
+                  <operation>If the given index is out of range then throw an exception.</operation>
                   <operation>Return a pointer to this node's child with the given index.</operation>
                </data>
                <variable type="1">
@@ -1001,8 +1054,8 @@
                   <type>bool</type>
                   <const/>
                   <return_description>True if this node contains any children of the given type, else false.</return_description>
-                  <operation>Iterate through list of this node's children.</operation>
-                  <operation>If a child that matches the given type is found then return true, else if the end of the list is reached with no match then return false.</operation>
+                  <operation>Iterate through list of this node's children. If a child matches the given type then return true.</operation>
+                  <operation>Return false because no child was found with the given type.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1019,8 +1072,8 @@
                   <type>bool</type>
                   <const/>
                   <return_description>True if this node contains any children of any type given, else false.</return_description>
-                  <operation>Iterate through list of this node's children.</operation>
-                  <operation>If a child that matches the given type is found then return true, else if the end of the list is reached with no match then return false.</operation>
+                  <operation>Iterate through list of this node's children. If a child matches the given type then return true.</operation>
+                  <operation>Return false because no child was found with the given type.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1037,9 +1090,8 @@
                   <type>QList&lt;T*></type>
                   <const/>
                   <return_description>List of this node's children that is given type.</return_description>
-                  <operation>Iterate through the list of this node's children.</operation>
-                  <operation>Add a pointer of every child that matches the given type to the return list.</operation>
-                  <operation>Return the list of matched children.</operation>
+                  <operation>Create a new list of pointers _ret_ of the given template type. Iterate through the list of this block's children. If a child matches the given type then append its pointer to _ret_.</operation>
+                  <operation>Return _ret_.</operation>
                </data>
                <template type="3">
                   <data version="1">
@@ -1063,7 +1115,7 @@
                   <type>const T*</type>
                   <const/>
                   <return_description>If successful then a read only pointer of requested cast type, else a null pointer.</return_description>
-                  <operation>If the given type to cast does not match this block's type then return a null pointer, else go to the next step.</operation>
+                  <operation>If the given type to cast does not match this block's type then return a null pointer.</operation>
                   <operation>Cast this block's pointer to the requested class type and return the cast pointer. If the cast fails then throw an exception.</operation>
                </data>
                <template type="3">
@@ -1087,7 +1139,7 @@
                   <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
                   <type>T*</type>
                   <return_description>If successful then a pointer of requested cast type, else a null pointer.</return_description>
-                  <operation>If the given type to cast does not match this block's type then return a null pointer, else go to the next step.</operation>
+                  <operation>If the given type to cast does not match this block's type then return a null pointer.</operation>
                   <operation>Cast this block's pointer to the requested class type and return the cast pointer. If the cast fails then throw an exception.</operation>
                </data>
                <template type="3">
@@ -1110,8 +1162,7 @@
                   <name>moveUp</name>
                   <description>Moves the child block with the given index up the list by one where the very top of the list is index 0. If the given index is already at the top of the list or out of range then this does nothing.</description>
                   <type>void</type>
-                  <operation>If the given index is already at the top of the list or out of range then do nothing and exit, else go to the next step.</operation>
-                  <operation>Swap the given child in this block's list with the child just above it, calling the interface function notifying a child has moved and emitting the modified signal.</operation>
+                  <operation>If the given index is not at the top of the list and is within range then continue. Swap the child with the given index with the child just above it, calling the child moved interface and emitting the modified signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1126,8 +1177,7 @@
                   <name>moveDown</name>
                   <description>Moves the child block with the given index down the list by one where the very top of the list is index 0. If the given index is already at the bottom of the list or out of range then this does nothing.</description>
                   <type>void</type>
-                  <operation>If the given index is at the end of the list or out of range then do nothing and exit, else go to the next step.</operation>
-                  <operation>Swap the child with the given index in this block's list with the child just below it, calling the interface function notifying a child has moved and emitting the modified signal.</operation>
+                  <operation>If the given index is not at the bottom of the list and is within range then continue. Swap the child with the given index with the child just below it, calling the child moved interface and emitting the modified signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1142,9 +1192,8 @@
                   <name>insert</name>
                   <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given child pointer is null or its type is not contained in this blocks build list then throw an exception, else go to the next step.</operation>
-                  <operation>Insert the new block into this block's list of children at the given index, releasing it from its smart pointer and setting this block as its parent.</operation>
-                  <operation>Call the interface notifying a new child is added and emit the modified signal.</operation>
+                  <operation>If the given child pointer is null or its type is not contained in this blocks build list then throw an exception.</operation>
+                  <operation>Insert the new block into this block's list of children at the given index, releasing it from its smart pointer and setting this block as its parent. Call the child added interface and emit the modified signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1167,9 +1216,9 @@
                   <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. If the index is out of range then an exception is thrown.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <return_description>Pointer to child that was taken from this block.</return_description>
-                  <operation>If the given index is out of range then throw an exception, else go to the next step.</operation>
-                  <operation>Remove the child at the given index from this block's list of children saving its pointer to a smart pointer.</operation>
-                  <operation>Set the child's parent to nothing, call the interface that notifies a child is being removed, emit the modified signal, and return the smart pointer.</operation>
+                  <operation>If the given index is out of range then throw an exception.</operation>
+                  <operation>Remove the child at the given index from this block's list of children saving its pointer to the smart pointer _ret_. Call the child removed interface and emit the modified signal.</operation>
+                  <operation>Return _ret_.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1184,9 +1233,8 @@
                   <name>remove</name>
                   <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given index is out of range then throw an exception, else go to the next step.</operation>
-                  <operation>Take the pointer to the child at the given index from this block's list of children, call the interface that notified a child is being removed, and emit the modified signal.</operation>
-                  <operation>Delete the pointer by using a smart pointer when it goes out of scope.</operation>
+                  <operation>If the given index is out of range then throw an exception.</operation>
+                  <operation>Take the pointer to the child at the given index from this block's list of children, storing it in a smart pointer that will delete the orphaned child once out of scope. Call the child removed interface and emit the modified signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1201,10 +1249,9 @@
                   <name>read</name>
                   <description>Reads in block data from an XML element. This clears any existing data this block contains, including the removal and deletion of all existing children. This recursively adds any children contained in the XML reading in their data from child XML elements.</description>
                   <type>void</type>
-                  <operation>Clear and delete any existing children this block may contain. Then read in this blocks data element.</operation>
-                  <operation>If the data element could not be found in the XML element then throw an exception, else go to the next step.</operation>
-                  <operation>Call the interface which reads in the data for this block's type.</operation>
-                  <operation>Read in all children XML elements and add them to this block's list of children, creating a new child for each one and calling their read function.</operation>
+                  <operation>Delete and clear any existing children this block may contain.</operation>
+                  <operation>Read in the data child element from the given element, calling the read data interface to read in the data. If the data element could not be found in the XML element then throw an exception.</operation>
+                  <operation>Read in all child elements of the given element that match block children tag names and add them to this block's list of children, creating a new child for each one and calling their read function.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1221,9 +1268,9 @@
                   <type>QDomElement</type>
                   <const/>
                   <return_description>XML element that stores this block's data and all children underneath it.</return_description>
-                  <operation>Create a new XML element and add the data element to it derived by calling the interface for writing the data of this block's type as an XML element.</operation>
-                  <operation>Call each child's write function and add their returned elements to the new XML element as children.</operation>
-                  <operation>Return the newly created XML element containing the data and all children.</operation>
+                  <operation>Create a new XML element _data_ created by calling the write data interface for writing the data of this block's type as an XML element. Add the version number attribute to _data_ using the write version interface to set its value.</operation>
+                  <operation>Create a new XML element _ret_. Append the _data_ element to _ret_. Iterate through this block's list of children, calling their write method and appending the returned child element to _ret_.</operation>
+                  <operation>Return _ret_.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1414,8 +1461,7 @@
                   <static/>
                   <type>QDomElement</type>
                   <return_description>New XML element with the given tag name and text.</return_description>
-                  <operation>Create a new XML element with the given tag name.</operation>
-                  <operation>Append a new text node with the given text to the new XML element as a child and then return the new XML element.</operation>
+                  <operation>Create a new XML element with the given tag name, setting its text to the given text, and then returning it.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1463,7 +1509,7 @@
                   <name>childNameModified</name>
                   <description>Called when a child below this block has modified its name.</description>
                   <type></type>
-                  <operation>Call the interface that notifies a child's name has changed and emit the name changed signal.</operation>
+                  <operation>Call the child name changed interface and emit the name changed signal.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1483,8 +1529,7 @@
                   <name>copyChildren</name>
                   <description>Copies all children from the given block and appends the copies to the list of this block's children. This does not remove any previous children already part of this block.</description>
                   <type>void</type>
-                  <operation>Iterate through all the children of the given block.</operation>
-                  <operation>Make a copy of each child using the interface which does so, appending them to this block's list of children.</operation>
+                  <operation>Iterate through all the children of the given block. Make a copy of each child, appending them to this block's list of children.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1500,8 +1545,7 @@
                   <description>Sets this block's parent to the given block, adding it to its new parent's list with the given index. If the index is less than 1 it is prepended, else if it is greater than the size of the list it is appended. This will remove and disconnect any previous parent this block may have had. The new parent can be a null pointer which means this block will have no parent.</description>
                   <type>void</type>
                   <operation>If a previous parent exists then remove this block from its list of children and disconnect any signal/slot connections they share.</operation>
-                  <operation>Set this block's parent to the new parent given.</operation>
-                  <operation>If the new parent is not null then insert this block into the new parent's list with the given index and connect the appropriate signals between the two of them.</operation>
+                  <operation>Set this block's parent to the new parent given. If the new parent is not null then insert this block into the new parent's list with the given index and connect the appropriate signals between the two of them.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1524,8 +1568,8 @@
                   <name>readChild</name>
                   <description>Creates a new child reading it in from the given XML element. The new child is then appended to this block's list of children.</description>
                   <type>void</type>
-                  <operation>If the type number for this block is out of range of possible types for this project type then throw an exception, else go to the next step.</operation>
-                  <operation>Create a new block with the given type and read it in from the XML element, appending it to this blocks list of children.</operation>
+                  <operation>Read in the type attribute from the given child element. If the read in type is out of range of possible types for this project type then throw an exception.</operation>
+                  <operation>Create a new block with the given type and call its read method with the given child XML element, appending it to this blocks list of children.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1705,6 +1749,11 @@
             <data version="0"/>
             <type type="16">
                <data version="0">
+                  <type>void</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
                   <type>bool</type>
                </data>
             </type>
@@ -1801,11 +1850,9 @@
                   <name>execute</name>
                   <description>This parses the given file using this parser as the root parser. If this is a child parser then this does nothing.</description>
                   <type>void</type>
-                  <operation>If this is not a root parser then do nothing and exit, else go to the next step.</operation>
+                  <operation>If this is not a root parser then return.</operation>
                   <operation>Set the read line index to the beginning, call the initialize interface, and read in all lines of the source file.</operation>
-                  <operation>Process the input lines.</operation>
-                  <operation>Process the output lines.</operation>
-                  <operation>Write the output to the source file if the output is different from the original.</operation>
+                  <operation>Process the input lines, output lines, and then write the output to the source file.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1859,8 +1906,7 @@
                   <name>stepIntoChild</name>
                   <description>Signals this parser that the given child parser should be used for calling the interface for reading lines until it returns false or the last line is processed. If the given parser is not a direct child of this parser then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given parser object's parent is not this parser then an exception is thrown, else go to the next step.</operation>
-                  <operation>Set the internal child pointer signal variable to the given parser.</operation>
+                  <operation>If the given parser object's parent is not this parser then throw an exception, else set the internal child pointer signal variable to the given parser.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1875,6 +1921,7 @@
                   <name>indent</name>
                   <description>Returns the indent, in spaces, that is prepended to each line added to the output.</description>
                   <type>int</type>
+                  <const/>
                   <return_description>Number of spaces prepended to each added line of output.</return_description>
                </data>
             </function>
@@ -1883,8 +1930,7 @@
                   <name>setIndent</name>
                   <description>Sets the indent, in spaces, that is prepended to each line added to output.</description>
                   <type>void</type>
-                  <operation>If the given indent is less than 0 then throw an exception, else go to the next step.</operation>
-                  <operation>Set the root parser object's indent to the new value given.</operation>
+                  <operation>If the given indent is less than 0 then throw an exception, else set the root parser object's indent to the new value given.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1948,8 +1994,7 @@
                   <name>read</name>
                   <description>Reads in the source file, splitting them into lines, and prepares the output.</description>
                   <type>void</type>
-                  <operation>Read all contents of the given file, storing it as this object's original contents.</operation>
-                  <operation>If reading in the file failed and caused an error then throw an exception, else go to the next step.</operation>
+                  <operation>Read all contents of the given file, storing it as this object's original contents. If reading in the file failed then throw an exception.</operation>
                   <operation>Split the original content by line and save it to this object's list of input lines to be processed.</operation>
                </data>
                <variable type="1">
@@ -1965,9 +2010,7 @@
                   <name>processInput</name>
                   <description>Processes the input of the source file, using the read line interface for processing.</description>
                   <type>void</type>
-                  <operation>While the root parser object's index is not at the end of the input line list do the proceeding steps.</operation>
-                  <operation>Call the read line interface with the next input line to process. If the interface returns false then break the while loop and exit this function.</operation>
-                  <operation>If the read line interface calls the step into child function then call the child's process input function and then set the child pointer signal back to null.</operation>
+                  <operation>While the root parser object's index is not at the end of the input line list continue. Call the read line interface with the next input line to process. If the interface returns false then return. If the step into child function was called and set the child pointer signal then call the child's process input function and then set the child pointer signal back to null.</operation>
                </data>
             </function>
             <function type="2">
@@ -1975,8 +2018,7 @@
                   <name>processOutput</name>
                   <description>Processes the output by calling the make output interface.</description>
                   <type>void</type>
-                  <operation>Clear the root parser object's output string list and set its indent to 0.</operation>
-                  <operation>Call the make output interface.</operation>
+                  <operation>Clear the root parser object's output string list, set its indent to 0, and call the make output interface.</operation>
                </data>
             </function>
             <function type="2">
@@ -1984,8 +2026,8 @@
                   <name>write</name>
                   <description>Write the processed output to the given file if, after joining the output lines, it is different from the original. If the output is the same as the original then this does nothing.</description>
                   <type>void</type>
-                  <operation>Join the output lines into one giant string. If the output is different from the root parser object's original file content then go to the next step, else do nothing and exist the function.</operation>
-                  <operation>Truncate the given file to 0 and write the root parser object's output to it. If any error occurred for either operation then throw an exception.</operation>
+                  <operation>Join the root parser object's output lines into the string _newSource_.</operation>
+                  <operation>If _newSource_ is different from the root parser object's original file content then continue. Truncate the given file to 0 size and then write out the contents of _newSource_ to the given file. If any error occurs in truncating or writing to the given file then throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="1">

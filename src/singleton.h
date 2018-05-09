@@ -53,10 +53,13 @@ template<class T> T* Singleton<T>::_instance {nullptr};
  */
 template<class T> T& Singleton<T>::instance()
 {
+   // 1
    if ( !_instance )
    {
       _instance = new T();
    }
+
+   // 2
    return *_instance;
 }
 
