@@ -1,1 +1,5 @@
 
+* Fix minor C++/Qt parsing bug that does not recognize a closing bracket line if it also contains a semicolon.
+
+* Add C++/Qt multiple paragraph support to descriptions.
+
