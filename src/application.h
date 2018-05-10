@@ -16,6 +16,7 @@ class Application : public QApplication
 public:
    explicit Application(int& argc, char** argv);
    virtual bool notify(QObject* receiver, QEvent* event) override final;
+   static QString versionString();
    /*!
     * Major version of this program. 
     */

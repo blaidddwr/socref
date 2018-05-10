@@ -52,8 +52,8 @@
                      <name>setupGui</name>
                      <description>Constructs all GUI elements for this new about dialog.</description>
                      <type>void</type>
-                     <operation>Create a new vertical box layout, adding the top and bottom layout sections of this object's GUI in that order.</operation>
-                     <operation>Set this object's layout to the created vertical box layout.</operation>
+                     <operation>Create a new vertical box layout _layout_, adding the top and bottom layout sections of this object's GUI in that order.</operation>
+                     <operation>Set this object's layout to _layout_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -62,8 +62,8 @@
                      <description>Constructs the top part of this object's GUI consisting of an image to the left and description to the right, returning the layout.</description>
                      <type>QLayout*</type>
                      <return_description>Pointer to layout of the top section of this object's GUI.</return_description>
-                     <operation>Create a new horizontal box layout, adding the image and text widgets of this object's GUI in that order.</operation>
-                     <operation>Return the created horizontal box layout.</operation>
+                     <operation>Create a new horizontal box layout _ret_, adding the image and text widgets of this object's GUI in that order.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -81,9 +81,10 @@
                      <description>Constructs the rich text displayed in the top right of this object's GUI, returning a pointer to the widget.</description>
                      <type>QWidget*</type>
                      <return_description>Pointer to the widget of rich text displayed in the top right of this object's GUI.</return_description>
-                     <operation>Create a new label, setting its alignment, word wrapping, text format, and margin.</operation>
-                     <operation>Set the text of the created label; the name of this program and its version, the version of qt and the compiler used, and a funny couple paragraphs about copyright.</operation>
-                     <operation>Return the new label.</operation>
+                     <operation>Create a new label _ret_, setting its alignment, word wrapping, text format, and margin.</operation>
+                     <operation>Create a new qt file device _file_ and open the about HTML file with it. If opening the file fails then throw an exception.</operation>
+                     <operation>Set the text of the created label _ret_ with the contents of _file_, replacing the keys for this program version and the Qt version.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -92,8 +93,8 @@
                      <description>Constructs the bottom part of this object's GUI which simply consists of an OK button on the bottom right, returning the layout.</description>
                      <type>QLayout*</type>
                      <return_description>Pointer to layout of the bottom section of this object's GUI.</return_description>
-                     <operation>Create a new horizontal box layout, adding a stretch and the OK button of this object's GUI in that order so the OK button is on the right side.</operation>
-                     <operation>Return the created horizontal box layout.</operation>
+                     <operation>Create a new horizontal box layout _ret_, adding a stretch and the OK button of this object's GUI in that order so the OK button is on the right side.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -2450,6 +2451,7 @@
                   <override/>
                   <final/>
                   <return_description>Pointer to the new settings dialog for the given project type.</return_description>
+                  <operation>Return a new settings dialog for the given project type. If the given type does not exist then throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2582,7 +2584,7 @@
                   <description>This constructs a new block model with the given root block and parent. Both the root block and parent can be given as null. A null root block means this model is empty.</description>
                   <type></type>
                   <explicit/>
-                  <operation>If the root given is not null then get the block type's block factory and connect the name changed signal with the new root block, else do nothing.</operation>
+                  <operation>If the root given is not null then get the block type's block factory and connect the name changed signal with the new root block.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2611,8 +2613,8 @@
                   <override/>
                   <final/>
                   <return_description>A model index for the given row, column, and parent.</return_description>
-                  <operation>If the given row is less than 0 or the column is not 0 then return an invalid index, else go to the next step.</operation>
-                  <operation>Get the block pointer of the given parent index. If the given row is out of range of the parent block's list of children then return an invalid index, else go to the next step.</operation>
+                  <operation>If the given row is less than 0 or the column is not 0 then return an invalid index.</operation>
+                  <operation>Get the block pointer of the given parent index. If the given row is out of range of the parent block's list of children then return an invalid index.</operation>
                   <operation>Return a new index with the given row, column, and parent index.</operation>
                </data>
                <variable type="1">
@@ -2647,7 +2649,7 @@
                   <override/>
                   <final/>
                   <return_description>Parent index of the given index.</return_description>
-                  <operation>Get the pointer to the given index's parent block. If the parent block pointer is null or the parent's parent is null then return an invalid index, else to go the next step.</operation>
+                  <operation>Get the pointer to the given index's parent block. If the parent block pointer is null or the parent's parent is null then return an invalid index.</operation>
                   <operation>Return the given index's parent index using the grandparent to get the parent's row.</operation>
                </data>
                <variable type="1">
@@ -2668,7 +2670,7 @@
                   <override/>
                   <final/>
                   <return_description>Number of rows the given index contains.</return_description>
-                  <operation>If this model's root pointer is null then return 0, else return the number of block children this index's block contains.</operation>
+                  <operation>If this model's root pointer is null then return 0, else return the number of children this index's block contains.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2747,9 +2749,8 @@
                   <description>Inserts a new block into this model at the beginning of the given index's list of children.</description>
                   <type>bool</type>
                   <return_description>True on success or false on failure.</return_description>
-                  <operation>If the given block pointer is null then return false, else go to the next step.</operation>
-                  <operation>Insert the given block pointer as a new child of the given index's block, signaling the model that a new row is being inserted. The new block is prepended to the block's list of children.</operation>
-                  <operation>Return true on success.</operation>
+                  <operation>If the given block pointer is null then return false.</operation>
+                  <operation>Prepend the given block pointer as a new child of the given index's block, signaling the model that a new row is being inserted and returning true for success.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2772,9 +2773,9 @@
                   <description>Moves the given index up by one in the list of siblings it is part of. If the given index is already at row 0 then this does nothing. Returns the new index for the given index that was or was not moved.</description>
                   <type>QModelIndex</type>
                   <return_description>New index for the given index that was possibly moved.</return_description>
-                  <operation>If the given index's row is already 0 then return the given index unchanged, else go to the next step.</operation>
+                  <operation>If the given index's row is already 0 then return the given index unchanged.</operation>
                   <operation>Move the block of the given index up by one in it's parent's list of children, signaling the model that the row is being moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
-                  <operation>Return a new index where this index has been successfully moved to.</operation>
+                  <operation>Return a new index where the given index's block moved.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2790,9 +2791,9 @@
                   <description>Moves the given index down by one in the list of siblings it is part of. If the given index is already at the end of its list of siblings then this does nothing. Returns the new index for the given index that was or was not moved.</description>
                   <type>QModelIndex</type>
                   <return_description>New index for the given index that was possibly moved.</return_description>
-                  <operation>If the given index's row is already at the end of its sibling list then return the given index unchanged, else go to the next step.</operation>
+                  <operation>If the given index's row is already at the end of its sibling list then return the given index unchanged.</operation>
                   <operation>Move the block of the given index down by one in it's parent's list of children, signaling the model that the row is being moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
-                  <operation>Return a new index where this index has been successfully moved to.</operation>
+                  <operation>Return a new index where the given index's block moved.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2808,9 +2809,8 @@
                   <description>Removes the given index and its block for this model. If the index is not given this does nothing and returns false.</description>
                   <type>bool</type>
                   <return_description>True on success or false on failure.</return_description>
-                  <operation>If the given index is invalid then return false, else go to the next step.</operation>
-                  <operation>Remove the given index's block from its parent block, signaling the model that a row is being removed. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
-                  <operation>Return true on success.</operation>
+                  <operation>If the given index is invalid then return false.</operation>
+                  <operation>Remove the given index's block from its parent block, signaling the model that a row is being removed and returning true on success. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2843,9 +2843,8 @@
                   <description>Returns a pointer to the block at the given index, removing that index from the model but not deleting its block. Instead the ownership of the block is returned. If the given index is not valid then a null pointer is returned.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <return_description>Pointer to the block at the given index now removed or null pointer if the given index is not valid.</return_description>
-                  <operation>If the given index is not valid then return a null pointer, else go to the next step.</operation>
-                  <operation>Take the block at the given index from its parent block, signaling the model that a row is being removed. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
-                  <operation>Return a pointer to the block that was taken from its parent.</operation>
+                  <operation>If the given index is not valid then return a null pointer.</operation>
+                  <operation>Take the child block at the given index from its parent block, signaling the model that a row is being removed and returning a smart pointer to the orphaned child block. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2869,9 +2868,10 @@
                   <name>setRoot</name>
                   <description>Sets a new root block for this model's data. If the given pointer is null then this model is set to be empty with no data to represent.</description>
                   <type>void</type>
-                  <operation>For this entire operation signal to the model that the entire model is being reset to a new one.</operation>
+                  <operation>Signal to the model that the beginning of a reset is happening.</operation>
                   <operation>If this model already has a root block pointer then disconnect all qt signals between this model and that root block.</operation>
-                  <operation>Set this model's root block to the new pointer given. If the new pointer is not null then set this model's block factory pointer to this block type's block factory and connect the name changed signal, else set this model's block factory pointer to null.</operation>
+                  <operation>Set this model's root block to the new pointer given and this model's block factory pointer to null. If the given new pointer is not null then set this model's block factory pointer to this block type's block factory and connect the name changed signal.</operation>
+                  <operation>Signal to the model that the reset has finished.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2891,7 +2891,7 @@
                   <name>blockNameChanged</name>
                   <description>Called when a block contained within this model has changed its display name.</description>
                   <type></type>
-                  <operation>If the given block pointer has no parent then throw an exception, else go to the next step.</operation>
+                  <operation>If the given block pointer has no parent then throw an exception.</operation>
                   <operation>Determine the index for the given block pointer within this model and signal the model that the index's data has changed.</operation>
                </data>
                <variable type="1">
@@ -2942,6 +2942,21 @@
          </data>
          <typeList type="15">
             <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractParser*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QFileInfo&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>void</type>
+               </data>
+            </type>
             <type type="16">
                <data version="0">
                   <type>bool</type>
@@ -3095,15 +3110,14 @@
             <function type="2">
                <data version="1">
                   <name>run</name>
-                  <description>This implements the interface that is called within the Qt thread when execution of that thread begins by calling the qt execute function. This scan thread using this function to implement the parsing of all matched files from the given scan directory.</description>
+                  <description>This implements the interface that is called within the Qt thread when execution of that thread begins by calling the qt execute function. This implementation parses of all matched files from the given scan directory.</description>
                   <type>void</type>
                   <virtual/>
                   <override/>
                   <final/>
-                  <operation>Delete this scan thread's saved exception if any and set the pointer to null. For the proceeding steps iterate through all the matched source files starting at index 0.</operation>
-                  <operation>Signal the index of the source file that is being worked on. If interruption of this thread is requested return and exit this function immediately, else go to the next step.</operation>
-                  <operation>Create a new parser object from the given parser factory. If the returned parser object is not null then run its execution method to parse the source file.</operation>
-                  <operation>If any exception occurs while running this function then catch it and exit from this function immediately. If the exception is a Socrates one then save it to this scan thread's exception pointer.</operation>
+                  <operation>Delete this scan thread's saved exception if any and set the pointer to null.</operation>
+                  <operation>Iterate through this object's saved list of files to be parsed, emitting the progress changed signal for each index and parsing each file.</operation>
+                  <operation>If any exception occurs while running this function then catch it and exit from this function immediately. If the exception is a Socrates one then save it to this scan thread's exception pointer else just report it to qt debug.</operation>
                </data>
             </function>
          </access>
@@ -3116,7 +3130,7 @@
                   <name>buildList</name>
                   <description>Builds this scan thread's list of matched files that will be parsed from the given scan directory and file filters. A file must match only one file filter to be added to the list of matched files.</description>
                   <type>void</type>
-                  <operation>If the directory does not exist then throw an exception, else go to the next step.</operation>
+                  <operation>If the given directory does not exist then throw an exception.</operation>
                   <operation>Get a directory listing of all files and directories within it that match the given filters. Iterate through the list and add all matches that are not directories to this scan thread's list of matched files.</operation>
                </data>
                <variable type="1">
@@ -3131,6 +3145,48 @@
                      <name>filters</name>
                      <description>The filters that will be used to match files. Each string in this list must be a single filter.</description>
                      <type>const QStringList&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>run</name>
+                  <description>Attempts to parse the given file is this object's parser factory makes a valid parser. This also checks if interruption is requested returning false if it is requested.</description>
+                  <type>bool</type>
+                  <return_description>False if interruption of this thread is requested or true otherwise.</return_description>
+                  <operation>If interruption is requested then return false.</operation>
+                  <operation>Make a new parser from this object's parser factory with the given file's information, saving it to the smart pointer _parser_. If _parser_ is not null then use it to parse the given file.</operation>
+                  <operation>Return true signaling interruption is not requested and parsing should continue.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>info</name>
+                     <description>Info for the file that may be parsed.</description>
+                     <type>const QFileInfo&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>parse</name>
+                  <description>Parses the given file using the given parser. If the file fails to open an exception is thrown.</description>
+                  <static/>
+                  <type>void</type>
+                  <operation>Open the given file for reading and writing and interpreted as a text using the qt file device _file_. If opening the file fails then throw an exception.</operation>
+                  <operation>Call the execute method of the given parser with the qt file _file_.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>parser</name>
+                     <description>Pointer to the abstract parser that is used for parsing the given file.</description>
+                     <type>AbstractParser*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>info</name>
+                     <description>Info for the file that is parsed with the given parser.</description>
+                     <type>const QFileInfo&amp;</type>
                   </data>
                </variable>
             </function>
@@ -3166,6 +3222,11 @@
          </data>
          <typeList type="15">
             <data version="0"/>
+            <type type="16">
+               <data version="0">
+                  <type>void</type>
+               </data>
+            </type>
             <type type="16">
                <data version="0">
                   <type>bool</type>
@@ -3360,8 +3421,7 @@
                   <name>setName</name>
                   <description>Sets a new name for this project with the given name.</description>
                   <type>void</type>
-                  <operation>If the given new name is the same as this project's current name then do nothing and exit, else go to the next step.</operation>
-                  <operation>Set this project's name to the new name given, emit the name changed signal, and signal this project has been modified.</operation>
+                  <operation>If the given new name is different than this project's current name then set this project's name to the new name given, emit the name changed signal, and signal this project has been modified.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -3376,8 +3436,8 @@
                   <name>setScanDirectory</name>
                   <description>Sets a new scan directory path for this project to the given path. The given path can be relative to this program's present working directory. If the given path is not a valid directory then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given path is the same as this project's current scan directory path then do nothing and exit, else go to the next step.</operation>
-                  <operation>If the given new path is not a valid directory then throw an exception, else go to the next step.</operation>
+                  <operation>If the given path is the same as this project's current scan directory path then return.</operation>
+                  <operation>If the given new path is not a valid directory then throw an exception.</operation>
                   <operation>Set this project's scan directory to the new path given in its canonical form and signal this project has been modified.</operation>
                </data>
                <variable type="1">
@@ -3393,8 +3453,7 @@
                   <name>setScanFilters</name>
                   <description>Sets new scanning file filters for this project. These filters are used to filter out what files are matched for parsing when a scan thread of this project is used. The filter filters must be separated by spaces.</description>
                   <type>void</type>
-                  <operation>If the given scan filters is the same of this project's current scan filters then do nothing and exit, else go to the next step.</operation>
-                  <operation>Set this project's scan filters to the new filters given and signal this project has been modified.</operation>
+                  <operation>If the given scan filters is different than this project's current scan filters then set this project's scan filters to the new filters given and signal this project has been modified.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -3420,8 +3479,9 @@
                   <name>saveAs</name>
                   <description>Saves this project to a new file with the given path. If any writing error occurs while saving an exception is thrown.</description>
                   <type>void</type>
-                  <operation>Set this project's file path to the new path given, changing the file watcher path to the new path given and removing the old one.</operation>
-                  <operation>Save this project to the new file. If any exception is thrown while saving then revert this project and its file watcher back to the old path.</operation>
+                  <operation>Save this project's current file path to _oldPath_, set this project's file path to the new path given, and then call this project's save method.</operation>
+                  <operation>If any exception is caught while saving then revert this project and its file watcher back to the old path and throw the caught exception.</operation>
+                  <operation>If _oldPath_ is not empty then remove the path from this file watcher. Add the new path to this file watcher.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -3481,7 +3541,7 @@
                   <name>fileChanged</name>
                   <description>Called when this project's file has changed. This is called even if the project itself is saved to the file, so this also checks to see it that is the case or not.</description>
                   <type></type>
-                  <operation>Open this project's file and read in its entire contents as a byte array. If opening or reading fails then return and do nothing, else go to the next step.</operation>
+                  <operation>Open this project's file and read in its entire contents as a byte array. If opening or reading fails then return.</operation>
                   <operation>Check the saved hash of the saved file with the current hash of the saved file. If the hashes are different then signal the save file has changed from an outside source, else do nothing.</operation>
                </data>
             </slot>
@@ -3495,7 +3555,7 @@
                   <name>signalModified</name>
                   <description>Emits the modified signal of this project if and only if this project is not already modified. If the project is already modified this does nothing.</description>
                   <type>void</type>
-                  <operation>If this project is not modified then set it as modified and signal this project is now modified, else do nothing.</operation>
+                  <operation>If this project is not modified then set it as modified and emit the modified signal.</operation>
                </data>
             </function>
             <function type="2">
@@ -3504,7 +3564,7 @@
                   <description>Reads in this project's file and returns its entire contents as a byte array. If opening or reading this project's file fails then an exception is thrown.</description>
                   <type>QByteArray</type>
                   <return_description>Contents of this project's file as a byte array.</return_description>
-                  <operation>Open this project's file and read all its contents as a byte array. If opening or reading failed then throw an exception, else go to the next step.</operation>
+                  <operation>Open this project's file and read all its contents as a byte array. If opening or reading failed then throw an exception.</operation>
                   <operation>Set this project's file hash, used for file watching, and return the byte array.</operation>
                </data>
             </function>
@@ -3513,7 +3573,8 @@
                   <name>convertScanDirectory</name>
                   <description>Converts the given scan directory path into its absolute canonical form and saves that form to this project's scan directory path. If the given path is not a valid directory than an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given path is not a valid directory then throw an exception, else convert the path to its canonical form and save it to this project's scan directory path.</operation>
+                  <operation>If the given path is not a valid directory then throw an exception.</operation>
+                  <operation>Convert the given path to its canonical form and save it to this project's scan directory path.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -3528,7 +3589,7 @@
                   <name>readTypeElement</name>
                   <description>Reads the given element as the XML type element for this project, setting this project's type. If the given XML element is not a valid type element then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>Read in the project type from the given XML element as an integer and set this project's type to that value. If the read in type is out of range for all possible project types then throw an exception, else go the next step.</operation>
+                  <operation>Read in the project type from the given XML element as an integer and set this project's type to that value. If the read in type is out of range for all possible project types then throw an exception.</operation>
                   <operation>Read in the text field of the given XML element and make sure it matches the name of the project type read in. If they do not match then throw an exception.</operation>
                </data>
                <variable type="1">
@@ -3544,7 +3605,7 @@
                   <name>write</name>
                   <description>Writes the given byte array to this project's file, overwriting anything the file contains beforehand. If opening or writing this project's file fails then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>Open this project's file and write the given byte array to the file, overwriting and erasing any data the file contained beforehand. If opening or writing failed then throw an exception, else go to the next step.</operation>
+                  <operation>Open this project's file and write the given byte array to the file, overwriting and erasing any data the file contained beforehand. If opening or writing failed then throw an exception.</operation>
                   <operation>Set this project's file hash used for watching.</operation>
                </data>
                <variable type="1">
@@ -3560,7 +3621,10 @@
                   <name>saveBasicInfo</name>
                   <description>Saves this project's name, scan directory, and file filters to the given XML element as child elements.</description>
                   <type>void</type>
-                  <operation>Add three new child elements to the given element that contains this project's name, scan directory, and file filters. The scan directory is saved using its relative path in relation to the directory where this project's save file is located.</operation>
+                  <operation>Create a name XML element and save this project's name to it, appending it to the given project element.
+</operation>
+                  <operation>Create a scan directory XML element and save this project's scan directory, appending it to the given project element. The scan directory path saved is relative to the directory where this project's save file is located.</operation>
+                  <operation>Create a filters XML element and save this project's scan filters to it, appending it to the given project element.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -3597,10 +3661,9 @@
                   <name>makeRoot</name>
                   <description>Makes a new root block for this project using the block factory this project's type, setting this project's root block pointer to the new root block created. If this project's type is out of range of possible project types or the block factory returns a null pointer than an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If this project's type is out of range for possible project types then throw an exception, else go to the next step.</operation>
-                  <operation>Create a new root block using this project type's block factory, setting this project's root block pointer to the new root block. If the block factory returns a null pointer than throw an exception, else go to the next step.</operation>
-                  <operation>Set the new root block's parent to this project, connecting the block modified signal between the new root block and this project.</operation>
-                  <operation>Create a new block model with the new root block and this project as its parent, setting this project's block model pointer to the new block model.</operation>
+                  <operation>If this project's type is out of range for possible project types then throw an exception.</operation>
+                  <operation>Create a new root block using this project type's block factory, setting this project's root block pointer to the new root block. If the block factory returns a null pointer than throw an exception, else set the new root block's parent to this object.</operation>
+                  <operation>Connect the block modified signal between the new root block and this project. Create a new block model object with the new root block and this object as its parent, setting this object's block model pointer to the new block model.</operation>
                </data>
             </function>
             <variable type="1">
@@ -3734,6 +3797,11 @@
             <data version="0"/>
             <type type="16">
                <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
                   <type>int</type>
                </data>
             </type>
@@ -3803,7 +3871,8 @@
                   <override/>
                   <final/>
                   <return_description>True if the event was processed or false otherwise.</return_description>
-                  <operation>Simply call the Qt notify method but wrap it in a catch statement so exceptions can be handled in this program.</operation>
+                  <operation>Call the Qt application notify method and return its value.</operation>
+                  <operation>If any exception is caught then report it to the qt debug stream and return false.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -3819,6 +3888,15 @@
                      <type>QEvent*</type>
                   </data>
                </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>versionString</name>
+                  <description>Returns this programs version as a string.</description>
+                  <static/>
+                  <type>QString</type>
+                  <return_description>This programs version as a string.</return_description>
+               </data>
             </function>
             <variable type="1">
                <data version="1">

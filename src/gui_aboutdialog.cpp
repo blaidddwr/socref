@@ -3,6 +3,8 @@
 #include <QHBoxLayout>
 #include <QLabel>
 #include <QPushButton>
+#include <QFile>
+#include <exception.h>
 #include "application.h"
 
 
@@ -29,6 +31,7 @@ using namespace Gui;
 AboutDialog::AboutDialog(QWidget* parent):
    PersistentDialog("gui.aboutdialog.geometry",parent)
 {
+   // 1
    setupGui();
    setWindowTitle(tr("About Socrates' Reference"));
 }
@@ -44,16 +47,19 @@ AboutDialog::AboutDialog(QWidget* parent):
  *
  * Steps of Operation: 
  *
- * 1. Create a new vertical box layout, adding the top and bottom layout sections 
- *    of this object's GUI in that order. 
+ * 1. Create a new vertical box layout _layout_, adding the top and bottom layout 
+ *    sections of this object's GUI in that order. 
  *
- * 2. Set this object's layout to the created vertical box layout. 
+ * 2. Set this object's layout to _layout_. 
  */
 void AboutDialog::setupGui()
 {
+   // 1
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addLayout(setupTop());
    layout->addLayout(setupBottom());
+
+   // 2
    setLayout(layout);
 }
 
@@ -71,16 +77,19 @@ void AboutDialog::setupGui()
  *
  * Steps of Operation: 
  *
- * 1. Create a new horizontal box layout, adding the image and text widgets of this 
- *    object's GUI in that order. 
+ * 1. Create a new horizontal box layout _ret_, adding the image and text widgets 
+ *    of this object's GUI in that order. 
  *
- * 2. Return the created horizontal box layout. 
+ * 2. Return _ret_. 
  */
 QLayout* AboutDialog::setupTop()
 {
+   // 1
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(setupImage());
    ret->addWidget(setupText());
+
+   // 2
    return ret;
 }
 
@@ -104,6 +113,7 @@ QLayout* AboutDialog::setupTop()
  */
 QWidget* AboutDialog::setupImage()
 {
+   // 1
    QLabel* ret {new QLabel};
    ret->setAlignment(Qt::AlignTop|Qt::AlignRight);
    ret->setPixmap(QPixmap(":/icons/main.svg").scaled(_iconSize,_iconSize));
@@ -125,31 +135,43 @@ QWidget* AboutDialog::setupImage()
  *
  * Steps of Operation: 
  *
- * 1. Create a new label, setting its alignment, word wrapping, text format, and 
- *    margin. 
+ * 1. Create a new label _ret_, setting its alignment, word wrapping, text format, 
+ *    and margin. 
  *
- * 2. Set the text of the created label; the name of this program and its version, 
- *    the version of qt and the compiler used, and a funny couple paragraphs about 
- *    copyright. 
+ * 2. Create a new qt file device _file_ and open the about HTML file with it. If 
+ *    opening the file fails then throw an exception. 
  *
- * 3. Return the new label. 
+ * 3. Set the text of the created label _ret_ with the contents of _file_, 
+ *    replacing the keys for this program version and the Qt version. 
+ *
+ * 4. Return _ret_. 
  */
 QWidget* AboutDialog::setupText()
 {
+   // 1
    QLabel* ret {new QLabel};
    ret->setAlignment(Qt::AlignTop);
    ret->setWordWrap(true);
    ret->setTextFormat(Qt::RichText);
    ret->setMargin(8);
-   QString text {"<h3>Socrates' Reference "};
-   text.append(QString::number(Application::_majorVersion)).append(".")
-       .append(QString::number(Application::_minorVersion)).append(".")
-       .append(QString::number(Application::_revision)).append("</h3>")
-       .append("<p>Based on Qt ").append(QT_VERSION_STR).append("</p>")
-       .append("<p><b>FUCK COPYRIGHT LAWS</b></p>")
-       .append("<p>Copyright has been perverted as a tool of oppression and censorship used by the kleptocrats of the fascist west to rape and pillage individual creators. This is a full 180 to what copyright should be; to protoect the individual creator. So FUCK COPYRIGHT.</p>")
-       .append("<p>This program is provided as is with no warranty of any kind, including the warranty of design, merchantability and fitness for a particular purpose.</p>");
+
+   // 2
+   QFile file(":/html/about.html");
+   if ( !file.open(QIODevice::ReadOnly) )
+   {
+      Exception::SystemError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed opening about.html: %1").arg(file.errorString()));
+      throw e;
+   }
+
+   // 3
+   QString text {file.readAll()};
+   text.replace("%SOCREF_VER%",Application::versionString());
+   text.replace("%QT_VER%",QT_VERSION_STR);
    ret->setText(text);
+
+   // 4
    return ret;
 }
 
@@ -167,16 +189,19 @@ QWidget* AboutDialog::setupText()
  *
  * Steps of Operation: 
  *
- * 1. Create a new horizontal box layout, adding a stretch and the OK button of 
- *    this object's GUI in that order so the OK button is on the right side. 
+ * 1. Create a new horizontal box layout _ret_, adding a stretch and the OK button 
+ *    of this object's GUI in that order so the OK button is on the right side. 
  *
- * 2. Return the created horizontal box layout. 
+ * 2. Return _ret_. 
  */
 QLayout* AboutDialog::setupBottom()
 {
+   // 1
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addStretch();
    ret->addWidget(setupOk());
+
+   // 2
    return ret;
 }
 
@@ -199,6 +224,7 @@ QLayout* AboutDialog::setupBottom()
  */
 QWidget* AboutDialog::setupOk()
 {
+   // 1
    QPushButton* ret {new QPushButton(tr("&Close"))};
    connect(ret,&QPushButton::clicked,this,&QDialog::accept);
    return ret;
