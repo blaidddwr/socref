@@ -48,10 +48,15 @@ QStringList Parse::makeComment(const QString& text, int justified)
    }
    Settings& settings {Settings::instance()};
    QStringList ret;
-   if ( !text.isEmpty() )
+   if ( text.isEmpty() )
    {
-      bool first {true};
-      QStringList words {text.split(QRegExp("\\s+"))};
+      return ret;
+   }
+   bool first {true};
+   QStringList paragraphs {text.split("\n\n",QString::SkipEmptyParts)};
+   for (int i = 0; i < paragraphs.size() ;++i)
+   {
+      QStringList words {paragraphs.at(i).split(QRegExp("\\s+"))};
       while ( !words.isEmpty() )
       {
          int total {words.first().size()};
@@ -70,6 +75,7 @@ QStringList Parse::makeComment(const QString& text, int justified)
          }
          ret << line;
       }
+      if ( i != (paragraphs.size() - 1) ) ret << QString(" * ");
    }
    return ret;
 }

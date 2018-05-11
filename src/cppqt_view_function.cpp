@@ -60,9 +60,9 @@ QString Function::displayArgumentsText()
       ret.append("<h3>Arguments</h3>");
       for (auto variable : list)
       {
-         ret.append("<p>")
+         ret.append("<p><b>")
             .append(variable->variableType().replace("<","&lt;"))
-            .append(" <b>")
+            .append(" ")
             .append(variable->Base::name())
             .append("</b>");
          if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
@@ -109,7 +109,7 @@ QString Function::displayOperationsText()
          ret.append("<p><b>#")
             .append(QString::number(i + 1))
             .append("</b> ")
-            .append(list.at(i))
+            .append(parseBoldMarkers(list.at(i)))
             .append("</p>");
       }
    }

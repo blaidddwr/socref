@@ -176,9 +176,17 @@ void ScanThread::run()
  * Builds this scan thread's list of matched files that will be parsed from the 
  * given scan directory and file filters. A file must match only one file filter to 
  * be added to the list of matched files. 
+ * 
+ * two 
+ * 
+ * three 
  *
  * @param scanDirectory The directory where files will be matched and added to the 
  *                      list. 
+ * 
+ *                      two 
+ * 
+ *                      three 
  *
  * @param filters The filters that will be used to match files. Each string in this 
  *                list must be a single filter. 
@@ -249,7 +257,7 @@ bool ScanThread::run(const QFileInfo& info)
 
    // 2
    unique_ptr<AbstractParser> parser
-   {//
+   {
       _factory->make(info.completeBaseName().toLower(),info.suffix().toLower())
    };
    if ( parser )

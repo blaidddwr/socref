@@ -1,0 +1,6 @@
+
+* Fixed C++/Qt parsing bug that did not properly recognize closing brackets with a semicolon.
+* Added additional formatting to C++/Qt fields.
+  * Added multiple paragraph support to description fields.
+  * Added bold markers to function steps of operations field.
+

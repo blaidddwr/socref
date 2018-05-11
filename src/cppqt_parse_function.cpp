@@ -186,7 +186,7 @@ bool Function::readLine(const QString& line)
       ++_level;
       if ( _level == 1 ) return true;
    }
-   else if ( QRegExp("\\s*\\}\\s*").exactMatch(line) )
+   else if ( QRegExp("\\s*\\};?\\s*").exactMatch(line) )
    {
       --_level;
       if ( _level == 0 ) return false;

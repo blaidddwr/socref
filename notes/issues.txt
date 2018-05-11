@@ -1,9 +1,3 @@
 
-* Fix minor C++/Qt parsing bug that does not recognize a closing bracket line if it also contains a semicolon.
-
-* Add C++/Qt multiple paragraph support to descriptions.
-
-* Add C++/Qt bold highlighting support to descriptions of steps of operations.
-
 * Modify C++/Qt type system to be able to have multiple branches of type lists, be able to name type lists, and modify the combo box GUI to use a menu structure instead of a combo box to allow for branching of type choices.
 
