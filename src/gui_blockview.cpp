@@ -16,6 +16,7 @@
 
 using namespace std;
 using namespace Gui;
+//
 AbstractBlock* BlockView::_copy {nullptr};
 const char* BlockView::_stateKey {"gui.blockview.state"};
 
