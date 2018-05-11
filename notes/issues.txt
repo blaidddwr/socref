@@ -3,4 +3,7 @@
 
 * Add C++/Qt multiple paragraph support to descriptions.
 
-y0y0y0 _bold_ baby
+* Add C++/Qt bold highlighting support to descriptions of steps of operations.
+
+* Modify C++/Qt type system to be able to have multiple branches of type lists, be able to name type lists, and modify the combo box GUI to use a menu structure instead of a combo box to allow for branching of type choices.
+
