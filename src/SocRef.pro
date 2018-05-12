@@ -24,7 +24,6 @@ SOURCES += \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
     cppqt_edit_namespace.cpp \
-    cppqt_gui_typecombobox.cpp \
     cppqt_variable.cpp \
     cppqt_base.cpp \
     domelementreader.cpp \
@@ -94,7 +93,9 @@ SOURCES += \
     cppqt_view_typelist.cpp \
     cppqt_view_type.cpp \
     cppqt_edit_type.cpp \
-    cppqt_settings.cpp
+    cppqt_settings.cpp \
+    cppqt_edit_typelist.cpp \
+    cppqt_gui_typeselection.cpp
 
 HEADERS += \
     singleton.h \
@@ -114,7 +115,6 @@ HEADERS += \
     gui_abstractedit.h \
     cppqt_edit_namespace.h \
     cppqt_view_namespace.h \
-    cppqt_gui_typecombobox.h \
     cppqt_variable.h \
     cppqt_base.h \
     global.h \
@@ -201,7 +201,9 @@ HEADERS += \
     cppqt_view_typelist.h \
     cppqt_view_type.h \
     cppqt_edit_type.h \
-    cppqt_settings.h
+    cppqt_settings.h \
+    cppqt_edit_typelist.h \
+    cppqt_gui_typeselection.h
 
 RESOURCES += \
     resources.qrc

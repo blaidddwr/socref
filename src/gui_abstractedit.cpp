@@ -41,22 +41,23 @@ AbstractEdit::AbstractEdit(QWidget* parent):
  *
  * Steps of Operation: 
  *
- * 1. Set this object's block view to the one given and create a new vertical box 
+ * 1. Set this object's block view to the one given, setup this object's buttons 
+ *    saving the returned layout to _buttons_, and then create a new vertical box 
  *    layout _main_. 
  *
  * 2. Add the implementation's layout to _main_ by calling the layout interface, 
- *    then add this object's buttons to _main_, and then set this dialog's layout 
- *    to _main_. 
+ *    then add the layout _buttons_, and then set this dialog's layout to _main_. 
  */
 void AbstractEdit::initialize(BlockView* view)
 {
    // 1
    _view = view;
+   QLayout* buttons {setupButtons()};
    QVBoxLayout* main {new QVBoxLayout};
 
    // 2
    main->addLayout(layout());
-   main->addLayout(setupButtons());
+   main->addLayout(buttons);
    setLayout(main);
 }
 

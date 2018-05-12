@@ -17,10 +17,6 @@
  * complete. Because execution of parsing is done on a separate thread if an 
  * exception is thrown within that thread it is caught and saved within the class. 
  * This exception can be viewed from the main thread. 
- * 
- * two 
- * 
- * three 
  */
 class ScanThread : public QThread
 {
@@ -47,10 +43,6 @@ private:
    static void parse(AbstractParser* parser, const QFileInfo& info);
    /*!
     * A pointer to the parser factory this scan thread uses for making parser objects. 
-    * 
-    * two 
-    * 
-    * three 
     */
    AbstractParserFactory* _factory;
    /*!

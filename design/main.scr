@@ -7,103 +7,207 @@
    <root>
       <data version="1"/>
       <typeList type="15">
-         <data version="0"/>
-         <type type="16">
-            <data version="0">
-               <type>bool</type>
+         <data version="1">
+            <name>Literal</name>
+         </data>
+         <typeList type="15">
+            <data version="1">
+               <name>bool</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>bool*</type>
+            <type type="16">
+               <data version="0">
+                  <type>bool</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>bool*</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>char</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const char*</type>
+            <type type="16">
+               <data version="0">
+                  <type>char**</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const char*</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>int</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>char**</type>
+            <type type="16">
+               <data version="0">
+                  <type>int</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>int&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;int></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QList&lt;int>&amp;</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>void</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>int</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>int*</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>int&amp;</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>void</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>void*</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QList&lt;int></type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const QList&lt;int>&amp;</type>
-            </data>
-         </type>
+            <type type="16">
+               <data version="0">
+                  <type>void</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>void*</type>
+               </data>
+            </type>
+         </typeList>
       </typeList>
       <typeList type="15">
-         <data version="0"/>
-         <type type="16">
-            <data version="0">
-               <type>QByteArray</type>
+         <data version="1">
+            <name>Qt</name>
+         </data>
+         <typeList type="15">
+            <data version="1">
+               <name>Widget</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const QByteArray&amp;</type>
+            <type type="16">
+               <data version="0">
+                  <type>QWidget*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;QWidget></type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>StringList</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QDomElement</type>
+            <type type="16">
+               <data version="0">
+                  <type>QStringList*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QStringList&amp;</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>String</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QDomElement*</type>
+            <type type="16">
+               <data version="0">
+                  <type>QString</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QString*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QString&amp;</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>ModelIndex</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QDomDocument&amp;</type>
+            <type type="16">
+               <data version="0">
+                  <type>QModelIndex</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QModelIndex&amp;</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>DomDocument</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const QDomElement&amp;</type>
+            <type type="16">
+               <data version="0">
+                  <type>QDomDocument&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QDomElement&amp;</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>DomElement</name>
             </data>
-         </type>
+            <type type="16">
+               <data version="0">
+                  <type>QDomElement</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QDomElement*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;QDomElement>*</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>ByteArray</name>
+            </data>
+            <type type="16">
+               <data version="0">
+                  <type>QByteArray</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QByteArray&amp;</type>
+               </data>
+            </type>
+         </typeList>
          <type type="16">
             <data version="0">
                <type>QEvent*</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QFile*</type>
             </data>
          </type>
          <type type="16">
@@ -113,7 +217,7 @@
          </type>
          <type type="16">
             <data version="0">
-               <type>const QFileInfo&amp;</type>
+               <type>QFile*</type>
             </data>
          </type>
          <type type="16">
@@ -128,16 +232,6 @@
          </type>
          <type type="16">
             <data version="0">
-               <type>QModelIndex</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const QModelIndex&amp;</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
                <type>QObject*</type>
             </data>
          </type>
@@ -148,37 +242,12 @@
          </type>
          <type type="16">
             <data version="0">
-               <type>QString</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QString*</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const QString&amp;</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QStringList*</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const QStringList&amp;</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
                <type>QVariant</type>
             </data>
          </type>
          <type type="16">
             <data version="0">
-               <type>QWidget*</type>
+               <type>const QFileInfo&amp;</type>
             </data>
          </type>
          <type type="16">
@@ -186,19 +255,11 @@
                <type>std::unique_ptr&lt;QDialog></type>
             </data>
          </type>
-         <type type="16">
-            <data version="0">
-               <type>std::unique_ptr&lt;QWidget></type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QList&lt;QDomElement>*</type>
-            </data>
-         </type>
       </typeList>
       <typeList type="15">
-         <data version="0"/>
+         <data version="1">
+            <name>SocErr</name>
+         </data>
          <type type="16">
             <data version="0">
                <type>Exception::Base*</type>
@@ -211,32 +272,84 @@
          </type>
       </typeList>
       <typeList type="15">
-         <data version="0"/>
-         <type type="16">
-            <data version="0">
-               <type>AbstractBlock*</type>
+         <data version="1">
+            <name>This</name>
+         </data>
+         <typeList type="15">
+            <data version="1">
+               <name>AbstractParser</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const AbstractBlock*</type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractParser*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractParser></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;AbstractParser*></type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>AbstractBlockFactory</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const AbstractBlockFactory*</type>
+            <type type="16">
+               <data version="0">
+                  <type>const AbstractBlockFactory*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const AbstractBlockFactory&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractParserFactory></type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>AbstractBlock</name>
             </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const AbstractBlockFactory&amp;</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>AbstractParser*</type>
-            </data>
-         </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractBlock*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const AbstractBlock*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractBlock></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>QList&lt;AbstractBlock*></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QList&lt;AbstractBlock*>&amp;</type>
+               </data>
+            </type>
+         </typeList>
          <type type="16">
             <data version="0">
                <type>AbstractParserFactory*</type>
@@ -249,26 +362,6 @@
          </type>
          <type type="16">
             <data version="0">
-               <type>std::unique_ptr&lt;AbstractBlock></type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>std::unique_ptr&lt;AbstractParser></type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>std::unique_ptr&lt;AbstractParserFactory></type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
                <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
             </data>
          </type>
@@ -277,28 +370,13 @@
                <type>std::unique_ptr&lt;ScanThread></type>
             </data>
          </type>
-         <type type="16">
-            <data version="0">
-               <type>QList&lt;AbstractBlock*></type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>const QList&lt;AbstractBlock*>&amp;</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
-               <type>QList&lt;AbstractParser*></type>
-            </data>
-         </type>
       </typeList>
       <namespace type="0">
          <data version="1">
             <name>Gui</name>
          </data>
          <typeList type="15">
-            <data version="0"/>
+            <data version="1"/>
             <type type="16">
                <data version="0">
                   <type>AbstractEdit*</type>
@@ -346,8 +424,8 @@
                      <name>initialize</name>
                      <description>Constructs and initializes the GUI for this abstract edit dialog, making it ready to be used as a GUI dialog window.</description>
                      <type>void</type>
-                     <operation>Set this object's block view to the one given and create a new vertical box layout _main_.</operation>
-                     <operation>Add the implementation's layout to _main_ by calling the layout interface, then add this object's buttons to _main_, and then set this dialog's layout to _main_.</operation>
+                     <operation>Set this object's block view to the one given, setup this object's buttons saving the returned layout to _buttons_, and then create a new vertical box layout _main_.</operation>
+                     <operation>Add the implementation's layout to _main_ by calling the layout interface, then add the layout _buttons_, and then set this dialog's layout to _main_.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -610,7 +688,9 @@
             <description>This template can be inherited by any class that wants to be a singleton class. Any class that uses this template to be a singleton class must have a default constructor. A singleton class is a class that has only one global instance for the entire program.</description>
          </data>
          <typeList type="15">
-            <data version="0"/>
+            <data version="1">
+               <name>Custom</name>
+            </data>
             <type type="16">
                <data version="0">
                   <type>T&amp;</type>
@@ -666,7 +746,9 @@
             <description>This template can be inherited by any class that wants to be a singleton factory. A singleton class is a class that has only one global instance for the entire program. The global instance can be set to a new instance at anytime, deleting any existing instance. The is most commonly used with abstract factories that have a single global instance in a program.</description>
          </data>
          <typeList type="15">
-            <data version="0"/>
+            <data version="1">
+               <name>Custom</name>
+            </data>
             <type type="16">
                <data version="0">
                   <type>T&amp;</type>
@@ -737,7 +819,9 @@
             <description>This is a helper class that makes is easier to read information stored in an XML element. This primarily helps with finding child elements and extracting information enclosed within them. This also helps with getting attributes in text or integer form and throwing exceptions if they don't exist. For searching child elements this class works by adding matches that will be looked for when the XML element given to this class is read. When a match is found the variable passed to the match is set to the value of the matched child element. This class is designed to only read its given XML element once and then be destroyed.</description>
          </data>
          <typeList type="15">
-            <data version="0"/>
+            <data version="1">
+               <name>Custom</name>
+            </data>
             <type type="16">
                <data version="0">
                   <type>Match*</type>
@@ -1166,7 +1250,9 @@
             <qtobject/>
          </data>
          <typeList type="15">
-            <data version="0"/>
+            <data version="1">
+               <name>Custom</name>
+            </data>
             <type type="16">
                <data version="0">
                   <type>T*</type>

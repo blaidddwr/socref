@@ -1,3 +1,1 @@
 
-* Modify C++/Qt type system to be able to have multiple branches of type lists, be able to name type lists, and modify the combo box GUI to use a menu structure instead of a combo box to allow for branching of type choices.
-

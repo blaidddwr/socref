@@ -5,6 +5,6 @@ namespace CppQt
    {
       class TypeDialog;
       class TypeListDialog;
-      class TypeComboBox;
+      class TypeSelection;
    }
 }
