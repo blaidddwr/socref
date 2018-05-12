@@ -37,7 +37,7 @@ QString TypeSelection::value() const
 void TypeSelection::setValue(const QString& value)
 {
    _value = value;
-   setText(_value.replace("&","&&"));
+   setText(value.right(-1).replace("&","&&"));
 }
 
 

@@ -119,8 +119,8 @@ void AbstractEdit::applyClicked()
 
 
 /*!
- * This is called when this object's cancel button is called. This simply closes 
- * the dialog without applying anything. 
+ * Called when this object's cancel button is called. This simply closes the dialog 
+ * without applying anything. 
  */
 void AbstractEdit::cancelClicked()
 {
