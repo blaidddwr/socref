@@ -17,18 +17,20 @@ class QLabel;
 
 namespace Gui
 {
+   /*!
+    */
    class BlockView : public QSplitter
    {
       Q_OBJECT
    public:
-      explicit BlockView(QWidget *parent = nullptr);
+      explicit BlockView(QWidget* parent = nullptr);
       virtual ~BlockView() override final;
-      void setModel(BlockModel* model);
       QMenu* contextMenu() const;
       bool canPaste() const;
+      void setModel(BlockModel* model);
       void updateView();
-   public slots:
-      void addTriggered();
+   private slots:
+      void addTriggered(int type);
       void removeTriggered();
       void editTriggered();
       void cutTriggered();
@@ -36,7 +38,6 @@ namespace Gui
       void pasteTriggered();
       void moveUpTriggered();
       void moveDownTriggered();
-   private slots:
       void selectionModelChanged(const QItemSelection& selected, const QItemSelection& deselected);
       void modelDestroyed();
       void modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles);
@@ -54,35 +55,72 @@ namespace Gui
       void setupArea();
       QLayout* setupTitleBar();
       void setupActions();
-      void setupRemoveAction();
-      void setupEditAction();
-      void setupCutAction();
-      void setupCopyAction();
-      void setupPasteAction();
-      void setupMoveUpAction();
-      void setupMoveDownAction();
       void setupMenu();
+      /*!
+       */
       constexpr static int _titleIconSize {32};
+      /*!
+       */
       static const char* _stateKey;
+      /*!
+       */
       QScrollArea* _area;
+      /*!
+       */
       QTreeView* _treeView;
+      /*!
+       */
       BlockModel* _model {nullptr};
+      /*!
+       */
       const AbstractBlockFactory* _factory {nullptr};
+      /*!
+       */
       QItemSelectionModel* _selectionModel {nullptr};
+      /*!
+       */
       QModelIndex _current;
+      /*!
+       */
       static AbstractBlock* _copy;
+      /*!
+       */
       QWidget* _view {nullptr};
+      /*!
+       */
       QList<QAction*> _addActions;
+      /*!
+       */
       QAction* _removeAction;
+      /*!
+       */
       QAction* _editAction;
+      /*!
+       */
       QAction* _cutAction;
+      /*!
+       */
       QAction* _copyAction;
+      /*!
+       */
       QAction* _pasteAction;
+      /*!
+       */
       QAction* _moveUpAction;
+      /*!
+       */
       QAction* _moveDownAction;
+      /*!
+       */
       QMenu* _addMenu;
+      /*!
+       */
       QMenu* _contextMenu;
+      /*!
+       */
       QLabel* _titleIcon;
+      /*!
+       */
       QLabel* _titleText;
    };
 }

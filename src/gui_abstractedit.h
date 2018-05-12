@@ -61,9 +61,6 @@ namespace Gui
    private:
       bool tryApply();
       QLayout* setupButtons();
-      void setupOkButton();
-      void setupApplyButton();
-      QPushButton* setupCancelButton();
       /*!
        * Pointer to the block view of the project the block being edited belongs to. 
        */

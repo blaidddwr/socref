@@ -17,14 +17,25 @@
 using namespace std;
 using namespace Gui;
 //
-AbstractBlock* BlockView::_copy {nullptr};
+
+
+
+/*!
+ */
 const char* BlockView::_stateKey {"gui.blockview.state"};
+/*!
+ */
+AbstractBlock* BlockView::_copy;
 
 
 
 
 
 
+/*!
+ *
+ * @param parent  
+ */
 BlockView::BlockView(QWidget* parent):
    QSplitter(parent)
 {
@@ -38,6 +49,8 @@ BlockView::BlockView(QWidget* parent):
 
 
 
+/*!
+ */
 BlockView::~BlockView()
 {
    saveSettings();
@@ -48,6 +61,39 @@ BlockView::~BlockView()
 
 
 
+/*!
+ */
+QMenu* BlockView::contextMenu() const
+{
+   return _contextMenu;
+}
+
+
+
+
+
+
+/*!
+ */
+bool BlockView::canPaste() const
+{
+   if ( _model && _copy && _factory->type() == _copy->factory().type() )
+   {
+      AbstractBlock* index {_model->pointer(_current)};
+      if ( index && index->buildList().contains(_copy->type()) ) return true;
+   }
+   return false;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param model  
+ */
 void BlockView::setModel(BlockModel* model)
 {
    _treeView->setModel(model);
@@ -68,31 +114,8 @@ void BlockView::setModel(BlockModel* model)
 
 
 
-QMenu* BlockView::contextMenu() const
-{
-   return _contextMenu;
-}
-
-
-
-
-
-
-bool BlockView::canPaste() const
-{
-   if ( _model && _copy && _factory->type() == _copy->factory().type() )
-   {
-      AbstractBlock* index {_model->pointer(_current)};
-      if ( index && index->buildList().contains(_copy->type()) ) return true;
-   }
-   return false;
-}
-
-
-
-
-
-
+/*!
+ */
 void BlockView::updateView()
 {
    delete _view;
@@ -118,12 +141,15 @@ void BlockView::updateView()
 
 
 
-void BlockView::addTriggered()
+/*!
+ *
+ * @param type  
+ */
+void BlockView::addTriggered(int type)
 {
-   QAction* from {qobject_cast<QAction*>(sender())};
    if ( _model )
    {
-      _model->insert(_current,_factory->makeBlock(from->data().toInt()));
+      _model->insert(_current,_factory->makeBlock(type));
    }
 }
 
@@ -132,6 +158,8 @@ void BlockView::addTriggered()
 
 
 
+/*!
+ */
 void BlockView::removeTriggered()
 {
    if ( _current.isValid() )
@@ -148,6 +176,8 @@ void BlockView::removeTriggered()
 
 
 
+/*!
+ */
 void BlockView::editTriggered()
 {
    if ( _current.isValid() )
@@ -170,6 +200,8 @@ void BlockView::editTriggered()
 
 
 
+/*!
+ */
 void BlockView::cutTriggered()
 {
    if ( _current.isValid() )
@@ -184,6 +216,8 @@ void BlockView::cutTriggered()
 
 
 
+/*!
+ */
 void BlockView::copyTriggered()
 {
    if ( _current.isValid() )
@@ -198,6 +232,8 @@ void BlockView::copyTriggered()
 
 
 
+/*!
+ */
 void BlockView::pasteTriggered()
 {
    if ( canPaste() ) _model->insert(_current,_copy->makeCopy());
@@ -208,6 +244,8 @@ void BlockView::pasteTriggered()
 
 
 
+/*!
+ */
 void BlockView::moveUpTriggered()
 {
    if ( _current.isValid() ) _current = _model->moveUp(_current);
@@ -218,6 +256,8 @@ void BlockView::moveUpTriggered()
 
 
 
+/*!
+ */
 void BlockView::moveDownTriggered()
 {
    if ( _current.isValid() ) _current = _model->moveDown(_current);
@@ -228,6 +268,12 @@ void BlockView::moveDownTriggered()
 
 
 
+/*!
+ *
+ * @param selected  
+ *
+ * @param deselected  
+ */
 void BlockView::selectionModelChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
    Q_UNUSED(deselected)
@@ -243,6 +289,8 @@ void BlockView::selectionModelChanged(const QItemSelection& selected, const QIte
 
 
 
+/*!
+ */
 void BlockView::modelDestroyed()
 {
    _titleIcon->clear();
@@ -261,6 +309,14 @@ void BlockView::modelDestroyed()
 
 
 
+/*!
+ *
+ * @param topLeft  
+ *
+ * @param bottomRight  
+ *
+ * @param roles  
+ */
 void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
 {
    Q_UNUSED(bottomRight)
@@ -278,6 +334,10 @@ void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& 
 
 
 
+/*!
+ *
+ * @param position  
+ */
 void BlockView::contextMenuRequested(const QPoint& position)
 {
    _current = _treeView->indexAt(position);
@@ -292,6 +352,8 @@ void BlockView::contextMenuRequested(const QPoint& position)
 
 
 
+/*!
+ */
 void BlockView::updateActions()
 {
    updateAddActions();
@@ -311,6 +373,8 @@ void BlockView::updateActions()
 
 
 
+/*!
+ */
 void BlockView::updateAddActions()
 {
    qDeleteAll(_addActions);
@@ -320,8 +384,7 @@ void BlockView::updateAddActions()
       for (auto type : _model->pointer(_current)->buildList())
       {
          _addActions.append(new QAction(_factory->name(type),this));
-         _addActions.back()->setData(type);
-         connect(_addActions.back(),&QAction::triggered,this,&BlockView::addTriggered);
+         connect(_addActions.back(),&QAction::triggered,[this,type]{ addTriggered(type); });
       }
    }
 }
@@ -331,6 +394,8 @@ void BlockView::updateAddActions()
 
 
 
+/*!
+ */
 void BlockView::updateMenu()
 {
    _addMenu->clear();
@@ -343,6 +408,10 @@ void BlockView::updateMenu()
 
 
 
+/*!
+ *
+ * @param copy  
+ */
 void BlockView::setCopy(AbstractBlock* copy)
 {
    delete _copy;
@@ -354,6 +423,10 @@ void BlockView::setCopy(AbstractBlock* copy)
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void BlockView::updateTitle(AbstractBlock* block)
 {
    _titleIcon->clear();
@@ -367,6 +440,8 @@ void BlockView::updateTitle(AbstractBlock* block)
 
 
 
+/*!
+ */
 void BlockView::restoreSettings()
 {
    QSettings settings(Application::_companyKey,Application::_programKey);
@@ -378,6 +453,8 @@ void BlockView::restoreSettings()
 
 
 
+/*!
+ */
 void BlockView::saveSettings()
 {
    QSettings settings(Application::_companyKey,Application::_programKey);
@@ -389,6 +466,8 @@ void BlockView::saveSettings()
 
 
 
+/*!
+ */
 void BlockView::setupGui()
 {
    setupTreeView();
@@ -402,6 +481,8 @@ void BlockView::setupGui()
 
 
 
+/*!
+ */
 void BlockView::setupTreeView()
 {
    _treeView = new QTreeView;
@@ -416,6 +497,8 @@ void BlockView::setupTreeView()
 
 
 
+/*!
+ */
 void BlockView::setupArea()
 {
    QVBoxLayout* layout {new QVBoxLayout};
@@ -434,6 +517,8 @@ void BlockView::setupArea()
 
 
 
+/*!
+ */
 QLayout* BlockView::setupTitleBar()
 {
    QHBoxLayout* ret {new QHBoxLayout};
@@ -454,102 +539,40 @@ QLayout* BlockView::setupTitleBar()
 
 
 
+/*!
+ */
 void BlockView::setupActions()
-{
-   setupRemoveAction();
-   setupEditAction();
-   setupCutAction();
-   setupCopyAction();
-   setupPasteAction();
-   setupMoveUpAction();
-   setupMoveDownAction();
-}
-
-
-
-
-
-
-void BlockView::setupRemoveAction()
 {
    _removeAction = new QAction(tr("&Remove"),this);
    _removeAction->setStatusTip(tr("Remove a block."));
    _removeAction->setShortcut(Qt::CTRL + Qt::Key_Delete);
    connect(_removeAction,&QAction::triggered,this,&BlockView::removeTriggered);
-}
 
-
-
-
-
-
-void BlockView::setupEditAction()
-{
    _editAction = new QAction(tr("&Edit"),this);
    _editAction->setStatusTip(tr("Edit currently selected block."));
    _editAction->setShortcut(Qt::CTRL + Qt::Key_E);
    connect(_editAction,&QAction::triggered,this,&BlockView::editTriggered);
-}
 
-
-
-
-
-
-void BlockView::setupCutAction()
-{
    _cutAction = new QAction(tr("&Cut"),this);
    _cutAction->setStatusTip(tr("Cut currently selected block."));
    _cutAction->setShortcut(Qt::CTRL + Qt::Key_X);
    connect(_cutAction,&QAction::triggered,this,&BlockView::cutTriggered);
-}
 
-
-
-
-
-
-void BlockView::setupCopyAction()
-{
    _copyAction = new QAction(tr("C&opy"),this);
    _copyAction->setStatusTip(tr("Copy currently selected block."));
    _copyAction->setShortcut(Qt::CTRL + Qt::Key_C);
    connect(_copyAction,&QAction::triggered,this,&BlockView::copyTriggered);
-}
 
-
-
-
-
-
-void BlockView::setupPasteAction()
-{
    _pasteAction = new QAction(tr("&Paste"),this);
    _pasteAction->setStatusTip(tr("Paste block into selected block as child."));
    _pasteAction->setShortcut(Qt::CTRL + Qt::Key_V);
    connect(_pasteAction,&QAction::triggered,this,&BlockView::pasteTriggered);
-}
 
-
-
-
-
-
-void BlockView::setupMoveUpAction()
-{
    _moveUpAction = new QAction(tr("Move &Up"),this);
    _moveUpAction->setStatusTip(tr("Move currently selected block up by one."));
    _moveUpAction->setShortcut(Qt::CTRL + Qt::Key_Up);
    connect(_moveUpAction,&QAction::triggered,this,&BlockView::moveUpTriggered);
-}
 
-
-
-
-
-
-void BlockView::setupMoveDownAction()
-{
    _moveDownAction = new QAction(tr("Move &Down"),this);
    _moveDownAction->setStatusTip(tr("Move currently selected block down by one."));
    _moveDownAction->setShortcut(Qt::CTRL + Qt::Key_Down);
@@ -561,6 +584,8 @@ void BlockView::setupMoveDownAction()
 
 
 
+/*!
+ */
 void BlockView::setupMenu()
 {
    _contextMenu = new QMenu(tr("&Edit"),this);

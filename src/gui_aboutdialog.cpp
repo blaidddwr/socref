@@ -77,46 +77,27 @@ void AboutDialog::setupGui()
  *
  * Steps of Operation: 
  *
- * 1. Create a new horizontal box layout _ret_, adding the image and text widgets 
- *    of this object's GUI in that order. 
+ * 1. Create a new label _image_, setting its pixmap to the program's icon scaled 
+ *    to the correct dimensions. 
  *
- * 2. Return _ret_. 
+ * 2. Create a new horizontal box layout _ret_, adding the _image_ label and then 
+ *    the layout returned from this object's setup text method. 
+ *
+ * 3. Return _ret_. 
  */
 QLayout* AboutDialog::setupTop()
 {
    // 1
-   QHBoxLayout* ret {new QHBoxLayout};
-   ret->addWidget(setupImage());
-   ret->addWidget(setupText());
+   QLabel* image {new QLabel};
+   image->setAlignment(Qt::AlignTop|Qt::AlignRight);
+   image->setPixmap(QPixmap(":/icons/main.svg").scaled(_iconSize,_iconSize));
 
    // 2
-   return ret;
-}
+   QHBoxLayout* ret {new QHBoxLayout};
+   ret->addWidget(image);
+   ret->addWidget(setupText());
 
-
-
-
-
-
-/*!
- * Constructs the image displayed in the top left of this object's GUI, returning a 
- * pointer to the widget. 
- *
- * @return Pointer to widget for the image displayed in the top left of this 
- *         object's GUI. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new label, set its pixmap to the program's icon scaled to the 
- *    correct dimensions, and return it. 
- */
-QWidget* AboutDialog::setupImage()
-{
-   // 1
-   QLabel* ret {new QLabel};
-   ret->setAlignment(Qt::AlignTop|Qt::AlignRight);
-   ret->setPixmap(QPixmap(":/icons/main.svg").scaled(_iconSize,_iconSize));
+   // 3
    return ret;
 }
 
@@ -189,43 +170,25 @@ QWidget* AboutDialog::setupText()
  *
  * Steps of Operation: 
  *
- * 1. Create a new horizontal box layout _ret_, adding a stretch and the OK button 
- *    of this object's GUI in that order so the OK button is on the right side. 
+ * 1. Create a new push button _ok_, connecting its clicked signal to close this 
+ *    dialog. 
  *
- * 2. Return _ret_. 
+ * 2. Create a new horizontal box layout _ret_, adding a stretch and then the _ok_ 
+ *    button. 
+ *
+ * 3. Return _ret_. 
  */
 QLayout* AboutDialog::setupBottom()
 {
    // 1
-   QHBoxLayout* ret {new QHBoxLayout};
-   ret->addStretch();
-   ret->addWidget(setupOk());
+   QPushButton* ok {new QPushButton(tr("&Close"))};
+   connect(ok,&QPushButton::clicked,this,&QDialog::accept);
 
    // 2
-   return ret;
-}
+   QHBoxLayout* ret {new QHBoxLayout};
+   ret->addStretch();
+   ret->addWidget(ok);
 
-
-
-
-
-
-/*!
- * Constructs the OK button for this object's GUI, returning a pointer to the 
- * widget. 
- *
- * @return Pointer to the OK button widget of this object's GUI. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new OK push button of this object's GUI, connecting its clicked 
- *    signal to close this dialog, and return it. 
- */
-QWidget* AboutDialog::setupOk()
-{
-   // 1
-   QPushButton* ret {new QPushButton(tr("&Close"))};
-   connect(ret,&QPushButton::clicked,this,&QDialog::accept);
+   // 3
    return ret;
 }

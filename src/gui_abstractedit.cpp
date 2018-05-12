@@ -178,92 +178,40 @@ bool AbstractEdit::tryApply()
  *
  * Steps of Operation: 
  *
- * 1. Setup the OK and apply buttons. 
+ * 1. Create a new push button, setting it to this object's OK button and 
+ *    connecting its clicked signal. 
  *
- * 2. Create a new horizontal layout _ret_, adding the OK button, apply button, 
- *    stretch, and cancel button in that order. 
+ * 2. Create a new push button, setting it to this object's apply button and 
+ *    connecting its clicked signal. 
  *
- * 3. Return _ret_. 
+ * 3. Create a new push button _cancel_, connecting its clicked signal. 
+ *
+ * 4. Create a new horizontal layout _ret_, adding the OK button, apply button, 
+ *    stretch, and _cancel_ button in that order. 
+ *
+ * 5. Return _ret_. 
  */
 QLayout* AbstractEdit::setupButtons()
 {
    // 1
-   setupOkButton();
-   setupApplyButton();
+   _ok = new QPushButton(tr("&Ok"));
+   connect(_ok,&QPushButton::clicked,this,&AbstractEdit::okClicked);
 
    // 2
+   _apply = new QPushButton(tr("&Apply"));
+   connect(_apply,&QPushButton::clicked,this,&AbstractEdit::applyClicked);
+
+   // 3
+   QPushButton* cancel {new QPushButton(tr("&Cancel"))};
+   connect(cancel,&QPushButton::clicked,this,&AbstractEdit::cancelClicked);
+
+   // 4
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_ok);
    ret->addWidget(_apply);
    ret->addStretch();
-   ret->addWidget(setupCancelButton());
+   ret->addWidget(cancel);
 
-   // 3
-   return ret;
-}
-
-
-
-
-
-
-/*!
- * Constructs the OK button for this object. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new push button, setting it to this object's OK button and 
- *    connecting its clicked signal. 
- */
-void AbstractEdit::setupOkButton()
-{
-   // 1
-   _ok = new QPushButton(tr("&Ok"));
-   connect(_ok,&QPushButton::clicked,this,&AbstractEdit::okClicked);
-}
-
-
-
-
-
-
-/*!
- * Constructs the apply button for this object. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new push button, setting it to this object's apply button and 
- *    connecting its clicked signal. 
- */
-void AbstractEdit::setupApplyButton()
-{
-   // 1
-   _apply = new QPushButton(tr("&Apply"));
-   connect(_apply,&QPushButton::clicked,this,&AbstractEdit::applyClicked);
-}
-
-
-
-
-
-
-/*!
- * Constructs the cancel button for this object, returning its pointer. 
- *
- * @return Pointer to the cancel button for this object. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new push button, connecting its clicked signal and returning its 
- *    pointer. 
- */
-QPushButton* AbstractEdit::setupCancelButton()
-{
-   // 1
-   QPushButton* ret {new QPushButton(tr("&Cancel"))};
-   connect(ret,&QPushButton::clicked,this,&AbstractEdit::cancelClicked);
+   // 5
    return ret;
 }

@@ -37,7 +37,7 @@ QString TypeSelection::value() const
 void TypeSelection::setValue(const QString& value)
 {
    _value = value;
-   setText(_value);
+   setText(_value.replace("&","&&"));
 }
 
 
@@ -98,7 +98,7 @@ void TypeSelection::addType(QMenu* menu, Type* type)
 {
    int index {_types.size()};
    _types.append(type->cppType());
-   QAction* action {new QAction(type->cppType(),this)};
-   connect(action,&QAction::triggered,[=]{ selectionTriggered(index); });
+   QAction* action {new QAction(type->cppType().replace("&","&&"),this)};
+   connect(action,&QAction::triggered,[this,index]{ selectionTriggered(index); });
    menu->addAction(action);
 }
