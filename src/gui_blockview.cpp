@@ -158,55 +158,6 @@ void BlockView::setModel(BlockModel* model)
 
 
 /*!
- * Called to force this block view to update the detailed view of its currently 
- * selected block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Delete the current view. If there is no currently selected block then set the 
- *    detailed view pointer to null and return. 
- *
- * 2. Create an abstract block pointer _pointer_, setting it to this object's 
- *    currently selected block. Call the abstract block's make view interface, 
- *    saving the returned detailed view to this object. If the detailed view 
- *    returned is a null pointer then throw an exception. 
- *
- * 3. Set this object's scroll area widget to this object's new detailed view 
- *    widget and update this object's title with the abstract block _pointer_. 
- */
-void BlockView::updateView()
-{
-   // 1
-   delete _view;
-   if ( !_current.isValid() )
-   {
-      _view = nullptr;
-      return;
-   }
-
-   // 2
-   AbstractBlock* pointer {_model->pointer(_current)};
-   _view = pointer->makeView().release();
-   if ( !_view )
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
-      throw e;
-   }
-
-   // 3
-   _area->setWidget(_view);
-   updateTitle(pointer);
-}
-
-
-
-
-
-
-/*!
  * Called when an add action is triggered. If this object has a model then this 
  * inserts a new block of the given type in the currently selected block. 
  *
@@ -279,7 +230,7 @@ void BlockView::editTriggered()
    if ( !edit ) return;
 
    // 3
-   edit->initialize(this);
+   edit->initialize();
    edit->setWindowIcon(pointer->icon());
    edit->setWindowTitle(tr("Edit %1").arg(_factory->name(pointer->type())));
    edit->exec();
@@ -461,7 +412,8 @@ void BlockView::modelDestroyed()
 
 /*!
  * Called when data in this object's block model has changed. If this object's 
- * current index is the one updated then this updates its object's view. 
+ * current index is the one updated then this updates its object's view depending 
+ * on the given roles. 
  *
  * @param topLeft The top left index of the rectangle of indexes whose data has 
  *                changed. 
@@ -470,24 +422,24 @@ void BlockView::modelDestroyed()
  *                    has changed. This is not used in this view because only one 
  *                    index can change at a time. 
  *
- * @param roles The list of data roles that has changed. This is also not used in 
- *              this view because it only handles name changes. 
+ * @param roles The list of data roles that has changed. 
  *
  *
  * Steps of Operation: 
  *
  * 1. If the given top left index is equal to this object's current index and the 
- *    current index is not valid then update this object's title and context menu. 
+ *    current index is not valid then update this object's title if needed, 
+ *    detailed view if needed, and context menu. 
  */
 void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
 {
    Q_UNUSED(bottomRight)
-   Q_UNUSED(roles)
 
    // 1
    if ( topLeft == _current && _current.isValid() )
    {
-      updateTitle(_model->pointer(_current));
+      if ( roles.contains(BlockModel::Name) ) updateTitle(_model->pointer(_current));
+      if ( roles.contains(BlockModel::Body) ) updateView();
       updateContextMenu();
    }
 }
@@ -530,6 +482,64 @@ void BlockView::contextMenuRequested(const QPoint& position)
 
 
 /*!
+ * Updates this object's detailed view using its current index. This does not 
+ * update this object's title. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Delete the current view. If there is no currently selected block then set the 
+ *    detailed view pointer to null and return. 
+ *
+ * 2. Create an abstract block pointer _pointer_, setting it to this object's 
+ *    currently selected block. Call the abstract block's make view interface, 
+ *    saving the returned detailed view to this object. If the detailed view 
+ *    returned is a null pointer then throw an exception. 
+ *
+ * 3. Set this object's scroll area widget to this object's new detailed view 
+ *    widget and update this object's title with the abstract block _pointer_. 
+ */
+void BlockView::updateView()
+{
+   // 1
+   delete _view;
+   if ( !_current.isValid() )
+   {
+      _view = nullptr;
+      return;
+   }
+
+   // 2
+   AbstractBlock* pointer {_model->pointer(_current)};
+   _view = pointer->makeView().release();
+   if ( !_view )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
+      throw e;
+   }
+
+   // 3
+   _area->setWidget(_view);
+   updateTitle(pointer);
+}
+
+
+
+
+
+
+/*!
+ * Updates this object's current index using its selection model. This does not 
+ * update this object's actions or context menu. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Get the list of selected indexes from this object's selection model. If the 
+ *    returned list is not empty then set the first index to this object's current 
+ *    index, else set this object's current index as invalid. 
  */
 void BlockView::updateIndex()
 {
@@ -545,6 +555,16 @@ void BlockView::updateIndex()
 
 
 /*!
+ * Updates this object's context menu based off its current index, updating its 
+ * actions beforehand as well. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Update this object's actions and clear its add menu. 
+ *
+ * 2. Iterate through all of this object's add actions and add them to its add 
+ *    menu. If the add menu is empty then disable it or enable it otherwise. 
  */
 void BlockView::updateContextMenu()
 {
@@ -592,15 +612,16 @@ void BlockView::updateActions()
  */
 void BlockView::updateAddActions()
 {
+   // 1
    qDeleteAll(_addActions);
    _addActions.clear();
-   if ( _model )
+   if ( !_model ) return;
+
+   // 2
+   for (auto type : _model->pointer(_current)->buildList())
    {
-      for (auto type : _model->pointer(_current)->buildList())
-      {
-         _addActions.append(new QAction(_factory->name(type),this));
-         connect(_addActions.back(),&QAction::triggered,[this,type]{ addTriggered(type); });
-      }
+      _addActions.append(new QAction(_factory->name(type),this));
+      connect(_addActions.back(),&QAction::triggered,[this,type]{ addTriggered(type); });
    }
 }
 

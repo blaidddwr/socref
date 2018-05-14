@@ -20,8 +20,6 @@ namespace CppQt
          QString displayReturnText();
          QString displayOperationsText();
          QStringList getProperties();
-      private slots:
-         void bodyChanged();
       private:
          const CppQt::Function* _block;
       };

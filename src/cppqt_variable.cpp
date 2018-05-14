@@ -143,8 +143,9 @@ void Variable::setConstExpr(bool isConstExpr)
    if ( _constExpr != isConstExpr )
    {
       _constExpr = isConstExpr;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -175,8 +176,9 @@ void Variable::setStatic(bool isStatic)
    if ( _static != isStatic )
    {
       _static = isStatic;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -207,8 +209,9 @@ void Variable::setMutable(bool isMutable)
    if ( _mutable != isMutable )
    {
       _mutable = isMutable;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -233,8 +236,9 @@ void Variable::setVariableType(const QString& type)
    if ( _type != type )
    {
       _type = type;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -268,8 +272,9 @@ void Variable::setInitializer(const QString& initializer)
    if ( _initializer != initializer )
    {
       _initializer = initializer;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 

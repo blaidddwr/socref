@@ -168,10 +168,10 @@ const QList<AbstractBlock*>& AbstractBlock::list() const
 
 /*!
  * This gets the index where the child with the given pointer is stored in this 
- * node's list of children. If no child with the given pointer is found then -1 is 
+ * block's list of children. If no child with the given pointer is found then -1 is 
  * returned. 
  *
- * @param pointer Pointer of child block to match in this node's list and return 
+ * @param pointer Pointer of child block to match in this block's list and return 
  *                its index. 
  *
  * @return If a match is found then the index of the child with the given pointer, 
@@ -188,19 +188,19 @@ int AbstractBlock::indexOf(AbstractBlock* pointer) const
 
 
 /*!
- * This returns a pointer to this node's child with the given index. If the index 
+ * This returns a pointer to this block's child with the given index. If the index 
  * is out of range an exception is thrown. 
  *
  * @param index Index of the child whose pointer is returned. 
  *
- * @return Pointer to this node's child with given index. 
+ * @return Pointer to this block's child with given index. 
  *
  *
  * Steps of Operation: 
  *
  * 1. If the given index is out of range then throw an exception. 
  *
- * 2. Return a pointer to this node's child with the given index. 
+ * 2. Return a pointer to this block's child with the given index. 
  */
 AbstractBlock* AbstractBlock::get(int index) const
 {
@@ -225,16 +225,16 @@ AbstractBlock* AbstractBlock::get(int index) const
 
 
 /*!
- * Tests if this node contains any children of the given type. 
+ * Tests if this block contains any children of the given type. 
  *
  * @param type The block type to search for within this block's list of children. 
  *
- * @return True if this node contains any children of the given type, else false. 
+ * @return True if this block contains any children of the given type, else false. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Iterate through list of this node's children. If a child matches the given 
+ * 1. Iterate through list of this block's children. If a child matches the given 
  *    type then return true. 
  *
  * 2. Return false because no child was found with the given type. 
@@ -257,17 +257,17 @@ bool AbstractBlock::containsType(int type) const
 
 
 /*!
- * Tests if this node contains any children of any type given. 
+ * Tests if this block contains any children of any type given. 
  *
  * @param types List of block types to search for within this block's list of 
  *              children. 
  *
- * @return True if this node contains any children of any type given, else false. 
+ * @return True if this block contains any children of any type given, else false. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Iterate through list of this node's children. If a child matches the given 
+ * 1. Iterate through list of this block's children. If a child matches the given 
  *    type then return true. 
  *
  * 2. Return false because no child was found with the given type. 
@@ -301,7 +301,7 @@ bool AbstractBlock::containsType(const QList<int>& types) const
  *
  * 1. If the given index is not at the top of the list and is within range then 
  *    continue. Swap the child with the given index with the child just above it, 
- *    calling the child moved interface and emitting the modified signal. 
+ *    calling the child moved interface and call the notify modified method. 
  */
 void AbstractBlock::moveUp(int index)
 {
@@ -310,7 +310,7 @@ void AbstractBlock::moveUp(int index)
    {
       std::swap(_children[index - 1],_children[index]);
       childMoved(_children.at(index - 1));
-      emit modified();
+      notifyModified();
    }
 }
 
@@ -331,7 +331,7 @@ void AbstractBlock::moveUp(int index)
  *
  * 1. If the given index is not at the bottom of the list and is within range then 
  *    continue. Swap the child with the given index with the child just below it, 
- *    calling the child moved interface and emitting the modified signal. 
+ *    calling the child moved interface and call the notify modified method. 
  */
 void AbstractBlock::moveDown(int index)
 {
@@ -340,7 +340,7 @@ void AbstractBlock::moveDown(int index)
    {
       std::swap(_children[index],_children[index + 1]);
       childMoved(_children.at(index + 1));
-      emit modified();
+      notifyModified();
    }
 }
 
@@ -368,7 +368,7 @@ void AbstractBlock::moveDown(int index)
  *
  * 2. Insert the new block into this block's list of children at the given index, 
  *    releasing it from its smart pointer and setting this block as its parent. 
- *    Call the child added interface and emit the modified signal. 
+ *    Call the child added interface and call the notify modified method. 
  */
 void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
 {
@@ -391,10 +391,10 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
    }
 
    // 2
-   AbstractBlock* child_ {child.release()};
-   child_->setParent(this,index);
-   childAdded(child_);
-   emit modified();
+   AbstractBlock* orphan {child.release()};
+   orphan->setParent(this,index);
+   childAdded(orphan);
+   notifyModified();
 }
 
 
@@ -418,7 +418,7 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
  *
  * 2. Remove the child at the given index from this block's list of children saving 
  *    its pointer to the smart pointer _ret_. Call the child removed interface and 
- *    emit the modified signal. 
+ *    call the notify modified method. 
  *
  * 3. Return _ret_. 
  */
@@ -439,7 +439,7 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
    unique_ptr<AbstractBlock> ret {_children.at(index)};
    ret->setParent(nullptr);
    childRemoved(ret.get());
-   emit modified();
+   notifyModified();
 
    // 3
    return ret;
@@ -463,8 +463,8 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
  *
  * 2. Take the pointer to the child at the given index from this block's list of 
  *    children, storing it in a smart pointer that will delete the orphaned child 
- *    once out of scope. Call the child removed interface and emit the modified 
- *    signal. 
+ *    once out of scope. Call the child removed interface and call the notify 
+ *    modified method. 
  */
 void AbstractBlock::remove(int index)
 {
@@ -482,7 +482,7 @@ void AbstractBlock::remove(int index)
    // 2
    unique_ptr<AbstractBlock> dead {_children.takeAt(index)};
    childRemoved(dead.get());
-   emit modified();
+   notifyModified();
 }
 
 
@@ -657,6 +657,102 @@ void AbstractBlock::childMoved(AbstractBlock* child)
 
 
 /*!
+ * Notifies this block has been modified by finding its root block and emitting its 
+ * modified signal. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Find the root block of this block and emit its modified signal. 
+ */
+void AbstractBlock::notifyModified()
+{
+   // 1
+   AbstractBlock* root {this};
+   while ( root->parent() ) root = root->parent();
+   emit root->modified();
+}
+
+
+
+
+
+
+/*!
+ * Notifies this block's name has been modified by finding its root block and 
+ * emitting its name modified signal. If this is called by a root block an 
+ * exception is thrown because the root has no name. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a pointer _root_ to the parent of this block. If the returned pointer 
+ *    is null then throw an exception, else call the _root_ child name modified 
+ *    interface. 
+ *
+ * 2. Find the root block of _root_ and emit its name modified signal with this 
+ *    block's pointer. 
+ */
+void AbstractBlock::notifyNameModified()
+{
+   // 1
+   AbstractBlock* root {parent()};
+   if ( !root )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot notify a name change of the root block."));
+      throw e;
+   }
+   root->childNameChanged(this);
+
+   // 2
+   while ( root->parent() ) root = root->parent();
+   emit root->nameModified(this);
+}
+
+
+
+
+
+
+/*!
+ * Notifies this block's body has been modified by finding its root block and 
+ * emitting its name modified signal. If this is called by a root block an 
+ * exception is thrown because the root has no body. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a pointer _root_ to the parent of this block. If the returned pointer 
+ *    is null then throw an exception. 
+ *
+ * 2. Find the root block of _root_ and emit its body modified signal with this 
+ *    block's pointer. 
+ */
+void AbstractBlock::notifyBodyModified()
+{
+   // 1
+   AbstractBlock* root {parent()};
+   if ( !root )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot notify a body change of the root block."));
+      throw e;
+   }
+
+   // 2
+   while ( root->parent() ) root = root->parent();
+   emit root->bodyModified(this);
+}
+
+
+
+
+
+
+/*!
  * Makes a new XML element with the given tag name and text value enclosed within 
  * the new element. 
  *
@@ -680,54 +776,6 @@ QDomElement AbstractBlock::makeElement(QDomDocument& document, const QString& ta
    QDomElement ret {document.createElement(tagName)};
    ret.appendChild(document.createTextNode(text));
    return ret;
-}
-
-
-
-
-
-
-/*!
- * Notifies this block that its name has changed and the block system is notified. 
- */
-void AbstractBlock::notifyOfNameChange()
-{
-   emit nameChanged(this);
-}
-
-
-
-
-
-
-/*!
- * Called when a child below this block has been modified. 
- */
-void AbstractBlock::childModified()
-{
-   emit modified();
-}
-
-
-
-
-
-
-/*!
- * Called when a child below this block has modified its name. 
- *
- * @param child Pointer to child block whose name has been modified. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Call the child name changed interface and emit the name changed signal. 
- */
-void AbstractBlock::childNameModified(AbstractBlock* child)
-{
-   // 1
-   childNameChanged(child);
-   emit nameChanged(child);
 }
 
 
@@ -765,23 +813,13 @@ void AbstractBlock::copyChildren(const AbstractBlock* parent)
 /*!
  * Sets this block's parent to the given block, adding it to its new parent's list 
  * with the given index. If the index is less than 1 it is prepended, else if it is 
- * greater than the size of the list it is appended. This will remove and 
- * disconnect any previous parent this block may have had. The new parent can be a 
- * null pointer which means this block will have no parent. 
+ * greater than the size of the list it is appended. This will remove any previous 
+ * parent this block may have had. The new parent can be a null pointer which means 
+ * this block will have no parent. 
  *
  * @param parent Pointer to the new parent for this block. 
  *
  * @param index The index where this block will be added to its new parent's list. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If a previous parent exists then remove this block from its list of children 
- *    and disconnect any signal/slot connections they share. 
- *
- * 2. Set this block's parent to the new parent given. If the new parent is not 
- *    null then insert this block into the new parent's list with the given index 
- *    and connect the appropriate signals between the two of them. 
  */
 void AbstractBlock::setParent(AbstractBlock* parent, int index)
 {
@@ -789,7 +827,6 @@ void AbstractBlock::setParent(AbstractBlock* parent, int index)
    if ( AbstractBlock* oldParent = AbstractBlock::parent() )
    {
       oldParent->_children.removeOne(this);
-      disconnect(oldParent);
    }
 
    // 2
@@ -797,8 +834,6 @@ void AbstractBlock::setParent(AbstractBlock* parent, int index)
    if ( parent )
    {
       parent->_children.insert(index,this);
-      connect(this,&AbstractBlock::modified,parent,&AbstractBlock::childModified);
-      connect(this,&AbstractBlock::nameChanged,parent,&AbstractBlock::childNameModified);
    }
 }
 

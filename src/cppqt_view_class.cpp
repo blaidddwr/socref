@@ -17,7 +17,6 @@ Class::Class(const CppQt::Class* block, QWidget* parent):
    Namespace(block,true,parent),
    _block(block)
 {
-   connect(_block,&CppQt::Class::bodyChanged,this,&Class::bodyChanged);
    setText(displayText());
 }
 
@@ -75,14 +74,4 @@ QString Class::displayParentText()
       }
    }
    return ret;
-}
-
-
-
-
-
-
-void Class::bodyChanged()
-{
-   setText(displayText());
 }

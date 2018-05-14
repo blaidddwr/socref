@@ -154,8 +154,9 @@ void Parent::setAccess(Parent::Access access)
    if ( _access != access )
    {
       _access = access;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 

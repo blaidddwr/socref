@@ -25,17 +25,14 @@ namespace Gui
     * geometry saved by calling the save settings method from that class. The GUI of 
     * this object is not constructed in this object's constructor since it relies on 
     * an interface call as part of its construction process. Instead an initialization 
-    * method must be called before this object can be used as a dialog. This dialog 
-    * will also call on its block view to update the view of the block it is editing 
-    * if updated. Because of this a pointer to the block view of the project the block 
-    * being edited belongs to must be passed to this class. 
+    * method must be called before this object can be used as a dialog. 
     */
    class AbstractEdit : public PersistentDialog
    {
       Q_OBJECT
    public:
       explicit AbstractEdit(QWidget* parent = nullptr);
-      void initialize(BlockView* view);
+      void initialize();
    protected:
       /*!
        * This interface is called to return the layout of all GUI elements used by an 
@@ -61,10 +58,6 @@ namespace Gui
    private:
       bool tryApply();
       QLayout* setupButtons();
-      /*!
-       * Pointer to the block view of the project the block being edited belongs to. 
-       */
-      BlockView* _view;
       /*!
        * Pointer to this object's OK button. 
        */

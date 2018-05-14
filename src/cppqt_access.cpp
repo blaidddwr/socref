@@ -189,8 +189,8 @@ void Access::setAccessType(Type type)
    if ( _type != type )
    {
       _type = type;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
    }
 }
 
@@ -308,8 +308,8 @@ bool Access::isNormal(Type type)
 void Access::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   notifyNameModified();
+   notifyBodyModified();
 }
 
 
@@ -320,8 +320,8 @@ void Access::childAdded(AbstractBlock* child)
 void Access::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   notifyNameModified();
+   notifyBodyModified();
 }
 
 

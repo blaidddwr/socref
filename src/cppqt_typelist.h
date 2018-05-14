@@ -18,8 +18,6 @@ namespace CppQt
       virtual QList<int> buildList() const override final;
       virtual std::unique_ptr<QWidget> makeView() const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
-   signals:
-      void bodyChanged();
    protected slots:
       virtual void childNameChanged(AbstractBlock* child) override final;
       virtual void childAdded(AbstractBlock* child) override final;

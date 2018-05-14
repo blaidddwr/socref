@@ -107,8 +107,8 @@ void Enumeration::setClass(bool isClass)
    if ( _class != isClass )
    {
       _class = isClass;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
    }
 }
 

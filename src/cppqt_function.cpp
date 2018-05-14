@@ -206,8 +206,9 @@ void Function::setDefault(bool isDefault)
    if ( _default != isDefault )
    {
       _default = isDefault;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -231,8 +232,9 @@ void Function::setExplicit(bool isExplicit)
    if ( _explicit != isExplicit )
    {
       _explicit = isExplicit;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -263,8 +265,9 @@ void Function::setVirtual(bool isVirtual)
    if ( _virtual != isVirtual )
    {
       _virtual = isVirtual;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -329,8 +332,9 @@ void Function::setConst(bool isConst)
    if ( _const != isConst )
    {
       _const = isConst;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -354,8 +358,9 @@ void Function::setNoExcept(bool isNoExcept)
    if ( _noExcept != isNoExcept )
    {
       _noExcept = isNoExcept;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -386,8 +391,9 @@ void Function::setOverride(bool isOverride)
    if ( _override != isOverride )
    {
       _override = isOverride;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -418,8 +424,9 @@ void Function::setFinal(bool isFinal)
    if ( _final != isFinal )
    {
       _final = isFinal;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -450,8 +457,9 @@ void Function::setAbstract(bool isAbstract)
    if ( _abstract != isAbstract )
    {
       _abstract = isAbstract;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -550,23 +558,11 @@ QList<Template*> Function::templates() const
 
 
 
-void Function::childNameChanged(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
-}
-
-
-
-
-
-
 void Function::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   notifyNameModified();
+   notifyBodyModified();
 }
 
 
@@ -577,8 +573,8 @@ void Function::childAdded(AbstractBlock* child)
 void Function::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   notifyNameModified();
+   notifyBodyModified();
 }
 
 

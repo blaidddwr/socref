@@ -18,8 +18,6 @@ namespace CppQt
          QString displayQtObjectText();
          QString displayTemplatesText();
          QString displayParentText();
-      private slots:
-         void bodyChanged();
       private:
          const CppQt::Class* _block;
       };

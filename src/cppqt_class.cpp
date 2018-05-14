@@ -147,8 +147,9 @@ void Class::setQtObject(bool isQtObject)
    if ( _qtObject != isQtObject )
    {
       _qtObject = isQtObject;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 
@@ -257,11 +258,9 @@ QList<Parent*> Class::parents() const
 void Class::childNameChanged(AbstractBlock* child)
 {
    if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
         || qobject_cast<Parent*>(child) )
    {
-      notifyOfNameChange();
-      emit bodyChanged();
+      notifyNameModified();
    }
 }
 
@@ -273,15 +272,9 @@ void Class::childNameChanged(AbstractBlock* child)
 void Class::childAdded(AbstractBlock* child)
 {
    if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
         || qobject_cast<Parent*>(child) )
    {
-      notifyOfNameChange();
-      emit bodyChanged();
-   }
-   else if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
-   {
-      connect(this,&Class::nameChanged,constructor,&Constructor::classNameChanged);
+      notifyNameModified();
    }
 }
 
@@ -293,15 +286,9 @@ void Class::childAdded(AbstractBlock* child)
 void Class::childRemoved(AbstractBlock* child)
 {
    if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
         || qobject_cast<Parent*>(child) )
    {
-      notifyOfNameChange();
-      emit bodyChanged();
-   }
-   else if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
-   {
-      disconnect(constructor);
+      notifyNameModified();
    }
 }
 
@@ -382,17 +369,6 @@ void Class::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
-}
-
-
-
-
-
-
-void Class::notifyOfNameChange()
-{
-   emit nameChanged();
-   AbstractBlock::notifyOfNameChange();
 }
 
 

@@ -18,7 +18,6 @@ Function::Function(const CppQt::Function* block, bool wait, QWidget* parent):
    Variable(block,true,parent),
    _block(block)
 {
-   connect(_block,&CppQt::Function::bodyChanged,this,&Function::bodyChanged);
    if ( !wait ) setText(displayText());
 }
 
@@ -133,14 +132,4 @@ QStringList Function::getProperties()
    if ( _block->isFinal() ) ret << "final";
    if ( _block->isAbstract() ) ret << "abstract(= 0)";
    return ret;
-}
-
-
-
-
-
-
-void Function::bodyChanged()
-{
-   setText(displayText());
 }

@@ -99,17 +99,27 @@ public:
    QDomElement write(QDomDocument& document) const;
 signals:
    /*!
-    * Signals that this block has been modified and should set the project as 
-    * modified. 
+    * Signals that a child block of this block has been modified. The given child 
+    * block could be any depth below this block. Only the root block emits this 
+    * signal. 
     */
    void modified();
    /*!
-    * Signals that a child with the given pointer has changed its name. This child 
-    * could be any depth below this block. 
+    * Signals that a child block of this block with the given pointer has modified its 
+    * name. The given child block could be any depth below this block. Only the root 
+    * block emits this signal. 
     *
     * @param child Pointer of the child whose name has changed. 
     */
-   void nameChanged(AbstractBlock* child);
+   void nameModified(AbstractBlock* child);
+   /*!
+    * Signals that a child block of this block with the given pointer has modified its 
+    * body. The given child block could be any depth below this block. Only the root 
+    * block emits this signal. 
+    *
+    * @param child  
+    */
+   void bodyModified(AbstractBlock* child);
 protected slots:
    virtual void childNameChanged(AbstractBlock* child);
    virtual void childAdded(AbstractBlock* child);
@@ -156,11 +166,10 @@ protected:
     * @param other The other block whose data will be copied. 
     */
    virtual void copyDataFrom(const AbstractBlock* other) = 0;
+   void notifyModified();
+   void notifyNameModified();
+   void notifyBodyModified();
    static QDomElement makeElement(QDomDocument& document, const QString& tagName, const QString& text);
-   void notifyOfNameChange();
-private slots:
-   void childModified();
-   void childNameModified(AbstractBlock* child);
 private:
    void copyChildren(const AbstractBlock* parent);
    void setParent(AbstractBlock* parent, int index = -1);
@@ -189,14 +198,14 @@ private:
 
 
 /*!
- * Build a list of this node's children that matches the given type. The returned 
+ * Build a list of this block's children that matches the given type. The returned 
  * list has no other copies. 
  *
  * @tparam T The child class type that is matched. 
  *
  * @param type The type whose matches are added to the list. 
  *
- * @return List of this node's children that is given type. 
+ * @return List of this block's children that is given type. 
  *
  *
  * Steps of Operation: 

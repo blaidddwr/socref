@@ -40,7 +40,6 @@ namespace Gui
       bool canPaste() const;
       void setModel(BlockModel* model);
    public slots:
-      void updateView();
    private slots:
       void addTriggered(int type);
       void removeTriggered();
@@ -55,6 +54,7 @@ namespace Gui
       void modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles);
       void contextMenuRequested(const QPoint& position);
    private:
+      void updateView();
       void updateIndex();
       void updateContextMenu();
       void updateActions();

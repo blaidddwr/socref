@@ -527,16 +527,6 @@ An external link to the context menu of this class is provided. This class also 
                <data version="1">
                   <type>public slots:</type>
                </data>
-               <slot type="7">
-                  <data version="1">
-                     <name>updateView</name>
-                     <description>Called to force this block view to update the detailed view of its currently selected block.</description>
-                     <type></type>
-                     <operation>Delete the current view. If there is no currently selected block then set the detailed view pointer to null and return.</operation>
-                     <operation>Create an abstract block pointer _pointer_, setting it to this object's currently selected block. Call the abstract block's make view interface, saving the returned detailed view to this object. If the detailed view returned is a null pointer then throw an exception.</operation>
-                     <operation>Set this object's scroll area widget to this object's new detailed view widget and update this object's title with the abstract block _pointer_.</operation>
-                  </data>
-               </slot>
             </access>
             <access type="5">
                <data version="1">
@@ -648,9 +638,9 @@ An external link to the context menu of this class is provided. This class also 
                <slot type="7">
                   <data version="1">
                      <name>modelDataChanged</name>
-                     <description>Called when data in this object's block model has changed. If this object's current index is the one updated then this updates its object's view.</description>
+                     <description>Called when data in this object's block model has changed. If this object's current index is the one updated then this updates its object's view depending on the given roles.</description>
                      <type></type>
-                     <operation>If the given top left index is equal to this object's current index and the current index is not valid then update this object's title and context menu.</operation>
+                     <operation>If the given top left index is equal to this object's current index and the current index is not valid then update this object's title if needed, detailed view if needed, and context menu.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -669,7 +659,7 @@ An external link to the context menu of this class is provided. This class also 
                   <variable type="1">
                      <data version="1">
                         <name>roles</name>
-                        <description>The list of data roles that has changed. This is also not used in this view because it only handles name changes.</description>
+                        <description>The list of data roles that has changed.</description>
                         <type>const QVector&lt;int>&amp;</type>
                      </data>
                   </variable>
@@ -697,14 +687,29 @@ An external link to the context menu of this class is provided. This class also 
                </data>
                <function type="2">
                   <data version="1">
-                     <name>updateIndex</name>
+                     <name>updateView</name>
+                     <description>Updates this object's detailed view using its current index. This does not update this object's title.</description>
                      <type>void</type>
+                     <operation>Delete the current view. If there is no currently selected block then set the detailed view pointer to null and return.</operation>
+                     <operation>Create an abstract block pointer _pointer_, setting it to this object's currently selected block. Call the abstract block's make view interface, saving the returned detailed view to this object. If the detailed view returned is a null pointer then throw an exception.</operation>
+                     <operation>Set this object's scroll area widget to this object's new detailed view widget and update this object's title with the abstract block _pointer_.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>updateIndex</name>
+                     <description>Updates this object's current index using its selection model. This does not update this object's actions or context menu.</description>
+                     <type>void</type>
+                     <operation>Get the list of selected indexes from this object's selection model. If the returned list is not empty then set the first index to this object's current index, else set this object's current index as invalid.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>updateContextMenu</name>
+                     <description>Updates this object's context menu based off its current index, updating its actions beforehand as well.</description>
                      <type>void</type>
+                     <operation>Update this object's actions and clear its add menu.</operation>
+                     <operation>Iterate through all of this object's add actions and add them to its add menu. If the add menu is empty then disable it or enable it otherwise.</operation>
                   </data>
                </function>
                <function type="2">
@@ -926,7 +931,7 @@ An external link to the context menu of this class is provided. This class also 
          <class type="4">
             <data version="1">
                <name>AbstractEdit</name>
-               <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI, specifically providing OK/cancel/apply buttons. An implementation of this class is responsible for handling any apply action and constructing the rest of the GUI and returning its layout. Any exception thrown when the apply interface is called this class catches and reports to the user. The buttons this class provides are placed on the bottom of the GUI and the layout an implementation returns is placed on the top. This is a persistent dialog so implementations of this class can choose to have their geometry saved by calling the save settings method from that class. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog. This dialog will also call on its block view to update the view of the block it is editing if updated. Because of this a pointer to the block view of the project the block being edited belongs to must be passed to this class.</description>
+               <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI, specifically providing OK/cancel/apply buttons. An implementation of this class is responsible for handling any apply action and constructing the rest of the GUI and returning its layout. Any exception thrown when the apply interface is called this class catches and reports to the user. The buttons this class provides are placed on the bottom of the GUI and the layout an implementation returns is placed on the top. This is a persistent dialog so implementations of this class can choose to have their geometry saved by calling the save settings method from that class. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -959,15 +964,9 @@ An external link to the context menu of this class is provided. This class also 
                      <name>initialize</name>
                      <description>Constructs and initializes the GUI for this abstract edit dialog, making it ready to be used as a GUI dialog window.</description>
                      <type>void</type>
-                     <operation>Set this object's block view to the one given, setup this object's buttons saving the returned layout to _buttons_, and then create a new vertical box layout _main_.</operation>
+                     <operation>Setup this object's buttons saving the returned layout to _buttons_ and then create a new vertical box layout _main_.</operation>
                      <operation>Add the implementation's layout to _main_ by calling the layout interface, then add the layout _buttons_, and then set this dialog's layout to _main_.</operation>
                   </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>view</name>
-                        <type>BlockView*</type>
-                     </data>
-                  </variable>
                </function>
             </access>
             <access type="5">
@@ -1062,13 +1061,6 @@ An external link to the context menu of this class is provided. This class also 
                      <operation>Return _ret_.</operation>
                   </data>
                </function>
-               <variable type="1">
-                  <data version="1">
-                     <name>_view</name>
-                     <description>Pointer to the block view of the project the block being edited belongs to.</description>
-                     <type>BlockView*</type>
-                  </data>
-               </variable>
                <variable type="1">
                   <data version="1">
                      <name>_ok</name>
@@ -1914,7 +1906,7 @@ An external link to the context menu of this class is provided. This class also 
             <function type="2">
                <data version="1">
                   <name>indexOf</name>
-                  <description>This gets the index where the child with the given pointer is stored in this node's list of children. If no child with the given pointer is found then -1 is returned.</description>
+                  <description>This gets the index where the child with the given pointer is stored in this block's list of children. If no child with the given pointer is found then -1 is returned.</description>
                   <type>int</type>
                   <const/>
                   <return_description>If a match is found then the index of the child with the given pointer, else -1.</return_description>
@@ -1922,7 +1914,7 @@ An external link to the context menu of this class is provided. This class also 
                <variable type="1">
                   <data version="1">
                      <name>pointer</name>
-                     <description>Pointer of child block to match in this node's list and return its index.</description>
+                     <description>Pointer of child block to match in this block's list and return its index.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -1930,12 +1922,12 @@ An external link to the context menu of this class is provided. This class also 
             <function type="2">
                <data version="1">
                   <name>get</name>
-                  <description>This returns a pointer to this node's child with the given index. If the index is out of range an exception is thrown.</description>
+                  <description>This returns a pointer to this block's child with the given index. If the index is out of range an exception is thrown.</description>
                   <type>AbstractBlock*</type>
                   <const/>
-                  <return_description>Pointer to this node's child with given index.</return_description>
+                  <return_description>Pointer to this block's child with given index.</return_description>
                   <operation>If the given index is out of range then throw an exception.</operation>
-                  <operation>Return a pointer to this node's child with the given index.</operation>
+                  <operation>Return a pointer to this block's child with the given index.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -1948,11 +1940,11 @@ An external link to the context menu of this class is provided. This class also 
             <function type="2">
                <data version="1">
                   <name>containsType</name>
-                  <description>Tests if this node contains any children of the given type.</description>
+                  <description>Tests if this block contains any children of the given type.</description>
                   <type>bool</type>
                   <const/>
-                  <return_description>True if this node contains any children of the given type, else false.</return_description>
-                  <operation>Iterate through list of this node's children. If a child matches the given type then return true.</operation>
+                  <return_description>True if this block contains any children of the given type, else false.</return_description>
+                  <operation>Iterate through list of this block's children. If a child matches the given type then return true.</operation>
                   <operation>Return false because no child was found with the given type.</operation>
                </data>
                <variable type="1">
@@ -1966,11 +1958,11 @@ An external link to the context menu of this class is provided. This class also 
             <function type="2">
                <data version="1">
                   <name>containsType</name>
-                  <description>Tests if this node contains any children of any type given.</description>
+                  <description>Tests if this block contains any children of any type given.</description>
                   <type>bool</type>
                   <const/>
-                  <return_description>True if this node contains any children of any type given, else false.</return_description>
-                  <operation>Iterate through list of this node's children. If a child matches the given type then return true.</operation>
+                  <return_description>True if this block contains any children of any type given, else false.</return_description>
+                  <operation>Iterate through list of this block's children. If a child matches the given type then return true.</operation>
                   <operation>Return false because no child was found with the given type.</operation>
                </data>
                <variable type="1">
@@ -1984,10 +1976,10 @@ An external link to the context menu of this class is provided. This class also 
             <function type="2">
                <data version="1">
                   <name>makeListOfType</name>
-                  <description>Build a list of this node's children that matches the given type. The returned list has no other copies.</description>
+                  <description>Build a list of this block's children that matches the given type. The returned list has no other copies.</description>
                   <type>QList&lt;T*></type>
                   <const/>
-                  <return_description>List of this node's children that is given type.</return_description>
+                  <return_description>List of this block's children that is given type.</return_description>
                   <operation>Create a new list of pointers _ret_ of the given template type. Iterate through the list of this block's children. If a child matches the given type then append its pointer to _ret_.</operation>
                   <operation>Return _ret_.</operation>
                </data>
@@ -2060,7 +2052,7 @@ An external link to the context menu of this class is provided. This class also 
                   <name>moveUp</name>
                   <description>Moves the child block with the given index up the list by one where the very top of the list is index 0. If the given index is already at the top of the list or out of range then this does nothing.</description>
                   <type>void</type>
-                  <operation>If the given index is not at the top of the list and is within range then continue. Swap the child with the given index with the child just above it, calling the child moved interface and emitting the modified signal.</operation>
+                  <operation>If the given index is not at the top of the list and is within range then continue. Swap the child with the given index with the child just above it, calling the child moved interface and call the notify modified method.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2075,7 +2067,7 @@ An external link to the context menu of this class is provided. This class also 
                   <name>moveDown</name>
                   <description>Moves the child block with the given index down the list by one where the very top of the list is index 0. If the given index is already at the bottom of the list or out of range then this does nothing.</description>
                   <type>void</type>
-                  <operation>If the given index is not at the bottom of the list and is within range then continue. Swap the child with the given index with the child just below it, calling the child moved interface and emitting the modified signal.</operation>
+                  <operation>If the given index is not at the bottom of the list and is within range then continue. Swap the child with the given index with the child just below it, calling the child moved interface and call the notify modified method.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2091,7 +2083,7 @@ An external link to the context menu of this class is provided. This class also 
                   <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
                   <type>void</type>
                   <operation>If the given child pointer is null or its type is not contained in this blocks build list then throw an exception.</operation>
-                  <operation>Insert the new block into this block's list of children at the given index, releasing it from its smart pointer and setting this block as its parent. Call the child added interface and emit the modified signal.</operation>
+                  <operation>Insert the new block into this block's list of children at the given index, releasing it from its smart pointer and setting this block as its parent. Call the child added interface and call the notify modified method.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2115,7 +2107,7 @@ An external link to the context menu of this class is provided. This class also 
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <return_description>Pointer to child that was taken from this block.</return_description>
                   <operation>If the given index is out of range then throw an exception.</operation>
-                  <operation>Remove the child at the given index from this block's list of children saving its pointer to the smart pointer _ret_. Call the child removed interface and emit the modified signal.</operation>
+                  <operation>Remove the child at the given index from this block's list of children saving its pointer to the smart pointer _ret_. Call the child removed interface and call the notify modified method.</operation>
                   <operation>Return _ret_.</operation>
                </data>
                <variable type="1">
@@ -2132,7 +2124,7 @@ An external link to the context menu of this class is provided. This class also 
                   <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
                   <type>void</type>
                   <operation>If the given index is out of range then throw an exception.</operation>
-                  <operation>Take the pointer to the child at the given index from this block's list of children, storing it in a smart pointer that will delete the orphaned child once out of scope. Call the child removed interface and emit the modified signal.</operation>
+                  <operation>Take the pointer to the child at the given index from this block's list of children, storing it in a smart pointer that will delete the orphaned child once out of scope. Call the child removed interface and call the notify modified method.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2185,20 +2177,33 @@ An external link to the context menu of this class is provided. This class also 
             <signal type="8">
                <data version="1">
                   <name>modified</name>
-                  <description>Signals that this block has been modified and should set the project as modified.</description>
+                  <description>Signals that a child block of this block has been modified. The given child block could be any depth below this block. Only the root block emits this signal.</description>
                   <type></type>
                </data>
             </signal>
             <signal type="8">
                <data version="1">
-                  <name>nameChanged</name>
-                  <description>Signals that a child with the given pointer has changed its name. This child could be any depth below this block.</description>
+                  <name>nameModified</name>
+                  <description>Signals that a child block of this block with the given pointer has modified its name. The given child block could be any depth below this block. Only the root block emits this signal.</description>
                   <type></type>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>child</name>
                      <description>Pointer of the child whose name has changed.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
+            </signal>
+            <signal type="8">
+               <data version="1">
+                  <name>bodyModified</name>
+                  <description>Signals that a child block of this block with the given pointer has modified its body. The given child block could be any depth below this block. Only the root block emits this signal.</description>
+                  <type></type>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>child</name>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -2354,6 +2359,32 @@ An external link to the context menu of this class is provided. This class also 
             </function>
             <function type="2">
                <data version="1">
+                  <name>notifyModified</name>
+                  <description>Notifies this block has been modified by finding its root block and emitting its modified signal.</description>
+                  <type>void</type>
+                  <operation>Find the root block of this block and emit its modified signal.</operation>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>notifyNameModified</name>
+                  <description>Notifies this block's name has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no name.</description>
+                  <type>void</type>
+                  <operation>Create a pointer _root_ to the parent of this block. If the returned pointer is null then throw an exception, else call the _root_ child name modified interface.</operation>
+                  <operation>Find the root block of _root_ and emit its name modified signal with this block's pointer.</operation>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>notifyBodyModified</name>
+                  <description>Notifies this block's body has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no body.</description>
+                  <type>void</type>
+                  <operation>Create a pointer _root_ to the parent of this block. If the returned pointer is null then throw an exception.</operation>
+                  <operation>Find the root block of _root_ and emit its body modified signal with this block's pointer.</operation>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
                   <name>makeElement</name>
                   <description>Makes a new XML element with the given tag name and text value enclosed within the new element.</description>
                   <static/>
@@ -2383,40 +2414,6 @@ An external link to the context menu of this class is provided. This class also 
                   </data>
                </variable>
             </function>
-            <function type="2">
-               <data version="1">
-                  <name>notifyOfNameChange</name>
-                  <description>Notifies this block that its name has changed and the block system is notified.</description>
-                  <type>void</type>
-               </data>
-            </function>
-         </access>
-         <access type="5">
-            <data version="1">
-               <type>private slots:</type>
-            </data>
-            <slot type="7">
-               <data version="1">
-                  <name>childModified</name>
-                  <description>Called when a child below this block has been modified.</description>
-                  <type></type>
-               </data>
-            </slot>
-            <slot type="7">
-               <data version="1">
-                  <name>childNameModified</name>
-                  <description>Called when a child below this block has modified its name.</description>
-                  <type></type>
-                  <operation>Call the child name changed interface and emit the name changed signal.</operation>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>child</name>
-                     <description>Pointer to child block whose name has been modified.</description>
-                     <type>AbstractBlock*</type>
-                  </data>
-               </variable>
-            </slot>
          </access>
          <access type="5">
             <data version="1">
@@ -2440,10 +2437,8 @@ An external link to the context menu of this class is provided. This class also 
             <function type="2">
                <data version="1">
                   <name>setParent</name>
-                  <description>Sets this block's parent to the given block, adding it to its new parent's list with the given index. If the index is less than 1 it is prepended, else if it is greater than the size of the list it is appended. This will remove and disconnect any previous parent this block may have had. The new parent can be a null pointer which means this block will have no parent.</description>
+                  <description>Sets this block's parent to the given block, adding it to its new parent's list with the given index. If the index is less than 1 it is prepended, else if it is greater than the size of the list it is appended. This will remove any previous parent this block may have had. The new parent can be a null pointer which means this block will have no parent.</description>
                   <type>void</type>
-                  <operation>If a previous parent exists then remove this block from its list of children and disconnect any signal/slot connections they share.</operation>
-                  <operation>Set this block's parent to the new parent given. If the new parent is not null then insert this block into the new parent's list with the given index and connect the appropriate signals between the two of them.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -3268,12 +3263,32 @@ An external link to the context menu of this class is provided. This class also 
             <data version="1">
                <type>public:</type>
             </data>
+            <enumeration type="11">
+               <data version="1">
+                  <name>Role</name>
+                  <description>Defines custom data roles this model uses for data changed signals.</description>
+               </data>
+               <enumval type="12">
+                  <data version="1">
+                     <name>Name</name>
+                     <description>Defines the name role which encompasses the title and icon of a block changing.</description>
+                     <value>100</value>
+                  </data>
+               </enumval>
+               <enumval type="12">
+                  <data version="1">
+                     <name>Body</name>
+                     <description>Defines the body role which encompasses the body of a block changing.</description>
+                     <value>101</value>
+                  </data>
+               </enumval>
+            </enumeration>
             <constructor type="9">
                <data version="1">
                   <description>This constructs a new block model with the given root block and parent. Both the root block and parent can be given as null. A null root block means this model is empty.</description>
                   <type></type>
                   <explicit/>
-                  <operation>If the root given is not null then get the block type's block factory and connect the name changed signal with the new root block.</operation>
+                  <operation>If the root given is not null then get the block type's block factory and connect the root block signals to this new block model.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -3559,7 +3574,7 @@ An external link to the context menu of this class is provided. This class also 
                   <type>void</type>
                   <operation>Signal to the model that the beginning of a reset is happening.</operation>
                   <operation>If this model already has a root block pointer then disconnect all qt signals between this model and that root block.</operation>
-                  <operation>Set this model's root block to the new pointer given and this model's block factory pointer to null. If the given new pointer is not null then set this model's block factory pointer to this block type's block factory and connect the name changed signal.</operation>
+                  <operation>Set this model's root block to the new pointer given and this model's block factory pointer to null. If the given new pointer is not null then set this model's block factory pointer to this block type's block factory and connect the root block signals to this object.</operation>
                   <operation>Signal to the model that the reset has finished.</operation>
                </data>
                <variable type="1">
@@ -3577,16 +3592,28 @@ An external link to the context menu of this class is provided. This class also 
             </data>
             <slot type="7">
                <data version="1">
-                  <name>blockNameChanged</name>
-                  <description>Called when a block contained within this model has changed its display name.</description>
+                  <name>blockNameModified</name>
+                  <description>Called when the root block contained within this model emits a name modified signal indicating a block with the given pointer within this model modified its name.</description>
                   <type></type>
-                  <operation>If the given block pointer has no parent then throw an exception.</operation>
-                  <operation>Determine the index for the given block pointer within this model and signal the model that the index's data has changed.</operation>
                </data>
                <variable type="1">
                   <data version="1">
                      <name>block</name>
-                     <description>Pointer to the block whose display name has changed.</description>
+                     <description>Pointer to the block whose name has changed.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
+            </slot>
+            <slot type="7">
+               <data version="1">
+                  <name>blockBodyModified</name>
+                  <description>Called when the root block contained within this model emits a body modified signal indicating a block with the given pointer within this model modified its body.</description>
+                  <type></type>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>block</name>
+                     <description>Pointer to the block whose body has changed.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -3596,6 +3623,29 @@ An external link to the context menu of this class is provided. This class also 
             <data version="1">
                <type>private:</type>
             </data>
+            <function type="2">
+               <data version="1">
+                  <name>notifyChange</name>
+                  <description>Determines the model index for the given block pointer and emits the data changed signal with that index and the given roles.</description>
+                  <type>void</type>
+                  <operation>If the given block pointer has no parent then throw an exception.</operation>
+                  <operation>Determine the index for the given block pointer within this model and emit the data changed signal with the found index and given roles.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>block</name>
+                     <description>Pointer to the block whose index is found and used to emit data changed.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>roles</name>
+                     <description>The data roles used when emitting data changed.</description>
+                     <type>const QVector&lt;int>&amp;</type>
+                  </data>
+               </variable>
+            </function>
             <variable type="1">
                <data version="1">
                   <name>_iconSize</name>

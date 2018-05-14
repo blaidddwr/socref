@@ -117,8 +117,8 @@ void Operator::setOperation(const QString& operation)
     if ( _operation != operation )
     {
        _operation = operation;
-       notifyOfNameChange();
-       emit modified();
+       notifyModified();
+       notifyNameModified();
     }
 }
 

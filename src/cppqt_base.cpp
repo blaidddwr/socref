@@ -57,7 +57,8 @@ void Base::setName(const QString& name)
    if ( _name != name )
    {
       _name = name;
-      notifyOfNameChange();
+      notifyModified();
+      notifyNameModified();
       emit modified();
    }
 }
@@ -82,7 +83,8 @@ void Base::setDescription(const QString& description)
    if ( _description != description )
    {
       _description = description;
-      emit modified();
+      notifyModified();
+      notifyBodyModified();
    }
 }
 

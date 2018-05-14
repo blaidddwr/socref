@@ -116,8 +116,8 @@ void EnumValue::clearValue()
    if ( _hasValue )
    {
       _hasValue = false;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
    }
 }
 
@@ -132,8 +132,8 @@ void EnumValue::setValue(int value)
    {
       _hasValue = true;
       _value = value;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
    }
 }
 

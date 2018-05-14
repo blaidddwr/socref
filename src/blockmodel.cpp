@@ -27,7 +27,7 @@ using namespace std;
  * Steps of Operation: 
  *
  * 1. If the root given is not null then get the block type's block factory and 
- *    connect the name changed signal with the new root block. 
+ *    connect the root block signals to this new block model. 
  */
 BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
    QAbstractItemModel(parent),
@@ -37,7 +37,8 @@ BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
    if ( _root )
    {
       _factory = &(_root->factory());
-      connect(_root,&AbstractBlock::nameChanged,this,&BlockModel::blockNameChanged);
+      connect(_root,&AbstractBlock::nameModified,this,&BlockModel::blockNameModified);
+      connect(_root,&AbstractBlock::bodyModified,this,&BlockModel::blockBodyModified);
    }
 }
 
@@ -491,7 +492,7 @@ const AbstractBlockFactory* BlockModel::factory() const
  * 3. Set this model's root block to the new pointer given and this model's block 
  *    factory pointer to null. If the given new pointer is not null then set this 
  *    model's block factory pointer to this block type's block factory and connect 
- *    the name changed signal. 
+ *    the root block signals to this object. 
  *
  * 4. Signal to the model that the reset has finished. 
  */
@@ -512,7 +513,8 @@ void BlockModel::setRoot(AbstractBlock* newRoot)
    if ( _root )
    {
       _factory = &(_root->factory());
-      connect(_root,&AbstractBlock::nameChanged,this,&BlockModel::blockNameChanged);
+      connect(_root,&AbstractBlock::nameModified,this,&BlockModel::blockNameModified);
+      connect(_root,&AbstractBlock::bodyModified,this,&BlockModel::blockBodyModified);
    }
 
    // 4
@@ -525,19 +527,57 @@ void BlockModel::setRoot(AbstractBlock* newRoot)
 
 
 /*!
- * Called when a block contained within this model has changed its display name. 
+ * Called when the root block contained within this model emits a name modified 
+ * signal indicating a block with the given pointer within this model modified its 
+ * name. 
  *
- * @param block Pointer to the block whose display name has changed. 
+ * @param block Pointer to the block whose name has changed. 
+ */
+void BlockModel::blockNameModified(AbstractBlock* block)
+{
+   notifyChange(block,{Qt::DisplayRole,Qt::DecorationRole,Name});
+}
+
+
+
+
+
+
+/*!
+ * Called when the root block contained within this model emits a body modified 
+ * signal indicating a block with the given pointer within this model modified its 
+ * body. 
+ *
+ * @param block Pointer to the block whose body has changed. 
+ */
+void BlockModel::blockBodyModified(AbstractBlock* block)
+{
+   notifyChange(block,{Body});
+}
+
+
+
+
+
+
+/*!
+ * Determines the model index for the given block pointer and emits the data 
+ * changed signal with that index and the given roles. 
+ *
+ * @param block Pointer to the block whose index is found and used to emit data 
+ *              changed. 
+ *
+ * @param roles The data roles used when emitting data changed. 
  *
  *
  * Steps of Operation: 
  *
  * 1. If the given block pointer has no parent then throw an exception. 
  *
- * 2. Determine the index for the given block pointer within this model and signal 
- *    the model that the index's data has changed. 
+ * 2. Determine the index for the given block pointer within this model and emit 
+ *    the data changed signal with the found index and given roles. 
  */
-void BlockModel::blockNameChanged(AbstractBlock* block)
+void BlockModel::notifyChange(AbstractBlock* block, const QVector<int>& roles)
 {
    // 1
    if ( !block->parent() )
@@ -550,5 +590,5 @@ void BlockModel::blockNameChanged(AbstractBlock* block)
 
    // 2
    QModelIndex index = createIndex(block->parent()->indexOf(block),0,block);
-   emit dataChanged(index,index);
+   emit dataChanged(index,index,roles);
 }

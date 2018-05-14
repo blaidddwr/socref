@@ -51,10 +51,7 @@ namespace CppQt
       void setOperations(const QStringList& operations);
       QList<Variable*> arguments() const;
       QList<Template*> templates() const;
-   signals:
-      void bodyChanged();
    protected slots:
-      virtual void childNameChanged(AbstractBlock* child) override final;
       virtual void childAdded(AbstractBlock* child) override final;
       virtual void childRemoved(AbstractBlock* child) override final;
    protected:

@@ -36,22 +36,18 @@ AbstractEdit::AbstractEdit(QWidget* parent):
  * Constructs and initializes the GUI for this abstract edit dialog, making it 
  * ready to be used as a GUI dialog window. 
  *
- * @param view  
- *
  *
  * Steps of Operation: 
  *
- * 1. Set this object's block view to the one given, setup this object's buttons 
- *    saving the returned layout to _buttons_, and then create a new vertical box 
- *    layout _main_. 
+ * 1. Setup this object's buttons saving the returned layout to _buttons_ and then 
+ *    create a new vertical box layout _main_. 
  *
  * 2. Add the implementation's layout to _main_ by calling the layout interface, 
  *    then add the layout _buttons_, and then set this dialog's layout to _main_. 
  */
-void AbstractEdit::initialize(BlockView* view)
+void AbstractEdit::initialize()
 {
    // 1
-   _view = view;
    QLayout* buttons {setupButtons()};
    QVBoxLayout* main {new QVBoxLayout};
 
@@ -110,7 +106,7 @@ void AbstractEdit::okClicked()
  */
 void AbstractEdit::applyClicked()
 {
-   if ( tryApply() ) _view->updateView();
+   tryApply();
 }
 
 

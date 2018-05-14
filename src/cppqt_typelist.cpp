@@ -90,8 +90,8 @@ std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
 void TypeList::childNameChanged(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   notifyNameModified();
+   notifyBodyModified();
 }
 
 
@@ -102,8 +102,8 @@ void TypeList::childNameChanged(AbstractBlock* child)
 void TypeList::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   notifyNameModified();
+   notifyBodyModified();
 }
 
 
@@ -114,8 +114,8 @@ void TypeList::childAdded(AbstractBlock* child)
 void TypeList::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
+   notifyNameModified();
+   notifyBodyModified();
 }
 
 

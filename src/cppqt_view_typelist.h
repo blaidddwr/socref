@@ -17,9 +17,9 @@ namespace CppQt
          explicit TypeList(const CppQt::TypeList* block, QWidget* parent = nullptr);
       protected:
          QString displayText();
-      private slots:
-         void bodyChanged();
       private:
+         QString displayTypeLists();
+         QString displayTypes();
          const CppQt::TypeList* _block;
       };
    }
