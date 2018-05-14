@@ -15,17 +15,26 @@ namespace Gui
 {
    /*!
     * This represents a dialog for editing the data of a block. This class provides 
-    * partial construction of the dialog GUI, specifically providing OK/cancel/apply 
-    * buttons. An implementation of this class is responsible for handling any apply 
-    * action and constructing the rest of the GUI and returning its layout. Any 
-    * exception thrown when the apply interface is called this class catches and 
-    * reports to the user. The buttons this class provides are placed on the bottom of 
-    * the GUI and the layout an implementation returns is placed on the top. This is a 
-    * persistent dialog so implementations of this class can choose to have their 
-    * geometry saved by calling the save settings method from that class. The GUI of 
-    * this object is not constructed in this object's constructor since it relies on 
-    * an interface call as part of its construction process. Instead an initialization 
-    * method must be called before this object can be used as a dialog. 
+    * partial construction of the dialog GUI and handling the events associated with 
+    * what it creates. An implementation of this class is responsible for handling any 
+    * apply action and constructing the rest of the GUI. This is a persistent dialog. 
+    * The GUI of this object is not constructed in this object's constructor since it 
+    * relies on an interface call as part of its construction process. Instead an 
+    * initialization method must be called before this object can be used as a dialog. 
+    * 
+    * This class constructs OK, apply, and cancel buttons and handles their clicked 
+    * events. An interface for applying changes to the block being edited is provided 
+    * and an implementation must implement this interface. Any exceptions thrown 
+    * inside the apply interface are caught by this class and reported to the user, 
+    * not closing its dialog if the OK button was clicked. Because this is a 
+    * persistent dialog an implementation of this class must define its own unique key 
+    * using the save settings method of the persistent dialog class. 
+    * 
+    * An implementation of this class must also construct the form portion of this 
+    * dialog giving user access to the data of the block being edited. This is 
+    * accomplished through another interface that returns a layout of the form portion 
+    * that an implementation must implement. The form portion is positioned at the top 
+    * of the dialog while the buttons this class creates is at the bottom.  
     */
    class AbstractEdit : public PersistentDialog
    {

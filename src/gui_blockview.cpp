@@ -21,9 +21,12 @@ using namespace Gui;
 
 
 /*!
+ * The state key used by this object to save/restore qt settings of its state. 
  */
 const char* BlockView::_stateKey {"gui.blockview.state"};
 /*!
+ * Pointer to a copied block that any instance of this class can use to paste into 
+ * their current block model if possible. 
  */
 AbstractBlock* BlockView::_copy;
 
@@ -583,6 +586,19 @@ void BlockView::updateContextMenu()
 
 
 /*!
+ * Updates this object's list of actions, enabling or disabling the primary ones 
+ * and rebuilding the list of add actions based off the current index. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Update the add actions list based off this object's current index. 
+ *
+ * 2. Enable or disable this object's remove, edit, copy, cut, move up, and move 
+ *    down actions based off its current index being valid or not. 
+ *
+ * 3. Enable or disable the paste action based off the can paste method and the add 
+ *    menu based off if this object has a model or not. 
  */
 void BlockView::updateActions()
 {
@@ -609,6 +625,19 @@ void BlockView::updateActions()
 
 
 /*!
+ * Updates the add actions list of this object, clearing out the old list and 
+ * building it again based on this object's current index. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Delete all add actions on this object's list and clear it. If this object 
+ *    does not have a model then return. 
+ *
+ * 2. Iterate through the build list of the block this object's current index 
+ *    points to, adding a new action to the add actions list for adding it. Connect 
+ *    each new action to the add triggered slot using a lambda to remember the 
+ *    block type to be added if it is triggered. 
  */
 void BlockView::updateAddActions()
 {
@@ -631,11 +660,19 @@ void BlockView::updateAddActions()
 
 
 /*!
+ * Updates this object's title bar based on using the given block. 
  *
  * @param block  
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Clear this object's title icon and text labels, setting them to the icon and 
+ *    name of the given block. 
  */
 void BlockView::updateTitle(AbstractBlock* block)
 {
+   // 1
    _titleIcon->clear();
    _titleText->clear();
    _titleIcon->setPixmap(block->icon().pixmap(_titleIconSize,_titleIconSize));
@@ -648,9 +685,17 @@ void BlockView::updateTitle(AbstractBlock* block)
 
 
 /*!
+ * Restores this object's Qt splitter state using Qt settings. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a qt settings object and restore the state of this object's qt 
+ *    splitter using this class's key. 
  */
 void BlockView::restoreSettings()
 {
+   // 1
    QSettings settings(Application::_companyKey,Application::_programKey);
    restoreState(settings.value(_stateKey).toByteArray());
 }
@@ -661,9 +706,17 @@ void BlockView::restoreSettings()
 
 
 /*!
+ * Saves this object's Qt splitter state using Qt settings. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a qt settings object and save the state of this object's qt splitter 
+ *    using this class's key. 
  */
 void BlockView::saveSettings()
 {
+   // 1
    QSettings settings(Application::_companyKey,Application::_programKey);
    settings.setValue(_stateKey,saveState());
 }
@@ -674,9 +727,17 @@ void BlockView::saveSettings()
 
 
 /*!
+ * Constructs and initializes all GUI elements for this widget. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Construct and setup the tree view, area, actions, and menu for this new 
+ *    widget. 
  */
 void BlockView::setupGui()
 {
+   // 1
    setupTreeView();
    setupArea();
    setupActions();
@@ -689,12 +750,26 @@ void BlockView::setupGui()
 
 
 /*!
+ * Constructs and initializes the tree view of this new widget, adding it to this 
+ * qt splitter. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a new tree view for this object, setting its header to be hidden and 
+ *    its context menu policy to request for a custom menu. 
+ *
+ * 2. Connect this object's new tree view custom context menu requested signal to 
+ *    this object and add the tree view to this qt splitter. 
  */
 void BlockView::setupTreeView()
 {
+   // 1
    _treeView = new QTreeView;
    _treeView->setHeaderHidden(true);
    _treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+
+   // 2
    connect(_treeView,&QTreeView::customContextMenuRequested,this,&BlockView::contextMenuRequested);
    addWidget(_treeView);
 }
@@ -705,15 +780,34 @@ void BlockView::setupTreeView()
 
 
 /*!
+ * Constructs and initializes the title and detailed view area of this new widget, 
+ * adding it to the qt splitter. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a new scroll area for this object, setting it to be widget resizable. 
+ *
+ * 2. Create a new layout _layout_. Add this object's new title bar by calling the 
+ *    setup title bar method, spacing, and then this object's new scroll area to 
+ *    _layout_. 
+ *
+ * 3. Add _layout_ to this qt splitter by first adding it to a plain widget because 
+ *    qt splitter does not support adding layouts. 
  */
 void BlockView::setupArea()
 {
-   QVBoxLayout* layout {new QVBoxLayout};
+   // 1
    _area = new QScrollArea;
    _area->setWidgetResizable(true);
+
+   // 2
+   QVBoxLayout* layout {new QVBoxLayout};
    layout->addLayout(setupTitleBar());
    layout->addSpacing(8);
    layout->addWidget(_area);
+
+   // 3
    QWidget* widget {new QWidget};
    widget->setLayout(layout);
    addWidget(widget);
@@ -725,19 +819,39 @@ void BlockView::setupArea()
 
 
 /*!
+ * Constructs and initializes a new title bar for this new widget, returning a 
+ * layout of the new title bar. 
+ *
+ * @return Pointer to layout of the new title bar. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create new labels for this object's title icon and text. Set the font for the 
+ *    title text to be bold and the format to be plain text. 
+ *
+ * 2. Create a new horizontal layout _ret_, adding this object's new title bar, 
+ *    then title text, and then a stretch. 
+ *
+ * 3. Return _ret_. 
  */
 QLayout* BlockView::setupTitleBar()
 {
-   QHBoxLayout* ret {new QHBoxLayout};
+   // 1
    _titleIcon = new QLabel;
    _titleText = new QLabel;
    QFont font;
    font.setBold(true);
    _titleText->setFont(font);
    _titleText->setTextFormat(Qt::PlainText);
+
+   // 2
+   QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_titleIcon);
    ret->addWidget(_titleText);
    ret->addStretch();
+
+   // 3
    return ret;
 }
 
@@ -747,39 +861,72 @@ QLayout* BlockView::setupTitleBar()
 
 
 /*!
+ * Constructs and initializes all add actions for this new widget object's context 
+ * menu, excluding the add actions because they are rebuilt dynamically. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a new action for this object's remove action, connecting its triggered 
+ *    signal. 
+ *
+ * 2. Create a new action for this object's edit action, connecting its triggered 
+ *    signal. 
+ *
+ * 3. Create a new action for this object's cut action, connecting its triggered 
+ *    signal. 
+ *
+ * 4. Create a new action for this object's copy action, connecting its triggered 
+ *    signal. 
+ *
+ * 5. Create a new action for this object's paste action, connecting its triggered 
+ *    signal. 
+ *
+ * 6. Create a new action for this object's move up action, connecting its 
+ *    triggered signal. 
+ *
+ * 7. Create a new action for this object's move down action, connecting its 
+ *    triggered signal. 
  */
 void BlockView::setupActions()
 {
+   // 1
    _removeAction = new QAction(tr("&Remove"),this);
    _removeAction->setStatusTip(tr("Remove a block."));
    _removeAction->setShortcut(Qt::CTRL + Qt::Key_Delete);
    connect(_removeAction,&QAction::triggered,this,&BlockView::removeTriggered);
 
+   // 2
    _editAction = new QAction(tr("&Edit"),this);
    _editAction->setStatusTip(tr("Edit currently selected block."));
    _editAction->setShortcut(Qt::CTRL + Qt::Key_E);
    connect(_editAction,&QAction::triggered,this,&BlockView::editTriggered);
 
+   // 3
    _cutAction = new QAction(tr("&Cut"),this);
    _cutAction->setStatusTip(tr("Cut currently selected block."));
    _cutAction->setShortcut(Qt::CTRL + Qt::Key_X);
    connect(_cutAction,&QAction::triggered,this,&BlockView::cutTriggered);
 
+   // 4
    _copyAction = new QAction(tr("C&opy"),this);
    _copyAction->setStatusTip(tr("Copy currently selected block."));
    _copyAction->setShortcut(Qt::CTRL + Qt::Key_C);
    connect(_copyAction,&QAction::triggered,this,&BlockView::copyTriggered);
 
+   // 5
    _pasteAction = new QAction(tr("&Paste"),this);
    _pasteAction->setStatusTip(tr("Paste block into selected block as child."));
    _pasteAction->setShortcut(Qt::CTRL + Qt::Key_V);
    connect(_pasteAction,&QAction::triggered,this,&BlockView::pasteTriggered);
 
+   // 6
    _moveUpAction = new QAction(tr("Move &Up"),this);
    _moveUpAction->setStatusTip(tr("Move currently selected block up by one."));
    _moveUpAction->setShortcut(Qt::CTRL + Qt::Key_Up);
    connect(_moveUpAction,&QAction::triggered,this,&BlockView::moveUpTriggered);
 
+   // 7
    _moveDownAction = new QAction(tr("Move &Down"),this);
    _moveDownAction->setStatusTip(tr("Move currently selected block down by one."));
    _moveDownAction->setShortcut(Qt::CTRL + Qt::Key_Down);
@@ -792,11 +939,25 @@ void BlockView::setupActions()
 
 
 /*!
+ * Constructs and initializes the context menu for this new widget, excluding the 
+ * add menu because it is rebuilt dynamically. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a new menu for this object's context menu and then add another new 
+ *    menu for this object's add menu to the new context menu. 
+ *
+ * 2. Add the remove, edit, cut, copy, paste, move up, and move down actions to the 
+ *    new context menu. 
  */
 void BlockView::setupMenu()
 {
+   // 1
    _contextMenu = new QMenu(tr("&Edit"),this);
    _addMenu = _contextMenu->addMenu(tr("&Add"));
+
+   // 2
    _contextMenu->addAction(_removeAction);
    _contextMenu->addAction(_editAction);
    _contextMenu->addAction(_cutAction);

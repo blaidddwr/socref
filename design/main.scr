@@ -448,9 +448,7 @@
          <class type="4">
             <data version="1">
                <name>BlockView</name>
-               <description>This is the primary view for an open project's block model. This class provides a tree view for the entire block model, a title, a detailed view of the currently selected block, and different actions to edit the underlying block model. Actions provided to the user through a context menu are add, remove, edit, cut, copy, paste, move up, and move down a block. These actions are updated depending on the current block selected.
-
-An external link to the context menu of this class is provided. This class also provides a mechanism to force it to update its current block view externally. The block model given to this class does not take ownership of it and is not responsible for its deletion.</description>
+               <description>This is the primary view for an open project's block model. This class provides a tree view for the entire block model, a title, a detailed view of the currently selected block, and different actions to edit the underlying block model. Actions provided to the user through a context menu are add, remove, edit, cut, copy, paste, move up, and move down a block. These actions are updated depending on the current block selected. An external link to the context menu of this class is provided. The block model given to this class does not take ownership of it and is not responsible for its deletion.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -715,19 +713,28 @@ An external link to the context menu of this class is provided. This class also 
                <function type="2">
                   <data version="1">
                      <name>updateActions</name>
+                     <description>Updates this object's list of actions, enabling or disabling the primary ones and rebuilding the list of add actions based off the current index.</description>
                      <type>void</type>
+                     <operation>Update the add actions list based off this object's current index.</operation>
+                     <operation>Enable or disable this object's remove, edit, copy, cut, move up, and move down actions based off its current index being valid or not.</operation>
+                     <operation>Enable or disable the paste action based off the can paste method and the add menu based off if this object has a model or not.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>updateAddActions</name>
+                     <description>Updates the add actions list of this object, clearing out the old list and building it again based on this object's current index.</description>
                      <type>void</type>
+                     <operation>Delete all add actions on this object's list and clear it. If this object does not have a model then return.</operation>
+                     <operation>Iterate through the build list of the block this object's current index points to, adding a new action to the add actions list for adding it. Connect each new action to the add triggered slot using a lambda to remember the block type to be added if it is triggered.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>updateTitle</name>
+                     <description>Updates this object's title bar based on using the given block.</description>
                      <type>void</type>
+                     <operation>Clear this object's title icon and text labels, setting them to the icon and name of the given block.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -739,54 +746,84 @@ An external link to the context menu of this class is provided. This class also 
                <function type="2">
                   <data version="1">
                      <name>restoreSettings</name>
+                     <description>Restores this object's Qt splitter state using Qt settings.</description>
                      <type>void</type>
+                     <operation>Create a qt settings object and restore the state of this object's qt splitter using this class's key.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>saveSettings</name>
+                     <description>Saves this object's Qt splitter state using Qt settings.</description>
                      <type>void</type>
+                     <operation>Create a qt settings object and save the state of this object's qt splitter using this class's key.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupGui</name>
+                     <description>Constructs and initializes all GUI elements for this widget.</description>
                      <type>void</type>
+                     <operation>Construct and setup the tree view, area, actions, and menu for this new widget.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupTreeView</name>
+                     <description>Constructs and initializes the tree view of this new widget, adding it to this qt splitter.</description>
                      <type>void</type>
+                     <operation>Create a new tree view for this object, setting its header to be hidden and its context menu policy to request for a custom menu.</operation>
+                     <operation>Connect this object's new tree view custom context menu requested signal to this object and add the tree view to this qt splitter.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupArea</name>
+                     <description>Constructs and initializes the title and detailed view area of this new widget, adding it to the qt splitter.</description>
                      <type>void</type>
+                     <operation>Create a new scroll area for this object, setting it to be widget resizable.</operation>
+                     <operation>Create a new layout _layout_. Add this object's new title bar by calling the setup title bar method, spacing, and then this object's new scroll area to _layout_.</operation>
+                     <operation>Add _layout_ to this qt splitter by first adding it to a plain widget because qt splitter does not support adding layouts.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupTitleBar</name>
+                     <description>Constructs and initializes a new title bar for this new widget, returning a layout of the new title bar.</description>
                      <type>QLayout*</type>
+                     <return_description>Pointer to layout of the new title bar.</return_description>
+                     <operation>Create new labels for this object's title icon and text. Set the font for the title text to be bold and the format to be plain text.</operation>
+                     <operation>Create a new horizontal layout _ret_, adding this object's new title bar, then title text, and then a stretch.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupActions</name>
+                     <description>Constructs and initializes all add actions for this new widget object's context menu, excluding the add actions because they are rebuilt dynamically.</description>
                      <type>void</type>
+                     <operation>Create a new action for this object's remove action, connecting its triggered signal.</operation>
+                     <operation>Create a new action for this object's edit action, connecting its triggered signal.</operation>
+                     <operation>Create a new action for this object's cut action, connecting its triggered signal.</operation>
+                     <operation>Create a new action for this object's copy action, connecting its triggered signal.</operation>
+                     <operation>Create a new action for this object's paste action, connecting its triggered signal.</operation>
+                     <operation>Create a new action for this object's move up action, connecting its triggered signal.</operation>
+                     <operation>Create a new action for this object's move down action, connecting its triggered signal.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupMenu</name>
+                     <description>Constructs and initializes the context menu for this new widget, excluding the add menu because it is rebuilt dynamically.</description>
                      <type>void</type>
+                     <operation>Create a new menu for this object's context menu and then add another new menu for this object's add menu to the new context menu.</operation>
+                     <operation>Add the remove, edit, cut, copy, paste, move up, and move down actions to the new context menu.</operation>
                   </data>
                </function>
                <variable type="1">
                   <data version="1">
                      <name>_titleIconSize</name>
+                     <description>The width and height of icons, in pixels, presented in this object's tree view of blocks.</description>
                      <constexpr/>
                      <static/>
                      <type>int</type>
@@ -796,6 +833,7 @@ An external link to the context menu of this class is provided. This class also 
                <variable type="1">
                   <data version="1">
                      <name>_stateKey</name>
+                     <description>The state key used by this object to save/restore qt settings of its state.</description>
                      <static/>
                      <type>const char*</type>
                      <initializer>"gui.blockview.state"</initializer>
@@ -804,18 +842,21 @@ An external link to the context menu of this class is provided. This class also 
                <variable type="1">
                   <data version="1">
                      <name>_area</name>
+                     <description>Pointer to this object's scroll area used to contain its detailed view widget.</description>
                      <type>QScrollArea*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_treeView</name>
+                     <description>Pointer to this object's tree view that displays the full list of its current block model.</description>
                      <type>QTreeView*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_model</name>
+                     <description>Pointer to this object's current block model.</description>
                      <type>BlockModel*</type>
                      <initializer>nullptr</initializer>
                   </data>
@@ -823,6 +864,7 @@ An external link to the context menu of this class is provided. This class also 
                <variable type="1">
                   <data version="1">
                      <name>_factory</name>
+                     <description>Pointer to the abstract block factory for the project type of this object's currently set block model.</description>
                      <type>const AbstractBlockFactory*</type>
                      <initializer>nullptr</initializer>
                   </data>
@@ -830,6 +872,7 @@ An external link to the context menu of this class is provided. This class also 
                <variable type="1">
                   <data version="1">
                      <name>_selectionModel</name>
+                     <description>Pointer the selection model of this object's tree view.</description>
                      <type>QItemSelectionModel*</type>
                      <initializer>nullptr</initializer>
                   </data>
@@ -837,12 +880,14 @@ An external link to the context menu of this class is provided. This class also 
                <variable type="1">
                   <data version="1">
                      <name>_current</name>
+                     <description>The currently selected model index of this object.</description>
                      <type>QModelIndex</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_copy</name>
+                     <description>Pointer to a copied block that any instance of this class can use to paste into their current block model if possible.</description>
                      <static/>
                      <type>AbstractBlock*</type>
                   </data>
@@ -850,6 +895,7 @@ An external link to the context menu of this class is provided. This class also 
                <variable type="1">
                   <data version="1">
                      <name>_view</name>
+                     <description>Pointer to this object's current detailed view widget, if any.</description>
                      <type>QWidget*</type>
                      <initializer>nullptr</initializer>
                   </data>
@@ -857,72 +903,84 @@ An external link to the context menu of this class is provided. This class also 
                <variable type="1">
                   <data version="1">
                      <name>_addActions</name>
+                     <description>Pointer list of this object's currently available add actions used for adding new blocks to the current index.</description>
                      <type>QList&lt;QAction*></type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_removeAction</name>
+                     <description>Pointer to this object's remove action.</description>
                      <type>QAction*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_editAction</name>
+                     <description>Pointer to this object's edit action.</description>
                      <type>QAction*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_cutAction</name>
+                     <description>Pointer to this object's cut action.</description>
                      <type>QAction*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_copyAction</name>
+                     <description>Pointer to this object's copy action.</description>
                      <type>QAction*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_pasteAction</name>
+                     <description>Pointer to this object's paste action.</description>
                      <type>QAction*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_moveUpAction</name>
+                     <description>Pointer to this object's move up action.</description>
                      <type>QAction*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_moveDownAction</name>
+                     <description>Pointer to this object's move down action.</description>
                      <type>QAction*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_addMenu</name>
+                     <description>Pointer to this object's add menu used as a sub menu within the context menu for listing add actions.</description>
                      <type>QMenu*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_contextMenu</name>
+                     <description>Pointer to this object's context menu.</description>
                      <type>QMenu*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_titleIcon</name>
+                     <description>Pointer to this object's title icon label used as part of the title bar above the detailed view.</description>
                      <type>QLabel*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_titleText</name>
+                     <description>Pointer to this object's title text label used as part of the title bar above the detailed view.</description>
                      <type>QLabel*</type>
                   </data>
                </variable>
@@ -931,7 +989,12 @@ An external link to the context menu of this class is provided. This class also 
          <class type="4">
             <data version="1">
                <name>AbstractEdit</name>
-               <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI, specifically providing OK/cancel/apply buttons. An implementation of this class is responsible for handling any apply action and constructing the rest of the GUI and returning its layout. Any exception thrown when the apply interface is called this class catches and reports to the user. The buttons this class provides are placed on the bottom of the GUI and the layout an implementation returns is placed on the top. This is a persistent dialog so implementations of this class can choose to have their geometry saved by calling the save settings method from that class. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog.</description>
+               <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI and handling the events associated with what it creates. An implementation of this class is responsible for handling any apply action and constructing the rest of the GUI. This is a persistent dialog. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog.
+
+This class constructs OK, apply, and cancel buttons and handles their clicked events. An interface for applying changes to the block being edited is provided and an implementation must implement this interface. Any exceptions thrown inside the apply interface are caught by this class and reported to the user, not closing its dialog if the OK button was clicked. Because this is a persistent dialog an implementation of this class must define its own unique key using the save settings method of the persistent dialog class.
+
+An implementation of this class must also construct the form portion of this dialog giving user access to the data of the block being edited. This is accomplished through another interface that returns a layout of the form portion that an implementation must implement. The form portion is positioned at the top of the dialog while the buttons this class creates is at the bottom.
+</description>
                <qtobject/>
             </data>
             <parent type="13">
