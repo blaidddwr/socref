@@ -120,11 +120,6 @@ signals:
     * @param child  
     */
    void bodyModified(AbstractBlock* child);
-protected slots:
-   virtual void childNameChanged(AbstractBlock* child);
-   virtual void childAdded(AbstractBlock* child);
-   virtual void childRemoved(AbstractBlock* child);
-   virtual void childMoved(AbstractBlock* child);
 protected:
    /*!
     * This interface reads in the data for this block from the given XML element and 
@@ -166,6 +161,10 @@ protected:
     * @param other The other block whose data will be copied. 
     */
    virtual void copyDataFrom(const AbstractBlock* other) = 0;
+   virtual bool childNameModified(AbstractBlock* child);
+   virtual bool childAdded(AbstractBlock* child);
+   virtual bool childRemoved(AbstractBlock* child);
+   virtual bool childMoved(AbstractBlock* child);
    void notifyModified();
    void notifyNameModified();
    void notifyBodyModified();

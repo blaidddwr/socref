@@ -59,7 +59,6 @@ void Base::setName(const QString& name)
       _name = name;
       notifyModified();
       notifyNameModified();
-      emit modified();
    }
 }
 

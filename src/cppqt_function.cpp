@@ -558,30 +558,6 @@ QList<Template*> Function::templates() const
 
 
 
-void Function::childAdded(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyNameModified();
-   notifyBodyModified();
-}
-
-
-
-
-
-
-void Function::childRemoved(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyNameModified();
-   notifyBodyModified();
-}
-
-
-
-
-
-
 void Function::readData(const QDomElement& data, int version)
 {
    Variable::readData(data,version);
@@ -678,6 +654,32 @@ void Function::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+bool Function::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return false;
+}
+
+
+
+
+
+
+bool Function::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return false;
 }
 
 

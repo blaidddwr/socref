@@ -16,12 +16,11 @@ Access::Access(const CppQt::Access* block, QWidget* parent):
    QLabel(parent),
    _block(block)
 {
-   connect(_block,&CppQt::Access::bodyChanged,this,&Access::bodyChanged);
    setAlignment(Qt::AlignTop);
    setWordWrap(true);
    setTextFormat(Qt::RichText);
    setMargin(8);
-   bodyChanged();
+   setText(displayText());
 }
 
 
@@ -29,7 +28,7 @@ Access::Access(const CppQt::Access* block, QWidget* parent):
 
 
 
-void Access::bodyChanged()
+QString Access::displayText()
 {
    int functions {0};
    int variables {0};
@@ -53,10 +52,10 @@ void Access::bodyChanged()
          break;
       }
    }
-   QString text;
-   text.append(QString::number(functions)).append(" functions<br/>");
-   text.append(QString::number(variables)).append(" variables<br/>");
-   text.append(QString::number(signals_)).append(" signals<br/>");
-   text.append(QString::number(slots_)).append(" slots<br/>");
-   setText(text);
+   QString ret;
+   ret.append(QString::number(functions)).append(" functions<br/>");
+   ret.append(QString::number(variables)).append(" variables<br/>");
+   ret.append(QString::number(signals_)).append(" signals<br/>");
+   ret.append(QString::number(slots_)).append(" slots<br/>");
+   return ret;
 }

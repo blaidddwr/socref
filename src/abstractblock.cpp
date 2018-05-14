@@ -299,19 +299,24 @@ bool AbstractBlock::containsType(const QList<int>& types) const
  *
  * Steps of Operation: 
  *
- * 1. If the given index is not at the top of the list and is within range then 
- *    continue. Swap the child with the given index with the child just above it, 
- *    calling the child moved interface and call the notify modified method. 
+ * 1. If the given index is at the top of the list or is out of range then return, 
+ *    else swap the child with the given index with the child just above it and 
+ *    call the notify modified method. 
+ *
+ * 2. Starting with this block call its child moved interface and continue calling 
+ *    the next parent's child moved interface until the interface returns false or 
+ *    the root block is reached. 
  */
 void AbstractBlock::moveUp(int index)
 {
    // 1
-   if ( index > 0 && index < _children.size() )
-   {
-      std::swap(_children[index - 1],_children[index]);
-      childMoved(_children.at(index - 1));
-      notifyModified();
-   }
+   if ( index < 1 || index >= _children.size() ) return;
+   std::swap(_children[index - 1],_children[index]);
+   notifyModified();
+
+   // 2
+   AbstractBlock* notify {this};
+   while ( notify && notify->childMoved(_children.at(index - 1)) ) notify = notify->parent();
 }
 
 
@@ -329,19 +334,24 @@ void AbstractBlock::moveUp(int index)
  *
  * Steps of Operation: 
  *
- * 1. If the given index is not at the bottom of the list and is within range then 
- *    continue. Swap the child with the given index with the child just below it, 
- *    calling the child moved interface and call the notify modified method. 
+ * 1. If the given index is at the top of the list or is out of range then return, 
+ *    else swap the child with the given index with the child just below it and 
+ *    call the notify modified method. 
+ *
+ * 2. Starting with this block call its child moved interface and continue calling 
+ *    the next parent's child moved interface until the interface returns false or 
+ *    the root block is reached. 
  */
 void AbstractBlock::moveDown(int index)
 {
    // 1
-   if ( index >= 0 && index < (_children.size() - 1) )
-   {
-      std::swap(_children[index],_children[index + 1]);
-      childMoved(_children.at(index + 1));
-      notifyModified();
-   }
+   if ( index < 0 || index >= (_children.size() - 1) ) return;
+   std::swap(_children[index],_children[index + 1]);
+   notifyModified();
+
+   // 2
+   AbstractBlock* notify {this};
+   while ( notify && notify->childMoved(_children.at(index + 1)) ) notify = notify->parent();
 }
 
 
@@ -368,7 +378,11 @@ void AbstractBlock::moveDown(int index)
  *
  * 2. Insert the new block into this block's list of children at the given index, 
  *    releasing it from its smart pointer and setting this block as its parent. 
- *    Call the child added interface and call the notify modified method. 
+ *    Call the notify modified method. 
+ *
+ * 3. Starting with this block call its child added interface and continue calling 
+ *    the next parent's child added interface until the interface returns false or 
+ *    the root block is reached. 
  */
 void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
 {
@@ -391,10 +405,13 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
    }
 
    // 2
-   AbstractBlock* orphan {child.release()};
-   orphan->setParent(this,index);
-   childAdded(orphan);
+   AbstractBlock* adopted {child.release()};
+   adopted->setParent(this,index);
    notifyModified();
+
+   // 3
+   AbstractBlock* notify {this};
+   while ( notify && notify->childAdded(adopted) ) notify = notify->parent();
 }
 
 
@@ -420,7 +437,11 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
  *    its pointer to the smart pointer _ret_. Call the child removed interface and 
  *    call the notify modified method. 
  *
- * 3. Return _ret_. 
+ * 3. Starting with this block call its child removed interface with _ret_ and 
+ *    continue calling the next parent's child removed interface until the 
+ *    interface returns false or the root block is reached. 
+ *
+ * 4. Return _ret_. 
  */
 std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
 {
@@ -438,10 +459,13 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
    // 2
    unique_ptr<AbstractBlock> ret {_children.at(index)};
    ret->setParent(nullptr);
-   childRemoved(ret.get());
    notifyModified();
 
    // 3
+   AbstractBlock* notify {this};
+   while ( notify && notify->childRemoved(ret.get()) ) notify = notify->parent();
+
+   // 4
    return ret;
 }
 
@@ -455,34 +479,10 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
  * contain. If the given index is out of range then an exception is thrown. 
  *
  * @param index The index of the child that is removed and deleted. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given index is out of range then throw an exception. 
- *
- * 2. Take the pointer to the child at the given index from this block's list of 
- *    children, storing it in a smart pointer that will delete the orphaned child 
- *    once out of scope. Call the child removed interface and call the notify 
- *    modified method. 
  */
 void AbstractBlock::remove(int index)
 {
-   // 1
-   if ( index < 0 && index >= _children.size() )
-   {
-      Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot remove child %1 when only %2 children exist.")
-                   .arg(index)
-                   .arg(_children.size()));
-      throw e;
-   }
-
-   // 2
-   unique_ptr<AbstractBlock> dead {_children.takeAt(index)};
-   childRemoved(dead.get());
-   notifyModified();
+   take(index).reset();
 }
 
 
@@ -594,13 +594,19 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
 
 
 /*!
- * This interface is called whenever a child below this block has changed its name. 
+ * This interface is called whenever a child below this block has modified its name 
+ * and keeps calling this interface the next block parent until this returns false. 
+ * The default implementation does nothing and returns false. 
  *
- * @param child Pointer of the child whose name has changed. 
+ * @param child Pointer to the child block that has modified its name. 
+ *
+ * @return True if this interface should be called again on this blocks parent or 
+ *         false otherwise. 
  */
-void AbstractBlock::childNameChanged(AbstractBlock* child)
+bool AbstractBlock::childNameModified(AbstractBlock* child)
 {
    Q_UNUSED(child)
+   return false;
 }
 
 
@@ -609,14 +615,19 @@ void AbstractBlock::childNameChanged(AbstractBlock* child)
 
 
 /*!
- * This interface is called when a new block has been added to this block as a new 
- * child. 
+ * This interface is called whenever a new child below this block has been added 
+ * and keeps calling this interface on the next block parent until this returns 
+ * false. The default implementation does nothing and returns false. 
  *
- * @param child Pointer of the new child just added to this block. 
+ * @param child Pointer to the child block that been added to its new parent block. 
+ *
+ * @return True if this interface should be called again on this blocks parent or 
+ *         false otherwise. 
  */
-void AbstractBlock::childAdded(AbstractBlock* child)
+bool AbstractBlock::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
+   return false;
 }
 
 
@@ -625,14 +636,20 @@ void AbstractBlock::childAdded(AbstractBlock* child)
 
 
 /*!
- * This interface is called when a direct child of this block is removed. The 
- * removed child could possibly be deleted right after this call. 
+ * This interface is called whenever an existing child below this block has been 
+ * removed and keeps calling this interface on the next block parent until this 
+ * returns false. The default implementation does nothing and returns false. 
  *
- * @param child Pointer of child that has been removed from this block. 
+ * @param child Pointer to the child block that has been removed from its former 
+ *              parent block. This object can be deleted right after this call. 
+ *
+ * @return True if this interface should be called again on this blocks parent or 
+ *         false otherwise. 
  */
-void AbstractBlock::childRemoved(AbstractBlock* child)
+bool AbstractBlock::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
+   return false;
 }
 
 
@@ -641,14 +658,20 @@ void AbstractBlock::childRemoved(AbstractBlock* child)
 
 
 /*!
- * This interface is called when a direct child of this block has been moved up or 
- * down. 
+ * This interface is called whenever an existing child below this block has been 
+ * moved and keeps calling this interface on the next block parent until this 
+ * returns false. The default implementation does nothing and returns false. 
  *
- * @param child Pointer of child that has been moved up or down. 
+ * @param child Pointer to the child block that has been moved in its parent's list 
+ *              of children. 
+ *
+ * @return True if this interface should be called again on this blocks parent or 
+ *         false otherwise. 
  */
-void AbstractBlock::childMoved(AbstractBlock* child)
+bool AbstractBlock::childMoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
+   return false;
 }
 
 
@@ -687,10 +710,13 @@ void AbstractBlock::notifyModified()
  * Steps of Operation: 
  *
  * 1. Create a pointer _root_ to the parent of this block. If the returned pointer 
- *    is null then throw an exception, else call the _root_ child name modified 
- *    interface. 
+ *    is null then throw an exception. 
  *
- * 2. Find the root block of _root_ and emit its name modified signal with this 
+ * 2. Starting with _root_ call its child name modified interface and continue 
+ *    calling the next parent's child name modified interface until the interface 
+ *    returns false or the root block is reached. 
+ *
+ * 3. Find the root block of _root_ and emit its name modified signal with this 
  *    block's pointer. 
  */
 void AbstractBlock::notifyNameModified()
@@ -704,9 +730,12 @@ void AbstractBlock::notifyNameModified()
       e.setDetails(tr("Cannot notify a name change of the root block."));
       throw e;
    }
-   root->childNameChanged(this);
 
    // 2
+   AbstractBlock* notify {root};
+   while ( notify && notify->childNameModified(this) ) notify = notify->parent();
+
+   // 3
    while ( root->parent() ) root = root->parent();
    emit root->nameModified(this);
 }

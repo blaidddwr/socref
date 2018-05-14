@@ -148,7 +148,6 @@ void Class::setQtObject(bool isQtObject)
    {
       _qtObject = isQtObject;
       notifyModified();
-      notifyNameModified();
       notifyBodyModified();
    }
 }
@@ -255,48 +254,6 @@ QList<Parent*> Class::parents() const
 
 
 
-void Class::childNameChanged(AbstractBlock* child)
-{
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Parent*>(child) )
-   {
-      notifyNameModified();
-   }
-}
-
-
-
-
-
-
-void Class::childAdded(AbstractBlock* child)
-{
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Parent*>(child) )
-   {
-      notifyNameModified();
-   }
-}
-
-
-
-
-
-
-void Class::childRemoved(AbstractBlock* child)
-{
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Parent*>(child) )
-   {
-      notifyNameModified();
-   }
-}
-
-
-
-
-
-
 void Class::readData(const QDomElement& data, int version)
 {
    Namespace::readData(data,version);
@@ -369,6 +326,62 @@ void Class::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+bool Class::childNameModified(AbstractBlock* child)
+{
+   if ( qobject_cast<Template*>(child)
+        || qobject_cast<Function*>(child)
+        || qobject_cast<Parent*>(child) )
+   {
+      notifyNameModified();
+   }
+   return false;
+}
+
+
+
+
+
+
+bool Class::childAdded(AbstractBlock* child)
+{
+   if ( qobject_cast<Template*>(child)
+        || qobject_cast<Function*>(child)
+        || qobject_cast<Parent*>(child) )
+   {
+      notifyNameModified();
+   }
+   if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
+   {
+      connect(this,&Class::nameChanged,constructor,&Constructor::classNameChanged);
+   }
+   return false;
+}
+
+
+
+
+
+
+bool Class::childRemoved(AbstractBlock* child)
+{
+   if ( qobject_cast<Template*>(child)
+        || qobject_cast<Function*>(child)
+        || qobject_cast<Parent*>(child) )
+   {
+      notifyNameModified();
+   }
+   if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
+   {
+      disconnect(constructor);
+   }
+   return false;
 }
 
 

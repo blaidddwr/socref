@@ -2052,7 +2052,8 @@ An external link to the context menu of this class is provided. This class also 
                   <name>moveUp</name>
                   <description>Moves the child block with the given index up the list by one where the very top of the list is index 0. If the given index is already at the top of the list or out of range then this does nothing.</description>
                   <type>void</type>
-                  <operation>If the given index is not at the top of the list and is within range then continue. Swap the child with the given index with the child just above it, calling the child moved interface and call the notify modified method.</operation>
+                  <operation>If the given index is at the top of the list or is out of range then return, else swap the child with the given index with the child just above it and call the notify modified method.</operation>
+                  <operation>Starting with this block call its child moved interface and continue calling the next parent's child moved interface until the interface returns false or the root block is reached.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2067,7 +2068,8 @@ An external link to the context menu of this class is provided. This class also 
                   <name>moveDown</name>
                   <description>Moves the child block with the given index down the list by one where the very top of the list is index 0. If the given index is already at the bottom of the list or out of range then this does nothing.</description>
                   <type>void</type>
-                  <operation>If the given index is not at the bottom of the list and is within range then continue. Swap the child with the given index with the child just below it, calling the child moved interface and call the notify modified method.</operation>
+                  <operation>If the given index is at the top of the list or is out of range then return, else swap the child with the given index with the child just below it and call the notify modified method.</operation>
+                  <operation>Starting with this block call its child moved interface and continue calling the next parent's child moved interface until the interface returns false or the root block is reached.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2083,7 +2085,8 @@ An external link to the context menu of this class is provided. This class also 
                   <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
                   <type>void</type>
                   <operation>If the given child pointer is null or its type is not contained in this blocks build list then throw an exception.</operation>
-                  <operation>Insert the new block into this block's list of children at the given index, releasing it from its smart pointer and setting this block as its parent. Call the child added interface and call the notify modified method.</operation>
+                  <operation>Insert the new block into this block's list of children at the given index, releasing it from its smart pointer and setting this block as its parent. Call the notify modified method.</operation>
+                  <operation>Starting with this block call its child added interface and continue calling the next parent's child added interface until the interface returns false or the root block is reached.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2108,6 +2111,7 @@ An external link to the context menu of this class is provided. This class also 
                   <return_description>Pointer to child that was taken from this block.</return_description>
                   <operation>If the given index is out of range then throw an exception.</operation>
                   <operation>Remove the child at the given index from this block's list of children saving its pointer to the smart pointer _ret_. Call the child removed interface and call the notify modified method.</operation>
+                  <operation>Starting with this block call its child removed interface with _ret_ and continue calling the next parent's child removed interface until the interface returns false or the root block is reached.</operation>
                   <operation>Return _ret_.</operation>
                </data>
                <variable type="1">
@@ -2123,8 +2127,6 @@ An external link to the context menu of this class is provided. This class also 
                   <name>remove</name>
                   <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given index is out of range then throw an exception.</operation>
-                  <operation>Take the pointer to the child at the given index from this block's list of children, storing it in a smart pointer that will delete the orphaned child once out of scope. Call the child removed interface and call the notify modified method.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -2211,71 +2213,6 @@ An external link to the context menu of this class is provided. This class also 
          </access>
          <access type="5">
             <data version="1">
-               <type>protected slots:</type>
-            </data>
-            <slot type="7">
-               <data version="1">
-                  <name>childNameChanged</name>
-                  <description>This interface is called whenever a child below this block has changed its name.</description>
-                  <type></type>
-                  <virtual/>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>child</name>
-                     <description>Pointer of the child whose name has changed.</description>
-                     <type>AbstractBlock*</type>
-                  </data>
-               </variable>
-            </slot>
-            <slot type="7">
-               <data version="1">
-                  <name>childAdded</name>
-                  <description>This interface is called when a new block has been added to this block as a new child.</description>
-                  <type></type>
-                  <virtual/>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>child</name>
-                     <description>Pointer of the new child just added to this block.</description>
-                     <type>AbstractBlock*</type>
-                  </data>
-               </variable>
-            </slot>
-            <slot type="7">
-               <data version="1">
-                  <name>childRemoved</name>
-                  <description>This interface is called when a direct child of this block is removed. The removed child could possibly be deleted right after this call.</description>
-                  <type></type>
-                  <virtual/>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>child</name>
-                     <description>Pointer of child that has been removed from this block.</description>
-                     <type>AbstractBlock*</type>
-                  </data>
-               </variable>
-            </slot>
-            <slot type="7">
-               <data version="1">
-                  <name>childMoved</name>
-                  <description>This interface is called when a direct child of this block has been moved up or down.</description>
-                  <type></type>
-                  <virtual/>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>child</name>
-                     <description>Pointer of child that has been moved up or down.</description>
-                     <type>AbstractBlock*</type>
-                  </data>
-               </variable>
-            </slot>
-         </access>
-         <access type="5">
-            <data version="1">
                <type>protected:</type>
             </data>
             <function type="2">
@@ -2359,6 +2296,70 @@ An external link to the context menu of this class is provided. This class also 
             </function>
             <function type="2">
                <data version="1">
+                  <name>childNameModified</name>
+                  <description>This interface is called whenever a child below this block has modified its name and keeps calling this interface the next block parent until this returns false. The default implementation does nothing and returns false.</description>
+                  <type>bool</type>
+                  <virtual/>
+                  <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>child</name>
+                     <description>Pointer to the child block that has modified its name.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>childAdded</name>
+                  <description>This interface is called whenever a new child below this block has been added and keeps calling this interface on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
+                  <type>bool</type>
+                  <virtual/>
+                  <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>child</name>
+                     <description>Pointer to the child block that been added to its new parent block.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>childRemoved</name>
+                  <description>This interface is called whenever an existing child below this block has been removed and keeps calling this interface on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
+                  <type>bool</type>
+                  <virtual/>
+                  <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>child</name>
+                     <description>Pointer to the child block that has been removed from its former parent block. This object can be deleted right after this call.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>childMoved</name>
+                  <description>This interface is called whenever an existing child below this block has been moved and keeps calling this interface on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
+                  <type>bool</type>
+                  <virtual/>
+                  <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>child</name>
+                     <description>Pointer to the child block that has been moved in its parent's list of children.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
                   <name>notifyModified</name>
                   <description>Notifies this block has been modified by finding its root block and emitting its modified signal.</description>
                   <type>void</type>
@@ -2370,7 +2371,8 @@ An external link to the context menu of this class is provided. This class also 
                   <name>notifyNameModified</name>
                   <description>Notifies this block's name has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no name.</description>
                   <type>void</type>
-                  <operation>Create a pointer _root_ to the parent of this block. If the returned pointer is null then throw an exception, else call the _root_ child name modified interface.</operation>
+                  <operation>Create a pointer _root_ to the parent of this block. If the returned pointer is null then throw an exception.</operation>
+                  <operation>Starting with _root_ call its child name modified interface and continue calling the next parent's child name modified interface until the interface returns false or the root block is reached.</operation>
                   <operation>Find the root block of _root_ and emit its name modified signal with this block's pointer.</operation>
                </data>
             </function>

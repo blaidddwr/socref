@@ -87,43 +87,46 @@ std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
 
 
 
-void TypeList::childNameChanged(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyNameModified();
-   notifyBodyModified();
-}
-
-
-
-
-
-
-void TypeList::childAdded(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyNameModified();
-   notifyBodyModified();
-}
-
-
-
-
-
-
-void TypeList::childRemoved(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyNameModified();
-   notifyBodyModified();
-}
-
-
-
-
-
-
 std::unique_ptr<AbstractBlock> TypeList::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new TypeList);
+}
+
+
+
+
+
+
+bool TypeList::childNameModified(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return false;
+}
+
+
+
+
+
+
+bool TypeList::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return false;
+}
+
+
+
+
+
+
+bool TypeList::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return false;
 }

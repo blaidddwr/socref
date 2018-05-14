@@ -40,17 +40,15 @@ namespace CppQt
       static bool isSlot(Type type);
       static bool isNormal(Type type);
       static const QStringList _typeNames;
-   signals:
-      void bodyChanged();
-   protected slots:
-      virtual void childAdded(AbstractBlock* child) override final;
-      virtual void childRemoved(AbstractBlock* child) override final;
    protected:
       virtual void readData(const QDomElement& data, int version) override final;
       virtual int writeVersion() const override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
       virtual void copyDataFrom(const AbstractBlock* object) override final;
+      virtual bool childNameModified(AbstractBlock *child) override final;
+      virtual bool childAdded(AbstractBlock* child) override final;
+      virtual bool childRemoved(AbstractBlock* child) override final;
    private:
       void readVersion0(const QDomElement& data);
       void readVersion1(const QDomElement& data);

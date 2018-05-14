@@ -43,7 +43,9 @@ QLayout* Class::layout()
 
 void Class::apply()
 {
+   QString old {_block->Base::name()};
    Namespace::apply();
+   if ( old != _block->Base::name() ) emit _block->nameChanged();
    _block->setQtObject(_qtObjectBox->isChecked());
 }
 

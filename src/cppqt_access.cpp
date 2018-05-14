@@ -305,30 +305,6 @@ bool Access::isNormal(Type type)
 
 
 
-void Access::childAdded(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyNameModified();
-   notifyBodyModified();
-}
-
-
-
-
-
-
-void Access::childRemoved(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyNameModified();
-   notifyBodyModified();
-}
-
-
-
-
-
-
 void Access::readData(const QDomElement& data, int version)
 {
    switch (version)
@@ -399,6 +375,43 @@ void Access::copyDataFrom(const AbstractBlock* object)
       e.setDetails("Block object given to copy is not correct type");
       throw e;
    }
+}
+
+
+
+
+
+
+bool Access::childNameModified(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   return true;
+}
+
+
+
+
+
+
+bool Access::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return true;
+}
+
+
+
+
+
+
+bool Access::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return true;
 }
 
 
