@@ -9,12 +9,17 @@
 
 
 using namespace Gui;
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param parent  
+ */
 TextDialog::TextDialog(QWidget* parent):
    PersistentDialog("gui.textdialog.geometry",parent)
 {
@@ -26,6 +31,8 @@ TextDialog::TextDialog(QWidget* parent):
 
 
 
+/*!
+ */
 QString TextDialog::text() const
 {
    return _edit->toPlainText();
@@ -36,6 +43,10 @@ QString TextDialog::text() const
 
 
 
+/*!
+ *
+ * @param text  
+ */
 void TextDialog::setText(const QString& text)
 {
    _edit->setPlainText(text);
@@ -46,6 +57,8 @@ void TextDialog::setText(const QString& text)
 
 
 
+/*!
+ */
 void TextDialog::setupGui()
 {
    _edit = new TextEdit;
@@ -61,6 +74,8 @@ void TextDialog::setupGui()
 
 
 
+/*!
+ */
 QLayout* TextDialog::setupButtons()
 {
    QPushButton* ok {new QPushButton(tr("Ok"))};

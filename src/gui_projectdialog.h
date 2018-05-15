@@ -8,11 +8,14 @@
 class QFormLayout;
 class QHBoxLayout;
 class QLineEdit;
+//
 
 
 
 namespace Gui
 {
+   /*!
+    */
    class ProjectDialog : public PersistentDialog
    {
       Q_OBJECT
@@ -24,12 +27,19 @@ namespace Gui
       void browseClicked();
    private:
       void setupGui();
-      QFormLayout* setupForm();
-      QHBoxLayout* setupButtons();
-      QPushButton* setupButton(const QString& text, void (ProjectDialog::*pointer)());
+      QLayout* setupForm();
+      QLayout* setupButtons();
+      /*!
+       */
       Project* _project;
+      /*!
+       */
       QLineEdit* _nameEdit;
+      /*!
+       */
       QLineEdit* _scanDirectoryEdit;
+      /*!
+       */
       QLineEdit* _filtersEdit;
    };
 }

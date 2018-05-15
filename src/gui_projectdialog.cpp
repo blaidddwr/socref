@@ -13,12 +13,19 @@
 
 
 using namespace Gui;
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param project  
+ *
+ * @param parent  
+ */
 ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
    PersistentDialog("gui.projectdialog.geometry",parent),
    _project(project)
@@ -39,6 +46,8 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
 
 
 
+/*!
+ */
 void ProjectDialog::okClicked()
 {
    applyClicked();
@@ -50,6 +59,8 @@ void ProjectDialog::okClicked()
 
 
 
+/*!
+ */
 void ProjectDialog::applyClicked()
 {
    _project->setName(_nameEdit->text());
@@ -62,6 +73,8 @@ void ProjectDialog::applyClicked()
 
 
 
+/*!
+ */
 void ProjectDialog::browseClicked()
 {
    QFileDialog dialog(nullptr,tr("Scan Directory Selection"));
@@ -79,6 +92,8 @@ void ProjectDialog::browseClicked()
 
 
 
+/*!
+ */
 void ProjectDialog::setupGui()
 {
    QVBoxLayout* layout {new QVBoxLayout};
@@ -93,7 +108,9 @@ void ProjectDialog::setupGui()
 
 
 
-QFormLayout* ProjectDialog::setupForm()
+/*!
+ */
+QLayout* ProjectDialog::setupForm()
 {
    QFormLayout* ret {new QFormLayout};
    QHBoxLayout* directory {new QHBoxLayout};
@@ -119,24 +136,20 @@ QFormLayout* ProjectDialog::setupForm()
 
 
 
-QHBoxLayout* ProjectDialog::setupButtons()
+/*!
+ */
+QLayout* ProjectDialog::setupButtons()
 {
+   QPushButton* ok {new QPushButton(tr("&Ok"))};
+   QPushButton* apply {new QPushButton(tr("&Apply"))};
+   QPushButton* cancel {new QPushButton(tr("&Cancel"))};
+   connect(ok,&QPushButton::clicked,this,&ProjectDialog::okClicked);
+   connect(apply,&QPushButton::clicked,this,&ProjectDialog::applyClicked);
+   connect(cancel,&QPushButton::clicked,this,&ProjectDialog::reject);
    QHBoxLayout* ret {new QHBoxLayout};
-   ret->addWidget(setupButton(tr("&Ok"),&ProjectDialog::okClicked));
-   ret->addWidget(setupButton(tr("&Apply"),&ProjectDialog::applyClicked));
+   ret->addWidget(ok);
+   ret->addWidget(apply);
    ret->addStretch();
-   ret->addWidget(setupButton(tr("&Cancel"),&ProjectDialog::reject));
-   return ret;
-}
-
-
-
-
-
-
-QPushButton* ProjectDialog::setupButton(const QString& text, void (ProjectDialog::*pointer)())
-{
-   QPushButton* ret {new QPushButton(text)};
-   connect(ret,&QPushButton::clicked,this,pointer);
+   ret->addWidget(cancel);
    return ret;
 }

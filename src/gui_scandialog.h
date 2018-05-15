@@ -6,11 +6,14 @@
 
 
 class QProgressBar;
+//
 
 
 
 namespace Gui
 {
+   /*!
+    */
    class ScanDialog : public PersistentDialog
    {
       Q_OBJECT
@@ -28,7 +31,11 @@ namespace Gui
       void setupBar();
       QLayout* setupBottom();
       QWidget* setupCancel();
+      /*!
+       */
       ScanThread* _scanner;
+      /*!
+       */
       QProgressBar* _bar;
    };
 }

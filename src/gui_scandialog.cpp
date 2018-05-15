@@ -12,12 +12,19 @@
 
 
 using namespace Gui;
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param scanner  
+ *
+ * @param parent  
+ */
 ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
    PersistentDialog("gui.scandialog.geometry",parent),
    _scanner(scanner)
@@ -32,6 +39,8 @@ ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
 
 
 
+/*!
+ */
 int ScanDialog::exec()
 {
    _scanner->start();
@@ -43,6 +52,10 @@ int ScanDialog::exec()
 
 
 
+/*!
+ *
+ * @param event  
+ */
 void ScanDialog::closeEvent(QCloseEvent* event)
 {
    _scanner->requestInterruption();
@@ -54,6 +67,8 @@ void ScanDialog::closeEvent(QCloseEvent* event)
 
 
 
+/*!
+ */
 void ScanDialog::cancelClicked()
 {
    _scanner->requestInterruption();
@@ -64,6 +79,10 @@ void ScanDialog::cancelClicked()
 
 
 
+/*!
+ *
+ * @param complete  
+ */
 void ScanDialog::progressChanged(int complete)
 {
    _bar->setValue(complete);
@@ -74,6 +93,8 @@ void ScanDialog::progressChanged(int complete)
 
 
 
+/*!
+ */
 void ScanDialog::scanFinished()
 {
    if ( _scanner->hasException() )
@@ -88,6 +109,8 @@ void ScanDialog::scanFinished()
 
 
 
+/*!
+ */
 void ScanDialog::setupGui()
 {
    setupBar();
@@ -103,6 +126,8 @@ void ScanDialog::setupGui()
 
 
 
+/*!
+ */
 void ScanDialog::setupBar()
 {
    _bar = new QProgressBar;
@@ -115,6 +140,8 @@ void ScanDialog::setupBar()
 
 
 
+/*!
+ */
 QLayout* ScanDialog::setupBottom()
 {
    QHBoxLayout* ret {new QHBoxLayout};
@@ -129,6 +156,8 @@ QLayout* ScanDialog::setupBottom()
 
 
 
+/*!
+ */
 QWidget* ScanDialog::setupCancel()
 {
    QPushButton* ret {new QPushButton(tr("&Cancel"))};

@@ -6,6 +6,12 @@
 
 
 using namespace Gui;
+//
+
+
+
+/*!
+ */
 const char* TextEdit::_defaultLang {"en_US"};
 
 
@@ -13,10 +19,14 @@ const char* TextEdit::_defaultLang {"en_US"};
 
 
 
+/*!
+ *
+ * @param parent  
+ */
 TextEdit::TextEdit(QWidget* parent):
    QPlainTextEdit(parent)
 {
-   _spellHighliter = new Highlighter(document());
+   _spellHighlighter = new Highlighter(document());
 }
 
 
@@ -24,6 +34,8 @@ TextEdit::TextEdit(QWidget* parent):
 
 
 
+/*!
+ */
 bool TextEdit::isSpellCheckEnabled() const
 {
    return _spellCheckEnabled;
@@ -34,14 +46,18 @@ bool TextEdit::isSpellCheckEnabled() const
 
 
 
+/*!
+ *
+ * @param enabled  
+ */
 void TextEdit::setSpellCheckEnabled(bool enabled)
 {
    if ( !enabled )
    {
-      delete _spellHighliter;
-      _spellHighliter = nullptr;
+      delete _spellHighlighter;
+      _spellHighlighter = nullptr;
    }
-   else if ( !_spellHighliter ) _spellHighliter = new Highlighter(document());
+   else if ( !_spellHighlighter ) _spellHighlighter = new Highlighter(document());
    _spellCheckEnabled = enabled;
 }
 
@@ -50,6 +66,8 @@ void TextEdit::setSpellCheckEnabled(bool enabled)
 
 
 
+/*!
+ */
 bool TextEdit::isDialogPopupEnabled() const
 {
    return _dialogPopupEnabled;
@@ -60,6 +78,10 @@ bool TextEdit::isDialogPopupEnabled() const
 
 
 
+/*!
+ *
+ * @param enabled  
+ */
 void TextEdit::setDialogPopupEnabled(bool enabled)
 {
    _dialogPopupEnabled = enabled;
@@ -70,6 +92,10 @@ void TextEdit::setDialogPopupEnabled(bool enabled)
 
 
 
+/*!
+ *
+ * @param event  
+ */
 void TextEdit::keyPressEvent(QKeyEvent* event)
 {
    if ( event->modifiers()&Qt::ControlModifier && event->modifiers()&Qt::ShiftModifier )

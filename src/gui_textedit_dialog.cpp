@@ -14,6 +14,12 @@
 
 
 using namespace Gui;
+//
+
+
+
+/*!
+ */
 const char* TextEdit::Dialog::_snippetDots {"..."};
 
 
@@ -21,6 +27,10 @@ const char* TextEdit::Dialog::_snippetDots {"..."};
 
 
 
+/*!
+ *
+ * @param parent  
+ */
 TextEdit::Dialog::Dialog(TextEdit* parent):
    PersistentDialog("gui.textedit.dialog.geometry",parent),
    _edit(parent)
@@ -35,6 +45,8 @@ TextEdit::Dialog::Dialog(TextEdit* parent):
 
 
 
+/*!
+ */
 TextEdit::Dialog::~Dialog()
 {
    delete_aspell_speller(_spell);
@@ -46,6 +58,8 @@ TextEdit::Dialog::~Dialog()
 
 
 
+/*!
+ */
 int TextEdit::Dialog::exec()
 {
    show();
@@ -58,6 +72,8 @@ int TextEdit::Dialog::exec()
 
 
 
+/*!
+ */
 void TextEdit::Dialog::changeClicked()
 {
    QString text {_edit->toPlainText()};
@@ -72,6 +88,8 @@ void TextEdit::Dialog::changeClicked()
 
 
 
+/*!
+ */
 void TextEdit::Dialog::ignoreOnceClicked()
 {
    _offset += _length;
@@ -83,6 +101,8 @@ void TextEdit::Dialog::ignoreOnceClicked()
 
 
 
+/*!
+ */
 void TextEdit::Dialog::ignoreAllClicked()
 {
    _ignored << _currentWord;
@@ -94,6 +114,10 @@ void TextEdit::Dialog::ignoreAllClicked()
 
 
 
+/*!
+ *
+ * @param text  
+ */
 void TextEdit::Dialog::wordTextChanged(const QString& text)
 {
    _changeButton->setDisabled(!isCorrectWord(text));
@@ -104,6 +128,8 @@ void TextEdit::Dialog::wordTextChanged(const QString& text)
 
 
 
+/*!
+ */
 bool TextEdit::Dialog::findNextWord()
 {
    QString text {_edit->toPlainText()};
@@ -129,6 +155,10 @@ bool TextEdit::Dialog::findNextWord()
 
 
 
+/*!
+ *
+ * @param word  
+ */
 bool TextEdit::Dialog::isCorrectWord(const QString& word)
 {
    if ( _ignored.contains(word) ) return true;
@@ -141,6 +171,8 @@ bool TextEdit::Dialog::isCorrectWord(const QString& word)
 
 
 
+/*!
+ */
 bool TextEdit::Dialog::queryEndOfText()
 {
    QMessageBox box;
@@ -166,7 +198,13 @@ bool TextEdit::Dialog::queryEndOfText()
 
 
 
-void TextEdit::Dialog::setWord(const QString& text, const QRegularExpressionMatch& match)
+/*!
+ *
+ * @param text  
+ *
+ * @param match  
+ */
+void TextEdit::Dialog::setWord(const QString& text, QRegularExpressionMatch& match)
 {
    _currentWord = match.captured();
    _wordEdit->setText(_currentWord);
@@ -179,6 +217,8 @@ void TextEdit::Dialog::setWord(const QString& text, const QRegularExpressionMatc
 
 
 
+/*!
+ */
 void TextEdit::Dialog::clearWord()
 {
    _wordEdit->clear();
@@ -190,6 +230,14 @@ void TextEdit::Dialog::clearWord()
 
 
 
+/*!
+ *
+ * @param text  
+ *
+ * @param begin  
+ *
+ * @param length  
+ */
 void TextEdit::Dialog::setSnippet(const QString& text, int begin, int length)
 {
    int begin1 {begin - _snippetRadius};
@@ -208,6 +256,8 @@ void TextEdit::Dialog::setSnippet(const QString& text, int begin, int length)
 
 
 
+/*!
+ */
 void TextEdit::Dialog::updateSuggested()
 {
    QByteArray utfWord {_currentWord.toLocal8Bit()};
@@ -231,6 +281,8 @@ void TextEdit::Dialog::updateSuggested()
 
 
 
+/*!
+ */
 void TextEdit::Dialog::setupGui()
 {
    QVBoxLayout* layout {new QVBoxLayout};
@@ -244,6 +296,8 @@ void TextEdit::Dialog::setupGui()
 
 
 
+/*!
+ */
 QLayout* TextEdit::Dialog::setupTop()
 {
    setupSuggestions();
@@ -258,6 +312,8 @@ QLayout* TextEdit::Dialog::setupTop()
 
 
 
+/*!
+ */
 QLayout* TextEdit::Dialog::setupButtons()
 {
    _changeButton = new QPushButton(tr("&Change"));
@@ -282,6 +338,8 @@ QLayout* TextEdit::Dialog::setupButtons()
 
 
 
+/*!
+ */
 QLayout* TextEdit::Dialog::setupWordEdit()
 {
    _wordEdit = new QLineEdit;
@@ -298,6 +356,8 @@ QLayout* TextEdit::Dialog::setupWordEdit()
 
 
 
+/*!
+ */
 void TextEdit::Dialog::setupSnippet()
 {
    _snippetView = new QLabel;
@@ -311,6 +371,8 @@ void TextEdit::Dialog::setupSnippet()
 
 
 
+/*!
+ */
 void TextEdit::Dialog::setupSuggestions()
 {
    _suggestionsView = new QLabel;
@@ -324,6 +386,8 @@ void TextEdit::Dialog::setupSuggestions()
 
 
 
+/*!
+ */
 void TextEdit::Dialog::setupSpeller()
 {
    _spellConfig = new_aspell_config();

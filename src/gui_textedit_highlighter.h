@@ -7,23 +7,32 @@
 
 class AspellConfig;
 class AspellSpeller;
+//
 
 
 
 namespace Gui
 {
+   /*!
+    */
    class TextEdit::Highlighter : public QSyntaxHighlighter
    {
       Q_OBJECT
    public:
       explicit Highlighter(QTextDocument* parent);
-      virtual ~Highlighter() override final;
+      ~Highlighter();
    protected:
       virtual void highlightBlock(const QString& text) override final;
    private:
       void setupSpeller();
+      /*!
+       */
       QTextCharFormat _format;
+      /*!
+       */
       AspellConfig* _spellConfig;
+      /*!
+       */
       AspellSpeller* _spell;
    };
 }

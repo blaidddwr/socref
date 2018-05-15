@@ -5,12 +5,19 @@
 
 
 using namespace Gui;
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param geometryKey  
+ *
+ * @param parent  
+ */
 PersistentDialog::PersistentDialog(const char* geometryKey, QWidget* parent):
    QDialog(parent)
 {
@@ -22,6 +29,8 @@ PersistentDialog::PersistentDialog(const char* geometryKey, QWidget* parent):
 
 
 
+/*!
+ */
 PersistentDialog::~PersistentDialog()
 {
    QSettings settings(Application::_companyKey,Application::_programKey);
@@ -33,6 +42,10 @@ PersistentDialog::~PersistentDialog()
 
 
 
+/*!
+ *
+ * @param geometryKey  
+ */
 void PersistentDialog::saveSettings(const char* geometryKey)
 {
    _geometryKey = geometryKey;

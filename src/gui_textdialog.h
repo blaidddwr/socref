@@ -2,11 +2,14 @@
 #define GUI_TEXTDIALOG_H
 #include "gui_persistentdialog.h"
 #include "gui.h"
+//
 
 
 
 namespace Gui
 {
+   /*!
+    */
    class TextDialog : public PersistentDialog
    {
       Q_OBJECT
@@ -17,6 +20,8 @@ namespace Gui
    private:
       void setupGui();
       QLayout* setupButtons();
+      /*!
+       */
       TextEdit* _edit;
    };
 }

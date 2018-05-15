@@ -6,12 +6,17 @@
 
 
 using namespace Gui;
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param parent  
+ */
 TextEdit::Highlighter::Highlighter(QTextDocument* parent):
    QSyntaxHighlighter(parent)
 {
@@ -26,6 +31,8 @@ TextEdit::Highlighter::Highlighter(QTextDocument* parent):
 
 
 
+/*!
+ */
 TextEdit::Highlighter::~Highlighter()
 {
    delete_aspell_speller(_spell);
@@ -37,6 +44,10 @@ TextEdit::Highlighter::~Highlighter()
 
 
 
+/*!
+ *
+ * @param text  
+ */
 void TextEdit::Highlighter::highlightBlock(const QString& text)
 {
    QRegularExpression pattern("[\\w'-]+");
@@ -57,6 +68,8 @@ void TextEdit::Highlighter::highlightBlock(const QString& text)
 
 
 
+/*!
+ */
 void TextEdit::Highlighter::setupSpeller()
 {
    _spellConfig = new_aspell_config();
