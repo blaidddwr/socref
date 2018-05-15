@@ -227,6 +227,11 @@
          </typeList>
          <type type="16">
             <data version="0">
+               <type>QCloseEvent*</type>
+            </data>
+         </type>
+         <type type="16">
+            <data version="0">
                <type>QEvent*</type>
             </data>
          </type>
@@ -405,6 +410,21 @@
                </data>
             </type>
          </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>Project</name>
+            </data>
+            <type type="16">
+               <data version="0">
+                  <type>Project*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>std::unique_ptr&lt;Project>&amp;&amp;</type>
+               </data>
+            </type>
+         </typeList>
          <type type="16">
             <data version="0">
                <type>AbstractParserFactory*</type>
@@ -445,6 +465,451 @@
                </data>
             </type>
          </typeList>
+         <class type="4">
+            <data version="1">
+               <name>MainWindow</name>
+               <description>This is the main window for the program. This class can contain an open class along with providing a menu bar for the user. Each window can contain only one project, but multiple instance windows of this class can exist in the program. When the last main window is deleted this program exits.
+
+The menu bar provided by this class window contains the file, edit, settings, and help menus. The file menu provides basic actions for the window. These basic actions include creating a new project, opening a project, saving a project, opening the properties of an open project, scanning the source files of an open project, closing an open project, and exiting a main window.
+
+The edit menu is the context menu of the block view class. The settings menu is the global settings for each project type. Lastly the help menu currently just provides an about dialog.</description>
+               <qtobject/>
+            </data>
+            <parent type="13">
+               <data version="2">
+                  <access>public</access>
+                  <class>QMainWindow</class>
+               </data>
+            </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <description>Constructs a new main window with the optional parent.</description>
+                     <type></type>
+                     <explicit/>
+                     <operation>Setup this object's GUI, restore the state and geometry of the main window, update this object's title, and update this object's actions.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>parent</name>
+                        <description>Optional parent for this new main window.</description>
+                        <type>QWidget*</type>
+                        <initializer>nullptr</initializer>
+                     </data>
+                  </variable>
+               </constructor>
+               <destructor type="10">
+                  <data version="1">
+                     <description>Saves the state and geometry of the main window.</description>
+                     <type></type>
+                  </data>
+               </destructor>
+               <function type="2">
+                  <data version="1">
+                     <name>setProject</name>
+                     <description>Sets the given project as this main window's new project, deleting any previous project this window may contain. This window takes ownership of any new project given to it. A null pointer can be given which means this window will have no project.</description>
+                     <type>void</type>
+                     <operation>Delete any previous project this window may contain, setting the new pointer as this window's project.</operation>
+                     <operation>Update this window's title and file menu actions. If the new project given is a null pointer then return.</operation>
+                     <operation>Set this window's new project's parent as this window, set this window's block view with the new project's model, and set this window's modified state based on the new project's modified state.</operation>
+                     <operation>Connect all project signals to this window's slots.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>project</name>
+                        <type>std::unique_ptr&lt;Project>&amp;&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>protected:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>closeEvent</name>
+                     <description>Implements the Qt interface which is called when this window has a close event. This implementation determines if it is OK to close the window and accept the event or not and ignore it.</description>
+                     <type>void</type>
+                     <virtual/>
+                     <override/>
+                     <final/>
+                     <operation>If it is OK to close this window then accept the given event else reject it.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>event</name>
+                        <description>Pointer to the close event that this is processing.</description>
+                        <type>QCloseEvent*</type>
+                     </data>
+                  </variable>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>private slots:</type>
+               </data>
+               <slot type="7">
+                  <data version="1">
+                     <name>newTriggered</name>
+                     <description>Called when an add action is triggered. This creates a new project of the given type and sets it to this window if it has none or else a new main window is created.</description>
+                     <type></type>
+                     <operation>Create new project _project_ with the given type and set its name to the default.</operation>
+                     <operation>If this window has no project then set it to _project_, else create a new main window and set the new window's project to _project_.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>type</name>
+                        <description>The project type used to create a new project.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>openTriggered</name>
+                     <description>Called when the open action is triggered. This opens a file dialog for the user to select a Socrates Reference project and if successful open it. The open project is set to this window if it has none or a new window otherwise.</description>
+                     <type></type>
+                     <operation>Create a file dialog _file_ and query the user for a project file to open by modal execution of it. If execution fails then return.</operation>
+                     <operation>Create a string _path_ setting it to the path of the first file selected from the file dialog _file_.</operation>
+                     <operation>Open a new project with the path _path_. If this window has no project that set it to this new project, else create a new main window with the new project.</operation>
+                     <operation>If any exception is caught while opening the new project report it to the user.</operation>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>saveTriggered</name>
+                     <description>Called when the save action is triggered, calling this window's save method.</description>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>saveAsTriggered</name>
+                     <description>Called when the save as action is triggered, calling this window's save as method.</description>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>propertiesTriggered</name>
+                     <description>Called when the properties action is triggered, executing a project properties dialog if this window contains a project.</description>
+                     <type></type>
+                     <operation>If this window has a project then create a new project dialog with this window and its project executing it in modal mode.</operation>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>scanTriggered</name>
+                     <description>Called when the scan action is triggered. If this window has a project then a project scan is executed using the scan dialog class.</description>
+                     <type></type>
+                     <operation>If this window has a project then create a new scanner from its project, then create a new scan dialog with the new scanner, and then modal execute the new dialog.</operation>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>closeTriggered</name>
+                     <description>Called when the close action is triggered, closing any open project of this window if it is OK to close.</description>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>settingTriggered</name>
+                     <description>Called when a setting action is triggered. This provides the settings dialog for the given project type.</description>
+                     <type></type>
+                     <operation>Create a new setting dialog _settings_ using the given project type. If the returned settings dialog is null then throw an exception.</operation>
+                     <operation>Execute the _settings_ dialog in modal mode.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>type</name>
+                        <description>The project type whose settings dialog is displayed.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>aboutTriggered</name>
+                     <description>Called when the about action is triggered, executing the about dialog.</description>
+                     <type></type>
+                     <operation>Create an about dialog and execute it in modal mode.</operation>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>projectNameChanged</name>
+                     <description>Called when this window's project's name has changed, updating this window's title.</description>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>projectModified</name>
+                     <description>Called when this window's project has been modified, setting this window state as modified.</description>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>projectSaved</name>
+                     <description>Called when this window's project has been saved, setting this window state as unmodified.</description>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>projectFileChanged</name>
+                     <description>Called when this window's project file has been modified by something besides the project itself. This executes a dialog informing the user of this fact and reloads the project if the user chooses to do so.</description>
+                     <type></type>
+                     <operation>Create a new message box that informs the user the project file has changed and ask the user if they want to reload the project or ignore this event. If the user chooses to ignore it then return.</operation>
+                     <operation>Create a new project with the current project's file and then set the new project to this window.</operation>
+                     <operation>If any exception is caught while attempting to reload the project then inform the user.</operation>
+                  </data>
+               </slot>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>private:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>updateTitle</name>
+                     <description>Updates this window's title, including the project name if it has one.</description>
+                     <type>void</type>
+                     <operation>If this window has a project then set the window title with the project name and type along with the application's name, else just set it to the application's name.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>updateActions</name>
+                     <description>Updates some of this window's actions by enabling or disabling them based off aspects of this window's project.</description>
+                     <type>void</type>
+                     <operation>If this window has a project and it is now new then enable the save action else disable it.</operation>
+                     <operation>If this window has a project then enable the save as, close, properties, and scan actions. Else if this window has no project disable the same actions.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isOkToClose</name>
+                     <description>Makes sure this window's project has no unsaved changes and is OK to be closed, returning true if it is OK. If this window has no project then true is also returned. If this window's project has unsaved changes then the user is prompted to save it, cancel, or discard changes.</description>
+                     <type>bool</type>
+                     <return_description>True if it is OK to close this window's current project or this window has no project, else false is returned.</return_description>
+                     <operation>If this window has no project or the project is not modified then return true.</operation>
+                     <operation>Create a Qt message box _confirm_ that queries the user about what to do with this window's project's unsaved changes. The options are to save the project, cancel closing it, or discard the changes.</operation>
+                     <operation>Executes the _confirm_ dialog in modal mode and get the user's response. If cancel is chosen then return false, else if save is chosen then attempt to save the project returning its result, else if discard is chosen then return true.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>saveAs</name>
+                     <description>Saves this window's project to a new file location queried by presenting a file dialog to the user, returning true on success. If this window has no project, the file dialog fails execution, or saving the project throws an exception then false is returned.</description>
+                     <type>bool</type>
+                     <return_description>True if this window's project was successfully saved to a new location or false otherwise.</return_description>
+                     <operation>If this window has no project then return false.</operation>
+                     <operation>Create a new file dialog _dialog_, setting its accept mode to saving a file and executing it in modal mode. If execution fails then return false.</operation>
+                     <operation>Get the file path from _dialog_ chosen by the user and attempt to save the project with that file path. If a Socrates exception is caught then report it to the user and return false.</operation>
+                     <operation>Update this window's actions and return true on success.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>save</name>
+                     <description>Saves this window's project to its file, returning true on success or false on failure. If this window has no project then false is returned.</description>
+                     <type>bool</type>
+                     <return_description>True if the project was successfully saved or false otherwise.</return_description>
+                     <operation>If this window has no project then return false.</operation>
+                     <operation>Attempt to save this project. If any Socrates exception is caught then report it to the user and return false.</operation>
+                     <operation>Return true on success.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>restoreSettings</name>
+                     <description>Restores the state and geometry of the main window from Qt settings.</description>
+                     <type>void</type>
+                     <operation>Restore this window's state and geometry for the main window using Qt settings and this class's keys.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>saveSettings</name>
+                     <description>Saves the state and geometry of the main window to Qt settings.</description>
+                     <type>void</type>
+                     <operation>Save this window's state and geometry for the main window using Qt settings and this class's keys.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupGui</name>
+                     <description>Constructs and initializes all GUI elements for this new main window.</description>
+                     <type>void</type>
+                     <operation>Load this application's logo icon if it hasn't already been loaded and then set this window's icon to it.</operation>
+                     <operation>Create a new block view object for this window, setting it as this window's central widget.</operation>
+                     <operation>Setup this new window's actions and menus.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupActions</name>
+                     <description>Constructs and initializes all actions for this new window.</description>
+                     <type>void</type>
+                     <operation>Create a new action for this window's open action.</operation>
+                     <operation>Create a new action for this window's save action.</operation>
+                     <operation>Create a new action for this window's save as action.</operation>
+                     <operation>Create a new action for this window's properties action.</operation>
+                     <operation>Create a new action for this window's scan action.</operation>
+                     <operation>Create a new action for this window's close action.</operation>
+                     <operation>Create a new action for this window's exit action, connecting its triggered signal to close this window.</operation>
+                     <operation>Create a new action for this window's about action.</operation>
+                     <operation>Setup the new project and project settings actions.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupNewActions</name>
+                     <description>Creates this window's new actions for each project type that exists.</description>
+                     <type>void</type>
+                     <operation>Iterate through every project type, creating a new action for each one. Add each new action to this window's list of new actions and connect its signal to this window's appropriate slot using a lambda function to save the type.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupSettingActions</name>
+                     <description>Creates this window's setting actions for each project type that exists.</description>
+                     <type>void</type>
+                     <operation>Iterate through every project type, creating a new action for each one. Add each new action to this window's list of setting actions and connect its signal to this window's appropriate slot using a lambda function to save the type.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupMenus</name>
+                     <description>Constructs and initializes this new window's menus, adding them to its menu bar.</description>
+                     <type>void</type>
+                     <operation>Setup and add the file menu and then add the context menu from this new window's block view object.</operation>
+                     <operation>Add the settings menu, adding all setting actions to the menu.</operation>
+                     <operation>Add the help menu, adding the single about action to it.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupFileMenu</name>
+                     <description>Construct and initialize this new window's file menu, adding it to this window's menu bar.</description>
+                     <type>void</type>
+                     <operation>Add a new file menu to this window's menu bar, saving its pointer to _file_.</operation>
+                     <operation>Add a new sub menu to _file_, populating it with all new actions of this window.</operation>
+                     <operation>Add all other actions to _file_, adding separators where appropriate.</operation>
+                  </data>
+               </function>
+               <variable type="1">
+                  <data version="1">
+                     <name>_geometryKey</name>
+                     <description>The key used to save/restore the geometry of the main window using Qt settings.</description>
+                     <static/>
+                     <type>const char*</type>
+                     <initializer>"gui.mainwindow.geometry"</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_stateKey</name>
+                     <description>The key used to save/restore the state of the main window using Qt settings.</description>
+                     <static/>
+                     <type>const char*</type>
+                     <initializer>"gui.mainwindow.state"</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_view</name>
+                     <description>Pointer to this window's block view.</description>
+                     <type>BlockView*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_project</name>
+                     <description>Pointer to this window's project.</description>
+                     <type>Project*</type>
+                     <initializer>nullptr</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_newActions</name>
+                     <description>List of new actions for this window used to create new projects of a given type for each action.</description>
+                     <type>QList&lt;QAction*></type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_openAction</name>
+                     <description>Pointer this this window's open action.</description>
+                     <type>QAction*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_saveAction</name>
+                     <description>Pointer this this window's save action.</description>
+                     <type>QAction*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_saveAsAction</name>
+                     <description>Pointer this this window's save as action.</description>
+                     <type>QAction*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_propertiesAction</name>
+                     <description>Pointer this this window's property action used to open the project properties dialog.</description>
+                     <type>QAction*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_scanAction</name>
+                     <description>Pointer this this window's scan action.</description>
+                     <type>QAction*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_closeAction</name>
+                     <description>Pointer this this window's close action.</description>
+                     <type>QAction*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_exitAction</name>
+                     <description>Pointer this this window's exit action.</description>
+                     <type>QAction*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_settingActions</name>
+                     <description>List of setting actions for this window used to open the global settings of a given project type for each action.</description>
+                     <type>QList&lt;QAction*></type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_aboutAction</name>
+                     <description>Pointer this this window's about action.</description>
+                     <type>QAction*</type>
+                  </data>
+               </variable>
+            </access>
+         </class>
          <class type="4">
             <data version="1">
                <name>BlockView</name>
@@ -800,15 +1265,15 @@
                <function type="2">
                   <data version="1">
                      <name>setupActions</name>
-                     <description>Constructs and initializes all add actions for this new widget object's context menu, excluding the add actions because they are rebuilt dynamically.</description>
+                     <description>Constructs and initializes all actions for this new widget object's context menu, excluding the add actions because they are rebuilt dynamically.</description>
                      <type>void</type>
-                     <operation>Create a new action for this object's remove action, connecting its triggered signal.</operation>
-                     <operation>Create a new action for this object's edit action, connecting its triggered signal.</operation>
-                     <operation>Create a new action for this object's cut action, connecting its triggered signal.</operation>
-                     <operation>Create a new action for this object's copy action, connecting its triggered signal.</operation>
-                     <operation>Create a new action for this object's paste action, connecting its triggered signal.</operation>
-                     <operation>Create a new action for this object's move up action, connecting its triggered signal.</operation>
-                     <operation>Create a new action for this object's move down action, connecting its triggered signal.</operation>
+                     <operation>Create a new action for this object's remove action.</operation>
+                     <operation>Create a new action for this object's edit action.</operation>
+                     <operation>Create a new action for this object's cut action.</operation>
+                     <operation>Create a new action for this object's copy action.</operation>
+                     <operation>Create a new action for this object's paste action.</operation>
+                     <operation>Create a new action for this object's move up action.</operation>
+                     <operation>Create a new action for this object's move down action.</operation>
                   </data>
                </function>
                <function type="2">
@@ -894,6 +1359,20 @@
                </variable>
                <variable type="1">
                   <data version="1">
+                     <name>_titleIcon</name>
+                     <description>Pointer to this object's title icon label used as part of the title bar above the detailed view.</description>
+                     <type>QLabel*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_titleText</name>
+                     <description>Pointer to this object's title text label used as part of the title bar above the detailed view.</description>
+                     <type>QLabel*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
                      <name>_view</name>
                      <description>Pointer to this object's current detailed view widget, if any.</description>
                      <type>QWidget*</type>
@@ -968,20 +1447,6 @@
                      <name>_contextMenu</name>
                      <description>Pointer to this object's context menu.</description>
                      <type>QMenu*</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_titleIcon</name>
-                     <description>Pointer to this object's title icon label used as part of the title bar above the detailed view.</description>
-                     <type>QLabel*</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_titleText</name>
-                     <description>Pointer to this object's title text label used as part of the title bar above the detailed view.</description>
-                     <type>QLabel*</type>
                   </data>
                </variable>
             </access>

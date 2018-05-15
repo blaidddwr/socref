@@ -106,6 +106,16 @@ namespace Gui
        */
       static AbstractBlock* _copy;
       /*!
+       * Pointer to this object's title icon label used as part of the title bar above 
+       * the detailed view. 
+       */
+      QLabel* _titleIcon;
+      /*!
+       * Pointer to this object's title text label used as part of the title bar above 
+       * the detailed view. 
+       */
+      QLabel* _titleText;
+      /*!
        * Pointer to this object's current detailed view widget, if any. 
        */
       QWidget* _view {nullptr};
@@ -151,16 +161,6 @@ namespace Gui
        * Pointer to this object's context menu. 
        */
       QMenu* _contextMenu;
-      /*!
-       * Pointer to this object's title icon label used as part of the title bar above 
-       * the detailed view. 
-       */
-      QLabel* _titleIcon;
-      /*!
-       * Pointer to this object's title text label used as part of the title bar above 
-       * the detailed view. 
-       */
-      QLabel* _titleText;
    };
 }
 

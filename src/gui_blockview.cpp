@@ -861,32 +861,25 @@ QLayout* BlockView::setupTitleBar()
 
 
 /*!
- * Constructs and initializes all add actions for this new widget object's context 
+ * Constructs and initializes all actions for this new widget object's context 
  * menu, excluding the add actions because they are rebuilt dynamically. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Create a new action for this object's remove action, connecting its triggered 
- *    signal. 
+ * 1. Create a new action for this object's remove action. 
  *
- * 2. Create a new action for this object's edit action, connecting its triggered 
- *    signal. 
+ * 2. Create a new action for this object's edit action. 
  *
- * 3. Create a new action for this object's cut action, connecting its triggered 
- *    signal. 
+ * 3. Create a new action for this object's cut action. 
  *
- * 4. Create a new action for this object's copy action, connecting its triggered 
- *    signal. 
+ * 4. Create a new action for this object's copy action. 
  *
- * 5. Create a new action for this object's paste action, connecting its triggered 
- *    signal. 
+ * 5. Create a new action for this object's paste action. 
  *
- * 6. Create a new action for this object's move up action, connecting its 
- *    triggered signal. 
+ * 6. Create a new action for this object's move up action. 
  *
- * 7. Create a new action for this object's move down action, connecting its 
- *    triggered signal. 
+ * 7. Create a new action for this object's move down action. 
  */
 void BlockView::setupActions()
 {
