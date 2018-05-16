@@ -685,6 +685,7 @@
          <class type="4">
             <data version="1">
                <name>TextEdit</name>
+               <description>This is a plain text editor widget that has additional features to the Qt version. This editor has spellchecking support and the ability to open a new text editor dialog with the same text. The spellchecking support comes in two ways. The first way is highlighting any misspelled words in the editor. The second way is a spell checker dialog that scans all words of the text allowing for corrections to any misspelled words. A special shortcut is used to activate the spell checker dialog or open the editor into its own dialog.</description>
                <qtobject/>
             </data>
             <typeList type="15">
@@ -719,12 +720,15 @@
                </data>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new text editor with an optional parent. Spell checking and the dialog popup shortcut are enabled by default.</description>
                      <type></type>
                      <explicit/>
+                     <operation>Create this text editor's highlighter and setup its shortcut actions.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>parent</name>
+                        <description>Optional parent for this new text editor.</description>
                         <type>QWidget*</type>
                         <initializer>nullptr</initializer>
                      </data>
@@ -733,37 +737,47 @@
                <function type="2">
                   <data version="1">
                      <name>isSpellCheckEnabled</name>
+                     <description>Returns the enabled state of this editor's spell checking.</description>
                      <type>bool</type>
                      <const/>
+                     <return_description>True if this editor's spell checking is enabled or false otherwise.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isDialogPopupEnabled</name>
+                     <description>Returns the enabled state of this editor's dialog popup shortcut.</description>
+                     <type>bool</type>
+                     <const/>
+                     <return_description>True if this editor's dialog popup shortcut is enabled or false otherwise.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setSpellCheckEnabled</name>
+                     <description>Sets the enabled state of this editor's spell checking with the given state.</description>
                      <type>void</type>
+                     <operation>If the given state is to disable spell checking then delete any highlighter this editor may have and set its pointer to null, else if this editor has no highlighter then create a new one.</operation>
+                     <operation>Set this editor's spell checking enable state to the new one given.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>enabled</name>
+                        <description>True to enable this editor's spell checking or false to disable it.</description>
                         <type>bool</type>
                      </data>
                   </variable>
                </function>
                <function type="2">
                   <data version="1">
-                     <name>isDialogPopupEnabled</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
                      <name>setDialogPopupEnabled</name>
+                     <description>Set the enabled state of this editor's dialog popup shortcut with the given state.</description>
                      <type>void</type>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>enabled</name>
+                        <description>True to enable this editor's dialog popup shortcut or false to disable it.</description>
                         <type>bool</type>
                      </data>
                   </variable>
@@ -771,23 +785,26 @@
             </access>
             <access type="5">
                <data version="1">
-                  <type>protected:</type>
+                  <type>private slots:</type>
                </data>
-               <function type="2">
+               <slot type="7">
                   <data version="1">
-                     <name>keyPressEvent</name>
-                     <type>void</type>
-                     <virtual/>
-                     <override/>
-                     <final/>
+                     <name>spellCheckTriggered</name>
+                     <description>Called when this editor's spell checker action is triggered.</description>
+                     <type></type>
+                     <operation>If this editor's spell checking is disabled then return, else create a new spell checker dialog and execute it in modal mode.</operation>
                   </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>event</name>
-                        <type>QKeyEvent*</type>
-                     </data>
-                  </variable>
-               </function>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>dialogPopupTriggered</name>
+                     <description>Called when this editor's dialog popup action is triggered.</description>
+                     <type></type>
+                     <operation>If this editor's dialog popup shortcut is disabled then return.</operation>
+                     <operation>Create a new text dialog _dialog_, setting its text to this editor's text and its title.</operation>
+                     <operation>Execute _dialog_ in modal mode. If execution returns success then set this editor's text to the text of _dialog_.</operation>
+                  </data>
+               </slot>
             </access>
             <access type="5">
                <data version="1">
@@ -796,6 +813,7 @@
                <class type="4">
                   <data version="1">
                      <name>Highlighter</name>
+                     <description>This is the spell checking syntax highlighter for its parent text editor class. This highlights any misspelled words in its parent editor by changing its text format so it is visible to the user.</description>
                      <qtobject/>
                   </data>
                   <parent type="13">
@@ -810,18 +828,23 @@
                      </data>
                      <constructor type="9">
                         <data version="1">
+                           <description>Constructs a new spell checking highlighter with the given text document parent.</description>
                            <type></type>
                            <explicit/>
+                           <operation>Initialize the properties of this highlighter's text format used for misspelled words.</operation>
+                           <operation>Setup this highlighter's spell checking library.</operation>
                         </data>
                         <variable type="1">
                            <data version="1">
                               <name>parent</name>
+                              <description>The text document of the text editor that is the parent for this new highlighter.</description>
                               <type>QTextDocument*</type>
                            </data>
                         </variable>
                      </constructor>
                      <destructor type="10">
                         <data version="1">
+                           <description>Delete this highlighter's spell checking library resources.</description>
                            <type></type>
                         </data>
                      </destructor>
@@ -833,14 +856,18 @@
                      <function type="2">
                         <data version="1">
                            <name>highlightBlock</name>
+                           <description>Implements the Qt interface that is called for highlighting blocks of text in its parent text document. This implementation searches for misspelled words, highlighting any that are found.</description>
                            <type>void</type>
                            <virtual/>
                            <override/>
                            <final/>
+                           <operation>Use a Qt regular expression to search for all words in the given text, saving all matches to _matches_.</operation>
+                           <operation>Iterate through all matches in _matches_, checking that each word is spelled correctly. If any misspelled words are found use this highlighter's special text format on those words to highlight them to the user.</operation>
                         </data>
                         <variable type="1">
                            <data version="1">
                               <name>text</name>
+                              <description>The block of text in this highlighter's parent text document that is highlighted.</description>
                               <type>const QString&amp;</type>
                            </data>
                         </variable>
@@ -853,24 +880,30 @@
                      <function type="2">
                         <data version="1">
                            <name>setupSpeller</name>
+                           <description>Constructs and initializes all Aspell library resources for this new highlighter.</description>
                            <type>void</type>
+                           <operation>Create and initialize this highlighter's Aspell configuration, setting its default language, and then create a temporary can have errors Aspell speller _temp_. If _temp_ has errors then throw an exception.</operation>
+                           <operation>Set this highlighter's speller by extracting it from _temp_.</operation>
                         </data>
                      </function>
                      <variable type="1">
                         <data version="1">
                            <name>_format</name>
+                           <description>The text format used by this highlighter for any misspelled words in its parent editor.</description>
                            <type>QTextCharFormat</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_spellConfig</name>
+                           <description>Pointer to this highlighter's Aspell configuration resource.</description>
                            <type>AspellConfig*</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_spell</name>
+                           <description>Pointer to this highlighter's Aspell speller resource.</description>
                            <type>AspellSpeller*</type>
                         </data>
                      </variable>
@@ -879,6 +912,9 @@
                <class type="4">
                   <data version="1">
                      <name>Dialog</name>
+                     <description>This is the spell checking dialog for its parent text editor. This dialog scans the text of its parent editor and presents a dialog for each misspelled word it finds. This dialog provides the user options to change, ignore once, or ignore all for each misspelled word it finds. It also provides suggestions for changing the misspelled words it finds. Lastly it provides a snippet of the text around the misspelled word to provide context to the user. This is a persistent dialog and remembers its geometry.
+
+Once the entire text of the parent editor of this dialog has been scanned, it will ask the user if they wish to scan the entire text again. A cancel button is also provided for the user to cancel the spell checking at anytime.</description>
                      <qtobject/>
                   </data>
                   <parent type="13">
@@ -893,18 +929,22 @@
                      </data>
                      <constructor type="9">
                         <data version="1">
+                           <description>Constructs a new spell checker dialog with the given text editor parent.</description>
                            <type></type>
                            <explicit/>
+                           <operation>Setup this object's spell library resources, its GUI, and set it's window title.</operation>
                         </data>
                         <variable type="1">
                            <data version="1">
                               <name>parent</name>
+                              <description>The parent text edit for this new spell checking dialog.</description>
                               <type>TextEdit*</type>
                            </data>
                         </variable>
                      </constructor>
                      <destructor type="10">
                         <data version="1">
+                           <description>Delete this object's spell checking library resources.</description>
                            <type></type>
                            <virtual/>
                            <override/>
@@ -914,10 +954,13 @@
                      <function type="2">
                         <data version="1">
                            <name>exec</name>
+                           <description>Begins spell checking on the parent text editor of this dialog by finding the first misspelled word. If no misspelled word are found this returns.</description>
                            <type>int</type>
                            <virtual/>
                            <override/>
                            <final/>
+                           <return_description>Always returns Qt dialog accept.</return_description>
+                           <operation>Show this object's GUI and then find the first misspelled word. If a misspelled word is found then call the Qt dialog exec method, else return Qt accept.</operation>
                         </data>
                      </function>
                   </access>
@@ -928,29 +971,38 @@
                      <slot type="7">
                         <data version="1">
                            <name>changeClicked</name>
+                           <description>Called when the change button is clicked. This changes the current misspelled word in the parent editor's text of this dialog and then finds the next misspelled word.</description>
                            <type></type>
+                           <operation>Replace the current misspelled word in the parent editor's text of this dialog with the text from this object's word edit widget.</operation>
+                           <operation>Find the next misspelled word in the parent text editor of this dialog.</operation>
                         </data>
                      </slot>
                      <slot type="7">
                         <data version="1">
                            <name>ignoreOnceClicked</name>
+                           <description>Called when the ignore once button is clicked. This skips the current misspelled word and finds the next one.</description>
                            <type></type>
+                           <operation>Skip the current misspelled word of the parent editor's text and find the next one.</operation>
                         </data>
                      </slot>
                      <slot type="7">
                         <data version="1">
                            <name>ignoreAllClicked</name>
+                           <description>Called when the ignore all button is clicked. This adds this object's current misspelled word to the list of words to ignore and finds the next misspelled word.</description>
                            <type></type>
+                           <operation>Add this object's current misspelled word to its list of ignored words and then find the next misspelled word.</operation>
                         </data>
                      </slot>
                      <slot type="7">
                         <data version="1">
                            <name>wordTextChanged</name>
+                           <description>Called when the text in the word edit widget of this dialog changes. This updates the enabled state of the change button of this dialog depending on if the new text is a misspelled word or not, disabling it if it is misspelled.</description>
                            <type></type>
                         </data>
                         <variable type="1">
                            <data version="1">
                               <name>text</name>
+                              <description>New text in the word edit widget of this dialog.</description>
                               <type>const QString&amp;</type>
                            </data>
                         </variable>
@@ -963,13 +1015,22 @@
                      <function type="2">
                         <data version="1">
                            <name>findNextWord</name>
+                           <description>Finds the next misspelled word in the parent editor of this dialog, returning true if a misspelled word is found or false if there is nothing else to find.</description>
                            <type>bool</type>
+                           <return_description>True if a misspelled word is found or false otherwise.</return_description>
+                           <operation>Grab the text _text_ of this object's parent editor, finding the next word in it after this object's text offset.</operation>
+                           <operation>If a next word is found then check it for spelling and update this object's offset and length. If the word is misspelled then set it as this object's current misspelled word and return true, else find the next word in this object's parent editor.</operation>
+                           <operation>If no words are found query the user if they want to start again from the beginning.</operation>
                         </data>
                      </function>
                      <function type="2">
                         <data version="1">
                            <name>isCorrectWord</name>
+                           <description>Tests if the given word is spelled correctly or not.</description>
                            <type>bool</type>
+                           <return_description>True if the given word is spelled correctly or false otherwise.</return_description>
+                           <operation>If the given word is contained in this object's ignore list then return true.</operation>
+                           <operation>Use this object's Aspell speller to check for correct spelling, returning true if it is correct or false if it is misspelled.</operation>
                         </data>
                         <variable type="1">
                            <data version="1">
@@ -981,53 +1042,65 @@
                      <function type="2">
                         <data version="1">
                            <name>queryEndOfText</name>
+                           <description>Queries the user with a new dialog if they want to run spell checking again on the parent editor of this dialog.</description>
                            <type>bool</type>
+                           <return_description>True if the user wants to run spell checking again and a misspelled word was found or false otherwise.</return_description>
+                           <operation>Create a Qt message box querying the user if they want to spell check this object's parent editor from the beginning again.</operation>
+                           <operation>Execute _box_ in modal mode. If the user responds with yes then reset this object's offset and length and find the next misspelled word, returning the result of the find next word method.</operation>
+                           <operation>Else the user responded with no so call on this dialog to close and return false.</operation>
                         </data>
                      </function>
                      <function type="2">
                         <data version="1">
                            <name>setWord</name>
+                           <description>Sets the current misspelled word for this dialog.</description>
                            <type>void</type>
+                           <operation>Set this object's current misspelled word and its word edit widget to the captured text of the given match.</operation>
+                           <operation>Set this object's snippet with the given complete text and locations of the misspelled word, then update this object's word suggestions.</operation>
                         </data>
                         <variable type="1">
                            <data version="1">
                               <name>text</name>
+                              <description>The complete text of the parent editor of this dialog.</description>
                               <type>const QString&amp;</type>
                            </data>
                         </variable>
                         <variable type="1">
                            <data version="1">
                               <name>match</name>
+                              <description>The Qt regular expression match within the given complete text that is a misspelled word.</description>
                               <type>QRegularExpressionMatch&amp;</type>
                            </data>
                         </variable>
                      </function>
                      <function type="2">
                         <data version="1">
-                           <name>clearWord</name>
-                           <type>void</type>
-                        </data>
-                     </function>
-                     <function type="2">
-                        <data version="1">
                            <name>setSnippet</name>
+                           <description>Se the snippet text for this dialog with the given text and offset positions for the misspelled word.</description>
                            <type>void</type>
+                           <operation>Get the starting and end offsets for the text to be displayed before the misspelled word.</operation>
+                           <operation>Get the starting offset for the text to be displayed after the misspelled word.</operation>
+                           <operation>Build the snippet text to _sentence_, adding the snippet dots text before and after the built sentence and highlighting the misspelled word as bold.</operation>
+                           <operation>Set this object's snippet view label text to _sentence_.</operation>
                         </data>
                         <variable type="1">
                            <data version="1">
                               <name>text</name>
+                              <description>The complete text of the parent editor of this dialog.</description>
                               <type>const QString&amp;</type>
                            </data>
                         </variable>
                         <variable type="1">
                            <data version="1">
                               <name>begin</name>
+                              <description>The offset where the misspelled word begins in the given complete text.</description>
                               <type>int</type>
                            </data>
                         </variable>
                         <variable type="1">
                            <data version="1">
                               <name>length</name>
+                              <description>The length of the misspelled word in the given complete text.</description>
                               <type>int</type>
                            </data>
                         </variable>
@@ -1035,54 +1108,69 @@
                      <function type="2">
                         <data version="1">
                            <name>updateSuggested</name>
+                           <description>Update the word change suggestions displayed to the user for the current misspelled word of this dialog.</description>
                            <type>void</type>
+                           <operation>Get the list of word change suggestions _elements_ from this object's Aspell speller.</operation>
+                           <operation>Build the word suggestions text _text_, adding the title and then the list of suggested words _elements_.</operation>
+                           <operation>Set this object's suggestions view label text to _text_ and delete the temporary Aspell resources needed for generating the suggestion list.</operation>
                         </data>
                      </function>
                      <function type="2">
                         <data version="1">
                            <name>setupGui</name>
+                           <description>Constructs and initializes all GUI elements for this new dialog.</description>
                            <type>void</type>
+                           <operation>Create a new vertical layout _layout_, adding the top layout by calling the setup top method and then adding the buttons.</operation>
+                           <operation>Set the layout of this dialog to _layout_.</operation>
                         </data>
                      </function>
                      <function type="2">
                         <data version="1">
                            <name>setupTop</name>
+                           <description>Constructs and initializes the top part of the GUI for this new dialog, returning its layout.</description>
                            <type>QLayout*</type>
-                        </data>
-                     </function>
-                     <function type="2">
-                        <data version="1">
-                           <name>setupButtons</name>
-                           <type>QLayout*</type>
+                           <return_description>Pointer to the layout of the top part of the GUI for this dialog.</return_description>
+                           <operation>Create and initialize this new object's suggestion view label.</operation>
+                           <operation>Create a new horizontal layout _ret_, adding this object's word edit layout and then its suggestions view label.</operation>
+                           <operation>Return _ret_.</operation>
                         </data>
                      </function>
                      <function type="2">
                         <data version="1">
                            <name>setupWordEdit</name>
+                           <description>Constructs and initializes the word edit portion of the GUI for this new dialog, returning its layout.</description>
                            <type>QLayout*</type>
+                           <return_description>Pointer to the layout of the word edit portion of the GUI for this dialog.</return_description>
+                           <operation>Create the word line edit widget for new dialog, connecting its text changed signal.</operation>
+                           <operation>Create and initialize the snippet view label for this new dialog.</operation>
+                           <operation>Create a vertical layout _ret_, adding this object's word edit widget then its snippet view label.</operation>
+                           <operation>Return _ret_.</operation>
                         </data>
                      </function>
                      <function type="2">
                         <data version="1">
-                           <name>setupSnippet</name>
-                           <type>void</type>
-                        </data>
-                     </function>
-                     <function type="2">
-                        <data version="1">
-                           <name>setupSuggestions</name>
-                           <type>void</type>
+                           <name>setupButtons</name>
+                           <description>Constructs and initializes all buttons for this new dialog, returning the layout containing all the buttons.</description>
+                           <type>QLayout*</type>
+                           <return_description>Pointer to layout of all buttons for this new dialog.</return_description>
+                           <operation>Create the change, ignore once, ignore all, and cancel buttons for this new dialog, connecting all their clicked signals.</operation>
+                           <operation>Create a new horizontal layout _ret_, adding this object's change, ignore once, ignore all buttons, a stretch, and then this object's cancel button.</operation>
+                           <operation>Return _ret_.</operation>
                         </data>
                      </function>
                      <function type="2">
                         <data version="1">
                            <name>setupSpeller</name>
+                           <description>Constructs and initializes all Aspell library resources for this new dialog.</description>
                            <type>void</type>
+                           <operation>Create and initialize this object's Aspell configuration, setting its default language, and then create a temporary can have errors Aspell speller _temp_. If _temp_ has errors then throw an exception.</operation>
+                           <operation>Set this object's speller by extracting it from _temp_.</operation>
                         </data>
                      </function>
                      <variable type="1">
                         <data version="1">
                            <name>_snippetRadius</name>
+                           <description>The amount of characters displayed before and after the misspelled word in the snippet view of spell checkers.</description>
                            <constexpr/>
                            <static/>
                            <type>int</type>
@@ -1092,6 +1180,7 @@
                      <variable type="1">
                         <data version="1">
                            <name>_snippetDots</name>
+                           <description>The text added before and after a snippet view representing dots to communicate there is more text on either side.</description>
                            <static/>
                            <type>const char*</type>
                            <initializer>"..."</initializer>
@@ -1100,24 +1189,28 @@
                      <variable type="1">
                         <data version="1">
                            <name>_currentWord</name>
+                           <description>The current misspelled word for this dialog.</description>
                            <type>QString</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_ignored</name>
+                           <description>List of words that are ignored and not flagged as misspelled even if the spell checker says so.</description>
                            <type>QStringList</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_edit</name>
+                           <description>Pointer to the parent text editor this dialog is spell checking.</description>
                            <type>TextEdit*</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_offset</name>
+                           <description>Current position in the parent text editor text where this dialog is checking for misspelled words.</description>
                            <type>int</type>
                            <initializer>0</initializer>
                         </data>
@@ -1125,6 +1218,7 @@
                      <variable type="1">
                         <data version="1">
                            <name>_length</name>
+                           <description>Length of the current misspelled word for this dialog.</description>
                            <type>int</type>
                            <initializer>0</initializer>
                         </data>
@@ -1132,44 +1226,61 @@
                      <variable type="1">
                         <data version="1">
                            <name>_wordEdit</name>
+                           <description>Pointer to the word edit widget of this dialog where the user can edit and fix misspelled words.</description>
                            <type>QLineEdit*</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_snippetView</name>
+                           <description>Pointer to the snippet view label of this dialog which displays a portion of the text around the current misspelled.</description>
                            <type>QLabel*</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_suggestionsView</name>
+                           <description>Pointer to the suggestions view label of this dialog that displayed possible corrections to the current misspelled word.</description>
                            <type>QLabel*</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_changeButton</name>
+                           <description>Pointer to the change button of this dialog.</description>
                            <type>QPushButton*</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_spellConfig</name>
+                           <description>Pointer the Aspell configuration resource of this dialog.</description>
                            <type>AspellConfig*</type>
                         </data>
                      </variable>
                      <variable type="1">
                         <data version="1">
                            <name>_spell</name>
+                           <description>Pointer the Aspell speller resource of this dialog.</description>
                            <type>AspellSpeller*</type>
                         </data>
                      </variable>
                   </access>
                </class>
+               <function type="2">
+                  <data version="1">
+                     <name>setupActions</name>
+                     <description>Constructs and initializes this new editor's actions for spell checking and dialog popup shortcut.</description>
+                     <type>void</type>
+                     <operation>Create a new action _spell_ for this editor's spell checking action.</operation>
+                     <operation>Create a new action _dialog_ for this editor's dialog popup action.</operation>
+                     <operation>Add _spell_ and _dialog_ to this editor's actions.</operation>
+                  </data>
+               </function>
                <variable type="1">
                   <data version="1">
                      <name>_defaultLang</name>
+                     <description>The default language used by this editor's spell checking library Aspell.</description>
                      <static/>
                      <type>const char*</type>
                      <initializer>"en_US"</initializer>
@@ -1178,6 +1289,7 @@
                <variable type="1">
                   <data version="1">
                      <name>_spellCheckEnabled</name>
+                     <description>True if spell checking is enabled for this editor or false otherwise.</description>
                      <type>bool</type>
                      <initializer>true</initializer>
                   </data>
@@ -1185,6 +1297,7 @@
                <variable type="1">
                   <data version="1">
                      <name>_dialogPopupEnabled</name>
+                     <description>True if the dialog popup shortcut is enabled for this editor or false otherwise.</description>
                      <type>bool</type>
                      <initializer>true</initializer>
                   </data>
@@ -1192,6 +1305,7 @@
                <variable type="1">
                   <data version="1">
                      <name>_spellHighlighter</name>
+                     <description>Pointer to the spell checking highlighter for this editor. This is null if spell checking is disabled.</description>
                      <type>Highlighter*</type>
                   </data>
                </variable>
