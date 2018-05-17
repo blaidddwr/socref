@@ -2454,6 +2454,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
          <class type="4">
             <data version="1">
                <name>ProjectDialog</name>
+               <description>This is the project properties dialog. This dialog allows the user to view and edit the basic properties of a project. This is a persistent dialog and remembers its geometry.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -2468,18 +2469,23 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </data>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new project dialog with the given project and optional parent. If the given project pointer is null then an exception is thrown.</description>
                      <type></type>
                      <explicit/>
+                     <operation>If the given project pointer is null then throw an exception.</operation>
+                     <operation>Setup the GUI of this new dialog and set its window title.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>project</name>
+                        <description>Pointer to the project that this new dialog presents to the user for viewing and editing.</description>
                         <type>Project*</type>
                      </data>
                   </variable>
                   <variable type="1">
                      <data version="1">
                         <name>parent</name>
+                        <description>Optional parent for this new dialog.</description>
                         <type>QWidget*</type>
                         <initializer>nullptr</initializer>
                      </data>
@@ -2493,19 +2499,26 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <slot type="7">
                   <data version="1">
                      <name>okClicked</name>
+                     <description>Called when this object's OK button is clicked. This applies its project property settings and closes this dialog window.</description>
                      <type></type>
+                     <operation>Apply project property settings and close the dialog with accept.</operation>
                   </data>
                </slot>
                <slot type="7">
                   <data version="1">
                      <name>applyClicked</name>
+                     <description>Called when this object's apply button is clicked. This applies its property settings to its underlying project.</description>
                      <type></type>
+                     <operation>Apply all of this object's properties to its project.</operation>
                   </data>
                </slot>
                <slot type="7">
                   <data version="1">
                      <name>browseClicked</name>
+                     <description>Called when this object's browse button is clicked. This is used with the scan directory property of a project. This opens a file dialog to find a new directory.</description>
                      <type></type>
+                     <operation>Create a new file dialog _dialog_ and execute it in modal mode. If execution fails then return.</operation>
+                     <operation>Get the first directory path the user selected from _dialog_. If the path exists and is a directory then set the text of this object's scan directory edit widget.</operation>
                   </data>
                </slot>
             </access>
@@ -2516,42 +2529,72 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>setupGui</name>
+                     <description>Constructs and initializes all GUI elements for this new dialog.</description>
                      <type>void</type>
+                     <operation>Create a new vertical layout _layout_, adding this new object's form GUI then a stretch then this new object's buttons.</operation>
+                     <operation>Set the layout of this dialog to _layout_.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupForm</name>
+                     <description>Constructs and initializes the form GUI for this new dialog, returning its layout.</description>
                      <type>QLayout*</type>
+                     <return_description>Pointer to layout for the form GUI of this new dialog.</return_description>
+                     <operation>Create this new object's name edit widget and set its text to its project's name.</operation>
+                     <operation>Create this new object's filters edit widget and set its text to its project's scan filters.</operation>
+                     <operation>Create a new form layout _ret_, adding this object's name edit widget then scan directory layout then filters edit widget.</operation>
+                     <operation>Return _ret_.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupDirectory</name>
+                     <description>Constructs and initializes the scan directory form element for this new dialog, returning its layout.</description>
+                     <type>QLayout*</type>
+                     <return_description>Pointer to layout of the scan directory form element for this new dialog.</return_description>
+                     <operation>Create and initialize the scan directory edit widget for this new dialog.</operation>
+                     <operation>Create a push button _button_ for the browse button of the scan directory form element of this new dialog, connecting its clicked signal.</operation>
+                     <operation>Create a new horizontal layout _ret_, adding this object's scan directory edit widget then the browse button _button_. </operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupButtons</name>
+                     <description>Constructs and initializes the buttons for this new dialog, return the layout for the new buttons.</description>
                      <type>QLayout*</type>
+                     <return_description>Pointer to the layout of buttons for this new dialog.</return_description>
+                     <operation>Create the OK, apply, and cancel buttons for this new dialog, connecting their clicked signals. The cancel signal is connected to this Qt dialog reject slot.</operation>
+                     <operation>Create a new horizontal layout _ret_, adding OK button then apply button then stretch then cancel button.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <variable type="1">
                   <data version="1">
                      <name>_project</name>
+                     <description>Pointer to the project this properties dialog is presenting to the user.</description>
                      <type>Project*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_nameEdit</name>
+                     <description>Pointer to the name edit widget for this dialog that represents the project's name.</description>
                      <type>QLineEdit*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_scanDirectoryEdit</name>
+                     <description>Pointer to the scan directory edit widget for this dialog that represents the project's scan directory.</description>
                      <type>QLineEdit*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_filtersEdit</name>
+                     <description>Pointer to the filters edit widget for this dialog that represents the project's scan filters.</description>
                      <type>QLineEdit*</type>
                   </data>
                </variable>
@@ -2560,6 +2603,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
          <class type="4">
             <data version="1">
                <name>ScanDialog</name>
+               <description>This is the scan dialog which executes a scan thread and reports on its progress, closing once the scanning is complete or fails. Progress of scanning is presented to the user using a progress bar. This dialog allows the user to cancel the scanning process with a cancel button which requests the scan thread to interrupt itself before completion.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -2574,18 +2618,23 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </data>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new scan dialog with the given scan thread and optional parent. This does not start the scanning process but only prepares the dialog to start execution. If the given scan thread pointer is null then an exception is thrown.</description>
                      <type></type>
                      <explicit/>
+                     <operation>If the given scan thread pointer is null then throw an excpetion, else setup this GUI and window title of this new dialog.</operation>
+                     <operation>Connect the progress changed and finished signals to this new dialog.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>scanner</name>
+                        <description>Pointer to the scan thread this new dialog will use for execution. This dialog does not take ownership of the scan thread. The pointer cannot be null.</description>
                         <type>ScanThread*</type>
                      </data>
                   </variable>
                   <variable type="1">
                      <data version="1">
                         <name>parent</name>
+                        <description>Optional parent for this new dialog.</description>
                         <type>QWidget*</type>
                         <initializer>nullptr</initializer>
                      </data>
@@ -2594,10 +2643,13 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>exec</name>
+                     <description>Starts execution of the scan thread of this dialog and then beings execution of this dialog in modal mode.</description>
                      <type>int</type>
                      <virtual/>
                      <override/>
                      <final/>
+                     <return_description>Always returns Qt dialog accept.</return_description>
+                     <operation>Start the separate thread for scanning in this object's scan thread object and then begin execution of this dialog in modal mode returning the exit state.</operation>
                   </data>
                </function>
             </access>
@@ -2608,14 +2660,17 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>closeEvent</name>
+                     <description>Implements the Qt interface for handling a close event on this dialog. This implementation requests its scan thread to finish and ignores the close event so the scan thread exits cleanly.</description>
                      <type>void</type>
                      <virtual/>
                      <override/>
                      <final/>
+                     <operation>Request the scan thread for this dialog interrupts itself and ignore the given close event.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>event</name>
+                        <description>Pointer to the Qt close event handler.</description>
                         <type>QCloseEvent*</type>
                      </data>
                   </variable>
@@ -2628,17 +2683,20 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <slot type="7">
                   <data version="1">
                      <name>cancelClicked</name>
+                     <description>Called when the cancel button for this dialog is clicked, requesting the scan thread for this dialog to interrupt itself and exit.</description>
                      <type></type>
                   </data>
                </slot>
                <slot type="7">
                   <data version="1">
                      <name>progressChanged</name>
+                     <description>Called when the scan thread's progress for this dialog has changed. This updates the progress bar for this dialog.</description>
                      <type></type>
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>complete</name>
+                        <name>index</name>
+                        <description>The current file index that is being parsed by the scan thread of this dialog.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -2646,7 +2704,10 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <slot type="7">
                   <data version="1">
                      <name>scanFinished</name>
+                     <description>Called when the scan thread for this dialog has finished scanning all files. This closes this dialog on accept. If the scan thread has an exception from its separate thread then it is shown to the user.</description>
                      <type></type>
+                     <operation>If this object's scan thread contained an exception then show it to the user.</operation>
+                     <operation>Exit the modal execution of this dialog with accept.</operation>
                   </data>
                </slot>
             </access>
@@ -2657,36 +2718,35 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>setupGui</name>
+                     <description>Constructs and initializes the GUI for this new dialog.</description>
                      <type>void</type>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setupBar</name>
-                     <type>void</type>
+                     <operation>Create and initialize the progress bar for this new dialog, using the total number of files this object's scan thread will parse as the progress bar's maximum value.</operation>
+                     <operation>Create a new vertical layout _layout_, adding this object's progress bar then the bottom GUI.</operation>
+                     <operation>Set the layout of this dialog to _layout_.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setupBottom</name>
+                     <description>Constructs and initializes the bottom GUI for this new dialog, returning its layout.</description>
                      <type>QLayout*</type>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setupCancel</name>
-                     <type>QWidget*</type>
+                     <return_description>Pointer to layout of the bottom GUI for this new element.</return_description>
+                     <operation>Create a push button for this object's cancel button, connecting its signal.</operation>
+                     <operation>Create a new horizontal layout _ret_, adding a stretch then this object's cancel button then a another stretch.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <variable type="1">
                   <data version="1">
                      <name>_scanner</name>
+                     <description>Pointer to the scan thread object for this dialog.</description>
                      <type>ScanThread*</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_bar</name>
+                     <description>Pointer to the progress bar widget for this dialog.</description>
                      <type>QProgressBar*</type>
                   </data>
                </variable>
