@@ -56,6 +56,7 @@ template<class T> T* SingletonFactory<T>::_instance {nullptr};
  */
 template<class T> T& SingletonFactory<T>::instance()
 {
+   // 1
    if ( !_instance )
    {
       Exception::LogicError e;
@@ -87,6 +88,7 @@ template<class T> T& SingletonFactory<T>::instance()
  */
 template<class T> void SingletonFactory<T>::setInstance(T* instance)
 {
+   // 1
    delete _instance;
    _instance = instance;
 }

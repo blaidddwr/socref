@@ -10,6 +10,7 @@ namespace CppQt
    namespace View
    {
       QString displayTemplatesText(const AbstractBlock* block);
+      QString parseBoldMarkers(const QString& text);
    }
 }
 

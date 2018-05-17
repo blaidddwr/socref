@@ -178,8 +178,9 @@ void Declaration::setDeclareType(Declaration::Type type)
    if ( _type != type )
    {
       _type = type;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 

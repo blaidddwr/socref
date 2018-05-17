@@ -19,10 +19,8 @@ namespace Gui
    private:
       void setupGui();
       QLayout* setupTop();
-      QWidget* setupImage();
       QWidget* setupText();
       QLayout* setupBottom();
-      QWidget* setupOk();
       /*!
        * The width and height of the program's icon displayed in the top left of this 
        * object's GUI. 

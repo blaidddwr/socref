@@ -51,18 +51,14 @@ namespace CppQt
       void setOperations(const QStringList& operations);
       QList<Variable*> arguments() const;
       QList<Template*> templates() const;
-   signals:
-      void bodyChanged();
-   protected slots:
-      virtual void childNameChanged(AbstractBlock* child) override final;
-      virtual void childAdded(AbstractBlock* child) override final;
-      virtual void childRemoved(AbstractBlock* child) override final;
    protected:
       virtual void readData(const QDomElement& data, int version) override;
       virtual int writeVersion() const override;
       virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual void copyDataFrom(const AbstractBlock* object) override;
+      virtual bool childAdded(AbstractBlock* child) override final;
+      virtual bool childRemoved(AbstractBlock* child) override final;
       QString fullName(bool hasReturn, const QString& name) const;
    private:
       QString attributes() const;

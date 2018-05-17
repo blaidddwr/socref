@@ -63,6 +63,7 @@ private:
        */
       ,ElementList
    };
+   static void read(Match* match, const QDomElement& element);
    DomElementReader& append(const QString& tagName, void* pointer, Type type, bool required);
    void clear();
    /*!

@@ -27,3 +27,25 @@ QString CppQt::View::displayTemplatesText(const AbstractBlock* block)
    }
    return ret;
 }
+
+
+
+
+
+
+QString CppQt::View::parseBoldMarkers(const QString& text)
+{
+   QString ret;
+   bool ingress {true};
+   for (auto ch: text)
+   {
+      if ( ch == QChar('_') )
+      {
+         if ( ingress ) ret.append("<b>");
+         else ret.append("</b>");
+         ingress = !ingress;
+      }
+      else ret.append(ch);
+   }
+   return ret;
+}

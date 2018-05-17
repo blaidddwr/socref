@@ -41,7 +41,7 @@ namespace CppQt
          QLayout* setupProperties();
          void setupInitializer();
          CppQt::Variable* _block;
-         Gui::TypeComboBox* _type {nullptr};
+         Gui::TypeSelection* _type {nullptr};
          QCheckBox* _constExprBox {nullptr};
          QCheckBox* _staticBox {nullptr};
          QCheckBox* _mutableBox {nullptr};

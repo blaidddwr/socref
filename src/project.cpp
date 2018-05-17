@@ -66,6 +66,7 @@ Project::Project(int type):
    _type(type),
    _scanDirectory(".")
 {
+   // 1
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
    makeRoot();
    _scanFilters = AbstractProjectFactory::instance().defaultFilters(_type);
@@ -101,8 +102,11 @@ Project::Project(int type):
 Project::Project(const QString& path):
    _path(path)
 {
+   // 1
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
    QByteArray xmlBytes {read()};
+
+   // 2
    QDomDocument document;
    document.setContent(xmlBytes);
    QDomElement project {document.documentElement()};
@@ -123,10 +127,14 @@ Project::Project(const QString& path):
       e.setDetails(tr("Could not find all required XML elements of project."));
       throw e;
    }
+
+   // 3
    convertScanDirectory(scanDirectory);
    readTypeElement(type);
    makeRoot();
    _root->read(root);
+
+   // 4
    addPath(_path);
    emit saved();
 }
@@ -284,14 +292,13 @@ BlockModel* Project::model()
  *
  * Steps of Operation: 
  *
- * 1. If the given new name is the same as this project's current name then do 
- *    nothing and exit, else go to the next step. 
- *
- * 2. Set this project's name to the new name given, emit the name changed signal, 
- *    and signal this project has been modified. 
+ * 1. If the given new name is different than this project's current name then set 
+ *    this project's name to the new name given, emit the name changed signal, and 
+ *    signal this project has been modified. 
  */
 void Project::setName(const QString& newName)
 {
+   // 1
    if ( _name != newName )
    {
       _name = newName;
@@ -316,31 +323,33 @@ void Project::setName(const QString& newName)
  * Steps of Operation: 
  *
  * 1. If the given path is the same as this project's current scan directory path 
- *    then do nothing and exit, else go to the next step. 
+ *    then return. 
  *
- * 2. If the given new path is not a valid directory then throw an exception, else 
- *    go to the next step. 
+ * 2. If the given new path is not a valid directory then throw an exception. 
  *
  * 3. Set this project's scan directory to the new path given in its canonical form 
  *    and signal this project has been modified. 
  */
 void Project::setScanDirectory(const QString& newPath)
 {
+   // 1
    QFileInfo current(_scanDirectory);
    QFileInfo info(newPath);
-   if ( current.canonicalFilePath() != info.canonicalFilePath() )
+   if ( current.canonicalFilePath() == info.canonicalFilePath() ) return;
+
+   // 2
+   if ( !info.isDir() )
    {
-      if ( !info.isDir() )
-      {
-         Exception::InvalidArgument e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
-                      .arg(newPath));
-         throw e;
-      }
-      _scanDirectory = info.canonicalFilePath();
-      signalModified();
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
+                   .arg(newPath));
+      throw e;
    }
+
+   // 3
+   _scanDirectory = info.canonicalFilePath();
+   signalModified();
 }
 
 
@@ -358,14 +367,13 @@ void Project::setScanDirectory(const QString& newPath)
  *
  * Steps of Operation: 
  *
- * 1. If the given scan filters is the same of this project's current scan filters 
- *    then do nothing and exit, else go to the next step. 
- *
- * 2. Set this project's scan filters to the new filters given and signal this 
- *    project has been modified. 
+ * 1. If the given scan filters is different than this project's current scan 
+ *    filters then set this project's scan filters to the new filters given and 
+ *    signal this project has been modified. 
  */
 void Project::setScanFilters(const QString& newFilters)
 {
+   // 1
    if ( _scanFilters != newFilters )
    {
       _scanFilters = newFilters;
@@ -401,6 +409,7 @@ void Project::setScanFilters(const QString& newFilters)
  */
 void Project::save()
 {
+   // 1
    if ( _path.isEmpty() )
    {
       Exception::LogicError e;
@@ -408,10 +417,14 @@ void Project::save()
       e.setDetails(tr("Attempting to save new project that has no path."));
       throw e;
    }
+
+   // 2
    QDomDocument document;
    document.appendChild(document.createProcessingInstruction("xml"
                                                              ,"version=\"1.0\" encoding=\"UTF-8\""));
    QDomElement project {document.createElement("project")};
+
+   // 3
    saveBasicInfo(document,&project);
    QDomElement type {document.createElement(_typeTag)};
    type.setAttribute(_idTag,QString::number(_type));
@@ -421,6 +434,8 @@ void Project::save()
    root.setTagName(_rootTag);
    project.appendChild(root);
    document.appendChild(project);
+
+   // 4
    QByteArray xmlBytes {document.toByteArray(3)};
    write(xmlBytes);
    _modified = false;
@@ -441,25 +456,33 @@ void Project::save()
  *
  * Steps of Operation: 
  *
- * 1. Set this project's file path to the new path given, changing the file watcher 
- *    path to the new path given and removing the old one. 
+ * 1. Save this project's current file path to _oldPath_, set this project's file 
+ *    path to the new path given, and then call this project's save method. 
  *
- * 2. Save this project to the new file. If any exception is thrown while saving 
- *    then revert this project and its file watcher back to the old path. 
+ * 2. If any exception is caught while saving then revert this project and its file 
+ *    watcher back to the old path and throw the caught exception. 
+ *
+ * 3. If _oldPath_ is not empty then remove the path from this file watcher. Add 
+ *    the new path to this file watcher. 
  */
 void Project::saveAs(const QString& path)
 {
+   // 1
    QString oldPath = _path;
    _path = path;
    try
    {
       save();
    }
+
+   // 2
    catch (...)
    {
       _path = oldPath;
       throw;
    }
+
+   // 3
    if ( !oldPath.isEmpty() ) removePath(oldPath);
    addPath(_path);
 }
@@ -492,8 +515,7 @@ void Project::blockModified()
  * Steps of Operation: 
  *
  * 1. Open this project's file and read in its entire contents as a byte array. If 
- *    opening or reading fails then return and do nothing, else go to the next 
- *    step. 
+ *    opening or reading fails then return. 
  *
  * 2. Check the saved hash of the saved file with the current hash of the saved 
  *    file. If the hashes are different then signal the save file has changed from 
@@ -501,10 +523,13 @@ void Project::blockModified()
  */
 void Project::fileChanged()
 {
+   // 1
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) ) return;
    QByteArray data = file.readAll();
    if ( file.error() != QFileDevice::NoError ) return;
+
+   // 2
    QCryptographicHash hash(QCryptographicHash::Md5);
    hash.addData(data);
    if ( hash.result() != _hash ) emit saveFileChanged();
@@ -522,11 +547,12 @@ void Project::fileChanged()
  *
  * Steps of Operation: 
  *
- * 1. If this project is not modified then set it as modified and signal this 
- *    project is now modified, else do nothing. 
+ * 1. If this project is not modified then set it as modified and emit the modified 
+ *    signal. 
  */
 void Project::signalModified()
 {
+   // 1
    if ( !_modified )
    {
       _modified = true;
@@ -549,13 +575,14 @@ void Project::signalModified()
  * Steps of Operation: 
  *
  * 1. Open this project's file and read all its contents as a byte array. If 
- *    opening or reading failed then throw an exception, else go to the next step. 
+ *    opening or reading failed then throw an exception. 
  *
  * 2. Set this project's file hash, used for file watching, and return the byte 
  *    array. 
  */
 QByteArray Project::read()
 {
+   // 1
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
@@ -572,6 +599,8 @@ QByteArray Project::read()
       e.setDetails(tr("Error reading from file %1: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
+
+   // 2
    setFileHash(ret);
    return ret;
 }
@@ -592,12 +621,14 @@ QByteArray Project::read()
  *
  * Steps of Operation: 
  *
- * 1. If the given path is not a valid directory then throw an exception, else 
- *    convert the path to its canonical form and save it to this project's scan 
- *    directory path. 
+ * 1. If the given path is not a valid directory then throw an exception. 
+ *
+ * 2. Convert the given path to its canonical form and save it to this project's 
+ *    scan directory path. 
  */
 void Project::convertScanDirectory(const QString& path)
 {
+   // 1
    QDir directory {QFileInfo(_path).dir()};
    if ( !directory.cd(path) )
    {
@@ -608,6 +639,8 @@ void Project::convertScanDirectory(const QString& path)
                    .arg(_scanDirectory));
       throw e;
    }
+
+   // 2
    _scanDirectory = directory.canonicalPath();
 }
 
@@ -628,7 +661,7 @@ void Project::convertScanDirectory(const QString& path)
  *
  * 1. Read in the project type from the given XML element as an integer and set 
  *    this project's type to that value. If the read in type is out of range for 
- *    all possible project types then throw an exception, else go the next step. 
+ *    all possible project types then throw an exception. 
  *
  * 2. Read in the text field of the given XML element and make sure it matches the 
  *    name of the project type read in. If they do not match then throw an 
@@ -636,6 +669,7 @@ void Project::convertScanDirectory(const QString& path)
  */
 void Project::readTypeElement(const QDomElement& element)
 {
+   // 1
    DomElementReader reader(element);
    _type = reader.attributeToInt(_idTag);
    AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
@@ -648,6 +682,8 @@ void Project::readTypeElement(const QDomElement& element)
                    .arg(factory.size() - 1));
       throw e;
    }
+
+   // 2
    QString typeName = element.text();
    if ( typeName != factory.name(_type) )
    {
@@ -677,12 +713,13 @@ void Project::readTypeElement(const QDomElement& element)
  *
  * 1. Open this project's file and write the given byte array to the file, 
  *    overwriting and erasing any data the file contained beforehand. If opening or 
- *    writing failed then throw an exception, else go to the next step. 
+ *    writing failed then throw an exception. 
  *
  * 2. Set this project's file hash used for watching. 
  */
 void Project::write(const QByteArray& data)
 {
+   // 1
    QFile file(_path);
    if ( !file.open(QIODevice::WriteOnly|QIODevice::Truncate) )
    {
@@ -698,6 +735,8 @@ void Project::write(const QByteArray& data)
       e.setDetails(tr("Error writing to file %1: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
+
+   // 2
    setFileHash(data);
 }
 
@@ -718,19 +757,29 @@ void Project::write(const QByteArray& data)
  *
  * Steps of Operation: 
  *
- * 1. Add three new child elements to the given element that contains this 
- *    project's name, scan directory, and file filters. The scan directory is saved 
- *    using its relative path in relation to the directory where this project's 
- *    save file is located. 
+ * 1. Create a name XML element and save this project's name to it, appending it to 
+ *    the given project element.  
+ *
+ * 2. Create a scan directory XML element and save this project's scan directory, 
+ *    appending it to the given project element. The scan directory path saved is 
+ *    relative to the directory where this project's save file is located. 
+ *
+ * 3. Create a filters XML element and save this project's scan filters to it, 
+ *    appending it to the given project element. 
  */
 void Project::saveBasicInfo(QDomDocument& document, QDomElement* project)
 {
+   // 1
    QDomElement name {document.createElement(_nameTag)};
    name.appendChild(document.createTextNode(_name));
    project->appendChild(name);
+
+   // 2
    QDomElement scandir {document.createElement(_scanDirectoryTag)};
    scandir.appendChild(document.createTextNode(QFileInfo(_path).dir().relativeFilePath(_scanDirectory)));
    project->appendChild(scandir);
+
+   // 3
    QDomElement filters {document.createElement(_scanFiltersTag)};
    filters.appendChild(document.createTextNode(_scanFilters));
    project->appendChild(filters);
@@ -755,6 +804,7 @@ void Project::saveBasicInfo(QDomDocument& document, QDomElement* project)
  */
 void Project::setFileHash(const QByteArray& bytes)
 {
+   // 1
    QCryptographicHash hash(QCryptographicHash::Md5);
    hash.addData(bytes);
    _hash = hash.result();
@@ -775,20 +825,21 @@ void Project::setFileHash(const QByteArray& bytes)
  * Steps of Operation: 
  *
  * 1. If this project's type is out of range for possible project types then throw 
- *    an exception, else go to the next step. 
+ *    an exception. 
  *
  * 2. Create a new root block using this project type's block factory, setting this 
  *    project's root block pointer to the new root block. If the block factory 
- *    returns a null pointer than throw an exception, else go to the next step. 
+ *    returns a null pointer than throw an exception, else set the new root block's 
+ *    parent to this object. 
  *
- * 3. Set the new root block's parent to this project, connecting the block 
- *    modified signal between the new root block and this project. 
- *
- * 4. Create a new block model with the new root block and this project as its 
- *    parent, setting this project's block model pointer to the new block model. 
+ * 3. Connect the block modified signal between the new root block and this 
+ *    project. Create a new block model object with the new root block and this 
+ *    object as its parent, setting this object's block model pointer to the new 
+ *    block model. 
  */
 void Project::makeRoot()
 {
+   // 1
    AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
    if ( _type < 0 || _type >= factory.size() )
    {
@@ -797,6 +848,8 @@ void Project::makeRoot()
       e.setDetails(tr("Invald project type %1 when max is %2.").arg(_type).arg(factory.size() - 1));
       throw e;
    }
+
+   // 2
    _root = factory.blockFactory(_type).makeRootBlock().release();
    if ( !_root )
    {
@@ -806,6 +859,8 @@ void Project::makeRoot()
       throw e;
    }
    _root->QObject::setParent(this);
+
+   // 3
    connect(_root,&AbstractBlock::modified,this,&Project::blockModified);
    _model = new BlockModel(_root,this);
 }

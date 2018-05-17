@@ -1,12 +1,23 @@
 #include "cppqt_typelist.h"
 #include "cppqt_view_typelist.h"
+#include "cppqt_edit_typelist.h"
 #include "cppqt_blockfactory.h"
 #include "gui_abstractedit.h"
 
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt;
+
+
+
+
+
+
+TypeList::TypeList(const QString& name):
+   Base(name)
+{}
 
 
 
@@ -23,19 +34,9 @@ int TypeList::type() const
 
 
 
-const AbstractBlockFactory& TypeList::factory() const
-{
-   return BlockFactory::instance();
-}
-
-
-
-
-
-
 QString TypeList::name() const
 {
-   return QString("Types ").append("(").append(QString::number(size())).append(")");
+   return Base::name().append(" (").append(QString::number(size())).append(")");
 }
 
 
@@ -57,7 +58,7 @@ QIcon TypeList::icon() const
 
 QList<int> TypeList::buildList() const
 {
-   QList<int> ret {BlockFactory::TypeType};
+   QList<int> ret {BlockFactory::TypeListType,BlockFactory::TypeType};
    return ret;
 }
 
@@ -78,74 +79,7 @@ std::unique_ptr<QWidget> TypeList::makeView() const
 
 std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
 {
-   return nullptr;
-}
-
-
-
-
-
-
-void TypeList::childNameChanged(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
-}
-
-
-
-
-
-
-void TypeList::childAdded(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
-}
-
-
-
-
-
-
-void TypeList::childRemoved(AbstractBlock* child)
-{
-   Q_UNUSED(child)
-   notifyOfNameChange();
-   emit bodyChanged();
-}
-
-
-
-
-
-
-void TypeList::readData(const QDomElement& element, int version)
-{
-   Q_UNUSED(element)
-   Q_UNUSED(version)
-}
-
-
-
-
-
-
-int TypeList::writeVersion() const
-{
-   return _version;
-}
-
-
-
-
-
-
-QDomElement TypeList::writeData(QDomDocument& document) const
-{
-   return document.createElement("na");
+   return unique_ptr<AbstractEdit>(new Edit::TypeList(this));
 }
 
 
@@ -163,7 +97,36 @@ std::unique_ptr<AbstractBlock> TypeList::makeBlank() const
 
 
 
-void TypeList::copyDataFrom(const AbstractBlock* other)
+bool TypeList::childNameModified(AbstractBlock* child)
 {
-   Q_UNUSED(other)
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return false;
+}
+
+
+
+
+
+
+bool TypeList::childAdded(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return false;
+}
+
+
+
+
+
+
+bool TypeList::childRemoved(AbstractBlock* child)
+{
+   Q_UNUSED(child)
+   notifyNameModified();
+   notifyBodyModified();
+   return false;
 }

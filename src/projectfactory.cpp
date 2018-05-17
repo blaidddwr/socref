@@ -47,6 +47,7 @@ int ProjectFactory::size() const
  */
 QString ProjectFactory::name(int type) const
 {
+   // 1
    switch (type)
    {
    case CppQtType: return QObject::tr("C++/Qt");
@@ -75,6 +76,7 @@ QString ProjectFactory::name(int type) const
  */
 QString ProjectFactory::defaultFilters(int type) const
 {
+   // 1
    switch (type)
    {
    case CppQtType: return QString("*.cpp *.h");
@@ -94,13 +96,28 @@ QString ProjectFactory::defaultFilters(int type) const
  * @param type Project type whose settings dialog is returned. 
  *
  * @return Pointer to the new settings dialog for the given project type. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Return a new settings dialog for the given project type. If the given type 
+ *    does not exist then throw an exception. 
  */
 std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
 {
+   // 1
    switch (type)
    {
    case CppQtType: return unique_ptr<QDialog>(new CppQt::Gui::SettingsDialog);
-   default: return nullptr;
+   default:
+      {
+         Exception::InvalidArgument e;
+         MARK_EXCEPTION(e);
+         e.setDetails(QObject::tr("Cannot create settings dialog of invalid type %1 when max is %2.")
+                      .arg(type)
+                      .arg(Total - 1));
+         throw e;
+      }
    }
 }
 
@@ -125,6 +142,7 @@ std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
  */
 const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 {
+   // 1
    switch (type)
    {
    case CppQtType: return CppQt::BlockFactory::instance();
@@ -134,7 +152,7 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
          MARK_EXCEPTION(e);
          e.setDetails(QObject::tr("Cannot reference block factory of invalid type %1 when max is %2.")
                       .arg(type)
-                      .arg(Total));
+                      .arg(Total - 1));
          throw e;
       }
    }
@@ -164,6 +182,7 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
  */
 std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, AbstractBlock* root) const
 {
+   // 1
    switch (type)
    {
    case CppQtType: return unique_ptr<AbstractParserFactory>(new CppQt::ParserFactory(root));
@@ -171,9 +190,9 @@ std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int typ
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Cannot reference parser factory of invalid type %1 when max is %2.")
+         e.setDetails(QObject::tr("Cannot create parser factory of invalid type %1 when max is %2.")
                       .arg(type)
-                      .arg(Total));
+                      .arg(Total - 1));
          throw e;
       }
    }

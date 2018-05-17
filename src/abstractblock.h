@@ -99,22 +99,27 @@ public:
    QDomElement write(QDomDocument& document) const;
 signals:
    /*!
-    * Signals that this block has been modified and should set the project as 
-    * modified. 
+    * Signals that a child block of this block has been modified. The given child 
+    * block could be any depth below this block. Only the root block emits this 
+    * signal. 
     */
    void modified();
    /*!
-    * Signals that a child with the given pointer has changed its name. This child 
-    * could be any depth below this block. 
+    * Signals that a child block of this block with the given pointer has modified its 
+    * name. The given child block could be any depth below this block. Only the root 
+    * block emits this signal. 
     *
     * @param child Pointer of the child whose name has changed. 
     */
-   void nameChanged(AbstractBlock* child);
-protected slots:
-   virtual void childNameChanged(AbstractBlock* child);
-   virtual void childAdded(AbstractBlock* child);
-   virtual void childRemoved(AbstractBlock* child);
-   virtual void childMoved(AbstractBlock* child);
+   void nameModified(AbstractBlock* child);
+   /*!
+    * Signals that a child block of this block with the given pointer has modified its 
+    * body. The given child block could be any depth below this block. Only the root 
+    * block emits this signal. 
+    *
+    * @param child  
+    */
+   void bodyModified(AbstractBlock* child);
 protected:
    /*!
     * This interface reads in the data for this block from the given XML element and 
@@ -156,11 +161,14 @@ protected:
     * @param other The other block whose data will be copied. 
     */
    virtual void copyDataFrom(const AbstractBlock* other) = 0;
+   virtual bool childNameModified(AbstractBlock* child);
+   virtual bool childAdded(AbstractBlock* child);
+   virtual bool childRemoved(AbstractBlock* child);
+   virtual bool childMoved(AbstractBlock* child);
+   void notifyModified();
+   void notifyNameModified();
+   void notifyBodyModified();
    static QDomElement makeElement(QDomDocument& document, const QString& tagName, const QString& text);
-   void notifyOfNameChange();
-private slots:
-   void childModified();
-   void childNameModified(AbstractBlock* child);
 private:
    void copyChildren(const AbstractBlock* parent);
    void setParent(AbstractBlock* parent, int index = -1);
@@ -189,31 +197,34 @@ private:
 
 
 /*!
- * Build a list of this node's children that matches the given type. The returned 
+ * Build a list of this block's children that matches the given type. The returned 
  * list has no other copies. 
  *
  * @tparam T The child class type that is matched. 
  *
  * @param type The type whose matches are added to the list. 
  *
- * @return List of this node's children that is given type. 
+ * @return List of this block's children that is given type. 
  *
  *
  * Steps of Operation: 
  *
- * 1. Iterate through the list of this node's children. 
+ * 1. Create a new list of pointers _ret_ of the given template type. Iterate 
+ *    through the list of this block's children. If a child matches the given type 
+ *    then append its pointer to _ret_. 
  *
- * 2. Add a pointer of every child that matches the given type to the return list. 
- *
- * 3. Return the list of matched children. 
+ * 2. Return _ret_. 
  */
 template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 {
+   // 1
    QList<T*> ret;
    for (auto child : list())
    {
       if ( T* variable = child->cast<T>(type) ) ret.append(variable);
    }
+
+   // 2
    return ret;
 }
 
@@ -238,25 +249,28 @@ template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
  * Steps of Operation: 
  *
  * 1. If the given type to cast does not match this block's type then return a null 
- *    pointer, else go to the next step. 
+ *    pointer. 
  *
  * 2. Cast this block's pointer to the requested class type and return the cast 
  *    pointer. If the cast fails then throw an exception. 
  */
 template<class T> const T* AbstractBlock::cast(int toType) const
 {
-   if ( type() == toType )
+   // 1
+   if ( type() != toType )
    {
-      if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
-      else
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Failed casting object to required type."));
-         throw e;
-      }
+      return nullptr;
    }
-   return nullptr;
+
+   // 2
+   if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed casting object to required type."));
+      throw e;
+   }
 }
 
 
@@ -280,25 +294,28 @@ template<class T> const T* AbstractBlock::cast(int toType) const
  * Steps of Operation: 
  *
  * 1. If the given type to cast does not match this block's type then return a null 
- *    pointer, else go to the next step. 
+ *    pointer. 
  *
  * 2. Cast this block's pointer to the requested class type and return the cast 
  *    pointer. If the cast fails then throw an exception. 
  */
 template<class T> T* AbstractBlock::cast(int toType)
 {
-   if ( type() == toType )
+   // 1
+   if ( type() != toType )
    {
-      if ( T* ret = qobject_cast<T*>(this) ) return ret;
-      else
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Failed casting object to required type."));
-         throw e;
-      }
+      return nullptr;
    }
-   return nullptr;
+
+   // 2
+   if ( T* ret = qobject_cast<T*>(this) ) return ret;
+   else
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed casting object to required type."));
+      throw e;
+   }
 }
 
 

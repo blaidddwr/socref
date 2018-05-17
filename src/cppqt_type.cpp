@@ -188,8 +188,9 @@ void Type::setType(const QString& type)
    if ( _type != type )
    {
       _type = type;
-      emit modified();
-      notifyOfNameChange();
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
 }
 

@@ -48,15 +48,20 @@ Application::Application(int& argc, char** argv):
  *
  * Steps of Operation: 
  *
- * 1. Simply call the Qt notify method but wrap it in a catch statement so 
- *    exceptions can be handled in this program. 
+ * 1. Call the Qt application notify method and return its value. 
+ *
+ * 2. If any exception is caught then report it to the qt debug stream and return 
+ *    false. 
  */
 bool Application::notify(QObject* receiver, QEvent* event)
 {
+   // 1
    try
    {
       return QApplication::notify(receiver,event);
    }
+
+   // 2
    catch (Exception::Base e)
    {
       qDebug().nospace() << "Exception Caught!";
@@ -75,4 +80,22 @@ bool Application::notify(QObject* receiver, QEvent* event)
       qDebug() << "Exception Caught!\n";
    }
    return false;
+}
+
+
+
+
+
+
+/*!
+ * Returns this programs version as a string. 
+ *
+ * @return This programs version as a string. 
+ */
+QString Application::versionString()
+{
+   return QString::number(Application::_majorVersion).append(".")
+                                                     .append(QString::number(Application::_minorVersion))
+                                                     .append(".")
+                                                     .append(QString::number(Application::_revision));
 }

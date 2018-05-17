@@ -19,6 +19,20 @@ class BlockModel : public QAbstractItemModel
 {
    Q_OBJECT
 public:
+   /*!
+    * Defines custom data roles this model uses for data changed signals. 
+    */
+   enum Role
+   {
+      /*!
+       * Defines the name role which encompasses the title and icon of a block changing. 
+       */
+      Name = 100
+      /*!
+       * Defines the body role which encompasses the body of a block changing. 
+       */
+      ,Body = 101
+   };
    explicit BlockModel(AbstractBlock* root = nullptr, QObject* parent = nullptr);
    virtual QModelIndex index(int row, int column, const QModelIndex& parent) const override final;
    virtual QModelIndex parent(const QModelIndex& child) const override final;
@@ -35,8 +49,10 @@ public:
    const AbstractBlockFactory* factory() const;
    void setRoot(AbstractBlock* newRoot);
 private slots:
-   void blockNameChanged(AbstractBlock* block);
+   void blockNameModified(AbstractBlock* block);
+   void blockBodyModified(AbstractBlock* block);
 private:
+   void notifyChange(AbstractBlock* block, const QVector<int>& roles);
    /*!
     * The preferred icon size for indexes of this model when displayed in a view. This 
     * represents both the width and height. 

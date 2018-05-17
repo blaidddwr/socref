@@ -109,7 +109,7 @@ QString Constructor::className() const
 
 void Constructor::classNameChanged()
 {
-   notifyOfNameChange();
+   notifyNameModified();
 }
 
 

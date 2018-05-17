@@ -147,8 +147,8 @@ void Class::setQtObject(bool isQtObject)
    if ( _qtObject != isQtObject )
    {
       _qtObject = isQtObject;
-      notifyOfNameChange();
-      emit modified();
+      notifyModified();
+      notifyBodyModified();
    }
 }
 
@@ -254,62 +254,6 @@ QList<Parent*> Class::parents() const
 
 
 
-void Class::childNameChanged(AbstractBlock* child)
-{
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
-   {
-      notifyOfNameChange();
-      emit bodyChanged();
-   }
-}
-
-
-
-
-
-
-void Class::childAdded(AbstractBlock* child)
-{
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
-   {
-      notifyOfNameChange();
-      emit bodyChanged();
-   }
-   else if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
-   {
-      connect(this,&Class::nameChanged,constructor,&Constructor::classNameChanged);
-   }
-}
-
-
-
-
-
-
-void Class::childRemoved(AbstractBlock* child)
-{
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
-   {
-      notifyOfNameChange();
-      emit bodyChanged();
-   }
-   else if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
-   {
-      disconnect(constructor);
-   }
-}
-
-
-
-
-
-
 void Class::readData(const QDomElement& data, int version)
 {
    Namespace::readData(data,version);
@@ -389,10 +333,55 @@ void Class::copyDataFrom(const AbstractBlock* object)
 
 
 
-void Class::notifyOfNameChange()
+bool Class::childNameModified(AbstractBlock* child)
 {
-   emit nameChanged();
-   AbstractBlock::notifyOfNameChange();
+   if ( qobject_cast<Template*>(child)
+        || qobject_cast<Function*>(child)
+        || qobject_cast<Parent*>(child) )
+   {
+      notifyNameModified();
+   }
+   return false;
+}
+
+
+
+
+
+
+bool Class::childAdded(AbstractBlock* child)
+{
+   if ( qobject_cast<Template*>(child)
+        || qobject_cast<Function*>(child)
+        || qobject_cast<Parent*>(child) )
+   {
+      notifyNameModified();
+   }
+   if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
+   {
+      connect(this,&Class::nameChanged,constructor,&Constructor::classNameChanged);
+   }
+   return false;
+}
+
+
+
+
+
+
+bool Class::childRemoved(AbstractBlock* child)
+{
+   if ( qobject_cast<Template*>(child)
+        || qobject_cast<Function*>(child)
+        || qobject_cast<Parent*>(child) )
+   {
+      notifyNameModified();
+   }
+   if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
+   {
+      disconnect(constructor);
+   }
+   return false;
 }
 
 

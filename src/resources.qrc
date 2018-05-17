@@ -38,5 +38,6 @@
         <file>icons/declaration.svg</file>
         <file>icons/typelist.svg</file>
         <file>icons/type.svg</file>
+        <file>html/about.html</file>
     </qresource>
 </RCC>

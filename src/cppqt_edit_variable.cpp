@@ -5,7 +5,7 @@
 #include <QGridLayout>
 #include <QLineEdit>
 #include <exception.h>
-#include "cppqt_gui_typecombobox.h"
+#include "cppqt_gui_typeselection.h"
 #include "cppqt_variable.h"
 
 
@@ -47,7 +47,7 @@ QLayout* Variable::layout()
 void Variable::apply()
 {
    Base::apply();
-   if ( _type ) _block->setVariableType(_type->currentText());
+   if ( _type ) _block->setVariableType(_type->value());
    if ( _constExprBox ) _block->setConstExpr(_constExprBox->isChecked());
    if ( _staticBox ) _block->setStatic(_staticBox->isChecked());
    if ( _mutableBox ) _block->setMutable(_mutableBox->isChecked());
@@ -218,8 +218,8 @@ void Variable::checkBoxChanged(int state)
 
 void Variable::setupCombo()
 {
-   _type = new TypeComboBox(_block);
-   _type->setCurrentIndex(_type->findText(_block->variableType()));
+   _type = new TypeSelection(_block);
+   _type->setValue(_block->variableType());
 }
 
 
