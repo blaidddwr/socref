@@ -64,7 +64,7 @@ public:
     */
    virtual QList<int> buildList() const = 0;
    /*!
-    * This interface returns a View that provides a detailed read only GUI 
+    * This interface returns a view that provides a detailed read only GUI 
     * representation of this block's data. 
     *
     * @return New GUI view that represents this block's data. 

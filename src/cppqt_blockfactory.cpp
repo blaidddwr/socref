@@ -23,12 +23,34 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+//
 
 
 
 
 
 
+/*!
+ * Implements the interface that returns the project type of this block factory. 
+ *
+ * @return Project type of this block factory. 
+ */
+int BlockFactory::type() const
+{
+   return ProjectFactory::CppQtType;
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns the number of block types that exist for 
+ * this factory. 
+ *
+ * @return Number of block types that exist for this factory. 
+ */
 int BlockFactory::size() const
 {
    return Total;
@@ -39,6 +61,13 @@ int BlockFactory::size() const
 
 
 
+/*!
+ * Implements the interface that returns the display name for the given block type. 
+ *
+ * @param type Block type whose display name is returned. 
+ *
+ * @return Display name for the given block type. 
+ */
 QString BlockFactory::name(int type) const
 {
    switch (type)
@@ -69,6 +98,13 @@ QString BlockFactory::name(int type) const
 
 
 
+/*!
+ * Implements the interface that returns the element name for the given block type. 
+ *
+ * @param type Block type whose element name is returned. 
+ *
+ * @return Element name for the given block type. 
+ */
 QString BlockFactory::elementName(int type) const
 {
    switch (type)
@@ -99,17 +135,15 @@ QString BlockFactory::elementName(int type) const
 
 
 
-unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
-{
-   return unique_ptr<AbstractBlock>(new Namespace);
-}
-
-
-
-
-
-
-unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
+/*!
+ * Implements the interface that makes a new block of the given type and returns 
+ * its pointer. 
+ *
+ * @param type Block type which is made and returned. 
+ *
+ * @return Pointer to new block with the given type. 
+ */
+std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 {
    switch (type)
    {
@@ -139,7 +173,12 @@ unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 
 
 
-int BlockFactory::type() const
+/*!
+ * Implements the interface that makes a new root block and returns its pointer. 
+ *
+ * @return Pointer to new root block for this project type. 
+ */
+std::unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
 {
-   return ProjectFactory::CppQtType;
+   return unique_ptr<AbstractBlock>(new Namespace);
 }
