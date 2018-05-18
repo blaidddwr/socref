@@ -6761,7 +6761,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   <constexpr/>
                   <static/>
                   <type>int</type>
-                  <initializer>5</initializer>
+                  <initializer>6</initializer>
                </data>
             </variable>
             <variable type="1">

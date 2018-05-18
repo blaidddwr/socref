@@ -28,7 +28,7 @@ public:
    /*!
     * Revision number of this program. 
     */
-   constexpr static int _revision {5};
+   constexpr static int _revision {6};
    /*!
     * The company key used to access this program's qt settings. 
     */
