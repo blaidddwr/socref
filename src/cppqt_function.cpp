@@ -15,15 +15,39 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+//
+
+
+
+/*!
+ */
 const char* Function::_returnDescriptionTag {"return_description"};
+/*!
+ */
 const char* Function::_defaultTag {"default"};
+/*!
+ */
 const char* Function::_explicitTag {"explicit"};
+/*!
+ */
 const char* Function::_virtualTag {"virtual"};
+/*!
+ */
 const char* Function::_constTag {"const"};
+/*!
+ */
 const char* Function::_noExceptTag {"noexcept"};
+/*!
+ */
 const char* Function::_overrideTag {"override"};
+/*!
+ */
 const char* Function::_finalTag {"final"};
+/*!
+ */
 const char* Function::_abstractTag {"abstract"};
+/*!
+ */
 const char* Function::_operationTag {"operation"};
 
 
@@ -31,6 +55,10 @@ const char* Function::_operationTag {"operation"};
 
 
 
+/*!
+ *
+ * @param name  
+ */
 Function::Function(const QString& name):
    Variable(name)
 {}
@@ -40,6 +68,12 @@ Function::Function(const QString& name):
 
 
 
+/*!
+ *
+ * @param returnType  
+ *
+ * @param name  
+ */
 Function::Function(const QString& returnType, const QString& name):
    Variable(returnType,name)
 {}
@@ -49,6 +83,26 @@ Function::Function(const QString& returnType, const QString& name):
 
 
 
+/*!
+ * Implements the interface that returns this block's type. 
+ *
+ * @return This block's type. 
+ */
+int Function::type() const
+{
+   return BlockFactory::FunctionType;
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns the name of this block. 
+ *
+ * @return The name of this block. 
+ */
 QString Function::name() const
 {
    QString ret;
@@ -61,16 +115,11 @@ QString Function::name() const
 
 
 
-int Function::type() const
-{
-   return BlockFactory::FunctionType;
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that returns the icon of this block. 
+ *
+ * @return The icon of this block. 
+ */
 QIcon Function::icon() const
 {
    static bool isLoaded {false};
@@ -97,6 +146,12 @@ QIcon Function::icon() const
 
 
 
+/*!
+ * Implements the interface that returns a list of types that this block can 
+ * contain as children. 
+ *
+ * @return List of allowed types this block can contain as children. 
+ */
 QList<int> Function::buildList() const
 {
    QList<int> ret;
@@ -110,7 +165,13 @@ QList<int> Function::buildList() const
 
 
 
-unique_ptr<QWidget> Function::makeView() const
+/*!
+ * Implements the interface that returns a view that provides a detailed read only 
+ * GUI representation of this block's data. 
+ *
+ * @return New GUI view that represents this block's data. 
+ */
+std::unique_ptr<QWidget> Function::makeView() const
 {
    return unique_ptr<QWidget>(new View::Function(this));
 }
@@ -120,7 +181,13 @@ unique_ptr<QWidget> Function::makeView() const
 
 
 
-unique_ptr<AbstractEdit> Function::makeEdit()
+/*!
+ * Implements the interface that returns a editable GUI widget that provides the 
+ * ability to edit this block's data. 
+ *
+ * @return New editable GUI widget to edit this block's data. 
+ */
+std::unique_ptr<::Gui::AbstractEdit> Function::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Function(this));
 }
@@ -130,6 +197,8 @@ unique_ptr<AbstractEdit> Function::makeEdit()
 
 
 
+/*!
+ */
 bool Function::isVoidReturn() const
 {
    return variableType() == QString("void");
@@ -140,6 +209,86 @@ bool Function::isVoidReturn() const
 
 
 
+/*!
+ */
+bool Function::isMethod() const
+{
+   return isClassMember();
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isPrivateMethod() const
+{
+   if ( !isClassMember() ) return false;
+   return parent()->cast<Access>(BlockFactory::AccessType)->accessType() == Access::Type::Private;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::hasAnyTemplates() const
+{
+   if ( hasTemplates() ) return true;
+   if ( parent()->type() == BlockFactory::AccessType )
+   {
+      return parent()->parent()->cast<Class>(BlockFactory::ClassType)->hasAnyTemplates();
+   }
+   return false;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::hasTemplates() const
+{
+   return containsType(BlockFactory::TemplateType);
+}
+
+
+
+
+
+
+/*!
+ */
+QList<Template*> Function::templates() const
+{
+   return makeListOfType<Template>(BlockFactory::TemplateType);
+}
+
+
+
+
+
+
+/*!
+ */
+QList<Variable*> Function::arguments() const
+{
+   return makeListOfType<Variable>(BlockFactory::VariableType);
+}
+
+
+
+
+
+
+/*!
+ */
 QString Function::returnType() const
 {
    return variableType();
@@ -150,16 +299,8 @@ QString Function::returnType() const
 
 
 
-void Function::setReturnType(const QString& type)
-{
-   setVariableType(type);
-}
-
-
-
-
-
-
+/*!
+ */
 QString Function::returnDescription() const
 {
    return _returnDescription;
@@ -170,13 +311,11 @@ QString Function::returnDescription() const
 
 
 
-void Function::setReturnDescription(const QString& description)
+/*!
+ */
+QStringList Function::operations() const
 {
-   if ( _returnDescription != description )
-   {
-      _returnDescription = description;
-      emit modified();
-   }
+   return _operations;
 }
 
 
@@ -184,6 +323,8 @@ void Function::setReturnDescription(const QString& description)
 
 
 
+/*!
+ */
 bool Function::isDefault() const
 {
    return _default;
@@ -194,6 +335,148 @@ bool Function::isDefault() const
 
 
 
+/*!
+ */
+bool Function::isExplicit() const
+{
+   return _explicit;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isVirtual() const
+{
+   return _virtual;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isConst() const
+{
+   return _const;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isNoExcept() const
+{
+   return _noExcept;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isOverride() const
+{
+   return _override;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isFinal() const
+{
+   return _final;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isAbstract() const
+{
+   return _abstract;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param type  
+ */
+void Function::setReturnType(const QString& type)
+{
+   setVariableType(type);
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param description  
+ */
+void Function::setReturnDescription(const QString& description)
+{
+   if ( _returnDescription != description )
+   {
+      _returnDescription = description;
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param operations  
+ */
+void Function::setOperations(const QStringList& operations)
+{
+   if ( _operations != operations )
+   {
+      _operations = operations;
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param isDefault  
+ */
 void Function::setDefault(bool isDefault)
 {
    if ( isDefault && !isClassMember() )
@@ -217,16 +500,10 @@ void Function::setDefault(bool isDefault)
 
 
 
-bool Function::isExplicit() const
-{
-   return _explicit;
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param isExplicit  
+ */
 void Function::setExplicit(bool isExplicit)
 {
    if ( _explicit != isExplicit )
@@ -243,16 +520,10 @@ void Function::setExplicit(bool isExplicit)
 
 
 
-bool Function::isVirtual() const
-{
-   return _virtual;
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param isVirtual  
+ */
 void Function::setVirtual(bool isVirtual)
 {
    if ( isVirtual && ( isStatic() || hasTemplates() || !isMethod() ) )
@@ -276,6 +547,10 @@ void Function::setVirtual(bool isVirtual)
 
 
 
+/*!
+ *
+ * @param isConstExpr  
+ */
 void Function::setConstExpr(bool isConstExpr)
 {
    if ( isConstExpr && _virtual )
@@ -293,6 +568,10 @@ void Function::setConstExpr(bool isConstExpr)
 
 
 
+/*!
+ *
+ * @param isStatic  
+ */
 void Function::setStatic(bool isStatic)
 {
    if ( isStatic && _virtual )
@@ -310,16 +589,10 @@ void Function::setStatic(bool isStatic)
 
 
 
-bool Function::isConst() const
-{
-   return _const;
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param isConst  
+ */
 void Function::setConst(bool isConst)
 {
    if ( isConst && !isMethod() )
@@ -343,16 +616,10 @@ void Function::setConst(bool isConst)
 
 
 
-bool Function::isNoExcept() const
-{
-   return _noExcept;
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param isNoExcept  
+ */
 void Function::setNoExcept(bool isNoExcept)
 {
    if ( _noExcept != isNoExcept )
@@ -369,16 +636,10 @@ void Function::setNoExcept(bool isNoExcept)
 
 
 
-bool Function::isOverride() const
-{
-   return _override;
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param isOverride  
+ */
 void Function::setOverride(bool isOverride)
 {
    if ( isOverride && ( !_virtual || _abstract ) )
@@ -402,16 +663,10 @@ void Function::setOverride(bool isOverride)
 
 
 
-bool Function::isFinal() const
-{
-   return _final;
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param isFinal  
+ */
 void Function::setFinal(bool isFinal)
 {
    if ( isFinal && ( !_virtual || _abstract ) )
@@ -435,16 +690,10 @@ void Function::setFinal(bool isFinal)
 
 
 
-bool Function::isAbstract() const
-{
-   return _abstract;
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param isAbstract  
+ */
 void Function::setAbstract(bool isAbstract)
 {
    if ( isAbstract && ( !_virtual || _override || _final ) )
@@ -468,106 +717,24 @@ void Function::setAbstract(bool isAbstract)
 
 
 
-bool Function::isMethod() const
+/*!
+ * Implements the interface that reads in the data for this block from the given 
+ * XML element and version number. 
+ *
+ * @param element The XML element used to read in this blocks data. 
+ *
+ * @param version The version of the data stored in the XML. 
+ */
+void Function::readData(const QDomElement& element, int version)
 {
-   return isClassMember();
-}
-
-
-
-
-
-
-bool Function::isPrivateMethod() const
-{
-   if ( !isClassMember() ) return false;
-   return parent()->cast<Access>(BlockFactory::AccessType)->accessType() == Access::Type::Private;
-}
-
-
-
-
-
-
-bool Function::hasAnyTemplates() const
-{
-   if ( hasTemplates() ) return true;
-   if ( parent()->type() == BlockFactory::AccessType )
-   {
-      return parent()->parent()->cast<Class>(BlockFactory::ClassType)->hasAnyTemplates();
-   }
-   return false;
-}
-
-
-
-
-
-
-bool Function::hasTemplates() const
-{
-   return containsType(BlockFactory::TemplateType);
-}
-
-
-
-
-
-
-QStringList Function::operations() const
-{
-   return _operations;
-}
-
-
-
-
-
-
-void Function::setOperations(const QStringList& operations)
-{
-   if ( _operations != operations )
-   {
-      _operations = operations;
-      emit modified();
-   }
-}
-
-
-
-
-
-
-QList<Variable*> Function::arguments() const
-{
-   return makeListOfType<Variable>(BlockFactory::VariableType);
-}
-
-
-
-
-
-
-QList<Template*> Function::templates() const
-{
-   return makeListOfType<Template>(BlockFactory::TemplateType);
-}
-
-
-
-
-
-
-void Function::readData(const QDomElement& data, int version)
-{
-   Variable::readData(data,version);
+   Variable::readData(element,version);
    switch (version)
    {
    case 0:
-      readVersion0(data);
+      readVersion0(element);
       break;
    case 1:
-      readVersion1(data);
+      readVersion1(element);
       break;
    default:
       {
@@ -584,6 +751,12 @@ void Function::readData(const QDomElement& data, int version)
 
 
 
+/*!
+ * Implements the interface that returns the current version number of XML elements 
+ * written for this block type. 
+ *
+ * @return Current version number. 
+ */
 int Function::writeVersion() const
 {
    return _version;
@@ -594,6 +767,14 @@ int Function::writeVersion() const
 
 
 
+/*!
+ * Implements the interface that returns a XML element containing the data for this 
+ * block using the current version number. 
+ *
+ * @param document XML document to use for creating new elements. 
+ *
+ * @return XML element containing the data of this block. 
+ */
 QDomElement Function::writeData(QDomDocument& document) const
 {
    QDomElement ret {Variable::writeData(document)};
@@ -621,7 +802,13 @@ QDomElement Function::writeData(QDomDocument& document) const
 
 
 
-unique_ptr<AbstractBlock> Function::makeBlank() const
+/*!
+ * Implements the interface that makes a new block object of this block's type with 
+ * no data and returns a pointer to the new block. 
+ *
+ * @return Pointer to the newly created block. 
+ */
+std::unique_ptr<AbstractBlock> Function::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Function);
 }
@@ -631,21 +818,27 @@ unique_ptr<AbstractBlock> Function::makeBlank() const
 
 
 
-void Function::copyDataFrom(const AbstractBlock* object)
+/*!
+ * Implements the interface that copies all data from the given block to this 
+ * block, overwriting any data this block may already contain. 
+ *
+ * @param other The other block whose data will be copied. 
+ */
+void Function::copyDataFrom(const AbstractBlock* other)
 {
-   if ( const Function* object_ = qobject_cast<const Function*>(object) )
+   if ( const Function* valid = qobject_cast<const Function*>(other) )
    {
-      Variable::copyDataFrom(object);
-      _returnDescription = object_->_returnDescription;
-      _default = object_->_default;
-      _explicit = object_->_explicit;
-      _virtual = object_->_virtual;
-      _const = object_->_const;
-      _noExcept = object_->_noExcept;
-      _override = object_->_override;
-      _final = object_->_final;
-      _abstract = object_->_abstract;
-      _operations = object_->_operations;
+      Variable::copyDataFrom(other);
+      _returnDescription = valid->_returnDescription;
+      _default = valid->_default;
+      _explicit = valid->_explicit;
+      _virtual = valid->_virtual;
+      _const = valid->_const;
+      _noExcept = valid->_noExcept;
+      _override = valid->_override;
+      _final = valid->_final;
+      _abstract = valid->_abstract;
+      _operations = valid->_operations;
    }
    else
    {
@@ -661,6 +854,16 @@ void Function::copyDataFrom(const AbstractBlock* object)
 
 
 
+/*!
+ * Implements the interface that is called whenever a new child below this block 
+ * has been added and keeps calling this interface on the next block parent until 
+ * this returns false. 
+ *
+ * @param child Pointer to the child block that been added to its new parent block. 
+ *
+ * @return True if this interface should be called again on this blocks parent or 
+ *         false otherwise. 
+ */
 bool Function::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
@@ -674,6 +877,17 @@ bool Function::childAdded(AbstractBlock* child)
 
 
 
+/*!
+ * Implements the interface that is called whenever an existing child below this 
+ * block has been removed and keeps calling this interface on the next block parent 
+ * until this returns false. 
+ *
+ * @param child Pointer to the child block that has been removed from its former 
+ *              parent block. This object can be deleted right after this call. 
+ *
+ * @return True if this interface should be called again on this blocks parent or 
+ *         false otherwise. 
+ */
 bool Function::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
@@ -687,6 +901,12 @@ bool Function::childRemoved(AbstractBlock* child)
 
 
 
+/*!
+ *
+ * @param hasReturn  
+ *
+ * @param name  
+ */
 QString Function::fullName(bool hasReturn, const QString& name) const
 {
    QString ret;
@@ -702,6 +922,8 @@ QString Function::fullName(bool hasReturn, const QString& name) const
 
 
 
+/*!
+ */
 QString Function::attributes() const
 {
    QString ret;
@@ -721,12 +943,16 @@ QString Function::attributes() const
 
 
 
-void Function::readVersion0(const QDomElement& data)
+/*!
+ *
+ * @param element  
+ */
+void Function::readVersion0(const QDomElement& element)
 {
    _operations.clear();
    _returnDescription.clear();
    QList<QDomElement> operations;
-   DomElementReader reader(data);
+   DomElementReader reader(element);
    _virtual = reader.attributeToInt(_virtualTag,false);
    _const = reader.attributeToInt(_constTag,false);
    _noExcept = reader.attributeToInt(_noExceptTag,false);
@@ -744,11 +970,15 @@ void Function::readVersion0(const QDomElement& data)
 
 
 
-void Function::readVersion1(const QDomElement& data)
+/*!
+ *
+ * @param element  
+ */
+void Function::readVersion1(const QDomElement& element)
 {
    _operations.clear();
    QList<QDomElement> operations;
-   DomElementReader reader(data);
+   DomElementReader reader(element);
    reader.set(_defaultTag,&_default,false);
    reader.set(_explicitTag,&_explicit,false);
    reader.set(_virtualTag,&_virtual,false);

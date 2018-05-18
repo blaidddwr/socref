@@ -13,10 +13,24 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+//
+
+
+
+/*!
+ */
 const char* Variable::_constExprTag {"constexpr"};
+/*!
+ */
 const char* Variable::_staticTag {"static"};
+/*!
+ */
 const char* Variable::_mutableTag {"mutable"};
+/*!
+ */
 const char* Variable::_typeTag {"type"};
+/*!
+ */
 const char* Variable::_initializerTag {"initializer"};
 
 
@@ -24,6 +38,10 @@ const char* Variable::_initializerTag {"initializer"};
 
 
 
+/*!
+ *
+ * @param name  
+ */
 Variable::Variable(const QString& name):
    Base(name)
 {}
@@ -33,6 +51,12 @@ Variable::Variable(const QString& name):
 
 
 
+/*!
+ *
+ * @param type  
+ *
+ * @param name  
+ */
 Variable::Variable(const QString& type, const QString& name):
    Base(name),
    _type(type)
@@ -45,6 +69,26 @@ Variable::Variable(const QString& type, const QString& name):
 
 
 
+/*!
+ * Implements the interface that returns this block's type. 
+ *
+ * @return This block's type. 
+ */
+int Variable::type() const
+{
+   return BlockFactory::VariableType;
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns the name of this block. 
+ *
+ * @return The name of this block. 
+ */
 QString Variable::name() const
 {
    QString ret {Base::name()};
@@ -62,16 +106,11 @@ QString Variable::name() const
 
 
 
-int Variable::type() const
-{
-   return BlockFactory::VariableType;
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that returns the icon of this block. 
+ *
+ * @return The icon of this block. 
+ */
 QIcon Variable::icon() const
 {
    static bool isLoaded {false};
@@ -91,6 +130,12 @@ QIcon Variable::icon() const
 
 
 
+/*!
+ * Implements the interface that returns a list of types that this block can 
+ * contain as children. 
+ *
+ * @return List of allowed types this block can contain as children. 
+ */
 QList<int> Variable::buildList() const
 {
    return QList<int>();
@@ -101,7 +146,13 @@ QList<int> Variable::buildList() const
 
 
 
-unique_ptr<QWidget> Variable::makeView() const
+/*!
+ * Implements the interface that returns a view that provides a detailed read only 
+ * GUI representation of this block's data. 
+ *
+ * @return New GUI view that represents this block's data. 
+ */
+std::unique_ptr<QWidget> Variable::makeView() const
 {
    return unique_ptr<QWidget>(new View::Variable(this));
 }
@@ -111,7 +162,13 @@ unique_ptr<QWidget> Variable::makeView() const
 
 
 
-unique_ptr<AbstractEdit> Variable::makeEdit()
+/*!
+ * Implements the interface that returns a editable GUI widget that provides the 
+ * ability to edit this block's data. 
+ *
+ * @return New editable GUI widget to edit this block's data. 
+ */
+std::unique_ptr<::Gui::AbstractEdit> Variable::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Variable(this));
 }
@@ -121,6 +178,8 @@ unique_ptr<AbstractEdit> Variable::makeEdit()
 
 
 
+/*!
+ */
 bool Variable::isConstExpr() const
 {
    return _constExpr;
@@ -131,6 +190,10 @@ bool Variable::isConstExpr() const
 
 
 
+/*!
+ *
+ * @param isConstExpr  
+ */
 void Variable::setConstExpr(bool isConstExpr)
 {
    if ( isConstExpr && isFunctionArgument() )
@@ -154,6 +217,8 @@ void Variable::setConstExpr(bool isConstExpr)
 
 
 
+/*!
+ */
 bool Variable::isStatic() const
 {
    return _static;
@@ -164,6 +229,10 @@ bool Variable::isStatic() const
 
 
 
+/*!
+ *
+ * @param isStatic  
+ */
 void Variable::setStatic(bool isStatic)
 {
    if ( isStatic && !isClassMember() )
@@ -187,6 +256,8 @@ void Variable::setStatic(bool isStatic)
 
 
 
+/*!
+ */
 bool Variable::isMutable() const
 {
    return _mutable;
@@ -197,6 +268,10 @@ bool Variable::isMutable() const
 
 
 
+/*!
+ *
+ * @param isMutable  
+ */
 void Variable::setMutable(bool isMutable)
 {
    if ( isMutable && !isClassMember() )
@@ -220,6 +295,18 @@ void Variable::setMutable(bool isMutable)
 
 
 
+/*!
+ */
+void Variable::unnamed_function()
+{}
+
+
+
+
+
+
+/*!
+ */
 QString Variable::variableType() const
 {
    return _type;
@@ -230,6 +317,10 @@ QString Variable::variableType() const
 
 
 
+/*!
+ *
+ * @param type  
+ */
 void Variable::setVariableType(const QString& type)
 {
    checkTypeSyntax(type);
@@ -247,6 +338,8 @@ void Variable::setVariableType(const QString& type)
 
 
 
+/*!
+ */
 bool Variable::hasInitializer() const
 {
    return !_initializer.isEmpty();
@@ -257,6 +350,8 @@ bool Variable::hasInitializer() const
 
 
 
+/*!
+ */
 QString Variable::initializer() const
 {
    return _initializer;
@@ -267,6 +362,10 @@ QString Variable::initializer() const
 
 
 
+/*!
+ *
+ * @param initializer  
+ */
 void Variable::setInitializer(const QString& initializer)
 {
    if ( _initializer != initializer )
@@ -283,6 +382,8 @@ void Variable::setInitializer(const QString& initializer)
 
 
 
+/*!
+ */
 bool Variable::isClassMember() const
 {
    if ( parent()->type() == BlockFactory::AccessType ) return true;
@@ -294,6 +395,8 @@ bool Variable::isClassMember() const
 
 
 
+/*!
+ */
 bool Variable::isFunctionArgument() const
 {
    return qobject_cast<Function*>(parent());
@@ -304,16 +407,24 @@ bool Variable::isFunctionArgument() const
 
 
 
-void Variable::readData(const QDomElement& data, int version)
+/*!
+ * Implements the interface that reads in the data for this block from the given 
+ * XML element and version number. 
+ *
+ * @param element The XML element used to read in this blocks data. 
+ *
+ * @param version The version of the data stored in the XML. 
+ */
+void Variable::readData(const QDomElement& element, int version)
 {
-   Base::readData(data,version);
+   Base::readData(element,version);
    switch (version)
    {
    case 0:
-      readVersion0(data);
+      readVersion0(element);
       break;
    case 1:
-      readVersion1(data);
+      readVersion1(element);
       break;
    default:
       {
@@ -330,6 +441,12 @@ void Variable::readData(const QDomElement& data, int version)
 
 
 
+/*!
+ * Implements the interface that returns the current version number of XML elements 
+ * written for this block type. 
+ *
+ * @return Current version number. 
+ */
 int Variable::writeVersion() const
 {
    return _version;
@@ -340,6 +457,14 @@ int Variable::writeVersion() const
 
 
 
+/*!
+ * Implements the interface that returns a XML element containing the data for this 
+ * block using the current version number. 
+ *
+ * @param document XML document to use for creating new elements. 
+ *
+ * @return XML element containing the data of this block. 
+ */
 QDomElement Variable::writeData(QDomDocument& document) const
 {
    QDomElement ret {Base::writeData(document)};
@@ -359,7 +484,13 @@ QDomElement Variable::writeData(QDomDocument& document) const
 
 
 
-unique_ptr<AbstractBlock> Variable::makeBlank() const
+/*!
+ * Implements the interface that makes a new block object of this block's type with 
+ * no data and returns a pointer to the new block. 
+ *
+ * @return Pointer to the newly created block. 
+ */
+std::unique_ptr<AbstractBlock> Variable::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Variable);
 }
@@ -369,11 +500,17 @@ unique_ptr<AbstractBlock> Variable::makeBlank() const
 
 
 
-void Variable::copyDataFrom(const AbstractBlock* object)
+/*!
+ * Implements the interface that copies all data from the given block to this 
+ * block, overwriting any data this block may already contain. 
+ *
+ * @param other The other block whose data will be copied. 
+ */
+void Variable::copyDataFrom(const AbstractBlock* other)
 {
-   if ( const Variable* object_ = qobject_cast<const Variable*>(object) )
+   if ( const Variable* object_ = qobject_cast<const Variable*>(other) )
    {
-      Base::copyDataFrom(object);
+      Base::copyDataFrom(other);
       _type = object_->_type;
       _constExpr = object_->_constExpr;
       _static = object_->_static;
@@ -394,6 +531,8 @@ void Variable::copyDataFrom(const AbstractBlock* object)
 
 
 
+/*!
+ */
 QString Variable::attributes() const
 {
    QString ret;
@@ -408,6 +547,10 @@ QString Variable::attributes() const
 
 
 
+/*!
+ *
+ * @param type  
+ */
 void Variable::checkTypeSyntax(const QString& type)
 {
    if ( !Type::isValidTypeString(type) )
@@ -424,9 +567,13 @@ void Variable::checkTypeSyntax(const QString& type)
 
 
 
-void Variable::readVersion0(const QDomElement& data)
+/*!
+ *
+ * @param element  
+ */
+void Variable::readVersion0(const QDomElement& element)
 {
-   DomElementReader reader(data);
+   DomElementReader reader(element);
    _constExpr = reader.attributeToInt(_constExprTag,false);
    _static = reader.attributeToInt(_staticTag,false);
    _type = reader.attribute(_typeTag);
@@ -438,9 +585,13 @@ void Variable::readVersion0(const QDomElement& data)
 
 
 
-void Variable::readVersion1(const QDomElement& data)
+/*!
+ *
+ * @param element  
+ */
+void Variable::readVersion1(const QDomElement& element)
 {
-   DomElementReader reader(data);
+   DomElementReader reader(element);
    reader.set(_constExprTag,&_constExpr,false);
    reader.set(_staticTag,&_static,false);
    reader.set(_mutableTag,&_mutable,false);
