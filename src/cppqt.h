@@ -1,23 +1,26 @@
 
+/*!
+ */
 namespace CppQt
 {
    class BlockFactory;
    class Base;
    class Namespace;
-   class Variable;
-   class Signal;
-   class Function;
    class Template;
-   class Class;
-   class Access;
-   class Operator;
-   class Enumeration;
-   class EnumValue;
+   class Variable;
    class Parent;
+   class Function;
+   class Access;
+   class EnumValue;
+   class Type;
+   class TypeList;
+   class Class;
+   class Operator;
    class Constructor;
    class Destructor;
-   class Declaration;
    class Slot;
-   class TypeList;
-   class Type;
+   class Enumeration;
+   class Signal;
+   class Slot;
+   class Declaration;
 }

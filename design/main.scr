@@ -156,6 +156,11 @@
             </type>
             <type type="16">
                <data version="0">
+                  <type>const QDomElement&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
                   <type>QList&lt;QDomElement>*</type>
                </data>
             </type>
@@ -1555,6 +1560,8 @@ An implementation of this class must also construct the form portion of this dia
                      <name>addTriggered</name>
                      <description>Called when an add action is triggered. If this object has a model then this inserts a new block of the given type in the currently selected block.</description>
                      <type></type>
+                     <operation>If this object has no block model then return.</operation>
+                     <operation>Insert a new block of the given type into this object's block model with its current index and then update the current index and context menu.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -1570,7 +1577,7 @@ An implementation of this class must also construct the form portion of this dia
                      <description>Called when the remove action is triggered. If this object has a valid current index then it is removed from its model.</description>
                      <type></type>
                      <operation>If this object's currently selected index is not valid then return.</operation>
-                     <operation>Remove this object's currently selected index from its model and then update the currently selected index.</operation>
+                     <operation>Remove this object's currently selected index from its model and then update the current index and context menu.</operation>
                   </data>
                </slot>
                <slot type="7">
@@ -2845,6 +2852,598 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </access>
          </class>
       </namespace>
+      <namespace type="0">
+         <data version="1">
+            <name>CppQt</name>
+         </data>
+         <typeList type="15">
+            <data version="1">
+               <name>CppQt</name>
+            </data>
+            <typeList type="15">
+               <data version="1">
+                  <name>Namespace</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Namespace*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Namespace*</type>
+                  </data>
+               </type>
+            </typeList>
+         </typeList>
+         <class type="4">
+            <data version="1">
+               <name>BlockFactory</name>
+               <description>This implements the abstract block factory that produces blocks for the C++/Qt project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance.</description>
+            </data>
+            <parent type="13">
+               <data version="2">
+                  <access>public</access>
+                  <class>AbstractBlockFactory</class>
+               </data>
+            </parent>
+            <parent type="13">
+               <data version="2">
+                  <access>public</access>
+                  <class>Singleton&lt;BlockFactory></class>
+               </data>
+            </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <enumeration type="11">
+                  <data version="1"/>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>NamespaceType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>VariableType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>FunctionType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>TemplateType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>ClassType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>AccessType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>OperatorType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>SlotType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>SignalType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>ConstructorType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>DestructorType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>EnumerationType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>EnumValueType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>ParentType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>DeclarationType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>TypeListType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>TypeType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Total</name>
+                     </data>
+                  </enumval>
+               </enumeration>
+               <function type="2">
+                  <data version="1">
+                     <name>type</name>
+                     <description>Implements the interface that returns the project type of this block factory.</description>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>Project type of this block factory.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>size</name>
+                     <description>Implements the interface that returns the number of block types that exist for this factory.</description>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>Number of block types that exist for this factory.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>name</name>
+                     <description>Implements the interface that returns the display name for the given block type.</description>
+                     <type>QString</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>Display name for the given block type.</return_description>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>type</name>
+                        <description>Block type whose display name is returned.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>elementName</name>
+                     <description>Implements the interface that returns the element name for the given block type.</description>
+                     <type>QString</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>Element name for the given block type.</return_description>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>type</name>
+                        <description>Block type whose element name is returned.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>makeBlock</name>
+                     <description>Implements the interface that makes a new block of the given type and returns its pointer.</description>
+                     <type>std::unique_ptr&lt;AbstractBlock></type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>Pointer to new block with the given type.</return_description>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>type</name>
+                        <description>Block type which is made and returned.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>makeRootBlock</name>
+                     <description>Implements the interface that makes a new root block and returns its pointer.</description>
+                     <type>std::unique_ptr&lt;AbstractBlock></type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>Pointer to new root block for this project type.</return_description>
+                  </data>
+               </function>
+            </access>
+         </class>
+         <class type="4">
+            <data version="1">
+               <name>Base</name>
+               <qtobject/>
+            </data>
+            <parent type="13">
+               <data version="2">
+                  <access>public</access>
+                  <class>AbstractBlock</class>
+               </data>
+            </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <default/>
+                     <explicit/>
+                  </data>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
+               <function type="2">
+                  <data version="1">
+                     <name>factory</name>
+                     <description>Implements the interface that returns a reference to this block's factory.</description>
+                     <type>const AbstractBlockFactory&amp;</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>Reference to block factory.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>name</name>
+                     <description>Implements the interface that returns the name of this block.</description>
+                     <type>QString</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>The name of this block.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>description</name>
+                     <type>QString</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setName</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setDescription</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>description</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>protected:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>readData</name>
+                     <description>Implements the interface that reads in the data for this block from the given XML element and version number.</description>
+                     <type>void</type>
+                     <virtual/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>element</name>
+                        <description>The XML element used to read in this blocks data.</description>
+                        <type>const QDomElement&amp;</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>version</name>
+                        <description>The version of the data stored in the XML.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>writeVersion</name>
+                     <description>Implements the interface that returns the current version number of XML elements written for this block type.</description>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>Current version number.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>writeData</name>
+                     <description>Implements the interface that returns a XML element containing the data for this block using the current version number.</description>
+                     <type>QDomElement</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>XML element containing the data of this block.</return_description>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>document</name>
+                        <description>XML document to use for creating new elements.</description>
+                        <type>QDomDocument&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>copyDataFrom</name>
+                     <description>Implements the interface that copies all data from the given block to this block, overwriting any data this block may already contain.</description>
+                     <type>void</type>
+                     <virtual/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>other</name>
+                        <description>The other block whose data will be copied.</description>
+                        <type>const AbstractBlock*</type>
+                     </data>
+                  </variable>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>private:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>readVersion0</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>element</name>
+                        <description>The XML element used to read in this blocks data.</description>
+                        <type>const QDomElement&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>readVersion1</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>element</name>
+                        <description>The XML element used to read in this blocks data.</description>
+                        <type>const QDomElement&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <variable type="1">
+                  <data version="1">
+                     <name>_version</name>
+                     <constexpr/>
+                     <static/>
+                     <type>int</type>
+                     <initializer>1</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_nameTag</name>
+                     <static/>
+                     <type>const char*</type>
+                     <initializer>"name"</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_descriptionTag</name>
+                     <static/>
+                     <type>const char*</type>
+                     <initializer>"description"</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_name</name>
+                     <type>QString</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_description</name>
+                     <type>QString</type>
+                  </data>
+               </variable>
+            </access>
+         </class>
+         <class type="4">
+            <data version="1">
+               <name>Namespace</name>
+               <qtobject/>
+            </data>
+            <parent type="13">
+               <data version="2">
+                  <access>public</access>
+                  <class>Base</class>
+               </data>
+            </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <default/>
+                     <explicit/>
+                  </data>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
+               <function type="2">
+                  <data version="1">
+                     <name>type</name>
+                     <description>Implements the interface that returns this block's type.</description>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>This block's type.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>icon</name>
+                     <description>Implements the interface that returns the icon of this block.</description>
+                     <type>QIcon</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>The icon of this block.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>buildList</name>
+                     <description>Implements the interface that returns a list of types that this block type can contain as children.</description>
+                     <type>QList&lt;int></type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>List of allowed types this block can contain as children.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>makeView</name>
+                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
+                     <type>std::unique_ptr&lt;QWidget></type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>New GUI view that represents this block's data.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>makeEdit</name>
+                     <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
+                     <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+                     <virtual/>
+                     <override/>
+                     <return_description>New editable GUI widget to edit this block's data.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>realChildren</name>
+                     <type>QList&lt;AbstractBlock*></type>
+                     <virtual/>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>root</name>
+                     <type>const Namespace*</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>root</name>
+                     <type>Namespace*</type>
+                  </data>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>protected:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>makeBlank</name>
+                     <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+                     <type>std::unique_ptr&lt;AbstractBlock></type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>Pointer to the newly created block.</return_description>
+                  </data>
+               </function>
+            </access>
+         </class>
+      </namespace>
       <class type="4">
          <data version="1">
             <name>Singleton</name>
@@ -3500,7 +4099,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <function type="2">
                <data version="1">
                   <name>makeView</name>
-                  <description>This interface returns a View that provides a detailed read only GUI representation of this block's data.</description>
+                  <description>This interface returns a view that provides a detailed read only GUI representation of this block's data.</description>
                   <type>std::unique_ptr&lt;QWidget></type>
                   <virtual/>
                   <const/>

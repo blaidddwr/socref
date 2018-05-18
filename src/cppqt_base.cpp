@@ -8,7 +8,15 @@
 
 using namespace std;
 using namespace CppQt;
+//
+
+
+
+/*!
+ */
 const char* Base::_nameTag {"name"};
+/*!
+ */
 const char* Base::_descriptionTag {"description"};
 
 
@@ -16,6 +24,10 @@ const char* Base::_descriptionTag {"description"};
 
 
 
+/*!
+ *
+ * @param name  
+ */
 Base::Base(const QString& name):
    _name(name)
 {}
@@ -25,16 +37,11 @@ Base::Base(const QString& name):
 
 
 
-QString Base::name() const
-{
-   return _name;
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that returns a reference to this block's factory. 
+ *
+ * @return Reference to block factory. 
+ */
 const AbstractBlockFactory& Base::factory() const
 {
    return BlockFactory::instance();
@@ -45,6 +52,37 @@ const AbstractBlockFactory& Base::factory() const
 
 
 
+/*!
+ * Implements the interface that returns the name of this block. 
+ *
+ * @return The name of this block. 
+ */
+QString Base::name() const
+{
+   return _name;
+}
+
+
+
+
+
+
+/*!
+ */
+QString Base::description() const
+{
+   return _description;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param name  
+ */
 void Base::setName(const QString& name)
 {
    if ( !QRegExp("[a-zA-Z_]*[a-zA-Z0-9_]*").exactMatch(name) )
@@ -67,16 +105,10 @@ void Base::setName(const QString& name)
 
 
 
-QString Base::description() const
-{
-   return _description;
-}
-
-
-
-
-
-
+/*!
+ *
+ * @param description  
+ */
 void Base::setDescription(const QString& description)
 {
    if ( _description != description )
@@ -92,15 +124,23 @@ void Base::setDescription(const QString& description)
 
 
 
-void Base::readData(const QDomElement& data, int version)
+/*!
+ * Implements the interface that reads in the data for this block from the given 
+ * XML element and version number. 
+ *
+ * @param element The XML element used to read in this blocks data. 
+ *
+ * @param version The version of the data stored in the XML. 
+ */
+void Base::readData(const QDomElement& element, int version)
 {
    switch (version)
    {
    case 0:
-      readVersion0(data);
+      readVersion0(element);
       break;
    case 1:
-      readVersion1(data);
+      readVersion1(element);
       break;
    default:
       {
@@ -117,6 +157,12 @@ void Base::readData(const QDomElement& data, int version)
 
 
 
+/*!
+ * Implements the interface that returns the current version number of XML elements 
+ * written for this block type. 
+ *
+ * @return Current version number. 
+ */
 int Base::writeVersion() const
 {
    return _version;
@@ -127,6 +173,14 @@ int Base::writeVersion() const
 
 
 
+/*!
+ * Implements the interface that returns a XML element containing the data for this 
+ * block using the current version number. 
+ *
+ * @param document XML document to use for creating new elements. 
+ *
+ * @return XML element containing the data of this block. 
+ */
 QDomElement Base::writeData(QDomDocument& document) const
 {
    QDomElement ret {document.createElement("na")};
@@ -143,9 +197,15 @@ QDomElement Base::writeData(QDomDocument& document) const
 
 
 
-void Base::copyDataFrom(const AbstractBlock* object)
+/*!
+ * Implements the interface that copies all data from the given block to this 
+ * block, overwriting any data this block may already contain. 
+ *
+ * @param other The other block whose data will be copied. 
+ */
+void Base::copyDataFrom(const AbstractBlock* other)
 {
-   if ( const Base* object_ = qobject_cast<const Base*>(object) )
+   if ( const Base* object_ = qobject_cast<const Base*>(other) )
    {
       _name = object_->_name;
       _description = object_->_description;
@@ -164,9 +224,13 @@ void Base::copyDataFrom(const AbstractBlock* object)
 
 
 
-void Base::readVersion0(const QDomElement& data)
+/*!
+ *
+ * @param element The XML element used to read in this blocks data. 
+ */
+void Base::readVersion0(const QDomElement& element)
 {
-   DomElementReader reader(data);
+   DomElementReader reader(element);
    _name = reader.attribute(_nameTag,false);
    _description.clear();
    reader.set(_descriptionTag,&_description,false);
@@ -178,9 +242,13 @@ void Base::readVersion0(const QDomElement& data)
 
 
 
-void Base::readVersion1(const QDomElement& data)
+/*!
+ *
+ * @param element The XML element used to read in this blocks data. 
+ */
+void Base::readVersion1(const QDomElement& element)
 {
-   DomElementReader reader(data);
+   DomElementReader reader(element);
    reader.set(_nameTag,&_name,false);
    reader.set(_descriptionTag,&_description,false);
    reader.read();
