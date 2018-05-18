@@ -1,0 +1,5 @@
+
+* Fixed segmentation fault bug caused by cutting blocks.
+* Fixed minor bugs with the block view not updating its current index or context menu.
+* Fixed C++/Qt bug that caused any project with operator blocks to throw an error when being opened.
+

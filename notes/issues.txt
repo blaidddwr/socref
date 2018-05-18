@@ -1,8 +1,4 @@
 
-* Fix segmentation fault bug caused when cutting C++/Qt type lists.
-
-* Fix project opening bug giving logic errors when opening some projects.
-
 * Add the ability for application to update the current working directory when a project is opened/saved.
 
 * Add custom dictionary words for spell checking on a per project basis.

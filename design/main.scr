@@ -1560,6 +1560,8 @@ An implementation of this class must also construct the form portion of this dia
                      <name>addTriggered</name>
                      <description>Called when an add action is triggered. If this object has a model then this inserts a new block of the given type in the currently selected block.</description>
                      <type></type>
+                     <operation>If this object has no block model then return.</operation>
+                     <operation>Insert a new block of the given type into this object's block model with its current index and then update the current index and context menu.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -1575,7 +1577,7 @@ An implementation of this class must also construct the form portion of this dia
                      <description>Called when the remove action is triggered. If this object has a valid current index then it is removed from its model.</description>
                      <type></type>
                      <operation>If this object's currently selected index is not valid then return.</operation>
-                     <operation>Remove this object's currently selected index from its model and then update the currently selected index.</operation>
+                     <operation>Remove this object's currently selected index from its model and then update the current index and context menu.</operation>
                   </data>
                </slot>
                <slot type="7">

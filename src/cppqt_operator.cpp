@@ -19,10 +19,9 @@ const char* Operator::_operatorTag {"operator"};
 
 
 
-Operator::Operator(const QString& returnType)
-{
-   setReturnType(returnType);
-}
+Operator::Operator(const QString& returnType):
+   Function(returnType,QString())
+{}
 
 
 

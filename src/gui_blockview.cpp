@@ -166,10 +166,24 @@ void BlockView::setModel(BlockModel* model)
  *
  * @param type The block type created and inserted into this object's model if it 
  *             has one. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. If this object has no block model then return. 
+ *
+ * 2. Insert a new block of the given type into this object's block model with its 
+ *    current index and then update the current index and context menu. 
  */
 void BlockView::addTriggered(int type)
 {
-   if ( _model ) _model->insert(_current,_factory->makeBlock(type));
+   // 1
+   if ( !_model ) return;
+
+   // 2
+   _model->insert(_current,_factory->makeBlock(type));
+   updateIndex();
+   updateContextMenu();
 }
 
 
@@ -187,7 +201,7 @@ void BlockView::addTriggered(int type)
  * 1. If this object's currently selected index is not valid then return. 
  *
  * 2. Remove this object's currently selected index from its model and then update 
- *    the currently selected index. 
+ *    the current index and context menu. 
  */
 void BlockView::removeTriggered()
 {
@@ -197,6 +211,7 @@ void BlockView::removeTriggered()
    // 2
    _model->remove(_current);
    updateIndex();
+   updateContextMenu();
 }
 
 
@@ -262,6 +277,7 @@ void BlockView::cutTriggered()
    if ( _current.isValid() )
    {
       delete _copy;
+      _copy = nullptr;
       _copy = _model->cut(_current).release();
       updateIndex();
       updateContextMenu();
