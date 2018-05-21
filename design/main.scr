@@ -216,7 +216,27 @@
             </type>
             <type type="16">
                <data version="0">
+                  <type>const QStringList</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
                   <type>const QStringList&amp;</type>
+               </data>
+            </type>
+         </typeList>
+         <typeList type="15">
+            <data version="1">
+               <name>Variant</name>
+            </data>
+            <type type="16">
+               <data version="0">
+                  <type>QVariant</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>const QVariant&amp;</type>
                </data>
             </type>
          </typeList>
@@ -231,10 +251,20 @@
             </type>
             <type type="16">
                <data version="0">
+                  <type>QMap&lt;int,QWidget*></type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
                   <type>std::unique_ptr&lt;QWidget></type>
                </data>
             </type>
          </typeList>
+         <type type="16">
+            <data version="0">
+               <type>QCheckBox*</type>
+            </data>
+         </type>
          <type type="16">
             <data version="0">
                <type>QCloseEvent*</type>
@@ -253,6 +283,11 @@
          <type type="16">
             <data version="0">
                <type>QFile*</type>
+            </data>
+         </type>
+         <type type="16">
+            <data version="0">
+               <type>QFormLayout*</type>
             </data>
          </type>
          <type type="16">
@@ -332,11 +367,6 @@
          </type>
          <type type="16">
             <data version="0">
-               <type>QVariant</type>
-            </data>
-         </type>
-         <type type="16">
-            <data version="0">
                <type>const QFileInfo&amp;</type>
             </data>
          </type>
@@ -407,6 +437,11 @@
             <type type="16">
                <data version="0">
                   <type>const QList&lt;AbstractBlock*>&amp;</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>AbstractBlock::Field</type>
                </data>
             </type>
          </typeList>
@@ -1319,11 +1354,13 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
          <class type="4">
             <data version="1">
                <name>AbstractEdit</name>
-               <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI and handling the events associated with what it creates. An implementation of this class is responsible for handling any apply action and constructing the rest of the GUI. This is a persistent dialog. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog.
+               <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI and handling the events associated with what it creates. An implementation of this class is responsible for handling any special apply actions and constructing the rest of the GUI. This is a persistent dialog. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog.
 
-This class constructs OK, apply, and cancel buttons and handles their clicked events. An interface for applying changes to the block being edited is provided and an implementation must implement this interface. Any exceptions thrown inside the apply interface are caught by this class and reported to the user, not closing its dialog if the OK button was clicked. Because this is a persistent dialog an implementation of this class must define its own unique key using the save settings method of the persistent dialog class.
+This class constructs OK, apply, and cancel buttons and handles their clicked events. An interface for applying changes to the block being edited is provided and an implementation must implement any special apply actions. Any exceptions thrown inside the apply interface are caught by this class and reported to the user, not closing its dialog if the OK button was clicked. Because this is a persistent dialog an implementation of this class must define its own unique key using the save settings method of the persistent dialog class.
 
-An implementation of this class must also construct the form portion of this dialog giving user access to the data of the block being edited. This is accomplished through another interface that returns a layout of the form portion that an implementation must implement. The form portion is positioned at the top of the dialog while the buttons this class creates is at the bottom.
+This class provides methods for adding edit widgets for one of the block fields of the block it edits. These methods will add a new row to a given form and return a pointer to the edit widget for a given block field. This abstract class itself handles applying any fields being edited in this fashion. Only one edit widget can be used for each unique block field.
+
+An implementation of this class must construct the form portion of this dialog giving user access to the data of the block being edited. This is accomplished through another interface that returns a layout of the form portion that an implementation must implement. The form portion is positioned at the top of the dialog while the buttons this class creates is at the bottom.
 </description>
                <qtobject/>
             </data>
@@ -1339,10 +1376,17 @@ An implementation of this class must also construct the form portion of this dia
                </data>
                <constructor type="9">
                   <data version="1">
-                     <description>Constructs a new abstract edit object with an optional parent. The new abstract edit is not initialized and not ready to be used as a dialog until that method is called.</description>
+                     <description>Constructs a new abstract edit object with the given block and an optional parent. The new abstract edit is not initialized and not ready to be used as a dialog until that method is called.</description>
                      <type></type>
                      <explicit/>
                   </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>block</name>
+                        <description>Pointer to the block this dialog is editing.</description>
+                        <type>AbstractBlock*</type>
+                     </data>
+                  </variable>
                   <variable type="1">
                      <data version="1">
                         <name>parent</name>
@@ -1379,11 +1423,134 @@ An implementation of this class must also construct the form portion of this dia
                <function type="2">
                   <data version="1">
                      <name>apply</name>
-                     <description>This interface is called when the user has clicked the apply or OK buttons and expected to update the block an implementation is editing. If an exception is thrown from this interface then the user is informed and the dialog is not closed.</description>
+                     <description>This interface is called when the user has clicked the apply or OK buttons and expected to update the block an implementation is editing. If an exception is thrown from this interface then the user is informed and the dialog is not closed. The default implementation applies all edit widgets added to this object during construction.</description>
                      <type>void</type>
                      <virtual/>
+                     <operation>Iterate through all of this object's edit widgets. For each one apply the value the edit widget contains to the corresponding field of the block this dialog is editing.</operation>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldTitle</name>
+                     <type>QString</type>
+                     <virtual/>
+                     <const/>
                      <abstract/>
                   </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>protected:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>addCheckBoxes</name>
+                     <description>Adds a new grid of checkbox edit widgets for the given fields to the given form layout using the given title and column size. If anything is wrong with any of the given field indexes then an exception is thrown.</description>
+                     <type>void</type>
+                     <operation>Create a new grid layout _layout_ and initialize the row and column indexes.</operation>
+                     <operation>Iterate through all given fields, adding a new checkbox for each one to _layout_ and increment the column index. If column index reaches the given size then reset to 0 and increment the row index.</operation>
+                     <operation>Add _layout_ to the given form layout using the given title.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>form</name>
+                        <description>Pointer to the form layout which has the grid of checkbox widgets added to it.</description>
+                        <type>QFormLayout*</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>fields</name>
+                        <description>List of field indexes which have checkbox edit widgets added to them.</description>
+                        <type>const QList&lt;int>&amp;</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>columnSize</name>
+                        <description>The column size for the checkbox grid layout.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>title</name>
+                        <description>Title used when adding the grid layout to the given form layout.</description>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>addCheckBox</name>
+                     <description>Adds a new checkbox edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a boolean then an exception is thrown.</description>
+                     <type>QCheckBox*</type>
+                     <return_description>Pointer to the new checkbox edit widget attached to the block field with the given index.</return_description>
+                     <operation>If this dialog already has an edit widget for the given field index, the given field index is out of range, or this field type for the given index is not a boolean then throw an exception.</operation>
+                     <operation>Create a new checkbox edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <description>Index of the field that has an edit widget attached to it.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>addLineEdit</name>
+                     <description>Adds a new line edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string then an exception is thrown.</description>
+                     <type>QLineEdit*</type>
+                     <return_description>Pointer to the new line edit widget attached to the block field with the given index.</return_description>
+                     <operation>If this dialog already has an edit widget for the given field index, the given field index is out of range, or this field type for the given index is not a string then throw an exception.</operation>
+                     <operation>Create a new line edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>form</name>
+                        <description>Pointer to the form layout which has the new edit widget added to it.</description>
+                        <type>QFormLayout*</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <description>Index of the field that has an edit widget attached to it.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>addTextEdit</name>
+                     <description>Adds a new text edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string then an exception is thrown.</description>
+                     <type>TextEdit*</type>
+                     <return_description>Pointer to the new text edit widget attached to the block field with the given index.</return_description>
+                     <operation>If this dialog already has an edit widget for the given field index, the given field index is out of range, or this field type for the given index is not a string then throw an exception.</operation>
+                     <operation>Create a new text edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>form</name>
+                        <description>Pointer to the form layout which has the new edit widget added to it.</description>
+                        <type>QFormLayout*</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <description>Index of the field that has an edit widget attached to it.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
                </function>
                <function type="2">
                   <data version="1">
@@ -1433,16 +1600,6 @@ An implementation of this class must also construct the form portion of this dia
                </data>
                <function type="2">
                   <data version="1">
-                     <name>tryApply</name>
-                     <description>Calls this object's apply interface, returning true if it was successful or false if it caught an exception.</description>
-                     <type>bool</type>
-                     <return_description>True is the implementation applied changes successfully or false if an exception was thrown.</return_description>
-                     <operation>Call this object's apply interface and return true on success.</operation>
-                     <operation>If an exception is caught then report the error to the user and return false on failure.</operation>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
                      <name>setupButtons</name>
                      <description>Constructs the three buttons this abstract edit object provides to its implementation, returning the horizontal layout containing the setup buttons.</description>
                      <type>QLayout*</type>
@@ -1454,6 +1611,37 @@ An implementation of this class must also construct the form portion of this dia
                      <operation>Return _ret_.</operation>
                   </data>
                </function>
+               <function type="2">
+                  <data version="1">
+                     <name>checkField</name>
+                     <description>Checks the given field index and makes sure it is valid and this dialog does not already contain an edit widget for it, throwing an exception if either check fails.</description>
+                     <type>void</type>
+                     <operation>If this dialog already has an edit widget for the given field index or the given field index is out of range then throw an exception.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>tryApply</name>
+                     <description>Calls this object's apply interface, returning true if it was successful or false if it caught an exception.</description>
+                     <type>bool</type>
+                     <return_description>True is the implementation applied changes successfully or false if an exception was thrown.</return_description>
+                     <operation>Call this object's apply interface and return true on success.</operation>
+                     <operation>If an exception is caught then report the error to the user and return false on failure.</operation>
+                  </data>
+               </function>
+               <variable type="1">
+                  <data version="1">
+                     <name>_block</name>
+                     <description>Pointer to the block that this dialog is editing.</description>
+                     <type>AbstractBlock*</type>
+                  </data>
+               </variable>
                <variable type="1">
                   <data version="1">
                      <name>_ok</name>
@@ -1466,6 +1654,13 @@ An implementation of this class must also construct the form portion of this dia
                      <name>_apply</name>
                      <description>Pointer to this object's apply button.</description>
                      <type>QPushButton*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_edits</name>
+                     <description>Mapping of pointers to all edit widgets that have been added to this edit dialog. The key represents the field index the corresponding edit widget is attached to.</description>
+                     <type>QMap&lt;int,QWidget*></type>
                   </data>
                </variable>
             </access>
@@ -3110,25 +3305,26 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <data version="1">
                   <type>public:</type>
                </data>
-               <constructor type="9">
+               <enumeration type="11">
                   <data version="1">
-                     <type></type>
-                     <default/>
-                     <explicit/>
+                     <name>Field</name>
                   </data>
-               </constructor>
-               <constructor type="9">
-                  <data version="1">
-                     <type></type>
-                     <explicit/>
-                  </data>
-                  <variable type="1">
+                  <enumval type="12">
                      <data version="1">
-                        <name>name</name>
-                        <type>const QString&amp;</type>
+                        <name>Name</name>
                      </data>
-                  </variable>
-               </constructor>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Description</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Total</name>
+                     </data>
+                  </enumval>
+               </enumeration>
                <function type="2">
                   <data version="1">
                      <name>factory</name>
@@ -3154,15 +3350,112 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
+                     <name>fieldSize</name>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldType</name>
+                     <type>AbstractBlock::Field</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>field</name>
+                     <type>QVariant</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <default/>
+                     <explicit/>
+                  </data>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
+               <function type="2">
+                  <data version="1">
                      <name>description</name>
                      <type>QString</type>
                      <const/>
                   </data>
                </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>protected:</type>
+               </data>
                <function type="2">
                   <data version="1">
-                     <name>setName</name>
-                     <type>void</type>
+                     <name>version</name>
+                     <description>This interface returns the current version number of XML elements written for this block type.</description>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>Current version number.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldTag</name>
+                     <type>QString</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldIndexOf</name>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -3173,86 +3466,35 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
-                     <name>setDescription</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>description</name>
-                        <type>const QString&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-            </access>
-            <access type="5">
-               <data version="1">
-                  <type>protected:</type>
-               </data>
-               <function type="2">
-                  <data version="1">
-                     <name>readData</name>
-                     <description>Implements the interface that reads in the data for this block from the given XML element and version number.</description>
+                     <name>fieldModified</name>
                      <type>void</type>
                      <virtual/>
                      <override/>
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>element</name>
-                        <description>The XML element used to read in this blocks data.</description>
-                        <type>const QDomElement&amp;</type>
-                     </data>
-                  </variable>
-                  <variable type="1">
-                     <data version="1">
-                        <name>version</name>
-                        <description>The version of the data stored in the XML.</description>
+                        <name>index</name>
                         <type>int</type>
                      </data>
                   </variable>
                </function>
                <function type="2">
                   <data version="1">
-                     <name>writeVersion</name>
-                     <description>Implements the interface that returns the current version number of XML elements written for this block type.</description>
-                     <type>int</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>Current version number.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>writeData</name>
-                     <description>Implements the interface that returns a XML element containing the data for this block using the current version number.</description>
-                     <type>QDomElement</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>XML element containing the data of this block.</return_description>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>document</name>
-                        <description>XML document to use for creating new elements.</description>
-                        <type>QDomDocument&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>copyDataFrom</name>
-                     <description>Implements the interface that copies all data from the given block to this block, overwriting any data this block may already contain.</description>
+                     <name>quietlySetField</name>
                      <type>void</type>
                      <virtual/>
                      <override/>
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>other</name>
-                        <description>The other block whose data will be copied.</description>
-                        <type>const AbstractBlock*</type>
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <type>const QVariant&amp;</type>
                      </data>
                   </variable>
                </function>
@@ -3261,57 +3503,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <data version="1">
                   <type>private:</type>
                </data>
-               <function type="2">
-                  <data version="1">
-                     <name>readVersion0</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>element</name>
-                        <description>The XML element used to read in this blocks data.</description>
-                        <type>const QDomElement&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>readVersion1</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>element</name>
-                        <description>The XML element used to read in this blocks data.</description>
-                        <type>const QDomElement&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <variable type="1">
-                  <data version="1">
-                     <name>_version</name>
-                     <constexpr/>
-                     <static/>
-                     <type>int</type>
-                     <initializer>1</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_nameTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"name"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_descriptionTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"description"</initializer>
-                  </data>
-               </variable>
                <variable type="1">
                   <data version="1">
                      <name>_name</name>
@@ -3468,43 +3659,41 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <data version="1">
                   <type>public:</type>
                </data>
-               <constructor type="9">
+               <enumeration type="11">
                   <data version="1">
-                     <type></type>
-                     <default/>
-                     <explicit/>
+                     <name>Field</name>
                   </data>
-               </constructor>
-               <constructor type="9">
-                  <data version="1">
-                     <type></type>
-                     <explicit/>
-                  </data>
-                  <variable type="1">
+                  <enumval type="12">
                      <data version="1">
-                        <name>name</name>
-                        <type>const QString&amp;</type>
+                        <name>ConstExpr</name>
                      </data>
-                  </variable>
-               </constructor>
-               <constructor type="9">
-                  <data version="1">
-                     <type></type>
-                     <explicit/>
-                  </data>
-                  <variable type="1">
+                  </enumval>
+                  <enumval type="12">
                      <data version="1">
-                        <name>type</name>
-                        <type>const QString&amp;</type>
+                        <name>Static</name>
                      </data>
-                  </variable>
-                  <variable type="1">
+                  </enumval>
+                  <enumval type="12">
                      <data version="1">
-                        <name>name</name>
-                        <type>const QString&amp;</type>
+                        <name>Mutable</name>
                      </data>
-                  </variable>
-               </constructor>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Type</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Initializer</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Total</name>
+                     </data>
+                  </enumval>
+               </enumeration>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -3562,6 +3751,45 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
+                     <name>fieldSize</name>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldType</name>
+                     <type>AbstractBlock::Field</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>field</name>
+                     <type>QVariant</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
                      <name>makeEdit</name>
                      <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
                      <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
@@ -3570,24 +3798,54 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <return_description>New editable GUI widget to edit this block's data.</return_description>
                   </data>
                </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <default/>
+                     <explicit/>
+                  </data>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>type</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
                <function type="2">
                   <data version="1">
                      <name>isConstExpr</name>
                      <type>bool</type>
                      <const/>
                   </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setConstExpr</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isConstExpr</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
                </function>
                <function type="2">
                   <data version="1">
@@ -3598,39 +3856,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
-                     <name>setStatic</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isStatic</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
                      <name>isMutable</name>
                      <type>bool</type>
                      <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setMutable</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isMutable</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>unnamed_function</name>
-                     <type>void</type>
                   </data>
                </function>
                <function type="2">
@@ -3639,18 +3867,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <type>QString</type>
                      <const/>
                   </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setVariableType</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>type</name>
-                        <type>const QString&amp;</type>
-                     </data>
-                  </variable>
                </function>
                <function type="2">
                   <data version="1">
@@ -3665,18 +3881,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <type>QString</type>
                      <const/>
                   </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setInitializer</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>initializer</name>
-                        <type>const QString&amp;</type>
-                     </data>
-                  </variable>
                </function>
                <function type="2">
                   <data version="1">
@@ -3699,58 +3903,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </data>
                <function type="2">
                   <data version="1">
-                     <name>readData</name>
-                     <description>Implements the interface that reads in the data for this block from the given XML element and version number.</description>
-                     <type>void</type>
-                     <virtual/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>element</name>
-                        <description>The XML element used to read in this blocks data.</description>
-                        <type>const QDomElement&amp;</type>
-                     </data>
-                  </variable>
-                  <variable type="1">
-                     <data version="1">
-                        <name>version</name>
-                        <description>The version of the data stored in the XML.</description>
-                        <type>int</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>writeVersion</name>
-                     <description>Implements the interface that returns the current version number of XML elements written for this block type.</description>
-                     <type>int</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>Current version number.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>writeData</name>
-                     <description>Implements the interface that returns a XML element containing the data for this block using the current version number.</description>
-                     <type>QDomElement</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>XML element containing the data of this block.</return_description>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>document</name>
-                        <description>XML document to use for creating new elements.</description>
-                        <type>QDomDocument&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
                      <name>makeBlank</name>
                      <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
                      <type>std::unique_ptr&lt;AbstractBlock></type>
@@ -3762,17 +3914,76 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
-                     <name>copyDataFrom</name>
-                     <description>Implements the interface that copies all data from the given block to this block, overwriting any data this block may already contain.</description>
+                     <name>version</name>
+                     <description>This interface returns the current version number of XML elements written for this block type.</description>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>Current version number.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldTag</name>
+                     <type>QString</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldIndexOf</name>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldModified</name>
                      <type>void</type>
                      <virtual/>
                      <override/>
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>other</name>
-                        <description>The other block whose data will be copied.</description>
-                        <type>const AbstractBlock*</type>
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>quietlySetField</name>
+                     <type>void</type>
+                     <virtual/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <type>const QVariant&amp;</type>
                      </data>
                   </variable>
                </function>
@@ -3783,6 +3994,18 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </data>
                <function type="2">
                   <data version="1">
+                     <name>checkTypeSyntax</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
                      <name>attributes</name>
                      <type>QString</type>
                      <const/>
@@ -3790,87 +4013,58 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
-                     <name>checkTypeSyntax</name>
+                     <name>setConstExpr</name>
                      <type>void</type>
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>type</name>
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setStatic</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setMutable</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setType</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
                </function>
-               <function type="2">
-                  <data version="1">
-                     <name>readVersion0</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>element</name>
-                        <type>const QDomElement&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>readVersion1</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>element</name>
-                        <type>const QDomElement&amp;</type>
-                     </data>
-                  </variable>
-               </function>
                <variable type="1">
                   <data version="1">
-                     <name>_version</name>
-                     <constexpr/>
+                     <name>_fields</name>
                      <static/>
-                     <type>int</type>
-                     <initializer>1</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_constExprTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"constexpr"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_staticTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"static"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_mutableTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"mutable"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_typeTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"type"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_initializerTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"initializer"</initializer>
+                     <type>const QStringList</type>
+                     <initializer>"constexpr","static","mutable","type","initializer"</initializer>
                   </data>
                </variable>
                <variable type="1">
@@ -5205,13 +5399,32 @@ The edit menu is the context menu of the block view class. The settings menu is 
       <class type="4">
          <data version="1">
             <name>AbstractBlock</name>
-            <description>This represents a single block of data in the reference system. It conforms to a parent child relationship where each block can have any number of children that are also blocks. The children are structured in an ordered list so they can be represented as a tree like structure in a view. Blocks also spawn the GUI elements that represent their models. Copying of blocks is also performed with other virtual interface functions. Many helper functions are available to navigate the tree structure of children and parents. Blocks are identified by a type which is an integer value that must be unique among all block types of a project type supplied by the block factory. Blocks are saved and opened using XML elements. The data for these XML elements have version numbers so later versions of this software can identify and read previous versions of XML elements.</description>
+            <description>This represents a single block in this application's reference system. The block system is the core function of this application, representing blocks as a single atomic item for referencing code. The block system conforms to a parent child relationship. Virtual interfaces are provided for basic information, spawning view and abstract edit widgets, and defining all field data of the block. Using the field data interface this class can make copies of any implementation type along with saving/writing the blocks.
+
+The block system represents all elements of code structure in a reference. Individual implementations should be defined for different code objects such as variables or functions. They should also be defined for modifiers or additions to other blocks, such as arguments to a function or methods to a class.
+
+Each block can have a single parent and any number of children. The children are contained in a ordered list to allow the entire block structure to be viewed in this application's block view widget. This allows for easy mimicking of most code structures that also follow this relationship, such as arguments of a function or methods of a class.
+
+The virtual interfaces for this class fall into three primary groupings. The first provides the system with basic information usually required to display the block in the block view. The second deals with spawning view and abstract edit widgets to have a detailed view of the block or edit its data, respectively. The final deals with making the data of the block visible to the application by defining a list of fields. Optional interfaces are also provides for dealing with child events, such as children being added or removed.
+
+This class itself handles all copying, reading, and writing of blocks by using the fields interface which should provide it with all data for an implementation. This class also handles all management of children internally. As a result an implementation of this class only needs to provide information about itself, letting this abstract class take care its management.</description>
             <qtobject/>
          </data>
+         <parent type="13">
+            <data version="2">
+               <access>public</access>
+               <class>QObject</class>
+            </data>
+         </parent>
          <typeList type="15">
             <data version="1">
                <name>Custom</name>
             </data>
+            <type type="16">
+               <data version="0">
+                  <type>Field</type>
+               </data>
+            </type>
             <type type="16">
                <data version="0">
                   <type>T*</type>
@@ -5228,16 +5441,34 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </data>
             </type>
          </typeList>
-         <parent type="13">
-            <data version="2">
-               <access>public</access>
-               <class>QObject</class>
-            </data>
-         </parent>
          <access type="5">
             <data version="1">
                <type>public:</type>
             </data>
+            <enumeration type="11">
+               <data version="1">
+                  <name>Field</name>
+                  <description>Defines the different types of data for a field.</description>
+               </data>
+               <enumval type="12">
+                  <data version="1">
+                     <name>Boolean</name>
+                     <description>Defines the boolean field type. This type is a simply true or false. If this field type is never set this it should be false by default.</description>
+                  </data>
+               </enumval>
+               <enumval type="12">
+                  <data version="1">
+                     <name>String</name>
+                     <description>Defines the string field type.</description>
+                  </data>
+               </enumval>
+               <enumval type="12">
+                  <data version="1">
+                     <name>StringList</name>
+                     <description>Defines the string list field type.</description>
+                  </data>
+               </enumval>
+            </enumeration>
             <function type="2">
                <data version="1">
                   <name>type</name>
@@ -5306,6 +5537,53 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </function>
             <function type="2">
                <data version="1">
+                  <name>fieldSize</name>
+                  <description>This interface returns the number of fields this block contains.</description>
+                  <type>int</type>
+                  <virtual/>
+                  <const/>
+                  <abstract/>
+                  <return_description>The number of fields this object contains.</return_description>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>fieldType</name>
+                  <description>This returns the field type for the given field index of this block.</description>
+                  <type>Field</type>
+                  <virtual/>
+                  <const/>
+                  <abstract/>
+                  <return_description>Field type of the given field index of this block.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>index</name>
+                     <description>Index of the field whose field type is returned.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>field</name>
+                  <description>This interface returns the value of the field with the given index for this block.</description>
+                  <type>QVariant</type>
+                  <virtual/>
+                  <const/>
+                  <abstract/>
+                  <return_description>Value of the field with the given index for this block.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>index</name>
+                     <description>Index of the field whose value is returned.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
                   <name>makeEdit</name>
                   <description>This interface returns a editable GUI widget that provides the ability to edit this block's data.</description>
                   <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
@@ -5314,18 +5592,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   <return_description>New editable GUI widget to edit this block's data.</return_description>
                </data>
             </function>
-            <function type="2">
-               <data version="1">
-                  <name>makeCopy</name>
-                  <description>This interface makes an exact copy of this block. A default implementation of this interface is given that uses other virtual functions to create a copy of this block. The new block returned has no parent.</description>
-                  <type>std::unique_ptr&lt;AbstractBlock></type>
-                  <virtual/>
-                  <const/>
-                  <return_description>Exact copy of this block's data as a new block.</return_description>
-                  <operation>Create a new empty block _ret_ that is the same type as this block. Copy this block's children and implementation data to _ret_.</operation>
-                  <operation>Return _ret_.</operation>
-               </data>
-            </function>
+         </access>
+         <access type="5">
+            <data version="1">
+               <type>public:</type>
+            </data>
             <function type="2">
                <data version="1">
                   <name>root</name>
@@ -5407,6 +5678,17 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <type>int</type>
                   </data>
                </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>makeCopy</name>
+                  <description>Makes an exact copy of this block. This uses other virtual functions to create a copy of this block. The new block returned has no parent.</description>
+                  <type>std::unique_ptr&lt;AbstractBlock></type>
+                  <const/>
+                  <return_description>Exact copy of this block's data as a new block.</return_description>
+                  <operation>Create a new empty block _ret_ that is the same type as this block. Copy this block's children and implementation data to _ret_.</operation>
+                  <operation>Return _ret_.</operation>
+               </data>
             </function>
             <function type="2">
                <data version="1">
@@ -5520,6 +5802,29 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </function>
             <function type="2">
                <data version="1">
+                  <name>setField</name>
+                  <description>Sets the value of the field with the given index for this block. If the given index is out of range then an exception is thrown.</description>
+                  <type>void</type>
+                  <operation>If the given index is out of range then throw an exception.</operation>
+                  <operation>If the new given value is different from the current value for the given field then call the interface to quietly set it to the new value and then call the interface to notify that field has been modified.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>index</name>
+                     <description>Index of the field whose value is set to the given value.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>value</name>
+                     <description>Value that is set to the field with the given index.</description>
+                     <type>const QVariant&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
                   <name>moveUp</name>
                   <description>Moves the child block with the given index up the list by one where the very top of the list is index 0. If the given index is already at the top of the list or out of range then this does nothing.</description>
                   <type>void</type>
@@ -5613,8 +5918,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   <description>Reads in block data from an XML element. This clears any existing data this block contains, including the removal and deletion of all existing children. This recursively adds any children contained in the XML reading in their data from child XML elements.</description>
                   <type>void</type>
                   <operation>Delete and clear any existing children this block may contain.</operation>
-                  <operation>Read in the data child element from the given element, calling the read data interface to read in the data. If the data element could not be found in the XML element then throw an exception.</operation>
-                  <operation>Read in all child elements of the given element that match block children tag names and add them to this block's list of children, creating a new child for each one and calling their read function.</operation>
+                  <operation>Iterate through all children nodes of the given element. If a child is an element and matches the data tag then read it in as this block's new data, else if it an element that read it in as a new child block.</operation>
+                  <operation>Make sure all new children of this block is allowed to this block's child using its built list interface. If any child is found that is not allowed then throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="1">
@@ -5627,12 +5932,12 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <function type="2">
                <data version="1">
                   <name>write</name>
-                  <description>Writes out this blocks data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
+                  <description>Writes out this block's data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
                   <type>QDomElement</type>
                   <const/>
                   <return_description>XML element that stores this block's data and all children underneath it.</return_description>
-                  <operation>Create a new XML element _data_ created by calling the write data interface for writing the data of this block's type as an XML element. Add the version number attribute to _data_ using the write version interface to set its value.</operation>
-                  <operation>Create a new XML element _ret_. Append the _data_ element to _ret_. Iterate through this block's list of children, calling their write method and appending the returned child element to _ret_.</operation>
+                  <operation>Create a new XML element _data_ writing all of this block's data to it.</operation>
+                  <operation>Create a new XML element _ret_. Adding this block's type to _ret_ as an attribute and appending the _data_ element. Iterate through this block's list of children, calling their write method and appending the returned child element to _ret_.</operation>
                   <operation>Return _ret_.</operation>
                </data>
                <variable type="1">
@@ -5688,58 +5993,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </data>
             <function type="2">
                <data version="1">
-                  <name>readData</name>
-                  <description>This interface reads in the data for this block from the given XML element and version number.</description>
-                  <type>void</type>
-                  <virtual/>
-                  <abstract/>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>element</name>
-                     <description>The XML element used to read in this blocks data.</description>
-                     <type>const QDomElement&amp;</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>version</name>
-                     <description>The version of the data stored in the XML.</description>
-                     <type>int</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="1">
-                  <name>writeVersion</name>
-                  <description>This interface returns the current version number of XML elements written for this block type.</description>
-                  <type>int</type>
-                  <virtual/>
-                  <const/>
-                  <abstract/>
-                  <return_description>Current version number.</return_description>
-               </data>
-            </function>
-            <function type="2">
-               <data version="1">
-                  <name>writeData</name>
-                  <description>This interface returns a XML element containing the data for this block using the current version number. Attributes should never be used with this element because the block system already uses one for the version number.</description>
-                  <type>QDomElement</type>
-                  <virtual/>
-                  <const/>
-                  <abstract/>
-                  <return_description>XML element containing the data of this block.</return_description>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>document</name>
-                     <description>XML document to use for creating new elements.</description>
-                     <type>QDomDocument&amp;</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="1">
                   <name>makeBlank</name>
                   <description>This interface makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
@@ -5751,17 +6004,87 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </function>
             <function type="2">
                <data version="1">
-                  <name>copyDataFrom</name>
-                  <description>This interface copies all data from the given block to this block, overwriting any data this block may already contain. This does not copy any children.</description>
+                  <name>version</name>
+                  <description>This interface returns the current data version for this block type. This version is saved to this block's data when written and then used when read in for backwards compatibility.</description>
+                  <type>int</type>
+                  <virtual/>
+                  <const/>
+                  <abstract/>
+                  <return_description>Current data version.</return_description>
+               </data>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>fieldTag</name>
+                  <description>This interface returns the tag name for the field with the given index for this block. The tag name must be unique among all fields and is used for reading and writing this block.</description>
+                  <type>QString</type>
+                  <virtual/>
+                  <const/>
+                  <abstract/>
+                  <return_description>Tag name for the field with the given index for this block.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>index</name>
+                     <description>Index of the field whose tag name is returned.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>fieldIndexOf</name>
+                  <description>This interface returns the index of the field that has the given tag name for this block. If no field is found with the given tag name this returns -1.</description>
+                  <type>int</type>
+                  <virtual/>
+                  <const/>
+                  <abstract/>
+                  <return_description>Index of the field with the given tag name or -1 if no field exists with that tag name.</return_description>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>name</name>
+                     <description>Tag name of the field whose index is returned.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>fieldModified</name>
+                  <description>This interface is called when the field with the given index for this block has been modified.</description>
                   <type>void</type>
                   <virtual/>
                   <abstract/>
                </data>
                <variable type="1">
                   <data version="1">
-                     <name>other</name>
-                     <description>The other block whose data will be copied.</description>
-                     <type>const AbstractBlock*</type>
+                     <name>index</name>
+                     <description>Index of the field which has just been modified.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>quietlySetField</name>
+                  <description>This interface quietly sets the value of the field with the given index to the new given value. This must be done quietly without calling any notify methods because the base abstract class has already done so using the field modified interface.</description>
+                  <type>void</type>
+                  <virtual/>
+                  <abstract/>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>index</name>
+                     <description>Index of the field whose value is set to the new given value.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>value</name>
+                     <description>New value that the field with the given index is set to.</description>
+                     <type>const QVariant&amp;</type>
                   </data>
                </variable>
             </function>
@@ -5829,6 +6152,20 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   </data>
                </variable>
             </function>
+         </access>
+         <access type="5">
+            <data version="1">
+               <type>protected:</type>
+            </data>
+            <function type="2">
+               <data version="1">
+                  <name>dataVersion</name>
+                  <description>Returns the data version of the data this block is reading in. If this block is not reading in data then this is the current version for this block's data.</description>
+                  <type>int</type>
+                  <const/>
+                  <return_description>Data version of the data this block is reading in or the current version if data is not being read in.</return_description>
+               </data>
+            </function>
             <function type="2">
                <data version="1">
                   <name>notifyModified</name>
@@ -5856,42 +6193,49 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   <operation>Find the root block of _root_ and emit its body modified signal with this block's pointer.</operation>
                </data>
             </function>
-            <function type="2">
-               <data version="1">
-                  <name>makeElement</name>
-                  <description>Makes a new XML element with the given tag name and text value enclosed within the new element.</description>
-                  <static/>
-                  <type>QDomElement</type>
-                  <return_description>New XML element with the given tag name and text.</return_description>
-                  <operation>Create a new XML element with the given tag name, setting its text to the given text, and then returning it.</operation>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>document</name>
-                     <description>The XML document used to create the new XML element.</description>
-                     <type>QDomDocument&amp;</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>tagName</name>
-                     <description>The tag name for the new XML element.</description>
-                     <type>const QString&amp;</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>text</name>
-                     <description>The text enclosed within the new XML element.</description>
-                     <type>const QString&amp;</type>
-                  </data>
-               </variable>
-            </function>
          </access>
          <access type="5">
             <data version="1">
                <type>private:</type>
             </data>
+            <function type="2">
+               <data version="1">
+                  <name>readData</name>
+                  <description>Reads in this block's field data from the given XML element. This overwrites any value this block's fields may already contain.</description>
+                  <type>void</type>
+                  <operation>Set this block's data version number to the version attribute from the given XML element.</operation>
+                  <operation>Create a mapping _lists_ of all fields that are the string list type, setting each mapping to a blank string list.</operation>
+                  <operation>Iterate through all children nodes of the given XML element. If a node is an element and matches a field tag then quietly set the fields value. If the field type is boolean then simply set it to true, else if it is string then set it to the element's text, else if it is a string list then append the element's text to the correct string list mapping in _lists_.</operation>
+                  <operation>Iterate through all string list field mappings in _lists_, quietly setting each field with the correct string list.</operation>
+                  <operation>Set this block's data version to its implementation's current version.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>element</name>
+                     <description>The XML element that is read in as this block's data.</description>
+                     <type>const QDomElement&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>writeData</name>
+                  <description>Writes out this block's field data to the returned XML element, using the given XML document to create the returned element.</description>
+                  <type>QDomElement</type>
+                  <const/>
+                  <return_description>XML element containing all this block's field data.</return_description>
+                  <operation>Create a new XML element _ret_, setting its tag name to the data tag and appending its implementation's current data version as an attribute.</operation>
+                  <operation>Iterate through all fields for this block. For each field add their data as a child element to _ret_ using the field tag name for each one. If the field type is boolean simply add an empty element if its value is true. If the field type is string add an element whose text is the field string if it is not empty. If the field type is string list then add an element for each string the list contains.</operation>
+                  <operation>Return _ret_.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>document</name>
+                     <description>XML document used for creating the returned data element.</description>
+                     <type>QDomDocument&amp;</type>
+                  </data>
+               </variable>
+            </function>
             <function type="2">
                <data version="1">
                   <name>copyChildren</name>
@@ -5904,6 +6248,36 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <name>parent</name>
                      <description>Pointer to block whose children are copied.</description>
                      <type>const AbstractBlock*</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>copyDataFrom</name>
+                  <description>Copies all field data from the given block to this one, overwriting all field data this block currently contains. This assumes the given block is the same type as this one.</description>
+                  <type>void</type>
+                  <operation>Iterate through all fields for this block, for each one setting its value to the value of the other block's corresponding field.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>other</name>
+                     <type>const AbstractBlock*</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="1">
+                  <name>readChild</name>
+                  <description>Creates a new child reading it in from the given XML element. The new child is then appended to this block's list of children.</description>
+                  <type>void</type>
+                  <operation>Read in the type attribute from the given child element to _type_. If reading the type as an integer fails or the type is out of range of possible block types for this project type then throw an exception.</operation>
+                  <operation>Create a new block with the given type and call its read method with the given child XML element, appending it to this blocks list of children.</operation>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>element</name>
+                     <description>XML element used to read in the new child.</description>
+                     <type>const QDomElement&amp;</type>
                   </data>
                </variable>
             </function>
@@ -5926,22 +6300,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <description>The index where this block will be added to its new parent's list.</description>
                      <type>int</type>
                      <initializer>-1</initializer>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="1">
-                  <name>readChild</name>
-                  <description>Creates a new child reading it in from the given XML element. The new child is then appended to this block's list of children.</description>
-                  <type>void</type>
-                  <operation>Read in the type attribute from the given child element. If the read in type is out of range of possible types for this project type then throw an exception.</operation>
-                  <operation>Create a new block with the given type and call its read method with the given child XML element, appending it to this blocks list of children.</operation>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>element</name>
-                     <description>XML element used to read in the new child.</description>
-                     <type>const QDomElement&amp;</type>
                   </data>
                </variable>
             </function>
@@ -5970,6 +6328,13 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   <static/>
                   <type>const char*</type>
                   <initializer>"type"</initializer>
+               </data>
+            </variable>
+            <variable type="1">
+               <data version="1">
+                  <name>_version</name>
+                  <description>The data version of the data this block is reading in or the current version if no data is being read in.</description>
+                  <type>int</type>
                </data>
             </variable>
             <variable type="1">

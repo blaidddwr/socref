@@ -5,8 +5,6 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_function.h"
 #include "cppqt_type.h"
-#include "domelementreader.h"
-#include "common.h"
 
 
 
@@ -19,50 +17,14 @@ using namespace CppQt;
 
 /*!
  */
-const char* Variable::_constExprTag {"constexpr"};
-/*!
- */
-const char* Variable::_staticTag {"static"};
-/*!
- */
-const char* Variable::_mutableTag {"mutable"};
-/*!
- */
-const char* Variable::_typeTag {"type"};
-/*!
- */
-const char* Variable::_initializerTag {"initializer"};
-
-
-
-
-
-
-/*!
- *
- * @param name  
- */
-Variable::Variable(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
- *
- * @param type  
- *
- * @param name  
- */
-Variable::Variable(const QString& type, const QString& name):
-   Base(name),
-   _type(type)
+const QStringList Variable::_fields
 {
-   checkTypeSyntax(type);
-}
+   "constexpr"
+   ,"static"
+   ,"mutable"
+   ,"type"
+   ,"initializer"
+};
 
 
 
@@ -94,7 +56,7 @@ QString Variable::name() const
    QString ret {Base::name()};
    if ( !_initializer.isEmpty() )
    {
-      if ( isFunctionArgument() ) ret.append(" =");
+      if ( isArgument() ) ret.append(" =");
       else ret.append(" {}");
    }
    ret.append(attributes());
@@ -163,6 +125,62 @@ std::unique_ptr<QWidget> Variable::makeView() const
 
 
 /*!
+ */
+int Variable::fieldSize() const
+{
+   return Base::fieldSize() + Field::Total;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+AbstractBlock::Field Variable::fieldType(int index) const
+{
+   switch (index)
+   {
+   case Field::ConstExpr:
+   case Field::Static:
+   case Field::Mutable: return AbstractBlock::Field::Boolean;
+   case Field::Type:
+   case Field::Initializer: return AbstractBlock::Field::String;
+   default: return Base::fieldType(index - Field::Total);
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+QVariant Variable::field(int index) const
+{
+   switch (index)
+   {
+   case Field::ConstExpr: return _constExpr;
+   case Field::Static: return _static;
+   case Field::Mutable: return _mutable;
+   case Field::Type: return _type;
+   case Field::Initializer: return _initializer;
+   default: return Base::fieldType(index - Field::Total);
+   }
+}
+
+
+
+
+
+
+/*!
  * Implements the interface that returns a editable GUI widget that provides the 
  * ability to edit this block's data. 
  *
@@ -171,6 +189,37 @@ std::unique_ptr<QWidget> Variable::makeView() const
 std::unique_ptr<::Gui::AbstractEdit> Variable::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Variable(this));
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param name  
+ */
+Variable::Variable(const QString& name):
+   Base(name)
+{}
+
+
+
+
+
+
+/*!
+ *
+ * @param type  
+ *
+ * @param name  
+ */
+Variable::Variable(const QString& type, const QString& name):
+   Base(name),
+   _type(type)
+{
+   checkTypeSyntax(type);
 }
 
 
@@ -191,64 +240,10 @@ bool Variable::isConstExpr() const
 
 
 /*!
- *
- * @param isConstExpr  
- */
-void Variable::setConstExpr(bool isConstExpr)
-{
-   if ( isConstExpr && isFunctionArgument() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set as static when it is a function argument."));
-      throw e;
-   }
-   if ( _constExpr != isConstExpr )
-   {
-      _constExpr = isConstExpr;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
  */
 bool Variable::isStatic() const
 {
    return _static;
-}
-
-
-
-
-
-
-/*!
- *
- * @param isStatic  
- */
-void Variable::setStatic(bool isStatic)
-{
-   if ( isStatic && !isClassMember() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set as static when it is not a class member."));
-      throw e;
-   }
-   if ( _static != isStatic )
-   {
-      _static = isStatic;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
 }
 
 
@@ -269,68 +264,10 @@ bool Variable::isMutable() const
 
 
 /*!
- *
- * @param isMutable  
- */
-void Variable::setMutable(bool isMutable)
-{
-   if ( isMutable && !isClassMember() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set as mutable when it is not a class member."));
-      throw e;
-   }
-   if ( _mutable != isMutable )
-   {
-      _mutable = isMutable;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- */
-void Variable::unnamed_function()
-{}
-
-
-
-
-
-
-/*!
  */
 QString Variable::variableType() const
 {
    return _type;
-}
-
-
-
-
-
-
-/*!
- *
- * @param type  
- */
-void Variable::setVariableType(const QString& type)
-{
-   checkTypeSyntax(type);
-   if ( _type != type )
-   {
-      _type = type;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
 }
 
 
@@ -363,32 +300,9 @@ QString Variable::initializer() const
 
 
 /*!
- *
- * @param initializer  
- */
-void Variable::setInitializer(const QString& initializer)
-{
-   if ( _initializer != initializer )
-   {
-      _initializer = initializer;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
  */
 bool Variable::isClassMember() const
-{
-   if ( parent()->type() == BlockFactory::AccessType ) return true;
-   else return false;
-}
+{}
 
 
 
@@ -398,86 +312,7 @@ bool Variable::isClassMember() const
 /*!
  */
 bool Variable::isFunctionArgument() const
-{
-   return qobject_cast<Function*>(parent());
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that reads in the data for this block from the given 
- * XML element and version number. 
- *
- * @param element The XML element used to read in this blocks data. 
- *
- * @param version The version of the data stored in the XML. 
- */
-void Variable::readData(const QDomElement& element, int version)
-{
-   Base::readData(element,version);
-   switch (version)
-   {
-   case 0:
-      readVersion0(element);
-      break;
-   case 1:
-      readVersion1(element);
-      break;
-   default:
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
-         throw e;
-      }
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that returns the current version number of XML elements 
- * written for this block type. 
- *
- * @return Current version number. 
- */
-int Variable::writeVersion() const
-{
-   return _version;
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that returns a XML element containing the data for this 
- * block using the current version number. 
- *
- * @param document XML document to use for creating new elements. 
- *
- * @return XML element containing the data of this block. 
- */
-QDomElement Variable::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Base::writeData(document)};
-   if ( _constExpr ) ret.appendChild(document.createElement(_constExprTag));
-   if ( _static ) ret.appendChild(document.createElement(_staticTag));
-   if ( _mutable ) ret.appendChild(document.createElement(_mutableTag));
-   ret.appendChild(makeElement(document,_typeTag,_type));
-   if ( !_initializer.isEmpty() )
-   {
-      ret.appendChild(makeElement(document,_initializerTag,_initializer));
-   }
-   return ret;
-}
+{}
 
 
 
@@ -501,27 +336,115 @@ std::unique_ptr<AbstractBlock> Variable::makeBlank() const
 
 
 /*!
- * Implements the interface that copies all data from the given block to this 
- * block, overwriting any data this block may already contain. 
+ * This interface returns the current version number of XML elements written for 
+ * this block type. 
  *
- * @param other The other block whose data will be copied. 
+ * @return Current version number. 
  */
-void Variable::copyDataFrom(const AbstractBlock* other)
+int Variable::version() const
 {
-   if ( const Variable* object_ = qobject_cast<const Variable*>(other) )
+   return 0;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+QString Variable::fieldTag(int index) const
+{
+   if ( index >= Field::Total ) return Base::fieldTag(index - Field::Total);
+   else return _fields.at(index);
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param name  
+ */
+int Variable::fieldIndexOf(const QString& name) const
+{
+   int ret {_fields.indexOf(name)};
+   if ( ret == -1 ) ret = Base::fieldIndexOf(name) + Field::Total;
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+void Variable::fieldModified(int index)
+{
+   Q_UNUSED(index)
+   notifyModified();
+   notifyNameModified();
+   notifyBodyModified();
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ *
+ * @param value  
+ */
+void Variable::quietlySetField(int index, const QVariant& value)
+{
+   switch (index)
    {
-      Base::copyDataFrom(other);
-      _type = object_->_type;
-      _constExpr = object_->_constExpr;
-      _static = object_->_static;
-      _mutable = object_->_mutable;
-      _initializer = object_->_initializer;
+   case Field::ConstExpr:
+      setConstExpr(value.toBool());
+      break;
+   case Field::Static:
+      setStatic(value.toBool());
+      break;
+   case Field::Mutable:
+      setMutable(value.toBool());
+      break;
+   case Field::Type:
+      setType(value.toString());
+      break;
+   case Field::Initializer:
+      _initializer = value.toString();
+      break;
+   default:
+      Base::quietlySetField(index - Field::Total,value);
    }
-   else
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param value  
+ */
+void Variable::checkTypeSyntax(const QString& value)
+{
+   if ( !Type::isValidTypeString(value) )
    {
-      Exception::LogicError e;
+      Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
+      e.setDetails(tr("Cannot set invalid type '%1'.").arg(value));
       throw e;
    }
 }
@@ -549,17 +472,18 @@ QString Variable::attributes() const
 
 /*!
  *
- * @param type  
+ * @param state  
  */
-void Variable::checkTypeSyntax(const QString& type)
+void Variable::setConstExpr(bool state)
 {
-   if ( !Type::isValidTypeString(type) )
+   if ( state && isArgument() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid type '%1'.").arg(type));
+      e.setDetails(tr("Cannot set as constant expression when it is a function argument."));
       throw e;
    }
+   _constExpr = state;
 }
 
 
@@ -569,40 +493,74 @@ void Variable::checkTypeSyntax(const QString& type)
 
 /*!
  *
- * @param element  
+ * @param state  
  */
-void Variable::readVersion0(const QDomElement& element)
+void Variable::setStatic(bool state)
 {
-   DomElementReader reader(element);
-   _constExpr = reader.attributeToInt(_constExprTag,false);
-   _static = reader.attributeToInt(_staticTag,false);
-   _type = reader.attribute(_typeTag);
-   _initializer = reader.attribute(_initializerTag,false);
-}
-
-
-
-
-
-
-/*!
- *
- * @param element  
- */
-void Variable::readVersion1(const QDomElement& element)
-{
-   DomElementReader reader(element);
-   reader.set(_constExprTag,&_constExpr,false);
-   reader.set(_staticTag,&_static,false);
-   reader.set(_mutableTag,&_mutable,false);
-   reader.set(_typeTag,&_type);
-   reader.set(_initializerTag,&_initializer,false);
-   reader.read();
-   if ( !reader.allRequiredFound() )
+   if ( state && !isMember() )
    {
-      Exception::ReadError e;
+      Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading all required elements."));
+      e.setDetails(tr("Cannot set as static when it is not a class member."));
       throw e;
    }
+   _static = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param state  
+ */
+void Variable::setMutable(bool state)
+{
+   if ( state && !isMember() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set as mutable when it is not a class member."));
+      throw e;
+   }
+   _mutable = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param value  
+ */
+void Variable::setType(const QString& value)
+{
+   checkTypeSyntax(value);
+   _type = value;
+}
+
+
+
+
+
+
+/*! !!! UNKNOWN FUNCTION !!! */
+bool Variable::isMember() const
+{
+   return parent()->type() == BlockFactory::AccessType;
+}
+
+
+
+
+
+
+/*! !!! UNKNOWN FUNCTION !!! */
+bool Variable::isArgument() const
+{
+   return qobject_cast<Function*>(parent());
 }

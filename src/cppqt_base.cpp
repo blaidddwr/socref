@@ -12,28 +12,6 @@ using namespace CppQt;
 
 
 
-/*!
- */
-const char* Base::_nameTag {"name"};
-/*!
- */
-const char* Base::_descriptionTag {"description"};
-
-
-
-
-
-
-/*!
- *
- * @param name  
- */
-Base::Base(const QString& name):
-   _name(name)
-{}
-
-
-
 
 
 
@@ -69,9 +47,9 @@ QString Base::name() const
 
 /*!
  */
-QString Base::description() const
+int Base::fieldSize() const
 {
-   return _description;
+   return Field::Total;
 }
 
 
@@ -81,23 +59,12 @@ QString Base::description() const
 
 /*!
  *
- * @param name  
+ * @param index  
  */
-void Base::setName(const QString& name)
+AbstractBlock::Field Base::fieldType(int index) const
 {
-   if ( !QRegExp("[a-zA-Z_]*[a-zA-Z0-9_]*").exactMatch(name) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid namespace '%1'.").arg(name));
-      throw e;
-   }
-   if ( _name != name )
-   {
-      _name = name;
-      notifyModified();
-      notifyNameModified();
-   }
+   Q_UNUSED(index)
+   return AbstractBlock::Field::String;
 }
 
 
@@ -107,46 +74,19 @@ void Base::setName(const QString& name)
 
 /*!
  *
- * @param description  
+ * @param index  
  */
-void Base::setDescription(const QString& description)
+QVariant Base::field(int index) const
 {
-   if ( _description != description )
+   switch (index)
    {
-      _description = description;
-      notifyModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that reads in the data for this block from the given 
- * XML element and version number. 
- *
- * @param element The XML element used to read in this blocks data. 
- *
- * @param version The version of the data stored in the XML. 
- */
-void Base::readData(const QDomElement& element, int version)
-{
-   switch (version)
-   {
-   case 0:
-      readVersion0(element);
-      break;
-   case 1:
-      readVersion1(element);
-      break;
+   case Field::Name: return _name;
+   case Field::Description: return _description;
    default:
       {
-         Exception::LogicError e;
+         Exception::OutOfRange e;
          MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
+         e.setDetails(tr("Given index %1 is out of range for CppQt::Base block.").arg(index));
          throw e;
       }
    }
@@ -158,14 +98,39 @@ void Base::readData(const QDomElement& element, int version)
 
 
 /*!
- * Implements the interface that returns the current version number of XML elements 
- * written for this block type. 
+ *
+ * @param name  
+ */
+Base::Base(const QString& name):
+   _name(name)
+{}
+
+
+
+
+
+
+/*!
+ */
+QString Base::description() const
+{
+   return _description;
+}
+
+
+
+
+
+
+/*!
+ * This interface returns the current version number of XML elements written for 
+ * this block type. 
  *
  * @return Current version number. 
  */
-int Base::writeVersion() const
+int Base::version() const
 {
-   return _version;
+   return 0;
 }
 
 
@@ -174,48 +139,22 @@ int Base::writeVersion() const
 
 
 /*!
- * Implements the interface that returns a XML element containing the data for this 
- * block using the current version number. 
  *
- * @param document XML document to use for creating new elements. 
- *
- * @return XML element containing the data of this block. 
+ * @param index  
  */
-QDomElement Base::writeData(QDomDocument& document) const
+QString Base::fieldTag(int index) const
 {
-   QDomElement ret {document.createElement("na")};
-   if ( !_name.isEmpty() ) ret.appendChild(makeElement(document,_nameTag,_name));
-   if ( !_description.isEmpty() )
+   switch (index)
    {
-      ret.appendChild(makeElement(document,_descriptionTag,_description));
-   }
-   return ret;
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that copies all data from the given block to this 
- * block, overwriting any data this block may already contain. 
- *
- * @param other The other block whose data will be copied. 
- */
-void Base::copyDataFrom(const AbstractBlock* other)
-{
-   if ( const Base* object_ = qobject_cast<const Base*>(other) )
-   {
-      _name = object_->_name;
-      _description = object_->_description;
-   }
-   else
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
-      throw e;
+   case Field::Name: return "name";
+   case Field::Description: return "description";
+   default:
+      {
+         Exception::OutOfRange e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Given index %1 is out of range for CppQt::Base block.").arg(index));
+         throw e;
+      }
    }
 }
 
@@ -226,15 +165,12 @@ void Base::copyDataFrom(const AbstractBlock* other)
 
 /*!
  *
- * @param element The XML element used to read in this blocks data. 
+ * @param name  
  */
-void Base::readVersion0(const QDomElement& element)
+int Base::fieldIndexOf(const QString& name) const
 {
-   DomElementReader reader(element);
-   _name = reader.attribute(_nameTag,false);
-   _description.clear();
-   reader.set(_descriptionTag,&_description,false);
-   reader.read();
+   static QStringList fieldNames {"name","description"};
+   return fieldNames.indexOf(name);
 }
 
 
@@ -244,12 +180,42 @@ void Base::readVersion0(const QDomElement& element)
 
 /*!
  *
- * @param element The XML element used to read in this blocks data. 
+ * @param index  
  */
-void Base::readVersion1(const QDomElement& element)
+void Base::fieldModified(int index)
 {
-   DomElementReader reader(element);
-   reader.set(_nameTag,&_name,false);
-   reader.set(_descriptionTag,&_description,false);
-   reader.read();
+   notifyModified();
+   switch (index)
+   {
+   case Field::Name:
+      notifyNameModified();
+      break;
+   case Field::Description:
+      notifyBodyModified();
+      break;
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ *
+ * @param value  
+ */
+void Base::quietlySetField(int index, const QVariant& value)
+{
+   switch (index)
+   {
+   case Field::Name:
+      _name = value.toString();
+      break;
+   case Field::Description:
+      _description = value.toString();
+      break;
+   }
 }

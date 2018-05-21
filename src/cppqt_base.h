@@ -15,30 +15,36 @@ namespace CppQt
    public:
       /*!
        */
-      explicit Base() = default;
-      explicit Base(const QString& name);
+      enum Field
+      {
+         /*!
+          */
+         Name
+         /*!
+          */
+         ,Description
+         /*!
+          */
+         ,Total
+      };
       virtual const AbstractBlockFactory& factory() const override final;
       virtual QString name() const override;
+      virtual int fieldSize() const override;
+      virtual AbstractBlock::Field fieldType(int index) const override;
+      virtual QVariant field(int index) const override;
+   public:
+      /*!
+       */
+      explicit Base() = default;
+      explicit Base(const QString& name);
       QString description() const;
-      void setName(const QString& name);
-      void setDescription(const QString& description);
    protected:
-      virtual void readData(const QDomElement& element, int version) override;
-      virtual int writeVersion() const override;
-      virtual QDomElement writeData(QDomDocument& document) const override;
-      virtual void copyDataFrom(const AbstractBlock* other) override;
+      virtual int version() const override;
+      virtual QString fieldTag(int index) const override;
+      virtual int fieldIndexOf(const QString& name) const override;
+      virtual void fieldModified(int index) override;
+      virtual void quietlySetField(int index, const QVariant& value) override;
    private:
-      void readVersion0(const QDomElement& element);
-      void readVersion1(const QDomElement& element);
-      /*!
-       */
-      constexpr static int _version {1};
-      /*!
-       */
-      static const char* _nameTag;
-      /*!
-       */
-      static const char* _descriptionTag;
       /*!
        */
       QString _name;
