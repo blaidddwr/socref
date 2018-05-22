@@ -128,7 +128,7 @@ std::unique_ptr<QWidget> Variable::makeView() const
  */
 int Variable::fieldSize() const
 {
-   return Base::fieldSize() + Field::Total;
+   return Base::Field::Total + Field::Total;
 }
 
 
@@ -171,7 +171,7 @@ QVariant Variable::field(int index) const
    case Field::Mutable: return _mutable;
    case Field::Type: return _type;
    case Field::Initializer: return _initializer;
-   default: return Base::fieldType(index - Field::Total);
+   default: return Base::field(index - Field::Total);
    }
 }
 
@@ -301,8 +301,10 @@ QString Variable::initializer() const
 
 /*!
  */
-bool Variable::isClassMember() const
-{}
+bool Variable::isMember() const
+{
+   return parent()->type() == BlockFactory::AccessType;
+}
 
 
 
@@ -311,8 +313,10 @@ bool Variable::isClassMember() const
 
 /*!
  */
-bool Variable::isFunctionArgument() const
-{}
+bool Variable::isArgument() const
+{
+   return qobject_cast<Function*>(parent());
+}
 
 
 
@@ -389,9 +393,13 @@ int Variable::fieldIndexOf(const QString& name) const
 void Variable::fieldModified(int index)
 {
    Q_UNUSED(index)
-   notifyModified();
-   notifyNameModified();
-   notifyBodyModified();
+   if ( index < Field::Total )
+   {
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
+   }
+   else Base::fieldModified(index - Field::Total);
 }
 
 
@@ -541,26 +549,4 @@ void Variable::setType(const QString& value)
 {
    checkTypeSyntax(value);
    _type = value;
-}
-
-
-
-
-
-
-/*! !!! UNKNOWN FUNCTION !!! */
-bool Variable::isMember() const
-{
-   return parent()->type() == BlockFactory::AccessType;
-}
-
-
-
-
-
-
-/*! !!! UNKNOWN FUNCTION !!! */
-bool Variable::isArgument() const
-{
-   return qobject_cast<Function*>(parent());
 }

@@ -10,21 +10,85 @@ namespace CppQt
 {
    /*!
     */
-   class Function : public Variable
+   class Function : public Base
    {
       Q_OBJECT
+   public:
+      /*!
+       */
+      enum Field
+      {
+         /*!
+          */
+         Default
+         /*!
+          */
+         ,Explicit
+         /*!
+          */
+         ,Virtual
+         /*!
+          */
+         ,Const
+         /*!
+          */
+         ,ConstExpr
+         /*!
+          */
+         ,Static
+         /*!
+          */
+         ,NoExcept
+         /*!
+          */
+         ,Override
+         /*!
+          */
+         ,Final
+         /*!
+          */
+         ,Abstract
+         /*!
+          */
+         ,ReturnType
+         /*!
+          */
+         ,ReturnDescription
+         /*!
+          */
+         ,Operation
+         /*!
+          */
+         ,Total
+      };
+      virtual int type() const override;
+      virtual QString name() const override;
+      virtual QIcon icon() const override;
+      virtual QList<int> buildList() const override;
+      virtual std::unique_ptr<QWidget> makeView() const override;
+      virtual int fieldSize() const override;
+      virtual AbstractBlock::Field fieldType(int index) const override;
+      virtual QVariant field(int index) const override;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
    public:
       /*!
        */
       explicit Function() = default;
       explicit Function(const QString& name);
       explicit Function(const QString& returnType, const QString& name);
-      virtual int type() const override;
-      virtual QString name() const override;
-      virtual QIcon icon() const override;
-      virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<QWidget> makeView() const override;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      bool isDefault() const;
+      bool isExplicit() const;
+      bool isVirtual() const;
+      bool isConst() const;
+      bool isConstExpr() const;
+      bool isStatic() const;
+      bool isNoExcept() const;
+      bool isOverride() const;
+      bool isFinal() const;
+      bool isAbstract() const;
+      QString returnType() const;
+      QString returnDescription() const;
+      QStringList operations() const;
       bool isVoidReturn() const;
       bool isMethod() const;
       bool isPrivateMethod() const;
@@ -32,82 +96,33 @@ namespace CppQt
       bool hasTemplates() const;
       QList<Template*> templates() const;
       QList<Variable*> arguments() const;
-      QString returnType() const;
-      QString returnDescription() const;
-      QStringList operations() const;
-      bool isDefault() const;
-      bool isExplicit() const;
-      bool isVirtual() const;
-      bool isConst() const;
-      bool isNoExcept() const;
-      bool isOverride() const;
-      bool isFinal() const;
-      bool isAbstract() const;
-      void setReturnType(const QString& type);
-      void setReturnDescription(const QString& description);
-      void setOperations(const QStringList& operations);
-      void setDefault(bool isDefault);
-      void setExplicit(bool isExplicit);
-      void setVirtual(bool isVirtual);
-      void setConstExpr(bool isConstExpr);
-      void setStatic(bool isStatic);
-      void setConst(bool isConst);
-      void setNoExcept(bool isNoExcept);
-      void setOverride(bool isOverride);
-      void setFinal(bool isFinal);
-      void setAbstract(bool isAbstract);
    protected:
-      virtual void readData(const QDomElement& element, int version) override;
-      virtual int writeVersion() const override;
-      virtual QDomElement writeData(QDomDocument& document) const override;
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
-      virtual void copyDataFrom(const AbstractBlock* other) override;
+      virtual int version() const override;
+      virtual QString fieldTag(int index) const override;
+      virtual int fieldIndexOf(const QString& name) const override;
+      virtual void fieldModified(int index) override;
+      virtual void quietlySetField(int index, const QVariant& value) override;
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;
+   protected:
       QString fullName(bool hasReturn, const QString& name) const;
    private:
+      void checkTypeSyntax(const QString& value);
       QString attributes() const;
-      void readVersion0(const QDomElement& element);
-      void readVersion1(const QDomElement& element);
+      void setDefault(bool state);
+      void setExplicit(bool state);
+      void setVirtual(bool state);
+      void setConst(bool state);
+      void setConstExpr(bool state);
+      void setStatic(bool state);
+      void setOverride(bool state);
+      void setFinal(bool state);
+      void setAbstract(bool state);
+      void setReturnType(const QString& value);
       /*!
        */
-      constexpr static int _version {1};
-      /*!
-       */
-      static const char* _returnDescriptionTag;
-      /*!
-       */
-      static const char* _defaultTag;
-      /*!
-       */
-      static const char* _explicitTag;
-      /*!
-       */
-      static const char* _virtualTag;
-      /*!
-       */
-      static const char* _constTag;
-      /*!
-       */
-      static const char* _noExceptTag;
-      /*!
-       */
-      static const char* _overrideTag;
-      /*!
-       */
-      static const char* _finalTag;
-      /*!
-       */
-      static const char* _abstractTag;
-      /*!
-       */
-      static const char* _operationTag;
-      /*!
-       */
-      QString _returnDescription;
-      /*!
-       */
-      QStringList _operations;
+      static const QStringList _fields;
       /*!
        */
       bool _default {false};
@@ -116,10 +131,16 @@ namespace CppQt
       bool _explicit {false};
       /*!
        */
-      bool _virtual;
+      bool _virtual {false};
       /*!
        */
       bool _const {false};
+      /*!
+       */
+      bool _constExpr {false};
+      /*!
+       */
+      bool _static {false};
       /*!
        */
       bool _noExcept {false};
@@ -132,6 +153,15 @@ namespace CppQt
       /*!
        */
       bool _abstract {false};
+      /*!
+       */
+      QString _returnType;
+      /*!
+       */
+      QString _returnDescription;
+      /*!
+       */
+      QStringList _operations;
    };
 }
 

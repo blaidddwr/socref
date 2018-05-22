@@ -7,6 +7,7 @@
 #include "cppqt_blockfactory.h"
 #include "cppqt_template.h"
 #include "cppqt_access.h"
+#include "cppqt_type.h"
 #include "domelementreader.h"
 #include "common.h"
 
@@ -21,62 +22,22 @@ using namespace CppQt;
 
 /*!
  */
-const char* Function::_returnDescriptionTag {"return_description"};
-/*!
- */
-const char* Function::_defaultTag {"default"};
-/*!
- */
-const char* Function::_explicitTag {"explicit"};
-/*!
- */
-const char* Function::_virtualTag {"virtual"};
-/*!
- */
-const char* Function::_constTag {"const"};
-/*!
- */
-const char* Function::_noExceptTag {"noexcept"};
-/*!
- */
-const char* Function::_overrideTag {"override"};
-/*!
- */
-const char* Function::_finalTag {"final"};
-/*!
- */
-const char* Function::_abstractTag {"abstract"};
-/*!
- */
-const char* Function::_operationTag {"operation"};
-
-
-
-
-
-
-/*!
- *
- * @param name  
- */
-Function::Function(const QString& name):
-   Variable(name)
-{}
-
-
-
-
-
-
-/*!
- *
- * @param returnType  
- *
- * @param name  
- */
-Function::Function(const QString& returnType, const QString& name):
-   Variable(returnType,name)
-{}
+const QStringList Function::_fields
+{
+   "default"
+   ,"explicit"
+   ,"virtual"
+   ,"const"
+   ,"constexpr"
+   ,"static"
+   ,"noexcept"
+   ,"override"
+   ,"final"
+   ,"abstract"
+   ,"type"
+   ,"return_description"
+   ,"operation"
+};
 
 
 
@@ -182,6 +143,78 @@ std::unique_ptr<QWidget> Function::makeView() const
 
 
 /*!
+ */
+int Function::fieldSize() const
+{
+   return Base::Field::Total + Field::Total;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+AbstractBlock::Field Function::fieldType(int index) const
+{
+   switch (index)
+   {
+   case Field::Default:
+   case Field::Explicit:
+   case Field::Virtual:
+   case Field::Const:
+   case Field::ConstExpr:
+   case Field::Static:
+   case Field::NoExcept:
+   case Field::Override:
+   case Field::Final:
+   case Field::Abstract: return AbstractBlock::Field::Boolean;
+   case Field::ReturnType:
+   case Field::ReturnDescription: return AbstractBlock::Field::String;
+   case Field::Operation: return AbstractBlock::Field::StringList;
+   default: return Base::fieldType(index - Field::Total);
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+QVariant Function::field(int index) const
+{
+   switch (index)
+   {
+   case Field::Default: return _default;
+   case Field::Explicit: return _explicit;
+   case Field::Virtual: return _virtual;
+   case Field::Const: return _const;
+   case Field::ConstExpr: return _constExpr;
+   case Field::Static: return _static;
+   case Field::NoExcept: return _noExcept;
+   case Field::Override: return _override;
+   case Field::Final: return _final;
+   case Field::Abstract: return _abstract;
+   case Field::ReturnType: return _returnType;
+   case Field::ReturnDescription: return _returnDescription;
+   case Field::Operation: return _operations;
+   default: return Base::field(index - Field::Total);
+   }
+}
+
+
+
+
+
+
+/*!
  * Implements the interface that returns a editable GUI widget that provides the 
  * ability to edit this block's data. 
  *
@@ -198,10 +231,197 @@ std::unique_ptr<::Gui::AbstractEdit> Function::makeEdit()
 
 
 /*!
+ *
+ * @param name  
+ */
+Function::Function(const QString& name):
+   Base(name)
+{}
+
+
+
+
+
+
+/*!
+ *
+ * @param returnType  
+ *
+ * @param name  
+ */
+Function::Function(const QString& returnType, const QString& name):
+   Base(name),
+   _returnType(returnType)
+{
+   checkTypeSyntax(returnType);
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isDefault() const
+{
+   return _default;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isExplicit() const
+{
+   return _explicit;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isVirtual() const
+{
+   return _virtual;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isConst() const
+{
+   return _const;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isConstExpr() const
+{
+   return _constExpr;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isStatic() const
+{
+   return _static;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isNoExcept() const
+{
+   return _noExcept;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isOverride() const
+{
+   return _override;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isFinal() const
+{
+   return _final;
+}
+
+
+
+
+
+
+/*!
+ */
+bool Function::isAbstract() const
+{
+   return _abstract;
+}
+
+
+
+
+
+
+/*!
+ */
+QString Function::returnType() const
+{
+   return _returnType;
+}
+
+
+
+
+
+
+/*!
+ */
+QString Function::returnDescription() const
+{
+   return _returnDescription;
+}
+
+
+
+
+
+
+/*!
+ */
+QStringList Function::operations() const
+{
+   return _operations;
+}
+
+
+
+
+
+
+/*!
  */
 bool Function::isVoidReturn() const
 {
-   return variableType() == QString("void");
+   return _returnType == QString("void");
 }
 
 
@@ -213,7 +433,7 @@ bool Function::isVoidReturn() const
  */
 bool Function::isMethod() const
 {
-   return isClassMember();
+   return parent()->type() == BlockFactory::AccessType;
 }
 
 
@@ -225,7 +445,7 @@ bool Function::isMethod() const
  */
 bool Function::isPrivateMethod() const
 {
-   if ( !isClassMember() ) return false;
+   if ( !isMethod() ) return false;
    return parent()->cast<Access>(BlockFactory::AccessType)->accessType() == Access::Type::Private;
 }
 
@@ -288,521 +508,6 @@ QList<Variable*> Function::arguments() const
 
 
 /*!
- */
-QString Function::returnType() const
-{
-   return variableType();
-}
-
-
-
-
-
-
-/*!
- */
-QString Function::returnDescription() const
-{
-   return _returnDescription;
-}
-
-
-
-
-
-
-/*!
- */
-QStringList Function::operations() const
-{
-   return _operations;
-}
-
-
-
-
-
-
-/*!
- */
-bool Function::isDefault() const
-{
-   return _default;
-}
-
-
-
-
-
-
-/*!
- */
-bool Function::isExplicit() const
-{
-   return _explicit;
-}
-
-
-
-
-
-
-/*!
- */
-bool Function::isVirtual() const
-{
-   return _virtual;
-}
-
-
-
-
-
-
-/*!
- */
-bool Function::isConst() const
-{
-   return _const;
-}
-
-
-
-
-
-
-/*!
- */
-bool Function::isNoExcept() const
-{
-   return _noExcept;
-}
-
-
-
-
-
-
-/*!
- */
-bool Function::isOverride() const
-{
-   return _override;
-}
-
-
-
-
-
-
-/*!
- */
-bool Function::isFinal() const
-{
-   return _final;
-}
-
-
-
-
-
-
-/*!
- */
-bool Function::isAbstract() const
-{
-   return _abstract;
-}
-
-
-
-
-
-
-/*!
- *
- * @param type  
- */
-void Function::setReturnType(const QString& type)
-{
-   setVariableType(type);
-}
-
-
-
-
-
-
-/*!
- *
- * @param description  
- */
-void Function::setReturnDescription(const QString& description)
-{
-   if ( _returnDescription != description )
-   {
-      _returnDescription = description;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param operations  
- */
-void Function::setOperations(const QStringList& operations)
-{
-   if ( _operations != operations )
-   {
-      _operations = operations;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param isDefault  
- */
-void Function::setDefault(bool isDefault)
-{
-   if ( isDefault && !isClassMember() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as default when it is not a class member."));
-      throw e;
-   }
-   if ( _default != isDefault )
-   {
-      _default = isDefault;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param isExplicit  
- */
-void Function::setExplicit(bool isExplicit)
-{
-   if ( _explicit != isExplicit )
-   {
-      _explicit = isExplicit;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param isVirtual  
- */
-void Function::setVirtual(bool isVirtual)
-{
-   if ( isVirtual && ( isStatic() || hasTemplates() || !isMethod() ) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as virtual when it is static or has templates."));
-      throw e;
-   }
-   if ( _virtual != isVirtual )
-   {
-      _virtual = isVirtual;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param isConstExpr  
- */
-void Function::setConstExpr(bool isConstExpr)
-{
-   if ( isConstExpr && _virtual )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as constexpr when it is virtual."));
-      throw e;
-   }
-   Variable::setConstExpr(isConstExpr);
-}
-
-
-
-
-
-
-/*!
- *
- * @param isStatic  
- */
-void Function::setStatic(bool isStatic)
-{
-   if ( isStatic && _virtual )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as static when it is virtual."));
-      throw e;
-   }
-   Variable::setStatic(isStatic);
-}
-
-
-
-
-
-
-/*!
- *
- * @param isConst  
- */
-void Function::setConst(bool isConst)
-{
-   if ( isConst && !isMethod() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as const when it is not a class method."));
-      throw e;
-   }
-   if ( _const != isConst )
-   {
-      _const = isConst;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param isNoExcept  
- */
-void Function::setNoExcept(bool isNoExcept)
-{
-   if ( _noExcept != isNoExcept )
-   {
-      _noExcept = isNoExcept;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param isOverride  
- */
-void Function::setOverride(bool isOverride)
-{
-   if ( isOverride && ( !_virtual || _abstract ) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as override when it is not virtual or it is abstract."));
-      throw e;
-   }
-   if ( _override != isOverride )
-   {
-      _override = isOverride;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param isFinal  
- */
-void Function::setFinal(bool isFinal)
-{
-   if ( isFinal && ( !_virtual || _abstract ) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as final when it is not virtual or it is abstract."));
-      throw e;
-   }
-   if ( _final != isFinal )
-   {
-      _final = isFinal;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param isAbstract  
- */
-void Function::setAbstract(bool isAbstract)
-{
-   if ( isAbstract && ( !_virtual || _override || _final ) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as abstract when it is not virtual or it is override/final."));
-      throw e;
-   }
-   if ( _abstract != isAbstract )
-   {
-      _abstract = isAbstract;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that reads in the data for this block from the given 
- * XML element and version number. 
- *
- * @param element The XML element used to read in this blocks data. 
- *
- * @param version The version of the data stored in the XML. 
- */
-void Function::readData(const QDomElement& element, int version)
-{
-   Variable::readData(element,version);
-   switch (version)
-   {
-   case 0:
-      readVersion0(element);
-      break;
-   case 1:
-      readVersion1(element);
-      break;
-   default:
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
-         throw e;
-      }
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that returns the current version number of XML elements 
- * written for this block type. 
- *
- * @return Current version number. 
- */
-int Function::writeVersion() const
-{
-   return _version;
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that returns a XML element containing the data for this 
- * block using the current version number. 
- *
- * @param document XML document to use for creating new elements. 
- *
- * @return XML element containing the data of this block. 
- */
-QDomElement Function::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Variable::writeData(document)};
-   if ( _default ) ret.appendChild(document.createElement(_defaultTag));
-   if ( _explicit ) ret.appendChild(document.createElement(_explicitTag));
-   if ( _virtual ) ret.appendChild(document.createElement(_virtualTag));
-   if ( _const ) ret.appendChild(document.createElement(_constTag));
-   if ( _noExcept ) ret.appendChild(document.createElement(_noExceptTag));
-   if ( _override ) ret.appendChild(document.createElement(_overrideTag));
-   if ( _final ) ret.appendChild(document.createElement(_finalTag));
-   if ( _abstract ) ret.appendChild(document.createElement(_abstractTag));
-   if ( !_returnDescription.isEmpty() )
-   {
-      ret.appendChild(makeElement(document,_returnDescriptionTag,_returnDescription));
-   }
-   for (auto operation : qAsConst(_operations))
-   {
-      ret.appendChild(makeElement(document,_operationTag,operation));
-   }
-   return ret;
-}
-
-
-
-
-
-
-/*!
  * Implements the interface that makes a new block object of this block's type with 
  * no data and returns a pointer to the new block. 
  *
@@ -819,33 +524,123 @@ std::unique_ptr<AbstractBlock> Function::makeBlank() const
 
 
 /*!
- * Implements the interface that copies all data from the given block to this 
- * block, overwriting any data this block may already contain. 
+ * This interface returns the current version number of XML elements written for 
+ * this block type. 
  *
- * @param other The other block whose data will be copied. 
+ * @return Current version number. 
  */
-void Function::copyDataFrom(const AbstractBlock* other)
+int Function::version() const
 {
-   if ( const Function* valid = qobject_cast<const Function*>(other) )
+   return 0;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+QString Function::fieldTag(int index) const
+{
+   if ( index >= Field::Total ) return Base::fieldTag(index - Field::Total);
+   else return _fields.at(index);
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param name  
+ */
+int Function::fieldIndexOf(const QString& name) const
+{
+   int ret {_fields.indexOf(name)};
+   if ( ret == -1 ) ret = Base::fieldIndexOf(name) + Field::Total;
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+void Function::fieldModified(int index)
+{
+   Q_UNUSED(index)
+   if ( index < Field::Total )
    {
-      Variable::copyDataFrom(other);
-      _returnDescription = valid->_returnDescription;
-      _default = valid->_default;
-      _explicit = valid->_explicit;
-      _virtual = valid->_virtual;
-      _const = valid->_const;
-      _noExcept = valid->_noExcept;
-      _override = valid->_override;
-      _final = valid->_final;
-      _abstract = valid->_abstract;
-      _operations = valid->_operations;
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
    }
-   else
+   else Base::fieldModified(index - Field::Total);
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ *
+ * @param value  
+ */
+void Function::quietlySetField(int index, const QVariant& value)
+{
+   switch (index)
    {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
-      throw e;
+   case Field::Default:
+      setDefault(value.toBool());
+      break;
+   case Field::Explicit:
+      setExplicit(value.toBool());
+      break;
+   case Field::Virtual:
+      setVirtual(value.toBool());
+      break;
+   case Field::Const:
+      setConst(value.toBool());
+      break;
+   case Field::ConstExpr:
+      setConstExpr(value.toBool());
+      break;
+   case Field::Static:
+      setStatic(value.toBool());
+      break;
+   case Field::NoExcept:
+      _noExcept = value.toBool();
+      break;
+   case Field::Override:
+      setOverride(value.toBool());
+      break;
+   case Field::Final:
+      setFinal(value.toBool());
+      break;
+   case Field::Abstract:
+      setAbstract(value.toBool());
+      break;
+   case Field::ReturnType:
+      setReturnType(value.toString());
+      break;
+   case Field::ReturnDescription:
+      _returnDescription = value.toString();
+      break;
+   case Field::Operation:
+      _operations = value.toStringList();
+      break;
+   default: return Base::quietlySetField(index - Field::Total,value);
    }
 }
 
@@ -923,17 +718,38 @@ QString Function::fullName(bool hasReturn, const QString& name) const
 
 
 /*!
+ *
+ * @param value  
+ */
+void Function::checkTypeSyntax(const QString& value)
+{
+   if ( !Type::isValidTypeString(value) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid return type '%1'.").arg(value));
+      throw e;
+   }
+}
+
+
+
+
+
+
+/*!
  */
 QString Function::attributes() const
 {
    QString ret;
    if ( _default ) ret.append("D");
-   if ( _explicit ) ret.append("X");
+   if ( _explicit ) ret.append("E");
    if ( _const ) ret.append("C");
+   if ( _constExpr ) ret.append("X");
    if ( _noExcept ) ret.append("N");
    if ( _override ) ret.append("O");
    if ( _final ) ret.append("F");
-   if ( _abstract ) ret.append("0");
+   if ( _abstract ) ret.append("A");
    if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
    return ret;
 }
@@ -945,24 +761,18 @@ QString Function::attributes() const
 
 /*!
  *
- * @param element  
+ * @param state  
  */
-void Function::readVersion0(const QDomElement& element)
+void Function::setDefault(bool state)
 {
-   _operations.clear();
-   _returnDescription.clear();
-   QList<QDomElement> operations;
-   DomElementReader reader(element);
-   _virtual = reader.attributeToInt(_virtualTag,false);
-   _const = reader.attributeToInt(_constTag,false);
-   _noExcept = reader.attributeToInt(_noExceptTag,false);
-   _override = reader.attributeToInt(_overrideTag,false);
-   _final = reader.attributeToInt(_finalTag,false);
-   _abstract = reader.attributeToInt(_abstractTag,false);
-   reader.set(_operationTag,&operations,false);
-   reader.set(_returnDescriptionTag,&_returnDescription,false);
-   reader.read();
-   for (auto operation : qAsConst(operations)) _operations.append(operation.text());
+   if ( state && !isMethod() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as default when it is not a class method."));
+      throw e;
+   }
+   _default = state;
 }
 
 
@@ -972,23 +782,178 @@ void Function::readVersion0(const QDomElement& element)
 
 /*!
  *
- * @param element  
+ * @param state  
  */
-void Function::readVersion1(const QDomElement& element)
+void Function::setExplicit(bool state)
 {
-   _operations.clear();
-   QList<QDomElement> operations;
-   DomElementReader reader(element);
-   reader.set(_defaultTag,&_default,false);
-   reader.set(_explicitTag,&_explicit,false);
-   reader.set(_virtualTag,&_virtual,false);
-   reader.set(_constTag,&_const,false);
-   reader.set(_noExceptTag,&_noExcept,false);
-   reader.set(_overrideTag,&_override,false);
-   reader.set(_finalTag,&_final,false);
-   reader.set(_abstractTag,&_abstract,false);
-   reader.set(_returnDescriptionTag,&_returnDescription,false);
-   reader.set(_operationTag,&operations,false);
-   reader.read();
-   for (auto operation : qAsConst(operations)) _operations.append(operation.text());
+   if ( state && !isMethod() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as explicit when it is not a class method."));
+      throw e;
+   }
+   _explicit = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param state  
+ */
+void Function::setVirtual(bool state)
+{
+   if ( state && ( isStatic() || hasTemplates() || !isMethod() ) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as virtual when it is static, has templates, or is not a class method."));
+      throw e;
+   }
+   _virtual = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param state  
+ */
+void Function::setConst(bool state)
+{
+   if ( state && !isMethod() )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as const when it is not a class method."));
+      throw e;
+   }
+   _const = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param state  
+ */
+void Function::setConstExpr(bool state)
+{
+   if ( state && _virtual )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as constexpr when it is virtual."));
+      throw e;
+   }
+   _constExpr = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param state  
+ */
+void Function::setStatic(bool state)
+{
+   if ( state && _virtual )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as static when it is virtual."));
+      throw e;
+   }
+   _static = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param state  
+ */
+void Function::setOverride(bool state)
+{
+   if ( state && ( !_virtual || _abstract ) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as override when it is not virtual or it is abstract."));
+      throw e;
+   }
+   _override = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param state  
+ */
+void Function::setFinal(bool state)
+{
+   if ( state && ( !_virtual || _abstract ) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as final when it is not virtual or it is abstract."));
+      throw e;
+   }
+   _final = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param state  
+ */
+void Function::setAbstract(bool state)
+{
+   if ( state && ( !_virtual || _override || _final ) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as abstract when it is not virtual or it is override/final."));
+      throw e;
+   }
+   _abstract = state;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param value  
+ */
+void Function::setReturnType(const QString& value)
+{
+   checkTypeSyntax(value);
+   _returnType = value;
 }

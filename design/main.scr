@@ -3884,14 +3884,14 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
-                     <name>isClassMember</name>
+                     <name>isMember</name>
                      <type>bool</type>
                      <const/>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
-                     <name>isFunctionArgument</name>
+                     <name>isArgument</name>
                      <type>bool</type>
                      <const/>
                   </data>
@@ -4110,50 +4110,88 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <parent type="13">
                <data version="2">
                   <access>public</access>
-                  <class>Variable</class>
+                  <class>Base</class>
                </data>
             </parent>
             <access type="5">
                <data version="1">
                   <type>public:</type>
                </data>
-               <constructor type="9">
+               <enumeration type="11">
                   <data version="1">
-                     <type></type>
-                     <default/>
-                     <explicit/>
+                     <name>Field</name>
                   </data>
-               </constructor>
-               <constructor type="9">
-                  <data version="1">
-                     <type></type>
-                     <explicit/>
-                  </data>
-                  <variable type="1">
+                  <enumval type="12">
                      <data version="1">
-                        <name>name</name>
-                        <type>const QString&amp;</type>
+                        <name>Default</name>
                      </data>
-                  </variable>
-               </constructor>
-               <constructor type="9">
-                  <data version="1">
-                     <type></type>
-                     <explicit/>
-                  </data>
-                  <variable type="1">
+                  </enumval>
+                  <enumval type="12">
                      <data version="1">
-                        <name>returnType</name>
-                        <type>const QString&amp;</type>
+                        <name>Explicit</name>
                      </data>
-                  </variable>
-                  <variable type="1">
+                  </enumval>
+                  <enumval type="12">
                      <data version="1">
-                        <name>name</name>
-                        <type>const QString&amp;</type>
+                        <name>Virtual</name>
                      </data>
-                  </variable>
-               </constructor>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Const</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>ConstExpr</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Static</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>NoExcept</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Override</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Final</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Abstract</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>ReturnType</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>ReturnDescription</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Operation</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Total</name>
+                     </data>
+                  </enumval>
+               </enumeration>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -4211,12 +4249,184 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
+                     <name>fieldSize</name>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldType</name>
+                     <type>AbstractBlock::Field</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>field</name>
+                     <type>QVariant</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
                      <name>makeEdit</name>
                      <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
                      <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
                      <virtual/>
                      <override/>
                      <return_description>New editable GUI widget to edit this block's data.</return_description>
+                  </data>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <default/>
+                     <explicit/>
+                  </data>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>returnType</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
+               <function type="2">
+                  <data version="1">
+                     <name>isDefault</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isExplicit</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isVirtual</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isConst</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isConstExpr</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isStatic</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isNoExcept</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isOverride</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isFinal</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>isAbstract</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>returnType</name>
+                     <type>QString</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>returnDescription</name>
+                     <type>QString</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>operations</name>
+                     <type>QStringList</type>
+                     <const/>
                   </data>
                </function>
                <function type="2">
@@ -4268,296 +4478,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <const/>
                   </data>
                </function>
-               <function type="2">
-                  <data version="1">
-                     <name>returnType</name>
-                     <type>QString</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>returnDescription</name>
-                     <type>QString</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>operations</name>
-                     <type>QStringList</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>isDefault</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>isExplicit</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>isVirtual</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>isConst</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>isNoExcept</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>isOverride</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>isFinal</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>isAbstract</name>
-                     <type>bool</type>
-                     <const/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setReturnType</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>type</name>
-                        <type>const QString&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setReturnDescription</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>description</name>
-                        <type>const QString&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setOperations</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>operations</name>
-                        <type>const QStringList&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setDefault</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isDefault</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setExplicit</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isExplicit</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setVirtual</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isVirtual</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setConstExpr</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isConstExpr</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setStatic</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isStatic</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setConst</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isConst</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setNoExcept</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isNoExcept</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setOverride</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isOverride</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setFinal</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isFinal</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>setAbstract</name>
-                     <type>void</type>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>isAbstract</name>
-                        <type>bool</type>
-                     </data>
-                  </variable>
-               </function>
             </access>
             <access type="5">
                <data version="1">
                   <type>protected:</type>
                </data>
-               <function type="2">
-                  <data version="1">
-                     <name>readData</name>
-                     <description>Implements the interface that reads in the data for this block from the given XML element and version number.</description>
-                     <type>void</type>
-                     <virtual/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>element</name>
-                        <description>The XML element used to read in this blocks data.</description>
-                        <type>const QDomElement&amp;</type>
-                     </data>
-                  </variable>
-                  <variable type="1">
-                     <data version="1">
-                        <name>version</name>
-                        <description>The version of the data stored in the XML.</description>
-                        <type>int</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>writeVersion</name>
-                     <description>Implements the interface that returns the current version number of XML elements written for this block type.</description>
-                     <type>int</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>Current version number.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>writeData</name>
-                     <description>Implements the interface that returns a XML element containing the data for this block using the current version number.</description>
-                     <type>QDomElement</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>XML element containing the data of this block.</return_description>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>document</name>
-                        <description>XML document to use for creating new elements.</description>
-                        <type>QDomDocument&amp;</type>
-                     </data>
-                  </variable>
-               </function>
                <function type="2">
                   <data version="1">
                      <name>makeBlank</name>
@@ -4571,17 +4496,76 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
-                     <name>copyDataFrom</name>
-                     <description>Implements the interface that copies all data from the given block to this block, overwriting any data this block may already contain.</description>
+                     <name>version</name>
+                     <description>This interface returns the current version number of XML elements written for this block type.</description>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>Current version number.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldTag</name>
+                     <type>QString</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldIndexOf</name>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldModified</name>
                      <type>void</type>
                      <virtual/>
                      <override/>
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>other</name>
-                        <description>The other block whose data will be copied.</description>
-                        <type>const AbstractBlock*</type>
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>quietlySetField</name>
+                     <type>void</type>
+                     <virtual/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <type>const QVariant&amp;</type>
                      </data>
                   </variable>
                </function>
@@ -4621,6 +4605,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      </data>
                   </variable>
                </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>protected:</type>
+               </data>
                <function type="2">
                   <data version="1">
                      <name>fullName</name>
@@ -4647,6 +4636,18 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </data>
                <function type="2">
                   <data version="1">
+                     <name>checkTypeSyntax</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
                      <name>attributes</name>
                      <type>QString</type>
                      <const/>
@@ -4654,127 +4655,130 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </function>
                <function type="2">
                   <data version="1">
-                     <name>readVersion0</name>
+                     <name>setDefault</name>
                      <type>void</type>
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>element</name>
-                        <type>const QDomElement&amp;</type>
+                        <name>state</name>
+                        <type>bool</type>
                      </data>
                   </variable>
                </function>
                <function type="2">
                   <data version="1">
-                     <name>readVersion1</name>
+                     <name>setExplicit</name>
                      <type>void</type>
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>element</name>
-                        <type>const QDomElement&amp;</type>
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setVirtual</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setConst</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setConstExpr</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setStatic</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setOverride</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setFinal</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setAbstract</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>state</name>
+                        <type>bool</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setReturnType</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <type>const QString&amp;</type>
                      </data>
                   </variable>
                </function>
                <variable type="1">
                   <data version="1">
-                     <name>_version</name>
-                     <constexpr/>
+                     <name>_fields</name>
                      <static/>
-                     <type>int</type>
-                     <initializer>1</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_returnDescriptionTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"return_description"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_defaultTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"default"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_explicitTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"explicit"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_virtualTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"virtual"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_constTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"const"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_noExceptTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"noexcept"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_overrideTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"override"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_finalTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"final"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_abstractTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"abstract"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_operationTag</name>
-                     <static/>
-                     <type>const char*</type>
-                     <initializer>"operation"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_returnDescription</name>
-                     <type>QString</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_operations</name>
-                     <type>QStringList</type>
+                     <type>const QStringList</type>
+                     <initializer>"default","explicit","virtual","const","constexpr","static","noexcept","override","final","abstract","type","return_description","operation"</initializer>
                   </data>
                </variable>
                <variable type="1">
@@ -4795,11 +4799,26 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   <data version="1">
                      <name>_virtual</name>
                      <type>bool</type>
+                     <initializer>false</initializer>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_const</name>
+                     <type>bool</type>
+                     <initializer>false</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_constExpr</name>
+                     <type>bool</type>
+                     <initializer>false</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_static</name>
                      <type>bool</type>
                      <initializer>false</initializer>
                   </data>
@@ -4830,6 +4849,24 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <name>_abstract</name>
                      <type>bool</type>
                      <initializer>false</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_returnType</name>
+                     <type>QString</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_returnDescription</name>
+                     <type>QString</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_operations</name>
+                     <type>QStringList</type>
                   </data>
                </variable>
             </access>

@@ -57,8 +57,8 @@ namespace CppQt
       QString variableType() const;
       bool hasInitializer() const;
       QString initializer() const;
-      bool isClassMember() const;
-      bool isFunctionArgument() const;
+      bool isMember() const;
+      bool isArgument() const;
    protected:
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
       virtual int version() const override;
