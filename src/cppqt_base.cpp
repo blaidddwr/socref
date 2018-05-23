@@ -12,6 +12,12 @@ using namespace CppQt;
 
 
 
+/*!
+ */
+const QStringList Base::_fields {"name","description"};
+
+
+
 
 
 
@@ -144,18 +150,7 @@ int Base::version() const
  */
 QString Base::fieldTag(int index) const
 {
-   switch (index)
-   {
-   case Field::Name: return "name";
-   case Field::Description: return "description";
-   default:
-      {
-         Exception::OutOfRange e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Given index %1 is out of range for CppQt::Base block.").arg(index));
-         throw e;
-      }
-   }
+   return fields().at(index);
 }
 
 
@@ -169,8 +164,7 @@ QString Base::fieldTag(int index) const
  */
 int Base::fieldIndexOf(const QString& name) const
 {
-   static QStringList fieldNames {"name","description"};
-   return fieldNames.indexOf(name);
+   return fields().indexOf(name);
 }
 
 
@@ -218,4 +212,16 @@ void Base::quietlySetField(int index, const QVariant& value)
       _description = value.toString();
       break;
    }
+}
+
+
+
+
+
+
+/*!
+ */
+QStringList Base::fields() const
+{
+   return _fields;
 }

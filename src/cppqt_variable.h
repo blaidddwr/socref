@@ -13,29 +13,6 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      /*!
-       */
-      enum Field
-      {
-         /*!
-          */
-         ConstExpr
-         /*!
-          */
-         ,Static
-         /*!
-          */
-         ,Mutable
-         /*!
-          */
-         ,Type
-         /*!
-          */
-         ,Initializer
-         /*!
-          */
-         ,Total
-      };
       virtual int type() const override;
       virtual QString name() const override;
       virtual QIcon icon() const override;
@@ -60,12 +37,33 @@ namespace CppQt
       bool isMember() const;
       bool isArgument() const;
    protected:
+      /*!
+       */
+      enum Field
+      {
+         /*!
+          */
+         ConstExpr
+         /*!
+          */
+         ,Static
+         /*!
+          */
+         ,Mutable
+         /*!
+          */
+         ,Type
+         /*!
+          */
+         ,Initializer
+         /*!
+          */
+         ,Total
+      };
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
-      virtual int version() const override;
-      virtual QString fieldTag(int index) const override;
-      virtual int fieldIndexOf(const QString& name) const override;
       virtual void fieldModified(int index) override;
       virtual void quietlySetField(int index, const QVariant& value) override;
+      virtual QStringList fields() const override final;
    private:
       void checkTypeSyntax(const QString& value);
       QString attributes() const;

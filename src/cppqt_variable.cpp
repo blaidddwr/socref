@@ -340,66 +340,26 @@ std::unique_ptr<AbstractBlock> Variable::makeBlank() const
 
 
 /*!
- * This interface returns the current version number of XML elements written for 
- * this block type. 
- *
- * @return Current version number. 
- */
-int Variable::version() const
-{
-   return 0;
-}
-
-
-
-
-
-
-/*!
- *
- * @param index  
- */
-QString Variable::fieldTag(int index) const
-{
-   if ( index >= Field::Total ) return Base::fieldTag(index - Field::Total);
-   else return _fields.at(index);
-}
-
-
-
-
-
-
-/*!
- *
- * @param name  
- */
-int Variable::fieldIndexOf(const QString& name) const
-{
-   int ret {_fields.indexOf(name)};
-   if ( ret == -1 ) ret = Base::fieldIndexOf(name) + Field::Total;
-   return ret;
-}
-
-
-
-
-
-
-/*!
  *
  * @param index  
  */
 void Variable::fieldModified(int index)
 {
-   Q_UNUSED(index)
-   if ( index < Field::Total )
+   switch (index)
    {
+   case Field::ConstExpr:
+   case Field::Static:
+   case Field::Mutable:
+   case Field::Type:
+   case Field::Initializer:
       notifyModified();
       notifyNameModified();
       notifyBodyModified();
+      break;
+   default:
+      Base::fieldModified(index);
+      break;
    }
-   else Base::fieldModified(index - Field::Total);
 }
 
 
@@ -433,8 +393,26 @@ void Variable::quietlySetField(int index, const QVariant& value)
       _initializer = value.toString();
       break;
    default:
-      Base::quietlySetField(index - Field::Total,value);
+      Base::quietlySetField(index,value);
    }
+}
+
+
+
+
+
+
+/*!
+ */
+QStringList Variable::fields() const
+{
+   static QStringList ret;
+   if ( ret.isEmpty() )
+   {
+      ret.append(Base::fields());
+      ret.append(_fields);
+   }
+   return ret;
 }
 
 

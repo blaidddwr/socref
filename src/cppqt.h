@@ -8,4 +8,6 @@ namespace CppQt
    class Namespace;
    class Variable;
    class Function;
+   class Template;
+   class Class;
 }

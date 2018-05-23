@@ -2,26 +2,34 @@
 #define CPPQT_CLASS_H
 #include "cppqt_namespace.h"
 #include "cppqt.h"
+//
 
 
 
 namespace CppQt
 {
+   /*!
+    */
    class Class : public Namespace
    {
       Q_OBJECT
    public:
+      virtual int type() const override;
+      virtual QString name() const override;
+      virtual QIcon icon() const override;
+      virtual QList<int> buildList() const override;
+      virtual std::unique_ptr<QWidget> makeView() const override;
+      virtual int fieldSize() const override;
+      virtual AbstractBlock::Field fieldType(int index) const override;
+      virtual QVariant field(int index) const override;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      virtual QList<AbstractBlock*> realChildren() const override final;
+   public:
+      /*!
+       */
       explicit Class() = default;
       explicit Class(const QString& name);
-      virtual QString name() const override final;
-      virtual int type() const override final;
-      virtual QIcon icon() const override final;
-      virtual QList<int> buildList() const override final;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
-      virtual QList<AbstractBlock*> realChildren() const override final;
       bool isQtObject() const;
-      void setQtObject(bool isQtObject);
       bool isVirtual() const;
       bool isAbstract() const;
       bool hasSignalsOrSlots() const;
@@ -29,23 +37,33 @@ namespace CppQt
       bool hasAnyTemplates() const;
       QList<Template*> templates() const;
       QList<Parent*> parents() const;
-   signals:
-      void nameChanged();
    protected:
-      virtual void readData(const QDomElement& data, int version) override final;
-      virtual int writeVersion() const override final;
-      virtual QDomElement writeData(QDomDocument& document) const override final;
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
-      virtual void copyDataFrom(const AbstractBlock* object) override final;
+      /*!
+       */
+      enum Field
+      {
+         /*!
+          */
+         QtObject
+         /*!
+          */
+         ,Total
+      };
+      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
+      virtual void fieldModified(int index) override;
+      virtual void quietlySetField(int index, const QVariant& value) override;
       virtual bool childNameModified(AbstractBlock* child) override final;
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;
+      virtual QStringList fields() const;
    private:
       QList<Access*> accessChildren() const;
-      void readVersion0(const QDomElement& data);
-      void readVersion1(const QDomElement& data);
-      constexpr static int _version {1};
-      static const char* _qtObjectTag;
+      void setQtObject(bool state);
+      /*!
+       */
+      static const QStringList _fields;
+      /*!
+       */
       bool _qtObject {false};
    };
 }

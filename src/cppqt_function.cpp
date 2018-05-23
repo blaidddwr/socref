@@ -146,7 +146,7 @@ std::unique_ptr<QWidget> Function::makeView() const
  */
 int Function::fieldSize() const
 {
-   return Base::Field::Total + Field::Total;
+   return Field::Total;
 }
 
 
@@ -175,7 +175,7 @@ AbstractBlock::Field Function::fieldType(int index) const
    case Field::ReturnType:
    case Field::ReturnDescription: return AbstractBlock::Field::String;
    case Field::Operation: return AbstractBlock::Field::StringList;
-   default: return Base::fieldType(index - Field::Total);
+   default: return Base::fieldType(index);
    }
 }
 
@@ -205,7 +205,7 @@ QVariant Function::field(int index) const
    case Field::ReturnType: return _returnType;
    case Field::ReturnDescription: return _returnDescription;
    case Field::Operation: return _operations;
-   default: return Base::field(index - Field::Total);
+   default: return Base::field(index);
    }
 }
 
@@ -524,66 +524,34 @@ std::unique_ptr<AbstractBlock> Function::makeBlank() const
 
 
 /*!
- * This interface returns the current version number of XML elements written for 
- * this block type. 
- *
- * @return Current version number. 
- */
-int Function::version() const
-{
-   return 0;
-}
-
-
-
-
-
-
-/*!
- *
- * @param index  
- */
-QString Function::fieldTag(int index) const
-{
-   if ( index >= Field::Total ) return Base::fieldTag(index - Field::Total);
-   else return _fields.at(index);
-}
-
-
-
-
-
-
-/*!
- *
- * @param name  
- */
-int Function::fieldIndexOf(const QString& name) const
-{
-   int ret {_fields.indexOf(name)};
-   if ( ret == -1 ) ret = Base::fieldIndexOf(name) + Field::Total;
-   return ret;
-}
-
-
-
-
-
-
-/*!
  *
  * @param index  
  */
 void Function::fieldModified(int index)
 {
-   Q_UNUSED(index)
-   if ( index < Field::Total )
+   switch (index)
    {
+   case Field::Default:
+   case Field::Explicit:
+   case Field::Virtual:
+   case Field::Const:
+   case Field::ConstExpr:
+   case Field::Static:
+   case Field::NoExcept:
+   case Field::Override:
+   case Field::Final:
+   case Field::Abstract:
+   case Field::ReturnType:
+   case Field::ReturnDescription:
+   case Field::Operation:
       notifyModified();
       notifyNameModified();
       notifyBodyModified();
+      break;
+   default:
+      Base::fieldModified(index);
+      break;
    }
-   else Base::fieldModified(index - Field::Total);
 }
 
 
@@ -640,7 +608,7 @@ void Function::quietlySetField(int index, const QVariant& value)
    case Field::Operation:
       _operations = value.toStringList();
       break;
-   default: return Base::quietlySetField(index - Field::Total,value);
+   default: return Base::quietlySetField(index,value);
    }
 }
 
@@ -689,6 +657,24 @@ bool Function::childRemoved(AbstractBlock* child)
    notifyNameModified();
    notifyBodyModified();
    return false;
+}
+
+
+
+
+
+
+/*!
+ */
+QStringList Function::fields() const
+{
+   static QStringList ret;
+   if ( ret.isEmpty() )
+   {
+      ret.append(Base::fields());
+      ret.append(_fields);
+   }
+   return ret;
 }
 
 

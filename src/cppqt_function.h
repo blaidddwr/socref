@@ -14,6 +14,42 @@ namespace CppQt
    {
       Q_OBJECT
    public:
+      virtual int type() const override;
+      virtual QString name() const override;
+      virtual QIcon icon() const override;
+      virtual QList<int> buildList() const override;
+      virtual std::unique_ptr<QWidget> makeView() const override;
+      virtual int fieldSize() const override;
+      virtual AbstractBlock::Field fieldType(int index) const override;
+      virtual QVariant field(int index) const override;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+   public:
+      /*!
+       */
+      explicit Function() = default;
+      explicit Function(const QString& name);
+      explicit Function(const QString& returnType, const QString& name);
+      bool isDefault() const;
+      bool isExplicit() const;
+      bool isVirtual() const;
+      bool isConst() const;
+      bool isConstExpr() const;
+      bool isStatic() const;
+      bool isNoExcept() const;
+      bool isOverride() const;
+      bool isFinal() const;
+      bool isAbstract() const;
+      QString returnType() const;
+      QString returnDescription() const;
+      QStringList operations() const;
+      bool isVoidReturn() const;
+      bool isMethod() const;
+      bool isPrivateMethod() const;
+      bool hasAnyTemplates() const;
+      bool hasTemplates() const;
+      QList<Template*> templates() const;
+      QList<Variable*> arguments() const;
+   protected:
       /*!
        */
       enum Field
@@ -61,50 +97,12 @@ namespace CppQt
           */
          ,Total
       };
-      virtual int type() const override;
-      virtual QString name() const override;
-      virtual QIcon icon() const override;
-      virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<QWidget> makeView() const override;
-      virtual int fieldSize() const override;
-      virtual AbstractBlock::Field fieldType(int index) const override;
-      virtual QVariant field(int index) const override;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
-   public:
-      /*!
-       */
-      explicit Function() = default;
-      explicit Function(const QString& name);
-      explicit Function(const QString& returnType, const QString& name);
-      bool isDefault() const;
-      bool isExplicit() const;
-      bool isVirtual() const;
-      bool isConst() const;
-      bool isConstExpr() const;
-      bool isStatic() const;
-      bool isNoExcept() const;
-      bool isOverride() const;
-      bool isFinal() const;
-      bool isAbstract() const;
-      QString returnType() const;
-      QString returnDescription() const;
-      QStringList operations() const;
-      bool isVoidReturn() const;
-      bool isMethod() const;
-      bool isPrivateMethod() const;
-      bool hasAnyTemplates() const;
-      bool hasTemplates() const;
-      QList<Template*> templates() const;
-      QList<Variable*> arguments() const;
-   protected:
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
-      virtual int version() const override;
-      virtual QString fieldTag(int index) const override;
-      virtual int fieldIndexOf(const QString& name) const override;
       virtual void fieldModified(int index) override;
       virtual void quietlySetField(int index, const QVariant& value) override;
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;
+      virtual QStringList fields() const;
    protected:
       QString fullName(bool hasReturn, const QString& name) const;
    private:

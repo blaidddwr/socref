@@ -638,8 +638,8 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
 
 /*!
  * This interface is called whenever a child below this block has modified its name 
- * and keeps calling this interface the next block parent until this returns false. 
- * The default implementation does nothing and returns false. 
+ * and keeps calling this interface on the next block parent until this returns 
+ * false. The default implementation does nothing and returns false. 
  *
  * @param child Pointer to the child block that has modified its name. 
  *

@@ -8,30 +8,18 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+//
 
 
 
 
 
 
-Template::Template(const QString& name):
-   Variable(name)
-{}
-
-
-
-
-
-
-Template::Template(const QString& type, const QString& name):
-   Variable(type,name)
-{}
-
-
-
-
-
-
+/*!
+ * Implements the interface that returns this block's type. 
+ *
+ * @return This block's type. 
+ */
 int Template::type() const
 {
    return BlockFactory::TemplateType;
@@ -42,6 +30,11 @@ int Template::type() const
 
 
 
+/*!
+ * Implements the interface that returns the icon of this block. 
+ *
+ * @return The icon of this block. 
+ */
 QIcon Template::icon() const
 {
    static QIcon ret;
@@ -54,6 +47,12 @@ QIcon Template::icon() const
 
 
 
+/*!
+ * Implements the interface that returns a list of types that this block can 
+ * contain as children. 
+ *
+ * @return List of allowed types this block can contain as children. 
+ */
 QList<int> Template::buildList() const
 {
    return QList<int>();
@@ -64,7 +63,13 @@ QList<int> Template::buildList() const
 
 
 
-unique_ptr<QWidget> Template::makeView() const
+/*!
+ * Implements the interface that returns a view that provides a detailed read only 
+ * GUI representation of this block's data. 
+ *
+ * @return New GUI view that represents this block's data. 
+ */
+std::unique_ptr<QWidget> Template::makeView() const
 {
    return unique_ptr<QWidget>(new View::Template(this));
 }
@@ -74,7 +79,13 @@ unique_ptr<QWidget> Template::makeView() const
 
 
 
-unique_ptr<AbstractEdit> Template::makeEdit()
+/*!
+ * Implements the interface that returns a editable GUI widget that provides the 
+ * ability to edit this block's data. 
+ *
+ * @return New editable GUI widget to edit this block's data. 
+ */
+std::unique_ptr<::Gui::AbstractEdit> Template::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Template(this));
 }
@@ -84,7 +95,51 @@ unique_ptr<AbstractEdit> Template::makeEdit()
 
 
 
-unique_ptr<AbstractBlock> Template::makeBlank() const
+/*!
+ */
+Template::Template()
+{}
+
+
+
+
+
+
+/*!
+ *
+ * @param name  
+ */
+Template::Template(const QString& name):
+   Variable(name)
+{}
+
+
+
+
+
+
+/*!
+ *
+ * @param type  
+ *
+ * @param name  
+ */
+Template::Template(const QString& type, const QString& name):
+   Variable(type,name)
+{}
+
+
+
+
+
+
+/*!
+ * Implements the interface that makes a new block object of this block's type with 
+ * no data and returns a pointer to the new block. 
+ *
+ * @return Pointer to the newly created block. 
+ */
+std::unique_ptr<AbstractBlock> Template::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Template);
 }
