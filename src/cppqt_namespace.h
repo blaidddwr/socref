@@ -13,16 +13,17 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      /*!
-       */
-      explicit Namespace() = default;
-      explicit Namespace(const QString& name);
       virtual int type() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
       virtual std::unique_ptr<QWidget> makeView() const override;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
       virtual QList<AbstractBlock*> realChildren() const;
+   public:
+      /*!
+       */
+      explicit Namespace() = default;
+      explicit Namespace(const QString& name);
       const Namespace* root() const;
       Namespace* root();
    protected:

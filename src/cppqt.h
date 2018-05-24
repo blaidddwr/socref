@@ -10,4 +10,8 @@ namespace CppQt
    class Function;
    class Template;
    class Class;
+   class Access;
+   class Operator;
+   class Slot;
+   class Signal;
 }

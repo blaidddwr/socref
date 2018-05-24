@@ -69,8 +69,20 @@ int Base::fieldSize() const
  */
 AbstractBlock::Field Base::fieldType(int index) const
 {
-   Q_UNUSED(index)
-   return AbstractBlock::Field::String;
+   switch (index)
+   {
+   case Field::Name:
+   case Field::Description: return AbstractBlock::Field::String;
+   default:
+      {
+         Exception::OutOfRange e;
+         MARK_EXCEPTION(e);
+         e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
+                      .arg(index)
+                      .arg(fieldSize() - 1));
+         throw e;
+      }
+   }
 }
 
 
@@ -92,7 +104,9 @@ QVariant Base::field(int index) const
       {
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
-         e.setDetails(tr("Given index %1 is out of range for CppQt::Base block.").arg(index));
+         e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
+                      .arg(index)
+                      .arg(fieldSize() - 1));
          throw e;
       }
    }

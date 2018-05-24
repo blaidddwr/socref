@@ -117,7 +117,7 @@ public:
     */
    virtual int fieldSize() const = 0;
    /*!
-    * This returns the field type for the given field index of this block. 
+    * This interface returns the field type for the given field index of this block. 
     *
     * @param index Index of the field whose field type is returned. 
     *

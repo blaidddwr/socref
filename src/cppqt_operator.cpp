@@ -11,33 +11,24 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
-const char* Operator::_operationTag {"operation"};
-const char* Operator::_operatorTag {"operator"};
+//
+
+
+
+/*!
+ */
+const QStringList Operator::_fields {"operator"};
 
 
 
 
 
 
-Operator::Operator(const QString& returnType):
-   Function(returnType,QString())
-{}
-
-
-
-
-
-
-QString Operator::name() const
-{
-   return fullName(!isVoidReturn(),QString("operator").append(_operation));
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that returns this block's type. 
+ *
+ * @return This block's type. 
+ */
 int Operator::type() const
 {
    return BlockFactory::OperatorType;
@@ -48,6 +39,26 @@ int Operator::type() const
 
 
 
+/*!
+ * Implements the interface that returns the name of this block. 
+ *
+ * @return The name of this block. 
+ */
+QString Operator::name() const
+{
+   return fullName(!isVoidReturn(),QString("operator").append(_operator));
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns the icon of this block. 
+ *
+ * @return The icon of this block. 
+ */
 QIcon Operator::icon() const
 {
    static bool isLoaded {false};
@@ -71,6 +82,12 @@ QIcon Operator::icon() const
 
 
 
+/*!
+ * Implements the interface that returns a list of types that this block can 
+ * contain as children. 
+ *
+ * @return List of allowed types this block can contain as children. 
+ */
 QList<int> Operator::buildList() const
 {
    return QList<int>{BlockFactory::VariableType};
@@ -81,7 +98,13 @@ QList<int> Operator::buildList() const
 
 
 
-unique_ptr<QWidget> Operator::makeView() const
+/*!
+ * Implements the interface that returns a view that provides a detailed read only 
+ * GUI representation of this block's data. 
+ *
+ * @return New GUI view that represents this block's data. 
+ */
+std::unique_ptr<QWidget> Operator::makeView() const
 {
    return unique_ptr<QWidget>(new View::Operator(this));
 }
@@ -91,7 +114,61 @@ unique_ptr<QWidget> Operator::makeView() const
 
 
 
-unique_ptr<AbstractEdit> Operator::makeEdit()
+/*!
+ */
+int Operator::fieldSize() const
+{
+   return Field::Total;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+AbstractBlock::Field Operator::fieldType(int index) const
+{
+   switch (index)
+   {
+   case Field::OperatorType: return AbstractBlock::Field::String;
+   default: return Function::fieldType(index);
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+QVariant Operator::field(int index) const
+{
+   switch (index)
+   {
+   case Field::OperatorType: return _operator;
+   default: return Function::fieldType(index);
+   }
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns a editable GUI widget that provides the 
+ * ability to edit this block's data. 
+ *
+ * @return New editable GUI widget to edit this block's data. 
+ */
+std::unique_ptr<::Gui::AbstractEdit> Operator::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Operator(this));
 }
@@ -101,9 +178,24 @@ unique_ptr<AbstractEdit> Operator::makeEdit()
 
 
 
+/*!
+ *
+ * @param returnType  
+ */
+Operator::Operator(const QString& returnType):
+   Function(returnType,QString())
+{}
+
+
+
+
+
+
+/*!
+ */
 QString Operator::operation() const
 {
-   return _operation;
+   return _operator;
 }
 
 
@@ -111,70 +203,13 @@ QString Operator::operation() const
 
 
 
-void Operator::setOperation(const QString& operation)
-{
-    if ( _operation != operation )
-    {
-       _operation = operation;
-       notifyModified();
-       notifyNameModified();
-    }
-}
-
-
-
-
-
-
-void Operator::readData(const QDomElement& data, int version)
-{
-   Function::readData(data,version);
-   switch (version)
-   {
-   case 0:
-      readVersion0(data);
-      break;
-   case 1:
-      readVersion1(data);
-      break;
-   default:
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
-         throw e;
-      }
-   }
-}
-
-
-
-
-
-
-int Operator::writeVersion() const
-{
-   return _version;
-}
-
-
-
-
-
-
-QDomElement Operator::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Function::writeData(document)};
-   ret.appendChild(makeElement(document,_operatorTag,_operation));
-   return ret;
-}
-
-
-
-
-
-
-unique_ptr<AbstractBlock> Operator::makeBlank() const
+/*!
+ * Implements the interface that makes a new block object of this block's type with 
+ * no data and returns a pointer to the new block. 
+ *
+ * @return Pointer to the newly created block. 
+ */
+std::unique_ptr<AbstractBlock> Operator::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Operator);
 }
@@ -184,19 +219,21 @@ unique_ptr<AbstractBlock> Operator::makeBlank() const
 
 
 
-void Operator::copyDataFrom(const AbstractBlock* object)
+/*!
+ *
+ * @param index  
+ */
+void Operator::fieldModified(int index)
 {
-   if ( const Operator* object_ = qobject_cast<const Operator*>(object) )
+   switch (index)
    {
-      Function::copyDataFrom(object);
-      _operation = object_->_operation;
-   }
-   else
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
-      throw e;
+   case Field::OperatorType:
+      notifyModified();
+      notifyNameModified();
+      break;
+   default:
+      Function::fieldModified(index);
+      break;
    }
 }
 
@@ -205,10 +242,23 @@ void Operator::copyDataFrom(const AbstractBlock* object)
 
 
 
-void Operator::readVersion0(const QDomElement& data)
+/*!
+ *
+ * @param index  
+ *
+ * @param value  
+ */
+void Operator::quietlySetField(int index, const QVariant& value)
 {
-   DomElementReader reader(data);
-   _operation = reader.attribute(_operationTag);
+   switch (index)
+   {
+   case Field::OperatorType:
+      _operator = value.toString();
+      break;
+   default:
+      Function::quietlySetField(index,value);
+      break;
+   }
 }
 
 
@@ -216,16 +266,15 @@ void Operator::readVersion0(const QDomElement& data)
 
 
 
-void Operator::readVersion1(const QDomElement& data)
+/*!
+ */
+QStringList Operator::fields() const
 {
-   DomElementReader reader(data);
-   reader.set(_operatorTag,&_operation);
-   reader.read();
-   if ( !reader.allRequiredFound() )
+   static QStringList ret;
+   if ( ret.isEmpty() )
    {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading all required elements."));
-      throw e;
+      ret.append(Function::fields());
+      ret.append(_fields);
    }
+   return ret;
 }

@@ -19,19 +19,6 @@ using namespace CppQt;
 
 
 /*!
- *
- * @param name  
- */
-Namespace::Namespace(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
  * Implements the interface that returns this block's type. 
  *
  * @return This block's type. 
@@ -126,6 +113,19 @@ QList<AbstractBlock*> Namespace::realChildren() const
 {
    return list();
 }
+
+
+
+
+
+
+/*!
+ *
+ * @param name  
+ */
+Namespace::Namespace(const QString& name):
+   Base(name)
+{}
 
 
 
