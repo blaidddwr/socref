@@ -1,40 +1,57 @@
 #ifndef CPPQT_ENUMVALUE_H
 #define CPPQT_ENUMVALUE_H
 #include "cppqt_base.h"
+//
 
 
 
 namespace CppQt
 {
+   /*!
+    */
    class EnumValue : public Base
    {
       Q_OBJECT
    public:
+      virtual int type() const override;
+      virtual QString name() const override;
+      virtual QIcon icon() const override;
+      virtual QList<int> buildList() const override;
+      virtual std::unique_ptr<QWidget> makeView() const override;
+      virtual int fieldSize() const override;
+      virtual AbstractBlock::Field fieldType(int index) const override;
+      virtual QVariant field(int index) const override;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+   public:
+      /*!
+       */
       explicit EnumValue() = default;
       explicit EnumValue(const QString& name);
-      virtual QString name() const override final;
-      virtual int type() const override final;
-      virtual QIcon icon() const override final;
-      virtual QList<int> buildList() const override final;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
-      bool hasValue() const;
-      int value() const;
-      void clearValue();
-      void setValue(int value);
+      QString value() const;
    protected:
-      virtual void readData(const QDomElement& data, int version) override final;
-      virtual int writeVersion() const override final;
-      virtual QDomElement writeData(QDomDocument& document) const override final;
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
-      virtual void copyDataFrom(const AbstractBlock* object) override final;
+      /*!
+       */
+      enum Field
+      {
+         /*!
+          */
+         Value
+         /*!
+          */
+         ,Total
+      };
+      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
+      virtual void fieldModified(int index) override;
+      virtual void quietlySetField(int index, const QVariant& value) override;
+      virtual QStringList fields() const override final;
    private:
-      void readVersion0(const QDomElement& data);
-      void readVersion1(const QDomElement& data);
-      constexpr static int _version {1};
-      static const char* _valueTag;
-      bool _hasValue {false};
-      int _value {0};
+      void setValue(const QString& value);
+      /*!
+       */
+      static const QStringList _fields;
+      /*!
+       */
+      QString _value;
    };
 }
 

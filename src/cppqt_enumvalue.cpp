@@ -3,7 +3,7 @@
 #include "cppqt_view_enumvalue.h"
 #include "cppqt_edit_enumvalue.h"
 #include "cppqt_blockfactory.h"
-#include "domelementreader.h"
+#include "cppqt_type.h"
 #include "common.h"
 
 
@@ -11,34 +11,24 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
-const char* EnumValue::_valueTag {"value"};
+//
+
+
+
+/*!
+ */
+const QStringList EnumValue::_fields {"value"};
 
 
 
 
 
 
-EnumValue::EnumValue(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-QString EnumValue::name() const
-{
-   QString ret {Base::name()};
-   if ( _hasValue ) ret.append(" = ").append(QString::number(_value));
-   return ret;
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that returns this block's type. 
+ *
+ * @return This block's type. 
+ */
 int EnumValue::type() const
 {
    return BlockFactory::EnumValueType;
@@ -49,6 +39,28 @@ int EnumValue::type() const
 
 
 
+/*!
+ * Implements the interface that returns the name of this block. 
+ *
+ * @return The name of this block. 
+ */
+QString EnumValue::name() const
+{
+   QString ret {Base::name()};
+   if ( !_value.isEmpty() ) ret.append(" = ").append(_value);
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns the icon of this block. 
+ *
+ * @return The icon of this block. 
+ */
 QIcon EnumValue::icon() const
 {
    static QIcon ret;
@@ -61,6 +73,12 @@ QIcon EnumValue::icon() const
 
 
 
+/*!
+ * Implements the interface that returns a list of types that this block can 
+ * contain as children. 
+ *
+ * @return List of allowed types this block can contain as children. 
+ */
 QList<int> EnumValue::buildList() const
 {
    return QList<int>();
@@ -71,6 +89,12 @@ QList<int> EnumValue::buildList() const
 
 
 
+/*!
+ * Implements the interface that returns a view that provides a detailed read only 
+ * GUI representation of this block's data. 
+ *
+ * @return New GUI view that represents this block's data. 
+ */
 std::unique_ptr<QWidget> EnumValue::makeView() const
 {
    return unique_ptr<QWidget>(new View::EnumValue(this));
@@ -81,7 +105,61 @@ std::unique_ptr<QWidget> EnumValue::makeView() const
 
 
 
-std::unique_ptr<Gui::AbstractEdit> EnumValue::makeEdit()
+/*!
+ */
+int EnumValue::fieldSize() const
+{
+   return Field::Total;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+AbstractBlock::Field EnumValue::fieldType(int index) const
+{
+   switch (index)
+   {
+   case Field::Value: return AbstractBlock::Field::String;
+   default: return Base::fieldType(index);
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+QVariant EnumValue::field(int index) const
+{
+   switch (index)
+   {
+   case Field::Value: return _value;
+   default: return Base::field(index);
+   }
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns a editable GUI widget that provides the 
+ * ability to edit this block's data. 
+ *
+ * @return New editable GUI widget to edit this block's data. 
+ */
+std::unique_ptr<::Gui::AbstractEdit> EnumValue::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::EnumValue(this));
 }
@@ -91,17 +169,22 @@ std::unique_ptr<Gui::AbstractEdit> EnumValue::makeEdit()
 
 
 
-bool EnumValue::hasValue() const
-{
-   return _hasValue;
-}
+/*!
+ *
+ * @param name  
+ */
+EnumValue::EnumValue(const QString& name):
+   Base(name)
+{}
 
 
 
 
 
 
-int EnumValue::value() const
+/*!
+ */
+QString EnumValue::value() const
 {
    return _value;
 }
@@ -111,85 +194,12 @@ int EnumValue::value() const
 
 
 
-void EnumValue::clearValue()
-{
-   if ( _hasValue )
-   {
-      _hasValue = false;
-      notifyModified();
-      notifyNameModified();
-   }
-}
-
-
-
-
-
-
-void EnumValue::setValue(int value)
-{
-   if ( !_hasValue || _value != value )
-   {
-      _hasValue = true;
-      _value = value;
-      notifyModified();
-      notifyNameModified();
-   }
-}
-
-
-
-
-
-
-void EnumValue::readData(const QDomElement& data, int version)
-{
-   Base::readData(data,version);
-   switch (version)
-   {
-   case 0:
-      readVersion0(data);
-      break;
-   case 1:
-      readVersion1(data);
-      break;
-   default:
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
-         throw e;
-      }
-   }
-}
-
-
-
-
-
-
-int EnumValue::writeVersion() const
-{
-   return _version;
-}
-
-
-
-
-
-
-QDomElement EnumValue::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Base::writeData(document)};
-   if ( _hasValue ) ret.appendChild(makeElement(document,_valueTag,QString::number(_value)));
-   return ret;
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that makes a new block object of this block's type with 
+ * no data and returns a pointer to the new block. 
+ *
+ * @return Pointer to the newly created block. 
+ */
 std::unique_ptr<AbstractBlock> EnumValue::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new EnumValue);
@@ -200,49 +210,83 @@ std::unique_ptr<AbstractBlock> EnumValue::makeBlank() const
 
 
 
-void EnumValue::copyDataFrom(const AbstractBlock* object)
+/*!
+ *
+ * @param index  
+ */
+void EnumValue::fieldModified(int index)
 {
-   if ( const EnumValue* object_ = qobject_cast<const EnumValue*>(object) )
+   switch (index)
    {
-      Base::copyDataFrom(object);
-      _hasValue = object_->_hasValue;
-      _value = object_->_value;
+   case Field::Value:
+      notifyModified();
+      notifyNameModified();
+      break;
+   default:
+      Base::fieldModified(index);
+      break;
    }
-   else
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ *
+ * @param value  
+ */
+void EnumValue::quietlySetField(int index, const QVariant& value)
+{
+   switch (index)
    {
-      Exception::LogicError e;
+   case Field::Value:
+      setValue(value.toString());
+      break;
+   default:
+      Base::quietlySetField(index,value);
+      break;
+   }
+}
+
+
+
+
+
+
+/*!
+ */
+QStringList EnumValue::fields() const
+{
+   static QStringList ret;
+   if ( ret.isEmpty() )
+   {
+      ret.append(Base::fields());
+      ret.append(_fields);
+   }
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param value  
+ */
+void EnumValue::setValue(const QString& value)
+{
+   if ( !Type::isValidTypeString(value) )
+   {
+      Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
+      e.setDetails(tr("Cannot set invalid enumeration value '%1'.").arg(value));
       throw e;
    }
-}
-
-
-
-
-
-
-void EnumValue::readVersion0(const QDomElement& data)
-{
-   if ( data.hasAttribute(_valueTag) )
-   {
-      _hasValue = true;
-      DomElementReader reader(data);
-      _value = reader.attributeToInt(_valueTag);
-   }
-   else _hasValue = false;
-}
-
-
-
-
-
-
-void EnumValue::readVersion1(const QDomElement& data)
-{
-   QDomElement value;
-   DomElementReader reader(data);
-   reader.set(_valueTag,&value,false);
-   reader.read();
-   _value = value.text().toInt(&_hasValue);
+   _value = value;
 }

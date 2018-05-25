@@ -14,4 +14,8 @@ namespace CppQt
    class Operator;
    class Slot;
    class Signal;
+   class Constructor;
+   class Destructor;
+   class Enumeration;
+   class EnumValue;
 }

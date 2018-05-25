@@ -12,22 +12,39 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
-const char* Enumeration::_classTag {"class"};
+//
+
+
+
+/*!
+ */
+const QStringList Enumeration::_fields {"class"};
 
 
 
 
 
 
-Enumeration::Enumeration(const QString& name):
-   Base(name)
-{}
+/*!
+ * Implements the interface that returns this block's type. 
+ *
+ * @return This block's type. 
+ */
+int Enumeration::type() const
+{
+   return BlockFactory::EnumerationType;
+}
 
 
 
 
 
 
+/*!
+ * Implements the interface that returns the name of this block. 
+ *
+ * @return The name of this block. 
+ */
 QString Enumeration::name() const
 {
    QString ret {Base::name()};
@@ -40,16 +57,11 @@ QString Enumeration::name() const
 
 
 
-int Enumeration::type() const
-{
-   return BlockFactory::EnumerationType;
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that returns the icon of this block. 
+ *
+ * @return The icon of this block. 
+ */
 QIcon Enumeration::icon() const
 {
    static QIcon ret;
@@ -62,6 +74,12 @@ QIcon Enumeration::icon() const
 
 
 
+/*!
+ * Implements the interface that returns a list of types that this block can 
+ * contain as children. 
+ *
+ * @return List of allowed types this block can contain as children. 
+ */
 QList<int> Enumeration::buildList() const
 {
    return QList<int>{BlockFactory::EnumValueType};
@@ -72,6 +90,12 @@ QList<int> Enumeration::buildList() const
 
 
 
+/*!
+ * Implements the interface that returns a view that provides a detailed read only 
+ * GUI representation of this block's data. 
+ *
+ * @return New GUI view that represents this block's data. 
+ */
 std::unique_ptr<QWidget> Enumeration::makeView() const
 {
    return unique_ptr<QWidget>(new View::Enumeration(this));
@@ -82,6 +106,60 @@ std::unique_ptr<QWidget> Enumeration::makeView() const
 
 
 
+/*!
+ */
+int Enumeration::fieldSize() const
+{
+   return Field::Total;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+AbstractBlock::Field Enumeration::fieldType(int index) const
+{
+   switch (index)
+   {
+   case Field::Class: return AbstractBlock::Field::Boolean;
+   default: return Base::fieldType(index);
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param index  
+ */
+QVariant Enumeration::field(int index) const
+{
+   switch (index)
+   {
+   case Field::Class: return _class;
+   default: return Base::field(index);
+   }
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns a editable GUI widget that provides the 
+ * ability to edit this block's data. 
+ *
+ * @return New editable GUI widget to edit this block's data. 
+ */
 std::unique_ptr<::Gui::AbstractEdit> Enumeration::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Enumeration(this));
@@ -92,6 +170,21 @@ std::unique_ptr<::Gui::AbstractEdit> Enumeration::makeEdit()
 
 
 
+/*!
+ *
+ * @param name  
+ */
+Enumeration::Enumeration(const QString& name):
+   Base(name)
+{}
+
+
+
+
+
+
+/*!
+ */
 bool Enumeration::isClass() const
 {
    return _class;
@@ -102,21 +195,8 @@ bool Enumeration::isClass() const
 
 
 
-void Enumeration::setClass(bool isClass)
-{
-   if ( _class != isClass )
-   {
-      _class = isClass;
-      notifyModified();
-      notifyNameModified();
-   }
-}
-
-
-
-
-
-
+/*!
+ */
 QList<EnumValue*> Enumeration::values() const
 {
    return makeListOfType<EnumValue>(BlockFactory::EnumValueType);
@@ -127,54 +207,12 @@ QList<EnumValue*> Enumeration::values() const
 
 
 
-void Enumeration::readData(const QDomElement& data, int version)
-{
-   Base::readData(data,version);
-   switch (version)
-   {
-   case 0:
-      readVersion0(data);
-      break;
-   case 1:
-      readVersion1(data);
-      break;
-   default:
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
-         throw e;
-      }
-   }
-}
-
-
-
-
-
-
-int Enumeration::writeVersion() const
-{
-   return _verison;
-}
-
-
-
-
-
-
-QDomElement Enumeration::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Base::writeData(document)};
-   if ( _class ) ret.appendChild(document.createElement(_classTag));
-   return ret;
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that makes a new block object of this block's type with 
+ * no data and returns a pointer to the new block. 
+ *
+ * @return Pointer to the newly created block. 
+ */
 std::unique_ptr<AbstractBlock> Enumeration::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Enumeration);
@@ -185,19 +223,21 @@ std::unique_ptr<AbstractBlock> Enumeration::makeBlank() const
 
 
 
-void Enumeration::copyDataFrom(const AbstractBlock* object)
+/*!
+ *
+ * @param index  
+ */
+void Enumeration::fieldModified(int index)
 {
-   if ( const Enumeration* object_ = qobject_cast<const Enumeration*>(object) )
+   switch (index)
    {
-      Base::copyDataFrom(object);
-      _class = object_->_class;
-   }
-   else
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
-      throw e;
+   case Field::Class:
+      notifyModified();
+      notifyNameModified();
+      break;
+   default:
+      Base::fieldModified(index);
+      break;
    }
 }
 
@@ -206,10 +246,23 @@ void Enumeration::copyDataFrom(const AbstractBlock* object)
 
 
 
-void Enumeration::readVersion0(const QDomElement& data)
+/*!
+ *
+ * @param index  
+ *
+ * @param value  
+ */
+void Enumeration::quietlySetField(int index, const QVariant& value)
 {
-   DomElementReader reader(data);
-   _class = reader.attributeToInt(_classTag,false);
+   switch (index)
+   {
+   case Field::Class:
+      _class = value.toBool();
+      break;
+   default:
+      Base::quietlySetField(index,value);
+      break;
+   }
 }
 
 
@@ -217,9 +270,15 @@ void Enumeration::readVersion0(const QDomElement& data)
 
 
 
-void Enumeration::readVersion1(const QDomElement& data)
+/*!
+ */
+QStringList Enumeration::fields() const
 {
-   DomElementReader reader(data);
-   reader.set(_classTag,&_class,false);
-   reader.read();
+   static QStringList ret;
+   if ( ret.isEmpty() )
+   {
+      ret.append(Base::fields());
+      ret.append(_fields);
+   }
+   return ret;
 }

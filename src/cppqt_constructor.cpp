@@ -11,22 +11,18 @@
 using namespace std;
 using namespace Gui;
 using namespace CppQt;
+//
 
 
 
 
 
 
-QString Constructor::name() const
-{
-   return fullName(false,className());
-}
-
-
-
-
-
-
+/*!
+ * Implements the interface that returns this block's type. 
+ *
+ * @return This block's type. 
+ */
 int Constructor::type() const
 {
    return BlockFactory::ConstructorType;
@@ -37,6 +33,26 @@ int Constructor::type() const
 
 
 
+/*!
+ * Implements the interface that returns the name of this block. 
+ *
+ * @return The name of this block. 
+ */
+QString Constructor::name() const
+{
+   return fullName(false,className());
+}
+
+
+
+
+
+
+/*!
+ * Implements the interface that returns the icon of this block. 
+ *
+ * @return The icon of this block. 
+ */
 QIcon Constructor::icon() const
 {
    static QIcon ret;
@@ -49,6 +65,12 @@ QIcon Constructor::icon() const
 
 
 
+/*!
+ * Implements the interface that returns a list of types that this block type can 
+ * contain as children. 
+ *
+ * @return List of allowed types this block can contain as children. 
+ */
 QList<int> Constructor::buildList() const
 {
    return QList<int>{BlockFactory::VariableType};
@@ -59,6 +81,12 @@ QList<int> Constructor::buildList() const
 
 
 
+/*!
+ * Implements the interface that returns a view that provides a detailed read only 
+ * GUI representation of this block's data. 
+ *
+ * @return New GUI view that represents this block's data. 
+ */
 std::unique_ptr<QWidget> Constructor::makeView() const
 {
    return unique_ptr<QWidget>(new View::Constructor(this));
@@ -69,7 +97,13 @@ std::unique_ptr<QWidget> Constructor::makeView() const
 
 
 
-std::unique_ptr<AbstractEdit> Constructor::makeEdit()
+/*!
+ * Implements the interface that returns a editable GUI widget that provides the 
+ * ability to edit this block's data. 
+ *
+ * @return New editable GUI widget to edit this block's data. 
+ */
+std::unique_ptr<::Gui::AbstractEdit> Constructor::makeEdit()
 {
    return unique_ptr<AbstractEdit>(new Edit::Constructor(this));
 }
@@ -79,6 +113,8 @@ std::unique_ptr<AbstractEdit> Constructor::makeEdit()
 
 
 
+/*!
+ */
 QString Constructor::className() const
 {
    AbstractBlock* access {parent()};
@@ -107,6 +143,8 @@ QString Constructor::className() const
 
 
 
+/*!
+ */
 void Constructor::classNameChanged()
 {
    notifyNameModified();
@@ -117,6 +155,12 @@ void Constructor::classNameChanged()
 
 
 
+/*!
+ * Implements the interface that makes a new block object of this block's type with 
+ * no data and returns a pointer to the new block. 
+ *
+ * @return Pointer to the newly created block. 
+ */
 std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Constructor);
