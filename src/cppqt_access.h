@@ -13,6 +13,17 @@ namespace CppQt
    {
       Q_OBJECT
    public:
+      virtual int type() const override final;
+      virtual const AbstractBlockFactory& factory() const override final;
+      virtual QString name() const override final;
+      virtual QIcon icon() const override final;
+      virtual QList<int> buildList() const override final;
+      virtual std::unique_ptr<QWidget> makeView() const override final;
+      virtual int fieldSize() const override final;
+      virtual AbstractBlock::Field fieldType(int index) const override final;
+      virtual QVariant field(int index) const override final;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+   public:
       /*!
        */
       enum class Type
@@ -39,31 +50,20 @@ namespace CppQt
           */
          ,PrivateSlots
       };
-      virtual int type() const override final;
-      virtual const AbstractBlockFactory& factory() const override final;
-      virtual QString name() const override final;
-      virtual QIcon icon() const override final;
-      virtual QList<int> buildList() const override final;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
-      virtual int fieldSize() const override final;
-      virtual AbstractBlock::Field fieldType(int index) const override final;
-      virtual QVariant field(int index) const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
-   public:
       static bool isSlot(Type value);
       static bool isNormal(Type value);
       /*!
        */
       explicit Access() = default;
       explicit Access(Type type);
-      Access::Type accessType() const;
-      QString accessTypeString() const;
       bool hasSignals() const;
       bool hasSlots() const;
       bool hasSignalsOrSlots() const;
       bool hasRegular() const;
       bool hasVirtual() const;
       bool hasAbstract() const;
+      Access::Type accessType() const;
+      QString accessTypeString() const;
       void setAccessType(Type value);
       void setAccessType(const QString& value);
    protected:

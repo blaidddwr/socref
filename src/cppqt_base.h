@@ -46,6 +46,7 @@ namespace CppQt
       virtual void quietlySetField(int index, const QVariant& value) override;
       virtual QStringList fields() const;
    private:
+      void setName(const QString& value);
       /*!
        */
       static const QStringList _fields;

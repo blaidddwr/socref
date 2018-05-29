@@ -18,4 +18,7 @@ namespace CppQt
    class Destructor;
    class Enumeration;
    class EnumValue;
+   class Parent;
+   class TypeList;
+   class Type;
 }

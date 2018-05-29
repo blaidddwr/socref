@@ -220,7 +220,7 @@ void Base::quietlySetField(int index, const QVariant& value)
    switch (index)
    {
    case Field::Name:
-      _name = value.toString();
+      setName(value.toString());
       break;
    case Field::Description:
       _description = value.toString();
@@ -238,4 +238,25 @@ void Base::quietlySetField(int index, const QVariant& value)
 QStringList Base::fields() const
 {
    return _fields;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param value  
+ */
+void Base::setName(const QString& value)
+{
+   if ( QRegExp("[a-zA-Z_]+((::)?[a-zA-Z0-9_])*").exactMatch(value) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid name '%1'.").arg(value));
+      throw e;
+   }
+   _name = value;
 }

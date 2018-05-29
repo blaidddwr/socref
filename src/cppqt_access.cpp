@@ -311,30 +311,6 @@ Access::Access(Type type):
 
 /*!
  */
-Access::Type Access::accessType() const
-{
-   return _type;
-}
-
-
-
-
-
-
-/*!
- */
-QString Access::accessTypeString() const
-{
-   return _typeNames.at(static_cast<int>(_type));
-}
-
-
-
-
-
-
-/*!
- */
 bool Access::hasSignals() const
 {
    return containsType(BlockFactory::SignalType);
@@ -430,12 +406,41 @@ bool Access::hasAbstract() const
 
 
 /*!
+ */
+Access::Type Access::accessType() const
+{
+   return _type;
+}
+
+
+
+
+
+
+/*!
+ */
+QString Access::accessTypeString() const
+{
+   return _typeNames.at(static_cast<int>(_type));
+}
+
+
+
+
+
+
+/*!
  *
  * @param value  
  */
 void Access::setAccessType(Type value)
 {
-   setField(Field::AccessType,static_cast<int>(value));
+   if ( value != _type )
+   {
+      notifyModified();
+      notifyNameModified();
+      quietlySetAccessType(value);
+   }
 }
 
 
@@ -449,7 +454,7 @@ void Access::setAccessType(Type value)
  */
 void Access::setAccessType(const QString& value)
 {
-   setAccessType(static_cast<Type>(_typeNames.indexOf(value)));
+   setField(Field::AccessType,value);
 }
 
 
@@ -561,7 +566,7 @@ void Access::quietlySetField(int index, const QVariant& value)
    switch (index)
    {
    case Field::AccessType:
-      setAccessType(static_cast<Type>(value.toInt()));
+      quietlySetAccessType(static_cast<Type>(_typeNames.indexOf(value.toString())));
       break;
    }
 }

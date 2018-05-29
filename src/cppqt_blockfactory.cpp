@@ -162,7 +162,7 @@ std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
    case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
    case DeclarationType: return unique_ptr<AbstractBlock>(new Declaration(Declaration::Type::Using,"this"));
-   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList("Unnamed List"));
+   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList("Unnamed_List"));
    case TypeType: return unique_ptr<AbstractBlock>(new Type("unnamed_type"));
    default: return nullptr;
    }
