@@ -65,13 +65,16 @@ namespace CppQt
          ,ParentType
          /*!
           */
-         ,DeclarationType
+         ,UsingType
          /*!
           */
          ,TypeListType
          /*!
           */
          ,TypeType
+         /*!
+          */
+         ,FriendType
          /*!
           */
          ,Total

@@ -86,9 +86,10 @@ QString BlockFactory::name(int type) const
    case EnumerationType: return "Enumeration";
    case EnumValueType: return "Enum Value";
    case ParentType: return "Parent";
-   case DeclarationType: return "Declaration";
+   case UsingType: return "Using";
    case TypeListType: return "Type List";
    case TypeType: return "Type";
+   case FriendType: return "Friend";
    default: return QString();
    }
 }
@@ -123,9 +124,10 @@ QString BlockFactory::elementName(int type) const
    case EnumerationType: return "enumeration";
    case EnumValueType: return "enumval";
    case ParentType: return "parent";
-   case DeclarationType: return "declaration";
+   case UsingType: return "using";
    case TypeListType: return "typeList";
    case TypeType: return "type";
+   case FriendType: return "friend";
    default: return "unknown";
    }
 }
@@ -161,9 +163,10 @@ std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
    case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
    case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
-   case DeclarationType: return unique_ptr<AbstractBlock>(new Declaration(Declaration::Type::Using,"this"));
+   case UsingType: asd;
    case TypeListType: return unique_ptr<AbstractBlock>(new TypeList("Unnamed_List"));
    case TypeType: return unique_ptr<AbstractBlock>(new Type("unnamed_type"));
+   case FriendType: asd;
    default: return nullptr;
    }
 }

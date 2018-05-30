@@ -5,6 +5,10 @@ namespace CppQt
 {
    class BlockFactory;
    class Base;
+   class TypeList;
+   class Type;
+   class Enumeration;
+   class EnumValue;
    class Namespace;
    class Variable;
    class Function;
@@ -16,9 +20,7 @@ namespace CppQt
    class Signal;
    class Constructor;
    class Destructor;
-   class Enumeration;
-   class EnumValue;
    class Parent;
-   class TypeList;
-   class Type;
+   class Using;
+   class Friend;
 }

@@ -83,9 +83,6 @@ SOURCES += \
     cppqt_parse_forward.cpp \
     gui_persistentdialog.cpp \
     cppqt_gui_settingsdialog.cpp \
-    cppqt_declaration.cpp \
-    cppqt_view_declaration.cpp \
-    cppqt_edit_declaration.cpp \
     cppqt_parse_declaration.cpp \
     gui_aboutdialog.cpp \
     cppqt_typelist.cpp \
@@ -95,7 +92,9 @@ SOURCES += \
     cppqt_edit_type.cpp \
     cppqt_settings.cpp \
     cppqt_edit_typelist.cpp \
-    cppqt_gui_typeselection.cpp
+    cppqt_gui_typeselection.cpp \
+    cppqt_using.cpp \
+    cppqt_friend.cpp
 
 HEADERS += \
     singleton.h \
@@ -191,10 +190,7 @@ HEADERS += \
     domelementreader_match.h \
     gui_persistentdialog.h \
     cppqt_gui_settingsdialog.h \
-    cppqt_declaration.h \
     cppqt_view_declaration.h \
-    cppqt_edit_declaration.h \
-    cppqt_parse_declaration.h \
     gui_aboutdialog.h \
     cppqt_typelist.h \
     cppqt_type.h \
@@ -203,7 +199,9 @@ HEADERS += \
     cppqt_edit_type.h \
     cppqt_settings.h \
     cppqt_edit_typelist.h \
-    cppqt_gui_typeselection.h
+    cppqt_gui_typeselection.h \
+    cppqt_using.h \
+    cppqt_friend.h
 
 RESOURCES += \
     resources.qrc
