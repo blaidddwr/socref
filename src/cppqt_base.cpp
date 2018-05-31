@@ -13,6 +13,8 @@ using namespace CppQt;
 
 
 /*!
+ * List of this block's field tag names that follow the same order as this block's 
+ * enumeration of fields. 
  */
 const QStringList Base::_fields {"name","description"};
 
@@ -52,6 +54,9 @@ QString Base::name() const
 
 
 /*!
+ * Implements the interface that returns the number of fields this block contains. 
+ *
+ * @return The number of fields this object contains. 
  */
 int Base::fieldSize() const
 {
@@ -64,11 +69,22 @@ int Base::fieldSize() const
 
 
 /*!
+ * Implements the interface that returns the field type for the given field index 
+ * of this block. 
  *
  * @param index  
+ *
+ * @return Field type of the given field index of this block. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Based off the given index return its field type. If the given index is out of 
+ *    range then throw an exception. 
  */
 AbstractBlock::Field Base::fieldType(int index) const
 {
+   // 1
    switch (index)
    {
    case Field::Name:
@@ -91,11 +107,22 @@ AbstractBlock::Field Base::fieldType(int index) const
 
 
 /*!
+ * Implements the interface that returns the value of the field with the given 
+ * index for this block. 
  *
  * @param index  
+ *
+ * @return Value of the field with the given index for this block. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Based off the given index return its field value. If the given index is out 
+ *    of range then throw an exception. 
  */
 QVariant Base::field(int index) const
 {
+   // 1
    switch (index)
    {
    case Field::Name: return _name;
@@ -118,6 +145,7 @@ QVariant Base::field(int index) const
 
 
 /*!
+ * Constructs a new base object with the given name. 
  *
  * @param name  
  */
@@ -131,6 +159,9 @@ Base::Base(const QString& name):
 
 
 /*!
+ * Returns this object's description field. 
+ *
+ * @return This object's description field. 
  */
 QString Base::description() const
 {
@@ -143,8 +174,8 @@ QString Base::description() const
 
 
 /*!
- * This interface returns the current version number of XML elements written for 
- * this block type. 
+ * Implements the interface that returns the current data version for this block 
+ * type. 
  *
  * @return Current version number. 
  */
@@ -159,8 +190,12 @@ int Base::version() const
 
 
 /*!
+ * Implements the interface that returns the tag name for the field with the given 
+ * index for this block. 
  *
- * @param index  
+ * @param index Index of the field whose tag name is returned. 
+ *
+ * @return Tag name for the field with the given index for this block. 
  */
 QString Base::fieldTag(int index) const
 {
@@ -173,8 +208,13 @@ QString Base::fieldTag(int index) const
 
 
 /*!
+ * Implements the interface that returns the index of the field that has the given 
+ * tag name for this block. 
  *
- * @param name  
+ * @param name Tag name of the field whose index is returned. 
+ *
+ * @return Index of the field with the given tag name or -1 if no field exists with 
+ *         that tag name. 
  */
 int Base::fieldIndexOf(const QString& name) const
 {
@@ -187,12 +227,25 @@ int Base::fieldIndexOf(const QString& name) const
 
 
 /*!
+ * Implements the interface that is called when the field with the given index for 
+ * this block has been modified. 
  *
- * @param index  
+ * @param index Index of the field which has just been modified. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Notify that his block has been modified. 
+ *
+ * 2. Based off the given field index notify that this block's body or name has 
+ *    been modified. 
  */
 void Base::fieldModified(int index)
 {
+   // 1
    notifyModified();
+
+   // 2
    switch (index)
    {
    case Field::Name:
@@ -210,13 +263,21 @@ void Base::fieldModified(int index)
 
 
 /*!
+ * Implements the interface that quietly sets the value of the field with the given 
+ * index to the new given value. 
  *
- * @param index  
+ * @param index Index of the field whose value is set to the new given value. 
  *
- * @param value  
+ * @param value New value that the field with the given index is set to. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Based off the given field index set its value to the new given value. 
  */
 void Base::quietlySetField(int index, const QVariant& value)
 {
+   // 1
    switch (index)
    {
    case Field::Name:
@@ -234,6 +295,11 @@ void Base::quietlySetField(int index, const QVariant& value)
 
 
 /*!
+ * This interface returns the full list of of all field tag names for this block 
+ * that matches the order of this block's field enumeration. The default 
+ * implementation returns the two base fields for this base class. 
+ *
+ * @return Full list of all field tag names for this block. 
  */
 QStringList Base::fields() const
 {
@@ -246,11 +312,20 @@ QStringList Base::fields() const
 
 
 /*!
+ * Sets this block's name field, making sure the given new value has correct 
+ * syntax. If the syntax is not correct an exception is thrown. 
  *
- * @param value  
+ * @param value New value for this block's name field. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. If the syntax of the given new name value is not valid then throw an 
+ *    exception, else set this block's name field to the new value. 
  */
 void Base::setName(const QString& value)
 {
+   // 1
    if ( QRegExp("[a-zA-Z_]+((::)?[a-zA-Z0-9_])*").exactMatch(value) )
    {
       Exception::InvalidArgument e;

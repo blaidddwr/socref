@@ -1413,11 +1413,11 @@ An implementation of this class must construct the form portion of this dialog g
                <function type="2">
                   <data version="1">
                      <name>layout</name>
-                     <description>This interface is called to return the layout of all GUI elements used by an implementation to edit its block type. All GUI objects are added to this dialog and set as their parent.</description>
+                     <description>This interface is called to return the layout of all GUI elements used by this dialog object's form layout. All GUI objects are added to this dialog and set as their parent.</description>
                      <type>QLayout*</type>
                      <virtual/>
                      <abstract/>
-                     <return_description>Pointer to the layout containing all GUI elements used by an implementation.</return_description>
+                     <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
                   </data>
                </function>
                <function type="2">
@@ -1432,10 +1432,12 @@ An implementation of this class must construct the form portion of this dialog g
                <function type="2">
                   <data version="1">
                      <name>fieldTitle</name>
+                     <description>This interface returns the title for the given field type. The title is displayed with any default form added through this base class's methods.</description>
                      <type>QString</type>
                      <virtual/>
                      <const/>
                      <abstract/>
+                     <return_description>Title of the given field type.</return_description>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -3109,7 +3111,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
          <class type="4">
             <data version="1">
                <name>BlockFactory</name>
-               <description>This implements the abstract block factory that produces blocks for the C++/Qt project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance.</description>
+               <description>This is the block factory for the C++/Qt project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance.</description>
             </data>
             <parent type="13">
                <data version="2">
@@ -3128,100 +3130,121 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   <type>public:</type>
                </data>
                <enumeration type="11">
-                  <data version="1"/>
+                  <data version="1">
+                     <description>Defines all possible block types for the C++/Qt project type.</description>
+                  </data>
                   <enumval type="12">
                      <data version="1">
                         <name>NamespaceType</name>
+                        <description>Defines the namespace block.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>VariableType</name>
+                        <description>Defines the variable block.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>FunctionType</name>
+                        <description>Defines the function block.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>TemplateType</name>
+                        <description>Defines the template block. This is used for template arguments in classes and functions.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>ClassType</name>
+                        <description>Defines the class block.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>AccessType</name>
+                        <description>Defines the access block. This is used for the different access types in classes such as public, private, signals, or slots.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>OperatorType</name>
+                        <description>Defines the operator block.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>SlotType</name>
+                        <description>Defines the slot type. This is for Qt slot functions.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>SignalType</name>
+                        <description>Defines the signal block. This is for Qt signal functions.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>ConstructorType</name>
+                        <description>Defines the constructor block.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>DestructorType</name>
+                        <description>Defines the destructor block.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>EnumerationType</name>
+                        <description>Defines the enumeration block. This is for C++ enumerations of all types.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>EnumValueType</name>
+                        <description>Defines the enumeration value block. This is for specific enumeration values.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>ParentType</name>
+                        <description>Defines the parent block. This is for adding parents to a class's inheritance.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>UsingType</name>
+                        <description>Defines the using block. This is for using declarations within classes.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>TypeListType</name>
+                        <description>Defines the type list block. This is for storing variable/function types because C++ is a strongly typed language.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>TypeType</name>
+                        <description>Defines the type block. This defines a specific type a variable or a function's return can make as their type.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>FriendType</name>
+                        <description>Defines the friend block. This is for friend declarations within classes.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Total</name>
+                        <description>Defines the total number of unique blocks the C++/Qt project type contains.</description>
                      </data>
                   </enumval>
                </enumeration>
@@ -3259,6 +3282,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <override/>
                      <final/>
                      <return_description>Display name for the given block type.</return_description>
+                     <operation>Based off the given block type return its display name.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -3278,6 +3302,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <override/>
                      <final/>
                      <return_description>Element name for the given block type.</return_description>
+                     <operation>Based off the given block type return its element name.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -3297,6 +3322,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
                      <override/>
                      <final/>
                      <return_description>Pointer to new block with the given type.</return_description>
+                     <operation>Create a new block of the given type with a default value and return its smart pointer.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -3323,6 +3349,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
          <class type="4">
             <data version="1">
                <name>Base</name>
+               <description>This is a base block class used by many other concrete block types within the C++/Qt project type. Because this is not a concrete block type it does not implement all abstract interfaces of the abstract block class. The two common fields this base class implements are the name and description fields. Certain abstract block interfaces are handled exclusively by this base class.
+
+This base class handles the abstract block interfaces that query for field tag names and finding their index. This is done by adding a new virtual function that other blocks using this block must implement. This interface returns the full list of all field tag names for its block, and should be built up from previous block classes it inherits from. Also because of this the field enumeration of other classes using this one should begin their enumeration with the total size of the previous field enumeration it inherits from.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -3361,19 +3390,24 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>fieldSize</name>
+                     <description>Implements the interface that returns the number of fields this block contains.</description>
                      <type>int</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <return_description>The number of fields this object contains.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>fieldType</name>
+                     <description>Implements the interface that returns the field type for the given field index of this block.</description>
                      <type>AbstractBlock::Field</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <return_description>Field type of the given field index of this block.</return_description>
+                     <operation>Based off the given index return its field type. If the given index is out of range then throw an exception.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -3385,10 +3419,13 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>field</name>
+                     <description>Implements the interface that returns the value of the field with the given index for this block.</description>
                      <type>QVariant</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <return_description>Value of the field with the given index for this block.</return_description>
+                     <operation>Based off the given index return its field value. If the given index is out of range then throw an exception.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -3404,6 +3441,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </data>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new base object.</description>
                      <type></type>
                      <default/>
                      <explicit/>
@@ -3411,6 +3449,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
                </constructor>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new base object with the given name.</description>
                      <type></type>
                      <explicit/>
                   </data>
@@ -3424,8 +3463,10 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>description</name>
+                     <description>Returns this object's description field.</description>
                      <type>QString</type>
                      <const/>
+                     <return_description>This object's description field.</return_description>
                   </data>
                </function>
             </access>
@@ -3436,27 +3477,31 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <enumeration type="11">
                   <data version="1">
                      <name>Field</name>
+                     <description>Defines the fields this block contains.</description>
                   </data>
                   <enumval type="12">
                      <data version="1">
                         <name>Name</name>
+                        <description>Defines the name field. This field is for the basic name of many concrete blocks.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Description</name>
+                        <description>Defines the description field. This is used by many concrete blocks for its general description.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Total</name>
+                        <description>Defines the total number of fields this block contains.</description>
                      </data>
                   </enumval>
                </enumeration>
                <function type="2">
                   <data version="1">
                      <name>version</name>
-                     <description>This interface returns the current version number of XML elements written for this block type.</description>
+                     <description>Implements the interface that returns the current data version for this block type.</description>
                      <type>int</type>
                      <virtual/>
                      <const/>
@@ -3468,15 +3513,18 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>fieldTag</name>
+                     <description>Implements the interface that returns the tag name for the field with the given index for this block.</description>
                      <type>QString</type>
                      <virtual/>
                      <const/>
                      <override/>
                      <final/>
+                     <return_description>Tag name for the field with the given index for this block.</return_description>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field whose tag name is returned.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -3484,15 +3532,18 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>fieldIndexOf</name>
+                     <description>Implements the interface that returns the index of the field that has the given tag name for this block.</description>
                      <type>int</type>
                      <virtual/>
                      <const/>
                      <override/>
                      <final/>
+                     <return_description>Index of the field with the given tag name or -1 if no field exists with that tag name.</return_description>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>name</name>
+                        <description>Tag name of the field whose index is returned.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
@@ -3500,13 +3551,17 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>fieldModified</name>
+                     <description>Implements the interface that is called when the field with the given index for this block has been modified.</description>
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <operation>Notify that his block has been modified.</operation>
+                     <operation>Based off the given field index notify that this block's body or name has been modified.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field which has just been modified.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -3514,19 +3569,23 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>quietlySetField</name>
+                     <description>Implements the interface that quietly sets the value of the field with the given index to the new given value.</description>
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <operation>Based off the given field index set its value to the new given value.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field whose value is set to the new given value.</description>
                         <type>int</type>
                      </data>
                   </variable>
                   <variable type="1">
                      <data version="1">
                         <name>value</name>
+                        <description>New value that the field with the given index is set to.</description>
                         <type>const QVariant&amp;</type>
                      </data>
                   </variable>
@@ -3534,9 +3593,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>fields</name>
+                     <description>This interface returns the full list of of all field tag names for this block that matches the order of this block's field enumeration. The default implementation returns the two base fields for this base class.</description>
                      <type>QStringList</type>
                      <virtual/>
                      <const/>
+                     <return_description>Full list of all field tag names for this block.</return_description>
                   </data>
                </function>
             </access>
@@ -3547,11 +3608,14 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <function type="2">
                   <data version="1">
                      <name>setName</name>
+                     <description>Sets this block's name field, making sure the given new value has correct syntax. If the syntax is not correct an exception is thrown.</description>
                      <type>void</type>
+                     <operation>If the syntax of the given new name value is not valid then throw an exception, else set this block's name field to the new value.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>value</name>
+                        <description>New value for this block's name field.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
@@ -3559,6 +3623,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <variable type="1">
                   <data version="1">
                      <name>_fields</name>
+                     <description>List of this block's field tag names that follow the same order as this block's enumeration of fields.</description>
                      <static/>
                      <type>const QStringList</type>
                      <initializer>"name","description"</initializer>
@@ -3567,12 +3632,14 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <variable type="1">
                   <data version="1">
                      <name>_name</name>
+                     <description>This block's name field value.</description>
                      <type>QString</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_description</name>
+                     <description>This block's description field value.</description>
                      <type>QString</type>
                   </data>
                </variable>
@@ -3589,6 +3656,78 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   <class>Base</class>
                </data>
             </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <type>Base*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                  </data>
+               </class>
+            </access>
             <access type="5">
                <data version="1">
                   <type>public:</type>

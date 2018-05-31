@@ -13,9 +13,10 @@
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
 #include "cppqt_parent.h"
-#include "cppqt_declaration.h"
+#include "cppqt_using.h"
 #include "cppqt_typelist.h"
 #include "cppqt_type.h"
+#include "cppqt_friend.h"
 #include "projectfactory.h"
 
 
@@ -67,9 +68,15 @@ int BlockFactory::size() const
  * @param type Block type whose display name is returned. 
  *
  * @return Display name for the given block type. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Based off the given block type return its display name. 
  */
 QString BlockFactory::name(int type) const
 {
+   // 1
    switch (type)
    {
    case NamespaceType: return "Namespace";
@@ -105,9 +112,15 @@ QString BlockFactory::name(int type) const
  * @param type Block type whose element name is returned. 
  *
  * @return Element name for the given block type. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Based off the given block type return its element name. 
  */
 QString BlockFactory::elementName(int type) const
 {
+   // 1
    switch (type)
    {
    case NamespaceType: return "namespace";
@@ -144,9 +157,16 @@ QString BlockFactory::elementName(int type) const
  * @param type Block type which is made and returned. 
  *
  * @return Pointer to new block with the given type. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Create a new block of the given type with a default value and return its 
+ *    smart pointer. 
  */
 std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 {
+   // 1
    switch (type)
    {
    case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace("unnamed_namespace"));
@@ -163,10 +183,10 @@ std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
    case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
    case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
-   case UsingType: asd;
+   case UsingType: return unique_ptr<AbstractBlock>(new Using);
    case TypeListType: return unique_ptr<AbstractBlock>(new TypeList("Unnamed_List"));
    case TypeType: return unique_ptr<AbstractBlock>(new Type("unnamed_type"));
-   case FriendType: asd;
+   case FriendType: return unique_ptr<AbstractBlock>(new Friend);
    default: return nullptr;
    }
 }

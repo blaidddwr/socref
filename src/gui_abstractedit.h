@@ -56,18 +56,21 @@ namespace Gui
       void initialize();
    protected:
       /*!
-       * This interface is called to return the layout of all GUI elements used by an 
-       * implementation to edit its block type. All GUI objects are added to this dialog 
-       * and set as their parent. 
+       * This interface is called to return the layout of all GUI elements used by this 
+       * dialog object's form layout. All GUI objects are added to this dialog and set as 
+       * their parent. 
        *
-       * @return Pointer to the layout containing all GUI elements used by an 
-       *         implementation. 
+       * @return Pointer to the layout containing all GUI elements for this dialog. 
        */
       virtual QLayout* layout() = 0;
       virtual void apply();
       /*!
+       * This interface returns the title for the given field type. The title is 
+       * displayed with any default form added through this base class's methods. 
        *
        * @param index  
+       *
+       * @return Title of the given field type. 
        */
       virtual QString fieldTitle(int index) const = 0;
    protected:
