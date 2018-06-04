@@ -26,6 +26,8 @@ namespace CppQt
    {
       Q_OBJECT
    public:
+      class View;
+   public:
       virtual const AbstractBlockFactory& factory() const override final;
       virtual QString name() const override;
       virtual int fieldSize() const override;
@@ -55,7 +57,7 @@ namespace CppQt
           */
          ,Description
          /*!
-          * Defines the total number of fields this block contains. 
+          * Defines the total number of fields this block defines. 
           */
          ,Total
       };

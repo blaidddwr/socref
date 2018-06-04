@@ -8,10 +8,16 @@
 namespace CppQt
 {
    /*!
+    * This is the type block. This is used to define a specific C++ type, either 
+    * literal or template. It also provides helper syntax validation static functions 
+    * which other classes within the C++/Qt project type can use. 
     */
    class Type : public AbstractBlock
    {
       Q_OBJECT
+   public:
+      class Edit;
+      class View;
    public:
       virtual int type() const override final;
       virtual const AbstractBlockFactory& factory() const override final;
@@ -27,18 +33,23 @@ namespace CppQt
       static bool isValidTypeString(const QString& value);
       static bool isValidTemplateArgument(const QString& value);
       /*!
+       * Constructs a new type block. 
        */
       explicit Type() = default;
       explicit Type(const QString& type);
    protected:
       /*!
+       * Defines the fields this block contains. 
        */
       enum Field
       {
          /*!
+          * Defines the type name field. This field is used to store the actual C++ type 
+          * declaration. 
           */
          TypeName
          /*!
+          * Defines the total number of fields this block defines. 
           */
          ,Total
       };

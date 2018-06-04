@@ -1,6 +1,6 @@
 #include "cppqt_typelist.h"
-#include "cppqt_view_typelist.h"
-#include "cppqt_edit_typelist.h"
+#include "cppqt_typelist_view.h"
+#include "cppqt_typelist_edit.h"
 #include "cppqt_blockfactory.h"
 #include "gui_abstractedit.h"
 
@@ -50,11 +50,21 @@ QString TypeList::name() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. If the static qt icon _ret_ is null then load its icon. 
+ *
+ * 2. Return _ret_. 
  */
 QIcon TypeList::icon() const
 {
-   QIcon ret;
+   // 1
+   static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/typelist.svg");
+
+   // 2
    return ret;
 }
 
@@ -71,8 +81,7 @@ QIcon TypeList::icon() const
  */
 QList<int> TypeList::buildList() const
 {
-   QList<int> ret {BlockFactory::TypeListType,BlockFactory::TypeType};
-   return ret;
+   return {BlockFactory::TypeListType,BlockFactory::TypeType};
 }
 
 
@@ -88,7 +97,7 @@ QList<int> TypeList::buildList() const
  */
 std::unique_ptr<QWidget> TypeList::makeView() const
 {
-   return unique_ptr<QWidget>(new View::TypeList(this));
+   return unique_ptr<QWidget>(new View(this));
 }
 
 
@@ -104,7 +113,7 @@ std::unique_ptr<QWidget> TypeList::makeView() const
  */
 std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::TypeList(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -113,8 +122,9 @@ std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
 
 
 /*!
+ * Constructs a new type list block with the given name. 
  *
- * @param name  
+ * @param name The name that this new type list block sets its name field to. 
  */
 TypeList::TypeList(const QString& name):
    Base(name)
@@ -143,18 +153,23 @@ std::unique_ptr<AbstractBlock> TypeList::makeBlank() const
 
 /*!
  * Implements the interface that is called whenever a child below this block has 
- * modified its name and keeps calling this interface on the next block parent 
- * until this returns false. 
+ * modified its name. 
  *
  * @param child Pointer to the child block that has modified its name. 
  *
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Notify the body of this block is modified and return false. 
  */
 bool TypeList::childNameModified(AbstractBlock* child)
 {
    Q_UNUSED(child)
-   notifyNameModified();
+
+   // 1
    notifyBodyModified();
    return false;
 }
@@ -166,17 +181,23 @@ bool TypeList::childNameModified(AbstractBlock* child)
 
 /*!
  * Implements the interface that is called whenever a new child below this block 
- * has been added and keeps calling this interface on the next block parent until 
- * this returns false. 
+ * has been added. 
  *
  * @param child Pointer to the child block that been added to its new parent block. 
  *
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Notify the name and body of this block is modified and return false. 
  */
 bool TypeList::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
+
+   // 1
    notifyNameModified();
    notifyBodyModified();
    return false;
@@ -189,18 +210,24 @@ bool TypeList::childAdded(AbstractBlock* child)
 
 /*!
  * Implements the interface that is called whenever an existing child below this 
- * block has been removed and keeps calling this interface on the next block parent 
- * until this returns false. 
+ * block has been removed. 
  *
  * @param child Pointer to the child block that has been removed from its former 
  *              parent block. This object can be deleted right after this call. 
  *
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Notify the name and body of this block is modified and return false. 
  */
 bool TypeList::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
+
+   // 1
    notifyNameModified();
    notifyBodyModified();
    return false;

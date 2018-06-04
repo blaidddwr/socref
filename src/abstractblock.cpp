@@ -637,8 +637,8 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
 
 
 /*!
- * This interface is called whenever a child below this block has modified its name 
- * and keeps calling this interface on the next block parent until this returns 
+ * This interface is called whenever a child below this block has modified its 
+ * name. This keeps getting called on the next block parent until this returns 
  * false. The default implementation does nothing and returns false. 
  *
  * @param child Pointer to the child block that has modified its name. 
@@ -658,9 +658,9 @@ bool AbstractBlock::childNameModified(AbstractBlock* child)
 
 
 /*!
- * This interface is called whenever a new child below this block has been added 
- * and keeps calling this interface on the next block parent until this returns 
- * false. The default implementation does nothing and returns false. 
+ * This interface is called whenever a new child below this block has been added. 
+ * This keeps getting called on the next block parent until this returns false. The 
+ * default implementation does nothing and returns false. 
  *
  * @param child Pointer to the child block that been added to its new parent block. 
  *
@@ -680,8 +680,8 @@ bool AbstractBlock::childAdded(AbstractBlock* child)
 
 /*!
  * This interface is called whenever an existing child below this block has been 
- * removed and keeps calling this interface on the next block parent until this 
- * returns false. The default implementation does nothing and returns false. 
+ * removed. This keeps getting called on the next block parent until this returns 
+ * false. The default implementation does nothing and returns false. 
  *
  * @param child Pointer to the child block that has been removed from its former 
  *              parent block. This object can be deleted right after this call. 
@@ -702,8 +702,8 @@ bool AbstractBlock::childRemoved(AbstractBlock* child)
 
 /*!
  * This interface is called whenever an existing child below this block has been 
- * moved and keeps calling this interface on the next block parent until this 
- * returns false. The default implementation does nothing and returns false. 
+ * moved. This keeps getting called on the next block parent until this returns 
+ * false. The default implementation does nothing and returns false. 
  *
  * @param child Pointer to the child block that has been moved in its parent's list 
  *              of children. 

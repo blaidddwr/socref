@@ -8,6 +8,11 @@
 namespace CppQt
 {
    /*!
+    * This is a the type list block. This is used to contain C++ defined types and 
+    * other type lists to allow for nesting. This container block type is provided to 
+    * allow users to better organize all defined types for a C++/Qt project because it 
+    * is a hardly typed language and the list of defined types quickly becomes very 
+    * long. 
     */
    class TypeList : public Base
    {
@@ -24,6 +29,7 @@ namespace CppQt
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
    public:
       /*!
+       * Constructs a new type list block. 
        */
       explicit TypeList() = default;
       explicit TypeList(const QString& name);

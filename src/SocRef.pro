@@ -60,7 +60,6 @@ SOURCES += \
     cppqt_edit_slot.cpp \
     cppqt_edit_signal.cpp \
     cppqt_enumeration.cpp \
-    cppqt_edit_enumeration.cpp \
     cppqt_enumvalue.cpp \
     cppqt_edit_enumvalue.cpp \
     cppqt_parent.cpp \
@@ -87,14 +86,18 @@ SOURCES += \
     gui_aboutdialog.cpp \
     cppqt_typelist.cpp \
     cppqt_type.cpp \
-    cppqt_view_typelist.cpp \
-    cppqt_view_type.cpp \
-    cppqt_edit_type.cpp \
     cppqt_settings.cpp \
     cppqt_edit_typelist.cpp \
     cppqt_gui_typeselection.cpp \
     cppqt_using.cpp \
-    cppqt_friend.cpp
+    cppqt_friend.cpp \
+    cppqt_typelist_edit.cpp \
+    cppqt_typelist_view.cpp \
+    cppqt_base_view.cpp \
+    cppqt_type_edit.cpp \
+    cppqt_type_view.cpp \
+    cppqt_enumeration_edit.cpp \
+    cppqt_enumeration_view.cpp
 
 HEADERS += \
     singleton.h \
@@ -161,8 +164,6 @@ HEADERS += \
     cppqt_view_signal.h \
     cppqt_edit_signal.h \
     cppqt_enumeration.h \
-    cppqt_view_enumeration.h \
-    cppqt_edit_enumeration.h \
     cppqt_enumvalue.h \
     cppqt_view_enumvalue.h \
     cppqt_edit_enumvalue.h \
@@ -195,13 +196,18 @@ HEADERS += \
     cppqt_typelist.h \
     cppqt_type.h \
     cppqt_view_typelist.h \
-    cppqt_view_type.h \
-    cppqt_edit_type.h \
     cppqt_settings.h \
     cppqt_edit_typelist.h \
     cppqt_gui_typeselection.h \
     cppqt_using.h \
-    cppqt_friend.h
+    cppqt_friend.h \
+    cppqt_typelist_edit.h \
+    cppqt_typelist_view.h \
+    cppqt_base_view.h \
+    cppqt_type_edit.h \
+    cppqt_type_view.h \
+    cppqt_enumeration_edit.h \
+    cppqt_enumeration_view.h
 
 RESOURCES += \
     resources.qrc

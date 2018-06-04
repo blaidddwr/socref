@@ -6,8 +6,8 @@
 
 
 /*!
- * This implements the abstract project factory class that provides all factories 
- * and information needed for a project type. 
+ * This is the global project factory for this application, providing all factories 
+ * and information needed for each project type. 
  */
 class ProjectFactory : public AbstractProjectFactory
 {
