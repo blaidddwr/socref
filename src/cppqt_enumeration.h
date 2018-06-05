@@ -60,7 +60,7 @@ namespace CppQt
    private:
       /*!
        * List of this block's field tag names that follow the same order as this block's 
-       * enumeration of fields. This is an addition the the base fields this block 
+       * enumeration of fields. This is in addition to the base fields this block 
        * inherits. 
        */
       static const QStringList _fields;

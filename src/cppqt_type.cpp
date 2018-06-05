@@ -16,6 +16,8 @@ using namespace CppQt;
 
 
 /*!
+ * List of this block's field tag names that follow the same order as this block's 
+ * enumeration of fields. 
  */
 const QStringList Type::_fields {"type"};
 

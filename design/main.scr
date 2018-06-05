@@ -3059,6 +3059,21 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </data>
             <typeList type="15">
                <data version="1">
+                  <name>EnumValue</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>EnumValue*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const EnumValue*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
                   <name>Enumeration</name>
                </data>
                <type type="16">
@@ -4674,6 +4689,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_fields</name>
+                     <description>List of this block's field tag names that follow the same order as this block's enumeration of fields.</description>
                      <static/>
                      <type>const QStringList</type>
                      <initializer>"type"</initializer>
@@ -4682,6 +4698,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_type</name>
+                     <description>The C++ type declaration for this type block.</description>
                      <type>QString</type>
                   </data>
                </variable>
@@ -5081,7 +5098,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_fields</name>
-                     <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is an addition the the base fields this block inherits.</description>
+                     <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is in addition to the base fields this block inherits.</description>
                      <static/>
                      <type>const QStringList</type>
                      <initializer>"class"</initializer>
@@ -5100,6 +5117,7 @@ This base class handles the abstract block interfaces that query for field tag n
          <class type="4">
             <data version="1">
                <name>EnumValue</name>
+               <description>This is the enumeration value block. This defines a single value for a C++ enumeration. This also allows for setting itself to a specific integer value. Because the integer can be another enumeration value or a macro this value is allowed to be a string.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -5112,6 +5130,142 @@ This base class handles the abstract block interfaces that query for field tag n
                <data version="1">
                   <type>public:</type>
                </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <description>This is the edit class for the enumeration value block.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type edit object with the given enumeration value block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Enumeration value block that this new edit object edits.</description>
+                              <type>EnumValue*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add a new line edit for the base name field, and then add a new text edit for the base description field, and then add a new line edit for the value field.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <description>This is the view class for the enumeration value block.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type view object with the given enumeration value block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Enumeration value block this new view displays.</description>
+                              <type>const EnumValue*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayText</name>
+                           <description>Returns HTML rich text that displays the body of this view's enumeration value block.</description>
+                           <type>QString</type>
+                           <return_description>HTML rich text that displays the body of this view's enumeration value block.</return_description>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayValue</name>
+                           <description>Returns a HTML string that displays the value field for this view's enumeration value block. If there is no value then this returns an empty string.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays the value field for this view's enumeration value block or an empty string if there is no value.</return_description>
+                           <operation>Get this view's enumeration value block's value field. If the value returned is an empty string then return an empty string.</operation>
+                           <operation>Return a HTML string that displays this view's enumeration value block's value field along with a title.</operation>
+                        </data>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>Pointer to the enumeration value block this view is showing.</description>
+                           <type>const EnumValue*</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -5120,6 +5274,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>This block's type.</return_description>
                   </data>
                </function>
@@ -5131,7 +5286,10 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The name of this block.</return_description>
+                     <operation>Create a string _ret_ setting to this block's base name. If this block's value field is not empty then append an indicator stating as much.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -5142,7 +5300,10 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The icon of this block.</return_description>
+                     <operation>If this block's static icon _ret_ is null then load it from memory.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -5153,6 +5314,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>List of allowed types this block can contain as children.</return_description>
                   </data>
                </function>
@@ -5164,29 +5326,38 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>New GUI view that represents this block's data.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>fieldSize</name>
+                     <description>Implements the interface that returns the number of fields this block contains.</description>
                      <type>int</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
+                     <return_description>The number of fields this object contains.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>fieldType</name>
+                     <description>Implements the interface that returns the field type for the given field index of this block.</description>
                      <type>AbstractBlock::Field</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
+                     <return_description>Field type of the given field index of this block.</return_description>
+                     <operation>Based off the given field index return its type. If the given index is not defined then call the base class interface returning its return.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field whose field type is returned.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -5194,14 +5365,19 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>field</name>
+                     <description>Implements the interface that returns the value of the field with the given index for this block.</description>
                      <type>QVariant</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
+                     <return_description>Value of the field with the given index for this block.</return_description>
+                     <operation>Based off the given field index return its value. If the given index is not defined then call the base class interface returning its return.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field whose value is returned.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -5213,6 +5389,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
                      <virtual/>
                      <override/>
+                     <final/>
                      <return_description>New editable GUI widget to edit this block's data.</return_description>
                   </data>
                </function>
@@ -5223,6 +5400,7 @@ This base class handles the abstract block interfaces that query for field tag n
                </data>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new enumeration value block.</description>
                      <type></type>
                      <default/>
                      <explicit/>
@@ -5230,12 +5408,14 @@ This base class handles the abstract block interfaces that query for field tag n
                </constructor>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new enumeration value block with the given name.</description>
                      <type></type>
                      <explicit/>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>name</name>
+                        <description>The name which is set to this new enumeration value block's base name field.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
@@ -5243,8 +5423,10 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>value</name>
+                     <description>Returns the set value for this enumeration value block. If this block has no set value an empty string is returned.</description>
                      <type>QString</type>
                      <const/>
+                     <return_description>The set value for this enumeration value block, if any.</return_description>
                   </data>
                </function>
             </access>
@@ -5255,15 +5437,18 @@ This base class handles the abstract block interfaces that query for field tag n
                <enumeration type="11">
                   <data version="1">
                      <name>Field</name>
+                     <description>Defines the fields this block contains in addition to its base fields.</description>
                   </data>
                   <enumval type="12">
                      <data version="1">
                         <name>Value</name>
+                        <description>Defines the value field. This field is for when an enumeration value is set to a specific integer value. This field is a string because that integer can be another enumeration value or a macro.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Total</name>
+                        <description>Defines the total number of fields this block defines.</description>
                      </data>
                   </enumval>
                </enumeration>
@@ -5275,19 +5460,24 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>Pointer to the newly created block.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>fieldModified</name>
+                     <description>Implements the interface that is called when the field with the given index for this block has been modified.</description>
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <final/>
+                     <operation>Based off the given field index notify that this block has been modified. If the given index is not defined for this block then call the base interface.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field which has just been modified.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -5295,19 +5485,24 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>quietlySetField</name>
+                     <description>Implements the interface that quietly sets the value of the field with the given index to the new given value.</description>
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <final/>
+                     <operation>Based off the given field index set its value to the new given value. If the given index is not defined for this block then call the base interface.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field whose value is set to the new given value.</description>
                         <type>int</type>
                      </data>
                   </variable>
                   <variable type="1">
                      <data version="1">
                         <name>value</name>
+                        <description>New value that the field with the given index is set to.</description>
                         <type>const QVariant&amp;</type>
                      </data>
                   </variable>
@@ -5315,11 +5510,15 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>fields</name>
+                     <description>Implements the interface that returns the full list of of all field tag names for this block that matches the order of this block's field enumeration.</description>
                      <type>QStringList</type>
                      <virtual/>
                      <const/>
                      <override/>
                      <final/>
+                     <return_description>Full list of all field tag names for this block.</return_description>
+                     <operation>If the static string list _ret_ is empty then populate its list, first with the fields from the base block class and then with this block's additional fields.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
             </access>
@@ -5330,7 +5529,9 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>setValue</name>
+                     <description>Set the value field of this block to the given value, making sure it has valid C++ type syntax. If the given value does not have valid syntax then an exception is thrown.</description>
                      <type>void</type>
+                     <operation>If the given value does not have valid C++ type syntax then throw an exception, else set this block's value field to the new given value.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -5342,6 +5543,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_fields</name>
+                     <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is in addition to the base fields this block inherits.</description>
                      <static/>
                      <type>const QStringList</type>
                      <initializer>"value"</initializer>
@@ -5350,6 +5552,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_value</name>
+                     <description>The set integer value for this enumeration value block, if any. This is a string because the integer can be defined as another enumeration value or a macro.</description>
                      <type>QString</type>
                   </data>
                </variable>

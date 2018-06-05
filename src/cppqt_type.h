@@ -63,9 +63,12 @@ namespace CppQt
       static void checkType(const QString& value);
       void setType(const QString& value);
       /*!
+       * List of this block's field tag names that follow the same order as this block's 
+       * enumeration of fields. 
        */
       static const QStringList _fields;
       /*!
+       * The C++ type declaration for this type block. 
        */
       QString _type;
    };
