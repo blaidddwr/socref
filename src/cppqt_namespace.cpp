@@ -2,8 +2,8 @@
 #include <memory>
 #include <QDomDocument>
 #include <exception.h>
-#include "cppqt_view_namespace.h"
-#include "cppqt_edit_namespace.h"
+#include "cppqt_namespace_view.h"
+#include "cppqt_namespace_edit.h"
 #include "cppqt_blockfactory.h"
 
 
@@ -37,11 +37,21 @@ int Namespace::type() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. If the static qt icon _ret_ is null then load this block's icon. 
+ *
+ * 2. Return _ret_. 
  */
 QIcon Namespace::icon() const
 {
+   // 1
    static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/namespace.svg");
+
+   // 2
    return ret;
 }
 
@@ -55,9 +65,16 @@ QIcon Namespace::icon() const
  * contain as children. 
  *
  * @return List of allowed types this block can contain as children. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Return the build list of all other block types this namespace block type can 
+ *    contain. 
  */
 QList<int> Namespace::buildList() const
 {
+   // 1
    return QList<int>
    {
       BlockFactory::NamespaceType
@@ -83,7 +100,7 @@ QList<int> Namespace::buildList() const
  */
 std::unique_ptr<QWidget> Namespace::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Namespace(this));
+   return unique_ptr<QWidget>(new View(this));
 }
 
 
@@ -99,7 +116,7 @@ std::unique_ptr<QWidget> Namespace::makeView() const
  */
 std::unique_ptr<::Gui::AbstractEdit> Namespace::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Namespace(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -108,6 +125,11 @@ std::unique_ptr<::Gui::AbstractEdit> Namespace::makeEdit()
 
 
 /*!
+ * This interface returns the real block children for this block. The real block 
+ * children are all children of any access block children. If this is not a class 
+ * then it is simply all direct children. 
+ *
+ * @return Pointer list of all real children for this block. 
  */
 QList<AbstractBlock*> Namespace::realChildren() const
 {
@@ -120,8 +142,9 @@ QList<AbstractBlock*> Namespace::realChildren() const
 
 
 /*!
+ * Constructs a new namespace block with the given name. 
  *
- * @param name  
+ * @param name The value of this new namespace block's base name field. 
  */
 Namespace::Namespace(const QString& name):
    Base(name)
@@ -133,6 +156,18 @@ Namespace::Namespace(const QString& name):
 
 
 /*!
+ * Returns a pointer to the root namespace of this block's entire project. 
+ *
+ * @return Pointer to the root namespace of this block's project. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Get a root block pointer for this block's project tree, casting it to a 
+ *    namespace type and saving it to _ret_. If the casting failed then throw an 
+ *    exception. 
+ *
+ * 2. Return _ret_. 
  */
 const Namespace* Namespace::root() const
 {
@@ -153,6 +188,18 @@ const Namespace* Namespace::root() const
 
 
 /*!
+ * Returns a pointer to the root namespace of this block's entire project. 
+ *
+ * @return Pointer to the root namespace of this block's project. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Get a root block pointer for this block's project tree, casting it to a 
+ *    namespace type and saving it to _ret_. If the casting failed then throw an 
+ *    exception. 
+ *
+ * 2. Return _ret_. 
  */
 Namespace* Namespace::root()
 {

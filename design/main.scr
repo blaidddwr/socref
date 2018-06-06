@@ -3162,9 +3162,29 @@ The edit menu is the context menu of the block view class. The settings menu is 
                   </data>
                </type>
             </typeList>
+            <typeList type="15">
+               <data version="1">
+                  <name>Variable</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Variable*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Variable*</type>
+                  </data>
+               </type>
+            </typeList>
             <type type="16">
                <data version="0">
                   <type>Access::Type</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
+                  <type>Gui::TypeSelection*</type>
                </data>
             </type>
             <type type="16">
@@ -3845,7 +3865,7 @@ This base class handles the abstract block interfaces that query for field tag n
                   <parent type="13">
                      <data version="2">
                         <access>public</access>
-                        <class>Gui::AbstractEdit</class>
+                        <class>::Gui::AbstractEdit</class>
                      </data>
                   </parent>
                   <access type="5">
@@ -4184,7 +4204,7 @@ This base class handles the abstract block interfaces that query for field tag n
                   <parent type="13">
                      <data version="2">
                         <access>public</access>
-                        <class>Gui::AbstractEdit</class>
+                        <class>::Gui::AbstractEdit</class>
                      </data>
                   </parent>
                   <access type="5">
@@ -4729,7 +4749,7 @@ This base class handles the abstract block interfaces that query for field tag n
                   <parent type="13">
                      <data version="2">
                         <access>public</access>
-                        <class>Gui::AbstractEdit</class>
+                        <class>::Gui::AbstractEdit</class>
                      </data>
                   </parent>
                   <access type="5">
@@ -5139,7 +5159,7 @@ This base class handles the abstract block interfaces that query for field tag n
                   <parent type="13">
                      <data version="2">
                         <access>public</access>
-                        <class>Gui::AbstractEdit</class>
+                        <class>::Gui::AbstractEdit</class>
                      </data>
                   </parent>
                   <access type="5">
@@ -5561,6 +5581,7 @@ This base class handles the abstract block interfaces that query for field tag n
          <class type="4">
             <data version="1">
                <name>Namespace</name>
+               <description>This is the namespace block, defining a C++ namespace that can define any number of other C++ block types. This block is used as the root block for C++/Qt projects as the global namespace.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -5569,6 +5590,112 @@ This base class handles the abstract block interfaces that query for field tag n
                   <class>Base</class>
                </data>
             </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <description>This is the edit class for the namespace block.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>::Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type edit object with the given namespace block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Namespace block that this new edit object edits.</description>
+                              <type>Namespace*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add a new line edit for the base name field, and then add a new text edit for the base description field.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <description>This is the view class for the namespace block.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type view object with the given namespace block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Namespace block this new view displays.</description>
+                              <type>const Namespace*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+               </class>
+            </access>
             <access type="5">
                <data version="1">
                   <type>public:</type>
@@ -5593,6 +5720,8 @@ This base class handles the abstract block interfaces that query for field tag n
                      <const/>
                      <override/>
                      <return_description>The icon of this block.</return_description>
+                     <operation>If the static qt icon _ret_ is null then load this block's icon.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -5604,6 +5733,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <const/>
                      <override/>
                      <return_description>List of allowed types this block can contain as children.</return_description>
+                     <operation>Return the build list of all other block types this namespace block type can contain.</operation>
                   </data>
                </function>
                <function type="2">
@@ -5630,9 +5760,11 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>realChildren</name>
+                     <description>This interface returns the real block children for this block. The real block children are all children of any access block children. If this is not a class then it is simply all direct children.</description>
                      <type>QList&lt;AbstractBlock*></type>
                      <virtual/>
                      <const/>
+                     <return_description>Pointer list of all real children for this block.</return_description>
                   </data>
                </function>
             </access>
@@ -5642,6 +5774,7 @@ This base class handles the abstract block interfaces that query for field tag n
                </data>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new namespace block.</description>
                      <type></type>
                      <default/>
                      <explicit/>
@@ -5649,12 +5782,14 @@ This base class handles the abstract block interfaces that query for field tag n
                </constructor>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new namespace block with the given name.</description>
                      <type></type>
                      <explicit/>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>name</name>
+                        <description>The value of this new namespace block's base name field.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
@@ -5662,14 +5797,22 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>root</name>
+                     <description>Returns a pointer to the root namespace of this block's entire project.</description>
                      <type>const Namespace*</type>
                      <const/>
+                     <return_description>Pointer to the root namespace of this block's project.</return_description>
+                     <operation>Get a root block pointer for this block's project tree, casting it to a namespace type and saving it to _ret_. If the casting failed then throw an exception.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>root</name>
+                     <description>Returns a pointer to the root namespace of this block's entire project.</description>
                      <type>Namespace*</type>
+                     <return_description>Pointer to the root namespace of this block's project.</return_description>
+                     <operation>Get a root block pointer for this block's project tree, casting it to a namespace type and saving it to _ret_. If the casting failed then throw an exception.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
             </access>
@@ -5693,6 +5836,7 @@ This base class handles the abstract block interfaces that query for field tag n
          <class type="4">
             <data version="1">
                <name>Variable</name>
+               <description>This is the variable block. This represents any global, class member, or function argument variable. This is also used as the base class for template arguments. This supports the constant expression, static, and mutable properties. The properties are checked to see if those properties make sense and an exception is thrown if one is set that is not valid. This also supports having an initial value.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -5701,6 +5845,207 @@ This base class handles the abstract block interfaces that query for field tag n
                   <class>Base</class>
                </data>
             </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <description>This is the edit class for the variable block.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>::Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type edit object with the given variable block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block that this new edit object edits.</description>
+                              <type>Variable*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, and then add a new line edit for the base name field, and then add a new text edit for the base description field, and then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>apply</name>
+                           <description>Implements the interface that is called when the user has clicked the apply or OK buttons and expected to update the block an implementation is editing.</description>
+                           <type>void</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                           <operation>Set this object's variable block's type field to the value from this object's type edit widget and then call the abstract edit interface.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>addTypeEdit</name>
+                           <description>Initialize and add the type edit widget for this edit block.</description>
+                           <type>void</type>
+                           <operation>Create and initialize this object's type edit widget and then add it to the given qt form layout.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>form</name>
+                              <description>The qt form layout used for this edit dialog that the type edit widget is added to.</description>
+                              <type>QFormLayout*</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>The variable block that this edit dialog is editing.</description>
+                           <type>Variable*</type>
+                        </data>
+                     </variable>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_typeEdit</name>
+                           <description>This object's type edit widget for editing the type field.</description>
+                           <type>Gui::TypeSelection*</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <description>This is the view class for the variable block.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type view object with the given variable block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block this new view displays.</description>
+                              <type>const Variable*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayText</name>
+                           <description>Returns the HTML rich text that displays the body of this view's variable block.</description>
+                           <type>QString</type>
+                           <return_description>HTML rich text that displays the body of this view's variable block.</return_description>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayType</name>
+                           <description>Returns a HTML string that displays the type field for this view's variable block.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays the type field of this view's variable block.</return_description>
+                           <operation>Create and return a string that contains HTML for this object's variable type field along with a title. Replace any special carrot characters so it doesn't break the HTML code.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayProperties</name>
+                           <description>Returns a HTML string that displays any properties this view's variable block has set. If this view's variable block has no properties set then this returns an empty string.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays any properties this view's variable block has set or an empty string if no properties are set.</return_description>
+                           <operation>Create an empty string _ret_ and then an empty string list _list_. Append any properties this object's variable block has set to _list_. If _list_ is empty then return _ret_.</operation>
+                           <operation>Append an HTML title, then all set properties as an HTML list to _ret_, and then return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayInitializer</name>
+                           <description>Returns a HTML string that displays the initial value of this view's variable block. If the variable block has no initial value then an empty string is returned.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays the initial value of this view's variable block or an empty string if there is no initial value.</return_description>
+                           <operation>Create an empty string _ret_. If this view's variable block has no initial value then return _ret_.</operation>
+                           <operation>Append an HTML title and then the initial value as an HTML list. Separate the initial value as a list using the comma as a separator.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>The variable block that this view is displaying.</description>
+                           <type>const Variable*</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+            </access>
             <access type="5">
                <data version="1">
                   <type>public:</type>
@@ -5724,7 +6069,11 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The name of this block.</return_description>
+                     <operation>Create a string _ret_, setting it to this variable's base name.</operation>
+                     <operation>If this variable has an initial value that append that to _ret_, using different display types depending on if it is an argument or not.</operation>
+                     <operation>Append this variable's properties to _ret_ and then return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -5736,6 +6085,8 @@ This base class handles the abstract block interfaces that query for field tag n
                      <const/>
                      <override/>
                      <return_description>The icon of this block.</return_description>
+                     <operation>If the variable block's static icons are not loaded then load them.</operation>
+                     <operation>Return the static or regular icon, depending on if this variable has its static property set or not.</operation>
                   </data>
                </function>
                <function type="2">
@@ -5746,6 +6097,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>List of allowed types this block can contain as children.</return_description>
                   </data>
                </function>
@@ -5763,23 +6115,31 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>fieldSize</name>
+                     <description>Implements the interface that returns the number of fields this block contains.</description>
                      <type>int</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
+                     <return_description>The number of fields this object contains.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>fieldType</name>
+                     <description>Implements the interface that returns the field type for the given field index of this block.</description>
                      <type>AbstractBlock::Field</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
+                     <return_description>Field type of the given field index of this block.</return_description>
+                     <operation>Based off the given field index return its type. If the given index is not defined then call the base class interface returning its return.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field whose field type is returned.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -5787,14 +6147,19 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>field</name>
+                     <description>Implements the interface that returns the value of the field with the given index for this block.</description>
                      <type>QVariant</type>
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
+                     <return_description>Value of the field with the given index for this block.</return_description>
+                     <operation>Based off the given field index return its value. If the given index is not defined then call the base class interface returning its return.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field whose value is returned.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -5816,6 +6181,7 @@ This base class handles the abstract block interfaces that query for field tag n
                </data>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new variable block.</description>
                      <type></type>
                      <default/>
                      <explicit/>
@@ -5823,30 +6189,35 @@ This base class handles the abstract block interfaces that query for field tag n
                </constructor>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new variable block with the given name.</description>
                      <type></type>
                      <explicit/>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>name</name>
+                        <description>The value this new variable block's base name field is set to.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
                </constructor>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new variable block with the given type and name.</description>
                      <type></type>
                      <explicit/>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>type</name>
+                        <description>The value this new variable block's type field is set to.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
                   <variable type="1">
                      <data version="1">
                         <name>name</name>
+                        <description>The value this new variable block's base name field is set to.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
@@ -5854,57 +6225,73 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>isConstExpr</name>
+                     <description>Tests if this variable block's constant expression property is set.</description>
                      <type>bool</type>
                      <const/>
+                     <return_description>True if this block's constant expression property is set or false otherwise.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>isStatic</name>
+                     <description>Tests if this variable block's static property is set.</description>
                      <type>bool</type>
                      <const/>
+                     <return_description>True if this block's static property is set or false otherwise.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>isMutable</name>
+                     <description>Tests if this variable block's mutable property is set.</description>
                      <type>bool</type>
                      <const/>
+                     <return_description>True if this block's mutable property is set or false otherwise.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>variableType</name>
+                     <description>Returns this variable block's type field value.</description>
                      <type>QString</type>
                      <const/>
+                     <return_description>This variable's C++ type.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>hasInitializer</name>
+                     <description>Tests if this variable block has an initial value.</description>
                      <type>bool</type>
                      <const/>
+                     <return_description>True if this variable has an initial value or false otherwise.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>initializer</name>
+                     <description>Returns this variable block's initial value or an empty string if none is set.</description>
                      <type>QString</type>
                      <const/>
+                     <return_description>This variable's initial value or an empty string is none is set.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>isMember</name>
+                     <description>Tests if this variable block is a member of a C++ class, returning true if it is a member.</description>
                      <type>bool</type>
                      <const/>
+                     <return_description>True if this variable is a class member or false otherwise.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>isArgument</name>
+                     <description>Tests if this variable block is an argument of a C++ function, returning true if it is an argument.</description>
                      <type>bool</type>
                      <const/>
+                     <return_description>True if this is a function argument or false otherwise.</return_description>
                   </data>
                </function>
             </access>
@@ -5915,35 +6302,42 @@ This base class handles the abstract block interfaces that query for field tag n
                <enumeration type="11">
                   <data version="1">
                      <name>Field</name>
+                     <description>Defines the fields this block contains in addition to its base fields.</description>
                   </data>
                   <enumval type="12">
                      <data version="1">
                         <name>ConstExpr</name>
+                        <description>Defines the constant expression field. This is a boolean property.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Static</name>
+                        <description>Defines the static field. This is a boolean property.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Mutable</name>
+                        <description>Defines the mutable field. This is a boolean property.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Type</name>
+                        <description>Defines the type field. This holds the C++ type for a variable block.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Initializer</name>
+                        <description>Defines the initial value field. This holds any initial value a variable block may contain.</description>
                      </data>
                   </enumval>
                   <enumval type="12">
                      <data version="1">
                         <name>Total</name>
+                        <description>Defines the total number of fields this block defines.</description>
                      </data>
                   </enumval>
                </enumeration>
@@ -5961,13 +6355,17 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>fieldModified</name>
+                     <description>Implements the interface that is called when the field with the given index for this block has been modified.</description>
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <final/>
+                     <operation>Based off the given field index notify that this block has been modified. If the given index is not defined for this block then call the base interface.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field which has just been modified.</description>
                         <type>int</type>
                      </data>
                   </variable>
@@ -5975,19 +6373,24 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>quietlySetField</name>
+                     <description>Implements the interface that quietly sets the value of the field with the given index to the new given value.</description>
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <final/>
+                     <operation>Based off the given field index set its value to the new given value. If the given index is not defined for this block then call the base interface.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>index</name>
+                        <description>Index of the field whose value is set to the new given value.</description>
                         <type>int</type>
                      </data>
                   </variable>
                   <variable type="1">
                      <data version="1">
                         <name>value</name>
+                        <description>New value that the field with the given index is set to.</description>
                         <type>const QVariant&amp;</type>
                      </data>
                   </variable>
@@ -5995,11 +6398,15 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>fields</name>
+                     <description>Implements the interface that returns the full list of of all field tag names for this block that matches the order of this block's field enumeration.</description>
                      <type>QStringList</type>
                      <virtual/>
                      <const/>
                      <override/>
                      <final/>
+                     <return_description>Full list of all field tag names for this block.</return_description>
+                     <operation>If the static string list _ret_ is empty then populate its list, first with the fields from the base block class and then with this block's additional fields.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
             </access>
@@ -6009,12 +6416,15 @@ This base class handles the abstract block interfaces that query for field tag n
                </data>
                <function type="2">
                   <data version="1">
-                     <name>checkTypeSyntax</name>
+                     <name>checkType</name>
+                     <description>Checks the given string to verify it is a valid C++ type. If it is invalid then an exception is thrown.</description>
                      <type>void</type>
+                     <operation>If the given string is not a valid C++ type then throw an exception.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>value</name>
+                        <description>The string that is verified to have valid C++ type syntax.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
@@ -6022,18 +6432,25 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>attributes</name>
+                     <description>Returns a string displaying any properties this variable block has set. If no properties are set then this returns an empty string.</description>
                      <type>QString</type>
                      <const/>
+                     <return_description>String displaying any properties this variable block has set.</return_description>
+                     <operation>Create a string _ret_, appending any properties it has using single capital letters. If any properties are appended then enclose them with brackets and a space.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
                      <name>setConstExpr</name>
+                     <description>Sets the state of this variable block's constant expression property to the given state. If the new state is illegal then an exception is thrown.</description>
                      <type>void</type>
+                     <operation>If the new given state is illegal then throw an exception, else set this block's property to the new given state.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>state</name>
+                        <description>The new state this variable block's property is set to.</description>
                         <type>bool</type>
                      </data>
                   </variable>
@@ -6041,11 +6458,14 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>setStatic</name>
+                     <description>Sets the state of this variable block's static property to the given state. If the new state is illegal then an exception is thrown.</description>
                      <type>void</type>
+                     <operation>If the new given state is illegal then throw an exception, else set this block's property to the new given state.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>state</name>
+                        <description>The new state this variable block's property is set to.</description>
                         <type>bool</type>
                      </data>
                   </variable>
@@ -6053,11 +6473,14 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>setMutable</name>
+                     <description>Sets the state of this variable block's mutable property to the given state. If the new state is illegal then an exception is thrown.</description>
                      <type>void</type>
+                     <operation>If the new given state is illegal then throw an exception, else set this block's property to the new given state.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>state</name>
+                        <description>The new state this variable block's property is set to.</description>
                         <type>bool</type>
                      </data>
                   </variable>
@@ -6065,7 +6488,9 @@ This base class handles the abstract block interfaces that query for field tag n
                <function type="2">
                   <data version="1">
                      <name>setType</name>
+                     <description>Set this variable block's type field to the new given value. If the new value is not a valid C++ type then an exception is thrown.</description>
                      <type>void</type>
+                     <operation>Check the C++ type syntax for the given value and then set this variable block's type field to the new value.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -6077,6 +6502,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_fields</name>
+                     <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is in addition to the base fields this block inherits.</description>
                      <static/>
                      <type>const QStringList</type>
                      <initializer>"constexpr","static","mutable","type","initializer"</initializer>
@@ -6085,6 +6511,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_constExpr</name>
+                     <description>The constant expression property for this variable block.</description>
                      <type>bool</type>
                      <initializer>false</initializer>
                   </data>
@@ -6092,6 +6519,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_static</name>
+                     <description>The static property for this variable block.</description>
                      <type>bool</type>
                      <initializer>false</initializer>
                   </data>
@@ -6099,6 +6527,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_mutable</name>
+                     <description>The mutable property for this variable block.</description>
                      <type>bool</type>
                      <initializer>false</initializer>
                   </data>
@@ -6106,12 +6535,14 @@ This base class handles the abstract block interfaces that query for field tag n
                <variable type="1">
                   <data version="1">
                      <name>_type</name>
+                     <description>The C++ type for this variable block.</description>
                      <type>QString</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="1">
                      <name>_initializer</name>
+                     <description>The initial value, if any, for this variable block. If there is no initial value then this is an empty string.</description>
                      <type>QString</type>
                   </data>
                </variable>

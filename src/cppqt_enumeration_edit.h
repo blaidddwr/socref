@@ -11,7 +11,7 @@ namespace CppQt
    /*!
     * This is the edit class for the enumeration block. 
     */
-   class Enumeration::Edit : public Gui::AbstractEdit
+   class Enumeration::Edit : public ::Gui::AbstractEdit
    {
       Q_OBJECT
    public:

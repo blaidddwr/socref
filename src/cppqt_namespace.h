@@ -8,10 +8,16 @@
 namespace CppQt
 {
    /*!
+    * This is the namespace block, defining a C++ namespace that can define any number 
+    * of other C++ block types. This block is used as the root block for C++/Qt 
+    * projects as the global namespace. 
     */
    class Namespace : public Base
    {
       Q_OBJECT
+   public:
+      class Edit;
+      class View;
    public:
       virtual int type() const override;
       virtual QIcon icon() const override;
@@ -21,6 +27,7 @@ namespace CppQt
       virtual QList<AbstractBlock*> realChildren() const;
    public:
       /*!
+       * Constructs a new namespace block. 
        */
       explicit Namespace() = default;
       explicit Namespace(const QString& name);

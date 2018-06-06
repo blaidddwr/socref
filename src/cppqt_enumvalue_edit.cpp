@@ -17,7 +17,7 @@ using namespace CppQt;
  * @param block Enumeration value block that this new edit object edits. 
  */
 EnumValue::Edit::Edit(EnumValue* block):
-   Gui::AbstractEdit(block)
+   ::Gui::AbstractEdit(block)
 {}
 
 

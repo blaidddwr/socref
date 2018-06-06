@@ -18,7 +18,7 @@ using namespace CppQt;
  * @param block Type block that this new edit object edits. 
  */
 Type::Edit::Edit(Type* block):
-   Gui::AbstractEdit(block)
+   ::Gui::AbstractEdit(block)
 {}
 
 

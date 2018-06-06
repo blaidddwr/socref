@@ -11,7 +11,7 @@ namespace CppQt
    /*!
     * This is the edit class for the type block. 
     */
-   class Type::Edit : public Gui::AbstractEdit
+   class Type::Edit : public ::Gui::AbstractEdit
    {
       Q_OBJECT
    public:

@@ -28,9 +28,7 @@ SOURCES += \
     cppqt_base.cpp \
     domelementreader.cpp \
     cppqt_edit_base.cpp \
-    cppqt_edit_variable.cpp \
     cppqt_view_base.cpp \
-    cppqt_view_variable.cpp \
     cppqt_signal.cpp \
     cppqt_function.cpp \
     cppqt_view_function.cpp \
@@ -98,7 +96,11 @@ SOURCES += \
     cppqt_enumeration_edit.cpp \
     cppqt_enumeration_view.cpp \
     cppqt_enumvalue_edit.cpp \
-    cppqt_enumvalue_view.cpp
+    cppqt_enumvalue_view.cpp \
+    cppqt_namespace_edit.cpp \
+    cppqt_namespace_view.cpp \
+    cppqt_variable_edit.cpp \
+    cppqt_variable_view.cpp
 
 HEADERS += \
     singleton.h \
@@ -127,9 +129,7 @@ HEADERS += \
     cppqt_gui.h \
     cppqt_view.h \
     cppqt_edit_base.h \
-    cppqt_edit_variable.h \
     cppqt_view_base.h \
-    cppqt_view_variable.h \
     cppqt_signal.h \
     cppqt_function.h \
     cppqt_view_function.h \
@@ -208,7 +208,11 @@ HEADERS += \
     cppqt_enumeration_edit.h \
     cppqt_enumeration_view.h \
     cppqt_enumvalue_edit.h \
-    cppqt_enumvalue_view.h
+    cppqt_enumvalue_view.h \
+    cppqt_namespace_edit.h \
+    cppqt_namespace_view.h \
+    cppqt_variable_edit.h \
+    cppqt_variable_view.h
 
 RESOURCES += \
     resources.qrc

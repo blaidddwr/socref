@@ -1,4 +1,4 @@
-#include "cppqt_typelist_edit.h"
+#include "cppqt_namespace_edit.h"
 #include <QFormLayout>
 
 
@@ -12,11 +12,11 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new type list edit object with the given type list block. 
+ * Constructs a new type edit object with the given namespace block. 
  *
- * @param block Type list block that this new edit object edits. 
+ * @param block Namespace block that this new edit object edits. 
  */
-TypeList::Edit::Edit(TypeList* block):
+Namespace::Edit::Edit(Namespace* block):
    ::Gui::AbstractEdit(block)
 {}
 
@@ -36,19 +36,22 @@ TypeList::Edit::Edit(TypeList* block):
  *
  * 1. Save this dialog object's geometry to Qt settings. 
  *
- * 2. Create a new form layout, add a new line edit for the base name field, then 
- *    add a new text edit for the base description field, and then return the new 
- *    form layout. 
+ * 2. Create a new form layout _ret_, add a new line edit for the base name field, 
+ *    and then add a new text edit for the base description field. 
+ *
+ * 3. Return _ret_. 
  */
-QLayout* TypeList::Edit::layout()
+QLayout* Namespace::Edit::layout()
 {
    // 1
-   saveSettings("cppqt.typelist.edit.geometry");
+   saveSettings("cppqt.namespace.edit.geometry");
 
    // 2
    QFormLayout* ret {new QFormLayout};
-   addLineEdit(ret,Field::Name);
-   addTextEdit(ret,Field::Description);
+   addLineEdit(ret,Base::Field::Name);
+   addTextEdit(ret,Base::Field::Description);
+
+   // 3
    return ret;
 }
 
@@ -70,13 +73,13 @@ QLayout* TypeList::Edit::layout()
  * 1. Based off the given field index return its title. If the given field index is 
  *    undefined then throw an exception. 
  */
-QString TypeList::Edit::fieldTitle(int index) const
+QString Namespace::Edit::fieldTitle(int index) const
 {
    // 1
    switch (index)
    {
-   case Field::Name: return "Title:";
-   case Field::Description: return "Type Info:";
+   case Base::Field::Name: return "Name:";
+   case Base::Field::Description: return "Description:";
    default:
       {
          Exception::InvalidArgument e;
