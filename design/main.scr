@@ -347,6 +347,11 @@
          </type>
          <type type="16">
             <data version="0">
+               <type>QResizeEvent*</type>
+            </data>
+         </type>
+         <type type="16">
+            <data version="0">
                <type>QScrollArea*</type>
             </data>
          </type>
@@ -363,6 +368,11 @@
          <type type="16">
             <data version="0">
                <type>QTreeView*</type>
+            </data>
+         </type>
+         <type type="16">
+            <data version="0">
+               <type>Qt::Orientation</type>
             </data>
          </type>
          <type type="16">
@@ -1347,6 +1357,437 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                      <name>_spellHighlighter</name>
                      <description>Pointer to the spell checking highlighter for this editor. This is null if spell checking is disabled.</description>
                      <type>Highlighter*</type>
+                  </data>
+               </variable>
+            </access>
+         </class>
+         <class type="4">
+            <data version="1">
+               <name>ListEdit</name>
+               <qtobject/>
+            </data>
+            <typeList type="15">
+               <data version="1">
+                  <name>ListEdit</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Model*</type>
+                  </data>
+               </type>
+            </typeList>
+            <parent type="13">
+               <data version="2">
+                  <access>public</access>
+                  <class>QTableView</class>
+               </data>
+            </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>parent</name>
+                        <type>QWidget*</type>
+                        <initializer>nullptr</initializer>
+                     </data>
+                  </variable>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>listItemTitle</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>parent</name>
+                        <type>QWidget*</type>
+                        <initializer>nullptr</initializer>
+                     </data>
+                  </variable>
+               </constructor>
+               <function type="2">
+                  <data version="1">
+                     <name>value</name>
+                     <type>QStringList</type>
+                     <const/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setValue</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>list</name>
+                        <type>const QStringList&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>protected:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>resizeEvent</name>
+                     <type>void</type>
+                     <virtual/>
+                     <override/>
+                     <final/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>event</name>
+                        <type>QResizeEvent*</type>
+                     </data>
+                  </variable>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>private slots:</type>
+               </data>
+               <slot type="7">
+                  <data version="1">
+                     <name>addTriggered</name>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>removeTriggered</name>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>moveUpTriggered</name>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>moveDownTriggered</name>
+                     <type></type>
+                  </data>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>doubleClicked</name>
+                     <type></type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>const QModelIndex&amp;</type>
+                     </data>
+                  </variable>
+               </slot>
+               <slot type="7">
+                  <data version="1">
+                     <name>selectionChanged</name>
+                     <type></type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>selected</name>
+                        <type>const QItemSelection&amp;</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>deselected</name>
+                        <type>const QItemSelection&amp;</type>
+                     </data>
+                  </variable>
+               </slot>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>private:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Model</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>QAbstractListModel</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>parent</name>
+                              <type>QObject*</type>
+                              <initializer>nullptr</initializer>
+                           </data>
+                        </variable>
+                     </constructor>
+                     <constructor type="9">
+                        <data version="1">
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>list</name>
+                              <type>QStringList*</type>
+                           </data>
+                        </variable>
+                        <variable type="1">
+                           <data version="1">
+                              <name>parent</name>
+                              <type>QObject*</type>
+                              <initializer>nullptr</initializer>
+                           </data>
+                        </variable>
+                     </constructor>
+                     <function type="2">
+                        <data version="1">
+                           <name>headerData</name>
+                           <type>QVariant</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>section</name>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                        <variable type="1">
+                           <data version="1">
+                              <name>orientation</name>
+                              <type>Qt::Orientation</type>
+                           </data>
+                        </variable>
+                        <variable type="1">
+                           <data version="1">
+                              <name>role</name>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>rowCount</name>
+                           <type>int</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>parent</name>
+                              <type>const QModelIndex&amp;</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>data</name>
+                           <type>QVariant</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>const QModelIndex&amp;</type>
+                           </data>
+                        </variable>
+                        <variable type="1">
+                           <data version="1">
+                              <name>role</name>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>setData</name>
+                           <type>bool</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>const QModelIndex&amp;</type>
+                           </data>
+                        </variable>
+                        <variable type="1">
+                           <data version="1">
+                              <name>value</name>
+                              <type>const QVariant&amp;</type>
+                           </data>
+                        </variable>
+                        <variable type="1">
+                           <data version="1">
+                              <name>role</name>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>addAfter</name>
+                           <type>bool</type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>const QModelIndex&amp;</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>remove</name>
+                           <type>bool</type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>const QModelIndex&amp;</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>moveUp</name>
+                           <type>QModelIndex</type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>const QModelIndex&amp;</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>moveDown</name>
+                           <type>QModelIndex</type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <type>const QModelIndex&amp;</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>setList</name>
+                           <type>void</type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>list</name>
+                              <type>QStringList*</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_list</name>
+                           <type>QStringList*</type>
+                           <initializer>nullptr</initializer>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+               <function type="2">
+                  <data version="1">
+                     <name>setupView</name>
+                     <type>void</type>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>setupActions</name>
+                     <type>void</type>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>autoFitText</name>
+                     <type>void</type>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>autoFitText</name>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>row</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <variable type="1">
+                  <data version="1">
+                     <name>_listItemTitle</name>
+                     <type>QString</type>
+                     <initializer>"Step"</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_model</name>
+                     <type>Model*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_current</name>
+                     <type>QModelIndex</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_list</name>
+                     <type>QStringList</type>
                   </data>
                </variable>
             </access>

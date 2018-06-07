@@ -100,7 +100,9 @@ SOURCES += \
     cppqt_namespace_edit.cpp \
     cppqt_namespace_view.cpp \
     cppqt_variable_edit.cpp \
-    cppqt_variable_view.cpp
+    cppqt_variable_view.cpp \
+    gui_listedit.cpp \
+    gui_listedit_model.cpp
 
 HEADERS += \
     singleton.h \
@@ -212,7 +214,9 @@ HEADERS += \
     cppqt_namespace_edit.h \
     cppqt_namespace_view.h \
     cppqt_variable_edit.h \
-    cppqt_variable_view.h
+    cppqt_variable_view.h \
+    gui_listedit.h \
+    gui_listedit_model.h
 
 RESOURCES += \
     resources.qrc
