@@ -79,24 +79,24 @@ QString BlockFactory::name(int type) const
    // 1
    switch (type)
    {
-   case NamespaceType: return "Namespace";
-   case VariableType: return "Variable";
-   case FunctionType: return "Function";
-   case TemplateType: return "Template";
-   case ClassType: return "Class";
-   case AccessType: return "Access";
-   case OperatorType: return "Operator";
-   case SlotType: return "Slot";
-   case SignalType: return "Signal";
-   case ConstructorType: return "Constructor";
-   case DestructorType: return "Destructor";
-   case EnumerationType: return "Enumeration";
-   case EnumValueType: return "Enum Value";
-   case ParentType: return "Parent";
-   case UsingType: return "Using";
-   case TypeListType: return "Type List";
-   case TypeType: return "Type";
-   case FriendType: return "Friend";
+   case NamespaceType: return QObject::tr("Namespace");
+   case VariableType: return QObject::tr("Variable");
+   case FunctionType: return QObject::tr("Function");
+   case TemplateType: return QObject::tr("Template");
+   case ClassType: return QObject::tr("Class");
+   case AccessType: return QObject::tr("Access");
+   case OperatorType: return QObject::tr("Operator");
+   case SlotType: return QObject::tr("Slot");
+   case SignalType: return QObject::tr("Signal");
+   case ConstructorType: return QObject::tr("Constructor");
+   case DestructorType: return QObject::tr("Destructor");
+   case EnumerationType: return QObject::tr("Enumeration");
+   case EnumValueType: return QObject::tr("Enum Value");
+   case ParentType: return QObject::tr("Parent");
+   case UsingType: return QObject::tr("Using");
+   case TypeListType: return QObject::tr("Type List");
+   case TypeType: return QObject::tr("Type");
+   case FriendType: return QObject::tr("Friend");
    default: return QString();
    }
 }

@@ -78,8 +78,8 @@ QString Namespace::Edit::fieldTitle(int index) const
    // 1
    switch (index)
    {
-   case Base::Field::Name: return "Name:";
-   case Base::Field::Description: return "Description:";
+   case Base::Field::Name: return tr("Name:");
+   case Base::Field::Description: return tr("Description:");
    default:
       {
          Exception::InvalidArgument e;

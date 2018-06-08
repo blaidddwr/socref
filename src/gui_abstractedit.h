@@ -78,6 +78,7 @@ namespace Gui
       QCheckBox* addCheckBox(int index);
       QLineEdit* addLineEdit(QFormLayout* form, int index);
       TextEdit* addTextEdit(QFormLayout* form, int index);
+      ListEdit* addListEdit(QFormLayout* form, int index);
       void setDisabled(bool disabled);
    private slots:
       void okClicked();

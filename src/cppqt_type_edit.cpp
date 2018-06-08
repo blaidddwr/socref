@@ -75,7 +75,7 @@ QString Type::Edit::fieldTitle(int index) const
    // 1
    switch (index)
    {
-   case Field::TypeName: return "Type:";
+   case Field::TypeName: return tr("Type:");
    default:
       {
          Exception::InvalidArgument e;

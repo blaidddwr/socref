@@ -556,6 +556,11 @@
             </type>
             <type type="16">
                <data version="0">
+                  <type>ListEdit*</type>
+               </data>
+            </type>
+            <type type="16">
+               <data version="0">
                   <type>TextEdit*</type>
                </data>
             </type>
@@ -1936,7 +1941,7 @@ An implementation of this class must construct the form portion of this dialog g
                      <description>Adds a new checkbox edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a boolean then an exception is thrown.</description>
                      <type>QCheckBox*</type>
                      <return_description>Pointer to the new checkbox edit widget attached to the block field with the given index.</return_description>
-                     <operation>If this dialog already has an edit widget for the given field index, the given field index is out of range, or this field type for the given index is not a boolean then throw an exception.</operation>
+                     <operation>Check the given field index can be added. If the field type for the given index is not a boolean then throw an exception.</operation>
                      <operation>Create a new checkbox edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
                   </data>
                   <variable type="1">
@@ -1953,7 +1958,7 @@ An implementation of this class must construct the form portion of this dialog g
                      <description>Adds a new line edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string then an exception is thrown.</description>
                      <type>QLineEdit*</type>
                      <return_description>Pointer to the new line edit widget attached to the block field with the given index.</return_description>
-                     <operation>If this dialog already has an edit widget for the given field index, the given field index is out of range, or this field type for the given index is not a string then throw an exception.</operation>
+                     <operation>Check the given field index can be added. If the field type for the given index is not a string then throw an exception.</operation>
                      <operation>Create a new line edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
                   </data>
                   <variable type="1">
@@ -1977,8 +1982,32 @@ An implementation of this class must construct the form portion of this dialog g
                      <description>Adds a new text edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string then an exception is thrown.</description>
                      <type>TextEdit*</type>
                      <return_description>Pointer to the new text edit widget attached to the block field with the given index.</return_description>
-                     <operation>If this dialog already has an edit widget for the given field index, the given field index is out of range, or this field type for the given index is not a string then throw an exception.</operation>
+                     <operation>Check the given field index can be added. If the field type for the given index is not a string then throw an exception.</operation>
                      <operation>Create a new text edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>form</name>
+                        <description>Pointer to the form layout which has the new edit widget added to it.</description>
+                        <type>QFormLayout*</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <description>Index of the field that has an edit widget attached to it.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>addListEdit</name>
+                     <description>Adds a new list edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string list then an exception is thrown.</description>
+                     <type>ListEdit*</type>
+                     <return_description>Pointer to the new list edit widget attached to the block field with the given index.</return_description>
+                     <operation>Check the given field index can be added. If the field type for the given index is not a string list then throw an exception.</operation>
+                     <operation>Create a new list edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
                   </data>
                   <variable type="1">
                      <data version="1">

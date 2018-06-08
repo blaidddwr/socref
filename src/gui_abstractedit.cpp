@@ -9,6 +9,7 @@
 #include <exception.h>
 #include "gui_blockview.h"
 #include "gui_textedit.h"
+#include "gui_listedit.h"
 #include "abstractblock.h"
 #include "common.h"
 
@@ -108,6 +109,12 @@ void AbstractEdit::apply()
             _block->setField(i.key(),valid->toPlainText());
          }
          break;
+      case AbstractBlock::Field::StringList:
+         if ( ListEdit* valid = qobject_cast<ListEdit*>(*i) )
+         {
+            _block->setField(i.key(),valid->value());
+         }
+         break;
       }
    }
 }
@@ -184,9 +191,8 @@ void AbstractEdit::addCheckBoxes(QFormLayout* form, const QList<int>& fields, in
  *
  * Steps of Operation: 
  *
- * 1. If this dialog already has an edit widget for the given field index, the 
- *    given field index is out of range, or this field type for the given index is 
- *    not a boolean then throw an exception. 
+ * 1. Check the given field index can be added. If the field type for the given 
+ *    index is not a boolean then throw an exception. 
  *
  * 2. Create a new checkbox edit widget with the field title of the given index, 
  *    setting its value to the current value of the block, inserting it into this 
@@ -234,9 +240,8 @@ QCheckBox* AbstractEdit::addCheckBox(int index)
  *
  * Steps of Operation: 
  *
- * 1. If this dialog already has an edit widget for the given field index, the 
- *    given field index is out of range, or this field type for the given index is 
- *    not a string then throw an exception. 
+ * 1. Check the given field index can be added. If the field type for the given 
+ *    index is not a string then throw an exception. 
  *
  * 2. Create a new line edit widget with the field title of the given index, 
  *    setting its value to the current value of the block, inserting it into this 
@@ -285,9 +290,8 @@ QLineEdit* AbstractEdit::addLineEdit(QFormLayout* form, int index)
  *
  * Steps of Operation: 
  *
- * 1. If this dialog already has an edit widget for the given field index, the 
- *    given field index is out of range, or this field type for the given index is 
- *    not a string then throw an exception. 
+ * 1. Check the given field index can be added. If the field type for the given 
+ *    index is not a string then throw an exception. 
  *
  * 2. Create a new text edit widget with the field title of the given index, 
  *    setting its value to the current value of the block, inserting it into this 
@@ -309,6 +313,56 @@ TextEdit* AbstractEdit::addTextEdit(QFormLayout* form, int index)
    // 2
    TextEdit* ret {new TextEdit(this)};
    ret->setPlainText(_block->field(index).toString());
+   _edits.insert(index,ret);
+   form->addRow(new QLabel(fieldTitle(index),this),ret);
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ * Adds a new list edit widget to the block field with the given index, returning 
+ * its pointer. If this edit dialog already contains an edit widget for this field, 
+ * the index is out of range, or the field type is not a string list then an 
+ * exception is thrown. 
+ *
+ * @param form Pointer to the form layout which has the new edit widget added to 
+ *             it. 
+ *
+ * @param index Index of the field that has an edit widget attached to it. 
+ *
+ * @return Pointer to the new list edit widget attached to the block field with the 
+ *         given index. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. Check the given field index can be added. If the field type for the given 
+ *    index is not a string list then throw an exception. 
+ *
+ * 2. Create a new list edit widget with the field title of the given index, 
+ *    setting its value to the current value of the block, inserting it into this 
+ *    object's list edit widgets, and returning its pointer. 
+ */
+ListEdit* AbstractEdit::addListEdit(QFormLayout* form, int index)
+{
+   // 1
+   checkField(index);
+   if ( _block->fieldType(index) != AbstractBlock::Field::StringList )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set list edit widget for field %1 when it is not a string list type.")
+                   .arg(index));
+      throw e;
+   }
+
+   // 2
+   ListEdit* ret {new ListEdit(this)};
+   ret->setValue(_block->field(index).toStringList());
    _edits.insert(index,ret);
    form->addRow(new QLabel(fieldTitle(index),this),ret);
    return ret;

@@ -76,7 +76,7 @@ QString TypeList::View::displayTypeLists()
    if ( list.isEmpty() ) return ret;
 
    // 2
-   ret.append("<h3>Type Lists</h3><p>");
+   ret.append("<h3>").append(tr("Type Lists")).append("</h3><p>");
    for (auto typeList: list) ret.append(typeList->name()).append("<br/>");
    ret.append("</p>");
 
@@ -117,7 +117,7 @@ QString TypeList::View::displayTypes()
    if ( list.isEmpty() ) return ret;
 
    // 2
-   ret.append("<h3>Types</h3><p>");
+   ret.append("<h3>").append(tr("Types")).append("</h3><p>");
    for (auto type: list) ret.append(type->name().replace("<","&lt;")).append("<br/>");
    ret.append("</p>");
 

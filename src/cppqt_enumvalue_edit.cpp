@@ -80,9 +80,9 @@ QString EnumValue::Edit::fieldTitle(int index) const
    // 1
    switch (index)
    {
-   case Base::Field::Name: return "Name:";
-   case Base::Field::Description: return "Description:";
-   case Field::Value: return "Value";
+   case Base::Field::Name: return tr("Name:");
+   case Base::Field::Description: return tr("Description:");
+   case Field::Value: return tr("Value:");
    default:
       {
          Exception::InvalidArgument e;

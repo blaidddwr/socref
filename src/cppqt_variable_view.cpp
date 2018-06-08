@@ -60,7 +60,8 @@ QString Variable::View::displayText()
 QString Variable::View::displayType()
 {
    // 1
-   QString ret {"<h3>Type</h3><p>"};
+   QString ret {"<h3>"};
+   ret.append(tr("Type")).append("</h3><p>");
    ret.append(_block->variableType().replace("<","&lt;")).append("</p>");
    return ret;
 }
@@ -99,7 +100,11 @@ QString Variable::View::displayProperties()
    if ( list.isEmpty() ) return ret;
 
    // 2
-   ret.append("<h3>Properties</h3><ul><li>").append(list.join("</li><li>")).append("</li></ul>");
+   ret.append("<h3>")
+      .append(tr("Properties"))
+      .append("</h3><ul><li>")
+      .append(list.join("</li><li>"))
+      .append("</li></ul>");
    return ret;
 }
 
@@ -135,7 +140,7 @@ QString Variable::View::displayInitializer()
 
    // 2
    const QStringList parts {_block->initializer().split(",")};
-   ret.append("<h3>Initializer</h3>");
+   ret.append("<h3>").append(tr("Initializer")).append("</h3>");
    for (auto part : parts) ret.append(part).append("<br/>");
 
    // 3

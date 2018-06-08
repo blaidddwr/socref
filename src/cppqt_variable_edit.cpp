@@ -109,12 +109,12 @@ QString Variable::Edit::fieldTitle(int index) const
    // 1
    switch (index)
    {
-   case Base::Field::Name: return "Name:";
-   case Base::Field::Description: return "Description:";
-   case Field::Initializer: return "Initializer:";
-   case Field::ConstExpr: return "Constant Expression";
-   case Field::Static: return "Static";
-   case Field::Mutable: return "Mutable";
+   case Base::Field::Name: return tr("Name:");
+   case Base::Field::Description: return tr("Description:");
+   case Field::Initializer: return tr("Initializer:");
+   case Field::ConstExpr: return tr("Constant Expression");
+   case Field::Static: return tr("Static");
+   case Field::Mutable: return tr("Mutable");
    default:
       {
          Exception::InvalidArgument e;

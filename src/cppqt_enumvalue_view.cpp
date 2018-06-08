@@ -67,5 +67,5 @@ QString EnumValue::View::displayValue()
    if ( value.isEmpty() ) return QString();
 
    // 2
-   return QString("<h3>Value</h3><p>").append(value).append("</p>");
+   return QString("<h3>").append(tr("Value")).append("</h3><p>").append(value).append("</p>");
 }
