@@ -40,12 +40,10 @@ SOURCES += \
     cppqt_view_class.cpp \
     cppqt_view_common.cpp \
     cppqt_view_access.cpp \
-    cppqt_gui_listdialog.cpp \
     gui_textedit.cpp \
     gui_textedit_highlighter.cpp \
     gui_textedit_dialog.cpp \
     gui_textdialog.cpp \
-    cppqt_gui_listdialog_model.cpp \
     cppqt_edit_class.cpp \
     cppqt_edit_access.cpp \
     cppqt_operator.cpp \
@@ -144,12 +142,10 @@ HEADERS += \
     cppqt_view_class.h \
     cppqt_view_common.h \
     cppqt_view_access.h \
-    cppqt_gui_listdialog.h \
     gui_textedit.h \
     gui_textedit_highlighter.h \
     gui_textedit_dialog.h \
     gui_textdialog.h \
-    cppqt_gui_listdialog_model.h \
     cppqt_edit_class.h \
     cppqt_edit_access.h \
     cppqt_operator.h \

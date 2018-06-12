@@ -9,6 +9,8 @@
 namespace Gui
 {
    /*!
+    * This is the model for its parent list edit widget which handles modeling the 
+    * underlying string list for the qt table view of its parent list edit widget. 
     */
    class ListEdit::Model : public QAbstractListModel
    {
@@ -27,6 +29,7 @@ namespace Gui
       void setList(QStringList* list);
    private:
       /*!
+       * Pointer to the string list this model represents. 
        */
       QStringList* _list {nullptr};
    };
