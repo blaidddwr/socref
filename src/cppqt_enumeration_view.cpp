@@ -11,7 +11,7 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new type view object with the given enumeration block. 
+ * Constructs a new view object with the given enumeration block. 
  *
  * @param block Enumeration block this new view displays. 
  */

@@ -31,9 +31,7 @@ SOURCES += \
     cppqt_view_base.cpp \
     cppqt_signal.cpp \
     cppqt_function.cpp \
-    cppqt_view_function.cpp \
     cppqt_template.cpp \
-    cppqt_edit_function.cpp \
     cppqt_edit_template.cpp \
     cppqt_class.cpp \
     cppqt_access.cpp \
@@ -100,7 +98,9 @@ SOURCES += \
     cppqt_variable_edit.cpp \
     cppqt_variable_view.cpp \
     gui_listedit.cpp \
-    gui_listedit_model.cpp
+    gui_listedit_model.cpp \
+    cppqt_function_edit.cpp \
+    cppqt_function_view.cpp
 
 HEADERS += \
     singleton.h \
@@ -132,10 +132,8 @@ HEADERS += \
     cppqt_view_base.h \
     cppqt_signal.h \
     cppqt_function.h \
-    cppqt_view_function.h \
     cppqt_template.h \
     cppqt_view_template.h \
-    cppqt_edit_function.h \
     cppqt_edit_template.h \
     cppqt_class.h \
     cppqt_access.h \
@@ -212,7 +210,9 @@ HEADERS += \
     cppqt_variable_edit.h \
     cppqt_variable_view.h \
     gui_listedit.h \
-    gui_listedit_model.h
+    gui_listedit_model.h \
+    cppqt_function_edit.h \
+    cppqt_function_view.h
 
 RESOURCES += \
     resources.qrc

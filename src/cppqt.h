@@ -11,8 +11,8 @@ namespace CppQt
    class EnumValue;
    class Namespace;
    class Variable;
-   class Function;
    class Template;
+   class Function;
    class Class;
    class Access;
    class Operator;

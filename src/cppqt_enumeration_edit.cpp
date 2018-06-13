@@ -65,7 +65,7 @@ QLayout* Enumeration::Edit::layout()
 /*!
  * Implements the interface that returns the title for the given field type. 
  *
- * @param index  
+ * @param index The field index whose display title is returned. 
  *
  * @return Title of the given field type. 
  *

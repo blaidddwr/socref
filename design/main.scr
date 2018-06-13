@@ -357,6 +357,11 @@
          </type>
          <type type="16">
             <data version="0">
+               <type>QSplitter*</type>
+            </data>
+         </type>
+         <type type="16">
+            <data version="0">
                <type>QTextCharFormat</type>
             </data>
          </type>
@@ -510,6 +515,11 @@
                </data>
             </type>
          </typeList>
+         <type type="16">
+            <data version="0">
+               <type>::Gui::ListEdit*</type>
+            </data>
+         </type>
          <type type="16">
             <data version="0">
                <type>AbstractParserFactory*</type>
@@ -3670,6 +3680,21 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </typeList>
             <typeList type="15">
                <data version="1">
+                  <name>Function</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Function*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Function*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
                   <name>Namespace</name>
                </data>
                <type type="16">
@@ -4500,6 +4525,7 @@ This base class handles the abstract block interfaces that query for field tag n
                         <variable type="1">
                            <data version="1">
                               <name>index</name>
+                              <description>The field index whose display title is returned.</description>
                               <type>int</type>
                            </data>
                         </variable>
@@ -4524,7 +4550,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      </data>
                      <constructor type="9">
                         <data version="1">
-                           <description>Constructs a new type list view object with the given type list block.</description>
+                           <description>Constructs a new view object with the given type list block.</description>
                            <type></type>
                         </data>
                         <variable type="1">
@@ -4839,6 +4865,7 @@ This base class handles the abstract block interfaces that query for field tag n
                         <variable type="1">
                            <data version="1">
                               <name>index</name>
+                              <description>The field index whose display title is returned.</description>
                               <type>int</type>
                            </data>
                         </variable>
@@ -4882,7 +4909,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      </data>
                      <constructor type="9">
                         <data version="1">
-                           <description>Constructs a new type view object with the given type block.</description>
+                           <description>Constructs a new view object with the given type block.</description>
                            <type></type>
                         </data>
                         <variable type="1">
@@ -5385,6 +5412,7 @@ This base class handles the abstract block interfaces that query for field tag n
                         <variable type="1">
                            <data version="1">
                               <name>index</name>
+                              <description>The field index whose display title is returned.</description>
                               <type>int</type>
                            </data>
                         </variable>
@@ -5409,7 +5437,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      </data>
                      <constructor type="9">
                         <data version="1">
-                           <description>Constructs a new type view object with the given enumeration block.</description>
+                           <description>Constructs a new view object with the given enumeration block.</description>
                            <type></type>
                         </data>
                         <variable type="1">
@@ -5795,6 +5823,7 @@ This base class handles the abstract block interfaces that query for field tag n
                         <variable type="1">
                            <data version="1">
                               <name>index</name>
+                              <description>The field index whose display title is returned.</description>
                               <type>int</type>
                            </data>
                         </variable>
@@ -5819,7 +5848,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      </data>
                      <constructor type="9">
                         <data version="1">
-                           <description>Constructs a new type view object with the given enumeration value block.</description>
+                           <description>Constructs a new view object with the given enumeration value block.</description>
                            <type></type>
                         </data>
                         <variable type="1">
@@ -6239,6 +6268,7 @@ This base class handles the abstract block interfaces that query for field tag n
                         <variable type="1">
                            <data version="1">
                               <name>index</name>
+                              <description>The field index whose display title is returned.</description>
                               <type>int</type>
                            </data>
                         </variable>
@@ -6263,7 +6293,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      </data>
                      <constructor type="9">
                         <data version="1">
-                           <description>Constructs a new type view object with the given namespace block.</description>
+                           <description>Constructs a new view object with the given namespace block.</description>
                            <type></type>
                         </data>
                         <variable type="1">
@@ -6505,6 +6535,7 @@ This base class handles the abstract block interfaces that query for field tag n
                         <variable type="1">
                            <data version="1">
                               <name>index</name>
+                              <description>The field index whose display title is returned.</description>
                               <type>int</type>
                            </data>
                         </variable>
@@ -6563,7 +6594,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      </data>
                      <constructor type="9">
                         <data version="1">
-                           <description>Constructs a new type view object with the given variable block.</description>
+                           <description>Constructs a new view object with the given variable block.</description>
                            <type></type>
                         </data>
                         <variable type="1">
@@ -7131,6 +7162,128 @@ This base class handles the abstract block interfaces that query for field tag n
          </class>
          <class type="4">
             <data version="1">
+               <name>Template</name>
+               <qtobject/>
+            </data>
+            <parent type="13">
+               <data version="2">
+                  <access>public</access>
+                  <class>Variable</class>
+               </data>
+            </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>type</name>
+                     <description>Implements the interface that returns this block's type.</description>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>This block's type.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>icon</name>
+                     <description>Implements the interface that returns the icon of this block.</description>
+                     <type>QIcon</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>The icon of this block.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>makeView</name>
+                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
+                     <type>std::unique_ptr&lt;QWidget></type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>New GUI view that represents this block's data.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>makeEdit</name>
+                     <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
+                     <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+                     <virtual/>
+                     <override/>
+                     <final/>
+                     <return_description>New editable GUI widget to edit this block's data.</return_description>
+                  </data>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
+               <constructor type="9">
+                  <data version="1">
+                     <type></type>
+                     <explicit/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>type</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>name</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </constructor>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>protected:</type>
+               </data>
+               <function type="2">
+                  <data version="1">
+                     <name>makeBlank</name>
+                     <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+                     <type>std::unique_ptr&lt;AbstractBlock></type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <final/>
+                     <return_description>Pointer to the newly created block.</return_description>
+                  </data>
+               </function>
+            </access>
+         </class>
+         <class type="4">
+            <data version="1">
                <name>Function</name>
                <qtobject/>
             </data>
@@ -7140,6 +7293,313 @@ This base class handles the abstract block interfaces that query for field tag n
                   <class>Base</class>
                </data>
             </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <description>This is the edit class for the function block. Because this class is inherited by any other function type block for this project type it provides additional interfaces to handle inherited classes. Most notably it replaces the layout interface with its own left layout interface. The layout of this edit class is also different as a result of redefining the layout interface.
+
+Any edit class that inherits from this will always have a list edit widget on the right side of the dialog. The left side is defined by the new interface left layout. Both sides are separated by a qt splitter whose state is persistent.
+
+The persistence of the qt splitter is made unique by this class overriding the save settings method from the persistent dialog class. This allows the persistence to be unique for all inherited classes and tying that persistence in with its base persistent dialog class.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>::Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new function edit object with the given function block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Function block that this new edit object edits.</description>
+                              <type>Function*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>leftLayout</name>
+                           <description>This interface is called to return the layout of all GUI elements used by this function edit object's form layout positioned to the left of its operations list edit widget. The default implementation defines all elements for the base function block.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <return_description>Pointer to the layout containing all GUI elements for the left side of this dialog.</return_description>
+                           <operation>Save this dialog object's geometry and state to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add the return type edit field, then add a new text edit for the return description field, and then add a check boxes field for all base function property fields.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout. This implementation divides the layout to the left side with a new interface to make it and the right side populated by the properties list edit widget.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Create a new qt splitter for this new object, then create the left side widget _left_, and then add t he left layout to _left_ by calling the left layout interface.</operation>
+                           <operation>Add the _left_ widget to this object's splitter and then the right side widget by calling the right layout method.</operation>
+                           <operation>Create a new vertical box layout, add this object's qt splitter to it, and then return the new layout.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>apply</name>
+                           <description>Implements the interface that is called when the user has clicked the apply or OK buttons and expected to update the block an implementation is editing.</description>
+                           <type>void</type>
+                           <virtual/>
+                           <override/>
+                           <operation>Call the abstract edit apply interface and then set this object's parent block properties to the value of this object's operations list edit widget. If this object has a return edit widget set for it then set its parent block return type to the value of the edit widget.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <description>The field index whose display title is returned.</description>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>closeEvent</name>
+                           <description>Implements the qt interface that is called when this dialog is about to close with the given close event. This implementation uses this event to save the state of its qt splitter.</description>
+                           <type>void</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                           <operation>Save the state of this edit object's qt splitter with its state key and then call the abstract edit interface of close event.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>event</name>
+                              <description>Pointer to the qt close event.</description>
+                              <type>QCloseEvent*</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>saveSettings</name>
+                           <description>Sets the base key used by this dialog to save its geometry and state. Additional strings are appended to this base string to the geometry and state. The given C string is copied and does not need to be saved after calling this method.</description>
+                           <type>void</type>
+                           <operation>Set the geometry and state keys for this dialog using the given base key and appending geometry or state for each key.</operation>
+                           <operation>Restore the state of this object's qt splitter using the state key and then call the abstract edit save settings method using the geometry key.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>baseKey</name>
+                              <description>The base key which is copied to generate this object's geometry and state keys.</description>
+                              <type>const char*</type>
+                           </data>
+                        </variable>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>addReturnEdit</name>
+                           <description>Initialize and add the return type edit widget for this function block.</description>
+                           <type>void</type>
+                           <operation>Create and initialize this object's return type edit widget and then add it to the given qt form layout.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>form</name>
+                              <description>The qt form layout used for this edit dialog that the return type edit widget is added to.</description>
+                              <type>QFormLayout*</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>rightLayout</name>
+                           <description>Construct and initializes the right side of this function edit dialog. This simply creates the operations list edit widget which takes up the whole right side.</description>
+                           <type>QWidget*</type>
+                           <return_description>Pointer to the widget that contains the right side layout for this new edit dialog.</return_description>
+                           <operation>Create and initialize the operations list edit widget for this new dialog.</operation>
+                           <operation>Create a new vertical layout _layout_, adding a properties label and then the operations list edit widget.</operation>
+                           <operation>Create a new widget, set its layout to _layout_, and then return its pointer.</operation>
+                        </data>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>The function block that this edit dialog is editing.</description>
+                           <type>Function*</type>
+                        </data>
+                     </variable>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_operationsEdit</name>
+                           <description>This object's the operations list edit widget for this editing the operations field.</description>
+                           <type>::Gui::ListEdit*</type>
+                        </data>
+                     </variable>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_returnEdit</name>
+                           <description>This object's type edit widget for editing the type field.</description>
+                           <type>Gui::TypeSelection*</type>
+                           <initializer>nullptr</initializer>
+                        </data>
+                     </variable>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_splitter</name>
+                           <description>The qt splitter of this edit dialog that splits the operations edit list from the rest of the edit GUI elements.</description>
+                           <type>QSplitter*</type>
+                        </data>
+                     </variable>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_geometryKey</name>
+                           <description>The geometry key for this edit dialog used to keep its dialog geometry persistent.</description>
+                           <type>QByteArray</type>
+                        </data>
+                     </variable>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_stateKey</name>
+                           <description>The state key for this edit dialog used to keep its qt splitter persistent.</description>
+                           <type>QByteArray</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <description>This is the view class for the function block. This is designed so any inherited classes using the function block should not and cannot implement their own view.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new view object with the given function block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Function block this new view displays.</description>
+                              <type>const Function*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayText</name>
+                           <description>Returns the HTML rich text that displays the body of this view's function block.</description>
+                           <type>QString</type>
+                           <return_description>HTML rich text that displays the body of this view's function block.</return_description>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayArguments</name>
+                           <description>Returns a HTML string that displays any arguments this view's function block contains. If this view's function block has no arguments then this returns an empty string.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays any arguments this view's function block contains or an empty string if there are no arguments.</return_description>
+                           <operation>Create an empty string _ret_ and then a pointer list _list_ of this object's function block's arguments. If _list_ is empty then return _ret_.</operation>
+                           <operation>Append an HTML title to _ret_, then all arguments from _list_ as an HTML list to _ret_. Include the variable type, base name, initialized value, and description for each argument listing.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayProperties</name>
+                           <description>Returns a HTML string that displays any properties this view's function block has set. If this view's function block has no properties set then this returns an empty string.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays any properties this view's function block has set or an empty string if no properties are set.</return_description>
+                           <operation>Create an empty string _ret_ and then an empty string list _list_. Append any properties this object's function block has set to _list_. If _list_ is empty then return _ret_.</operation>
+                           <operation>Append an HTML title, then all set properties as an HTML list to _ret_, and then return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayReturn</name>
+                           <description>Returns a HTML string that displays the return type field for this view's function block.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays the return type field of this view's function block.</return_description>
+                           <operation>Create and return a string that contains HTML for this object's function return type field along with a title. Replace any special carrot characters so it doesn't break the HTML code.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayOperations</name>
+                           <description>Returns a HTML string that displays the operations of this view's function block. If the function block has operations then an empty string is returned.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays the operations of this view's function block or an empty string if there are no operations.</return_description>
+                           <operation>Create an empty string _ret_ and then get this view's function block's operations saving it to _list_. If _list_ is empty then return _ret_.</operation>
+                           <operation>Append an HTML title and then the list of operations stored in _list_ as an HTML list to _ret_.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>The function block that this view is displaying.</description>
+                           <type>const Function*</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+            </access>
             <access type="5">
                <data version="1">
                   <type>public:</type>
@@ -7196,6 +7656,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>New GUI view that represents this block's data.</return_description>
                   </data>
                </function>
@@ -7206,6 +7667,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                   </data>
                </function>
                <function type="2">
@@ -7215,6 +7677,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -7230,6 +7693,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -7501,7 +7965,7 @@ This base class handles the abstract block interfaces that query for field tag n
                   </enumval>
                   <enumval type="12">
                      <data version="1">
-                        <name>Operation</name>
+                        <name>Operations</name>
                      </data>
                   </enumval>
                   <enumval type="12">
@@ -7527,6 +7991,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <final/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -7541,6 +8006,7 @@ This base class handles the abstract block interfaces that query for field tag n
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <final/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -7597,6 +8063,8 @@ This base class handles the abstract block interfaces that query for field tag n
                      <type>QStringList</type>
                      <virtual/>
                      <const/>
+                     <override/>
+                     <final/>
                   </data>
                </function>
             </access>
@@ -7867,13 +8335,13 @@ This base class handles the abstract block interfaces that query for field tag n
          </class>
          <class type="4">
             <data version="1">
-               <name>Template</name>
+               <name>Operator</name>
                <qtobject/>
             </data>
             <parent type="13">
                <data version="2">
                   <access>public</access>
-                  <class>Variable</class>
+                  <class>Function</class>
                </data>
             </parent>
             <access type="5">
@@ -7889,6 +8357,17 @@ This base class handles the abstract block interfaces that query for field tag n
                      <const/>
                      <override/>
                      <return_description>This block's type.</return_description>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>name</name>
+                     <description>Implements the interface that returns the name of this block.</description>
+                     <type>QString</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                     <return_description>The name of this block.</return_description>
                   </data>
                </function>
                <function type="2">
@@ -7926,6 +8405,45 @@ This base class handles the abstract block interfaces that query for field tag n
                </function>
                <function type="2">
                   <data version="1">
+                     <name>fieldSize</name>
+                     <type>int</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldType</name>
+                     <type>AbstractBlock::Field</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>field</name>
+                     <type>QVariant</type>
+                     <virtual/>
+                     <const/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
                      <name>makeEdit</name>
                      <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
                      <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
@@ -7942,6 +8460,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <constructor type="9">
                   <data version="1">
                      <type></type>
+                     <default/>
                      <explicit/>
                   </data>
                </constructor>
@@ -7952,34 +8471,38 @@ This base class handles the abstract block interfaces that query for field tag n
                   </data>
                   <variable type="1">
                      <data version="1">
-                        <name>name</name>
+                        <name>returnType</name>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
                </constructor>
-               <constructor type="9">
+               <function type="2">
                   <data version="1">
-                     <type></type>
-                     <explicit/>
+                     <name>operation</name>
+                     <type>QString</type>
+                     <const/>
                   </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>type</name>
-                        <type>const QString&amp;</type>
-                     </data>
-                  </variable>
-                  <variable type="1">
-                     <data version="1">
-                        <name>name</name>
-                        <type>const QString&amp;</type>
-                     </data>
-                  </variable>
-               </constructor>
+               </function>
             </access>
             <access type="5">
                <data version="1">
                   <type>protected:</type>
                </data>
+               <enumeration type="11">
+                  <data version="1">
+                     <name>Field</name>
+                  </data>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Operator</name>
+                     </data>
+                  </enumval>
+                  <enumval type="12">
+                     <data version="1">
+                        <name>Total</name>
+                     </data>
+                  </enumval>
+               </enumeration>
                <function type="2">
                   <data version="1">
                      <name>makeBlank</name>
@@ -7991,6 +8514,67 @@ This base class handles the abstract block interfaces that query for field tag n
                      <return_description>Pointer to the newly created block.</return_description>
                   </data>
                </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldModified</name>
+                     <type>void</type>
+                     <virtual/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>quietlySetField</name>
+                     <type>void</type>
+                     <virtual/>
+                     <override/>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <type>int</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <type>const QVariant&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>fields</name>
+                     <type>QStringList</type>
+                     <virtual/>
+                     <const/>
+                  </data>
+               </function>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>private:</type>
+               </data>
+               <variable type="1">
+                  <data version="1">
+                     <name>_fields</name>
+                     <static/>
+                     <type>const QStringList</type>
+                     <initializer>"operator"</initializer>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="1">
+                     <name>_operator</name>
+                     <type>QString</type>
+                  </data>
+               </variable>
             </access>
          </class>
          <class type="4">
@@ -8913,250 +9497,6 @@ This base class handles the abstract block interfaces that query for field tag n
                   <data version="1">
                      <name>_type</name>
                      <type>Type</type>
-                  </data>
-               </variable>
-            </access>
-         </class>
-         <class type="4">
-            <data version="1">
-               <name>Operator</name>
-               <qtobject/>
-            </data>
-            <parent type="13">
-               <data version="2">
-                  <access>public</access>
-                  <class>Function</class>
-               </data>
-            </parent>
-            <access type="5">
-               <data version="1">
-                  <type>public:</type>
-               </data>
-               <function type="2">
-                  <data version="1">
-                     <name>type</name>
-                     <description>Implements the interface that returns this block's type.</description>
-                     <type>int</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>This block's type.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>name</name>
-                     <description>Implements the interface that returns the name of this block.</description>
-                     <type>QString</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>The name of this block.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>icon</name>
-                     <description>Implements the interface that returns the icon of this block.</description>
-                     <type>QIcon</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>The icon of this block.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>buildList</name>
-                     <description>Implements the interface that returns a list of types that this block can contain as children.</description>
-                     <type>QList&lt;int></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>List of allowed types this block can contain as children.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeView</name>
-                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
-                     <type>std::unique_ptr&lt;QWidget></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>New GUI view that represents this block's data.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>fieldSize</name>
-                     <type>int</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>fieldType</name>
-                     <type>AbstractBlock::Field</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>index</name>
-                        <type>int</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>field</name>
-                     <type>QVariant</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>index</name>
-                        <type>int</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeEdit</name>
-                     <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
-                     <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-                     <virtual/>
-                     <override/>
-                     <return_description>New editable GUI widget to edit this block's data.</return_description>
-                  </data>
-               </function>
-            </access>
-            <access type="5">
-               <data version="1">
-                  <type>public:</type>
-               </data>
-               <constructor type="9">
-                  <data version="1">
-                     <type></type>
-                     <default/>
-                     <explicit/>
-                  </data>
-               </constructor>
-               <constructor type="9">
-                  <data version="1">
-                     <type></type>
-                     <explicit/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>returnType</name>
-                        <type>const QString&amp;</type>
-                     </data>
-                  </variable>
-               </constructor>
-               <function type="2">
-                  <data version="1">
-                     <name>operation</name>
-                     <type>QString</type>
-                     <const/>
-                  </data>
-               </function>
-            </access>
-            <access type="5">
-               <data version="1">
-                  <type>protected:</type>
-               </data>
-               <enumeration type="11">
-                  <data version="1">
-                     <name>Field</name>
-                  </data>
-                  <enumval type="12">
-                     <data version="1">
-                        <name>Operator</name>
-                     </data>
-                  </enumval>
-                  <enumval type="12">
-                     <data version="1">
-                        <name>Total</name>
-                     </data>
-                  </enumval>
-               </enumeration>
-               <function type="2">
-                  <data version="1">
-                     <name>makeBlank</name>
-                     <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
-                     <type>std::unique_ptr&lt;AbstractBlock></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>Pointer to the newly created block.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>fieldModified</name>
-                     <type>void</type>
-                     <virtual/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>index</name>
-                        <type>int</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>quietlySetField</name>
-                     <type>void</type>
-                     <virtual/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>index</name>
-                        <type>int</type>
-                     </data>
-                  </variable>
-                  <variable type="1">
-                     <data version="1">
-                        <name>value</name>
-                        <type>const QVariant&amp;</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>fields</name>
-                     <type>QStringList</type>
-                     <virtual/>
-                     <const/>
-                  </data>
-               </function>
-            </access>
-            <access type="5">
-               <data version="1">
-                  <type>private:</type>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>_fields</name>
-                     <static/>
-                     <type>const QStringList</type>
-                     <initializer>"operator"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_operator</name>
-                     <type>QString</type>
                   </data>
                </variable>
             </access>

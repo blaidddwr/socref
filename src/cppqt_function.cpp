@@ -1,7 +1,7 @@
 #include "cppqt_function.h"
 #include <exception.h>
-#include "cppqt_view_function.h"
-#include "cppqt_edit_function.h"
+#include "cppqt_function_view.h"
+#include "cppqt_function_edit.h"
 #include "cppqt_variable.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
@@ -134,7 +134,7 @@ QList<int> Function::buildList() const
  */
 std::unique_ptr<QWidget> Function::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Function(this));
+   return unique_ptr<QWidget>(new View(this));
 }
 
 
@@ -174,7 +174,7 @@ AbstractBlock::Field Function::fieldType(int index) const
    case Field::Abstract: return AbstractBlock::Field::Boolean;
    case Field::ReturnType:
    case Field::ReturnDescription: return AbstractBlock::Field::String;
-   case Field::Operation: return AbstractBlock::Field::StringList;
+   case Field::Operations: return AbstractBlock::Field::StringList;
    default: return Base::fieldType(index);
    }
 }
@@ -204,7 +204,7 @@ QVariant Function::field(int index) const
    case Field::Abstract: return _abstract;
    case Field::ReturnType: return _returnType;
    case Field::ReturnDescription: return _returnDescription;
-   case Field::Operation: return _operations;
+   case Field::Operations: return _operations;
    default: return Base::field(index);
    }
 }
@@ -222,7 +222,7 @@ QVariant Function::field(int index) const
  */
 std::unique_ptr<::Gui::AbstractEdit> Function::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Function(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -543,7 +543,7 @@ void Function::fieldModified(int index)
    case Field::Abstract:
    case Field::ReturnType:
    case Field::ReturnDescription:
-   case Field::Operation:
+   case Field::Operations:
       notifyModified();
       notifyNameModified();
       notifyBodyModified();
@@ -605,7 +605,7 @@ void Function::quietlySetField(int index, const QVariant& value)
    case Field::ReturnDescription:
       _returnDescription = value.toString();
       break;
-   case Field::Operation:
+   case Field::Operations:
       _operations = value.toStringList();
       break;
    default: return Base::quietlySetField(index,value);

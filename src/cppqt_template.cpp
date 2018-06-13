@@ -48,22 +48,6 @@ QIcon Template::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
- *
- * @return List of allowed types this block can contain as children. 
- */
-QList<int> Template::buildList() const
-{
-   return QList<int>();
-}
-
-
-
-
-
-
-/*!
  * Implements the interface that returns a view that provides a detailed read only 
  * GUI representation of this block's data. 
  *

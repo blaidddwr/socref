@@ -13,7 +13,7 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new type list view object with the given type list block. 
+ * Constructs a new view object with the given type list block. 
  *
  * @param block Type list block this new view displays. 
  */

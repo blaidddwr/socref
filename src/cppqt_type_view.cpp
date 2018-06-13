@@ -11,7 +11,7 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new type view object with the given type block. 
+ * Constructs a new view object with the given type block. 
  *
  * @param block Type block this new view displays. 
  */
