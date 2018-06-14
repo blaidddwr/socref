@@ -3650,6 +3650,21 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </data>
             <typeList type="15">
                <data version="1">
+                  <name>Template</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Template*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Template*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
                   <name>EnumValue</name>
                </data>
                <type type="16">
@@ -4045,9 +4060,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
          <class type="4">
             <data version="1">
                <name>Base</name>
-               <description>This is a base block class used by many other concrete block types within the C++/Qt project type. Because this is not a concrete block type it does not implement all abstract interfaces of the abstract block class. The two common fields this base class implements are the name and description fields. Certain abstract block interfaces are handled exclusively by this base class.
+               <description>This is the base block class used by many other concrete block types within the C++/Qt project type. Because this is not a concrete block type it does not implement all abstract interfaces of the abstract block class. The two common fields this base class implements are the name and description fields. Certain abstract block interfaces are handled exclusively by this base class.
 
-This base class handles the abstract block interfaces that query for field tag names and finding their index. This is done by adding a new virtual function that other blocks using this block must implement. This interface returns the full list of all field tag names for its block, and should be built up from previous block classes it inherits from. Also because of this the field enumeration of other classes using this one should begin their enumeration with the total size of the previous field enumeration it inherits from.</description>
+This base class handles the abstract block interfaces that query for field tag names and finding their index. This is done by adding a new virtual function that other blocks using this block must implement. This interface returns the full list of all field tag names for its block, and should be built up from previous block classes it inherits from. Also because of this the field enumeration of other classes using this one should begin their enumeration with the total size of the previous field enumeration it inherits from.
+
+The name field has a special interface for checking if it is valid which can be overridden by inherited classes. It does provide a default interface that will work in most cases.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -4401,6 +4418,22 @@ This base class handles the abstract block interfaces that query for field tag n
                      <return_description>Full list of all field tag names for this block.</return_description>
                   </data>
                </function>
+               <function type="2">
+                  <data version="1">
+                     <name>checkName</name>
+                     <description>This interface checks to make sure the given name is a valid name for this block type, returning true if it is valid. This implementation makes sure it is a basic C++ alphanumeric name.</description>
+                     <type>bool</type>
+                     <virtual/>
+                     <return_description>True if the given name is valid or false otherwise.</return_description>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <description>The name value whose syntax is checked to be valid or not.</description>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+               </function>
             </access>
             <access type="5">
                <data version="1">
@@ -4449,7 +4482,7 @@ This base class handles the abstract block interfaces that query for field tag n
          <class type="4">
             <data version="1">
                <name>TypeList</name>
-               <description>This is a the type list block. This is used to contain C++ defined types and other type lists to allow for nesting. This container block type is provided to allow users to better organize all defined types for a C++/Qt project because it is a hardly typed language and the list of defined types quickly becomes very long.</description>
+               <description>This is the type list block. This is used to contain C++ defined types and other type lists to allow for nesting. This container block type is provided to allow users to better organize all defined types for a C++/Qt project because it is a hardly typed language and the list of defined types quickly becomes very long.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -4781,6 +4814,24 @@ This base class handles the abstract block interfaces that query for field tag n
                         <name>child</name>
                         <description>Pointer to the child block that has been removed from its former parent block. This object can be deleted right after this call.</description>
                         <type>AbstractBlock*</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
+                     <name>checkName</name>
+                     <description>Implements the interface that checks to make sure the given name is a valid name for this block type, returning true if it is valid.</description>
+                     <type>bool</type>
+                     <virtual/>
+                     <override/>
+                     <final/>
+                     <return_description>True if the given name is valid or false otherwise.</return_description>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>value</name>
+                        <description>The name value whose syntax is checked to be valid or not.</description>
+                        <type>const QString&amp;</type>
                      </data>
                   </variable>
                </function>
@@ -6463,7 +6514,7 @@ This base class handles the abstract block interfaces that query for field tag n
                <class type="4">
                   <data version="1">
                      <name>Edit</name>
-                     <description>This is the edit class for the variable block.</description>
+                     <description>This is the edit class for the variable block. Because this is inherited by other classes the adding of the type edit widget is provided. Adding it is optional and if it is not added then it will never be applied to the variable block edited.</description>
                      <qtobject/>
                   </data>
                   <parent type="13">
@@ -6502,10 +6553,9 @@ This base class handles the abstract block interfaces that query for field tag n
                            <type>QLayout*</type>
                            <virtual/>
                            <override/>
-                           <final/>
                            <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
                            <operation>Save this dialog object's geometry to Qt settings.</operation>
-                           <operation>Create a new form layout _ret_, add the type edit widget, and then add a new line edit for the base name field, and then add a new text edit for the base description field, and then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
                            <operation>Return _ret_.</operation>
                         </data>
                      </function>
@@ -6517,7 +6567,7 @@ This base class handles the abstract block interfaces that query for field tag n
                            <virtual/>
                            <override/>
                            <final/>
-                           <operation>Set this object's variable block's type field to the value from this object's type edit widget and then call the abstract edit interface.</operation>
+                           <operation>Call the abstract edit interface. If this object's type edit widget is valid then set this object's variable block's type field to the value from the type edit widget.</operation>
                         </data>
                      </function>
                      <function type="2">
@@ -6543,7 +6593,7 @@ This base class handles the abstract block interfaces that query for field tag n
                   </access>
                   <access type="5">
                      <data version="1">
-                        <type>private:</type>
+                        <type>protected:</type>
                      </data>
                      <function type="2">
                         <data version="1">
@@ -6560,6 +6610,11 @@ This base class handles the abstract block interfaces that query for field tag n
                            </data>
                         </variable>
                      </function>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
                      <variable type="1">
                         <data version="1">
                            <name>_block</name>
@@ -6570,8 +6625,9 @@ This base class handles the abstract block interfaces that query for field tag n
                      <variable type="1">
                         <data version="1">
                            <name>_typeEdit</name>
-                           <description>This object's type edit widget for editing the type field.</description>
+                           <description>This object's type edit widget for editing the type field or a null pointer if the type edit widget is never added.</description>
                            <type>Gui::TypeSelection*</type>
+                           <initializer>nullptr</initializer>
                         </data>
                      </variable>
                   </access>
@@ -7163,6 +7219,7 @@ This base class handles the abstract block interfaces that query for field tag n
          <class type="4">
             <data version="1">
                <name>Template</name>
+               <description>This is the template block. This represents template arguments for classes or functions.</description>
                <qtobject/>
             </data>
             <parent type="13">
@@ -7171,6 +7228,93 @@ This base class handles the abstract block interfaces that query for field tag n
                   <class>Variable</class>
                </data>
             </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <description>This is the edit class for the template block.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Variable::Edit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new edit object with the given template block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Template block that this new edit object edits.</description>
+                              <type>Template*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <final/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, and then add a new text edit for the base description field.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <description>This is the view class for the template block.</description>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new view object with the given template block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Template block this new view displays.</description>
+                              <type>const Template*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+               </class>
+            </access>
             <access type="5">
                <data version="1">
                   <type>public:</type>
@@ -7197,6 +7341,8 @@ This base class handles the abstract block interfaces that query for field tag n
                      <override/>
                      <final/>
                      <return_description>The icon of this block.</return_description>
+                     <operation>If the static qt icon _ret_ is null then load the icon for this block type.</operation>
+                     <operation>Return _ret_.</operation>
                   </data>
                </function>
                <function type="2">
@@ -7229,36 +7375,43 @@ This base class handles the abstract block interfaces that query for field tag n
                </data>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new template block.</description>
                      <type></type>
+                     <default/>
                      <explicit/>
                   </data>
                </constructor>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new template block with the given name.</description>
                      <type></type>
                      <explicit/>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>name</name>
+                        <description>The value for this new template block's base name field.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
                </constructor>
                <constructor type="9">
                   <data version="1">
+                     <description>Constructs a new template block with the given type and name.</description>
                      <type></type>
                      <explicit/>
                   </data>
                   <variable type="1">
                      <data version="1">
                         <name>type</name>
+                        <description>The value of this template block's variable type field.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>
                   <variable type="1">
                      <data version="1">
                         <name>name</name>
+                        <description>The value for this new template block's base name field.</description>
                         <type>const QString&amp;</type>
                      </data>
                   </variable>

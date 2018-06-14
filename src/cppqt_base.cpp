@@ -312,6 +312,25 @@ QStringList Base::fields() const
 
 
 /*!
+ * This interface checks to make sure the given name is a valid name for this block 
+ * type, returning true if it is valid. This implementation makes sure it is a 
+ * basic C++ alphanumeric name. 
+ *
+ * @param value The name value whose syntax is checked to be valid or not. 
+ *
+ * @return True if the given name is valid or false otherwise. 
+ */
+bool Base::checkName(const QString& value)
+{
+   return QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*").exactMatch(value);
+}
+
+
+
+
+
+
+/*!
  * Sets this block's name field, making sure the given new value has correct 
  * syntax. If the syntax is not correct an exception is thrown. 
  *
@@ -326,7 +345,7 @@ QStringList Base::fields() const
 void Base::setName(const QString& value)
 {
    // 1
-   if ( QRegExp("[a-zA-Z_]+((::)?[a-zA-Z0-9_])*").exactMatch(value) )
+   if ( checkName(value) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

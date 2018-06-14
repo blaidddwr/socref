@@ -10,7 +10,10 @@
 namespace CppQt
 {
    /*!
-    * This is the edit class for the variable block. 
+    * This is the edit class for the variable block. Because this is inherited by 
+    * other classes the adding of the type edit widget is provided. Adding it is 
+    * optional and if it is not added then it will never be applied to the variable 
+    * block edited. 
     */
    class Variable::Edit : public ::Gui::AbstractEdit
    {
@@ -18,19 +21,21 @@ namespace CppQt
    public:
       explicit Edit(Variable* block);
    protected:
-      virtual QLayout* layout() override final;
+      virtual QLayout* layout() override;
       virtual void apply() override final;
       virtual QString fieldTitle(int index) const override final;
-   private:
+   protected:
       void addTypeEdit(QFormLayout* form);
+   private:
       /*!
        * The variable block that this edit dialog is editing. 
        */
       Variable* _block;
       /*!
-       * This object's type edit widget for editing the type field. 
+       * This object's type edit widget for editing the type field or a null pointer if 
+       * the type edit widget is never added. 
        */
-      Gui::TypeSelection* _typeEdit;
+      Gui::TypeSelection* _typeEdit {nullptr};
    };
 }
 

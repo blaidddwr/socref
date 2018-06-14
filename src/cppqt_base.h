@@ -8,7 +8,7 @@
 namespace CppQt
 {
    /*!
-    * This is a base block class used by many other concrete block types within the 
+    * This is the base block class used by many other concrete block types within the 
     * C++/Qt project type. Because this is not a concrete block type it does not 
     * implement all abstract interfaces of the abstract block class. The two common 
     * fields this base class implements are the name and description fields. Certain 
@@ -21,6 +21,10 @@ namespace CppQt
     * previous block classes it inherits from. Also because of this the field 
     * enumeration of other classes using this one should begin their enumeration with 
     * the total size of the previous field enumeration it inherits from. 
+    * 
+    * The name field has a special interface for checking if it is valid which can be 
+    * overridden by inherited classes. It does provide a default interface that will 
+    * work in most cases. 
     */
    class Base : public AbstractBlock
    {
@@ -67,6 +71,7 @@ namespace CppQt
       virtual void fieldModified(int index) override;
       virtual void quietlySetField(int index, const QVariant& value) override;
       virtual QStringList fields() const;
+      virtual bool checkName(const QString& value);
    private:
       void setName(const QString& value);
       /*!

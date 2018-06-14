@@ -13,9 +13,9 @@ namespace CppQt
    class Variable;
    class Template;
    class Function;
+   class Operator;
    class Class;
    class Access;
-   class Operator;
    class Slot;
    class Signal;
    class Constructor;

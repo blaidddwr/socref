@@ -39,11 +39,11 @@ Variable::Edit::Edit(Variable* block):
  *
  * 1. Save this dialog object's geometry to Qt settings. 
  *
- * 2. Create a new form layout _ret_, add the type edit widget, and then add a new 
- *    line edit for the base name field, and then add a new text edit for the base 
- *    description field, and then add a new line edit for the initial value field, 
- *    and then add a check boxes field for the constant expression, static, and 
- *    mutable fields. 
+ * 2. Create a new form layout _ret_, add the type edit widget, then add a new line 
+ *    edit for the base name field, then add a new text edit for the base 
+ *    description field, then add a new line edit for the initial value field, and 
+ *    then add a check boxes field for the constant expression, static, and mutable 
+ *    fields. 
  *
  * 3. Return _ret_. 
  */
@@ -76,14 +76,15 @@ QLayout* Variable::Edit::layout()
  *
  * Steps of Operation: 
  *
- * 1. Set this object's variable block's type field to the value from this object's 
- *    type edit widget and then call the abstract edit interface. 
+ * 1. Call the abstract edit interface. If this object's type edit widget is valid 
+ *    then set this object's variable block's type field to the value from the type 
+ *    edit widget. 
  */
 void Variable::Edit::apply()
 {
    // 1
-   _block->setField(Field::Type,_typeEdit->value());
    ::Gui::AbstractEdit::apply();
+   if ( _typeEdit ) _block->setField(Field::Type,_typeEdit->value());
 }
 
 
@@ -111,10 +112,10 @@ QString Variable::Edit::fieldTitle(int index) const
    {
    case Base::Field::Name: return tr("Name:");
    case Base::Field::Description: return tr("Description:");
-   case Field::Initializer: return tr("Initializer:");
    case Field::ConstExpr: return tr("Constant Expression");
    case Field::Static: return tr("Static");
    case Field::Mutable: return tr("Mutable");
+   case Field::Initializer: return tr("Initializer:");
    default:
       {
          Exception::InvalidArgument e;

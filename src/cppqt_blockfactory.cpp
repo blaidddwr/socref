@@ -91,7 +91,7 @@ QString BlockFactory::name(int type) const
    case ConstructorType: return QObject::tr("Constructor");
    case DestructorType: return QObject::tr("Destructor");
    case EnumerationType: return QObject::tr("Enumeration");
-   case EnumValueType: return QObject::tr("Enum Value");
+   case EnumValueType: return QObject::tr("Enumeration Value");
    case ParentType: return QObject::tr("Parent");
    case UsingType: return QObject::tr("Using");
    case TypeListType: return QObject::tr("Type List");
@@ -184,7 +184,7 @@ std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
    case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
    case UsingType: return unique_ptr<AbstractBlock>(new Using);
-   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList("Unnamed_List"));
+   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList("unnamed_list"));
    case TypeType: return unique_ptr<AbstractBlock>(new Type("unnamed_type"));
    case FriendType: return unique_ptr<AbstractBlock>(new Friend);
    default: return nullptr;

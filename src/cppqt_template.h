@@ -8,17 +8,25 @@
 namespace CppQt
 {
    /*!
+    * This is the template block. This represents template arguments for classes or 
+    * functions. 
     */
    class Template : public Variable
    {
       Q_OBJECT
+   public:
+      class Edit;
+      class View;
    public:
       virtual int type() const override final;
       virtual QIcon icon() const override final;
       virtual std::unique_ptr<QWidget> makeView() const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
    public:
-      explicit Template();
+      /*!
+       * Constructs a new template block. 
+       */
+      explicit Template() = default;
       explicit Template(const QString& name);
       explicit Template(const QString& type, const QString& name);
    protected:

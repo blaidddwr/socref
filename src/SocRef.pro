@@ -32,7 +32,6 @@ SOURCES += \
     cppqt_signal.cpp \
     cppqt_function.cpp \
     cppqt_template.cpp \
-    cppqt_edit_template.cpp \
     cppqt_class.cpp \
     cppqt_access.cpp \
     cppqt_view_class.cpp \
@@ -80,7 +79,6 @@ SOURCES += \
     cppqt_typelist.cpp \
     cppqt_type.cpp \
     cppqt_settings.cpp \
-    cppqt_edit_typelist.cpp \
     cppqt_gui_typeselection.cpp \
     cppqt_using.cpp \
     cppqt_friend.cpp \
@@ -100,7 +98,9 @@ SOURCES += \
     gui_listedit.cpp \
     gui_listedit_model.cpp \
     cppqt_function_edit.cpp \
-    cppqt_function_view.cpp
+    cppqt_function_view.cpp \
+    cppqt_template_edit.cpp \
+    cppqt_template_view.cpp
 
 HEADERS += \
     singleton.h \
@@ -133,8 +133,6 @@ HEADERS += \
     cppqt_signal.h \
     cppqt_function.h \
     cppqt_template.h \
-    cppqt_view_template.h \
-    cppqt_edit_template.h \
     cppqt_class.h \
     cppqt_access.h \
     cppqt_view_class.h \
@@ -190,9 +188,7 @@ HEADERS += \
     gui_aboutdialog.h \
     cppqt_typelist.h \
     cppqt_type.h \
-    cppqt_view_typelist.h \
     cppqt_settings.h \
-    cppqt_edit_typelist.h \
     cppqt_gui_typeselection.h \
     cppqt_using.h \
     cppqt_friend.h \
@@ -212,7 +208,9 @@ HEADERS += \
     gui_listedit.h \
     gui_listedit_model.h \
     cppqt_function_edit.h \
-    cppqt_function_view.h
+    cppqt_function_view.h \
+    cppqt_template_edit.h \
+    cppqt_template_view.h
 
 RESOURCES += \
     resources.qrc

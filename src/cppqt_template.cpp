@@ -1,6 +1,6 @@
 #include "cppqt_template.h"
-#include "cppqt_view_template.h"
-#include "cppqt_edit_template.h"
+#include "cppqt_template_view.h"
+#include "cppqt_template_edit.h"
 #include "cppqt_blockfactory.h"
 
 
@@ -34,11 +34,21 @@ int Template::type() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
+ *
+ *
+ * Steps of Operation: 
+ *
+ * 1. If the static qt icon _ret_ is null then load the icon for this block type. 
+ *
+ * 2. Return _ret_. 
  */
 QIcon Template::icon() const
 {
+   // 1
    static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/template.svg");
+
+   // 2
    return ret;
 }
 
@@ -55,7 +65,7 @@ QIcon Template::icon() const
  */
 std::unique_ptr<QWidget> Template::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Template(this));
+   return unique_ptr<QWidget>(new View(this));
 }
 
 
@@ -71,7 +81,7 @@ std::unique_ptr<QWidget> Template::makeView() const
  */
 std::unique_ptr<::Gui::AbstractEdit> Template::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Template(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -80,18 +90,9 @@ std::unique_ptr<::Gui::AbstractEdit> Template::makeEdit()
 
 
 /*!
- */
-Template::Template()
-{}
-
-
-
-
-
-
-/*!
+ * Constructs a new template block with the given name. 
  *
- * @param name  
+ * @param name The value for this new template block's base name field. 
  */
 Template::Template(const QString& name):
    Variable(name)
@@ -103,10 +104,11 @@ Template::Template(const QString& name):
 
 
 /*!
+ * Constructs a new template block with the given type and name. 
  *
- * @param type  
+ * @param type The value of this template block's variable type field. 
  *
- * @param name  
+ * @param name The value for this new template block's base name field. 
  */
 Template::Template(const QString& type, const QString& name):
    Variable(type,name)

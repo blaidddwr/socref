@@ -232,3 +232,21 @@ bool TypeList::childRemoved(AbstractBlock* child)
    notifyBodyModified();
    return false;
 }
+
+
+
+
+
+
+/*!
+ * Implements the interface that checks to make sure the given name is a valid name 
+ * for this block type, returning true if it is valid. 
+ *
+ * @param value The name value whose syntax is checked to be valid or not. 
+ *
+ * @return True if the given name is valid or false otherwise. 
+ */
+bool TypeList::checkName(const QString& value)
+{
+   return QRegExp("[a-zA-Z_]+((::)?[a-zA-Z0-9_])*").exactMatch(value);
+}
