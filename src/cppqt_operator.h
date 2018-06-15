@@ -13,15 +13,13 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      virtual int type() const override;
-      virtual QString name() const override;
-      virtual QIcon icon() const override;
-      virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<QWidget> makeView() const override;
-      virtual int fieldSize() const override;
-      virtual AbstractBlock::Field fieldType(int index) const override;
-      virtual QVariant field(int index) const override;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      class Edit;
+   public:
+      virtual int type() const override final;
+      virtual QString name() const override final;
+      virtual QIcon icon() const override final;
+      virtual QList<int> buildList() const override final;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
    public:
       /*!
        */
@@ -29,28 +27,8 @@ namespace CppQt
       explicit Operator(const QString& returnType);
       QString operation() const;
    protected:
-      /*!
-       */
-      enum Field
-      {
-         /*!
-          */
-         Operator
-         /*!
-          */
-         ,Total
-      };
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
-      virtual void fieldModified(int index) override;
-      virtual void quietlySetField(int index, const QVariant& value) override;
-      virtual QStringList fields() const;
-   private:
-      /*!
-       */
-      static const QStringList _fields;
-      /*!
-       */
-      QString _operator;
+      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
+      virtual bool checkName(const QString& value) override final;
    };
 }
 

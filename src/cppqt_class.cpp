@@ -1,7 +1,7 @@
 #include "cppqt_class.h"
 #include <exception.h>
-#include "cppqt_view_class.h"
-#include "cppqt_edit_class.h"
+#include "cppqt_class_view.h"
+#include "cppqt_class_edit.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_access.h"
 #include "cppqt_template.h"
@@ -116,7 +116,7 @@ QList<int> Class::buildList() const
  */
 std::unique_ptr<QWidget> Class::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Class(this));
+   return unique_ptr<QWidget>(new View(this));
 }
 
 
@@ -180,7 +180,7 @@ QVariant Class::field(int index) const
  */
 std::unique_ptr<::Gui::AbstractEdit> Class::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Class(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -369,6 +369,8 @@ void Class::fieldModified(int index)
       notifyModified();
       notifyBodyModified();
       break;
+   case Base::Field::Name:
+      emit nameChanged();
    default:
       Base::fieldModified(index);
       break;

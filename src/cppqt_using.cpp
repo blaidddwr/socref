@@ -1,11 +1,14 @@
 #include "cppqt_using.h"
 #include <exception.h>
+#include "cppqt_using_view.h"
+#include "cppqt_using_edit.h"
 #include "cppqt_blockfactory.h"
 #include "gui_abstractedit.h"
 
 
 
 using namespace std;
+using namespace Gui;
 using namespace CppQt;
 //
 
@@ -107,7 +110,7 @@ QList<int> Using::buildList() const
  */
 std::unique_ptr<QWidget> Using::makeView() const
 {
-   return nullptr;
+   return unique_ptr<QWidget>(new View(this));
 }
 
 
@@ -198,7 +201,7 @@ QVariant Using::field(int index) const
  */
 std::unique_ptr<::Gui::AbstractEdit> Using::makeEdit()
 {
-   return nullptr;
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -214,6 +217,18 @@ Using::Using(const QString& field):
    _field(field)
 {
    checkField(field);
+}
+
+
+
+
+
+
+/*!
+ */
+QString Using::fieldName() const
+{
+   return _field;
 }
 
 

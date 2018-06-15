@@ -6,6 +6,7 @@
 #include <QPushButton>
 #include <QCheckBox>
 #include <QLineEdit>
+#include <QComboBox>
 #include <exception.h>
 #include "gui_blockview.h"
 #include "gui_textedit.h"
@@ -107,6 +108,10 @@ void AbstractEdit::apply()
          else if ( TextEdit* valid = qobject_cast<TextEdit*>(*i) )
          {
             _block->setField(i.key(),valid->toPlainText());
+         }
+         else if ( QComboBox* valid = qobject_cast<QComboBox*>(*i) )
+         {
+            _block->setField(i.key(),valid->currentText());
          }
          break;
       case AbstractBlock::Field::StringList:
@@ -363,6 +368,39 @@ ListEdit* AbstractEdit::addListEdit(QFormLayout* form, int index)
    // 2
    ListEdit* ret {new ListEdit(this)};
    ret->setValue(_block->field(index).toStringList());
+   _edits.insert(index,ret);
+   form->addRow(new QLabel(fieldTitle(index),this),ret);
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param form Pointer to the form layout which has the new edit widget added to 
+ *             it. 
+ *
+ * @param index Index of the field that has an edit widget attached to it. 
+ *
+ * @param options  
+ */
+QComboBox* AbstractEdit::addComboEdit(QFormLayout* form, int index, const QStringList& options)
+{
+   checkField(index);
+   if ( _block->fieldType(index) != AbstractBlock::Field::String )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set combo box widget for field %1 when it is not a string type.")
+                   .arg(index));
+      throw e;
+   }
+   QComboBox* ret {new QComboBox(this)};
+   for (auto option: options) ret->addItem(option);
+   ret->setCurrentIndex(ret->findText(_block->field(index).toString()));
    _edits.insert(index,ret);
    form->addRow(new QLabel(fieldTitle(index),this),ret);
    return ret;

@@ -13,11 +13,12 @@ namespace CppQt
    {
       Q_OBJECT
    public:
+      class Edit;
+   public:
       virtual int type() const override;
       virtual QString name() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<QWidget> makeView() const override;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
    public:
       /*!

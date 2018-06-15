@@ -1,7 +1,7 @@
 #include "cppqt_access.h"
 #include <exception.h>
-#include "cppqt_view_access.h"
-#include "cppqt_edit_access.h"
+#include "cppqt_access_view.h"
+#include "cppqt_access_edit.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_function.h"
 #include "domelementreader.h"
@@ -149,7 +149,8 @@ QList<int> Access::buildList() const
           << BlockFactory::VariableType
           << BlockFactory::EnumerationType
           << BlockFactory::ClassType
-          << BlockFactory::DeclarationType;
+          << BlockFactory::UsingType
+          << BlockFactory::FriendType;
    }
    return ret;
 }
@@ -167,7 +168,7 @@ QList<int> Access::buildList() const
  */
 std::unique_ptr<QWidget> Access::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Access(this));
+   return unique_ptr<QWidget>(new View(this));
 }
 
 
@@ -258,7 +259,7 @@ QVariant Access::field(int index) const
  */
 std::unique_ptr<::Gui::AbstractEdit> Access::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Access(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 

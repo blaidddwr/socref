@@ -13,6 +13,9 @@ namespace CppQt
    {
       Q_OBJECT
    public:
+      class Edit;
+      class View;
+   public:
       virtual int type() const override final;
       virtual const AbstractBlockFactory& factory() const override final;
       virtual QString name() const override final;

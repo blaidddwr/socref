@@ -23,40 +23,25 @@ SOURCES += \
     cppqt_namespace.cpp \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
-    cppqt_edit_namespace.cpp \
     cppqt_variable.cpp \
     cppqt_base.cpp \
     domelementreader.cpp \
-    cppqt_edit_base.cpp \
-    cppqt_view_base.cpp \
     cppqt_signal.cpp \
     cppqt_function.cpp \
     cppqt_template.cpp \
     cppqt_class.cpp \
     cppqt_access.cpp \
-    cppqt_view_class.cpp \
-    cppqt_view_common.cpp \
-    cppqt_view_access.cpp \
     gui_textedit.cpp \
     gui_textedit_highlighter.cpp \
     gui_textedit_dialog.cpp \
     gui_textdialog.cpp \
-    cppqt_edit_class.cpp \
-    cppqt_edit_access.cpp \
     cppqt_operator.cpp \
-    cppqt_edit_operator.cpp \
     cppqt_constructor.cpp \
-    cppqt_edit_constructor.cpp \
     cppqt_destructor.cpp \
-    cppqt_edit_destructor.cpp \
     cppqt_slot.cpp \
-    cppqt_edit_slot.cpp \
-    cppqt_edit_signal.cpp \
     cppqt_enumeration.cpp \
     cppqt_enumvalue.cpp \
     cppqt_parent.cpp \
-    cppqt_view_parent.cpp \
-    cppqt_edit_parent.cpp \
     abstractparser.cpp \
     cppqt_parserfactory.cpp \
     scanthread.cpp \
@@ -100,7 +85,20 @@ SOURCES += \
     cppqt_function_edit.cpp \
     cppqt_function_view.cpp \
     cppqt_template_edit.cpp \
-    cppqt_template_view.cpp
+    cppqt_template_view.cpp \
+    cppqt_operator_edit.cpp \
+    cppqt_class_edit.cpp \
+    cppqt_class_view.cpp \
+    cppqt_access_edit.cpp \
+    cppqt_access_view.cpp \
+    cppqt_slot_edit.cpp \
+    cppqt_signal_edit.cpp \
+    cppqt_constructor_edit.cpp \
+    cppqt_destructor_edit.cpp \
+    cppqt_parent_edit.cpp \
+    cppqt_parent_view.cpp \
+    cppqt_using_edit.cpp \
+    cppqt_using_view.cpp
 
 HEADERS += \
     singleton.h \
@@ -118,51 +116,28 @@ HEADERS += \
     cppqt_namespace.h \
     gui_blockview.h \
     gui_abstractedit.h \
-    cppqt_edit_namespace.h \
-    cppqt_view_namespace.h \
     cppqt_variable.h \
     cppqt_base.h \
     global.h \
     gui.h \
     cppqt.h \
-    cppqt_edit.h \
     cppqt_gui.h \
-    cppqt_view.h \
-    cppqt_edit_base.h \
-    cppqt_view_base.h \
     cppqt_signal.h \
     cppqt_function.h \
     cppqt_template.h \
     cppqt_class.h \
     cppqt_access.h \
-    cppqt_view_class.h \
-    cppqt_view_common.h \
-    cppqt_view_access.h \
     gui_textedit.h \
     gui_textedit_highlighter.h \
     gui_textedit_dialog.h \
     gui_textdialog.h \
-    cppqt_edit_class.h \
-    cppqt_edit_access.h \
     cppqt_operator.h \
-    cppqt_view_operator.h \
-    cppqt_edit_operator.h \
     cppqt_constructor.h \
-    cppqt_view_constructor.h \
-    cppqt_edit_constructor.h \
     cppqt_destructor.h \
-    cppqt_edit_destructor.h \
-    cppqt_view_destructor.h \
     cppqt_slot.h \
-    cppqt_view_slot.h \
-    cppqt_edit_slot.h \
-    cppqt_view_signal.h \
-    cppqt_edit_signal.h \
     cppqt_enumeration.h \
     cppqt_enumvalue.h \
     cppqt_parent.h \
-    cppqt_view_parent.h \
-    cppqt_edit_parent.h \
     abstractparser.h \
     abstractparserfactory.h \
     cppqt_parserfactory.h \
@@ -184,7 +159,6 @@ HEADERS += \
     domelementreader_match.h \
     gui_persistentdialog.h \
     cppqt_gui_settingsdialog.h \
-    cppqt_view_declaration.h \
     gui_aboutdialog.h \
     cppqt_typelist.h \
     cppqt_type.h \
@@ -210,7 +184,20 @@ HEADERS += \
     cppqt_function_edit.h \
     cppqt_function_view.h \
     cppqt_template_edit.h \
-    cppqt_template_view.h
+    cppqt_template_view.h \
+    cppqt_operator_edit.h \
+    cppqt_class_edit.h \
+    cppqt_class_view.h \
+    cppqt_access_edit.h \
+    cppqt_access_view.h \
+    cppqt_slot_edit.h \
+    cppqt_signal_edit.h \
+    cppqt_constructor_edit.h \
+    cppqt_destructor_edit.h \
+    cppqt_parent_edit.h \
+    cppqt_parent_view.h \
+    cppqt_using_edit.h \
+    cppqt_using_view.h
 
 RESOURCES += \
     resources.qrc

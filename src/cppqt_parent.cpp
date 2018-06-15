@@ -1,7 +1,7 @@
 #include "cppqt_parent.h"
 #include <exception.h>
-#include "cppqt_view_parent.h"
-#include "cppqt_edit_parent.h"
+#include "cppqt_parent_view.h"
+#include "cppqt_parent_edit.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_type.h"
 #include "domelementreader.h"
@@ -130,7 +130,7 @@ QList<int> Parent::buildList() const
  */
 std::unique_ptr<QWidget> Parent::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Parent(this));
+   return unique_ptr<QWidget>(new View(this));
 }
 
 
@@ -223,7 +223,7 @@ QVariant Parent::field(int index) const
  */
 std::unique_ptr<::Gui::AbstractEdit> Parent::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Parent(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 

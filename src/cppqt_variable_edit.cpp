@@ -49,18 +49,20 @@ Variable::Edit::Edit(Variable* block):
  */
 QLayout* Variable::Edit::layout()
 {
-   // 1
+   // Save settings.
    saveSettings("cppqt.variable.edit.geometry");
 
-   // 2
+   // Create the form layout.
    QFormLayout* ret {new QFormLayout};
+
+   // Add all edit widgets for this block type.
    addTypeEdit(ret);
    addLineEdit(ret,Base::Field::Name);
    addTextEdit(ret,Base::Field::Description);
    addLineEdit(ret,Field::Initializer);
    addCheckBoxes(ret,{Field::ConstExpr,Field::Static,Field::Mutable},4,"Properties:");
 
-   // 3
+   // Return the form layout.
    return ret;
 }
 
@@ -82,9 +84,11 @@ QLayout* Variable::Edit::layout()
  */
 void Variable::Edit::apply()
 {
-   // 1
-   ::Gui::AbstractEdit::apply();
+   // If the type edit widget exists that apply its value.
    if ( _typeEdit ) _block->setField(Field::Type,_typeEdit->value());
+
+   // Call the parent version of this interface.
+   ::Gui::AbstractEdit::apply();
 }
 
 
@@ -107,7 +111,7 @@ void Variable::Edit::apply()
  */
 QString Variable::Edit::fieldTitle(int index) const
 {
-   // 1
+   // Determine which field index is given and return its title.
    switch (index)
    {
    case Base::Field::Name: return tr("Name:");
@@ -117,6 +121,8 @@ QString Variable::Edit::fieldTitle(int index) const
    case Field::Mutable: return tr("Mutable");
    case Field::Initializer: return tr("Initializer:");
    default:
+
+      // If the given index is not recognized then throw an exception.
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);

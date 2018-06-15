@@ -14,15 +14,18 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      virtual int type() const override;
-      virtual QString name() const override;
-      virtual QIcon icon() const override;
-      virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<QWidget> makeView() const override;
-      virtual int fieldSize() const override;
-      virtual AbstractBlock::Field fieldType(int index) const override;
-      virtual QVariant field(int index) const override;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      class Edit;
+      class View;
+   public:
+      virtual int type() const override final;
+      virtual QString name() const override final;
+      virtual QIcon icon() const override final;
+      virtual QList<int> buildList() const override final;
+      virtual std::unique_ptr<QWidget> makeView() const override final;
+      virtual int fieldSize() const override final;
+      virtual AbstractBlock::Field fieldType(int index) const override final;
+      virtual QVariant field(int index) const override final;
+      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
       virtual QList<AbstractBlock*> realChildren() const override final;
    public:
       /*!
@@ -37,6 +40,10 @@ namespace CppQt
       bool hasAnyTemplates() const;
       QList<Template*> templates() const;
       QList<Parent*> parents() const;
+   signals:
+      /*!
+       */
+      void nameChanged();
    protected:
       /*!
        */
@@ -49,13 +56,13 @@ namespace CppQt
           */
          ,Total
       };
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
-      virtual void fieldModified(int index) override;
-      virtual void quietlySetField(int index, const QVariant& value) override;
+      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
+      virtual void fieldModified(int index) override final;
+      virtual void quietlySetField(int index, const QVariant& value) override final;
       virtual bool childNameModified(AbstractBlock* child) override final;
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;
-      virtual QStringList fields() const;
+      virtual QStringList fields() const override final;
    private:
       QList<Access*> accessChildren() const;
       void setQtObject(bool state);

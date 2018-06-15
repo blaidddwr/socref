@@ -1,6 +1,5 @@
 #include "cppqt_signal.h"
-#include "cppqt_view_signal.h"
-#include "cppqt_edit_signal.h"
+#include "cppqt_signal_edit.h"
 #include "cppqt_blockfactory.h"
 
 
@@ -48,22 +47,6 @@ QIcon Signal::icon() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
- *
- * @return New GUI view that represents this block's data. 
- */
-std::unique_ptr<QWidget> Signal::makeView() const
-{
-   return unique_ptr<QWidget>(new View::Signal(this));
-}
-
-
-
-
-
-
-/*!
  * Implements the interface that returns a editable GUI widget that provides the 
  * ability to edit this block's data. 
  *
@@ -71,7 +54,7 @@ std::unique_ptr<QWidget> Signal::makeView() const
  */
 std::unique_ptr<::Gui::AbstractEdit> Signal::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Signal(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 

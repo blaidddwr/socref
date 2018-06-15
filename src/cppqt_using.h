@@ -13,6 +13,9 @@ namespace CppQt
    {
       Q_OBJECT
    public:
+      class Edit;
+      class View;
+   public:
       virtual int type() const override;
       virtual const AbstractBlockFactory& factory() const override final;
       virtual QString name() const override;
@@ -28,6 +31,7 @@ namespace CppQt
        */
       explicit Using() = default;
       explicit Using(const QString& field);
+      QString fieldName() const;
    protected:
       /*!
        */

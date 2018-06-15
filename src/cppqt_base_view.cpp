@@ -157,7 +157,7 @@ QString Base::View::displayDescription()
  *
  * 4. Return _ret_. 
  */
-QString Base::View::displayTemplateText()
+QString Base::View::displayTemplates()
 {
    // 1
    QString ret;

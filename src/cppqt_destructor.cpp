@@ -1,6 +1,5 @@
 #include "cppqt_destructor.h"
-#include "cppqt_view_destructor.h"
-#include "cppqt_edit_destructor.h"
+#include "cppqt_destructor_edit.h"
 #include "cppqt_blockfactory.h"
 
 
@@ -90,22 +89,6 @@ QList<int> Destructor::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
- *
- * @return New GUI view that represents this block's data. 
- */
-std::unique_ptr<QWidget> Destructor::makeView() const
-{
-   return unique_ptr<QWidget>(new View::Destructor(this));
-}
-
-
-
-
-
-
-/*!
  * Implements the interface that returns a editable GUI widget that provides the 
  * ability to edit this block's data. 
  *
@@ -113,7 +96,7 @@ std::unique_ptr<QWidget> Destructor::makeView() const
  */
 std::unique_ptr<::Gui::AbstractEdit> Destructor::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Destructor(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 

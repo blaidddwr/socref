@@ -27,7 +27,7 @@ namespace CppQt
    protected:
       static QString parseBoldMarkers(const QString& text);
       QString displayDescription();
-      QString displayTemplateText();
+      QString displayTemplates();
    private:
       /*!
        * Pointer to the base block this view is showing or null if the block being viewed 

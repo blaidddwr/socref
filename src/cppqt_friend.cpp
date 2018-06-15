@@ -45,38 +45,6 @@ QString Friend::name() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
- *
- * @return New GUI view that represents this block's data. 
- */
-std::unique_ptr<QWidget> Friend::makeView() const
-{
-   return nullptr;
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
- *
- * @return New editable GUI widget to edit this block's data. 
- */
-std::unique_ptr<::Gui::AbstractEdit> Friend::makeEdit()
-{
-   return nullptr;
-}
-
-
-
-
-
-
-/*!
  * Implements the interface that makes a new block object of this block's type with 
  * no data and returns a pointer to the new block. 
  *

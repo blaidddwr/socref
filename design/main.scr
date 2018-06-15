@@ -272,6 +272,11 @@
          </type>
          <type type="16">
             <data version="0">
+               <type>QComboBox*</type>
+            </data>
+         </type>
+         <type type="16">
+            <data version="0">
                <type>QEvent*</type>
             </data>
          </type>
@@ -2147,6 +2152,32 @@ An implementation of this class must construct the form portion of this dialog g
                </function>
                <function type="2">
                   <data version="1">
+                     <name>addComboEdit</name>
+                     <type>QComboBox*</type>
+                  </data>
+                  <variable type="1">
+                     <data version="1">
+                        <name>form</name>
+                        <description>Pointer to the form layout which has the new edit widget added to it.</description>
+                        <type>QFormLayout*</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>index</name>
+                        <description>Index of the field that has an edit widget attached to it.</description>
+                        <type>int</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="1">
+                        <name>options</name>
+                        <type>const QStringList&amp;</type>
+                     </data>
+                  </variable>
+               </function>
+               <function type="2">
+                  <data version="1">
                      <name>setDisabled</name>
                      <description>Sets the state of the apply and OK buttons of this dialog to being disabled or enabled.</description>
                      <type>void</type>
@@ -3650,16 +3681,61 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </data>
             <typeList type="15">
                <data version="1">
-                  <name>Template</name>
+                  <name>Access</name>
                </data>
                <type type="16">
                   <data version="0">
-                     <type>Template*</type>
+                     <type>Access*</type>
                   </data>
                </type>
                <type type="16">
                   <data version="0">
-                     <type>const Template*</type>
+                     <type>const Access*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
+                  <name>Class</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Class*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Class*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
+                  <name>Constructor</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Constructor*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Constructor*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
+                  <name>Destructor</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Destructor*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Destructor*</type>
                   </data>
                </type>
             </typeList>
@@ -3725,6 +3801,41 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </typeList>
             <typeList type="15">
                <data version="1">
+                  <name>Operator</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Operator*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Operator*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
+                  <name>Parent</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Parent::Access</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>Parent*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Parent*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
                   <name>QList</name>
                </data>
                <type type="16">
@@ -3750,6 +3861,51 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <type type="16">
                   <data version="0">
                      <type>QList&lt;Variable*></type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
+                  <name>Signal</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Signal*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Signal*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
+                  <name>Slot</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Slot*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Slot*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
+                  <name>Template</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Template*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Template*</type>
                   </data>
                </type>
             </typeList>
@@ -3785,6 +3941,21 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </typeList>
             <typeList type="15">
                <data version="1">
+                  <name>Using</name>
+               </data>
+               <type type="16">
+                  <data version="0">
+                     <type>Using*</type>
+                  </data>
+               </type>
+               <type type="16">
+                  <data version="0">
+                     <type>const Using*</type>
+                  </data>
+               </type>
+            </typeList>
+            <typeList type="15">
+               <data version="1">
                   <name>Variable</name>
                </data>
                <type type="16">
@@ -3806,11 +3977,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <type type="16">
                <data version="0">
                   <type>Gui::TypeSelection*</type>
-               </data>
-            </type>
-            <type type="16">
-               <data version="0">
-                  <type>Parent::Access</type>
                </data>
             </type>
             <type type="16">
@@ -4152,7 +4318,7 @@ The name field has a special interface for checking if it is valid which can be 
                      </function>
                      <function type="2">
                         <data version="1">
-                           <name>displayTemplateText</name>
+                           <name>displayTemplates</name>
                            <description>Returns a HTML string containing a list of any template arguments this view's block may contain. Each template argument also has its own description added to the HTML string. If this view has no base block this returns an empty string.</description>
                            <type>QString</type>
                            <return_description>HTML string containing list of any template arguments this view's block may contain or an empty string if this object has no base block.</return_description>
@@ -8501,6 +8667,60 @@ The persistence of the qt splitter is made unique by this class overriding the s
                <data version="1">
                   <type>public:</type>
                </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Function::Edit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new edit object with the given operator block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Operator block that this new edit object edits.</description>
+                              <type>Operator*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>leftLayout</name>
+                           <description>Implements _Function::Edit::leftLayout_.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <return_description>Pointer to the layout containing all GUI elements for the left side of this dialog.</return_description>
+                           <operation>Save the geometry and state of this function edit dialog.</operation>
+                           <operation>Create a new qt form layout that will be returned.</operation>
+                           <operation>Add all edit widgets for this block to the qt form layout.</operation>
+                           <operation>Return the qt form layout.</operation>
+                        </data>
+                     </function>
+                  </access>
+               </class>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -8509,6 +8729,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>This block's type.</return_description>
                   </data>
                </function>
@@ -8520,6 +8741,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The name of this block.</return_description>
                   </data>
                </function>
@@ -8531,6 +8753,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The icon of this block.</return_description>
                   </data>
                </function>
@@ -8542,58 +8765,9 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>List of allowed types this block can contain as children.</return_description>
                   </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeView</name>
-                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
-                     <type>std::unique_ptr&lt;QWidget></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>New GUI view that represents this block's data.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>fieldSize</name>
-                     <type>int</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>fieldType</name>
-                     <type>AbstractBlock::Field</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>index</name>
-                        <type>int</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>field</name>
-                     <type>QVariant</type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>index</name>
-                        <type>int</type>
-                     </data>
-                  </variable>
                </function>
                <function type="2">
                   <data version="1">
@@ -8602,6 +8776,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
                      <virtual/>
                      <override/>
+                     <final/>
                      <return_description>New editable GUI widget to edit this block's data.</return_description>
                   </data>
                </function>
@@ -8641,21 +8816,6 @@ The persistence of the qt splitter is made unique by this class overriding the s
                <data version="1">
                   <type>protected:</type>
                </data>
-               <enumeration type="11">
-                  <data version="1">
-                     <name>Field</name>
-                  </data>
-                  <enumval type="12">
-                     <data version="1">
-                        <name>Operator</name>
-                     </data>
-                  </enumval>
-                  <enumval type="12">
-                     <data version="1">
-                        <name>Total</name>
-                     </data>
-                  </enumval>
-               </enumeration>
                <function type="2">
                   <data version="1">
                      <name>makeBlank</name>
@@ -8664,70 +8824,28 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>Pointer to the newly created block.</return_description>
                   </data>
                </function>
                <function type="2">
                   <data version="1">
-                     <name>fieldModified</name>
-                     <type>void</type>
+                     <name>checkName</name>
+                     <description>This interface checks to make sure the given name is a valid name for this block type, returning true if it is valid. This implementation makes sure it is a basic C++ alphanumeric name.</description>
+                     <type>bool</type>
                      <virtual/>
                      <override/>
+                     <final/>
+                     <return_description>True if the given name is valid or false otherwise.</return_description>
                   </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>index</name>
-                        <type>int</type>
-                     </data>
-                  </variable>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>quietlySetField</name>
-                     <type>void</type>
-                     <virtual/>
-                     <override/>
-                  </data>
-                  <variable type="1">
-                     <data version="1">
-                        <name>index</name>
-                        <type>int</type>
-                     </data>
-                  </variable>
                   <variable type="1">
                      <data version="1">
                         <name>value</name>
-                        <type>const QVariant&amp;</type>
+                        <description>The name value whose syntax is checked to be valid or not.</description>
+                        <type>const QString&amp;</type>
                      </data>
                   </variable>
                </function>
-               <function type="2">
-                  <data version="1">
-                     <name>fields</name>
-                     <type>QStringList</type>
-                     <virtual/>
-                     <const/>
-                  </data>
-               </function>
-            </access>
-            <access type="5">
-               <data version="1">
-                  <type>private:</type>
-               </data>
-               <variable type="1">
-                  <data version="1">
-                     <name>_fields</name>
-                     <static/>
-                     <type>const QStringList</type>
-                     <initializer>"operator"</initializer>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="1">
-                     <name>_operator</name>
-                     <type>QString</type>
-                  </data>
-               </variable>
             </access>
          </class>
          <class type="4">
@@ -8745,6 +8863,146 @@ The persistence of the qt splitter is made unique by this class overriding the s
                <data version="1">
                   <type>public:</type>
                </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>::Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type edit object with the given variable block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block that this new edit object edits.</description>
+                              <type>Class*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <description>The field index whose display title is returned.</description>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new view object with the given variable block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block this new view displays.</description>
+                              <type>const Class*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayText</name>
+                           <description>Returns the HTML rich text that displays the body of this view's variable block.</description>
+                           <type>QString</type>
+                           <return_description>HTML rich text that displays the body of this view's variable block.</return_description>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayQtObject</name>
+                           <type>QString</type>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayParents</name>
+                           <description>Returns a HTML string that displays any properties this view's variable block has set. If this view's variable block has no properties set then this returns an empty string.</description>
+                           <type>QString</type>
+                           <return_description>HTML string that displays any properties this view's variable block has set or an empty string if no properties are set.</return_description>
+                           <operation>Create an empty string _ret_ and then an empty string list _list_. Append any properties this object's variable block has set to _list_. If _list_ is empty then return _ret_.</operation>
+                           <operation>Append an HTML title, then all set properties as an HTML list to _ret_, and then return _ret_.</operation>
+                        </data>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>The variable block that this view is displaying.</description>
+                           <type>const Class*</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -8753,6 +9011,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>This block's type.</return_description>
                   </data>
                </function>
@@ -8764,6 +9023,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The name of this block.</return_description>
                   </data>
                </function>
@@ -8775,6 +9035,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The icon of this block.</return_description>
                   </data>
                </function>
@@ -8786,6 +9047,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>List of allowed types this block can contain as children.</return_description>
                   </data>
                </function>
@@ -8797,6 +9059,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>New GUI view that represents this block's data.</return_description>
                   </data>
                </function>
@@ -8807,6 +9070,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                   </data>
                </function>
                <function type="2">
@@ -8816,6 +9080,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -8831,6 +9096,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -8846,6 +9112,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
                      <virtual/>
                      <override/>
+                     <final/>
                      <return_description>New editable GUI widget to edit this block's data.</return_description>
                   </data>
                </function>
@@ -8942,6 +9209,17 @@ The persistence of the qt splitter is made unique by this class overriding the s
             </access>
             <access type="5">
                <data version="1">
+                  <type>signals:</type>
+               </data>
+               <signal type="8">
+                  <data version="1">
+                     <name>nameChanged</name>
+                     <type></type>
+                  </data>
+               </signal>
+            </access>
+            <access type="5">
+               <data version="1">
                   <type>protected:</type>
                </data>
                <enumeration type="11">
@@ -8967,6 +9245,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>Pointer to the newly created block.</return_description>
                   </data>
                </function>
@@ -8976,6 +9255,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <final/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -8990,6 +9270,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <type>void</type>
                      <virtual/>
                      <override/>
+                     <final/>
                   </data>
                   <variable type="1">
                      <data version="1">
@@ -9064,6 +9345,8 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <type>QStringList</type>
                      <virtual/>
                      <const/>
+                     <override/>
+                     <final/>
                   </data>
                </function>
             </access>
@@ -9128,6 +9411,130 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <class>AbstractBlock</class>
                </data>
             </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>::Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type edit object with the given variable block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block that this new edit object edits.</description>
+                              <type>Access*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <description>The field index whose display title is returned.</description>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new view object with the given variable block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block this new view displays.</description>
+                              <type>const Access*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayText</name>
+                           <description>Returns the HTML rich text that displays the body of this view's variable block.</description>
+                           <type>QString</type>
+                           <return_description>HTML rich text that displays the body of this view's variable block.</return_description>
+                        </data>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>The variable block that this view is displaying.</description>
+                           <type>const Access*</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+            </access>
             <access type="5">
                <data version="1">
                   <type>public:</type>
@@ -9669,6 +10076,60 @@ The persistence of the qt splitter is made unique by this class overriding the s
                <data version="1">
                   <type>public:</type>
                </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Function::Edit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new edit object with the given operator block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Operator block that this new edit object edits.</description>
+                              <type>Slot*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>leftLayout</name>
+                           <description>Implements _Function::Edit::leftLayout_.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <return_description>Pointer to the layout containing all GUI elements for the left side of this dialog.</return_description>
+                           <operation>Save the geometry and state of this function edit dialog.</operation>
+                           <operation>Create a new qt form layout that will be returned.</operation>
+                           <operation>Add all edit widgets for this block to the qt form layout.</operation>
+                           <operation>Return the qt form layout.</operation>
+                        </data>
+                     </function>
+                  </access>
+               </class>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -9688,6 +10149,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The name of this block.</return_description>
                   </data>
                </function>
@@ -9710,18 +10172,8 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>List of allowed types this block can contain as children.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeView</name>
-                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
-                     <type>std::unique_ptr&lt;QWidget></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>New GUI view that represents this block's data.</return_description>
                   </data>
                </function>
                <function type="2">
@@ -9791,6 +10243,80 @@ The persistence of the qt splitter is made unique by this class overriding the s
                <data version="1">
                   <type>public:</type>
                </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>::Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type edit object with the given variable block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block that this new edit object edits.</description>
+                              <type>Signal*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <description>The field index whose display title is returned.</description>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+               </class>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -9799,6 +10325,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>This block's type.</return_description>
                   </data>
                </function>
@@ -9810,18 +10337,8 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The icon of this block.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeView</name>
-                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
-                     <type>std::unique_ptr&lt;QWidget></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>New GUI view that represents this block's data.</return_description>
                   </data>
                </function>
                <function type="2">
@@ -9831,6 +10348,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
                      <virtual/>
                      <override/>
+                     <final/>
                      <return_description>New editable GUI widget to edit this block's data.</return_description>
                   </data>
                </function>
@@ -9871,6 +10389,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>Pointer to the newly created block.</return_description>
                   </data>
                </function>
@@ -9887,6 +10406,60 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <class>Function</class>
                </data>
             </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Function::Edit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new edit object with the given operator block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Operator block that this new edit object edits.</description>
+                              <type>Constructor*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>leftLayout</name>
+                           <description>Implements _Function::Edit::leftLayout_.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <return_description>Pointer to the layout containing all GUI elements for the left side of this dialog.</return_description>
+                           <operation>Save the geometry and state of this function edit dialog.</operation>
+                           <operation>Create a new qt form layout that will be returned.</operation>
+                           <operation>Add all edit widgets for this block to the qt form layout.</operation>
+                           <operation>Return the qt form layout.</operation>
+                        </data>
+                     </function>
+                  </access>
+               </class>
+            </access>
             <access type="5">
                <data version="1">
                   <type>public:</type>
@@ -9933,17 +10506,6 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <const/>
                      <override/>
                      <return_description>List of allowed types this block can contain as children.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeView</name>
-                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
-                     <type>std::unique_ptr&lt;QWidget></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>New GUI view that represents this block's data.</return_description>
                   </data>
                </function>
                <function type="2">
@@ -10019,6 +10581,60 @@ The persistence of the qt splitter is made unique by this class overriding the s
                <data version="1">
                   <type>public:</type>
                </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Function::Edit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new edit object with the given operator block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Operator block that this new edit object edits.</description>
+                              <type>Destructor*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>leftLayout</name>
+                           <description>Implements _Function::Edit::leftLayout_.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <return_description>Pointer to the layout containing all GUI elements for the left side of this dialog.</return_description>
+                           <operation>Save the geometry and state of this function edit dialog.</operation>
+                           <operation>Create a new qt form layout that will be returned.</operation>
+                           <operation>Add all edit widgets for this block to the qt form layout.</operation>
+                           <operation>Return the qt form layout.</operation>
+                        </data>
+                     </function>
+                  </access>
+               </class>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -10027,6 +10643,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>This block's type.</return_description>
                   </data>
                </function>
@@ -10038,6 +10655,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The name of this block.</return_description>
                   </data>
                </function>
@@ -10049,6 +10667,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>The icon of this block.</return_description>
                   </data>
                </function>
@@ -10060,18 +10679,8 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>List of allowed types this block can contain as children.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeView</name>
-                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
-                     <type>std::unique_ptr&lt;QWidget></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <return_description>New GUI view that represents this block's data.</return_description>
                   </data>
                </function>
                <function type="2">
@@ -10081,6 +10690,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
                      <virtual/>
                      <override/>
+                     <final/>
                      <return_description>New editable GUI widget to edit this block's data.</return_description>
                   </data>
                </function>
@@ -10109,6 +10719,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <virtual/>
                      <const/>
                      <override/>
+                     <final/>
                      <return_description>Pointer to the newly created block.</return_description>
                   </data>
                </function>
@@ -10135,6 +10746,130 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <class>AbstractBlock</class>
                </data>
             </parent>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>::Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type edit object with the given variable block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block that this new edit object edits.</description>
+                              <type>Parent*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <description>The field index whose display title is returned.</description>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new view object with the given variable block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block this new view displays.</description>
+                              <type>const Parent*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayText</name>
+                           <description>Returns the HTML rich text that displays the body of this view's variable block.</description>
+                           <type>QString</type>
+                           <return_description>HTML rich text that displays the body of this view's variable block.</return_description>
+                        </data>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>The variable block that this view is displaying.</description>
+                           <type>const Parent*</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+            </access>
             <access type="5">
                <data version="1">
                   <type>public:</type>
@@ -10566,6 +11301,130 @@ The persistence of the qt splitter is made unique by this class overriding the s
                <data version="1">
                   <type>public:</type>
                </data>
+               <class type="4">
+                  <data version="1">
+                     <name>Edit</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>::Gui::AbstractEdit</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new type edit object with the given variable block.</description>
+                           <type></type>
+                           <explicit/>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block that this new edit object edits.</description>
+                              <type>Using*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>protected:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>layout</name>
+                           <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                           <type>QLayout*</type>
+                           <virtual/>
+                           <override/>
+                           <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
+                           <operation>Save this dialog object's geometry to Qt settings.</operation>
+                           <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
+                           <operation>Return _ret_.</operation>
+                        </data>
+                     </function>
+                     <function type="2">
+                        <data version="1">
+                           <name>fieldTitle</name>
+                           <description>Implements the interface that returns the title for the given field type.</description>
+                           <type>QString</type>
+                           <virtual/>
+                           <const/>
+                           <override/>
+                           <final/>
+                           <return_description>Title of the given field type.</return_description>
+                           <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>index</name>
+                              <description>The field index whose display title is returned.</description>
+                              <type>int</type>
+                           </data>
+                        </variable>
+                     </function>
+                  </access>
+               </class>
+               <class type="4">
+                  <data version="1">
+                     <name>View</name>
+                     <qtobject/>
+                  </data>
+                  <parent type="13">
+                     <data version="2">
+                        <access>public</access>
+                        <class>Base::View</class>
+                     </data>
+                  </parent>
+                  <access type="5">
+                     <data version="1">
+                        <type>public:</type>
+                     </data>
+                     <constructor type="9">
+                        <data version="1">
+                           <description>Constructs a new view object with the given variable block.</description>
+                           <type></type>
+                        </data>
+                        <variable type="1">
+                           <data version="1">
+                              <name>block</name>
+                              <description>Variable block this new view displays.</description>
+                              <type>const Using*</type>
+                           </data>
+                        </variable>
+                     </constructor>
+                  </access>
+                  <access type="5">
+                     <data version="1">
+                        <type>private:</type>
+                     </data>
+                     <function type="2">
+                        <data version="1">
+                           <name>displayText</name>
+                           <description>Returns the HTML rich text that displays the body of this view's variable block.</description>
+                           <type>QString</type>
+                           <return_description>HTML rich text that displays the body of this view's variable block.</return_description>
+                        </data>
+                     </function>
+                     <variable type="1">
+                        <data version="1">
+                           <name>_block</name>
+                           <description>The variable block that this view is displaying.</description>
+                           <type>const Using*</type>
+                        </data>
+                     </variable>
+                  </access>
+               </class>
+            </access>
+            <access type="5">
+               <data version="1">
+                  <type>public:</type>
+               </data>
                <function type="2">
                   <data version="1">
                      <name>type</name>
@@ -10718,6 +11577,13 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      </data>
                   </variable>
                </constructor>
+               <function type="2">
+                  <data version="1">
+                     <name>fieldName</name>
+                     <type>QString</type>
+                     <const/>
+                  </data>
+               </function>
             </access>
             <access type="5">
                <data version="1">
@@ -10928,29 +11794,6 @@ The persistence of the qt splitter is made unique by this class overriding the s
                      <override/>
                      <final/>
                      <return_description>The name of this block.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeView</name>
-                     <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
-                     <type>std::unique_ptr&lt;QWidget></type>
-                     <virtual/>
-                     <const/>
-                     <override/>
-                     <final/>
-                     <return_description>New GUI view that represents this block's data.</return_description>
-                  </data>
-               </function>
-               <function type="2">
-                  <data version="1">
-                     <name>makeEdit</name>
-                     <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
-                     <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-                     <virtual/>
-                     <override/>
-                     <final/>
-                     <return_description>New editable GUI widget to edit this block's data.</return_description>
                   </data>
                </function>
             </access>

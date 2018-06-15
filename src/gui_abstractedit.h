@@ -12,6 +12,7 @@ class QFormLayout;
 class QPushButton;
 class QCheckBox;
 class QLineEdit;
+class QComboBox;
 //
 
 
@@ -79,6 +80,7 @@ namespace Gui
       QLineEdit* addLineEdit(QFormLayout* form, int index);
       TextEdit* addTextEdit(QFormLayout* form, int index);
       ListEdit* addListEdit(QFormLayout* form, int index);
+      QComboBox* addComboEdit(QFormLayout* form, int index, const QStringList& options);
       void setDisabled(bool disabled);
    private slots:
       void okClicked();

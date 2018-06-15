@@ -1,7 +1,6 @@
 #include "cppqt_operator.h"
 #include <exception.h>
-#include "cppqt_view_operator.h"
-#include "cppqt_edit_operator.h"
+#include "cppqt_operator_edit.h"
 #include "cppqt_blockfactory.h"
 #include "domelementreader.h"
 #include "common.h"
@@ -12,12 +11,6 @@ using namespace std;
 using namespace Gui;
 using namespace CppQt;
 //
-
-
-
-/*!
- */
-const QStringList Operator::_fields {"operator"};
 
 
 
@@ -46,7 +39,7 @@ int Operator::type() const
  */
 QString Operator::name() const
 {
-   return fullName(!isVoidReturn(),QString("operator").append(_operator));
+   return fullName(!isVoidReturn(),QString("operator").append(Base::name()));
 }
 
 
@@ -61,17 +54,25 @@ QString Operator::name() const
  */
 QIcon Operator::icon() const
 {
+   // Create all qt icons as static along with a boolean value to keep track of them being
+   // loaded or not.
    static bool isLoaded {false};
    static QIcon regular;
    static QIcon virtual_;
    static QIcon abstract;
+
+   // Check if the icons were loaded.
    if ( !isLoaded )
    {
+
+      // Load all icons into memory and set the boolean indicator.
       regular = QIcon(":/icons/operator.svg");
       virtual_ = QIcon(":/icons/voperator.svg");
       abstract = QIcon(":/icons/aoperator.svg");
       isLoaded = true;
    }
+
+   // Return the correct icon based off the properties of this block.
    if ( isAbstract() ) return abstract;
    else if ( isVirtual() ) return virtual_;
    else return regular;
@@ -99,70 +100,6 @@ QList<int> Operator::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
- *
- * @return New GUI view that represents this block's data. 
- */
-std::unique_ptr<QWidget> Operator::makeView() const
-{
-   return unique_ptr<QWidget>(new View::Operator(this));
-}
-
-
-
-
-
-
-/*!
- */
-int Operator::fieldSize() const
-{
-   return Field::Total;
-}
-
-
-
-
-
-
-/*!
- *
- * @param index  
- */
-AbstractBlock::Field Operator::fieldType(int index) const
-{
-   switch (index)
-   {
-   case Field::OperatorType: return AbstractBlock::Field::String;
-   default: return Function::fieldType(index);
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param index  
- */
-QVariant Operator::field(int index) const
-{
-   switch (index)
-   {
-   case Field::OperatorType: return _operator;
-   default: return Function::fieldType(index);
-   }
-}
-
-
-
-
-
-
-/*!
  * Implements the interface that returns a editable GUI widget that provides the 
  * ability to edit this block's data. 
  *
@@ -170,7 +107,7 @@ QVariant Operator::field(int index) const
  */
 std::unique_ptr<::Gui::AbstractEdit> Operator::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Operator(this));
+   return unique_ptr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -195,7 +132,7 @@ Operator::Operator(const QString& returnType):
  */
 QString Operator::operation() const
 {
-   return _operator;
+   return Base::name();
 }
 
 
@@ -220,61 +157,16 @@ std::unique_ptr<AbstractBlock> Operator::makeBlank() const
 
 
 /*!
+ * This interface checks to make sure the given name is a valid name for this block 
+ * type, returning true if it is valid. This implementation makes sure it is a 
+ * basic C++ alphanumeric name. 
  *
- * @param index  
- */
-void Operator::fieldModified(int index)
-{
-   switch (index)
-   {
-   case Field::OperatorType:
-      notifyModified();
-      notifyNameModified();
-      break;
-   default:
-      Function::fieldModified(index);
-      break;
-   }
-}
-
-
-
-
-
-
-/*!
+ * @param value The name value whose syntax is checked to be valid or not. 
  *
- * @param index  
- *
- * @param value  
+ * @return True if the given name is valid or false otherwise. 
  */
-void Operator::quietlySetField(int index, const QVariant& value)
+bool Operator::checkName(const QString& value)
 {
-   switch (index)
-   {
-   case Field::OperatorType:
-      _operator = value.toString();
-      break;
-   default:
-      Function::quietlySetField(index,value);
-      break;
-   }
-}
-
-
-
-
-
-
-/*!
- */
-QStringList Operator::fields() const
-{
-   static QStringList ret;
-   if ( ret.isEmpty() )
-   {
-      ret.append(Function::fields());
-      ret.append(_fields);
-   }
-   return ret;
+   Q_UNUSED(value)
+   return true;
 }
