@@ -136,6 +136,7 @@ void ListEdit::resizeEvent(QResizeEvent* event)
 void ListEdit::addTriggered()
 {
    _model->addAfter(_current);
+   autoFitText();
 }
 
 
@@ -319,6 +320,7 @@ void ListEdit::setupView()
 
    // 2
    horizontalHeader()->setStretchLastSection(true);
+   horizontalHeader()->setHidden(true);
    connect(this,&QTableView::doubleClicked,this,&ListEdit::doubleClicked);
    connect(selectionModel()
            ,&QItemSelectionModel::selectionChanged
@@ -364,13 +366,13 @@ void ListEdit::setupActions()
    // 3
    QAction* moveUp {new QAction(this)};
    moveUp->setShortcutContext(Qt::WidgetShortcut);
-   moveUp->setShortcut(Qt::CTRL + Qt::Key_Delete);
+   moveUp->setShortcut(Qt::CTRL + Qt::Key_Up);
    connect(moveUp,&QAction::triggered,this,&ListEdit::moveUpTriggered);
 
    // 4
    QAction* moveDown {new QAction(this)};
    moveDown->setShortcutContext(Qt::WidgetShortcut);
-   moveDown->setShortcut(Qt::CTRL + Qt::Key_Delete);
+   moveDown->setShortcut(Qt::CTRL + Qt::Key_Down);
    connect(moveDown,&QAction::triggered,this,&ListEdit::moveDownTriggered);
 
    // 5
@@ -425,13 +427,15 @@ void ListEdit::autoFitText()
  */
 void ListEdit::autoFitText(int row)
 {
+   static qreal wiggle {1.1};
+   static qreal bias {0.5};
    // 1
    QFontMetricsF metrics {fontMetrics()};
    qreal width {static_cast<qreal>(columnWidth(0))};
    const QString text {_list.at(row)};
 
    // 2
-   int lines {0};
+   int lines {1};
    int start {0};
    int lastSpace {0};
 
@@ -455,5 +459,6 @@ void ListEdit::autoFitText(int row)
    }
 
    // 4
-   setRowHeight(row,metrics.height()*lines);
+   setRowHeight(row
+                ,static_cast<int>(metrics.lineSpacing()*wiggle*(static_cast<qreal>(lines) + bias)));
 }

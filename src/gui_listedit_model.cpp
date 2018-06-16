@@ -111,11 +111,9 @@ QVariant ListEdit::Model::headerData(int section, Qt::Orientation orientation, i
  */
 int ListEdit::Model::rowCount(const QModelIndex& parent) const
 {
-   Q_UNUSED(parent)
-
    // 1
-   if ( !_list ) return 0;
-   return _list->size();
+   if ( !_list || parent.isValid() ) return 0;
+   else return _list->size();
 }
 
 
@@ -144,11 +142,15 @@ int ListEdit::Model::rowCount(const QModelIndex& parent) const
 QVariant ListEdit::Model::data(const QModelIndex& index, int role) const
 {
    // 1
-   if ( !_list || index.row() >= _list->size() || ( role != Qt::DisplayRole && role != Qt::EditRole ) )
+   if ( !_list || index.row() < 0 || index.row() >= _list->size() )
    {
       return QVariant();
    }
-   else  return _list->at(index.row());
+   if ( role == Qt::DisplayRole || role == Qt::EditRole )
+   {
+      return _list->at(index.row());
+   }
+   else return QVariant();
 }
 
 
@@ -183,7 +185,10 @@ QVariant ListEdit::Model::data(const QModelIndex& index, int role) const
 bool ListEdit::Model::setData(const QModelIndex& index, const QVariant& value, int role)
 {
    // 1
-   if ( !_list || index.row() >= _list->size() || role != Qt::EditRole ) return false;
+   if ( !_list || index.row() < 0 || index.row() >= _list->size() || role != Qt::EditRole )
+   {
+      return false;
+   }
 
    // 2
    (*_list)[index.row()] = value.toString();
