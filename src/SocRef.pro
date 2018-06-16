@@ -59,7 +59,6 @@ SOURCES += \
     cppqt_parse_forward.cpp \
     gui_persistentdialog.cpp \
     cppqt_gui_settingsdialog.cpp \
-    cppqt_parse_declaration.cpp \
     gui_aboutdialog.cpp \
     cppqt_typelist.cpp \
     cppqt_type.cpp \

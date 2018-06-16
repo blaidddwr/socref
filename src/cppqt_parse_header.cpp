@@ -6,7 +6,6 @@
 #include "cppqt_parse_enumeration.h"
 #include "cppqt_parse_access.h"
 #include "cppqt_parse_forward.h"
-#include "cppqt_parse_declaration.h"
 #include "cppqt_function.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
@@ -14,7 +13,6 @@
 #include "cppqt_access.h"
 #include "cppqt_class.h"
 #include "cppqt_parent.h"
-#include "cppqt_declaration.h"
 #include "cppqt_settings.h"
 
 
@@ -123,10 +121,6 @@ void Header::evaluateOther(AbstractBlock* block)
       {
          _declarations.append(new Forward(valid,this));
       }
-      else if ( CppQt::Declaration* valid = block->cast<CppQt::Declaration>(BlockFactory::DeclarationType) )
-      {
-         _declarations.append(new Declaration(valid,this));
-      }
    }
 }
 
@@ -203,7 +197,7 @@ void Header::outputClassDeclaration(Class* block)
             first = false;
          }
          else line.append(", ");
-         line.append(valid->accessName()).append(" ").append(valid->className());
+         line.append(valid->accessString()).append(" ").append(valid->className());
       }
    }
    add(line);

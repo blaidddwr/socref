@@ -54,7 +54,7 @@ void Enumeration::outputDeclaration()
       if ( first ) first = false;
       else line.append(",");
       line.append(value->Base::name());
-      if ( value->hasValue() ) line.append(" = ").append(QString::number(value->value()));
+      if ( value->hasValue() ) line.append(" = ").append(value->value());
       add(line);
    }
    setIndent(indent() - _indentSpaces);

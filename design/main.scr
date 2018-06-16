@@ -5367,6 +5367,13 @@ The name field has a special interface for checking if it is valid which can be 
                      </data>
                   </variable>
                </constructor>
+               <function type="2">
+                  <data version="1">
+                     <name>cppType</name>
+                     <type>QString</type>
+                     <const/>
+                  </data>
+               </function>
             </access>
             <access type="5">
                <data version="1">
@@ -6267,6 +6274,13 @@ The name field has a special interface for checking if it is valid which can be 
                      </data>
                   </variable>
                </constructor>
+               <function type="2">
+                  <data version="1">
+                     <name>hasValue</name>
+                     <type>bool</type>
+                     <const/>
+                  </data>
+               </function>
                <function type="2">
                   <data version="1">
                      <name>value</name>

@@ -345,7 +345,7 @@ bool Base::checkName(const QString& value)
 void Base::setName(const QString& value)
 {
    // 1
-   if ( checkName(value) )
+   if ( !checkName(value) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

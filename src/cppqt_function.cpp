@@ -709,7 +709,7 @@ QString Function::fullName(bool hasReturn, const QString& name) const
  */
 void Function::checkTypeSyntax(const QString& value)
 {
-   if ( !Type::isValidTypeString(value) )
+   if ( !value.isEmpty() && !Type::isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

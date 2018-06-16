@@ -55,7 +55,7 @@ namespace CppQt
          /*!
           * Defines the constant expression field. This is a boolean property. 
           */
-         ConstExpr
+         ConstExpr = Base::Field::Total
          /*!
           * Defines the static field. This is a boolean property. 
           */

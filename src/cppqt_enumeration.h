@@ -47,7 +47,7 @@ namespace CppQt
           * Defines the class field. Because this expands the base fields this is set to the 
           * the base fields total. 
           */
-         Class
+         Class = Base::Field::Total
          /*!
           * Defines the total number of fields this block defines. 
           */

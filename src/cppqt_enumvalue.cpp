@@ -234,6 +234,18 @@ EnumValue::EnumValue(const QString& name):
 
 
 /*!
+ */
+bool EnumValue::hasValue() const
+{
+   return !_value.isEmpty();
+}
+
+
+
+
+
+
+/*!
  * Returns the set value for this enumeration value block. If this block has no set 
  * value an empty string is returned. 
  *
@@ -379,13 +391,5 @@ QStringList EnumValue::fields() const
  */
 void EnumValue::setValue(const QString& value)
 {
-   // 1
-   if ( !Type::isValidTypeString(value) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid enumeration value '%1'.").arg(value));
-      throw e;
-   }
    _value = value;
 }

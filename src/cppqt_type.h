@@ -37,6 +37,7 @@ namespace CppQt
        */
       explicit Type() = default;
       explicit Type(const QString& type);
+      QString cppType() const;
    protected:
       /*!
        * Defines the fields this block contains. 

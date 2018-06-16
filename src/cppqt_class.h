@@ -51,7 +51,7 @@ namespace CppQt
       {
          /*!
           */
-         QtObject
+         QtObject = Base::Field::Total
          /*!
           */
          ,Total

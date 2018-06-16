@@ -25,7 +25,8 @@ using namespace CppQt;
  * @param block Function block that this new edit object edits. 
  */
 Function::Edit::Edit(Function* block):
-   ::Gui::AbstractEdit(block)
+   ::Gui::AbstractEdit(block),
+   _block(block)
 {}
 
 

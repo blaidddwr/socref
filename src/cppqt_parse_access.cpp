@@ -33,7 +33,7 @@ void Access::outputComments()
 void Access::outputDeclaration()
 {
    setIndent(indent() - _indentSpaces);
-   add(CppQt::Access::_typeNames.at(static_cast<int>(_block->accessType())));
+   add(_block->accessTypeString());
    setIndent(indent() + _indentSpaces);
 }
 

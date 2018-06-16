@@ -59,7 +59,7 @@ namespace CppQt
       {
          /*!
           */
-         Default
+         Default = Base::Field::Total
          /*!
           */
          ,Explicit

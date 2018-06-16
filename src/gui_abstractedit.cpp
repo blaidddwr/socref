@@ -165,7 +165,7 @@ void AbstractEdit::addCheckBoxes(QFormLayout* form, const QList<int>& fields, in
    // 2
    for (auto field: fields)
    {
-      layout->addWidget(addCheckBox(field),row,column++);
+      layout->addWidget(addCheckBox(field),column++,row);
       if ( column >= columnSize )
       {
          column = 0;

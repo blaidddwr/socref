@@ -41,11 +41,11 @@ void Variable::outputDeclaration()
    if ( _block->isConstExpr() ) line.append("constexpr ");
    if ( _block->isStatic() ) line.append("static ");
    if ( _block->isMutable() ) line.append("mutable ");
-   if ( line.isEmpty() && !_block->isClassMember() ) line.append("extern ");
+   if ( line.isEmpty() && !_block->isMember() ) line.append("extern ");
    line.append(_block->variableType()).append(" ").append(_block->Base::name());
    outputEnd(&line
              ,_block->hasInitializer()
-              && ( _block->isConstExpr() || ( _block->isClassMember() && !_block->isStatic() ) ));
+              && ( _block->isConstExpr() || ( _block->isMember() && !_block->isStatic() ) ));
 }
 
 
@@ -55,13 +55,13 @@ void Variable::outputDeclaration()
 
 void Variable::outputDefinition()
 {
-   if ( _block->isStatic() || !_block->isClassMember() )
+   if ( _block->isStatic() || !_block->isMember() )
    {
       QString line;
       QString templateString {getTemplateDeclaration(_block)};
       if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
       line.append(_block->variableType()).append(" ");
-      if ( _block->isClassMember() ) line.append(getClassScope(_block));
+      if ( _block->isMember() ) line.append(getClassScope(_block));
       else line.append(getNamespace(_block));
       line.append(_block->Base::name());
       outputEnd(&line, _block->hasInitializer() && !_block->isConstExpr() );

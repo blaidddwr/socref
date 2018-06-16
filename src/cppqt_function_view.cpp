@@ -16,7 +16,8 @@ using namespace CppQt;
  * @param block Function block this new view displays. 
  */
 Function::View::View(const Function* block):
-   Base::View(block)
+   Base::View(block),
+   _block(block)
 {
    setText(displayText());
 }
@@ -34,7 +35,7 @@ Function::View::View(const Function* block):
 QString Function::View::displayText()
 {
    return displayArguments().append(displayProperties())
-                            .append(displayTemplateText())
+                            .append(displayTemplates())
                             .append(displayDescription())
                             .append(displayReturn())
                             .append(displayOperations());

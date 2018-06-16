@@ -374,6 +374,18 @@ Type::Type(const QString& type):
 
 
 /*!
+ */
+QString Type::cppType() const
+{
+   return _type;
+}
+
+
+
+
+
+
+/*!
  * Implements the interface that makes a new block object of this block's type with 
  * no data and returns a pointer to the new block. 
  *

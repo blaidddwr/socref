@@ -569,10 +569,10 @@ void AbstractBlock::read(const QDomElement& element)
          if ( element.tagName() == _dataTag )
          {
             readData(element);
-            break;
          }
          else readChild(element);
       }
+      node = node.nextSibling();
    }
 
    // 3
@@ -903,6 +903,7 @@ void AbstractBlock::readData(const QDomElement& element)
             }
          }
       }
+      node = node.nextSibling();
    }
 
    // 4
@@ -1082,8 +1083,9 @@ void AbstractBlock::readChild(const QDomElement& element)
 
    // 3
    unique_ptr<AbstractBlock> child {factory().makeBlock(type)};
-   child->read(element);
+   AbstractBlock* back {child.get()};
    child.release()->setParent(this,size());
+   back->read(element);
 }
 
 

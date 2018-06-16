@@ -35,6 +35,7 @@ namespace CppQt
        */
       explicit EnumValue() = default;
       explicit EnumValue(const QString& name);
+      bool hasValue() const;
       QString value() const;
    protected:
       /*!
@@ -47,7 +48,7 @@ namespace CppQt
           * specific integer value. This field is a string because that integer can be 
           * another enumeration value or a macro. 
           */
-         Value
+         Value = Base::Field::Total
          /*!
           * Defines the total number of fields this block defines. 
           */

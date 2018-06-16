@@ -51,7 +51,7 @@ QLayout* Access::Edit::layout()
 
    //
    QFormLayout* ret {new QFormLayout};
-   AddComboEdit(ret,Field::AccessType,_typeNames);
+   addComboEdit(ret,Field::AccessType,_typeNames);
    return ret;
 }
 
