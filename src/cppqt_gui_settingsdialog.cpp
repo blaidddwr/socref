@@ -32,7 +32,7 @@ SettingsDialog::SettingsDialog():
 void SettingsDialog::okClicked()
 {
    applyClicked();
-   accept();
+   close();
 }
 
 
@@ -173,6 +173,6 @@ QWidget* SettingsDialog::setupApplyButton()
 QWidget* SettingsDialog::setupCancelButton()
 {
    QPushButton* ret {new QPushButton(tr("&Cancel"))};
-   connect(ret,&QPushButton::clicked,this,&SettingsDialog::reject);
+   connect(ret,&QPushButton::clicked,this,&SettingsDialog::close);
    return ret;
 }

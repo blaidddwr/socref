@@ -582,7 +582,7 @@ QLayout* TextEdit::Dialog::setupButtons()
    connect(_changeButton,&QPushButton::clicked,this,&Dialog::changeClicked);
    connect(ignoreOnce,&QPushButton::clicked,this,&Dialog::ignoreOnceClicked);
    connect(ignoreAll,&QPushButton::clicked,this,&Dialog::ignoreAllClicked);
-   connect(cancel,&QPushButton::clicked,this,&QDialog::accept);
+   connect(cancel,&QPushButton::clicked,this,&QDialog::close);
 
    // 2
    QHBoxLayout* ret {new QHBoxLayout};

@@ -64,19 +64,6 @@ MainWindow::MainWindow(QWidget* parent):
 
 
 /*!
- * Saves the state and geometry of the main window. 
- */
-MainWindow::~MainWindow()
-{
-   saveSettings();
-}
-
-
-
-
-
-
-/*!
  * Sets the given project as this main window's new project, deleting any previous 
  * project this window may contain. This window takes ownership of any new project 
  * given to it. A null pointer can be given which means this window will have no 
@@ -142,7 +129,11 @@ void MainWindow::setProject(std::unique_ptr<Project>&& project)
 void MainWindow::closeEvent(QCloseEvent* event)
 {
    // 1
-   if ( isOkToClose() ) event->accept();
+   if ( isOkToClose() )
+   {
+      saveSettings();
+      event->accept();
+   }
    else event->ignore();
 }
 

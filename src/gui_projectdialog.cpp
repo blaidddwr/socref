@@ -72,7 +72,7 @@ void ProjectDialog::okClicked()
 {
    // 1
    applyClicked();
-   accept();
+   close();
 }
 
 
@@ -279,7 +279,7 @@ QLayout* ProjectDialog::setupButtons()
    QPushButton* cancel {new QPushButton(tr("&Cancel"))};
    connect(ok,&QPushButton::clicked,this,&ProjectDialog::okClicked);
    connect(apply,&QPushButton::clicked,this,&ProjectDialog::applyClicked);
-   connect(cancel,&QPushButton::clicked,this,&ProjectDialog::reject);
+   connect(cancel,&QPushButton::clicked,this,&ProjectDialog::close);
 
    // 2
    QHBoxLayout* ret {new QHBoxLayout};

@@ -34,23 +34,14 @@ PersistentDialog::PersistentDialog(const char* geometryKey, QWidget* parent):
 
 
 
-/*!
- * Saves the geometry of this persistent dialog if the geometry key has been set, 
- * else this does nothing. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this object's geometry key has been set then use Qt settings to save this 
- *    object's dialog geometry using the geometry key. 
- */
-PersistentDialog::~PersistentDialog()
+void PersistentDialog::closeEvent(QCloseEvent* event)
 {
    if ( _geometryKey )
    {
       QSettings settings(Application::_companyKey,Application::_programKey);
       settings.setValue(_geometryKey,saveGeometry());
    }
+   QDialog::closeEvent(event);
 }
 
 

@@ -114,11 +114,11 @@ QLayout* Function::Edit::layout()
    // 1
    _splitter = new QSplitter(this);
    QWidget* left {new QWidget(this)};
+   _splitter->addWidget(left);
+   _splitter->addWidget(rightLayout());
    left->setLayout(leftLayout());
 
    // 2
-   _splitter->addWidget(left);
-   _splitter->addWidget(rightLayout());
 
    // 3
    QVBoxLayout* ret {new QVBoxLayout};

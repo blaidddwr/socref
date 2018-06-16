@@ -165,7 +165,7 @@ void ScanDialog::scanFinished()
    }
 
    // 2
-   accept();
+   close();
 }
 
 

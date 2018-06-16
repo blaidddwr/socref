@@ -31,7 +31,6 @@ namespace Gui
       Q_OBJECT
    public:
       explicit MainWindow(QWidget* parent = nullptr);
-      ~MainWindow();
       void setProject(std::unique_ptr<Project>&& project);
    protected:
       virtual void closeEvent(QCloseEvent* event) override final;

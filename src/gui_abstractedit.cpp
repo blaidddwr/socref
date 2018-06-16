@@ -441,7 +441,7 @@ void AbstractEdit::setDisabled(bool disabled)
  */
 void AbstractEdit::okClicked()
 {
-   if ( tryApply() ) accept();
+   if ( tryApply() ) close();
 }
 
 
@@ -469,7 +469,7 @@ void AbstractEdit::applyClicked()
  */
 void AbstractEdit::cancelClicked()
 {
-   emit reject();
+   close();
 }
 
 
