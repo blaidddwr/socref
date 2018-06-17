@@ -21,6 +21,7 @@ namespace CppQt
       private slots:
          void okClicked();
          void applyClicked();
+         void cancelClicked();
       private:
          void setupGui();
          QLayout* setupForm();

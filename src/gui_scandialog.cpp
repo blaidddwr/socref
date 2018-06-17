@@ -165,7 +165,7 @@ void ScanDialog::scanFinished()
    }
 
    // 2
-   close();
+   done(QDialog::Accepted);
 }
 
 

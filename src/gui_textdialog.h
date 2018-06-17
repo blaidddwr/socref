@@ -23,9 +23,6 @@ namespace Gui
       explicit TextDialog(QWidget* parent = nullptr);
       QString text() const;
       void setText(const QString& text);
-   private slots:
-      void okClicked();
-      void cancelClicked();
    private:
       void setupGui();
       QLayout* setupButtons();

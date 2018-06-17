@@ -100,7 +100,7 @@ namespace CppQt
       static const QStringList _typeNames;
       /*!
        */
-      Type _type;
+      Type _type {Type::Public};
    };
 }
 

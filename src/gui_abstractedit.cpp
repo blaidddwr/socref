@@ -441,7 +441,7 @@ void AbstractEdit::setDisabled(bool disabled)
  */
 void AbstractEdit::okClicked()
 {
-   if ( tryApply() ) close();
+   if ( tryApply() ) done(QDialog::Accepted);
 }
 
 
@@ -456,20 +456,6 @@ void AbstractEdit::okClicked()
 void AbstractEdit::applyClicked()
 {
    tryApply();
-}
-
-
-
-
-
-
-/*!
- * Called when this object's cancel button is called. This simply closes the dialog 
- * without applying anything. 
- */
-void AbstractEdit::cancelClicked()
-{
-   close();
 }
 
 
@@ -511,7 +497,7 @@ QLayout* AbstractEdit::setupButtons()
 
    // 3
    QPushButton* cancel {new QPushButton(tr("&Cancel"))};
-   connect(cancel,&QPushButton::clicked,this,&AbstractEdit::cancelClicked);
+   connect(cancel,&QPushButton::clicked,[this]{ done(QDialog::Rejected); });
 
    // 4
    QHBoxLayout* ret {new QHBoxLayout};

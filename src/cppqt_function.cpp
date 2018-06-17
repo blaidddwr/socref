@@ -433,7 +433,8 @@ bool Function::isVoidReturn() const
  */
 bool Function::isMethod() const
 {
-   return parent()->type() == BlockFactory::AccessType;
+   if ( AbstractBlock* valid = parent() ) return valid->type() == BlockFactory::AccessType;
+   else return false;
 }
 
 
@@ -751,7 +752,7 @@ QString Function::attributes() const
  */
 void Function::setDefault(bool state)
 {
-   if ( state && !isMethod() )
+   if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -772,7 +773,7 @@ void Function::setDefault(bool state)
  */
 void Function::setExplicit(bool state)
 {
-   if ( state && !isMethod() )
+   if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -793,7 +794,7 @@ void Function::setExplicit(bool state)
  */
 void Function::setVirtual(bool state)
 {
-   if ( state && ( isStatic() || hasTemplates() || !isMethod() ) )
+   if ( parent() && state && ( isStatic() || hasTemplates() || !isMethod() ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -814,7 +815,7 @@ void Function::setVirtual(bool state)
  */
 void Function::setConst(bool state)
 {
-   if ( state && !isMethod() )
+   if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -835,7 +836,7 @@ void Function::setConst(bool state)
  */
 void Function::setConstExpr(bool state)
 {
-   if ( state && _virtual )
+   if ( parent() && state && _virtual )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -856,7 +857,7 @@ void Function::setConstExpr(bool state)
  */
 void Function::setStatic(bool state)
 {
-   if ( state && _virtual )
+   if ( parent() && state && _virtual )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -877,7 +878,7 @@ void Function::setStatic(bool state)
  */
 void Function::setOverride(bool state)
 {
-   if ( state && ( !_virtual || _abstract ) )
+   if ( parent() && state && ( !_virtual || _abstract ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -898,7 +899,7 @@ void Function::setOverride(bool state)
  */
 void Function::setFinal(bool state)
 {
-   if ( state && ( !_virtual || _abstract ) )
+   if ( parent() && state && ( !_virtual || _abstract ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -919,7 +920,7 @@ void Function::setFinal(bool state)
  */
 void Function::setAbstract(bool state)
 {
-   if ( state && ( !_virtual || _override || _final ) )
+   if ( parent() && state && ( !_virtual || _override || _final ) )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

@@ -58,18 +58,6 @@ void TextDialog::setText(const QString& text)
    _edit->setPlainText(text);
 }
 
-void TextDialog::okClicked()
-{
-   accept();
-   close();
-}
-
-void TextDialog::cancelClicked()
-{
-   reject();
-   close();
-}
-
 
 
 
@@ -132,8 +120,8 @@ QLayout* TextDialog::setupButtons()
    // 1
    QPushButton* ok {new QPushButton(tr("Ok"))};
    QPushButton* cancel {new QPushButton(tr("Cancel"))};
-   connect(ok,&QPushButton::clicked,this,&TextDialog::okClicked);
-   connect(cancel,&QPushButton::clicked,this,&TextDialog::cancelClicked);
+   connect(ok,&QPushButton::clicked,[this]{ done(QDialog::Accepted); });
+   connect(cancel,&QPushButton::clicked,[this]{ done(QDialog::Rejected); });
 
    // 2
    QHBoxLayout* ret {new QHBoxLayout};

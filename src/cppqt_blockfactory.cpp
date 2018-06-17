@@ -169,23 +169,23 @@ std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
    // 1
    switch (type)
    {
-   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace("unnamed_namespace"));
-   case VariableType: return unique_ptr<AbstractBlock>(new Variable("int","unnamed_variable"));
-   case FunctionType: return unique_ptr<AbstractBlock>(new Function("void","unnamed_function"));
-   case TemplateType: return unique_ptr<AbstractBlock>(new Template("class","unnamed_template"));
-   case ClassType: return unique_ptr<AbstractBlock>(new Class("unnamed_class"));
-   case AccessType: return unique_ptr<AbstractBlock>(new Access(Access::Type::Public));
-   case OperatorType: return unique_ptr<AbstractBlock>(new Operator("void"));
-   case SlotType: return unique_ptr<AbstractBlock>(new Slot("unnamed_slot"));
-   case SignalType: return unique_ptr<AbstractBlock>(new Signal("unnamed_signal"));
+   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace);
+   case VariableType: return unique_ptr<AbstractBlock>(new Variable);
+   case FunctionType: return unique_ptr<AbstractBlock>(new Function);
+   case TemplateType: return unique_ptr<AbstractBlock>(new Template);
+   case ClassType: return unique_ptr<AbstractBlock>(new Class);
+   case AccessType: return unique_ptr<AbstractBlock>(new Access);
+   case OperatorType: return unique_ptr<AbstractBlock>(new Operator);
+   case SlotType: return unique_ptr<AbstractBlock>(new Slot);
+   case SignalType: return unique_ptr<AbstractBlock>(new Signal);
    case ConstructorType: return unique_ptr<AbstractBlock>(new Constructor);
    case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
-   case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
-   case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
-   case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
+   case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration);
+   case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue);
+   case ParentType: return unique_ptr<AbstractBlock>(new Parent);
    case UsingType: return unique_ptr<AbstractBlock>(new Using);
-   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList("unnamed_list"));
-   case TypeType: return unique_ptr<AbstractBlock>(new Type("unnamed_type"));
+   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList);
+   case TypeType: return unique_ptr<AbstractBlock>(new Type);
    case FriendType: return unique_ptr<AbstractBlock>(new Friend);
    default: return nullptr;
    }

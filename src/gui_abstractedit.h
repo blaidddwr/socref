@@ -85,7 +85,6 @@ namespace Gui
    private slots:
       void okClicked();
       void applyClicked();
-      void cancelClicked();
    private:
       QLayout* setupButtons();
       void checkField(int index);

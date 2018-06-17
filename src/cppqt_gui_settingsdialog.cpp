@@ -32,6 +32,7 @@ SettingsDialog::SettingsDialog():
 void SettingsDialog::okClicked()
 {
    applyClicked();
+   accept();
    close();
 }
 
@@ -47,6 +48,17 @@ void SettingsDialog::applyClicked()
    settings.setHeaderLines(_headerLinesBox->value());
    settings.setFunctionLines(_functionLinesBox->value());
    settings.setMaxColumns(_maxColumnsBox->value());
+}
+
+
+
+
+
+
+void SettingsDialog::cancelClicked()
+{
+   reject();
+   close();
 }
 
 
@@ -173,6 +185,6 @@ QWidget* SettingsDialog::setupApplyButton()
 QWidget* SettingsDialog::setupCancelButton()
 {
    QPushButton* ret {new QPushButton(tr("&Cancel"))};
-   connect(ret,&QPushButton::clicked,this,&SettingsDialog::close);
+   connect(ret,&QPushButton::clicked,this,&SettingsDialog::cancelClicked);
    return ret;
 }

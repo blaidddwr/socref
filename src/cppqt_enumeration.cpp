@@ -374,3 +374,22 @@ QStringList Enumeration::fields() const
    // 2
    return ret;
 }
+
+
+
+
+
+
+/*!
+ * Implements _CppQt::Base::checkName_. This allows an empty string to be valid as 
+ * a given name for anonymous enumerations. 
+ *
+ * @param value The name value whose syntax is checked to be valid or not. 
+ *
+ * @return True if the given name is valid or false otherwise. 
+ */
+bool Enumeration::checkName(const QString& value)
+{
+   if ( value.isEmpty() ) return true;
+   else return Base::checkName(value);
+}

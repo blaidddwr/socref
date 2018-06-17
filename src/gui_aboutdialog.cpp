@@ -182,7 +182,7 @@ QLayout* AboutDialog::setupBottom()
 {
    // 1
    QPushButton* ok {new QPushButton(tr("&Close"))};
-   connect(ok,&QPushButton::clicked,this,&QDialog::close);
+   connect(ok,&QPushButton::clicked,[this]{ done(QDialog::Accepted); });
 
    // 2
    QHBoxLayout* ret {new QHBoxLayout};

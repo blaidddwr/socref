@@ -14,6 +14,21 @@ using namespace Gui;
 
 
 /*!
+ *
+ * @param r  
+ */
+void PersistentDialog::done(int r)
+{
+   QDialog::done(r);
+   close();
+}
+
+
+
+
+
+
+/*!
  * Constructs a new persistent dialog with the optional geometry key and parent. If 
  * no geometry key is given this new dialog will effectively do nothing unless the 
  * save settings method is called before its destruction. 
@@ -34,6 +49,12 @@ PersistentDialog::PersistentDialog(const char* geometryKey, QWidget* parent):
 
 
 
+/*!
+ * Implements _QWidget::closeEvent_. This saves the geometry of this persistent 
+ * dialog and calls the inherited interface. 
+ *
+ * @param event The qt close event that is handled. 
+ */
 void PersistentDialog::closeEvent(QCloseEvent* event)
 {
    if ( _geometryKey )
