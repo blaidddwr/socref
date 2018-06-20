@@ -1,0 +1,5 @@
+
+* Massive internal overhaul of block code and basic structure. This radically changed the internal operations of this program and will show up in multiple small changes to the operation of this program. This should not change anything in a major way.
+* Changed C++/Qt parsing:
+  * Function operation comments are now inserted as inline comments inside their respective function.
+
