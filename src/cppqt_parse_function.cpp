@@ -10,6 +10,7 @@
 #include "cppqt_operator.h"
 #include "cppqt_constructor.h"
 #include "cppqt_destructor.h"
+#include "cppqt_settings.h"
 
 
 
@@ -53,7 +54,6 @@ void Function::outputComments()
       if ( _block->type() != BlockFactory::SignalType )
       {
          if ( _block->type() != BlockFactory::SlotType ) outputReturnDescriptionComment();
-         if ( !_block->isAbstract() ) outputOperationComments();
       }
       add(" */");
    }
@@ -192,8 +192,76 @@ bool Function::readLine(const QString& line)
       if ( _level == 0 ) return false;
    }
    if ( _level == 0) _initializers << line.mid(_cutOff);
-   else _code << line.mid(_cutOff);
+   else
+   {
+      if ( _block && QRegExp("\\s*// .*").exactMatch(line) )
+      {
+         if ( !_edgePast )
+         {
+            _edgePast = true;
+            processInlineComment(line);
+         }
+      }
+      else
+      {
+         _edgePast = false;
+         _code << line.mid(_cutOff);
+      }
+   }
    return true;
+}
+
+
+
+
+
+
+
+void Function::processInlineComment(const QString& line)
+{
+   int spacing {-_cutOff};
+   for (auto ch: line)
+   {
+      if ( !ch.isSpace() ) break;
+      else ++spacing;
+   }
+   if ( spacing < 0 ) spacing = 0;
+   if ( _nextOperation < _block->operations().size() )
+   {
+      insertInlineComment(_nextOperation++,spacing);
+   }
+   else
+   {
+      QString blank(spacing,' ');
+      _code << blank.append("// ");
+   }
+}
+
+
+
+
+
+
+void Function::insertInlineComment(int index, int spacing)
+{
+   const int max {Settings::instance().maxColumns()};
+   QStringList words {_block->operations().at(index).split(QRegExp("\\s+"))};
+   if ( !words.isEmpty() )
+   {
+      _code << QString(spacing,' ').append("// ").append(QString::number(index + 1)).append(". ");
+   }
+   while ( !words.isEmpty() )
+   {
+      int total {words.first().size() + 1};
+      QString line(spacing,' ');
+      line.append("// ").append(words.takeFirst().append(" "));
+      while ( !words.isEmpty() && (total + words.first().size() + 1) <= max )
+      {
+         total += words.first().size() + 1;
+         line.append(words.takeFirst().append(" "));
+      }
+      _code << line;
+   }
 }
 
 
@@ -230,30 +298,6 @@ void Function::outputReturnDescriptionComment()
       int justified {base.size()};
       base.append(returnDescription);
       add(makeComment(base,justified));
-   }
-}
-
-
-
-
-
-
-void Function::outputOperationComments()
-{
-   const QStringList operations {_block->operations()};
-   if ( !operations.isEmpty() )
-   {
-      add(" *");
-      add(" *");
-      add(makeComment("Steps of Operation:"));
-      for (int i = 0; i < operations.size() ;++i)
-      {
-         add(" *");
-         QString base {QString::number(i + 1).append(". ")};
-         int justified {base.size()};
-         base.append(operations.at(i));
-         add(makeComment(base,justified));
-      }
    }
 }
 

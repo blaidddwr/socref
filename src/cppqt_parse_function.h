@@ -24,9 +24,10 @@ namespace CppQt
       protected:
          virtual bool readLine(const QString& line) override final;
       private:
+         void processInlineComment(const QString& line);
+         void insertInlineComment(int index, int spacing);
          void outputArgumentComments();
          void outputReturnDescriptionComment();
-         void outputOperationComments();
          QString getReturnValue();
          QString getScope(bool hasTemplates);
          QString getName(bool isRegExp = false);
@@ -36,6 +37,8 @@ namespace CppQt
          QString _definition;
          int _level {0};
          int _cutOff {0};
+         bool _edgePast {false};
+         int _nextOperation {0};
          QStringList _code;
          QStringList _initializers;
       };
