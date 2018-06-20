@@ -33,18 +33,13 @@ const char* TextEdit::Dialog::_snippetDots {"..."};
  * Constructs a new spell checker dialog with the given text editor parent. 
  *
  * @param parent The parent text edit for this new spell checking dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Setup this object's spell library resources, its GUI, and set it's window 
- *    title. 
  */
 TextEdit::Dialog::Dialog(TextEdit* parent):
    PersistentDialog("gui.textedit.dialog.geometry",parent),
    _edit(parent)
 {
-   // 1
+   // Setup this object's spell library resources, its GUI, and set it's window 
+   // title. 
    setupSpeller();
    setupGui();
    setWindowTitle("Spell Checker");
@@ -74,17 +69,11 @@ TextEdit::Dialog::~Dialog()
  * first misspelled word. If no misspelled word are found this returns. 
  *
  * @return Always returns Qt dialog accept. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Show this object's GUI and then find the first misspelled word. If a 
- *    misspelled word is found then call the Qt dialog exec method, else return Qt 
- *    accept. 
  */
 int TextEdit::Dialog::exec()
 {
-   // 1
+   // Show this object's GUI and then find the first misspelled word. If a misspelled 
+   // word is found then call the Qt dialog exec method, else return Qt accept. 
    show();
    if ( findNextWord() ) return QDialog::exec();
    return QDialog::Accepted;
@@ -99,24 +88,17 @@ int TextEdit::Dialog::exec()
  * Called when the change button is clicked. This changes the current misspelled 
  * word in the parent editor's text of this dialog and then finds the next 
  * misspelled word. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Replace the current misspelled word in the parent editor's text of this 
- *    dialog with the text from this object's word edit widget. 
- *
- * 2. Find the next misspelled word in the parent text editor of this dialog. 
  */
 void TextEdit::Dialog::changeClicked()
 {
-   // 1
+   // Replace the current misspelled word in the parent editor's text of this dialog 
+   // with the text from this object's word edit widget. 
    QString text {_edit->toPlainText()};
    text.remove(_offset,_length);
    text.insert(_offset,_wordEdit->text());
    _edit->setPlainText(text);
 
-   // 2
+   // Find the next misspelled word in the parent text editor of this dialog. 
    findNextWord();
 }
 
@@ -128,16 +110,11 @@ void TextEdit::Dialog::changeClicked()
 /*!
  * Called when the ignore once button is clicked. This skips the current misspelled 
  * word and finds the next one. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Skip the current misspelled word of the parent editor's text and find the 
- *    next one. 
  */
 void TextEdit::Dialog::ignoreOnceClicked()
 {
-   // 1
+   // Skip the current misspelled word of the parent editor's text and find the next 
+   // one. 
    _offset += _length;
    findNextWord();
 }
@@ -151,16 +128,11 @@ void TextEdit::Dialog::ignoreOnceClicked()
  * Called when the ignore all button is clicked. This adds this object's current 
  * misspelled word to the list of words to ignore and finds the next misspelled 
  * word. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Add this object's current misspelled word to its list of ignored words and 
- *    then find the next misspelled word. 
  */
 void TextEdit::Dialog::ignoreAllClicked()
 {
-   // 1
+   // Add this object's current misspelled word to its list of ignored words and then 
+   // find the next misspelled word. 
    _ignored << _currentWord;
    findNextWord();
 }
@@ -192,29 +164,19 @@ void TextEdit::Dialog::wordTextChanged(const QString& text)
  * true if a misspelled word is found or false if there is nothing else to find. 
  *
  * @return True if a misspelled word is found or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Grab the text _text_ of this object's parent editor, finding the next word in 
- *    it after this object's text offset. 
- *
- * 2. If a next word is found then check it for spelling and update this object's 
- *    offset and length. If the word is misspelled then set it as this object's 
- *    current misspelled word and return true, else find the next word in this 
- *    object's parent editor. 
- *
- * 3. If no words are found query the user if they want to start again from the 
- *    beginning. 
  */
 bool TextEdit::Dialog::findNextWord()
 {
-   // 1
+   // Grab the text _text_ of this object's parent editor, finding the next word in 
+   // it after this object's text offset. 
    QString text {_edit->toPlainText()};
    QRegularExpression pattern("[\\w'-]+");
    QRegularExpressionMatch match {pattern.match(text,_offset)};
 
-   // 2
+   // If a next word is found then check it for spelling and update this object's 
+   // offset and length. If the word is misspelled then set it as this object's 
+   // current misspelled word and return true, else find the next word in this 
+   // object's parent editor. 
    while ( match.hasMatch() )
    {
       _offset = match.capturedStart();
@@ -228,7 +190,8 @@ bool TextEdit::Dialog::findNextWord()
       match = pattern.match(text,_offset);
    }
 
-   // 3
+   // If no words are found query the user if they want to start again from the 
+   // beginning. 
    return queryEndOfText();
 }
 
@@ -243,21 +206,14 @@ bool TextEdit::Dialog::findNextWord()
  * @param word  
  *
  * @return True if the given word is spelled correctly or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given word is contained in this object's ignore list then return true. 
- *
- * 2. Use this object's Aspell speller to check for correct spelling, returning 
- *    true if it is correct or false if it is misspelled. 
  */
 bool TextEdit::Dialog::isCorrectWord(const QString& word)
 {
-   // 1
+   // If the given word is contained in this object's ignore list then return true. 
    if ( _ignored.contains(word) ) return true;
 
-   // 2
+   // Use this object's Aspell speller to check for correct spelling, returning true 
+   // if it is correct or false if it is misspelled. 
    QByteArray utfWord {word.toLocal8Bit()};
    return aspell_speller_check(_spell,utfWord.data(),utfWord.size());
 }
@@ -273,30 +229,20 @@ bool TextEdit::Dialog::isCorrectWord(const QString& word)
  *
  * @return True if the user wants to run spell checking again and a misspelled word 
  *         was found or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a Qt message box querying the user if they want to spell check this 
- *    object's parent editor from the beginning again. 
- *
- * 2. Execute _box_ in modal mode. If the user responds with yes then reset this 
- *    object's offset and length and find the next misspelled word, returning the 
- *    result of the find next word method. 
- *
- * 3. Else the user responded with no so call on this dialog to close and return 
- *    false. 
  */
 bool TextEdit::Dialog::queryEndOfText()
 {
-   // 1
+   // Create a Qt message box querying the user if they want to spell check this 
+   // object's parent editor from the beginning again. 
    QMessageBox box;
    box.setWindowTitle(tr("Spell Check Complete"));
    box.setText(tr("End of text has been reached. Do you want to run spell check again from beginning of text?"));
    box.addButton(tr("No"),QMessageBox::RejectRole);
    box.addButton(tr("Yes"),QMessageBox::AcceptRole);
 
-   // 2
+   // Execute _box_ in modal mode. If the user responds with yes then reset this 
+   // object's offset and length and find the next misspelled word, returning the 
+   // result of the find next word method. 
    if ( box.exec() )
    {
       _offset = 0;
@@ -304,7 +250,8 @@ bool TextEdit::Dialog::queryEndOfText()
       return findNextWord();
    }
 
-   // 3
+   // Else the user responded with no so call on this dialog to close and return 
+   // false. 
    else
    {
       accept();
@@ -324,23 +271,16 @@ bool TextEdit::Dialog::queryEndOfText()
  *
  * @param match The Qt regular expression match within the given complete text that 
  *              is a misspelled word. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Set this object's current misspelled word and its word edit widget to the 
- *    captured text of the given match. 
- *
- * 2. Set this object's snippet with the given complete text and locations of the 
- *    misspelled word, then update this object's word suggestions. 
  */
 void TextEdit::Dialog::setWord(const QString& text, QRegularExpressionMatch& match)
 {
-   // 1
+   // Set this object's current misspelled word and its word edit widget to the 
+   // captured text of the given match. 
    _currentWord = match.captured();
    _wordEdit->setText(_currentWord);
 
-   // 2
+   // Set this object's snippet with the given complete text and locations of the 
+   // misspelled word, then update this object's word suggestions. 
    setSnippet(text,match.capturedStart(),match.capturedLength());
    updateSuggested();
 }
@@ -360,38 +300,26 @@ void TextEdit::Dialog::setWord(const QString& text, QRegularExpressionMatch& mat
  *              text. 
  *
  * @param length The length of the misspelled word in the given complete text. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Get the starting and end offsets for the text to be displayed before the 
- *    misspelled word. 
- *
- * 2. Get the starting offset for the text to be displayed after the misspelled 
- *    word. 
- *
- * 3. Build the snippet text to _sentence_, adding the snippet dots text before and 
- *    after the built sentence and highlighting the misspelled word as bold. 
- *
- * 4. Set this object's snippet view label text to _sentence_. 
  */
 void TextEdit::Dialog::setSnippet(const QString& text, int begin, int length)
 {
-   // 1
+   // Get the starting and end offsets for the text to be displayed before the 
+   // misspelled word. 
    int begin1 {begin - _snippetRadius};
    int length1 {begin};
    if ( begin1 < 0 ) begin1 = 0;
 
-   // 2
+   // Get the starting offset for the text to be displayed after the misspelled word. 
    int begin2 {begin + length};
 
-   // 3
+   // Build the snippet text to _sentence_, adding the snippet dots text before and 
+   // after the built sentence and highlighting the misspelled word as bold. 
    QString sentence {_snippetDots};
    sentence.append(text.mid(begin1,length1));
    sentence.append("<b>").append(text.mid(begin,length)).append("</b>");
    sentence.append(text.mid(begin2,_snippetRadius)).append(_snippetDots);
 
-   // 4
+   // Set this object's snippet view label text to _sentence_. 
    _snippetView->setText(sentence);
 }
 
@@ -403,27 +331,17 @@ void TextEdit::Dialog::setSnippet(const QString& text, int begin, int length)
 /*!
  * Update the word change suggestions displayed to the user for the current 
  * misspelled word of this dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Get the list of word change suggestions _elements_ from this object's Aspell 
- *    speller. 
- *
- * 2. Build the word suggestions text _text_, adding the title and then the list of 
- *    suggested words _elements_. 
- *
- * 3. Set this object's suggestions view label text to _text_ and delete the 
- *    temporary Aspell resources needed for generating the suggestion list. 
  */
 void TextEdit::Dialog::updateSuggested()
 {
-   // 1
+   // Get the list of word change suggestions _elements_ from this object's Aspell 
+   // speller. 
    QByteArray utfWord {_currentWord.toLocal8Bit()};
    const AspellWordList* suggestions {aspell_speller_suggest(_spell,utfWord.data(),utfWord.size())};
    AspellStringEnumeration* elements {aspell_word_list_elements(suggestions)};
 
-   // 2
+   // Build the word suggestions text _text_, adding the title and then the list of 
+   // suggested words _elements_. 
    bool first {true};
    const char* suggest;
    QString text{"<h3>Suggestions</h3>"};
@@ -434,7 +352,8 @@ void TextEdit::Dialog::updateSuggested()
       text.append(suggest);
    }
 
-   // 3
+   // Set this object's suggestions view label text to _text_ and delete the 
+   // temporary Aspell resources needed for generating the suggestion list. 
    _suggestionsView->setText(text);
    delete_aspell_string_enumeration(elements);
 }
@@ -446,23 +365,16 @@ void TextEdit::Dialog::updateSuggested()
 
 /*!
  * Constructs and initializes all GUI elements for this new dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new vertical layout _layout_, adding the top layout by calling the 
- *    setup top method and then adding the buttons. 
- *
- * 2. Set the layout of this dialog to _layout_. 
  */
 void TextEdit::Dialog::setupGui()
 {
-   // 1
+   // Create a new vertical layout _layout_, adding the top layout by calling the 
+   // setup top method and then adding the buttons. 
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addLayout(setupTop());
    layout->addLayout(setupButtons());
 
-   // 2
+   // Set the layout of this dialog to _layout_. 
    setLayout(layout);
 }
 
@@ -476,31 +388,22 @@ void TextEdit::Dialog::setupGui()
  * returning its layout. 
  *
  * @return Pointer to the layout of the top part of the GUI for this dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create and initialize this new object's suggestion view label. 
- *
- * 2. Create a new horizontal layout _ret_, adding this object's word edit layout 
- *    and then its suggestions view label. 
- *
- * 3. Return _ret_. 
  */
 QLayout* TextEdit::Dialog::setupTop()
 {
-   // 1
+   // Create and initialize this new object's suggestion view label. 
    _suggestionsView = new QLabel;
    _suggestionsView->setAlignment(Qt::AlignTop);
    _suggestionsView->setStyleSheet("margin-left:16px;");
    _suggestionsView->setWordWrap(true);
 
-   // 2
+   // Create a new horizontal layout _ret_, adding this object's word edit layout and 
+   // then its suggestions view label. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addLayout(setupWordEdit());
    ret->addWidget(_suggestionsView);
 
-   // 3
+   // Return _ret_. 
    return ret;
 }
 
@@ -515,38 +418,27 @@ QLayout* TextEdit::Dialog::setupTop()
  *
  * @return Pointer to the layout of the word edit portion of the GUI for this 
  *         dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create the word line edit widget for new dialog, connecting its text changed 
- *    signal. 
- *
- * 2. Create and initialize the snippet view label for this new dialog. 
- *
- * 3. Create a vertical layout _ret_, adding this object's word edit widget then 
- *    its snippet view label. 
- *
- * 4. Return _ret_. 
  */
 QLayout* TextEdit::Dialog::setupWordEdit()
 {
-   // 1
+   // Create the word line edit widget for new dialog, connecting its text changed 
+   // signal. 
    _wordEdit = new QLineEdit;
    connect(_wordEdit,&QLineEdit::textChanged,this,&Dialog::wordTextChanged);
 
-   // 2
+   // Create and initialize the snippet view label for this new dialog. 
    _snippetView = new QLabel;
    _snippetView->setWordWrap(true);
    _snippetView->setAlignment(Qt::AlignTop);
    _snippetView->setTextFormat(Qt::RichText);
 
-   // 3
+   // Create a vertical layout _ret_, adding this object's word edit widget then its 
+   // snippet view label. 
    QVBoxLayout* ret {new QVBoxLayout};
    ret->addWidget(_wordEdit);
    ret->addWidget(_snippetView);
 
-   // 4
+   // Return _ret_. 
    return ret;
 }
 
@@ -560,21 +452,11 @@ QLayout* TextEdit::Dialog::setupWordEdit()
  * containing all the buttons. 
  *
  * @return Pointer to layout of all buttons for this new dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create the change, ignore once, ignore all, and cancel buttons for this new 
- *    dialog, connecting all their clicked signals. 
- *
- * 2. Create a new horizontal layout _ret_, adding this object's change, ignore 
- *    once, ignore all buttons, a stretch, and then this object's cancel button. 
- *
- * 3. Return _ret_. 
  */
 QLayout* TextEdit::Dialog::setupButtons()
 {
-   // 1
+   // Create the change, ignore once, ignore all, and cancel buttons for this new 
+   // dialog, connecting all their clicked signals. 
    _changeButton = new QPushButton(tr("&Change"));
    QPushButton* ignoreOnce {new QPushButton(tr("&Ignore Once"))};
    QPushButton* ignoreAll {new QPushButton(tr("Ignore &All"))};
@@ -584,7 +466,8 @@ QLayout* TextEdit::Dialog::setupButtons()
    connect(ignoreAll,&QPushButton::clicked,this,&Dialog::ignoreAllClicked);
    connect(cancel,&QPushButton::clicked,this,&QDialog::close);
 
-   // 2
+   // Create a new horizontal layout _ret_, adding this object's change, ignore once, 
+   // ignore all buttons, a stretch, and then this object's cancel button. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_changeButton);
    ret->addWidget(ignoreOnce);
@@ -592,7 +475,7 @@ QLayout* TextEdit::Dialog::setupButtons()
    ret->addStretch();
    ret->addWidget(cancel);
 
-   // 3
+   // Return _ret_. 
    return ret;
 }
 
@@ -603,19 +486,12 @@ QLayout* TextEdit::Dialog::setupButtons()
 
 /*!
  * Constructs and initializes all Aspell library resources for this new dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create and initialize this object's Aspell configuration, setting its default 
- *    language, and then create a temporary can have errors Aspell speller _temp_. 
- *    If _temp_ has errors then throw an exception. 
- *
- * 2. Set this object's speller by extracting it from _temp_. 
  */
 void TextEdit::Dialog::setupSpeller()
 {
-   // 1
+   // Create and initialize this object's Aspell configuration, setting its default 
+   // language, and then create a temporary can have errors Aspell speller _temp_. If 
+   // _temp_ has errors then throw an exception. 
    _spellConfig = new_aspell_config();
    aspell_config_replace(_spellConfig,"lang",_defaultLang);
    AspellCanHaveError* temp {new_aspell_speller(_spellConfig)};
@@ -628,6 +504,6 @@ void TextEdit::Dialog::setupSpeller()
       throw e;
    }
 
-   // 2
+   // Set this object's speller by extracting it from _temp_. 
    _spell = to_aspell_speller(temp);
 }

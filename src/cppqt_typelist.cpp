@@ -50,21 +50,14 @@ QString TypeList::name() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the static qt icon _ret_ is null then load its icon. 
- *
- * 2. Return _ret_. 
  */
 QIcon TypeList::icon() const
 {
-   // 1
+   // If the static qt icon _ret_ is null then load its icon. 
    static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/typelist.svg");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -159,17 +152,12 @@ std::unique_ptr<AbstractBlock> TypeList::makeBlank() const
  *
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Notify the body of this block is modified and return false. 
  */
 bool TypeList::childNameModified(AbstractBlock* child)
 {
    Q_UNUSED(child)
 
-   // 1
+   // Notify the body of this block is modified and return false. 
    notifyBodyModified();
    return false;
 }
@@ -187,17 +175,12 @@ bool TypeList::childNameModified(AbstractBlock* child)
  *
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Notify the name and body of this block is modified and return false. 
  */
 bool TypeList::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
 
-   // 1
+   // Notify the name and body of this block is modified and return false. 
    notifyNameModified();
    notifyBodyModified();
    return false;
@@ -217,17 +200,12 @@ bool TypeList::childAdded(AbstractBlock* child)
  *
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Notify the name and body of this block is modified and return false. 
  */
 bool TypeList::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
 
-   // 1
+   // Notify the name and body of this block is modified and return false. 
    notifyNameModified();
    notifyBodyModified();
    return false;

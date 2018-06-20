@@ -68,15 +68,10 @@ int BlockFactory::size() const
  * @param type Block type whose display name is returned. 
  *
  * @return Display name for the given block type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given block type return its display name. 
  */
 QString BlockFactory::name(int type) const
 {
-   // 1
+   // Based off the given block type return its display name. 
    switch (type)
    {
    case NamespaceType: return QObject::tr("Namespace");
@@ -112,15 +107,10 @@ QString BlockFactory::name(int type) const
  * @param type Block type whose element name is returned. 
  *
  * @return Element name for the given block type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given block type return its element name. 
  */
 QString BlockFactory::elementName(int type) const
 {
-   // 1
+   // Based off the given block type return its element name. 
    switch (type)
    {
    case NamespaceType: return "namespace";
@@ -157,16 +147,11 @@ QString BlockFactory::elementName(int type) const
  * @param type Block type which is made and returned. 
  *
  * @return Pointer to new block with the given type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new block of the given type with a default value and return its 
- *    smart pointer. 
  */
 std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 {
-   // 1
+   // Create a new block of the given type with a default value and return its smart 
+   // pointer. 
    switch (type)
    {
    case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace);

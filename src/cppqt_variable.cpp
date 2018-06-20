@@ -53,30 +53,21 @@ int Variable::type() const
  * Implements the interface that returns the name of this block. 
  *
  * @return The name of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a string _ret_, setting it to this variable's base name. 
- *
- * 2. If this variable has an initial value that append that to _ret_, using 
- *    different display types depending on if it is an argument or not. 
- *
- * 3. Append this variable's properties to _ret_ and then return _ret_. 
  */
 QString Variable::name() const
 {
-   // 1
+   // Create a string _ret_, setting it to this variable's base name. 
    QString ret {Base::name()};
 
-   // 2
+   // If this variable has an initial value that append that to _ret_, using 
+   // different display types depending on if it is an argument or not. 
    if ( !_initializer.isEmpty() )
    {
       if ( isArgument() ) ret.append(" =");
       else ret.append(" {}");
    }
 
-   // 3
+   // Append this variable's properties to _ret_ and then return _ret_. 
    ret.append(attributes());
    return ret;
 }
@@ -90,18 +81,10 @@ QString Variable::name() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the variable block's static icons are not loaded then load them. 
- *
- * 2. Return the static or regular icon, depending on if this variable has its 
- *    static property set or not. 
  */
 QIcon Variable::icon() const
 {
-   // 1
+   // If the variable block's static icons are not loaded then load them. 
    static bool isLoaded {false};
    static QIcon regular;
    static QIcon static_;
@@ -111,7 +94,8 @@ QIcon Variable::icon() const
       static_ = QIcon(":/icons/svariable.svg");
    }
 
-   // 2
+   // Return the static or regular icon, depending on if this variable has its static 
+   // property set or not. 
    if ( _static ) return static_;
    else return regular;
 }
@@ -175,12 +159,6 @@ int Variable::fieldSize() const
  * @param index Index of the field whose field type is returned. 
  *
  * @return Field type of the given field index of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its type. If the given index is not 
- *    defined then call the base class interface returning its return. 
  */
 AbstractBlock::Field Variable::fieldType(int index) const
 {
@@ -207,12 +185,6 @@ AbstractBlock::Field Variable::fieldType(int index) const
  * @param index Index of the field whose value is returned. 
  *
  * @return Value of the field with the given index for this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its value. If the given index is not 
- *    defined then call the base class interface returning its return. 
  */
 QVariant Variable::field(int index) const
 {
@@ -425,12 +397,6 @@ std::unique_ptr<AbstractBlock> Variable::makeBlank() const
  * this block has been modified. 
  *
  * @param index Index of the field which has just been modified. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index notify that this block has been modified. If 
- *    the given index is not defined for this block then call the base interface. 
  */
 void Variable::fieldModified(int index)
 {
@@ -463,12 +429,6 @@ void Variable::fieldModified(int index)
  * @param index Index of the field whose value is set to the new given value. 
  *
  * @param value New value that the field with the given index is set to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index set its value to the new given value. If the 
- *    given index is not defined for this block then call the base interface. 
  */
 void Variable::quietlySetField(int index, const QVariant& value)
 {
@@ -504,15 +464,6 @@ void Variable::quietlySetField(int index, const QVariant& value)
  * for this block that matches the order of this block's field enumeration. 
  *
  * @return Full list of all field tag names for this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the static string list _ret_ is empty then populate its list, first with 
- *    the fields from the base block class and then with this block's additional 
- *    fields. 
- *
- * 2. Return _ret_. 
  */
 QStringList Variable::fields() const
 {
@@ -535,15 +486,10 @@ QStringList Variable::fields() const
  * an exception is thrown. 
  *
  * @param value The string that is verified to have valid C++ type syntax. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given string is not a valid C++ type then throw an exception. 
  */
 void Variable::checkType(const QString& value)
 {
-   // 1
+   // If the given string is not a valid C++ type then throw an exception. 
    if ( !Type::isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
@@ -563,26 +509,19 @@ void Variable::checkType(const QString& value)
  * properties are set then this returns an empty string. 
  *
  * @return String displaying any properties this variable block has set. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a string _ret_, appending any properties it has using single capital 
- *    letters. If any properties are appended then enclose them with brackets and a 
- *    space. 
- *
- * 2. Return _ret_. 
  */
 QString Variable::attributes() const
 {
-   // 1
+   // Create a string _ret_, appending any properties it has using single capital 
+   // letters. If any properties are appended then enclose them with brackets and a 
+   // space. 
    QString ret;
    if ( _constExpr ) ret.append("X");
    if ( _static ) ret.append("S");
    if ( _mutable ) ret.append("M");
    if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -596,16 +535,11 @@ QString Variable::attributes() const
  * given state. If the new state is illegal then an exception is thrown. 
  *
  * @param state The new state this variable block's property is set to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the new given state is illegal then throw an exception, else set this 
- *    block's property to the new given state. 
  */
 void Variable::setConstExpr(bool state)
 {
-   // 1
+   // If the new given state is illegal then throw an exception, else set this 
+   // block's property to the new given state. 
    if ( state && isArgument() )
    {
       Exception::InvalidArgument e;
@@ -626,16 +560,11 @@ void Variable::setConstExpr(bool state)
  * the new state is illegal then an exception is thrown. 
  *
  * @param state The new state this variable block's property is set to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the new given state is illegal then throw an exception, else set this 
- *    block's property to the new given state. 
  */
 void Variable::setStatic(bool state)
 {
-   // 1
+   // If the new given state is illegal then throw an exception, else set this 
+   // block's property to the new given state. 
    if ( state && !isMember() )
    {
       Exception::InvalidArgument e;
@@ -656,16 +585,11 @@ void Variable::setStatic(bool state)
  * the new state is illegal then an exception is thrown. 
  *
  * @param state The new state this variable block's property is set to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the new given state is illegal then throw an exception, else set this 
- *    block's property to the new given state. 
  */
 void Variable::setMutable(bool state)
 {
-   // 1
+   // If the new given state is illegal then throw an exception, else set this 
+   // block's property to the new given state. 
    if ( state && !isMember() )
    {
       Exception::InvalidArgument e;
@@ -686,16 +610,11 @@ void Variable::setMutable(bool state)
  * not a valid C++ type then an exception is thrown. 
  *
  * @param value  
- *
- *
- * Steps of Operation: 
- *
- * 1. Check the C++ type syntax for the given value and then set this variable 
- *    block's type field to the new value. 
  */
 void Variable::setType(const QString& value)
 {
-   // 1
+   // Check the C++ type syntax for the given value and then set this variable 
+   // block's type field to the new value. 
    checkType(value);
    _type = value;
 }

@@ -33,36 +33,26 @@ Variable::Edit::Edit(Variable* block):
  * used by this dialog object's form layout. 
  *
  * @return Pointer to the layout containing all GUI elements for this dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Save this dialog object's geometry to Qt settings. 
- *
- * 2. Create a new form layout _ret_, add the type edit widget, then add a new line 
- *    edit for the base name field, then add a new text edit for the base 
- *    description field, then add a new line edit for the initial value field, and 
- *    then add a check boxes field for the constant expression, static, and mutable 
- *    fields. 
- *
- * 3. Return _ret_. 
  */
 QLayout* Variable::Edit::layout()
 {
-   // Save settings.
+   // Save this dialog object's geometry to Qt settings. 
    saveSettings("cppqt.variable.edit.geometry");
 
-   // Create the form layout.
+   // Create a new form layout _ret_, add the type edit widget, then add a new line 
+   // edit for the base name field, then add a new text edit for the base description 
+   // field, then add a new line edit for the initial value field, and then add a 
+   // check boxes field for the constant expression, static, and mutable fields. 
    QFormLayout* ret {new QFormLayout};
 
-   // Add all edit widgets for this block type.
+   // Return _ret_. 
    addTypeEdit(ret);
    addLineEdit(ret,Base::Field::Name);
    addTextEdit(ret,Base::Field::Description);
    addLineEdit(ret,Field::Initializer);
    addCheckBoxes(ret,{Field::ConstExpr,Field::Static,Field::Mutable},4,"Properties:");
 
-   // Return the form layout.
+   // 
    return ret;
 }
 
@@ -74,20 +64,15 @@ QLayout* Variable::Edit::layout()
 /*!
  * Implements the interface that is called when the user has clicked the apply or 
  * OK buttons and expected to update the block an implementation is editing. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Call the abstract edit interface. If this object's type edit widget is valid 
- *    then set this object's variable block's type field to the value from the type 
- *    edit widget. 
  */
 void Variable::Edit::apply()
 {
-   // If the type edit widget exists that apply its value.
+   // Call the abstract edit interface. If this object's type edit widget is valid 
+   // then set this object's variable block's type field to the value from the type 
+   // edit widget. 
    if ( _typeEdit ) _block->setField(Field::Type,_typeEdit->value());
 
-   // Call the parent version of this interface.
+   // 
    ::Gui::AbstractEdit::apply();
 }
 
@@ -102,16 +87,11 @@ void Variable::Edit::apply()
  * @param index The field index whose display title is returned. 
  *
  * @return Title of the given field type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its title. If the given field index is 
- *    undefined then throw an exception. 
  */
 QString Variable::Edit::fieldTitle(int index) const
 {
-   // Determine which field index is given and return its title.
+   // Based off the given field index return its title. If the given field index is 
+   // undefined then throw an exception. 
    switch (index)
    {
    case Base::Field::Name: return tr("Name:");
@@ -122,7 +102,7 @@ QString Variable::Edit::fieldTitle(int index) const
    case Field::Initializer: return tr("Initializer:");
    default:
 
-      // If the given index is not recognized then throw an exception.
+      // 
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);
@@ -142,16 +122,11 @@ QString Variable::Edit::fieldTitle(int index) const
  *
  * @param form The qt form layout used for this edit dialog that the type edit 
  *             widget is added to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create and initialize this object's type edit widget and then add it to the 
- *    given qt form layout. 
  */
 void Variable::Edit::addTypeEdit(QFormLayout* form)
 {
-   // 1
+   // Create and initialize this object's type edit widget and then add it to the 
+   // given qt form layout. 
    _typeEdit = new Gui::TypeSelection(_block);
    _typeEdit->setValue(_block->variableType());
    form->addRow(new QLabel(tr("Type:")),_typeEdit);

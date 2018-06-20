@@ -75,16 +75,11 @@ int Base::fieldSize() const
  * @param index  
  *
  * @return Field type of the given field index of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given index return its field type. If the given index is out of 
- *    range then throw an exception. 
  */
 AbstractBlock::Field Base::fieldType(int index) const
 {
-   // 1
+   // Based off the given index return its field type. If the given index is out of 
+   // range then throw an exception. 
    switch (index)
    {
    case Field::Name:
@@ -113,16 +108,11 @@ AbstractBlock::Field Base::fieldType(int index) const
  * @param index  
  *
  * @return Value of the field with the given index for this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given index return its field value. If the given index is out 
- *    of range then throw an exception. 
  */
 QVariant Base::field(int index) const
 {
-   // 1
+   // Based off the given index return its field value. If the given index is out of 
+   // range then throw an exception. 
    switch (index)
    {
    case Field::Name: return _name;
@@ -231,21 +221,14 @@ int Base::fieldIndexOf(const QString& name) const
  * this block has been modified. 
  *
  * @param index Index of the field which has just been modified. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Notify that his block has been modified. 
- *
- * 2. Based off the given field index notify that this block's body or name has 
- *    been modified. 
  */
 void Base::fieldModified(int index)
 {
-   // 1
+   // Notify that his block has been modified. 
    notifyModified();
 
-   // 2
+   // Based off the given field index notify that this block's body or name has been 
+   // modified. 
    switch (index)
    {
    case Field::Name:
@@ -269,15 +252,10 @@ void Base::fieldModified(int index)
  * @param index Index of the field whose value is set to the new given value. 
  *
  * @param value New value that the field with the given index is set to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index set its value to the new given value. 
  */
 void Base::quietlySetField(int index, const QVariant& value)
 {
-   // 1
+   // Based off the given field index set its value to the new given value. 
    switch (index)
    {
    case Field::Name:
@@ -335,16 +313,11 @@ bool Base::checkName(const QString& value)
  * syntax. If the syntax is not correct an exception is thrown. 
  *
  * @param value New value for this block's name field. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the syntax of the given new name value is not valid then throw an 
- *    exception, else set this block's name field to the new value. 
  */
 void Base::setName(const QString& value)
 {
-   // 1
+   // If the syntax of the given new name value is not valid then throw an exception, 
+   // else set this block's name field to the new value. 
    if ( !checkName(value) )
    {
       Exception::InvalidArgument e;

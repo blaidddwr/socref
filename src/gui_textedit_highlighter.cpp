@@ -18,24 +18,17 @@ using namespace Gui;
  *
  * @param parent The text document of the text editor that is the parent for this 
  *               new highlighter. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Initialize the properties of this highlighter's text format used for 
- *    misspelled words. 
- *
- * 2. Setup this highlighter's spell checking library. 
  */
 TextEdit::Highlighter::Highlighter(QTextDocument* parent):
    QSyntaxHighlighter(parent)
 {
-   // 1
+   // Initialize the properties of this highlighter's text format used for misspelled 
+   // words. 
    _format.setFontUnderline(true);
    _format.setUnderlineColor(Qt::red);
    _format.setUnderlineStyle(QTextCharFormat::WaveUnderline);
 
-   // 2
+   // Setup this highlighter's spell checking library. 
    setupSpeller();
 }
 
@@ -49,7 +42,7 @@ TextEdit::Highlighter::Highlighter(QTextDocument* parent):
  */
 TextEdit::Highlighter::~Highlighter()
 {
-   // 1
+   // 
    delete_aspell_speller(_spell);
    delete_aspell_config(_spellConfig);
 }
@@ -66,24 +59,17 @@ TextEdit::Highlighter::~Highlighter()
  *
  * @param text The block of text in this highlighter's parent text document that is 
  *             highlighted. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Use a Qt regular expression to search for all words in the given text, saving 
- *    all matches to _matches_. 
- *
- * 2. Iterate through all matches in _matches_, checking that each word is spelled 
- *    correctly. If any misspelled words are found use this highlighter's special 
- *    text format on those words to highlight them to the user. 
  */
 void TextEdit::Highlighter::highlightBlock(const QString& text)
 {
-   // 1
+   // Use a Qt regular expression to search for all words in the given text, saving 
+   // all matches to _matches_. 
    QRegularExpression pattern("[\\w'-]+");
    QRegularExpressionMatchIterator matches {pattern.globalMatch(text)};
 
-   // 2
+   // Iterate through all matches in _matches_, checking that each word is spelled 
+   // correctly. If any misspelled words are found use this highlighter's special 
+   // text format on those words to highlight them to the user. 
    while ( matches.hasNext() )
    {
       QRegularExpressionMatch match {matches.next()};
@@ -103,19 +89,12 @@ void TextEdit::Highlighter::highlightBlock(const QString& text)
 /*!
  * Constructs and initializes all Aspell library resources for this new 
  * highlighter. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create and initialize this highlighter's Aspell configuration, setting its 
- *    default language, and then create a temporary can have errors Aspell speller 
- *    _temp_. If _temp_ has errors then throw an exception. 
- *
- * 2. Set this highlighter's speller by extracting it from _temp_. 
  */
 void TextEdit::Highlighter::setupSpeller()
 {
-   // 1
+   // Create and initialize this highlighter's Aspell configuration, setting its 
+   // default language, and then create a temporary can have errors Aspell speller 
+   // _temp_. If _temp_ has errors then throw an exception. 
    _spellConfig = new_aspell_config();
    aspell_config_replace(_spellConfig,"lang",_defaultLang);
    AspellCanHaveError* temp {new_aspell_speller(_spellConfig)};
@@ -129,6 +108,6 @@ void TextEdit::Highlighter::setupSpeller()
       throw e;
    }
 
-   // 2
+   // Set this highlighter's speller by extracting it from _temp_. 
    _spell = to_aspell_speller(temp);
 }

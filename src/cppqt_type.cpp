@@ -76,21 +76,14 @@ QString Type::name() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the static qt icon _ret_ is null then lead this block's icon. 
- *
- * 2. Return _ret_. 
  */
 QIcon Type::icon() const
 {
-   // 1
+   // If the static qt icon _ret_ is null then lead this block's icon. 
    static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/type.svg");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -153,16 +146,11 @@ int Type::fieldSize() const
  * @param index Index of the field whose field type is returned. 
  *
  * @return Field type of the given field index of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its type. If the given index is not 
- *    defined then throw an exception. 
  */
 AbstractBlock::Field Type::fieldType(int index) const
 {
-   // 1
+   // Based off the given field index return its type. If the given index is not 
+   // defined then throw an exception. 
    switch (index)
    {
    case Field::TypeName: return AbstractBlock::Field::String;
@@ -190,16 +178,11 @@ AbstractBlock::Field Type::fieldType(int index) const
  * @param index Index of the field whose value is returned. 
  *
  * @return Value of the field with the given index for this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its value. If the given index is not 
- *    defined then throw an exception. 
  */
 QVariant Type::field(int index) const
 {
-   // 1
+   // Based off the given field index return its value. If the given index is not 
+   // defined then throw an exception. 
    switch (index)
    {
    case Field::TypeName: return _type;
@@ -245,35 +228,24 @@ std::unique_ptr<::Gui::AbstractEdit> Type::makeEdit()
  *
  * @return True if the given string has valid syntax for a C++ type or false 
  *         otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given string does not match the basic syntax of a C++ type then return 
- *    false. 
- *
- * 2. Create a boolean _ret_ set to true and find all template argument matches 
- *    within the given string saving matches to _matches_. 
- *
- * 3. Iterate through all _matches_. If any match is not a valid C++ template 
- *    argument then set _ret_ to false and stop iterating through all matches. 
- *
- * 4. Return _ret_. 
  */
 bool Type::isValidTypeString(const QString& value)
 {
-   // 1
+   // If the given string does not match the basic syntax of a C++ type then return 
+   // false. 
    if ( !QRegExp("\\s*(const\\s+)?((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*(<(.*)>)?)+(\\s*\\*(\\s*const)?)*\\s*&{0,2}\\s*").exactMatch(value) )
    {
       return false;
    }
 
-   // 2
+   // Create a boolean _ret_ set to true and find all template argument matches 
+   // within the given string saving matches to _matches_. 
    bool ret {true};
    QRegularExpression regExp("<(.*)>");
    QRegularExpressionMatchIterator matches {regExp.globalMatch(value)};
 
-   // 3
+   // Iterate through all _matches_. If any match is not a valid C++ template 
+   // argument then set _ret_ to false and stop iterating through all matches. 
    while ( matches.hasNext() )
    {
       QRegularExpressionMatch match {matches.next()};
@@ -284,7 +256,7 @@ bool Type::isValidTypeString(const QString& value)
       }
    }
 
-   // 4
+   // Return _ret_. 
    return ret;
 }
 
@@ -302,30 +274,21 @@ bool Type::isValidTypeString(const QString& value)
  *
  * @return True if the given string has valid syntax for a C++ template argument or 
  *         false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Initialize _ret_ to true, _arguments_ as the broken list of all arguments 
- *    within the given string, nd _regexp_ as the regular expression engine for 
- *    checking syntax. 
- *
- * 2. Iterate through all arguments in _arguments_. If an argument fails its syntax 
- *    check then set _ret_ to false and break out of the iteration. If the argument 
- *    is valid and itself contains another template argument then recursively call 
- *    this method to check it is also valid, setting _ret_ to false and breaking 
- *    from iteration if it is not valid. 
- *
- * 3. Return _ret_. 
  */
 bool Type::isValidTemplateArgument(const QString& value)
 {
-   // 1
+   // Initialize _ret_ to true, _arguments_ as the broken list of all arguments 
+   // within the given string, nd _regexp_ as the regular expression engine for 
+   // checking syntax. 
    bool ret {true};
    QStringList arguments {value.split(',')};
    QRegExp regexp("\\s*((((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*)+(<(.*)>)?(\\s*\\*(\\s*const)?)*\\s*&?)|([0-9]+(\\.[0-9]+)?))\\s*");
 
-   // 2
+   // Iterate through all arguments in _arguments_. If an argument fails its syntax 
+   // check then set _ret_ to false and break out of the iteration. If the argument 
+   // is valid and itself contains another template argument then recursively call 
+   // this method to check it is also valid, setting _ret_ to false and breaking from 
+   // iteration if it is not valid. 
    for (auto arg : arguments)
    {
       if ( regexp.exactMatch(arg) )
@@ -348,7 +311,7 @@ bool Type::isValidTemplateArgument(const QString& value)
       }
    }
 
-   // 3
+   // Return _ret_. 
    return ret;
 }
 
@@ -459,15 +422,10 @@ int Type::fieldIndexOf(const QString& name) const
  * this block has been modified. 
  *
  * @param index Index of the field which has just been modified. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the field index given notify the changes to this block. 
  */
 void Type::fieldModified(int index)
 {
-   // 1
+   // Based off the field index given notify the changes to this block. 
    switch (index)
    {
    case Field::TypeName:
@@ -490,16 +448,11 @@ void Type::fieldModified(int index)
  * @param index Index of the field whose value is set to the new given value. 
  *
  * @param value New value that the field with the given index is set to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index set its value. If the given index is not 
- *    defined then do nothing. 
  */
 void Type::quietlySetField(int index, const QVariant& value)
 {
-   // 1
+   // Based off the given field index set its value. If the given index is not 
+   // defined then do nothing. 
    switch (index)
    {
    case Field::TypeName:
@@ -518,15 +471,10 @@ void Type::quietlySetField(int index, const QVariant& value)
  * exception is thrown. 
  *
  * @param value The string whose syntax is checked. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given string is not a valid C++ type then throw an exception. 
  */
 void Type::checkType(const QString& value)
 {
-   // 1
+   // If the given string is not a valid C++ type then throw an exception. 
    if ( !isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
@@ -546,16 +494,11 @@ void Type::checkType(const QString& value)
  * valid C++ type then an exception is thrown. 
  *
  * @param value The new value for this block's type name field. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Verify the given value is a valid C++ type and then set this block's type 
- *    name field to the new given value. 
  */
 void Type::setType(const QString& value)
 {
-   // 1
+   // Verify the given value is a valid C++ type and then set this block's type name 
+   // field to the new given value. 
    checkType(value);
    _type = value;
 }

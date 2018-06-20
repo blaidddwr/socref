@@ -76,18 +76,10 @@ void PersistentDialog::closeEvent(QCloseEvent* event)
  * has already been set then an exception is thrown. 
  *
  * @param geometryKey  
- *
- *
- * Steps of Operation: 
- *
- * 1. If this object's geometry key is not null then throw an exception. 
- *
- * 2. Set this object's geometry key to the one given and then restore the geometry 
- *    of this persistent dialog using the given geometry key. 
  */
 void PersistentDialog::saveSettings(const char* geometryKey)
 {
-   // 1
+   // If this object's geometry key is not null then throw an exception. 
    if ( _geometryKey )
    {
       Exception::LogicError e;
@@ -96,7 +88,8 @@ void PersistentDialog::saveSettings(const char* geometryKey)
       throw e;
    }
 
-   // 2
+   // Set this object's geometry key to the one given and then restore the geometry 
+   // of this persistent dialog using the given geometry key. 
    _geometryKey = geometryKey;
    QSettings settings(Application::_companyKey,Application::_programKey);
    restoreGeometry(settings.value(_geometryKey).toByteArray());

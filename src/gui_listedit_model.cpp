@@ -56,25 +56,15 @@ ListEdit::Model::Model(QStringList* list, QObject* parent):
  * @param role The role of data that is returned. 
  *
  * @return Header value if this is a row else an empty variant. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given orientation is not vertical or the role is not the display role 
- *    then return an empty variant. 
- *
- * 2. Get a pointer _edit_ of this object's parent list edit widget. If casting 
- *    this object's parent as a list edit widget fails then throw an exception. 
- *
- * 3. Return a string title that is the list item title for _edit_ appended with 
- *    the row's index plus one. 
  */
 QVariant ListEdit::Model::headerData(int section, Qt::Orientation orientation, int role) const
 {
-   // 1
+   // If the given orientation is not vertical or the role is not the display role 
+   // then return an empty variant. 
    if ( orientation != Qt::Vertical || role != Qt::DisplayRole ) return QVariant();
 
-   // 2
+   // Get a pointer _edit_ of this object's parent list edit widget. If casting this 
+   // object's parent as a list edit widget fails then throw an exception. 
    ListEdit* edit {qobject_cast<ListEdit*>(parent())};
    if ( !edit )
    {
@@ -84,7 +74,8 @@ QVariant ListEdit::Model::headerData(int section, Qt::Orientation orientation, i
       throw e;
    }
 
-   // 3
+   // Return a string title that is the list item title for _edit_ appended with the 
+   // row's index plus one. 
    return QString(edit->_listItemTitle).append(" #").append(QString::number(section + 1));
 }
 
@@ -102,16 +93,11 @@ QVariant ListEdit::Model::headerData(int section, Qt::Orientation orientation, i
  *               is simple and has no layers. 
  *
  * @return This model's string list size or 0 if it has no string list. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this model has no string list then return 0, else return its string list 
- *    size. 
  */
 int ListEdit::Model::rowCount(const QModelIndex& parent) const
 {
-   // 1
+   // If this model has no string list then return 0, else return its string list 
+   // size. 
    if ( !_list || parent.isValid() ) return 0;
    else return _list->size();
 }
@@ -131,17 +117,12 @@ int ListEdit::Model::rowCount(const QModelIndex& parent) const
  *
  * @return String of this model's string list at the given model index row or an 
  *         empty variant of this model has no string list. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this model has no string list, the given index row is out of range, or the 
- *    given role is not the display or edit role then return an empty variant, else 
- *    return the string of this model's string list at the given model index row. 
  */
 QVariant ListEdit::Model::data(const QModelIndex& index, int role) const
 {
-   // 1
+   // If this model has no string list, the given index row is out of range, or the 
+   // given role is not the display or edit role then return an empty variant, else 
+   // return the string of this model's string list at the given model index row. 
    if ( !_list || index.row() < 0 || index.row() >= _list->size() )
    {
       return QVariant();
@@ -172,25 +153,18 @@ QVariant ListEdit::Model::data(const QModelIndex& index, int role) const
  *
  * @return True if the string at the given model index row was set or false 
  *         otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this model has no string list, the given model index row is out of range, 
- *    or the given role is not the edit role then return false. 
- *
- * 2. Set the string in this model's string list at the given model index row, emit 
- *    the data changed signal for the given index, and return true. 
  */
 bool ListEdit::Model::setData(const QModelIndex& index, const QVariant& value, int role)
 {
-   // 1
+   // If this model has no string list, the given model index row is out of range, or 
+   // the given role is not the edit role then return false. 
    if ( !_list || index.row() < 0 || index.row() >= _list->size() || role != Qt::EditRole )
    {
       return false;
    }
 
-   // 2
+   // Set the string in this model's string list at the given model index row, emit 
+   // the data changed signal for the given index, and return true. 
    (*_list)[index.row()] = value.toString();
    emit dataChanged(index,index);
    return true;
@@ -208,31 +182,22 @@ bool ListEdit::Model::setData(const QModelIndex& index, const QVariant& value, i
  *              string list. 
  *
  * @return True on success or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this model has no string list or the given index row is out of range then 
- *    return false. 
- *
- * 2. Create the integer _row_, setting it to 0 if the given index is invalid else 
- *    setting it to the given index row plus one. 
- *
- * 3. Signal that a row insertion is happening to this model, then insert a new 
- *    empty string at _row_, then signal the row insertion is finished to this 
- *    model, and then return true. 
  */
 bool ListEdit::Model::addAfter(const QModelIndex& index)
 {
-   // 1
+   // If this model has no string list or the given index row is out of range then 
+   // return false. 
    if ( !_list || index.row() >= _list->size() ) return false;
 
-   // 2
+   // Create the integer _row_, setting it to 0 if the given index is invalid else 
+   // setting it to the given index row plus one. 
    int row;
    if ( !index.isValid() ) row = 0;
    else row = index.row() + 1;
 
-   // 3
+   // Signal that a row insertion is happening to this model, then insert a new empty 
+   // string at _row_, then signal the row insertion is finished to this model, and 
+   // then return true. 
    beginInsertRows(index.parent(),row,row);
    _list->insert(row,QString());
    endInsertRows();
@@ -250,30 +215,21 @@ bool ListEdit::Model::addAfter(const QModelIndex& index)
  * @param index The model index of the string that is removed. 
  *
  * @return True on success or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this model has no string list, the given index is not valid, or the given 
- *    index row is out of range then return false. 
- *
- * 2. Remove the string with the given index row from this model's string list, 
- *    signaling to this model that a row has been removed. 
- *
- * 3. Return true. 
  */
 bool ListEdit::Model::remove(const QModelIndex& index)
 {
-   // 1
+   // If this model has no string list, the given index is not valid, or the given 
+   // index row is out of range then return false. 
    if ( !_list || !index.isValid() || index.row() >= _list->size() ) return false;
 
-   // 2
+   // Remove the string with the given index row from this model's string list, 
+   // signaling to this model that a row has been removed. 
    int row {index.row()};
    beginRemoveRows(index.parent(),row,row);
    _list->takeAt(row);
    endRemoveRows();
 
-   // 3
+   // Return true. 
    return true;
 }
 
@@ -292,23 +248,10 @@ bool ListEdit::Model::remove(const QModelIndex& index)
  * @param index The model index of the string that is moved. 
  *
  * @return New model index for the string with the given index. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this model has no string list then throw an exception. 
- *
- * 2. If the given index is not valid or it is out of range then return the given 
- *    index. 
- *
- * 3. Move the string with the given index up this model's string list by one by 
- *    decreasing its index, signaling to this model that a row has been moved. 
- *
- * 4. Return a new model index for the moved string. 
  */
 QModelIndex ListEdit::Model::moveUp(const QModelIndex& index)
 {
-   // 1
+   // If this model has no string list then throw an exception. 
    if ( !_list )
    {
       Exception::LogicError e;
@@ -317,16 +260,18 @@ QModelIndex ListEdit::Model::moveUp(const QModelIndex& index)
       throw e;
    }
 
-   // 2
+   // If the given index is not valid or it is out of range then return the given 
+   // index. 
    if ( !index.isValid() || index.row() <= 0 || index.row() >= _list->size() ) return index;
 
-   // 3
+   // Move the string with the given index up this model's string list by one by 
+   // decreasing its index, signaling to this model that a row has been moved. 
    int row {index.row()};
    beginMoveRows(index.parent(),row,row,index.parent(),row - 1);
    std::swap((*_list)[row - 1],(*_list)[row]);
    endMoveRows();
 
-   // 4
+   // Return a new model index for the moved string. 
    return createIndex(row - 1,0);
 }
 
@@ -345,23 +290,10 @@ QModelIndex ListEdit::Model::moveUp(const QModelIndex& index)
  * @param index The model index of the string that is moved. 
  *
  * @return New model index for the string with the given index. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this model has no string list then throw an exception. 
- *
- * 2. If the given index is not valid or it is out of range then return the given 
- *    index. 
- *
- * 3. Move the string with the given index down this model's string list by one by 
- *    increasing its index, signaling to this model that a row has been moved. 
- *
- * 4. Return a new model index for the moved string. 
  */
 QModelIndex ListEdit::Model::moveDown(const QModelIndex& index)
 {
-   // 1
+   // If this model has no string list then throw an exception. 
    if ( !_list )
    {
       Exception::LogicError e;
@@ -370,16 +302,18 @@ QModelIndex ListEdit::Model::moveDown(const QModelIndex& index)
       throw e;
    }
 
-   // 2
+   // If the given index is not valid or it is out of range then return the given 
+   // index. 
    if ( !index.isValid() || index.row() < 0 || index.row() == (_list->size() - 1) ) return index;
 
-   // 3
+   // Move the string with the given index down this model's string list by one by 
+   // increasing its index, signaling to this model that a row has been moved. 
    int row {index.row()};
    beginMoveRows(index.parent(),row,row,index.parent(),row + 2);
    std::swap((*_list)[row],(*_list)[row + 1]);
    endMoveRows();
 
-   // 4
+   // Return a new model index for the moved string. 
    return createIndex(row + 1,0);
 }
 
@@ -395,16 +329,11 @@ QModelIndex ListEdit::Model::moveDown(const QModelIndex& index)
  *
  * @param list Pointer to the string list this model is set to or null to set this 
  *             model to a null state. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Set this model's string list pointer to the given one, signaling to this 
- *    model that a reset of the entire model has occurred. 
  */
 void ListEdit::Model::setList(QStringList* list)
 {
-   // 1
+   // Set this model's string list pointer to the given one, signaling to this model 
+   // that a reset of the entire model has occurred. 
    beginResetModel();
    _list = list;
    endResetModel();

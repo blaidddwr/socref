@@ -11790,8 +11790,8 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <static/>
                   <type>T&amp;</type>
                   <return_description>Reference to singleton class instance.</return_description>
-                  <operation>If the global pointer is null then make a new instance of the singleton class with its default constructor and set the global pointer to this new instance.</operation>
-                  <operation>Return a reference to the global singleton class instance.</operation>
+                  <operation>If the global pointer is null then make a new instance.</operation>
+                  <operation>Return a reference to the global instance.</operation>
                </data>
             </function>
          </access>
@@ -11848,7 +11848,8 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <static/>
                   <type>T&amp;</type>
                   <return_description>Reference to singleton factory instance.</return_description>
-                  <operation>If the global pointer is null then throw an exception, else return a reference to the global singleton factory instance.</operation>
+                  <operation>Make sure a global instance has been set.</operation>
+                  <operation>Return a reference to the global instance.</operation>
                </data>
             </function>
             <function type="2">
@@ -11857,7 +11858,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <description>Sets a new instance of the singleton factory that inherits this template class with the given pointer. If an instance already exists the old one is deleted and replaced by the new one given.</description>
                   <static/>
                   <type>void</type>
-                  <operation>Delete any singleton factory instance pointed to by the global pointer and set the global pointer to the new singleton factory instance.</operation>
+                  <operation>Delete any previously set global instance and then set the new instance given.</operation>
                </data>
                <variable type="1">
                   <data version="0">

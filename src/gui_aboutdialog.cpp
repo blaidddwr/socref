@@ -22,16 +22,11 @@ using namespace Gui;
  *
  * @param parent Pointer to this new about dialog object's parent or null for no 
  *               parent. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Setup this object's GUI and set the dialog window's title. 
  */
 AboutDialog::AboutDialog(QWidget* parent):
    PersistentDialog("gui.aboutdialog.geometry",parent)
 {
-   // 1
+   // Setup this object's GUI and set the dialog window's title. 
    setupGui();
    setWindowTitle(tr("About Socrates' Reference"));
 }
@@ -43,23 +38,16 @@ AboutDialog::AboutDialog(QWidget* parent):
 
 /*!
  * Constructs all GUI elements for this new about dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new vertical box layout _layout_, adding the top and bottom layout 
- *    sections of this object's GUI in that order. 
- *
- * 2. Set this object's layout to _layout_. 
  */
 void AboutDialog::setupGui()
 {
-   // 1
+   // Create a new vertical box layout _layout_, adding the top and bottom layout 
+   // sections of this object's GUI in that order. 
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addLayout(setupTop());
    layout->addLayout(setupBottom());
 
-   // 2
+   // Set this object's layout to _layout_. 
    setLayout(layout);
 }
 
@@ -73,31 +61,22 @@ void AboutDialog::setupGui()
  * and description to the right, returning the layout. 
  *
  * @return Pointer to layout of the top section of this object's GUI. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new label _image_, setting its pixmap to the program's icon scaled 
- *    to the correct dimensions. 
- *
- * 2. Create a new horizontal box layout _ret_, adding the _image_ label and then 
- *    the layout returned from this object's setup text method. 
- *
- * 3. Return _ret_. 
  */
 QLayout* AboutDialog::setupTop()
 {
-   // 1
+   // Create a new label _image_, setting its pixmap to the program's icon scaled to 
+   // the correct dimensions. 
    QLabel* image {new QLabel};
    image->setAlignment(Qt::AlignTop|Qt::AlignRight);
    image->setPixmap(QPixmap(":/icons/main.svg").scaled(_iconSize,_iconSize));
 
-   // 2
+   // Create a new horizontal box layout _ret_, adding the _image_ label and then the 
+   // layout returned from this object's setup text method. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(image);
    ret->addWidget(setupText());
 
-   // 3
+   // Return _ret_. 
    return ret;
 }
 
@@ -112,31 +91,19 @@ QLayout* AboutDialog::setupTop()
  *
  * @return Pointer to the widget of rich text displayed in the top right of this 
  *         object's GUI. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new label _ret_, setting its alignment, word wrapping, text format, 
- *    and margin. 
- *
- * 2. Create a new qt file device _file_ and open the about HTML file with it. If 
- *    opening the file fails then throw an exception. 
- *
- * 3. Set the text of the created label _ret_ with the contents of _file_, 
- *    replacing the keys for this program version and the Qt version. 
- *
- * 4. Return _ret_. 
  */
 QWidget* AboutDialog::setupText()
 {
-   // 1
+   // Create a new label _ret_, setting its alignment, word wrapping, text format, 
+   // and margin. 
    QLabel* ret {new QLabel};
    ret->setAlignment(Qt::AlignTop);
    ret->setWordWrap(true);
    ret->setTextFormat(Qt::RichText);
    ret->setMargin(8);
 
-   // 2
+   // Create a new qt file device _file_ and open the about HTML file with it. If 
+   // opening the file fails then throw an exception. 
    QFile file(":/html/about.html");
    if ( !file.open(QIODevice::ReadOnly) )
    {
@@ -146,13 +113,14 @@ QWidget* AboutDialog::setupText()
       throw e;
    }
 
-   // 3
+   // Set the text of the created label _ret_ with the contents of _file_, replacing 
+   // the keys for this program version and the Qt version. 
    QString text {file.readAll()};
    text.replace("%SOCREF_VER%",Application::versionString());
    text.replace("%QT_VER%",QT_VERSION_STR);
    ret->setText(text);
 
-   // 4
+   // Return _ret_. 
    return ret;
 }
 
@@ -166,29 +134,20 @@ QWidget* AboutDialog::setupText()
  * button on the bottom right, returning the layout. 
  *
  * @return Pointer to layout of the bottom section of this object's GUI. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new push button _ok_, connecting its clicked signal to close this 
- *    dialog. 
- *
- * 2. Create a new horizontal box layout _ret_, adding a stretch and then the _ok_ 
- *    button. 
- *
- * 3. Return _ret_. 
  */
 QLayout* AboutDialog::setupBottom()
 {
-   // 1
+   // Create a new push button _ok_, connecting its clicked signal to close this 
+   // dialog. 
    QPushButton* ok {new QPushButton(tr("&Close"))};
    connect(ok,&QPushButton::clicked,[this]{ done(QDialog::Accepted); });
 
-   // 2
+   // Create a new horizontal box layout _ret_, adding a stretch and then the _ok_ 
+   // button. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addStretch();
    ret->addWidget(ok);
 
-   // 3
+   // Return _ret_. 
    return ret;
 }

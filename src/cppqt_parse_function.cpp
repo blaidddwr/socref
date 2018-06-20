@@ -246,10 +246,6 @@ void Function::insertInlineComment(int index, int spacing)
 {
    const int max {Settings::instance().maxColumns()};
    QStringList words {_block->operations().at(index).split(QRegExp("\\s+"))};
-   if ( !words.isEmpty() )
-   {
-      _code << QString(spacing,' ').append("// ").append(QString::number(index + 1)).append(". ");
-   }
    while ( !words.isEmpty() )
    {
       int total {words.first().size() + 1};

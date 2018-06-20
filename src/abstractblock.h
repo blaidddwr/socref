@@ -292,26 +292,19 @@ private:
  * @param type The type whose matches are added to the list. 
  *
  * @return List of this block's children that is given type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new list of pointers _ret_ of the given template type. Iterate 
- *    through the list of this block's children. If a child matches the given type 
- *    then append its pointer to _ret_. 
- *
- * 2. Return _ret_. 
  */
 template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 {
-   // 1
+   // Create a new list of pointers _ret_ of the given template type. Iterate through 
+   // the list of this block's children. If a child matches the given type then 
+   // append its pointer to _ret_. 
    QList<T*> ret;
    for (auto child : list())
    {
       if ( T* variable = child->cast<T>(type) ) ret.append(variable);
    }
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -331,25 +324,18 @@ template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
  *
  * @return If successful then a read only pointer of requested cast type, else a 
  *         null pointer. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given type to cast does not match this block's type then return a null 
- *    pointer. 
- *
- * 2. Cast this block's pointer to the requested class type and return the cast 
- *    pointer. If the cast fails then throw an exception. 
  */
 template<class T> const T* AbstractBlock::cast(int toType) const
 {
-   // 1
+   // If the given type to cast does not match this block's type then return a null 
+   // pointer. 
    if ( type() != toType )
    {
       return nullptr;
    }
 
-   // 2
+   // Cast this block's pointer to the requested class type and return the cast 
+   // pointer. If the cast fails then throw an exception. 
    if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
    else
    {
@@ -376,25 +362,18 @@ template<class T> const T* AbstractBlock::cast(int toType) const
  *
  * @return If successful then a pointer of requested cast type, else a null 
  *         pointer. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given type to cast does not match this block's type then return a null 
- *    pointer. 
- *
- * 2. Cast this block's pointer to the requested class type and return the cast 
- *    pointer. If the cast fails then throw an exception. 
  */
 template<class T> T* AbstractBlock::cast(int toType)
 {
-   // 1
+   // If the given type to cast does not match this block's type then return a null 
+   // pointer. 
    if ( type() != toType )
    {
       return nullptr;
    }
 
-   // 2
+   // Cast this block's pointer to the requested class type and return the cast 
+   // pointer. If the cast fails then throw an exception. 
    if ( T* ret = qobject_cast<T*>(this) ) return ret;
    else
    {

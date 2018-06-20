@@ -34,21 +34,14 @@ int Template::type() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the static qt icon _ret_ is null then load the icon for this block type. 
- *
- * 2. Return _ret_. 
  */
 QIcon Template::icon() const
 {
-   // 1
+   // If the static qt icon _ret_ is null then load the icon for this block type. 
    static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/template.svg");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 

@@ -65,30 +65,21 @@ void TextDialog::setText(const QString& text)
 
 /*!
  * Constructs and initializes all GUI elements for this new text dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create the text edit widget for this dialog, disabling its popup dialog 
- *    feature. 
- *
- * 2. Create a new vertical layout _layout_, adding the text edit widget for this 
- *    dialog and then the buttons. 
- *
- * 3. Set the layout for this dialog to _layout_. 
  */
 void TextDialog::setupGui()
 {
-   // 1
+   // Create the text edit widget for this dialog, disabling its popup dialog 
+   // feature. 
    _edit = new TextEdit;
    _edit->setDialogPopupEnabled(false);
 
-   // 2
+   // Create a new vertical layout _layout_, adding the text edit widget for this 
+   // dialog and then the buttons. 
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addWidget(_edit);
    layout->addLayout(setupButtons());
 
-   // 3
+   // Set the layout for this dialog to _layout_. 
    setLayout(layout);
 }
 
@@ -103,31 +94,22 @@ void TextDialog::setupGui()
  *
  * @return Horizontal layout containing the OK and cancel buttons for this new 
  *         dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create the OK and cancel buttons for this dialog, connecting their clicked 
- *    signals. 
- *
- * 2. Create a new horizontal layout _ret_, adding the OK button and then the 
- *    cancel button. 
- *
- * 3. Return _ret_. 
  */
 QLayout* TextDialog::setupButtons()
 {
-   // 1
+   // Create the OK and cancel buttons for this dialog, connecting their clicked 
+   // signals. 
    QPushButton* ok {new QPushButton(tr("Ok"))};
    QPushButton* cancel {new QPushButton(tr("Cancel"))};
    connect(ok,&QPushButton::clicked,[this]{ done(QDialog::Accepted); });
    connect(cancel,&QPushButton::clicked,[this]{ done(QDialog::Rejected); });
 
-   // 2
+   // Create a new horizontal layout _ret_, adding the OK button and then the cancel 
+   // button. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(ok);
    ret->addWidget(cancel);
 
-   // 3
+   // Return _ret_. 
    return ret;
 }

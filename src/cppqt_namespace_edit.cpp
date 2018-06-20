@@ -30,28 +30,19 @@ Namespace::Edit::Edit(Namespace* block):
  * used by this dialog object's form layout. 
  *
  * @return Pointer to the layout containing all GUI elements for this dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Save this dialog object's geometry to Qt settings. 
- *
- * 2. Create a new form layout _ret_, add a new line edit for the base name field, 
- *    and then add a new text edit for the base description field. 
- *
- * 3. Return _ret_. 
  */
 QLayout* Namespace::Edit::layout()
 {
-   // 1
+   // Save this dialog object's geometry to Qt settings. 
    saveSettings("cppqt.namespace.edit.geometry");
 
-   // 2
+   // Create a new form layout _ret_, add a new line edit for the base name field, 
+   // and then add a new text edit for the base description field. 
    QFormLayout* ret {new QFormLayout};
    addLineEdit(ret,Base::Field::Name);
    addTextEdit(ret,Base::Field::Description);
 
-   // 3
+   // Return _ret_. 
    return ret;
 }
 
@@ -66,16 +57,11 @@ QLayout* Namespace::Edit::layout()
  * @param index The field index whose display title is returned. 
  *
  * @return Title of the given field type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its title. If the given field index is 
- *    undefined then throw an exception. 
  */
 QString Namespace::Edit::fieldTitle(int index) const
 {
-   // 1
+   // Based off the given field index return its title. If the given field index is 
+   // undefined then throw an exception. 
    switch (index)
    {
    case Base::Field::Name: return tr("Name:");

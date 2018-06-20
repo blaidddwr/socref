@@ -47,22 +47,15 @@ int Enumeration::type() const
  * Implements the interface that returns the name of this block. 
  *
  * @return The name of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new string _ret_ setting it to this block's base name. If this 
- *    enumeration is a class then append that to _ret_. 
- *
- * 2. Return _ret_. 
  */
 QString Enumeration::name() const
 {
-   // 1
+   // Create a new string _ret_ setting it to this block's base name. If this 
+   // enumeration is a class then append that to _ret_. 
    QString ret {Base::name()};
    if ( _class ) ret.append(" [C]");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -75,21 +68,14 @@ QString Enumeration::name() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the static qt icon _ret_ is null then lead this block's icon. 
- *
- * 2. Return _ret_. 
  */
 QIcon Enumeration::icon() const
 {
-   // 1
+   // If the static qt icon _ret_ is null then lead this block's icon. 
    static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/enumeration.svg");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -152,16 +138,11 @@ int Enumeration::fieldSize() const
  * @param index Index of the field whose field type is returned. 
  *
  * @return Field type of the given field index of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its type. If the given index is not 
- *    defined then call the base class interface returning its return. 
  */
 AbstractBlock::Field Enumeration::fieldType(int index) const
 {
-   // 1
+   // Based off the given field index return its type. If the given index is not 
+   // defined then call the base class interface returning its return. 
    switch (index)
    {
    case Field::Class: return AbstractBlock::Field::Boolean;
@@ -181,16 +162,11 @@ AbstractBlock::Field Enumeration::fieldType(int index) const
  * @param index Index of the field whose value is returned. 
  *
  * @return Value of the field with the given index for this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its value. If the given index is not 
- *    defined then call the base class interface returning its return. 
  */
 QVariant Enumeration::field(int index) const
 {
-   // 1
+   // Based off the given field index return its value. If the given index is not 
+   // defined then call the base class interface returning its return. 
    switch (index)
    {
    case Field::Class: return _class;
@@ -286,16 +262,11 @@ std::unique_ptr<AbstractBlock> Enumeration::makeBlank() const
  * this block has been modified. 
  *
  * @param index Index of the field which has just been modified. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index notify that this block has been modified. If 
- *    the given index is not defined for this block then call the base interface. 
  */
 void Enumeration::fieldModified(int index)
 {
-   // 1
+   // Based off the given field index notify that this block has been modified. If 
+   // the given index is not defined for this block then call the base interface. 
    switch (index)
    {
    case Field::Class:
@@ -320,16 +291,11 @@ void Enumeration::fieldModified(int index)
  * @param index Index of the field whose value is set to the new given value. 
  *
  * @param value New value that the field with the given index is set to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index set its value to the new given value. If the 
- *    given index is not defined for this block then call the base interface. 
  */
 void Enumeration::quietlySetField(int index, const QVariant& value)
 {
-   // 1
+   // Based off the given field index set its value to the new given value. If the 
+   // given index is not defined for this block then call the base interface. 
    switch (index)
    {
    case Field::Class:
@@ -351,19 +317,11 @@ void Enumeration::quietlySetField(int index, const QVariant& value)
  * for this block that matches the order of this block's field enumeration. 
  *
  * @return Full list of all field tag names for this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the static string list _ret_ is empty then populate its list, first with 
- *    the fields from the base block class and then with this block's additional 
- *    fields. 
- *
- * 2. Return _ret_. 
  */
 QStringList Enumeration::fields() const
 {
-   // 1
+   // If the static string list _ret_ is empty then populate its list, first with the 
+   // fields from the base block class and then with this block's additional fields. 
    static QStringList ret;
    if ( ret.isEmpty() )
    {
@@ -371,7 +329,7 @@ QStringList Enumeration::fields() const
       ret.append(_fields);
    }
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 

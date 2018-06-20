@@ -30,19 +30,6 @@ Class::Edit::Edit(Class* block):
  * used by this dialog object's form layout. 
  *
  * @return Pointer to the layout containing all GUI elements for this dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Save this dialog object's geometry to Qt settings. 
- *
- * 2. Create a new form layout _ret_, add the type edit widget, then add a new line 
- *    edit for the base name field, then add a new text edit for the base 
- *    description field, then add a new line edit for the initial value field, and 
- *    then add a check boxes field for the constant expression, static, and mutable 
- *    fields. 
- *
- * 3. Return _ret_. 
  */
 QLayout* Class::Edit::layout()
 {
@@ -65,16 +52,11 @@ QLayout* Class::Edit::layout()
  * @param index The field index whose display title is returned. 
  *
  * @return Title of the given field type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its title. If the given field index is 
- *    undefined then throw an exception. 
  */
 QString Class::Edit::fieldTitle(int index) const
 {
-   // Determine which field index is given and return its title.
+   // Based off the given field index return its title. If the given field index is 
+   // undefined then throw an exception. 
    switch (index)
    {
    case Base::Field::Name: return tr("Name:");
@@ -82,7 +64,7 @@ QString Class::Edit::fieldTitle(int index) const
    case Field::QtObject: return tr("Qt Object");
    default:
 
-      // If the given index is not recognized then throw an exception.
+      // 
       {
          Exception::InvalidArgument e;
          MARK_EXCEPTION(e);

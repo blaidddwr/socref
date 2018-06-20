@@ -44,24 +44,17 @@ Application::Application(int& argc, char** argv):
  * @param event Pointer to the event that has happened. 
  *
  * @return True if the event was processed or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Call the Qt application notify method and return its value. 
- *
- * 2. If any exception is caught then report it to the qt debug stream and return 
- *    false. 
  */
 bool Application::notify(QObject* receiver, QEvent* event)
 {
-   // 1
+   // Call the Qt application notify method and return its value. 
    try
    {
       return QApplication::notify(receiver,event);
    }
 
-   // 2
+   // If any exception is caught then report it to the qt debug stream and return 
+   // false. 
    catch (Exception::Base e)
    {
       qDebug().nospace() << "Exception Caught!";

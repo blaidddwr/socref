@@ -37,21 +37,14 @@ int Namespace::type() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the static qt icon _ret_ is null then load this block's icon. 
- *
- * 2. Return _ret_. 
  */
 QIcon Namespace::icon() const
 {
-   // 1
+   // If the static qt icon _ret_ is null then load this block's icon. 
    static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/namespace.svg");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -65,16 +58,11 @@ QIcon Namespace::icon() const
  * contain as children. 
  *
  * @return List of allowed types this block can contain as children. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Return the build list of all other block types this namespace block type can 
- *    contain. 
  */
 QList<int> Namespace::buildList() const
 {
-   // 1
+   // Return the build list of all other block types this namespace block type can 
+   // contain. 
    return QList<int>
    {
       BlockFactory::NamespaceType
@@ -159,15 +147,6 @@ Namespace::Namespace(const QString& name):
  * Returns a pointer to the root namespace of this block's entire project. 
  *
  * @return Pointer to the root namespace of this block's project. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Get a root block pointer for this block's project tree, casting it to a 
- *    namespace type and saving it to _ret_. If the casting failed then throw an 
- *    exception. 
- *
- * 2. Return _ret_. 
  */
 const Namespace* Namespace::root() const
 {
@@ -191,15 +170,6 @@ const Namespace* Namespace::root() const
  * Returns a pointer to the root namespace of this block's entire project. 
  *
  * @return Pointer to the root namespace of this block's project. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Get a root block pointer for this block's project tree, casting it to a 
- *    namespace type and saving it to _ret_. If the casting failed then throw an 
- *    exception. 
- *
- * 2. Return _ret_. 
  */
 Namespace* Namespace::root()
 {

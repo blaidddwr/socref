@@ -66,16 +66,6 @@ QString Class::View::displayQtObject()
  *
  * @return HTML string that displays any properties this view's variable block has 
  *         set or an empty string if no properties are set. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create an empty string _ret_ and then an empty string list _list_. Append any 
- *    properties this object's variable block has set to _list_. If _list_ is empty 
- *    then return _ret_. 
- *
- * 2. Append an HTML title, then all set properties as an HTML list to _ret_, and 
- *    then return _ret_. 
  */
 QString Class::View::displayParents()
 {

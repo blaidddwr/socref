@@ -46,22 +46,15 @@ int EnumValue::type() const
  * Implements the interface that returns the name of this block. 
  *
  * @return The name of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a string _ret_ setting to this block's base name. If this block's 
- *    value field is not empty then append an indicator stating as much. 
- *
- * 2. Return _ret_. 
  */
 QString EnumValue::name() const
 {
-   // 1
+   // Create a string _ret_ setting to this block's base name. If this block's value 
+   // field is not empty then append an indicator stating as much. 
    QString ret {Base::name()};
    if ( !_value.isEmpty() ) ret.append(" =");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -74,21 +67,14 @@ QString EnumValue::name() const
  * Implements the interface that returns the icon of this block. 
  *
  * @return The icon of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this block's static icon _ret_ is null then load it from memory. 
- *
- * 2. Return _ret_. 
  */
 QIcon EnumValue::icon() const
 {
-   // 1
+   // If this block's static icon _ret_ is null then load it from memory. 
    static QIcon ret;
    if ( ret.isNull() ) ret = QIcon(":/icons/enumvalue.svg");
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -151,16 +137,11 @@ int EnumValue::fieldSize() const
  * @param index Index of the field whose field type is returned. 
  *
  * @return Field type of the given field index of this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its type. If the given index is not 
- *    defined then call the base class interface returning its return. 
  */
 AbstractBlock::Field EnumValue::fieldType(int index) const
 {
-   // 1
+   // Based off the given field index return its type. If the given index is not 
+   // defined then call the base class interface returning its return. 
    switch (index)
    {
    case Field::Value: return AbstractBlock::Field::String;
@@ -180,16 +161,11 @@ AbstractBlock::Field EnumValue::fieldType(int index) const
  * @param index Index of the field whose value is returned. 
  *
  * @return Value of the field with the given index for this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its value. If the given index is not 
- *    defined then call the base class interface returning its return. 
  */
 QVariant EnumValue::field(int index) const
 {
-   // 1
+   // Based off the given field index return its value. If the given index is not 
+   // defined then call the base class interface returning its return. 
    switch (index)
    {
    case Field::Value: return _value;
@@ -282,16 +258,11 @@ std::unique_ptr<AbstractBlock> EnumValue::makeBlank() const
  * this block has been modified. 
  *
  * @param index Index of the field which has just been modified. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index notify that this block has been modified. If 
- *    the given index is not defined for this block then call the base interface. 
  */
 void EnumValue::fieldModified(int index)
 {
-   // 1
+   // Based off the given field index notify that this block has been modified. If 
+   // the given index is not defined for this block then call the base interface. 
    switch (index)
    {
    case Field::Value:
@@ -316,16 +287,11 @@ void EnumValue::fieldModified(int index)
  * @param index Index of the field whose value is set to the new given value. 
  *
  * @param value New value that the field with the given index is set to. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index set its value to the new given value. If the 
- *    given index is not defined for this block then call the base interface. 
  */
 void EnumValue::quietlySetField(int index, const QVariant& value)
 {
-   // 1
+   // Based off the given field index set its value to the new given value. If the 
+   // given index is not defined for this block then call the base interface. 
    switch (index)
    {
    case Field::Value:
@@ -347,19 +313,11 @@ void EnumValue::quietlySetField(int index, const QVariant& value)
  * for this block that matches the order of this block's field enumeration. 
  *
  * @return Full list of all field tag names for this block. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the static string list _ret_ is empty then populate its list, first with 
- *    the fields from the base block class and then with this block's additional 
- *    fields. 
- *
- * 2. Return _ret_. 
  */
 QStringList EnumValue::fields() const
 {
-   // 1
+   // If the static string list _ret_ is empty then populate its list, first with the 
+   // fields from the base block class and then with this block's additional fields. 
    static QStringList ret;
    if ( ret.isEmpty() )
    {
@@ -367,7 +325,7 @@ QStringList EnumValue::fields() const
       ret.append(_fields);
    }
 
-   // 2
+   // Return _ret_. 
    return ret;
 }
 
@@ -382,12 +340,6 @@ QStringList EnumValue::fields() const
  * is thrown. 
  *
  * @param value  
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given value does not have valid C++ type syntax then throw an 
- *    exception, else set this block's value field to the new given value. 
  */
 void EnumValue::setValue(const QString& value)
 {

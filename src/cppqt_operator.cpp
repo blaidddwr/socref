@@ -54,25 +54,24 @@ QString Operator::name() const
  */
 QIcon Operator::icon() const
 {
-   // Create all qt icons as static along with a boolean value to keep track of them being
-   // loaded or not.
+   // 
    static bool isLoaded {false};
    static QIcon regular;
    static QIcon virtual_;
    static QIcon abstract;
 
-   // Check if the icons were loaded.
+   // 
    if ( !isLoaded )
    {
 
-      // Load all icons into memory and set the boolean indicator.
+      // 
       regular = QIcon(":/icons/operator.svg");
       virtual_ = QIcon(":/icons/voperator.svg");
       abstract = QIcon(":/icons/aoperator.svg");
       isLoaded = true;
    }
 
-   // Return the correct icon based off the properties of this block.
+   // 
    if ( isAbstract() ) return abstract;
    else if ( isVirtual() ) return virtual_;
    else return regular;

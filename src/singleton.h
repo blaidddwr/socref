@@ -42,24 +42,16 @@ template<class T> T* Singleton<T>::_instance {nullptr};
  * this template class. 
  *
  * @return Reference to singleton class instance. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the global pointer is null then make a new instance of the singleton class 
- *    with its default constructor and set the global pointer to this new instance. 
- *
- * 2. Return a reference to the global singleton class instance. 
  */
 template<class T> T& Singleton<T>::instance()
 {
-   // 1
+   // If the global pointer is null then make a new instance. 
    if ( !_instance )
    {
       _instance = new T();
    }
 
-   // 2
+   // Return a reference to the global instance. 
    return *_instance;
 }
 

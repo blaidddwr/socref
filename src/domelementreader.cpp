@@ -50,18 +50,11 @@ DomElementReader::~DomElementReader()
  *                 found otherwise false. 
  *
  * @return Value of the attribute with the given name. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the attribute with the given name is not found then continue. If the 
- *    attribute is required then throw an exception, else return an empty string. 
- *
- * 2. Return the value of the attribute with the given name. 
  */
 QString DomElementReader::attribute(const QString& name, bool required) const
 {
-   // 1
+   // If the attribute with the given name is not found then continue. If the 
+   // attribute is required then throw an exception, else return an empty string. 
    if ( !_element.hasAttribute(name) )
    {
       if ( required )
@@ -76,7 +69,7 @@ QString DomElementReader::attribute(const QString& name, bool required) const
       return QString();
    }
 
-   // 2
+   // Return the value of the attribute with the given name. 
    return _element.attribute(name);
 }
 
@@ -96,21 +89,11 @@ QString DomElementReader::attribute(const QString& name, bool required) const
  *                 found or failed to read as an integer otherwise false. 
  *
  * @return Value of the attribute with the given name. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the attribute with the given name is not found then continue. If the 
- *    attribute is required then throw an exception, else return 0. 
- *
- * 2. Read in the value of the attribute with the given name as an integer to 
- *    _ret_. If reading the value as an integer fails then throw an exception. 
- *
- * 3. Return _ret_. 
  */
 int DomElementReader::attributeToInt(const QString& name, bool required) const
 {
-   // 1
+   // If the attribute with the given name is not found then continue. If the 
+   // attribute is required then throw an exception, else return 0. 
    if ( !_element.hasAttribute(name) )
    {
       if ( required )
@@ -126,7 +109,8 @@ int DomElementReader::attributeToInt(const QString& name, bool required) const
       return 0;
    }
 
-   // 2
+   // Read in the value of the attribute with the given name as an integer to _ret_. 
+   // If reading the value as an integer fails then throw an exception. 
    bool ok;
    int ret {_element.attribute(name).toInt(&ok)};
    if ( !ok && required )
@@ -140,7 +124,7 @@ int DomElementReader::attributeToInt(const QString& name, bool required) const
       throw e;
    }
 
-   // 3
+   // Return _ret_. 
    return ret;
 }
 
@@ -276,22 +260,15 @@ DomElementReader& DomElementReader::set(const QString& tagName, QList<QDomElemen
  * Reads this reader's XML element for child elements, finding any matches set 
  * before this is called. Before reading begins this clears all variables pointed 
  * to by the list of set matches. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Clear all variables pointed to by this reader's list of matches. 
- *
- * 2. Iterate through all child nodes of this reader's XML element. If the node is 
- *    an element and its name matches one of the set matches then read in the match 
- *    with the matched element. 
  */
 void DomElementReader::read()
 {
-   // 1
+   // Clear all variables pointed to by this reader's list of matches. 
    clear();
 
-   // 2
+   // Iterate through all child nodes of this reader's XML element. If the node is an 
+   // element and its name matches one of the set matches then read in the match with 
+   // the matched element. 
    QDomNode node {_element.firstChild()};
    while ( !node.isNull() )
    {
@@ -318,16 +295,11 @@ void DomElementReader::read()
  * method. 
  *
  * @return True if all required matches were found or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Iterate through all matches. If a match is found that was not read then 
- *    return false, else if all matches were read then return true. 
  */
 bool DomElementReader::allRequiredFound() const
 {
-   // 1
+   // Iterate through all matches. If a match is found that was not read then return 
+   // false, else if all matches were read then return true. 
    for (auto match : qAsConst(_lookup))
    {
       if ( !match->_read ) return false;
@@ -347,20 +319,13 @@ bool DomElementReader::allRequiredFound() const
  * @param match The match that was matched with the given element. 
  *
  * @param element The element whose tag name was matched with the given match. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Determine the match type of the given match. Assign the match's data based 
- *    off its type, taking the value of the given element if required. If the match 
- *    type is an integer and the given element cannot be read as an integer then 
- *    throw an exception. 
- *
- * 2. Mark the given match as being read. 
  */
 void DomElementReader::read(Match* match, const QDomElement& element)
 {
-   // 1
+   // Determine the match type of the given match. Assign the match's data based off 
+   // its type, taking the value of the given element if required. If the match type 
+   // is an integer and the given element cannot be read as an integer then throw an 
+   // exception. 
    switch (match->_type)
    {
    case Type::String:
@@ -392,7 +357,7 @@ void DomElementReader::read(Match* match, const QDomElement& element)
       break;
    }
 
-   // 2
+   // Mark the given match as being read. 
    match->_read = true;
 }
 
@@ -415,20 +380,11 @@ void DomElementReader::read(Match* match, const QDomElement& element)
  * @param required True if this match is required or false otherwise. 
  *
  * @return Reference to this element reader. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If a match already exists in this element reader's lookup hash table with the 
- *    given tag name then throw an exception. 
- *
- * 2. Add a new match to this element reader's lookup hash table using the given 
- *    tag name as the key. Use the inverse of the required condition for the new 
- *    match's read condition which marks any matches that are not required as read. 
  */
 DomElementReader& DomElementReader::append(const QString& tagName, void* pointer, Type type, bool required)
 {
-   // 1
+   // If a match already exists in this element reader's lookup hash table with the 
+   // given tag name then throw an exception. 
    if ( _lookup.contains(tagName) )
    {
       Exception::LogicError e;
@@ -439,7 +395,9 @@ DomElementReader& DomElementReader::append(const QString& tagName, void* pointer
       throw e;
    }
 
-   // 2
+   // Add a new match to this element reader's lookup hash table using the given tag 
+   // name as the key. Use the inverse of the required condition for the new match's 
+   // read condition which marks any matches that are not required as read. 
    _lookup.insert(tagName,new Match {type,pointer,!required});
    return *this;
 }
@@ -452,18 +410,13 @@ DomElementReader& DomElementReader::append(const QString& tagName, void* pointer
 /*!
  * Clears the variables of all matches to default values. For integers that is 0 
  * and for boolean that is false. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Iterate through all matches of this reader. Set the match's data to its 
- *    default type based off the match's type. For strings, elements, and element 
- *    lists that is calling their clear method. For numbers that is setting it to 
- *    0. For booleans that is setting it to false. 
  */
 void DomElementReader::clear()
 {
-   // 1
+   // Iterate through all matches of this reader. Set the match's data to its default 
+   // type based off the match's type. For strings, elements, and element lists that 
+   // is calling their clear method. For numbers that is setting it to 0. For 
+   // booleans that is setting it to false. 
    for (auto match : qAsConst(_lookup))
    {
       switch (match->_type)

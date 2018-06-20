@@ -30,30 +30,21 @@ EnumValue::Edit::Edit(EnumValue* block):
  * used by this dialog object's form layout. 
  *
  * @return Pointer to the layout containing all GUI elements for this dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Save this dialog object's geometry to Qt settings. 
- *
- * 2. Create a new form layout _ret_, add a new line edit for the base name field, 
- *    and then add a new text edit for the base description field, and then add a 
- *    new line edit for the value field. 
- *
- * 3. Return _ret_. 
  */
 QLayout* EnumValue::Edit::layout()
 {
-   // 1
+   // Save this dialog object's geometry to Qt settings. 
    saveSettings("cppqt.enumvalue.edit.geometry");
 
-   // 2
+   // Create a new form layout _ret_, add a new line edit for the base name field, 
+   // and then add a new text edit for the base description field, and then add a new 
+   // line edit for the value field. 
    QFormLayout* ret {new QFormLayout};
    addLineEdit(ret,Base::Field::Name);
    addTextEdit(ret,Base::Field::Description);
    addLineEdit(ret,Field::Value);
 
-   // 3
+   // Return _ret_. 
    return ret;
 }
 
@@ -68,16 +59,11 @@ QLayout* EnumValue::Edit::layout()
  * @param index The field index whose display title is returned. 
  *
  * @return Title of the given field type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Based off the given field index return its title. If the given field index is 
- *    undefined then throw an exception. 
  */
 QString EnumValue::Edit::fieldTitle(int index) const
 {
-   // 1
+   // Based off the given field index return its title. If the given field index is 
+   // undefined then throw an exception. 
    switch (index)
    {
    case Base::Field::Name: return tr("Name:");

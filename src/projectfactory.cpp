@@ -38,16 +38,11 @@ int ProjectFactory::size() const
  * @param type Project type whose display name is returned. 
  *
  * @return Display name for the given project type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Return the display name of the given project type. If the given type does not 
- *    exist then return an empty string. 
  */
 QString ProjectFactory::name(int type) const
 {
-   // 1
+   // Return the display name of the given project type. If the given type does not 
+   // exist then return an empty string. 
    switch (type)
    {
    case CppQtType: return QObject::tr("C++/Qt");
@@ -67,16 +62,11 @@ QString ProjectFactory::name(int type) const
  * @param type Project type whose default file filters are returned. 
  *
  * @return Default file filters for the given project type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Return default file filters for the given project type. If the given type 
- *    does not exist then return an empty string. 
  */
 QString ProjectFactory::defaultFilters(int type) const
 {
-   // 1
+   // Return default file filters for the given project type. If the given type does 
+   // not exist then return an empty string. 
    switch (type)
    {
    case CppQtType: return QString("*.cpp *.h");
@@ -96,16 +86,11 @@ QString ProjectFactory::defaultFilters(int type) const
  * @param type Project type whose settings dialog is returned. 
  *
  * @return Pointer to the new settings dialog for the given project type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Return a new settings dialog for the given project type. If the given type 
- *    does not exist then throw an exception. 
  */
 std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
 {
-   // 1
+   // Return a new settings dialog for the given project type. If the given type does 
+   // not exist then throw an exception. 
    switch (type)
    {
    case CppQtType: return unique_ptr<QDialog>(new CppQt::Gui::SettingsDialog);
@@ -133,16 +118,11 @@ std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
  * @param type Project type whose block factory is returned as a reference. 
  *
  * @return Read only reference to block factory for the given project type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Return a reference to the block factory of the given project type. If the 
- *    given project type does not exist then throw an exception. 
  */
 const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 {
-   // 1
+   // Return a reference to the block factory of the given project type. If the given 
+   // project type does not exist then throw an exception. 
    switch (type)
    {
    case CppQtType: return CppQt::BlockFactory::instance();
@@ -173,16 +153,11 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
  *             parser object. 
  *
  * @return Pointer to created parser factory for the given project type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new parser factory for the given project type using the given block 
- *    root. If the given project type does not exist then throw an exception. 
  */
 std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, AbstractBlock* root) const
 {
-   // 1
+   // Create a new parser factory for the given project type using the given block 
+   // root. If the given project type does not exist then throw an exception. 
    switch (type)
    {
    case CppQtType: return unique_ptr<AbstractParserFactory>(new CppQt::ParserFactory(root));

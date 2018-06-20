@@ -47,16 +47,10 @@ template<class T> T* SingletonFactory<T>::_instance {nullptr};
  * thrown. 
  *
  * @return Reference to singleton factory instance. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the global pointer is null then throw an exception, else return a 
- *    reference to the global singleton factory instance. 
  */
 template<class T> T& SingletonFactory<T>::instance()
 {
-   // 1
+   // Make sure a global instance has been set. 
    if ( !_instance )
    {
       Exception::LogicError e;
@@ -64,6 +58,8 @@ template<class T> T& SingletonFactory<T>::instance()
       e.setDetails(QObject::tr("Attempted to get factory when none has been set."));
       throw e;
    }
+
+   // Return a reference to the global instance. 
    return *_instance;
 }
 
@@ -79,16 +75,10 @@ template<class T> T& SingletonFactory<T>::instance()
  *
  * @param instance Pointer to the new global instance for the singleton factory 
  *                 inherited from this template class. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Delete any singleton factory instance pointed to by the global pointer and 
- *    set the global pointer to the new singleton factory instance. 
  */
 template<class T> void SingletonFactory<T>::setInstance(T* instance)
 {
-   // 1
+   // Delete any previously set global instance and then set the new instance given. 
    delete _instance;
    _instance = instance;
 }

@@ -31,18 +31,13 @@ using namespace std;
  *                these filters will be parsed. 
  *
  * @param parent The parent of this object if any. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Set the given parser factory's parent to this scan thread and build a list of 
- *    files that will be parsed in the given scan directory. 
  */
 ScanThread::ScanThread(std::unique_ptr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent):
    QThread(parent),
    _factory(factory.get())
 {
-   // 1
+   // Set the given parser factory's parent to this scan thread and build a list of 
+   // files that will be parsed in the given scan directory. 
    factory.release()->setParent(this);
    buildList(scanDirectory,filters);
 }
@@ -90,16 +85,11 @@ bool ScanThread::hasException() const
  * itself will throw an exception. 
  *
  * @return Reference to exception that occurred while parsing source files. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this scan thread has no saved exception then throw an exception, else 
- *    return a reference to the exception that occurred in this scan thread. 
  */
 const Exception::Base& ScanThread::exception() const
 {
-   // 1
+   // If this scan thread has no saved exception then throw an exception, else return 
+   // a reference to the exception that occurred in this scan thread. 
    if ( !_exception )
    {
       Exception::LogicError e;
@@ -119,26 +109,15 @@ const Exception::Base& ScanThread::exception() const
  * This implements the interface that is called within the Qt thread when execution 
  * of that thread begins by calling the qt execute function. This implementation 
  * parses of all matched files from the given scan directory. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Delete this scan thread's saved exception if any and set the pointer to null. 
- *
- * 2. Iterate through this object's saved list of files to be parsed, emitting the 
- *    progress changed signal for each index and parsing each file. 
- *
- * 3. If any exception occurs while running this function then catch it and exit 
- *    from this function immediately. If the exception is a Socrates one then save 
- *    it to this scan thread's exception pointer else just report it to qt debug. 
  */
 void ScanThread::run()
 {
-   // 1
+   // Delete this scan thread's saved exception if any and set the pointer to null. 
    delete _exception;
    _exception = nullptr;
 
-   // 2
+   // Iterate through this object's saved list of files to be parsed, emitting the 
+   // progress changed signal for each index and parsing each file. 
    try
    {
       for (int i = 0; i < _list.size() ;++i)
@@ -148,7 +127,9 @@ void ScanThread::run()
       }
    }
 
-   // 3
+   // If any exception occurs while running this function then catch it and exit from 
+   // this function immediately. If the exception is a Socrates one then save it to 
+   // this scan thread's exception pointer else just report it to qt debug. 
    catch (Exception::Base e)
    {
       _exception = new Exception::Base(e);
@@ -182,19 +163,10 @@ void ScanThread::run()
  *
  * @param filters The filters that will be used to match files. Each string in this 
  *                list must be a single filter. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given directory does not exist then throw an exception. 
- *
- * 2. Get a directory listing of all files and directories within it that match the 
- *    given filters. Iterate through the list and add all matches that are not 
- *    directories to this scan thread's list of matched files. 
  */
 void ScanThread::buildList(const QString& scanDirectory, const QStringList& filters)
 {
-   // 1
+   // If the given directory does not exist then throw an exception. 
    QDir dir(scanDirectory);
    if ( !dir.exists() )
    {
@@ -204,7 +176,9 @@ void ScanThread::buildList(const QString& scanDirectory, const QStringList& filt
       throw e;
    }
 
-   // 2
+   // Get a directory listing of all files and directories within it that match the 
+   // given filters. Iterate through the list and add all matches that are not 
+   // directories to this scan thread's list of matched files. 
    QFileInfoList list {dir.entryInfoList(filters)};
    for (auto item : list)
    {
@@ -226,28 +200,18 @@ void ScanThread::buildList(const QString& scanDirectory, const QStringList& filt
  * @param info Info for the file that may be parsed. 
  *
  * @return False if interruption of this thread is requested or true otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If interruption is requested then return false. 
- *
- * 2. Make a new parser from this object's parser factory with the given file's 
- *    information, saving it to the smart pointer _parser_. If _parser_ is not null 
- *    then use it to parse the given file. 
- *
- * 3. Return true signaling interruption is not requested and parsing should 
- *    continue. 
  */
 bool ScanThread::run(const QFileInfo& info)
 {
-   // 1
+   // If interruption is requested then return false. 
    if ( isInterruptionRequested() )
    {
       return false;
    }
 
-   // 2
+   // Make a new parser from this object's parser factory with the given file's 
+   // information, saving it to the smart pointer _parser_. If _parser_ is not null 
+   // then use it to parse the given file. 
    unique_ptr<AbstractParser> parser
    {
       _factory->make(info.completeBaseName().toLower(),info.suffix().toLower())
@@ -257,7 +221,8 @@ bool ScanThread::run(const QFileInfo& info)
       parse(parser.get(),info);
    }
 
-   // 3
+   // Return true signaling interruption is not requested and parsing should 
+   // continue. 
    return true;
 }
 
@@ -274,18 +239,11 @@ bool ScanThread::run(const QFileInfo& info)
  *               file. 
  *
  * @param info Info for the file that is parsed with the given parser. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Open the given file for reading and writing and interpreted as a text using 
- *    the qt file device _file_. If opening the file fails then throw an exception. 
- *
- * 2. Call the execute method of the given parser with the qt file _file_. 
  */
 void ScanThread::parse(AbstractParser* parser, const QFileInfo& info)
 {
-   // 1
+   // Open the given file for reading and writing and interpreted as a text using the 
+   // qt file device _file_. If opening the file fails then throw an exception. 
    QFile file(info.canonicalFilePath());
    if ( !file.open(QFile::ReadWrite|QIODevice::Text) )
    {
@@ -297,6 +255,6 @@ void ScanThread::parse(AbstractParser* parser, const QFileInfo& info)
       throw e;
    }
 
-   // 2
+   // Call the execute method of the given parser with the qt file _file_. 
    parser->execute(&file);
 }
