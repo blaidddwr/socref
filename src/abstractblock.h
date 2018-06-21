@@ -43,7 +43,7 @@
  * the fields interface which should provide it with all data for an 
  * implementation. This class also handles all management of children internally. 
  * As a result an implementation of this class only needs to provide information 
- * about itself, letting this abstract class take care its management. 
+ * about itself, letting this abstract class take care of its management. 
  */
 class AbstractBlock : public QObject
 {
@@ -134,10 +134,10 @@ public:
     */
    virtual QVariant field(int index) const = 0;
    /*!
-    * This interface returns a editable GUI widget that provides the ability to edit 
-    * this block's data. 
+    * This interface returns an abstract edit GUI dialog that provides the ability to 
+    * edit this block's data. 
     *
-    * @return New editable GUI widget to edit this block's data. 
+    * @return Abstract edit GUI dialog to edit this block's data. 
     */
    virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() = 0;
 public:
@@ -273,6 +273,12 @@ private:
     */
    int _version;
    /*!
+    * True if this block is currently reading in its field data or false otherwise. 
+    * Used so this block does not emit modification signals while it is being read in 
+    * from a file. 
+    */
+   bool _readIn {false};
+   /*!
     * Pointer list of this block's children. 
     */
    QList<AbstractBlock*> _children;
@@ -295,16 +301,14 @@ private:
  */
 template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 {
-   // Create a new list of pointers _ret_ of the given template type. Iterate through 
-   // the list of this block's children. If a child matches the given type then 
-   // append its pointer to _ret_. 
+   // Generate a pointer list of all this block's children that match the given type. 
    QList<T*> ret;
    for (auto child : list())
    {
       if ( T* variable = child->cast<T>(type) ) ret.append(variable);
    }
 
-   // Return _ret_. 
+   // Return the pointer list of matched children. 
    return ret;
 }
 
@@ -327,16 +331,17 @@ template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
  */
 template<class T> const T* AbstractBlock::cast(int toType) const
 {
-   // If the given type to cast does not match this block's type then return a null 
-   // pointer. 
+   // Make sure the given type matches this block's type. 
    if ( type() != toType )
    {
       return nullptr;
    }
 
-   // Cast this block's pointer to the requested class type and return the cast 
-   // pointer. If the cast fails then throw an exception. 
+   // If this block is successfully cast as the given type then return its pointer. 
    if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
+
+   // Else an internal error has occurred because this block should have cast 
+   // successfully. 
    else
    {
       Exception::LogicError e;
@@ -365,16 +370,17 @@ template<class T> const T* AbstractBlock::cast(int toType) const
  */
 template<class T> T* AbstractBlock::cast(int toType)
 {
-   // If the given type to cast does not match this block's type then return a null 
-   // pointer. 
+   // Make sure the given type matches this block's type. 
    if ( type() != toType )
    {
       return nullptr;
    }
 
-   // Cast this block's pointer to the requested class type and return the cast 
-   // pointer. If the cast fails then throw an exception. 
+   // If this block is successfully cast as the given type then return its pointer. 
    if ( T* ret = qobject_cast<T*>(this) ) return ret;
+
+   // Else an internal error has occurred because this block should have cast 
+   // successfully. 
    else
    {
       Exception::LogicError e;

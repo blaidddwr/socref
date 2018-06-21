@@ -37,12 +37,11 @@ const char* AbstractBlock::_typeTag {"type"};
  */
 AbstractBlock* AbstractBlock::root()
 {
-   // Create an abstract block pointer _root_ with it pointing to this abstract 
-   // block. While _root_ has a parent set its pointer to its parent. 
+   // Iterate up the tree of parents until the root pointer is found. 
    AbstractBlock* root {this};
    while ( root->parent() ) root = root->parent();
 
-   // Return _root_. 
+   // Return the root pointer. 
    return root;
 }
 
@@ -59,12 +58,11 @@ AbstractBlock* AbstractBlock::root()
  */
 const AbstractBlock* AbstractBlock::root() const
 {
-   // Create a constant abstract block pointer _root_ with it pointing to this 
-   // abstract block. While _root_ has a parent set its pointer to its parent. 
+   // Iterate up the tree of parents until the root pointer is found. 
    const AbstractBlock* root {this};
    while ( root->parent() ) root = root->parent();
 
-   // Return _root_. 
+   // Return the root pointer. 
    return root;
 }
 
@@ -82,6 +80,7 @@ const AbstractBlock* AbstractBlock::root() const
  */
 AbstractBlock* AbstractBlock::parent() const
 {
+   // Return the qt object of this object cast as an abstract block. 
    return qobject_cast<AbstractBlock*>(QObject::parent());
 }
 
@@ -97,6 +96,7 @@ AbstractBlock* AbstractBlock::parent() const
  */
 int AbstractBlock::size() const
 {
+   // Return this block's child list size. 
    return _children.size();
 }
 
@@ -113,6 +113,7 @@ int AbstractBlock::size() const
  */
 const QList<AbstractBlock*>& AbstractBlock::list() const
 {
+   // Return a constant reference to this block's internal children list. 
    return _children;
 }
 
@@ -134,6 +135,8 @@ const QList<AbstractBlock*>& AbstractBlock::list() const
  */
 int AbstractBlock::indexOf(AbstractBlock* pointer) const
 {
+   // Return the index of the given child pointer using the qt method of this block's 
+   // child list. 
    return _children.indexOf(pointer);
 }
 
@@ -152,7 +155,7 @@ int AbstractBlock::indexOf(AbstractBlock* pointer) const
  */
 AbstractBlock* AbstractBlock::get(int index) const
 {
-   // If the given index is out of range then throw an exception. 
+   // Make sure the given index is within range. 
    if ( index < 0 || index >= _children.size() )
    {
       Exception::OutOfRange e;
@@ -180,13 +183,22 @@ AbstractBlock* AbstractBlock::get(int index) const
  */
 std::unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
 {
-   // Create a new empty block _ret_ that is the same type as this block. Copy this 
-   // block's children and implementation data to _ret_. 
+   // Create a new blank block of the same type as this block. 
    unique_ptr<AbstractBlock> ret {makeBlank()};
+
+   // Make sure the new blank block is the same type as this block. 
+   if ( type() != ret->type() )
+   {
+      Exception::LogicError e;
+      e.setDetails(tr("Cannot copy data from a different block type."));
+      throw e;
+   }
+
+   // Copy this block's children and data to the new block. 
    ret->copyChildren(this);
    ret->copyDataFrom(this);
 
-   // Return _ret_. 
+   // Return the new block. 
    return ret;
 }
 
@@ -204,10 +216,10 @@ std::unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
  */
 bool AbstractBlock::containsType(int type) const
 {
-   // Iterate through list of this block's children. If a child matches the given 
-   // type then return true. 
+   // Iterate through list of this block's children. 
    for (auto child : qAsConst(_children))
    {
+      // If the child matches the given type then return true. 
       if ( child->type() == type ) return true;
    }
 
@@ -230,10 +242,10 @@ bool AbstractBlock::containsType(int type) const
  */
 bool AbstractBlock::containsType(const QList<int>& types) const
 {
-   // Iterate through list of this block's children. If a child matches the given 
-   // type then return true. 
+   // Iterate through list of this block's children. 
    for (auto child : qAsConst(_children))
    {
+      // If the child matches any of the given types then return true. 
       if ( types.contains(child->type()) ) return true;
    }
 
@@ -256,10 +268,10 @@ bool AbstractBlock::containsType(const QList<int>& types) const
  */
 void AbstractBlock::setField(int index, const QVariant& value)
 {
-   // If the given index is out of range then throw an exception. 
+   // Make sure the given index is within range. 
    if ( index < 0 || index >= fieldSize() )
    {
-      Exception::InvalidArgument e;
+      Exception::OutOfRange e;
       MARK_EXCEPTION(e);
       e.setDetails(tr("Given block field %1 is out of range (%2 total).")
                    .arg(index)
@@ -267,13 +279,16 @@ void AbstractBlock::setField(int index, const QVariant& value)
       throw e;
    }
 
-   // If the new given value is different from the current value for the given field 
-   // then call the interface to quietly set it to the new value and then call the 
-   // interface to notify that field has been modified. 
+   // Make sure the new value for the field is different from the currently set 
+   // value. 
    if ( value != field(index) )
    {
+      // Call the appropriate interfaces to update the field's value. 
       quietlySetField(index,value);
-      fieldModified(index);
+
+      // If this block is not currently being read in from a file then notify this field 
+      // has been modified. 
+      if ( !_readIn ) fieldModified(index);
    }
 }
 
@@ -291,16 +306,18 @@ void AbstractBlock::setField(int index, const QVariant& value)
  */
 void AbstractBlock::moveUp(int index)
 {
-   // If the given index is at the top of the list or is out of range then return, 
-   // else swap the child with the given index with the child just above it and call 
-   // the notify modified method. 
+   // Make sure the given index is within range and not already at the top of the 
+   // list. 
    if ( index < 1 || index >= _children.size() ) return;
+
+   // Swap the child pointer at the given index with the pointer directly above it in 
+   // this block's child list and notify of modification. 
    std::swap(_children[index - 1],_children[index]);
    notifyModified();
 
-   // Starting with this block call its child moved interface and continue calling 
-   // the next parent's child moved interface until the interface returns false or 
-   // the root block is reached. 
+   // Starting with this block iterate up the tree of parents, calling their child 
+   // moved interface, until the root block is reached or the child moved interface 
+   // returns false. 
    AbstractBlock* notify {this};
    while ( notify && notify->childMoved(_children.at(index - 1)) ) notify = notify->parent();
 }
@@ -319,16 +336,18 @@ void AbstractBlock::moveUp(int index)
  */
 void AbstractBlock::moveDown(int index)
 {
-   // If the given index is at the top of the list or is out of range then return, 
-   // else swap the child with the given index with the child just below it and call 
-   // the notify modified method. 
+   // Make sure the given index is within range and not already at the bottom of the 
+   // list. 
    if ( index < 0 || index >= (_children.size() - 1) ) return;
+
+   // Swap the child pointer at the given index with the pointer directly below it in 
+   // this block's child list and notify of modification. 
    std::swap(_children[index],_children[index + 1]);
    notifyModified();
 
-   // Starting with this block call its child moved interface and continue calling 
-   // the next parent's child moved interface until the interface returns false or 
-   // the root block is reached. 
+   // Starting with this block iterate up the tree of parents, calling their child 
+   // moved interface, until the root block is reached or the child moved interface 
+   // returns false. 
    AbstractBlock* notify {this};
    while ( notify && notify->childMoved(_children.at(index + 1)) ) notify = notify->parent();
 }
@@ -351,8 +370,7 @@ void AbstractBlock::moveDown(int index)
  */
 void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
 {
-   // If the given child pointer is null or its type is not contained in this blocks 
-   // build list then throw an exception. 
+   // Make sure the given pointer is not null. 
    if ( !child )
    {
       Exception::InvalidArgument e;
@@ -360,6 +378,8 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
       e.setDetails(tr("Cannot insert child block with null pointer."));
       throw e;
    }
+
+   // Make sure the given block's type can be a child of this block. 
    if ( !buildList().contains(child->type()) )
    {
       Exception::LogicError e;
@@ -370,16 +390,15 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
       throw e;
    }
 
-   // Insert the new block into this block's list of children at the given index, 
-   // releasing it from its smart pointer and setting this block as its parent. Call 
-   // the notify modified method. 
+   // Insert the given block as a child of this block at the given index and notify 
+   // of modification. 
    AbstractBlock* adopted {child.release()};
    adopted->setParent(this,index);
    notifyModified();
 
-   // Starting with this block call its child added interface and continue calling 
-   // the next parent's child added interface until the interface returns false or 
-   // the root block is reached. 
+   // Starting with this block iterate up the tree of parents, calling their child 
+   // added interface, until the root block is reached or the child added interface 
+   // returns false. 
    AbstractBlock* notify {this};
    while ( notify && notify->childAdded(adopted) ) notify = notify->parent();
 }
@@ -400,7 +419,7 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
  */
 std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
 {
-   // If the given index is out of range then throw an exception. 
+   // Make sure the given index is within range. 
    if ( index < 0 && index >= _children.size() )
    {
       Exception::OutOfRange e;
@@ -411,20 +430,19 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
       throw e;
    }
 
-   // Remove the child at the given index from this block's list of children saving 
-   // its pointer to the smart pointer _ret_. Call the child removed interface and 
-   // call the notify modified method. 
+   // Remove the child from this block's child list at the given index, saving the 
+   // pointer and notifying of modification. 
    unique_ptr<AbstractBlock> ret {_children.at(index)};
    ret->setParent(nullptr);
    notifyModified();
 
-   // Starting with this block call its child removed interface with _ret_ and 
-   // continue calling the next parent's child removed interface until the interface 
-   // returns false or the root block is reached. 
+   // Starting with this block iterate up the tree of parents, calling their child 
+   // removed interface, until the root block is reached or the child removed 
+   // interface returns false. 
    AbstractBlock* notify {this};
    while ( notify && notify->childRemoved(ret.get()) ) notify = notify->parent();
 
-   // Return _ret_. 
+   // Return the removed child pointer. 
    return ret;
 }
 
@@ -441,6 +459,7 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
  */
 void AbstractBlock::remove(int index)
 {
+   // Take this block's child from the given index and delete it. 
    take(index).reset();
 }
 
@@ -463,14 +482,15 @@ void AbstractBlock::read(const QDomElement& element)
    qDeleteAll(_children);
    _children.clear();
 
-   // Iterate through all children nodes of the given element. If a child is an 
-   // element and matches the data tag then read it in as this block's new data, else 
-   // if it an element that read it in as a new child block. 
+   // Iterate through all children nodes of the given element. 
    QDomNode node {element.firstChild()};
    while ( !node.isNull() )
    {
+      // Check if the node is an element. 
       if ( node.isElement() )
       {
+         // If the tag name is the data tag then read in this block's data else read in the 
+         // element as a new child for this block. 
          QDomElement element {node.toElement()};
          if ( element.tagName() == _dataTag )
          {
@@ -478,12 +498,12 @@ void AbstractBlock::read(const QDomElement& element)
          }
          else readChild(element);
       }
+
+      // Move to the next node sibling. 
       node = node.nextSibling();
    }
 
-   // Make sure all new children of this block is allowed to this block's child using 
-   // its built list interface. If any child is found that is not allowed then throw 
-   // an exception. 
+   // Make sure all children of this block is allowed to this block's child list. 
    for (auto child: qAsConst(_children))
    {
       if ( !buildList().contains(child->type()) )
@@ -514,19 +534,20 @@ void AbstractBlock::read(const QDomElement& element)
  */
 QDomElement AbstractBlock::write(QDomDocument& document) const
 {
-   // Create a new XML element _data_ writing all of this block's data to it. 
+   // Create the data element for this bock's data. 
    QDomElement data {writeData(document)};
 
-   // Create a new XML element _ret_. Adding this block's type to _ret_ as an 
-   // attribute and appending the _data_ element. Iterate through this block's list 
-   // of children, calling their write method and appending the returned child 
-   // element to _ret_. 
+   // Create a new element that will contain this block's data and all children. 
    QDomElement ret {document.createElement(factory().elementName(type()))};
+
+   // Set the type attribute and add the data element for this bock. 
    ret.setAttribute(_typeTag,type());
    ret.appendChild(data);
+
+   // Add all of this block's children elements. 
    for (auto child : _children) ret.appendChild(child->write(document));
 
-   // Return _ret_. 
+   // Return the element containing all data and children of this block. 
    return ret;
 }
 
@@ -547,6 +568,7 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
  */
 bool AbstractBlock::childNameModified(AbstractBlock* child)
 {
+   // Return false. 
    Q_UNUSED(child)
    return false;
 }
@@ -568,6 +590,7 @@ bool AbstractBlock::childNameModified(AbstractBlock* child)
  */
 bool AbstractBlock::childAdded(AbstractBlock* child)
 {
+   // Return false. 
    Q_UNUSED(child)
    return false;
 }
@@ -590,6 +613,7 @@ bool AbstractBlock::childAdded(AbstractBlock* child)
  */
 bool AbstractBlock::childRemoved(AbstractBlock* child)
 {
+   // Return false. 
    Q_UNUSED(child)
    return false;
 }
@@ -612,6 +636,7 @@ bool AbstractBlock::childRemoved(AbstractBlock* child)
  */
 bool AbstractBlock::childMoved(AbstractBlock* child)
 {
+   // Return false. 
    Q_UNUSED(child)
    return false;
 }
@@ -630,6 +655,8 @@ bool AbstractBlock::childMoved(AbstractBlock* child)
  */
 int AbstractBlock::dataVersion() const
 {
+   // Return this object's internal version state, which can be either the version 
+   // being read in or the current version. 
    return _version;
 }
 
@@ -662,9 +689,10 @@ void AbstractBlock::notifyModified()
  */
 void AbstractBlock::notifyNameModified()
 {
-   // Create a pointer _root_ to the parent of this block. If the returned pointer is 
-   // null then throw an exception. 
+   // Get a pointer to this block's parent block. 
    AbstractBlock* root {parent()};
+
+   // Make sure the parent block pointer is not null. 
    if ( !root )
    {
       Exception::LogicError e;
@@ -673,14 +701,13 @@ void AbstractBlock::notifyNameModified()
       throw e;
    }
 
-   // Starting with _root_ call its child name modified interface and continue 
-   // calling the next parent's child name modified interface until the interface 
-   // returns false or the root block is reached. 
+   // Starting with this block's parent iterate up the tree of parents, calling their 
+   // child name modified interface, until the root block is reached or the child 
+   // name modified interface returns false. 
    AbstractBlock* notify {root};
    while ( notify && notify->childNameModified(this) ) notify = notify->parent();
 
-   // Find the root block of _root_ and emit its name modified signal with this 
-   // block's pointer. 
+   // Find the root block of this block and emit its name modified signal. 
    while ( root->parent() ) root = root->parent();
    emit root->nameModified(this);
 }
@@ -697,9 +724,10 @@ void AbstractBlock::notifyNameModified()
  */
 void AbstractBlock::notifyBodyModified()
 {
-   // Create a pointer _root_ to the parent of this block. If the returned pointer is 
-   // null then throw an exception. 
+   // Get a pointer to this block's parent block. 
    AbstractBlock* root {parent()};
+
+   // Make sure the parent block pointer is not null. 
    if ( !root )
    {
       Exception::LogicError e;
@@ -708,8 +736,7 @@ void AbstractBlock::notifyBodyModified()
       throw e;
    }
 
-   // Find the root block of _root_ and emit its body modified signal with this 
-   // block's pointer. 
+   // Find the root block of this block and emit its body modified signal. 
    while ( root->parent() ) root = root->parent();
    emit root->bodyModified(this);
 }
@@ -721,38 +748,54 @@ void AbstractBlock::notifyBodyModified()
 
 /*!
  * Reads in this block's field data from the given XML element. This overwrites any 
- * value this block's fields may already contain. 
+ * values this block's fields may already contain. 
  *
  * @param element The XML element that is read in as this block's data. 
  */
 void AbstractBlock::readData(const QDomElement& element)
 {
-   // Set this block's data version number to the version attribute from the given 
-   // XML element. 
+   // Set this block's version number to the version attribute from the given XML 
+   // element and the read in state to true. 
    _version = element.attribute(_versionTag,"0").toInt();
+   _readIn = true;
 
-   // Create a mapping _lists_ of all fields that are the string list type, setting 
-   // each mapping to a blank string list. 
+   // Create a mapping used for all string list fields. 
    QMap<int,QStringList> lists;
+
+   // Iterate through all fields of this block. 
    for (int i = 0; i < fieldSize() ;++i)
    {
-      if ( fieldType(i) == StringList ) lists.insert(i,QStringList());
+      // Determine the field type and set its value to the default state. 
+      switch (fieldType(i))
+      {
+      case Boolean:
+         setField(i,false);
+         break;
+      case String:
+         setField(i,QString());
+         break;
+      case StringList:
+         setField(i,QStringList());
+
+         // For the string list type also add an empty string list to the mapping. 
+         lists.insert(i,QStringList());
+         break;
+      }
    }
 
-   // Iterate through all children nodes of the given XML element. If a node is an 
-   // element and matches a field tag then quietly set the fields value. If the field 
-   // type is boolean then simply set it to true, else if it is string then set it to 
-   // the element's text, else if it is a string list then append the element's text 
-   // to the correct string list mapping in _lists_. 
+   // Iterate through all children nodes of the given element. 
    QDomNode node {element.firstChild()};
    while ( !node.isNull() )
    {
+      // Check if the node is an element. 
       if ( node.isElement() )
       {
+         // Try to find the field index with the given tag name of the element. 
          QDomElement element {node.toElement()};
          int i {fieldIndexOf(element.tagName())};
          if ( i >= 0 )
          {
+            // Set the value of the field with the found index based off its type. 
             switch (fieldType(i))
             {
             case Boolean:
@@ -762,23 +805,29 @@ void AbstractBlock::readData(const QDomElement& element)
                quietlySetField(i,element.text());
                break;
             case StringList:
+
+               // If this is a string list append the element's text as a new string to the 
+               // string list's temporary mapping. 
                lists[i] << element.text();
                break;
             }
          }
       }
+
+      // Move to the next sibling node. 
       node = node.nextSibling();
    }
 
-   // Iterate through all string list field mappings in _lists_, quietly setting each 
-   // field with the correct string list. 
+   // Iterate through the string list fields mapping and set their respective fields. 
    for ( auto i = lists.begin(); i != lists.end() ;++i)
    {
       quietlySetField(i.key(),*i);
    }
 
-   // Set this block's data version to its implementation's current version. 
+   // Set this block's data version to the current version and the read in state to 
+   // false. 
    _version = version();
+   _readIn = false;
 }
 
 
@@ -796,19 +845,15 @@ void AbstractBlock::readData(const QDomElement& element)
  */
 QDomElement AbstractBlock::writeData(QDomDocument& document) const
 {
-   // Create a new XML element _ret_, setting its tag name to the data tag and 
-   // appending its implementation's current data version as an attribute. 
+   // Create the return element and set its version attribute. 
    QDomElement ret {document.createElement(_dataTag)};
    ret.setAttribute(_versionTag,QString::number(version()));
 
-   // Iterate through all fields for this block. For each field add their data as a 
-   // child element to _ret_ using the field tag name for each one. If the field type 
-   // is boolean simply add an empty element if its value is true. If the field type 
-   // is string add an element whose text is the field string if it is not empty. If 
-   // the field type is string list then add an element for each string the list 
-   // contains. 
+   // Iterate through all fields for this block. 
    for (int i = 0; i < fieldSize() ;++i)
    {
+      // Determine the field type and append the necessary elements to the return 
+      // element to save the field's value. 
       switch (fieldType(i))
       {
       case Boolean:
@@ -816,6 +861,8 @@ QDomElement AbstractBlock::writeData(QDomDocument& document) const
          break;
       case String:
          {
+            // If this string field's value is not empty then append an element containing its 
+            // value to the return element. 
             QString value {field(i).toString()};
             if ( !value.isEmpty() )
             {
@@ -827,6 +874,8 @@ QDomElement AbstractBlock::writeData(QDomDocument& document) const
          }
       case StringList:
          {
+            // Append elements for each string the list contains, each element containing the 
+            // value of each string. 
             for (auto string: field(i).toStringList())
             {
                QDomElement element {document.createElement(fieldTag(i))};
@@ -838,7 +887,7 @@ QDomElement AbstractBlock::writeData(QDomDocument& document) const
       }
    }
 
-   // Return _ret_. 
+   // Return the element containing all field data for this block. 
    return ret;
 }
 
@@ -856,10 +905,10 @@ QDomElement AbstractBlock::writeData(QDomDocument& document) const
  */
 void AbstractBlock::copyChildren(const AbstractBlock* parent)
 {
-   // Iterate through all the children of the given block. Make a copy of each child, 
-   // appending them to this block's list of children. 
+   // Iterate through all the children of the given block. 
    for (auto child : qAsConst(parent->_children))
    {
+      // Make a copy of the child and append it to this block. 
       child->makeCopy().release()->setParent(this,size());
    }
 }
@@ -874,14 +923,15 @@ void AbstractBlock::copyChildren(const AbstractBlock* parent)
  * data this block currently contains. This assumes the given block is the same 
  * type as this one. 
  *
- * @param other  
+ * @param other Pointer to the block whose field data is copied to this block. 
  */
 void AbstractBlock::copyDataFrom(const AbstractBlock* other)
 {
-   // Iterate through all fields for this block, for each one setting its value to 
-   // the value of the other block's corresponding field. 
+   // Iterate through all fields for this block. 
    for (int i = 0; i < fieldSize() ;++i)
    {
+      // Set the value of this block's field to the value of the other block's same 
+      // field. 
       quietlySetField(i,other->field(i));
    }
 }
@@ -899,11 +949,11 @@ void AbstractBlock::copyDataFrom(const AbstractBlock* other)
  */
 void AbstractBlock::readChild(const QDomElement& element)
 {
-   // Read in the type attribute from the given child element to _type_. If reading 
-   // the type as an integer fails or the type is out of range of possible block 
-   // types for this project type then throw an exception. 
+   // Read in the type attribute from the given child element. 
    bool ok;
    int type {element.attribute(_typeTag,"nan").toInt(&ok)};
+
+   // Make sure reading in the type did not fail. 
    if ( !ok )
    {
       Exception::ReadError e;
@@ -911,6 +961,8 @@ void AbstractBlock::readChild(const QDomElement& element)
       e.setDetails(tr("Type attribute is not an integer."));
       throw e;
    }
+
+   // Make sure the read in type is within range of this block's factory. 
    if ( type < 0 || type >= factory().size() )
    {
       Exception::ReadError e;
@@ -919,11 +971,13 @@ void AbstractBlock::readChild(const QDomElement& element)
       throw e;
    }
 
-   // Create a new block with the given type and call its read method with the given 
-   // child XML element, appending it to this blocks list of children. 
+   // Create a new block with the read in type and append it to this block's child 
+   // list. 
    unique_ptr<AbstractBlock> child {factory().makeBlock(type)};
    AbstractBlock* back {child.get()};
    child.release()->setParent(this,size());
+
+   // Have the new block read in its data and children from the given element. 
    back->read(element);
 }
 
@@ -945,14 +999,17 @@ void AbstractBlock::readChild(const QDomElement& element)
  */
 void AbstractBlock::setParent(AbstractBlock* parent, int index)
 {
-   // 
+   // If this block already has a parent then remove it from the parent's child list. 
    if ( AbstractBlock* oldParent = AbstractBlock::parent() )
    {
       oldParent->_children.removeOne(this);
    }
 
-   // 
+   // Set this block's parent to the new parent, if any. 
    QObject::setParent(parent);
+
+   // If the new parent is not null then insert this block into the new parent's 
+   // child list at the given index. 
    if ( parent )
    {
       parent->_children.insert(index,this);

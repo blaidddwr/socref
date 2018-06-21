@@ -12323,7 +12323,7 @@ Each block can have a single parent and any number of children. The children are
 
 The virtual interfaces for this class fall into three primary groupings. The first provides the system with basic information usually required to display the block in the block view. The second deals with spawning view and abstract edit widgets to have a detailed view of the block or edit its data, respectively. The final deals with making the data of the block visible to the application by defining a list of fields. Optional interfaces are also provides for dealing with child events, such as children being added or removed.
 
-This class itself handles all copying, reading, and writing of blocks by using the fields interface which should provide it with all data for an implementation. This class also handles all management of children internally. As a result an implementation of this class only needs to provide information about itself, letting this abstract class take care its management.</description>
+This class itself handles all copying, reading, and writing of blocks by using the fields interface which should provide it with all data for an implementation. This class also handles all management of children internally. As a result an implementation of this class only needs to provide information about itself, letting this abstract class take care of its management.</description>
             <qtobject/>
          </data>
          <typeList type="15">
@@ -12501,11 +12501,11 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>makeEdit</name>
-                  <description>This interface returns a editable GUI widget that provides the ability to edit this block's data.</description>
+                  <description>This interface returns an abstract edit GUI dialog that provides the ability to edit this block's data.</description>
                   <virtual/>
                   <abstract/>
                   <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-                  <return_description>New editable GUI widget to edit this block's data.</return_description>
+                  <return_description>Abstract edit GUI dialog to edit this block's data.</return_description>
                </data>
             </function>
          </access>
@@ -12519,8 +12519,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
                   <type>AbstractBlock*</type>
                   <return_description>Pointer to the root block.</return_description>
-                  <operation>Create an abstract block pointer _root_ with it pointing to this abstract block. While _root_ has a parent set its pointer to its parent.</operation>
-                  <operation>Return _root_.</operation>
+                  <operation>Iterate up the tree of parents until the root pointer is found.</operation>
+                  <operation>Return the root pointer.</operation>
                </data>
             </function>
             <function type="2">
@@ -12530,8 +12530,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>const AbstractBlock*</type>
                   <return_description>Read only pointer to the root block.</return_description>
-                  <operation>Create a constant abstract block pointer _root_ with it pointing to this abstract block. While _root_ has a parent set its pointer to its parent.</operation>
-                  <operation>Return _root_.</operation>
+                  <operation>Iterate up the tree of parents until the root pointer is found.</operation>
+                  <operation>Return the root pointer.</operation>
                </data>
             </function>
             <function type="2">
@@ -12541,6 +12541,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>AbstractBlock*</type>
                   <return_description>If this block is the root then a null pointer, else a pointer to this block's parent.</return_description>
+                  <operation>Return the qt object of this object cast as an abstract block.</operation>
                </data>
             </function>
             <function type="2">
@@ -12550,6 +12551,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>int</type>
                   <return_description>Number of children this block contains.</return_description>
+                  <operation>Return this block's child list size.</operation>
                </data>
             </function>
             <function type="2">
@@ -12559,6 +12561,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>const QList&lt;AbstractBlock*>&amp;</type>
                   <return_description>Reference to this block's list of children.</return_description>
+                  <operation>Return a constant reference to this block's internal children list.</operation>
                </data>
             </function>
             <function type="2">
@@ -12568,6 +12571,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>int</type>
                   <return_description>If a match is found then the index of the child with the given pointer, else -1.</return_description>
+                  <operation>Return the index of the given child pointer using the qt method of this block's child list.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -12584,7 +12588,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>AbstractBlock*</type>
                   <return_description>Pointer to this block's child with given index.</return_description>
-                  <operation>If the given index is out of range then throw an exception.</operation>
+                  <operation>Make sure the given index is within range.</operation>
                   <operation>Return a pointer to this block's child with the given index.</operation>
                </data>
                <variable type="1">
@@ -12602,8 +12606,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <return_description>Exact copy of this block's data as a new block.</return_description>
-                  <operation>Create a new empty block _ret_ that is the same type as this block. Copy this block's children and implementation data to _ret_.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Create a new blank block of the same type as this block.</operation>
+                  <operation>Make sure the new blank block is the same type as this block.</operation>
+                  <operation>Copy this block's children and data to the new block.</operation>
+                  <operation>Return the new block.</operation>
                </data>
             </function>
             <function type="2">
@@ -12613,7 +12619,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>bool</type>
                   <return_description>True if this block contains any children of the given type, else false.</return_description>
-                  <operation>Iterate through list of this block's children. If a child matches the given type then return true.</operation>
+                  <operation>Iterate through list of this block's children.</operation>
+                  <operation>If the child matches the given type then return true.</operation>
                   <operation>Return false because no child was found with the given type.</operation>
                </data>
                <variable type="1">
@@ -12631,7 +12638,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>bool</type>
                   <return_description>True if this block contains any children of any type given, else false.</return_description>
-                  <operation>Iterate through list of this block's children. If a child matches the given type then return true.</operation>
+                  <operation>Iterate through list of this block's children.</operation>
+                  <operation>If the child matches any of the given types then return true.</operation>
                   <operation>Return false because no child was found with the given type.</operation>
                </data>
                <variable type="1">
@@ -12649,8 +12657,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>QList&lt;T*></type>
                   <return_description>List of this block's children that is given type.</return_description>
-                  <operation>Create a new list of pointers _ret_ of the given template type. Iterate through the list of this block's children. If a child matches the given type then append its pointer to _ret_.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Generate a pointer list of all this block's children that match the given type.</operation>
+                  <operation>Return the pointer list of matched children.</operation>
                </data>
                <template type="3">
                   <data version="0">
@@ -12674,8 +12682,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>const T*</type>
                   <return_description>If successful then a read only pointer of requested cast type, else a null pointer.</return_description>
-                  <operation>If the given type to cast does not match this block's type then return a null pointer.</operation>
-                  <operation>Cast this block's pointer to the requested class type and return the cast pointer. If the cast fails then throw an exception.</operation>
+                  <operation>Make sure the given type matches this block's type.</operation>
+                  <operation>If this block is successfully cast as the given type then return its pointer.</operation>
+                  <operation>Else an internal error has occurred because this block should have cast successfully.</operation>
                </data>
                <template type="3">
                   <data version="0">
@@ -12698,8 +12707,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
                   <type>T*</type>
                   <return_description>If successful then a pointer of requested cast type, else a null pointer.</return_description>
-                  <operation>If the given type to cast does not match this block's type then return a null pointer.</operation>
-                  <operation>Cast this block's pointer to the requested class type and return the cast pointer. If the cast fails then throw an exception.</operation>
+                  <operation>Make sure the given type matches this block's type.</operation>
+                  <operation>If this block is successfully cast as the given type then return its pointer.</operation>
+                  <operation>Else an internal error has occurred because this block should have cast successfully.</operation>
                </data>
                <template type="3">
                   <data version="0">
@@ -12721,8 +12731,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>setField</name>
                   <description>Sets the value of the field with the given index for this block. If the given index is out of range then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given index is out of range then throw an exception.</operation>
-                  <operation>If the new given value is different from the current value for the given field then call the interface to quietly set it to the new value and then call the interface to notify that field has been modified.</operation>
+                  <operation>Make sure the given index is within range.</operation>
+                  <operation>Make sure the new value for the field is different from the currently set value.</operation>
+                  <operation>Call the appropriate interfaces to update the field's value.</operation>
+                  <operation>If this block is not currently being read in from a file then notify this field has been modified.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -12744,8 +12756,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>moveUp</name>
                   <description>Moves the child block with the given index up the list by one where the very top of the list is index 0. If the given index is already at the top of the list or out of range then this does nothing.</description>
                   <type>void</type>
-                  <operation>If the given index is at the top of the list or is out of range then return, else swap the child with the given index with the child just above it and call the notify modified method.</operation>
-                  <operation>Starting with this block call its child moved interface and continue calling the next parent's child moved interface until the interface returns false or the root block is reached.</operation>
+                  <operation>Make sure the given index is within range and not already at the top of the list.</operation>
+                  <operation>Swap the child pointer at the given index with the pointer directly above it in this block's child list and notify of modification.</operation>
+                  <operation>Starting with this block iterate up the tree of parents, calling their child moved interface, until the root block is reached or the child moved interface returns false.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -12760,8 +12773,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>moveDown</name>
                   <description>Moves the child block with the given index down the list by one where the very top of the list is index 0. If the given index is already at the bottom of the list or out of range then this does nothing.</description>
                   <type>void</type>
-                  <operation>If the given index is at the top of the list or is out of range then return, else swap the child with the given index with the child just below it and call the notify modified method.</operation>
-                  <operation>Starting with this block call its child moved interface and continue calling the next parent's child moved interface until the interface returns false or the root block is reached.</operation>
+                  <operation>Make sure the given index is within range and not already at the bottom of the list.</operation>
+                  <operation>Swap the child pointer at the given index with the pointer directly below it in this block's child list and notify of modification.</operation>
+                  <operation>Starting with this block iterate up the tree of parents, calling their child moved interface, until the root block is reached or the child moved interface returns false.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -12776,9 +12790,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>insert</name>
                   <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given child pointer is null or its type is not contained in this blocks build list then throw an exception.</operation>
-                  <operation>Insert the new block into this block's list of children at the given index, releasing it from its smart pointer and setting this block as its parent. Call the notify modified method.</operation>
-                  <operation>Starting with this block call its child added interface and continue calling the next parent's child added interface until the interface returns false or the root block is reached.</operation>
+                  <operation>Make sure the given pointer is not null.</operation>
+                  <operation>Make sure the given block's type can be a child of this block.</operation>
+                  <operation>Insert the given block as a child of this block at the given index and notify of modification.</operation>
+                  <operation>Starting with this block iterate up the tree of parents, calling their child added interface, until the root block is reached or the child added interface returns false.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -12801,10 +12816,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. If the index is out of range then an exception is thrown.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <return_description>Pointer to child that was taken from this block.</return_description>
-                  <operation>If the given index is out of range then throw an exception.</operation>
-                  <operation>Remove the child at the given index from this block's list of children saving its pointer to the smart pointer _ret_. Call the child removed interface and call the notify modified method.</operation>
-                  <operation>Starting with this block call its child removed interface with _ret_ and continue calling the next parent's child removed interface until the interface returns false or the root block is reached.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Make sure the given index is within range.</operation>
+                  <operation>Remove the child from this block's child list at the given index, saving the pointer and notifying of modification.</operation>
+                  <operation>Starting with this block iterate up the tree of parents, calling their child removed interface, until the root block is reached or the child removed interface returns false.</operation>
+                  <operation>Return the removed child pointer.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -12819,6 +12834,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>remove</name>
                   <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
                   <type>void</type>
+                  <operation>Take this block's child from the given index and delete it.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -12834,8 +12850,11 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>Reads in block data from an XML element. This clears any existing data this block contains, including the removal and deletion of all existing children. This recursively adds any children contained in the XML reading in their data from child XML elements.</description>
                   <type>void</type>
                   <operation>Delete and clear any existing children this block may contain.</operation>
-                  <operation>Iterate through all children nodes of the given element. If a child is an element and matches the data tag then read it in as this block's new data, else if it an element that read it in as a new child block.</operation>
-                  <operation>Make sure all new children of this block is allowed to this block's child using its built list interface. If any child is found that is not allowed then throw an exception.</operation>
+                  <operation>Iterate through all children nodes of the given element.</operation>
+                  <operation>Check if the node is an element.</operation>
+                  <operation>If the tag name is the data tag then read in this block's data else read in the element as a new child for this block.</operation>
+                  <operation>Move to the next node sibling.</operation>
+                  <operation>Make sure all children of this block is allowed to this block's child list.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -12852,9 +12871,11 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>QDomElement</type>
                   <return_description>XML element that stores this block's data and all children underneath it.</return_description>
-                  <operation>Create a new XML element _data_ writing all of this block's data to it.</operation>
-                  <operation>Create a new XML element _ret_. Adding this block's type to _ret_ as an attribute and appending the _data_ element. Iterate through this block's list of children, calling their write method and appending the returned child element to _ret_.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Create the data element for this bock's data.</operation>
+                  <operation>Create a new element that will contain this block's data and all children.</operation>
+                  <operation>Set the type attribute and add the data element for this bock.</operation>
+                  <operation>Add all of this block's children elements.</operation>
+                  <operation>Return the element containing all data and children of this block.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13008,6 +13029,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <virtual/>
                   <type>bool</type>
                   <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+                  <operation>Return false.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13024,6 +13046,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <virtual/>
                   <type>bool</type>
                   <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+                  <operation>Return false.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13040,6 +13063,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <virtual/>
                   <type>bool</type>
                   <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+                  <operation>Return false.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13056,6 +13080,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <virtual/>
                   <type>bool</type>
                   <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+                  <operation>Return false.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13077,6 +13102,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>int</type>
                   <return_description>Data version of the data this block is reading in or the current version if data is not being read in.</return_description>
+                  <operation>Return this object's internal version state, which can be either the version being read in or the current version.</operation>
                </data>
             </function>
             <function type="2">
@@ -13092,9 +13118,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>notifyNameModified</name>
                   <description>Notifies this block's name has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no name.</description>
                   <type>void</type>
-                  <operation>Create a pointer _root_ to the parent of this block. If the returned pointer is null then throw an exception.</operation>
-                  <operation>Starting with _root_ call its child name modified interface and continue calling the next parent's child name modified interface until the interface returns false or the root block is reached.</operation>
-                  <operation>Find the root block of _root_ and emit its name modified signal with this block's pointer.</operation>
+                  <operation>Get a pointer to this block's parent block.</operation>
+                  <operation>Make sure the parent block pointer is not null.</operation>
+                  <operation>Starting with this block's parent iterate up the tree of parents, calling their child name modified interface, until the root block is reached or the child name modified interface returns false.</operation>
+                  <operation>Find the root block of this block and emit its name modified signal.</operation>
                </data>
             </function>
             <function type="2">
@@ -13102,8 +13129,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>notifyBodyModified</name>
                   <description>Notifies this block's body has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no body.</description>
                   <type>void</type>
-                  <operation>Create a pointer _root_ to the parent of this block. If the returned pointer is null then throw an exception.</operation>
-                  <operation>Find the root block of _root_ and emit its body modified signal with this block's pointer.</operation>
+                  <operation>Get a pointer to this block's parent block.</operation>
+                  <operation>Make sure the parent block pointer is not null.</operation>
+                  <operation>Find the root block of this block and emit its body modified signal.</operation>
                </data>
             </function>
          </access>
@@ -13114,13 +13142,21 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>readData</name>
-                  <description>Reads in this block's field data from the given XML element. This overwrites any value this block's fields may already contain.</description>
+                  <description>Reads in this block's field data from the given XML element. This overwrites any values this block's fields may already contain.</description>
                   <type>void</type>
-                  <operation>Set this block's data version number to the version attribute from the given XML element.</operation>
-                  <operation>Create a mapping _lists_ of all fields that are the string list type, setting each mapping to a blank string list.</operation>
-                  <operation>Iterate through all children nodes of the given XML element. If a node is an element and matches a field tag then quietly set the fields value. If the field type is boolean then simply set it to true, else if it is string then set it to the element's text, else if it is a string list then append the element's text to the correct string list mapping in _lists_.</operation>
-                  <operation>Iterate through all string list field mappings in _lists_, quietly setting each field with the correct string list.</operation>
-                  <operation>Set this block's data version to its implementation's current version.</operation>
+                  <operation>Set this block's version number to the version attribute from the given XML element and the read in state to true.</operation>
+                  <operation>Create a mapping used for all string list fields.</operation>
+                  <operation>Iterate through all fields of this block.</operation>
+                  <operation>Determine the field type and set its value to the default state.</operation>
+                  <operation>For the string list type also add an empty string list to the mapping.</operation>
+                  <operation>Iterate through all children nodes of the given element.</operation>
+                  <operation>Check if the node is an element.</operation>
+                  <operation>Try to find the field index with the given tag name of the element.</operation>
+                  <operation>Set the value of the field with the found index based off its type.</operation>
+                  <operation>If this is a string list append the element's text as a new string to the string list's temporary mapping.</operation>
+                  <operation>Move to the next sibling node.</operation>
+                  <operation>Iterate through the string list fields mapping and set their respective fields.</operation>
+                  <operation>Set this block's data version to the current version and the read in state to false.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13137,9 +13173,12 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>QDomElement</type>
                   <return_description>XML element containing all this block's field data.</return_description>
-                  <operation>Create a new XML element _ret_, setting its tag name to the data tag and appending its implementation's current data version as an attribute.</operation>
-                  <operation>Iterate through all fields for this block. For each field add their data as a child element to _ret_ using the field tag name for each one. If the field type is boolean simply add an empty element if its value is true. If the field type is string add an element whose text is the field string if it is not empty. If the field type is string list then add an element for each string the list contains.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Create the return element and set its version attribute.</operation>
+                  <operation>Iterate through all fields for this block.</operation>
+                  <operation>Determine the field type and append the necessary elements to the return element to save the field's value.</operation>
+                  <operation>If this string field's value is not empty then append an element containing its value to the return element.</operation>
+                  <operation>Append elements for each string the list contains, each element containing the value of each string.</operation>
+                  <operation>Return the element containing all field data for this block.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13154,7 +13193,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>copyChildren</name>
                   <description>Copies all children from the given block and appends the copies to the list of this block's children. This does not remove any previous children already part of this block.</description>
                   <type>void</type>
-                  <operation>Iterate through all the children of the given block. Make a copy of each child, appending them to this block's list of children.</operation>
+                  <operation>Iterate through all the children of the given block.</operation>
+                  <operation>Make a copy of the child and append it to this block.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13169,11 +13209,13 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>copyDataFrom</name>
                   <description>Copies all field data from the given block to this one, overwriting all field data this block currently contains. This assumes the given block is the same type as this one.</description>
                   <type>void</type>
-                  <operation>Iterate through all fields for this block, for each one setting its value to the value of the other block's corresponding field.</operation>
+                  <operation>Iterate through all fields for this block.</operation>
+                  <operation>Set the value of this block's field to the value of the other block's same field.</operation>
                </data>
                <variable type="1">
                   <data version="0">
                      <name>other</name>
+                     <description>Pointer to the block whose field data is copied to this block.</description>
                      <type>const AbstractBlock*</type>
                   </data>
                </variable>
@@ -13183,8 +13225,11 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>readChild</name>
                   <description>Creates a new child reading it in from the given XML element. The new child is then appended to this block's list of children.</description>
                   <type>void</type>
-                  <operation>Read in the type attribute from the given child element to _type_. If reading the type as an integer fails or the type is out of range of possible block types for this project type then throw an exception.</operation>
-                  <operation>Create a new block with the given type and call its read method with the given child XML element, appending it to this blocks list of children.</operation>
+                  <operation>Read in the type attribute from the given child element.</operation>
+                  <operation>Make sure reading in the type did not fail.</operation>
+                  <operation>Make sure the read in type is within range of this block's factory.</operation>
+                  <operation>Create a new block with the read in type and append it to this block's child list.</operation>
+                  <operation>Have the new block read in its data and children from the given element.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13199,6 +13244,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>setParent</name>
                   <description>Sets this block's parent to the given block, adding it to its new parent's list with the given index. If the index is less than 1 it is prepended, else if it is greater than the size of the list it is appended. This will remove any previous parent this block may have had. The new parent can be a null pointer which means this block will have no parent.</description>
                   <type>void</type>
+                  <operation>If this block already has a parent then remove it from the parent's child list.</operation>
+                  <operation>Set this block's parent to the new parent, if any.</operation>
+                  <operation>If the new parent is not null then insert this block into the new parent's child list at the given index.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13248,6 +13296,14 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>_version</name>
                   <description>The data version of the data this block is reading in or the current version if no data is being read in.</description>
                   <type>int</type>
+               </data>
+            </variable>
+            <variable type="1">
+               <data version="0">
+                  <name>_readIn</name>
+                  <description>True if this block is currently reading in its field data or false otherwise. Used so this block does not emit modification signals while it is being read in from a file.</description>
+                  <type>bool</type>
+                  <initializer>false</initializer>
                </data>
             </variable>
             <variable type="1">
