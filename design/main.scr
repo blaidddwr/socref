@@ -13438,16 +13438,17 @@ This class itself handles all copying, reading, and writing of blocks by using t
             </data>
             <constructor type="9">
                <data version="0">
-                  <description>This constructs a new parser object that will be a root or primary parser. This means this parser will be assumed to be the root parser of a source file.</description>
+                  <description>Constructs a new parser object that will be a root or primary parser. This means this parser will be assumed to be the root parser of a source file.</description>
                   <explicit/>
                   <operation>Allocate new resources required for this new parser object.</operation>
                </data>
             </constructor>
             <constructor type="9">
                <data version="0">
-                  <description>This constructs a new parser object that is a child of another parser object. This sets up this object to use the resources of its root parser object.</description>
+                  <description>Constructs a new parser object that is a child of another parser object. This sets up this object to use the resources of its root parser object.</description>
                   <explicit/>
-                  <operation>Set this object's parent as the given parent parser, add this parser to its parent's list of children, and set this object's root parser pointer.</operation>
+                  <operation>Set this object's parent as the given parent parser and add this parser to its parent's list of children.</operation>
+                  <operation>Find the root parser and this object's root parser pointer.</operation>
                   <operation>Set all resource pointers to point to this object's root parser resources.</operation>
                </data>
                <variable type="1">
@@ -13460,19 +13461,21 @@ This class itself handles all copying, reading, and writing of blocks by using t
             </constructor>
             <destructor type="10">
                <data version="0">
-                  <description>This deletes the dynamically allocated resources if this parser if it is the root. If this is a child parser then this does nothing.</description>
+                  <description>Deletes the dynamically allocated resources if this is a root parser. If this object is a child parser then nothing is done.</description>
                   <virtual/>
-                  <operation>If this is a root parser then delete all allocated resources else do nothing.</operation>
+                  <operation>Make sure this is the root parser.</operation>
+                  <operation>Delete all resources of this root parser.</operation>
                </data>
             </destructor>
             <function type="2">
                <data version="0">
                   <name>execute</name>
-                  <description>This parses the given file using this parser as the root parser. If this is a child parser then this does nothing.</description>
+                  <description>Parses the given file using this parser as the root parser. If this is a child parser then this does nothing.</description>
                   <type>void</type>
-                  <operation>If this is not a root parser then return.</operation>
-                  <operation>Set the read line index to the beginning, call the initialize interface, and read in all lines of the source file.</operation>
-                  <operation>Process the input lines, output lines, and then write the output to the source file.</operation>
+                  <operation>Make sure this is a root parser.</operation>
+                  <operation>Initialize this parser and read in the given file.</operation>
+                  <operation>Process the input from the read in file then process the output making a temporary output.</operation>
+                  <operation>Possibly write the processed output to the given file.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13490,7 +13493,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>initialize</name>
-                  <description>This interface initializes this parser. The default implementation does nothing.</description>
+                  <description>This interface initializes this parser and is called before any parsing begins. The default implementation does nothing.</description>
                   <virtual/>
                   <type>void</type>
                </data>
@@ -13524,9 +13527,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>stepIntoChild</name>
-                  <description>Signals this parser that the given child parser should be used for calling the interface for reading lines until it returns false or the last line is processed. If the given parser is not a direct child of this parser then an exception is thrown.</description>
+                  <description>Signals this parser that the given child parser should be used for reading lines until it returns false or the last line is processed. If the given parser is not a direct child of this parser then an exception is thrown.</description>
                   <type>void</type>
-                  <operation>If the given parser object's parent is not this parser then throw an exception, else set the internal child pointer signal variable to the given parser.</operation>
+                  <operation>Make sure the given parser is a direct child of this parser.</operation>
+                  <operation>Set this object's step into child pointer to the given parser.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13550,7 +13554,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>setIndent</name>
                   <description>Sets the indent, in spaces, that is prepended to each line added to output.</description>
                   <type>void</type>
-                  <operation>If the given indent is less than 0 then throw an exception, else set the root parser object's indent to the new value given.</operation>
+                  <operation>Make sure the given indent is not negative.</operation>
+                  <operation>Set the this object's root indent to the new value.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13565,8 +13570,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>add</name>
                   <description>Adds the given line as a new line to output, appending it to the end of any existing lines. The line is prepended with a number of spaces equal to the indent.</description>
                   <type>void</type>
-                  <operation>Prepend the given line with spaces equal to the indent of the root parser.</operation>
-                  <operation>Append the given line to the list of output lines of the root parser.</operation>
+                  <operation>Add white space equal to this object's root indent to the beginning of the given line and then append the line as a new output line.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13581,6 +13585,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>add</name>
                   <description>Appends multiple lines to the output, each one being prepended with spaces equal to the indent.</description>
                   <type>void</type>
+                  <operation>Iterate through all strings of the given string list and add each one as output.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13595,6 +13600,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>add</name>
                   <description>Appends the given number of blank lines to the output. If the given number is less than 1 then nothing is added to the output.</description>
                   <type>void</type>
+                  <operation>Add the given number of blank lines to output.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13614,8 +13620,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>read</name>
                   <description>Reads in the source file, splitting them into lines, and prepares the output.</description>
                   <type>void</type>
-                  <operation>Read all contents of the given file, storing it as this object's original contents. If reading in the file failed then throw an exception.</operation>
-                  <operation>Split the original content by line and save it to this object's list of input lines to be processed.</operation>
+                  <operation>Read in the entire contents of the given file to this object's original string.</operation>
+                  <operation>Make sure reading in the given file did not fail.</operation>
+                  <operation>Split this object's original content by line and save it to this object's list of input lines to be processed.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -13630,7 +13637,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>processInput</name>
                   <description>Processes the input of the source file, using the read line interface for processing.</description>
                   <type>void</type>
-                  <operation>While the root parser object's index is not at the end of the input line list continue. Call the read line interface with the next input line to process. If the interface returns false then return. If the step into child function was called and set the child pointer signal then call the child's process input function and then set the child pointer signal back to null.</operation>
+                  <operation>Iterate through all input lines using this object's root index to keep track of which line is next.</operation>
+                  <operation>Process the next line, returning from this function if the interface returns false. This will move parsing back to the parent parser unless this is the root parser in which case processing of input will end.</operation>
+                  <operation>Check if the step into child pointer was set.</operation>
+                  <operation>Step into this object's step into child pointer for processing until it returns and then clear the step into child pointer.</operation>
                </data>
             </function>
             <function type="2">
@@ -13638,7 +13648,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>processOutput</name>
                   <description>Processes the output by calling the make output interface.</description>
                   <type>void</type>
-                  <operation>Clear the root parser object's output string list, set its indent to 0, and call the make output interface.</operation>
+                  <operation>Clear any output lines this parser may contain and reset the root indent to 0.</operation>
+                  <operation>Call the make output interface responsible for building all output lines.</operation>
                </data>
             </function>
             <function type="2">
@@ -13646,8 +13657,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>write</name>
                   <description>Write the processed output to the given file if, after joining the output lines, it is different from the original. If the output is the same as the original then this does nothing.</description>
                   <type>void</type>
-                  <operation>Join the root parser object's output lines into the string _newSource_.</operation>
-                  <operation>If _newSource_ is different from the root parser object's original file content then continue. Truncate the given file to 0 size and then write out the contents of _newSource_ to the given file. If any error occurs in truncating or writing to the given file then throw an exception.</operation>
+                  <operation>Join the root parser object's output lines into a single new source string.</operation>
+                  <operation>Make sure the new source string is different from the original file.</operation>
+                  <operation>Truncate the given file and make sure it did not fail.</operation>
+                  <operation>Write the new source string to the given file and make sure it did not fail.</operation>
                </data>
                <variable type="1">
                   <data version="0">
