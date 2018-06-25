@@ -2,6 +2,7 @@
 #define GUI_MAINWINDOW_H
 #include <memory>
 #include <QMainWindow>
+#include <exception.h>
 #include "global.h"
 #include "gui.h"
 //
@@ -30,6 +31,7 @@ namespace Gui
    {
       Q_OBJECT
    public:
+      static void showException(const QString& text, const Exception::Base& exception);
       explicit MainWindow(QWidget* parent = nullptr);
       void setProject(std::unique_ptr<Project>&& project);
    protected:

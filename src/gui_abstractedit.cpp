@@ -11,6 +11,7 @@
 #include "gui_blockview.h"
 #include "gui_textedit.h"
 #include "gui_listedit.h"
+#include "gui_mainwindow.h"
 #include "abstractblock.h"
 #include "common.h"
 
@@ -500,7 +501,8 @@ bool AbstractEdit::tryApply()
    // failure. 
    catch (Exception::Base e)
    {
-      showException(tr("An error occured while attempting to save changes to this block."),e);
+      MainWindow::showException(tr("An error occured while attempting to save changes to this block.")
+                                ,e);
       return false;
    }
 }

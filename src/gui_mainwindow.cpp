@@ -39,6 +39,27 @@ const char* MainWindow::_stateKey {"gui.mainwindow.state"};
 
 
 /*!
+ *
+ * @param text  
+ *
+ * @param exception  
+ */
+void MainWindow::showException(const QString& text, const Exception::Base& exception)
+{
+   QMessageBox info;
+   info.setWindowTitle(exception.title());
+   info.setText(text);
+   info.setInformativeText(exception.details());
+   info.setIcon(QMessageBox::Warning);
+   info.exec();
+}
+
+
+
+
+
+
+/*!
  * Constructs a new main window with the optional parent. 
  *
  * @param parent Optional parent for this new main window. 

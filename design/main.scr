@@ -2837,6 +2837,25 @@ The edit menu is the context menu of the block view class. The settings menu is 
                <data version="0">
                   <type>public:</type>
                </data>
+               <function type="2">
+                  <data version="0">
+                     <name>showException</name>
+                     <static/>
+                     <type>void</type>
+                  </data>
+                  <variable type="1">
+                     <data version="0">
+                        <name>text</name>
+                        <type>const QString&amp;</type>
+                     </data>
+                  </variable>
+                  <variable type="1">
+                     <data version="0">
+                        <name>exception</name>
+                        <type>const Exception::Base&amp;</type>
+                     </data>
+                  </variable>
+               </function>
                <constructor type="9">
                   <data version="0">
                      <description>Constructs a new main window with the optional parent.</description>
@@ -15339,23 +15358,5 @@ This class itself handles all copying, reading, and writing of blocks by using t
             </variable>
          </access>
       </class>
-      <function type="2">
-         <data version="0">
-            <name>showException</name>
-            <type>void</type>
-         </data>
-         <variable type="1">
-            <data version="0">
-               <name>text</name>
-               <type>const QString&amp;</type>
-            </data>
-         </variable>
-         <variable type="1">
-            <data version="0">
-               <name>exception</name>
-               <type>const Exception::Base&amp;</type>
-            </data>
-         </variable>
-      </function>
    </root>
 </project>
