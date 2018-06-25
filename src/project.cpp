@@ -60,10 +60,10 @@ Project::Project(int type):
    _type(type),
    _scanDirectory(".")
 {
-   // Connect the file changed signal, create this project's root block, and set this 
-   // project's file filters to the default for this project's type. 
-   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
+   // Initialize this new project's root block, file watcher signal, and default scan 
+   // filters. 
    makeRoot();
+   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
    _scanFilters = AbstractProjectFactory::instance().defaultFilters(_type);
 }
 
@@ -81,14 +81,18 @@ Project::Project(int type):
 Project::Project(const QString& path):
    _path(path)
 {
+   //////////////////////////////
    // Connect the file changed signal and get the contents of this project's file as 
    // a byte array. 
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
-   QByteArray xmlBytes {read()};
 
    // Open a new Qt XML document with the byte array, reading in its contents for all 
    // required elements. If all required elements are not found then throw an 
    // exception, else go to the next step. 
+   QByteArray xmlBytes {read()};
+
+   // Read in the scan directory, type element, and root block along with all of its 
+   // children blocks after creating a new block root. 
    QDomDocument document;
    document.setContent(xmlBytes);
    QDomElement project {document.documentElement()};
@@ -110,15 +114,14 @@ Project::Project(const QString& path):
       throw e;
    }
 
-   // Read in the scan directory, type element, and root block along with all of its 
-   // children blocks after creating a new block root. 
+   // Add this project's file path to the files being watched for changes and emit 
+   // the saved signal. 
    convertScanDirectory(scanDirectory);
    readTypeElement(type);
    makeRoot();
    _root->read(root);
 
-   // Add this project's file path to the files being watched for changes and emit 
-   // the saved signal. 
+   // 
    addPath(_path);
    emit saved();
 }
@@ -390,7 +393,7 @@ void Project::save()
    // Save the Qt XML document as a byte array and save the byte array to this 
    // project's file, setting this project as not modified and emitting the saved 
    // signal. 
-   QByteArray xmlBytes {document.toByteArray(3)};
+   QByteArray xmlBytes {document.toByteArray(2)};
    write(xmlBytes);
    _modified = false;
    emit saved();

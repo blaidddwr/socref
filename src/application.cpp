@@ -20,41 +20,24 @@ const char* Application::_programKey {"socref"};
 
 
 /*!
- * Constructs a new application instance. 
+ * Implements _QCoreApplication_ interface. The only thing this does is add a catch 
+ * section so exceptions are handled. 
  *
- * @param argc The argument count from main. 
+ * @param receiver Explained in Qt docs. 
  *
- * @param argv The list of arguments from main. 
- */
-Application::Application(int& argc, char** argv):
-   QApplication(argc,argv)
-{}
-
-
-
-
-
-
-/*!
- * This implements the interface for handling events in the main event loop. The 
- * only thing this does is add a catch section so exceptions are handled. 
+ * @param event Explained in Qt docs. 
  *
- * @param receiver Pointer to the object that received the event. 
- *
- * @param event Pointer to the event that has happened. 
- *
- * @return True if the event was processed or false otherwise. 
+ * @return Explained in Qt docs. 
  */
 bool Application::notify(QObject* receiver, QEvent* event)
 {
-   // Call the Qt application notify method and return its value. 
+   // Call the qt implementation of this method. 
    try
    {
       return QApplication::notify(receiver,event);
    }
 
-   // If any exception is caught then report it to the qt debug stream and return 
-   // false. 
+   // Catch any thrown exception and report it to debug output. 
    catch (Exception::Base e)
    {
       qDebug().nospace() << "Exception Caught!";
@@ -72,6 +55,9 @@ bool Application::notify(QObject* receiver, QEvent* event)
    {
       qDebug() << "Exception Caught!\n";
    }
+
+   // Return the code that says this event has not been handled because an exception 
+   // was thrown. 
    return false;
 }
 
@@ -92,3 +78,19 @@ QString Application::versionString()
                                                      .append(".")
                                                      .append(QString::number(Application::_revision));
 }
+
+
+
+
+
+
+/*!
+ * Constructs a new application instance. 
+ *
+ * @param argc The argument count from main. 
+ *
+ * @param argv The list of arguments from main. 
+ */
+Application::Application(int& argc, char** argv):
+   QApplication(argc,argv)
+{}

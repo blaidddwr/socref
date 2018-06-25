@@ -38,9 +38,8 @@ signals:
 protected:
    virtual void run() override final;
 private:
-   void buildList(const QString& scanDirectory, const QStringList& filters);
-   bool run(const QFileInfo& info);
    static void parse(AbstractParser* parser, const QFileInfo& info);
+   void buildList(const QString& scanDirectory, const QStringList& filters);
    /*!
     * A pointer to the parser factory this scan thread uses for making parser objects. 
     */

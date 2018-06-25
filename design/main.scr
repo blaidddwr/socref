@@ -13524,6 +13524,11 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <type>void</type>
                </data>
             </function>
+         </access>
+         <access type="5">
+            <data version="0">
+               <type>protected:</type>
+            </data>
             <function type="2">
                <data version="0">
                   <name>stepIntoChild</name>
@@ -13944,31 +13949,32 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>size</name>
-                  <description>This implements the interface that returns the number of project types that exist for the program.</description>
+                  <description>Implements _AbstractProjectFactory_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>int</type>
-                  <return_description>Number of project types that exist.</return_description>
+                  <return_description>Explained in interface.</return_description>
                </data>
             </function>
             <function type="2">
                <data version="0">
                   <name>name</name>
-                  <description>This implements the interface that returns the display name for the given project type.</description>
+                  <description>Implements _AbstractProjectFactory_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>QString</type>
-                  <return_description>Display name for the given project type.</return_description>
-                  <operation>Return the display name of the given project type. If the given type does not exist then return an empty string.</operation>
+                  <return_description>Explained in interface.</return_description>
+                  <operation>Return the display name of the given project type.</operation>
+                  <operation>This project type is not recognized so throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="0">
                      <name>type</name>
-                     <description>Project type whose display name is returned.</description>
+                     <description>Explained in interface.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -13976,19 +13982,20 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>defaultFilters</name>
-                  <description>This implements the interface that returns the default file filters for the given project type.</description>
+                  <description>Implements _AbstractProjectFactory_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>QString</type>
-                  <return_description>Default file filters for the given project type.</return_description>
-                  <operation>Return default file filters for the given project type. If the given type does not exist then return an empty string.</operation>
+                  <return_description>Explained in interface.</return_description>
+                  <operation>Return default file filters for the given project type.</operation>
+                  <operation>This project type is not recognized so throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="0">
                      <name>type</name>
-                     <description>Project type whose default file filters are returned.</description>
+                     <description>Explained in interface.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -13996,19 +14003,20 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>makeSettings</name>
-                  <description>This implements the interface that makes a new settings dialog for the given project type.</description>
+                  <description>Implements _AbstractProjectFactory_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>std::unique_ptr&lt;QDialog></type>
-                  <return_description>Pointer to the new settings dialog for the given project type.</return_description>
-                  <operation>Return a new settings dialog for the given project type. If the given type does not exist then throw an exception.</operation>
+                  <return_description>Explained in interface.</return_description>
+                  <operation>Return a new settings dialog for the given project type.</operation>
+                  <operation>This project type is not recognized so throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="0">
                      <name>type</name>
-                     <description>Project type whose settings dialog is returned.</description>
+                     <description>Explained in interface.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -14016,19 +14024,20 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>blockFactory</name>
-                  <description>This implements the interface that returns a read only reference to the block factory for the given project type.</description>
+                  <description>Implements _AbstractProjectFactory_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>const AbstractBlockFactory&amp;</type>
-                  <return_description>Read only reference to block factory for the given project type.</return_description>
-                  <operation>Return a reference to the block factory of the given project type. If the given project type does not exist then throw an exception.</operation>
+                  <return_description>Explained in interface.</return_description>
+                  <operation>Return a reference to the block factory of the given project type.</operation>
+                  <operation>This project type is not recognized so throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="0">
                      <name>type</name>
-                     <description>Project type whose block factory is returned as a reference.</description>
+                     <description>Explained in interface.</description>
                      <type>int</type>
                   </data>
                </variable>
@@ -14036,26 +14045,27 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>makeParserFactory</name>
-                  <description>This implements the interface that makes a new parser factory for the given project type.</description>
+                  <description>Implements _AbstractProjectFactory_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>std::unique_ptr&lt;AbstractParserFactory></type>
-                  <return_description>Pointer to created parser factory for the given project type.</return_description>
-                  <operation>Create a new parser factory for the given project type using the given block root. If the given project type does not exist then throw an exception.</operation>
+                  <return_description>Explained in interface.</return_description>
+                  <operation>Create a new parser factory for the given project type using the given block root.</operation>
+                  <operation>This project type is not recognized so throw an exception.</operation>
                </data>
                <variable type="1">
                   <data version="0">
                      <name>type</name>
-                     <description>Project type whose parser factory type is made and returned.</description>
+                     <description>Explained in interface.</description>
                      <type>int</type>
                   </data>
                </variable>
                <variable type="1">
                   <data version="0">
                      <name>root</name>
-                     <description>Pointer to root block of existing project that is used by returned parser object.</description>
+                     <description>Explained in interface.</description>
                      <type>AbstractBlock*</type>
                   </data>
                </variable>
@@ -14098,11 +14108,145 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   </data>
                </enumval>
             </enumeration>
+            <function type="2">
+               <data version="0">
+                  <name>index</name>
+                  <description>Implements _QAbstractItemModel_ interface.</description>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <type>QModelIndex</type>
+                  <return_description>Explained in Qt docs.</return_description>
+                  <operation>If the given row or column is not valid then return an invalid index.</operation>
+                  <operation>Get the block pointer for the given parent index and make sure the row is within range of its child size.</operation>
+                  <operation>Return a new index with its internal pointer set to the block pointer.</operation>
+               </data>
+               <variable type="1">
+                  <data version="0">
+                     <name>row</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="0">
+                     <name>column</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="0">
+                     <name>parent</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>const QModelIndex&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="0">
+                  <name>parent</name>
+                  <description>Implements _QAbstractItemModel_ interface.</description>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <type>QModelIndex</type>
+                  <return_description>Explained in Qt docs.</return_description>
+                  <operation>Get the block pointer of the given child index, making sure it is not null.</operation>
+                  <operation>Get the parent of the child block, making sure it is not null and its parent is not null.</operation>
+                  <operation>Return the given index's parent index using the grandparent to get the parent's row.</operation>
+               </data>
+               <variable type="1">
+                  <data version="0">
+                     <name>child</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>const QModelIndex&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="0">
+                  <name>rowCount</name>
+                  <description>Implements _QAbstractItemModel_ interface. This returns the number of children the block with the given index contains.</description>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <type>int</type>
+                  <return_description>Explained in Qt docs.</return_description>
+                  <operation>Check if this model has no root block.</operation>
+                  <operation>Get the block pointer for the given index, returning 0 if it is null or its children size if it is not.</operation>
+               </data>
+               <variable type="1">
+                  <data version="0">
+                     <name>index</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>const QModelIndex&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="0">
+                  <name>columnCount</name>
+                  <description>Implements _QAbstractItemModel_ interface. This model always has 1 column.</description>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <type>int</type>
+                  <return_description>Explained in Qt docs.</return_description>
+                  <operation>Return 1.</operation>
+               </data>
+               <variable type="1">
+                  <data version="0">
+                     <name>parent</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>const QModelIndex&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="0">
+                  <name>data</name>
+                  <description>Implements _QAbstractItemModel_ interface. This model only implements the display and decoration roles.</description>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <type>QVariant</type>
+                  <return_description>Explained in Qt docs.</return_description>
+                  <operation>Get the block pointer for the given index, returning a null qt variant if it is null.</operation>
+                  <operation>Based off the role return either the block's display name for display role or the block's icon for decoration role. The icon is transformed to a pixel map with specific dimensions.</operation>
+               </data>
+               <variable type="1">
+                  <data version="0">
+                     <name>index</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>const QModelIndex&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="0">
+                     <name>role</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>int</type>
+                  </data>
+               </variable>
+            </function>
+         </access>
+         <access type="5">
+            <data version="0">
+               <type>public:</type>
+            </data>
             <constructor type="9">
                <data version="0">
                   <description>This constructs a new block model with the given root block and parent. Both the root block and parent can be given as null. A null root block means this model is empty.</description>
                   <explicit/>
-                  <operation>If the root given is not null then get the block type's block factory and connect the root block signals to this new block model.</operation>
+                  <operation>Check to see if the given root block is not null.</operation>
+                  <operation>Set this model's block factory pointer to the block factory of the given root block.</operation>
+                  <operation>Connect the name and body modified signals of the given root block to this model.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14123,135 +14267,12 @@ This class itself handles all copying, reading, and writing of blocks by using t
             </constructor>
             <function type="2">
                <data version="0">
-                  <name>index</name>
-                  <description>This implements the interface that returns a a model index for the given row, column, and parent.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QModelIndex</type>
-                  <return_description>A model index for the given row, column, and parent.</return_description>
-                  <operation>If the given row is less than 0 or the column is not 0 then return an invalid index.</operation>
-                  <operation>Get the block pointer of the given parent index. If the given row is out of range of the parent block's list of children then return an invalid index.</operation>
-                  <operation>Return a new index with the given row, column, and parent index.</operation>
-               </data>
-               <variable type="1">
-                  <data version="0">
-                     <name>row</name>
-                     <description>The row whose index is returned.</description>
-                     <type>int</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="0">
-                     <name>column</name>
-                     <description>The column whose index is returned.</description>
-                     <type>int</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="0">
-                     <name>parent</name>
-                     <description>The parent index of the index that is returned.</description>
-                     <type>const QModelIndex&amp;</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="0">
-                  <name>parent</name>
-                  <description>This implements the interface that returns the parent index of a given index.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QModelIndex</type>
-                  <return_description>Parent index of the given index.</return_description>
-                  <operation>Get the pointer to the given index's parent block. If the parent block pointer is null or the parent's parent is null then return an invalid index.</operation>
-                  <operation>Return the given index's parent index using the grandparent to get the parent's row.</operation>
-               </data>
-               <variable type="1">
-                  <data version="0">
-                     <name>child</name>
-                     <description>The index whose parent is returned.</description>
-                     <type>const QModelIndex&amp;</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="0">
-                  <name>rowCount</name>
-                  <description>This implements the interface that returns the number of rows the given index contains.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>int</type>
-                  <return_description>Number of rows the given index contains.</return_description>
-                  <operation>If this model's root pointer is null then return 0, else return the number of children this index's block contains.</operation>
-               </data>
-               <variable type="1">
-                  <data version="0">
-                     <name>index</name>
-                     <description>The index whose contained number of rows is returned.</description>
-                     <type>const QModelIndex&amp;</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="0">
-                  <name>columnCount</name>
-                  <description>This implements the interface that returns the number of columns the given index contains. This model always contains 1 column regardless of index.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>int</type>
-                  <return_description>This models column count is always 1.</return_description>
-               </data>
-               <variable type="1">
-                  <data version="0">
-                     <name>parent</name>
-                     <description>The index is not used for this model because the number of columns is static.</description>
-                     <type>const QModelIndex&amp;</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="0">
-                  <name>data</name>
-                  <description>This implements the interface that returns data for the given index with the given role. This model only implements the display and decoration roles.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QVariant</type>
-                  <return_description>Data requested from given index and role. For this model this is a string or qt image.</return_description>
-                  <operation>If the given role is the display role then return the given index's block name, else if the given role is the decoration role then return the given index's block icon resized to this model's preferred icon size, else this is an unsupported role so return nothing.</operation>
-               </data>
-               <variable type="1">
-                  <data version="0">
-                     <name>index</name>
-                     <description>The index whose data is returned.</description>
-                     <type>const QModelIndex&amp;</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="0">
-                     <name>role</name>
-                     <description>The role of the requested data.</description>
-                     <type>int</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="0">
                   <name>pointer</name>
                   <description>Returns the block pointer the given index represents in this model. If the given index is invalid this model's root block pointer is returned.</description>
                   <const/>
                   <type>AbstractBlock*</type>
                   <return_description>Block pointer of the given index or the root block pointer if the index is invalid.</return_description>
-                  <operation>If the given index is valid return the given index's internal pointer recast as a block pointer, else it is invalid so return this model's root block pointer.</operation>
+                  <operation>If the given index is valid then return its internal pointer else return this model's root block pointer.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14267,8 +14288,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>Inserts a new block into this model at the beginning of the given index's list of children.</description>
                   <type>bool</type>
                   <return_description>True on success or false on failure.</return_description>
-                  <operation>If the given block pointer is null then return false.</operation>
-                  <operation>Prepend the given block pointer as a new child of the given index's block, signaling the model that a new row is being inserted and returning true for success.</operation>
+                  <operation>Make sure the given pointer is not null.</operation>
+                  <operation>Get the parent block pointer to the given index and make sure it is not null.</operation>
+                  <operation>Insert the given child block at the beginning of the given parent's block's child list, notifying the model of a row insertion and returning success.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14291,8 +14313,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>Moves the given index up by one in the list of siblings it is part of. If the given index is already at row 0 then this does nothing. Returns the new index for the given index that was or was not moved.</description>
                   <type>QModelIndex</type>
                   <return_description>New index for the given index that was possibly moved.</return_description>
-                  <operation>If the given index's row is already 0 then return the given index unchanged.</operation>
-                  <operation>Move the block of the given index up by one in it's parent's list of children, signaling the model that the row is being moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
+                  <operation>Make sure the given index is valid and is not in the first row.</operation>
+                  <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+                  <operation>Get the parent block pointer and make sure it is not null.</operation>
+                  <operation>Move the block with the given index up by one in it's parent's child list, notifying the model that the row has moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
                   <operation>Return a new index where the given index's block moved.</operation>
                </data>
                <variable type="1">
@@ -14309,8 +14333,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>Moves the given index down by one in the list of siblings it is part of. If the given index is already at the end of its list of siblings then this does nothing. Returns the new index for the given index that was or was not moved.</description>
                   <type>QModelIndex</type>
                   <return_description>New index for the given index that was possibly moved.</return_description>
-                  <operation>If the given index's row is already at the end of its sibling list then return the given index unchanged.</operation>
-                  <operation>Move the block of the given index down by one in it's parent's list of children, signaling the model that the row is being moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
+                  <operation>Make sure the given index is valid and is not in the last row.</operation>
+                  <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+                  <operation>Get the parent block pointer and make sure it is not null.</operation>
+                  <operation>Move the block with the given index down by one in it's parent's child list, notifying the model that the row has moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
                   <operation>Return a new index where the given index's block moved.</operation>
                </data>
                <variable type="1">
@@ -14327,8 +14353,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>Removes the given index and its block for this model. If the index is not given this does nothing and returns false.</description>
                   <type>bool</type>
                   <return_description>True on success or false on failure.</return_description>
-                  <operation>If the given index is invalid then return false.</operation>
-                  <operation>Remove the given index's block from its parent block, signaling the model that a row is being removed and returning true on success. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
+                  <operation>Make sure the given index is valid.</operation>
+                  <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+                  <operation>Get the parent block pointer and make sure it is not null.</operation>
+                  <operation>Remove the block with the given index from its parent block, notifying the model that a row was removed and returning success. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14345,7 +14373,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <return_description>Pointer to a copy of the given index or a null pointer if the given index is invalid.</return_description>
-                  <operation>If the given index is not valid then return a null pointer, else return a pointer to a new copy of the block at the given index.</operation>
+                  <operation>If the given index is not valid then return null.</operation>
+                  <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+                  <operation>Make a copy of the block with the given index and return its pointer.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14361,8 +14391,10 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <description>Returns a pointer to the block at the given index, removing that index from the model but not deleting its block. Instead the ownership of the block is returned. If the given index is not valid then a null pointer is returned.</description>
                   <type>std::unique_ptr&lt;AbstractBlock></type>
                   <return_description>Pointer to the block at the given index now removed or null pointer if the given index is not valid.</return_description>
-                  <operation>If the given index is not valid then return a null pointer.</operation>
-                  <operation>Take the child block at the given index from its parent block, signaling the model that a row is being removed and returning a smart pointer to the orphaned child block. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
+                  <operation>Make sure the given index is valid.</operation>
+                  <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+                  <operation>Get the parent block pointer and make sure it is not null.</operation>
+                  <operation>Take the child block with the given index from its parent block, notifying the model that a row was removed and returning the taken block's pointer. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14386,10 +14418,13 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>setRoot</name>
                   <description>Sets a new root block for this model's data. If the given pointer is null then this model is set to be empty with no data to represent.</description>
                   <type>void</type>
-                  <operation>Signal to the model that the beginning of a reset is happening.</operation>
-                  <operation>If this model already has a root block pointer then disconnect all qt signals between this model and that root block.</operation>
-                  <operation>Set this model's root block to the new pointer given and this model's block factory pointer to null. If the given new pointer is not null then set this model's block factory pointer to this block type's block factory and connect the root block signals to this object.</operation>
-                  <operation>Signal to the model that the reset has finished.</operation>
+                  <operation>Notify the model that a reset has begun.</operation>
+                  <operation>Disconnect any previous root block of this model.</operation>
+                  <operation>Set the new root for this model and its factory to null just in case the new root is null.</operation>
+                  <operation>Check if the new root is not null.</operation>
+                  <operation>Set this model's block factory to the one from this model's new root block.</operation>
+                  <operation>Connect the name and body modified signals of the new root block to this model.</operation>
+                  <operation>Notify the model that the reset has ended.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14440,8 +14475,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <name>notifyChange</name>
                   <description>Determines the model index for the given block pointer and emits the data changed signal with that index and the given roles.</description>
                   <type>void</type>
-                  <operation>If the given block pointer has no parent then throw an exception.</operation>
-                  <operation>Determine the index for the given block pointer within this model and emit the data changed signal with the found index and given roles.</operation>
+                  <operation>Get the parent block pointer of the given block and make sure it is not null.</operation>
+                  <operation>Determine the index for the given block and signal the data changed for that index and given roles.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14505,7 +14540,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                <data version="0">
                   <description>This constructs a new scan thread with the given parser factory, directory to scan, file filters, and possible parent.</description>
                   <explicit/>
-                  <operation>Set the given parser factory's parent to this scan thread and build a list of files that will be parsed in the given scan directory.</operation>
+                  <operation>Set this object as the given factory's parent and build the list of files to parse.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14553,6 +14588,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>bool</type>
                   <return_description>True if an exception occurred else false it scanning was successful with no error.</return_description>
+                  <operation>Return a boolean based off this object's exception pointer.</operation>
                </data>
             </function>
             <function type="2">
@@ -14562,7 +14598,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   <const/>
                   <type>const Exception::Base&amp;</type>
                   <return_description>Reference to exception that occurred while parsing source files.</return_description>
-                  <operation>If this scan thread has no saved exception then throw an exception, else return a reference to the exception that occurred in this scan thread.</operation>
+                  <operation>Make sure this object has an exception that was caught.</operation>
+                  <operation>Return a reference to the caught exception.</operation>
                </data>
             </function>
          </access>
@@ -14591,14 +14628,18 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <function type="2">
                <data version="0">
                   <name>run</name>
-                  <description>This implements the interface that is called within the Qt thread when execution of that thread begins by calling the qt execute function. This implementation parses of all matched files from the given scan directory.</description>
+                  <description>Implements _QThread_ interface. This iterates through all files to be parsed and parses them, constantly checking for any requested interruption and handling any exceptions thrown from a parser or the parser factory.</description>
                   <virtual/>
                   <override/>
                   <final/>
                   <type>void</type>
-                  <operation>Delete this scan thread's saved exception if any and set the pointer to null.</operation>
-                  <operation>Iterate through this object's saved list of files to be parsed, emitting the progress changed signal for each index and parsing each file.</operation>
-                  <operation>If any exception occurs while running this function then catch it and exit from this function immediately. If the exception is a Socrates one then save it to this scan thread's exception pointer else just report it to qt debug.</operation>
+                  <operation>Remove any caught exception from a previous run.</operation>
+                  <operation>Iterate through this object's list of files to be parsed.</operation>
+                  <operation>Check to see if interruption of this thread is requested.</operation>
+                  <operation>Signal progress has occurred.</operation>
+                  <operation>Make a parser object for the current file using this object's parser factory and run it if it is not null.</operation>
+                  <operation>If any defined exception is caught then save it to this object's caught exception pointer.</operation>
+                  <operation>Report on any other std or unknown exception.</operation>
                </data>
             </function>
          </access>
@@ -14608,53 +14649,12 @@ This class itself handles all copying, reading, and writing of blocks by using t
             </data>
             <function type="2">
                <data version="0">
-                  <name>buildList</name>
-                  <description>Builds this scan thread's list of matched files that will be parsed from the given scan directory and file filters. A file must match only one file filter to be added to the list of matched files.</description>
-                  <type>void</type>
-                  <operation>If the given directory does not exist then throw an exception.</operation>
-                  <operation>Get a directory listing of all files and directories within it that match the given filters. Iterate through the list and add all matches that are not directories to this scan thread's list of matched files.</operation>
-               </data>
-               <variable type="1">
-                  <data version="0">
-                     <name>scanDirectory</name>
-                     <description>The directory where files will be matched and added to the list.</description>
-                     <type>const QString&amp;</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="0">
-                     <name>filters</name>
-                     <description>The filters that will be used to match files. Each string in this list must be a single filter.</description>
-                     <type>const QStringList&amp;</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="0">
-                  <name>run</name>
-                  <description>Attempts to parse the given file is this object's parser factory makes a valid parser. This also checks if interruption is requested returning false if it is requested.</description>
-                  <type>bool</type>
-                  <return_description>False if interruption of this thread is requested or true otherwise.</return_description>
-                  <operation>If interruption is requested then return false.</operation>
-                  <operation>Make a new parser from this object's parser factory with the given file's information, saving it to the smart pointer _parser_. If _parser_ is not null then use it to parse the given file.</operation>
-                  <operation>Return true signaling interruption is not requested and parsing should continue.</operation>
-               </data>
-               <variable type="1">
-                  <data version="0">
-                     <name>info</name>
-                     <description>Info for the file that may be parsed.</description>
-                     <type>const QFileInfo&amp;</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="0">
                   <name>parse</name>
                   <description>Parses the given file using the given parser. If the file fails to open an exception is thrown.</description>
                   <static/>
                   <type>void</type>
-                  <operation>Open the given file for reading and writing and interpreted as a text using the qt file device _file_. If opening the file fails then throw an exception.</operation>
-                  <operation>Call the execute method of the given parser with the qt file _file_.</operation>
+                  <operation>Open the given file and make sure it did not fail.</operation>
+                  <operation>parse the opened file with the given parser.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -14668,6 +14668,30 @@ This class itself handles all copying, reading, and writing of blocks by using t
                      <name>info</name>
                      <description>Info for the file that is parsed with the given parser.</description>
                      <type>const QFileInfo&amp;</type>
+                  </data>
+               </variable>
+            </function>
+            <function type="2">
+               <data version="0">
+                  <name>buildList</name>
+                  <description>Builds this scan thread's list of matched files that will be parsed from the given scan directory and file filters. A file must match only one file filter to be added to the list of matched files.</description>
+                  <type>void</type>
+                  <operation>Get the scan directory from the given path and make sure it exists.</operation>
+                  <operation>Make a list of files in the scan directory with the given filters and iterate through them all.</operation>
+                  <operation>If the file is a directory then recursively call this method on that directory else add the file to this object's list of files to be parsed.</operation>
+               </data>
+               <variable type="1">
+                  <data version="0">
+                     <name>scanDirectory</name>
+                     <description>The directory where files will be matched and added to the list.</description>
+                     <type>const QString&amp;</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="0">
+                     <name>filters</name>
+                     <description>The filters that will be used to match files. Each string in this list must be a single filter.</description>
+                     <type>const QStringList&amp;</type>
                   </data>
                </variable>
             </function>
@@ -14715,7 +14739,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
                <data version="0">
                   <description>This constructs a new project of the given type.</description>
                   <explicit/>
-                  <operation>Connect the file changed signal, create this project's root block, and set this project's file filters to the default for this project's type.</operation>
+                  <operation>Initialize this new project's root block, file watcher signal, and default scan filters.</operation>
                </data>
                <variable type="1">
                   <data version="0">
@@ -15203,6 +15227,48 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <data version="0">
                <type>public:</type>
             </data>
+            <function type="2">
+               <data version="0">
+                  <name>notify</name>
+                  <description>Implements _QCoreApplication_ interface. The only thing this does is add a catch section so exceptions are handled.</description>
+                  <virtual/>
+                  <override/>
+                  <final/>
+                  <type>bool</type>
+                  <return_description>Explained in Qt docs.</return_description>
+                  <operation>Call the qt implementation of this method.</operation>
+                  <operation>Catch any thrown exception and report it to debug output.</operation>
+                  <operation>Return the code that says this event has not been handled because an exception was thrown.</operation>
+               </data>
+               <variable type="1">
+                  <data version="0">
+                     <name>receiver</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>QObject*</type>
+                  </data>
+               </variable>
+               <variable type="1">
+                  <data version="0">
+                     <name>event</name>
+                     <description>Explained in Qt docs.</description>
+                     <type>QEvent*</type>
+                  </data>
+               </variable>
+            </function>
+         </access>
+         <access type="5">
+            <data version="0">
+               <type>public:</type>
+            </data>
+            <function type="2">
+               <data version="0">
+                  <name>versionString</name>
+                  <description>Returns this programs version as a string.</description>
+                  <static/>
+                  <type>QString</type>
+                  <return_description>This programs version as a string.</return_description>
+               </data>
+            </function>
             <constructor type="9">
                <data version="0">
                   <description>Constructs a new application instance.</description>
@@ -15223,42 +15289,6 @@ This class itself handles all copying, reading, and writing of blocks by using t
                   </data>
                </variable>
             </constructor>
-            <function type="2">
-               <data version="0">
-                  <name>notify</name>
-                  <description>This implements the interface for handling events in the main event loop. The only thing this does is add a catch section so exceptions are handled.</description>
-                  <virtual/>
-                  <override/>
-                  <final/>
-                  <type>bool</type>
-                  <return_description>True if the event was processed or false otherwise.</return_description>
-                  <operation>Call the Qt application notify method and return its value.</operation>
-                  <operation>If any exception is caught then report it to the qt debug stream and return false.</operation>
-               </data>
-               <variable type="1">
-                  <data version="0">
-                     <name>receiver</name>
-                     <description>Pointer to the object that received the event.</description>
-                     <type>QObject*</type>
-                  </data>
-               </variable>
-               <variable type="1">
-                  <data version="0">
-                     <name>event</name>
-                     <description>Pointer to the event that has happened.</description>
-                     <type>QEvent*</type>
-                  </data>
-               </variable>
-            </function>
-            <function type="2">
-               <data version="0">
-                  <name>versionString</name>
-                  <description>Returns this programs version as a string.</description>
-                  <static/>
-                  <type>QString</type>
-                  <return_description>This programs version as a string.</return_description>
-               </data>
-            </function>
             <variable type="1">
                <data version="0">
                   <name>_majorVersion</name>

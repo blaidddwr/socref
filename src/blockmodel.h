@@ -33,12 +33,13 @@ public:
        */
       ,Body = 101
    };
-   explicit BlockModel(AbstractBlock* root = nullptr, QObject* parent = nullptr);
    virtual QModelIndex index(int row, int column, const QModelIndex& parent) const override final;
    virtual QModelIndex parent(const QModelIndex& child) const override final;
    virtual int rowCount(const QModelIndex& index) const override final;
    virtual int columnCount(const QModelIndex& parent) const override final;
    virtual QVariant data(const QModelIndex& index, int role) const override final;
+public:
+   explicit BlockModel(AbstractBlock* root = nullptr, QObject* parent = nullptr);
    AbstractBlock* pointer(const QModelIndex& index) const;
    bool insert(const QModelIndex& index, std::unique_ptr<AbstractBlock>&& block);
    QModelIndex moveUp(const QModelIndex& index);
