@@ -13,14 +13,14 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Global(Namespace* block);
+         explicit Global(const Namespace* block);
       protected:
          virtual bool readLine(const QString& line) override;
          virtual void makeOutput() override;
          void beginNamespaceNesting();
          void endNamespaceNesting();
       private:
-         Namespace* _block;
+         const Namespace* _block;
          int _indentSpaces;
          int _depth {0};
       };

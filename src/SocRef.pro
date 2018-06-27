@@ -25,7 +25,6 @@ SOURCES += \
     gui_abstractedit.cpp \
     cppqt_variable.cpp \
     cppqt_base.cpp \
-    domelementreader.cpp \
     cppqt_signal.cpp \
     cppqt_function.cpp \
     cppqt_template.cpp \
@@ -151,9 +150,7 @@ HEADERS += \
     cppqt_parse_common.h \
     cppqt_parse_source.h \
     cppqt_parse_access.h \
-    domelementreader.h \
     cppqt_parse_forward.h \
-    domelementreader_match.h \
     gui_persistentdialog.h \
     cppqt_gui_settingsdialog.h \
     gui_aboutdialog.h \

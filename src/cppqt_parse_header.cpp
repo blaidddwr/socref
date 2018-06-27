@@ -24,7 +24,7 @@ using namespace CppQt::Parse;
 
 
 
-Header::Header(Namespace* block, const QString& name):
+Header::Header(const Namespace* block, const QString& name):
    Source(block),
    _block(block),
    _indentSpaces(Settings::instance().indentSpaces()),
@@ -144,8 +144,8 @@ void Header::outputDeclarations()
 {
    if ( !_declarations.isEmpty() )
    {
-      Class* block;
-      if ( ( block = qobject_cast<Class*>(_block) ) )
+      const Class* block;
+      if ( ( block = qobject_cast<const Class*>(_block) ) )
       {
          outputClassComments(block);
          outputClassDeclaration(block);
@@ -167,7 +167,7 @@ void Header::outputDeclarations()
 
 
 
-void Header::outputClassComments(Class* block)
+void Header::outputClassComments(const Class* block)
 {
    add("/*!");
    add(makeComment(block->description()));
@@ -180,7 +180,7 @@ void Header::outputClassComments(Class* block)
 
 
 
-void Header::outputClassDeclaration(Class* block)
+void Header::outputClassDeclaration(const Class* block)
 {
    QString line;
    QString templateString {getTemplateDeclaration(block)};

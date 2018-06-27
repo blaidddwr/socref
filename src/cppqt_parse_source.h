@@ -14,8 +14,8 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Source(Namespace* block);
-         explicit Source(Namespace* block, const QString& name);
+         explicit Source(const Namespace* block);
+         explicit Source(const Namespace* block, const QString& name);
       protected:
          virtual void initialize() override final;
          virtual bool readLine(const QString& line) override final;
@@ -38,7 +38,7 @@ namespace CppQt
       private:
          void makeUsingName();
          void buildAll();
-         Namespace* _block;
+         const Namespace* _block;
          int _headerLines;
          int _functionLines;
          QList<AbstractBlock*> _children;

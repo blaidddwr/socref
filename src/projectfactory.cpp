@@ -151,7 +151,7 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
  *
  * @return Explained in interface. 
  */
-std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, AbstractBlock* root) const
+std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const AbstractBlock* root) const
 {
    // Create a new parser factory for the given project type using the given block 
    // root. 

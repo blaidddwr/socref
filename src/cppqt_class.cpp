@@ -369,8 +369,6 @@ void Class::fieldModified(int index)
       notifyModified();
       notifyBodyModified();
       break;
-   case Base::Field::Name:
-      emit nameChanged();
    default:
       Base::fieldModified(index);
       break;

@@ -12,7 +12,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         Header(Namespace* block, const QString& name);
+         Header(const Namespace* block, const QString& name);
       protected:
          virtual void makeOutput() override final;
          virtual void readTop(const QString& line) override final;
@@ -22,10 +22,10 @@ namespace CppQt
       private:
          void outputHeader();
          void outputDeclarations();
-         void outputClassComments(Class* block);
-         void outputClassDeclaration(Class* block);
+         void outputClassComments(const Class* block);
+         void outputClassDeclaration(const Class* block);
          void outputFooter();
-         Namespace* _block;
+         const Namespace* _block;
          int _indentSpaces;
          int _headerLines;
          QList<Base*> _declarations;

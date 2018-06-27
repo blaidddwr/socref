@@ -153,32 +153,13 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
 
 
 /*!
- * This constructs a new block model with the given root block and parent. Both the 
- * root block and parent can be given as null. A null root block means this model 
- * is empty. 
- *
- * @param root The root block this model will use for its data or null to make this 
- *             model empty. 
+ * Constructs a new block model with the optional parent. 
  *
  * @param parent The parent for this model. 
  */
-BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
-   QAbstractItemModel(parent),
-   _root(root)
-{
-   // Check to see if the given root block is not null. 
-   if ( _root )
-   {
-      // Set this model's block factory pointer to the block factory of the given root 
-      // block. 
-      _factory = &(_root->factory());
-
-      // Connect the name and body modified signals of the given root block to this 
-      // model. 
-      connect(_root,&AbstractBlock::nameModified,this,&BlockModel::blockNameModified);
-      connect(_root,&AbstractBlock::bodyModified,this,&BlockModel::blockBodyModified);
-   }
-}
+BlockModel::BlockModel(QObject* parent):
+   QAbstractItemModel(parent)
+{}
 
 
 
@@ -441,10 +422,10 @@ const AbstractBlockFactory* BlockModel::factory() const
  * Sets a new root block for this model's data. If the given pointer is null then 
  * this model is set to be empty with no data to represent. 
  *
- * @param newRoot Pointer to root block that this model will use or null to set 
- *                this model as empty. 
+ * @param root Pointer to root block that this model will use or null to set this 
+ *             model as empty. 
  */
-void BlockModel::setRoot(AbstractBlock* newRoot)
+void BlockModel::setRoot(AbstractBlock* root)
 {
    // Notify the model that a reset has begun. 
    beginResetModel();
@@ -454,7 +435,7 @@ void BlockModel::setRoot(AbstractBlock* newRoot)
 
    // Set the new root for this model and its factory to null just in case the new 
    // root is null. 
-   _root = newRoot;
+   _root = root;
    _factory = nullptr;
 
    // Check if the new root is not null. 

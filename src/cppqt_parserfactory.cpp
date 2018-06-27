@@ -18,8 +18,8 @@ using namespace CppQt;
 
 
 
-ParserFactory::ParserFactory(AbstractBlock* root):
-   _root(qobject_cast<Namespace*>(root))
+ParserFactory::ParserFactory(const AbstractBlock* root):
+   _root(qobject_cast<const Namespace*>(root))
 {
    if ( !_root )
    {
@@ -68,7 +68,7 @@ std::unique_ptr<AbstractParser> ParserFactory::make(const QString& name, const Q
 
 
 
-AbstractParser* ParserFactory::find(Namespace* current, const QStringList& names, const QString& name, bool isHeader, bool isCommon, int index) const
+AbstractParser* ParserFactory::find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, bool isCommon, int index) const
 {
    if ( names.isEmpty() )
    {

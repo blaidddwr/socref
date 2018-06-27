@@ -37,9 +37,9 @@ public:
    QString scanFilters() const;
    std::unique_ptr<ScanThread> makeScanner() const;
    BlockModel* model();
-   void setName(const QString& newName);
-   void setScanDirectory(const QString& newPath);
-   void setScanFilters(const QString& newFilters);
+   void setName(const QString& value);
+   void setScanDirectory(const QString& path);
+   void setScanFilters(const QString& value);
    void save();
    void saveAs(const QString& path);
 signals:
@@ -69,7 +69,6 @@ private:
    void convertScanDirectory(const QString& path);
    void readTypeElement(const QDomElement& element);
    void write(const QByteArray& data);
-   void saveBasicInfo(QDomDocument& document, QDomElement* project);
    void setFileHash(const QByteArray& bytes);
    void makeRoot();
    /*!

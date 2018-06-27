@@ -15,7 +15,7 @@ using namespace CppQt::Parse;
 
 
 
-Global::Global(Namespace* block):
+Global::Global(const Namespace* block):
    _block(block),
    _indentSpaces(Settings::instance().indentSpaces())
 {}
@@ -61,11 +61,14 @@ void Global::makeOutput()
 
 void Global::beginNamespaceNesting()
 {
-   QStack<Namespace*> scope;
-   AbstractBlock* block {_block};
+   QStack<const Namespace*> scope;
+   const AbstractBlock* block {_block};
    while ( block->parent() )
    {
-      if ( Namespace* name = block->cast<Namespace>(BlockFactory::NamespaceType) ) scope.push(name);
+      if ( const Namespace* name = block->cast<Namespace>(BlockFactory::NamespaceType) )
+      {
+         scope.push(name);
+      }
       block = block->parent();
    }
    while ( !scope.isEmpty() )

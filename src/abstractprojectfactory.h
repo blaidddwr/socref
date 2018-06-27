@@ -84,7 +84,7 @@ public:
     *
     * @return Pointer to created parser factory for the given project type. 
     */
-   virtual std::unique_ptr<AbstractParserFactory> makeParserFactory(int type, AbstractBlock* root) const = 0;
+   virtual std::unique_ptr<AbstractParserFactory> makeParserFactory(int type, const AbstractBlock* root) const = 0;
 };
 
 

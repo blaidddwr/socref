@@ -19,14 +19,14 @@ using namespace CppQt::Parse;
 
 
 
-Source::Source(CppQt::Namespace* block):
+Source::Source(const Namespace* block):
    Global(block),
    _block(block),
    _headerLines(Settings::instance().headerLines()),
    _functionLines(Settings::instance().functionLines()),
    _children(block->realChildren())
 {
-   if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )
+   if ( const Class* valid = block->cast<Class>(BlockFactory::ClassType) )
    {
       _isTemplate = valid->hasAnyTemplates();
    }
@@ -38,7 +38,7 @@ Source::Source(CppQt::Namespace* block):
 
 
 
-Source::Source(CppQt::Namespace* block, const QString& name):
+Source::Source(const Namespace* block, const QString& name):
    Source(block)
 {
    _include = QString("#include \"").append(name).append(".h\"");

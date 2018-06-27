@@ -39,7 +39,7 @@ public:
    virtual int columnCount(const QModelIndex& parent) const override final;
    virtual QVariant data(const QModelIndex& index, int role) const override final;
 public:
-   explicit BlockModel(AbstractBlock* root = nullptr, QObject* parent = nullptr);
+   explicit BlockModel(QObject* parent = nullptr);
    AbstractBlock* pointer(const QModelIndex& index) const;
    bool insert(const QModelIndex& index, std::unique_ptr<AbstractBlock>&& block);
    QModelIndex moveUp(const QModelIndex& index);
@@ -48,7 +48,7 @@ public:
    std::unique_ptr<AbstractBlock> copy(const QModelIndex& index) const;
    std::unique_ptr<AbstractBlock> cut(const QModelIndex& index);
    const AbstractBlockFactory* factory() const;
-   void setRoot(AbstractBlock* newRoot);
+   void setRoot(AbstractBlock* root);
 private slots:
    void blockNameModified(AbstractBlock* block);
    void blockBodyModified(AbstractBlock* block);
