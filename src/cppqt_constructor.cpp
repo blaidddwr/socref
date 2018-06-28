@@ -2,7 +2,6 @@
 #include <exception.h>
 #include "cppqt_constructor_edit.h"
 #include "cppqt_blockfactory.h"
-#include "domelementreader.h"
 #include "common.h"
 
 

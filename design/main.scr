@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <name>Socrates' Reference</name>
-  <scandir>../src</scandir>
-  <filters>*.cpp *.h</filters>
   <type id="0">C++/Qt</type>
+  <filters>*.cpp *.h</filters>
+  <scandir>../src</scandir>
   <root type="0">
     <data version="0"/>
     <typeList type="15">
@@ -596,30 +596,11 @@
           <data version="0">
             <type>public:</type>
           </data>
-          <function type="2">
-            <data version="0">
-              <name>done</name>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>void</type>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>r</name>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
           <constructor type="9">
             <data version="0">
               <description>Constructs a new persistent dialog with the optional geometry key and parent. If no geometry key is given this new dialog will effectively do nothing unless the save settings method is called before its destruction.</description>
               <explicit/>
+              <operation>If the geometry key is not null then save the geometry of this dialog.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -641,6 +622,28 @@
         </access>
         <access type="5">
           <data version="0">
+            <type>public slots:</type>
+          </data>
+          <slot type="7">
+            <data version="0">
+              <name>done</name>
+              <description>Implements _QDialog_ interface. This is implemented so when done is called it closes this dialog.</description>
+              <virtual/>
+              <override/>
+              <final/>
+              <operation>Call the qt dialog interface and then close this dialog.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>r</name>
+                <description>See Qt docs.</description>
+                <type>int</type>
+              </data>
+            </variable>
+          </slot>
+        </access>
+        <access type="5">
+          <data version="0">
             <type>protected:</type>
           </data>
           <function type="2">
@@ -650,11 +653,14 @@
               <virtual/>
               <override/>
               <type>void</type>
+              <operation>Check to see if this dialog has a geometry key.</operation>
+              <operation>Save the geometry for this dialog.</operation>
+              <operation>Call the parent interface.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>event</name>
-                <description>The qt close event that is handled.</description>
+                <description>See Qt docs.</description>
                 <type>QCloseEvent*</type>
               </data>
             </variable>
@@ -669,8 +675,8 @@
               <name>saveSettings</name>
               <description>Sets the geometry key for this persistent dialog and then restores the geometry of this dialog using the given geometry key. If the geometry key for this dialog has already been set then an exception is thrown.</description>
               <type>void</type>
-              <operation>If this object's geometry key is not null then throw an exception.</operation>
-              <operation>Set this object's geometry key to the one given and then restore the geometry of this persistent dialog using the given geometry key.</operation>
+              <operation>Make sure the geometry key for this dialog is not already set.</operation>
+              <operation>Set the geometry key for this dialog and restore its geometry using the same key.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -714,6 +720,7 @@
             <data version="0">
               <description>Constructs a new text dialog with an optional parent.</description>
               <explicit/>
+              <operation>Create and initialize the GUI of this dialog.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -731,6 +738,7 @@
               <const/>
               <type>QString</type>
               <return_description>Text from the text edit widget of this dialog.</return_description>
+              <operation>Return the plain test this object's text edit widget contains.</operation>
             </data>
           </function>
           <function type="2">
@@ -738,6 +746,7 @@
               <name>setText</name>
               <description>Sets the plain text of the text edit widget of this dialog to the given text, overwriting any text the widget may contain.</description>
               <type>void</type>
+              <operation>Set the plain text of this object's text edit widget.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -757,9 +766,9 @@
               <name>setupGui</name>
               <description>Constructs and initializes all GUI elements for this new text dialog.</description>
               <type>void</type>
-              <operation>Create the text edit widget for this dialog, disabling its popup dialog feature.</operation>
-              <operation>Create a new vertical layout _layout_, adding the text edit widget for this dialog and then the buttons.</operation>
-              <operation>Set the layout for this dialog to _layout_.</operation>
+              <operation>Create the text edit widget for this dialog and disable its popup dialog shortcut.</operation>
+              <operation>Create a new vertical layout, adding the text edit widget for this dialog and then the buttons.</operation>
+              <operation>Set the layout for this dialog.</operation>
             </data>
           </function>
           <function type="2">
@@ -768,9 +777,10 @@
               <description>Constructs and initializes the OK and cancel buttons for this new text dialog, returning the horizontal layout containing them.</description>
               <type>QLayout*</type>
               <return_description>Horizontal layout containing the OK and cancel buttons for this new dialog.</return_description>
-              <operation>Create the OK and cancel buttons for this dialog, connecting their clicked signals.</operation>
-              <operation>Create a new horizontal layout _ret_, adding the OK button and then the cancel button.</operation>
-              <operation>Return _ret_.</operation>
+              <operation>Create the OK button for this dialog and connect its clicked signals.</operation>
+              <operation>Create the cancel button for this dialog and connect its clicked signals.</operation>
+              <operation>Create a new horizontal layout, adding the OK button and then the cancel button.</operation>
+              <operation>Return the buttons layout.</operation>
             </data>
           </function>
           <variable type="1">
@@ -11905,434 +11915,6 @@ The persistence of the qt splitter is made unique by this class overriding the s
     </class>
     <class type="4">
       <data version="0">
-        <name>DomElementReader</name>
-        <description>This is a helper class that makes is easier to read information stored in an XML element. This primarily helps with finding child elements and extracting information enclosed within them. This also helps with getting attributes in text or integer form and throwing exceptions if they don't exist. For searching child elements this class works by adding matches that will be looked for when the XML element given to this class is read. When a match is found the variable passed to the match is set to the value of the matched child element. This class is designed to only read its given XML element once and then be destroyed.</description>
-      </data>
-      <typeList type="15">
-        <data version="0">
-          <name>Custom</name>
-        </data>
-        <type type="16">
-          <data version="0">
-            <type>Match*</type>
-          </data>
-        </type>
-        <type type="16">
-          <data version="0">
-            <type>Type</type>
-          </data>
-        </type>
-        <type type="16">
-          <data version="0">
-            <type>QHash&lt;QString,Match*></type>
-          </data>
-        </type>
-      </typeList>
-      <access type="5">
-        <data version="0">
-          <type>public:</type>
-        </data>
-        <constructor type="9">
-          <data version="0">
-            <description>Constructs a new element reader with the given XML element that this object can read.</description>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>element</name>
-              <description>The XML element this object will read.</description>
-              <type>const QDomElement&amp;</type>
-            </data>
-          </variable>
-        </constructor>
-        <destructor type="10">
-          <data version="0">
-            <description>Deletes all allocates matches in the lookup list.</description>
-          </data>
-        </destructor>
-        <function type="2">
-          <data version="0">
-            <name>attribute</name>
-            <description>Returns the text value of the given attribute from this reader's element. If no attribute exists with the given name and it is required then an exception is thrown.</description>
-            <const/>
-            <type>QString</type>
-            <return_description>Value of the attribute with the given name.</return_description>
-            <operation>If the attribute with the given name is not found then continue. If the attribute is required then throw an exception, else return an empty string.</operation>
-            <operation>Return the value of the attribute with the given name.</operation>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>name</name>
-              <description>Name of attribute whose value is returned.</description>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>required</name>
-              <description>True if an exception should be thrown if the attribute is not found otherwise false.</description>
-              <type>bool</type>
-              <initializer>true</initializer>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>attributeToInt</name>
-            <description>Returns the integer value of the given attribute from this reader's element. If no attribute exists with the given name or the value is not an integer, and the attribute is required, then an exception is thrown.</description>
-            <const/>
-            <type>int</type>
-            <return_description>Value of the attribute with the given name.</return_description>
-            <operation>If the attribute with the given name is not found then continue. If the attribute is required then throw an exception, else return 0.</operation>
-            <operation>Read in the value of the attribute with the given name as an integer to _ret_. If reading the value as an integer fails then throw an exception.</operation>
-            <operation>Return _ret_.</operation>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>name</name>
-              <description>Name of attribute whose integer value is returned.</description>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>required</name>
-              <description>True if an exception should be thrown if the attribute is not found or failed to read as an integer otherwise false.</description>
-              <type>bool</type>
-              <initializer>true</initializer>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>set</name>
-            <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then the string pointed to by the given pointer will be set to the matched child element's text.</description>
-            <type>DomElementReader&amp;</type>
-            <return_description>Reference to this element reader.</return_description>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>tagName</name>
-              <description>Tag name to find in this reader's child elements.</description>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>pointer</name>
-              <description>Pointer to a string that will be set if a child element is matched.</description>
-              <type>QString*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>required</name>
-              <description>True if this match is required otherwise false.</description>
-              <type>bool</type>
-              <initializer>true</initializer>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>set</name>
-            <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then the integer pointed to by the given pointer will be set to the matched child element's text. If the matched element's text cannot be converted to an integer then an exception will be thrown.</description>
-            <type>DomElementReader&amp;</type>
-            <return_description>Reference to this element reader.</return_description>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>tagName</name>
-              <description>Tag name to find in this reader's child elements.</description>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>pointer</name>
-              <description>Pointer to an integer that will be set if a child element is matched.</description>
-              <type>int*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>required</name>
-              <description>True if this match is required otherwise false.</description>
-              <type>bool</type>
-              <initializer>true</initializer>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>set</name>
-            <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then the boolean pointed to by the given pointer will be set to true.</description>
-            <type>DomElementReader&amp;</type>
-            <return_description>Reference to this element reader.</return_description>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>tagName</name>
-              <description>Tag name to find in this reader's child elements.</description>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>pointer</name>
-              <description>Pointer to a boolean that will be set to true if a child element is matched.</description>
-              <type>bool*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>required</name>
-              <description>True if this match is required otherwise false.</description>
-              <type>bool</type>
-              <initializer>true</initializer>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>set</name>
-            <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then the XML element pointed to by the given pointer will be set to the matched child element.</description>
-            <type>DomElementReader&amp;</type>
-            <return_description>Reference to this element reader.</return_description>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>tagName</name>
-              <description>Tag name to find in this reader's child elements.</description>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>pointer</name>
-              <description>Pointer to a XML element that will be set to a child element is matched.</description>
-              <type>QDomElement*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>required</name>
-              <description>True if this match is required otherwise false.</description>
-              <type>bool</type>
-              <initializer>true</initializer>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>set</name>
-            <description>Set a new child element match with the given tag name. When this reader reads its element, if a child element is found with the given tag name then it is appended to the list of elements pointed to by the match.</description>
-            <type>DomElementReader&amp;</type>
-            <return_description>Reference to this element reader.</return_description>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>tagName</name>
-              <description>Tag name to find in this reader's child elements.</description>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>pointer</name>
-              <description>Pointer to a list of XML elements that will have any matched child elements appended to it.</description>
-              <type>QList&lt;QDomElement>*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>required</name>
-              <description>True if this match is required otherwise false.</description>
-              <type>bool</type>
-              <initializer>true</initializer>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>read</name>
-            <description>Reads this reader's XML element for child elements, finding any matches set before this is called. Before reading begins this clears all variables pointed to by the list of set matches.</description>
-            <type>void</type>
-            <operation>Clear all variables pointed to by this reader's list of matches.</operation>
-            <operation>Iterate through all child nodes of this reader's XML element. If the node is an element and its name matches one of the set matches then read in the match with the matched element.</operation>
-          </data>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>allRequiredFound</name>
-            <description>Tests if all required matches found at least one match after called the read method.</description>
-            <const/>
-            <type>bool</type>
-            <return_description>True if all required matches were found or false otherwise.</return_description>
-            <operation>Iterate through all matches. If a match is found that was not read then return false, else if all matches were read then return true.</operation>
-          </data>
-        </function>
-      </access>
-      <access type="5">
-        <data version="0">
-          <type>private:</type>
-        </data>
-        <class type="4">
-          <data version="0">
-            <name>Match</name>
-            <description>This holds a single match for an XML element reader.</description>
-          </data>
-          <access type="5">
-            <data version="0">
-              <type>public:</type>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>_type</name>
-                <description>The type of match this is.</description>
-                <type>Type</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>_data</name>
-                <description>The pointer to the variable for this match.</description>
-                <type>void*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>_read</name>
-                <description>The read state of this match. True if this data has been read otherwise false.</description>
-                <type>bool</type>
-              </data>
-            </variable>
-          </access>
-        </class>
-        <enumeration type="11">
-          <data version="0">
-            <name>Type</name>
-            <description>Defines all the possible match types that can be set in an element reader.</description>
-            <class/>
-          </data>
-          <enumval type="12">
-            <data version="0">
-              <name>String</name>
-              <description>Defines a match that sets a string.</description>
-            </data>
-          </enumval>
-          <enumval type="12">
-            <data version="0">
-              <name>Number</name>
-              <description>Defines a match that sets an integer.</description>
-            </data>
-          </enumval>
-          <enumval type="12">
-            <data version="0">
-              <name>Boolean</name>
-              <description>Defines a match that sets a boolean.</description>
-            </data>
-          </enumval>
-          <enumval type="12">
-            <data version="0">
-              <name>Element</name>
-              <description>Defines a match that sets another element.</description>
-            </data>
-          </enumval>
-          <enumval type="12">
-            <data version="0">
-              <name>ElementList</name>
-              <description>Defines a match that adds to an element list.</description>
-            </data>
-          </enumval>
-        </enumeration>
-        <function type="2">
-          <data version="0">
-            <name>read</name>
-            <description>Reads in a single match found with the given match and given XML element, marking the match as being read.</description>
-            <static/>
-            <type>void</type>
-            <operation>Determine the match type of the given match. Assign the match's data based off its type, taking the value of the given element if required. If the match type is an integer and the given element cannot be read as an integer then throw an exception.</operation>
-            <operation>Mark the given match as being read.</operation>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>match</name>
-              <description>The match that was matched with the given element.</description>
-              <type>Match*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>element</name>
-              <description>The element whose tag name was matched with the given match.</description>
-              <type>const QDomElement&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>append</name>
-            <description>Inserts a new match to the lookup hash table of matches for this element reader. If a tag name already exists then an exception is thrown.</description>
-            <type>DomElementReader&amp;</type>
-            <return_description>Reference to this element reader.</return_description>
-            <operation>If a match already exists in this element reader's lookup hash table with the given tag name then throw an exception.</operation>
-            <operation>Add a new match to this element reader's lookup hash table using the given tag name as the key. Use the inverse of the required condition for the new match's read condition which marks any matches that are not required as read.</operation>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>tagName</name>
-              <description>Tag name for the new match that is inserted.</description>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>pointer</name>
-              <description>Pointer to the variable that is used for the given match that is inserted.</description>
-              <type>void*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>type</name>
-              <description>The type for the given match that is inserted.</description>
-              <type>Type</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>required</name>
-              <description>True if this match is required or false otherwise.</description>
-              <type>bool</type>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>clear</name>
-            <description>Clears the variables of all matches to default values. For integers that is 0 and for boolean that is false.</description>
-            <type>void</type>
-            <operation>Iterate through all matches of this reader. Set the match's data to its default type based off the match's type. For strings, elements, and element lists that is calling their clear method. For numbers that is setting it to 0. For booleans that is setting it to false.</operation>
-          </data>
-        </function>
-        <variable type="1">
-          <data version="0">
-            <name>_element</name>
-            <description>The XML element that this element reader reads the direct children of with the read method and extracts arguments from.</description>
-            <type>const QDomElement&amp;</type>
-          </data>
-        </variable>
-        <variable type="1">
-          <data version="0">
-            <name>_lookup</name>
-            <description>The hash table used to store all matches and look them up by their tag name for this element reader used when reading the child elements of this reader's XML element.</description>
-            <type>QHash&lt;QString,Match*></type>
-          </data>
-        </variable>
-      </access>
-    </class>
-    <class type="4">
-      <data version="0">
         <name>AbstractBlock</name>
         <description>This represents a single block in this application's reference system. The block system is the core function of this application, representing blocks as a single atomic item for referencing code. The block system conforms to a parent child relationship. Virtual interfaces are provided for basic information, spawning view and abstract edit widgets, and defining all field data of the block. Using the field data interface this class can make copies of any implementation type along with saving/writing the blocks.
 
@@ -13974,7 +13556,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>int</type>
-            <return_description>Explained in interface.</return_description>
+            <return_description>See interface docs.</return_description>
           </data>
         </function>
         <function type="2">
@@ -13986,14 +13568,14 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>QString</type>
-            <return_description>Explained in interface.</return_description>
+            <return_description>See interface docs.</return_description>
             <operation>Return the display name of the given project type.</operation>
             <operation>This project type is not recognized so throw an exception.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>type</name>
-              <description>Explained in interface.</description>
+              <description>See interface docs.</description>
               <type>int</type>
             </data>
           </variable>
@@ -14007,14 +13589,14 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>QString</type>
-            <return_description>Explained in interface.</return_description>
+            <return_description>See interface docs.</return_description>
             <operation>Return default file filters for the given project type.</operation>
             <operation>This project type is not recognized so throw an exception.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>type</name>
-              <description>Explained in interface.</description>
+              <description>See interface docs.</description>
               <type>int</type>
             </data>
           </variable>
@@ -14028,14 +13610,14 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>std::unique_ptr&lt;QDialog></type>
-            <return_description>Explained in interface.</return_description>
+            <return_description>See interface docs.</return_description>
             <operation>Return a new settings dialog for the given project type.</operation>
             <operation>This project type is not recognized so throw an exception.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>type</name>
-              <description>Explained in interface.</description>
+              <description>See interface docs.</description>
               <type>int</type>
             </data>
           </variable>
@@ -14049,14 +13631,14 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>const AbstractBlockFactory&amp;</type>
-            <return_description>Explained in interface.</return_description>
+            <return_description>See interface docs.</return_description>
             <operation>Return a reference to the block factory of the given project type.</operation>
             <operation>This project type is not recognized so throw an exception.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>type</name>
-              <description>Explained in interface.</description>
+              <description>See interface docs.</description>
               <type>int</type>
             </data>
           </variable>
@@ -14070,21 +13652,21 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>std::unique_ptr&lt;AbstractParserFactory></type>
-            <return_description>Explained in interface.</return_description>
+            <return_description>See interface docs.</return_description>
             <operation>Create a new parser factory for the given project type using the given block root.</operation>
             <operation>This project type is not recognized so throw an exception.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>type</name>
-              <description>Explained in interface.</description>
+              <description>See interface docs.</description>
               <type>int</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>root</name>
-              <description>Explained in interface.</description>
+              <description>See interface docs.</description>
               <type>const AbstractBlock*</type>
             </data>
           </variable>
@@ -14136,7 +13718,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>QModelIndex</type>
-            <return_description>Explained in Qt docs.</return_description>
+            <return_description>See Qt docs.</return_description>
             <operation>If the given row or column is not valid then return an invalid index.</operation>
             <operation>Get the block pointer for the given parent index and make sure the row is within range of its child size.</operation>
             <operation>Return a new index with its internal pointer set to the block pointer.</operation>
@@ -14144,21 +13726,21 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <variable type="1">
             <data version="0">
               <name>row</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>int</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>column</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>int</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>parent</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>const QModelIndex&amp;</type>
             </data>
           </variable>
@@ -14172,7 +13754,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>QModelIndex</type>
-            <return_description>Explained in Qt docs.</return_description>
+            <return_description>See Qt docs.</return_description>
             <operation>Get the block pointer of the given child index, making sure it is not null.</operation>
             <operation>Get the parent of the child block, making sure it is not null and its parent is not null.</operation>
             <operation>Return the given index's parent index using the grandparent to get the parent's row.</operation>
@@ -14180,7 +13762,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <variable type="1">
             <data version="0">
               <name>child</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>const QModelIndex&amp;</type>
             </data>
           </variable>
@@ -14194,14 +13776,14 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>int</type>
-            <return_description>Explained in Qt docs.</return_description>
+            <return_description>See Qt docs.</return_description>
             <operation>Check if this model has no root block.</operation>
             <operation>Get the block pointer for the given index, returning 0 if it is null or its children size if it is not.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>index</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>const QModelIndex&amp;</type>
             </data>
           </variable>
@@ -14215,13 +13797,13 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>int</type>
-            <return_description>Explained in Qt docs.</return_description>
+            <return_description>See Qt docs.</return_description>
             <operation>Return 1.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>parent</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>const QModelIndex&amp;</type>
             </data>
           </variable>
@@ -14235,21 +13817,21 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>QVariant</type>
-            <return_description>Explained in Qt docs.</return_description>
+            <return_description>See Qt docs.</return_description>
             <operation>Get the block pointer for the given index, returning a null qt variant if it is null.</operation>
             <operation>Based off the role return either the block's display name for display role or the block's icon for decoration role. The icon is transformed to a pixel map with specific dimensions.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>index</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>const QModelIndex&amp;</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>role</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>int</type>
             </data>
           </variable>
@@ -15240,7 +14822,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <override/>
             <final/>
             <type>bool</type>
-            <return_description>Explained in Qt docs.</return_description>
+            <return_description>See Qt docs.</return_description>
             <operation>Call the qt implementation of this method.</operation>
             <operation>Catch any thrown exception and report it to debug output.</operation>
             <operation>Return the code that says this event has not been handled because an exception was thrown.</operation>
@@ -15248,14 +14830,14 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <variable type="1">
             <data version="0">
               <name>receiver</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>QObject*</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>event</name>
-              <description>Explained in Qt docs.</description>
+              <description>See Qt docs.</description>
               <type>QEvent*</type>
             </data>
           </variable>

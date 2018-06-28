@@ -4,7 +4,6 @@
 #include "cppqt_type_edit.h"
 #include "cppqt_blockfactory.h"
 #include "gui_abstractedit.h"
-#include "domelementreader.h"
 
 
 

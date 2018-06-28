@@ -24,6 +24,7 @@ using namespace Gui;
 TextDialog::TextDialog(QWidget* parent):
    PersistentDialog("gui.textdialog.geometry",parent)
 {
+   // Create and initialize the GUI of this dialog. 
    setupGui();
 }
 
@@ -39,6 +40,7 @@ TextDialog::TextDialog(QWidget* parent):
  */
 QString TextDialog::text() const
 {
+   // Return the plain test this object's text edit widget contains. 
    return _edit->toPlainText();
 }
 
@@ -55,6 +57,7 @@ QString TextDialog::text() const
  */
 void TextDialog::setText(const QString& text)
 {
+   // Set the plain text of this object's text edit widget. 
    _edit->setPlainText(text);
 }
 
@@ -68,18 +71,18 @@ void TextDialog::setText(const QString& text)
  */
 void TextDialog::setupGui()
 {
-   // Create the text edit widget for this dialog, disabling its popup dialog 
-   // feature. 
+   // Create the text edit widget for this dialog and disable its popup dialog 
+   // shortcut. 
    _edit = new TextEdit;
    _edit->setDialogPopupEnabled(false);
 
-   // Create a new vertical layout _layout_, adding the text edit widget for this 
-   // dialog and then the buttons. 
+   // Create a new vertical layout, adding the text edit widget for this dialog and 
+   // then the buttons. 
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addWidget(_edit);
    layout->addLayout(setupButtons());
 
-   // Set the layout for this dialog to _layout_. 
+   // Set the layout for this dialog. 
    setLayout(layout);
 }
 
@@ -97,19 +100,20 @@ void TextDialog::setupGui()
  */
 QLayout* TextDialog::setupButtons()
 {
-   // Create the OK and cancel buttons for this dialog, connecting their clicked 
-   // signals. 
+   // Create the OK button for this dialog and connect its clicked signals. 
    QPushButton* ok {new QPushButton(tr("Ok"))};
-   QPushButton* cancel {new QPushButton(tr("Cancel"))};
    connect(ok,&QPushButton::clicked,[this]{ done(QDialog::Accepted); });
+
+   // Create the cancel button for this dialog and connect its clicked signals. 
+   QPushButton* cancel {new QPushButton(tr("Cancel"))};
    connect(cancel,&QPushButton::clicked,[this]{ done(QDialog::Rejected); });
 
-   // Create a new horizontal layout _ret_, adding the OK button and then the cancel 
+   // Create a new horizontal layout, adding the OK button and then the cancel 
    // button. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(ok);
    ret->addWidget(cancel);
 
-   // Return _ret_. 
+   // Return the buttons layout. 
    return ret;
 }

@@ -23,11 +23,11 @@ const char* Application::_programKey {"socref"};
  * Implements _QCoreApplication_ interface. The only thing this does is add a catch 
  * section so exceptions are handled. 
  *
- * @param receiver Explained in Qt docs. 
+ * @param receiver See Qt docs. 
  *
- * @param event Explained in Qt docs. 
+ * @param event See Qt docs. 
  *
- * @return Explained in Qt docs. 
+ * @return See Qt docs. 
  */
 bool Application::notify(QObject* receiver, QEvent* event)
 {

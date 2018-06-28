@@ -1,5 +1,4 @@
 
-class DomElementReader;
 class AbstractBlock;
 class AbstractBlockFactory;
 class AbstractParser;

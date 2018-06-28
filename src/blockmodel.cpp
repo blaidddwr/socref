@@ -16,13 +16,13 @@ using namespace std;
 /*!
  * Implements _QAbstractItemModel_ interface. 
  *
- * @param row Explained in Qt docs. 
+ * @param row See Qt docs. 
  *
- * @param column Explained in Qt docs. 
+ * @param column See Qt docs. 
  *
- * @param parent Explained in Qt docs. 
+ * @param parent See Qt docs. 
  *
- * @return Explained in Qt docs. 
+ * @return See Qt docs. 
  */
 QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) const
 {
@@ -46,9 +46,9 @@ QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) co
 /*!
  * Implements _QAbstractItemModel_ interface. 
  *
- * @param child Explained in Qt docs. 
+ * @param child See Qt docs. 
  *
- * @return Explained in Qt docs. 
+ * @return See Qt docs. 
  */
 QModelIndex BlockModel::parent(const QModelIndex& child) const
 {
@@ -76,9 +76,9 @@ QModelIndex BlockModel::parent(const QModelIndex& child) const
  * Implements _QAbstractItemModel_ interface. This returns the number of children 
  * the block with the given index contains. 
  *
- * @param index Explained in Qt docs. 
+ * @param index See Qt docs. 
  *
- * @return Explained in Qt docs. 
+ * @return See Qt docs. 
  */
 int BlockModel::rowCount(const QModelIndex& index) const
 {
@@ -100,9 +100,9 @@ int BlockModel::rowCount(const QModelIndex& index) const
 /*!
  * Implements _QAbstractItemModel_ interface. This model always has 1 column. 
  *
- * @param parent Explained in Qt docs. 
+ * @param parent See Qt docs. 
  *
- * @return Explained in Qt docs. 
+ * @return See Qt docs. 
  */
 int BlockModel::columnCount(const QModelIndex& parent) const
 {
@@ -120,11 +120,11 @@ int BlockModel::columnCount(const QModelIndex& parent) const
  * Implements _QAbstractItemModel_ interface. This model only implements the 
  * display and decoration roles. 
  *
- * @param index Explained in Qt docs. 
+ * @param index See Qt docs. 
  *
- * @param role Explained in Qt docs. 
+ * @param role See Qt docs. 
  *
- * @return Explained in Qt docs. 
+ * @return See Qt docs. 
  */
 QVariant BlockModel::data(const QModelIndex& index, int role) const
 {

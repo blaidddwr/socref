@@ -18,7 +18,7 @@ using namespace std;
 /*!
  * Implements _AbstractProjectFactory_ interface. 
  *
- * @return Explained in interface. 
+ * @return See interface docs. 
  */
 int ProjectFactory::size() const
 {
@@ -33,9 +33,9 @@ int ProjectFactory::size() const
 /*!
  * Implements _AbstractProjectFactory_ interface. 
  *
- * @param type Explained in interface. 
+ * @param type See interface docs. 
  *
- * @return Explained in interface. 
+ * @return See interface docs. 
  */
 QString ProjectFactory::name(int type) const
 {
@@ -61,9 +61,9 @@ QString ProjectFactory::name(int type) const
 /*!
  * Implements _AbstractProjectFactory_ interface. 
  *
- * @param type Explained in interface. 
+ * @param type See interface docs. 
  *
- * @return Explained in interface. 
+ * @return See interface docs. 
  */
 QString ProjectFactory::defaultFilters(int type) const
 {
@@ -89,9 +89,9 @@ QString ProjectFactory::defaultFilters(int type) const
 /*!
  * Implements _AbstractProjectFactory_ interface. 
  *
- * @param type Explained in interface. 
+ * @param type See interface docs. 
  *
- * @return Explained in interface. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
 {
@@ -117,9 +117,9 @@ std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
 /*!
  * Implements _AbstractProjectFactory_ interface. 
  *
- * @param type Explained in interface. 
+ * @param type See interface docs. 
  *
- * @return Explained in interface. 
+ * @return See interface docs. 
  */
 const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 {
@@ -145,11 +145,11 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
 /*!
  * Implements _AbstractProjectFactory_ interface. 
  *
- * @param type Explained in interface. 
+ * @param type See interface docs. 
  *
- * @param root Explained in interface. 
+ * @param root See interface docs. 
  *
- * @return Explained in interface. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const AbstractBlock* root) const
 {
