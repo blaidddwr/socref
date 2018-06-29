@@ -22,8 +22,7 @@ using namespace Gui;
 TextEdit::Highlighter::Highlighter(QTextDocument* parent):
    QSyntaxHighlighter(parent)
 {
-   // Initialize the properties of this highlighter's text format used for misspelled 
-   // words. 
+   // Initialize the highlight format for misspelled words. 
    _format.setFontUnderline(true);
    _format.setUnderlineColor(Qt::red);
    _format.setUnderlineStyle(QTextCharFormat::WaveUnderline);
@@ -42,7 +41,7 @@ TextEdit::Highlighter::Highlighter(QTextDocument* parent):
  */
 TextEdit::Highlighter::~Highlighter()
 {
-   // 
+   // Free this highlighter's Aspell resources. 
    delete_aspell_speller(_spell);
    delete_aspell_config(_spellConfig);
 }
@@ -53,29 +52,26 @@ TextEdit::Highlighter::~Highlighter()
 
 
 /*!
- * Implements the Qt interface that is called for highlighting blocks of text in 
- * its parent text document. This implementation searches for misspelled words, 
- * highlighting any that are found. 
+ * Implements _QSyntaxHighlighter_ interface. This implementation searches for 
+ * misspelled words, highlighting any that are found. 
  *
- * @param text The block of text in this highlighter's parent text document that is 
- *             highlighted. 
+ * @param text See Qt docs. 
  */
 void TextEdit::Highlighter::highlightBlock(const QString& text)
 {
-   // Use a Qt regular expression to search for all words in the given text, saving 
-   // all matches to _matches_. 
+   // Use a Qt regular expression to match all words in the given text block. 
    QRegularExpression pattern("[\\w'-]+");
    QRegularExpressionMatchIterator matches {pattern.globalMatch(text)};
 
-   // Iterate through all matches in _matches_, checking that each word is spelled 
-   // correctly. If any misspelled words are found use this highlighter's special 
-   // text format on those words to highlight them to the user. 
+   // Iterate through all matched words. 
    while ( matches.hasNext() )
    {
+      // Extract the matched word and check to see if it it misspelled. 
       QRegularExpressionMatch match {matches.next()};
       QByteArray word {match.captured().toLocal8Bit()};
       if ( !aspell_speller_check(_spell,word.data(),word.size()) )
       {
+         // Highlight the misspelled word. 
          setFormat(match.capturedStart(),match.capturedLength(),_format);
       }
    }
@@ -92,11 +88,12 @@ void TextEdit::Highlighter::highlightBlock(const QString& text)
  */
 void TextEdit::Highlighter::setupSpeller()
 {
-   // Create and initialize this highlighter's Aspell configuration, setting its 
-   // default language, and then create a temporary can have errors Aspell speller 
-   // _temp_. If _temp_ has errors then throw an exception. 
+   // Create and set this highlighter's Aspell configuration. 
    _spellConfig = new_aspell_config();
    aspell_config_replace(_spellConfig,"lang",_defaultLang);
+
+   // Create this highlighter's Aspell speller using the configuration and make sure 
+   // it worked. 
    AspellCanHaveError* temp {new_aspell_speller(_spellConfig)};
    if ( aspell_error_number(temp) )
    {
@@ -108,6 +105,6 @@ void TextEdit::Highlighter::setupSpeller()
       throw e;
    }
 
-   // Set this highlighter's speller by extracting it from _temp_. 
+   // Set this highlighter's speller by extracting it from the temporary holder. 
    _spell = to_aspell_speller(temp);
 }

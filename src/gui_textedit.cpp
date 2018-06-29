@@ -80,17 +80,18 @@ bool TextEdit::isDialogPopupEnabled() const
  */
 void TextEdit::setSpellCheckEnabled(bool enabled)
 {
-   // If the given state is to disable spell checking then delete any highlighter 
-   // this editor may have and set its pointer to null, else if this editor has no 
-   // highlighter then create a new one. 
+   // Check to see if spell checking is being disabled. 
    if ( !enabled )
    {
+      // Delete any highlighter this editor may have and set its pointer to null. 
       delete _spellHighlighter;
       _spellHighlighter = nullptr;
    }
+
+   // Else if this editor has no highlighter then create a new one. 
    else if ( !_spellHighlighter ) _spellHighlighter = new Highlighter(document());
 
-   // Set this editor's spell checking enable state to the new one given. 
+   // Update this editor's spell checking enable state. 
    _spellCheckEnabled = enabled;
 }
 
@@ -121,9 +122,10 @@ void TextEdit::setDialogPopupEnabled(bool enabled)
  */
 void TextEdit::spellCheckTriggered()
 {
-   // If this editor's spell checking is disabled then return, else create a new 
-   // spell checker dialog and execute it in modal mode. 
+   // Make sure spell checking is enabled. 
    if ( !_spellCheckEnabled ) return;
+
+   // Create a new spell checker dialog and execute it in modal mode. 
    Dialog spellCheck(this);
    spellCheck.exec();
 }
@@ -138,19 +140,19 @@ void TextEdit::spellCheckTriggered()
  */
 void TextEdit::dialogPopupTriggered()
 {
-   // If this editor's dialog popup shortcut is disabled then return. 
+   // Make sure this editor's dialog popup action is enabled. 
    if ( !_dialogPopupEnabled ) return;
 
-   // Create a new text dialog _dialog_, setting its text to this editor's text and 
-   // its title. 
+   // Create a new text dialog, setting its content to this editor's text and its 
+   // title. 
    TextDialog dialog;
    dialog.setWindowTitle("Text Editor");
    dialog.setText(toPlainText());
 
-   // Execute _dialog_ in modal mode. If execution returns success then set this 
-   // editor's text to the text of _dialog_. 
+   // Execute the text dialog in modal mode and check to see if it returns accept. 
    if ( dialog.exec() )
    {
+      // Update this text editor's contents with the text of the text dialog. 
       setPlainText(dialog.text());
    }
 }
@@ -166,19 +168,21 @@ void TextEdit::dialogPopupTriggered()
  */
 void TextEdit::setupActions()
 {
-   // Create a new action _spell_ for this editor's spell checking action. 
+   // Create and initialize this editor's spell checking action and connect its 
+   // triggered signal. 
    QAction* spell {new QAction(this)};
    spell->setShortcutContext(Qt::WidgetShortcut);
    spell->setShortcut(Qt::CTRL + Qt::Key_S);
    connect(spell,&QAction::triggered,this,&TextEdit::spellCheckTriggered);
 
-   // Create a new action _dialog_ for this editor's dialog popup action. 
+   // Create and initialize this editor's dialog popup action and connect its 
+   // triggered signal. 
    QAction* dialog {new QAction(this)};
    dialog->setShortcutContext(Qt::WidgetShortcut);
    dialog->setShortcut(Qt::CTRL + Qt::Key_E);
    connect(dialog,&QAction::triggered,this,&TextEdit::dialogPopupTriggered);
 
-   // Add _spell_ and _dialog_ to this editor's actions. 
+   // Add this editor's shortcut actions. 
    addAction(spell);
    addAction(dialog);
 }

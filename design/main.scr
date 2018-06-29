@@ -347,11 +347,6 @@
       </type>
       <type type="16">
         <data version="0">
-          <type>QRegularExpressionMatch&amp;</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
           <type>QResizeEvent*</type>
         </data>
       </type>
@@ -398,6 +393,11 @@
       <type type="16">
         <data version="0">
           <type>const QPoint&amp;</type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
+          <type>const QRegularExpressionMatch&amp;</type>
         </data>
       </type>
       <type type="16">
@@ -866,8 +866,10 @@
               <name>setSpellCheckEnabled</name>
               <description>Sets the enabled state of this editor's spell checking with the given state.</description>
               <type>void</type>
-              <operation>If the given state is to disable spell checking then delete any highlighter this editor may have and set its pointer to null, else if this editor has no highlighter then create a new one.</operation>
-              <operation>Set this editor's spell checking enable state to the new one given.</operation>
+              <operation>Check to see if spell checking is being disabled.</operation>
+              <operation>Delete any highlighter this editor may have and set its pointer to null.</operation>
+              <operation>Else if this editor has no highlighter then create a new one.</operation>
+              <operation>Update this editor's spell checking enable state.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -900,16 +902,18 @@
             <data version="0">
               <name>spellCheckTriggered</name>
               <description>Called when this editor's spell checker action is triggered.</description>
-              <operation>If this editor's spell checking is disabled then return, else create a new spell checker dialog and execute it in modal mode.</operation>
+              <operation>Make sure spell checking is enabled.</operation>
+              <operation>Create a new spell checker dialog and execute it in modal mode.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>dialogPopupTriggered</name>
               <description>Called when this editor's dialog popup action is triggered.</description>
-              <operation>If this editor's dialog popup shortcut is disabled then return.</operation>
-              <operation>Create a new text dialog _dialog_, setting its text to this editor's text and its title.</operation>
-              <operation>Execute _dialog_ in modal mode. If execution returns success then set this editor's text to the text of _dialog_.</operation>
+              <operation>Make sure this editor's dialog popup action is enabled.</operation>
+              <operation>Create a new text dialog, setting its content to this editor's text and its title.</operation>
+              <operation>Execute the text dialog in modal mode and check to see if it returns accept.</operation>
+              <operation>Update this text editor's contents with the text of the text dialog.</operation>
             </data>
           </slot>
         </access>
@@ -937,7 +941,7 @@
                 <data version="0">
                   <description>Constructs a new spell checking highlighter with the given text document parent.</description>
                   <explicit/>
-                  <operation>Initialize the properties of this highlighter's text format used for misspelled words.</operation>
+                  <operation>Initialize the highlight format for misspelled words.</operation>
                   <operation>Setup this highlighter's spell checking library.</operation>
                 </data>
                 <variable type="1">
@@ -951,6 +955,7 @@
               <destructor type="10">
                 <data version="0">
                   <description>Delete this highlighter's spell checking library resources.</description>
+                  <operation>Free this highlighter's Aspell resources.</operation>
                 </data>
               </destructor>
             </access>
@@ -961,18 +966,20 @@
               <function type="2">
                 <data version="0">
                   <name>highlightBlock</name>
-                  <description>Implements the Qt interface that is called for highlighting blocks of text in its parent text document. This implementation searches for misspelled words, highlighting any that are found.</description>
+                  <description>Implements _QSyntaxHighlighter_ interface. This implementation searches for misspelled words, highlighting any that are found.</description>
                   <virtual/>
                   <override/>
                   <final/>
                   <type>void</type>
-                  <operation>Use a Qt regular expression to search for all words in the given text, saving all matches to _matches_.</operation>
-                  <operation>Iterate through all matches in _matches_, checking that each word is spelled correctly. If any misspelled words are found use this highlighter's special text format on those words to highlight them to the user.</operation>
+                  <operation>Use a Qt regular expression to match all words in the given text block.</operation>
+                  <operation>Iterate through all matched words.</operation>
+                  <operation>Extract the matched word and check to see if it it misspelled.</operation>
+                  <operation>Highlight the misspelled word.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>text</name>
-                    <description>The block of text in this highlighter's parent text document that is highlighted.</description>
+                    <description>See Qt docs.</description>
                     <type>const QString&amp;</type>
                   </data>
                 </variable>
@@ -987,8 +994,9 @@
                   <name>setupSpeller</name>
                   <description>Constructs and initializes all Aspell library resources for this new highlighter.</description>
                   <type>void</type>
-                  <operation>Create and initialize this highlighter's Aspell configuration, setting its default language, and then create a temporary can have errors Aspell speller _temp_. If _temp_ has errors then throw an exception.</operation>
-                  <operation>Set this highlighter's speller by extracting it from _temp_.</operation>
+                  <operation>Create and set this highlighter's Aspell configuration.</operation>
+                  <operation>Create this highlighter's Aspell speller using the configuration and make sure it worked.</operation>
+                  <operation>Set this highlighter's speller by extracting it from the temporary holder.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -1036,7 +1044,7 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                 <data version="0">
                   <description>Constructs a new spell checker dialog with the given text editor parent.</description>
                   <explicit/>
-                  <operation>Setup this object's spell library resources, its GUI, and set it's window title.</operation>
+                  <operation>Setup the speller, GUI, and window title for this new dialog.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -1052,6 +1060,7 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <virtual/>
                   <override/>
                   <final/>
+                  <operation>Free the speller resources of this dialog.</operation>
                 </data>
               </destructor>
               <function type="2">
@@ -1063,7 +1072,8 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <final/>
                   <type>int</type>
                   <return_description>Always returns Qt dialog accept.</return_description>
-                  <operation>Show this object's GUI and then find the first misspelled word. If a misspelled word is found then call the Qt dialog exec method, else return Qt accept.</operation>
+                  <operation>Show this dialog so it is not invisible.</operation>
+                  <operation>Find the first misspelled word, executing this dialog if one is found or returning right away if no misspelled word is found.</operation>
                 </data>
               </function>
             </access>
@@ -1075,28 +1085,29 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                 <data version="0">
                   <name>changeClicked</name>
                   <description>Called when the change button is clicked. This changes the current misspelled word in the parent editor's text of this dialog and then finds the next misspelled word.</description>
-                  <operation>Replace the current misspelled word in the parent editor's text of this dialog with the text from this object's word edit widget.</operation>
-                  <operation>Find the next misspelled word in the parent text editor of this dialog.</operation>
+                  <operation>Replace the currently misspelled word with the text from the word edit widget of this dialog.</operation>
+                  <operation>Find the next misspelled word.</operation>
                 </data>
               </slot>
               <slot type="7">
                 <data version="0">
                   <name>ignoreOnceClicked</name>
                   <description>Called when the ignore once button is clicked. This skips the current misspelled word and finds the next one.</description>
-                  <operation>Skip the current misspelled word of the parent editor's text and find the next one.</operation>
+                  <operation>Skip the current misspelled word and find the next one.</operation>
                 </data>
               </slot>
               <slot type="7">
                 <data version="0">
                   <name>ignoreAllClicked</name>
                   <description>Called when the ignore all button is clicked. This adds this object's current misspelled word to the list of words to ignore and finds the next misspelled word.</description>
-                  <operation>Add this object's current misspelled word to its list of ignored words and then find the next misspelled word.</operation>
+                  <operation>Add the current misspelled word to the list of ignored words for this dialog and then find the next misspelled word.</operation>
                 </data>
               </slot>
               <slot type="7">
                 <data version="0">
                   <name>wordTextChanged</name>
                   <description>Called when the text in the word edit widget of this dialog changes. This updates the enabled state of the change button of this dialog depending on if the new text is a misspelled word or not, disabling it if it is misspelled.</description>
+                  <operation>Change the enabled state of the word edit widget of this dialog based off it being misspelled or not.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -1117,9 +1128,13 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <description>Finds the next misspelled word in the parent editor of this dialog, returning true if a misspelled word is found or false if there is nothing else to find.</description>
                   <type>bool</type>
                   <return_description>True if a misspelled word is found or false otherwise.</return_description>
-                  <operation>Grab the text _text_ of this object's parent editor, finding the next word in it after this object's text offset.</operation>
-                  <operation>If a next word is found then check it for spelling and update this object's offset and length. If the word is misspelled then set it as this object's current misspelled word and return true, else find the next word in this object's parent editor.</operation>
-                  <operation>If no words are found query the user if they want to start again from the beginning.</operation>
+                  <operation>Find the first word of the parent editor's text at or after the offset of this dialog.</operation>
+                  <operation>While a word is found at or after the offset of this dialog then continue.</operation>
+                  <operation>Update the offset and length parameters of this dialog with the current word match.</operation>
+                  <operation>Check to see if the current word is misspelled.</operation>
+                  <operation>Update the current misspelled word of this dialog to the new one found and return true.</operation>
+                  <operation>Update the offset for this dialog to find the next word in the parent editor's text.</operation>
+                  <operation>End of text is reached so query the user if they want to start over from the beginning.</operation>
                 </data>
               </function>
               <function type="2">
@@ -1128,12 +1143,13 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <description>Tests if the given word is spelled correctly or not.</description>
                   <type>bool</type>
                   <return_description>True if the given word is spelled correctly or false otherwise.</return_description>
-                  <operation>If the given word is contained in this object's ignore list then return true.</operation>
-                  <operation>Use this object's Aspell speller to check for correct spelling, returning true if it is correct or false if it is misspelled.</operation>
+                  <operation>Check to see if the given word is in the ignore list of this dialog.</operation>
+                  <operation>Use the spell checker of this dialog to see and return if the given word is spelled correctly.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>word</name>
+                    <description>The word that is checked for spelling.</description>
                     <type>const QString&amp;</type>
                   </data>
                 </variable>
@@ -1141,12 +1157,14 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <function type="2">
                 <data version="0">
                   <name>queryEndOfText</name>
-                  <description>Queries the user with a new dialog if they want to run spell checking again on the parent editor of this dialog.</description>
+                  <description>Queries the user with a dialog if they want to run spell checking again on the parent editor of this dialog.</description>
                   <type>bool</type>
                   <return_description>True if the user wants to run spell checking again and a misspelled word was found or false otherwise.</return_description>
-                  <operation>Create a Qt message box querying the user if they want to spell check this object's parent editor from the beginning again.</operation>
-                  <operation>Execute _box_ in modal mode. If the user responds with yes then reset this object's offset and length and find the next misspelled word, returning the result of the find next word method.</operation>
-                  <operation>Else the user responded with no so call on this dialog to close and return false.</operation>
+                  <operation>Create a message box to query the user if they want to spell check again from the beginning.</operation>
+                  <operation>Execute the message box and check to see if the user choose yes.</operation>
+                  <operation>Reset the offset and length of this dialog and find the next misspelled word.</operation>
+                  <operation>Else the user responded with no.</operation>
+                  <operation>Close the dialog with accept and return false.</operation>
                 </data>
               </function>
               <function type="2">
@@ -1154,41 +1172,30 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <name>setWord</name>
                   <description>Sets the current misspelled word for this dialog.</description>
                   <type>void</type>
-                  <operation>Set this object's current misspelled word and its word edit widget to the captured text of the given match.</operation>
-                  <operation>Set this object's snippet with the given complete text and locations of the misspelled word, then update this object's word suggestions.</operation>
+                  <operation>Set the misspelled word for this dialog.</operation>
+                  <operation>Set the snippet and suggested word replacements for this dialog.</operation>
                 </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>text</name>
-                    <description>The complete text of the parent editor of this dialog.</description>
-                    <type>const QString&amp;</type>
-                  </data>
-                </variable>
                 <variable type="1">
                   <data version="0">
                     <name>match</name>
                     <description>The Qt regular expression match within the given complete text that is a misspelled word.</description>
-                    <type>QRegularExpressionMatch&amp;</type>
+                    <type>const QRegularExpressionMatch&amp;</type>
                   </data>
                 </variable>
               </function>
               <function type="2">
                 <data version="0">
                   <name>setSnippet</name>
-                  <description>Se the snippet text for this dialog with the given text and offset positions for the misspelled word.</description>
+                  <description>Set the snippet text for this dialog with the given text and offset positions for the misspelled word.</description>
                   <type>void</type>
-                  <operation>Get the starting and end offsets for the text to be displayed before the misspelled word.</operation>
-                  <operation>Get the starting offset for the text to be displayed after the misspelled word.</operation>
-                  <operation>Build the snippet text to _sentence_, adding the snippet dots text before and after the built sentence and highlighting the misspelled word as bold.</operation>
-                  <operation>Set this object's snippet view label text to _sentence_.</operation>
+                  <operation>Get the text of the parent editor for this dialog.</operation>
+                  <operation>Figure out the beginning offset and length for the left half of the new snippet.</operation>
+                  <operation>Figure out the offset for the right half of the new snippet.</operation>
+                  <operation>Add snippet dots to the new snippet if it is not at the beginning of the parent editor's text.</operation>
+                  <operation>Append the left side, misspelled word, and then right side to the new snippet.</operation>
+                  <operation>Add snippets dots to the new snippet if it is not at the end of the parent editor's text.</operation>
+                  <operation>Set the snippet view of this dialog to the new snippet.</operation>
                 </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>text</name>
-                    <description>The complete text of the parent editor of this dialog.</description>
-                    <type>const QString&amp;</type>
-                  </data>
-                </variable>
                 <variable type="1">
                   <data version="0">
                     <name>begin</name>
@@ -1209,9 +1216,12 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <name>updateSuggested</name>
                   <description>Update the word change suggestions displayed to the user for the current misspelled word of this dialog.</description>
                   <type>void</type>
-                  <operation>Get the list of word change suggestions _elements_ from this object's Aspell speller.</operation>
-                  <operation>Build the word suggestions text _text_, adding the title and then the list of suggested words _elements_.</operation>
-                  <operation>Set this object's suggestions view label text to _text_ and delete the temporary Aspell resources needed for generating the suggestion list.</operation>
+                  <operation>Get a list of word change suggestions from the current misspelled word of this dialog.</operation>
+                  <operation>Initialize for iterating through suggestions and add the title.</operation>
+                  <operation>Iterate through all word change suggestions.</operation>
+                  <operation>If this is not the first word change suggestion then append a space.</operation>
+                  <operation>Append the word change suggestion.</operation>
+                  <operation>Set the suggestion view of this dialog with the new suggestion list and delete temporary Aspell resources.</operation>
                 </data>
               </function>
               <function type="2">
@@ -1219,8 +1229,8 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <name>setupGui</name>
                   <description>Constructs and initializes all GUI elements for this new dialog.</description>
                   <type>void</type>
-                  <operation>Create a new vertical layout _layout_, adding the top layout by calling the setup top method and then adding the buttons.</operation>
-                  <operation>Set the layout of this dialog to _layout_.</operation>
+                  <operation>Create a new vertical layout, adding the top layout and then adding the buttons.</operation>
+                  <operation>Set the layout of this dialog.</operation>
                 </data>
               </function>
               <function type="2">
@@ -1229,9 +1239,9 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <description>Constructs and initializes the top part of the GUI for this new dialog, returning its layout.</description>
                   <type>QLayout*</type>
                   <return_description>Pointer to the layout of the top part of the GUI for this dialog.</return_description>
-                  <operation>Create and initialize this new object's suggestion view label.</operation>
-                  <operation>Create a new horizontal layout _ret_, adding this object's word edit layout and then its suggestions view label.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Create and initialize the suggestions view label of this dialog.</operation>
+                  <operation>Create a new horizontal layout, adding the word edit layout and then the suggestions view label.</operation>
+                  <operation>Return the top layout.</operation>
                 </data>
               </function>
               <function type="2">
@@ -1240,10 +1250,10 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <description>Constructs and initializes the word edit portion of the GUI for this new dialog, returning its layout.</description>
                   <type>QLayout*</type>
                   <return_description>Pointer to the layout of the word edit portion of the GUI for this dialog.</return_description>
-                  <operation>Create the word line edit widget for new dialog, connecting its text changed signal.</operation>
+                  <operation>Create the word line edit widget for this new dialog, connecting its text changed signal.</operation>
                   <operation>Create and initialize the snippet view label for this new dialog.</operation>
-                  <operation>Create a vertical layout _ret_, adding this object's word edit widget then its snippet view label.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Create a vertical layout, adding the word edit widget then the snippet view label.</operation>
+                  <operation>Return the word edit layout.</operation>
                 </data>
               </function>
               <function type="2">
@@ -1252,9 +1262,12 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <description>Constructs and initializes all buttons for this new dialog, returning the layout containing all the buttons.</description>
                   <type>QLayout*</type>
                   <return_description>Pointer to layout of all buttons for this new dialog.</return_description>
-                  <operation>Create the change, ignore once, ignore all, and cancel buttons for this new dialog, connecting all their clicked signals.</operation>
-                  <operation>Create a new horizontal layout _ret_, adding this object's change, ignore once, ignore all buttons, a stretch, and then this object's cancel button.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Create the change button for this dialog, connecting its clicked signal.</operation>
+                  <operation>Create the ignore once button for this dialog, connecting its clicked signal.</operation>
+                  <operation>Create the ignore all button for this dialog, connecting its clicked signal.</operation>
+                  <operation>Create the cancel button for this dialog, connecting its clicked signal.</operation>
+                  <operation>Create a new horizontal layout, adding the change, ignore once, and ignore all buttons, then a stretch, and then the cancel button.</operation>
+                  <operation>Return the buttons layout.</operation>
                 </data>
               </function>
               <function type="2">
@@ -1262,8 +1275,9 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <name>setupSpeller</name>
                   <description>Constructs and initializes all Aspell library resources for this new dialog.</description>
                   <type>void</type>
-                  <operation>Create and initialize this object's Aspell configuration, setting its default language, and then create a temporary can have errors Aspell speller _temp_. If _temp_ has errors then throw an exception.</operation>
-                  <operation>Set this object's speller by extracting it from _temp_.</operation>
+                  <operation>Create and set the Aspell configuration of this dialog.</operation>
+                  <operation>Create the Aspell speller for this dialog using the configuration and make sure it worked.</operation>
+                  <operation>Set the speller of this dialog by extracting it from the temporary holder.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -1371,9 +1385,9 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <name>setupActions</name>
               <description>Constructs and initializes this new editor's actions for spell checking and dialog popup shortcut.</description>
               <type>void</type>
-              <operation>Create a new action _spell_ for this editor's spell checking action.</operation>
-              <operation>Create a new action _dialog_ for this editor's dialog popup action.</operation>
-              <operation>Add _spell_ and _dialog_ to this editor's actions.</operation>
+              <operation>Create and initialize this editor's spell checking action and connect its triggered signal.</operation>
+              <operation>Create and initialize this editor's dialog popup action and connect its triggered signal.</operation>
+              <operation>Add this editor's shortcut actions.</operation>
             </data>
           </function>
           <variable type="1">
@@ -1487,7 +1501,8 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <name>setValue</name>
               <description>Sets the string list for this edit widget to the given list.</description>
               <type>void</type>
-              <operation>Set this object's string list to the new one given by copying it, then reset this object's string list model to the new model, then auto fit all new rows of text, and then reset this object's current model index to invalid.</operation>
+              <operation>Set the new value of this object's string list and update its model.</operation>
+              <operation>Auto fit all new rows of text and reset this object's current model index to invalid.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -1505,17 +1520,17 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
           <function type="2">
             <data version="0">
               <name>resizeEvent</name>
-              <description>Implements the qt interface called whenever this widget is resized. This implementation simply auto fits all its text after calling its parent's resize event interface.</description>
+              <description>Implements _QWidget_ interface. This implementation simply auto fits all its text after calling its parent's resize event interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>void</type>
-              <operation>Call qt table view's resize event interface and then auto fit all text rows.</operation>
+              <operation>Call parent interface and then auto fit all text rows.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>event</name>
-                <description>Pointer to the qt resize event.</description>
+                <description>See Qt docs.</description>
                 <type>QResizeEvent*</type>
               </data>
             </variable>
@@ -1529,36 +1544,41 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
             <data version="0">
               <name>addTriggered</name>
               <description>Called when the add action is triggered, adding a new string to this edit widget after the current index.</description>
+              <operation>Add a new string after this object's current model index and then auto fit the text of all rows.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>removeTriggered</name>
               <description>Called when the remove action is triggered, removing this object's current model index if it is valid.</description>
-              <operation>If this object's current model index is valid then remove it from its model and reset the current model index to invalid.</operation>
+              <operation>Make sure this object's current model index is valid.</operation>
+              <operation>Remove the current model index from the model and reset it to invalid.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>moveUpTriggered</name>
               <description>Called when the move up action is triggered, moving this object's current model index up by one if it is valid.</description>
-              <operation>If this object's current model index is valid then move it up by one in its string list using the model and setting the current index to the new one returned. Auto fit the new text for the two rows that have changed as a result of the move.</operation>
+              <operation>Make sure this object's current model index is valid.</operation>
+              <operation>Move this object's current model index up by one, updating the index and auto fitting all text rows.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>moveDownTriggered</name>
               <description>Called when the move down action is triggered, moving this object's current model index down by one if it is valid.</description>
-              <operation>If this object's current model index is valid then move it down by one in its string list using the model and setting the current index to the new one returned. Auto fit the new text for the two rows that have changed as a result of the move.</operation>
+              <operation>Make sure this object's current model index is valid.</operation>
+              <operation>Move this object's current model index down by one, updating the index and auto fitting all text rows.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>doubleClicked</name>
               <description>Called when a cell in this qt table view has been double clicked by the mouse. This opens a text dialog for the string of the given model index double clicked if it is valid and within range.</description>
-              <operation>If the given index is not valid or is not within range of this object's string list then return.</operation>
-              <operation>Create a new text dialog _dialog_, setting its title and its text to the string with the given model index, and then execute it in modal. If execution fails then return.</operation>
-              <operation>Set the value of the string with the given index to the text of the text dialog _dialog_ and auto fit the new text at the given row.</operation>
+              <operation>Make sure the given index is valid and is within range of this object's string list.</operation>
+              <operation>Create a new text dialog, setting its title to the item title and its text to the string with the given model index.</operation>
+              <operation>Execute the text dialog and make sure it returned with accept.</operation>
+              <operation>Set the value of the string with the given index to the text of the text dialog and auto fit the new text at the given row.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -1571,6 +1591,7 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
             <data version="0">
               <name>selectionChanged</name>
               <description>Called when the selection of this object's qt table view's selection model has changed. This implementation updates its object's current model index with the first in the given selected list.</description>
+              <operation>This does not care what was deselected.</operation>
               <operation>If the given list of selected indexes is empty then set this object's current model index to invalid, else set it to the first model index in the given list of selected indexes.</operation>
             </data>
             <variable type="1">
@@ -1605,6 +1626,131 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                 <class>QAbstractListModel</class>
               </data>
             </parent>
+            <access type="5">
+              <data version="0">
+                <type>public:</type>
+              </data>
+              <function type="2">
+                <data version="0">
+                  <name>headerData</name>
+                  <description>Implements _QAbstractItemModel_ interface. This implementation only returns header information for the rows.</description>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <type>QVariant</type>
+                  <return_description>See Qt docs.</return_description>
+                  <operation>Make sure the given orientation is vertical and the given role is display.</operation>
+                  <operation>Get a pointer of this object's parent list edit widget and make sure it worked.</operation>
+                  <operation>Return the item title appended with the given section number.</operation>
+                </data>
+                <variable type="1">
+                  <data version="0">
+                    <name>section</name>
+                    <description>See Qt docs.</description>
+                    <type>int</type>
+                  </data>
+                </variable>
+                <variable type="1">
+                  <data version="0">
+                    <name>orientation</name>
+                    <description>See Qt docs.</description>
+                    <type>Qt::Orientation</type>
+                  </data>
+                </variable>
+                <variable type="1">
+                  <data version="0">
+                    <name>role</name>
+                    <description>See Qt docs.</description>
+                    <type>int</type>
+                  </data>
+                </variable>
+              </function>
+              <function type="2">
+                <data version="0">
+                  <name>rowCount</name>
+                  <description>Implements _QAbstractItemModel_ interface. This implementation returns the string list size or 0 if its empty.</description>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <type>int</type>
+                  <return_description>See Qt docs.</return_description>
+                  <operation>If this model has no string list or the given parent is valid then return 0 else return its string list size.</operation>
+                </data>
+                <variable type="1">
+                  <data version="0">
+                    <name>parent</name>
+                    <description>See Qt docs.</description>
+                    <type>const QModelIndex&amp;</type>
+                  </data>
+                </variable>
+              </function>
+              <function type="2">
+                <data version="0">
+                  <name>data</name>
+                  <description>Implements _QAbstractItemModel_ interface. This implementation returns the string in it's string list for the display and edit roles.</description>
+                  <virtual/>
+                  <const/>
+                  <override/>
+                  <final/>
+                  <type>QVariant</type>
+                  <return_description>See Qt docs.</return_description>
+                  <operation>Make sure this model has a string list and the given index row is within range.</operation>
+                  <operation>If the given role is display or edit then return the string at the given row else return nothing.</operation>
+                </data>
+                <variable type="1">
+                  <data version="0">
+                    <name>index</name>
+                    <description>See Qt docs.</description>
+                    <type>const QModelIndex&amp;</type>
+                  </data>
+                </variable>
+                <variable type="1">
+                  <data version="0">
+                    <name>role</name>
+                    <description>See Qt docs.</description>
+                    <type>int</type>
+                  </data>
+                </variable>
+              </function>
+              <function type="2">
+                <data version="0">
+                  <name>setData</name>
+                  <description>Implements _QAbstractItemModel_ interface. This implementation sets the string in this model's string list at the given index.</description>
+                  <virtual/>
+                  <override/>
+                  <final/>
+                  <type>bool</type>
+                  <return_description>See Qt docs.</return_description>
+                  <operation>Make sure this model has a string list and the given index row is within range.</operation>
+                  <operation>Make sure the given role is edit.</operation>
+                  <operation>Set the string in this model's string list at the given model index row, signal the data has changed, and return success.</operation>
+                  <operation>Else this is an unsupported role so return failure.</operation>
+                </data>
+                <variable type="1">
+                  <data version="0">
+                    <name>index</name>
+                    <description>See Qt docs.</description>
+                    <type>const QModelIndex&amp;</type>
+                  </data>
+                </variable>
+                <variable type="1">
+                  <data version="0">
+                    <name>value</name>
+                    <description>See Qt docs.</description>
+                    <type>const QVariant&amp;</type>
+                  </data>
+                </variable>
+                <variable type="1">
+                  <data version="0">
+                    <name>role</name>
+                    <description>See Qt docs.</description>
+                    <type>int</type>
+                  </data>
+                </variable>
+              </function>
+            </access>
             <access type="5">
               <data version="0">
                 <type>public:</type>
@@ -1646,130 +1792,13 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               </constructor>
               <function type="2">
                 <data version="0">
-                  <name>headerData</name>
-                  <description>Implements the qt model interface that returns header data for the given section, orientation, and role. This implementation only returns header information for the rows.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QVariant</type>
-                  <return_description>Header value if this is a row else an empty variant.</return_description>
-                  <operation>If the given orientation is not vertical or the role is not the display role then return an empty variant.</operation>
-                  <operation>Get a pointer _edit_ of this object's parent list edit widget. If casting this object's parent as a list edit widget fails then throw an exception.</operation>
-                  <operation>Return a string title that is the list item title for _edit_ appended with the row's index plus one.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>section</name>
-                    <description>The section number that header data is returned for. This is either the row or column index.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
-                <variable type="1">
-                  <data version="0">
-                    <name>orientation</name>
-                    <description>The orientation that header data is returned for. This is either vertical(rows) or horizontal(columns).</description>
-                    <type>Qt::Orientation</type>
-                  </data>
-                </variable>
-                <variable type="1">
-                  <data version="0">
-                    <name>role</name>
-                    <description>The role of data that is returned.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>rowCount</name>
-                  <description>Implements the qt model interface which returns the row count for the given model index. This implementation simply returns the string list size or 0 if its empty.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>int</type>
-                  <return_description>This model's string list size or 0 if it has no string list.</return_description>
-                  <operation>If this model has no string list then return 0, else return its string list size.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>parent</name>
-                    <description>The unused parent model index. This is not used because this model is simple and has no layers.</description>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>data</name>
-                  <description>Implements the qt model interface that returns data about a given model index with the given role. This implementation returns the string in it's string list.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QVariant</type>
-                  <return_description>String of this model's string list at the given model index row or an empty variant of this model has no string list.</return_description>
-                  <operation>If this model has no string list, the given index row is out of range, or the given role is not the display or edit role then return an empty variant, else return the string of this model's string list at the given model index row.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>index</name>
-                    <description>Model index whose data with the given role is returned.</description>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-                <variable type="1">
-                  <data version="0">
-                    <name>role</name>
-                    <description>The role of the data that is returned.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>setData</name>
-                  <description>Implements the qt model interface that sets data for a given model index with the given role. This implementation sets the strings in this model's string list.</description>
-                  <virtual/>
-                  <override/>
-                  <final/>
-                  <type>bool</type>
-                  <return_description>True if the string at the given model index row was set or false otherwise.</return_description>
-                  <operation>If this model has no string list, the given model index row is out of range, or the given role is not the edit role then return false.</operation>
-                  <operation>Set the string in this model's string list at the given model index row, emit the data changed signal for the given index, and return true.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>index</name>
-                    <description>Model index whose data is set if the given role is edit.</description>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-                <variable type="1">
-                  <data version="0">
-                    <name>value</name>
-                    <description>The new string value that the string with the given model index row is set to if the given role is edit.</description>
-                    <type>const QVariant&amp;</type>
-                  </data>
-                </variable>
-                <variable type="1">
-                  <data version="0">
-                    <name>role</name>
-                    <description>This must be the edit role for this to set the model index data.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-              <function type="2">
-                <data version="0">
                   <name>addAfter</name>
-                  <description>Adds a new string after the given model index, returning true on success.</description>
+                  <description>Adds a new string after the given model index, returning true on success. If the given model index is invalid a new string is added at the beginning of this model's string list.</description>
                   <type>bool</type>
                   <return_description>True on success or false otherwise.</return_description>
-                  <operation>If this model has no string list or the given index row is out of range then return false.</operation>
-                  <operation>Create the integer _row_, setting it to 0 if the given index is invalid else setting it to the given index row plus one.</operation>
-                  <operation>Signal that a row insertion is happening to this model, then insert a new empty string at _row_, then signal the row insertion is finished to this model, and then return true.</operation>
+                  <operation>Make sure this model has a string list and the given index row is within range.</operation>
+                  <operation>Determine the row where a new string will be inserted into this model's string list.</operation>
+                  <operation>Insert a new string into this model's string list, notifying this model that the insertion happened and returning success.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -1785,9 +1814,8 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <description>Removes a string with the given model index, returning true on success.</description>
                   <type>bool</type>
                   <return_description>True on success or false otherwise.</return_description>
-                  <operation>If this model has no string list, the given index is not valid, or the given index row is out of range then return false.</operation>
-                  <operation>Remove the string with the given index row from this model's string list, signaling to this model that a row has been removed.</operation>
-                  <operation>Return true.</operation>
+                  <operation>Make sure this model has a string list, the given index is valid, and the given index row is within range.</operation>
+                  <operation>Remove the string with the given index row from this model's string list, notifying this model that a row has been removed and returning success. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -1803,9 +1831,9 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <description>Moves the string with the given model index up its model's string list by one, returning a new model index for the moved string. Moving up means decreasing its index by one. The given index becomes invalid if the string is moved and should always be overwritten by the returned index. If this model has no string list then an exception is thrown.</description>
                   <type>QModelIndex</type>
                   <return_description>New model index for the string with the given index.</return_description>
-                  <operation>If this model has no string list then throw an exception.</operation>
-                  <operation>If the given index is not valid or it is out of range then return the given index.</operation>
-                  <operation>Move the string with the given index up this model's string list by one by decreasing its index, signaling to this model that a row has been moved.</operation>
+                  <operation>Make sure this model has a string list.</operation>
+                  <operation>Make sure the given index is valid and within range.</operation>
+                  <operation>Move the string with the given index up this model's string list by one, notifying this model that a row has been moved. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
                   <operation>Return a new model index for the moved string.</operation>
                 </data>
                 <variable type="1">
@@ -1822,9 +1850,9 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <description>Moves the string with the given model index down its model's string list by one, returning a new model index for the moved string. Moving down means increasing its index by one. The given index becomes invalid if the string is moved and should always be overwritten by the returned index. If this model has no string list then an exception is thrown.</description>
                   <type>QModelIndex</type>
                   <return_description>New model index for the string with the given index.</return_description>
-                  <operation>If this model has no string list then throw an exception.</operation>
-                  <operation>If the given index is not valid or it is out of range then return the given index.</operation>
-                  <operation>Move the string with the given index down this model's string list by one by increasing its index, signaling to this model that a row has been moved.</operation>
+                  <operation>Make sure this model has a string list.</operation>
+                  <operation>Make sure the given index is valid and within range.</operation>
+                  <operation>Move the string with the given index down this model's string list by one, notifying this model that a row has been moved. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
                   <operation>Return a new model index for the moved string.</operation>
                 </data>
                 <variable type="1">
@@ -1840,7 +1868,7 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <name>setList</name>
                   <description>Sets the string list for this model. This model does not take ownership of the given string list and must not be deleted as long as it is part of this model. A null pointer can be passed to set this model to a null state.</description>
                   <type>void</type>
-                  <operation>Set this model's string list pointer to the given one, signaling to this model that a reset of the entire model has occurred.</operation>
+                  <operation>Set this model's string list pointer to the new value given, notifying this model that a reset of the entire model has occurred.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -1868,10 +1896,11 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
           <function type="2">
             <data version="0">
               <name>setupView</name>
-              <description>Constructs this new object's model and initializes the model and this qt table view.</description>
+              <description>Initializes the table view along with creating its model for this new list edit widget.</description>
               <type>void</type>
-              <operation>Create this object's model with this object's list and set this qt table view's model to the new model.</operation>
-              <operation>Initialize this qt table view and connect its relevant signals.</operation>
+              <operation>Create this object's model set it to this table view.</operation>
+              <operation>Configure this table view's horizontal header.</operation>
+              <operation>Connect the double clicked and selection changed signals of this table view.</operation>
             </data>
           </function>
           <function type="2">
@@ -1879,11 +1908,11 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <name>setupActions</name>
               <description>Constructs and initializes all shortcut actions for this new list edit widget.</description>
               <type>void</type>
-              <operation>Add the new action.</operation>
-              <operation>Add the remove action.</operation>
-              <operation>Add the move up action.</operation>
-              <operation>Add the move down action.</operation>
-              <operation>Add all shortcut actions to this new widget.</operation>
+              <operation>Create and initialize this object's add action, connecting its triggered signal.</operation>
+              <operation>Create and initialize this object's remove action, connecting its triggered signal.</operation>
+              <operation>Create and initialize this object's move up action, connecting its triggered signal.</operation>
+              <operation>Create and initialize this object's move down action, connecting its triggered signal.</operation>
+              <operation>Add all shortcut actions to this new list edit widget.</operation>
             </data>
           </function>
           <function type="2">
@@ -1891,6 +1920,7 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <name>autoFitText</name>
               <description>Updates the row height of all text cells for this list edit widget so all the text fits within the current width of this widget.</description>
               <type>void</type>
+              <operation>Iterate through all text rows and update their height to fit their text.</operation>
             </data>
           </function>
           <function type="2">
@@ -1898,10 +1928,16 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <name>autoFitText</name>
               <description>Updates the height of a given row of this list edit widget so all the text fits within the current width of its cell.</description>
               <type>void</type>
-              <operation>Create font metrics, get the cell width _width_, and get the text of the string at the given row _text_.</operation>
-              <operation>Create and initialize _lines_, _start_, and _lastSpace_, all used for determining the number of lines _text_ requires to fit within the _width_ constraint.</operation>
-              <operation>Iterate through _text_ to determine the number of lines needed to constrain the text within the constraint _width_. Save the number of lines needed to _lines_.</operation>
-              <operation>Set the row height of the cell at the given row based off the calculated lines needed to git within the cell's width.</operation>
+              <operation>Initialize wiggle and bias used to help determine the row height at the end.</operation>
+              <operation>Create font metrics, get the cell width, and get the text of the string at the given row.</operation>
+              <operation>Create and initialize all variables used for determining the number of lines required to fit the given row's text.</operation>
+              <operation>Iterate through all characters of the given row's text.</operation>
+              <operation>Check to see if this is a new line character.</operation>
+              <operation>Add a line and reset the start and last space markers to the next character.</operation>
+              <operation>Else if this character is a space then update the last space marker.</operation>
+              <operation>Else check to see if the current line is too long for the limiting width factor.</operation>
+              <operation>Add a line and reset the start marker to the character after the last space marker.</operation>
+              <operation>Set the row height of the cell at the given row based off the calculated lines needed along with the wiggle and bias to fit within the cell's width.</operation>
             </data>
             <variable type="1">
               <data version="0">

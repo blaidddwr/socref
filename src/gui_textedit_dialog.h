@@ -44,8 +44,8 @@ namespace Gui
       bool findNextWord();
       bool isCorrectWord(const QString& word);
       bool queryEndOfText();
-      void setWord(const QString& text, QRegularExpressionMatch& match);
-      void setSnippet(const QString& text, int begin, int length);
+      void setWord(const QRegularExpressionMatch& match);
+      void setSnippet(int begin, int length);
       void updateSuggested();
       void setupGui();
       QLayout* setupTop();
