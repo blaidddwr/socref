@@ -50,15 +50,16 @@ AbstractEdit::AbstractEdit(AbstractBlock* block, QWidget* parent):
  */
 void AbstractEdit::initialize()
 {
-   // Setup this object's buttons saving the returned layout to _buttons_ and then 
-   // create a new vertical box layout _main_. 
+   // Setup this object's buttons. This must be done before the layout interface is 
+   // called because its buttons may be accessed in that interface. 
    QLayout* buttons {setupButtons()};
-   QVBoxLayout* main {new QVBoxLayout};
 
-   // Add the implementation's layout to _main_ by calling the layout interface, then 
-   // add the layout _buttons_, and then set this dialog's layout to _main_. 
+   // Create a vertical layout, adding the abstract layout and then the buttons. 
+   QVBoxLayout* main {new QVBoxLayout};
    main->addLayout(layout());
    main->addLayout(buttons);
+
+   // Set the main layout of this dialog. 
    setLayout(main);
 }
 
@@ -76,11 +77,11 @@ void AbstractEdit::initialize()
  */
 void AbstractEdit::apply()
 {
-   // Iterate through all of this object's edit widgets. For each one apply the value 
-   // the edit widget contains to the corresponding field of the block this dialog is 
-   // editing. 
+   // Iterate through all of this object's edit widgets. 
    for (auto i = _edits.cbegin(); i != _edits.cend() ;++i)
    {
+      // Figure out the field type for this edit widget, check if it is the correct edit 
+      // widget type and if so set the edited block's field value. 
       switch (_block->fieldType(i.key()))
       {
       case AbstractBlock::Field::Boolean:
@@ -90,14 +91,23 @@ void AbstractEdit::apply()
          }
          break;
       case AbstractBlock::Field::String:
+
+         // Check if this is a valid line edit widget and if so set the edited block's 
+         // field value. 
          if ( QLineEdit* valid = qobject_cast<QLineEdit*>(*i) )
          {
             _block->setField(i.key(),valid->text());
          }
+
+         // Else check if this is a valid text edit widget and if so set the edited block's 
+         // field value. 
          else if ( TextEdit* valid = qobject_cast<TextEdit*>(*i) )
          {
             _block->setField(i.key(),valid->toPlainText());
          }
+
+         // Else check if this is a valid combo box widget and if so set the edited block's 
+         // field value. 
          else if ( QComboBox* valid = qobject_cast<QComboBox*>(*i) )
          {
             _block->setField(i.key(),valid->currentText());
@@ -120,8 +130,8 @@ void AbstractEdit::apply()
 
 /*!
  * Adds a new grid of checkbox edit widgets for the given fields to the given form 
- * layout using the given title and column size. If anything is wrong with any of 
- * the given field indexes then an exception is thrown. 
+ * layout using the given title and maximum row size. If anything is wrong with any 
+ * of the given field indexes then an exception is thrown. 
  *
  * @param form Pointer to the form layout which has the grid of checkbox widgets 
  *             added to it. 
@@ -129,31 +139,32 @@ void AbstractEdit::apply()
  * @param fields List of field indexes which have checkbox edit widgets added to 
  *               them. 
  *
- * @param columnSize The column size for the checkbox grid layout. 
+ * @param rowSize The maximum row size for the checkbox grid layout. 
  *
  * @param title Title used when adding the grid layout to the given form layout. 
  */
-void AbstractEdit::addCheckBoxes(QFormLayout* form, const QList<int>& fields, int columnSize, const QString& title)
+void AbstractEdit::addCheckBoxes(QFormLayout* form, const QList<int>& fields, int rowSize, const QString& title)
 {
-   // Create a new grid layout _layout_ and initialize the row and column indexes. 
+   // Create a new grid layout and initialize the row and column indexes. 
    QGridLayout* layout {new QGridLayout};
    int row {0};
    int column {0};
 
-   // Iterate through all given fields, adding a new checkbox for each one to 
-   // _layout_ and increment the column index. If column index reaches the given size 
-   // then reset to 0 and increment the row index. 
+   // Iterate through all given field indexes. 
    for (auto field: fields)
    {
-      layout->addWidget(addCheckBox(field),column++,row);
-      if ( column >= columnSize )
+      // Add a new checkbox for the field index, adding one to the row and making sure 
+      // it does not go beyond the max row size. 
+      layout->addWidget(addCheckBox(field),row++,column);
+      if ( row >= rowSize )
       {
-         column = 0;
-         ++row;
+         // Reset the row index to 0 and increment the column index. 
+         row = 0;
+         ++column;
       }
    }
 
-   // Add _layout_ to the given form layout using the given title. 
+   // Add the check boxes layout to the given form layout using the given title. 
    form->addRow(new QLabel(title,this),layout);
 }
 
@@ -175,8 +186,7 @@ void AbstractEdit::addCheckBoxes(QFormLayout* form, const QList<int>& fields, in
  */
 QCheckBox* AbstractEdit::addCheckBox(int index)
 {
-   // Check the given field index can be added. If the field type for the given index 
-   // is not a boolean then throw an exception. 
+   // Make sure the given field index can be added and it is the correct type. 
    checkField(index);
    if ( _block->fieldType(index) != AbstractBlock::Field::Boolean )
    {
@@ -188,10 +198,12 @@ QCheckBox* AbstractEdit::addCheckBox(int index)
    }
 
    // Create a new checkbox edit widget with the field title of the given index, 
-   // setting its value to the current value of the block, inserting it into this 
-   // object's list edit widgets, and returning its pointer. 
+   // setting its value to the current value of the edited block's field. 
    QCheckBox* ret {new QCheckBox(fieldTitle(index),this)};
    ret->setChecked(_block->field(index).toBool());
+
+   // Insert the edit widget into this object's mapping of edit widgets and return a 
+   // pointer to the checkbox. 
    _edits.insert(index,ret);
    return ret;
 }
@@ -217,8 +229,7 @@ QCheckBox* AbstractEdit::addCheckBox(int index)
  */
 QLineEdit* AbstractEdit::addLineEdit(QFormLayout* form, int index)
 {
-   // Check the given field index can be added. If the field type for the given index 
-   // is not a string then throw an exception. 
+   // Make sure the given field index can be added and it is the correct type. 
    checkField(index);
    if ( _block->fieldType(index) != AbstractBlock::Field::String )
    {
@@ -229,13 +240,16 @@ QLineEdit* AbstractEdit::addLineEdit(QFormLayout* form, int index)
       throw e;
    }
 
-   // Create a new line edit widget with the field title of the given index, setting 
-   // its value to the current value of the block, inserting it into this object's 
-   // list edit widgets, and returning its pointer. 
+   // Create a new line edit widget, setting its value to the current value of the 
+   // edited block's field and adding it to the given form layout with its field 
+   // title. 
    QLineEdit* ret {new QLineEdit(this)};
    ret->setText(_block->field(index).toString());
-   _edits.insert(index,ret);
    form->addRow(new QLabel(fieldTitle(index),this),ret);
+
+   // Insert the edit widget into this object's mapping of them and return a pointer 
+   // to the line edit widget. 
+   _edits.insert(index,ret);
    return ret;
 }
 
@@ -260,8 +274,7 @@ QLineEdit* AbstractEdit::addLineEdit(QFormLayout* form, int index)
  */
 TextEdit* AbstractEdit::addTextEdit(QFormLayout* form, int index)
 {
-   // Check the given field index can be added. If the field type for the given index 
-   // is not a string then throw an exception. 
+   // Make sure the given field index can be added and it is the correct type. 
    checkField(index);
    if ( _block->fieldType(index) != AbstractBlock::Field::String )
    {
@@ -272,13 +285,16 @@ TextEdit* AbstractEdit::addTextEdit(QFormLayout* form, int index)
       throw e;
    }
 
-   // Create a new text edit widget with the field title of the given index, setting 
-   // its value to the current value of the block, inserting it into this object's 
-   // list edit widgets, and returning its pointer. 
+   // Create a new text edit widget, setting its value to the current value of the 
+   // edited block's field and adding it to the given form layout with its field 
+   // title. 
    TextEdit* ret {new TextEdit(this)};
    ret->setPlainText(_block->field(index).toString());
-   _edits.insert(index,ret);
    form->addRow(new QLabel(fieldTitle(index),this),ret);
+
+   // Insert the edit widget into this object's mapping of them and return a pointer 
+   // to the text edit widget. 
+   _edits.insert(index,ret);
    return ret;
 }
 
@@ -303,8 +319,7 @@ TextEdit* AbstractEdit::addTextEdit(QFormLayout* form, int index)
  */
 ListEdit* AbstractEdit::addListEdit(QFormLayout* form, int index)
 {
-   // Check the given field index can be added. If the field type for the given index 
-   // is not a string list then throw an exception. 
+   // Make sure the given field index can be added and it is the correct type. 
    checkField(index);
    if ( _block->fieldType(index) != AbstractBlock::Field::StringList )
    {
@@ -315,13 +330,16 @@ ListEdit* AbstractEdit::addListEdit(QFormLayout* form, int index)
       throw e;
    }
 
-   // Create a new list edit widget with the field title of the given index, setting 
-   // its value to the current value of the block, inserting it into this object's 
-   // list edit widgets, and returning its pointer. 
+   // Create a new list edit widget, setting its value to the current value of the 
+   // edited block's field and adding it to the given form layout with its field 
+   // title. 
    ListEdit* ret {new ListEdit(this)};
    ret->setValue(_block->field(index).toStringList());
-   _edits.insert(index,ret);
    form->addRow(new QLabel(fieldTitle(index),this),ret);
+
+   // Insert the edit widget into this object's mapping of them and return a pointer 
+   // to the list edit widget. 
+   _edits.insert(index,ret);
    return ret;
 }
 
@@ -331,16 +349,24 @@ ListEdit* AbstractEdit::addListEdit(QFormLayout* form, int index)
 
 
 /*!
+ * Adds a new combo box widget to the block field with the given index, returning 
+ * its pointer. If this edit dialog already contains an edit widget for this field, 
+ * the index is out of range, or the field type is not a string list then an 
+ * exception is thrown. 
  *
  * @param form Pointer to the form layout which has the new edit widget added to 
  *             it. 
  *
  * @param index Index of the field that has an edit widget attached to it. 
  *
- * @param options  
+ * @param options All possible options added to the new combo box. 
+ *
+ * @return Pointer to the new combo box widget attached to the block field with the 
+ *         given index. 
  */
 QComboBox* AbstractEdit::addComboEdit(QFormLayout* form, int index, const QStringList& options)
 {
+   // Make sure the given field index can be added and it is the correct type. 
    checkField(index);
    if ( _block->fieldType(index) != AbstractBlock::Field::String )
    {
@@ -350,11 +376,18 @@ QComboBox* AbstractEdit::addComboEdit(QFormLayout* form, int index, const QStrin
                    .arg(index));
       throw e;
    }
+
+   // Create a new combo box widget, adding the given options, setting its value to 
+   // the current value of the edited block's field, and adding it to the given form 
+   // layout with its field title. 
    QComboBox* ret {new QComboBox(this)};
    for (auto option: options) ret->addItem(option);
    ret->setCurrentIndex(ret->findText(_block->field(index).toString()));
-   _edits.insert(index,ret);
    form->addRow(new QLabel(fieldTitle(index),this),ret);
+
+   // Insert the edit widget into this object's mapping of them and return a pointer 
+   // to the combo box. 
+   _edits.insert(index,ret);
    return ret;
 }
 
@@ -388,6 +421,7 @@ void AbstractEdit::setDisabled(bool disabled)
  */
 void AbstractEdit::okClicked()
 {
+   // Try to apply changes and if it works close this dialog with accept. 
    if ( tryApply() ) done(QDialog::Accepted);
 }
 
@@ -411,6 +445,37 @@ void AbstractEdit::applyClicked()
 
 
 /*!
+ * Calls this object's apply interface, returning true if it was successful or 
+ * false if it caught an exception. 
+ *
+ * @return True is the implementation applied changes successfully or false if an 
+ *         exception was thrown. 
+ */
+bool AbstractEdit::tryApply()
+{
+   try
+   {
+      // Call this object's apply interface and return true on success. 
+      apply();
+      return true;
+   }
+
+   // Catch any exception thrown from the apply interface. 
+   catch (Exception::Base e)
+   {
+      // Report the exception to the user and return false on failure. 
+      MainWindow::showException(e
+                                ,tr("An error occured while attempting to save changes to this block."));
+      return false;
+   }
+}
+
+
+
+
+
+
+/*!
  * Constructs the three buttons this abstract edit object provides to its 
  * implementation, returning the horizontal layout containing the setup buttons. 
  *
@@ -418,29 +483,27 @@ void AbstractEdit::applyClicked()
  */
 QLayout* AbstractEdit::setupButtons()
 {
-   // Create a new push button, setting it to this object's OK button and connecting 
-   // its clicked signal. 
+   // Create the OK button for this dialog, connecting its clicked signal. 
    _ok = new QPushButton(tr("&Ok"));
    connect(_ok,&QPushButton::clicked,this,&AbstractEdit::okClicked);
 
-   // Create a new push button, setting it to this object's apply button and 
-   // connecting its clicked signal. 
+   // Create the apply button for this dialog, connecting its clicked signal. 
    _apply = new QPushButton(tr("&Apply"));
    connect(_apply,&QPushButton::clicked,this,&AbstractEdit::applyClicked);
 
-   // Create a new push button _cancel_, connecting its clicked signal. 
+   // Create the cancel button for this dialog, connecting its clicked signal. 
    QPushButton* cancel {new QPushButton(tr("&Cancel"))};
    connect(cancel,&QPushButton::clicked,[this]{ done(QDialog::Rejected); });
 
-   // Create a new horizontal layout _ret_, adding the OK button, apply button, 
-   // stretch, and _cancel_ button in that order. 
+   // Create a new horizontal layout, adding the OK button then the apply button then 
+   // a stretch and then the cancel button. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_ok);
    ret->addWidget(_apply);
    ret->addStretch();
    ret->addWidget(cancel);
 
-   // Return _ret_. 
+   // Return the buttons layout. 
    return ret;
 }
 
@@ -458,6 +521,8 @@ QLayout* AbstractEdit::setupButtons()
  */
 void AbstractEdit::checkField(int index)
 {
+   // Make sure this dialog does not already have an edit widget attached to the 
+   // given field index. 
    if ( _edits.contains(index) )
    {
       Exception::LogicError e;
@@ -465,6 +530,8 @@ void AbstractEdit::checkField(int index)
       e.setDetails(tr("Edit dialog already contains field index %1.").arg(index));
       throw e;
    }
+
+   // Make sure the given field index is within range. 
    if ( index < 0 || index >= _block->fieldSize() )
    {
       Exception::OutOfRange e;
@@ -473,36 +540,5 @@ void AbstractEdit::checkField(int index)
                    .arg(index)
                    .arg(_block->fieldSize()));
       throw e;
-   }
-}
-
-
-
-
-
-
-/*!
- * Calls this object's apply interface, returning true if it was successful or 
- * false if it caught an exception. 
- *
- * @return True is the implementation applied changes successfully or false if an 
- *         exception was thrown. 
- */
-bool AbstractEdit::tryApply()
-{
-   // Call this object's apply interface and return true on success. 
-   try
-   {
-      apply();
-      return true;
-   }
-
-   // If an exception is caught then report the error to the user and return false on 
-   // failure. 
-   catch (Exception::Base e)
-   {
-      MainWindow::showException(tr("An error occured while attempting to save changes to this block.")
-                                ,e);
-      return false;
    }
 }

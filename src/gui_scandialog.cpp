@@ -137,8 +137,8 @@ void ScanDialog::scanFinished()
    // If this object's scan thread contained an exception then show it to the user. 
    if ( _scanner->hasException() )
    {
-      MainWindow::showException(tr("An error occured while scanning and parsing files.")
-                                ,_scanner->exception());
+      MainWindow::showException(_scanner->exception()
+                                ,tr("An error occured while scanning and parsing files."));
    }
 
    // Exit the modal execution of this dialog with accept. 

@@ -33,7 +33,8 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
    PersistentDialog("gui.projectdialog.geometry",parent),
    _project(project)
 {
-   // If the given project pointer is null then throw an exception. 
+   /////////////////////////////////////
+   // If the given project pointer is null then throw an exception.
    if ( !_project )
    {
       Exception::InvalidArgument e;

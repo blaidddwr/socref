@@ -31,7 +31,7 @@ namespace Gui
    {
       Q_OBJECT
    public:
-      static void showException(const QString& text, const Exception::Base& exception);
+      static void showException(const Exception::Base& exception, const QString& text);
       explicit MainWindow(QWidget* parent = nullptr);
       void setProject(std::unique_ptr<Project>&& project);
    protected:
@@ -46,6 +46,7 @@ namespace Gui
       void closeTriggered();
       void settingTriggered(int type);
       void aboutTriggered();
+      void aboutQtTriggered();
       void projectNameChanged();
       void projectModified();
       void projectSaved();
@@ -72,6 +73,11 @@ namespace Gui
        * The key used to save/restore the state of the main window using Qt settings. 
        */
       static const char* _stateKey;
+      /*!
+       * The key used to save/restore the state of the block view contained in the main 
+       * window using Qt settings. 
+       */
+      static const char* _viewStateKey;
       /*!
        * Pointer to this window's block view. 
        */
@@ -123,6 +129,10 @@ namespace Gui
        * Pointer this this window's about action. 
        */
       QAction* _aboutAction;
+      /*!
+       * Pointer this this window's about qt action. 
+       */
+      QAction* _aboutQtAction;
    };
 }
 

@@ -352,7 +352,9 @@ QString Variable::initializer() const
  */
 bool Variable::isMember() const
 {
-   return parent()->type() == BlockFactory::AccessType;
+   AbstractBlock* up {parent()};
+   if ( !up ) return false;
+   else return up->type() == BlockFactory::AccessType;
 }
 
 
@@ -540,7 +542,7 @@ void Variable::setConstExpr(bool state)
 {
    // If the new given state is illegal then throw an exception, else set this 
    // block's property to the new given state. 
-   if ( state && isArgument() )
+   if ( parent() && state && isArgument() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -565,7 +567,7 @@ void Variable::setStatic(bool state)
 {
    // If the new given state is illegal then throw an exception, else set this 
    // block's property to the new given state. 
-   if ( state && !isMember() )
+   if ( parent() && state && !isMember() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -590,7 +592,7 @@ void Variable::setMutable(bool state)
 {
    // If the new given state is illegal then throw an exception, else set this 
    // block's property to the new given state. 
-   if ( state && !isMember() )
+   if ( parent() && state && !isMember() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

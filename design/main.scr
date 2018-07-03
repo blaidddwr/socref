@@ -2027,8 +2027,9 @@ An implementation of this class must construct the form portion of this dialog g
               <name>initialize</name>
               <description>Constructs and initializes the GUI for this abstract edit dialog, making it ready to be used as a GUI dialog window.</description>
               <type>void</type>
-              <operation>Setup this object's buttons saving the returned layout to _buttons_ and then create a new vertical box layout _main_.</operation>
-              <operation>Add the implementation's layout to _main_ by calling the layout interface, then add the layout _buttons_, and then set this dialog's layout to _main_.</operation>
+              <operation>Setup this object's buttons. This must be done before the layout interface is called because its buttons may be accessed in that interface.</operation>
+              <operation>Create a vertical layout, adding the abstract layout and then the buttons.</operation>
+              <operation>Set the main layout of this dialog.</operation>
             </data>
           </function>
         </access>
@@ -2048,15 +2049,6 @@ An implementation of this class must construct the form portion of this dialog g
           </function>
           <function type="2">
             <data version="0">
-              <name>apply</name>
-              <description>This interface is called when the user has clicked the apply or OK buttons and expected to update the block an implementation is editing. If an exception is thrown from this interface then the user is informed and the dialog is not closed. The default implementation applies all edit widgets added to this object during construction.</description>
-              <virtual/>
-              <type>void</type>
-              <operation>Iterate through all of this object's edit widgets. For each one apply the value the edit widget contains to the corresponding field of the block this dialog is editing.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
               <name>fieldTitle</name>
               <description>This interface returns the title for the given field type. The title is displayed with any default form added through this base class's methods.</description>
               <virtual/>
@@ -2072,6 +2064,19 @@ An implementation of this class must construct the form portion of this dialog g
               </data>
             </variable>
           </function>
+          <function type="2">
+            <data version="0">
+              <name>apply</name>
+              <description>This interface is called when the user has clicked the apply or OK buttons and expected to update the block an implementation is editing. If an exception is thrown from this interface then the user is informed and the dialog is not closed. The default implementation applies all edit widgets added to this object during construction.</description>
+              <virtual/>
+              <type>void</type>
+              <operation>Iterate through all of this object's edit widgets.</operation>
+              <operation>Figure out the field type for this edit widget, check if it is the correct edit widget type and if so set the edited block's field value.</operation>
+              <operation>Check if this is a valid line edit widget and if so set the edited block's field value.</operation>
+              <operation>Else check if this is a valid text edit widget and if so set the edited block's field value.</operation>
+              <operation>Else check if this is a valid combo box widget and if so set the edited block's field value.</operation>
+            </data>
+          </function>
         </access>
         <access type="5">
           <data version="0">
@@ -2080,11 +2085,13 @@ An implementation of this class must construct the form portion of this dialog g
           <function type="2">
             <data version="0">
               <name>addCheckBoxes</name>
-              <description>Adds a new grid of checkbox edit widgets for the given fields to the given form layout using the given title and column size. If anything is wrong with any of the given field indexes then an exception is thrown.</description>
+              <description>Adds a new grid of checkbox edit widgets for the given fields to the given form layout using the given title and maximum row size. If anything is wrong with any of the given field indexes then an exception is thrown.</description>
               <type>void</type>
-              <operation>Create a new grid layout _layout_ and initialize the row and column indexes.</operation>
-              <operation>Iterate through all given fields, adding a new checkbox for each one to _layout_ and increment the column index. If column index reaches the given size then reset to 0 and increment the row index.</operation>
-              <operation>Add _layout_ to the given form layout using the given title.</operation>
+              <operation>Create a new grid layout and initialize the row and column indexes.</operation>
+              <operation>Iterate through all given field indexes.</operation>
+              <operation>Add a new checkbox for the field index, adding one to the row and making sure it does not go beyond the max row size.</operation>
+              <operation>Reset the row index to 0 and increment the column index.</operation>
+              <operation>Add the check boxes layout to the given form layout using the given title.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2102,8 +2109,8 @@ An implementation of this class must construct the form portion of this dialog g
             </variable>
             <variable type="1">
               <data version="0">
-                <name>columnSize</name>
-                <description>The column size for the checkbox grid layout.</description>
+                <name>rowSize</name>
+                <description>The maximum row size for the checkbox grid layout.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -2121,8 +2128,9 @@ An implementation of this class must construct the form portion of this dialog g
               <description>Adds a new checkbox edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a boolean then an exception is thrown.</description>
               <type>QCheckBox*</type>
               <return_description>Pointer to the new checkbox edit widget attached to the block field with the given index.</return_description>
-              <operation>Check the given field index can be added. If the field type for the given index is not a boolean then throw an exception.</operation>
-              <operation>Create a new checkbox edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
+              <operation>Make sure the given field index can be added and it is the correct type.</operation>
+              <operation>Create a new checkbox edit widget with the field title of the given index, setting its value to the current value of the edited block's field.</operation>
+              <operation>Insert the edit widget into this object's mapping of edit widgets and return a pointer to the checkbox.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2138,8 +2146,9 @@ An implementation of this class must construct the form portion of this dialog g
               <description>Adds a new line edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string then an exception is thrown.</description>
               <type>QLineEdit*</type>
               <return_description>Pointer to the new line edit widget attached to the block field with the given index.</return_description>
-              <operation>Check the given field index can be added. If the field type for the given index is not a string then throw an exception.</operation>
-              <operation>Create a new line edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
+              <operation>Make sure the given field index can be added and it is the correct type.</operation>
+              <operation>Create a new line edit widget, setting its value to the current value of the edited block's field and adding it to the given form layout with its field title.</operation>
+              <operation>Insert the edit widget into this object's mapping of them and return a pointer to the line edit widget.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2162,8 +2171,9 @@ An implementation of this class must construct the form portion of this dialog g
               <description>Adds a new text edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string then an exception is thrown.</description>
               <type>TextEdit*</type>
               <return_description>Pointer to the new text edit widget attached to the block field with the given index.</return_description>
-              <operation>Check the given field index can be added. If the field type for the given index is not a string then throw an exception.</operation>
-              <operation>Create a new text edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
+              <operation>Make sure the given field index can be added and it is the correct type.</operation>
+              <operation>Create a new text edit widget, setting its value to the current value of the edited block's field and adding it to the given form layout with its field title.</operation>
+              <operation>Insert the edit widget into this object's mapping of them and return a pointer to the text edit widget.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2186,8 +2196,9 @@ An implementation of this class must construct the form portion of this dialog g
               <description>Adds a new list edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string list then an exception is thrown.</description>
               <type>ListEdit*</type>
               <return_description>Pointer to the new list edit widget attached to the block field with the given index.</return_description>
-              <operation>Check the given field index can be added. If the field type for the given index is not a string list then throw an exception.</operation>
-              <operation>Create a new list edit widget with the field title of the given index, setting its value to the current value of the block, inserting it into this object's list edit widgets, and returning its pointer.</operation>
+              <operation>Make sure the given field index can be added and it is the correct type.</operation>
+              <operation>Create a new list edit widget, setting its value to the current value of the edited block's field and adding it to the given form layout with its field title.</operation>
+              <operation>Insert the edit widget into this object's mapping of them and return a pointer to the list edit widget.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2207,7 +2218,12 @@ An implementation of this class must construct the form portion of this dialog g
           <function type="2">
             <data version="0">
               <name>addComboEdit</name>
+              <description>Adds a new combo box widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string list then an exception is thrown.</description>
               <type>QComboBox*</type>
+              <return_description>Pointer to the new combo box widget attached to the block field with the given index.</return_description>
+              <operation>Make sure the given field index can be added and it is the correct type.</operation>
+              <operation>Create a new combo box widget, adding the given options, setting its value to the current value of the edited block's field, and adding it to the given form layout with its field title.</operation>
+              <operation>Insert the edit widget into this object's mapping of them and return a pointer to the combo box.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2226,6 +2242,7 @@ An implementation of this class must construct the form portion of this dialog g
             <variable type="1">
               <data version="0">
                 <name>options</name>
+                <description>All possible options added to the new combo box.</description>
                 <type>const QStringList&amp;</type>
               </data>
             </variable>
@@ -2254,6 +2271,7 @@ An implementation of this class must construct the form portion of this dialog g
             <data version="0">
               <name>okClicked</name>
               <description>Called when this object's OK button is clicked. This tries to apply changes to the implementation's block and if successful closes this dialog.</description>
+              <operation>Try to apply changes and if it works close this dialog with accept.</operation>
             </data>
           </slot>
           <slot type="7">
@@ -2269,15 +2287,26 @@ An implementation of this class must construct the form portion of this dialog g
           </data>
           <function type="2">
             <data version="0">
+              <name>tryApply</name>
+              <description>Calls this object's apply interface, returning true if it was successful or false if it caught an exception.</description>
+              <type>bool</type>
+              <return_description>True is the implementation applied changes successfully or false if an exception was thrown.</return_description>
+              <operation>Call this object's apply interface and return true on success.</operation>
+              <operation>Catch any exception thrown from the apply interface.</operation>
+              <operation>Report the exception to the user and return false on failure.</operation>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
               <name>setupButtons</name>
               <description>Constructs the three buttons this abstract edit object provides to its implementation, returning the horizontal layout containing the setup buttons.</description>
               <type>QLayout*</type>
               <return_description>Horizontal layout containing this object's three buttons.</return_description>
-              <operation>Create a new push button, setting it to this object's OK button and connecting its clicked signal.</operation>
-              <operation>Create a new push button, setting it to this object's apply button and connecting its clicked signal.</operation>
-              <operation>Create a new push button _cancel_, connecting its clicked signal.</operation>
-              <operation>Create a new horizontal layout _ret_, adding the OK button, apply button, stretch, and _cancel_ button in that order.</operation>
-              <operation>Return _ret_.</operation>
+              <operation>Create the OK button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create the apply button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create the cancel button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create a new horizontal layout, adding the OK button then the apply button then a stretch and then the cancel button.</operation>
+              <operation>Return the buttons layout.</operation>
             </data>
           </function>
           <function type="2">
@@ -2285,7 +2314,8 @@ An implementation of this class must construct the form portion of this dialog g
               <name>checkField</name>
               <description>Checks the given field index and makes sure it is valid and this dialog does not already contain an edit widget for it, throwing an exception if either check fails.</description>
               <type>void</type>
-              <operation>If this dialog already has an edit widget for the given field index or the given field index is out of range then throw an exception.</operation>
+              <operation>Make sure this dialog does not already have an edit widget attached to the given field index.</operation>
+              <operation>Make sure the given field index is within range.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2293,16 +2323,6 @@ An implementation of this class must construct the form portion of this dialog g
                 <type>int</type>
               </data>
             </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>tryApply</name>
-              <description>Calls this object's apply interface, returning true if it was successful or false if it caught an exception.</description>
-              <type>bool</type>
-              <return_description>True is the implementation applied changes successfully or false if an exception was thrown.</return_description>
-              <operation>Call this object's apply interface and return true on success.</operation>
-              <operation>If an exception is caught then report the error to the user and return false on failure.</operation>
-            </data>
           </function>
           <variable type="1">
             <data version="0">
@@ -2354,7 +2374,7 @@ An implementation of this class must construct the form portion of this dialog g
             <data version="0">
               <description>Constructs a new block view with no model and the optional given parent.</description>
               <explicit/>
-              <operation>Setup this object's GUI, restore the state of this qt splitter widget, and update this object's context actions.</operation>
+              <operation>Setup this object's GUI and update its context menu.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2364,14 +2384,6 @@ An implementation of this class must construct the form portion of this dialog g
               </data>
             </variable>
           </constructor>
-          <destructor type="10">
-            <data version="0">
-              <description>Saves the state of this widget.</description>
-              <virtual/>
-              <override/>
-              <final/>
-            </data>
-          </destructor>
           <function type="2">
             <data version="0">
               <name>contextMenu</name>
@@ -2388,16 +2400,23 @@ An implementation of this class must construct the form portion of this dialog g
               <const/>
               <type>bool</type>
               <return_description>True if the currently copied block can be pasted into the currently selected block or false if it cannot.</return_description>
-              <operation>If this object has a model, a copy of a block, it's project factory type is equal to the copied block's project type, and the copied block's type is contained within the selected block's build list then return true, else return false.</operation>
+              <operation>Make sure this view has a model, the copy pointer is not null, and the block factory project types match.</operation>
+              <operation>If this view's current index is not a null pointer and the copied block's type is contained within the current block's build list then return true, else return false.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>setModel</name>
-              <description>Sets a new block model for this block view, releasing but not deleting any previous model set to it. This block view does not take ownership of the given model.</description>
+              <description>Sets a new block model for this block view, releasing but not deleting any previous model set to it. If a null pointer is given this view is set to empty. This block view does not take ownership of the given model.</description>
               <type>void</type>
-              <operation>Set this object's tree view model to the given block model. Save the given model pointer, a pointer of the given model's block factory, and the new selection model of this object's tree view to this object. Then reset this object's currently selected index to none.</operation>
-              <operation>Connect all selection model and model signals to this object.</operation>
+              <operation>If this view already had a model then disconnect its and its selection model's signals.</operation>
+              <operation>Set the new model for this view and reset its current index to invalid.</operation>
+              <operation>Check to see if the new model is a null pointer.</operation>
+              <operation>Reset this view's factory and selection model pointers to null.</operation>
+              <operation>Else the given pointer is not null and this view's new model is real.</operation>
+              <operation>Set the block factory and selection model pointers of this view.</operation>
+              <operation>Connect all selection model and model signals to this view.</operation>
+              <operation>Update this object's view and context menu.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2410,19 +2429,14 @@ An implementation of this class must construct the form portion of this dialog g
         </access>
         <access type="5">
           <data version="0">
-            <type>public slots:</type>
-          </data>
-        </access>
-        <access type="5">
-          <data version="0">
             <type>private slots:</type>
           </data>
           <slot type="7">
             <data version="0">
               <name>addTriggered</name>
               <description>Called when an add action is triggered. If this object has a model then this inserts a new block of the given type in the currently selected block.</description>
-              <operation>If this object has no block model then return.</operation>
-              <operation>Insert a new block of the given type into this object's block model with its current index and then update the current index and context menu.</operation>
+              <operation>Make sure this view has a model.</operation>
+              <operation>Insert a new block of the given type into this view's model with its current index, updating its current index and context menu.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2436,56 +2450,65 @@ An implementation of this class must construct the form portion of this dialog g
             <data version="0">
               <name>removeTriggered</name>
               <description>Called when the remove action is triggered. If this object has a valid current index then it is removed from its model.</description>
-              <operation>If this object's currently selected index is not valid then return.</operation>
-              <operation>Remove this object's currently selected index from its model and then update the current index and context menu.</operation>
+              <operation>Make sure this view's current index is valid.</operation>
+              <operation>Remove the currently selected index from its model, updating this view's current index and context menu.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>editTriggered</name>
               <description>Called when the edit action is triggered. If this object has a valid current index then this will open an edit dialog of the index's block.</description>
-              <operation>If this object's current index is not valid then return.</operation>
-              <operation>Create an abstract block pointer _pointer_, set it to this object's current index block, and then create a new edit dialog _edit_ from _pointer_. If the returned edit dialog is null then return.</operation>
-              <operation>Initialize _edit_, set its icon to the block icon of _pointer_, set its title using the block type name of _pointer_, modal execute the edit dialog, and then update this object's current detailed view of the block that was just edited.</operation>
+              <operation>Make sure this view's current index is valid.</operation>
+              <operation>Get the block pointer from the current index and make sure it is not null.</operation>
+              <operation>Make a new edit dialog from the block pointer and make sure it is not null.</operation>
+              <operation>Initialize the edit dialog and then execute it.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>cutTriggered</name>
               <description>Called when the cut action is triggered. If this object has a valid current index then this will cut it from this object's model.</description>
-              <operation>If this object's current index is valid then delete any current block copy, cut the current index's block from the model and set it as this object's new copy, update the current index, and update this object's context menu.</operation>
+              <operation>Make sure this view's current index is valid.</operation>
+              <operation>Delete any existing block copy.</operation>
+              <operation>Cut the current index's block from its model, updating this view's index and context menu.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>copyTriggered</name>
               <description>Called when the copy action is triggered. If this object has a valid current index then this will copy it from this object's model.</description>
-              <operation>If this object's current index is valid then delete any current block copy, copy the current index's block from the model and set it as this object's new copy, and update this object's actions.</operation>
+              <operation>Make sure this view's current index is valid.</operation>
+              <operation>Delete any existing block copy.</operation>
+              <operation>Copy the current index's block from its model, updating this view's actions.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>pasteTriggered</name>
               <description>Called when the paste action is triggered. If this object can paste its copied block into its model then it does so.</description>
+              <operation>If pasting is possible then insert a new copy of the copied block into this view's model at the current index.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>moveUpTriggered</name>
               <description>Called when the move up action is triggered. If this object has a valid current index then this will move it up by one.</description>
+              <operation>If this view's current index is valid then move it up by one and update it.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>moveDownTriggered</name>
               <description>Called when the move down action is triggered. If this object has a valid current index then this will move it down by one.</description>
+              <operation>If this view's current index is valid then move it down by one and update it.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>selectionModelChanged</name>
               <description>Called when this object's selection model has changed. This determines its object's new current index, updating its view and context menu afterwords.</description>
-              <operation>Update this object's current index based off its model's new selection, using the first index as its new current index. If there are no selected indexes then set the current index as invalid.</operation>
+              <operation>This does not care what was deselected.</operation>
+              <operation>Update this view's current index, setting it to invalid to no indexes are selected.</operation>
               <operation>Update this object's view and context menu.</operation>
             </data>
             <variable type="1">
@@ -2507,16 +2530,18 @@ An implementation of this class must construct the form portion of this dialog g
             <data version="0">
               <name>modelDestroyed</name>
               <description>Called when this object's block model is about to be deleted. This clears its object's view to a null state and all internal pointers.</description>
-              <operation>Clear this object's title icon and text.</operation>
-              <operation>Set this object's model, factory, and selection models to null. Set this object's current index to an invalid one.</operation>
-              <operation>Update this object's detailed view and context menu.</operation>
+              <operation>Clear this view's title.</operation>
+              <operation>Reset this view as empty with no model.</operation>
+              <operation>Update this object's view and context menu.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>modelDataChanged</name>
               <description>Called when data in this object's block model has changed. If this object's current index is the one updated then this updates its object's view depending on the given roles.</description>
-              <operation>If the given top left index is equal to this object's current index and the current index is not valid then update this object's title if needed, detailed view if needed, and context menu.</operation>
+              <operation>This does not care about the bottom right because this view works as a single selection model.</operation>
+              <operation>Make sure the index whose data has changed is the current index and it is valid.</operation>
+              <operation>Update this view's title if needed, detailed view if needed, and context menu.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2544,8 +2569,8 @@ An implementation of this class must construct the form portion of this dialog g
             <data version="0">
               <name>contextMenuRequested</name>
               <description>Called when this object's tree view is requesting a context menu because of a right mouse click. This updates its object's current index based off the mouse click position and executes its object's context menu.</description>
-              <operation>Update this object's current index to the one located where the mouse event occurred, updating the view and context menu afterwords.</operation>
-              <operation>Modal execute this object's context menu.</operation>
+              <operation>Update this view's current index based off the given position, updating the view and context menu afterwords.</operation>
+              <operation>Execute this object's context menu at the mouse's current position.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2565,9 +2590,11 @@ An implementation of this class must construct the form portion of this dialog g
               <name>updateView</name>
               <description>Updates this object's detailed view using its current index. This does not update this object's title.</description>
               <type>void</type>
-              <operation>Delete the current view. If there is no currently selected block then set the detailed view pointer to null and return.</operation>
-              <operation>Create an abstract block pointer _pointer_, setting it to this object's currently selected block. Call the abstract block's make view interface, saving the returned detailed view to this object. If the detailed view returned is a null pointer then throw an exception.</operation>
-              <operation>Set this object's scroll area widget to this object's new detailed view widget and update this object's title with the abstract block _pointer_.</operation>
+              <operation>Delete any current view of this object.</operation>
+              <operation>Make sure this view's current index is valid.</operation>
+              <operation>Get the block pointer of the current index and make sure it is not null.</operation>
+              <operation>Make a new view from the block pointer and make sure it is not null.</operation>
+              <operation>Set this object's detailed view and update its title.</operation>
             </data>
           </function>
           <function type="2">
@@ -2575,7 +2602,8 @@ An implementation of this class must construct the form portion of this dialog g
               <name>updateIndex</name>
               <description>Updates this object's current index using its selection model. This does not update this object's actions or context menu.</description>
               <type>void</type>
-              <operation>Get the list of selected indexes from this object's selection model. If the returned list is not empty then set the first index to this object's current index, else set this object's current index as invalid.</operation>
+              <operation>Get the list of selected indexes from this view's selection model.</operation>
+              <operation>Set this view's current index to the first index in the list or invalid if the list is empty.</operation>
             </data>
           </function>
           <function type="2">
@@ -2583,8 +2611,8 @@ An implementation of this class must construct the form portion of this dialog g
               <name>updateContextMenu</name>
               <description>Updates this object's context menu based off its current index, updating its actions beforehand as well.</description>
               <type>void</type>
-              <operation>Update this object's actions and clear its add menu.</operation>
-              <operation>Iterate through all of this object's add actions and add them to its add menu. If the add menu is empty then disable it or enable it otherwise.</operation>
+              <operation>Update this view's actions and clear its context menu's add menu.</operation>
+              <operation>Populate the context menu's add menu with this view's add actions, disabling it if there are no actions.</operation>
             </data>
           </function>
           <function type="2">
@@ -2592,9 +2620,9 @@ An implementation of this class must construct the form portion of this dialog g
               <name>updateActions</name>
               <description>Updates this object's list of actions, enabling or disabling the primary ones and rebuilding the list of add actions based off the current index.</description>
               <type>void</type>
-              <operation>Update the add actions list based off this object's current index.</operation>
-              <operation>Enable or disable this object's remove, edit, copy, cut, move up, and move down actions based off its current index being valid or not.</operation>
-              <operation>Enable or disable the paste action based off the can paste method and the add menu based off if this object has a model or not.</operation>
+              <operation>Update the add actions for this view.</operation>
+              <operation>Enable or disable all actions of this view dependent on the current index being valid or not.</operation>
+              <operation>Enable or disable all remaining actions of this view.</operation>
             </data>
           </function>
           <function type="2">
@@ -2602,46 +2630,35 @@ An implementation of this class must construct the form portion of this dialog g
               <name>updateAddActions</name>
               <description>Updates the add actions list of this object, clearing out the old list and building it again based on this object's current index.</description>
               <type>void</type>
-              <operation>Delete all add actions on this object's list and clear it. If this object does not have a model then return.</operation>
-              <operation>Iterate through the build list of the block this object's current index points to, adding a new action to the add actions list for adding it. Connect each new action to the add triggered slot using a lambda to remember the block type to be added if it is triggered.</operation>
+              <operation>Delete all previous add actions of this view.</operation>
+              <operation>Make sure this view has a model.</operation>
+              <operation>Get the block pointer from this view's current index and make sure it is not null.</operation>
+              <operation>Iterate through the build list of the block pointer, adding a new action for each block type in the list.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>updateTitle</name>
-              <description>Updates this object's title bar based on using the given block.</description>
+              <description>Updates this object's title bar based on the given block's info. If the given pointer is null then the title is cleared.</description>
               <type>void</type>
-              <operation>Clear this object's title icon and text labels, setting them to the icon and name of the given block.</operation>
+              <operation>Clear this view's current title.</operation>
+              <operation>Make sure the given pointer is not null.</operation>
+              <operation>Set this view's new title using the icon and display name of the given block.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>block</name>
+                <description>Pointer to the block whose icon and display name is used for the title if it is not null.</description>
                 <type>AbstractBlock*</type>
               </data>
             </variable>
           </function>
           <function type="2">
             <data version="0">
-              <name>restoreSettings</name>
-              <description>Restores this object's Qt splitter state using Qt settings.</description>
-              <type>void</type>
-              <operation>Create a qt settings object and restore the state of this object's qt splitter using this class's key.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>saveSettings</name>
-              <description>Saves this object's Qt splitter state using Qt settings.</description>
-              <type>void</type>
-              <operation>Create a qt settings object and save the state of this object's qt splitter using this class's key.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
               <name>setupGui</name>
               <description>Constructs and initializes all GUI elements for this widget.</description>
               <type>void</type>
-              <operation>Construct and setup the tree view, area, actions, and menu for this new widget.</operation>
+              <operation>Setup the tree view, area, actions, and menu for this new view.</operation>
             </data>
           </function>
           <function type="2">
@@ -2649,8 +2666,8 @@ An implementation of this class must construct the form portion of this dialog g
               <name>setupTreeView</name>
               <description>Constructs and initializes the tree view of this new widget, adding it to this qt splitter.</description>
               <type>void</type>
-              <operation>Create a new tree view for this object, setting its header to be hidden and its context menu policy to request for a custom menu.</operation>
-              <operation>Connect this object's new tree view custom context menu requested signal to this object and add the tree view to this qt splitter.</operation>
+              <operation>Create and initialize the tree view for this object.</operation>
+              <operation>Connect the context menu requested signal and add the tree view to this object's splitter.</operation>
             </data>
           </function>
           <function type="2">
@@ -2658,9 +2675,9 @@ An implementation of this class must construct the form portion of this dialog g
               <name>setupArea</name>
               <description>Constructs and initializes the title and detailed view area of this new widget, adding it to the qt splitter.</description>
               <type>void</type>
-              <operation>Create a new scroll area for this object, setting it to be widget resizable.</operation>
-              <operation>Create a new layout _layout_. Add this object's new title bar by calling the setup title bar method, spacing, and then this object's new scroll area to _layout_.</operation>
-              <operation>Add _layout_ to this qt splitter by first adding it to a plain widget because qt splitter does not support adding layouts.</operation>
+              <operation>Create and initialize the scroll area for this view.</operation>
+              <operation>Create a new vertical layout, adding the title bar then spacing and then the new scroll area.</operation>
+              <operation>Add the new layout to this object's splitter as a widget.</operation>
             </data>
           </function>
           <function type="2">
@@ -2669,9 +2686,10 @@ An implementation of this class must construct the form portion of this dialog g
               <description>Constructs and initializes a new title bar for this new widget, returning a layout of the new title bar.</description>
               <type>QLayout*</type>
               <return_description>Pointer to layout of the new title bar.</return_description>
-              <operation>Create new labels for this object's title icon and text. Set the font for the title text to be bold and the format to be plain text.</operation>
-              <operation>Create a new horizontal layout _ret_, adding this object's new title bar, then title text, and then a stretch.</operation>
-              <operation>Return _ret_.</operation>
+              <operation>Create the title icon label for this view.</operation>
+              <operation>Create and initialize the title text label for this view.</operation>
+              <operation>Create a new horizontal layout, adding the title icon label then the title text label and then a stretch.</operation>
+              <operation>Return the title bar layout.</operation>
             </data>
           </function>
           <function type="2">
@@ -2679,13 +2697,13 @@ An implementation of this class must construct the form portion of this dialog g
               <name>setupActions</name>
               <description>Constructs and initializes all actions for this new widget object's context menu, excluding the add actions because they are rebuilt dynamically.</description>
               <type>void</type>
-              <operation>Create a new action for this object's remove action.</operation>
-              <operation>Create a new action for this object's edit action.</operation>
-              <operation>Create a new action for this object's cut action.</operation>
-              <operation>Create a new action for this object's copy action.</operation>
-              <operation>Create a new action for this object's paste action.</operation>
-              <operation>Create a new action for this object's move up action.</operation>
-              <operation>Create a new action for this object's move down action.</operation>
+              <operation>Create and initialize the remove action for this view.</operation>
+              <operation>Create and initialize the edit action for this view.</operation>
+              <operation>Create and initialize the cut action for this view.</operation>
+              <operation>Create and initialize the copy action for this view.</operation>
+              <operation>Create and initialize the paste action for this view.</operation>
+              <operation>Create and initialize the move up action for this view.</operation>
+              <operation>Create and initialize the move down action for this view.</operation>
             </data>
           </function>
           <function type="2">
@@ -2693,8 +2711,9 @@ An implementation of this class must construct the form portion of this dialog g
               <name>setupMenu</name>
               <description>Constructs and initializes the context menu for this new widget, excluding the add menu because it is rebuilt dynamically.</description>
               <type>void</type>
-              <operation>Create a new menu for this object's context menu and then add another new menu for this object's add menu to the new context menu.</operation>
-              <operation>Add the remove, edit, cut, copy, paste, move up, and move down actions to the new context menu.</operation>
+              <operation>Create the context menu for this view.</operation>
+              <operation>Add the add menu to the context menu.</operation>
+              <operation>Add all other actions to the context menu.</operation>
             </data>
           </function>
           <variable type="1">
@@ -2709,11 +2728,11 @@ An implementation of this class must construct the form portion of this dialog g
           </variable>
           <variable type="1">
             <data version="0">
-              <name>_stateKey</name>
-              <description>The state key used by this object to save/restore qt settings of its state.</description>
+              <name>_copy</name>
+              <description>Pointer to a copied block that any instance of this class can use to paste into their current block model if possible.</description>
               <static/>
-              <type>const char*</type>
-              <initializer>"gui.blockview.state"</initializer>
+              <type>AbstractBlock*</type>
+              <initializer>nullptr</initializer>
             </data>
           </variable>
           <variable type="1">
@@ -2759,14 +2778,6 @@ An implementation of this class must construct the form portion of this dialog g
               <name>_current</name>
               <description>The currently selected model index of this object.</description>
               <type>QModelIndex</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>_copy</name>
-              <description>Pointer to a copied block that any instance of this class can use to paste into their current block model if possible.</description>
-              <static/>
-              <type>AbstractBlock*</type>
             </data>
           </variable>
           <variable type="1">
@@ -2886,19 +2897,24 @@ The edit menu is the context menu of the block view class. The settings menu is 
           <function type="2">
             <data version="0">
               <name>showException</name>
+              <description>Shows a modal dialog that informs the user of the given exception that occurred along with a custom text message to give it context.</description>
               <static/>
               <type>void</type>
+              <operation>Create and initialize a new message box, using the given exception and text to populate it.</operation>
+              <operation>Execute the message box dialog.</operation>
             </data>
             <variable type="1">
               <data version="0">
-                <name>text</name>
-                <type>const QString&amp;</type>
+                <name>exception</name>
+                <description>The exception whose title and details is displayed to the user in a model dialog.</description>
+                <type>const Exception::Base&amp;</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
-                <name>exception</name>
-                <type>const Exception::Base&amp;</type>
+                <name>text</name>
+                <description>The text of the modal window to give the exception context to the user.</description>
+                <type>const QString&amp;</type>
               </data>
             </variable>
           </function>
@@ -2906,7 +2922,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <description>Constructs a new main window with the optional parent.</description>
               <explicit/>
-              <operation>Setup this object's GUI, restore the state and geometry of the main window, update this object's title, and update this object's actions.</operation>
+              <operation>Create this window's GUI and restore the state and geometry of the main window and its block view.</operation>
+              <operation>Update this window's title and actions.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2922,10 +2939,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setProject</name>
               <description>Sets the given project as this main window's new project, deleting any previous project this window may contain. This window takes ownership of any new project given to it. A null pointer can be given which means this window will have no project.</description>
               <type>void</type>
-              <operation>Delete any previous project this window may contain, setting the new pointer as this window's project.</operation>
-              <operation>Update this window's title and file menu actions. If the new project given is a null pointer then return.</operation>
-              <operation>Set this window's new project's parent as this window, set this window's block view with the new project's model, and set this window's modified state based on the new project's modified state.</operation>
-              <operation>Connect all project signals to this window's slots.</operation>
+              <operation>Delete any previous project this window may contain and set the new project.</operation>
+              <operation>Update this window's title and actions.</operation>
+              <operation>Check to see if the new project for this window is a null pointer.</operation>
+              <operation>Set the project's parent to this window, updating this this window's block view and updating its modification state.</operation>
+              <operation>Connect all of the new project signals.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2942,17 +2960,19 @@ The edit menu is the context menu of the block view class. The settings menu is 
           <function type="2">
             <data version="0">
               <name>closeEvent</name>
-              <description>Implements the Qt interface which is called when this window has a close event. This implementation determines if it is OK to close the window and accept the event or not and ignore it.</description>
+              <description>Implements _QWidget_ interface. This implementation determines if it is OK to close the window and accept the event or not and ignore it.</description>
               <virtual/>
               <override/>
               <final/>
               <type>void</type>
-              <operation>If it is OK to close this window then accept the given event else reject it.</operation>
+              <operation>Check to see if it is OK to close this window's project.</operation>
+              <operation>Save the geometry and state of this window and its block view and accept the close event.</operation>
+              <operation>Else it is not OK to close this window to ignore the close event.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>event</name>
-                <description>Pointer to the close event that this is processing.</description>
+                <description>See Qt docs.</description>
                 <type>QCloseEvent*</type>
               </data>
             </variable>
@@ -2966,8 +2986,10 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <name>newTriggered</name>
               <description>Called when an add action is triggered. This creates a new project of the given type and sets it to this window if it has none or else a new main window is created.</description>
-              <operation>Create new project _project_ with the given type and set its name to the default.</operation>
-              <operation>If this window has no project then set it to _project_, else create a new main window and set the new window's project to _project_.</operation>
+              <operation>Create a new project with the given type.</operation>
+              <operation>If this window has no project then set it to the new project.</operation>
+              <operation>Else this window already has a project.</operation>
+              <operation>Create a new window, setting its project to the new project, and then show it.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -2981,10 +3003,14 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <name>openTriggered</name>
               <description>Called when the open action is triggered. This opens a file dialog for the user to select a Socrates Reference project and if successful open it. The open project is set to this window if it has none or a new window otherwise.</description>
-              <operation>Create a file dialog _file_ and query the user for a project file to open by modal execution of it. If execution fails then return.</operation>
-              <operation>Create a string _path_ setting it to the path of the first file selected from the file dialog _file_.</operation>
-              <operation>Open a new project with the path _path_. If this window has no project that set it to this new project, else create a new main window with the new project.</operation>
-              <operation>If any exception is caught while opening the new project report it to the user.</operation>
+              <operation>Create initialize a file dialog for opening a project file.</operation>
+              <operation>Execute the file dialog and make sure it returned accepted.</operation>
+              <operation>Get the first file path selected by the user from the file dialog.</operation>
+              <operation>Open a new project with the file path.</operation>
+              <operation>If this window has no project that set it to the opened project.</operation>
+              <operation>Else this window already has a project.</operation>
+              <operation>Create a new window, setting its project to the opened project, and then show it.</operation>
+              <operation>Catch any exception while opening the new project and report it to the user.</operation>
             </data>
           </slot>
           <slot type="7">
@@ -3003,28 +3029,31 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <name>propertiesTriggered</name>
               <description>Called when the properties action is triggered, executing a project properties dialog if this window contains a project.</description>
-              <operation>If this window has a project then create a new project dialog with this window and its project executing it in modal mode.</operation>
+              <operation>Make sure this window has a project.</operation>
+              <operation>Create a new project dialog with this window's project and execute it.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>scanTriggered</name>
               <description>Called when the scan action is triggered. If this window has a project then a project scan is executed using the scan dialog class.</description>
-              <operation>If this window has a project then create a new scanner from its project, then create a new scan dialog with the new scanner, and then modal execute the new dialog.</operation>
+              <operation>Make sure this window has a project.</operation>
+              <operation>Create a new scanner from this window's project, then create a new scan dialog with the new scanner, and then execute the scan dialog.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>closeTriggered</name>
               <description>Called when the close action is triggered, closing any open project of this window if it is OK to close.</description>
+              <operation>If this window's project is OK to close then do so.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>settingTriggered</name>
               <description>Called when a setting action is triggered. This provides the settings dialog for the given project type.</description>
-              <operation>Create a new setting dialog _settings_ using the given project type. If the returned settings dialog is null then throw an exception.</operation>
-              <operation>Execute the _settings_ dialog in modal mode.</operation>
+              <operation>Make a new setting dialog using the given project type and make sure it is not null.</operation>
+              <operation>Execute the settings dialog.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -3037,8 +3066,17 @@ The edit menu is the context menu of the block view class. The settings menu is 
           <slot type="7">
             <data version="0">
               <name>aboutTriggered</name>
-              <description>Called when the about action is triggered, executing the about dialog.</description>
-              <operation>Create an about dialog and execute it in modal mode.</operation>
+              <description>Called when the about action is triggered, executing the about message box.</description>
+              <operation>Open the internal file containing the HTML of the about dialog and make sure it worked.</operation>
+              <operation>Read in the entire contents of the HTML and replace the application version string.</operation>
+              <operation>Execute a message box about dialog.</operation>
+            </data>
+          </slot>
+          <slot type="7">
+            <data version="0">
+              <name>aboutQtTriggered</name>
+              <description>Called when the about qt action is triggered, executing the about qt message box.</description>
+              <operation>Create a new about dialog and execute it.</operation>
             </data>
           </slot>
           <slot type="7">
@@ -3050,22 +3088,23 @@ The edit menu is the context menu of the block view class. The settings menu is 
           <slot type="7">
             <data version="0">
               <name>projectModified</name>
-              <description>Called when this window's project has been modified, setting this window state as modified.</description>
+              <description>Called when this window's project has been modified, updating this window as modified.</description>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>projectSaved</name>
-              <description>Called when this window's project has been saved, setting this window state as unmodified.</description>
+              <description>Called when this window's project has been saved, updating this window as unmodified.</description>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>projectFileChanged</name>
-              <description>Called when this window's project file has been modified by something besides the project itself. This executes a dialog informing the user of this fact and reloads the project if the user chooses to do so.</description>
-              <operation>Create a new message box that informs the user the project file has changed and ask the user if they want to reload the project or ignore this event. If the user chooses to ignore it then return.</operation>
-              <operation>Create a new project with the current project's file and then set the new project to this window.</operation>
-              <operation>If any exception is caught while attempting to reload the project then inform the user.</operation>
+              <description>Called when this window's project file has been modified by an outside source. This executes a dialog informing the user of this fact and reloads the project if the user chooses to do so.</description>
+              <operation>Create a new message box that informs the user the project file has changed and asks the user if they want to reload the project or ignore it.</operation>
+              <operation>Execute the message box and check to see if they chose to reload the project.</operation>
+              <operation>Reload the project by creating a new project with the same file path and setting this window's project to the reloaded one.</operation>
+              <operation>Catch any exception while attempting to reload the project and inform the user.</operation>
             </data>
           </slot>
         </access>
@@ -3078,7 +3117,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>updateTitle</name>
               <description>Updates this window's title, including the project name if it has one.</description>
               <type>void</type>
-              <operation>If this window has a project then set the window title with the project name and type along with the application's name, else just set it to the application's name.</operation>
+              <operation>If this window has a project then set the window title with the project name else just set it to the application's name.</operation>
             </data>
           </function>
           <function type="2">
@@ -3086,8 +3125,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>updateActions</name>
               <description>Updates some of this window's actions by enabling or disabling them based off aspects of this window's project.</description>
               <type>void</type>
-              <operation>If this window has a project and it is now new then enable the save action else disable it.</operation>
-              <operation>If this window has a project then enable the save as, close, properties, and scan actions. Else if this window has no project disable the same actions.</operation>
+              <operation>Enable or disable the save action based off this window's project.</operation>
+              <operation>Enable or disable all other relevant actions based off this window having a project or not.</operation>
             </data>
           </function>
           <function type="2">
@@ -3096,9 +3135,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <description>Makes sure this window's project has no unsaved changes and is OK to be closed, returning true if it is OK. If this window has no project then true is also returned. If this window's project has unsaved changes then the user is prompted to save it, cancel, or discard changes.</description>
               <type>bool</type>
               <return_description>True if it is OK to close this window's current project or this window has no project, else false is returned.</return_description>
-              <operation>If this window has no project or the project is not modified then return true.</operation>
-              <operation>Create a Qt message box _confirm_ that queries the user about what to do with this window's project's unsaved changes. The options are to save the project, cancel closing it, or discard the changes.</operation>
-              <operation>Executes the _confirm_ dialog in modal mode and get the user's response. If cancel is chosen then return false, else if save is chosen then attempt to save the project returning its result, else if discard is chosen then return true.</operation>
+              <operation>If this window has no project or the project is not modified then return that it is OK.</operation>
+              <operation>Create a message box that queries the user about what to do with this window's project's unsaved changes.</operation>
+              <operation>Execute the message box and get the user's response.</operation>
+              <operation>If this window's project is new then attempt to save as else attempt to save.</operation>
+              <operation>If the user choose cancel then return that it is not OK else the user choose discard so return that it is OK.</operation>
             </data>
           </function>
           <function type="2">
@@ -3107,10 +3148,13 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <description>Saves this window's project to a new file location queried by presenting a file dialog to the user, returning true on success. If this window has no project, the file dialog fails execution, or saving the project throws an exception then false is returned.</description>
               <type>bool</type>
               <return_description>True if this window's project was successfully saved to a new location or false otherwise.</return_description>
-              <operation>If this window has no project then return false.</operation>
-              <operation>Create a new file dialog _dialog_, setting its accept mode to saving a file and executing it in modal mode. If execution fails then return false.</operation>
-              <operation>Get the file path from _dialog_ chosen by the user and attempt to save the project with that file path. If a Socrates exception is caught then report it to the user and return false.</operation>
-              <operation>Update this window's actions and return true on success.</operation>
+              <operation>Make sure this window has a project to save.</operation>
+              <operation>Create a new file dialog to query the user for a file path to save this window's project.</operation>
+              <operation>Execute the file dialog and make sure it returned accepted.</operation>
+              <operation>Get the first file path from the file dialog chosen by the user.</operation>
+              <operation>Attempt to save this window's project to the file path.</operation>
+              <operation>Catch any exception thrown while attempting to save the project, reporting it to the user and returning failure.</operation>
+              <operation>Update this window's actions and return success.</operation>
             </data>
           </function>
           <function type="2">
@@ -3119,9 +3163,10 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <description>Saves this window's project to its file, returning true on success or false on failure. If this window has no project then false is returned.</description>
               <type>bool</type>
               <return_description>True if the project was successfully saved or false otherwise.</return_description>
-              <operation>If this window has no project then return false.</operation>
-              <operation>Attempt to save this project. If any Socrates exception is caught then report it to the user and return false.</operation>
-              <operation>Return true on success.</operation>
+              <operation>Make sure this window has a project to save.</operation>
+              <operation>Attempt to save this window's project.</operation>
+              <operation>Catch any exception thrown while attempting to save the project, reporting it to the user and returning failure.</operation>
+              <operation>Return success.</operation>
             </data>
           </function>
           <function type="2">
@@ -3129,7 +3174,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>restoreSettings</name>
               <description>Restores the state and geometry of the main window from Qt settings.</description>
               <type>void</type>
-              <operation>Restore this window's state and geometry for the main window using Qt settings and this class's keys.</operation>
+              <operation>Create a settings object using this application's keys.</operation>
+              <operation>Restore this window's state and geometry.</operation>
+              <operation>Restore this window's block view state.</operation>
             </data>
           </function>
           <function type="2">
@@ -3137,7 +3184,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>saveSettings</name>
               <description>Saves the state and geometry of the main window to Qt settings.</description>
               <type>void</type>
-              <operation>Save this window's state and geometry for the main window using Qt settings and this class's keys.</operation>
+              <operation>Create a settings object using this application's keys.</operation>
+              <operation>Save this window's state and geometry.</operation>
+              <operation>Save this window's block view state.</operation>
             </data>
           </function>
           <function type="2">
@@ -3145,9 +3194,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setupGui</name>
               <description>Constructs and initializes all GUI elements for this new main window.</description>
               <type>void</type>
-              <operation>Load this application's logo icon if it hasn't already been loaded and then set this window's icon to it.</operation>
-              <operation>Create a new block view object for this window, setting it as this window's central widget.</operation>
-              <operation>Setup this new window's actions and menus.</operation>
+              <operation>Load this application's logo icon if it hasn't already been loaded.</operation>
+              <operation>Create the block view for this window and set it as the central widget.</operation>
+              <operation>Set this window's icon and create it's actions and menus.</operation>
             </data>
           </function>
           <function type="2">
@@ -3155,15 +3204,16 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setupActions</name>
               <description>Constructs and initializes all actions for this new window.</description>
               <type>void</type>
-              <operation>Create a new action for this window's open action.</operation>
-              <operation>Create a new action for this window's save action.</operation>
-              <operation>Create a new action for this window's save as action.</operation>
-              <operation>Create a new action for this window's properties action.</operation>
-              <operation>Create a new action for this window's scan action.</operation>
-              <operation>Create a new action for this window's close action.</operation>
-              <operation>Create a new action for this window's exit action, connecting its triggered signal to close this window.</operation>
-              <operation>Create a new action for this window's about action.</operation>
-              <operation>Setup the new project and project settings actions.</operation>
+              <operation>Create and initialize the open action for this window.</operation>
+              <operation>Create and initialize the save action for this window.</operation>
+              <operation>Create and initialize the save as action for this window.</operation>
+              <operation>Create and initialize the properties action for this window.</operation>
+              <operation>Create and initialize the scan action for this window.</operation>
+              <operation>Create and initialize the close action for this window.</operation>
+              <operation>Create and initialize the exit action for this window.</operation>
+              <operation>Create and initialize the about action for this window.</operation>
+              <operation>Create and initialize the about qt action for this window.</operation>
+              <operation>Create the new actions and setting actions.</operation>
             </data>
           </function>
           <function type="2">
@@ -3171,7 +3221,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setupNewActions</name>
               <description>Creates this window's new actions for each project type that exists.</description>
               <type>void</type>
-              <operation>Iterate through every project type, creating a new action for each one. Add each new action to this window's list of new actions and connect its signal to this window's appropriate slot using a lambda function to save the type.</operation>
+              <operation>Iterate through every project type.</operation>
+              <operation>Create a new action for the project type and connect its triggered signal.</operation>
             </data>
           </function>
           <function type="2">
@@ -3179,7 +3230,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setupSettingActions</name>
               <description>Creates this window's setting actions for each project type that exists.</description>
               <type>void</type>
-              <operation>Iterate through every project type, creating a new action for each one. Add each new action to this window's list of setting actions and connect its signal to this window's appropriate slot using a lambda function to save the type.</operation>
+              <operation>Iterate through every project type.</operation>
+              <operation>Create a settings action for the project type and connect its triggered signal.</operation>
             </data>
           </function>
           <function type="2">
@@ -3187,19 +3239,20 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setupMenus</name>
               <description>Constructs and initializes this new window's menus, adding them to its menu bar.</description>
               <type>void</type>
-              <operation>Setup and add the file menu and then add the context menu from this new window's block view object.</operation>
-              <operation>Add the settings menu, adding all setting actions to the menu.</operation>
-              <operation>Add the help menu, adding the single about action to it.</operation>
+              <operation>Create and add the file menu to this window's menu bar.</operation>
+              <operation>Add this window's block view's context menu to its menu bar.</operation>
+              <operation>Add the settings menu to this window's menu bar, adding all setting actions.</operation>
+              <operation>Add the help menu to this window's menu bar, adding the about and about qt actions.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>setupFileMenu</name>
-              <description>Construct and initialize this new window's file menu, adding it to this window's menu bar.</description>
+              <description>Constructs and initializes this new window's file menu, adding it to this window's menu bar.</description>
               <type>void</type>
-              <operation>Add a new file menu to this window's menu bar, saving its pointer to _file_.</operation>
-              <operation>Add a new sub menu to _file_, populating it with all new actions of this window.</operation>
-              <operation>Add all other actions to _file_, adding separators where appropriate.</operation>
+              <operation>Create and add the new file menu to this window's menu bar.</operation>
+              <operation>Add the new menu to the file menu, populating it with all new actions of this window.</operation>
+              <operation>Add all other actions to the file menu, adding separators where appropriate.</operation>
             </data>
           </function>
           <variable type="1">
@@ -3218,6 +3271,15 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <static/>
               <type>const char*</type>
               <initializer>"gui.mainwindow.state"</initializer>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_viewStateKey</name>
+              <description>The key used to save/restore the state of the block view contained in the main window using Qt settings.</description>
+              <static/>
+              <type>const char*</type>
+              <initializer>"gui.mainwindow.view.state"</initializer>
             </data>
           </variable>
           <variable type="1">
@@ -3302,6 +3364,13 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <name>_aboutAction</name>
               <description>Pointer this this window's about action.</description>
+              <type>QAction*</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_aboutQtAction</name>
+              <description>Pointer this this window's about qt action.</description>
               <type>QAction*</type>
             </data>
           </variable>

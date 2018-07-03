@@ -64,7 +64,6 @@ namespace Gui
        * @return Pointer to the layout containing all GUI elements for this dialog. 
        */
       virtual QLayout* layout() = 0;
-      virtual void apply();
       /*!
        * This interface returns the title for the given field type. The title is 
        * displayed with any default form added through this base class's methods. 
@@ -74,8 +73,9 @@ namespace Gui
        * @return Title of the given field type. 
        */
       virtual QString fieldTitle(int index) const = 0;
+      virtual void apply();
    protected:
-      void addCheckBoxes(QFormLayout* form, const QList<int>& fields, int columnSize, const QString& title);
+      void addCheckBoxes(QFormLayout* form, const QList<int>& fields, int rowSize, const QString& title);
       QCheckBox* addCheckBox(int index);
       QLineEdit* addLineEdit(QFormLayout* form, int index);
       TextEdit* addTextEdit(QFormLayout* form, int index);
@@ -86,9 +86,9 @@ namespace Gui
       void okClicked();
       void applyClicked();
    private:
+      bool tryApply();
       QLayout* setupButtons();
       void checkField(int index);
-      bool tryApply();
       /*!
        * Pointer to the block that this dialog is editing. 
        */
