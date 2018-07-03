@@ -57,7 +57,6 @@ SOURCES += \
     cppqt_parse_forward.cpp \
     gui_persistentdialog.cpp \
     cppqt_gui_settingsdialog.cpp \
-    gui_aboutdialog.cpp \
     cppqt_typelist.cpp \
     cppqt_type.cpp \
     cppqt_settings.cpp \
@@ -153,7 +152,6 @@ HEADERS += \
     cppqt_parse_forward.h \
     gui_persistentdialog.h \
     cppqt_gui_settingsdialog.h \
-    gui_aboutdialog.h \
     cppqt_typelist.h \
     cppqt_type.h \
     cppqt_settings.h \
