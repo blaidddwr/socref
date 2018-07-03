@@ -33,8 +33,7 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
    PersistentDialog("gui.projectdialog.geometry",parent),
    _project(project)
 {
-   /////////////////////////////////////
-   // If the given project pointer is null then throw an exception.
+   // Make sure the given project pointer is not null. 
    if ( !_project )
    {
       Exception::InvalidArgument e;
@@ -43,7 +42,7 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
       throw e;
    }
 
-   // Setup the GUI of this new dialog and set its window title. 
+   // Create the GUI of this new dialog and set its window title. 
    setupGui();
    setWindowTitle(tr("Project Properties"));
 }
@@ -75,7 +74,7 @@ void ProjectDialog::okClicked()
  */
 void ProjectDialog::applyClicked()
 {
-   // Apply all of this object's properties to its project. 
+   // Apply all properties this object's project. 
    _project->setName(_nameEdit->text());
    _project->setScanDirectory(_scanDirectoryEdit->text());
    _project->setScanFilters(_filtersEdit->text());
@@ -93,17 +92,19 @@ void ProjectDialog::applyClicked()
  */
 void ProjectDialog::browseClicked()
 {
-   // Create a new file dialog _dialog_ and execute it in modal mode. If execution 
-   // fails then return. 
+   // Create a new file dialog to query the user for a new scan directory location. 
    QFileDialog dialog(nullptr,tr("Scan Directory Selection"));
    dialog.setFileMode(QFileDialog::Directory);
+
+   // Execute the file dialog and make sure it returned accepted. 
    if ( !dialog.exec() ) return;
 
-   // Get the first directory path the user selected from _dialog_. If the path 
-   // exists and is a directory then set the text of this object's scan directory 
-   // edit widget. 
+   // Get the first directory path the user selected from the file dialog. 
    QStringList directories = dialog.selectedFiles();
    QFileInfo info(directories.constFirst());
+
+   // If the path exists and it is a directory then set the text of this object's 
+   // scan directory edit widget to it's value. 
    if ( info.exists() && info.isDir() ) _scanDirectoryEdit->setText(info.filePath());
 }
 
@@ -117,14 +118,14 @@ void ProjectDialog::browseClicked()
  */
 void ProjectDialog::setupGui()
 {
-   // Create a new vertical layout _layout_, adding this new object's form GUI then a 
-   // stretch then this new object's buttons. 
+   // Create a new vertical layout, adding the form layout then a stretch and then 
+   // the button layout. 
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addLayout(setupForm());
    layout->addStretch();
    layout->addLayout(setupButtons());
 
-   // Set the layout of this dialog to _layout_. 
+   // Set the layout of this new dialog. 
    setLayout(layout);
 }
 
@@ -141,24 +142,22 @@ void ProjectDialog::setupGui()
  */
 QLayout* ProjectDialog::setupForm()
 {
-   // Create this new object's name edit widget and set its text to its project's 
-   // name. 
+   // Create and initialize the name edit widget for this dialog. 
    _nameEdit = new QLineEdit;
    _nameEdit->setText(_project->name());
 
-   // Create this new object's filters edit widget and set its text to its project's 
-   // scan filters. 
+   // Create and initialize the filters edit widget for this dialog. 
    _filtersEdit = new QLineEdit;
    _filtersEdit->setText(_project->scanFilters());
 
-   // Create a new form layout _ret_, adding this object's name edit widget then scan 
-   // directory layout then filters edit widget. 
+   // Create a new form layout, adding the name edit widget then scan directory 
+   // layout and then the filters edit widget. 
    QFormLayout* ret {new QFormLayout};
    ret->addRow(new QLabel(tr("Project Name:")),_nameEdit);
    ret->addRow(new QLabel(tr("Scan Directory:")),setupDirectory());
    ret->addRow(new QLabel(tr("Scan File Filters:")),_filtersEdit);
 
-   // Return _ret_. 
+   // Return the form layout. 
    return ret;
 }
 
@@ -181,18 +180,18 @@ QLayout* ProjectDialog::setupDirectory()
    _scanDirectoryEdit->setReadOnly(true);
    _scanDirectoryEdit->setText(_project->scanDirectory());
 
-   // Create a push button _button_ for the browse button of the scan directory form 
-   // element of this new dialog, connecting its clicked signal. 
+   // Create the scan directory browse button for this new dialog, connecting its 
+   // clicked signal. 
    QPushButton* button {new QPushButton(tr("Browse"))};
    connect(button,&QPushButton::clicked,this,&ProjectDialog::browseClicked);
 
-   // Create a new horizontal layout _ret_, adding this object's scan directory edit 
-   // widget then the browse button _button_.  
+   // Create a new horizontal layout, adding the scan directory edit widget and then 
+   // the scan directory browse button.  
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_scanDirectoryEdit);
    ret->addWidget(button);
 
-   // Return _ret_. 
+   // Return the scan directory layout. 
    return ret;
 }
 
@@ -209,23 +208,26 @@ QLayout* ProjectDialog::setupDirectory()
  */
 QLayout* ProjectDialog::setupButtons()
 {
-   // Create the OK, apply, and cancel buttons for this new dialog, connecting their 
-   // clicked signals. The cancel signal is connected to this Qt dialog reject slot. 
+   // Create the OK button for this dialog, connecting its clicked signal. 
    QPushButton* ok {new QPushButton(tr("&Ok"))};
-   QPushButton* apply {new QPushButton(tr("&Apply"))};
-   QPushButton* cancel {new QPushButton(tr("&Cancel"))};
    connect(ok,&QPushButton::clicked,this,&ProjectDialog::okClicked);
+
+   // Create the apply button for this dialog, connecting its clicked signal. 
+   QPushButton* apply {new QPushButton(tr("&Apply"))};
    connect(apply,&QPushButton::clicked,this,&ProjectDialog::applyClicked);
+
+   // Create the cancel button for this dialog, connecting its clicked signal. 
+   QPushButton* cancel {new QPushButton(tr("&Cancel"))};
    connect(cancel,&QPushButton::clicked,[this]{ done(QDialog::Rejected); });
 
-   // Create a new horizontal layout _ret_, adding OK button then apply button then 
-   // stretch then cancel button. 
+   // Create a new horizontal layout, adding the OK button then the apply button then 
+   // a stretch and then the cancel button. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(ok);
    ret->addWidget(apply);
    ret->addStretch();
    ret->addWidget(cancel);
 
-   // Return _ret_. 
+   // Return the buttons layout. 
    return ret;
 }

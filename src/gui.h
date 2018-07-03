@@ -12,5 +12,4 @@ namespace Gui
    class MainWindow;
    class ProjectDialog;
    class ScanDialog;
-   class AboutDialog;
 }

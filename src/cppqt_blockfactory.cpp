@@ -38,6 +38,7 @@ using namespace CppQt;
  */
 int BlockFactory::type() const
 {
+   /////////////////////////////////////
    return ProjectFactory::CppQtType;
 }
 

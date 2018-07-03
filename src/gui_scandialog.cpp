@@ -35,8 +35,7 @@ ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
    PersistentDialog("gui.scandialog.geometry",parent),
    _scanner(scanner)
 {
-   // If the given scan thread pointer is null then throw an excpetion, else setup 
-   // this GUI and window title of this new dialog. 
+   // Make sure the given scanner pointer is not null. 
    if ( !scanner )
    {
       Exception::InvalidArgument e;
@@ -44,10 +43,12 @@ ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
       e.setDetails(tr("Cannot give null pointer as scanner argument for scan dialog."));
       throw e;
    }
+
+   // Create the GUI for this dialog and set its title. 
    setupGui();
    setWindowTitle("Scanning Files");
 
-   // Connect the progress changed and finished signals to this new dialog. 
+   // Connect the given scanner signals to this new dialog. 
    connect(_scanner,&ScanThread::progressChanged,this,&ScanDialog::progressChanged);
    connect(_scanner,&ScanThread::finished,this,&ScanDialog::scanFinished);
 }
@@ -58,15 +59,14 @@ ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
 
 
 /*!
- * Starts execution of the scan thread of this dialog and then beings execution of 
- * this dialog in modal mode. 
+ * Implements _QDialog_ interface. This implementation starts execution of the scan 
+ * thread of this dialog and then passes execution to the dialog. 
  *
- * @return Always returns Qt dialog accept. 
+ * @return See Qt docs. 
  */
 int ScanDialog::exec()
 {
-   // Start the separate thread for scanning in this object's scan thread object and 
-   // then begin execution of this dialog in modal mode returning the exit state. 
+   // Start the scanner thread and then pass execution to the dialog. 
    _scanner->start();
    return QDialog::exec();
 }
@@ -77,11 +77,10 @@ int ScanDialog::exec()
 
 
 /*!
- * Implements the Qt interface for handling a close event on this dialog. This 
- * implementation requests its scan thread to finish and ignores the close event so 
- * the scan thread exits cleanly. 
+ * Implements _QWidget_ interface. This implementation requests its scan thread to 
+ * finish and ignores the close event so the scan thread can exit cleanly. 
  *
- * @param event Pointer to the Qt close event handler. 
+ * @param event See Qt docs. 
  */
 void ScanDialog::closeEvent(QCloseEvent* event)
 {
@@ -134,15 +133,18 @@ void ScanDialog::progressChanged(int index)
  */
 void ScanDialog::scanFinished()
 {
-   // If this object's scan thread contained an exception then show it to the user. 
+   // Check to see if the scanner thread threw an exception. 
    if ( _scanner->hasException() )
    {
+      // Inform the user about the exception thrown in the scanner thread and close this 
+      // dialog with rejected. 
       MainWindow::showException(_scanner->exception()
                                 ,tr("An error occured while scanning and parsing files."));
+      done(QDialog::Rejected);
    }
 
-   // Exit the modal execution of this dialog with accept. 
-   done(QDialog::Accepted);
+   // Else there was no error so close this dialog with accepted. 
+   else done(QDialog::Accepted);
 }
 
 
@@ -155,20 +157,18 @@ void ScanDialog::scanFinished()
  */
 void ScanDialog::setupGui()
 {
-   // Create and initialize the progress bar for this new dialog, using the total 
-   // number of files this object's scan thread will parse as the progress bar's 
-   // maximum value. 
+   // Create and initialize the progress bar for this new dialog. 
    _bar = new QProgressBar;
    _bar->setMinimum(0);
    _bar->setMaximum(_scanner->size());
 
-   // Create a new vertical layout _layout_, adding this object's progress bar then 
-   // the bottom GUI. 
+   // Create a new vertical layout, adding the progress bar and then the bottom 
+   // layout. 
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addWidget(_bar);
    layout->addLayout(setupBottom());
 
-   // Set the layout of this dialog to _layout_. 
+   // Set the layout of this new dialog. 
    setLayout(layout);
 }
 
@@ -185,17 +185,17 @@ void ScanDialog::setupGui()
  */
 QLayout* ScanDialog::setupBottom()
 {
-   // Create a push button for this object's cancel button, connecting its signal. 
+   // Create the push button for this dialog, connecting its clicked signal. 
    QPushButton* cancel {new QPushButton(tr("&Cancel"))};
    connect(cancel,&QPushButton::clicked,this,&ScanDialog::cancelClicked);
 
-   // Create a new horizontal layout _ret_, adding a stretch then this object's 
-   // cancel button then a another stretch. 
+   // Create a new horizontal layout, adding a stretch then the cancel button and 
+   // then another stretch. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addStretch();
    ret->addWidget(cancel);
    ret->addStretch();
 
-   // Return _ret_. 
+   // Return the bottom layout. 
    return ret;
 }

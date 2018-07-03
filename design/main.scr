@@ -3396,8 +3396,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <description>Constructs a new project dialog with the given project and optional parent. If the given project pointer is null then an exception is thrown.</description>
               <explicit/>
-              <operation>If the given project pointer is null then throw an exception.</operation>
-              <operation>Setup the GUI of this new dialog and set its window title.</operation>
+              <operation>Make sure the given project pointer is not null.</operation>
+              <operation>Create the GUI of this new dialog and set its window title.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -3431,15 +3431,17 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <name>applyClicked</name>
               <description>Called when this object's apply button is clicked. This applies its property settings to its underlying project.</description>
-              <operation>Apply all of this object's properties to its project.</operation>
+              <operation>Apply all properties this object's project.</operation>
             </data>
           </slot>
           <slot type="7">
             <data version="0">
               <name>browseClicked</name>
               <description>Called when this object's browse button is clicked. This is used with the scan directory property of a project. This opens a file dialog to find a new directory.</description>
-              <operation>Create a new file dialog _dialog_ and execute it in modal mode. If execution fails then return.</operation>
-              <operation>Get the first directory path the user selected from _dialog_. If the path exists and is a directory then set the text of this object's scan directory edit widget.</operation>
+              <operation>Create a new file dialog to query the user for a new scan directory location.</operation>
+              <operation>Execute the file dialog and make sure it returned accepted.</operation>
+              <operation>Get the first directory path the user selected from the file dialog.</operation>
+              <operation>If the path exists and it is a directory then set the text of this object's scan directory edit widget to it's value.</operation>
             </data>
           </slot>
         </access>
@@ -3452,8 +3454,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setupGui</name>
               <description>Constructs and initializes all GUI elements for this new dialog.</description>
               <type>void</type>
-              <operation>Create a new vertical layout _layout_, adding this new object's form GUI then a stretch then this new object's buttons.</operation>
-              <operation>Set the layout of this dialog to _layout_.</operation>
+              <operation>Create a new vertical layout, adding the form layout then a stretch and then the button layout.</operation>
+              <operation>Set the layout of this new dialog.</operation>
             </data>
           </function>
           <function type="2">
@@ -3462,10 +3464,10 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <description>Constructs and initializes the form GUI for this new dialog, returning its layout.</description>
               <type>QLayout*</type>
               <return_description>Pointer to layout for the form GUI of this new dialog.</return_description>
-              <operation>Create this new object's name edit widget and set its text to its project's name.</operation>
-              <operation>Create this new object's filters edit widget and set its text to its project's scan filters.</operation>
-              <operation>Create a new form layout _ret_, adding this object's name edit widget then scan directory layout then filters edit widget.</operation>
-              <operation>Return _ret_.</operation>
+              <operation>Create and initialize the name edit widget for this dialog.</operation>
+              <operation>Create and initialize the filters edit widget for this dialog.</operation>
+              <operation>Create a new form layout, adding the name edit widget then scan directory layout and then the filters edit widget.</operation>
+              <operation>Return the form layout.</operation>
             </data>
           </function>
           <function type="2">
@@ -3475,9 +3477,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <type>QLayout*</type>
               <return_description>Pointer to layout of the scan directory form element for this new dialog.</return_description>
               <operation>Create and initialize the scan directory edit widget for this new dialog.</operation>
-              <operation>Create a push button _button_ for the browse button of the scan directory form element of this new dialog, connecting its clicked signal.</operation>
-              <operation>Create a new horizontal layout _ret_, adding this object's scan directory edit widget then the browse button _button_. </operation>
-              <operation>Return _ret_.</operation>
+              <operation>Create the scan directory browse button for this new dialog, connecting its clicked signal.</operation>
+              <operation>Create a new horizontal layout, adding the scan directory edit widget and then the scan directory browse button. </operation>
+              <operation>Return the scan directory layout.</operation>
             </data>
           </function>
           <function type="2">
@@ -3486,9 +3488,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <description>Constructs and initializes the buttons for this new dialog, return the layout for the new buttons.</description>
               <type>QLayout*</type>
               <return_description>Pointer to the layout of buttons for this new dialog.</return_description>
-              <operation>Create the OK, apply, and cancel buttons for this new dialog, connecting their clicked signals. The cancel signal is connected to this Qt dialog reject slot.</operation>
-              <operation>Create a new horizontal layout _ret_, adding OK button then apply button then stretch then cancel button.</operation>
-              <operation>Return _ret_.</operation>
+              <operation>Create the OK button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create the apply button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create the cancel button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create a new horizontal layout, adding the OK button then the apply button then a stretch and then the cancel button.</operation>
+              <operation>Return the buttons layout.</operation>
             </data>
           </function>
           <variable type="1">
@@ -3541,8 +3545,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <description>Constructs a new scan dialog with the given scan thread and optional parent. This does not start the scanning process but only prepares the dialog to start execution. If the given scan thread pointer is null then an exception is thrown.</description>
               <explicit/>
-              <operation>If the given scan thread pointer is null then throw an excpetion, else setup this GUI and window title of this new dialog.</operation>
-              <operation>Connect the progress changed and finished signals to this new dialog.</operation>
+              <operation>Make sure the given scanner pointer is not null.</operation>
+              <operation>Create the GUI for this dialog and set its title.</operation>
+              <operation>Connect the given scanner signals to this new dialog.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -3563,13 +3568,13 @@ The edit menu is the context menu of the block view class. The settings menu is 
           <function type="2">
             <data version="0">
               <name>exec</name>
-              <description>Starts execution of the scan thread of this dialog and then beings execution of this dialog in modal mode.</description>
+              <description>Implements _QDialog_ interface. This implementation starts execution of the scan thread of this dialog and then passes execution to the dialog.</description>
               <virtual/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>Always returns Qt dialog accept.</return_description>
-              <operation>Start the separate thread for scanning in this object's scan thread object and then begin execution of this dialog in modal mode returning the exit state.</operation>
+              <return_description>See Qt docs.</return_description>
+              <operation>Start the scanner thread and then pass execution to the dialog.</operation>
             </data>
           </function>
         </access>
@@ -3580,7 +3585,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
           <function type="2">
             <data version="0">
               <name>closeEvent</name>
-              <description>Implements the Qt interface for handling a close event on this dialog. This implementation requests its scan thread to finish and ignores the close event so the scan thread exits cleanly.</description>
+              <description>Implements _QWidget_ interface. This implementation requests its scan thread to finish and ignores the close event so the scan thread can exit cleanly.</description>
               <virtual/>
               <override/>
               <final/>
@@ -3590,7 +3595,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <variable type="1">
               <data version="0">
                 <name>event</name>
-                <description>Pointer to the Qt close event handler.</description>
+                <description>See Qt docs.</description>
                 <type>QCloseEvent*</type>
               </data>
             </variable>
@@ -3623,8 +3628,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <name>scanFinished</name>
               <description>Called when the scan thread for this dialog has finished scanning all files. This closes this dialog on accept. If the scan thread has an exception from its separate thread then it is shown to the user.</description>
-              <operation>If this object's scan thread contained an exception then show it to the user.</operation>
-              <operation>Exit the modal execution of this dialog with accept.</operation>
+              <operation>Check to see if the scanner thread threw an exception.</operation>
+              <operation>Inform the user about the exception thrown in the scanner thread and close this dialog with rejected.</operation>
+              <operation>Else there was no error so close this dialog with accepted.</operation>
             </data>
           </slot>
         </access>
@@ -3637,9 +3643,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setupGui</name>
               <description>Constructs and initializes the GUI for this new dialog.</description>
               <type>void</type>
-              <operation>Create and initialize the progress bar for this new dialog, using the total number of files this object's scan thread will parse as the progress bar's maximum value.</operation>
-              <operation>Create a new vertical layout _layout_, adding this object's progress bar then the bottom GUI.</operation>
-              <operation>Set the layout of this dialog to _layout_.</operation>
+              <operation>Create and initialize the progress bar for this new dialog.</operation>
+              <operation>Create a new vertical layout, adding the progress bar and then the bottom layout.</operation>
+              <operation>Set the layout of this new dialog.</operation>
             </data>
           </function>
           <function type="2">
@@ -3648,9 +3654,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <description>Constructs and initializes the bottom GUI for this new dialog, returning its layout.</description>
               <type>QLayout*</type>
               <return_description>Pointer to layout of the bottom GUI for this new element.</return_description>
-              <operation>Create a push button for this object's cancel button, connecting its signal.</operation>
-              <operation>Create a new horizontal layout _ret_, adding a stretch then this object's cancel button then a another stretch.</operation>
-              <operation>Return _ret_.</operation>
+              <operation>Create the push button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create a new horizontal layout, adding a stretch then the cancel button and then another stretch.</operation>
+              <operation>Return the bottom layout.</operation>
             </data>
           </function>
           <variable type="1">
