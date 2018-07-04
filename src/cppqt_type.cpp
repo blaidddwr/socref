@@ -320,22 +320,6 @@ bool Type::isValidTemplateArgument(const QString& value)
 
 
 /*!
- * Constructs a new type block with the given type value. 
- *
- * @param type The type value that this new type block's type name field is set to. 
- */
-Type::Type(const QString& type):
-   _type(type)
-{
-   checkType(_type);
-}
-
-
-
-
-
-
-/*!
  */
 QString Type::cppType() const
 {

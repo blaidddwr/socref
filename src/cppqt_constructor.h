@@ -21,14 +21,12 @@ namespace CppQt
       virtual QList<int> buildList() const override;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
    public:
-      /*!
-       */
-      explicit Constructor() = default;
       QString className() const;
    public slots:
       void classNameChanged();
    protected:
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
+      virtual bool checkName(const QString& value) override final;
    };
 }
 

@@ -297,19 +297,6 @@ bool Access::isNormal(Type value)
 
 
 /*!
- *
- * @param type  
- */
-Access::Access(Type type):
-   _type(type)
-{}
-
-
-
-
-
-
-/*!
  */
 bool Access::hasSignals() const
 {

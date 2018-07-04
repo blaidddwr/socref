@@ -147,3 +147,20 @@ std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
 {
    return unique_ptr<AbstractBlock>(new Constructor);
 }
+
+
+
+
+
+
+/*!
+ * Implements _CppQt::Base_ interface. 
+ *
+ * @param value The name value whose syntax is checked to be valid or not. 
+ *
+ * @return See interface docs. 
+ */
+bool Constructor::checkName(const QString& value)
+{
+   return value.isEmpty();
+}

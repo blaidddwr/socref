@@ -205,19 +205,6 @@ QList<AbstractBlock*> Class::realChildren() const
 
 
 /*!
- *
- * @param name  
- */
-Class::Class(const QString& name):
-   Namespace(name)
-{}
-
-
-
-
-
-
-/*!
  */
 bool Class::isQtObject() const
 {

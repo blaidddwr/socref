@@ -195,21 +195,6 @@ std::unique_ptr<::Gui::AbstractEdit> EnumValue::makeEdit()
 
 
 /*!
- * Constructs a new enumeration value block with the given name. 
- *
- * @param name The name which is set to this new enumeration value block's base 
- *             name field. 
- */
-EnumValue::EnumValue(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
  */
 bool EnumValue::hasValue() const
 {

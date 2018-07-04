@@ -195,21 +195,6 @@ std::unique_ptr<::Gui::AbstractEdit> Enumeration::makeEdit()
 
 
 /*!
- * Constructs a new enumeration block with the given name. 
- *
- * @param name The name that this new enumeration block's base name field is set 
- *             to. 
- */
-Enumeration::Enumeration(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
  * Tests of this enumeration is a class, returning true if it is. 
  *
  * @return True if this enumeration is a class or false otherwise. 

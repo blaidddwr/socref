@@ -55,10 +55,6 @@ namespace CppQt
       };
       static bool isSlot(Type value);
       static bool isNormal(Type value);
-      /*!
-       */
-      explicit Access() = default;
-      explicit Access(Type type);
       bool hasSignals() const;
       bool hasSlots() const;
       bool hasSignalsOrSlots() const;

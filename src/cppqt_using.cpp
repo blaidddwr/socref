@@ -210,21 +210,6 @@ std::unique_ptr<::Gui::AbstractEdit> Using::makeEdit()
 
 
 /*!
- *
- * @param field  
- */
-Using::Using(const QString& field):
-   _field(field)
-{
-   checkField(field);
-}
-
-
-
-
-
-
-/*!
  */
 QString Using::fieldName() const
 {

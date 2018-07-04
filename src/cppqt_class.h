@@ -28,10 +28,6 @@ namespace CppQt
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
       virtual QList<AbstractBlock*> realChildren() const override final;
    public:
-      /*!
-       */
-      explicit Class() = default;
-      explicit Class(const QString& name);
       bool isQtObject() const;
       bool isVirtual() const;
       bool isAbstract() const;

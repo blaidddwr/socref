@@ -26,11 +26,6 @@ namespace CppQt
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
       virtual QList<AbstractBlock*> realChildren() const;
    public:
-      /*!
-       * Constructs a new namespace block. 
-       */
-      explicit Namespace() = default;
-      explicit Namespace(const QString& name);
       const Namespace* root() const;
       Namespace* root();
    protected:

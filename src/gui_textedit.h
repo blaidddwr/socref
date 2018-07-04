@@ -31,6 +31,7 @@ namespace Gui
    private:
       class Highlighter;
       class Dialog;
+   private:
       void setupActions();
       /*!
        * The default language used by this editor's spell checking library Aspell. 

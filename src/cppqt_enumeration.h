@@ -30,11 +30,6 @@ namespace CppQt
       virtual QVariant field(int index) const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
    public:
-      /*!
-       * Constructs a new enumeration block. 
-       */
-      explicit Enumeration() = default;
-      explicit Enumeration(const QString& name);
       bool isClass() const;
       QList<EnumValue*> values() const;
    protected:

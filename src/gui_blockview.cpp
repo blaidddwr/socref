@@ -230,8 +230,11 @@ void BlockView::cutTriggered()
    // Make sure this view's current index is valid. 
    if ( !_current.isValid() ) return;
 
-   // Delete any existing block copy. 
+   // Delete any existing block copy. SPECIAL NOTE: This view's copy pointer must be 
+   // set to null before a new block is cut from the model or else a dead copy 
+   // pointer will cause a segmentation fault. 
    delete _copy;
+   _copy = nullptr;
 
    // Cut the current index's block from its model, updating this view's index and 
    // context menu. 

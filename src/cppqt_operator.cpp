@@ -114,19 +114,6 @@ std::unique_ptr<::Gui::AbstractEdit> Operator::makeEdit()
 
 
 /*!
- *
- * @param returnType  
- */
-Operator::Operator(const QString& returnType):
-   Function(returnType,QString())
-{}
-
-
-
-
-
-
-/*!
  */
 QString Operator::operation() const
 {

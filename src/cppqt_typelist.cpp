@@ -115,20 +115,6 @@ std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
 
 
 /*!
- * Constructs a new type list block with the given name. 
- *
- * @param name The name that this new type list block sets its name field to. 
- */
-TypeList::TypeList(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
  * Implements the interface that makes a new block object of this block's type with 
  * no data and returns a pointer to the new block. 
  *

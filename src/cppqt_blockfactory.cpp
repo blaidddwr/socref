@@ -32,13 +32,12 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns the project type of this block factory. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @return Project type of this block factory. 
+ * @return See interface docs. 
  */
 int BlockFactory::type() const
 {
-   /////////////////////////////////////
    return ProjectFactory::CppQtType;
 }
 
@@ -48,13 +47,14 @@ int BlockFactory::type() const
 
 
 /*!
- * Implements the interface that returns the number of block types that exist for 
- * this factory. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @return Number of block types that exist for this factory. 
+ * @return See interface docs. 
  */
 int BlockFactory::size() const
 {
+   // Use the total enumeration to return the total size of defined blocks for this 
+   // block factory. 
    return Total;
 }
 
@@ -64,11 +64,11 @@ int BlockFactory::size() const
 
 
 /*!
- * Implements the interface that returns the display name for the given block type. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @param type Block type whose display name is returned. 
+ * @param type See interface docs. 
  *
- * @return Display name for the given block type. 
+ * @return See interface docs. 
  */
 QString BlockFactory::name(int type) const
 {
@@ -103,11 +103,11 @@ QString BlockFactory::name(int type) const
 
 
 /*!
- * Implements the interface that returns the element name for the given block type. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @param type Block type whose element name is returned. 
+ * @param type See interface docs. 
  *
- * @return Element name for the given block type. 
+ * @return See interface docs. 
  */
 QString BlockFactory::elementName(int type) const
 {
@@ -142,17 +142,16 @@ QString BlockFactory::elementName(int type) const
 
 
 /*!
- * Implements the interface that makes a new block of the given type and returns 
- * its pointer. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @param type Block type which is made and returned. 
+ * @param type See interface docs. 
  *
- * @return Pointer to new block with the given type. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 {
-   // Create a new block of the given type with a default value and return its smart 
-   // pointer. 
+   // Based off the given block type create a new block of that type and return its 
+   // smart pointer. 
    switch (type)
    {
    case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace);
@@ -183,11 +182,13 @@ std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 
 
 /*!
- * Implements the interface that makes a new root block and returns its pointer. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @return Pointer to new root block for this project type. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
 {
+   // Create a new namespace block which is used as this project type's root block 
+   // and return its pointer. 
    return unique_ptr<AbstractBlock>(new Namespace);
 }

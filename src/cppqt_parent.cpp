@@ -231,21 +231,6 @@ std::unique_ptr<::Gui::AbstractEdit> Parent::makeEdit()
 
 
 /*!
- *
- * @param className  
- */
-Parent::Parent(const QString& className):
-   _className(className)
-{
-   checkClassName(_className);
-}
-
-
-
-
-
-
-/*!
  */
 Parent::Access Parent::access() const
 {

@@ -23,9 +23,9 @@ const QStringList Base::_fields {"name","description"};
 
 
 /*!
- * Implements the interface that returns a reference to this block's factory. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Reference to block factory. 
+ * @return See interface docs. 
  */
 const AbstractBlockFactory& Base::factory() const
 {
@@ -38,9 +38,9 @@ const AbstractBlockFactory& Base::factory() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Base::name() const
 {
@@ -53,9 +53,9 @@ QString Base::name() const
 
 
 /*!
- * Implements the interface that returns the number of fields this block contains. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The number of fields this object contains. 
+ * @return See interface docs. 
  */
 int Base::fieldSize() const
 {
@@ -68,23 +68,22 @@ int Base::fieldSize() const
 
 
 /*!
- * Implements the interface that returns the field type for the given field index 
- * of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index  
+ * @param index See interface docs. 
  *
- * @return Field type of the given field index of this block. 
+ * @return See interface docs. 
  */
 AbstractBlock::Field Base::fieldType(int index) const
 {
-   // Based off the given index return its field type. If the given index is out of 
-   // range then throw an exception. 
+   // Based off the given index return its field type. 
    switch (index)
    {
    case Field::Name:
    case Field::Description: return AbstractBlock::Field::String;
    default:
       {
+         // If the given index is unknown then throw an exception. 
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
@@ -101,23 +100,22 @@ AbstractBlock::Field Base::fieldType(int index) const
 
 
 /*!
- * Implements the interface that returns the value of the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index  
+ * @param index See interface docs. 
  *
- * @return Value of the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QVariant Base::field(int index) const
 {
-   // Based off the given index return its field value. If the given index is out of 
-   // range then throw an exception. 
+   // Based off the given index return its field value. 
    switch (index)
    {
    case Field::Name: return _name;
    case Field::Description: return _description;
    default:
       {
+         // If the given index is unknown then throw an exception. 
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
@@ -134,23 +132,9 @@ QVariant Base::field(int index) const
 
 
 /*!
- * Constructs a new base object with the given name. 
+ * Returns this block's description field. 
  *
- * @param name  
- */
-Base::Base(const QString& name):
-   _name(name)
-{}
-
-
-
-
-
-
-/*!
- * Returns this object's description field. 
- *
- * @return This object's description field. 
+ * @return This block's description field. 
  */
 QString Base::description() const
 {
@@ -163,10 +147,9 @@ QString Base::description() const
 
 
 /*!
- * Implements the interface that returns the current data version for this block 
- * type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Current version number. 
+ * @return See interface docs. 
  */
 int Base::version() const
 {
@@ -179,15 +162,15 @@ int Base::version() const
 
 
 /*!
- * Implements the interface that returns the tag name for the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose tag name is returned. 
+ * @param index See interface docs. 
  *
- * @return Tag name for the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QString Base::fieldTag(int index) const
 {
+   // Use this block's fields interface to figure out the tag at the given index. 
    return fields().at(index);
 }
 
@@ -197,16 +180,16 @@ QString Base::fieldTag(int index) const
 
 
 /*!
- * Implements the interface that returns the index of the field that has the given 
- * tag name for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param name Tag name of the field whose index is returned. 
+ * @param name See interface docs. 
  *
- * @return Index of the field with the given tag name or -1 if no field exists with 
- *         that tag name. 
+ * @return See interface docs. 
  */
 int Base::fieldIndexOf(const QString& name) const
 {
+   // Use this block's fields interface to figure out the index of the given tag 
+   // name. 
    return fields().indexOf(name);
 }
 
@@ -216,14 +199,13 @@ int Base::fieldIndexOf(const QString& name) const
 
 
 /*!
- * Implements the interface that is called when the field with the given index for 
- * this block has been modified. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field which has just been modified. 
+ * @param index See interface docs. 
  */
 void Base::fieldModified(int index)
 {
-   // Notify that his block has been modified. 
+   // Notify of modification regardless of specific field type. 
    notifyModified();
 
    // Based off the given field index notify that this block's body or name has been 
@@ -245,16 +227,15 @@ void Base::fieldModified(int index)
 
 
 /*!
- * Implements the interface that quietly sets the value of the field with the given 
- * index to the new given value. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is set to the new given value. 
+ * @param index See interface docs. 
  *
- * @param value New value that the field with the given index is set to. 
+ * @param value See interface docs. 
  */
 void Base::quietlySetField(int index, const QVariant& value)
 {
-   // Based off the given field index set its value to the new given value. 
+   // Based off the given field index set its value to the new one given. 
    switch (index)
    {
    case Field::Name:
@@ -299,6 +280,7 @@ QStringList Base::fields() const
  */
 bool Base::checkName(const QString& value)
 {
+   // Use a regular expression to determine if the given string has correct syntax. 
    return QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*").exactMatch(value);
 }
 
@@ -315,8 +297,7 @@ bool Base::checkName(const QString& value)
  */
 void Base::setName(const QString& value)
 {
-   // If the syntax of the given new name value is not valid then throw an exception, 
-   // else set this block's name field to the new value. 
+   // Make sure the given value has correct syntax. 
    if ( !checkName(value) )
    {
       Exception::InvalidArgument e;
@@ -324,5 +305,7 @@ void Base::setName(const QString& value)
       e.setDetails(tr("Cannot set invalid name '%1'.").arg(value));
       throw e;
    }
+
+   // Set this block's name field to the new value given. 
    _name = value;
 }

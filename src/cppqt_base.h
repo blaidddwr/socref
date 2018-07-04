@@ -38,11 +38,6 @@ namespace CppQt
       virtual AbstractBlock::Field fieldType(int index) const override;
       virtual QVariant field(int index) const override;
    public:
-      /*!
-       * Constructs a new base object. 
-       */
-      explicit Base() = default;
-      explicit Base(const QString& name);
       QString description() const;
    protected:
       /*!

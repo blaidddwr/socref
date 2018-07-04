@@ -130,20 +130,6 @@ QList<AbstractBlock*> Namespace::realChildren() const
 
 
 /*!
- * Constructs a new namespace block with the given name. 
- *
- * @param name The value of this new namespace block's base name field. 
- */
-Namespace::Namespace(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
  * Returns a pointer to the root namespace of this block's entire project. 
  *
  * @return Pointer to the root namespace of this block's project. 

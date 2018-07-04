@@ -32,12 +32,6 @@ namespace CppQt
       virtual QVariant field(int index) const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
    public:
-      /*!
-       * Constructs a new variable block. 
-       */
-      explicit Variable() = default;
-      explicit Variable(const QString& name);
-      explicit Variable(const QString& type, const QString& name);
       bool isConstExpr() const;
       bool isStatic() const;
       bool isMutable() const;

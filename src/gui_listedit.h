@@ -35,6 +35,7 @@ namespace Gui
       void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
    private:
       class Model;
+   private:
       void setupView();
       void setupActions();
       void autoFitText();

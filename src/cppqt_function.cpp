@@ -230,37 +230,6 @@ std::unique_ptr<::Gui::AbstractEdit> Function::makeEdit()
 
 
 /*!
- *
- * @param name  
- */
-Function::Function(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
- *
- * @param returnType  
- *
- * @param name  
- */
-Function::Function(const QString& returnType, const QString& name):
-   Base(name),
-   _returnType(returnType)
-{
-   checkTypeSyntax(returnType);
-}
-
-
-
-
-
-
-/*!
  */
 bool Function::isDefault() const
 {

@@ -27,11 +27,6 @@ namespace CppQt
       virtual QVariant field(int index) const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
    public:
-      /*!
-       */
-      explicit Function() = default;
-      explicit Function(const QString& name);
-      explicit Function(const QString& returnType, const QString& name);
       bool isDefault() const;
       bool isExplicit() const;
       bool isVirtual() const;

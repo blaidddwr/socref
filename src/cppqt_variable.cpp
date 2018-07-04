@@ -221,39 +221,6 @@ std::unique_ptr<::Gui::AbstractEdit> Variable::makeEdit()
 
 
 /*!
- * Constructs a new variable block with the given name. 
- *
- * @param name The value this new variable block's base name field is set to. 
- */
-Variable::Variable(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
- * Constructs a new variable block with the given type and name. 
- *
- * @param type The value this new variable block's type field is set to. 
- *
- * @param name The value this new variable block's base name field is set to. 
- */
-Variable::Variable(const QString& type, const QString& name):
-   Base(name),
-   _type(type)
-{
-   checkType(type);
-}
-
-
-
-
-
-
-/*!
  * Tests if this variable block's constant expression property is set. 
  *
  * @return True if this block's constant expression property is set or false 

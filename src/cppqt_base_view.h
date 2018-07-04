@@ -19,16 +19,14 @@ namespace CppQt
    class Base::View : public QLabel
    {
    public:
-      /*!
-       * Constructs a new base view object with no associated base block. 
-       */
-      explicit View() = default;
+      explicit View();
       View(const Base* block);
    protected:
       static QString parseBoldMarkers(const QString& text);
       QString displayDescription();
       QString displayTemplates();
    private:
+      void setupLabel();
       /*!
        * Pointer to the base block this view is showing or null if the block being viewed 
        * does not inherit from the base block. 

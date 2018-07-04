@@ -105,19 +105,6 @@ std::unique_ptr<::Gui::AbstractEdit> Slot::makeEdit()
 
 
 /*!
- *
- * @param name  
- */
-Slot::Slot(const QString& name):
-   Function(name)
-{}
-
-
-
-
-
-
-/*!
  * Implements the interface that makes a new block object of this block's type with 
  * no data and returns a pointer to the new block. 
  *

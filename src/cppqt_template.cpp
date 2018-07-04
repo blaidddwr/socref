@@ -83,36 +83,6 @@ std::unique_ptr<::Gui::AbstractEdit> Template::makeEdit()
 
 
 /*!
- * Constructs a new template block with the given name. 
- *
- * @param name The value for this new template block's base name field. 
- */
-Template::Template(const QString& name):
-   Variable(name)
-{}
-
-
-
-
-
-
-/*!
- * Constructs a new template block with the given type and name. 
- *
- * @param type The value of this template block's variable type field. 
- *
- * @param name The value for this new template block's base name field. 
- */
-Template::Template(const QString& type, const QString& name):
-   Variable(type,name)
-{}
-
-
-
-
-
-
-/*!
  * Implements the interface that makes a new block object of this block's type with 
  * no data and returns a pointer to the new block. 
  *

@@ -13,19 +13,11 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new base view with the given base block. 
- *
- * @param block Constant pointer to the base block this new view is showing. 
+ * Constructs a new base view object with no associated base block. 
  */
-Base::View::View(const Base* block):
-   _block(block)
+Base::View::View()
 {
-   // Initialize this label object's alignment, word wrapping, text format, and 
-   // margin. 
-   setAlignment(Qt::AlignTop);
-   setWordWrap(true);
-   setTextFormat(Qt::RichText);
-   setMargin(8);
+   setupLabel();
 }
 
 
@@ -34,35 +26,56 @@ Base::View::View(const Base* block):
 
 
 /*!
- * Parses the bold marker character '_' from the given text, replacing it with HTML 
- * bold tags. The parsed text is returned. 
+ * Constructs a new base view with the given base block. 
  *
- * @param text Text that is parsed to replace '_' with HTML bold tags. 
+ * @param block Constant pointer to the base block this new view is showing. 
+ */
+Base::View::View(const Base* block):
+   _block(block)
+{
+   setupLabel();
+}
+
+
+
+
+
+
+/*!
+ * Parses all underline characters from the given text, replacing it with HTML bold 
+ * tags. The parsed text is returned. 
  *
- * @return Parsed text replacing '_' with HTML bold tags. 
+ * @param text Text that is parsed to replace underline characters with HTML bold 
+ *             tags. 
+ *
+ * @return Parsed text replacing underlines with HTML bold tags. 
  */
 QString Base::View::parseBoldMarkers(const QString& text)
 {
-   // Create an empty string _ret_ and initialize the ingress state to true. 
+   // Create an empty string and initialize the ingress state. 
    QString ret;
    bool ingress {true};
 
-   // Iterate through all characters of the given text. If the next character is not 
-   // a bold marker then append it to _ret_. Else if the character is a bold marker 
-   // then append an HTML bold tag to _ret_, using and flipping the ingress state to 
-   // determine if it should be a beginning or ending bold tag. 
+   // Iterate through every character of the given text. 
    for (auto ch: text)
    {
+      // Check if the current character is an underline. 
       if ( ch == QChar('_') )
       {
+         // If ingress is true then append a beginning HTML bold marker else append a 
+         // ending HTML bold marker. 
          if ( ingress ) ret.append("<b>");
          else ret.append("</b>");
+
+         // Invert the ingress state. 
          ingress = !ingress;
       }
+
+      // Else the current character is not an underline so simply append it. 
       else ret.append(ch);
    }
 
-   // Return _ret_. 
+   // Return the bold HTML formatted string. 
    return ret;
 }
 
@@ -81,27 +94,31 @@ QString Base::View::parseBoldMarkers(const QString& text)
  */
 QString Base::View::displayDescription()
 {
-   // Create an empty string _ret_. If this object's block pointer is null then 
-   // return _ret_. 
+   // Create an empty string and make sure this view has a block pointer. 
    QString ret;
    if ( !_block ) return ret;
 
-   // Split this view's base block's description field into paragraphs using double 
-   // newlines as the separator, saving the list of paragraphs to _paragraphs_. If 
-   // the list of paragraphs is empty then return _ret_. 
+   // Split this view's block's description field into paragraphs using double 
+   // newlines as the separator and make sure the there is at least one paragraph. 
    QStringList paragraphs {_block->description().split("\n\n",QString::SkipEmptyParts)};
    if ( paragraphs.isEmpty() ) return ret;
 
-   // Add a HTML title to _ret_ and then add all strings in the string list 
-   // _paragraphs_ as HTML paragraphs to _ret_. 
+   // Append the HTML title for the description. 
    ret.append("<h3>Description</h3><p>");
+
+   // Iterate through almost every paragraph except for the very last one. 
    for (int i = 0; i < (paragraphs.size() - 1) ;++i)
    {
+      // Append the paragraph with underline bold markers parsed and separating HTML 
+      // paragraph markers. 
       ret.append(parseBoldMarkers(paragraphs.at(i))).append("</p><p>");
    }
-   ret.append(paragraphs.last()).append("</p>");
 
-   // Return _ret_. 
+   // Append the very last paragraph with underline markers parsed and the final 
+   // ending paragraph HTML tag. 
+   ret.append(parseBoldMarkers(paragraphs.last())).append("</p>");
+
+   // Return the HTML description string. 
    return ret;
 }
 
@@ -120,19 +137,20 @@ QString Base::View::displayDescription()
  */
 QString Base::View::displayTemplates()
 {
-   // Create an empty string _ret_. If this object's block pointer is null then 
-   // return _ret_. 
+   // Create an empty string and make sure this view has a block pointer. 
    QString ret;
    if ( !_block ) return ret;
 
-   // Create a pointer list _list_ of all template blocks this view's block contains 
-   // as direct children. If _list_ is empty then return _ret_. 
+   // Create a pointer list of all template blocks this view's block contains as 
+   // direct children, making sure that list is not empty. 
    const QList<Template*> list {_block->makeListOfType<Template>(BlockFactory::TemplateType)};
    if ( list.isEmpty() ) return ret;
 
-   // Add a HTML title to _ret_ and then add all template child blocks as a HTML 
-   // paragraph using their variable type name, base name, and description. 
+   // Append the HTML title for templates. 
    ret.append("<h3>Templates</h3>");
+
+   // Iterate through all template block pointers and append an HTML paragraph 
+   // describing each one. 
    for (auto template_ : list)
    {
       ret.append("<p>")
@@ -144,6 +162,23 @@ QString Base::View::displayTemplates()
          .append("</p>");
    }
 
-   // Return _ret_. 
+   // Return the HTML templates string. 
    return ret;
+}
+
+
+
+
+
+
+/*!
+ * Initializes the properties of this base label widget. 
+ */
+void Base::View::setupLabel()
+{
+   // Initialize this label widget. 
+   setAlignment(Qt::AlignTop);
+   setWordWrap(true);
+   setTextFormat(Qt::RichText);
+   setMargin(8);
 }

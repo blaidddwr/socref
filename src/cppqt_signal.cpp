@@ -63,19 +63,6 @@ std::unique_ptr<::Gui::AbstractEdit> Signal::makeEdit()
 
 
 /*!
- *
- * @param name  
- */
-Signal::Signal(const QString& name):
-   Slot(name)
-{}
-
-
-
-
-
-
-/*!
  * Implements the interface that makes a new block object of this block's type with 
  * no data and returns a pointer to the new block. 
  *
