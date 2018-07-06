@@ -17,7 +17,9 @@ using namespace CppQt;
  */
 Type::View::View(const Type* block):
    _block(block)
-{}
+{
+   setText(displayText());
+}
 
 
 
@@ -25,12 +27,12 @@ Type::View::View(const Type* block):
 
 
 /*!
- * Returns the HTML rich text that displays the body of this view's parent type 
- * block. 
+ * Returns the HTML rich text that displays the body of this view's type block. 
  *
- * @return HTML rich text that displays the body of this view's parent type block. 
+ * @return HTML rich text that displays the body of this view's type block. 
  */
 QString Type::View::displayText()
 {
-   return _block->name().replace(",","&lt;");
+   // Return this blocks name, making it HTML safe. 
+   return _block->name().replace("<","&lt;");
 }

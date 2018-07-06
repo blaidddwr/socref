@@ -30,14 +30,14 @@ TypeList::View::View(const TypeList* block):
 
 
 /*!
- * Returns the HTML rich text that displays the body of this view's parent type 
- * list block. 
+ * Returns the HTML rich text that displays the body of this view's type list 
+ * block. 
  *
- * @return HTML rich text that displays the body of this view's parent type list 
- *         block. 
+ * @return HTML rich text that displays the body of this view's type list block. 
  */
 QString TypeList::View::displayText()
 {
+   // Return a HTML string of the description, type lists, and types in that order. 
    return displayDescription().append(displayTypeLists()).append(displayTypes());
 }
 
@@ -47,31 +47,33 @@ QString TypeList::View::displayText()
 
 
 /*!
- * Returns a HTML string that displays all type lists this view's parent type list 
- * block contains as children. 
+ * Returns a HTML string that displays all type lists this view's type list block 
+ * contains as children. 
  *
- * @return HTML string that displays all type lists this view's parent type list 
- *         block contains. 
+ * @return HTML string that displays all type lists this view's type list block 
+ *         contains. 
  */
 QString TypeList::View::displayTypeLists()
 {
-   // Create an empty string _ret_ and get a pointer list of this view's type list 
-   // block's child type list blocks saving it to _list_. If _list_ is empty then 
-   // return _ret_. 
+   // Create an empty return string. 
    QString ret;
+
+   // Create a pointer list of all type list children of this view's type list block 
+   // and make sure it is not empty. 
    const QList<CppQt::TypeList*> list
    {
       _block->makeListOfType<CppQt::TypeList>(BlockFactory::TypeListType)
    };
    if ( list.isEmpty() ) return ret;
 
-   // Add a HTML title to _ret_ and then add every child type list block in _list_ to 
-   // _ret_ using its name. 
+   // Add a HTML title and beginning paragraph tag, then iterate through all type 
+   // list children and append their info as HTML, and then add a HTML ending 
+   // paragraph tag. 
    ret.append("<h3>").append(tr("Type Lists")).append("</h3><p>");
    for (auto typeList: list) ret.append(typeList->name()).append("<br/>");
    ret.append("</p>");
 
-   // Return _ret_. 
+   // Return the HTML string. 
    return ret;
 }
 
@@ -81,28 +83,28 @@ QString TypeList::View::displayTypeLists()
 
 
 /*!
- * Returns a HTML string that displays all type blocks this view's parent type list 
- * block contains as children. 
+ * Returns a HTML string that displays all type blocks this view's type list block 
+ * contains as children. 
  *
- * @return HTML string that displays all type blocks this view's parent type list 
- *         block contains. 
+ * @return HTML string that displays all type blocks this view's type list block 
+ *         contains. 
  */
 QString TypeList::View::displayTypes()
 {
-   // Create an empty string _ret_ and get a pointer list of this view's type list 
-   // block's child type blocks saving it to _list_. If _list_ is empty then return 
-   // _ret_. 
+   // Create an empty return string. 
    QString ret;
+
+   // Create a pointer list of all type children of this view's type list block and 
+   // make sure it is not empty. 
    const QList<Type*> list {_block->makeListOfType<Type>(BlockFactory::TypeType)};
    if ( list.isEmpty() ) return ret;
 
-   // Add a HTML title to _ret_ and then add every child type block in _list_ to 
-   // _ret_ using its name. Replace all opening carrot characters in the child type 
-   // block names with HTML safe code. 
+   // Add a HTML title, then iterate through all type children and append their info 
+   // as HTML, and then add a HTML ending paragraph. 
    ret.append("<h3>").append(tr("Types")).append("</h3><p>");
    for (auto type: list) ret.append(type->name().replace("<","&lt;")).append("<br/>");
    ret.append("</p>");
 
-   // Return _ret_. 
+   // Return the HTML string. 
    return ret;
 }

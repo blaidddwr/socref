@@ -4714,32 +4714,34 @@ The name field has a special interface for checking if it is valid which can be 
               <function type="2">
                 <data version="0">
                   <name>layout</name>
-                  <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                  <description>Implements _Gui::AbstractEdit_ interface.</description>
                   <virtual/>
                   <override/>
                   <final/>
                   <type>QLayout*</type>
-                  <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
-                  <operation>Save this dialog object's geometry to Qt settings.</operation>
-                  <operation>Create a new form layout, add a new line edit for the base name field, then add a new text edit for the base description field, and then return the new form layout.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Save the geometry of this dialog.</operation>
+                  <operation>Create a new form layout, adding the base name field and then the base description field.</operation>
+                  <operation>Return the form layout.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>fieldTitle</name>
-                  <description>Implements the interface that returns the title for the given field type.</description>
+                  <description>Implements _Gui::AbstractEdit_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>QString</type>
-                  <return_description>Title of the given field type.</return_description>
-                  <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Based off the given field index return its title.</operation>
+                  <operation>If the given index is unknown then throw an exception.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>index</name>
-                    <description>The field index whose display title is returned.</description>
+                    <description>See interface docs.</description>
                     <type>int</type>
                   </data>
                 </variable>
@@ -4782,31 +4784,34 @@ The name field has a special interface for checking if it is valid which can be 
               <function type="2">
                 <data version="0">
                   <name>displayText</name>
-                  <description>Returns the HTML rich text that displays the body of this view's parent type list block.</description>
+                  <description>Returns the HTML rich text that displays the body of this view's type list block.</description>
                   <type>QString</type>
-                  <return_description>HTML rich text that displays the body of this view's parent type list block.</return_description>
+                  <return_description>HTML rich text that displays the body of this view's type list block.</return_description>
+                  <operation>Return a HTML string of the description, type lists, and types in that order.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>displayTypeLists</name>
-                  <description>Returns a HTML string that displays all type lists this view's parent type list block contains as children.</description>
+                  <description>Returns a HTML string that displays all type lists this view's type list block contains as children.</description>
                   <type>QString</type>
-                  <return_description>HTML string that displays all type lists this view's parent type list block contains.</return_description>
-                  <operation>Create an empty string _ret_ and get a pointer list of this view's type list block's child type list blocks saving it to _list_. If _list_ is empty then return _ret_.</operation>
-                  <operation>Add a HTML title to _ret_ and then add every child type list block in _list_ to _ret_ using its name.</operation>
-                  <operation>Return _ret_.</operation>
+                  <return_description>HTML string that displays all type lists this view's type list block contains.</return_description>
+                  <operation>Create an empty return string.</operation>
+                  <operation>Create a pointer list of all type list children of this view's type list block and make sure it is not empty.</operation>
+                  <operation>Add a HTML title and beginning paragraph tag, then iterate through all type list children and append their info as HTML, and then add a HTML ending paragraph tag.</operation>
+                  <operation>Return the HTML string.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>displayTypes</name>
-                  <description>Returns a HTML string that displays all type blocks this view's parent type list block contains as children.</description>
+                  <description>Returns a HTML string that displays all type blocks this view's type list block contains as children.</description>
                   <type>QString</type>
-                  <return_description>HTML string that displays all type blocks this view's parent type list block contains.</return_description>
-                  <operation>Create an empty string _ret_ and get a pointer list of this view's type list block's child type blocks saving it to _list_. If _list_ is empty then return _ret_.</operation>
-                  <operation>Add a HTML title to _ret_ and then add every child type block in _list_ to _ret_ using its name. Replace all opening carrot characters in the child type block names with HTML safe code.</operation>
-                  <operation>Return _ret_.</operation>
+                  <return_description>HTML string that displays all type blocks this view's type list block contains.</return_description>
+                  <operation>Create an empty return string.</operation>
+                  <operation>Create a pointer list of all type children of this view's type list block and make sure it is not empty.</operation>
+                  <operation>Add a HTML title, then iterate through all type children and append their info as HTML, and then add a HTML ending paragraph.</operation>
+                  <operation>Return the HTML string.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -4826,74 +4831,75 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>type</name>
-              <description>Implements the interface that returns this block's type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>This block's type.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>name</name>
-              <description>Implements the interface that returns the name of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QString</type>
-              <return_description>The name of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Return the base name appended with the number of children this block contains.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>icon</name>
-              <description>Implements the interface that returns the icon of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QIcon</type>
-              <return_description>The icon of this block.</return_description>
-              <operation>If the static qt icon _ret_ is null then load its icon.</operation>
-              <operation>Return _ret_.</operation>
+              <return_description>See interface docs.</return_description>
+              <operation>Initialize the icon as static.</operation>
+              <operation>Return the icon.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>buildList</name>
-              <description>Implements the interface that returns a list of types that this block can contain as children.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QList&lt;int></type>
-              <return_description>List of allowed types this block can contain as children.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>makeView</name>
-              <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;QWidget></type>
-              <return_description>New GUI view that represents this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>makeEdit</name>
-              <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-              <return_description>New editable GUI widget to edit this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>
@@ -4904,30 +4910,31 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>makeBlank</name>
-              <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;AbstractBlock></type>
-              <return_description>Pointer to the newly created block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>childNameModified</name>
-              <description>Implements the interface that is called whenever a child below this block has modified its name.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>bool</type>
-              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
-              <operation>Notify the body of this block is modified and return false.</operation>
+              <return_description>See interface docs.</return_description>
+              <operation>This does not use the given child pointer.</operation>
+              <operation>Notify the body has changed and return false.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>child</name>
-                <description>Pointer to the child block that has modified its name.</description>
+                <description>See interface docs.</description>
                 <type>AbstractBlock*</type>
               </data>
             </variable>
@@ -4935,18 +4942,19 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>childAdded</name>
-              <description>Implements the interface that is called whenever a new child below this block has been added.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>bool</type>
-              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
-              <operation>Notify the name and body of this block is modified and return false.</operation>
+              <return_description>See interface docs.</return_description>
+              <operation>This does not use the given child pointer.</operation>
+              <operation>Notify the name and body has changed and return false.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>child</name>
-                <description>Pointer to the child block that been added to its new parent block.</description>
+                <description>See interface docs.</description>
                 <type>AbstractBlock*</type>
               </data>
             </variable>
@@ -4954,18 +4962,19 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>childRemoved</name>
-              <description>Implements the interface that is called whenever an existing child below this block has been removed.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>bool</type>
-              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
-              <operation>Notify the name and body of this block is modified and return false.</operation>
+              <return_description>See interface docs.</return_description>
+              <operation>This does not use the given child pointer.</operation>
+              <operation>Notify the name and body has changed and return false.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>child</name>
-                <description>Pointer to the child block that has been removed from its former parent block. This object can be deleted right after this call.</description>
+                <description>See interface docs.</description>
                 <type>AbstractBlock*</type>
               </data>
             </variable>
@@ -4973,17 +4982,18 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>checkName</name>
-              <description>Implements the interface that checks to make sure the given name is a valid name for this block type, returning true if it is valid.</description>
+              <description>Implements _CppQt::Base_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>bool</type>
-              <return_description>True if the given name is valid or false otherwise.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Use a regular expression to determine if the given value is valid.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>value</name>
-                <description>The name value whose syntax is checked to be valid or not.</description>
+                <description>See interface docs.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -5043,32 +5053,34 @@ The name field has a special interface for checking if it is valid which can be 
               <function type="2">
                 <data version="0">
                   <name>layout</name>
-                  <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                  <description>Implements _Gui::AbstractEdit_ interface.</description>
                   <virtual/>
                   <override/>
                   <final/>
                   <type>QLayout*</type>
-                  <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
-                  <operation>Save this dialog object's geometry to Qt settings.</operation>
-                  <operation>Create a new form layout, add a new line edit for the type name field, and then return the new form layout. While adding the type name field connect the qt line edit's text changed signal to this object's appropriate slot.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Save the geometry for this dialog.</operation>
+                  <operation>Create a new form layout, adding the type name field and connecting its text changed signal.</operation>
+                  <operation>Return the form layout.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>fieldTitle</name>
-                  <description>Implements the interface that returns the title for the given field type.</description>
+                  <description>Implements _Gui::AbstractEdit_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>QString</type>
-                  <return_description>Title of the given field type.</return_description>
-                  <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Based off the given field index return its title.</operation>
+                  <operation>If the given index is unknown then throw an exception.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>index</name>
-                    <description>The field index whose display title is returned.</description>
+                    <description>See interface docs.</description>
                     <type>int</type>
                   </data>
                 </variable>
@@ -5129,9 +5141,10 @@ The name field has a special interface for checking if it is valid which can be 
               <function type="2">
                 <data version="0">
                   <name>displayText</name>
-                  <description>Returns the HTML rich text that displays the body of this view's parent type block.</description>
+                  <description>Returns the HTML rich text that displays the body of this view's type block.</description>
                   <type>QString</type>
-                  <return_description>HTML rich text that displays the body of this view's parent type block.</return_description>
+                  <return_description>HTML rich text that displays the body of this view's type block.</return_description>
+                  <operation>Return this blocks name, making it HTML safe.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -5151,105 +5164,107 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>type</name>
-              <description>Implements the interface that returns this block's type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>This block's type.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>factory</name>
-              <description>Implements the interface that returns a reference to this block's factory which produces all block types for this project type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>const AbstractBlockFactory&amp;</type>
-              <return_description>Reference to block factory.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>name</name>
-              <description>Implements the interface that returns the name of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QString</type>
-              <return_description>The name of this block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>icon</name>
-              <description>Implements the interface that returns the icon of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QIcon</type>
-              <return_description>The icon of this block.</return_description>
-              <operation>If the static qt icon _ret_ is null then lead this block's icon.</operation>
-              <operation>Return _ret_.</operation>
+              <return_description>See interface docs.</return_description>
+              <operation>Initialize the icon as static.</operation>
+              <operation>Return the icon.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>buildList</name>
-              <description>Implements the interface that returns a list of types that this block can contain as children.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QList&lt;int></type>
-              <return_description>List of allowed types this block can contain as children.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>makeView</name>
-              <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;QWidget></type>
-              <return_description>New GUI view that represents this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldSize</name>
-              <description>Implements the interface that returns the number of fields this block contains.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>The number of fields this object contains.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Use the field enumeration to return the total number of fields.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldType</name>
-              <description>Implements the interface that returns the field type for the given field index of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>AbstractBlock::Field</type>
-              <return_description>Field type of the given field index of this block.</return_description>
-              <operation>Based off the given field index return its type. If the given index is not defined then throw an exception.</operation>
+              <return_description>See interface docs.</return_description>
+              <operation>Based off the given field index return its type.</operation>
+              <operation>If the given index is unknown then throw an exception.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field whose field type is returned.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -5257,19 +5272,20 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>field</name>
-              <description>Implements the interface that returns the value of the field with the given index for this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QVariant</type>
-              <return_description>Value of the field with the given index for this block.</return_description>
-              <operation>Based off the given field index return its value. If the given index is not defined then throw an exception.</operation>
+              <return_description>See interface docs.</return_description>
+              <operation>Based off the given field index return its value.</operation>
+              <operation>If the given index is unknown then throw an exception.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field whose value is returned.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -5277,12 +5293,12 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>makeEdit</name>
-              <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-              <return_description>New editable GUI widget to edit this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>
@@ -5297,10 +5313,11 @@ The name field has a special interface for checking if it is valid which can be 
               <static/>
               <type>bool</type>
               <return_description>True if the given string has valid syntax for a C++ type or false otherwise.</return_description>
-              <operation>If the given string does not match the basic syntax of a C++ type then return false.</operation>
-              <operation>Create a boolean _ret_ set to true and find all template argument matches within the given string saving matches to _matches_.</operation>
-              <operation>Iterate through all _matches_. If any match is not a valid C++ template argument then set _ret_ to false and stop iterating through all matches.</operation>
-              <operation>Return _ret_.</operation>
+              <operation>Make sure the given string matches basic syntax.</operation>
+              <operation>Find all template argument matches within the given string.</operation>
+              <operation>Iterate through all template argument matches.</operation>
+              <operation>If the current template argument match is not valid then return false.</operation>
+              <operation>All syntax testing worked so return true.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -5317,9 +5334,13 @@ The name field has a special interface for checking if it is valid which can be 
               <static/>
               <type>bool</type>
               <return_description>True if the given string has valid syntax for a C++ template argument or false otherwise.</return_description>
-              <operation>Initialize _ret_ to true, _arguments_ as the broken list of all arguments within the given string, nd _regexp_ as the regular expression engine for checking syntax.</operation>
-              <operation>Iterate through all arguments in _arguments_. If an argument fails its syntax check then set _ret_ to false and break out of the iteration. If the argument is valid and itself contains another template argument then recursively call this method to check it is also valid, setting _ret_ to false and breaking from iteration if it is not valid.</operation>
-              <operation>Return _ret_.</operation>
+              <operation>Initialize the regular expression that will be used for basic syntax checking.</operation>
+              <operation>Split up all template arguments and iterate through them all.</operation>
+              <operation>Make sure the template argument matches basic syntax.</operation>
+              <operation>Check to see if this template argument has additional arguments nested within it.</operation>
+              <operation>Recursively call this method to make sure nested template argument is valid, returning false if it is not.</operation>
+              <operation>Else the template argument failed basic syntax so return false.</operation>
+              <operation>All syntax testing worked so return true.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -5332,8 +5353,10 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>cppType</name>
+              <description>Returns the type string this this block.</description>
               <const/>
               <type>QString</type>
+              <return_description>Type string for this block.</return_description>
             </data>
           </function>
         </access>
@@ -5362,42 +5385,43 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>makeBlank</name>
-              <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;AbstractBlock></type>
-              <return_description>Pointer to the newly created block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>version</name>
-              <description>Implements the interface that returns the current data version for this block type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>Current data version.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldTag</name>
-              <description>Implements the interface that returns the tag name for the field with the given index for this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QString</type>
-              <return_description>Tag name for the field with the given index for this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Return this block's field tag at the given index.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field whose tag name is returned.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -5405,18 +5429,19 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>fieldIndexOf</name>
-              <description>Implements the interface that returns the index of the field that has the given tag name for this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>Index of the field with the given tag name or -1 if no field exists with that tag name.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Return the index of this block's field tag that matches the given name.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>name</name>
-                <description>Tag name of the field whose index is returned.</description>
+                <description>See interface docs.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -5424,17 +5449,17 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>fieldModified</name>
-              <description>Implements the interface that is called when the field with the given index for this block has been modified.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>void</type>
-              <operation>Based off the field index given notify the changes to this block.</operation>
+              <operation>Based off the field index given notify the changes to this block. If the given index is not defined then do nothing.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field which has just been modified.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -5442,7 +5467,7 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>quietlySetField</name>
-              <description>Implements the interface that quietly sets the value of the field with the given index to the new given value.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
@@ -5452,14 +5477,14 @@ The name field has a special interface for checking if it is valid which can be 
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field whose value is set to the new given value.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>value</name>
-                <description>New value that the field with the given index is set to.</description>
+                <description>See interface docs.</description>
                 <type>const QVariant&amp;</type>
               </data>
             </variable>
@@ -5471,26 +5496,11 @@ The name field has a special interface for checking if it is valid which can be 
           </data>
           <function type="2">
             <data version="0">
-              <name>checkType</name>
-              <description>Makes sure the given string is a valid C++ type. If it is not valid then an exception is thrown.</description>
-              <static/>
-              <type>void</type>
-              <operation>If the given string is not a valid C++ type then throw an exception.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>The string whose syntax is checked.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
               <name>setType</name>
               <description>Sets this block's type name field to the new value. If the given value is not a valid C++ type then an exception is thrown.</description>
               <type>void</type>
-              <operation>Verify the given value is a valid C++ type and then set this block's type name field to the new given value.</operation>
+              <operation>Make sure the given value has valid type syntax.</operation>
+              <operation>Set this block's type value to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">

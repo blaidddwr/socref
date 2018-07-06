@@ -17,9 +17,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int TypeList::type() const
 {
@@ -32,12 +32,13 @@ int TypeList::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString TypeList::name() const
 {
+   // Return the base name appended with the number of children this block contains. 
    return Base::name().append(" (").append(QString::number(size())).append(")");
 }
 
@@ -47,17 +48,16 @@ QString TypeList::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon TypeList::icon() const
 {
-   // If the static qt icon _ret_ is null then load its icon. 
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/typelist.svg");
+   // Initialize the icon as static. 
+   static QIcon ret(":/icons/typelist.svg");
 
-   // Return _ret_. 
+   // Return the icon. 
    return ret;
 }
 
@@ -67,10 +67,9 @@ QIcon TypeList::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> TypeList::buildList() const
 {
@@ -83,10 +82,9 @@ QList<int> TypeList::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> TypeList::makeView() const
 {
@@ -99,10 +97,9 @@ std::unique_ptr<QWidget> TypeList::makeView() const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
 {
@@ -115,10 +112,9 @@ std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> TypeList::makeBlank() const
 {
@@ -131,19 +127,18 @@ std::unique_ptr<AbstractBlock> TypeList::makeBlank() const
 
 
 /*!
- * Implements the interface that is called whenever a child below this block has 
- * modified its name. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param child Pointer to the child block that has modified its name. 
+ * @param child See interface docs. 
  *
- * @return True if this interface should be called again on this blocks parent or 
- *         false otherwise. 
+ * @return See interface docs. 
  */
 bool TypeList::childNameModified(AbstractBlock* child)
 {
+   // This does not use the given child pointer. 
    Q_UNUSED(child)
 
-   // Notify the body of this block is modified and return false. 
+   // Notify the body has changed and return false. 
    notifyBodyModified();
    return false;
 }
@@ -154,19 +149,18 @@ bool TypeList::childNameModified(AbstractBlock* child)
 
 
 /*!
- * Implements the interface that is called whenever a new child below this block 
- * has been added. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param child Pointer to the child block that been added to its new parent block. 
+ * @param child See interface docs. 
  *
- * @return True if this interface should be called again on this blocks parent or 
- *         false otherwise. 
+ * @return See interface docs. 
  */
 bool TypeList::childAdded(AbstractBlock* child)
 {
+   // This does not use the given child pointer. 
    Q_UNUSED(child)
 
-   // Notify the name and body of this block is modified and return false. 
+   // Notify the name and body has changed and return false. 
    notifyNameModified();
    notifyBodyModified();
    return false;
@@ -178,20 +172,18 @@ bool TypeList::childAdded(AbstractBlock* child)
 
 
 /*!
- * Implements the interface that is called whenever an existing child below this 
- * block has been removed. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param child Pointer to the child block that has been removed from its former 
- *              parent block. This object can be deleted right after this call. 
+ * @param child See interface docs. 
  *
- * @return True if this interface should be called again on this blocks parent or 
- *         false otherwise. 
+ * @return See interface docs. 
  */
 bool TypeList::childRemoved(AbstractBlock* child)
 {
+   // This does not use the given child pointer. 
    Q_UNUSED(child)
 
-   // Notify the name and body of this block is modified and return false. 
+   // Notify the name and body has changed and return false. 
    notifyNameModified();
    notifyBodyModified();
    return false;
@@ -203,14 +195,14 @@ bool TypeList::childRemoved(AbstractBlock* child)
 
 
 /*!
- * Implements the interface that checks to make sure the given name is a valid name 
- * for this block type, returning true if it is valid. 
+ * Implements _CppQt::Base_ interface. 
  *
- * @param value The name value whose syntax is checked to be valid or not. 
+ * @param value See interface docs. 
  *
- * @return True if the given name is valid or false otherwise. 
+ * @return See interface docs. 
  */
 bool TypeList::checkName(const QString& value)
 {
+   // Use a regular expression to determine if the given value is valid. 
    return QRegExp("[a-zA-Z_]+((::)?[a-zA-Z0-9_])*").exactMatch(value);
 }

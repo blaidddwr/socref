@@ -26,9 +26,9 @@ const QStringList Type::_fields {"type"};
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Type::type() const
 {
@@ -41,10 +41,9 @@ int Type::type() const
 
 
 /*!
- * Implements the interface that returns a reference to this block's factory which 
- * produces all block types for this project type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Reference to block factory. 
+ * @return See interface docs. 
  */
 const AbstractBlockFactory& Type::factory() const
 {
@@ -57,9 +56,9 @@ const AbstractBlockFactory& Type::factory() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Type::name() const
 {
@@ -72,17 +71,16 @@ QString Type::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Type::icon() const
 {
-   // If the static qt icon _ret_ is null then lead this block's icon. 
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/type.svg");
+   // Initialize the icon as static. 
+   static QIcon ret(":/icons/type.svg");
 
-   // Return _ret_. 
+   // Return the icon. 
    return ret;
 }
 
@@ -92,10 +90,9 @@ QIcon Type::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Type::buildList() const
 {
@@ -108,10 +105,9 @@ QList<int> Type::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> Type::makeView() const
 {
@@ -124,12 +120,13 @@ std::unique_ptr<QWidget> Type::makeView() const
 
 
 /*!
- * Implements the interface that returns the number of fields this block contains. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The number of fields this object contains. 
+ * @return See interface docs. 
  */
 int Type::fieldSize() const
 {
+   // Use the field enumeration to return the total number of fields. 
    return Field::Total;
 }
 
@@ -139,22 +136,21 @@ int Type::fieldSize() const
 
 
 /*!
- * Implements the interface that returns the field type for the given field index 
- * of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose field type is returned. 
+ * @param index See interface docs. 
  *
- * @return Field type of the given field index of this block. 
+ * @return See interface docs. 
  */
 AbstractBlock::Field Type::fieldType(int index) const
 {
-   // Based off the given field index return its type. If the given index is not 
-   // defined then throw an exception. 
+   // Based off the given field index return its type. 
    switch (index)
    {
    case Field::TypeName: return AbstractBlock::Field::String;
    default:
       {
+         // If the given index is unknown then throw an exception. 
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
@@ -171,22 +167,21 @@ AbstractBlock::Field Type::fieldType(int index) const
 
 
 /*!
- * Implements the interface that returns the value of the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is returned. 
+ * @param index See interface docs. 
  *
- * @return Value of the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QVariant Type::field(int index) const
 {
-   // Based off the given field index return its value. If the given index is not 
-   // defined then throw an exception. 
+   // Based off the given field index return its value. 
    switch (index)
    {
    case Field::TypeName: return _type;
    default:
       {
+         // If the given index is unknown then throw an exception. 
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
@@ -203,10 +198,9 @@ QVariant Type::field(int index) const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Type::makeEdit()
 {
@@ -230,33 +224,25 @@ std::unique_ptr<::Gui::AbstractEdit> Type::makeEdit()
  */
 bool Type::isValidTypeString(const QString& value)
 {
-   // If the given string does not match the basic syntax of a C++ type then return 
-   // false. 
+   // Make sure the given string matches basic syntax. 
    if ( !QRegExp("\\s*(const\\s+)?((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*(<(.*)>)?)+(\\s*\\*(\\s*const)?)*\\s*&{0,2}\\s*").exactMatch(value) )
    {
       return false;
    }
 
-   // Create a boolean _ret_ set to true and find all template argument matches 
-   // within the given string saving matches to _matches_. 
-   bool ret {true};
-   QRegularExpression regExp("<(.*)>");
-   QRegularExpressionMatchIterator matches {regExp.globalMatch(value)};
+   // Find all template argument matches within the given string. 
+   QRegularExpressionMatchIterator matches {QRegularExpression("<(.*)>").globalMatch(value)};
 
-   // Iterate through all _matches_. If any match is not a valid C++ template 
-   // argument then set _ret_ to false and stop iterating through all matches. 
+   // Iterate through all template argument matches. 
    while ( matches.hasNext() )
    {
+      // If the current template argument match is not valid then return false. 
       QRegularExpressionMatch match {matches.next()};
-      if ( !isValidTemplateArgument(match.captured(1)) )
-      {
-         ret = false;
-         break;
-      }
+      if ( !isValidTemplateArgument(match.captured(1)) ) return false;
    }
 
-   // Return _ret_. 
-   return ret;
+   // All syntax testing worked so return true. 
+   return true;
 }
 
 
@@ -276,42 +262,34 @@ bool Type::isValidTypeString(const QString& value)
  */
 bool Type::isValidTemplateArgument(const QString& value)
 {
-   // Initialize _ret_ to true, _arguments_ as the broken list of all arguments 
-   // within the given string, nd _regexp_ as the regular expression engine for 
-   // checking syntax. 
-   bool ret {true};
-   QStringList arguments {value.split(',')};
+   // Initialize the regular expression that will be used for basic syntax checking. 
    QRegExp regexp("\\s*((((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*)+(<(.*)>)?(\\s*\\*(\\s*const)?)*\\s*&?)|([0-9]+(\\.[0-9]+)?))\\s*");
 
-   // Iterate through all arguments in _arguments_. If an argument fails its syntax 
-   // check then set _ret_ to false and break out of the iteration. If the argument 
-   // is valid and itself contains another template argument then recursively call 
-   // this method to check it is also valid, setting _ret_ to false and breaking from 
-   // iteration if it is not valid. 
+   // Split up all template arguments and iterate through them all. 
+   QStringList arguments {value.split(',')};
    for (auto arg : arguments)
    {
+      // Make sure the template argument matches basic syntax. 
       if ( regexp.exactMatch(arg) )
       {
+         // Check to see if this template argument has additional arguments nested within 
+         // it. 
          if ( arg.contains("<") )
          {
+            // Recursively call this method to make sure nested template argument is valid, 
+            // returning false if it is not. 
             int begin {arg.indexOf('<')};
             int end {arg.lastIndexOf('>')};
-            if ( !isValidTemplateArgument(arg.mid(begin+1,end-begin-1)) )
-            {
-               ret = false;
-               break;
-            }
+            if ( !isValidTemplateArgument(arg.mid(begin+1,end-begin-1)) ) return false;
          }
       }
-      else
-      {
-         ret = false;
-         break;
-      }
+
+      // Else the template argument failed basic syntax so return false. 
+      else return false;
    }
 
-   // Return _ret_. 
-   return ret;
+   // All syntax testing worked so return true. 
+   return true;
 }
 
 
@@ -320,6 +298,9 @@ bool Type::isValidTemplateArgument(const QString& value)
 
 
 /*!
+ * Returns the type string this this block. 
+ *
+ * @return Type string for this block. 
  */
 QString Type::cppType() const
 {
@@ -332,10 +313,9 @@ QString Type::cppType() const
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Type::makeBlank() const
 {
@@ -348,10 +328,9 @@ std::unique_ptr<AbstractBlock> Type::makeBlank() const
 
 
 /*!
- * Implements the interface that returns the current data version for this block 
- * type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Current data version. 
+ * @return See interface docs. 
  */
 int Type::version() const
 {
@@ -364,15 +343,15 @@ int Type::version() const
 
 
 /*!
- * Implements the interface that returns the tag name for the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose tag name is returned. 
+ * @param index See interface docs. 
  *
- * @return Tag name for the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QString Type::fieldTag(int index) const
 {
+   // Return this block's field tag at the given index. 
    return _fields.at(index);
 }
 
@@ -382,16 +361,15 @@ QString Type::fieldTag(int index) const
 
 
 /*!
- * Implements the interface that returns the index of the field that has the given 
- * tag name for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param name Tag name of the field whose index is returned. 
+ * @param name See interface docs. 
  *
- * @return Index of the field with the given tag name or -1 if no field exists with 
- *         that tag name. 
+ * @return See interface docs. 
  */
 int Type::fieldIndexOf(const QString& name) const
 {
+   // Return the index of this block's field tag that matches the given name. 
    return _fields.indexOf(name);
 }
 
@@ -401,14 +379,14 @@ int Type::fieldIndexOf(const QString& name) const
 
 
 /*!
- * Implements the interface that is called when the field with the given index for 
- * this block has been modified. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field which has just been modified. 
+ * @param index See interface docs. 
  */
 void Type::fieldModified(int index)
 {
-   // Based off the field index given notify the changes to this block. 
+   // Based off the field index given notify the changes to this block. If the given 
+   // index is not defined then do nothing. 
    switch (index)
    {
    case Field::TypeName:
@@ -425,12 +403,11 @@ void Type::fieldModified(int index)
 
 
 /*!
- * Implements the interface that quietly sets the value of the field with the given 
- * index to the new given value. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is set to the new given value. 
+ * @param index See interface docs. 
  *
- * @param value New value that the field with the given index is set to. 
+ * @param value See interface docs. 
  */
 void Type::quietlySetField(int index, const QVariant& value)
 {
@@ -450,29 +427,6 @@ void Type::quietlySetField(int index, const QVariant& value)
 
 
 /*!
- * Makes sure the given string is a valid C++ type. If it is not valid then an 
- * exception is thrown. 
- *
- * @param value The string whose syntax is checked. 
- */
-void Type::checkType(const QString& value)
-{
-   // If the given string is not a valid C++ type then throw an exception. 
-   if ( !isValidTypeString(value) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("The given string '%1' is not a valid C++ type.").arg(value));
-      throw e;
-   }
-}
-
-
-
-
-
-
-/*!
  * Sets this block's type name field to the new value. If the given value is not a 
  * valid C++ type then an exception is thrown. 
  *
@@ -480,8 +434,15 @@ void Type::checkType(const QString& value)
  */
 void Type::setType(const QString& value)
 {
-   // Verify the given value is a valid C++ type and then set this block's type name 
-   // field to the new given value. 
-   checkType(value);
+   // Make sure the given value has valid type syntax. 
+   if ( !isValidTypeString(value) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("The given string '%1' is not a valid C++ type.").arg(value));
+      throw e;
+   }
+
+   // Set this block's type value to the new one given. 
    _type = value;
 }
