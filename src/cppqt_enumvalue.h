@@ -40,8 +40,8 @@ namespace CppQt
       {
          /*!
           * Defines the value field. This field is for when an enumeration value is set to a 
-          * specific integer value. This field is a string because that integer can be 
-          * another enumeration value or a macro. 
+          * specific value. It's value is set to extend the list of base fields this class 
+          * inherits. 
           */
          Value = Base::Field::Total
          /*!
@@ -54,7 +54,6 @@ namespace CppQt
       virtual void quietlySetField(int index, const QVariant& value) override final;
       virtual QStringList fields() const override final;
    private:
-      void setValue(const QString& value);
       /*!
        * List of this block's field tag names that follow the same order as this block's 
        * enumeration of fields. This is in addition to the base fields this block 

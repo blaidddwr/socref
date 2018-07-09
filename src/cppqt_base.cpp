@@ -81,9 +81,10 @@ AbstractBlock::Field Base::fieldType(int index) const
    {
    case Field::Name:
    case Field::Description: return AbstractBlock::Field::String;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
-         // If the given index is unknown then throw an exception. 
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
@@ -113,9 +114,10 @@ QVariant Base::field(int index) const
    {
    case Field::Name: return _name;
    case Field::Description: return _description;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
-         // If the given index is unknown then throw an exception. 
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")

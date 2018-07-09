@@ -77,7 +77,7 @@ QString Type::name() const
  */
 QIcon Type::icon() const
 {
-   // Initialize the icon as static. 
+   // Initialize the static icon for this block type. 
    static QIcon ret(":/icons/type.svg");
 
    // Return the icon. 
@@ -148,9 +148,10 @@ AbstractBlock::Field Type::fieldType(int index) const
    switch (index)
    {
    case Field::TypeName: return AbstractBlock::Field::String;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
-         // If the given index is unknown then throw an exception. 
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
@@ -179,9 +180,10 @@ QVariant Type::field(int index) const
    switch (index)
    {
    case Field::TypeName: return _type;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
-         // If the given index is unknown then throw an exception. 
          Exception::OutOfRange e;
          MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")

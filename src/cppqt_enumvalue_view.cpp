@@ -36,6 +36,8 @@ EnumValue::View::View(const EnumValue* block):
  */
 QString EnumValue::View::displayText()
 {
+   // Return the HTML string that displays this view's enumeration value block's 
+   // description and possible value. 
    return displayDescription().append(displayValue());
 }
 
@@ -53,8 +55,8 @@ QString EnumValue::View::displayText()
  */
 QString EnumValue::View::displayValue()
 {
-   // Get this view's enumeration value block's value field. If the value returned is 
-   // an empty string then return an empty string. 
+   // Get this view's enumeration value block's value field and make sure it is not 
+   // empty. 
    QString value {_block->value()};
    if ( value.isEmpty() ) return QString();
 

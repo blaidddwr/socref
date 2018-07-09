@@ -18,5 +18,6 @@ using namespace CppQt;
 Enumeration::View::View(const Enumeration* block):
    Base::View(block)
 {
+   // Display the base description field and nothing else. 
    setText(displayDescription());
 }

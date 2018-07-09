@@ -28,9 +28,9 @@ const QStringList Enumeration::_fields {"class"};
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Enumeration::type() const
 {
@@ -43,18 +43,19 @@ int Enumeration::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Enumeration::name() const
 {
-   // Create a new string _ret_ setting it to this block's base name. If this 
-   // enumeration is a class then append that to _ret_. 
+   // Create a new string setting it to this block's base name. 
    QString ret {Base::name()};
+
+   // If this enumeration is a class append that info to the string. 
    if ( _class ) ret.append(" [C]");
 
-   // Return _ret_. 
+   // Return the name string. 
    return ret;
 }
 
@@ -64,17 +65,16 @@ QString Enumeration::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Enumeration::icon() const
 {
-   // If the static qt icon _ret_ is null then lead this block's icon. 
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/enumeration.svg");
+   // Initialize the static icon for this block type. 
+   static QIcon ret(":/icons/enumeration.svg");
 
-   // Return _ret_. 
+   // Return the icon. 
    return ret;
 }
 
@@ -84,10 +84,9 @@ QIcon Enumeration::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Enumeration::buildList() const
 {
@@ -100,10 +99,9 @@ QList<int> Enumeration::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> Enumeration::makeView() const
 {
@@ -116,12 +114,13 @@ std::unique_ptr<QWidget> Enumeration::makeView() const
 
 
 /*!
- * Implements the interface that returns the number of fields this block contains. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The number of fields this object contains. 
+ * @return See interface docs. 
  */
 int Enumeration::fieldSize() const
 {
+   // Use the field enumeration to return the total number of fields. 
    return Field::Total;
 }
 
@@ -131,20 +130,20 @@ int Enumeration::fieldSize() const
 
 
 /*!
- * Implements the interface that returns the field type for the given field index 
- * of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose field type is returned. 
+ * @param index See interface docs. 
  *
- * @return Field type of the given field index of this block. 
+ * @return See interface docs. 
  */
 AbstractBlock::Field Enumeration::fieldType(int index) const
 {
-   // Based off the given field index return its type. If the given index is not 
-   // defined then call the base class interface returning its return. 
+   // Based off the given field index return its type. 
    switch (index)
    {
    case Field::Class: return AbstractBlock::Field::Boolean;
+
+   // If the given index is unknown for this block then call its base interface. 
    default: return Base::fieldType(index);
    }
 }
@@ -155,20 +154,20 @@ AbstractBlock::Field Enumeration::fieldType(int index) const
 
 
 /*!
- * Implements the interface that returns the value of the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is returned. 
+ * @param index See interface docs. 
  *
- * @return Value of the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QVariant Enumeration::field(int index) const
 {
-   // Based off the given field index return its value. If the given index is not 
-   // defined then call the base class interface returning its return. 
+   // Based off the given field index return its value. 
    switch (index)
    {
    case Field::Class: return _class;
+
+   // If the given index is unknown for this block then call its base interface. 
    default: return Base::field(index);
    }
 }
@@ -179,10 +178,9 @@ QVariant Enumeration::field(int index) const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Enumeration::makeEdit()
 {
@@ -217,6 +215,8 @@ bool Enumeration::isClass() const
  */
 QList<EnumValue*> Enumeration::values() const
 {
+   // Make a pointer list of all of this block's enumeration value child blocks and 
+   // return it. 
    return makeListOfType<EnumValue>(BlockFactory::EnumValueType);
 }
 
@@ -226,10 +226,9 @@ QList<EnumValue*> Enumeration::values() const
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Enumeration::makeBlank() const
 {
@@ -242,21 +241,21 @@ std::unique_ptr<AbstractBlock> Enumeration::makeBlank() const
 
 
 /*!
- * Implements the interface that is called when the field with the given index for 
- * this block has been modified. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field which has just been modified. 
+ * @param index See interface docs. 
  */
 void Enumeration::fieldModified(int index)
 {
-   // Based off the given field index notify that this block has been modified. If 
-   // the given index is not defined for this block then call the base interface. 
+   // Based off the given field index notify the changes to this block. 
    switch (index)
    {
    case Field::Class:
       notifyModified();
       notifyNameModified();
       break;
+
+   // If the given index is unknown for this block then call its base interface. 
    default:
       Base::fieldModified(index);
       break;
@@ -269,22 +268,22 @@ void Enumeration::fieldModified(int index)
 
 
 /*!
- * Implements the interface that quietly sets the value of the field with the given 
- * index to the new given value. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is set to the new given value. 
+ * @param index See interface docs. 
  *
- * @param value New value that the field with the given index is set to. 
+ * @param value See interface docs. 
  */
 void Enumeration::quietlySetField(int index, const QVariant& value)
 {
-   // Based off the given field index set its value to the new given value. If the 
-   // given index is not defined for this block then call the base interface. 
+   // Based off the given field index set its value to the new given value. 
    switch (index)
    {
    case Field::Class:
       _class = value.toBool();
       break;
+
+   // If the given index is unknown for this block then call its base interface. 
    default:
       Base::quietlySetField(index,value);
       break;
@@ -297,23 +296,23 @@ void Enumeration::quietlySetField(int index, const QVariant& value)
 
 
 /*!
- * Implements the interface that returns the full list of of all field tag names 
- * for this block that matches the order of this block's field enumeration. 
+ * Implements _CppQt::Base_ interface. 
  *
- * @return Full list of all field tag names for this block. 
+ * @return See interface docs. 
  */
 QStringList Enumeration::fields() const
 {
-   // If the static string list _ret_ is empty then populate its list, first with the 
-   // fields from the base block class and then with this block's additional fields. 
+   // Initialize an empty static string list. 
    static QStringList ret;
+
+   // If the static string list is empty then populate it. 
    if ( ret.isEmpty() )
    {
       ret.append(Base::fields());
       ret.append(_fields);
    }
 
-   // Return _ret_. 
+   // Return the combined fields list. 
    return ret;
 }
 
@@ -323,15 +322,17 @@ QStringList Enumeration::fields() const
 
 
 /*!
- * Implements _CppQt::Base::checkName_. This allows an empty string to be valid as 
- * a given name for anonymous enumerations. 
+ * Implements _CppQt::Base::checkName_ interface. This implementation allows an 
+ * empty string to be valid as a given name for anonymous enumerations. 
  *
- * @param value The name value whose syntax is checked to be valid or not. 
+ * @param value See interface docs. 
  *
- * @return True if the given name is valid or false otherwise. 
+ * @return See interface docs. 
  */
 bool Enumeration::checkName(const QString& value)
 {
+   // If the given value is empty then return true else call and return this block's 
+   // base interface. 
    if ( value.isEmpty() ) return true;
    else return Base::checkName(value);
 }

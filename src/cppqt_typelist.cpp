@@ -54,7 +54,7 @@ QString TypeList::name() const
  */
 QIcon TypeList::icon() const
 {
-   // Initialize the icon as static. 
+   // Initialize the static icon for this block type. 
    static QIcon ret(":/icons/typelist.svg");
 
    // Return the icon. 

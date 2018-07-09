@@ -19,9 +19,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Namespace::type() const
 {
@@ -34,17 +34,16 @@ int Namespace::type() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Namespace::icon() const
 {
-   // If the static qt icon _ret_ is null then load this block's icon. 
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/namespace.svg");
+   // Initialize the static icon for this block type. 
+   static QIcon ret(":/icons/namespace.svg");
 
-   // Return _ret_. 
+   // Return the icon. 
    return ret;
 }
 
@@ -54,15 +53,12 @@ QIcon Namespace::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block type can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Namespace::buildList() const
 {
-   // Return the build list of all other block types this namespace block type can 
-   // contain. 
    return QList<int>
    {
       BlockFactory::NamespaceType
@@ -81,10 +77,9 @@ QList<int> Namespace::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> Namespace::makeView() const
 {
@@ -97,10 +92,9 @@ std::unique_ptr<QWidget> Namespace::makeView() const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Namespace::makeEdit()
 {
@@ -136,6 +130,8 @@ QList<AbstractBlock*> Namespace::realChildren() const
  */
 const Namespace* Namespace::root() const
 {
+   // Get the root pointer for this block, casting it as a namespace block and making 
+   // sure it worked. 
    const Namespace* ret {qobject_cast<const Namespace*>(AbstractBlock::root())};
    if ( !ret )
    {
@@ -144,6 +140,8 @@ const Namespace* Namespace::root() const
       e.setDetails(tr("Root block is not expected Namespace type."));
       throw e;
    }
+
+   // Return the root namespace pointer. 
    return ret;
 }
 
@@ -159,6 +157,8 @@ const Namespace* Namespace::root() const
  */
 Namespace* Namespace::root()
 {
+   // Get the root pointer for this block, casting it as a namespace block and making 
+   // sure it worked. 
    Namespace* ret {qobject_cast<Namespace*>(AbstractBlock::root())};
    if ( !ret )
    {
@@ -167,6 +167,8 @@ Namespace* Namespace::root()
       e.setDetails(tr("Root block is not expected Namespace type."));
       throw e;
    }
+
+   // Return the root namespace pointer. 
    return ret;
 }
 
@@ -176,10 +178,9 @@ Namespace* Namespace::root()
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Namespace::makeBlank() const
 {

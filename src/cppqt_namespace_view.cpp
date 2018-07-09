@@ -18,5 +18,6 @@ using namespace CppQt;
 Namespace::View::View(const Namespace* block):
    Base::View(block)
 {
+   // Display the base description for this view's namespace block and nothing else. 
    setText(displayDescription());
 }

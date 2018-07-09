@@ -151,7 +151,7 @@ namespace CppQt
       bool _abstract {false};
       /*!
        */
-      QString _returnType;
+      QString _returnType {"void"};
       /*!
        */
       QString _returnDescription;
