@@ -1,5 +1,6 @@
 #include "cppqt_parse_header.h"
 #include <QStack>
+#include <QRegularExpression>
 #include "cppqt_parse_function.h"
 #include "cppqt_parse_common.h"
 #include "cppqt_parse_variable.h"
@@ -51,6 +52,25 @@ void Header::makeOutput()
    outputDefinitions();
    endNamespaceNesting();
    outputFooter();
+}
+
+
+
+
+
+
+void Header::readTop(const QString& line)
+{
+   if ( QRegularExpression("\\A#.*\\z").match(line).hasMatch()
+        && line != _header1
+        && line != _header2 )
+   {
+      addPreProcess(line);
+   }
+   else if ( QRegularExpression("\\A\\s*class\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*\\z").match(line).hasMatch() )
+   {
+      addMisc(line.trimmed());
+   }
 }
 
 

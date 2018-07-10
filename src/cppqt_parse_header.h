@@ -15,6 +15,7 @@ namespace CppQt
          Header(const Namespace* block, const QString& name);
       protected:
          virtual void makeOutput() override final;
+         virtual void readTop(const QString& line) override final;
          virtual void evaluateVariable(CppQt::Variable* block) override final;
          virtual void evaluateFunction(CppQt::Function* block) override final;
          virtual void evaluateOther(AbstractBlock* block) override final;
