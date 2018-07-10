@@ -55,10 +55,7 @@ QString Variable::View::displayType()
    // Create and return a string that contains HTML for this object's variable type 
    // field along with a title. Replace any special carrot characters so it doesn't 
    // break the HTML code. 
-   QString ret {"<h3>"};
-   ret.append(tr("Type")).append("</h3><p>");
-   ret.append(_block->variableType().replace("<","&lt;")).append("</p>");
-   return ret;
+   return tr("<h3>Type</h3><p>%1</p>").arg(_block->variableType().replace("<","&lt;"));
 }
 
 
@@ -79,21 +76,15 @@ QString Variable::View::displayProperties()
    // Create an empty string _ret_ and then an empty string list _list_. Append any 
    // properties this object's variable block has set to _list_. If _list_ is empty 
    // then return _ret_. 
-   QString ret;
    QStringList list;
    if ( _block->isConstExpr() ) list << "constexpr";
    if ( _block->isStatic() ) list << "static";
    if ( _block->isMutable() ) list << "mutable";
-   if ( list.isEmpty() ) return ret;
 
    // Append an HTML title, then all set properties as an HTML list to _ret_, and 
    // then return _ret_. 
-   ret.append("<h3>")
-      .append(tr("Properties"))
-      .append("</h3><ul><li>")
-      .append(list.join("</li><li>"))
-      .append("</li></ul>");
-   return ret;
+   if ( list.isEmpty() ) return QString();
+   else return tr("<h3>Properties</h3><ul><li>%1</li></ul>").arg(list.join("</li><li>"));
 }
 
 
@@ -119,7 +110,7 @@ QString Variable::View::displayInitializer()
    // Append an HTML title and then the initial value as an HTML list. Separate the 
    // initial value as a list using the comma as a separator. 
    const QStringList parts {_block->initializer().split(",")};
-   ret.append("<h3>").append(tr("Initializer")).append("</h3>");
+   ret.append(tr("<h3>Initializer</h3>"));
    for (auto part : parts) ret.append(part).append("<br/>");
 
    // Return _ret_. 

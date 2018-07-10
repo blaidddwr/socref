@@ -62,5 +62,5 @@ QString EnumValue::View::displayValue()
 
    // Return a HTML string that displays this view's enumeration value block's value 
    // field along with a title. 
-   return QString("<h3>").append(tr("Value")).append("</h3><p>").append(value).append("</p>");
+   return tr("<h3>Value</h3><p>%1</p>").arg(value);
 }

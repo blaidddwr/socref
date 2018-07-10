@@ -50,8 +50,7 @@ QString Class::View::displayText()
 QString Class::View::displayQtObject()
 {
    //
-   return QString("<p><b>Qt Object</b> : ").append(_block->isQtObject() ? "Yes" : "No")
-                                           .append("</p>");
+   return tr("<p><b>Qt Object</b> : %1</p>").arg(_block->isQtObject() ? "Yes" : "No");
 }
 
 
@@ -83,11 +82,9 @@ QString Class::View::displayParents()
    for (auto parent : list)
    {
       //
-      ret.append("<p><b>")
-         .append(parent->accessString())
-         .append("</b> ")
-         .append(parent->className().replace("<","&lt;"))
-         .append("</p>");
+      ret.append(tr("<p><b>%1</b> %2</p>")
+                 .arg(parent->accessString())
+                 .arg(parent->className().replace("<","&lt;")));
    }
 
    //

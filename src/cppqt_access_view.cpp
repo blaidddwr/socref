@@ -35,10 +35,10 @@ Access::View::View(const Access* block):
 QString Access::View::displayText()
 {
    //
-   int functions {0};
-   int variables {0};
-   int signals_ {0};
-   int slots_ {0};
+   int functionAmt {0};
+   int variableAmt {0};
+   int signalAmt {0};
+   int slotAmt {0};
 
    //
    for (auto child : _block->list())
@@ -47,16 +47,16 @@ QString Access::View::displayText()
       switch (child->type())
       {
       case BlockFactory::FunctionType:
-         functions++;
+         functionAmt++;
          break;
       case BlockFactory::VariableType:
-         variables++;
+         variableAmt++;
          break;
       case BlockFactory::SignalType:
-         signals_++;
+         signalAmt++;
          break;
       case BlockFactory::SlotType:
-         slots_++;
+         slotAmt++;
          break;
       }
    }
@@ -67,15 +67,15 @@ QString Access::View::displayText()
    //
    if ( _block->hasRegular() )
    {
-      ret.append(QString::number(functions)).append(" functions<br/>");
-      ret.append(QString::number(variables)).append(" variables<br/>");
+      ret.append(tr("%n function(s)<br/>","0",functionAmt));
+      ret.append(tr("%n variable(s)<br/>","0",variableAmt));
    }
 
    //
-   else if ( _block->hasSignals() ) ret.append(QString::number(signals_)).append(" signals<br/>");
+   else if ( _block->hasSignals() ) ret.append(tr("%n signal(s)<br/>","0",signalAmt));
 
    //
-   else if ( _block->hasSlots() ) ret.append(QString::number(slots_)).append(" slots<br/>");
+   else if ( _block->hasSlots() ) ret.append(tr("%n slot(s)<br/>","0",slotAmt));
 
    //
    return ret;

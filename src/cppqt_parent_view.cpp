@@ -33,7 +33,7 @@ Parent::View::View(const Parent* block):
  */
 QString Parent::View::displayText()
 {
-   return QString("<b>").append(_block->accessString())
-                        .append("</b> ")
-                        .append(_block->className().replace("<","&lt;"));
+   return QString("<b>%1</b> %2")
+          .arg(_block->accessString())
+          .arg(_block->className().replace("<","&lt;"));
 }

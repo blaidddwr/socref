@@ -69,7 +69,7 @@ QString TypeList::View::displayTypeLists()
    // Add a HTML title and beginning paragraph tag, then iterate through all type 
    // list children and append their info as HTML, and then add a HTML ending 
    // paragraph tag. 
-   ret.append("<h3>").append(tr("Type Lists")).append("</h3><p>");
+   ret.append(tr("<h3>Type Lists</h3>"));
    for (auto typeList: list) ret.append(typeList->name()).append("<br/>");
    ret.append("</p>");
 
@@ -101,7 +101,7 @@ QString TypeList::View::displayTypes()
 
    // Add a HTML title, then iterate through all type children and append their info 
    // as HTML, and then add a HTML ending paragraph. 
-   ret.append("<h3>").append(tr("Types")).append("</h3><p>");
+   ret.append(tr("<h3>Types<>/h3>"));
    for (auto type: list) ret.append(type->name().replace("<","&lt;")).append("<br/>");
    ret.append("</p>");
 

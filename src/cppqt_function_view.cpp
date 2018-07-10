@@ -34,10 +34,10 @@ Function::View::View(const Function* block):
  */
 QString Function::View::displayText()
 {
-   return displayArguments().append(displayProperties())
+   return displayArguments().append(displayReturn())
                             .append(displayTemplates())
                             .append(displayDescription())
-                            .append(displayReturn())
+                            .append(displayProperties())
                             .append(displayOperations());
 }
 
@@ -65,16 +65,16 @@ QString Function::View::displayArguments()
    // Append an HTML title to _ret_, then all arguments from _list_ as an HTML list 
    // to _ret_. Include the variable type, base name, initialized value, and 
    // description for each argument listing. 
-   ret.append("<h3>Arguments</h3>");
+   ret.append(tr("<h3>Arguments</h3>"));
    for (auto variable : list)
    {
-      ret.append("<p><b>")
-         .append(variable->variableType().replace("<","&lt;"))
-         .append(" ")
-         .append(variable->Base::name())
-         .append("</b>");
-      if ( variable->hasInitializer() ) ret.append(" = ").append(variable->initializer());
-      ret.append(" : ").append(variable->description()).append("</p>");
+      QString initializer;
+      if ( variable->hasInitializer() ) initializer = QString(" = ").append(variable->initializer());
+      ret.append(tr("<p><u>%1</u> <b>%2</b>%3 : %4</p>")
+                 .arg(variable->variableType().replace("<","&lt;"))
+                 .arg(variable->Base::name())
+                 .arg(initializer)
+                 .arg(variable->description()));
    }
 
    // Return _ret_. 
@@ -99,7 +99,6 @@ QString Function::View::displayProperties()
    // Create an empty string _ret_ and then an empty string list _list_. Append any 
    // properties this object's function block has set to _list_. If _list_ is empty 
    // then return _ret_. 
-   QString ret;
    QStringList list;
    if ( _block->isDefault() ) list << "default";
    if ( _block->isExplicit() ) list << "explicit";
@@ -109,16 +108,11 @@ QString Function::View::displayProperties()
    if ( _block->isOverride() ) list << "override";
    if ( _block->isFinal() ) list << "final";
    if ( _block->isAbstract() ) list << "abstract(= 0)";
-   if ( list.isEmpty() ) return ret;
 
    // Append an HTML title, then all set properties as an HTML list to _ret_, and 
    // then return _ret_. 
-   ret.append("<h3>")
-      .append(tr("Properties"))
-      .append("</h3><ul><li>")
-      .append(list.join("</li><li>"))
-      .append("</li></ul>");
-   return ret;
+   if ( list.isEmpty() ) return QString();
+   else return tr("<h3>Properties</h3><ul><li>%1</li></ul>").arg(list.join("</li><li>"));
 }
 
 
@@ -138,15 +132,12 @@ QString Function::View::displayReturn()
    // Create and return a string that contains HTML for this object's function return 
    // type field along with a title. Replace any special carrot characters so it 
    // doesn't break the HTML code. 
-   QString ret;
    QString returnType {_block->returnType()};
-   if ( returnType.isEmpty() || returnType == QString("void") ) return ret;
-   ret.append("<h3>Return</h3><p><b>")
-      .append(returnType.replace("<","&lt;"))
-      .append(" :</b> ")
-      .append(_block->returnDescription())
-      .append("</p>");
-   return ret;
+
+   if ( returnType.isEmpty() || returnType == QString("void") ) return QString();
+   else return tr("<h3>Return</h3><p><u>%1</u> : %2</p>")
+               .arg(returnType.replace("<","&lt;"))
+               .arg(_block->returnDescription());
 }
 
 
@@ -174,11 +165,7 @@ QString Function::View::displayOperations()
    ret.append("<h3>Operations</h3>");
    for (int i = 0; i < list.size() ;++i)
    {
-      ret.append("<p><b>#")
-         .append(QString::number(i + 1))
-         .append("</b> ")
-         .append(parseBoldMarkers(list.at(i)))
-         .append("</p>");
+      ret.append(tr("<p><b>#%1</b> %2</p>").arg(i + 1).arg(list.at(i)));
    }
 
    // Return _ret_. 
