@@ -227,7 +227,7 @@ std::unique_ptr<::Gui::AbstractEdit> Type::makeEdit()
 bool Type::isValidTypeString(const QString& value)
 {
    // Make sure the given string matches basic syntax. 
-   if ( !QRegExp("\\s*(const\\s+)?((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*(<(.*)>)?)+(\\s*\\*(\\s*const)?)*\\s*&{0,2}\\s*").exactMatch(value) )
+   if ( !QRegularExpression("\\A\\s*(const\\s+)?((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*(<(.*)>)?)+(\\s*\\*(\\s*const)?)*\\s*&{0,2}\\s*\\z").match(value).hasMatch() )
    {
       return false;
    }
@@ -265,14 +265,14 @@ bool Type::isValidTypeString(const QString& value)
 bool Type::isValidTemplateArgument(const QString& value)
 {
    // Initialize the regular expression that will be used for basic syntax checking. 
-   QRegExp regexp("\\s*((((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*)+(<(.*)>)?(\\s*\\*(\\s*const)?)*\\s*&?)|([0-9]+(\\.[0-9]+)?))\\s*");
+   QRegularExpression regexp("\\A\\s*((((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*)+(<(.*)>)?(\\s*\\*(\\s*const)?)*\\s*&?)|([0-9]+(\\.[0-9]+)?))\\s*\\z");
 
    // Split up all template arguments and iterate through them all. 
    QStringList arguments {value.split(',')};
    for (auto arg : arguments)
    {
       // Make sure the template argument matches basic syntax. 
-      if ( regexp.exactMatch(arg) )
+      if ( regexp.match(arg).hasMatch() )
       {
          // Check to see if this template argument has additional arguments nested within 
          // it. 

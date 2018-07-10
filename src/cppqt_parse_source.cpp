@@ -1,5 +1,6 @@
 #include "cppqt_parse_source.h"
 #include <QStack>
+#include <QRegularExpression>
 #include "cppqt_parse_function.h"
 #include "cppqt_parse_variable.h"
 #include "cppqt_function.h"
@@ -61,11 +62,11 @@ void Source::initialize()
 
 bool Source::readLine(const QString& line)
 {
-   if ( QRegExp("\\s*\\/\\*!").exactMatch(line) )
+   if ( QRegularExpression("\\A\\s*\\/\\*!\\z").match(line).hasMatch() )
    {
       _inComments = true;
    }
-   else if ( QRegExp("\\s*\\*\\/").exactMatch(line) )
+   else if ( QRegularExpression("\\A\\s*\\*\\/\\z").match(line).hasMatch() )
    {
       _inComments = false;
    }
@@ -73,11 +74,11 @@ bool Source::readLine(const QString& line)
    {
       if ( line == QString("//") ) _pastTop = true;
       if ( !_pastTop ) readTop(line);
-      if ( QRegExp(".*\\([a-zA-Z0-9_,<>:&\\* ]*\\):?[ constexp]*").exactMatch(line) )
+      if ( QRegularExpression("\\A.*\\([a-zA-Z0-9_,<>:&\\* ]*\\):?[ constexp]*\\z").match(line).hasMatch() )
       {
          if ( Function* child = findDefined(line) )
          {
-            child->setCutOff(line.indexOf(QRegExp("\\S")));
+            child->setCutOff(line.indexOf(QRegularExpression("\\S")));
             stepIntoChild(child);
          }
          else
@@ -110,11 +111,11 @@ void Source::makeOutput()
 
 void Source::readTop(const QString& line)
 {
-   if ( QRegExp("#.*").exactMatch(line) && line != _include )
+   if ( QRegularExpression("\\A#.*\\z").match(line).hasMatch() && line != _include )
    {
       addPreProcess(line);
    }
-   else if ( QRegExp("\\s*using\\s+namespace\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*").exactMatch(line)
+   else if ( QRegularExpression("\\A\\s*using\\s+namespace\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*\\z").match(line).hasMatch()
              && line != _usingName )
    {
       addMisc(line.trimmed());

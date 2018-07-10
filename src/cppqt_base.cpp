@@ -1,4 +1,5 @@
 #include "cppqt_base.h"
+#include <QRegularExpression>
 #include <exception.h>
 #include "cppqt_blockfactory.h"
 #include "common.h"
@@ -283,7 +284,7 @@ QStringList Base::fields() const
 bool Base::checkName(const QString& value)
 {
    // Use a regular expression to determine if the given string has correct syntax. 
-   return QRegExp("[a-zA-Z_]+[a-zA-Z0-9_]*").exactMatch(value);
+   return QRegularExpression("\\A[a-zA-Z_]+[a-zA-Z0-9_]*\\z").match(value).hasMatch();
 }
 
 

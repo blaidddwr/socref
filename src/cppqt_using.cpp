@@ -1,4 +1,5 @@
 #include "cppqt_using.h"
+#include <QRegularExpression>
 #include <exception.h>
 #include "cppqt_using_view.h"
 #include "cppqt_using_edit.h"
@@ -341,7 +342,7 @@ void Using::quietlySetField(int index, const QVariant& value)
  */
 void Using::checkField(const QString& value)
 {
-   if ( !QRegExp("((::)?[a-zA-Z_]+[a-zA-Z_0-9]*)+").exactMatch(value) )
+   if ( !QRegularExpression("\\A((::)?[a-zA-Z_]+[a-zA-Z_0-9]*)+\\z").match(value).hasMatch() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);

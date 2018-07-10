@@ -58,23 +58,6 @@ void Header::makeOutput()
 
 
 
-void Header::readTop(const QString& line)
-{
-   if ( QRegExp("#.*").exactMatch(line) && line != _header1 && line != _header2 )
-   {
-      addPreProcess(line);
-   }
-   else if ( QRegExp("\\s*class\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*").exactMatch(line) )
-   {
-      addMisc(line.trimmed());
-   }
-}
-
-
-
-
-
-
 void Header::evaluateVariable(CppQt::Variable* block)
 {
    Variable* base {new Variable(block,this)};

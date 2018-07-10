@@ -1,5 +1,6 @@
 #include "cppqt_parse_common.h"
 #include <QStack>
+#include <QRegularExpression>
 #include <exception.h>
 #include "cppqt_template.h"
 #include "cppqt_blockfactory.h"
@@ -56,7 +57,7 @@ QStringList Parse::makeComment(const QString& text, int justified)
    QStringList paragraphs {text.split("\n\n",QString::SkipEmptyParts)};
    for (int i = 0; i < paragraphs.size() ;++i)
    {
-      QStringList words {paragraphs.at(i).split(QRegExp("\\s+"))};
+      QStringList words {paragraphs.at(i).split(QRegularExpression("\\s+"))};
       while ( !words.isEmpty() )
       {
          int total {words.first().size()};

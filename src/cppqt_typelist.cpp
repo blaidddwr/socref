@@ -1,4 +1,5 @@
 #include "cppqt_typelist.h"
+#include <QRegularExpression>
 #include "cppqt_typelist_view.h"
 #include "cppqt_typelist_edit.h"
 #include "cppqt_blockfactory.h"
@@ -204,5 +205,5 @@ bool TypeList::childRemoved(AbstractBlock* child)
 bool TypeList::checkName(const QString& value)
 {
    // Use a regular expression to determine if the given value is valid. 
-   return QRegExp("[a-zA-Z_]+((::)?[a-zA-Z0-9_])*").exactMatch(value);
+   return QRegularExpression("\\A[a-zA-Z_]+((::)?[a-zA-Z0-9_])*\\z").match(value).hasMatch();
 }

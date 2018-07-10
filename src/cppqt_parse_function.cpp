@@ -1,5 +1,6 @@
 #include "cppqt_parse_function.h"
 #include <QStack>
+#include <QRegularExpression>
 #include <exception.h>
 #include "cppqt_parse_common.h"
 #include "cppqt_function.h"
@@ -34,7 +35,7 @@ Function::Function(CppQt::Function* block, AbstractParser* parent):
 Function::Function(const QString& definition, AbstractParser* parent):
    Base(parent)
 {
-   _cutOff = definition.indexOf(QRegExp("\\S"));
+   _cutOff = definition.indexOf(QRegularExpression("\\S"));
    _definition = definition.mid(_cutOff);
 }
 
@@ -139,7 +140,7 @@ void Function::outputDefinition()
 bool Function::isMatch(const QString& line)
 {
    if ( hasCode() ) return false;
-   QString regular {".*[: ]"};
+   QString regular {"\\A.*[: ]"};
    regular.append(getName(true)).append("\\(\\s*");
    for (auto argument : _block->arguments())
    {
@@ -148,9 +149,8 @@ bool Function::isMatch(const QString& line)
    regular.append("\\):?");
    if ( _block->isConst() ) regular.append("\\s+const");
    if ( _block->isNoExcept() ) regular.append("\\s+noexcept");
-   regular.append("\\s*");
-   bool ret = QRegExp(regular).exactMatch(line);
-   return ret;
+   regular.append("\\s*\\z");
+   return QRegularExpression(regular).match(line).hasMatch();
 }
 
 
@@ -180,13 +180,16 @@ void Function::setCutOff(int cutOff)
 
 bool Function::readLine(const QString& line)
 {
-   if ( _level == 0 && QRegExp("\\s*\\{\\}\\s*").exactMatch(line) ) return false;
-   if ( QRegExp("\\s*\\{\\s*").exactMatch(line) )
+   if ( _level == 0 && QRegularExpression("\\A\\s*\\{\\}\\s*\\z").match(line).hasMatch() )
+   {
+      return false;
+   }
+   if ( QRegularExpression("\\A\\s*\\{\\s*\\z").match(line).hasMatch() )
    {
       ++_level;
       if ( _level == 1 ) return true;
    }
-   else if ( QRegExp("\\s*\\};?\\s*").exactMatch(line) )
+   else if ( QRegularExpression("\\A\\s*\\};?\\s*\\z").match(line).hasMatch() )
    {
       --_level;
       if ( _level == 0 ) return false;
@@ -194,7 +197,7 @@ bool Function::readLine(const QString& line)
    if ( _level == 0) _initializers << line.mid(_cutOff);
    else
    {
-      if ( _block && QRegExp("\\s*// .*").exactMatch(line) )
+      if ( _block && QRegularExpression("\\A\\s*// .*\\z").match(line).hasMatch() )
       {
          if ( !_edgePast )
          {
@@ -245,7 +248,7 @@ void Function::processInlineComment(const QString& line)
 void Function::insertInlineComment(int index, int spacing)
 {
    const int max {Settings::instance().maxColumns()};
-   QStringList words {_block->operations().at(index).split(QRegExp("\\s+"))};
+   QStringList words {_block->operations().at(index).split(QRegularExpression("\\s+"))};
    while ( !words.isEmpty() )
    {
       int total {words.first().size() + 1};
