@@ -39,8 +39,8 @@ namespace CppQt
       enum Field
       {
          /*!
-          * Defines the class field. Because this expands the base fields this is set to the 
-          * the base fields total. 
+          * Defines the class field. It's value is set to extend the list of base fields 
+          * this class inherits. 
           */
          Class = Base::Field::Total
          /*!

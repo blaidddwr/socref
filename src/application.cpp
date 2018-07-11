@@ -73,10 +73,7 @@ bool Application::notify(QObject* receiver, QEvent* event)
  */
 QString Application::versionString()
 {
-   return QString::number(Application::_majorVersion).append(".")
-                                                     .append(QString::number(Application::_minorVersion))
-                                                     .append(".")
-                                                     .append(QString::number(Application::_revision));
+   return QString("%1.%2.%3").arg(_majorVersion).arg(_minorVersion).arg(_revision);
 }
 
 

@@ -26,24 +26,22 @@ Template::Edit::Edit(Template* block):
 
 
 /*!
- * Implements the interface that is called to return the layout of all GUI elements 
- * used by this dialog object's form layout. 
+ * Implements _Gui::AbstractEdit_ interface. 
  *
- * @return Pointer to the layout containing all GUI elements for this dialog. 
+ * @return See interface docs. 
  */
 QLayout* Template::Edit::layout()
 {
-   // Save this dialog object's geometry to Qt settings. 
+   // Save the geometry of this dialog. 
    saveSettings("cppqt.template.edit.geometry");
 
-   // Create a new form layout _ret_, add the type edit widget, then add a new line 
-   // edit for the base name field, and then add a new text edit for the base 
-   // description field. 
+   // Create a new form layout, adding the variable type edit widget then the base 
+   // name field and then the base description field. 
    QFormLayout* ret {new QFormLayout};
    addTypeEdit(ret);
    addLineEdit(ret,Base::Field::Name);
    addTextEdit(ret,Base::Field::Description);
 
-   // Return _ret_. 
+   // Return the form layout. 
    return ret;
 }

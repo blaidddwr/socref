@@ -34,6 +34,8 @@ Variable::View::View(const Variable* block):
  */
 QString Variable::View::displayText()
 {
+   // Display as HTML this view's variable block's type, description, properties, and 
+   // initial value in that order. 
    return displayType().append(displayDescription())
                        .append(displayProperties())
                        .append(displayInitializer());
@@ -52,9 +54,8 @@ QString Variable::View::displayText()
  */
 QString Variable::View::displayType()
 {
-   // Create and return a string that contains HTML for this object's variable type 
-   // field along with a title. Replace any special carrot characters so it doesn't 
-   // break the HTML code. 
+   // Create and return a HTML string that displays this view's variable block type 
+   // field. All special characters must be replaced to preserve the HTML. 
    return tr("<h3>Type</h3><p>%1</p>").arg(_block->variableType().replace("<","&lt;"));
 }
 
@@ -73,17 +74,18 @@ QString Variable::View::displayType()
  */
 QString Variable::View::displayProperties()
 {
-   // Create an empty string _ret_ and then an empty string list _list_. Append any 
-   // properties this object's variable block has set to _list_. If _list_ is empty 
-   // then return _ret_. 
+   // Create an empty string list, appending any properties this view's variable 
+   // block has set. 
    QStringList list;
    if ( _block->isConstExpr() ) list << "constexpr";
    if ( _block->isStatic() ) list << "static";
    if ( _block->isMutable() ) list << "mutable";
 
-   // Append an HTML title, then all set properties as an HTML list to _ret_, and 
-   // then return _ret_. 
+   // If the string list is empty then return an empty string. 
    if ( list.isEmpty() ) return QString();
+
+   // Else this view's block has set properties so return a HTML string displaying 
+   // those set properties. 
    else return tr("<h3>Properties</h3><ul><li>%1</li></ul>").arg(list.join("</li><li>"));
 }
 
@@ -102,17 +104,18 @@ QString Variable::View::displayProperties()
  */
 QString Variable::View::displayInitializer()
 {
-   // Create an empty string _ret_. If this view's variable block has no initial 
-   // value then return _ret_. 
+   // Create an empty string. 
    QString ret;
+
+   // Make sure this view's block has an initial value. 
    if ( !_block->hasInitializer() ) return ret;
 
-   // Append an HTML title and then the initial value as an HTML list. Separate the 
-   // initial value as a list using the comma as a separator. 
+   // Append a HTML string that displays this view's variable block's initial value, 
+   // separating that value by the comma delimiter. 
    const QStringList parts {_block->initializer().split(",")};
    ret.append(tr("<h3>Initializer</h3>"));
    for (auto part : parts) ret.append(part).append("<br/>");
 
-   // Return _ret_. 
+   // Return the initial value HTML string. 
    return ret;
 }

@@ -35,9 +35,9 @@ const QStringList Variable::_fields
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Variable::type() const
 {
@@ -50,25 +50,28 @@ int Variable::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Variable::name() const
 {
-   // Create a string _ret_, setting it to this variable's base name. 
+   // Create a string and set it to this variable's base name. 
    QString ret {Base::name()};
 
-   // If this variable has an initial value that append that to _ret_, using 
-   // different display types depending on if it is an argument or not. 
+   // Check to see if this variable has an initial vallue. 
    if ( !_initializer.isEmpty() )
    {
+      // Append the initial value indicator appropriate for the context of this 
+      // variable. 
       if ( isArgument() ) ret.append(" =");
       else ret.append(" {}");
    }
 
-   // Append this variable's properties to _ret_ and then return _ret_. 
+   // Append this variable's property markers. 
    ret.append(attributes());
+
+   // Return this variable's display name. 
    return ret;
 }
 
@@ -78,26 +81,19 @@ QString Variable::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Variable::icon() const
 {
-   // If the variable block's static icons are not loaded then load them. 
-   static bool isLoaded {false};
-   static QIcon regular;
-   static QIcon static_;
-   if ( !isLoaded )
-   {
-      regular = QIcon(":/icons/variable.svg");
-      static_ = QIcon(":/icons/svariable.svg");
-   }
+   // Initialize the static icons for this block type. 
+   static QIcon regularIcon(":/icons/variable.svg");
+   static QIcon staticIcon(":/icons/svariable.svg");
 
-   // Return the static or regular icon, depending on if this variable has its static 
-   // property set or not. 
-   if ( _static ) return static_;
-   else return regular;
+   // Return the correct icon based off this variable's properties. 
+   if ( _static ) return staticIcon;
+   else return regularIcon;
 }
 
 
@@ -106,10 +102,9 @@ QIcon Variable::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Variable::buildList() const
 {
@@ -122,10 +117,9 @@ QList<int> Variable::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> Variable::makeView() const
 {
@@ -138,12 +132,13 @@ std::unique_ptr<QWidget> Variable::makeView() const
 
 
 /*!
- * Implements the interface that returns the number of fields this block contains. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The number of fields this object contains. 
+ * @return See interface docs. 
  */
 int Variable::fieldSize() const
 {
+   // Use the field enumeration to return the total number of fields. 
    return Field::Total;
 }
 
@@ -153,15 +148,15 @@ int Variable::fieldSize() const
 
 
 /*!
- * Implements the interface that returns the field type for the given field index 
- * of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose field type is returned. 
+ * @param index See interface docs. 
  *
- * @return Field type of the given field index of this block. 
+ * @return See interface docs. 
  */
 AbstractBlock::Field Variable::fieldType(int index) const
 {
+   // Based off the given field index return its type. 
    switch (index)
    {
    case Field::ConstExpr:
@@ -169,6 +164,9 @@ AbstractBlock::Field Variable::fieldType(int index) const
    case Field::Mutable: return AbstractBlock::Field::Boolean;
    case Field::Type:
    case Field::Initializer: return AbstractBlock::Field::String;
+
+   // If the given index is unknown for this block then call its base class 
+   // interface. 
    default: return Base::fieldType(index);
    }
 }
@@ -179,15 +177,15 @@ AbstractBlock::Field Variable::fieldType(int index) const
 
 
 /*!
- * Implements the interface that returns the value of the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is returned. 
+ * @param index See interface docs. 
  *
- * @return Value of the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QVariant Variable::field(int index) const
 {
+   // Based off the given field index return its value. 
    switch (index)
    {
    case Field::ConstExpr: return _constExpr;
@@ -195,6 +193,9 @@ QVariant Variable::field(int index) const
    case Field::Mutable: return _mutable;
    case Field::Type: return _type;
    case Field::Initializer: return _initializer;
+
+   // If the given index is unknown for this block then call its base class 
+   // interface. 
    default: return Base::field(index);
    }
 }
@@ -205,10 +206,9 @@ QVariant Variable::field(int index) const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Variable::makeEdit()
 {
@@ -288,6 +288,8 @@ QString Variable::variableType() const
  */
 bool Variable::hasInitializer() const
 {
+   // Test if this variable's initial value string is empty to determine if it has 
+   // one. 
    return !_initializer.isEmpty();
 }
 
@@ -319,9 +321,13 @@ QString Variable::initializer() const
  */
 bool Variable::isMember() const
 {
+   // Get this block's parent block pointer and make sure it is not null. 
    AbstractBlock* up {parent()};
    if ( !up ) return false;
-   else return up->type() == BlockFactory::AccessType;
+
+   // Test if this variable is an argument by seeing if its parent block is an access 
+   // type. 
+   return up->type() == BlockFactory::AccessType;
 }
 
 
@@ -337,6 +343,8 @@ bool Variable::isMember() const
  */
 bool Variable::isArgument() const
 {
+   // Test if this variable is an argument by seeing if its parent is a function 
+   // block type. 
    return qobject_cast<Function*>(parent());
 }
 
@@ -346,10 +354,9 @@ bool Variable::isArgument() const
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Variable::makeBlank() const
 {
@@ -362,13 +369,13 @@ std::unique_ptr<AbstractBlock> Variable::makeBlank() const
 
 
 /*!
- * Implements the interface that is called when the field with the given index for 
- * this block has been modified. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field which has just been modified. 
+ * @param index See interface docs. 
  */
 void Variable::fieldModified(int index)
 {
+   // Based off the given field index notify the changes to this block. 
    switch (index)
    {
    case Field::ConstExpr:
@@ -380,6 +387,8 @@ void Variable::fieldModified(int index)
       notifyNameModified();
       notifyBodyModified();
       break;
+
+   // If the given index is not unknown for this block then call its base interface. 
    default:
       Base::fieldModified(index);
       break;
@@ -392,15 +401,15 @@ void Variable::fieldModified(int index)
 
 
 /*!
- * Implements the interface that quietly sets the value of the field with the given 
- * index to the new given value. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is set to the new given value. 
+ * @param index See interface docs. 
  *
- * @param value New value that the field with the given index is set to. 
+ * @param value See interface docs. 
  */
 void Variable::quietlySetField(int index, const QVariant& value)
 {
+   // Based off the given field index set its value to the new given value. 
    switch (index)
    {
    case Field::ConstExpr:
@@ -418,6 +427,8 @@ void Variable::quietlySetField(int index, const QVariant& value)
    case Field::Initializer:
       _initializer = value.toString();
       break;
+
+   // If the given index is not unknown for this block then call its base interface. 
    default:
       Base::quietlySetField(index,value);
    }
@@ -429,43 +440,24 @@ void Variable::quietlySetField(int index, const QVariant& value)
 
 
 /*!
- * Implements the interface that returns the full list of of all field tag names 
- * for this block that matches the order of this block's field enumeration. 
+ * Implements _CppQt::Base_ interface. 
  *
- * @return Full list of all field tag names for this block. 
+ * @return See interface docs. 
  */
 QStringList Variable::fields() const
 {
+   // Initialize an empty static string list. 
    static QStringList ret;
+
+   // If the string list is empty then populate it. 
    if ( ret.isEmpty() )
    {
       ret.append(Base::fields());
       ret.append(_fields);
    }
+
+   // Return the combined fields string list. 
    return ret;
-}
-
-
-
-
-
-
-/*!
- * Checks the given string to verify it is a valid C++ type. If it is invalid then 
- * an exception is thrown. 
- *
- * @param value The string that is verified to have valid C++ type syntax. 
- */
-void Variable::checkType(const QString& value)
-{
-   // If the given string is not a valid C++ type then throw an exception. 
-   if ( !Type::isValidTypeString(value) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid type '%1'.").arg(value));
-      throw e;
-   }
 }
 
 
@@ -481,16 +473,17 @@ void Variable::checkType(const QString& value)
  */
 QString Variable::attributes() const
 {
-   // Create a string _ret_, appending any properties it has using single capital 
-   // letters. If any properties are appended then enclose them with brackets and a 
-   // space. 
+   // Create a string, appending any properties this variable has using single 
+   // capital letters. 
    QString ret;
    if ( _constExpr ) ret.append("X");
    if ( _static ) ret.append("S");
    if ( _mutable ) ret.append("M");
+
+   // If the string is not empty then enclose it with brackets and a space. 
    if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
 
-   // Return _ret_. 
+   // Return the attributes string. 
    return ret;
 }
 
@@ -507,8 +500,7 @@ QString Variable::attributes() const
  */
 void Variable::setConstExpr(bool state)
 {
-   // If the new given state is illegal then throw an exception, else set this 
-   // block's property to the new given state. 
+   // Make sure the given state is valid given this variable's current context. 
    if ( parent() && state && isArgument() )
    {
       Exception::InvalidArgument e;
@@ -516,6 +508,8 @@ void Variable::setConstExpr(bool state)
       e.setDetails(tr("Cannot set as constant expression when it is a function argument."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _constExpr = state;
 }
 
@@ -532,8 +526,7 @@ void Variable::setConstExpr(bool state)
  */
 void Variable::setStatic(bool state)
 {
-   // If the new given state is illegal then throw an exception, else set this 
-   // block's property to the new given state. 
+   // Make sure the given state is valid given this variable's current context. 
    if ( parent() && state && !isMember() )
    {
       Exception::InvalidArgument e;
@@ -541,6 +534,8 @@ void Variable::setStatic(bool state)
       e.setDetails(tr("Cannot set as static when it is not a class member."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _static = state;
 }
 
@@ -557,8 +552,7 @@ void Variable::setStatic(bool state)
  */
 void Variable::setMutable(bool state)
 {
-   // If the new given state is illegal then throw an exception, else set this 
-   // block's property to the new given state. 
+   // Make sure the given state is valid given this variable's current context. 
    if ( parent() && state && !isMember() )
    {
       Exception::InvalidArgument e;
@@ -566,6 +560,8 @@ void Variable::setMutable(bool state)
       e.setDetails(tr("Cannot set as mutable when it is not a class member."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _mutable = state;
 }
 
@@ -582,8 +578,15 @@ void Variable::setMutable(bool state)
  */
 void Variable::setType(const QString& value)
 {
-   // Check the C++ type syntax for the given value and then set this variable 
-   // block's type field to the new value. 
-   checkType(value);
+   // Make sure the given value is valid given this variable's current context. 
+   if ( !Type::isValidTypeString(value) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid type '%1'.").arg(value));
+      throw e;
+   }
+
+   // Set this block's value to the new one given. 
    _type = value;
 }

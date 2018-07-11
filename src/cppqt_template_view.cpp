@@ -18,5 +18,6 @@ using namespace CppQt;
 Template::View::View(const Template* block):
    Base::View(block)
 {
+   // Only display the base description field for this block type. 
    setText(displayDescription());
 }
