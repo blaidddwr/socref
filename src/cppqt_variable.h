@@ -47,7 +47,7 @@ namespace CppQt
       enum Field
       {
          /*!
-          * Defines the constant expression field. This is a boolean property. It's value is 
+          * Defines the constant expression field. This is a boolean property. Its value is 
           * set to extend the list of base fields this class inherits. 
           */
          ConstExpr = Base::Field::Total

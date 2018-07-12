@@ -34,6 +34,8 @@ Function::View::View(const Function* block):
  */
 QString Function::View::displayText()
 {
+   // Return as HTML this view's function block's arguments, return, templates, 
+   // description, properties, and operations in that order. 
    return displayArguments().append(displayReturn())
                             .append(displayTemplates())
                             .append(displayDescription())
@@ -56,20 +58,26 @@ QString Function::View::displayText()
  */
 QString Function::View::displayArguments()
 {
-   // Create an empty string _ret_ and then a pointer list _list_ of this object's 
-   // function block's arguments. If _list_ is empty then return _ret_. 
+   // Create an empty return string. 
    QString ret;
+
+   // Make a pointer list of all children variables of this view's function block and 
+   // make sure it is not empty. 
    const QList<CppQt::Variable*> list {_block->arguments()};
    if ( list.isEmpty() ) return ret;
 
-   // Append an HTML title to _ret_, then all arguments from _list_ as an HTML list 
-   // to _ret_. Include the variable type, base name, initialized value, and 
-   // description for each argument listing. 
+   // Append a HTML title. 
    ret.append(tr("<h3>Arguments</h3>"));
+
+   // Iterate through all child variable blocks. 
    for (auto variable : list)
    {
+      // If the child block has an initial value set its HTML display string. 
       QString initializer;
       if ( variable->hasInitializer() ) initializer = QString(" = ").append(variable->initializer());
+
+      // Append the child variable information as HTML including the possible initial 
+      // value. 
       ret.append(tr("<p><u>%1</u> <b>%2</b>%3 : %4</p>")
                  .arg(variable->variableType().replace("<","&lt;"))
                  .arg(variable->Base::name())
@@ -77,7 +85,7 @@ QString Function::View::displayArguments()
                  .arg(variable->description()));
    }
 
-   // Return _ret_. 
+   // Return the arguments HTML string. 
    return ret;
 }
 
@@ -96,9 +104,8 @@ QString Function::View::displayArguments()
  */
 QString Function::View::displayProperties()
 {
-   // Create an empty string _ret_ and then an empty string list _list_. Append any 
-   // properties this object's function block has set to _list_. If _list_ is empty 
-   // then return _ret_. 
+   // Create an empty string list, appending any properties this view's function 
+   // block has set. 
    QStringList list;
    if ( _block->isDefault() ) list << "default";
    if ( _block->isExplicit() ) list << "explicit";
@@ -109,9 +116,11 @@ QString Function::View::displayProperties()
    if ( _block->isFinal() ) list << "final";
    if ( _block->isAbstract() ) list << "abstract(= 0)";
 
-   // Append an HTML title, then all set properties as an HTML list to _ret_, and 
-   // then return _ret_. 
+   // If the string list is empty then return an empty string. 
    if ( list.isEmpty() ) return QString();
+
+   // Else this view's block has set properties so return a HTML string displaying 
+   // those set properties. 
    else return tr("<h3>Properties</h3><ul><li>%1</li></ul>").arg(list.join("</li><li>"));
 }
 
@@ -129,12 +138,14 @@ QString Function::View::displayProperties()
  */
 QString Function::View::displayReturn()
 {
-   // Create and return a string that contains HTML for this object's function return 
-   // type field along with a title. Replace any special carrot characters so it 
-   // doesn't break the HTML code. 
+   // Get the return type of this view's function block. 
    QString returnType {_block->returnType()};
 
+   // If the return type is empty or is equal to "void" then return an empty string. 
    if ( returnType.isEmpty() || returnType == QString("void") ) return QString();
+
+   // Else this view's function block has a return type so return a HTML string 
+   // displaying that return type and its description. 
    else return tr("<h3>Return</h3><p><u>%1</u> : %2</p>")
                .arg(returnType.replace("<","&lt;"))
                .arg(_block->returnDescription());
@@ -154,20 +165,24 @@ QString Function::View::displayReturn()
  */
 QString Function::View::displayOperations()
 {
-   // Create an empty string _ret_ and then get this view's function block's 
-   // operations saving it to _list_. If _list_ is empty then return _ret_. 
+   // Create an empty string. 
    QString ret;
+
+   // Get the string list of this view's function block's operations field and make 
+   // sure it is not empty. 
    const QStringList list {_block->operations()};
    if ( list.isEmpty() ) return ret;
 
-   // Append an HTML title and then the list of operations stored in _list_ as an 
-   // HTML list to _ret_. 
+   // Append a HTML title. 
    ret.append("<h3>Operations</h3>");
+
+   // Iterate through all operations and append each one as HTML, including their 
+   // step number. 
    for (int i = 0; i < list.size() ;++i)
    {
       ret.append(tr("<p><b>#%1</b> %2</p>").arg(i + 1).arg(list.at(i)));
    }
 
-   // Return _ret_. 
+   // Return the operations HTML string. 
    return ret;
 }

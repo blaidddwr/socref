@@ -6266,7 +6266,7 @@ The name field has a special interface for checking if it is valid which can be 
             <enumval type="12">
               <data version="0">
                 <name>Value</name>
-                <description>Defines the value field. This field is for when an enumeration value is set to a specific value. It's value is set to extend the list of base fields this class inherits.</description>
+                <description>Defines the value field. This field is for when an enumeration value is set to a specific value. Its value is set to extend the list of base fields this class inherits.</description>
                 <value>Base::Field::Total</value>
               </data>
             </enumval>
@@ -6783,7 +6783,7 @@ The name field has a special interface for checking if it is valid which can be 
                   <description>Returns the HTML rich text that displays the body of this view's variable block.</description>
                   <type>QString</type>
                   <return_description>HTML rich text that displays the body of this view's variable block.</return_description>
-                  <operation>Display as HTML this view's variable block's type, description, properties, and initial value in that order.</operation>
+                  <operation>Return as HTML this view's variable block's type, description, properties, and initial value in that order.</operation>
                 </data>
               </function>
               <function type="2">
@@ -7055,7 +7055,7 @@ The name field has a special interface for checking if it is valid which can be 
             <enumval type="12">
               <data version="0">
                 <name>ConstExpr</name>
-                <description>Defines the constant expression field. This is a boolean property. It's value is set to extend the list of base fields this class inherits.</description>
+                <description>Defines the constant expression field. This is a boolean property. Its value is set to extend the list of base fields this class inherits.</description>
                 <value>Base::Field::Total</value>
               </data>
             </enumval>
@@ -7229,7 +7229,7 @@ The name field has a special interface for checking if it is valid which can be 
           <function type="2">
             <data version="0">
               <name>setType</name>
-              <description>Set this variable block's type field to the new given value. If the new value is not a valid C++ type then an exception is thrown.</description>
+              <description>Sets this variable block's type field to the new given value. If the new value is not a valid C++ type then an exception is thrown.</description>
               <type>void</type>
               <operation>Make sure the given value is valid given this variable's current context.</operation>
               <operation>Set this block's value to the new one given.</operation>
@@ -7237,6 +7237,7 @@ The name field has a special interface for checking if it is valid which can be 
             <variable type="1">
               <data version="0">
                 <name>value</name>
+                <description>The new value that this variable block's return type is set to.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -7463,6 +7464,11 @@ The name field has a special interface for checking if it is valid which can be 
       <class type="4">
         <data version="0">
           <name>Function</name>
+          <description>This is the function block. This represents any global or method function. This also acts as a base class for other specialized C++ and Qt functions such as constructors or slots to name a few. This base function class contains all attributes of any specialized type and does not allow its view class to be overridden because of that.
+
+The properties supported are default, explicit, virtual, constant, constant expression, static, no exceptions, override, final, and abstract. This block will also check basic sanity of properties such as not allowing a function to be static and virtual at once, throwing an exception if setting a property violates any checks. Other supported fields are the return type and description.
+
+This block type allows variables and templates added to it. Templates are sanity checked with properties, not allowing templates to be added if the function is virtual.</description>
           <qtobject/>
         </data>
         <parent type="13">
@@ -7520,51 +7526,56 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <virtual/>
                   <type>QLayout*</type>
                   <return_description>Pointer to the layout containing all GUI elements for the left side of this dialog.</return_description>
-                  <operation>Save this dialog object's geometry and state to Qt settings.</operation>
-                  <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add the return type edit field, then add a new text edit for the return description field, and then add a check boxes field for all base function property fields.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Save the geometry and state of this dialog.</operation>
+                  <operation>Create a new form layout, adding the base name field then the base description field then the return type field and then the return description field.</operation>
+                  <operation>Add a check boxes field for all function property fields.</operation>
+                  <operation>Return the form layout.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>layout</name>
-                  <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout. This implementation divides the layout to the left side with a new interface to make it and the right side populated by the properties list edit widget.</description>
+                  <description>Implements _Gui::AbstractBlock_ interface. This implementation divides the layout to the left side with a new interface to make it and the right side populated by the properties list edit widget.</description>
                   <virtual/>
                   <override/>
                   <final/>
                   <type>QLayout*</type>
-                  <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
-                  <operation>Create a new qt splitter for this new object, then create the left side widget _left_, and then add t he left layout to _left_ by calling the left layout interface.</operation>
-                  <operation>Add the _left_ widget to this object's splitter and then the right side widget by calling the right layout method.</operation>
-                  <operation>Create a new vertical box layout, add this object's qt splitter to it, and then return the new layout.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Create the splitter for this new edit dialog.</operation>
+                  <operation>Create a widget for the left side of this dialog because the splitter widget can only have widgets added to it.</operation>
+                  <operation>Add the right layout to the splitter and then set the left side widget's layout. CAUTION: The right side must be created first since the left side might use objects created when the right side is created.</operation>
+                  <operation>Create and return a new vertical box layout, adding this object's splitter to it.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>apply</name>
-                  <description>Implements the interface that is called when the user has clicked the apply or OK buttons and expected to update the block an implementation is editing.</description>
+                  <description>Implements _Gui::AbstractEdit_ interface. This implementation sets the operations field and possibly the optional custom return type field and then passes back to its base interface.</description>
                   <virtual/>
                   <override/>
                   <type>void</type>
-                  <operation>Call the abstract edit apply interface and then set this object's parent block properties to the value of this object's operations list edit widget. If this object has a return edit widget set for it then set its parent block return type to the value of the edit widget.</operation>
+                  <operation>Apply the operations field to this edit's function block.</operation>
+                  <operation>If the return type edit widget exists then apply the return type field to this edit's function block.</operation>
+                  <operation>Call this object's base interface.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>fieldTitle</name>
-                  <description>Implements the interface that returns the title for the given field type.</description>
+                  <description>Implements _Gui::AbstractEdit_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>QString</type>
-                  <return_description>Title of the given field type.</return_description>
-                  <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Based off the given field index return its title.</operation>
+                  <operation>If the given field index is unknown then throw an exception.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>index</name>
-                    <description>The field index whose display title is returned.</description>
+                    <description>See interface docs.</description>
                     <type>int</type>
                   </data>
                 </variable>
@@ -7572,17 +7583,18 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>closeEvent</name>
-                  <description>Implements the qt interface that is called when this dialog is about to close with the given close event. This implementation uses this event to save the state of its qt splitter.</description>
+                  <description>Implements _QWidget_ interface. This implementation uses this event to save the state of its splitter widget and then calls its parent interface.</description>
                   <virtual/>
                   <override/>
                   <final/>
                   <type>void</type>
-                  <operation>Save the state of this edit object's qt splitter with its state key and then call the abstract edit interface of close event.</operation>
+                  <operation>Save the state of this edit object's splitter with its state key.</operation>
+                  <operation>Call this object's parent interface.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>event</name>
-                    <description>Pointer to the qt close event.</description>
+                    <description>See Qt docs.</description>
                     <type>QCloseEvent*</type>
                   </data>
                 </variable>
@@ -7595,10 +7607,11 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>saveSettings</name>
-                  <description>Sets the base key used by this dialog to save its geometry and state. Additional strings are appended to this base string to the geometry and state. The given C string is copied and does not need to be saved after calling this method.</description>
+                  <description>Sets the base key used by this dialog to save its geometry and state and restores its geometry and state. Additional strings are appended to this base string to the geometry and state. The given C string is copied and does not need to be saved after calling this method.</description>
                   <type>void</type>
-                  <operation>Set the geometry and state keys for this dialog using the given base key and appending geometry or state for each key.</operation>
-                  <operation>Restore the state of this object's qt splitter using the state key and then call the abstract edit save settings method using the geometry key.</operation>
+                  <operation>Set the geometry and state keys for this dialog using the given base key.</operation>
+                  <operation>Restore the state of this object's splitter using the state key.</operation>
+                  <operation>Call the abstract edit save settings method using the geometry key.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -7611,9 +7624,10 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>addReturnEdit</name>
-                  <description>Initialize and add the return type edit widget for this function block.</description>
+                  <description>Initialize and add the return type edit widget for this function block to the given form layout.</description>
                   <type>void</type>
-                  <operation>Create and initialize this object's return type edit widget and then add it to the given qt form layout.</operation>
+                  <operation>Create and initialize this object's return type edit widget.</operation>
+                  <operation>Add the return type edit widget to the given form layout.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -7631,12 +7645,12 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>rightLayout</name>
-                  <description>Construct and initializes the right side of this function edit dialog. This simply creates the operations list edit widget which takes up the whole right side.</description>
+                  <description>Constructs and initializes the right side of this function edit dialog. This simply creates the operations list edit widget which takes up the whole right side.</description>
                   <type>QWidget*</type>
                   <return_description>Pointer to the widget that contains the right side layout for this new edit dialog.</return_description>
                   <operation>Create and initialize the operations list edit widget for this new dialog.</operation>
-                  <operation>Create a new vertical layout _layout_, adding a properties label and then the operations list edit widget.</operation>
-                  <operation>Create a new widget, set its layout to _layout_, and then return its pointer.</operation>
+                  <operation>Create a new vertical layout, adding a properties label and then the operations list edit widget.</operation>
+                  <operation>Create and return a new widget, setting its layout to the operations layout.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -7723,6 +7737,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <description>Returns the HTML rich text that displays the body of this view's function block.</description>
                   <type>QString</type>
                   <return_description>HTML rich text that displays the body of this view's function block.</return_description>
+                  <operation>Return as HTML this view's function block's arguments, return, templates, description, properties, and operations in that order.</operation>
                 </data>
               </function>
               <function type="2">
@@ -7731,9 +7746,13 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <description>Returns a HTML string that displays any arguments this view's function block contains. If this view's function block has no arguments then this returns an empty string.</description>
                   <type>QString</type>
                   <return_description>HTML string that displays any arguments this view's function block contains or an empty string if there are no arguments.</return_description>
-                  <operation>Create an empty string _ret_ and then a pointer list _list_ of this object's function block's arguments. If _list_ is empty then return _ret_.</operation>
-                  <operation>Append an HTML title to _ret_, then all arguments from _list_ as an HTML list to _ret_. Include the variable type, base name, initialized value, and description for each argument listing.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Create an empty return string.</operation>
+                  <operation>Make a pointer list of all children variables of this view's function block and make sure it is not empty.</operation>
+                  <operation>Append a HTML title.</operation>
+                  <operation>Iterate through all child variable blocks.</operation>
+                  <operation>If the child block has an initial value set its HTML display string.</operation>
+                  <operation>Append the child variable information as HTML including the possible initial value.</operation>
+                  <operation>Return the arguments HTML string.</operation>
                 </data>
               </function>
               <function type="2">
@@ -7742,8 +7761,9 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <description>Returns a HTML string that displays any properties this view's function block has set. If this view's function block has no properties set then this returns an empty string.</description>
                   <type>QString</type>
                   <return_description>HTML string that displays any properties this view's function block has set or an empty string if no properties are set.</return_description>
-                  <operation>Create an empty string _ret_ and then an empty string list _list_. Append any properties this object's function block has set to _list_. If _list_ is empty then return _ret_.</operation>
-                  <operation>Append an HTML title, then all set properties as an HTML list to _ret_, and then return _ret_.</operation>
+                  <operation>Create an empty string list, appending any properties this view's function block has set.</operation>
+                  <operation>If the string list is empty then return an empty string.</operation>
+                  <operation>Else this view's block has set properties so return a HTML string displaying those set properties.</operation>
                 </data>
               </function>
               <function type="2">
@@ -7752,7 +7772,9 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <description>Returns a HTML string that displays the return type field for this view's function block.</description>
                   <type>QString</type>
                   <return_description>HTML string that displays the return type field of this view's function block.</return_description>
-                  <operation>Create and return a string that contains HTML for this object's function return type field along with a title. Replace any special carrot characters so it doesn't break the HTML code.</operation>
+                  <operation>Get the return type of this view's function block.</operation>
+                  <operation>If the return type is empty or is equal to "void" then return an empty string.</operation>
+                  <operation>Else this view's function block has a return type so return a HTML string displaying that return type and its description.</operation>
                 </data>
               </function>
               <function type="2">
@@ -7761,9 +7783,11 @@ The persistence of the qt splitter is made unique by this class overriding the s
                   <description>Returns a HTML string that displays the operations of this view's function block. If the function block has operations then an empty string is returned.</description>
                   <type>QString</type>
                   <return_description>HTML string that displays the operations of this view's function block or an empty string if there are no operations.</return_description>
-                  <operation>Create an empty string _ret_ and then get this view's function block's operations saving it to _list_. If _list_ is empty then return _ret_.</operation>
-                  <operation>Append an HTML title and then the list of operations stored in _list_ as an HTML list to _ret_.</operation>
-                  <operation>Return _ret_.</operation>
+                  <operation>Create an empty string.</operation>
+                  <operation>Get the string list of this view's function block's operations field and make sure it is not empty.</operation>
+                  <operation>Append a HTML title.</operation>
+                  <operation>Iterate through all operations and append each one as HTML, including their step number.</operation>
+                  <operation>Return the operations HTML string.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -7783,81 +7807,97 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>type</name>
-              <description>Implements the interface that returns this block's type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>int</type>
-              <return_description>This block's type.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>name</name>
-              <description>Implements the interface that returns the name of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>QString</type>
-              <return_description>The name of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Create an empty return string.</operation>
+              <operation>If this function has templates then append a marker.</operation>
+              <operation>Return the display name, appending the full function name to it.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>icon</name>
-              <description>Implements the interface that returns the icon of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>QIcon</type>
-              <return_description>The icon of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Initialize the static icons for this block type.</operation>
+              <operation>Return the appropriate icon for this function block based off certain properties.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>buildList</name>
-              <description>Implements the interface that returns a list of types that this block can contain as children.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>QList&lt;int></type>
-              <return_description>List of allowed types this block can contain as children.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Initialize the return build list for this block type.</operation>
+              <operation>If this function block is not virtual then add templates to its build list.</operation>
+              <operation>Return the build list.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>makeView</name>
-              <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;QWidget></type>
-              <return_description>New GUI view that represents this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldSize</name>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
+              <return_description>See interface docs.</return_description>
+              <operation>Use the field enumeration to return the total field size.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldType</name>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>AbstractBlock::Field</type>
+              <return_description>See interface docs.</return_description>
+              <operation>Based off the given field index return its field type.</operation>
+              <operation>If the given index is unknown for this block then call its base interface.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -7865,15 +7905,20 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>field</name>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QVariant</type>
+              <return_description>See interface docs.</return_description>
+              <operation>Based off the given field index return its value.</operation>
+              <operation>If the given index is unknown for this block then call its base interface.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -7881,11 +7926,11 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>makeEdit</name>
-              <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-              <return_description>New editable GUI widget to edit this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>
@@ -7896,141 +7941,190 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>isDefault</name>
+              <description>Tests if this function block's default property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's default property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isExplicit</name>
+              <description>Tests if this function block's explicit property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's explicit property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isVirtual</name>
+              <description>Tests if this function block's virtual property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's virtual property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isConst</name>
+              <description>Tests if this function block's constant property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's constant property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isConstExpr</name>
+              <description>Tests if this function block's constant expression property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's constant expression property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isStatic</name>
+              <description>Tests if this function block's static property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's static property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isNoExcept</name>
+              <description>Tests if this function block's no exception property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's no exception property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isOverride</name>
+              <description>Tests if this function block's override property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's override property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isFinal</name>
+              <description>Tests if this function block's final property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's final property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isAbstract</name>
+              <description>Tests if this function block's abstract property is set, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this block's abstract property is set or false otherwise.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>returnType</name>
+              <description>Returns the return type for this function block.	</description>
               <const/>
               <type>QString</type>
+              <return_description>The return type for this function block.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>returnDescription</name>
+              <description>Returns the description for the return type of this function block.</description>
               <const/>
               <type>QString</type>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>operations</name>
-              <const/>
-              <type>QStringList</type>
+              <return_description>The description for the return type of this function block.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isVoidReturn</name>
+              <description>Tests if this function block's return block is void and therefore has no return, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this function block's return type is void or false otherwise.</return_description>
+              <operation>Test to see if this function block's return type is void.</operation>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>operations</name>
+              <description>Returns the steps of operations for this function block, whose list of strings is used for inline comments.</description>
+              <const/>
+              <type>QStringList</type>
+              <return_description>The steps of operations for this function block.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isMethod</name>
+              <description>Tests if this function block is a method of a class, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this function block is a method of a class or false otherwise.</return_description>
+              <operation>Get this block's parent pointer and make sure it is not null.</operation>
+              <operation>Determine if this function block is a method by seeing if its parent is an access block.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>isPrivateMethod</name>
+              <description>Tests if this function block is a private method of a class, returning true if it is.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this function block is a private method of a class or false otherwise.</return_description>
+              <operation>Make sure this function block is a method.</operation>
+              <operation>Determine if this function block is a private method by seeing if its parent access block's type is private.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>hasAnyTemplates</name>
+              <description>Tests if this function block or any class it inherits from has any templates, returning true if so.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this function block or any of its inherited classes contain templates or false otherwise.</return_description>
+              <operation>Check to see if this function block has any templates.</operation>
+              <operation>If this function block is a method then call on its class to determine if it or any parent classes contain templates.</operation>
+              <operation>If this is reached then there are no templates so return false.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>hasTemplates</name>
+              <description>Tests if this function block has templates arguments, returning true if it does. This does not test if any parent classes contain templates.</description>
               <const/>
               <type>bool</type>
+              <return_description>True if this function block has template arguments or false otherwise.</return_description>
+              <operation>See if any direct children blocks of this block are templates.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>templates</name>
+              <description>Returns a pointer list of all template children blocks of this function block.</description>
               <const/>
               <type>QList&lt;Template*></type>
+              <return_description>Pointer list of all template children blocks of this function block.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>arguments</name>
+              <description>Returns a pointer list of all variable children blocks of this function block.</description>
               <const/>
               <type>QList&lt;Variable*></type>
+              <return_description>Pointer list of all variable children blocks of this function block.</return_description>
             </data>
           </function>
         </access>
@@ -8041,101 +8135,120 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <enumeration type="11">
             <data version="0">
               <name>Field</name>
+              <description>Defines the fields this block contains in addition to its base fields.</description>
             </data>
             <enumval type="12">
               <data version="0">
                 <name>Default</name>
+                <description>Defines the default field. This is a boolean property. Its value is set to extend the list of base fields this class inherits.</description>
                 <value>Base::Field::Total</value>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Explicit</name>
+                <description>Defines the explicit field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Virtual</name>
+                <description>Defines the virtual field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Const</name>
+                <description>Defines the constant field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>ConstExpr</name>
+                <description>Defines the constant expression field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Static</name>
+                <description>Defines the static field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>NoExcept</name>
+                <description>Defines the no exceptions field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Override</name>
+                <description>Defines the override field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Final</name>
+                <description>Defines the final field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Abstract</name>
+                <description>Defines the abstract field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>ReturnType</name>
+                <description>Defines the return type field. This holds the C++ return type for a function block.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>ReturnDescription</name>
+                <description>Defines the return description field. This holds the return description for a function block.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Operations</name>
+                <description>Defines the operations field. This holds the steps of operation of a function block used for the inline comments.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Total</name>
+                <description>Defines the total number of fields this block defines.</description>
               </data>
             </enumval>
           </enumeration>
           <function type="2">
             <data version="0">
               <name>makeBlank</name>
-              <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>std::unique_ptr&lt;AbstractBlock></type>
-              <return_description>Pointer to the newly created block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldModified</name>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>void</type>
+              <operation>Based off the given field index notify the changes to this block.</operation>
+              <operation>If the given index is unknown for this block then call its base interface.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -8143,20 +8256,25 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>quietlySetField</name>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>void</type>
+              <operation>Based off the given field index set its value to the new one given.</operation>
+              <operation>If the given index is unknown for this block then call its base interface.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>value</name>
+                <description>See interface docs.</description>
                 <type>const QVariant&amp;</type>
               </data>
             </variable>
@@ -8164,17 +8282,20 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>childAdded</name>
-              <description>Implements the interface that is called whenever a new child below this block has been added and keeps calling this interface on the next block parent until this returns false.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>bool</type>
-              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>This does not use the given child pointer.</operation>
+              <operation>Notify the name and body of this block has changed.</operation>
+              <operation>Return false to end propagation.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>child</name>
-                <description>Pointer to the child block that been added to its new parent block.</description>
+                <description>See interface docs.</description>
                 <type>AbstractBlock*</type>
               </data>
             </variable>
@@ -8182,17 +8303,20 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>childRemoved</name>
-              <description>Implements the interface that is called whenever an existing child below this block has been removed and keeps calling this interface on the next block parent until this returns false.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>bool</type>
-              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>This does not use the given child pointer.</operation>
+              <operation>Notify the name and body of this block has changed.</operation>
+              <operation>Return false to end propagation.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>child</name>
-                <description>Pointer to the child block that has been removed from its former parent block. This object can be deleted right after this call.</description>
+                <description>See interface docs.</description>
                 <type>AbstractBlock*</type>
               </data>
             </variable>
@@ -8200,11 +8324,16 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>fields</name>
+              <description>Implements _CppQt::Base_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QStringList</type>
+              <return_description>See interface docs.</return_description>
+              <operation>Initialize an empty static string list.</operation>
+              <operation>If the string list is empty then populate it.</operation>
+              <operation>Return the combined fields string list.</operation>
             </data>
           </function>
         </access>
@@ -8215,18 +8344,27 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>fullName</name>
+              <description>Constructs and returns the full display name of this function with the given has return indicator and function name. This takes the given information and adds display information about the arguments and properties of this function block.</description>
               <const/>
               <type>QString</type>
+              <return_description>Full display name of this function with the given has return indicator and function name.</return_description>
+              <operation>Create an empty return string.</operation>
+              <operation>If the given has return indicator is true then append a return indicator.</operation>
+              <operation>Append the function name and then the number of arguments.</operation>
+              <operation>Append the attributes display string.</operation>
+              <operation>Return the full display name string.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>hasReturn</name>
+                <description>True if this function has a return type that is not void or false otherwise. Used to indicate there is a return or not in the display name.</description>
                 <type>bool</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>name</name>
+                <description>The function name that is used to construct the full display name.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -8238,31 +8376,28 @@ The persistence of the qt splitter is made unique by this class overriding the s
           </data>
           <function type="2">
             <data version="0">
-              <name>checkTypeSyntax</name>
-              <type>void</type>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
               <name>attributes</name>
+              <description>Returns a display string showing all set properties for this function block using capital letter flags.</description>
               <const/>
               <type>QString</type>
+              <return_description>Display string showing all set properties for this function block.</return_description>
+              <operation>Create an empty string, appending all set properties of this function block as capital letter flags.</operation>
+              <operation>If the flag string is not empty then surround it with brackets and a space.</operation>
+              <operation>Return the attributes display string.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>setDefault</name>
+              <description>Sets the state of this function block's default property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8270,11 +8405,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setExplicit</name>
+              <description>Sets the state of this function block's explicit property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8282,11 +8421,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setVirtual</name>
+              <description>Sets the state of this function block's virtual property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8294,11 +8437,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setConst</name>
+              <description>Sets the state of this function block's constant property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8306,11 +8453,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setConstExpr</name>
+              <description>Sets the state of this function block's constant expression property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8318,11 +8469,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setStatic</name>
+              <description>Sets the state of this function block's static property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8330,11 +8485,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setOverride</name>
+              <description>Sets the state of this function block's override property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8342,11 +8501,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setFinal</name>
+              <description>Sets the state of this function block's final property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8354,11 +8517,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setAbstract</name>
+              <description>Sets the state of this function block's abstract property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>state</name>
+                <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
               </data>
             </variable>
@@ -8366,11 +8533,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setReturnType</name>
+              <description>Sets this function block's return type field to the new given value. If the new value is not a valid C++ type then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given value is valid given this function block's current context.</operation>
+              <operation>Set this block's value to the new one given.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>value</name>
+                <description>The new value that this function block's return type field is set to.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -8378,6 +8549,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_fields</name>
+              <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is in addition to the base fields this block inherits.</description>
               <static/>
               <type>const QStringList</type>
               <initializer>"default","explicit","virtual","const","constexpr","static","noexcept","override","final","abstract","type","return_description","operation"</initializer>
@@ -8386,6 +8558,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_default</name>
+              <description>The default property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8393,6 +8566,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_explicit</name>
+              <description>The explicit property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8400,6 +8574,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_virtual</name>
+              <description>The virtual property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8407,6 +8582,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_const</name>
+              <description>The constant property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8414,6 +8590,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_constExpr</name>
+              <description>The constant expression property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8421,6 +8598,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_static</name>
+              <description>The static property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8428,6 +8606,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_noExcept</name>
+              <description>The no exception property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8435,6 +8614,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_override</name>
+              <description>The override property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8442,6 +8622,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_final</name>
+              <description>The final property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8449,6 +8630,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_abstract</name>
+              <description>The abstract property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>
@@ -8456,6 +8638,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_returnType</name>
+              <description>The return type for this function block.</description>
               <type>QString</type>
               <initializer>"void"</initializer>
             </data>
@@ -8463,12 +8646,14 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_returnDescription</name>
+              <description>The description for what this function returns. This should be blank if this function returns nothing.</description>
               <type>QString</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>_operations</name>
+              <description>The steps of operation used to populate the inline comments of this function block's code when parsed.</description>
               <type>QStringList</type>
             </data>
           </variable>

@@ -34,7 +34,7 @@ Variable::View::View(const Variable* block):
  */
 QString Variable::View::displayText()
 {
-   // Display as HTML this view's variable block's type, description, properties, and 
+   // Return as HTML this view's variable block's type, description, properties, and 
    // initial value in that order. 
    return displayType().append(displayDescription())
                        .append(displayProperties())

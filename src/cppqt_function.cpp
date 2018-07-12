@@ -20,6 +20,9 @@ using namespace CppQt;
 
 
 /*!
+ * List of this block's field tag names that follow the same order as this block's 
+ * enumeration of fields. This is in addition to the base fields this block 
+ * inherits. 
  */
 const QStringList Function::_fields
 {
@@ -44,9 +47,9 @@ const QStringList Function::_fields
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Function::type() const
 {
@@ -59,14 +62,19 @@ int Function::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Function::name() const
 {
+   // Create an empty return string. 
    QString ret;
+
+   // If this function has templates then append a marker. 
    if ( hasTemplates() ) ret.append("<> ");
+
+   // Return the display name, appending the full function name to it. 
    return ret.append(fullName(!isVoidReturn(),Base::name()));
 }
 
@@ -76,29 +84,24 @@ QString Function::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Function::icon() const
 {
-   static bool isLoaded {false};
-   static QIcon regular;
-   static QIcon virtual_;
-   static QIcon abstract;
-   static QIcon static_;
-   if ( !isLoaded )
-   {
-      regular = QIcon(":/icons/function.svg");
-      virtual_ = QIcon(":/icons/virtual.svg");
-      abstract = QIcon(":/icons/abstract.svg");
-      static_ = QIcon(":/icons/static.svg");
-      isLoaded = true;
-   }
-   if ( _abstract ) return abstract;
-   else if ( _virtual ) return virtual_;
-   else if ( isStatic() ) return static_;
-   else return regular;
+   // Initialize the static icons for this block type. 
+   static QIcon regularIcon(":/icons/function.svg");
+   static QIcon virtualIcon(":/icons/virtual.svg");
+   static QIcon abstractIcon(":/icons/abstract.svg");
+   static QIcon staticIcon(":/icons/static.svg");
+
+   // Return the appropriate icon for this function block based off certain 
+   // properties. 
+   if ( _abstract ) return abstractIcon;
+   else if ( _virtual ) return virtualIcon;
+   else if ( isStatic() ) return staticIcon;
+   else return regularIcon;
 }
 
 
@@ -107,16 +110,19 @@ QIcon Function::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Function::buildList() const
 {
-   QList<int> ret;
-   ret << BlockFactory::VariableType;
+   // Initialize the return build list for this block type. 
+   QList<int> ret {BlockFactory::VariableType};
+
+   // If this function block is not virtual then add templates to its build list. 
    if ( !_virtual ) ret << BlockFactory::TemplateType;
+
+   // Return the build list. 
    return ret;
 }
 
@@ -126,10 +132,9 @@ QList<int> Function::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> Function::makeView() const
 {
@@ -142,9 +147,13 @@ std::unique_ptr<QWidget> Function::makeView() const
 
 
 /*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
  */
 int Function::fieldSize() const
 {
+   // Use the field enumeration to return the total field size. 
    return Field::Total;
 }
 
@@ -154,11 +163,15 @@ int Function::fieldSize() const
 
 
 /*!
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index  
+ * @param index See interface docs. 
+ *
+ * @return See interface docs. 
  */
 AbstractBlock::Field Function::fieldType(int index) const
 {
+   // Based off the given field index return its field type. 
    switch (index)
    {
    case Field::Default:
@@ -174,6 +187,8 @@ AbstractBlock::Field Function::fieldType(int index) const
    case Field::ReturnType:
    case Field::ReturnDescription: return AbstractBlock::Field::String;
    case Field::Operations: return AbstractBlock::Field::StringList;
+
+   // If the given index is unknown for this block then call its base interface. 
    default: return Base::fieldType(index);
    }
 }
@@ -184,11 +199,15 @@ AbstractBlock::Field Function::fieldType(int index) const
 
 
 /*!
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index  
+ * @param index See interface docs. 
+ *
+ * @return See interface docs. 
  */
 QVariant Function::field(int index) const
 {
+   // Based off the given field index return its value. 
    switch (index)
    {
    case Field::Default: return _default;
@@ -204,6 +223,8 @@ QVariant Function::field(int index) const
    case Field::ReturnType: return _returnType;
    case Field::ReturnDescription: return _returnDescription;
    case Field::Operations: return _operations;
+
+   // If the given index is unknown for this block then call its base interface. 
    default: return Base::field(index);
    }
 }
@@ -214,10 +235,9 @@ QVariant Function::field(int index) const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Function::makeEdit()
 {
@@ -230,6 +250,9 @@ std::unique_ptr<::Gui::AbstractEdit> Function::makeEdit()
 
 
 /*!
+ * Tests if this function block's default property is set, returning true if it is. 
+ *
+ * @return True if this block's default property is set or false otherwise. 
  */
 bool Function::isDefault() const
 {
@@ -242,6 +265,10 @@ bool Function::isDefault() const
 
 
 /*!
+ * Tests if this function block's explicit property is set, returning true if it 
+ * is. 
+ *
+ * @return True if this block's explicit property is set or false otherwise. 
  */
 bool Function::isExplicit() const
 {
@@ -254,6 +281,9 @@ bool Function::isExplicit() const
 
 
 /*!
+ * Tests if this function block's virtual property is set, returning true if it is. 
+ *
+ * @return True if this block's virtual property is set or false otherwise. 
  */
 bool Function::isVirtual() const
 {
@@ -266,6 +296,10 @@ bool Function::isVirtual() const
 
 
 /*!
+ * Tests if this function block's constant property is set, returning true if it 
+ * is. 
+ *
+ * @return True if this block's constant property is set or false otherwise. 
  */
 bool Function::isConst() const
 {
@@ -278,6 +312,11 @@ bool Function::isConst() const
 
 
 /*!
+ * Tests if this function block's constant expression property is set, returning 
+ * true if it is. 
+ *
+ * @return True if this block's constant expression property is set or false 
+ *         otherwise. 
  */
 bool Function::isConstExpr() const
 {
@@ -290,6 +329,9 @@ bool Function::isConstExpr() const
 
 
 /*!
+ * Tests if this function block's static property is set, returning true if it is. 
+ *
+ * @return True if this block's static property is set or false otherwise. 
  */
 bool Function::isStatic() const
 {
@@ -302,6 +344,10 @@ bool Function::isStatic() const
 
 
 /*!
+ * Tests if this function block's no exception property is set, returning true if 
+ * it is. 
+ *
+ * @return True if this block's no exception property is set or false otherwise. 
  */
 bool Function::isNoExcept() const
 {
@@ -314,6 +360,10 @@ bool Function::isNoExcept() const
 
 
 /*!
+ * Tests if this function block's override property is set, returning true if it 
+ * is. 
+ *
+ * @return True if this block's override property is set or false otherwise. 
  */
 bool Function::isOverride() const
 {
@@ -326,6 +376,9 @@ bool Function::isOverride() const
 
 
 /*!
+ * Tests if this function block's final property is set, returning true if it is. 
+ *
+ * @return True if this block's final property is set or false otherwise. 
  */
 bool Function::isFinal() const
 {
@@ -338,6 +391,10 @@ bool Function::isFinal() const
 
 
 /*!
+ * Tests if this function block's abstract property is set, returning true if it 
+ * is. 
+ *
+ * @return True if this block's abstract property is set or false otherwise. 
  */
 bool Function::isAbstract() const
 {
@@ -350,6 +407,9 @@ bool Function::isAbstract() const
 
 
 /*!
+ * Returns the return type for this function block.  
+ *
+ * @return The return type for this function block. 
  */
 QString Function::returnType() const
 {
@@ -362,6 +422,9 @@ QString Function::returnType() const
 
 
 /*!
+ * Returns the description for the return type of this function block. 
+ *
+ * @return The description for the return type of this function block. 
  */
 QString Function::returnDescription() const
 {
@@ -374,6 +437,27 @@ QString Function::returnDescription() const
 
 
 /*!
+ * Tests if this function block's return block is void and therefore has no return, 
+ * returning true if it is. 
+ *
+ * @return True if this function block's return type is void or false otherwise. 
+ */
+bool Function::isVoidReturn() const
+{
+   // Test to see if this function block's return type is void. 
+   return _returnType == QString("void");
+}
+
+
+
+
+
+
+/*!
+ * Returns the steps of operations for this function block, whose list of strings 
+ * is used for inline comments. 
+ *
+ * @return The steps of operations for this function block. 
  */
 QStringList Function::operations() const
 {
@@ -386,23 +470,19 @@ QStringList Function::operations() const
 
 
 /*!
- */
-bool Function::isVoidReturn() const
-{
-   return _returnType == QString("void");
-}
-
-
-
-
-
-
-/*!
+ * Tests if this function block is a method of a class, returning true if it is. 
+ *
+ * @return True if this function block is a method of a class or false otherwise. 
  */
 bool Function::isMethod() const
 {
-   if ( AbstractBlock* valid = parent() ) return valid->type() == BlockFactory::AccessType;
-   else return false;
+   // Get this block's parent pointer and make sure it is not null. 
+   AbstractBlock* up {parent()};
+   if ( !up ) return false;
+
+   // Determine if this function block is a method by seeing if its parent is an 
+   // access block. 
+   return up->type() == BlockFactory::AccessType;
 }
 
 
@@ -411,10 +491,19 @@ bool Function::isMethod() const
 
 
 /*!
+ * Tests if this function block is a private method of a class, returning true if 
+ * it is. 
+ *
+ * @return True if this function block is a private method of a class or false 
+ *         otherwise. 
  */
 bool Function::isPrivateMethod() const
 {
+   // Make sure this function block is a method. 
    if ( !isMethod() ) return false;
+
+   // Determine if this function block is a private method by seeing if its parent 
+   // access block's type is private. 
    return parent()->cast<Access>(BlockFactory::AccessType)->accessType() == Access::Type::Private;
 }
 
@@ -424,14 +513,25 @@ bool Function::isPrivateMethod() const
 
 
 /*!
+ * Tests if this function block or any class it inherits from has any templates, 
+ * returning true if so. 
+ *
+ * @return True if this function block or any of its inherited classes contain 
+ *         templates or false otherwise. 
  */
 bool Function::hasAnyTemplates() const
 {
+   // Check to see if this function block has any templates. 
    if ( hasTemplates() ) return true;
-   if ( parent()->type() == BlockFactory::AccessType )
+
+   // If this function block is a method then call on its class to determine if it or 
+   // any parent classes contain templates. 
+   if ( isMethod() )
    {
       return parent()->parent()->cast<Class>(BlockFactory::ClassType)->hasAnyTemplates();
    }
+
+   // If this is reached then there are no templates so return false. 
    return false;
 }
 
@@ -441,9 +541,14 @@ bool Function::hasAnyTemplates() const
 
 
 /*!
+ * Tests if this function block has templates arguments, returning true if it does. 
+ * This does not test if any parent classes contain templates. 
+ *
+ * @return True if this function block has template arguments or false otherwise. 
  */
 bool Function::hasTemplates() const
 {
+   // See if any direct children blocks of this block are templates. 
    return containsType(BlockFactory::TemplateType);
 }
 
@@ -453,6 +558,9 @@ bool Function::hasTemplates() const
 
 
 /*!
+ * Returns a pointer list of all template children blocks of this function block. 
+ *
+ * @return Pointer list of all template children blocks of this function block. 
  */
 QList<Template*> Function::templates() const
 {
@@ -465,6 +573,9 @@ QList<Template*> Function::templates() const
 
 
 /*!
+ * Returns a pointer list of all variable children blocks of this function block. 
+ *
+ * @return Pointer list of all variable children blocks of this function block. 
  */
 QList<Variable*> Function::arguments() const
 {
@@ -477,10 +588,9 @@ QList<Variable*> Function::arguments() const
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Function::makeBlank() const
 {
@@ -493,11 +603,13 @@ std::unique_ptr<AbstractBlock> Function::makeBlank() const
 
 
 /*!
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index  
+ * @param index See interface docs. 
  */
 void Function::fieldModified(int index)
 {
+   // Based off the given field index notify the changes to this block. 
    switch (index)
    {
    case Field::Default:
@@ -517,6 +629,8 @@ void Function::fieldModified(int index)
       notifyNameModified();
       notifyBodyModified();
       break;
+
+   // If the given index is unknown for this block then call its base interface. 
    default:
       Base::fieldModified(index);
       break;
@@ -529,13 +643,15 @@ void Function::fieldModified(int index)
 
 
 /*!
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index  
+ * @param index See interface docs. 
  *
- * @param value  
+ * @param value See interface docs. 
  */
 void Function::quietlySetField(int index, const QVariant& value)
 {
+   // Based off the given field index set its value to the new one given. 
    switch (index)
    {
    case Field::Default:
@@ -577,6 +693,8 @@ void Function::quietlySetField(int index, const QVariant& value)
    case Field::Operations:
       _operations = value.toStringList();
       break;
+
+   // If the given index is unknown for this block then call its base interface. 
    default: return Base::quietlySetField(index,value);
    }
 }
@@ -587,20 +705,22 @@ void Function::quietlySetField(int index, const QVariant& value)
 
 
 /*!
- * Implements the interface that is called whenever a new child below this block 
- * has been added and keeps calling this interface on the next block parent until 
- * this returns false. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param child Pointer to the child block that been added to its new parent block. 
+ * @param child See interface docs. 
  *
- * @return True if this interface should be called again on this blocks parent or 
- *         false otherwise. 
+ * @return See interface docs. 
  */
 bool Function::childAdded(AbstractBlock* child)
 {
+   // This does not use the given child pointer. 
    Q_UNUSED(child)
+
+   // Notify the name and body of this block has changed. 
    notifyNameModified();
    notifyBodyModified();
+
+   // Return false to end propagation. 
    return false;
 }
 
@@ -610,21 +730,22 @@ bool Function::childAdded(AbstractBlock* child)
 
 
 /*!
- * Implements the interface that is called whenever an existing child below this 
- * block has been removed and keeps calling this interface on the next block parent 
- * until this returns false. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param child Pointer to the child block that has been removed from its former 
- *              parent block. This object can be deleted right after this call. 
+ * @param child See interface docs. 
  *
- * @return True if this interface should be called again on this blocks parent or 
- *         false otherwise. 
+ * @return See interface docs. 
  */
 bool Function::childRemoved(AbstractBlock* child)
 {
+   // This does not use the given child pointer. 
    Q_UNUSED(child)
+
+   // Notify the name and body of this block has changed. 
    notifyNameModified();
    notifyBodyModified();
+
+   // Return false to end propagation. 
    return false;
 }
 
@@ -634,15 +755,23 @@ bool Function::childRemoved(AbstractBlock* child)
 
 
 /*!
+ * Implements _CppQt::Base_ interface. 
+ *
+ * @return See interface docs. 
  */
 QStringList Function::fields() const
 {
+   // Initialize an empty static string list. 
    static QStringList ret;
+
+   // If the string list is empty then populate it. 
    if ( ret.isEmpty() )
    {
       ret.append(Base::fields());
       ret.append(_fields);
    }
+
+   // Return the combined fields string list. 
    return ret;
 }
 
@@ -652,18 +781,35 @@ QStringList Function::fields() const
 
 
 /*!
+ * Constructs and returns the full display name of this function with the given has 
+ * return indicator and function name. This takes the given information and adds 
+ * display information about the arguments and properties of this function block. 
  *
- * @param hasReturn  
+ * @param hasReturn True if this function has a return type that is not void or 
+ *                  false otherwise. Used to indicate there is a return or not in 
+ *                  the display name. 
  *
- * @param name  
+ * @param name The function name that is used to construct the full display name. 
+ *
+ * @return Full display name of this function with the given has return indicator 
+ *         and function name. 
  */
 QString Function::fullName(bool hasReturn, const QString& name) const
 {
+   // Create an empty return string. 
    QString ret;
+
+   // If the given has return indicator is true then append a return indicator. 
    if ( hasReturn ) ret.append("... ");
-   ret.append(name).append("(");
+
+   // Append the function name and then the number of arguments. 
    const QList<Variable*> list {arguments()};
-   ret.append(QString::number(list.size())).append(")").append(attributes());
+   ret.append(QString("%1(%2)").arg(name).arg(list.size()));
+
+   // Append the attributes display string. 
+   ret.append(attributes());
+
+   // Return the full display name string. 
    return ret;
 }
 
@@ -673,29 +819,15 @@ QString Function::fullName(bool hasReturn, const QString& name) const
 
 
 /*!
+ * Returns a display string showing all set properties for this function block 
+ * using capital letter flags. 
  *
- * @param value  
- */
-void Function::checkTypeSyntax(const QString& value)
-{
-   if ( !value.isEmpty() && !Type::isValidTypeString(value) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid return type '%1'.").arg(value));
-      throw e;
-   }
-}
-
-
-
-
-
-
-/*!
+ * @return Display string showing all set properties for this function block. 
  */
 QString Function::attributes() const
 {
+   // Create an empty string, appending all set properties of this function block as 
+   // capital letter flags. 
    QString ret;
    if ( _default ) ret.append("D");
    if ( _explicit ) ret.append("E");
@@ -705,7 +837,11 @@ QString Function::attributes() const
    if ( _override ) ret.append("O");
    if ( _final ) ret.append("F");
    if ( _abstract ) ret.append("A");
+
+   // If the flag string is not empty then surround it with brackets and a space. 
    if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
+
+   // Return the attributes display string. 
    return ret;
 }
 
@@ -715,11 +851,14 @@ QString Function::attributes() const
 
 
 /*!
+ * Sets the state of this function block's default property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setDefault(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
@@ -727,6 +866,8 @@ void Function::setDefault(bool state)
       e.setDetails(tr("Cannot set function as default when it is not a class method."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _default = state;
 }
 
@@ -736,11 +877,14 @@ void Function::setDefault(bool state)
 
 
 /*!
+ * Sets the state of this function block's explicit property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setExplicit(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
@@ -748,6 +892,8 @@ void Function::setExplicit(bool state)
       e.setDetails(tr("Cannot set function as explicit when it is not a class method."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _explicit = state;
 }
 
@@ -757,11 +903,14 @@ void Function::setExplicit(bool state)
 
 
 /*!
+ * Sets the state of this function block's virtual property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setVirtual(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && ( isStatic() || hasTemplates() || !isMethod() ) )
    {
       Exception::InvalidArgument e;
@@ -769,6 +918,8 @@ void Function::setVirtual(bool state)
       e.setDetails(tr("Cannot set function as virtual when it is static, has templates, or is not a class method."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _virtual = state;
 }
 
@@ -778,11 +929,14 @@ void Function::setVirtual(bool state)
 
 
 /*!
+ * Sets the state of this function block's constant property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setConst(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
@@ -790,6 +944,8 @@ void Function::setConst(bool state)
       e.setDetails(tr("Cannot set function as const when it is not a class method."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _const = state;
 }
 
@@ -799,11 +955,14 @@ void Function::setConst(bool state)
 
 
 /*!
+ * Sets the state of this function block's constant expression property to the 
+ * given state. If the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setConstExpr(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && _virtual )
    {
       Exception::InvalidArgument e;
@@ -811,6 +970,8 @@ void Function::setConstExpr(bool state)
       e.setDetails(tr("Cannot set function as constexpr when it is virtual."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _constExpr = state;
 }
 
@@ -820,11 +981,14 @@ void Function::setConstExpr(bool state)
 
 
 /*!
+ * Sets the state of this function block's static property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setStatic(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && _virtual )
    {
       Exception::InvalidArgument e;
@@ -832,6 +996,8 @@ void Function::setStatic(bool state)
       e.setDetails(tr("Cannot set function as static when it is virtual."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _static = state;
 }
 
@@ -841,11 +1007,14 @@ void Function::setStatic(bool state)
 
 
 /*!
+ * Sets the state of this function block's override property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setOverride(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && ( !_virtual || _abstract ) )
    {
       Exception::InvalidArgument e;
@@ -853,6 +1022,8 @@ void Function::setOverride(bool state)
       e.setDetails(tr("Cannot set function as override when it is not virtual or it is abstract."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _override = state;
 }
 
@@ -862,11 +1033,14 @@ void Function::setOverride(bool state)
 
 
 /*!
+ * Sets the state of this function block's final property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setFinal(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && ( !_virtual || _abstract ) )
    {
       Exception::InvalidArgument e;
@@ -874,6 +1048,8 @@ void Function::setFinal(bool state)
       e.setDetails(tr("Cannot set function as final when it is not virtual or it is abstract."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _final = state;
 }
 
@@ -883,11 +1059,14 @@ void Function::setFinal(bool state)
 
 
 /*!
+ * Sets the state of this function block's abstract property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
  *
- * @param state  
+ * @param state The new state this function block's property is set to. 
  */
 void Function::setAbstract(bool state)
 {
+   // Make sure the given state is valid given this function block's current context. 
    if ( parent() && state && ( !_virtual || _override || _final ) )
    {
       Exception::InvalidArgument e;
@@ -895,6 +1074,8 @@ void Function::setAbstract(bool state)
       e.setDetails(tr("Cannot set function as abstract when it is not virtual or it is override/final."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
    _abstract = state;
 }
 
@@ -904,11 +1085,23 @@ void Function::setAbstract(bool state)
 
 
 /*!
+ * Sets this function block's return type field to the new given value. If the new 
+ * value is not a valid C++ type then an exception is thrown. 
  *
- * @param value  
+ * @param value The new value that this function block's return type field is set 
+ *              to. 
  */
 void Function::setReturnType(const QString& value)
 {
-   checkTypeSyntax(value);
+   // Make sure the given value is valid given this function block's current context. 
+   if ( !value.isEmpty() && !Type::isValidTypeString(value) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid return type '%1'.").arg(value));
+      throw e;
+   }
+
+   // Set this block's value to the new one given. 
    _returnType = value;
 }

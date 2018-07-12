@@ -45,19 +45,18 @@ Function::Edit::Edit(Function* block):
  */
 QLayout* Function::Edit::leftLayout()
 {
-   // Save this dialog object's geometry and state to Qt settings. 
+   // Save the geometry and state of this dialog. 
    saveSettings("cppqt.function.edit");
 
-   // Create a new form layout _ret_, add the type edit widget, then add a new line 
-   // edit for the base name field, then add a new text edit for the base description 
-   // field, then add the return type edit field, then add a new text edit for the 
-   // return description field, and then add a check boxes field for all base 
-   // function property fields. 
+   // Create a new form layout, adding the base name field then the base description 
+   // field then the return type field and then the return description field. 
    QFormLayout* ret {new QFormLayout};
    addLineEdit(ret,Base::Field::Name);
    addTextEdit(ret,Base::Field::Description);
    addReturnEdit(ret);
    addTextEdit(ret,Field::ReturnDescription);
+
+   // Add a check boxes field for all function property fields. 
    addCheckBoxes(ret
                  ,{Field::ConstExpr
                    ,Field::Static
@@ -70,7 +69,7 @@ QLayout* Function::Edit::leftLayout()
                  ,4
                  ,"Properties:");
 
-   // Return _ret_. 
+   // Return the form layout. 
    return ret;
 }
 
@@ -80,29 +79,30 @@ QLayout* Function::Edit::leftLayout()
 
 
 /*!
- * Implements the interface that is called to return the layout of all GUI elements 
- * used by this dialog object's form layout. This implementation divides the layout 
- * to the left side with a new interface to make it and the right side populated by 
- * the properties list edit widget. 
+ * Implements _Gui::AbstractBlock_ interface. This implementation divides the 
+ * layout to the left side with a new interface to make it and the right side 
+ * populated by the properties list edit widget. 
  *
- * @return Pointer to the layout containing all GUI elements for this dialog. 
+ * @return See interface docs. 
  */
 QLayout* Function::Edit::layout()
 {
-   // Create a new qt splitter for this new object, then create the left side widget 
-   // _left_, and then add t he left layout to _left_ by calling the left layout 
-   // interface. 
+   // Create the splitter for this new edit dialog. 
    _splitter = new QSplitter(this);
+
+   // Create a widget for the left side of this dialog because the splitter widget 
+   // can only have widgets added to it. 
    QWidget* left {new QWidget(this)};
    _splitter->addWidget(left);
+
+   // Add the right layout to the splitter and then set the left side widget's 
+   // layout. CAUTION: The right side must be created first since the left side might 
+   // use objects created when the right side is created. 
    _splitter->addWidget(rightLayout());
    left->setLayout(leftLayout());
 
-   // Add the _left_ widget to this object's splitter and then the right side widget 
-   // by calling the right layout method. 
-
-   // Create a new vertical box layout, add this object's qt splitter to it, and then 
-   // return the new layout. 
+   // Create and return a new vertical box layout, adding this object's splitter to 
+   // it. 
    QVBoxLayout* ret {new QVBoxLayout};
    ret->addWidget(_splitter);
    return ret;
@@ -114,18 +114,21 @@ QLayout* Function::Edit::layout()
 
 
 /*!
- * Implements the interface that is called when the user has clicked the apply or 
- * OK buttons and expected to update the block an implementation is editing. 
+ * Implements _Gui::AbstractEdit_ interface. This implementation sets the 
+ * operations field and possibly the optional custom return type field and then 
+ * passes back to its base interface. 
  */
 void Function::Edit::apply()
 {
-   // Call the abstract edit apply interface and then set this object's parent block 
-   // properties to the value of this object's operations list edit widget. If this 
-   // object has a return edit widget set for it then set its parent block return 
-   // type to the value of the edit widget. 
-   ::Gui::AbstractEdit::apply();
+   // Apply the operations field to this edit's function block. 
    _block->setField(Field::Operations,_operationsEdit->value());
+
+   // If the return type edit widget exists then apply the return type field to this 
+   // edit's function block. 
    if ( _returnEdit ) _block->setReturnType(_returnEdit->value());
+
+   // Call this object's base interface. 
+   ::Gui::AbstractEdit::apply();
 }
 
 
@@ -134,16 +137,15 @@ void Function::Edit::apply()
 
 
 /*!
- * Implements the interface that returns the title for the given field type. 
+ * Implements _Gui::AbstractEdit_ interface. 
  *
- * @param index The field index whose display title is returned. 
+ * @param index See interface docs. 
  *
- * @return Title of the given field type. 
+ * @return See interface docs. 
  */
 QString Function::Edit::fieldTitle(int index) const
 {
-   // Based off the given field index return its title. If the given field index is 
-   // undefined then throw an exception. 
+   // Based off the given field index return its title. 
    switch (index)
    {
    case Base::Field::Name: return tr("Name:");
@@ -161,6 +163,8 @@ QString Function::Edit::fieldTitle(int index) const
    case Field::ReturnType: return tr("Return Type:");
    case Field::ReturnDescription: return tr("Return Description:");
    case Field::Operations: return tr("Operations:");
+
+   // If the given field index is unknown then throw an exception. 
    default:
       {
          Exception::InvalidArgument e;
@@ -177,18 +181,18 @@ QString Function::Edit::fieldTitle(int index) const
 
 
 /*!
- * Implements the qt interface that is called when this dialog is about to close 
- * with the given close event. This implementation uses this event to save the 
- * state of its qt splitter. 
+ * Implements _QWidget_ interface. This implementation uses this event to save the 
+ * state of its splitter widget and then calls its parent interface. 
  *
- * @param event Pointer to the qt close event. 
+ * @param event See Qt docs. 
  */
 void Function::Edit::closeEvent(QCloseEvent* event)
 {
-   // Save the state of this edit object's qt splitter with its state key and then 
-   // call the abstract edit interface of close event. 
+   // Save the state of this edit object's splitter with its state key. 
    QSettings settings(Application::_companyKey,Application::_programKey);
    settings.setValue(_stateKey,_splitter->saveState());
+
+   // Call this object's parent interface. 
    ::Gui::AbstractEdit::closeEvent(event);
 }
 
@@ -198,24 +202,25 @@ void Function::Edit::closeEvent(QCloseEvent* event)
 
 
 /*!
- * Sets the base key used by this dialog to save its geometry and state. Additional 
- * strings are appended to this base string to the geometry and state. The given C 
- * string is copied and does not need to be saved after calling this method. 
+ * Sets the base key used by this dialog to save its geometry and state and 
+ * restores its geometry and state. Additional strings are appended to this base 
+ * string to the geometry and state. The given C string is copied and does not need 
+ * to be saved after calling this method. 
  *
  * @param baseKey The base key which is copied to generate this object's geometry 
  *                and state keys. 
  */
 void Function::Edit::saveSettings(const char* baseKey)
 {
-   // Set the geometry and state keys for this dialog using the given base key and 
-   // appending geometry or state for each key. 
+   // Set the geometry and state keys for this dialog using the given base key. 
    _geometryKey = QByteArray(baseKey).append(".geometry");
    _stateKey = QByteArray(baseKey).append(".state");
 
-   // Restore the state of this object's qt splitter using the state key and then 
-   // call the abstract edit save settings method using the geometry key. 
+   // Restore the state of this object's splitter using the state key. 
    QSettings settings(Application::_companyKey,Application::_programKey);
    _splitter->restoreState(settings.value(_stateKey).toByteArray());
+
+   // Call the abstract edit save settings method using the geometry key. 
    ::Gui::AbstractEdit::saveSettings(_geometryKey.data());
 }
 
@@ -225,17 +230,19 @@ void Function::Edit::saveSettings(const char* baseKey)
 
 
 /*!
- * Initialize and add the return type edit widget for this function block. 
+ * Initialize and add the return type edit widget for this function block to the 
+ * given form layout. 
  *
  * @param form The qt form layout used for this edit dialog that the return type 
  *             edit widget is added to. 
  */
 void Function::Edit::addReturnEdit(QFormLayout* form)
 {
-   // Create and initialize this object's return type edit widget and then add it to 
-   // the given qt form layout. 
+   // Create and initialize this object's return type edit widget. 
    _returnEdit = new Gui::TypeSelection(_block,this);
    _returnEdit->setValue(_block->returnType());
+
+   // Add the return type edit widget to the given form layout. 
    form->addRow(new QLabel(tr("Return Type:")),_returnEdit);
 }
 
@@ -245,7 +252,7 @@ void Function::Edit::addReturnEdit(QFormLayout* form)
 
 
 /*!
- * Construct and initializes the right side of this function edit dialog. This 
+ * Constructs and initializes the right side of this function edit dialog. This 
  * simply creates the operations list edit widget which takes up the whole right 
  * side. 
  *
@@ -258,13 +265,13 @@ QWidget* Function::Edit::rightLayout()
    _operationsEdit = new ::Gui::ListEdit(this);
    _operationsEdit->setValue(_block->operations());
 
-   // Create a new vertical layout _layout_, adding a properties label and then the 
-   // operations list edit widget. 
+   // Create a new vertical layout, adding a properties label and then the operations 
+   // list edit widget. 
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addWidget(new QLabel(tr("Properties"),this));
    layout->addWidget(_operationsEdit);
 
-   // Create a new widget, set its layout to _layout_, and then return its pointer. 
+   // Create and return a new widget, setting its layout to the operations layout. 
    QWidget* ret {new QWidget(this)};
    ret->setLayout(layout);
    return ret;

@@ -40,7 +40,7 @@ namespace CppQt
       {
          /*!
           * Defines the value field. This field is for when an enumeration value is set to a 
-          * specific value. It's value is set to extend the list of base fields this class 
+          * specific value. Its value is set to extend the list of base fields this class 
           * inherits. 
           */
          Value = Base::Field::Total

@@ -571,10 +571,10 @@ void Variable::setMutable(bool state)
 
 
 /*!
- * Set this variable block's type field to the new given value. If the new value is 
- * not a valid C++ type then an exception is thrown. 
+ * Sets this variable block's type field to the new given value. If the new value 
+ * is not a valid C++ type then an exception is thrown. 
  *
- * @param value  
+ * @param value The new value that this variable block's return type is set to. 
  */
 void Variable::setType(const QString& value)
 {
