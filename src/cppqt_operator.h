@@ -8,6 +8,7 @@
 namespace CppQt
 {
    /*!
+    * This is the operator block. This represents C++ operator overloading functions. 
     */
    class Operator : public Function
    {

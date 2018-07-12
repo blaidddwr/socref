@@ -56,7 +56,7 @@ QLayout* Function::Edit::leftLayout()
    addReturnEdit(ret);
    addTextEdit(ret,Field::ReturnDescription);
 
-   // Add a check boxes field for all function property fields. 
+   // Add a check boxes widget for all function property fields. 
    addCheckBoxes(ret
                  ,{Field::ConstExpr
                    ,Field::Static

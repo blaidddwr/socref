@@ -9,6 +9,10 @@
 namespace CppQt
 {
    /*!
+    * This is the class block. This defines a C++ class. This inherits from the 
+    * namespace block since a class expands upon the concept of a namespace. Because 
+    * many properties of a class depend on the blocks it contains the class block is 
+    * very dependent upon its child blocks properties. 
     */
    class Class : public Namespace
    {
@@ -38,17 +42,23 @@ namespace CppQt
       QList<Parent*> parents() const;
    signals:
       /*!
+       * Signals that the base name of this class has changed. This is used for the 
+       * constructors of classes to know when they need to update their own name. 
        */
       void nameChanged();
    protected:
       /*!
+       * Defines the fields this block contains in addition to its base fields. 
        */
       enum Field
       {
          /*!
+          * Defines the qt object field. This is a boolean property. Its value is set to 
+          * extend the list of base fields this class inherits. 
           */
          QtObject = Base::Field::Total
          /*!
+          * Defines the total number of fields this block defines. 
           */
          ,Total
       };
@@ -60,12 +70,15 @@ namespace CppQt
       virtual bool childRemoved(AbstractBlock* child) override final;
       virtual QStringList fields() const override final;
    private:
-      QList<Access*> accessChildren() const;
       void setQtObject(bool state);
       /*!
+       * List of this block's field tag names that follow the same order as this block's 
+       * enumeration of fields. This is in addition to the base fields this block 
+       * inherits. 
        */
       static const QStringList _fields;
       /*!
+       * The qt object property of this class block. 
        */
       bool _qtObject {false};
    };

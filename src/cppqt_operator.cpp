@@ -17,9 +17,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Operator::type() const
 {
@@ -32,12 +32,14 @@ int Operator::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Operator::name() const
 {
+   // Return the display name of this operator block using the special operator 
+   // overloading syntax for its function name. 
    return fullName(!isVoidReturn(),QString("operator").append(Base::name()));
 }
 
@@ -47,33 +49,22 @@ QString Operator::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Operator::icon() const
 {
-   // 
-   static bool isLoaded {false};
-   static QIcon regular;
-   static QIcon virtual_;
-   static QIcon abstract;
+   // Initialize the static icons for this block type. 
+   static QIcon regularIcon(":/icons/operator.svg");
+   static QIcon virtualIcon(":/icons/voperator.svg");
+   static QIcon abstractIcon(":/icons/aoperator.svg");
 
-   // 
-   if ( !isLoaded )
-   {
-
-      // 
-      regular = QIcon(":/icons/operator.svg");
-      virtual_ = QIcon(":/icons/voperator.svg");
-      abstract = QIcon(":/icons/aoperator.svg");
-      isLoaded = true;
-   }
-
-   // 
-   if ( isAbstract() ) return abstract;
-   else if ( isVirtual() ) return virtual_;
-   else return regular;
+   // Return the appropriate icon for this operator block given its current 
+   // properties. 
+   if ( isAbstract() ) return abstractIcon;
+   else if ( isVirtual() ) return virtualIcon;
+   else return regularIcon;
 }
 
 
@@ -82,10 +73,9 @@ QIcon Operator::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Operator::buildList() const
 {
@@ -98,10 +88,9 @@ QList<int> Operator::buildList() const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Operator::makeEdit()
 {
@@ -114,9 +103,14 @@ std::unique_ptr<::Gui::AbstractEdit> Operator::makeEdit()
 
 
 /*!
+ * Returns the operation that this operator block is overloading. 
+ *
+ * @return Operation that this operator block is overloading. 
  */
 QString Operator::operation() const
 {
+   // Return this block's base name that the operator type uses to store the 
+   // operation it overloads. 
    return Base::name();
 }
 
@@ -126,10 +120,9 @@ QString Operator::operation() const
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Operator::makeBlank() const
 {
@@ -142,16 +135,17 @@ std::unique_ptr<AbstractBlock> Operator::makeBlank() const
 
 
 /*!
- * This interface checks to make sure the given name is a valid name for this block 
- * type, returning true if it is valid. This implementation makes sure it is a 
- * basic C++ alphanumeric name. 
+ * Implements _CppQt::Base_ interface. This implementation validates any string 
+ * because the name for operator blocks is the operator it is overloading. 
  *
- * @param value The name value whose syntax is checked to be valid or not. 
+ * @param value See interface docs. 
  *
- * @return True if the given name is valid or false otherwise. 
+ * @return See interface docs. 
  */
 bool Operator::checkName(const QString& value)
 {
+   // This validates any string no matter what so ignore the given value and return 
+   // true. 
    Q_UNUSED(value)
    return true;
 }

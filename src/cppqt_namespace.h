@@ -8,9 +8,8 @@
 namespace CppQt
 {
    /*!
-    * This is the namespace block, defining a C++ namespace that can define any number 
-    * of other C++ block types. This block is used as the root block for C++/Qt 
-    * projects as the global namespace. 
+    * This is the namespace block. This defines a C++ namespace. This block is used as 
+    * the root block for C++/Qt projects as the global namespace. 
     */
    class Namespace : public Base
    {

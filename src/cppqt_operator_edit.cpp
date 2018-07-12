@@ -26,24 +26,25 @@ Operator::Edit::Edit(Operator* block):
 
 
 /*!
- * Implements _Function::Edit::leftLayout_. 
+ * Implements _Function::Edit::leftLayout_ interface. 
  *
- * @return Pointer to the layout containing all GUI elements for the left side of 
- *         this dialog. 
+ * @return See interface docs. 
  */
 QLayout* Operator::Edit::leftLayout()
 {
-   // Save the geometry and state of this function edit dialog. 
+   // Save the geometry and state of this dialog. 
    saveSettings("cppqt.operator.edit");
 
-   // Create a new qt form layout that will be returned. 
+   // Create a new form layout, adding the base name field then the base description 
+   // field then the return type custom widget and then the return type description 
+   // field. 
    QFormLayout* ret {new QFormLayout};
-
-   // Add all edit widgets for this block to the qt form layout. 
    addLineEdit(ret,Base::Field::Name);
    addTextEdit(ret,Base::Field::Description);
    addReturnEdit(ret);
    addTextEdit(ret,Field::ReturnDescription);
+
+   // Add a check boxes widget for all operator property fields. 
    addCheckBoxes(ret
                  ,{Field::ConstExpr
                    ,Field::Static
@@ -57,6 +58,6 @@ QLayout* Operator::Edit::leftLayout()
                  ,5
                  ,"Properties:");
 
-   // Return the qt form layout. 
+   // Return the form layout. 
    return ret;
 }

@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the view class for the class block. 
     */
    class Class::View : public Base::View
    {
@@ -20,7 +21,7 @@ namespace CppQt
       QString displayQtObject();
       QString displayParents();
       /*!
-       * The variable block that this view is displaying. 
+       * The class block that this view is displaying. 
        */
       const Class* _block;
    };

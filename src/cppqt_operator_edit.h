@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit class for the operator block. 
     */
    class Operator::Edit : public Function::Edit
    {

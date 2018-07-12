@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit class for the class block. 
     */
    class Class::Edit : public ::Gui::AbstractEdit
    {
