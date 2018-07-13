@@ -8,6 +8,12 @@
 namespace CppQt
 {
    /*!
+    * This is the access block. This defines access types for C++ classes such as 
+    * public or private. This also defines Qt access types for slots and signals. 
+    * Almost all block types used with classes must be attached to an access block 
+    * instead of direct attachment because of how C++ works. All supported types are 
+    * public, protected, private, signals, public slots, protected slots, and private 
+    * slots. 
     */
    class Access : public AbstractBlock
    {
@@ -28,28 +34,36 @@ namespace CppQt
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
    public:
       /*!
+       * Defines all possible access types. 
        */
       enum class Type
       {
          /*!
+          * Defines the public type. 
           */
          Public
          /*!
+          * Defines the protected type. 
           */
          ,Protected
          /*!
+          * Defines the private type. 
           */
          ,Private
          /*!
+          * Defines the signals type. 
           */
          ,Signals
          /*!
+          * Defines the public slots type. 
           */
          ,PublicSlots
          /*!
+          * Defines the protected slots type. 
           */
          ,ProtectedSlots
          /*!
+          * Defines the private slots type. 
           */
          ,PrivateSlots
       };
@@ -63,17 +77,19 @@ namespace CppQt
       bool hasAbstract() const;
       Access::Type accessType() const;
       QString accessTypeString() const;
-      void setAccessType(Type value);
-      void setAccessType(const QString& value);
    protected:
       /*!
+       * Defines the fields this block contains. 
        */
       enum Field
       {
          /*!
+          * Defines the access type field. This field is used to save the access type such 
+          * as public or private. 
           */
          AccessType
          /*!
+          * Defines the total number of fields this block defines. 
           */
          ,Total
       };
@@ -87,14 +103,19 @@ namespace CppQt
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;
    private:
-      void quietlySetAccessType(Type value);
+      void setAccessType(Type value);
       /*!
+       * List of this block's field tag names that follow the same order as this block's 
+       * enumeration of fields. 
        */
       static const QStringList _fields;
       /*!
+       * List of access type names that follow the same order as this block's enumeration 
+       * of possible types. 
        */
       static const QStringList _typeNames;
       /*!
+       * This block's access type. 
        */
       Type _type {Type::Public};
    };

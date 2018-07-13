@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit dialog for the access block type. 
     */
    class Access::Edit : public ::Gui::AbstractEdit
    {

@@ -14,7 +14,7 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new type edit object with the given variable block. 
+ * Constructs a new edit dialog with the given variable block. 
  *
  * @param block Variable block that this new edit object edits. 
  */

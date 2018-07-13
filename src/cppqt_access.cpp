@@ -16,9 +16,13 @@ using namespace CppQt;
 
 
 /*!
+ * List of this block's field tag names that follow the same order as this block's 
+ * enumeration of fields. 
  */
 const QStringList Access::_fields {"type"};
 /*!
+ * List of access type names that follow the same order as this block's enumeration 
+ * of possible types. 
  */
 const QStringList Access::_typeNames
 {
@@ -37,9 +41,9 @@ const QStringList Access::_typeNames
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Access::type() const
 {
@@ -52,10 +56,9 @@ int Access::type() const
 
 
 /*!
- * Implements the interface that returns a reference to this block's factory which 
- * produces all block types for this project type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Reference to block factory. 
+ * @return See interface docs. 
  */
 const AbstractBlockFactory& Access::factory() const
 {
@@ -68,15 +71,15 @@ const AbstractBlockFactory& Access::factory() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Access::name() const
 {
-   QString ret {_typeNames.at(static_cast<int>(_type))};
-   ret.append(" (").append(QString::number(size())).append(")");
-   return ret;
+   // Return the display name of this access block using its access type and the 
+   // number of children it contains. 
+   return QString("%1 (%2)").arg(_typeNames.at(static_cast<int>(_type))).arg(size());
 }
 
 
@@ -85,41 +88,32 @@ QString Access::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Access::icon() const
 {
-   static bool isLoaded {false};
-   static QIcon public_;
-   static QIcon signals_;
-   static QIcon publicSlots;
-   static QIcon protected_;
-   static QIcon protectedSlots;
-   static QIcon private_;
-   static QIcon privateSlots;
-   if ( !isLoaded )
-   {
-      public_ = QIcon(":/icons/public.svg");
-      signals_ = QIcon(":/icons/signals.svg");
-      publicSlots = QIcon(":/icons/pubslots.svg");
-      protected_ = QIcon(":/icons/protected.svg");
-      protectedSlots = QIcon(":/icons/proslots.svg");
-      private_ = QIcon(":/icons/private.svg");
-      privateSlots = QIcon(":/icons/prislots.svg");
-      isLoaded = true;
-   }
+   // Initialize all static icons for this block type. 
+   static QIcon publicIcon(":/icons/public.svg");
+   static QIcon signalsIcon(":/icons/signals.svg");
+   static QIcon publicSlotsIcon(":/icons/pubslots.svg");
+   static QIcon protectedIcon(":/icons/protected.svg");
+   static QIcon protectedSlotsIcon(":/icons/proslots.svg");
+   static QIcon privateIcon(":/icons/private.svg");
+   static QIcon privateSlotsIcon(":/icons/prislots.svg");
+
+   // Based off this access block's type return the appropriate icon. 
    switch (_type)
    {
-   case Type::Public: return public_;
-   case Type::Signals: return signals_;
-   case Type::PublicSlots: return publicSlots;
-   case Type::Protected: return protected_;
-   case Type::ProtectedSlots: return protectedSlots;
-   case Type::Private: return private_;
-   case Type::PrivateSlots: return privateSlots;
-   default: return public_;
+   case Type::Public: return publicIcon;
+   case Type::Signals: return signalsIcon;
+   case Type::PublicSlots: return publicSlotsIcon;
+   case Type::Protected: return protectedIcon;
+   case Type::ProtectedSlots: return protectedSlotsIcon;
+   case Type::Private: return privateIcon;
+   case Type::PrivateSlots: return privateSlotsIcon;
+   default: return publicIcon;
    }
 }
 
@@ -129,16 +123,22 @@ QIcon Access::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Access::buildList() const
 {
+   // Create an empty return build list. 
    QList<int> ret;
+
+   // If this block's access type is a slot then add the slot type. 
    if ( isSlot(_type) ) ret << BlockFactory::SlotType;
+
+   // Else if this block's access type is signals then add the signals type. 
    else if ( _type == Type::Signals ) ret << BlockFactory::SignalType;
+
+   // Else this block's access type is normal so add all normal types. 
    else
    {
       ret << BlockFactory::FunctionType
@@ -151,6 +151,8 @@ QList<int> Access::buildList() const
           << BlockFactory::UsingType
           << BlockFactory::FriendType;
    }
+
+   // Return the build list. 
    return ret;
 }
 
@@ -160,10 +162,9 @@ QList<int> Access::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> Access::makeView() const
 {
@@ -176,12 +177,13 @@ std::unique_ptr<QWidget> Access::makeView() const
 
 
 /*!
- * Implements the interface that returns the number of fields this block contains. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The number of fields this object contains. 
+ * @return See interface docs. 
  */
 int Access::fieldSize() const
 {
+   // Use the field enumeration to return the total number of fields. 
    return Field::Total;
 }
 
@@ -191,18 +193,20 @@ int Access::fieldSize() const
 
 
 /*!
- * Implements the interface that returns the field type for the given field index 
- * of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose field type is returned. 
+ * @param index See interface docs. 
  *
- * @return Field type of the given field index of this block. 
+ * @return See interface docs. 
  */
 AbstractBlock::Field Access::fieldType(int index) const
 {
+   // Based off the given field index return its type. 
    switch (index)
    {
    case Field::AccessType: return AbstractBlock::Field::String;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
          Exception::OutOfRange e;
@@ -221,18 +225,20 @@ AbstractBlock::Field Access::fieldType(int index) const
 
 
 /*!
- * Implements the interface that returns the value of the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is returned. 
+ * @param index See interface docs. 
  *
- * @return Value of the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QVariant Access::field(int index) const
 {
+   // Based off the given field index return its value. 
    switch (index)
    {
    case Field::AccessType: return accessTypeString();
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
          Exception::OutOfRange e;
@@ -251,10 +257,9 @@ QVariant Access::field(int index) const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Access::makeEdit()
 {
@@ -267,11 +272,15 @@ std::unique_ptr<::Gui::AbstractEdit> Access::makeEdit()
 
 
 /*!
+ * Tests if the given access type is a slot. 
  *
- * @param value  
+ * @param value The access type value that is tested. 
+ *
+ * @return True if the given access type is a slot or false otherwise. 
  */
 bool Access::isSlot(Type value)
 {
+   // Test if the given type is any of the possible slot types. 
    return ( value == Type::PublicSlots
             || value == Type::ProtectedSlots
             || value == Type::PrivateSlots );
@@ -283,11 +292,15 @@ bool Access::isSlot(Type value)
 
 
 /*!
+ * Tests if the given access type is normal. 
  *
- * @param value  
+ * @param value The access type value that is tested. 
+ *
+ * @return True if the given access type is normal or false otherwise. 
  */
 bool Access::isNormal(Type value)
 {
+   // Test if the given type is any of the possible normal types. 
    return ( value == Type::Public || value == Type::Protected || value == Type::Private );
 }
 
@@ -297,6 +310,9 @@ bool Access::isNormal(Type value)
 
 
 /*!
+ * Tests if this access block contains any signal block children. 
+ *
+ * @return True if this access block contains any signals or false otherwise. 
  */
 bool Access::hasSignals() const
 {
@@ -309,6 +325,9 @@ bool Access::hasSignals() const
 
 
 /*!
+ * Tests if this access block contains any slot block children. 
+ *
+ * @return True if this access block contains any slots or false otherwise. 
  */
 bool Access::hasSlots() const
 {
@@ -321,10 +340,14 @@ bool Access::hasSlots() const
 
 
 /*!
+ * Tests if this access block contains any signal and/or slot block children. 
+ *
+ * @return True if this access block contains any signals and/or slots, otherwise 
+ *         false is returned. 
  */
 bool Access::hasSignalsOrSlots() const
 {
-   return containsType(QList<int>() << BlockFactory::SignalType << BlockFactory::SlotType);
+   return containsType({BlockFactory::SignalType,BlockFactory::SlotType});
 }
 
 
@@ -333,20 +356,21 @@ bool Access::hasSignalsOrSlots() const
 
 
 /*!
+ * Tests if this access block contains any regular block children. By regular this 
+ * means children that are not signals or slots. 
+ *
+ * @return True if this access block contains any regular block children or false 
+ *         otherwise. 
  */
 bool Access::hasRegular() const
 {
-   QList<int> types
-   {
-      BlockFactory::FunctionType
-      ,BlockFactory::OperatorType
-      ,BlockFactory::ConstructorType
-      ,BlockFactory::DestructorType
-      ,BlockFactory::VariableType
-      ,BlockFactory::EnumerationType
-      ,BlockFactory::ClassType
-   };
-   return containsType(types);
+   return containsType({BlockFactory::FunctionType
+                        ,BlockFactory::OperatorType
+                        ,BlockFactory::ConstructorType
+                        ,BlockFactory::DestructorType
+                        ,BlockFactory::VariableType
+                        ,BlockFactory::EnumerationType
+                        ,BlockFactory::ClassType});
 }
 
 
@@ -355,16 +379,24 @@ bool Access::hasRegular() const
 
 
 /*!
+ * Tests if this access block contains any function block that is virtual. 
+ *
+ * @return True if this access block contains any function block that is virtual or 
+ *         false otherwise. 
  */
 bool Access::hasVirtual() const
 {
-   for (auto child : children())
+   // Iterate through all this block's children. 
+   for (auto child : list())
    {
+      // If the child block is a function and that function is virtual then return true. 
       if ( Function* func = qobject_cast<Function*>(child) )
       {
          if ( func->isVirtual() ) return true;
       }
    }
+
+   // No virtual functions was found so return false. 
    return false;
 }
 
@@ -374,16 +406,25 @@ bool Access::hasVirtual() const
 
 
 /*!
+ * Tests if this access block contains any function block that is abstract. 
+ *
+ * @return True if this access block contains any function block that is abstract 
+ *         or false otherwise. 
  */
 bool Access::hasAbstract() const
 {
-   for (auto child : children())
+   // Iterate through all this block's children. 
+   for (auto child : list())
    {
+      // If the child block is a function and that function is abstract then return 
+      // true. 
       if ( Function* func = qobject_cast<Function*>(child) )
       {
          if ( func->isAbstract() ) return true;
       }
    }
+
+   // No abstract function was found so return false. 
    return false;
 }
 
@@ -393,6 +434,9 @@ bool Access::hasAbstract() const
 
 
 /*!
+ * Returns the access type of this block. 
+ *
+ * @return The access type of this block. 
  */
 Access::Type Access::accessType() const
 {
@@ -405,9 +449,14 @@ Access::Type Access::accessType() const
 
 
 /*!
+ * Returns the string version of this block's access type. 
+ *
+ * @return String version of this block's access type. 
  */
 QString Access::accessTypeString() const
 {
+   // Use the access type name list to return the string version of this block's 
+   // access type. 
    return _typeNames.at(static_cast<int>(_type));
 }
 
@@ -417,43 +466,9 @@ QString Access::accessTypeString() const
 
 
 /*!
+ * Implements _AbstractBlock_ interface. 
  *
- * @param value  
- */
-void Access::setAccessType(Type value)
-{
-   if ( value != _type )
-   {
-      notifyModified();
-      notifyNameModified();
-      quietlySetAccessType(value);
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param value  
- */
-void Access::setAccessType(const QString& value)
-{
-   setField(Field::AccessType,value);
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
- *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Access::makeBlank() const
 {
@@ -466,10 +481,9 @@ std::unique_ptr<AbstractBlock> Access::makeBlank() const
 
 
 /*!
- * Implements the interface that returns the current data version for this block 
- * type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Current data version. 
+ * @return See interface docs. 
  */
 int Access::version() const
 {
@@ -482,15 +496,16 @@ int Access::version() const
 
 
 /*!
- * Implements the interface that returns the tag name for the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose tag name is returned. 
+ * @param index See interface docs. 
  *
- * @return Tag name for the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QString Access::fieldTag(int index) const
 {
+   // Use this block's fields list to return the correct tag name from the given 
+   // index. 
    return _fields.at(index);
 }
 
@@ -500,16 +515,16 @@ QString Access::fieldTag(int index) const
 
 
 /*!
- * Implements the interface that returns the index of the field that has the given 
- * tag name for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param name Tag name of the field whose index is returned. 
+ * @param name See interface docs. 
  *
- * @return Index of the field with the given tag name or -1 if no field exists with 
- *         that tag name. 
+ * @return See interface docs. 
  */
 int Access::fieldIndexOf(const QString& name) const
 {
+   // Use this block's fields list to return the correct index with the given field 
+   // tag name. 
    return _fields.indexOf(name);
 }
 
@@ -519,13 +534,14 @@ int Access::fieldIndexOf(const QString& name) const
 
 
 /*!
- * Implements the interface that is called when the field with the given index for 
- * this block has been modified. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field which has just been modified. 
+ * @param index See interface docs. 
  */
 void Access::fieldModified(int index)
 {
+   // Based off the given field index notify of this block's changes. If the given 
+   // index is unknown then do nothing. 
    switch (index)
    {
    case Field::AccessType:
@@ -541,19 +557,20 @@ void Access::fieldModified(int index)
 
 
 /*!
- * Implements the interface that quietly sets the value of the field with the given 
- * index to the new given value. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is set to the new given value. 
+ * @param index See interface docs. 
  *
- * @param value New value that the field with the given index is set to. 
+ * @param value See interface docs. 
  */
 void Access::quietlySetField(int index, const QVariant& value)
 {
+   // Based off the given field index set its value to the new one given. If the 
+   // given index is unknown then do nothing. 
    switch (index)
    {
    case Field::AccessType:
-      quietlySetAccessType(static_cast<Type>(_typeNames.indexOf(value.toString())));
+      setAccessType(static_cast<Type>(_typeNames.indexOf(value.toString())));
       break;
    }
 }
@@ -564,18 +581,18 @@ void Access::quietlySetField(int index, const QVariant& value)
 
 
 /*!
- * Implements the interface that is called whenever a child below this block has 
- * modified its name and keeps calling this interface on the next block parent 
- * until this returns false. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param child Pointer to the child block that has modified its name. 
+ * @param child See interface docs. 
  *
- * @return True if this interface should be called again on this blocks parent or 
- *         false otherwise. 
+ * @return See interface docs. 
  */
 bool Access::childNameModified(AbstractBlock* child)
 {
+   // This does not use the given child pointer. 
    Q_UNUSED(child)
+
+   // Return true to pass this event up to its parent class block. 
    return true;
 }
 
@@ -585,20 +602,22 @@ bool Access::childNameModified(AbstractBlock* child)
 
 
 /*!
- * Implements the interface that is called whenever a new child below this block 
- * has been added and keeps calling this interface on the next block parent until 
- * this returns false. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param child Pointer to the child block that been added to its new parent block. 
+ * @param child See interface docs. 
  *
- * @return True if this interface should be called again on this blocks parent or 
- *         false otherwise. 
+ * @return See interface docs. 
  */
 bool Access::childAdded(AbstractBlock* child)
 {
+   // This does not use the given child pointer. 
    Q_UNUSED(child)
+
+   // Notify the name and body of this block has changed. 
    notifyNameModified();
    notifyBodyModified();
+
+   // Return true to pass this event up to its parent class block. 
    return true;
 }
 
@@ -608,21 +627,22 @@ bool Access::childAdded(AbstractBlock* child)
 
 
 /*!
- * Implements the interface that is called whenever an existing child below this 
- * block has been removed and keeps calling this interface on the next block parent 
- * until this returns false. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param child Pointer to the child block that has been removed from its former 
- *              parent block. This object can be deleted right after this call. 
+ * @param child See interface docs. 
  *
- * @return True if this interface should be called again on this blocks parent or 
- *         false otherwise. 
+ * @return See interface docs. 
  */
 bool Access::childRemoved(AbstractBlock* child)
 {
+   // This does not use the given child pointer. 
    Q_UNUSED(child)
+
+   // Notify the name and body of this block has changed. 
    notifyNameModified();
    notifyBodyModified();
+
+   // Return true to pass this event up to its parent class block. 
    return true;
 }
 
@@ -632,11 +652,15 @@ bool Access::childRemoved(AbstractBlock* child)
 
 
 /*!
+ * Sets the access type for this block, making sure the given type is legal with 
+ * the child blocks this access block contains. If the new type is not legal then 
+ * an exception is thrown. 
  *
- * @param value  
+ * @param value The new access type field value for this block. 
  */
-void Access::quietlySetAccessType(Type value)
+void Access::setAccessType(Type value)
 {
+   // If the new type is normal then make sure this block has no signals or slots. 
    if ( isNormal(value) && hasSignalsOrSlots() )
    {
       Exception::InvalidArgument e;
@@ -644,6 +668,9 @@ void Access::quietlySetAccessType(Type value)
       e.setDetails(tr("Normal access types cannot contain signals and/or slots."));
       throw e;
    }
+
+   // If the new type is a slot then make sure this block has no signals or regular 
+   // methods. 
    if ( isSlot(value) && ( hasRegular() || hasSignals() ) )
    {
       Exception::InvalidArgument e;
@@ -651,6 +678,9 @@ void Access::quietlySetAccessType(Type value)
       e.setDetails(tr("Slot access types cannot contain functions, variables, and/or signals."));
       throw e;
    }
+
+   // If the new type is signals then make sure this block has no slots or regular 
+   // methods. 
    if ( value == Type::Signals && ( hasRegular() || hasSlots() ) )
    {
       Exception::InvalidArgument e;
@@ -658,5 +688,7 @@ void Access::quietlySetAccessType(Type value)
       e.setDetails(tr("Signals access type cannot contain functions, variables, and/or slots."));
       throw e;
    }
+
+   // Set this block's access type field to the new type. 
    _type = value;
 }

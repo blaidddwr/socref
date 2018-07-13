@@ -60,6 +60,7 @@ QString Base::name() const
  */
 int Base::fieldSize() const
 {
+   // Use the field enumeration to return the total number of fields. 
    return Field::Total;
 }
 
