@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit dialog for the slot block type. 
     */
    class Slot::Edit : public Function::Edit
    {

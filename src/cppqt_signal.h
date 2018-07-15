@@ -8,6 +8,11 @@
 namespace CppQt
 {
    /*!
+    * This is the signal block. This represents signals for the Qt signaling system. 
+    * This inherits from the base function class since signals are basically 
+    * specialized methods. Signals do not have any return type, properties, or steps 
+    * of operation. Because there is no steps of operation the edit dialog for this 
+    * block type does not use the specialized function edit dialog. 
     */
    class Signal : public Slot
    {

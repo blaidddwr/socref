@@ -8,6 +8,9 @@
 namespace CppQt
 {
    /*!
+    * This is the slot block. This represents slots for the Qt signaling system. This 
+    * inherits from the base function class since slots are basically specialized 
+    * methods. Slots do not have any return type. 
     */
    class Slot : public Function
    {

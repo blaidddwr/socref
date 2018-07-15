@@ -12,9 +12,9 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new type edit object with the given variable block. 
+ * Constructs a new edit dialog with the given signal block. 
  *
- * @param block Variable block that this new edit object edits. 
+ * @param block Signal block that this new dialog edits. 
  */
 Signal::Edit::Edit(Signal* block):
    ::Gui::AbstractEdit(block)
@@ -26,17 +26,22 @@ Signal::Edit::Edit(Signal* block):
 
 
 /*!
- * Implements the interface that is called to return the layout of all GUI elements 
- * used by this dialog object's form layout. 
+ * Implements _Gui::AbstractBlock_ interface. 
  *
- * @return Pointer to the layout containing all GUI elements for this dialog. 
+ * @return See interface docs. 
  */
 QLayout* Signal::Edit::layout()
 {
+   // Save the geometry of this dialog. 
    saveSettings("cppqt.signal.edit.geometry");
+
+   // Create a new form layout, adding the base name field and then the base 
+   // description field. 
    QFormLayout* ret {new QFormLayout};
    addLineEdit(ret,Base::Field::Name);
    addTextEdit(ret,Base::Field::Description);
+
+   // Return the form layout. 
    return ret;
 }
 
@@ -46,20 +51,21 @@ QLayout* Signal::Edit::layout()
 
 
 /*!
- * Implements the interface that returns the title for the given field type. 
+ * Implements _Gui::AbstractBlock_ interface. 
  *
- * @param index The field index whose display title is returned. 
+ * @param index See interface docs. 
  *
- * @return Title of the given field type. 
+ * @return See interface docs. 
  */
 QString Signal::Edit::fieldTitle(int index) const
 {
-   // Based off the given field index return its title. If the given field index is 
-   // undefined then throw an exception. 
+   // Based off the given field index return its title. 
    switch (index)
    {
    case Base::Field::Name: return tr("Name:");
    case Base::Field::Description: return tr("Description:");
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
          Exception::InvalidArgument e;

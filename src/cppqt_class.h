@@ -9,7 +9,7 @@
 namespace CppQt
 {
    /*!
-    * This is the class block. This defines a C++ class. This inherits from the 
+    * This is the class block. This represents C++ classes. This inherits from the 
     * namespace block since a class expands upon the concept of a namespace. Because 
     * many properties of a class depend on the blocks it contains the class block is 
     * very dependent upon its child blocks properties. 

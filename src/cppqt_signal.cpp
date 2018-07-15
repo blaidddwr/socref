@@ -15,9 +15,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Signal::type() const
 {
@@ -30,14 +30,16 @@ int Signal::type() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Signal::icon() const
 {
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/signal.svg");
+   // Initialize the static icon for this block type. 
+   static QIcon ret(":/icons/signal.svg");
+
+   // Return the icon. 
    return ret;
 }
 
@@ -47,10 +49,9 @@ QIcon Signal::icon() const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Signal::makeEdit()
 {
@@ -63,10 +64,9 @@ std::unique_ptr<::Gui::AbstractEdit> Signal::makeEdit()
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Signal::makeBlank() const
 {

@@ -15,9 +15,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Slot::type() const
 {
@@ -30,12 +30,14 @@ int Slot::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Slot::name() const
 {
+   // Return the full function name without any return type and with the base name 
+   // field. 
    return fullName(false,Base::name());
 }
 
@@ -45,26 +47,21 @@ QString Slot::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Slot::icon() const
 {
-   static bool isLoaded {false};
-   static QIcon regular;
-   static QIcon virtual_;
-   static QIcon abstract;
-   if ( !isLoaded )
-   {
-      regular = QIcon(":/icons/slot.svg");
-      virtual_ = QIcon(":/icons/vslot.svg");
-      abstract = QIcon(":/icons/aslot.svg");
-      isLoaded = true;
-   }
-   if ( isAbstract() ) return abstract;
-   else if ( isVirtual() ) return virtual_;
-   else return regular;
+   // Initialize all static icons for this block type. 
+   static QIcon regularIcon(":/icons/slot.svg");
+   static QIcon virtualIcon(":/icons/vslot.svg");
+   static QIcon abstractIcon(":/icons/aslot.svg");
+
+   // Return the appropriate icon based off the properties of this slot block. 
+   if ( isAbstract() ) return abstractIcon;
+   else if ( isVirtual() ) return virtualIcon;
+   else return regularIcon;
 }
 
 
@@ -73,10 +70,9 @@ QIcon Slot::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block type can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Slot::buildList() const
 {
@@ -89,10 +85,9 @@ QList<int> Slot::buildList() const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Slot::makeEdit()
 {
@@ -105,10 +100,9 @@ std::unique_ptr<::Gui::AbstractEdit> Slot::makeEdit()
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Slot::makeBlank() const
 {

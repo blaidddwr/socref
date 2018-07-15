@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit dialog for the signal block type. 
     */
    class Signal::Edit : public ::Gui::AbstractEdit
    {

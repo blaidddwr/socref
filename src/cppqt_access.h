@@ -8,7 +8,7 @@
 namespace CppQt
 {
    /*!
-    * This is the access block. This defines access types for C++ classes such as 
+    * This is the access block. This represents access types for C++ classes such as 
     * public or private. This also defines Qt access types for slots and signals. 
     * Almost all block types used with classes must be attached to an access block 
     * instead of direct attachment because of how C++ works. All supported types are 
