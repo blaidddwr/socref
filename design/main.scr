@@ -14953,6 +14953,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <data version="0">
             <description>Constructs a new application instance.</description>
             <explicit/>
+            <operation>Set the organization and application name for this program.</operation>
           </data>
           <variable type="1">
             <data version="0">
@@ -15001,8 +15002,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
         </variable>
         <variable type="1">
           <data version="0">
-            <name>_companyKey</name>
-            <description>The company key used to access this program's qt settings.</description>
+            <name>_organizationKey</name>
+            <description>The organization key used to access this program's qt settings.</description>
             <static/>
             <type>const char*</type>
             <initializer>"blaidddwr"</initializer>
@@ -15010,8 +15011,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
         </variable>
         <variable type="1">
           <data version="0">
-            <name>_programKey</name>
-            <description>The program key used to access this program's qt settings.</description>
+            <name>_applicationKey</name>
+            <description>The application key used to access this program's qt settings.</description>
             <static/>
             <type>const char*</type>
             <initializer>"socref"</initializer>

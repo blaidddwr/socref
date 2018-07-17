@@ -7,7 +7,6 @@
 #include <QLabel>
 #include "cppqt_gui_typeselection.h"
 #include "gui_listedit.h"
-#include "application.h"
 
 
 
@@ -189,7 +188,7 @@ QString Function::Edit::fieldTitle(int index) const
 void Function::Edit::closeEvent(QCloseEvent* event)
 {
    // Save the state of this edit object's splitter with its state key. 
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   QSettings settings;
    settings.setValue(_stateKey,_splitter->saveState());
 
    // Call this object's parent interface. 
@@ -217,7 +216,7 @@ void Function::Edit::saveSettings(const char* baseKey)
    _stateKey = QByteArray(baseKey).append(".state");
 
    // Restore the state of this object's splitter using the state key. 
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   QSettings settings;
    _splitter->restoreState(settings.value(_stateKey).toByteArray());
 
    // Call the abstract edit save settings method using the geometry key. 

@@ -6,13 +6,13 @@
 
 
 /*!
- * The company key used to access this program's qt settings. 
+ * The organization key used to access this program's qt settings. 
  */
-const char* Application::_companyKey {"blaidddwr"};
+const char* Application::_organizationKey {"blaidddwr"};
 /*!
- * The program key used to access this program's qt settings. 
+ * The application key used to access this program's qt settings. 
  */
-const char* Application::_programKey {"socref"};
+const char* Application::_applicationKey {"socref"};
 
 
 
@@ -90,4 +90,8 @@ QString Application::versionString()
  */
 Application::Application(int& argc, char** argv):
    QApplication(argc,argv)
-{}
+{
+   // Set the organization and application name for this program. 
+   setOrganizationName(_organizationKey);
+   setApplicationName(_applicationKey);
+}

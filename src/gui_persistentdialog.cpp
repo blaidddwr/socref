@@ -1,7 +1,6 @@
 #include "gui_persistentdialog.h"
 #include <QSettings>
-#include "application.h"
-#include "exception.h"
+#include <exception.h>
 
 
 
@@ -65,7 +64,7 @@ void PersistentDialog::closeEvent(QCloseEvent* event)
    if ( _geometryKey )
    {
       // Save the geometry for this dialog. 
-      QSettings settings(Application::_companyKey,Application::_programKey);
+      QSettings settings;
       settings.setValue(_geometryKey,saveGeometry());
    }
 
@@ -99,6 +98,6 @@ void PersistentDialog::saveSettings(const char* geometryKey)
    // Set the geometry key for this dialog and restore its geometry using the same 
    // key. 
    _geometryKey = geometryKey;
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   QSettings settings;
    restoreGeometry(settings.value(_geometryKey).toByteArray());
 }

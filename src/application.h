@@ -31,13 +31,13 @@ public:
     */
    constexpr static int _revision {9999};
    /*!
-    * The company key used to access this program's qt settings. 
+    * The organization key used to access this program's qt settings. 
     */
-   static const char* _companyKey;
+   static const char* _organizationKey;
    /*!
-    * The program key used to access this program's qt settings. 
+    * The application key used to access this program's qt settings. 
     */
-   static const char* _programKey;
+   static const char* _applicationKey;
 };
 
 

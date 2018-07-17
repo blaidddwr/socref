@@ -11,9 +11,9 @@
 #include "abstractprojectfactory.h"
 #include "project.h"
 #include "abstractblock.h"
-#include "application.h"
 #include "common.h"
 #include "scanthread.h"
+#include "application.h"
 
 
 
@@ -651,7 +651,7 @@ bool MainWindow::save()
 void MainWindow::restoreSettings()
 {
    // Create a settings object using this application's keys. 
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   QSettings settings;
 
    // Restore this window's state and geometry. 
    restoreGeometry(settings.value(_geometryKey).toByteArray());
@@ -672,7 +672,7 @@ void MainWindow::restoreSettings()
 void MainWindow::saveSettings()
 {
    // Create a settings object using this application's keys. 
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   QSettings settings;
 
    // Save this window's state and geometry. 
    settings.setValue(_geometryKey,saveGeometry());

@@ -1,6 +1,5 @@
 #include "cppqt_settings.h"
 #include <QSettings>
-#include "application.h"
 
 
 
@@ -18,7 +17,7 @@ const char* Settings::_maxColumnsKey {"settings.cppqt.header.maxcolumns"};
 
 Settings::Settings()
 {
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   QSettings settings;
    _indentSpaces = settings.value(_indentSpacesKey).toInt();
    _headerLines = settings.value(_headerLinesKey).toInt();
    _functionLines = settings.value(_functionLinesKey).toInt();
@@ -116,6 +115,6 @@ void Settings::setMaxColumns(int maxColumns)
 
 void Settings::updateSetting(const QString& key, int value)
 {
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   QSettings settings;
    settings.setValue(key,value);
 }
