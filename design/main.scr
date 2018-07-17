@@ -10469,6 +10469,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
       <class type="4">
         <data version="0">
           <name>Constructor</name>
+          <description>This is the constructor block. This represents constructors for C++ classes. This inherits from the base function block since this is a specialized function type.</description>
           <qtobject/>
         </data>
         <parent type="13">
@@ -10484,6 +10485,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <class type="4">
             <data version="0">
               <name>Edit</name>
+              <description>This is the edit dialog for the constructor block type.</description>
               <qtobject/>
             </data>
             <parent type="13">
@@ -10498,13 +10500,13 @@ The persistence of the qt splitter is made unique by this class overriding the s
               </data>
               <constructor type="9">
                 <data version="0">
-                  <description>Constructs a new edit object with the given operator block.</description>
+                  <description>Constructs a new edit dialog with the given constructor block.</description>
                   <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>block</name>
-                    <description>Operator block that this new edit object edits.</description>
+                    <description>Constructor block that this new dialog edits.</description>
                     <type>Constructor*</type>
                   </data>
                 </variable>
@@ -10517,14 +10519,13 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>leftLayout</name>
-                  <description>Implements _Function::Edit::leftLayout_.</description>
+                  <description>Implements _Function::Edit::leftLayout_ interface.</description>
                   <virtual/>
                   <type>QLayout*</type>
-                  <return_description>Pointer to the layout containing all GUI elements for the left side of this dialog.</return_description>
-                  <operation>Save the geometry and state of this function edit dialog.</operation>
-                  <operation>Create a new qt form layout that will be returned.</operation>
-                  <operation>Add all edit widgets for this block to the qt form layout.</operation>
-                  <operation>Return the qt form layout.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Save the geometry and state of this dialog.</operation>
+                  <operation>Create a new form layout, adding the base description field and then the function properties used by this block type.</operation>
+                  <operation>Return the form layout.</operation>
                 </data>
               </function>
             </access>
@@ -10537,55 +10538,58 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>type</name>
-              <description>Implements the interface that returns this block's type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>int</type>
-              <return_description>This block's type.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>name</name>
-              <description>Implements the interface that returns the name of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>QString</type>
-              <return_description>The name of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Return the full function name using no return type and the name of this constructor's class.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>icon</name>
-              <description>Implements the interface that returns the icon of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>QIcon</type>
-              <return_description>The icon of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Initialize the static icon for this block type.</operation>
+              <operation>Return the icon.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>buildList</name>
-              <description>Implements the interface that returns a list of types that this block type can contain as children.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>QList&lt;int></type>
-              <return_description>List of allowed types this block can contain as children.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>makeEdit</name>
-              <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-              <return_description>New editable GUI widget to edit this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>
@@ -10596,8 +10600,14 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>className</name>
+              <description>Returns the name of this constructor's class.</description>
               <const/>
               <type>QString</type>
+              <return_description>Name of this constructor's class.</return_description>
+              <operation>Get the access block parent of this block and make sure it is not null or the root block.</operation>
+              <operation>Make sure the access block is a base block.</operation>
+              <operation>Return the access block's base name.</operation>
+              <operation>Else the parent block is not a base block when it should be so throw an exception.</operation>
             </data>
           </function>
         </access>
@@ -10608,6 +10618,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <slot type="7">
             <data version="0">
               <name>classNameChanged</name>
+              <description>Called when this constructor's class block has changed its name. This in turn notifies this block's name has changed.</description>
             </data>
           </slot>
         </access>
@@ -10618,12 +10629,12 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>makeBlank</name>
-              <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>std::unique_ptr&lt;AbstractBlock></type>
-              <return_description>Pointer to the newly created block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
@@ -10635,11 +10646,12 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <final/>
               <type>bool</type>
               <return_description>See interface docs.</return_description>
+              <operation>Only accept empty strings as valid names.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>value</name>
-                <description>The name value whose syntax is checked to be valid or not.</description>
+                <description>See interface docs.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -10649,6 +10661,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
       <class type="4">
         <data version="0">
           <name>Destructor</name>
+          <description>This is the destructor block. This represents destructors for C++ classes. This inherits from the constructor block because it behaves almost identically. The main differences are destructor methods have no arguments and have additional properties.</description>
           <qtobject/>
         </data>
         <parent type="13">
@@ -10664,6 +10677,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <class type="4">
             <data version="0">
               <name>Edit</name>
+              <description>This is the edit dialog for the destructor block type.</description>
               <qtobject/>
             </data>
             <parent type="13">
@@ -10678,13 +10692,13 @@ The persistence of the qt splitter is made unique by this class overriding the s
               </data>
               <constructor type="9">
                 <data version="0">
-                  <description>Constructs a new edit object with the given operator block.</description>
+                  <description>Constructs a new edit dialog with the given destructor block.</description>
                   <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>block</name>
-                    <description>Operator block that this new edit object edits.</description>
+                    <description>Destructor block that this new dialog edits.</description>
                     <type>Destructor*</type>
                   </data>
                 </variable>
@@ -10697,14 +10711,13 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>leftLayout</name>
-                  <description>Implements _Function::Edit::leftLayout_.</description>
+                  <description>Implements _Function::Edit::leftLayout_ interface.</description>
                   <virtual/>
                   <type>QLayout*</type>
-                  <return_description>Pointer to the layout containing all GUI elements for the left side of this dialog.</return_description>
-                  <operation>Save the geometry and state of this function edit dialog.</operation>
-                  <operation>Create a new qt form layout that will be returned.</operation>
-                  <operation>Add all edit widgets for this block to the qt form layout.</operation>
-                  <operation>Return the qt form layout.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Save the geometry and state of this dialog.</operation>
+                  <operation>Create a new form layout, adding the base description field and then the function properties used by this block type.</operation>
+                  <operation>Return the form layout.</operation>
                 </data>
               </function>
             </access>
@@ -10717,60 +10730,63 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>type</name>
-              <description>Implements the interface that returns this block's type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>This block's type.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>name</name>
-              <description>Implements the interface that returns the name of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QString</type>
-              <return_description>The name of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Return the constructor name with a tilde at the beginning.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>icon</name>
-              <description>Implements the interface that returns the icon of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QIcon</type>
-              <return_description>The icon of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Initialize all static icons for this block type.</operation>
+              <operation>Return the appropriate icon based off this destructor block's properties.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>buildList</name>
-              <description>Implements the interface that returns a list of types that this block type can contain as children.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QList&lt;int></type>
-              <return_description>List of allowed types this block can contain as children.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>makeEdit</name>
-              <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-              <return_description>New editable GUI widget to edit this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>
@@ -10781,13 +10797,13 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>makeBlank</name>
-              <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;AbstractBlock></type>
-              <return_description>Pointer to the newly created block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>

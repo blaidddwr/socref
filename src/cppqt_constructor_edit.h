@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit dialog for the constructor block type. 
     */
    class Constructor::Edit : public Function::Edit
    {

@@ -12,9 +12,9 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new edit object with the given operator block. 
+ * Constructs a new edit dialog with the given constructor block. 
  *
- * @param block Operator block that this new edit object edits. 
+ * @param block Constructor block that this new dialog edits. 
  */
 Constructor::Edit::Edit(Constructor* block):
    Function::Edit(block)
@@ -26,17 +26,17 @@ Constructor::Edit::Edit(Constructor* block):
 
 
 /*!
- * Implements _Function::Edit::leftLayout_. 
+ * Implements _Function::Edit::leftLayout_ interface. 
  *
- * @return Pointer to the layout containing all GUI elements for the left side of 
- *         this dialog. 
+ * @return See interface docs. 
  */
 QLayout* Constructor::Edit::leftLayout()
 {
-   // Save the geometry and state of this function edit dialog. 
+   // Save the geometry and state of this dialog. 
    saveSettings("cppqt.constructor.edit");
 
-   // Create a new qt form layout that will be returned. 
+   // Create a new form layout, adding the base description field and then the 
+   // function properties used by this block type. 
    QFormLayout* ret {new QFormLayout};
    addTextEdit(ret,Base::Field::Description);
    addCheckBoxes(ret
@@ -46,6 +46,6 @@ QLayout* Constructor::Edit::leftLayout()
                  ,3
                  ,"Properties:");
 
-   // Add all edit widgets for this block to the qt form layout. 
+   // Return the form layout. 
    return ret;
 }

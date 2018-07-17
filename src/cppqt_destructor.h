@@ -8,6 +8,10 @@
 namespace CppQt
 {
    /*!
+    * This is the destructor block. This represents destructors for C++ classes. This 
+    * inherits from the constructor block because it behaves almost identically. The 
+    * main differences are destructor methods have no arguments and have additional 
+    * properties. 
     */
    class Destructor : public Constructor
    {

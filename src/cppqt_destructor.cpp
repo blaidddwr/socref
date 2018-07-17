@@ -15,9 +15,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Destructor::type() const
 {
@@ -30,12 +30,13 @@ int Destructor::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Destructor::name() const
 {
+   // Return the constructor name with a tilde at the beginning. 
    return QString("~").append(Constructor::name());
 }
 
@@ -45,23 +46,18 @@ QString Destructor::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Destructor::icon() const
 {
-   static bool isLoaded {false};
-   static QIcon regular;
-   static QIcon virtual_;
-   static QIcon abstract;
-   if ( !isLoaded )
-   {
-      regular = QIcon(":/icons/destructor.svg");
-      virtual_ = QIcon(":/icons/vdestructor.svg");
-      abstract = QIcon(":/icons/adestructor.svg");
-      isLoaded = true;
-   }
+   // Initialize all static icons for this block type. 
+   static QIcon regular(":/icons/destructor.svg");
+   static QIcon virtual_(":/icons/vdestructor.svg");
+   static QIcon abstract(":/icons/adestructor.svg");
+
+   // Return the appropriate icon based off this destructor block's properties. 
    if ( isAbstract() ) return abstract;
    else if ( isVirtual() ) return virtual_;
    else return regular;
@@ -73,10 +69,9 @@ QIcon Destructor::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block type can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Destructor::buildList() const
 {
@@ -89,10 +84,9 @@ QList<int> Destructor::buildList() const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Destructor::makeEdit()
 {
@@ -105,10 +99,9 @@ std::unique_ptr<::Gui::AbstractEdit> Destructor::makeEdit()
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Destructor::makeBlank() const
 {

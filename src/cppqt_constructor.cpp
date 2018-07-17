@@ -17,9 +17,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Constructor::type() const
 {
@@ -32,12 +32,14 @@ int Constructor::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Constructor::name() const
 {
+   // Return the full function name using no return type and the name of this 
+   // constructor's class. 
    return fullName(false,className());
 }
 
@@ -47,14 +49,16 @@ QString Constructor::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Constructor::icon() const
 {
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/constructor.svg");
+   // Initialize the static icon for this block type. 
+   static QIcon ret(":/icons/constructor.svg");
+
+   // Return the icon. 
    return ret;
 }
 
@@ -64,10 +68,9 @@ QIcon Constructor::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block type can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Constructor::buildList() const
 {
@@ -80,10 +83,9 @@ QList<int> Constructor::buildList() const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Constructor::makeEdit()
 {
@@ -96,9 +98,14 @@ std::unique_ptr<::Gui::AbstractEdit> Constructor::makeEdit()
 
 
 /*!
+ * Returns the name of this constructor's class. 
+ *
+ * @return Name of this constructor's class. 
  */
 QString Constructor::className() const
 {
+   // Get the access block parent of this block and make sure it is not null or the 
+   // root block. 
    AbstractBlock* access {parent()};
    if ( !access || !access->parent() )
    {
@@ -107,10 +114,16 @@ QString Constructor::className() const
       e.setDetails(tr("Parent or grandparent is nullptr."));
       throw e;
    }
+
+   // Make sure the access block is a base block. 
    if ( Base* base = qobject_cast<Base*>(access->parent()) )
    {
+      // Return the access block's base name. 
       return base->Base::name();
    }
+
+   // Else the parent block is not a base block when it should be so throw an 
+   // exception. 
    else
    {
       Exception::LogicError e;
@@ -126,6 +139,8 @@ QString Constructor::className() const
 
 
 /*!
+ * Called when this constructor's class block has changed its name. This in turn 
+ * notifies this block's name has changed. 
  */
 void Constructor::classNameChanged()
 {
@@ -138,10 +153,9 @@ void Constructor::classNameChanged()
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
 {
@@ -156,11 +170,12 @@ std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
 /*!
  * Implements _CppQt::Base_ interface. 
  *
- * @param value The name value whose syntax is checked to be valid or not. 
+ * @param value See interface docs. 
  *
  * @return See interface docs. 
  */
 bool Constructor::checkName(const QString& value)
 {
+   // Only accept empty strings as valid names. 
    return value.isEmpty();
 }

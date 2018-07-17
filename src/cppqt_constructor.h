@@ -8,6 +8,9 @@
 namespace CppQt
 {
    /*!
+    * This is the constructor block. This represents constructors for C++ classes. 
+    * This inherits from the base function block since this is a specialized function 
+    * type. 
     */
    class Constructor : public Function
    {

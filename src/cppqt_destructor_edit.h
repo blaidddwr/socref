@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit dialog for the destructor block type. 
     */
    class Destructor::Edit : public Function::Edit
    {

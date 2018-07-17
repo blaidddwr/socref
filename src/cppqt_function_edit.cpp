@@ -268,7 +268,7 @@ QWidget* Function::Edit::rightLayout()
    // Create a new vertical layout, adding a properties label and then the operations 
    // list edit widget. 
    QVBoxLayout* layout {new QVBoxLayout};
-   layout->addWidget(new QLabel(tr("Properties"),this));
+   layout->addWidget(new QLabel(tr("Steps of Operation"),this));
    layout->addWidget(_operationsEdit);
 
    // Create and return a new widget, setting its layout to the operations layout. 
