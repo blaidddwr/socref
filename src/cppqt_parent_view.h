@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the view widget for the parent block type. 
     */
    class Parent::View : public Base::View
    {
@@ -18,7 +19,7 @@ namespace CppQt
    private:
       QString displayText();
       /*!
-       * The variable block that this view is displaying. 
+       * The parent block that this view is displaying. 
        */
       const Parent* _block;
    };

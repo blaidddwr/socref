@@ -16,9 +16,13 @@ using namespace CppQt;
 
 
 /*!
+ * List of this block's field tag names that follow the same order as this block's 
+ * enumeration of fields. 
  */
 const QStringList Parent::_fields {"access","class"};
 /*!
+ * List of access type names that follow the same order as this block's enumeration 
+ * of possible access types. 
  */
 const QStringList Parent::_accessNames {"public","protected","private"};
 
@@ -28,9 +32,9 @@ const QStringList Parent::_accessNames {"public","protected","private"};
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Parent::type() const
 {
@@ -43,10 +47,9 @@ int Parent::type() const
 
 
 /*!
- * Implements the interface that returns a reference to this block's factory which 
- * produces all block types for this project type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Reference to block factory. 
+ * @return See interface docs. 
  */
 const AbstractBlockFactory& Parent::factory() const
 {
@@ -59,12 +62,13 @@ const AbstractBlockFactory& Parent::factory() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Parent::name() const
 {
+   // Return only the access type string of this parent block. 
    return accessString();
 }
 
@@ -74,29 +78,24 @@ QString Parent::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Parent::icon() const
 {
-   static bool isLoaded {false};
-   static QIcon public_;
-   static QIcon protected_;
-   static QIcon private_;
-   if ( !isLoaded )
-   {
-      public_ = QIcon(":/icons/parent.svg");
-      protected_ = QIcon(":/icons/proparent.svg");
-      private_ = QIcon(":/icons/priparent.svg");
-      isLoaded = true;
-   }
+   // Initialize all static icons for this block type. 
+   static QIcon publicIcon(":/icons/parent.svg");
+   static QIcon protectedIcon(":/icons/proparent.svg");
+   static QIcon privateIcon(":/icons/priparent.svg");
+
+   // Return the appropriate icon based off this parent block's access type. 
    switch (_access)
    {
-   case Access::Public: return public_;
-   case Access::Protected: return protected_;
-   case Access::Private: return private_;
-   default: return public_;
+   case Access::Public: return publicIcon;
+   case Access::Protected: return protectedIcon;
+   case Access::Private: return privateIcon;
+   default: return publicIcon;
    }
 }
 
@@ -106,10 +105,9 @@ QIcon Parent::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Parent::buildList() const
 {
@@ -122,10 +120,9 @@ QList<int> Parent::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> Parent::makeView() const
 {
@@ -138,12 +135,13 @@ std::unique_ptr<QWidget> Parent::makeView() const
 
 
 /*!
- * Implements the interface that returns the number of fields this block contains. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The number of fields this object contains. 
+ * @return See interface docs. 
  */
 int Parent::fieldSize() const
 {
+   // Use the field enumeration to return the total number of fields. 
    return Field::Total;
 }
 
@@ -153,19 +151,21 @@ int Parent::fieldSize() const
 
 
 /*!
- * Implements the interface that returns the field type for the given field index 
- * of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose field type is returned. 
+ * @param index See interface docs. 
  *
- * @return Field type of the given field index of this block. 
+ * @return See interface docs. 
  */
 AbstractBlock::Field Parent::fieldType(int index) const
 {
+   // Based off the given field index return its type. 
    switch (index)
    {
    case Field::AccessType:
    case Field::ClassName: return AbstractBlock::Field::String;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
          Exception::OutOfRange e;
@@ -184,19 +184,21 @@ AbstractBlock::Field Parent::fieldType(int index) const
 
 
 /*!
- * Implements the interface that returns the value of the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is returned. 
+ * @param index See interface docs. 
  *
- * @return Value of the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QVariant Parent::field(int index) const
 {
+   // Based off the given field index return its value. 
    switch (index)
    {
    case Field::AccessType: return accessString();
    case Field::ClassName: return _className;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
          Exception::OutOfRange e;
@@ -215,10 +217,9 @@ QVariant Parent::field(int index) const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Parent::makeEdit()
 {
@@ -231,6 +232,9 @@ std::unique_ptr<::Gui::AbstractEdit> Parent::makeEdit()
 
 
 /*!
+ * Return the access type of this parent block. 
+ *
+ * @return Access type for this parent block. 
  */
 Parent::Access Parent::access() const
 {
@@ -243,9 +247,14 @@ Parent::Access Parent::access() const
 
 
 /*!
+ * Return the string version of this block's access type. 
+ *
+ * @return String version of this block's access type. 
  */
 QString Parent::accessString() const
 {
+   // Use this block's access names list to return the string version of this block's 
+   // access type. 
    return _accessNames.at(static_cast<int>(_access));
 }
 
@@ -255,6 +264,9 @@ QString Parent::accessString() const
 
 
 /*!
+ * Returns the class name of this parent block. 
+ *
+ * @return Class name of this parent block. 
  */
 QString Parent::className() const
 {
@@ -267,44 +279,9 @@ QString Parent::className() const
 
 
 /*!
+ * Implements _AbstractBlock_ interface. 
  *
- * @param value  
- */
-void Parent::setAccess(Access value)
-{
-   if ( _access != value )
-   {
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-      _access = value;
-   }
-}
-
-
-
-
-
-
-/*!
- *
- * @param value  
- */
-void Parent::setAccess(const QString& value)
-{
-   setField(Field::AccessType,value);
-}
-
-
-
-
-
-
-/*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
- *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Parent::makeBlank() const
 {
@@ -317,10 +294,9 @@ std::unique_ptr<AbstractBlock> Parent::makeBlank() const
 
 
 /*!
- * Implements the interface that returns the current data version for this block 
- * type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Current data version. 
+ * @return See interface docs. 
  */
 int Parent::version() const
 {
@@ -333,15 +309,15 @@ int Parent::version() const
 
 
 /*!
- * Implements the interface that returns the tag name for the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose tag name is returned. 
+ * @param index See interface docs. 
  *
- * @return Tag name for the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QString Parent::fieldTag(int index) const
 {
+   // Use this block's fields list to figure out the tag at the given index. 
    return _fields.at(index);
 }
 
@@ -351,16 +327,15 @@ QString Parent::fieldTag(int index) const
 
 
 /*!
- * Implements the interface that returns the index of the field that has the given 
- * tag name for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param name Tag name of the field whose index is returned. 
+ * @param name See interface docs. 
  *
- * @return Index of the field with the given tag name or -1 if no field exists with 
- *         that tag name. 
+ * @return See interface docs. 
  */
 int Parent::fieldIndexOf(const QString& name) const
 {
+   // Use this block's fields list to figure out the index of the given tag name. 
    return _fields.indexOf(name);
 }
 
@@ -370,25 +345,19 @@ int Parent::fieldIndexOf(const QString& name) const
 
 
 /*!
- * Implements the interface that is called when the field with the given index for 
- * this block has been modified. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field which has just been modified. 
+ * @param index See interface docs. 
  */
 void Parent::fieldModified(int index)
 {
-   switch (index)
-   {
-   case Field::AccessType:
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-      break;
-   case Field::ClassName:
-      notifyModified();
-      notifyBodyModified();
-      break;
-   }
+   // Notify that this block's body has changed and it is modified. 
+   notifyModified();
+   notifyBodyModified();
+
+   // If the given field index is the access type then also notify this block's name 
+   // has changed. 
+   if ( index == Field::AccessType ) notifyNameModified();
 }
 
 
@@ -397,15 +366,16 @@ void Parent::fieldModified(int index)
 
 
 /*!
- * Implements the interface that quietly sets the value of the field with the given 
- * index to the new given value. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is set to the new given value. 
+ * @param index See interface docs. 
  *
- * @param value New value that the field with the given index is set to. 
+ * @param value See interface docs. 
  */
 void Parent::quietlySetField(int index, const QVariant& value)
 {
+   // Based off the given field index set its value to the new one given. If the 
+   // given index is unknown then do nothing. 
    switch (index)
    {
    case Field::AccessType:
@@ -423,11 +393,14 @@ void Parent::quietlySetField(int index, const QVariant& value)
 
 
 /*!
+ * Sets the class name field for this parent block. If the given value is not valid 
+ * then an exception is thrown. 
  *
- * @param value  
+ * @param value The new value for this parent block's class name field. 
  */
-void Parent::checkClassName(const QString& value)
+void Parent::setClassName(const QString& value)
 {
+   // Make sure the new given value is valid. 
    if ( !Type::isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
@@ -435,19 +408,7 @@ void Parent::checkClassName(const QString& value)
       e.setDetails(tr("Class name '%1' is not valid.").arg(value));
       throw e;
    }
-}
 
-
-
-
-
-
-/*!
- *
- * @param value  
- */
-void Parent::setClassName(const QString& value)
-{
-   checkClassName(value);
+   // Set the new value to this parent block's class name field. 
    _className = value;
 }

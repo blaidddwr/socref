@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit dialog for the parent block type. 
     */
    class Parent::Edit : public ::Gui::AbstractEdit
    {

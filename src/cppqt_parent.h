@@ -8,6 +8,9 @@
 namespace CppQt
 {
    /*!
+    * This is the parent block. This represents a single inheritance class for another 
+    * C++ class. This contains the class name being inherited and its access type of 
+    * public, protected, or private. 
     */
    class Parent : public AbstractBlock
    {
@@ -28,36 +31,42 @@ namespace CppQt
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
    public:
       /*!
+       * Defines all possible access types a parent class can have. 
        */
       enum class Access
       {
          /*!
+          * Defines the public type. 
           */
          Public
          /*!
+          * Defines the protected type. 
           */
          ,Protected
          /*!
+          * Defines the private type. 
           */
          ,Private
       };
       Parent::Access access() const;
       QString accessString() const;
       QString className() const;
-      void setAccess(Access value);
-      void setAccess(const QString& value);
    protected:
       /*!
+       * Defines the fields this block contains. 
        */
       enum Field
       {
          /*!
+          * Defines the access type field. 
           */
          AccessType
          /*!
+          * Defines the class name field. 
           */
          ,ClassName
          /*!
+          * Defines the total number of fields this block defines. 
           */
          ,Total
       };
@@ -68,18 +77,23 @@ namespace CppQt
       virtual void fieldModified(int index) override final;
       virtual void quietlySetField(int index, const QVariant& value) override final;
    private:
-      static void checkClassName(const QString& value);
       void setClassName(const QString& value);
       /*!
+       * List of this block's field tag names that follow the same order as this block's 
+       * enumeration of fields. 
        */
       static const QStringList _fields;
       /*!
+       * List of access type names that follow the same order as this block's enumeration 
+       * of possible access types. 
        */
       static const QStringList _accessNames;
       /*!
+       * The access type for this parent block. 
        */
       Access _access {Access::Public};
       /*!
+       * The class name for this parent block. 
        */
       QString _className;
    };
