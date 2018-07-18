@@ -16,9 +16,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Friend::type() const
 {
@@ -31,9 +31,9 @@ int Friend::type() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Friend::name() const
 {
@@ -46,10 +46,9 @@ QString Friend::name() const
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Friend::makeBlank() const
 {
@@ -62,11 +61,14 @@ std::unique_ptr<AbstractBlock> Friend::makeBlank() const
 
 
 /*!
+ * Implements _CppQt::Using_ interface. 
  *
- * @param value  
+ * @param value See interface docs. 
  */
 void Friend::checkField(const QString& value)
 {
+   // Make sure the given field value is a valid C++ function declaration for a 
+   // friend declaration. 
    if ( !QRegularExpression("\\A[a-zA-Z_]+[a-zA-Z_0-9<>\\*& ]*\\([a-zA-Z_0-9<>\\*&, ]*\\)\\z").match(value).hasMatch() )
    {
       Exception::InvalidArgument e;

@@ -11355,6 +11355,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
       <class type="4">
         <data version="0">
           <name>Using</name>
+          <description>This is the using block. This represents using declarations found in C++ classes. While using declarations can be made outside of classes this block is limited to declarations made within class declarations.</description>
           <qtobject/>
         </data>
         <parent type="13">
@@ -11370,6 +11371,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <class type="4">
             <data version="0">
               <name>Edit</name>
+              <description>This is the edit dialog for the using block type.</description>
               <qtobject/>
             </data>
             <parent type="13">
@@ -11384,13 +11386,13 @@ The persistence of the qt splitter is made unique by this class overriding the s
               </data>
               <constructor type="9">
                 <data version="0">
-                  <description>Constructs a new type edit object with the given variable block.</description>
+                  <description>Constructs a new edit dialog with the given using block.</description>
                   <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>block</name>
-                    <description>Variable block that this new edit object edits.</description>
+                    <description>Using block that this new dialog edits.</description>
                     <type>Using*</type>
                   </data>
                 </variable>
@@ -11403,32 +11405,33 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>layout</name>
-                  <description>Implements the interface that is called to return the layout of all GUI elements used by this dialog object's form layout.</description>
+                  <description>Implements _Gui::AbstractEdit_ interface.</description>
                   <virtual/>
                   <override/>
                   <type>QLayout*</type>
-                  <return_description>Pointer to the layout containing all GUI elements for this dialog.</return_description>
-                  <operation>Save this dialog object's geometry to Qt settings.</operation>
-                  <operation>Create a new form layout _ret_, add the type edit widget, then add a new line edit for the base name field, then add a new text edit for the base description field, then add a new line edit for the initial value field, and then add a check boxes field for the constant expression, static, and mutable fields.</operation>
-                  <operation>Return _ret_.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Save the geometry of this dialog.</operation>
+                  <operation>Create a new form layout, adding the field field.</operation>
+                  <operation>Return the form layout.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>fieldTitle</name>
-                  <description>Implements the interface that returns the title for the given field type.</description>
+                  <description>Implements _Gui::AbstractEdit_ interface.</description>
                   <virtual/>
                   <const/>
                   <override/>
                   <final/>
                   <type>QString</type>
-                  <return_description>Title of the given field type.</return_description>
-                  <operation>Based off the given field index return its title. If the given field index is undefined then throw an exception.</operation>
+                  <return_description>See interface docs.</return_description>
+                  <operation>Based off the given field index return its title.</operation>
+                  <operation>If the given index is unknown then throw an exception.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>index</name>
-                    <description>The field index whose display title is returned.</description>
+                    <description>See interface docs.</description>
                     <type>int</type>
                   </data>
                 </variable>
@@ -11438,6 +11441,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <class type="4">
             <data version="0">
               <name>View</name>
+              <description>This is the view widget for the using block type.</description>
               <qtobject/>
             </data>
             <parent type="13">
@@ -11452,12 +11456,12 @@ The persistence of the qt splitter is made unique by this class overriding the s
               </data>
               <constructor type="9">
                 <data version="0">
-                  <description>Constructs a new view object with the given variable block.</description>
+                  <description>Constructs a new view widget with the given using block.</description>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>block</name>
-                    <description>Variable block this new view displays.</description>
+                    <description>Using block this new view displays.</description>
                     <type>const Using*</type>
                   </data>
                 </variable>
@@ -11470,15 +11474,16 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>displayText</name>
-                  <description>Returns the HTML rich text that displays the body of this view's variable block.</description>
+                  <description>Returns the HTML rich text that displays the body of this view's using block.</description>
                   <type>QString</type>
-                  <return_description>HTML rich text that displays the body of this view's variable block.</return_description>
+                  <return_description>HTML rich text that displays the body of this view's using block.</return_description>
+                  <operation>Return a HTML string that displays the using declaration string following by this view's using block's field.</operation>
                 </data>
               </function>
               <variable type="1">
                 <data version="0">
                   <name>_block</name>
-                  <description>The variable block that this view is displaying.</description>
+                  <description>The using block that this view is displaying.</description>
                   <type>const Using*</type>
                 </data>
               </variable>
@@ -11492,98 +11497,103 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>type</name>
-              <description>Implements the interface that returns this block's type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>int</type>
-              <return_description>This block's type.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>factory</name>
-              <description>Implements the interface that returns a reference to this block's factory which produces all block types for this project type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>const AbstractBlockFactory&amp;</type>
-              <return_description>Reference to block factory.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>name</name>
-              <description>Implements the interface that returns the name of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>QString</type>
-              <return_description>The name of this block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>icon</name>
-              <description>Implements the interface that returns the icon of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>QIcon</type>
-              <return_description>The icon of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Initialize the static icons for this block type.</operation>
+              <operation>Return the icon.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>buildList</name>
-              <description>Implements the interface that returns a list of types that this block can contain as children.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QList&lt;int></type>
-              <return_description>List of allowed types this block can contain as children.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>makeView</name>
-              <description>Implements the interface that returns a view that provides a detailed read only GUI representation of this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>std::unique_ptr&lt;QWidget></type>
-              <return_description>New GUI view that represents this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldSize</name>
-              <description>Implements the interface that returns the number of fields this block contains.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>The number of fields this object contains.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Use the field enumeration to return the total number of fields.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldType</name>
-              <description>Implements the interface that returns the field type for the given field index of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>AbstractBlock::Field</type>
-              <return_description>Field type of the given field index of this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Based off the given field index return its type.</operation>
+              <operation>If the given index is unknown then throw an exception.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field whose field type is returned.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -11591,18 +11601,20 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>field</name>
-              <description>Implements the interface that returns the value of the field with the given index for this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QVariant</type>
-              <return_description>Value of the field with the given index for this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Based off the given field index return its value.</operation>
+              <operation>If the given index is unknown then throw an exception.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field whose value is returned.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -11610,11 +11622,11 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>makeEdit</name>
-              <description>Implements the interface that returns a editable GUI widget that provides the ability to edit this block's data.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
-              <return_description>New editable GUI widget to edit this block's data.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>
@@ -11625,8 +11637,10 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>fieldName</name>
+              <description>Returns the field of this using block.</description>
               <const/>
               <type>QString</type>
+              <return_description>The field of this using block.</return_description>
             </data>
           </function>
         </access>
@@ -11637,56 +11651,60 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <enumeration type="11">
             <data version="0">
               <name>Field</name>
+              <description>Defines the fields of this block type.</description>
             </data>
             <enumval type="12">
               <data version="0">
                 <name>FieldType</name>
+                <description>Defines the field field. This is the actual using field after the using declaration.</description>
               </data>
             </enumval>
             <enumval type="12">
               <data version="0">
                 <name>Total</name>
+                <description>Defines the total number of fields this block defines.</description>
               </data>
             </enumval>
           </enumeration>
           <function type="2">
             <data version="0">
               <name>makeBlank</name>
-              <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>std::unique_ptr&lt;AbstractBlock></type>
-              <return_description>Pointer to the newly created block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>version</name>
-              <description>Implements the interface that returns the current data version for this block type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>Current data version.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>fieldTag</name>
-              <description>Implements the interface that returns the tag name for the field with the given index for this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QString</type>
-              <return_description>Tag name for the field with the given index for this block.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Use this block's field list to return the tag name with the given index.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field whose tag name is returned.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -11694,18 +11712,19 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>fieldIndexOf</name>
-              <description>Implements the interface that returns the index of the field that has the given tag name for this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>Index of the field with the given tag name or -1 if no field exists with that tag name.</return_description>
+              <return_description>See interface docs.</return_description>
+              <operation>Use this block's field list to determine the index of the given tag name.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>name</name>
-                <description>Tag name of the field whose index is returned.</description>
+                <description>See interface docs.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -11713,16 +11732,17 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>fieldModified</name>
-              <description>Implements the interface that is called when the field with the given index for this block has been modified.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>void</type>
+              <operation>Based off the given field index notify about changes to this block. If the given index is unknown then do nothing.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field which has just been modified.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -11730,23 +11750,24 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>quietlySetField</name>
-              <description>Implements the interface that quietly sets the value of the field with the given index to the new given value.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
               <final/>
               <type>void</type>
+              <operation>Based off the given field index set its value to the new one given. If the given index is unknown then do nothing.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>index</name>
-                <description>Index of the field whose value is set to the new given value.</description>
+                <description>See interface docs.</description>
                 <type>int</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>value</name>
-                <description>New value that the field with the given index is set to.</description>
+                <description>See interface docs.</description>
                 <type>const QVariant&amp;</type>
               </data>
             </variable>
@@ -11754,12 +11775,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>checkField</name>
+              <description>This interface checks if the given value is a valid field field string. If it is invalid then an exception is thrown.</description>
               <virtual/>
               <type>void</type>
+              <operation>Make sure the given field is valid, throwing an exception if it is not.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>value</name>
+                <description>The field field value whose syntax is checked.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -11772,11 +11796,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>setField</name>
+              <description>Sets the field of this using block to the given value, making sure the syntax is valid using the check name interface. If it is invalid then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the new value given is valid.</operation>
+              <operation>Set this block's field to the new value.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>value</name>
+                <description>The new value for this using block's field.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>
@@ -11789,6 +11817,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_fields</name>
+              <description>List of this block's field tag names that follow the same order as this block's enumeration of fields.</description>
               <static/>
               <type>const QStringList</type>
               <initializer>"field"</initializer>
@@ -11797,6 +11826,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <variable type="1">
             <data version="0">
               <name>_field</name>
+              <description>The field of this using block.</description>
               <type>QString</type>
             </data>
           </variable>
@@ -11805,6 +11835,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
       <class type="4">
         <data version="0">
           <name>Friend</name>
+          <description>This is the friend block. This represents C++ friend declarations used in classes. Because this is almost identical to using declarations this block inherits almost everything from that block. The only difference is that the declaration begins with friend instead of using.</description>
           <qtobject/>
         </data>
         <parent type="13">
@@ -11820,25 +11851,25 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>type</name>
-              <description>Implements the interface that returns this block's type.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>int</type>
-              <return_description>This block's type.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>name</name>
-              <description>Implements the interface that returns the name of this block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>QString</type>
-              <return_description>The name of this block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>
@@ -11849,24 +11880,27 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>makeBlank</name>
-              <description>Implements the interface that makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
               <type>std::unique_ptr&lt;AbstractBlock></type>
-              <return_description>Pointer to the newly created block.</return_description>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
               <name>checkField</name>
+              <description>Implements _CppQt::Using_ interface.</description>
               <virtual/>
               <type>void</type>
+              <operation>Make sure the given field value is a valid C++ function declaration for a friend declaration.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>value</name>
+                <description>See interface docs.</description>
                 <type>const QString&amp;</type>
               </data>
             </variable>

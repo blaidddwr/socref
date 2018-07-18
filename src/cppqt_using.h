@@ -8,6 +8,9 @@
 namespace CppQt
 {
    /*!
+    * This is the using block. This represents using declarations found in C++ 
+    * classes. While using declarations can be made outside of classes this block is 
+    * limited to declarations made within class declarations. 
     */
    class Using : public AbstractBlock
    {
@@ -30,13 +33,17 @@ namespace CppQt
       QString fieldName() const;
    protected:
       /*!
+       * Defines the fields of this block type. 
        */
       enum Field
       {
          /*!
+          * Defines the field field. This is the actual using field after the using 
+          * declaration. 
           */
          FieldType
          /*!
+          * Defines the total number of fields this block defines. 
           */
          ,Total
       };
@@ -51,9 +58,12 @@ namespace CppQt
       void setField(const QString& value);
    private:
       /*!
+       * List of this block's field tag names that follow the same order as this block's 
+       * enumeration of fields. 
        */
       static const QStringList _fields;
       /*!
+       * The field of this using block. 
        */
       QString _field;
    };

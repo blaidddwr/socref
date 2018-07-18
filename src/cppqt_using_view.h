@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the view widget for the using block type. 
     */
    class Using::View : public Base::View
    {
@@ -18,7 +19,7 @@ namespace CppQt
    private:
       QString displayText();
       /*!
-       * The variable block that this view is displaying. 
+       * The using block that this view is displaying. 
        */
       const Using* _block;
    };

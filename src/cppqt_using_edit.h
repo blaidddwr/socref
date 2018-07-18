@@ -9,6 +9,7 @@
 namespace CppQt
 {
    /*!
+    * This is the edit dialog for the using block type. 
     */
    class Using::Edit : public ::Gui::AbstractEdit
    {

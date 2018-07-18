@@ -16,6 +16,8 @@ using namespace CppQt;
 
 
 /*!
+ * List of this block's field tag names that follow the same order as this block's 
+ * enumeration of fields. 
  */
 const QStringList Using::_fields {"field"};
 
@@ -25,9 +27,9 @@ const QStringList Using::_fields {"field"};
 
 
 /*!
- * Implements the interface that returns this block's type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Using::type() const
 {
@@ -40,10 +42,9 @@ int Using::type() const
 
 
 /*!
- * Implements the interface that returns a reference to this block's factory which 
- * produces all block types for this project type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Reference to block factory. 
+ * @return See interface docs. 
  */
 const AbstractBlockFactory& Using::factory() const
 {
@@ -56,9 +57,9 @@ const AbstractBlockFactory& Using::factory() const
 
 
 /*!
- * Implements the interface that returns the name of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The name of this block. 
+ * @return See interface docs. 
  */
 QString Using::name() const
 {
@@ -71,14 +72,16 @@ QString Using::name() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Using::icon() const
 {
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/declaration.svg");
+   // Initialize the static icons for this block type. 
+   static QIcon ret(":/icons/declaration.svg");
+
+   // Return the icon. 
    return ret;
 }
 
@@ -88,10 +91,9 @@ QIcon Using::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Using::buildList() const
 {
@@ -104,10 +106,9 @@ QList<int> Using::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<QWidget> Using::makeView() const
 {
@@ -120,12 +121,13 @@ std::unique_ptr<QWidget> Using::makeView() const
 
 
 /*!
- * Implements the interface that returns the number of fields this block contains. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The number of fields this object contains. 
+ * @return See interface docs. 
  */
 int Using::fieldSize() const
 {
+   // Use the field enumeration to return the total number of fields. 
    return Field::Total;
 }
 
@@ -135,18 +137,20 @@ int Using::fieldSize() const
 
 
 /*!
- * Implements the interface that returns the field type for the given field index 
- * of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose field type is returned. 
+ * @param index See interface docs. 
  *
- * @return Field type of the given field index of this block. 
+ * @return See interface docs. 
  */
 AbstractBlock::Field Using::fieldType(int index) const
 {
+   // Based off the given field index return its type. 
    switch (index)
    {
    case Field::FieldType: return AbstractBlock::Field::String;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
          Exception::OutOfRange e;
@@ -165,18 +169,20 @@ AbstractBlock::Field Using::fieldType(int index) const
 
 
 /*!
- * Implements the interface that returns the value of the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is returned. 
+ * @param index See interface docs. 
  *
- * @return Value of the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QVariant Using::field(int index) const
 {
+   // Based off the given field index return its value. 
    switch (index)
    {
    case Field::FieldType: return _field;
+
+   // If the given index is unknown then throw an exception. 
    default:
       {
          Exception::OutOfRange e;
@@ -195,10 +201,9 @@ QVariant Using::field(int index) const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
 std::unique_ptr<::Gui::AbstractEdit> Using::makeEdit()
 {
@@ -211,6 +216,9 @@ std::unique_ptr<::Gui::AbstractEdit> Using::makeEdit()
 
 
 /*!
+ * Returns the field of this using block. 
+ *
+ * @return The field of this using block. 
  */
 QString Using::fieldName() const
 {
@@ -223,10 +231,9 @@ QString Using::fieldName() const
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
 std::unique_ptr<AbstractBlock> Using::makeBlank() const
 {
@@ -239,10 +246,9 @@ std::unique_ptr<AbstractBlock> Using::makeBlank() const
 
 
 /*!
- * Implements the interface that returns the current data version for this block 
- * type. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Current data version. 
+ * @return See interface docs. 
  */
 int Using::version() const
 {
@@ -255,15 +261,15 @@ int Using::version() const
 
 
 /*!
- * Implements the interface that returns the tag name for the field with the given 
- * index for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose tag name is returned. 
+ * @param index See interface docs. 
  *
- * @return Tag name for the field with the given index for this block. 
+ * @return See interface docs. 
  */
 QString Using::fieldTag(int index) const
 {
+   // Use this block's field list to return the tag name with the given index. 
    return _fields.at(index);
 }
 
@@ -273,16 +279,15 @@ QString Using::fieldTag(int index) const
 
 
 /*!
- * Implements the interface that returns the index of the field that has the given 
- * tag name for this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param name Tag name of the field whose index is returned. 
+ * @param name See interface docs. 
  *
- * @return Index of the field with the given tag name or -1 if no field exists with 
- *         that tag name. 
+ * @return See interface docs. 
  */
 int Using::fieldIndexOf(const QString& name) const
 {
+   // Use this block's field list to determine the index of the given tag name. 
    return _fields.indexOf(name);
 }
 
@@ -292,13 +297,14 @@ int Using::fieldIndexOf(const QString& name) const
 
 
 /*!
- * Implements the interface that is called when the field with the given index for 
- * this block has been modified. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field which has just been modified. 
+ * @param index See interface docs. 
  */
 void Using::fieldModified(int index)
 {
+   // Based off the given field index notify about changes to this block. If the 
+   // given index is unknown then do nothing. 
    switch (index)
    {
    case Field::FieldType:
@@ -314,15 +320,16 @@ void Using::fieldModified(int index)
 
 
 /*!
- * Implements the interface that quietly sets the value of the field with the given 
- * index to the new given value. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @param index Index of the field whose value is set to the new given value. 
+ * @param index See interface docs. 
  *
- * @param value New value that the field with the given index is set to. 
+ * @param value See interface docs. 
  */
 void Using::quietlySetField(int index, const QVariant& value)
 {
+   // Based off the given field index set its value to the new one given. If the 
+   // given index is unknown then do nothing. 
    switch (index)
    {
    case Field::FieldType:
@@ -337,12 +344,15 @@ void Using::quietlySetField(int index, const QVariant& value)
 
 
 /*!
+ * This interface checks if the given value is a valid field field string. If it is 
+ * invalid then an exception is thrown. 
  *
- * @param value  
+ * @param value The field field value whose syntax is checked. 
  */
 void Using::checkField(const QString& value)
 {
-   if ( !QRegularExpression("\\A((::)?[a-zA-Z_]+[a-zA-Z_0-9]*)+\\z").match(value).hasMatch() )
+   // Make sure the given field is valid, throwing an exception if it is not. 
+   if ( !QRegularExpression("\\A((::)?[a-zA-Z_]+[a-zA-Z_0-9]*)+(\\s*=\\s*[a-zA-Z0-9<>&\\* ]*)?\\z").match(value).hasMatch() )
    {
       Exception::InvalidArgument e;
       MARK_EXCEPTION(e);
@@ -357,11 +367,17 @@ void Using::checkField(const QString& value)
 
 
 /*!
+ * Sets the field of this using block to the given value, making sure the syntax is 
+ * valid using the check name interface. If it is invalid then an exception is 
+ * thrown. 
  *
- * @param value  
+ * @param value The new value for this using block's field. 
  */
 void Using::setField(const QString& value)
 {
+   // Make sure the new value given is valid. 
    checkField(value);
+
+   // Set this block's field to the new value. 
    _field = value;
 }
