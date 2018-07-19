@@ -3,6 +3,7 @@
  */
 namespace CppQt
 {
+   class Settings;
    class BlockFactory;
    class Base;
    class TypeList;

@@ -4,7 +4,6 @@
 
 
 
-class QFormLayout;
 class QSpinBox;
 //
 
@@ -14,28 +13,37 @@ namespace CppQt
 {
    namespace Gui
    {
+      /*!
+       * This is the settings dialog. This allows the user to edit all global settings 
+       * for the C++/Qt project type. 
+       */
       class SettingsDialog : public ::Gui::PersistentDialog
       {
+         Q_OBJECT
       public:
-         SettingsDialog();
+         explicit SettingsDialog();
       private slots:
          void okClicked();
          void applyClicked();
-         void cancelClicked();
       private:
          void setupGui();
          QLayout* setupForm();
-         void addIndentSpaces(QFormLayout* layout);
-         void addHeaderLines(QFormLayout* layout);
-         void addFunctionLines(QFormLayout* layout);
-         void addMaxColumns(QFormLayout* layout);
          QLayout* setupButtons();
-         QWidget* setupOkButton();
-         QWidget* setupApplyButton();
-         QWidget* setupCancelButton();
+         /*!
+          * The edit widget for the indent spaces setting. 
+          */
          QSpinBox* _indentSpacesBox;
+         /*!
+          * The edit widget for the header lines setting. 
+          */
          QSpinBox* _headerLinesBox;
+         /*!
+          * The edit widget for the function lines setting. 
+          */
          QSpinBox* _functionLinesBox;
+         /*!
+          * The edit widget for the max columns setting. 
+          */
          QSpinBox* _maxColumnsBox;
       };
    }

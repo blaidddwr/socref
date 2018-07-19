@@ -4,19 +4,40 @@
 
 
 using namespace CppQt;
-const char* Settings::_indentSpacesKey {"settings.cppqt.indent.spaces"};
-const char* Settings::_headerLinesKey {"settings.cppqt.header.lines"};
-const char* Settings::_functionLinesKey {"settings.cppqt.header.functionlines"};
-const char* Settings::_maxColumnsKey {"settings.cppqt.header.maxcolumns"};
 //
 
 
 
+/*!
+ * The settings key used to save the indent spaces setting. 
+ */
+const char* Settings::_indentSpacesKey {"settings.cppqt.indent.spaces"};
+/*!
+ * The settings key used to save the header lines setting. 
+ */
+const char* Settings::_headerLinesKey {"settings.cppqt.header.lines"};
+/*!
+ * The settings key used to save the function lines setting. 
+ */
+const char* Settings::_functionLinesKey {"settings.cppqt.header.functionlines"};
+/*!
+ * The settings key used to save the max columns setting. 
+ */
+const char* Settings::_maxColumnsKey {"settings.cppqt.header.maxcolumns"};
 
 
 
+
+
+
+/*!
+ * Constructs a new settings global instance, retrieving all persistent settings 
+ * from qt settings. 
+ */
 Settings::Settings()
 {
+   // Create a qt settings object and restore all global settings to their persistent 
+   // values. 
    QSettings settings;
    _indentSpaces = settings.value(_indentSpacesKey).toInt();
    _headerLines = settings.value(_headerLinesKey).toInt();
@@ -29,6 +50,11 @@ Settings::Settings()
 
 
 
+/*!
+ * Returns the indent spaces setting. 
+ *
+ * @return Indent spaces setting. 
+ */
 int Settings::indentSpaces() const
 {
    return _indentSpaces;
@@ -39,6 +65,11 @@ int Settings::indentSpaces() const
 
 
 
+/*!
+ * Returns the header lines setting. 
+ *
+ * @return Header lines setting. 
+ */
 int Settings::headerLines() const
 {
    return _headerLines;
@@ -49,6 +80,11 @@ int Settings::headerLines() const
 
 
 
+/*!
+ * Returns the function lines setting. 
+ *
+ * @return Function lines setting. 
+ */
 int Settings::functionLines() const
 {
    return _functionLines;
@@ -59,6 +95,11 @@ int Settings::functionLines() const
 
 
 
+/*!
+ * Returns the max columns setting. 
+ *
+ * @return Max columns setting. 
+ */
 int Settings::maxColumns() const
 {
    return _maxColumns;
@@ -69,9 +110,17 @@ int Settings::maxColumns() const
 
 
 
-void Settings::setIndentSpaces(int indentSpaces)
+/*!
+ * Sets the indent spaces setting to the given value. 
+ *
+ * @param value The new value for the setting. 
+ */
+void Settings::setIndentSpaces(int value)
 {
-   _indentSpaces = indentSpaces;
+   // Update the setting to the new value given. 
+   _indentSpaces = value;
+
+   // Update the setting in qt settings for persistence. 
    updateSetting(_indentSpacesKey,_indentSpaces);
 }
 
@@ -80,9 +129,17 @@ void Settings::setIndentSpaces(int indentSpaces)
 
 
 
-void Settings::setHeaderLines(int headerLines)
+/*!
+ * Sets the header lines setting to the given value. 
+ *
+ * @param value The new value for the setting. 
+ */
+void Settings::setHeaderLines(int value)
 {
-   _headerLines = headerLines;
+   // Update the setting to the new value given. 
+   _headerLines = value;
+
+   // Update the setting in qt settings for persistence. 
    updateSetting(_headerLinesKey,_headerLines);
 }
 
@@ -91,9 +148,17 @@ void Settings::setHeaderLines(int headerLines)
 
 
 
-void Settings::setFunctionLines(int functionLines)
+/*!
+ * Sets the function lines setting to the given value. 
+ *
+ * @param value The new value for the setting. 
+ */
+void Settings::setFunctionLines(int value)
 {
-   _functionLines = functionLines;
+   // Update the setting to the new value given. 
+   _functionLines = value;
+
+   // Update the setting in qt settings for persistence. 
    updateSetting(_functionLinesKey,_functionLines);
 }
 
@@ -102,9 +167,17 @@ void Settings::setFunctionLines(int functionLines)
 
 
 
-void Settings::setMaxColumns(int maxColumns)
+/*!
+ * Sets the max columns setting to the given value. 
+ *
+ * @param value The new value for the setting. 
+ */
+void Settings::setMaxColumns(int value)
 {
-   _maxColumns = maxColumns;
+   // Update the setting to the new value given. 
+   _maxColumns = value;
+
+   // Update the setting in qt settings for persistence. 
    updateSetting(_maxColumnsKey,_maxColumns);
 }
 
@@ -113,8 +186,17 @@ void Settings::setMaxColumns(int maxColumns)
 
 
 
+/*!
+ * Updates the given setting to the given value using qt settings so it is 
+ * persistent. 
+ *
+ * @param key The key where the given value is saved. 
+ *
+ * @param value The value that is saved to the given key. 
+ */
 void Settings::updateSetting(const QString& key, int value)
 {
+   // Create a qt settings object and save the given value to the given key. 
    QSettings settings;
    settings.setValue(key,value);
 }

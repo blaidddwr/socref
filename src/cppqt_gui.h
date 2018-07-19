@@ -1,10 +1,11 @@
 
+/*!
+ */
 namespace CppQt
 {
    namespace Gui
    {
-      class TypeDialog;
-      class TypeListDialog;
+      class SettingsDialog;
       class TypeSelection;
    }
 }
