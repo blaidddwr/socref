@@ -3,6 +3,7 @@
 #include <QPushButton>
 #include "cppqt.h"
 #include "global.h"
+//
 
 
 
@@ -10,6 +11,12 @@ namespace CppQt
 {
    namespace Gui
    {
+      /*!
+       * This is the type selection widget. This expanded push button widget provides a 
+       * menu with all available C++ types parsed from a given block. Any type lists are 
+       * grabbed from any parent block above the block given and added to the menu of 
+       * this widget. Type lists are recursively transformed into sub menus. 
+       */
       class TypeSelection : public QPushButton
       {
          Q_OBJECT
@@ -23,7 +30,13 @@ namespace CppQt
          QMenu* buildRootMenu(AbstractBlock* block);
          QMenu* buildMenu(TypeList* block);
          void addType(QMenu* menu, Type* type);
-         QList<QString> _types;
+         /*!
+          * List of all possible types the menu of this widget allows the user to select. 
+          */
+         QStringList _types;
+         /*!
+          * The current C++ type value for this selection widget. 
+          */
          QString _value;
       };
    }

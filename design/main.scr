@@ -4125,6 +4125,174 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </variable>
           </access>
         </class>
+        <class type="4">
+          <data version="0">
+            <name>TypeSelection</name>
+            <description>This is the type selection widget. This expanded push button widget provides a menu with all available C++ types parsed from a given block. Any type lists are grabbed from any parent block above the block given and added to the menu of this widget. Type lists are recursively transformed into sub menus.</description>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>QPushButton</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <description>Constructs a new type selection widget with the given block for menu generation and the optional parent.</description>
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The block that is used to generate the type selection menu based off any type lists contained in any of its parents.</description>
+                  <type>AbstractBlock*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <description>Optional parent for this new widget.</description>
+                  <type>QWidget*</type>
+                  <initializer>nullptr</initializer>
+                </data>
+              </variable>
+            </constructor>
+            <function type="2">
+              <data version="0">
+                <name>value</name>
+                <description>Returns the current C++ type selected for this type selection widget.</description>
+                <const/>
+                <type>QString</type>
+                <return_description>Current C++ type selected for this type selection widget.</return_description>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>setValue</name>
+                <description>Set the current C++ type selected by this widget to the new value given.</description>
+                <type>void</type>
+                <operation>Set the current type value of this widget to the new one given.</operation>
+                <operation>Set the display text of this button, replacing ampersand with double ampersand so it displays correctly.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>value</name>
+                  <description>The new type value for this type selection.</description>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private slots:</type>
+            </data>
+            <slot type="7">
+              <data version="0">
+                <name>selectionTriggered</name>
+                <description>Called when the user chooses a type value from this selection's menu.</description>
+                <type>void</type>
+                <operation>Set the current C++ type of this selection to the value at the given index.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>index</name>
+                  <description>The index of the type value chosen in the menu.</description>
+                  <type>int</type>
+                </data>
+              </variable>
+            </slot>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>buildRootMenu</name>
+                <description>Builds and returns the type selection menu for this new widget from the given block.</description>
+                <type>QMenu*</type>
+                <return_description>The type selection menu for this new widget.</return_description>
+                <operation>Create a new menu.</operation>
+                <operation>Iterate up to the next block's parent until it is null.</operation>
+                <operation>Iterate through all type list children blocks of the current parent block and build a sub menu for each one.</operation>
+                <operation>Move up to the next parent.</operation>
+                <operation>Return the built type selection menu.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The block that is used to generate the returned type selection menu.</description>
+                  <type>AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>buildMenu</name>
+                <description>Builds and returns a sub menu for the type selection menu from the given type list. Any children type lists are recursively added to the returned sub menu.</description>
+                <type>QMenu*</type>
+                <return_description>Sub menu for the type selection menu built from the given type list.</return_description>
+                <operation>Create a new sub menu using the name of the given type list.</operation>
+                <operation>Iterate through all children of the given type list block.</operation>
+                <operation>If the child block is a type list then add a sub menu built by recursively calling this method.</operation>
+                <operation>Else if the block is a simple type then add it.</operation>
+                <operation>Return the sub menu.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The type list block used to generate the returned sub menu.</description>
+                  <type>TypeList*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>addType</name>
+                <description>Add a type selection action to the given menu with the given type block.</description>
+                <type>void</type>
+                <operation>Get the index where the new type will be added to this object's list of possible types and then add it.</operation>
+                <operation>Create the action for selecting this new type value, replacing the ampersand to display correctly and connecting its triggered signal.</operation>
+                <operation>Add the new type selection action to the given menu.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>menu</name>
+                  <description>The menu which is added to.</description>
+                  <type>QMenu*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>type</name>
+                  <description>The type block used to generate the type selection added.</description>
+                  <type>Type*</type>
+                </data>
+              </variable>
+            </function>
+            <variable type="1">
+              <data version="0">
+                <name>_types</name>
+                <description>List of all possible types the menu of this widget allows the user to select.</description>
+                <type>QStringList</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_value</name>
+                <description>The current C++ type value for this selection widget.</description>
+                <type>QString</type>
+              </data>
+            </variable>
+          </access>
+        </class>
       </namespace>
       <class type="4">
         <data version="0">
