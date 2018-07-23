@@ -5,23 +5,15 @@
 
 
 using namespace CppQt::Parse;
+//
 
 
 
 
 
 
-Access::Access(CppQt::Access* block, AbstractParser* parent):
-   Base(parent),
-   _block(block),
-   _indentSpaces(Settings::instance().indentSpaces())
-{}
-
-
-
-
-
-
+/*!
+ */
 void Access::outputComments()
 {}
 
@@ -30,6 +22,8 @@ void Access::outputComments()
 
 
 
+/*!
+ */
 void Access::outputDeclaration()
 {
    setIndent(indent() - _indentSpaces);
@@ -42,6 +36,8 @@ void Access::outputDeclaration()
 
 
 
+/*!
+ */
 void Access::outputDefinition()
 {}
 
@@ -50,6 +46,27 @@ void Access::outputDefinition()
 
 
 
+/*!
+ *
+ * @param block  
+ *
+ * @param parent  
+ */
+Access::Access(CppQt::Access* block, AbstractParser* parent):
+   Base(parent),
+   _block(block),
+   _indentSpaces(Settings::instance().indentSpaces())
+{}
+
+
+
+
+
+
+/*!
+ *
+ * @param line  
+ */
 bool Access::readLine(const QString& line)
 {
    Q_UNUSED(line)

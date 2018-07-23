@@ -1,6 +1,6 @@
 #include "cppqt_parse_global.h"
 #include <QStack>
-#include "cppqt_parse_common.h"
+#include "cppqt_parse_base.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
@@ -9,12 +9,17 @@
 
 
 using namespace CppQt::Parse;
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param block  
+ */
 Global::Global(const Namespace* block):
    _block(block),
    _indentSpaces(Settings::instance().indentSpaces())
@@ -25,6 +30,10 @@ Global::Global(const Namespace* block):
 
 
 
+/*!
+ *
+ * @param line  
+ */
 bool Global::readLine(const QString& line)
 {
    Q_UNUSED(line)
@@ -36,13 +45,15 @@ bool Global::readLine(const QString& line)
 
 
 
+/*!
+ */
 void Global::makeOutput()
 {
    add(1);
    if ( _block->parent() )
    {
       add("/*!");
-      add(makeComment(_block->description()));
+      add(Base::makeComment(_block->description()));
       add(" */");
    }
    beginNamespaceNesting();
@@ -59,6 +70,8 @@ void Global::makeOutput()
 
 
 
+/*!
+ */
 void Global::beginNamespaceNesting()
 {
    QStack<const Namespace*> scope;
@@ -85,6 +98,8 @@ void Global::beginNamespaceNesting()
 
 
 
+/*!
+ */
 void Global::endNamespaceNesting()
 {
    while ( _depth > 0 )

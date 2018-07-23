@@ -14,12 +14,17 @@
 
 
 using namespace CppQt::Parse;
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param block  
+ */
 Source::Source(const Namespace* block):
    Global(block),
    _block(block),
@@ -39,6 +44,12 @@ Source::Source(const Namespace* block):
 
 
 
+/*!
+ *
+ * @param block  
+ *
+ * @param name  
+ */
 Source::Source(const Namespace* block, const QString& name):
    Source(block)
 {
@@ -50,6 +61,8 @@ Source::Source(const Namespace* block, const QString& name):
 
 
 
+/*!
+ */
 void Source::initialize()
 {
    buildAll();
@@ -60,6 +73,10 @@ void Source::initialize()
 
 
 
+/*!
+ *
+ * @param line  
+ */
 bool Source::readLine(const QString& line)
 {
    if ( QRegularExpression("\\A\\s*\\/\\*!\\z").match(line).hasMatch() )
@@ -96,10 +113,12 @@ bool Source::readLine(const QString& line)
 
 
 
+/*!
+ */
 void Source::makeOutput()
 {
    add(_include);
-   outputPreProcesser();
+   outputPreProcessor();
    outputMisc(true);
    outputDefinitions();
 }
@@ -109,6 +128,10 @@ void Source::makeOutput()
 
 
 
+/*!
+ *
+ * @param line  
+ */
 void Source::readTop(const QString& line)
 {
    if ( QRegularExpression("\\A#.*\\z").match(line).hasMatch() && line != _include )
@@ -127,6 +150,10 @@ void Source::readTop(const QString& line)
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void Source::evaluateVariable(CppQt::Variable* block)
 {
    if ( !isTemplate() && block->isStatic() && !block->isConstExpr() )
@@ -140,6 +167,10 @@ void Source::evaluateVariable(CppQt::Variable* block)
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void Source::evaluateFunction(CppQt::Function* block)
 {
    if ( !isTemplate()
@@ -157,6 +188,10 @@ void Source::evaluateFunction(CppQt::Function* block)
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void Source::evaluateOther(AbstractBlock* block)
 {
    Q_UNUSED(block)
@@ -167,7 +202,9 @@ void Source::evaluateOther(AbstractBlock* block)
 
 
 
-void Source::outputPreProcesser()
+/*!
+ */
+void Source::outputPreProcessor()
 {
    for (auto line : _preProcess) add(line);
 }
@@ -177,6 +214,10 @@ void Source::outputPreProcesser()
 
 
 
+/*!
+ *
+ * @param addUsingName  
+ */
 void Source::outputMisc(bool addUsingName)
 {
    if ( !_misc.isEmpty() || ( addUsingName && !_usingName.isEmpty() ) )
@@ -193,6 +234,8 @@ void Source::outputMisc(bool addUsingName)
 
 
 
+/*!
+ */
 void Source::outputDefinitions()
 {
    if ( !_variables.isEmpty() )
@@ -223,6 +266,10 @@ void Source::outputDefinitions()
 
 
 
+/*!
+ *
+ * @param definition  
+ */
 Function* Source::findDefined(const QString& definition)
 {
    for (auto function : qAsConst(_defined))
@@ -237,6 +284,8 @@ Function* Source::findDefined(const QString& definition)
 
 
 
+/*!
+ */
 const QList<AbstractBlock*>& Source::children() const
 {
    return _children;
@@ -247,6 +296,10 @@ const QList<AbstractBlock*>& Source::children() const
 
 
 
+/*!
+ *
+ * @param line  
+ */
 void Source::addPreProcess(const QString& line)
 {
    _preProcess << line;
@@ -257,6 +310,10 @@ void Source::addPreProcess(const QString& line)
 
 
 
+/*!
+ *
+ * @param line  
+ */
 void Source::addMisc(const QString& line)
 {
    _misc << line;
@@ -267,6 +324,10 @@ void Source::addMisc(const QString& line)
 
 
 
+/*!
+ *
+ * @param parser  
+ */
 void Source::addVariable(Variable* parser)
 {
    _variables << parser;
@@ -277,6 +338,10 @@ void Source::addVariable(Variable* parser)
 
 
 
+/*!
+ *
+ * @param defined  
+ */
 void Source::addDefined(Function* defined)
 {
    _defined << defined;
@@ -287,6 +352,10 @@ void Source::addDefined(Function* defined)
 
 
 
+/*!
+ *
+ * @param undefined  
+ */
 void Source::addUndefined(Function* undefined)
 {
    _undefined << undefined;
@@ -297,6 +366,8 @@ void Source::addUndefined(Function* undefined)
 
 
 
+/*!
+ */
 bool Source::isTemplate() const
 {
    return _isTemplate;
@@ -307,6 +378,8 @@ bool Source::isTemplate() const
 
 
 
+/*!
+ */
 void Source::makeUsingName()
 {
    QStack<Namespace*> list;
@@ -333,6 +406,8 @@ void Source::makeUsingName()
 
 
 
+/*!
+ */
 void Source::buildAll()
 {
    for (auto child : qAsConst(_children))

@@ -1,4 +1,4 @@
-#include "cppqt_parserfactory.h"
+#include "cppqt_parse_factory.h"
 #include <exception.h>
 #include "cppqt_parse_global.h"
 #include "cppqt_parse_header.h"
@@ -12,32 +12,21 @@
 
 using namespace std;
 using namespace CppQt;
+using namespace CppQt::Parse;
+//
 
 
 
 
 
 
-ParserFactory::ParserFactory(const AbstractBlock* root):
-   _root(qobject_cast<const Namespace*>(root))
-{
-   if ( !_root )
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(
-               tr("Root block is type '%1' intead of namespace.")
-               .arg(root->factory().name(root->type())));
-      throw e;
-   }
-}
-
-
-
-
-
-
-std::unique_ptr<AbstractParser> ParserFactory::make(const QString& name, const QString& extension) const
+/*!
+ *
+ * @param name  
+ *
+ * @param extension  
+ */
+std::unique_ptr<AbstractParser> Factory::make(const QString& name, const QString& extension) const
 {
    if ( name == QString("global") && extension == QString("h") )
    {
@@ -68,7 +57,45 @@ std::unique_ptr<AbstractParser> ParserFactory::make(const QString& name, const Q
 
 
 
-AbstractParser* ParserFactory::find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, bool isCommon, int index) const
+
+/*!
+ *
+ * @param root  
+ */
+Factory::Factory(const AbstractBlock* root):
+   _root(qobject_cast<const Namespace*>(root))
+{
+   if ( !_root )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(
+               tr("Root block is type '%1' intead of namespace.")
+               .arg(root->factory().name(root->type())));
+      throw e;
+   }
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param current  
+ *
+ * @param names  
+ *
+ * @param name  
+ *
+ * @param isHeader  
+ *
+ * @param isCommon  
+ *
+ * @param index  
+ */
+AbstractParser* Factory::find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, bool isCommon, int index) const
 {
    if ( names.isEmpty() )
    {

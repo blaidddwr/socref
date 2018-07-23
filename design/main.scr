@@ -260,19 +260,69 @@
           </data>
         </type>
       </typeList>
-      <type type="16">
+      <typeList type="15">
         <data version="0">
-          <type>QCheckBox*</type>
+          <name>Widgets</name>
         </data>
-      </type>
+        <type type="16">
+          <data version="0">
+            <type>QCheckBox*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QComboBox*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QLabel*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QLineEdit*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QMenu*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QProgressBar*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QPushButton*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QScrollArea*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QSpinBox*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QSplitter*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QTreeView*</type>
+          </data>
+        </type>
+      </typeList>
       <type type="16">
         <data version="0">
           <type>QCloseEvent*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QComboBox*</type>
         </data>
       </type>
       <type type="16">
@@ -312,22 +362,7 @@
       </type>
       <type type="16">
         <data version="0">
-          <type>QLabel*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
           <type>QLayout*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QLineEdit*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QMenu*</type>
         </data>
       </type>
       <type type="16">
@@ -337,32 +372,7 @@
       </type>
       <type type="16">
         <data version="0">
-          <type>QProgressBar*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QPushButton*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
           <type>QResizeEvent*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QScrollArea*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QSpinBox*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QSplitter*</type>
         </data>
       </type>
       <type type="16">
@@ -373,11 +383,6 @@
       <type type="16">
         <data version="0">
           <type>QTextDocument*</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QTreeView*</type>
         </data>
       </type>
       <type type="16">
@@ -4289,6 +4294,1699 @@ The edit menu is the context menu of the block view class. The settings menu is 
                 <name>_value</name>
                 <description>The current C++ type value for this selection widget.</description>
                 <type>QString</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+      </namespace>
+      <namespace type="0">
+        <data version="0">
+          <name>Parse</name>
+        </data>
+        <typeList type="15">
+          <data version="0">
+            <name>Parse</name>
+          </data>
+          <type type="16">
+            <data version="0">
+              <type>CppQt::Access*</type>
+            </data>
+          </type>
+          <type type="16">
+            <data version="0">
+              <type>CppQt::Enumeration*</type>
+            </data>
+          </type>
+          <type type="16">
+            <data version="0">
+              <type>CppQt::Variable*</type>
+            </data>
+          </type>
+          <type type="16">
+            <data version="0">
+              <type>CppQt::Function*</type>
+            </data>
+          </type>
+          <type type="16">
+            <data version="0">
+              <type>Variable*</type>
+            </data>
+          </type>
+          <type type="16">
+            <data version="0">
+              <type>Function*</type>
+            </data>
+          </type>
+          <type type="16">
+            <data version="0">
+              <type>QList&lt;Base*></type>
+            </data>
+          </type>
+          <type type="16">
+            <data version="0">
+              <type>QList&lt;Variable*></type>
+            </data>
+          </type>
+          <type type="16">
+            <data version="0">
+              <type>QList&lt;Function*></type>
+            </data>
+          </type>
+        </typeList>
+        <class type="4">
+          <data version="0">
+            <name>Factory</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>AbstractParserFactory</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>make</name>
+                <virtual/>
+                <const/>
+                <override/>
+                <final/>
+                <type>std::unique_ptr&lt;AbstractParser></type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>name</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>extension</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>root</name>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>find</name>
+                <const/>
+                <type>AbstractParser*</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>current</name>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>names</name>
+                  <type>const QStringList&amp;</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>name</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>isHeader</name>
+                  <type>bool</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>isCommon</name>
+                  <type>bool</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>index</name>
+                  <type>int</type>
+                  <initializer>0</initializer>
+                </data>
+              </variable>
+            </function>
+            <variable type="1">
+              <data version="0">
+                <name>_root</name>
+                <type>const Namespace*</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Global</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>AbstractParser</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>readLine</name>
+                <virtual/>
+                <override/>
+                <type>bool</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>makeOutput</name>
+                <virtual/>
+                <override/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>beginNamespaceNesting</name>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>endNamespaceNesting</name>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>const Namespace*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_indentSpaces</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_depth</name>
+                <type>int</type>
+                <initializer>0</initializer>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Source</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Global</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+            </constructor>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>name</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>initialize</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>readLine</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>bool</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>makeOutput</name>
+                <virtual/>
+                <override/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>readTop</name>
+                <virtual/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateVariable</name>
+                <virtual/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>CppQt::Variable*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateFunction</name>
+                <virtual/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>CppQt::Function*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateOther</name>
+                <virtual/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputPreProcessor</name>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputMisc</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>addUsingName</name>
+                  <type>bool</type>
+                  <initializer>false</initializer>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinitions</name>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>findDefined</name>
+                <type>Function*</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>definition</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>children</name>
+                <const/>
+                <type>const QList&lt;AbstractBlock*>&amp;</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>addPreProcess</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>addMisc</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>addVariable</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>parser</name>
+                  <type>Variable*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>addDefined</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>defined</name>
+                  <type>Function*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>addUndefined</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>undefined</name>
+                  <type>Function*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>isTemplate</name>
+                <const/>
+                <type>bool</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>makeUsingName</name>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>buildAll</name>
+                <type>void</type>
+              </data>
+            </function>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>const Namespace*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_headerLines</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_functionLines</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_children</name>
+                <type>QList&lt;AbstractBlock*></type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_preProcess</name>
+                <type>QStringList</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_misc</name>
+                <type>QStringList</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_variables</name>
+                <type>QList&lt;Variable*></type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_defined</name>
+                <type>QList&lt;Function*></type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_undefined</name>
+                <type>QList&lt;Function*></type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_pastTop</name>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_isTemplate</name>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_inComments</name>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_usingName</name>
+                <type>QString</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_include</name>
+                <type>QString</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Header</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Source</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>name</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>makeOutput</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>readTop</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateVariable</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>CppQt::Variable*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateFunction</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>CppQt::Function*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateOther</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputHeader</name>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclarations</name>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputClassComments</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const Class*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputClassDeclaration</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const Class*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputFooter</name>
+                <type>void</type>
+              </data>
+            </function>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>const Namespace*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_indentSpaces</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_headerLines</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_declarations</name>
+                <type>QList&lt;Base*></type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_header1</name>
+                <type>QString</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_header2</name>
+                <type>QString</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Base</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>AbstractParser</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputComments</name>
+                <virtual/>
+                <abstract/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclaration</name>
+                <virtual/>
+                <abstract/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinition</name>
+                <virtual/>
+                <abstract/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>makeComment</name>
+                <static/>
+                <type>QStringList</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>text</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>justified</name>
+                  <type>int</type>
+                  <initializer>0</initializer>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>makeTemplateComments</name>
+                <static/>
+                <type>QStringList</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getNamespace</name>
+                <static/>
+                <type>QString</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getClassScope</name>
+                <static/>
+                <type>QString</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getClass</name>
+                <static/>
+                <type>QString</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const Class*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getTemplateDeclaration</name>
+                <static/>
+                <type>QString</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getTemplates</name>
+                <static/>
+                <type>QString</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>declare</name>
+                  <type>bool</type>
+                  <initializer>false</initializer>
+                </data>
+              </variable>
+            </function>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>makeOutput</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Variable</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputComments</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclaration</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinition</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>CppQt::Variable*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>readLine</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>bool</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputEnd</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>QString*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>withInitializer</name>
+                  <type>bool</type>
+                </data>
+              </variable>
+            </function>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>CppQt::Variable*</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Function</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputComments</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclaration</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinition</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>CppQt::Function*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+            <constructor type="9">
+              <data version="0">
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>definition</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+            <function type="2">
+              <data version="0">
+                <name>isMatch</name>
+                <type>bool</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>hasCode</name>
+                <const/>
+                <type>bool</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>setCutOff</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>cutOff</name>
+                  <type>int</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>readLine</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>bool</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>processInlineComment</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>insertInlineComment</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>index</name>
+                  <type>int</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>spacing</name>
+                  <type>int</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputArgumentComments</name>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputReturnDescriptionComment</name>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getReturnValue</name>
+                <type>QString</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getScope</name>
+                <type>QString</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>hasTemplates</name>
+                  <type>bool</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getName</name>
+                <type>QString</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>isRegExp</name>
+                  <type>bool</type>
+                  <initializer>false</initializer>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>getArguments</name>
+                <type>QString</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>withInitializers</name>
+                  <type>bool</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>hasAnyTemplates</name>
+                <type>bool</type>
+              </data>
+            </function>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>CppQt::Function*</type>
+                <initializer>nullptr</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_definition</name>
+                <type>QString</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_level</name>
+                <type>int</type>
+                <initializer>0</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_cutOff</name>
+                <type>int</type>
+                <initializer>0</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_edgePast</name>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_nextOperation</name>
+                <type>int</type>
+                <initializer>0</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_code</name>
+                <type>QStringList</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_initializers</name>
+                <type>QStringList</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Access</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputComments</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclaration</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinition</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>CppQt::Access*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>readLine</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>bool</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>CppQt::Access*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_indentSpaces</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Enumeration</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputComments</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclaration</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinition</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>CppQt::Enumeration*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>readLine</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>bool</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>CppQt::Enumeration*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_indentSpaces</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Forward</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputComments</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclaration</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinition</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>Class*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>readLine</name>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>bool</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>Class*</type>
               </data>
             </variable>
           </access>

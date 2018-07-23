@@ -2,7 +2,7 @@
 #include <QStack>
 #include <QRegularExpression>
 #include "cppqt_parse_function.h"
-#include "cppqt_parse_common.h"
+#include "cppqt_parse_base.h"
 #include "cppqt_parse_variable.h"
 #include "cppqt_parse_enumeration.h"
 #include "cppqt_parse_access.h"
@@ -19,12 +19,19 @@
 
 
 using namespace CppQt::Parse;
+//
 
 
 
 
 
 
+/*!
+ *
+ * @param block  
+ *
+ * @param name  
+ */
 Header::Header(const Namespace* block, const QString& name):
    Source(block),
    _block(block),
@@ -41,10 +48,12 @@ Header::Header(const Namespace* block, const QString& name):
 
 
 
+/*!
+ */
 void Header::makeOutput()
 {
    outputHeader();
-   outputPreProcesser();
+   outputPreProcessor();
    outputMisc();
    add(_headerLines);
    beginNamespaceNesting();
@@ -59,6 +68,10 @@ void Header::makeOutput()
 
 
 
+/*!
+ *
+ * @param line  
+ */
 void Header::readTop(const QString& line)
 {
    if ( QRegularExpression("\\A#.*\\z").match(line).hasMatch()
@@ -78,6 +91,10 @@ void Header::readTop(const QString& line)
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void Header::evaluateVariable(CppQt::Variable* block)
 {
    Variable* base {new Variable(block,this)};
@@ -90,6 +107,10 @@ void Header::evaluateVariable(CppQt::Variable* block)
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void Header::evaluateFunction(CppQt::Function* block)
 {
    Function* base {new Function(block,this)};
@@ -108,6 +129,10 @@ void Header::evaluateFunction(CppQt::Function* block)
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void Header::evaluateOther(AbstractBlock* block)
 {
    if ( CppQt::Enumeration* valid = block->cast<CppQt::Enumeration>(BlockFactory::EnumerationType) )
@@ -132,6 +157,8 @@ void Header::evaluateOther(AbstractBlock* block)
 
 
 
+/*!
+ */
 void Header::outputHeader()
 {
    add(_header1);
@@ -143,6 +170,8 @@ void Header::outputHeader()
 
 
 
+/*!
+ */
 void Header::outputDeclarations()
 {
    if ( !_declarations.isEmpty() )
@@ -170,11 +199,15 @@ void Header::outputDeclarations()
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void Header::outputClassComments(const Class* block)
 {
    add("/*!");
-   add(makeComment(block->description()));
-   if ( isTemplate() ) add(makeTemplateComments(_block));
+   add(Base::makeComment(block->description()));
+   if ( isTemplate() ) add(Base::makeTemplateComments(_block));
    add(" */");
 }
 
@@ -183,12 +216,16 @@ void Header::outputClassComments(const Class* block)
 
 
 
+/*!
+ *
+ * @param block  
+ */
 void Header::outputClassDeclaration(const Class* block)
 {
    QString line;
-   QString templateString {getTemplateDeclaration(block)};
+   QString templateString {Base::getTemplateDeclaration(block)};
    if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
-   line.append("class ").append(getClassScope(block->parent())).append(block->Base::name());
+   line.append("class ").append(Base::getClassScope(block->parent())).append(block->Base::name());
    bool first {true};
    for (auto child : _block->list())
    {
@@ -211,6 +248,8 @@ void Header::outputClassDeclaration(const Class* block)
 
 
 
+/*!
+ */
 void Header::outputFooter()
 {
    add(_headerLines);

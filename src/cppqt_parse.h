@@ -1,12 +1,19 @@
 
+/*!
+ */
 namespace CppQt
 {
    namespace Parse
    {
+      class Forward;
+      class Factory;
       class Global;
-      class Function;
+      class Source;
+      class Header;
       class Base;
-      class Enumeration;
       class Variable;
+      class Function;
+      class Access;
+      class Enumeration;
    }
 }

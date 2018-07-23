@@ -1,5 +1,5 @@
 #include "cppqt_parse_enumeration.h"
-#include "cppqt_parse_common.h"
+#include "cppqt_parse_base.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
 #include "cppqt_settings.h"
@@ -7,23 +7,15 @@
 
 
 using namespace CppQt::Parse;
+//
 
 
 
 
 
 
-Enumeration::Enumeration(CppQt::Enumeration* block, AbstractParser* parent):
-   Base(parent),
-   _block(block),
-   _indentSpaces(Settings::instance().indentSpaces())
-{}
-
-
-
-
-
-
+/*!
+ */
 void Enumeration::outputComments()
 {}
 
@@ -32,6 +24,8 @@ void Enumeration::outputComments()
 
 
 
+/*!
+ */
 void Enumeration::outputDeclaration()
 {
    add("/*!");
@@ -66,6 +60,8 @@ void Enumeration::outputDeclaration()
 
 
 
+/*!
+ */
 void Enumeration::outputDefinition()
 {}
 
@@ -74,6 +70,27 @@ void Enumeration::outputDefinition()
 
 
 
+/*!
+ *
+ * @param block  
+ *
+ * @param parent  
+ */
+Enumeration::Enumeration(CppQt::Enumeration* block, AbstractParser* parent):
+   Base(parent),
+   _block(block),
+   _indentSpaces(Settings::instance().indentSpaces())
+{}
+
+
+
+
+
+
+/*!
+ *
+ * @param line  
+ */
 bool Enumeration::readLine(const QString& line)
 {
    Q_UNUSED(line)

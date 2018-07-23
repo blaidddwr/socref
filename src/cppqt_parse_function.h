@@ -2,6 +2,7 @@
 #define CPPQT_PARSE_FUNCTION_H
 #include "cppqt_parse_base.h"
 #include "cppqt.h"
+//
 
 
 
@@ -9,15 +10,18 @@ namespace CppQt
 {
    namespace Parse
    {
+      /*!
+       */
       class Function : public Base
       {
          Q_OBJECT
       public:
-         explicit Function(CppQt::Function* block, AbstractParser* parent);
-         explicit Function(const QString& header, AbstractParser* parent);
          virtual void outputComments() override final;
          virtual void outputDeclaration() override final;
          virtual void outputDefinition() override final;
+      public:
+         Function(CppQt::Function* block, AbstractParser* parent);
+         Function(const QString& definition, AbstractParser* parent);
          bool isMatch(const QString& line);
          bool hasCode() const;
          void setCutOff(int cutOff);
@@ -33,13 +37,29 @@ namespace CppQt
          QString getName(bool isRegExp = false);
          QString getArguments(bool withInitializers);
          bool hasAnyTemplates();
+         /*!
+          */
          CppQt::Function* _block {nullptr};
+         /*!
+          */
          QString _definition;
+         /*!
+          */
          int _level {0};
+         /*!
+          */
          int _cutOff {0};
+         /*!
+          */
          bool _edgePast {false};
+         /*!
+          */
          int _nextOperation {0};
+         /*!
+          */
          QStringList _code;
+         /*!
+          */
          QStringList _initializers;
       };
    }

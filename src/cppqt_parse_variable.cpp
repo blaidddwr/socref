@@ -1,27 +1,20 @@
 #include "cppqt_parse_variable.h"
-#include "cppqt_parse_common.h"
+#include "cppqt_parse_base.h"
 #include "cppqt_variable.h"
 #include "cppqt_settings.h"
 
 
 
 using namespace CppQt::Parse;
+//
 
 
 
 
 
 
-Variable::Variable(CppQt::Variable* block, AbstractParser* parent):
-   Base(parent),
-   _block(block)
-{}
-
-
-
-
-
-
+/*!
+ */
 void Variable::outputComments()
 {
    add("/*!");
@@ -34,6 +27,8 @@ void Variable::outputComments()
 
 
 
+/*!
+ */
 void Variable::outputDeclaration()
 {
    outputComments();
@@ -53,6 +48,8 @@ void Variable::outputDeclaration()
 
 
 
+/*!
+ */
 void Variable::outputDefinition()
 {
    if ( _block->isStatic() || !_block->isMember() )
@@ -73,6 +70,26 @@ void Variable::outputDefinition()
 
 
 
+/*!
+ *
+ * @param block  
+ *
+ * @param parent  
+ */
+Variable::Variable(CppQt::Variable* block, AbstractParser* parent):
+   Base(parent),
+   _block(block)
+{}
+
+
+
+
+
+
+/*!
+ *
+ * @param line  
+ */
 bool Variable::readLine(const QString& line)
 {
    Q_UNUSED(line)
@@ -84,6 +101,12 @@ bool Variable::readLine(const QString& line)
 
 
 
+/*!
+ *
+ * @param line  
+ *
+ * @param withInitializer  
+ */
 void Variable::outputEnd(QString* line, bool withInitializer)
 {
    if ( withInitializer )

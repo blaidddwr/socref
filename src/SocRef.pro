@@ -42,7 +42,6 @@ SOURCES += \
     cppqt_enumvalue.cpp \
     cppqt_parent.cpp \
     abstractparser.cpp \
-    cppqt_parserfactory.cpp \
     scanthread.cpp \
     gui_scandialog.cpp \
     cppqt_parse_global.cpp \
@@ -51,7 +50,6 @@ SOURCES += \
     cppqt_parse_header.cpp \
     cppqt_parse_variable.cpp \
     cppqt_parse_enumeration.cpp \
-    cppqt_parse_common.cpp \
     cppqt_parse_source.cpp \
     cppqt_parse_access.cpp \
     cppqt_parse_forward.cpp \
@@ -94,7 +92,8 @@ SOURCES += \
     cppqt_parent_edit.cpp \
     cppqt_parent_view.cpp \
     cppqt_using_edit.cpp \
-    cppqt_using_view.cpp
+    cppqt_using_view.cpp \
+    cppqt_parse_factory.cpp
 
 HEADERS += \
     singleton.h \
@@ -136,7 +135,6 @@ HEADERS += \
     cppqt_parent.h \
     abstractparser.h \
     abstractparserfactory.h \
-    cppqt_parserfactory.h \
     scanthread.h \
     gui_scandialog.h \
     cppqt_parse.h \
@@ -146,7 +144,6 @@ HEADERS += \
     cppqt_parse_header.h \
     cppqt_parse_variable.h \
     cppqt_parse_enumeration.h \
-    cppqt_parse_common.h \
     cppqt_parse_source.h \
     cppqt_parse_access.h \
     cppqt_parse_forward.h \
@@ -189,7 +186,8 @@ HEADERS += \
     cppqt_parent_edit.h \
     cppqt_parent_view.h \
     cppqt_using_edit.h \
-    cppqt_using_view.h
+    cppqt_using_view.h \
+    cppqt_parse_factory.h
 
 RESOURCES += \
     resources.qrc

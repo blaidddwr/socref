@@ -2,7 +2,7 @@
 #include <QObject>
 #include <exception.h>
 #include "cppqt_blockfactory.h"
-#include "cppqt_parserfactory.h"
+#include "cppqt_parse_factory.h"
 #include "cppqt_gui_settingsdialog.h"
 
 
@@ -157,7 +157,7 @@ std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int typ
    // root. 
    switch (type)
    {
-   case CppQtType: return unique_ptr<AbstractParserFactory>(new CppQt::ParserFactory(root));
+   case CppQtType: return unique_ptr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
    default:
       {
          // This project type is not recognized so throw an exception. 

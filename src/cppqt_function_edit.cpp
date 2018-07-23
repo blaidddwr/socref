@@ -124,7 +124,7 @@ void Function::Edit::apply()
 
    // If the return type edit widget exists then apply the return type field to this 
    // edit's function block. 
-   if ( _returnEdit ) _block->setReturnType(_returnEdit->value());
+   if ( _returnEdit ) _block->setField(Field::ReturnType,_returnEdit->value());
 
    // Call this object's base interface. 
    ::Gui::AbstractEdit::apply();

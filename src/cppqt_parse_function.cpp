@@ -2,7 +2,7 @@
 #include <QStack>
 #include <QRegularExpression>
 #include <exception.h>
-#include "cppqt_parse_common.h"
+#include "cppqt_parse_base.h"
 #include "cppqt_function.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_namespace.h"
@@ -16,34 +16,15 @@
 
 
 using namespace CppQt::Parse;
+//
 
 
 
 
 
 
-Function::Function(CppQt::Function* block, AbstractParser* parent):
-   Base(parent),
-   _block(block)
-{}
-
-
-
-
-
-
-Function::Function(const QString& definition, AbstractParser* parent):
-   Base(parent)
-{
-   _cutOff = definition.indexOf(QRegularExpression("\\S"));
-   _definition = definition.mid(_cutOff);
-}
-
-
-
-
-
-
+/*!
+ */
 void Function::outputComments()
 {
    if ( _block )
@@ -66,6 +47,8 @@ void Function::outputComments()
 
 
 
+/*!
+ */
 void Function::outputDeclaration()
 {
    if ( _block )
@@ -105,6 +88,8 @@ void Function::outputDeclaration()
 
 
 
+/*!
+ */
 void Function::outputDefinition()
 {
    if ( _block )
@@ -137,6 +122,44 @@ void Function::outputDefinition()
 
 
 
+/*!
+ *
+ * @param block  
+ *
+ * @param parent  
+ */
+Function::Function(CppQt::Function* block, AbstractParser* parent):
+   Base(parent),
+   _block(block)
+{}
+
+
+
+
+
+
+/*!
+ *
+ * @param definition  
+ *
+ * @param parent  
+ */
+Function::Function(const QString& definition, AbstractParser* parent):
+   Base(parent)
+{
+   _cutOff = definition.indexOf(QRegularExpression("\\S"));
+   _definition = definition.mid(_cutOff);
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param line  
+ */
 bool Function::isMatch(const QString& line)
 {
    if ( hasCode() ) return false;
@@ -158,6 +181,8 @@ bool Function::isMatch(const QString& line)
 
 
 
+/*!
+ */
 bool Function::hasCode() const
 {
    return !_initializers.isEmpty() || !_code.isEmpty();
@@ -168,6 +193,10 @@ bool Function::hasCode() const
 
 
 
+/*!
+ *
+ * @param cutOff  
+ */
 void Function::setCutOff(int cutOff)
 {
    _cutOff = cutOff;
@@ -178,6 +207,10 @@ void Function::setCutOff(int cutOff)
 
 
 
+/*!
+ *
+ * @param line  
+ */
 bool Function::readLine(const QString& line)
 {
    if ( _level == 0 && QRegularExpression("\\A\\s*\\{\\}\\s*\\z").match(line).hasMatch() )
@@ -219,7 +252,10 @@ bool Function::readLine(const QString& line)
 
 
 
-
+/*!
+ *
+ * @param line  
+ */
 void Function::processInlineComment(const QString& line)
 {
    int spacing {-_cutOff};
@@ -245,6 +281,12 @@ void Function::processInlineComment(const QString& line)
 
 
 
+/*!
+ *
+ * @param index  
+ *
+ * @param spacing  
+ */
 void Function::insertInlineComment(int index, int spacing)
 {
    const int max {Settings::instance().maxColumns()};
@@ -268,6 +310,8 @@ void Function::insertInlineComment(int index, int spacing)
 
 
 
+/*!
+ */
 void Function::outputArgumentComments()
 {
    const QList<Variable*> arguments {_block->arguments()};
@@ -287,6 +331,8 @@ void Function::outputArgumentComments()
 
 
 
+/*!
+ */
 void Function::outputReturnDescriptionComment()
 {
    const QString returnDescription {_block->returnDescription()};
@@ -305,6 +351,8 @@ void Function::outputReturnDescriptionComment()
 
 
 
+/*!
+ */
 QString Function::getReturnValue()
 {
    QString ret;
@@ -325,6 +373,10 @@ QString Function::getReturnValue()
 
 
 
+/*!
+ *
+ * @param hasTemplates  
+ */
 QString Function::getScope(bool hasTemplates)
 {
    QString ret;
@@ -338,6 +390,10 @@ QString Function::getScope(bool hasTemplates)
 
 
 
+/*!
+ *
+ * @param isRegExp  
+ */
 QString Function::getName(bool isRegExp)
 {
    QString ret;
@@ -367,6 +423,10 @@ QString Function::getName(bool isRegExp)
 
 
 
+/*!
+ *
+ * @param withInitializers  
+ */
 QString Function::getArguments(bool withInitializers)
 {
    QString ret;
@@ -391,6 +451,8 @@ QString Function::getArguments(bool withInitializers)
 
 
 
+/*!
+ */
 bool Function::hasAnyTemplates()
 {
    AbstractBlock* back {_block->parent()};
