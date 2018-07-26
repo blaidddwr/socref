@@ -1,8 +1,8 @@
 
-/*!
- */
 namespace CppQt
 {
+   /*!
+    */
    namespace Gui
    {
       class SettingsDialog;

@@ -11,6 +11,20 @@ namespace CppQt
    namespace Parse
    {
       /*!
+       * This is the parser factory for the C++/Qt project type. This recognizes three 
+       * primary file types. The naming convention for all types are the same. These 
+       * types are global header files, header files, and source files. 
+       * 
+       * Files are named based off their fully scoped namespace name. Each namespace is 
+       * separated by underscores. If the file is for common functions, variables, and 
+       * enumerations outside of a class the keyword "common" is appended its name. The 
+       * root namespace has the special file named global.h for its global header. 
+       * 
+       * The global header file has forward declarations of all classes within its 
+       * namespace. The header file contains the header of either a class or a namespace. 
+       * The source file contains the source of either a class or a namespace. The header 
+       * and source of a namespace is simply all functions, variables, and enumerations 
+       * scoped within its namespace. 
        */
       class Factory : public AbstractParserFactory
       {
@@ -20,8 +34,12 @@ namespace CppQt
       public:
          explicit Factory(const AbstractBlock* root);
       private:
-         AbstractParser* find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, bool isCommon, int index = 0) const;
+         AbstractParser* find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index = 0) const;
+         AbstractParser* findCommon(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index = 0) const;
+         const Namespace* findNamespace(const Namespace* current, const QString& name) const;
          /*!
+          * Pointer to the root block used by this parser factory and all parser objects it 
+          * makes. 
           */
          const Namespace* _root;
       };

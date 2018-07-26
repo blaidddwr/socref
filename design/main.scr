@@ -4356,6 +4356,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
         <class type="4">
           <data version="0">
             <name>Factory</name>
+            <description>This is the parser factory for the C++/Qt project type. This recognizes three primary file types. The naming convention for all types are the same. These types are global header files, header files, and source files.
+
+Files are named based off their fully scoped namespace name. Each namespace is separated by underscores. If the file is for common functions, variables, and enumerations outside of a class the keyword "common" is appended its name. The root namespace has the special file named global.h for its global header.
+
+The global header file has forward declarations of all classes within its namespace. The header file contains the header of either a class or a namespace. The source file contains the source of either a class or a namespace. The header and source of a namespace is simply all functions, variables, and enumerations scoped within its namespace.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -4371,21 +4376,31 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <function type="2">
               <data version="0">
                 <name>make</name>
+                <description>Implements _AbstractParserFactory_ interface.</description>
                 <virtual/>
                 <const/>
                 <override/>
                 <final/>
                 <type>std::unique_ptr&lt;AbstractParser></type>
+                <return_description>See interface docs.</return_description>
+                <operation>Make sure the given file name is not empty.</operation>
+                <operation>Create the is header flag and set its value.</operation>
+                <operation>Create the list of namespace names from the given file name.</operation>
+                <operation>Check to see if this is a common file.</operation>
+                <operation>Remove the common name from the list and return the found common parser.</operation>
+                <operation>Else this is a global or class file so return the found header/source parser.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>name</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>extension</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -4397,12 +4412,15 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new C++/Qt parser factory with the given root block.</description>
                 <explicit/>
                 <type>void</type>
+                <operation>Make sure the given root pointer is not null.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>root</name>
+                  <description>The root block used by this parser factory.</description>
                   <type>const AbstractBlock*</type>
                 </data>
               </variable>
@@ -4415,50 +4433,136 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <function type="2">
               <data version="0">
                 <name>find</name>
+                <description>Attempts to find the namespace or class that matches the given file information. The appropriate parser is returned or a null pointer if no matching block is found. This recursively calls itself to resolve any scoped namespace for matching.</description>
                 <const/>
                 <type>AbstractParser*</type>
+                <return_description>Pointer to the appropriate parser that matched the given file information or null if no match is found.</return_description>
+                <operation>Make sure the given namespace pointer and index are valid.</operation>
+                <operation>Check to see if we have reached the end of the names list.</operation>
+                <operation>If the current block is a namespace then return a global parser.</operation>
+                <operation>Else the current block is a class so return its header or source parser.</operation>
+                <operation>Else attempt to find the next child namespace and if found recursively call this method on it.</operation>
+                <operation>Else namespace resolution failed so return null.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>current</name>
+                  <description>The current namespace being inspected.</description>
                   <type>const Namespace*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>names</name>
+                  <description>The name fragments of the given file used for namespace resolution.</description>
                   <type>const QStringList&amp;</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>name</name>
+                  <description>The full name of the file being parsed.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>isHeader</name>
-                  <type>bool</type>
-                </data>
-              </variable>
-              <variable type="1">
-                <data version="0">
-                  <name>isCommon</name>
+                  <description>True if the file is a header or false if it is a source file.</description>
                   <type>bool</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>index</name>
+                  <description>The current index matched so far in the given names variable for namespace resolution.</description>
                   <type>int</type>
                   <initializer>0</initializer>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>findCommon</name>
+                <description>Attempts to find the namespace that matches the given file information. The appropriate common parser is returned or a null pointer if no matching block is found. This recursively calls itself to resolve any scoped namespace for matching.</description>
+                <const/>
+                <type>AbstractParser*</type>
+                <return_description>Pointer to the common parser that matched the given file information or null if no match is found.</return_description>
+                <operation>Make sure the given namespace pointer and index are valid.</operation>
+                <operation>Attempt to find the next child namespace.</operation>
+                <operation>Check if this is the end of the list of names.</operation>
+                <operation>If this last block is a namespace then return its common header or source parser.</operation>
+                <operation>Else name resolution is not complete so recursively call this method.</operation>
+                <operation>Namespace resolution failed if this is reached so return null.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>current</name>
+                  <description>The current namespace being inspected.</description>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>names</name>
+                  <description>The name fragments of the given file used for namespace resolution.</description>
+                  <type>const QStringList&amp;</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>name</name>
+                  <description>The full name of the file being parsed.</description>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>isHeader</name>
+                  <description>True if the file is a header or false if it is a source file.</description>
+                  <type>bool</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>index</name>
+                  <description>The current index matched so far in the given names variable for namespace resolution.</description>
+                  <type>int</type>
+                  <initializer>0</initializer>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>findNamespace</name>
+                <description>Attempts to find a child namespace contained in the given namespace that matches the given name, returning a pointer if one if found.</description>
+                <const/>
+                <type>const Namespace*</type>
+                <return_description>Pointer to matching namespace or null if no match is found.</return_description>
+                <operation>Iterate through the list of the given namespace block's real children.</operation>
+                <operation>Check if the current child block is a namespace or class.</operation>
+                <operation>If the namespace or class name matches the given name then return its pointer.</operation>
+                <operation>No match was found so return null.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>current</name>
+                  <description>The current namespace being inspected.</description>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>name</name>
+                  <description>The name that is matched with child namespace blocks.</description>
+                  <type>const QString&amp;</type>
                 </data>
               </variable>
             </function>
             <variable type="1">
               <data version="0">
                 <name>_root</name>
+                <description>Pointer to the root block used by this parser factory and all parser objects it makes.</description>
                 <type>const Namespace*</type>
               </data>
             </variable>
@@ -4467,6 +4571,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
         <class type="4">
           <data version="0">
             <name>Global</name>
+            <description>This is the global header parser. This parser is responsible for global header files which provide a list of forward declarations for all classes in the namespace the header file represents. This parser does not actually parse its file instead simply overwriting it with the appropriate forward declarations. This is inherited by the source and header parser classes for its namespace nesting output functionality.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -4481,12 +4586,14 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new global parser with the given namespace block as its root.</description>
                 <explicit/>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The namespace block used as the root of this parser representing its file.</description>
                   <type>const Namespace*</type>
                 </data>
               </variable>
@@ -4499,9 +4606,12 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <function type="2">
               <data version="0">
                 <name>readLine</name>
+                <description>Implements _AbstractParser_ interface.</description>
                 <virtual/>
                 <override/>
                 <type>bool</type>
+                <return_description>See interface docs.</return_description>
+                <operation>This parser only overwrites its file so do nothing and return false.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -4513,9 +4623,17 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <function type="2">
               <data version="0">
                 <name>makeOutput</name>
+                <description>Implements _AbstractParser_ interface.</description>
                 <virtual/>
                 <override/>
                 <type>void</type>
+                <operation>Add a single blank line to output.</operation>
+                <operation>Add the namespace declarations and open brackets to output, excluding the namespace of this parser.</operation>
+                <operation>If the namespace of this parser is not the root namespace then add it's comments to output.</operation>
+                <operation>Add the declaration of the namespace of this parser.</operation>
+                <operation>Iterate through a list of all children class blocks of the namespace of this parser.</operation>
+                <operation>If the class block has no templates then add its forward declaration to output.</operation>
+                <operation>Add all closing brackets for all namespace declarations to output.</operation>
               </data>
             </function>
           </access>
@@ -4526,13 +4644,31 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <function type="2">
               <data version="0">
                 <name>beginNamespaceNesting</name>
+                <description>Adds namespace declarations to output with the opening bracket but NO closing bracket. This also adds indents for each new namespace declaration. This can ignore the very last namespace, not adding its declaration, if the given flag says so. The last namespace is the namespace of this parser.</description>
                 <type>void</type>
+                <operation>Create a pointer stack.</operation>
+                <operation>Iterate through the parents of this parser object's namespace, starting with itself.</operation>
+                <operation>If the current parent is a namespace then push it onto the stack.</operation>
+                <operation>Move to the next parent.</operation>
+                <operation>Iterate through the stack, popping each namespace and adding its declaration to output. Only add the last namespace block's declaration if the given flag is set correctly.</operation>
               </data>
+              <variable type="1">
+                <data version="0">
+                  <name>outputLast</name>
+                  <description>True to make the last namespace declaration, the namespace of this parser, added to output or false to ignore it.</description>
+                  <type>bool</type>
+                  <initializer>true</initializer>
+                </data>
+              </variable>
             </function>
             <function type="2">
               <data version="0">
                 <name>endNamespaceNesting</name>
+                <description>Adds the closing brackets for all namespace declarations to output. This also removes the indenting for each opening bracket.</description>
                 <type>void</type>
+                <operation>While the depth is greater than zero.</operation>
+                <operation>Remove a single indent spacing from this parser.</operation>
+                <operation>Output a closing bracket line and decrease the depth by one.</operation>
               </data>
             </function>
           </access>
@@ -4540,21 +4676,39 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <type>private:</type>
             </data>
+            <function type="2">
+              <data version="0">
+                <name>outputNamespace</name>
+                <description>Adds a single namespace declaration to output using the given namespace block. This also adds indentation after the opening bracket. This does NOT add the closing bracket.</description>
+                <type>void</type>
+                <operation>Add the namespace declaration line and then an opening bracket line to output.</operation>
+                <operation>Add a single indent spacing to this parser and increment the depth.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+            </function>
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The namespace block represented by the file of this parser.</description>
                 <type>const Namespace*</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_indentSpaces</name>
+                <description>The global indent spaces setting.</description>
                 <type>int</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_depth</name>
+                <description>The number of namespace declarations outputted without closing brackets by this parser.</description>
                 <type>int</type>
                 <initializer>0</initializer>
               </data>
