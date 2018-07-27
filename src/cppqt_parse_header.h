@@ -23,7 +23,7 @@ namespace CppQt
          virtual void evaluateFunction(CppQt::Function* block) override final;
          virtual void evaluateOther(AbstractBlock* block) override final;
       private:
-         void outputHeader();
+         void outputGuard();
          void outputDeclarations();
          void outputClassComments(const Class* block);
          void outputClassDeclaration(const Class* block);

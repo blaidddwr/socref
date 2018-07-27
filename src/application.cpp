@@ -1,6 +1,9 @@
 #include "application.h"
 #include <QDebug>
 #include <exception.h>
+
+
+
 //
 
 

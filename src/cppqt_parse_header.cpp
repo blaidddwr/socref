@@ -52,9 +52,10 @@ Header::Header(const Namespace* block, const QString& name):
  */
 void Header::makeOutput()
 {
-   outputHeader();
+   outputGuard();
    outputPreProcessor();
-   outputMisc();
+   outputHeader();
+   add("//");
    add(_headerLines);
    beginNamespaceNesting();
    outputDeclarations();
@@ -82,7 +83,7 @@ void Header::readTop(const QString& line)
    }
    else if ( QRegularExpression("\\A\\s*class\\s+[a-zA-Z_]+[a-zA-Z0-9_]*;\\s*\\z").match(line).hasMatch() )
    {
-      addMisc(line.trimmed());
+      addHeader(line.trimmed());
    }
 }
 
@@ -159,7 +160,7 @@ void Header::evaluateOther(AbstractBlock* block)
 
 /*!
  */
-void Header::outputHeader()
+void Header::outputGuard()
 {
    add(_header1);
    add(_header2);

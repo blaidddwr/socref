@@ -11,12 +11,12 @@ namespace CppQt
    namespace Parse
    {
       /*!
-       * This is the global header parser. This parser is responsible for global header 
-       * files which provide a list of forward declarations for all classes in the 
-       * namespace the header file represents. This parser does not actually parse its 
-       * file instead simply overwriting it with the appropriate forward declarations. 
-       * This is inherited by the source and header parser classes for its namespace 
-       * nesting output functionality. 
+       * This is the global header parser. This parses a global header file which 
+       * provides a list of forward declarations for all classes in the namespace the 
+       * header file represents. This parser does not actually parse its file instead 
+       * simply overwriting it with the appropriate forward declarations. This is 
+       * inherited by the source and header parser classes for its namespace nesting 
+       * output functionality. 
        */
       class Global : public AbstractParser
       {

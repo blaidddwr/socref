@@ -165,23 +165,23 @@ AbstractParser* Factory::findCommon(const Namespace* current, const QStringList&
    // Make sure the given namespace pointer and index are valid. 
    if ( index < 0 || index > names.size() || !current ) return nullptr;
 
-   // Attempt to find the next child namespace. 
-   if ( const Namespace* valid = findNamespace(current,names.at(index)) )
+   // Check to see if we have reached the end of the names list. 
+   if ( index == names.size() )
    {
-      // Check if this is the end of the list of names. 
-      if ( ++index == names.size() )
+      // If this last block is a namespace then return its common header or source 
+      // parser. 
+      if ( current->type() == BlockFactory::NamespaceType )
       {
-         // If this last block is a namespace then return its common header or source 
-         // parser. 
-         if ( valid->type() == BlockFactory::NamespaceType )
-         {
-            if ( isHeader ) return new Parse::Header(valid,name);
-            else return new Parse::Source(valid,name);
-         }
+         if ( isHeader ) return new Parse::Header(current,name);
+         else return new Parse::Source(current,name);
       }
+   }
 
-      // Else name resolution is not complete so recursively call this method. 
-      else return findCommon(valid,names,name,isHeader,index);
+   // Else attempt to find the next child namespace and if found recursively call 
+   // this method on it. 
+   else if ( const Namespace* valid = findNamespace(current,names.at(index++)) )
+   {
+      return findCommon(valid,names,name,isHeader,index);
    }
 
    // Namespace resolution failed if this is reached so return null. 

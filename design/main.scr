@@ -4489,10 +4489,9 @@ The global header file has forward declarations of all classes within its namesp
                 <type>AbstractParser*</type>
                 <return_description>Pointer to the common parser that matched the given file information or null if no match is found.</return_description>
                 <operation>Make sure the given namespace pointer and index are valid.</operation>
-                <operation>Attempt to find the next child namespace.</operation>
-                <operation>Check if this is the end of the list of names.</operation>
+                <operation>Check to see if we have reached the end of the names list.</operation>
                 <operation>If this last block is a namespace then return its common header or source parser.</operation>
-                <operation>Else name resolution is not complete so recursively call this method.</operation>
+                <operation>Else attempt to find the next child namespace and if found recursively call this method on it.</operation>
                 <operation>Namespace resolution failed if this is reached so return null.</operation>
               </data>
               <variable type="1">
@@ -4571,7 +4570,7 @@ The global header file has forward declarations of all classes within its namesp
         <class type="4">
           <data version="0">
             <name>Global</name>
-            <description>This is the global header parser. This parser is responsible for global header files which provide a list of forward declarations for all classes in the namespace the header file represents. This parser does not actually parse its file instead simply overwriting it with the appropriate forward declarations. This is inherited by the source and header parser classes for its namespace nesting output functionality.</description>
+            <description>This is the global header parser. This parses a global header file which provides a list of forward declarations for all classes in the namespace the header file represents. This parser does not actually parse its file instead simply overwriting it with the appropriate forward declarations. This is inherited by the source and header parser classes for its namespace nesting output functionality.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -4718,6 +4717,11 @@ The global header file has forward declarations of all classes within its namesp
         <class type="4">
           <data version="0">
             <name>Source</name>
+            <description>This is the source parser. This parses a source file for a class or namespace. Because header files can be as complicated as source files in C++ this class is designed to be inherited by the header class with additional interfaces to alter its functionality. The additional interfaces mainly deal with evaluating children blocks and reading the top of the file.
+
+A source file is separated into three sections. The preprocessor, header, and definition sections in that order. The preprocessor section has all preprocessor statements most commonly being include statements. The header section has any using statements. The definition section has all variable and function definitions.
+
+The lines of code inside any function present in the source file is saved and matched to any known function of the parser object's namespace. If the function is unknown it is also saved and marked as an unknown function after the defined ones in the definition section.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -4732,30 +4736,22 @@ The global header file has forward declarations of all classes within its namesp
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new source parser with the given namespace block and file name.</description>
                 <explicit/>
                 <type>void</type>
+                <operation>Set the include statement used for including the header file of this source file.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
-                  <type>const Namespace*</type>
-                </data>
-              </variable>
-            </constructor>
-            <constructor type="9">
-              <data version="0">
-                <explicit/>
-                <type>void</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
+                  <description>The namespace block that is used to generate the parsing of this parser object's file. This could also possibly be a class block.</description>
                   <type>const Namespace*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>name</name>
+                  <description>The file name that this object parses, excluding the extension.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -4768,6 +4764,7 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>initialize</name>
+                <description>Implements _AbstractParser_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
@@ -4777,14 +4774,28 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>readLine</name>
+                <description>Implements _AbstractParser_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>bool</type>
+                <return_description>See interface docs.</return_description>
+                <operation>If this line is the beginning of comments then mark it for this parser.</operation>
+                <operation>Else if this line is the ending of comments then mark it for this parser.</operation>
+                <operation>Else check if the given line is not currently within comments.</operation>
+                <operation>If the given line is the indicator for being past the top of the file then mark it for this parser.</operation>
+                <operation>If the given line is not past the top then call the read top interface.</operation>
+                <operation>Check to see if the given line is the beginning of a function definition.</operation>
+                <operation>Check to see if this function is defined in the namespace of this parser.</operation>
+                <operation>Set the function parser cut off and then step into it for read line processing.</operation>
+                <operation>Else this is an undefined function found in the source file.</operation>
+                <operation>Add a new undefined function parser and then step into it for read line processing.</operation>
+                <operation>Always return true so the entire file is parsed.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -4792,20 +4803,31 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>makeOutput</name>
+                <description>Implements _AbstractParser_ interface.</description>
                 <virtual/>
                 <override/>
                 <type>void</type>
+                <operation>Add the include statement for this source file's header to the output.</operation>
+                <operation>Add any additional preprocessor lines to the output.</operation>
+                <operation>Add the header section to the output.</operation>
+                <operation>Add the default using namespace declaration for this object's namespace if it is not an empty string, adding blank header lines if the header section was empty.</operation>
+                <operation>Add the end of top separator.</operation>
+                <operation>Add all function definitions to the output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>readTop</name>
+                <description>This interface is called for each line of the preprocessor and header sections of this object's parsed file. This can be used to remember custom information for output. The default implementation remembers any custom preprocessor statements and using namespace statements.</description>
                 <virtual/>
                 <type>void</type>
+                <operation>If the given line is a preprocessor statement and it is not the default include statement then add it as a custom preprocessor line.</operation>
+                <operation>If the given line is a using namespace statement and it is not the default using statement then add it as a custom header line.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>The line from the preprocessor or header section of this object's file.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -4813,12 +4835,15 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>evaluateVariable</name>
+                <description>This interface is called to process all real children variable blocks of this object's namespace. This processing occurs before any parsing and is meant to add them to this parser for output. All blocks for evaluate interfaces are called in the same order they appear in their real children list. The default implementation adds them if they belong in the source file.</description>
                 <virtual/>
                 <type>void</type>
+                <operation>If this object's namespace is not a template, the given variable block is static, and is not a constant expression then create a new variable parser and add it to this parser.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The real child variable block of this object's namespace to be evaluated.</description>
                   <type>CppQt::Variable*</type>
                 </data>
               </variable>
@@ -4826,12 +4851,15 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>evaluateFunction</name>
+                <description>This interface is called to process all real children function blocks of this object's namespace. All specialized functions such as constructors or signals are included. This processing occurs before any parsing and is meant to add them to this parser for output. All blocks for evaluate interfaces are called in the same order they appear in their real children list. The default implementation adds them if they belong in the source file.</description>
                 <virtual/>
                 <type>void</type>
+                <operation>If the this object's namespace is not a template, the given function block is not abstract, is not default, is not a signal, and has no template arguments or is a private method then create a new function parser and add it to this parser.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The real child function block of this object's namespace to be evaluated.</description>
                   <type>CppQt::Function*</type>
                 </data>
               </variable>
@@ -4839,12 +4867,14 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>evaluateOther</name>
+                <description>This interface is called to process all real children blocks that are not variables or functions of this object's namespace. This processing occurs before any parsing and is meant to add them to this parser for output. All blocks for evaluate interfaces are called in the same order they appear in their real children list. The default implementation does nothing.</description>
                 <virtual/>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The real child block that is not a variable or function of this object's namespace to be evaluated.</description>
                   <type>AbstractBlock*</type>
                 </data>
               </variable>
@@ -4854,39 +4884,67 @@ The global header file has forward declarations of all classes within its namesp
             <data version="0">
               <type>protected:</type>
             </data>
+            <constructor type="9">
+              <data version="0">
+                <description>Constructs a new source parser with the given namespace block. This constructor is only meant to be used internally by this class or the header class that inherits from this one.</description>
+                <explicit/>
+                <type>void</type>
+                <operation>If the given namespace block is a class then determine if it has any templates.</operation>
+                <operation>Make the default using namespace declaration for the scope of this source file's variables and functions.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The namespace or class block that is used to generate the parsing of this parser object's file.</description>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+            </constructor>
             <function type="2">
               <data version="0">
                 <name>outputPreProcessor</name>
+                <description>Adds all preprocessor lines to output.</description>
                 <type>void</type>
               </data>
             </function>
             <function type="2">
               <data version="0">
-                <name>outputMisc</name>
+                <name>outputHeader</name>
+                <description>Adds all header section lines to output. </description>
                 <type>void</type>
+                <operation>Make sure the header section is not empty.</operation>
+                <operation>Add blank header lines and then add all header statement lines.</operation>
               </data>
-              <variable type="1">
-                <data version="0">
-                  <name>addUsingName</name>
-                  <type>bool</type>
-                  <initializer>false</initializer>
-                </data>
-              </variable>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDefinitions</name>
+                <description>Adds all variable and function definitions to output.</description>
                 <type>void</type>
+                <operation>Check to see if there are any variable definitions to add.</operation>
+                <operation>Add blank header lines to output.</operation>
+                <operation>Iterate through all of this object's variable definitions.</operation>
+                <operation>Add the comments and then the definition of the variable parser to output.</operation>
+                <operation>Iterate through all defined function definitions.</operation>
+                <operation>Add blank function lines, then the function's comments, and then its definition to output.</operation>
+                <operation>Iterate through all undefined function definitions.</operation>
+                <operation>Add blank function lines, then the function's comments, and then its definition to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>findDefined</name>
+                <description>Attempts to find a defined function definition of this parser with the given definition string. If a match is found its function parser pointer is returned.</description>
                 <type>Function*</type>
+                <return_description>Pointer of matched function parser if match is found or null if no match is found.</return_description>
+                <operation>Iterate through all defined function parser objects of this parser.</operation>
+                <operation>If the function parser matches the given definition header then return its pointer.</operation>
+                <operation>No match was found so return null.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>definition</name>
+                  <description>The function definition header whose match is looked for in this object's list of defined function parser objects.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -4894,30 +4952,36 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>children</name>
+                <description>Returns a constant reference to the pointer list of all real children of this object's namespace block.</description>
                 <const/>
                 <type>const QList&lt;AbstractBlock*>&amp;</type>
+                <return_description>Constant reference to this object's namespace block's real children.</return_description>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>addPreProcess</name>
+                <description>Adds a preprocessor line to the preprocessor section of this parser that will be added to that section's output.</description>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>The preprocessor line that is added.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
             </function>
             <function type="2">
               <data version="0">
-                <name>addMisc</name>
+                <name>addHeader</name>
+                <description>Adds a header line to the header section of this parser that will be added to that section's output.</description>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>The header line that is added.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -4925,11 +4989,13 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>addVariable</name>
+                <description>Adds a variable parser to this parser that will be used for the definition section output. This does not take ownership of the variable parser object.</description>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>parser</name>
+                  <description>Pointer to the variable parser added to this parser for its definition section output.</description>
                   <type>Variable*</type>
                 </data>
               </variable>
@@ -4937,11 +5003,13 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>addDefined</name>
+                <description>Adds a defined function parser to this parser that will be used for the definition section output. This does not take ownership of the function parser object.</description>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>defined</name>
+                  <description>Pointer to the defined function parser added to this parser for its definition section output.</description>
                   <type>Function*</type>
                 </data>
               </variable>
@@ -4949,11 +5017,13 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>addUndefined</name>
+                <description>Adds an undefined function parser to this parser that will be used for the definition section output. This does not take ownership of the function parser object.</description>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>undefined</name>
+                  <description>Pointer to the undefined function parser added to this parser for its definition section output.</description>
                   <type>Function*</type>
                 </data>
               </variable>
@@ -4961,8 +5031,10 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>isTemplate</name>
+                <description>Tests if the namespace of this parser has any templates in itself or any parent class blocks. If it does this obviously means it is a class.</description>
                 <const/>
                 <type>bool</type>
+                <return_description>True if the namespace of this parser contains any templates or false otherwise.</return_description>
               </data>
             </function>
           </access>
@@ -4973,72 +5045,95 @@ The global header file has forward declarations of all classes within its namesp
             <function type="2">
               <data version="0">
                 <name>makeUsingName</name>
+                <description>Makes the default using namespace declaration for this source file.</description>
                 <type>void</type>
+                <operation>Initialize a namespace pointer stack.</operation>
+                <operation>Iterate up the parent blocks of this object's namespace block, starting with its parent.</operation>
+                <operation>If the current parent is a namespace block then push its pointer to the stack.</operation>
+                <operation>Iterate up to the next parent.</operation>
+                <operation>Make sure the stack has more than one pointer. If it only has one pointer that means the namespace of this parser is in the global namespace and no default using statement is required.</operation>
+                <operation>Pop the root namespace pointer from the stack.</operation>
+                <operation>Append the beginning of the using declaration, then all found namespaces in the stack, and then this object's namespace.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
-                <name>buildAll</name>
+                <name>evaluateAll</name>
+                <description>Evaluates all real children of this object's namespace, calling the appropriate evaluate interface on each one.</description>
                 <type>void</type>
+                <operation>Iterate through all real children of this object's namespace.</operation>
+                <operation>If the child is a variable block then call its evaluate interface.</operation>
+                <operation>Else if the child is any type of function block then call its evaluate interface.</operation>
+                <operation>Else this is another type of block so call its evaluate interface.</operation>
               </data>
             </function>
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The namespace block used as a root for the file this object parses.</description>
                 <type>const Namespace*</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_headerLines</name>
+                <description>The number of blank lines before each header setting.</description>
                 <type>int</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_functionLines</name>
+                <description>The number of blank lines before function definitions setting.</description>
                 <type>int</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_children</name>
+                <description>Pointer list of all real children of this object's namespace block.</description>
                 <type>QList&lt;AbstractBlock*></type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_preProcess</name>
+                <description>List of preprocessor lines that is added to the preprocessor section of output.</description>
                 <type>QStringList</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
-                <name>_misc</name>
+                <name>_header</name>
+                <description>List of header lines that is added to the header section of output.</description>
                 <type>QStringList</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_variables</name>
+                <description>Pointer list of variable parser objects that is used to create their definitions for output.</description>
                 <type>QList&lt;Variable*></type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_defined</name>
+                <description>Pointer list of defined function parser objects that is used create their definitions for output. Defined here means that a match was found in a real child function block of this object's namespace.</description>
                 <type>QList&lt;Function*></type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_undefined</name>
+                <description>Pointer list of undefined function parser objects that is used create their definitions for output. Undefined here means that a match was not found in the real child function blocks of this object's namespace.</description>
                 <type>QList&lt;Function*></type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_pastTop</name>
+                <description>True if this parser is finished reading in lines for the preprocessor and header sections of its file or false if it is past those sections.</description>
                 <type>bool</type>
                 <initializer>false</initializer>
               </data>
@@ -5046,6 +5141,7 @@ The global header file has forward declarations of all classes within its namesp
             <variable type="1">
               <data version="0">
                 <name>_isTemplate</name>
+                <description>True if this object's namespace or any of its parent classes contain a template or false otherwise. By simple logic this being true also means this object's namespace is a class.</description>
                 <type>bool</type>
                 <initializer>false</initializer>
               </data>
@@ -5053,6 +5149,7 @@ The global header file has forward declarations of all classes within its namesp
             <variable type="1">
               <data version="0">
                 <name>_inComments</name>
+                <description>True if the lines being read in are inside a comment or false otherwise. This is used to safely ignore function signatures in comments.</description>
                 <type>bool</type>
                 <initializer>false</initializer>
               </data>
@@ -5060,12 +5157,14 @@ The global header file has forward declarations of all classes within its namesp
             <variable type="1">
               <data version="0">
                 <name>_usingName</name>
+                <description>The default using namespace declaration for this object's source file. If this source file is in global scope then this is empty.</description>
                 <type>QString</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_include</name>
+                <description>The default include statement used to include the header file of this object's source file.</description>
                 <type>QString</type>
               </data>
             </variable>
@@ -5185,7 +5284,7 @@ The global header file has forward declarations of all classes within its namesp
             </data>
             <function type="2">
               <data version="0">
-                <name>outputHeader</name>
+                <name>outputGuard</name>
                 <type>void</type>
               </data>
             </function>
