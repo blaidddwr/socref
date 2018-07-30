@@ -59,7 +59,7 @@ void Function::outputDeclaration()
       {
          outputComments();
       }
-      QString line {getTemplates(_block,true)};
+      QString line {makeTemplateArguments(_block,true)};
       if ( !line.isEmpty() ) line.append(" ");
       if ( Constructor* valid = _block->cast<Constructor>(BlockFactory::ConstructorType) )
       {
@@ -95,7 +95,7 @@ void Function::outputDefinition()
    if ( _block )
    {
       QString line;
-      QString templateString {getTemplateDeclaration(_block)};
+      QString templateString {makeTemplateDeclaration(_block)};
       if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
       line.append(getReturnValue())
           .append(getScope(!templateString.isEmpty()))
@@ -379,10 +379,7 @@ QString Function::getReturnValue()
  */
 QString Function::getScope(bool hasTemplates)
 {
-   QString ret;
-   if ( _block->isMethod() ) ret.append(getClassScope(_block));
-   else if ( !hasTemplates ) ret.append(getNamespace(_block));
-   return ret;
+   return makePreScope(_block);
 }
 
 

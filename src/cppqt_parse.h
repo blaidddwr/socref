@@ -6,10 +6,10 @@ namespace CppQt
    namespace Parse
    {
       class Factory;
+      class Base;
       class Global;
       class Source;
       class Header;
-      class Base;
       class Variable;
       class Function;
       class Access;

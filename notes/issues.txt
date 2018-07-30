@@ -3,3 +3,4 @@
 
 * Add custom dictionary words for spell checking on a per project basis.
 
+* Make the C++/Qt function view hide the steps of operation by default.

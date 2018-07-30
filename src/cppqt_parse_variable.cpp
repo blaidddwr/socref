@@ -55,11 +55,10 @@ void Variable::outputDefinition()
    if ( _block->isStatic() || !_block->isMember() )
    {
       QString line;
-      QString templateString {getTemplateDeclaration(_block)};
+      QString templateString {makeTemplateDeclaration(_block)};
       if ( !templateString.isEmpty() ) line.append(templateString).append(" ");
       line.append(_block->variableType()).append(" ");
-      if ( _block->isMember() ) line.append(getClassScope(_block));
-      else line.append(getNamespace(_block));
+      line.append(makePreScope(_block));
       line.append(_block->Base::name());
       outputEnd(&line, _block->hasInitializer() && !_block->isConstExpr() );
    }

@@ -4569,6 +4569,254 @@ The global header file has forward declarations of all classes within its namesp
         </class>
         <class type="4">
           <data version="0">
+            <name>Base</name>
+            <description>This base class represents parser objects that can belong to root parser objects for C++/Qt projects. These base objects include things such as functions or variables that are part of a root parser such as a header or source file. The root parser then uses its base parser children to deal with parsing of its individual components such as functions or variables.
+
+This class prevents the make output interface to be used, instead defining its more specialized output interfaces that are specific to C++ and Qt. These base parser objects do not necessarily have to deal with reading any input lines and are primarily focused on adding output with the new interfaces provided.
+
+This class also contains numerous static helper functions used throughout the C++/Qt parsing classes. Most of these helper functions deal with constructing strings or list of strings for output.</description>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>AbstractParser</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputComments</name>
+                <description>This interface is called to add the comment section of this base parser object to output.</description>
+                <virtual/>
+                <abstract/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclaration</name>
+                <description>This interface is called to add the declaration of this base parser object to output.</description>
+                <virtual/>
+                <abstract/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinition</name>
+                <description>This interface is called to add the definition of this base parser object to output.</description>
+                <virtual/>
+                <abstract/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>makeComment</name>
+                <description>Makes and returns a string list of output lines from the given text with the given justification. The lines are formatted as paragraphs, using double newline characters to separate the paragraphs. The justification is used to add extra space to every other line after the first one. This does not returning the opening and closing comment lines.</description>
+                <static/>
+                <type>QStringList</type>
+                <return_description>Formatted list of output lines made from the given text with the given justification.</return_description>
+                <operation>Make sure the given justified value is valid.</operation>
+                <operation>Get the maximum columns setting and create a new string list that will be returned.</operation>
+                <operation>Make sure the given text is not empty.</operation>
+                <operation>Split the given text into paragraphs, using double newline characters as the separator and skipping empty paragraphs.</operation>
+                <operation>Iterate through all the paragraphs.</operation>
+                <operation>Split the paragraph into its individual words.</operation>
+                <operation>Keep working until all words have been processed.</operation>
+                <operation>Initialize the total number of columns used and the next output line.</operation>
+                <operation>Check if this is the first line.</operation>
+                <operation>Else this is not the first line so append the number of justification spaces to the output line and add the number of columns used to the total.</operation>
+                <operation>Append the first word to the output line. The columns used was already added to the total when it was initialized.</operation>
+                <operation>Keep working until there are no more words to process or the output line has reached the maximum number of columns.</operation>
+                <operation>Add the number of columns the next word will use to the total and then add the next word to the output line.</operation>
+                <operation>Add the finished output line to the return string list.</operation>
+                <operation>If this is not the last paragraph add a separator line for the next one.</operation>
+                <operation>Returned the formatted list of output lines.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>text</name>
+                  <description>The text that is used to make and return the formatted output lines.</description>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>justified</name>
+                  <description>The justification used for adding extra spaces before every output line after the first.</description>
+                  <type>int</type>
+                  <initializer>0</initializer>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>makeTemplateComments</name>
+                <description>Makes and returns a string list of output lines that are the comments of template arguments for the given block. If the given block has no template blocks then an empty string list is returned. This does not returning the opening and closing comment lines.</description>
+                <static/>
+                <type>QStringList</type>
+                <return_description>List of template argument comments output lines.</return_description>
+                <operation>Make sure the given block pointer is not null.</operation>
+                <operation>Create a string list that will be returned.</operation>
+                <operation>Iterate through all of the given block's template child blocks.</operation>
+                <operation>Add a blank comment line to the output lines.</operation>
+                <operation>Create a new comment string with the justified part of the string and then get the number of justified spaces required.</operation>
+                <operation>Add the final part of the comment string and then make formatted comment output lines from the comment string with the appropriate justification.</operation>
+                <operation>Return the output line list of template argument comments.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The block whose template children blocks is used to make and return template argument comments.</description>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>makePreScope</name>
+                <description>Makes and returns a string that is the scope required for the given block in its source file definition. This will either return the scope of the first namespace of the block if it is not part of a class or the full scope of all classes if it is.</description>
+                <static/>
+                <type>QString</type>
+                <return_description>The scope required for the given block in its source file definition.</return_description>
+                <operation>Make sure the given block pointer is not null.</operation>
+                <operation>Get the parent of the given block, making sure it is not null and it also has a parent.</operation>
+                <operation>If the parent is a namespace block then return the namespace scope.</operation>
+                <operation>Else if the parent is an access block then return the class scope.</operation>
+                <operation>Else the parent is an invalid type so throw an exception.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The block whose scope is returned for its source file definition.</description>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>makePreClassScope</name>
+                <description>Makes and returns a string that is the class scope required for the given block in its source file definition. If the given block is not part of a class then an empty string is returned.</description>
+                <static/>
+                <type>QString</type>
+                <return_description>The class scope required for the given block in its source file definition or an empty string is the given block is not part of a class.</return_description>
+                <operation>Make sure the given block pointer is not null.</operation>
+                <operation>Create a new return string and a class pointer stack.</operation>
+                <operation>Iterate through the given block's parents.</operation>
+                <operation>If the parent is a namespace type then stop iterating through parents.</operation>
+                <operation>Else if the parent is a class then push its pointer to the stack.</operation>
+                <operation>Iterate to the next parent.</operation>
+                <operation>Keep going until the stack is empty.</operation>
+                <operation>Append the scope of the class to the return string, including any template arguments.</operation>
+                <operation>Return the class scope string.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The block whose class scope is returned for its source file definition.</description>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>makeTemplateDeclaration</name>
+                <description>Makes and returns a string that is the template declaration for the given block. The template declaration is found by finding the first parent of the given block that contains template blocks and creating the declaration from those blocks. If no templates are found before the first namespace block is encountered then an empty string is returned.</description>
+                <static/>
+                <type>QString</type>
+                <return_description>Template declaration for the given block or an empty string if no templates are found.</return_description>
+                <operation>Make sure the given block pointer is not null.</operation>
+                <operation>Iterate through the parents of the given block.</operation>
+                <operation>If the parent is a namespace block then stop iterating through parents.</operation>
+                <operation>Else if the parent block contains template child blocks then return its declarative template arguments string.</operation>
+                <operation>Iterate to the next parent.</operation>
+                <operation>No template arguments were found so return an empty string.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The block whose template declaration is returned.</description>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>makeTemplateArguments</name>
+                <description>Makes and returns a string that is the template arguments of the given block. The string can either be in normal form or declarative form. The normal form is meant to be appended to block's name while the declarative is meant to be added before the name. If the given block has no templates then an empty string is returned.</description>
+                <static/>
+                <type>QString</type>
+                <return_description>Template arguments of the given block in normal or declarative form. An empty string if the given block has no templates.</return_description>
+                <operation>Make sure the given block pointer is not null.</operation>
+                <operation>Create a new return string.</operation>
+                <operation>Get the given block's list of template block children and make sure it is not empty.</operation>
+                <operation>Append the opening carrot, including the template declaration if this is declarative.</operation>
+                <operation>Iterate through the list of template block children.</operation>
+                <operation>Check to see if this is the first argument.</operation>
+                <operation>Else this is not the first argument so append a separating comma.</operation>
+                <operation>Append the template child block's name, including its type if this is declarative.</operation>
+                <operation>Append the closing carrot.</operation>
+                <operation>Return the template arguments string.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The block whose child template blocks are used to make the returned template arguments string.</description>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>declarative</name>
+                  <description>True to make the returned string in declarative form or false to make it in normal form.</description>
+                  <type>bool</type>
+                  <initializer>false</initializer>
+                </data>
+              </variable>
+            </function>
+            <constructor type="9">
+              <data version="0">
+                <description>Constructs a new base parser with the given parser as its parent. The base parser is designed so it cannot be a root parser and must have a parent.</description>
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <description>The parent parser for this new base parser.</description>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>makeOutput</name>
+                <description>Implements _AbstractParser_ interface. This implementation does nothing and overrides its interface with the final keyword because base classes should use their more specialized output interfaces.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
             <name>Global</name>
             <description>This is the global header parser. This parses a global header file which provides a list of forward declarations for all classes in the namespace the header file represents. This parser does not actually parse its file instead simply overwriting it with the appropriate forward declarations. This is inherited by the source and header parser classes for its namespace nesting output functionality.</description>
             <qtobject/>
@@ -5070,7 +5318,7 @@ The lines of code inside any function present in the source file is saved and ma
             <variable type="1">
               <data version="0">
                 <name>_block</name>
-                <description>The namespace block used as a root for the file this object parses.</description>
+                <description>The namespace or class block used as a root for the file this object parses.</description>
                 <type>const Namespace*</type>
               </data>
             </variable>
@@ -5119,14 +5367,14 @@ The lines of code inside any function present in the source file is saved and ma
             <variable type="1">
               <data version="0">
                 <name>_defined</name>
-                <description>Pointer list of defined function parser objects that is used create their definitions for output. Defined here means that a match was found in a real child function block of this object's namespace.</description>
+                <description>Pointer list of defined function parser objects that is used to create their definitions for output. Defined here means that a match was found in a real child function block of this object's namespace.</description>
                 <type>QList&lt;Function*></type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_undefined</name>
-                <description>Pointer list of undefined function parser objects that is used create their definitions for output. Undefined here means that a match was not found in the real child function blocks of this object's namespace.</description>
+                <description>Pointer list of undefined function parser objects that is used to create their definitions for output. Undefined here means that a match was not found in the real child function blocks of this object's namespace.</description>
                 <type>QList&lt;Function*></type>
               </data>
             </variable>
@@ -5173,6 +5421,11 @@ The lines of code inside any function present in the source file is saved and ma
         <class type="4">
           <data version="0">
             <name>Header</name>
+            <description>This is the header parser. This parses a header file for a class or namespace. Because header files can be as complicated as source files in C++ this inherits the source parser class.
+
+A header file is separated into four sections. The preprocessor, header, declaration, and definition sections in that order. The preprocessor section has the header guard and any other preprocessor statements. The header section has any custom forward class declarations. The declaration section contains the actual declarations of the class or namespace. The definition section contains any template definitions for variables and functions. The declaration and definition sections are nested inside their respective namespace scope.
+
+Lines of code inside functions are parsed and remembered just like it is in the inherited source parser class.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -5187,18 +5440,22 @@ The lines of code inside any function present in the source file is saved and ma
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new header parser with the given namespace block as its root and the name of the header file is parses.</description>
                 <explicit/>
                 <type>void</type>
+                <operation>Create the two preprocessor lines that guard this header file from being included more than once.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The namespace block this parser uses as its root.</description>
                   <type>const Namespace*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>name</name>
+                  <description>The name, excluding the extension, of the header file this object parses.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -5211,23 +5468,34 @@ The lines of code inside any function present in the source file is saved and ma
             <function type="2">
               <data version="0">
                 <name>makeOutput</name>
+                <description>Implements _AbstractParser_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Add the preprocessor header guard lines to output.</operation>
+                <operation>Add the preprocessor section to output.</operation>
+                <operation>Add the header section and then the end of top marker to output.</operation>
+                <operation>Add blank header lines and then the opening bracket namespace nesting to output.</operation>
+                <operation>Add the declaration and then the definition sections to output.</operation>
+                <operation>Add the closing bracket namespace and then the final preprocessor header guard line to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>readTop</name>
+                <description>Implements _CppQt::Parse::Source_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>If this is a custom preprocessor line that is not a header guard line then add it as a custom preprocessor line.</operation>
+                <operation>Else if this is a custom forward class declaration then add it as a custom header line.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -5235,14 +5503,18 @@ The lines of code inside any function present in the source file is saved and ma
             <function type="2">
               <data version="0">
                 <name>evaluateVariable</name>
+                <description>Implements _CppQt::Parse::Source_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Create a new variable parser from the given variable block and append it to this object's declarations.</operation>
+                <operation>If the given block is static, is not a constant expression, and this object's namespace has templates then add the variable parser to the definitions section.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>See interface docs.</description>
                   <type>CppQt::Variable*</type>
                 </data>
               </variable>
@@ -5250,14 +5522,18 @@ The lines of code inside any function present in the source file is saved and ma
             <function type="2">
               <data version="0">
                 <name>evaluateFunction</name>
+                <description>Implements _CppQt::Parse::Source_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Create a new function parser from the given function block and append it to this object's declarations.</operation>
+                <operation>If the given block has the correct attributes to be defined in the header file then add its parser to the definitions section.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>See interface docs.</description>
                   <type>CppQt::Function*</type>
                 </data>
               </variable>
@@ -5265,14 +5541,20 @@ The lines of code inside any function present in the source file is saved and ma
             <function type="2">
               <data version="0">
                 <name>evaluateOther</name>
+                <description>Implements _CppQt::Parse::Source_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>If the given block is an enumeration then create an enumeration parser and append it to this object's declarations.</operation>
+                <operation>Check to see if this object's namespace is a class.</operation>
+                <operation>If the given block is an access type then create an access parser and append it to this object's declarations.</operation>
+                <operation>Else if the given block is a class then create a forward parser and append it to this object's declarations.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>See interface docs.</description>
                   <type>AbstractBlock*</type>
                 </data>
               </variable>
@@ -5285,19 +5567,35 @@ The lines of code inside any function present in the source file is saved and ma
             <function type="2">
               <data version="0">
                 <name>outputGuard</name>
+                <description>Adds the preprocessor header guard lines to output. This does not include the ending statement to finish the guard which is done later.</description>
                 <type>void</type>
+                <operation>Add the first and then second preprocessor guard lines.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDeclarations</name>
+                <description>Adds the declaration section of this parser to output.</description>
                 <type>void</type>
+                <operation>Make sure the declaration list is not empty.</operation>
+                <operation>Get a pointer to this object's namespace as a class if it is a class, else this will be null.</operation>
+                <operation>Check to see if this object's namespace is a class.</operation>
+                <operation>Add the comments and declaration header of this object's class to output.</operation>
+                <operation>Add the opening class bracket to output and increase the indent spaces.</operation>
+                <operation>If this object's class is a qt object then add the appropriate macro to output.</operation>
+                <operation>Iterate through the list of all base declaration parser object's for this parser and add their output.</operation>
+                <operation>Check to see if this object's namespace is a class again.</operation>
+                <operation>Decrease the indent spaces and then add the closing class bracket to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputClassComments</name>
+                <description>Adds the comments of the given class block to output. The given class is assumed to be this object's namespace which is a class.</description>
                 <type>void</type>
+                <operation>Add the beginning comment line to output.</operation>
+                <operation>Add the description comment to output, including template argument comments if the given class has any.</operation>
+                <operation>Add the ending comment line to output.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -5309,7 +5607,17 @@ The lines of code inside any function present in the source file is saved and ma
             <function type="2">
               <data version="0">
                 <name>outputClassDeclaration</name>
+                <description>Adds the class declaration header line to output using the given class block.</description>
                 <type>void</type>
+                <operation>Create the line starting with any possible template declaration, adding a space if there is one.</operation>
+                <operation>Append the class keyword and then the scoped class name to the line.</operation>
+                <operation>Iterate through all children of the given class block.</operation>
+                <operation>Make sure the child is a parent block type.</operation>
+                <operation>Check to see if this is the first parent being added to the line.</operation>
+                <operation>Append the beginning of parents marker to the line.</operation>
+                <operation>Else this is not the first to append a comma to the line.</operation>
+                <operation>Append the full inheritance declaration for the child parent block to the line.</operation>
+                <operation>Add the class declaration header line to output.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -5321,222 +5629,53 @@ The lines of code inside any function present in the source file is saved and ma
             <function type="2">
               <data version="0">
                 <name>outputFooter</name>
+                <description>Adds the closing preprocessor statement for the header guard.</description>
                 <type>void</type>
+                <operation>Add blank header lines and then the closing header guard preprocessor line to output.</operation>
               </data>
             </function>
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The namespace or class block used as a root for the file this object parses.</description>
                 <type>const Namespace*</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_indentSpaces</name>
+                <description>The number of spaces used for each indent setting.</description>
                 <type>int</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_headerLines</name>
+                <description>The number of blank lines before each header setting.</description>
                 <type>int</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_declarations</name>
+                <description>Pointer list of base parser objects used to generate the output of this object's declaration section.</description>
                 <type>QList&lt;Base*></type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
-                <name>_header1</name>
+                <name>_guard1</name>
+                <description>The first preprocessor header guard line for this object's header file.</description>
                 <type>QString</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
-                <name>_header2</name>
+                <name>_guard2</name>
+                <description>The second preprocessor header guard line for this object's header file.</description>
                 <type>QString</type>
               </data>
             </variable>
-          </access>
-        </class>
-        <class type="4">
-          <data version="0">
-            <name>Base</name>
-            <qtobject/>
-          </data>
-          <parent type="13">
-            <data version="0">
-              <access>public</access>
-              <class>AbstractParser</class>
-            </data>
-          </parent>
-          <access type="5">
-            <data version="0">
-              <type>public:</type>
-            </data>
-            <function type="2">
-              <data version="0">
-                <name>outputComments</name>
-                <virtual/>
-                <abstract/>
-                <type>void</type>
-              </data>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>outputDeclaration</name>
-                <virtual/>
-                <abstract/>
-                <type>void</type>
-              </data>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>outputDefinition</name>
-                <virtual/>
-                <abstract/>
-                <type>void</type>
-              </data>
-            </function>
-          </access>
-          <access type="5">
-            <data version="0">
-              <type>public:</type>
-            </data>
-            <function type="2">
-              <data version="0">
-                <name>makeComment</name>
-                <static/>
-                <type>QStringList</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>text</name>
-                  <type>const QString&amp;</type>
-                </data>
-              </variable>
-              <variable type="1">
-                <data version="0">
-                  <name>justified</name>
-                  <type>int</type>
-                  <initializer>0</initializer>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>makeTemplateComments</name>
-                <static/>
-                <type>QStringList</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <type>const AbstractBlock*</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>getNamespace</name>
-                <static/>
-                <type>QString</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <type>const AbstractBlock*</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>getClassScope</name>
-                <static/>
-                <type>QString</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <type>const AbstractBlock*</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>getClass</name>
-                <static/>
-                <type>QString</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <type>const Class*</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>getTemplateDeclaration</name>
-                <static/>
-                <type>QString</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <type>const AbstractBlock*</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>getTemplates</name>
-                <static/>
-                <type>QString</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <type>const AbstractBlock*</type>
-                </data>
-              </variable>
-              <variable type="1">
-                <data version="0">
-                  <name>declare</name>
-                  <type>bool</type>
-                  <initializer>false</initializer>
-                </data>
-              </variable>
-            </function>
-            <constructor type="9">
-              <data version="0">
-                <explicit/>
-                <type>void</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>parent</name>
-                  <type>AbstractParser*</type>
-                </data>
-              </variable>
-            </constructor>
-          </access>
-          <access type="5">
-            <data version="0">
-              <type>private:</type>
-            </data>
-            <function type="2">
-              <data version="0">
-                <name>makeOutput</name>
-                <virtual/>
-                <override/>
-                <final/>
-                <type>void</type>
-              </data>
-            </function>
           </access>
         </class>
         <class type="4">

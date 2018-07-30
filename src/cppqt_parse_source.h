@@ -59,7 +59,7 @@ namespace CppQt
          void makeUsingName();
          void evaluateAll();
          /*!
-          * The namespace block used as a root for the file this object parses. 
+          * The namespace or class block used as a root for the file this object parses. 
           */
          const Namespace* _block;
          /*!
@@ -88,13 +88,13 @@ namespace CppQt
           */
          QList<Variable*> _variables;
          /*!
-          * Pointer list of defined function parser objects that is used create their 
+          * Pointer list of defined function parser objects that is used to create their 
           * definitions for output. Defined here means that a match was found in a real 
           * child function block of this object's namespace. 
           */
          QList<Function*> _defined;
          /*!
-          * Pointer list of undefined function parser objects that is used create their 
+          * Pointer list of undefined function parser objects that is used to create their 
           * definitions for output. Undefined here means that a match was not found in the 
           * real child function blocks of this object's namespace. 
           */
