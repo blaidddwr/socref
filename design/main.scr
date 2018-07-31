@@ -5797,6 +5797,11 @@ Lines of code inside functions are parsed and remembered just like it is in the 
         <class type="4">
           <data version="0">
             <name>Function</name>
+            <description>This is the base function parser. This base parser is responsible for parsing functions within source and header files. This also reads in the lines of code for any function found in source or header files. Function definitions can exist in either source or header files in C++ because of templates.
+
+This parser can be defined or undefined. A defined function parser means it is linked with an actual function block. An undefined function parser means it is an unknown function definition found in a source or header file with no associated function block.
+
+This parser also has the concept of a cut off. The cut off is an integer that defines the number of additional spaces the function itself is indented in its file that can be ignored and effectively cut off when parsing the lines of code.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -5812,28 +5817,52 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>outputComments</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Check to see if this is a defined function.</operation>
+                <operation>Add a comment section to output with the function block's description, then template arguments, then regular arguments, and then return argument.</operation>
+                <operation>Else this is not a defined function so add a special comment header highlighting that fact to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDeclaration</name>
+                <description>Implements _CppQt::Parse::Base_ interface. This implementation will also add comments to functions that only appear in the header file, such as abstract or signals. This will output nothing if this is not a defined function.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Make sure this is a defined function.</operation>
+                <operation>If this object's function is abstract, a signal, or is default then add its comments to output.</operation>
+                <operation>Create a new string line with this object's function's template arguments in declarative form, if any.</operation>
+                <operation>Add any set flags of this object's function that come before the name.</operation>
+                <operation>Add the return type, then name, and then arguments of this object's function to the line.</operation>
+                <operation>Add any proceeding flags this object's function has set to the line.</operation>
+                <operation>Add the closing semicolon to the line.</operation>
+                <operation>Add the declaration line to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDefinition</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Check to see if this is a defined function.</operation>
+                <operation>Create a new line with the template declaration for this object's function, if any.</operation>
+                <operation>Add the return type, then scoped name, and then arguments of this object's function to the line.</operation>
+                <operation>Add any set flags of this object's function that belong in the definition to the line.</operation>
+                <operation>If this object has any initializer lines then add the special colon character to the line.</operation>
+                <operation>Add the definition line to output.</operation>
+                <operation>Else this is not a defined function so add the static string definition to output.</operation>
+                <operation>Add all of this object's initializer lines to output.</operation>
+                <operation>If this object has no code lines then add an opening and closing bracket to output.</operation>
+                <operation>Else this object does have code lines so add them to output with an opening and closing bracket.</operation>
               </data>
             </function>
           </access>
@@ -5843,34 +5872,43 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new defined function parser with the given function block and parent parser.</description>
+                <explicit/>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The function block that defines this base function parser.</description>
                   <type>CppQt::Function*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>parent</name>
+                  <description>The parent parser for this new function parser.</description>
                   <type>AbstractParser*</type>
                 </data>
               </variable>
             </constructor>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new undefined function parser with the given static definition header and parent parser.</description>
+                <explicit/>
                 <type>void</type>
+                <operation>Determine the number of cut off spaces from the given definition header line and then set this object's static definition string.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>definition</name>
+                  <description>The static definition header for this new undefined function parser. This should include the entire line so the number of cut off spaces can be calculated.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>parent</name>
+                  <description>The parent parser for this new function parser.</description>
                   <type>AbstractParser*</type>
                 </data>
               </variable>
@@ -5878,11 +5916,20 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>isMatch</name>
+                <description>Determines if the given line matches the definition header for this function parser, returning true if it is a match. If the function parser already has code or initializer lines, or is not a defined parser then false is always returned.</description>
                 <type>bool</type>
+                <return_description>True if the given line matches the definition header for this parser or false if it does not, it has code or initializer lines, or is undefined.</return_description>
+                <operation>Make sure this object does not have code and is defined.</operation>
+                <operation>Create a new regular expression line with this object's function's name.</operation>
+                <operation>Add any arguments of this object's function to the regular expression line.</operation>
+                <operation>Add any set flags of this object's function that belong in the definition to the regular expression line.</operation>
+                <operation>Add the closing syntax to the regular expression line.</operation>
+                <operation>Evaluate the line with the constructed regular expression line to determine a match, returning its result.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>The line presumed to be another function definition header that is matched with this function parser.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -5890,18 +5937,24 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>hasCode</name>
+                <description>Tests if this function parser has any code or initializer lines.</description>
                 <const/>
                 <type>bool</type>
+                <return_description>True if this function parser has any code or initializer lines or false otherwise.</return_description>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>setCutOff</name>
+                <description>Sets the number of cut off spaces for this function parser to the given value. The value must be zero or positive.</description>
                 <type>void</type>
+                <operation>Make sure the new value is valid.</operation>
+                <operation>Set the new value.</operation>
               </data>
               <variable type="1">
                 <data version="0">
-                  <name>cutOff</name>
+                  <name>value</name>
+                  <description>The new cut off value for this function parser.</description>
                   <type>int</type>
                 </data>
               </variable>
@@ -5914,14 +5967,28 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>readLine</name>
+                <description>Implements _AbstractParser_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>bool</type>
+                <return_description>See interface docs.</return_description>
+                <operation>If the given line is a opening and closing bracket that means this function has no code lines so return false.</operation>
+                <operation>Check to see if the given line is an opening bracket.</operation>
+                <operation>Increment the bracket level by one, returning true if this is the very first opening bracket.</operation>
+                <operation>Check to see if the given line is a closing bracket.</operation>
+                <operation>Decease the bracket level by one, returning false if this is the final closing bracket.</operation>
+                <operation>If this object is outside of any bracket level then add the given line to the object's initializer line list.</operation>
+                <operation>Else the given line is inside the main opening and closing brackets.</operation>
+                <operation>Check to see if the given line is an inline comment.</operation>
+                <operation>If the given inline comment line is the first for its grouping then set this object's edge past to true and process the inline comment. If this is proceeding inline comment lines after the first then just ignore it.</operation>
+                <operation>Else the given line is regular code so set this object's edge past to false and add the given line to this object's code line list.</operation>
+                <operation>The given line is not the last line of code for this function so return true.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -5934,11 +6001,16 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>processInlineComment</name>
+                <description>Processes the given inline comment line, adding the next step of operations of this object's function as an inline comment to this object's code line list or a blank inline comment if there are no more steps of operation to use.</description>
                 <type>void</type>
+                <operation>Calculate the number of spaces that should be used for this inline comment grouping.</operation>
+                <operation>If the next operation iterator of this object is not past the end of this object's function's steps of operation then insert an inline comment with the next operation.</operation>
+                <operation>Else there are no more steps of operation to add as inline comments so add a blank inline comment to this object's code line list.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>The inline comment given as an input line from the read line interface. The line must not be modified so the number of spaces can be calculated.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -5946,17 +6018,28 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>insertInlineComment</name>
+                <description>Inserts a new inline comment grouping of lines to this object's code line list with the given steps of operation index and spacing.</description>
                 <type>void</type>
+                <operation>Get the max columns setting.</operation>
+                <operation>Split operation from this object's function's steps of operation with the given index into a list of words.</operation>
+                <operation>Keep going until the list of words is empty.</operation>
+                <operation>Create a total columns used variable with the first word's size.</operation>
+                <operation>Create a new line string, adding spaces then comment characters and then the first word from the list.</operation>
+                <operation>Keep going until the word list is empty or the line has reached the maximum number of columns.</operation>
+                <operation>Take and add the next word from the list to the line, adding the number of columns the addition used.</operation>
+                <operation>Add the inline comment line to this object's code line list.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>index</name>
+                  <description>The index of the operation in this object's function's steps of operation to use to generate the inline comment.</description>
                   <type>int</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>spacing</name>
+                  <description>The number of spaces added before every inline comment line generated.</description>
                   <type>int</type>
                 </data>
               </variable>
@@ -5964,41 +6047,59 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>outputArgumentComments</name>
+                <description>Adds argument comment lines of this object's function to output. This does not add opening or closing comment lines and assumes the output is already in the process of added comments. If this object's function has not arguments then nothing is added to output.</description>
                 <type>void</type>
+                <operation>Iterate through all variable block children of this object's function block.</operation>
+                <operation>Add an empty comment line to output.</operation>
+                <operation>Create a base string that starts with the variable name and a space, getting the justified length from the base string length.</operation>
+                <operation>Add the variable block's description to the base string.</operation>
+                <operation>Make comments from the base string and the calculated justification and add its lines to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputReturnDescriptionComment</name>
+                <description>Adds return comment lines of this object's function to output. This does not add opening or closing comment lines and assumes the output is already in the process of added comments. If this object's function has no return description then nothing is added to output.</description>
                 <type>void</type>
+                <operation>Get the return description of this object's function and make sure it is not empty.</operation>
+                <operation>Add an empty comment line to output.</operation>
+                <operation>Create a base string with the return keyword in it, getting the justified length from the base string length.</operation>
+                <operation>Add the return description to the base string.</operation>
+                <operation>Make comments from the base string and calculated justification and add its lines to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
-                <name>getReturnValue</name>
+                <name>makeReturnValue</name>
+                <description>Makes and returns a string that is the return type for this object's function. The returned string also includes a space after the return type.</description>
                 <type>QString</type>
+                <return_description>Return type for this object's function along with an extra space.</return_description>
+                <operation>Create a new return string.</operation>
+                <operation>If this object's function is a slot or signal then set the return to void.</operation>
+                <operation>Else this is a function with a return type so set the return string to that type with an additional space.</operation>
+                <operation>Return the return string.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
-                <name>getScope</name>
+                <name>makeName</name>
+                <description>Makes and returns a string that is the function name for this object's function. This is just the name of the function, not including the return type or arguments. This can return a string intended for regular expression matching if the given flag is set to do so.</description>
                 <type>QString</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>hasTemplates</name>
-                  <type>bool</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>getName</name>
-                <type>QString</type>
+                <return_description>The function name for this object's function, padded with regular expression syntax is set to do so.</return_description>
+                <operation>Create a new return string.</operation>
+                <operation>Check to see if this object's function is an operator.</operation>
+                <operation>Set the return string to the operator keyword.</operation>
+                <operation>If the regular expression flag is set then pad the operation characters of this object's operator.</operation>
+                <operation>Else this is not a regular expression name so append the operation of this object's operator.</operation>
+                <operation>Else if this object's function is a destructor then set the return string appropriately.</operation>
+                <operation>Else if this object's function is a constructor then set the return string appropriately.</operation>
+                <operation>Else this object's function is normal so set the return string to the base name.</operation>
+                <operation>Return the function name string.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>isRegExp</name>
+                  <description>True to return the name string with regular expression syntax or false to return a regular string.</description>
                   <type>bool</type>
                   <initializer>false</initializer>
                 </data>
@@ -6006,25 +6107,30 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             </function>
             <function type="2">
               <data version="0">
-                <name>getArguments</name>
+                <name>makeArguments</name>
+                <description>Makes and returns the argument list for this object's function. The returned arguments string includes the opening and closing parenthesis. If the given flag is set to include any initializers of arguments then they are included in the return string.</description>
                 <type>QString</type>
+                <return_description>Argument list for this object's function, including the opening and closing parenthesis and optional initializers if set to do so.</return_description>
+                <operation>Create a new return string with the opening parenthesis.</operation>
+                <operation>Iterate through all arguments of this object's function block.</operation>
+                <operation>If this is not the first argument then add a separating comma and space.</operation>
+                <operation>Append the argument type, a space, and its name.</operation>
+                <operation>If the with initializers flag is set and this argument has one then add it.</operation>
+                <operation>Add the closing parenthesis.</operation>
+                <operation>Return the arguments string.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>withInitializers</name>
+                  <description>True to include the initializers of any arguments that have then in the returned arguments string or false to ignore them.</description>
                   <type>bool</type>
                 </data>
               </variable>
             </function>
-            <function type="2">
-              <data version="0">
-                <name>hasAnyTemplates</name>
-                <type>bool</type>
-              </data>
-            </function>
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>Pointer to this object's function block if it is defined or null if it is undefined.</description>
                 <type>CppQt::Function*</type>
                 <initializer>nullptr</initializer>
               </data>
@@ -6032,12 +6138,14 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <variable type="1">
               <data version="0">
                 <name>_definition</name>
+                <description>Static definition string that contains the definition header for this parser if it is undefined or an empty string if it is defined.</description>
                 <type>QString</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_level</name>
+                <description>The current number of bracket levels this parser is in while reading in lines. Used for processing input. Each opening bracket is one level up and closing bracket is one level down.</description>
                 <type>int</type>
                 <initializer>0</initializer>
               </data>
@@ -6045,6 +6153,7 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <variable type="1">
               <data version="0">
                 <name>_cutOff</name>
+                <description>The number of additional spaces the definition of this object's function has in its file. This is used for processing input.</description>
                 <type>int</type>
                 <initializer>0</initializer>
               </data>
@@ -6052,6 +6161,7 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <variable type="1">
               <data version="0">
                 <name>_edgePast</name>
+                <description>True if an inline comment is currently being read in and the first line of it has already been read or false otherwise.</description>
                 <type>bool</type>
                 <initializer>false</initializer>
               </data>
@@ -6059,6 +6169,7 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <variable type="1">
               <data version="0">
                 <name>_nextOperation</name>
+                <description>The next index to be used in this object's function's steps of operation for inserting inline comments.</description>
                 <type>int</type>
                 <initializer>0</initializer>
               </data>
@@ -6066,12 +6177,14 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <variable type="1">
               <data version="0">
                 <name>_code</name>
+                <description>List of code lines for this object's function's definition.</description>
                 <type>QStringList</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_initializers</name>
+                <description>List of initializer lines for this object's function's definition. This is exclusively used for constructors.</description>
                 <type>QStringList</type>
               </data>
             </variable>
