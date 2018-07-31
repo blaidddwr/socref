@@ -418,19 +418,22 @@ void Function::insertInlineComment(int index, int spacing)
    // Keep going until the list of words is empty. 
    while ( !words.isEmpty() )
    {
-      // Create a total columns used variable with the first word's size. 
-      int total {words.first().size()};
+      // Create a total columns used variable with the first word's size plus one space. 
+      int total {words.first().size() + 1};
 
-      // Create a new line string, adding spaces then comment characters and then the 
-      // first word from the list. 
-      QString line {QString(spacing,' ') + QStringLiteral("// ") + words.takeFirst()};
+      // Create a new line string, adding spaces then comment characters then the first 
+      // word from the list and then a space. 
+      QString line
+      {
+         QString(spacing,' ') + QStringLiteral("// ") + words.takeFirst() + QStringLiteral(" ")
+      };
 
       // Keep going until the word list is empty or the line has reached the maximum 
       // number of columns. 
       while ( !words.isEmpty() && (total + words.first().size() + 1) <= max )
       {
-         // Take and add the next word from the list to the line, adding the number of 
-         // columns the addition used. 
+         // Take and add the next word from the list to the line and an additional space, 
+         // adding the number of columns the addition used. 
          total += words.first().size() + 1;
          line += words.takeFirst() + QStringLiteral(" ");
       }

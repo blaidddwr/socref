@@ -6023,10 +6023,10 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <operation>Get the max columns setting.</operation>
                 <operation>Split operation from this object's function's steps of operation with the given index into a list of words.</operation>
                 <operation>Keep going until the list of words is empty.</operation>
-                <operation>Create a total columns used variable with the first word's size.</operation>
-                <operation>Create a new line string, adding spaces then comment characters and then the first word from the list.</operation>
+                <operation>Create a total columns used variable with the first word's size plus one space.</operation>
+                <operation>Create a new line string, adding spaces then comment characters then the first word from the list and then a space.</operation>
                 <operation>Keep going until the word list is empty or the line has reached the maximum number of columns.</operation>
-                <operation>Take and add the next word from the list to the line, adding the number of columns the addition used.</operation>
+                <operation>Take and add the next word from the list to the line and an additional space, adding the number of columns the addition used.</operation>
                 <operation>Add the inline comment line to this object's code line list.</operation>
               </data>
               <variable type="1">
