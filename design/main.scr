@@ -5681,6 +5681,7 @@ Lines of code inside functions are parsed and remembered just like it is in the 
         <class type="4">
           <data version="0">
             <name>Variable</name>
+            <description>This is the base variable parser. This base parser is responsible for parsing variables within source and header files. This only adds output without reading in any lines because variables do not require any input parsing.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -5696,28 +5697,41 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>outputComments</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Add a beginning comment line, then the description of this object's variable, and then an end comment line to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDeclaration</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Add the comment lines to output.</operation>
+                <operation>Create a new line string.</operation>
+                <operation>Add any set or required flags of this object's variable.</operation>
+                <operation>Add this object's variable type and and then its name separated by a space.</operation>
+                <operation>Finish the declaration line and add it to output.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDefinition</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Make sure this object's variable is static or not a class member.</operation>
+                <operation>Create a new line with the template declaration for this object's variable.</operation>
+                <operation>Add this object's variable type and then its scoped name separated by a space.</operation>
+                <operation>Finish the definition line and add it to output.</operation>
               </data>
             </function>
           </access>
@@ -5727,18 +5741,21 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new variable parser with the given variable block and parent parser.</description>
                 <explicit/>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The variable block that defines this new variable parser.</description>
                   <type>CppQt::Variable*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>parent</name>
+                  <description>The parent parser for this new variable parser.</description>
                   <type>AbstractParser*</type>
                 </data>
               </variable>
@@ -5751,14 +5768,18 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <function type="2">
               <data version="0">
                 <name>readLine</name>
+                <description>Implements _AbstractParser_ interface. This interface does nothing because variables save nothing unique in their parsed files.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>bool</type>
+                <return_description>See interface docs.</return_description>
+                <operation>Do nothing and return false.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -5770,18 +5791,30 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             </data>
             <function type="2">
               <data version="0">
-                <name>outputEnd</name>
+                <name>finishOutput</name>
+                <description>Finishes the given declaration or definition line for this object's variable, adding the initializer to the line if the given flag is set and this object's variable has an initializer value, and then adding it to output.</description>
                 <type>void</type>
+                <operation>Get the max column and indent spacing setting values.</operation>
+                <operation>Check to see if the with initializer flag is set to true and this object's variable has an initializer value.</operation>
+                <operation>Get the initializer value of this object's variable and check to see if the total column size of the line would be greater than the max columns setting.</operation>
+                <operation>Add the given line and then an open bracket to output, adding to the indent afterwords.</operation>
+                <operation>Split the initializer value by the comma character and iterate through each part.</operation>
+                <operation>Add the initializer part to output with a comma added to the beginning if this is not the first part.</operation>
+                <operation>Decrease the indent size and add a closing bracket with a semicolon to output.</operation>
+                <operation>Else the total column size is not greater than the max columns setting so append the initializer value and then a semicolon, and then add the given line to output.</operation>
+                <operation>Else the initializer flag is false or there is no initializer value so append a closing semicolon to the given line and then add it to output.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>Pointer to the declaration or definition line that is finished and added to output.</description>
                   <type>QString*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>withInitializer</name>
+                  <description>True to add this object's variable initializer to the given line if it has one or false to ignore any initializer value.</description>
                   <type>bool</type>
                 </data>
               </variable>
@@ -5789,6 +5822,7 @@ Lines of code inside functions are parsed and remembered just like it is in the 
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The variable block that defines this variable parser.</description>
                 <type>CppQt::Variable*</type>
               </data>
             </variable>
