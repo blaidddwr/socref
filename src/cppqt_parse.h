@@ -2,6 +2,7 @@
 namespace CppQt
 {
    /*!
+    * Contains all C++/Qt parsing elements. 
     */
    namespace Parse
    {

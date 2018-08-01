@@ -11,6 +11,9 @@ namespace CppQt
    namespace Parse
    {
       /*!
+       * This is the base enumeration parser. This base parser is responsible for 
+       * enumeration declarations in header files. This only adds output without reading 
+       * in any lines because it requires no input parsing. 
        */
       class Enumeration : public Base
       {
@@ -25,9 +28,11 @@ namespace CppQt
          virtual bool readLine(const QString& line) override final;
       private:
          /*!
+          * The enumeration block that defines this parser. 
           */
          CppQt::Enumeration* _block;
          /*!
+          * The number of spaces used for each indent setting. 
           */
          int _indentSpaces;
       };

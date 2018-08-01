@@ -564,6 +564,7 @@
     <namespace type="0">
       <data version="0">
         <name>Gui</name>
+        <description>Contains all basic GUI elements.</description>
       </data>
       <typeList type="15">
         <data version="0">
@@ -3699,6 +3700,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
     <namespace type="0">
       <data version="0">
         <name>CppQt</name>
+        <description>Contains the C++/Qt project type.</description>
       </data>
       <typeList type="15">
         <data version="0">
@@ -4013,6 +4015,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
       <namespace type="0">
         <data version="0">
           <name>Gui</name>
+          <description>Contains all custom C++/Qt GUI elements.</description>
         </data>
         <class type="4">
           <data version="0">
@@ -4302,6 +4305,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
       <namespace type="0">
         <data version="0">
           <name>Parse</name>
+          <description>Contains all C++/Qt parsing elements.</description>
         </data>
         <typeList type="15">
           <data version="0">
@@ -5794,7 +5798,6 @@ Lines of code inside functions are parsed and remembered just like it is in the 
                 <name>finishOutput</name>
                 <description>Finishes the given declaration or definition line for this object's variable, adding the initializer to the line if the given flag is set and this object's variable has an initializer value, and then adding it to output.</description>
                 <type>void</type>
-                <operation>Get the max column and indent spacing setting values.</operation>
                 <operation>Check to see if the with initializer flag is set to true and this object's variable has an initializer value.</operation>
                 <operation>Get the initializer value of this object's variable and check to see if the total column size of the line would be greater than the max columns setting.</operation>
                 <operation>Add the given line and then an open bracket to output, adding to the indent afterwords.</operation>
@@ -5824,6 +5827,20 @@ Lines of code inside functions are parsed and remembered just like it is in the 
                 <name>_block</name>
                 <description>The variable block that defines this variable parser.</description>
                 <type>CppQt::Variable*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_maxColumns</name>
+                <description>The max columns per line setting.</description>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_indentSpaces</name>
+                <description>The number of spaces used for each indent setting.</description>
+                <type>int</type>
               </data>
             </variable>
           </access>
@@ -6054,7 +6071,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <name>insertInlineComment</name>
                 <description>Inserts a new inline comment grouping of lines to this object's code line list with the given steps of operation index and spacing.</description>
                 <type>void</type>
-                <operation>Get the max columns setting.</operation>
                 <operation>Split operation from this object's function's steps of operation with the given index into a list of words.</operation>
                 <operation>Keep going until the list of words is empty.</operation>
                 <operation>Create a total columns used variable with the first word's size plus one space.</operation>
@@ -6171,6 +6187,13 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </variable>
             <variable type="1">
               <data version="0">
+                <name>_maxColumns</name>
+                <description>The max columns per line setting.</description>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
                 <name>_definition</name>
                 <description>Static definition string that contains the definition header for this parser if it is undefined or an empty string if it is defined.</description>
                 <type>QString</type>
@@ -6227,6 +6250,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <class type="4">
           <data version="0">
             <name>Access</name>
+            <description>This is the base access parser. This base parser is responsible for access declarations such as public or private in class declarations in header files. This only adds output without reading in any lines because it requires no input parsing.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -6242,6 +6266,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <function type="2">
               <data version="0">
                 <name>outputComments</name>
+                <description>Implements _CppQt::Parse::Base_ interface. This implementation does nothing because access declarations have no comments.</description>
                 <virtual/>
                 <override/>
                 <final/>
@@ -6251,15 +6276,18 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <function type="2">
               <data version="0">
                 <name>outputDeclaration</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Decrease the indent by one, then add the access declaration line to output, and then increment the indent.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDefinition</name>
+                <description>Implements _CppQt::Parse::Base_ interface. This does nothing because access definitions do not exist.</description>
                 <virtual/>
                 <override/>
                 <final/>
@@ -6273,18 +6301,21 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new access parser with the given access block and parent parser.</description>
                 <explicit/>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The access block that defines this new access parser.</description>
                   <type>CppQt::Access*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>parent</name>
+                  <description>The parent parser of this new access parser.</description>
                   <type>AbstractParser*</type>
                 </data>
               </variable>
@@ -6297,14 +6328,18 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <function type="2">
               <data version="0">
                 <name>readLine</name>
+                <description>Implements _AbstractParser_ interface. This interface does nothing because nothing unique is saved in their parsed files.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>bool</type>
+                <return_description>See interface docs.</return_description>
+                <operation>Do nothing and return false.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -6317,12 +6352,14 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The access block that defines this access parser.</description>
                 <type>CppQt::Access*</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_indentSpaces</name>
+                <description>The number of spaces used for each indent setting.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -6331,6 +6368,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <class type="4">
           <data version="0">
             <name>Enumeration</name>
+            <description>This is the base enumeration parser. This base parser is responsible for enumeration declarations in header files. This only adds output without reading in any lines because it requires no input parsing.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -6346,24 +6384,39 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <function type="2">
               <data version="0">
                 <name>outputComments</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Add the description comment for this object's enumeration to output with opening and closing comment lines.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDeclaration</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Add the comments to output.</operation>
+                <operation>Create a new line starting with the enumeration declaration, adding a class qualifier if this object's enumeration is a class type.</operation>
+                <operation>Append the base name of this object's enumeration.</operation>
+                <operation>Add the enumeration header line, then an opening bracket line, and then increment the indent.</operation>
+                <operation>Iterate through all enumeration value block children of this object's enumeration.</operation>
+                <operation>Add the comments of the enumeration value block to output with opening and closing comment lines.</operation>
+                <operation>Create a new line, adding a comma if this is not the first enumeration value child block.</operation>
+                <operation>Append the base name of the enumeration value block.</operation>
+                <operation>If the enumeration value block has a value set then append it to the line.</operation>
+                <operation>Add the enumeration value declaration line to output.</operation>
+                <operation>Decrease the indent by one and add a closing bracket line to output with a semicolon.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDefinition</name>
+                <description>Implements _CppQt::Parse::Base_ interface. This does nothing because enumeration definitions do not exist.</description>
                 <virtual/>
                 <override/>
                 <final/>
@@ -6377,18 +6430,21 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new enumeration parser with the given enumeration block and parent parser.</description>
                 <explicit/>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The enumeration block that defines this new enumeration parser.</description>
                   <type>CppQt::Enumeration*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>parent</name>
+                  <description>The parent parser for this new enumeration parser.</description>
                   <type>AbstractParser*</type>
                 </data>
               </variable>
@@ -6401,14 +6457,18 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <function type="2">
               <data version="0">
                 <name>readLine</name>
+                <description>Implements _AbstractParser_ interface. This interface does nothing because nothing unique is saved in their parsed files.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>bool</type>
+                <return_description>See interface docs.</return_description>
+                <operation>Do nothing and return false.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -6421,12 +6481,14 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The enumeration block that defines this parser.</description>
                 <type>CppQt::Enumeration*</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
                 <name>_indentSpaces</name>
+                <description>The number of spaces used for each indent setting.</description>
                 <type>int</type>
               </data>
             </variable>
@@ -6435,6 +6497,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <class type="4">
           <data version="0">
             <name>Forward</name>
+            <description>This is the base forward parser. This base parser is responsible for forward class declarations in class declarations in header files. This only adds output without reading in any lines because it requires no input parsing.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -6450,6 +6513,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <function type="2">
               <data version="0">
                 <name>outputComments</name>
+                <description>Implements _CppQt::Parse::Base_ interface. This implementation does nothing because forward class declarations have no comments.</description>
                 <virtual/>
                 <override/>
                 <final/>
@@ -6459,15 +6523,18 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <function type="2">
               <data version="0">
                 <name>outputDeclaration</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>void</type>
+                <operation>Add the forward class declaration to output using this object's class.</operation>
               </data>
             </function>
             <function type="2">
               <data version="0">
                 <name>outputDefinition</name>
+                <description>Implements _CppQt::Parse::Base_ interface. This does nothing because forward class definitions do not exist.</description>
                 <virtual/>
                 <override/>
                 <final/>
@@ -6481,18 +6548,21 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new forward parser with the given class block and parent parser.</description>
                 <explicit/>
                 <type>void</type>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The class block that defines this new forward parser.</description>
                   <type>Class*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>parent</name>
+                  <description>The parent parser for this new forward parser.</description>
                   <type>AbstractParser*</type>
                 </data>
               </variable>
@@ -6505,14 +6575,18 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <function type="2">
               <data version="0">
                 <name>readLine</name>
+                <description>Implements _AbstractParser_ interface. This interface does nothing because nothing unique is saved in their parsed files.</description>
                 <virtual/>
                 <override/>
                 <final/>
                 <type>bool</type>
+                <return_description>See interface docs.</return_description>
+                <operation>Do nothing and return false.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>line</name>
+                  <description>See interface docs.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -6525,6 +6599,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The class block that defines this forward parser.</description>
                 <type>Class*</type>
               </data>
             </variable>

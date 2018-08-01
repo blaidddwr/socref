@@ -54,6 +54,10 @@ namespace CppQt
           */
          CppQt::Function* _block {nullptr};
          /*!
+          * The max columns per line setting. 
+          */
+         int _maxColumns;
+         /*!
           * Static definition string that contains the definition header for this parser if 
           * it is undefined or an empty string if it is defined. 
           */

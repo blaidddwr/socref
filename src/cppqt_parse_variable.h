@@ -32,6 +32,14 @@ namespace CppQt
           * The variable block that defines this variable parser. 
           */
          CppQt::Variable* _block;
+         /*!
+          * The max columns per line setting. 
+          */
+         int _maxColumns;
+         /*!
+          * The number of spaces used for each indent setting. 
+          */
+         int _indentSpaces;
       };
    }
 }

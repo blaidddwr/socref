@@ -1,5 +1,6 @@
 
 /*!
+ * Contains all basic GUI elements. 
  */
 namespace Gui
 {

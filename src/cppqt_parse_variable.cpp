@@ -98,7 +98,9 @@ void Variable::outputDefinition()
  */
 Variable::Variable(CppQt::Variable* block, AbstractParser* parent):
    Base(parent),
-   _block(block)
+   _block(block),
+   _maxColumns(Settings::instance().maxColumns()),
+   _indentSpaces(Settings::instance().indentSpaces())
 {}
 
 
@@ -140,11 +142,6 @@ bool Variable::readLine(const QString& line)
  */
 void Variable::finishOutput(QString* line, bool withInitializer)
 {
-   // Get the max column and indent spacing setting values. 
-   Settings& settings {Settings::instance()};
-   int max {settings.maxColumns()};
-   int spacing {settings.indentSpaces()};
-
    // Check to see if the with initializer flag is set to true and this object's 
    // variable has an initializer value. 
    if ( withInitializer && _block->hasInitializer() )
@@ -152,13 +149,13 @@ void Variable::finishOutput(QString* line, bool withInitializer)
       // Get the initializer value of this object's variable and check to see if the 
       // total column size of the line would be greater than the max columns setting. 
       const QString initialize {_block->initializer()};
-      if ( (initialize.size() + line->size() + indent() + 1) > max )
+      if ( (initialize.size() + line->size() + indent() + 1) > _maxColumns )
       {
          // Add the given line and then an open bracket to output, adding to the indent 
          // afterwords. 
          add(*line);
          add("{");
-         setIndent(indent() + spacing);
+         setIndent(indent() + _indentSpaces);
 
          // Split the initializer value by the comma character and iterate through each 
          // part. 
@@ -176,7 +173,7 @@ void Variable::finishOutput(QString* line, bool withInitializer)
          }
 
          // Decrease the indent size and add a closing bracket with a semicolon to output. 
-         setIndent(indent() - spacing);
+         setIndent(indent() - _indentSpaces);
          add("};");
       }
 

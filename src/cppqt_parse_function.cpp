@@ -172,7 +172,8 @@ void Function::outputDefinition()
  */
 Function::Function(CppQt::Function* block, AbstractParser* parent):
    Base(parent),
-   _block(block)
+   _block(block),
+   _maxColumns(Settings::instance().maxColumns())
 {}
 
 
@@ -191,7 +192,8 @@ Function::Function(CppQt::Function* block, AbstractParser* parent):
  * @param parent The parent parser for this new function parser. 
  */
 Function::Function(const QString& definition, AbstractParser* parent):
-   Base(parent)
+   Base(parent),
+   _maxColumns(Settings::instance().maxColumns())
 {
    // Determine the number of cut off spaces from the given definition header line 
    // and then set this object's static definition string. 
@@ -408,9 +410,6 @@ void Function::processInlineComment(const QString& line)
  */
 void Function::insertInlineComment(int index, int spacing)
 {
-   // Get the max columns setting. 
-   const int max {Settings::instance().maxColumns()};
-
    // Split operation from this object's function's steps of operation with the given 
    // index into a list of words. 
    QStringList words {_block->operations().at(index).split(QRegularExpression("\\s+"))};
@@ -430,7 +429,7 @@ void Function::insertInlineComment(int index, int spacing)
 
       // Keep going until the word list is empty or the line has reached the maximum 
       // number of columns. 
-      while ( !words.isEmpty() && (total + words.first().size() + 1) <= max )
+      while ( !words.isEmpty() && (total + words.first().size() + 1) <= _maxColumns )
       {
          // Take and add the next word from the list to the line and an additional space, 
          // adding the number of columns the addition used. 
