@@ -4,3 +4,8 @@
 * Add custom dictionary words for spell checking on a per project basis.
 
 * Make the C++/Qt function view hide the steps of operation by default.
+
+* Fix newly created C++/Qt blocks having invalid blank values.
+
+* Fix C++/Qt bug where global header file not being parsed.
+

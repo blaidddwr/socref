@@ -141,7 +141,6 @@ public:
     */
    virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() = 0;
 public:
-   AbstractBlock* root();
    const AbstractBlock* root() const;
    AbstractBlock* parent() const;
    int size() const;
@@ -153,6 +152,8 @@ public:
    bool containsType(const QList<int>& types) const;
    template<class T> QList<T*> makeListOfType(int type) const;
    template<class T> const T* cast(int toType) const;
+   QDomElement write(QDomDocument& document) const;
+   AbstractBlock* root();
    template<class T> T* cast(int toType);
    void setField(int index, const QVariant& value);
    void moveUp(int index);
@@ -161,7 +162,6 @@ public:
    std::unique_ptr<AbstractBlock> take(int index);
    void remove(int index);
    void read(const QDomElement& element);
-   QDomElement write(QDomDocument& document) const;
 signals:
    /*!
     * Signals that a child block of this block has been modified. The given child 

@@ -547,6 +547,11 @@
       </type>
       <type type="16">
         <data version="0">
+          <type>DictionaryModel*</type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
           <type>ScanThread*</type>
         </data>
       </type>
@@ -15066,16 +15071,6 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <data version="0">
             <name>root</name>
             <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
-            <type>AbstractBlock*</type>
-            <return_description>Pointer to the root block.</return_description>
-            <operation>Iterate up the tree of parents until the root pointer is found.</operation>
-            <operation>Return the root pointer.</operation>
-          </data>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>root</name>
-            <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
             <const/>
             <type>const AbstractBlock*</type>
             <return_description>Read only pointer to the root block.</return_description>
@@ -15252,6 +15247,36 @@ This class itself handles all copying, reading, and writing of blocks by using t
         </function>
         <function type="2">
           <data version="0">
+            <name>write</name>
+            <description>Writes out this block's data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
+            <const/>
+            <type>QDomElement</type>
+            <return_description>XML element that stores this block's data and all children underneath it.</return_description>
+            <operation>Create the data element for this bock's data.</operation>
+            <operation>Create a new element that will contain this block's data and all children.</operation>
+            <operation>Set the type attribute and add the data element for this bock.</operation>
+            <operation>Add all of this block's children elements.</operation>
+            <operation>Return the element containing all data and children of this block.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>document</name>
+              <type>QDomDocument&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>root</name>
+            <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
+            <type>AbstractBlock*</type>
+            <return_description>Pointer to the root block.</return_description>
+            <operation>Iterate up the tree of parents until the root pointer is found.</operation>
+            <operation>Return the root pointer.</operation>
+          </data>
+        </function>
+        <function type="2">
+          <data version="0">
             <name>cast</name>
             <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
             <type>T*</type>
@@ -15410,26 +15435,6 @@ This class itself handles all copying, reading, and writing of blocks by using t
               <name>element</name>
               <description>The XML element that stores block data this block reads as input.</description>
               <type>const QDomElement&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>write</name>
-            <description>Writes out this block's data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
-            <const/>
-            <type>QDomElement</type>
-            <return_description>XML element that stores this block's data and all children underneath it.</return_description>
-            <operation>Create the data element for this bock's data.</operation>
-            <operation>Create a new element that will contain this block's data and all children.</operation>
-            <operation>Set the type attribute and add the data element for this bock.</operation>
-            <operation>Add all of this block's children elements.</operation>
-            <operation>Return the element containing all data and children of this block.</operation>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>document</name>
-              <type>QDomDocument&amp;</type>
             </data>
           </variable>
         </function>
@@ -17259,6 +17264,232 @@ This class itself handles all copying, reading, and writing of blocks by using t
     </class>
     <class type="4">
       <data version="0">
+        <name>DictionaryModel</name>
+        <description>This is a dictionary list model. This stores a list of unique words sorted alphabetically and provides a method for testing if it contains a given word. This is intended to be used to store a custom set of spell checker words on a per project bases. Copies of words cannot be stored in this model. The data of this model can be written or saved using XML elements.</description>
+        <qtobject/>
+      </data>
+      <parent type="13">
+        <data version="0">
+          <access>public</access>
+          <class>QAbstractListModel</class>
+        </data>
+      </parent>
+      <access type="5">
+        <data version="0">
+          <type>public:</type>
+        </data>
+        <function type="2">
+          <data version="0">
+            <name>headerData</name>
+            <description>Implements _QAbstractItemModel_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>QVariant</type>
+            <return_description>See Qt docs.</return_description>
+            <operation>Make sure this is the correct orientation, role, and section.</operation>
+            <operation>Return the horizontal header.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>section</name>
+              <description>See Qt docs.</description>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>orientation</name>
+              <description>See Qt docs.</description>
+              <type>Qt::Orientation</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>role</name>
+              <description>See Qt docs.</description>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>rowCount</name>
+            <description>Implements _QAbstractItemModel_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>int</type>
+            <return_description>See Qt docs.</return_description>
+            <operation>If this is the root index then return this model's list's size.</operation>
+            <operation>Else this is not the root so return 0.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>parent</name>
+              <description>See Qt docs.</description>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>data</name>
+            <description>Implements _QAbstractItemModel_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>QVariant</type>
+            <return_description>See Qt docs.</return_description>
+            <operation>Make sure the given index is valid, the role is display, and the index row is within range.</operation>
+            <operation>Return the word of this model's list at the given index.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>index</name>
+              <description>See Qt docs.</description>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>role</name>
+              <description>See Qt docs.</description>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>public:</type>
+        </data>
+        <constructor type="9">
+          <data version="0">
+            <description>Constructs a new dictionary model with the optional parent.</description>
+            <explicit/>
+            <type>void</type>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>parent</name>
+              <description>Optional parent for this new dictionary model.</description>
+              <type>QObject*</type>
+              <initializer>nullptr</initializer>
+            </data>
+          </variable>
+        </constructor>
+        <function type="2">
+          <data version="0">
+            <name>hasWord</name>
+            <description>Tests if this model's word list contains the given word, returning true if it does.</description>
+            <const/>
+            <type>bool</type>
+            <return_description>True if this model's word list contains the given word or false otherwise.</return_description>
+            <operation>Search this model's word list for a match with the given word.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>word</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>write</name>
+            <description>Writes out this model's word list to an XML element, returning the XML element containing all the words.</description>
+            <const/>
+            <type>QDomElement</type>
+            <return_description>XML element that contains a copy of this model's word list.</return_description>
+            <operation>Create a new XML element.</operation>
+            <operation>Iterate through all words of this model's word list, appending a new XML child element for each word. Each word is copied in the child element's tag name.</operation>
+            <operation>Return the root XML element.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>document</name>
+              <type>QDomDocument&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>addWord</name>
+            <description>Adds the given word to this model's word list if it does not already contain it, returning true if the word was added.</description>
+            <type>bool</type>
+            <return_description>True if the given word was added to this model's word list or false if the word is already contained in this model.</return_description>
+            <operation>Make sure this model's word list doesn't already contain the given word.</operation>
+            <operation>Iterate through this model's word list.</operation>
+            <operation>Check to see if the given word is alphabetically less then the word at the current word list index.</operation>
+            <operation>Insert the given word at the current index, notifying the model of a new row being inserted.</operation>
+            <operation>The new word has been added so return true.</operation>
+            <operation>Append the given word to the end of this model's word list, notifying the model of a new row being inserted.</operation>
+            <operation>The new word has been added so return true.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>word</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>removeWord</name>
+            <description>Remove the word at the given index from this model's word list, returning true if it was removed.</description>
+            <type>bool</type>
+            <return_description>True if the word at the given index was removed from this model's word list or false otherwise.</return_description>
+            <operation>Make sure the given index is valid and within range of this model's word list.</operation>
+            <operation>Remove the word at the given index's row from this model's word list, notifying the model that a row was removed.</operation>
+            <operation>Return true on success.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>index</name>
+              <description>The index of the word that is removed from this model's word list.</description>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>read</name>
+            <description>Read in a list of words from the given XML element to this model's word list, overwriting any words it currently contains. This also resets this model.</description>
+            <type>void</type>
+            <operation>Notify the model that a reset has begun and then clear this model's word list.</operation>
+            <operation>Iterate through all children of the given XML element.</operation>
+            <operation>If the child node is an element then append its tag name to this model's word list.</operation>
+            <operation>Iterate to the next sibling node.</operation>
+            <operation>Notify the model that the reset has finished.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>element</name>
+              <description>The XML element whose child element's contain a list of words that is read into this model's word list.</description>
+              <type>const QDomElement&amp;</type>
+            </data>
+          </variable>
+        </function>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>private:</type>
+        </data>
+        <variable type="1">
+          <data version="0">
+            <name>_list</name>
+            <description>The list of words this dictionary model contains.</description>
+            <type>QStringList</type>
+          </data>
+        </variable>
+      </access>
+    </class>
+    <class type="4">
+      <data version="0">
         <name>Project</name>
         <description>This is a single open project which contains everything for that project, watching the file it was opened or saved with for changes made by any outside source. If the file this project is associated with is changed by an outside source a signal is emitted. This class also provides all generic information of a project along with being able to edit it. This generic information includes the name, scan directory, and scan filters. The block model for this project's block tree data and the ability to create a scan thread object for scanning and parsing is also provided.</description>
         <qtobject/>
@@ -17452,6 +17683,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <operation>Create the scan directory element saving this project's scan directory as the path relative to the file path of this project.</operation>
             <operation>Create the filters element saving this project's scan filters.</operation>
             <operation>Create the type element saving this project's type in its integer and string form.</operation>
+            <operation>Create the dictionary element saving this project's custom dictionary data.</operation>
             <operation>Create the root block element saving this project's root block and all its children.</operation>
             <operation>Create the root project element, adding all previous elements created, and then add the root element to the XML document.</operation>
             <operation>Save the XML document to a byte array and then write it out to this project's file path.</operation>
@@ -17672,6 +17904,15 @@ This class itself handles all copying, reading, and writing of blocks by using t
         </variable>
         <variable type="1">
           <data version="0">
+            <name>_dictionaryTag</name>
+            <description>The tag name for the custom dictionary element.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"dictionary"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
             <name>_idTag</name>
             <description>The name of the id attribute.</description>
             <static/>
@@ -17735,6 +17976,13 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <name>_model</name>
             <description>Pointer to this project's block model.</description>
             <type>BlockModel*</type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_dictionary</name>
+            <description>Pointer to the dictionary model for this project that contains all custom spell checking words.</description>
+            <type>DictionaryModel*</type>
           </data>
         </variable>
         <variable type="1">

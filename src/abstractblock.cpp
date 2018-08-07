@@ -33,27 +33,6 @@ const char* AbstractBlock::_typeTag {"type"};
  * This returns the root block in this block's tree structure. The root block is 
  * the common parent of all other blocks that has no parent itself. 
  *
- * @return Pointer to the root block. 
- */
-AbstractBlock* AbstractBlock::root()
-{
-   // Iterate up the tree of parents until the root pointer is found. 
-   AbstractBlock* root {this};
-   while ( root->parent() ) root = root->parent();
-
-   // Return the root pointer. 
-   return root;
-}
-
-
-
-
-
-
-/*!
- * This returns the root block in this block's tree structure. The root block is 
- * the common parent of all other blocks that has no parent itself. 
- *
  * @return Read only pointer to the root block. 
  */
 const AbstractBlock* AbstractBlock::root() const
@@ -251,6 +230,60 @@ bool AbstractBlock::containsType(const QList<int>& types) const
 
    // Return false because no child was found with the given type. 
    return false;
+}
+
+
+
+
+
+
+/*!
+ * Writes out this block's data as an XML element. This includes all children as 
+ * child XML elements which have their write functions called recursively. 
+ *
+ * @param document  
+ *
+ * @return XML element that stores this block's data and all children underneath 
+ *         it. 
+ */
+QDomElement AbstractBlock::write(QDomDocument& document) const
+{
+   // Create the data element for this bock's data. 
+   QDomElement data {writeData(document)};
+
+   // Create a new element that will contain this block's data and all children. 
+   QDomElement ret {document.createElement(factory().elementName(type()))};
+
+   // Set the type attribute and add the data element for this bock. 
+   ret.setAttribute(_typeTag,type());
+   ret.appendChild(data);
+
+   // Add all of this block's children elements. 
+   for (auto child : _children) ret.appendChild(child->write(document));
+
+   // Return the element containing all data and children of this block. 
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ * This returns the root block in this block's tree structure. The root block is 
+ * the common parent of all other blocks that has no parent itself. 
+ *
+ * @return Pointer to the root block. 
+ */
+AbstractBlock* AbstractBlock::root()
+{
+   // Iterate up the tree of parents until the root pointer is found. 
+   AbstractBlock* root {this};
+   while ( root->parent() ) root = root->parent();
+
+   // Return the root pointer. 
+   return root;
 }
 
 
@@ -516,39 +549,6 @@ void AbstractBlock::read(const QDomElement& element)
          throw e;
       }
    }
-}
-
-
-
-
-
-
-/*!
- * Writes out this block's data as an XML element. This includes all children as 
- * child XML elements which have their write functions called recursively. 
- *
- * @param document  
- *
- * @return XML element that stores this block's data and all children underneath 
- *         it. 
- */
-QDomElement AbstractBlock::write(QDomDocument& document) const
-{
-   // Create the data element for this bock's data. 
-   QDomElement data {writeData(document)};
-
-   // Create a new element that will contain this block's data and all children. 
-   QDomElement ret {document.createElement(factory().elementName(type()))};
-
-   // Set the type attribute and add the data element for this bock. 
-   ret.setAttribute(_typeTag,type());
-   ret.appendChild(data);
-
-   // Add all of this block's children elements. 
-   for (auto child : _children) ret.appendChild(child->write(document));
-
-   // Return the element containing all data and children of this block. 
-   return ret;
 }
 
 

@@ -93,7 +93,8 @@ SOURCES += \
     cppqt_parent_view.cpp \
     cppqt_using_edit.cpp \
     cppqt_using_view.cpp \
-    cppqt_parse_factory.cpp
+    cppqt_parse_factory.cpp \
+    dictionarymodel.cpp
 
 HEADERS += \
     singleton.h \
@@ -187,7 +188,8 @@ HEADERS += \
     cppqt_parent_view.h \
     cppqt_using_edit.h \
     cppqt_using_view.h \
-    cppqt_parse_factory.h
+    cppqt_parse_factory.h \
+    dictionarymodel.h
 
 RESOURCES += \
     resources.qrc

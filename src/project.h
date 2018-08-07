@@ -92,6 +92,10 @@ private:
     */
    static const char* _rootTag;
    /*!
+    * The tag name for the custom dictionary element. 
+    */
+   static const char* _dictionaryTag;
+   /*!
     * The name of the id attribute. 
     */
    static const char* _idTag;
@@ -128,6 +132,11 @@ private:
     * Pointer to this project's block model. 
     */
    BlockModel* _model;
+   /*!
+    * Pointer to the dictionary model for this project that contains all custom spell 
+    * checking words. 
+    */
+   DictionaryModel* _dictionary;
    /*!
     * The hash value of this project's save file used to determine if an outside 
     * source wrote to said save file. 

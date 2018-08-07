@@ -12,6 +12,7 @@
 #include "abstractblock.h"
 #include "blockmodel.h"
 #include "scanthread.h"
+#include "dictionarymodel.h"
 
 
 
@@ -41,6 +42,10 @@ const char* Project::_scanFiltersTag {"filters"};
  */
 const char* Project::_rootTag {"root"};
 /*!
+ * The tag name for the custom dictionary element. 
+ */
+const char* Project::_dictionaryTag {"dictionary"};
+/*!
  * The name of the id attribute. 
  */
 const char* Project::_idTag {"id"};
@@ -58,7 +63,8 @@ const char* Project::_idTag {"id"};
 Project::Project(int type):
    _type(type),
    _scanDirectory("."),
-   _model(new BlockModel(this))
+   _model(new BlockModel(this)),
+   _dictionary(new DictionaryModel(this))
 {
    // Initialize this new project's root block, file watcher signal, and default scan 
    // filters. 
@@ -80,12 +86,16 @@ Project::Project(int type):
  */
 Project::Project(const QString& path):
    _path(path),
-   _model(new BlockModel(this))
+   _model(new BlockModel(this)),
+   _dictionary(new DictionaryModel(this))
 {
    // Initialize the enumeration and static string list used for identifying 
    // different elements to read in based off their tag names. 
-   enum {Name,Type,ScanDir,ScanFilters,Root};
-   static const QStringList tags {_nameTag,_typeTag,_scanDirectoryTag,_scanFiltersTag,_rootTag};
+   enum {Name,Type,ScanDir,ScanFilters,Dictionary,Root};
+   static const QStringList tags
+   {
+      _nameTag,_typeTag,_scanDirectoryTag,_scanFiltersTag,_dictionaryTag,_rootTag
+   };
 
    // Initialize this project's file watcher signal. 
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
@@ -119,6 +129,9 @@ Project::Project(const QString& path):
             break;
          case ScanFilters:
             _scanFilters = element.text();
+            break;
+         case Dictionary:
+            _dictionary->read(element);
             break;
          case Root:
 
@@ -412,6 +425,10 @@ void Project::save()
    type.setAttribute(_idTag,QString::number(_type));
    type.appendChild(document.createTextNode(AbstractProjectFactory::instance().name(_type)));
 
+   // Create the dictionary element saving this project's custom dictionary data. 
+   QDomElement dictionary {_dictionary->write(document)};
+   dictionary.setTagName(_dictionaryTag);
+
    // Create the root block element saving this project's root block and all its 
    // children. 
    QDomElement root {_root->write(document)};
@@ -424,6 +441,7 @@ void Project::save()
    project.appendChild(type);
    project.appendChild(filters);
    project.appendChild(scandir);
+   project.appendChild(dictionary);
    project.appendChild(root);
    document.appendChild(project);
 
