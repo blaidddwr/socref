@@ -198,7 +198,10 @@ void MainWindow::newTriggered(int type)
 void MainWindow::openTriggered()
 {
    // Create initialize a file dialog for opening a project file. 
-   QFileDialog fileDialog(nullptr,tr("Open Project"),"",tr("Socrates' Reference File (*.scr)"));
+   QFileDialog fileDialog(nullptr
+                          ,tr("Open Project")
+                          ,QDir::currentPath()
+                          ,tr("Socrates' Reference File (*.scr)"));
    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
 
    // Execute the file dialog and make sure it returned accepted. 
@@ -207,6 +210,10 @@ void MainWindow::openTriggered()
    // Get the first file path selected by the user from the file dialog. 
    QStringList files = fileDialog.selectedFiles();
    const QString path = files.constFirst();
+
+   // Set the current working directory to the parent directory of the selected 
+   // project. 
+   QDir::setCurrent(QFileInfo(path).dir().path());
    try
    {
       // Open a new project with the file path. 

@@ -4,4 +4,5 @@
   * Function operation comments are now inserted as inline comments inside their respective function.
   * Numerous minor changes throughout C++/Qt types as a result of the internal overhaul.
 * Added custom spell checking words to be added on a per project basis.
+* Open project file dialog now persistently rememebers the last directory a project was opened.
 
