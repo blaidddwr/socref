@@ -32,6 +32,7 @@ namespace CppQt
    public:
       static bool isValidTypeString(const QString& value);
       static bool isValidTemplateArgument(const QString& value);
+      explicit Type(bool isDefault = false);
       QString cppType() const;
    protected:
       /*!

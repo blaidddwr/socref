@@ -193,6 +193,24 @@ std::unique_ptr<::Gui::AbstractEdit> Enumeration::makeEdit()
 
 
 /*!
+ * Constructs a new enumeration block with a default state or null state based off 
+ * the given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Enumeration::Enumeration(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setName(QStringLiteral("enum_list"));
+}
+
+
+
+
+
+
+/*!
  * Tests of this enumeration is a class, returning true if it is. 
  *
  * @return True if this enumeration is a class or false otherwise. 

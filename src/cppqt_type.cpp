@@ -300,6 +300,24 @@ bool Type::isValidTemplateArgument(const QString& value)
 
 
 /*!
+ * Constructs a new type block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Type::Type(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setType(QStringLiteral("int"));
+}
+
+
+
+
+
+
+/*!
  * Returns the type string this this block. 
  *
  * @return Type string for this block. 

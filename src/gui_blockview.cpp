@@ -161,7 +161,7 @@ void BlockView::addTriggered(int type)
 
    // Insert a new block of the given type into this view's model with its current 
    // index, updating its current index and context menu. 
-   _model->insert(_current,_factory->makeBlock(type));
+   _model->insert(_current,_factory->makeBlock(type,true));
    updateIndex();
    updateContextMenu();
 }

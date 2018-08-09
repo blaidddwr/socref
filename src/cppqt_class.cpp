@@ -239,6 +239,24 @@ QList<AbstractBlock*> Class::realChildren() const
 
 
 /*!
+ * Constructs a new class block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Class::Class(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setName(QStringLiteral("object"));
+}
+
+
+
+
+
+
+/*!
  * Tests of this class block is a qt object. 
  *
  * @return True if this class is a qt object or false otherwise. 

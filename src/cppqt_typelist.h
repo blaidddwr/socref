@@ -26,6 +26,8 @@ namespace CppQt
       virtual QList<int> buildList() const override final;
       virtual std::unique_ptr<QWidget> makeView() const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+   public:
+      explicit TypeList(bool isDefault = false);
    protected:
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
       virtual bool childNameModified(AbstractBlock* child) override final;

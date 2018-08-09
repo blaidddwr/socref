@@ -23,6 +23,8 @@ namespace CppQt
       virtual int type() const override final;
       virtual QIcon icon() const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+   public:
+      explicit Signal(bool isDefault = false);
    protected:
       virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
    };

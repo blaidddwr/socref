@@ -30,6 +30,7 @@ namespace CppQt
       virtual QVariant field(int index) const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
    public:
+      explicit Using(bool isDefault = false);
       QString fieldName() const;
    protected:
       /*!

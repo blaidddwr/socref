@@ -973,7 +973,7 @@ void AbstractBlock::readChild(const QDomElement& element)
 
    // Create a new block with the read in type and append it to this block's child 
    // list. 
-   unique_ptr<AbstractBlock> child {factory().makeBlock(type)};
+   unique_ptr<AbstractBlock> child {factory().makeBlock(type,false)};
    AbstractBlock* back {child.get()};
    child.release()->setParent(this,size());
 

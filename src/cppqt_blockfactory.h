@@ -106,7 +106,7 @@ namespace CppQt
       virtual int size() const override final;
       virtual QString name(int type) const override final;
       virtual QString elementName(int type) const override final;
-      virtual std::unique_ptr<AbstractBlock> makeBlock(int type) const override final;
+      virtual std::unique_ptr<AbstractBlock> makeBlock(int type, bool isDefault) const override final;
       virtual std::unique_ptr<AbstractBlock> makeRootBlock() const override final;
    };
 }

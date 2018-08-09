@@ -146,32 +146,34 @@ QString BlockFactory::elementName(int type) const
  *
  * @param type See interface docs. 
  *
+ * @param isDefault See interface docs. 
+ *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
+std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type, bool isDefault) const
 {
    // Based off the given block type create a new block of that type and return its 
    // smart pointer. 
    switch (type)
    {
-   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace);
-   case VariableType: return unique_ptr<AbstractBlock>(new Variable);
-   case FunctionType: return unique_ptr<AbstractBlock>(new Function);
-   case TemplateType: return unique_ptr<AbstractBlock>(new Template);
-   case ClassType: return unique_ptr<AbstractBlock>(new Class);
+   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace(isDefault));
+   case VariableType: return unique_ptr<AbstractBlock>(new Variable(isDefault));
+   case FunctionType: return unique_ptr<AbstractBlock>(new Function(isDefault));
+   case TemplateType: return unique_ptr<AbstractBlock>(new Template(isDefault));
+   case ClassType: return unique_ptr<AbstractBlock>(new Class(isDefault));
    case AccessType: return unique_ptr<AbstractBlock>(new Access);
-   case OperatorType: return unique_ptr<AbstractBlock>(new Operator);
-   case SlotType: return unique_ptr<AbstractBlock>(new Slot);
-   case SignalType: return unique_ptr<AbstractBlock>(new Signal);
+   case OperatorType: return unique_ptr<AbstractBlock>(new Operator(isDefault));
+   case SlotType: return unique_ptr<AbstractBlock>(new Slot(isDefault));
+   case SignalType: return unique_ptr<AbstractBlock>(new Signal(isDefault));
    case ConstructorType: return unique_ptr<AbstractBlock>(new Constructor);
    case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
-   case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration);
-   case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue);
-   case ParentType: return unique_ptr<AbstractBlock>(new Parent);
-   case UsingType: return unique_ptr<AbstractBlock>(new Using);
-   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList);
-   case TypeType: return unique_ptr<AbstractBlock>(new Type);
-   case FriendType: return unique_ptr<AbstractBlock>(new Friend);
+   case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration(isDefault));
+   case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue(isDefault));
+   case ParentType: return unique_ptr<AbstractBlock>(new Parent(isDefault));
+   case UsingType: return unique_ptr<AbstractBlock>(new Using(isDefault));
+   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList(isDefault));
+   case TypeType: return unique_ptr<AbstractBlock>(new Type(isDefault));
+   case FriendType: return unique_ptr<AbstractBlock>(new Friend(isDefault));
    default: return nullptr;
    }
 }

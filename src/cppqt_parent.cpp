@@ -232,6 +232,24 @@ std::unique_ptr<::Gui::AbstractEdit> Parent::makeEdit()
 
 
 /*!
+ * Constructs a new parent block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Parent::Parent(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setClassName(QStringLiteral("object"));
+}
+
+
+
+
+
+
+/*!
  * Return the access type of this parent block. 
  *
  * @return Access type for this parent block. 

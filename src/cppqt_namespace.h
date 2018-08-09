@@ -25,6 +25,7 @@ namespace CppQt
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
       virtual QList<AbstractBlock*> realChildren() const;
    public:
+      explicit Namespace(bool isDefault = false);
       const Namespace* root() const;
       Namespace* root();
    protected:

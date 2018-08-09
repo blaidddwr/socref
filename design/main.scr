@@ -7289,6 +7289,13 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <type>int</type>
               </data>
             </variable>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>See interface docs.</description>
+                <type>bool</type>
+              </data>
+            </variable>
           </function>
           <function type="2">
             <data version="0">
@@ -7685,7 +7692,7 @@ The name field has a special interface for checking if it is valid which can be 
         </access>
         <access type="5">
           <data version="0">
-            <type>private:</type>
+            <type>protected:</type>
           </data>
           <function type="2">
             <data version="0">
@@ -7703,6 +7710,11 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
             </variable>
           </function>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>private:</type>
+          </data>
           <variable type="1">
             <data version="0">
               <name>_fields</name>
@@ -7970,6 +7982,27 @@ The name field has a special interface for checking if it is valid which can be 
               <return_description>See interface docs.</return_description>
             </data>
           </function>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new type list block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
         </access>
         <access type="5">
           <data version="0">
@@ -8419,6 +8452,22 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
             </variable>
           </function>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new type block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>cppType</name>
@@ -8857,6 +8906,22 @@ The name field has a special interface for checking if it is valid which can be 
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new enumeration block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>isClass</name>
@@ -9305,6 +9370,22 @@ The name field has a special interface for checking if it is valid which can be 
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new enumeration value block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>hasValue</name>
@@ -9638,6 +9719,22 @@ The name field has a special interface for checking if it is valid which can be 
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new namespace block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>root</name>
@@ -10039,6 +10136,22 @@ The name field has a special interface for checking if it is valid which can be 
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new variable block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>isConstExpr</name>
@@ -10237,6 +10350,27 @@ The name field has a special interface for checking if it is valid which can be 
         </access>
         <access type="5">
           <data version="0">
+            <type>protected:</type>
+          </data>
+          <function type="2">
+            <data version="0">
+              <name>setType</name>
+              <description>Sets this variable block's type field to the new given value. If the new value is not a valid C++ type then an exception is thrown.</description>
+              <type>void</type>
+              <operation>Make sure the given value is valid given this variable's current context.</operation>
+              <operation>Set this block's value to the new one given.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>value</name>
+                <description>The new value that this variable block's return type is set to.</description>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access type="5">
+          <data version="0">
             <type>private:</type>
           </data>
           <function type="2">
@@ -10296,22 +10430,6 @@ The name field has a special interface for checking if it is valid which can be 
                 <name>state</name>
                 <description>The new state this variable block's property is set to.</description>
                 <type>bool</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>setType</name>
-              <description>Sets this variable block's type field to the new given value. If the new value is not a valid C++ type then an exception is thrown.</description>
-              <type>void</type>
-              <operation>Make sure the given value is valid given this variable's current context.</operation>
-              <operation>Set this block's value to the new one given.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>The new value that this variable block's return type is set to.</description>
-                <type>const QString&amp;</type>
               </data>
             </variable>
           </function>
@@ -10516,6 +10634,27 @@ The name field has a special interface for checking if it is valid which can be 
               <return_description>See interface docs.</return_description>
             </data>
           </function>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new template block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
         </access>
         <access type="5">
           <data version="0">
@@ -11009,6 +11148,22 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new function block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>isDefault</name>
@@ -11440,6 +11595,22 @@ The persistence of the qt splitter is made unique by this class overriding the s
               </data>
             </variable>
           </function>
+          <function type="2">
+            <data version="0">
+              <name>setReturnType</name>
+              <description>Sets this function block's return type field to the new given value. If the new value is not a valid C++ type then an exception is thrown.</description>
+              <type>void</type>
+              <operation>Make sure the given value is valid given this function block's current context.</operation>
+              <operation>Set this block's value to the new one given.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>value</name>
+                <description>The new value that this function block's return type field is set to.</description>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
         </access>
         <access type="5">
           <data version="0">
@@ -11598,22 +11769,6 @@ The persistence of the qt splitter is made unique by this class overriding the s
                 <name>state</name>
                 <description>The new state this function block's property is set to.</description>
                 <type>bool</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>setReturnType</name>
-              <description>Sets this function block's return type field to the new given value. If the new value is not a valid C++ type then an exception is thrown.</description>
-              <type>void</type>
-              <operation>Make sure the given value is valid given this function block's current context.</operation>
-              <operation>Set this block's value to the new one given.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>The new value that this function block's return type field is set to.</description>
-                <type>const QString&amp;</type>
               </data>
             </variable>
           </function>
@@ -11867,6 +12022,22 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new operator block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>operation</name>
@@ -12236,6 +12407,22 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new class block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>isQtObject</name>
@@ -13376,6 +13563,27 @@ The persistence of the qt splitter is made unique by this class overriding the s
         </access>
         <access type="5">
           <data version="0">
+            <type>public:</type>
+          </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new slot block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
+        </access>
+        <access type="5">
+          <data version="0">
             <type>protected:</type>
           </data>
           <function type="2">
@@ -13519,6 +13727,27 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <return_description>See interface docs.</return_description>
             </data>
           </function>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new signal block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
         </access>
         <access type="5">
           <data version="0">
@@ -14204,6 +14433,22 @@ The persistence of the qt splitter is made unique by this class overriding the s
               </data>
             </enumval>
           </enumeration>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new parent block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>access</name>
@@ -14708,6 +14953,22 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new using block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>fieldName</name>
@@ -14922,6 +15183,22 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <data version="0">
             <type>public:</type>
           </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new friend block with a default state or null state based off the given flag.</description>
+              <explicit/>
+              <type>void</type>
+              <operation>If the given flag is set to default then initialize this new block.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>isDefault</name>
+                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
+              </data>
+            </variable>
+          </constructor>
           <function type="2">
             <data version="0">
               <name>type</name>
@@ -14966,10 +15243,9 @@ The persistence of the qt splitter is made unique by this class overriding the s
           <function type="2">
             <data version="0">
               <name>checkField</name>
-              <description>Implements _CppQt::Using_ interface.</description>
+              <description>Implements _CppQt::Using_ interface. This implementation does nothing because the field of friend declarations can take many complex forms.</description>
               <virtual/>
               <type>void</type>
-              <operation>Make sure the given field value is a valid C++ function declaration for a friend declaration.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -16194,7 +16470,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
         <function type="2">
           <data version="0">
             <name>makeBlock</name>
-            <description>This interface makes a new block of the given type and returns its pointer. The new block is expected to have a null data state.</description>
+            <description>This interface makes a new block of the given type and returns its pointer. The new block is expected to have either a null data or new default state, depending on the given flag.</description>
             <virtual/>
             <const/>
             <abstract/>
@@ -16206,6 +16482,13 @@ This class itself handles all copying, reading, and writing of blocks by using t
               <name>type</name>
               <description>Block type which is made and returned.</description>
               <type>int</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>isDefault</name>
+              <description>True if the new block is initialized to a default state or false if it is uninitialized in a null state.</description>
+              <type>bool</type>
             </data>
           </variable>
         </function>

@@ -67,8 +67,9 @@ namespace CppQt
       virtual void quietlySetField(int index, const QVariant& value) override;
       virtual QStringList fields() const;
       virtual bool checkName(const QString& value);
-   private:
+   protected:
       void setName(const QString& value);
+   private:
       /*!
        * List of this block's field tag names that follow the same order as this block's 
        * enumeration of fields. 

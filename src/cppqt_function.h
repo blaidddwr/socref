@@ -42,6 +42,7 @@ namespace CppQt
       virtual QVariant field(int index) const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
    public:
+      explicit Function(bool isDefault = false);
       bool isDefault() const;
       bool isExplicit() const;
       bool isVirtual() const;
@@ -137,6 +138,7 @@ namespace CppQt
       virtual QStringList fields() const override final;
    protected:
       QString fullName(bool hasReturn, const QString& name) const;
+      void setReturnType(const QString& value);
    private:
       QString attributes() const;
       void setDefault(bool state);
@@ -148,7 +150,6 @@ namespace CppQt
       void setOverride(bool state);
       void setFinal(bool state);
       void setAbstract(bool state);
-      void setReturnType(const QString& value);
       /*!
        * List of this block's field tag names that follow the same order as this block's 
        * enumeration of fields. This is in addition to the base fields this block 

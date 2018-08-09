@@ -48,6 +48,7 @@ namespace CppQt
           */
          ,Private
       };
+      explicit Parent(bool isDefault = false);
       Parent::Access access() const;
       QString accessString() const;
       QString className() const;

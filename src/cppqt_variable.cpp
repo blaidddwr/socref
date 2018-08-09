@@ -221,6 +221,28 @@ std::unique_ptr<::Gui::AbstractEdit> Variable::makeEdit()
 
 
 /*!
+ * Constructs a new variable block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Variable::Variable(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault )
+   {
+      setType(QStringLiteral("int"));
+      setName(QStringLiteral("var"));
+   }
+}
+
+
+
+
+
+
+/*!
  * Tests if this variable block's constant expression property is set. 
  *
  * @return True if this block's constant expression property is set or false 
@@ -466,6 +488,32 @@ QStringList Variable::fields() const
 
 
 /*!
+ * Sets this variable block's type field to the new given value. If the new value 
+ * is not a valid C++ type then an exception is thrown. 
+ *
+ * @param value The new value that this variable block's return type is set to. 
+ */
+void Variable::setType(const QString& value)
+{
+   // Make sure the given value is valid given this variable's current context. 
+   if ( !Type::isValidTypeString(value) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid type '%1'.").arg(value));
+      throw e;
+   }
+
+   // Set this block's value to the new one given. 
+   _type = value;
+}
+
+
+
+
+
+
+/*!
  * Returns a string displaying any properties this variable block has set. If no 
  * properties are set then this returns an empty string. 
  *
@@ -563,30 +611,4 @@ void Variable::setMutable(bool state)
 
    // Set this block's state to the new one given. 
    _mutable = state;
-}
-
-
-
-
-
-
-/*!
- * Sets this variable block's type field to the new given value. If the new value 
- * is not a valid C++ type then an exception is thrown. 
- *
- * @param value The new value that this variable block's return type is set to. 
- */
-void Variable::setType(const QString& value)
-{
-   // Make sure the given value is valid given this variable's current context. 
-   if ( !Type::isValidTypeString(value) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid type '%1'.").arg(value));
-      throw e;
-   }
-
-   // Set this block's value to the new one given. 
-   _type = value;
 }

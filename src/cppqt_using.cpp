@@ -216,6 +216,24 @@ std::unique_ptr<::Gui::AbstractEdit> Using::makeEdit()
 
 
 /*!
+ * Constructs a new using block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Using::Using(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setField(QStringLiteral("space"));
+}
+
+
+
+
+
+
+/*!
  * Returns the field of this using block. 
  *
  * @return The field of this using block. 

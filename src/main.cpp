@@ -6,6 +6,10 @@
 
 
 
+//
+
+
+
 
 
 
@@ -22,10 +26,18 @@ int main(int argc, char** argv)
    }
    catch (Exception::Base e)
    {
-      qDebug().nospace() << "Location: " << e.file() << ":" << e.line();
-      qDebug().nospace() << "Function: " << e.function();
-      qDebug().nospace() << "Title: " << e.title();
-      qDebug().nospace() << "Details: " << e.details();
-      return -1;
+      qDebug().nospace().noquote() << QStringLiteral("EXCEPTION");
+      qDebug().nospace().noquote() << QString("Location: %1:%2").arg(e.file()).arg(e.line());
+      qDebug().nospace().noquote() << QStringLiteral("Function: ") << e.function();
+      qDebug().nospace().noquote() << QStringLiteral("Title: ") << e.title();
+      qDebug().nospace().noquote() << QStringLiteral("Details: ") << e.details();
+   }
+   catch (std::exception e)
+   {
+      qDebug().nospace() << QString("EXCEPTION(%1)").arg(e.what());
+   }
+   catch (...)
+   {
+      qDebug() << QStringLiteral("EXCEPTION(unknown!)");
    }
 }

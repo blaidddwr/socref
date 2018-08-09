@@ -17,6 +17,7 @@ namespace CppQt
    {
       Q_OBJECT
    public:
+      explicit Friend(bool isDefault = false);
       virtual int type() const override final;
       virtual QString name() const override final;
    protected:

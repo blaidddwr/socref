@@ -103,6 +103,28 @@ std::unique_ptr<::Gui::AbstractEdit> Operator::makeEdit()
 
 
 /*!
+ * Constructs a new operator block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Operator::Operator(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault )
+   {
+      setReturnType(QStringLiteral("void"));
+      setName(QStringLiteral("="));
+   }
+}
+
+
+
+
+
+
+/*!
  * Returns the operation that this operator block is overloading. 
  *
  * @return Operation that this operator block is overloading. 

@@ -250,6 +250,28 @@ std::unique_ptr<::Gui::AbstractEdit> Function::makeEdit()
 
 
 /*!
+ * Constructs a new function block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Function::Function(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault )
+   {
+      setReturnType(QStringLiteral("void"));
+      setName(QStringLiteral("function"));
+   }
+}
+
+
+
+
+
+
+/*!
  * Tests if this function block's default property is set, returning true if it is. 
  *
  * @return True if this block's default property is set or false otherwise. 
@@ -819,6 +841,33 @@ QString Function::fullName(bool hasReturn, const QString& name) const
 
 
 /*!
+ * Sets this function block's return type field to the new given value. If the new 
+ * value is not a valid C++ type then an exception is thrown. 
+ *
+ * @param value The new value that this function block's return type field is set 
+ *              to. 
+ */
+void Function::setReturnType(const QString& value)
+{
+   // Make sure the given value is valid given this function block's current context. 
+   if ( !value.isEmpty() && !Type::isValidTypeString(value) )
+   {
+      Exception::InvalidArgument e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid return type '%1'.").arg(value));
+      throw e;
+   }
+
+   // Set this block's value to the new one given. 
+   _returnType = value;
+}
+
+
+
+
+
+
+/*!
  * Returns a display string showing all set properties for this function block 
  * using capital letter flags. 
  *
@@ -1077,31 +1126,4 @@ void Function::setAbstract(bool state)
 
    // Set this block's state to the new one given. 
    _abstract = state;
-}
-
-
-
-
-
-
-/*!
- * Sets this function block's return type field to the new given value. If the new 
- * value is not a valid C++ type then an exception is thrown. 
- *
- * @param value The new value that this function block's return type field is set 
- *              to. 
- */
-void Function::setReturnType(const QString& value)
-{
-   // Make sure the given value is valid given this function block's current context. 
-   if ( !value.isEmpty() && !Type::isValidTypeString(value) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid return type '%1'.").arg(value));
-      throw e;
-   }
-
-   // Set this block's value to the new one given. 
-   _returnType = value;
 }

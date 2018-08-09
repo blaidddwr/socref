@@ -16,6 +16,24 @@ using namespace CppQt;
 
 
 /*!
+ * Constructs a new friend block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Friend::Friend(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setField(QStringLiteral("class object"));
+}
+
+
+
+
+
+
+/*!
  * Implements _AbstractBlock_ interface. 
  *
  * @return See interface docs. 
@@ -61,19 +79,12 @@ std::unique_ptr<AbstractBlock> Friend::makeBlank() const
 
 
 /*!
- * Implements _CppQt::Using_ interface. 
+ * Implements _CppQt::Using_ interface. This implementation does nothing because 
+ * the field of friend declarations can take many complex forms. 
  *
  * @param value See interface docs. 
  */
 void Friend::checkField(const QString& value)
 {
-   // Make sure the given field value is a valid C++ function declaration for a 
-   // friend declaration. 
-   if ( !QRegularExpression("\\A[a-zA-Z_]+[a-zA-Z_0-9<>\\*& ]*\\([a-zA-Z_0-9<>\\*&, ]*\\)\\z").match(value).hasMatch() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Invalid friend field '%1'.").arg(value));
-      throw e;
-   }
+   Q_UNUSED(value)
 }

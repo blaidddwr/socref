@@ -43,20 +43,19 @@ bool Application::notify(QObject* receiver, QEvent* event)
    // Catch any thrown exception and report it to debug output. 
    catch (Exception::Base e)
    {
-      qDebug().nospace() << "Exception Caught!";
-      qDebug().nospace() << "Location: " << e.file() << ":" << e.line();
-      qDebug().nospace() << "Function: " << e.function();
-      qDebug().nospace() << "Title: " << e.title();
-      qDebug().nospace() << "Details: " << e.details() << "\n";
+      qDebug().nospace().noquote() << QStringLiteral("EXCEPTION");
+      qDebug().nospace().noquote() << QString("Location: %1:%2").arg(e.file()).arg(e.line());
+      qDebug().nospace().noquote() << QStringLiteral("Function: ") << e.function();
+      qDebug().nospace().noquote() << QStringLiteral("Title: ") << e.title();
+      qDebug().nospace().noquote() << QStringLiteral("Details: ") << e.details();
    }
    catch (std::exception e)
    {
-      qDebug().nospace() << "Exception Caught!";
-      qDebug().nospace() << e.what() << "\n";
+      qDebug().nospace() << QString("EXCEPTION(%1)").arg(e.what());
    }
    catch (...)
    {
-      qDebug() << "Exception Caught!\n";
+      qDebug() << QStringLiteral("EXCEPTION(unknown!)");
    }
 
    // Return the code that says this event has not been handled because an exception 

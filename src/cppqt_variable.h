@@ -32,6 +32,7 @@ namespace CppQt
       virtual QVariant field(int index) const override final;
       virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
    public:
+      explicit Variable(bool isDefault = false);
       bool isConstExpr() const;
       bool isStatic() const;
       bool isMutable() const;
@@ -77,12 +78,13 @@ namespace CppQt
       virtual void fieldModified(int index) override final;
       virtual void quietlySetField(int index, const QVariant& value) override final;
       virtual QStringList fields() const override final;
+   protected:
+      void setType(const QString& value);
    private:
       QString attributes() const;
       void setConstExpr(bool state);
       void setStatic(bool state);
       void setMutable(bool state);
-      void setType(const QString& value);
       /*!
        * List of this block's field tag names that follow the same order as this block's 
        * enumeration of fields. This is in addition to the base fields this block 
