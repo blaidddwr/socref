@@ -15,7 +15,7 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      View(const Variable* block);
+      explicit View(const Variable* block);
    private:
       QString displayText();
       QString displayType();

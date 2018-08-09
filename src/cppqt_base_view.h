@@ -20,7 +20,7 @@ namespace CppQt
    {
    public:
       explicit View();
-      View(const Base* block);
+      explicit View(const Base* block);
    protected:
       static QString parseBoldMarkers(const QString& text);
       QString displayDescription();

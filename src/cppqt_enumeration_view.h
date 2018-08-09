@@ -15,7 +15,7 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      View(const Enumeration* block);
+      explicit View(const Enumeration* block);
    };
 }
 

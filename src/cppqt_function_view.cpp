@@ -39,8 +39,8 @@ QString Function::View::displayText()
    return displayArguments().append(displayReturn())
                             .append(displayTemplates())
                             .append(displayDescription())
-                            .append(displayProperties())
-                            .append(displayOperations());
+                            .append(displayOperations())
+                            .append(displayProperties());
 }
 
 
@@ -157,32 +157,14 @@ QString Function::View::displayReturn()
 
 
 /*!
- * Returns a HTML string that displays the operations of this view's function 
- * block. If the function block has operations then an empty string is returned. 
+ * Returns a HTML string that displays the number of operations of this view's 
+ * function block. 
  *
- * @return HTML string that displays the operations of this view's function block 
- *         or an empty string if there are no operations. 
+ * @return HTML string that displays the number of operations of this view's 
+ *         function block. 
  */
 QString Function::View::displayOperations()
 {
-   // Create an empty string. 
-   QString ret;
-
-   // Get the string list of this view's function block's operations field and make 
-   // sure it is not empty. 
-   const QStringList list {_block->operations()};
-   if ( list.isEmpty() ) return ret;
-
-   // Append a HTML title. 
-   ret.append("<h3>Operations</h3>");
-
-   // Iterate through all operations and append each one as HTML, including their 
-   // step number. 
-   for (int i = 0; i < list.size() ;++i)
-   {
-      ret.append(tr("<p><b>#%1</b> %2</p>").arg(i + 1).arg(list.at(i)));
-   }
-
-   // Return the operations HTML string. 
-   return ret;
+   // Return a HTML string displaying the number of operations. 
+   return tr("<i>%n operation(s)</i>",0,_block->operations().size());
 }

@@ -7349,6 +7349,7 @@ The name field has a special interface for checking if it is valid which can be 
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new base view with the given base block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -7833,6 +7834,7 @@ The name field has a special interface for checking if it is valid which can be 
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given type list block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -8190,6 +8192,7 @@ The name field has a special interface for checking if it is valid which can be 
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given type block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -8700,6 +8703,7 @@ The name field has a special interface for checking if it is valid which can be 
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given enumeration block.</description>
+                  <explicit/>
                   <operation>Display the base description field and nothing else.</operation>
                 </data>
                 <variable type="1">
@@ -9117,6 +9121,7 @@ The name field has a special interface for checking if it is valid which can be 
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given enumeration value block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -9544,6 +9549,7 @@ The name field has a special interface for checking if it is valid which can be 
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given namespace block.</description>
+                  <explicit/>
                   <operation>Display the base description for this view's namespace block and nothing else.</operation>
                 </data>
                 <variable type="1">
@@ -9829,6 +9835,7 @@ The name field has a special interface for checking if it is valid which can be 
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given variable block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -10442,6 +10449,7 @@ The name field has a special interface for checking if it is valid which can be 
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given template block.</description>
+                  <explicit/>
                   <operation>Only display the base description field for this block type.</operation>
                 </data>
                 <variable type="1">
@@ -10783,6 +10791,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given function block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -10846,14 +10855,10 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <function type="2">
                 <data version="0">
                   <name>displayOperations</name>
-                  <description>Returns a HTML string that displays the operations of this view's function block. If the function block has operations then an empty string is returned.</description>
+                  <description>Returns a HTML string that displays the number of operations of this view's function block.</description>
                   <type>QString</type>
-                  <return_description>HTML string that displays the operations of this view's function block or an empty string if there are no operations.</return_description>
-                  <operation>Create an empty string.</operation>
-                  <operation>Get the string list of this view's function block's operations field and make sure it is not empty.</operation>
-                  <operation>Append a HTML title.</operation>
-                  <operation>Iterate through all operations and append each one as HTML, including their step number.</operation>
-                  <operation>Return the operations HTML string.</operation>
+                  <return_description>HTML string that displays the number of operations of this view's function block.</return_description>
+                  <operation>Return a HTML string displaying the number of operations.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -12015,6 +12020,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view object with the given class block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -12637,6 +12643,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view widget with the given access block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -13988,6 +13995,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view widget with the given parent block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -14522,6 +14530,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <constructor type="9">
                 <data version="0">
                   <description>Constructs a new view widget with the given using block.</description>
+                  <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">

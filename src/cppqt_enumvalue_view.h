@@ -15,7 +15,7 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      View(const EnumValue* block);
+      explicit View(const EnumValue* block);
    private:
       QString displayText();
       QString displayValue();

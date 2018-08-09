@@ -15,7 +15,7 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      View(const TypeList* block);
+      explicit View(const TypeList* block);
    private:
       QString displayText();
       QString displayTypeLists();

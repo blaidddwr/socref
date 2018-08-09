@@ -15,7 +15,7 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      View(const Namespace* block);
+      explicit View(const Namespace* block);
    };
 }
 
