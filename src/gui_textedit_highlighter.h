@@ -22,7 +22,7 @@ namespace Gui
    {
       Q_OBJECT
    public:
-      explicit Highlighter(QTextDocument* parent);
+      explicit Highlighter(DictionaryModel* dictionary, QTextDocument* parent);
       ~Highlighter();
    protected:
       virtual void highlightBlock(const QString& text) override final;
@@ -41,6 +41,10 @@ namespace Gui
        * Pointer to this highlighter's Aspell speller resource. 
        */
       AspellSpeller* _spell;
+      /*!
+       * Pointer to the custom dictionary model used for custom spell checking words. 
+       */
+      DictionaryModel* _dictionary;
    };
 }
 

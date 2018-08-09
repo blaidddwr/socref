@@ -39,6 +39,7 @@ namespace Gui
       void changeClicked();
       void ignoreOnceClicked();
       void ignoreAllClicked();
+      void addClicked();
       void wordTextChanged(const QString& text);
    private:
       bool findNextWord();

@@ -17,10 +17,14 @@ using namespace Gui;
 /*!
  * Constructs a new list edit widget with the given optional parent. 
  *
+ * @param block Pointer to the block that is contextually being used in text dialog 
+ *              objects this widget opens. 
+ *
  * @param parent Optional parent for this new list edit widget. 
  */
-ListEdit::ListEdit(QWidget* parent):
-   QTableView(parent)
+ListEdit::ListEdit(AbstractBlock* block, QWidget* parent):
+   QTableView(parent),
+   _block(block)
 {
    // Setup this new object's view and actions. 
    setupView();
@@ -36,14 +40,18 @@ ListEdit::ListEdit(QWidget* parent):
  * Constructs a new list edit widget with the given list item title and optional 
  * parent. 
  *
+ * @param block Pointer to the block that is contextually being used in text dialog 
+ *              objects this widget opens. 
+ *
  * @param listItemTitle The list item title this new list edit widget will use as 
  *                      the title for each string row in its list. 
  *
  * @param parent Optional parent for this new list edit widget. 
  */
-ListEdit::ListEdit(const QString& listItemTitle, QWidget* parent):
+ListEdit::ListEdit(AbstractBlock* block, const QString& listItemTitle, QWidget* parent):
    QTableView(parent),
-   _listItemTitle(listItemTitle)
+   _listItemTitle(listItemTitle),
+   _block(block)
 {
    // Setup this new object's view and actions. 
    setupView();
@@ -204,7 +212,7 @@ void ListEdit::doubleClicked(const QModelIndex& index)
 
    // Create a new text dialog, setting its title to the item title and its text to 
    // the string with the given model index. 
-   TextDialog dialog;
+   TextDialog dialog(_block);
    dialog.setWindowTitle(QString(_listItemTitle)
                          .append(" #")
                          .append(QString::number(index.row() + 1)));

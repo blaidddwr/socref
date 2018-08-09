@@ -1,6 +1,7 @@
 #ifndef GUI_LISTEDIT_H
 #define GUI_LISTEDIT_H
 #include <QTableView>
+#include "global.h"
 //
 
 
@@ -15,13 +16,17 @@ namespace Gui
     * number, the first string being number 1 and incremented from there. The height 
     * of each row is auto adjusted to make it so all the text fits within the 
     * horizontal limits of this widget. 
+    * 
+    * Because this widget uses the text dialog class for editing individual list items 
+    * a pointer to the contextual block must be given that is used for custom spell 
+    * checking within the text dialog objects opened. 
     */
    class ListEdit : public QTableView
    {
       Q_OBJECT
    public:
-      explicit ListEdit(QWidget* parent = nullptr);
-      explicit ListEdit(const QString& listItemTitle, QWidget* parent = nullptr);
+      explicit ListEdit(AbstractBlock* block, QWidget* parent = nullptr);
+      explicit ListEdit(AbstractBlock* block, const QString& listItemTitle, QWidget* parent = nullptr);
       QStringList value() const;
       void setValue(const QStringList& list);
    protected:
@@ -57,6 +62,11 @@ namespace Gui
        * The string list for this list edit widget. 
        */
       QStringList _list;
+      /*!
+       * Pointer to the block that is contextually being used in text dialog objects this 
+       * widget opens. 
+       */
+      AbstractBlock* _block;
    };
 }
 

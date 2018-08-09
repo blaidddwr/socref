@@ -2,6 +2,7 @@
 #include <aspell.h>
 #include <QRegularExpression>
 #include <exception.h>
+#include "dictionarymodel.h"
 
 
 
@@ -16,11 +17,15 @@ using namespace Gui;
 /*!
  * Constructs a new spell checking highlighter with the given text document parent. 
  *
+ * @param dictionary The custom dictionary model this new highlighter uses to check 
+ *                   for custom spell checking words. 
+ *
  * @param parent The text document of the text editor that is the parent for this 
  *               new highlighter. 
  */
-TextEdit::Highlighter::Highlighter(QTextDocument* parent):
-   QSyntaxHighlighter(parent)
+TextEdit::Highlighter::Highlighter(DictionaryModel* dictionary, QTextDocument* parent):
+   QSyntaxHighlighter(parent),
+   _dictionary(dictionary)
 {
    // Initialize the highlight format for misspelled words. 
    _format.setFontUnderline(true);
@@ -60,16 +65,20 @@ TextEdit::Highlighter::~Highlighter()
 void TextEdit::Highlighter::highlightBlock(const QString& text)
 {
    // Use a Qt regular expression to match all words in the given text block. 
-   QRegularExpression pattern("[\\w'-]+");
+   QRegularExpression pattern("[^\\s\\t:,._]+");
    QRegularExpressionMatchIterator matches {pattern.globalMatch(text)};
 
    // Iterate through all matched words. 
    while ( matches.hasNext() )
    {
-      // Extract the matched word and check to see if it it misspelled. 
+      // Extract the matched word. 
       QRegularExpressionMatch match {matches.next()};
       QByteArray word {match.captured().toLocal8Bit()};
-      if ( !aspell_speller_check(_spell,word.data(),word.size()) )
+
+      // Check to see if the word is misspelled by checking the custom dictionary and 
+      // then the Aspell spell checker. 
+      if ( !_dictionary->hasWord(match.captured())
+           && !aspell_speller_check(_spell,word.data(),word.size()) )
       {
          // Highlight the misspelled word. 
          setFormat(match.capturedStart(),match.capturedLength(),_format);

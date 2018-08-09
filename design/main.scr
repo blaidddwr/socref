@@ -4,6 +4,12 @@
   <type id="0">C++/Qt</type>
   <filters>*.cpp *.h</filters>
   <scandir>../src</scandir>
+  <dictionary>
+    <AbstractBlock/>
+    <QAbstractItemModel/>
+    <QCoreApplication/>
+    <QThread/>
+  </dictionary>
   <root type="0">
     <data version="0"/>
     <typeList type="15">
@@ -282,6 +288,11 @@
         <type type="16">
           <data version="0">
             <type>QLineEdit*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QListView*</type>
           </data>
         </type>
         <type type="16">
@@ -719,7 +730,7 @@
       <class type="4">
         <data version="0">
           <name>TextDialog</name>
-          <description>This is a text dialog containing the the text edit class. This allows the user to edit text in its own dialog window thereby expanding it as large as preferred. This is a persistent dialog so it remembers its geometry. Because this dialog uses the text edit widget it comes with all its spell checking functionality but does not allow opening a text edit dialog since that is exactly what this class represents.</description>
+          <description>This is a text dialog containing the the text edit class. This allows the user to edit text in its own dialog window thereby expanding it as large as preferred. This is a persistent dialog so it remembers its geometry. Because this dialog uses the text edit widget it comes with all its spell checking functionality but does not allow opening a text edit dialog since that is exactly what this class represents. Like the text edit widget this requires either a block pointer or a pointer to the custom dictionary for custom spell checking words.</description>
           <qtobject/>
         </data>
         <parent type="13">
@@ -734,10 +745,39 @@
           </data>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new text dialog with an optional parent.</description>
+              <description>Constructs a new text dialog with the given block and an optional parent.</description>
               <explicit/>
               <operation>Create and initialize the GUI of this dialog.</operation>
             </data>
+            <variable type="1">
+              <data version="0">
+                <name>block</name>
+                <description>Pointer to the block that is contextually being used. This is used to get the custom dictionary model of the block's project.</description>
+                <type>AbstractBlock*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>parent</name>
+                <description>Optional parent for this new text dialog.</description>
+                <type>QWidget*</type>
+                <initializer>nullptr</initializer>
+              </data>
+            </variable>
+          </constructor>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new text dialog with the given custom dictionary and an optional parent.</description>
+              <explicit/>
+              <operation>Create and initialize the GUI of this dialog.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>dictionary</name>
+                <description>The custom dictionary model this new text dialog uses to check for custom spell checking words.</description>
+                <type>DictionaryModel*</type>
+              </data>
+            </variable>
             <variable type="1">
               <data version="0">
                 <name>parent</name>
@@ -782,7 +822,7 @@
               <name>setupGui</name>
               <description>Constructs and initializes all GUI elements for this new text dialog.</description>
               <type>void</type>
-              <operation>Create the text edit widget for this dialog and disable its popup dialog shortcut.</operation>
+              <operation>Disable this object's text edit object's popup dialog shortcut.</operation>
               <operation>Create a new vertical layout, adding the text edit widget for this dialog and then the buttons.</operation>
               <operation>Set the layout for this dialog.</operation>
             </data>
@@ -811,7 +851,9 @@
       <class type="4">
         <data version="0">
           <name>TextEdit</name>
-          <description>This is a plain text editor widget that has additional features to the Qt version. This editor has spellchecking support and the ability to open a new text editor dialog with the same text. The spellchecking support comes in two ways. The first way is highlighting any misspelled words in the editor. The second way is a spell checker dialog that scans all words of the text allowing for corrections to any misspelled words. A special shortcut is used to activate the spell checker dialog or open the editor into its own dialog.</description>
+          <description>This is a plain text editor widget that has additional features to the Qt version. This editor has spellchecking support and the ability to open a new text editor dialog with the same text. The spellchecking support comes in two ways. The first way is highlighting any misspelled words in the editor. The second way is a spell checker dialog that scans all words of the text allowing for corrections to any misspelled words. A special shortcut is used to activate the spell checker dialog or open the editor into its own dialog.
+
+Custom spell checking words is also required for this class to add the ability to have custom words added for spell checking on a per project basis. This functionality requires passing either a block pointer or a pointer to the custom dictionary itself. If a block pointer is given its project's custom dictionary is found.</description>
           <qtobject/>
         </data>
         <typeList type="15">
@@ -846,10 +888,43 @@
           </data>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new text editor with an optional parent. Spell checking and the dialog popup shortcut are enabled by default.</description>
+              <description>Constructs a new text editor with the given block and an optional parent. Spell checking and the dialog popup shortcut are enabled by default.</description>
               <explicit/>
+              <operation>Make sure the given block pointer is not null.</operation>
+              <operation>Get the project pointer from the given block making sure it is not null.</operation>
+              <operation>Set the custom dictionary to the project's dictionary.</operation>
               <operation>Create this text editor's highlighter and setup its shortcut actions.</operation>
             </data>
+            <variable type="1">
+              <data version="0">
+                <name>block</name>
+                <description>Pointer to the block that is contextually being used. This usually means the block that is being edited. This is used to get the custom dictionary model of the block's project.</description>
+                <type>AbstractBlock*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>parent</name>
+                <description>Optional parent for this new text editor.</description>
+                <type>QWidget*</type>
+                <initializer>nullptr</initializer>
+              </data>
+            </variable>
+          </constructor>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new text editor with the given custom dictionary and an optional parent. Spell checking and the dialog popup shortcut are enabled by default.</description>
+              <explicit/>
+              <operation>Make sure the given custom dictionary pointer is not null.</operation>
+              <operation>Create this text editor's highlighter and setup its shortcut actions.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>dictionary</name>
+                <description>The custom dictionary model this new text dialog uses to check for custom spell checking words.</description>
+                <type>DictionaryModel*</type>
+              </data>
+            </variable>
             <variable type="1">
               <data version="0">
                 <name>parent</name>
@@ -920,6 +995,7 @@
               <description>Called when this editor's spell checker action is triggered.</description>
               <operation>Make sure spell checking is enabled.</operation>
               <operation>Create a new spell checker dialog and execute it in modal mode.</operation>
+              <operation>Reset the text of this widget so any added custom spell check words are no longer marked as misspelled in the highlighter.</operation>
             </data>
           </slot>
           <slot type="7">
@@ -962,6 +1038,13 @@
                 </data>
                 <variable type="1">
                   <data version="0">
+                    <name>dictionary</name>
+                    <description>The custom dictionary model this new highlighter uses to check for custom spell checking words.</description>
+                    <type>DictionaryModel*</type>
+                  </data>
+                </variable>
+                <variable type="1">
+                  <data version="0">
                     <name>parent</name>
                     <description>The text document of the text editor that is the parent for this new highlighter.</description>
                     <type>QTextDocument*</type>
@@ -989,7 +1072,8 @@
                   <type>void</type>
                   <operation>Use a Qt regular expression to match all words in the given text block.</operation>
                   <operation>Iterate through all matched words.</operation>
-                  <operation>Extract the matched word and check to see if it it misspelled.</operation>
+                  <operation>Extract the matched word.</operation>
+                  <operation>Check to see if the word is misspelled by checking the custom dictionary and then the Aspell spell checker.</operation>
                   <operation>Highlight the misspelled word.</operation>
                 </data>
                 <variable type="1">
@@ -1034,6 +1118,13 @@
                   <name>_spell</name>
                   <description>Pointer to this highlighter's Aspell speller resource.</description>
                   <type>AspellSpeller*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>_dictionary</name>
+                  <description>Pointer to the custom dictionary model used for custom spell checking words.</description>
+                  <type>DictionaryModel*</type>
                 </data>
               </variable>
             </access>
@@ -1121,6 +1212,14 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               </slot>
               <slot type="7">
                 <data version="0">
+                  <name>addClicked</name>
+                  <description>Called when the add button is clicked. This adds this object's current misspelled word to this object's text edit's custom dictionary.</description>
+                  <type>void</type>
+                  <operation>Add the current misspelled word to this object's text edit's custom dictionary and then find the next misspelled word.</operation>
+                </data>
+              </slot>
+              <slot type="7">
+                <data version="0">
                   <name>wordTextChanged</name>
                   <description>Called when the text in the word edit widget of this dialog changes. This updates the enabled state of the change button of this dialog depending on if the new text is a misspelled word or not, disabling it if it is misspelled.</description>
                   <operation>Change the enabled state of the word edit widget of this dialog based off it being misspelled or not.</operation>
@@ -1160,6 +1259,7 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <type>bool</type>
                   <return_description>True if the given word is spelled correctly or false otherwise.</return_description>
                   <operation>Check to see if the given word is in the ignore list of this dialog.</operation>
+                  <operation>Check to see if the given word is in the custom dictionary.</operation>
                   <operation>Use the spell checker of this dialog to see and return if the given word is spelled correctly.</operation>
                 </data>
                 <variable type="1">
@@ -1281,8 +1381,9 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
                   <operation>Create the change button for this dialog, connecting its clicked signal.</operation>
                   <operation>Create the ignore once button for this dialog, connecting its clicked signal.</operation>
                   <operation>Create the ignore all button for this dialog, connecting its clicked signal.</operation>
+                  <operation>Create the add button for this dialog, connecting its clicked signal.</operation>
                   <operation>Create the cancel button for this dialog, connecting its clicked signal.</operation>
-                  <operation>Create a new horizontal layout, adding the change, ignore once, and ignore all buttons, then a stretch, and then the cancel button.</operation>
+                  <operation>Create a new horizontal layout, adding the change button then the ignore once button then the ignore button then the add button then a stretch and then the cancel button.</operation>
                   <operation>Return the buttons layout.</operation>
                 </data>
               </function>
@@ -1438,6 +1539,13 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
           </variable>
           <variable type="1">
             <data version="0">
+              <name>_dictionary</name>
+              <description>Pointer to the custom dictionary model used for custom spell checking words.</description>
+              <type>DictionaryModel*</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
               <name>_spellHighlighter</name>
               <description>Pointer to the spell checking highlighter for this editor. This is null if spell checking is disabled.</description>
               <type>Highlighter*</type>
@@ -1448,7 +1556,9 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
       <class type="4">
         <data version="0">
           <name>ListEdit</name>
-          <description>This is a list edit widget that allows the user to edit a list of strings. Keyboard shortcuts for adding, removing, and moving items within the list are provided to the user. This widget displays each string in its list as a table with a single column. A title for each string is also displayed and given a number, the first string being number 1 and incremented from there. The height of each row is auto adjusted to make it so all the text fits within the horizontal limits of this widget.</description>
+          <description>This is a list edit widget that allows the user to edit a list of strings. Keyboard shortcuts for adding, removing, and moving items within the list are provided to the user. This widget displays each string in its list as a table with a single column. A title for each string is also displayed and given a number, the first string being number 1 and incremented from there. The height of each row is auto adjusted to make it so all the text fits within the horizontal limits of this widget.
+
+Because this widget uses the text dialog class for editing individual list items a pointer to the contextual block must be given that is used for custom spell checking within the text dialog objects opened.</description>
           <qtobject/>
         </data>
         <typeList type="15">
@@ -1479,6 +1589,13 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
             </data>
             <variable type="1">
               <data version="0">
+                <name>block</name>
+                <description>Pointer to the block that is contextually being used in text dialog objects this widget opens.</description>
+                <type>AbstractBlock*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
                 <name>parent</name>
                 <description>Optional parent for this new list edit widget.</description>
                 <type>QWidget*</type>
@@ -1492,6 +1609,13 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <explicit/>
               <operation>Setup this new object's view and actions.</operation>
             </data>
+            <variable type="1">
+              <data version="0">
+                <name>block</name>
+                <description>Pointer to the block that is contextually being used in text dialog objects this widget opens.</description>
+                <type>AbstractBlock*</type>
+              </data>
+            </variable>
             <variable type="1">
               <data version="0">
                 <name>listItemTitle</name>
@@ -2002,6 +2126,13 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <type>QStringList</type>
             </data>
           </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_block</name>
+              <description>Pointer to the block that is contextually being used in text dialog objects this widget opens.</description>
+              <type>AbstractBlock*</type>
+            </data>
+          </variable>
         </access>
       </class>
       <class type="4">
@@ -2338,8 +2469,9 @@ An implementation of this class must construct the form portion of this dialog g
           <function type="2">
             <data version="0">
               <name>checkField</name>
-              <description>Checks the given field index and makes sure it is valid and this dialog does not already contain an edit widget for it, throwing an exception if either check fails.</description>
+              <description>Checks the given field index and makes sure it is valid and this dialog does not already contain an edit widget for it, throwing an exception if any check fails. This also makes sure its object has a valid block pointer.</description>
               <type>void</type>
+              <operation>Make sure this dialog has a block pointer that is not null.</operation>
               <operation>Make sure this dialog does not already have an edit widget attached to the given field index.</operation>
               <operation>Make sure the given field index is within range.</operation>
             </data>
@@ -3053,6 +3185,14 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </slot>
           <slot type="7">
             <data version="0">
+              <name>dictionaryTriggered</name>
+              <description>Called when the dictionary action is triggered, executing a project dictionary dialog if this window contains a project.</description>
+              <operation>Make sure this window has a project.</operation>
+              <operation>Create a new dictionary dialog with this window's project and execute it.</operation>
+            </data>
+          </slot>
+          <slot type="7">
+            <data version="0">
               <name>propertiesTriggered</name>
               <description>Called when the properties action is triggered, executing a project properties dialog if this window contains a project.</description>
               <operation>Make sure this window has a project.</operation>
@@ -3233,6 +3373,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Create and initialize the open action for this window.</operation>
               <operation>Create and initialize the save action for this window.</operation>
               <operation>Create and initialize the save as action for this window.</operation>
+              <operation>Create and initialize the dictionary action for this window.</operation>
               <operation>Create and initialize the properties action for this window.</operation>
               <operation>Create and initialize the scan action for this window.</operation>
               <operation>Create and initialize the close action for this window.</operation>
@@ -3348,6 +3489,13 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data version="0">
               <name>_saveAsAction</name>
               <description>Pointer this this window's save as action.</description>
+              <type>QAction*</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_dictionaryAction</name>
+              <description>Pointer this this window's dictionary action used to open the project dictionary dialog.</description>
               <type>QAction*</type>
             </data>
           </variable>
@@ -3547,6 +3695,96 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>_filtersEdit</name>
               <description>Pointer to the filters edit widget for this dialog that represents the project's scan filters.</description>
               <type>QLineEdit*</type>
+            </data>
+          </variable>
+        </access>
+      </class>
+      <class type="4">
+        <data version="0">
+          <name>DictionaryDialog</name>
+          <description>This is the project dictionary dialog. This displays the list of all custom dictionary words contained in the project it is given. This also allows the user to remove words in the list, but does not allow the user to add new words. Adding new words is done through the spell checking dialog interface.</description>
+          <qtobject/>
+        </data>
+        <parent type="13">
+          <data version="0">
+            <access>public</access>
+            <class>PersistentDialog</class>
+          </data>
+        </parent>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new dictionary dialog with the given project.</description>
+              <type>void</type>
+              <operation>Make sure the given project pointer is not null.</operation>
+              <operation>Get the dictionary model of the given project.</operation>
+              <operation>Create and initialize the GUI of this new dialog and set its window title.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>project</name>
+                <description>Pointer to the project whose dictionary model is used for this new dictionary dialog.</description>
+                <type>Project*</type>
+              </data>
+            </variable>
+          </constructor>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>private slots:</type>
+          </data>
+          <slot type="7">
+            <data version="0">
+              <name>removeTriggered</name>
+              <description>Called when the remove button or shortcut is triggered, removing the currently selected dictionary model index if any is selected.</description>
+              <type>void</type>
+              <operation>Make sure this object's view has an index selected.</operation>
+              <operation>Remove the word at the currently selected index from this object's model.</operation>
+            </data>
+          </slot>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>private:</type>
+          </data>
+          <function type="2">
+            <data version="0">
+              <name>setupGui</name>
+              <description>Creates and initializes the GUI for this new dialog.</description>
+              <type>void</type>
+              <operation>Create the list view for this dialog and set its model to the dictionary.</operation>
+              <operation>Create and initialize the remove shortcut action, adding it to this object's list view and connecting its triggered signal.</operation>
+              <operation>Create a new vertical layout, adding this object's list view and then its buttons.</operation>
+              <operation>Set the layout for this new dialog.</operation>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>setupButtons</name>
+              <description>Creates and initializes the buttons for this new dialog, returning the button layout.</description>
+              <type>QLayout*</type>
+              <return_description>Layout of the buttons for this new dialog.</return_description>
+              <operation>Create the remove button, connecting its clicked signal.</operation>
+              <operation>Create the close button, connecting its clicked signal.</operation>
+              <operation>Create a new horizontal layout, adding the remove button and then the close button.</operation>
+              <operation>Return the button layout.</operation>
+            </data>
+          </function>
+          <variable type="1">
+            <data version="0">
+              <name>_view</name>
+              <description>The List view widget of this dictionary dialog that displays the list of custom dictionary words.</description>
+              <type>QListView*</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_model</name>
+              <description>The custom dictionary model of this dialog that it displays and edits.</description>
+              <type>DictionaryModel*</type>
             </data>
           </variable>
         </access>
@@ -17280,41 +17518,6 @@ This class itself handles all copying, reading, and writing of blocks by using t
         </data>
         <function type="2">
           <data version="0">
-            <name>headerData</name>
-            <description>Implements _QAbstractItemModel_ interface.</description>
-            <virtual/>
-            <const/>
-            <override/>
-            <final/>
-            <type>QVariant</type>
-            <return_description>See Qt docs.</return_description>
-            <operation>Make sure this is the correct orientation, role, and section.</operation>
-            <operation>Return the horizontal header.</operation>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>section</name>
-              <description>See Qt docs.</description>
-              <type>int</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>orientation</name>
-              <description>See Qt docs.</description>
-              <type>Qt::Orientation</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>role</name>
-              <description>See Qt docs.</description>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
             <name>rowCount</name>
             <description>Implements _QAbstractItemModel_ interface.</description>
             <virtual/>
@@ -17426,9 +17629,9 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <operation>Iterate through this model's word list.</operation>
             <operation>Check to see if the given word is alphabetically less then the word at the current word list index.</operation>
             <operation>Insert the given word at the current index, notifying the model of a new row being inserted.</operation>
-            <operation>The new word has been added so return true.</operation>
+            <operation>The new word has been added so notify of modification and return true.</operation>
             <operation>Append the given word to the end of this model's word list, notifying the model of a new row being inserted.</operation>
-            <operation>The new word has been added so return true.</operation>
+            <operation>The new word has been added so notify of modification and return true.</operation>
           </data>
           <variable type="1">
             <data version="0">
@@ -17445,7 +17648,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <return_description>True if the word at the given index was removed from this model's word list or false otherwise.</return_description>
             <operation>Make sure the given index is valid and within range of this model's word list.</operation>
             <operation>Remove the word at the given index's row from this model's word list, notifying the model that a row was removed.</operation>
-            <operation>Return true on success.</operation>
+            <operation>Notify of modification and return true on success.</operation>
           </data>
           <variable type="1">
             <data version="0">
@@ -17474,6 +17677,18 @@ This class itself handles all copying, reading, and writing of blocks by using t
             </data>
           </variable>
         </function>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>signals:</type>
+        </data>
+        <signal type="8">
+          <data version="0">
+            <name>modified</name>
+            <description>Signals that this dictionary model has been modified.</description>
+            <type>void</type>
+          </data>
+        </signal>
       </access>
       <access type="5">
         <data version="0">
@@ -17508,6 +17723,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <data version="0">
             <description>This constructs a new project of the given type.</description>
             <explicit/>
+            <operation>Connect this project's custom dictionary modified signal.</operation>
             <operation>Initialize this new project's root block, file watcher signal, and default scan filters.</operation>
           </data>
           <variable type="1">
@@ -17522,6 +17738,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <data version="0">
             <description>This constructs a project loaded from the file from the given path. If any error occurs from loading the project file an exception is thrown.</description>
             <explicit/>
+            <operation>Connect this project's custom dictionary modified signal.</operation>
             <operation>Initialize the enumeration and static string list used for identifying different elements to read in based off their tag names.</operation>
             <operation>Initialize this project's file watcher signal.</operation>
             <operation>Read in the entire contents of the file located at the given path and then load it into a qt XML document.</operation>
@@ -17620,6 +17837,14 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <description>Returns a pointer to the block model for this project used to view and edit the block data contained within it.</description>
             <type>BlockModel*</type>
             <return_description>Pointer to this project's block model.</return_description>
+          </data>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>dictionary</name>
+            <description>Returns a pointer to the dictionary model for this project used for storing custom spell checking words.</description>
+            <type>DictionaryModel*</type>
+            <return_description>Pointer to this project's dictionary model.</return_description>
           </data>
         </function>
         <function type="2">
@@ -17744,8 +17969,8 @@ This class itself handles all copying, reading, and writing of blocks by using t
         </data>
         <slot type="7">
           <data version="0">
-            <name>blockModified</name>
-            <description>Called when a block contained within this project has been modified. This in turn causes this project to change its state to modified.</description>
+            <name>projectModified</name>
+            <description>Called when a block contained within this project or its custom dictionary has been modified. This in turn causes this project to change its state to modified.</description>
           </data>
         </slot>
         <slot type="7">

@@ -12,34 +12,6 @@
 /*!
  * Implements _QAbstractItemModel_ interface. 
  *
- * @param section See Qt docs. 
- *
- * @param orientation See Qt docs. 
- *
- * @param role See Qt docs. 
- *
- * @return See Qt docs. 
- */
-QVariant DictionaryModel::headerData(int section, Qt::Orientation orientation, int role) const
-{
-   // Make sure this is the correct orientation, role, and section. 
-   if ( orientation != Qt::Horizontal || role != Qt::DisplayRole || section != 0 )
-   {
-      return QVariant();
-   }
-
-   // Return the horizontal header. 
-   else return tr("Dictionary Words");
-}
-
-
-
-
-
-
-/*!
- * Implements _QAbstractItemModel_ interface. 
- *
  * @param parent See Qt docs. 
  *
  * @return See Qt docs. 
@@ -172,7 +144,8 @@ bool DictionaryModel::addWord(const QString& word)
          _list.insert(i,word);
          endInsertRows();
 
-         // The new word has been added so return true. 
+         // The new word has been added so notify of modification and return true. 
+         emit modified();
          return true;
       }
    }
@@ -183,7 +156,8 @@ bool DictionaryModel::addWord(const QString& word)
    _list << word;
    endInsertRows();
 
-   // The new word has been added so return true. 
+   // The new word has been added so notify of modification and return true. 
+   emit modified();
    return true;
 }
 
@@ -213,7 +187,8 @@ bool DictionaryModel::removeWord(const QModelIndex& index)
    _list.removeAt(row);
    endRemoveRows();
 
-   // Return true on success. 
+   // Notify of modification and return true on success. 
+   emit modified();
    return true;
 }
 

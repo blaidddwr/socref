@@ -288,7 +288,7 @@ TextEdit* AbstractEdit::addTextEdit(QFormLayout* form, int index)
    // Create a new text edit widget, setting its value to the current value of the 
    // edited block's field and adding it to the given form layout with its field 
    // title. 
-   TextEdit* ret {new TextEdit(this)};
+   TextEdit* ret {new TextEdit(_block,this)};
    ret->setPlainText(_block->field(index).toString());
    form->addRow(new QLabel(fieldTitle(index),this),ret);
 
@@ -333,7 +333,7 @@ ListEdit* AbstractEdit::addListEdit(QFormLayout* form, int index)
    // Create a new list edit widget, setting its value to the current value of the 
    // edited block's field and adding it to the given form layout with its field 
    // title. 
-   ListEdit* ret {new ListEdit(this)};
+   ListEdit* ret {new ListEdit(_block,this)};
    ret->setValue(_block->field(index).toStringList());
    form->addRow(new QLabel(fieldTitle(index),this),ret);
 
@@ -514,13 +514,22 @@ QLayout* AbstractEdit::setupButtons()
 
 /*!
  * Checks the given field index and makes sure it is valid and this dialog does not 
- * already contain an edit widget for it, throwing an exception if either check 
- * fails. 
+ * already contain an edit widget for it, throwing an exception if any check fails. 
+ * This also makes sure its object has a valid block pointer. 
  *
  * @param index  
  */
 void AbstractEdit::checkField(int index)
 {
+   // Make sure this dialog has a block pointer that is not null. 
+   if ( !_block )
+   {
+      Exception::LogicError e;
+      MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot add edit widget to object with no block pointer."));
+      throw e;
+   }
+
    // Make sure this dialog does not already have an edit widget attached to the 
    // given field index. 
    if ( _edits.contains(index) )

@@ -1,8 +1,6 @@
 
 * Add the ability for application to update the current working directory when a project is opened/saved.
 
-* Add custom dictionary words for spell checking on a per project basis.
-
 * Make the C++/Qt function view hide the steps of operation by default.
 
 * Fix newly created C++/Qt blocks having invalid blank values.

@@ -17,7 +17,6 @@ class DictionaryModel : public QAbstractListModel
 {
    Q_OBJECT
 public:
-   virtual QVariant headerData(int section, Qt::Orientation orientation, int role) const override final;
    virtual int rowCount(const QModelIndex& parent) const override final;
    virtual QVariant data(const QModelIndex& index, int role) const override final;
 public:
@@ -27,6 +26,11 @@ public:
    bool addWord(const QString& word);
    bool removeWord(const QModelIndex& index);
    void read(const QDomElement& element);
+signals:
+   /*!
+    * Signals that this dictionary model has been modified. 
+    */
+   void modified();
 private:
    /*!
     * The list of words this dictionary model contains. 

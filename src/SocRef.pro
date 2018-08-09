@@ -94,7 +94,8 @@ SOURCES += \
     cppqt_using_edit.cpp \
     cppqt_using_view.cpp \
     cppqt_parse_factory.cpp \
-    dictionarymodel.cpp
+    dictionarymodel.cpp \
+    gui_dictionarydialog.cpp
 
 HEADERS += \
     singleton.h \
@@ -189,7 +190,8 @@ HEADERS += \
     cppqt_using_edit.h \
     cppqt_using_view.h \
     cppqt_parse_factory.h \
-    dictionarymodel.h
+    dictionarymodel.h \
+    gui_dictionarydialog.h
 
 RESOURCES += \
     resources.qrc

@@ -10,6 +10,7 @@
 #include <QSettings>
 #include <exception.h>
 #include "application.h"
+#include "dictionarymodel.h"
 
 
 
@@ -144,6 +145,23 @@ void TextEdit::Dialog::ignoreAllClicked()
 
 
 /*!
+ * Called when the add button is clicked. This adds this object's current 
+ * misspelled word to this object's text edit's custom dictionary. 
+ */
+void TextEdit::Dialog::addClicked()
+{
+   // Add the current misspelled word to this object's text edit's custom dictionary 
+   // and then find the next misspelled word. 
+   _edit->_dictionary->addWord(_currentWord);
+   findNextWord();
+}
+
+
+
+
+
+
+/*!
  * Called when the text in the word edit widget of this dialog changes. This 
  * updates the enabled state of the change button of this dialog depending on if 
  * the new text is a misspelled word or not, disabling it if it is misspelled. 
@@ -173,7 +191,7 @@ bool TextEdit::Dialog::findNextWord()
    // Find the first word of the parent editor's text at or after the offset of this 
    // dialog. 
    QString text {_edit->toPlainText()};
-   QRegularExpression pattern("[\\w'-]+");
+   QRegularExpression pattern("[^\\s\\t:,._]+");
    QRegularExpressionMatch match {pattern.match(text,_offset)};
 
    // While a word is found at or after the offset of this dialog then continue. 
@@ -220,6 +238,9 @@ bool TextEdit::Dialog::isCorrectWord(const QString& word)
 {
    // Check to see if the given word is in the ignore list of this dialog. 
    if ( _ignored.contains(word) ) return true;
+
+   // Check to see if the given word is in the custom dictionary. 
+   if ( _edit->_dictionary->hasWord(word) ) return true;
 
    // Use the spell checker of this dialog to see and return if the given word is 
    // spelled correctly. 
@@ -483,16 +504,22 @@ QLayout* TextEdit::Dialog::setupButtons()
    QPushButton* ignoreAll {new QPushButton(tr("Ignore &All"))};
    connect(ignoreAll,&QPushButton::clicked,this,&Dialog::ignoreAllClicked);
 
+   // Create the add button for this dialog, connecting its clicked signal. 
+   QPushButton* add {new QPushButton(tr("Add"))};
+   connect(add,&QPushButton::clicked,this,&Dialog::addClicked);
+
    // Create the cancel button for this dialog, connecting its clicked signal. 
    QPushButton* cancel {new QPushButton(tr("Canc&el"))};
    connect(cancel,&QPushButton::clicked,[this]{ done(QDialog::Accepted); });
 
-   // Create a new horizontal layout, adding the change, ignore once, and ignore all 
-   // buttons, then a stretch, and then the cancel button. 
+   // Create a new horizontal layout, adding the change button then the ignore once 
+   // button then the ignore button then the add button then a stretch and then the 
+   // cancel button. 
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(_changeButton);
    ret->addWidget(ignoreOnce);
    ret->addWidget(ignoreAll);
+   ret->addWidget(add);
    ret->addStretch();
    ret->addWidget(cancel);
 

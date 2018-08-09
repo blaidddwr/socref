@@ -37,6 +37,7 @@ public:
    QString scanFilters() const;
    std::unique_ptr<ScanThread> makeScanner() const;
    BlockModel* model();
+   DictionaryModel* dictionary();
    void setName(const QString& value);
    void setScanDirectory(const QString& path);
    void setScanFilters(const QString& value);
@@ -61,7 +62,7 @@ signals:
     */
    void saveFileChanged();
 private slots:
-   void blockModified();
+   void projectModified();
    void fileChanged();
 private:
    void signalModified();

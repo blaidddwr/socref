@@ -66,6 +66,9 @@ Project::Project(int type):
    _model(new BlockModel(this)),
    _dictionary(new DictionaryModel(this))
 {
+   // Connect this project's custom dictionary modified signal. 
+   connect(_dictionary,&DictionaryModel::modified,this,&Project::projectModified);
+
    // Initialize this new project's root block, file watcher signal, and default scan 
    // filters. 
    makeRoot();
@@ -89,6 +92,9 @@ Project::Project(const QString& path):
    _model(new BlockModel(this)),
    _dictionary(new DictionaryModel(this))
 {
+   // Connect this project's custom dictionary modified signal. 
+   connect(_dictionary,&DictionaryModel::modified,this,&Project::projectModified);
+
    // Initialize the enumeration and static string list used for identifying 
    // different elements to read in based off their tag names. 
    enum {Name,Type,ScanDir,ScanFilters,Dictionary,Root};
@@ -303,6 +309,22 @@ BlockModel* Project::model()
 
 
 /*!
+ * Returns a pointer to the dictionary model for this project used for storing 
+ * custom spell checking words. 
+ *
+ * @return Pointer to this project's dictionary model. 
+ */
+DictionaryModel* Project::dictionary()
+{
+   return _dictionary;
+}
+
+
+
+
+
+
+/*!
  * Sets a new name for this project with the given name. 
  *
  * @param value The new name this project's name is set to. 
@@ -497,10 +519,10 @@ void Project::saveAs(const QString& path)
 
 
 /*!
- * Called when a block contained within this project has been modified. This in 
- * turn causes this project to change its state to modified. 
+ * Called when a block contained within this project or its custom dictionary has 
+ * been modified. This in turn causes this project to change its state to modified. 
  */
-void Project::blockModified()
+void Project::projectModified()
 {
    signalModified();
 }
@@ -765,6 +787,6 @@ void Project::makeRoot()
    // Set the new root block's parent to this project, connect its modified signal, 
    // and set it to this project's block model root block. 
    _root->QObject::setParent(this);
-   connect(_root,&AbstractBlock::modified,this,&Project::blockModified);
+   connect(_root,&AbstractBlock::modified,this,&Project::projectModified);
    _model->setRoot(_root);
 }

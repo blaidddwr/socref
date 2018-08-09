@@ -41,6 +41,7 @@ namespace Gui
       void openTriggered();
       void saveTriggered();
       void saveAsTriggered();
+      void dictionaryTriggered();
       void propertiesTriggered();
       void scanTriggered();
       void closeTriggered();
@@ -103,6 +104,11 @@ namespace Gui
        * Pointer this this window's save as action. 
        */
       QAction* _saveAsAction;
+      /*!
+       * Pointer this this window's dictionary action used to open the project dictionary 
+       * dialog. 
+       */
+      QAction* _dictionaryAction;
       /*!
        * Pointer this this window's property action used to open the project properties 
        * dialog. 

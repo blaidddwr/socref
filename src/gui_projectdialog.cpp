@@ -4,10 +4,13 @@
 #include <QFormLayout>
 #include <QPushButton>
 #include <QLabel>
+#include <QListView>
 #include <QFileDialog>
 #include <QSettings>
+#include <QAction>
 #include <exception.h>
 #include "project.h"
+#include "dictionarymodel.h"
 #include "application.h"
 
 

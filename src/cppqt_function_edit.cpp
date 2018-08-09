@@ -261,7 +261,7 @@ void Function::Edit::addReturnEdit(QFormLayout* form)
 QWidget* Function::Edit::rightLayout()
 {
    // Create and initialize the operations list edit widget for this new dialog. 
-   _operationsEdit = new ::Gui::ListEdit(this);
+   _operationsEdit = new ::Gui::ListEdit(_block,this);
    _operationsEdit->setValue(_block->operations());
 
    // Create a new vertical layout, adding a properties label and then the operations 

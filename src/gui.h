@@ -12,5 +12,6 @@ namespace Gui
    class BlockView;
    class MainWindow;
    class ProjectDialog;
+   class DictionaryDialog;
    class ScanDialog;
 }

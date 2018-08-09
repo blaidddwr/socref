@@ -6,12 +6,12 @@
 #include <QCloseEvent>
 #include <QSettings>
 #include "gui_projectdialog.h"
+#include "gui_dictionarydialog.h"
 #include "gui_scandialog.h"
 #include "gui_blockview.h"
 #include "abstractprojectfactory.h"
 #include "project.h"
 #include "abstractblock.h"
-#include "common.h"
 #include "scanthread.h"
 #include "application.h"
 
@@ -266,6 +266,26 @@ void MainWindow::saveAsTriggered()
 
 
 /*!
+ * Called when the dictionary action is triggered, executing a project dictionary 
+ * dialog if this window contains a project. 
+ */
+void MainWindow::dictionaryTriggered()
+{
+   // Make sure this window has a project. 
+   if ( _project )
+   {
+      // Create a new dictionary dialog with this window's project and execute it. 
+      DictionaryDialog dictionary(_project);
+      dictionary.exec();
+   }
+}
+
+
+
+
+
+
+/*!
  * Called when the properties action is triggered, executing a project properties 
  * dialog if this window contains a project. 
  */
@@ -275,7 +295,7 @@ void MainWindow::propertiesTriggered()
    if ( _project )
    {
       // Create a new project dialog with this window's project and execute it. 
-      ProjectDialog settings(_project,this);
+      ProjectDialog settings(_project);
       settings.exec();
    }
 }
@@ -510,6 +530,7 @@ void MainWindow::updateActions()
    // project or not. 
    _saveAsAction->setDisabled(!_project);
    _closeAction->setDisabled(!_project);
+   _dictionaryAction->setDisabled(!_project);
    _propertiesAction->setDisabled(!_project);
    _scanAction->setDisabled(!_project);
 }
@@ -734,6 +755,11 @@ void MainWindow::setupActions()
    _saveAsAction->setStatusTip(tr("Save current project under a new path."));
    connect(_saveAsAction,&QAction::triggered,this,&MainWindow::saveAsTriggered);
 
+   // Create and initialize the dictionary action for this window. 
+   _dictionaryAction = new QAction(tr("&Dictionary"),this);
+   _dictionaryAction->setStatusTip(tr("Edit the custom dictionary of a project."));
+   connect(_dictionaryAction,&QAction::triggered,this,&MainWindow::dictionaryTriggered);
+
    // Create and initialize the properties action for this window. 
    _propertiesAction = new QAction(tr("&Properties"),this);
    _propertiesAction->setStatusTip(tr("Edit basic properties of a project."));
@@ -865,6 +891,7 @@ void MainWindow::setupFileMenu()
    file->addAction(_saveAsAction);
    file->addAction(_closeAction);
    file->addSeparator();
+   file->addAction(_dictionaryAction);
    file->addAction(_propertiesAction);
    file->addAction(_scanAction);
    file->addSeparator();

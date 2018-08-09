@@ -17,12 +17,38 @@ using namespace Gui;
 
 
 /*!
- * Constructs a new text dialog with an optional parent. 
+ * Constructs a new text dialog with the given block and an optional parent. 
+ *
+ * @param block Pointer to the block that is contextually being used. This is used 
+ *              to get the custom dictionary model of the block's project. 
  *
  * @param parent Optional parent for this new text dialog. 
  */
-TextDialog::TextDialog(QWidget* parent):
-   PersistentDialog("gui.textdialog.geometry",parent)
+TextDialog::TextDialog(AbstractBlock* block, QWidget* parent):
+   PersistentDialog("gui.textdialog.geometry",parent),
+   _edit(new TextEdit(block,this))
+{
+   // Create and initialize the GUI of this dialog. 
+   setupGui();
+}
+
+
+
+
+
+
+/*!
+ * Constructs a new text dialog with the given custom dictionary and an optional 
+ * parent. 
+ *
+ * @param dictionary The custom dictionary model this new text dialog uses to check 
+ *                   for custom spell checking words. 
+ *
+ * @param parent Optional parent for this new text dialog. 
+ */
+TextDialog::TextDialog(DictionaryModel* dictionary, QWidget* parent):
+   PersistentDialog("gui.textdialog.geometry",parent),
+   _edit(new TextEdit(dictionary,this))
 {
    // Create and initialize the GUI of this dialog. 
    setupGui();
@@ -71,9 +97,7 @@ void TextDialog::setText(const QString& text)
  */
 void TextDialog::setupGui()
 {
-   // Create the text edit widget for this dialog and disable its popup dialog 
-   // shortcut. 
-   _edit = new TextEdit;
+   // Disable this object's text edit object's popup dialog shortcut. 
    _edit->setDialogPopupEnabled(false);
 
    // Create a new vertical layout, adding the text edit widget for this dialog and 
