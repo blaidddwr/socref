@@ -11,6 +11,7 @@ namespace CppQt
       class Global;
       class Source;
       class Header;
+      class Main;
       class Variable;
       class Function;
       class Access;

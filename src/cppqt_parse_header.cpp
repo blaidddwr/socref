@@ -129,9 +129,8 @@ void Header::evaluateVariable(CppQt::Variable* block)
    Variable* base {new Variable(block,this)};
    _declarations.append(base);
 
-   // If the given block is static, is not a constant expression, and this object's 
-   // namespace has templates then add the variable parser to the definitions 
-   // section. 
+   // If the given variable block should have its definition in its header file then 
+   // add its parser to this parser. 
    if ( block->isStatic() && !block->isConstExpr() && isTemplate() ) addVariable(base);
 }
 

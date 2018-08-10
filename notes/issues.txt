@@ -1,8 +1,4 @@
 
-* Fix C++/Qt bug where global header file not being parsed.
-
-* Add ability to reference the main function for C++/Qt projects.
-
 * Add version to the project file and make install instructions in it.
 
 * Move icon/html data to its own data directory

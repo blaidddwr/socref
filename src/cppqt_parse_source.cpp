@@ -1,6 +1,7 @@
 #include "cppqt_parse_source.h"
 #include <QStack>
 #include <QRegularExpression>
+#include <exception.h>
 #include "cppqt_parse_function.h"
 #include "cppqt_parse_variable.h"
 #include "cppqt_function.h"
@@ -35,6 +36,10 @@ Source::Source(const Namespace* block, const QString& name):
    // Set the include statement used for including the header file of this source 
    // file. 
    _include = QString("#include \"%1.h\"").arg(name);
+
+   // Make the default using namespace declaration for the scope of this source 
+   // file's variables and functions. 
+   makeUsingName();
 }
 
 
@@ -187,9 +192,8 @@ void Source::readTop(const QString& line)
  */
 void Source::evaluateVariable(CppQt::Variable* block)
 {
-   // If this object's namespace is not a template, the given variable block is 
-   // static, and is not a constant expression then create a new variable parser and 
-   // add it to this parser. 
+   // If the given variable block should have its definition in its source file then 
+   // create a new parser and add it to this parser. 
    if ( !isTemplate() && block->isStatic() && !block->isConstExpr() )
    {
       addVariable(new Variable(block,this));
@@ -214,10 +218,8 @@ void Source::evaluateVariable(CppQt::Variable* block)
  */
 void Source::evaluateFunction(CppQt::Function* block)
 {
-   // If the this object's namespace is not a template, the given function block is 
-   // not abstract, is not default, is not a signal, and has no template arguments or 
-   // is a private method then create a new function parser and add it to this 
-   // parser. 
+   // If the given function block should have its definition in its source file then 
+   // create a new parser and add it to this parser. 
    if ( !isTemplate()
         && !block->isAbstract()
         && !block->isDefault()
@@ -268,15 +270,19 @@ Source::Source(const Namespace* block):
    _functionLines(Settings::instance().functionLines()),
    _children(block->realChildren())
 {
+   // Make sure the given namespace pointer is not null. 
+   if ( !block )
+   {
+      Exception::InvalidArgument e;
+      e.setDetails(tr("The given namespace block pointer is null and invalid."));
+      throw e;
+   }
+
    // If the given namespace block is a class then determine if it has any templates. 
    if ( const Class* valid = block->cast<Class>(BlockFactory::ClassType) )
    {
       _isTemplate = valid->hasAnyTemplates();
    }
-
-   // Make the default using namespace declaration for the scope of this source 
-   // file's variables and functions. 
-   makeUsingName();
 }
 
 

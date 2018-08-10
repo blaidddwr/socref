@@ -3,6 +3,7 @@
 #include "cppqt_parse_global.h"
 #include "cppqt_parse_header.h"
 #include "cppqt_parse_source.h"
+#include "cppqt_parse_main.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_blockfactory.h"
@@ -36,6 +37,20 @@ std::unique_ptr<AbstractParser> Factory::make(const QString& name, const QString
 
    // Create the is header flag and set its value. 
    bool isHeader {extension == QStringLiteral("h")};
+
+   // If this is the unique root global header file then create a new global parser 
+   // and return it. 
+   if ( isHeader && name == QStringLiteral("global") )
+   {
+      return unique_ptr<AbstractParser>(new Global(_root));
+   }
+
+   // Else if this is the unique main source file then create a new main parser and 
+   // return it. 
+   else if ( !isHeader && name == QStringLiteral("main") )
+   {
+      return unique_ptr<AbstractParser>(new Main(_root));
+   }
 
    // Create the list of namespace names from the given file name. 
    QStringList names {name.split('_')};

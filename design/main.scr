@@ -6,9 +6,12 @@
   <scandir>../src</scandir>
   <dictionary>
     <AbstractBlock/>
+    <AbstractParser/>
+    <CppQt/>
     <QAbstractItemModel/>
     <QCoreApplication/>
     <QThread/>
+    <preprocessor/>
   </dictionary>
   <root type="0">
     <data version="0"/>
@@ -4633,6 +4636,8 @@ The global header file has forward declarations of all classes within its namesp
                 <return_description>See interface docs.</return_description>
                 <operation>Make sure the given file name is not empty.</operation>
                 <operation>Create the is header flag and set its value.</operation>
+                <operation>If this is the unique root global header file then create a new global parser and return it.</operation>
+                <operation>Else if this is the unique main source file then create a new main parser and return it.</operation>
                 <operation>Create the list of namespace names from the given file name.</operation>
                 <operation>Check to see if this is a common file.</operation>
                 <operation>Remove the common name from the list and return the found common parser.</operation>
@@ -5236,6 +5241,7 @@ The lines of code inside any function present in the source file is saved and ma
                 <explicit/>
                 <type>void</type>
                 <operation>Set the include statement used for including the header file of this source file.</operation>
+                <operation>Make the default using namespace declaration for the scope of this source file's variables and functions.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -5334,7 +5340,7 @@ The lines of code inside any function present in the source file is saved and ma
                 <description>This interface is called to process all real children variable blocks of this object's namespace. This processing occurs before any parsing and is meant to add them to this parser for output. All blocks for evaluate interfaces are called in the same order they appear in their real children list. The default implementation adds them if they belong in the source file.</description>
                 <virtual/>
                 <type>void</type>
-                <operation>If this object's namespace is not a template, the given variable block is static, and is not a constant expression then create a new variable parser and add it to this parser.</operation>
+                <operation>If the given variable block should have its definition in its source file then create a new parser and add it to this parser.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -5350,7 +5356,7 @@ The lines of code inside any function present in the source file is saved and ma
                 <description>This interface is called to process all real children function blocks of this object's namespace. All specialized functions such as constructors or signals are included. This processing occurs before any parsing and is meant to add them to this parser for output. All blocks for evaluate interfaces are called in the same order they appear in their real children list. The default implementation adds them if they belong in the source file.</description>
                 <virtual/>
                 <type>void</type>
-                <operation>If the this object's namespace is not a template, the given function block is not abstract, is not default, is not a signal, and has no template arguments or is a private method then create a new function parser and add it to this parser.</operation>
+                <operation>If the given function block should have its definition in its source file then create a new parser and add it to this parser.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -5385,8 +5391,8 @@ The lines of code inside any function present in the source file is saved and ma
                 <description>Constructs a new source parser with the given namespace block. This constructor is only meant to be used internally by this class or the header class that inherits from this one.</description>
                 <explicit/>
                 <type>void</type>
+                <operation>Make sure the given namespace pointer is not null.</operation>
                 <operation>If the given namespace block is a class then determine if it has any templates.</operation>
-                <operation>Make the default using namespace declaration for the scope of this source file's variables and functions.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -5757,7 +5763,7 @@ Lines of code inside functions are parsed and remembered just like it is in the 
                 <final/>
                 <type>void</type>
                 <operation>Create a new variable parser from the given variable block and append it to this object's declarations.</operation>
-                <operation>If the given block is static, is not a constant expression, and this object's namespace has templates then add the variable parser to the definitions section.</operation>
+                <operation>If the given variable block should have its definition in its header file then add its parser to this parser.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -5922,6 +5928,126 @@ Lines of code inside functions are parsed and remembered just like it is in the 
                 <name>_guard2</name>
                 <description>The second preprocessor header guard line for this object's header file.</description>
                 <type>QString</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class type="4">
+          <data version="0">
+            <name>Main</name>
+            <description>This is the main parser. This parses the special main source file that only contains the main function. Because this is a special source file this inherits from the source class. Because this parser is only responsible for the single main function the namespace block it is given must be the root block of its project.</description>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Source</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <description>Constructs a new main parser with the given root namespace block.</description>
+                <explicit/>
+                <type>void</type>
+                <operation>Make sure the given namespace block is the root block for its project.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The root namespace block of the project used to find the special main function. This must be the root namespace as the main function is global.</description>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>makeOutput</name>
+                <description>Implements _AbstractParser_ interface.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+                <operation>Add any additional preprocessor lines to the output.</operation>
+                <operation>Add the header section to the output.</operation>
+                <operation>Add the end of top separator.</operation>
+                <operation>Add all function definitions to the output.</operation>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateVariable</name>
+                <description>Implements _CppQt::Parse::Source_ interface. This implementation does nothing because it is only interested in finding one special function block.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>See interface docs.</description>
+                  <type>CppQt::Variable*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateFunction</name>
+                <description>Implements _CppQt::Parse::Source_ interface.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+                <operation>Make sure the main function has not already been found.</operation>
+                <operation>Check to see if the given function block's name matches main.</operation>
+                <operation>Check to see if the arguments for the given block matches the signature of main.</operation>
+                <operation>This is the main function block so add it to this object's definitions and mark that the main function has been found.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>See interface docs.</description>
+                  <type>CppQt::Function*</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>evaluateOther</name>
+                <description>Implements _CppQt::Parse::Source_ interface. This implementation does nothing because it is only interested in finding one special function block.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>See interface docs.</description>
+                  <type>AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>_found</name>
+                <description>True if this parser found the main function block and added it to its definitions or false otherwise. This is used so only a single main function is added to its definitions.</description>
+                <type>bool</type>
+                <initializer>false</initializer>
               </data>
             </variable>
           </access>
