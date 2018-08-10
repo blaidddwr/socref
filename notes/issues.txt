@@ -1,3 +1,1 @@
 
-* Move icon/html data to its own data directory
-
