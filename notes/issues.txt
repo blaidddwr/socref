@@ -1,5 +1,3 @@
 
-* Add version to the project file and make install instructions in it.
-
 * Move icon/html data to its own data directory
 

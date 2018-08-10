@@ -18725,7 +18725,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <constexpr/>
             <static/>
             <type>int</type>
-            <initializer>0</initializer>
+            <initializer>MAJOR_VERSION</initializer>
           </data>
         </variable>
         <variable type="1">
@@ -18735,7 +18735,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <constexpr/>
             <static/>
             <type>int</type>
-            <initializer>0</initializer>
+            <initializer>MINOR_VERSION</initializer>
           </data>
         </variable>
         <variable type="1">
@@ -18745,7 +18745,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <constexpr/>
             <static/>
             <type>int</type>
-            <initializer>9999</initializer>
+            <initializer>REVISION</initializer>
           </data>
         </variable>
         <variable type="1">

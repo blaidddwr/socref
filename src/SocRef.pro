@@ -1,14 +1,25 @@
+lessThan(QT_MAJOR_VERSION,5): error("Requires Qt 5")
+lessThan(QT_MINOR_VERSION,7): error("Requires Qt 5.7")
+
+MAJOR_VERSION = 0
+MINOR_VERSION = 0
+REVISION = 9999
+
 QT += core gui widgets xml
 
 CONFIG += c++11
 
 TARGET = socref
 TEMPLATE = app
+VERSION = $${MAJOR_VERSION}.$${MINOR_VERSION}.$${REVISION}
 
 INCLUDEPATH += ../../socerr/src
 LIBS += -L../../socerr/build -lsocerr -laspell
 
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS \
+    MAJOR_VERSION=$${MAJOR_VERSION} \
+    MINOR_VERSION=$${MINOR_VERSION} \
+    REVISION=$${REVISION}
 
 SOURCES += \
     main.cpp \
@@ -197,3 +208,8 @@ HEADERS += \
 
 RESOURCES += \
     resources.qrc
+
+isEmpty(PREFIX) { PREFIX = /usr/local }
+program.path = $${PREFIX}/bin
+program.files = $${PWD}/../build/$${TARGET}
+INSTALLS += program

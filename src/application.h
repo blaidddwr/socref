@@ -21,15 +21,15 @@ public:
    /*!
     * Major version of this program. 
     */
-   constexpr static int _majorVersion {0};
+   constexpr static int _majorVersion {MAJOR_VERSION};
    /*!
     * Minor version of this program. 
     */
-   constexpr static int _minorVersion {0};
+   constexpr static int _minorVersion {MINOR_VERSION};
    /*!
     * Revision number of this program. 
     */
-   constexpr static int _revision {9999};
+   constexpr static int _revision {REVISION};
    /*!
     * The organization key used to access this program's qt settings. 
     */
