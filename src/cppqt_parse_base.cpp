@@ -188,16 +188,18 @@ QString Base::makePreScope(const AbstractBlock* block)
       throw e;
    }
 
-   // Get the parent of the given block, making sure it is not null and it also has a 
-   // parent. 
+   // Get the parent of the given block and make sure it is not null. 
    AbstractBlock* parent {block->parent()};
-   if ( !parent || !parent->parent() )
+   if ( !parent )
    {
       Exception::LogicError e;
       MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Parent of given block does not exist or it does not have a parent."));
       throw e;
    }
+
+   // If the parent is the root block then return an empty string. 
+   if ( !parent->parent() ) return QString();
 
    // If the parent is a namespace block then return the namespace scope. 
    if ( parent->type() == BlockFactory::NamespaceType )

@@ -72,8 +72,8 @@ void Global::makeOutput()
       add(" */");
    }
 
-   // Add the declaration of the namespace of this parser. 
-   outputNamespace(_block);
+   // If the namespace of this parser is not the root block then add it. 
+   if ( _block->parent() ) outputNamespace(_block);
 
    // Iterate through a list of all children class blocks of the namespace of this 
    // parser. 
