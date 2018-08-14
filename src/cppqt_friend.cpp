@@ -1,6 +1,5 @@
 #include "cppqt_friend.h"
 #include <QRegularExpression>
-#include <exception.h>
 #include "cppqt_blockfactory.h"
 #include "gui_abstractedit.h"
 

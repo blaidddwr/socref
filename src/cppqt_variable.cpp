@@ -1,5 +1,5 @@
 #include "cppqt_variable.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_variable_view.h"
 #include "cppqt_variable_edit.h"
 #include "cppqt_blockfactory.h"
@@ -9,6 +9,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -499,7 +500,7 @@ void Variable::setType(const QString& value)
    if ( !Type::isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set invalid type '%1'.").arg(value));
       throw e;
    }
@@ -552,7 +553,7 @@ void Variable::setConstExpr(bool state)
    if ( parent() && state && isArgument() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set as constant expression when it is a function argument."));
       throw e;
    }
@@ -578,7 +579,7 @@ void Variable::setStatic(bool state)
    if ( parent() && state && !isMember() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set as static when it is not a class member."));
       throw e;
    }
@@ -604,7 +605,7 @@ void Variable::setMutable(bool state)
    if ( parent() && state && !isMember() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set as mutable when it is not a class member."));
       throw e;
    }

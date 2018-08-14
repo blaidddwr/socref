@@ -1,6 +1,7 @@
 #include "gui_textedit.h"
 #include <QAction>
 #include <QDebug>
+#include <socutil/sut_exceptions.h>
 #include "gui_textedit_highlighter.h"
 #include "gui_textedit_dialog.h"
 #include "gui_textdialog.h"
@@ -9,6 +10,7 @@
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -41,6 +43,7 @@ TextEdit::TextEdit(AbstractBlock* block, QWidget* parent):
    if ( !block )
    {
       Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("The given block pointer is null and invalid."));
       throw e;
    }
@@ -50,6 +53,7 @@ TextEdit::TextEdit(AbstractBlock* block, QWidget* parent):
    if ( !project )
    {
       Exception::LogicError e;
+      SUT_MARK_EXCEPTION(e);
       e.setTitle(tr("Parent of root block is not a project."));
       throw e;
    }
@@ -84,6 +88,7 @@ TextEdit::TextEdit(DictionaryModel* dictionary, QWidget* parent):
    if ( !dictionary )
    {
       Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("The given custom dictionary pointer is null and invalid."));
       throw e;
    }

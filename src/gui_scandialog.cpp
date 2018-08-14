@@ -5,6 +5,7 @@
 #include <QPushButton>
 #include <QSettings>
 #include <QCloseEvent>
+#include <socutil/sut_exceptions.h>
 #include "gui_mainwindow.h"
 #include "scanthread.h"
 #include "application.h"
@@ -12,6 +13,7 @@
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -39,7 +41,7 @@ ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
    if ( !scanner )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot give null pointer as scanner argument for scan dialog."));
       throw e;
    }

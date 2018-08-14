@@ -6496,6 +6496,8 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <type>QString</type>
                 <return_description>Return type for this object's function along with an extra space.</return_description>
                 <operation>Create a new return string.</operation>
+                <operation>Check to see if this object's function is an operator type.</operation>
+                <operation>If this object's operator's name contains a space for the first character then it is an operator type that has no return declaration so return an empty string.</operation>
                 <operation>If this object's function is a slot or signal then set the return to void.</operation>
                 <operation>Else this is a function with a return type so set the return string to that type with an additional space.</operation>
                 <operation>Return the return string.</operation>

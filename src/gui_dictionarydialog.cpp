@@ -3,12 +3,13 @@
 #include <QListView>
 #include <QPushButton>
 #include <QAction>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "project.h"
 #include "dictionarymodel.h"
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -30,6 +31,7 @@ DictionaryDialog::DictionaryDialog(Project* project):
    if ( !project )
    {
       Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("The given project pointer is null and invalid."));
       throw e;
    }

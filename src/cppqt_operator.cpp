@@ -1,5 +1,5 @@
 #include "cppqt_operator.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_operator_edit.h"
 #include "cppqt_blockfactory.h"
 #include "common.h"

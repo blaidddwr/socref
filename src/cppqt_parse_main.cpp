@@ -1,5 +1,4 @@
 #include "cppqt_parse_main.h"
-#include <exception.h>
 #include "cppqt_parse_function.h"
 #include "cppqt_namespace.h"
 #include "cppqt_function.h"
@@ -7,6 +6,7 @@
 
 
 
+using namespace Sut;
 using namespace CppQt::Parse;
 //
 
@@ -29,6 +29,7 @@ Main::Main(const Namespace* block):
    if ( block->parent() )
    {
       Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("The given namespace block is not the root block."));
       throw e;
    }

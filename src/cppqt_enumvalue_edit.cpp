@@ -3,6 +3,7 @@
 
 
 
+using namespace Sut;
 using namespace CppQt;
 //
 
@@ -71,7 +72,7 @@ QString EnumValue::Edit::fieldTitle(int index) const
    default:
       {
          Exception::InvalidArgument e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Invalid field index %1.").arg(index));
          throw e;
       }

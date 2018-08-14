@@ -18,6 +18,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -52,7 +53,7 @@ const char* MainWindow::_viewStateKey {"gui.mainwindow.view.state"};
  * @param text The text of the modal window to give the exception context to the 
  *             user. 
  */
-void MainWindow::showException(const Exception::Base& exception, const QString& text)
+void MainWindow::showException(const Exception& exception, const QString& text)
 {
    // Create and initialize a new message box, using the given exception and text to 
    // populate it. 
@@ -234,7 +235,7 @@ void MainWindow::openTriggered()
    }
 
    // Catch any exception while opening the new project and report it to the user. 
-   catch (Exception::Base e)
+   catch (Exception e)
    {
       showException(e,tr("An error occured while attempting to open the project."));
    }
@@ -363,7 +364,7 @@ void MainWindow::settingTriggered(int type)
    if ( !settings )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Project factory's make settings returned a null pointer."));
       throw e;
    }
@@ -388,7 +389,7 @@ void MainWindow::aboutTriggered()
    if ( !file.open(QIODevice::ReadOnly) )
    {
       Exception::SystemError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed opening about.html: %1").arg(file.errorString()));
       throw e;
    }
@@ -491,7 +492,7 @@ void MainWindow::projectFileChanged()
    }
 
    // Catch any exception while attempting to reload the project and inform the user. 
-   catch (Exception::Base e)
+   catch (Exception e)
    {
       showException(e,tr("An error occured while attempting to reload the project."));
    }
@@ -624,7 +625,7 @@ bool MainWindow::saveAs()
 
    // Catch any exception thrown while attempting to save the project, reporting it 
    // to the user and returning failure. 
-   catch (Exception::Base e)
+   catch (Exception e)
    {
       showException(e,tr("An error occured while attempting to save the project."));
       return false;
@@ -658,7 +659,7 @@ bool MainWindow::save()
 
    // Catch any exception thrown while attempting to save the project, reporting it 
    // to the user and returning failure. 
-   catch (Exception::Base e)
+   catch (Exception e)
    {
       showException(e,tr("An error occured while attempting to save the project."));
       return false;

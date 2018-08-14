@@ -3,6 +3,7 @@
 
 
 
+using namespace Sut;
 using namespace CppQt;
 //
 
@@ -70,7 +71,7 @@ QString Enumeration::Edit::fieldTitle(int index) const
       {
          // If the given index is unknown then throw an exception. 
          Exception::InvalidArgument e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Invalid field index %1.").arg(index));
          throw e;
       }

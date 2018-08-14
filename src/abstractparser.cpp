@@ -1,9 +1,10 @@
 #include "abstractparser.h"
 #include <QFile>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 
 
 
+using namespace Sut;
 //
 
 
@@ -133,7 +134,7 @@ void AbstractParser::stepIntoChild(AbstractParser* child)
    if ( child->parent() != this )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot step into abstract pointer that is not a child."));
       throw e;
    }
@@ -174,7 +175,7 @@ void AbstractParser::setIndent(int indent)
    if ( indent < 0 )
    {
       Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set indent to %1.").arg(indent));
       throw e;
    }
@@ -257,7 +258,7 @@ void AbstractParser::read(QFile* file)
    if ( file->error() )
    {
       Exception::SystemError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed reading in file: %1").arg(file->errorString()));
       throw e;
    }
@@ -341,7 +342,7 @@ void AbstractParser::write(QFile* file)
    if ( !file->resize(0) )
    {
       Exception::SystemError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed truncating file: %1").arg(file->errorString()));
       throw e;
    }
@@ -350,7 +351,7 @@ void AbstractParser::write(QFile* file)
    if ( file->write(newSource.toLocal8Bit()) == -1 )
    {
       Exception::SystemError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed writing to file: %1").arg(file->errorString()));
       throw e;
    }

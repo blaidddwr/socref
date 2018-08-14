@@ -1,8 +1,9 @@
 #include "gui_listedit_model.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -33,7 +34,7 @@ QVariant ListEdit::Model::headerData(int section, Qt::Orientation orientation, i
    if ( !edit )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Parent is not expected type CppQt::Gui::ListDialog"));
       throw e;
    }
@@ -241,7 +242,7 @@ QModelIndex ListEdit::Model::moveUp(const QModelIndex& index)
    if ( !_list )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot move any index of model that has no string list."));
       throw e;
    }
@@ -283,7 +284,7 @@ QModelIndex ListEdit::Model::moveDown(const QModelIndex& index)
    if ( !_list )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot move any index of model that has no string list."));
       throw e;
    }

@@ -5,7 +5,7 @@
 #include <QFileSystemWatcher>
 #include <QCryptographicHash>
 #include <QDomDocument>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "abstractprojectfactory.h"
 #include "abstractparserfactory.h"
 #include "abstractblockfactory.h"
@@ -367,7 +367,7 @@ void Project::setScanDirectory(const QString& path)
    if ( !info.isDir() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
                    .arg(path));
       throw e;
@@ -418,7 +418,7 @@ void Project::save()
    if ( _path.isEmpty() )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Attempting to save new project that has no path."));
       throw e;
    }
@@ -592,7 +592,7 @@ QByteArray Project::read()
    if ( !file.open(QIODevice::ReadOnly) )
    {
       Exception::OpenError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot open file %1 for reading: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
@@ -602,7 +602,7 @@ QByteArray Project::read()
    if ( file.error() != QFileDevice::NoError )
    {
       Exception::WriteError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Error reading from file %1: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
@@ -633,7 +633,7 @@ void Project::convertScanDirectory(const QString& path)
    if ( !directory.cd(path) )
    {
       Exception::ReadError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Scan directory in XML file is invalid; failed changing directory from %1 to %2.")
                    .arg(directory.canonicalPath())
                    .arg(_scanDirectory));
@@ -665,7 +665,7 @@ void Project::readTypeElement(const QDomElement& element)
    if ( !ok )
    {
       Exception::ReadError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Read in invalid type that is not an integer."));
       throw e;
    }
@@ -675,7 +675,7 @@ void Project::readTypeElement(const QDomElement& element)
    if ( _type < 0 || _type >= factory.size() )
    {
       Exception::ReadError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Read in invalid type %1 when max is %2.")
                    .arg(_type)
                    .arg(factory.size() - 1));
@@ -686,7 +686,7 @@ void Project::readTypeElement(const QDomElement& element)
    if ( element.text() != factory.name(_type) )
    {
       Exception::ReadError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Read in invalid type name %1 when it should be %2.")
                    .arg(element.text())
                    .arg(factory.name(_type)));
@@ -713,7 +713,7 @@ void Project::write(const QByteArray& data)
    if ( !file.open(QIODevice::WriteOnly|QIODevice::Truncate) )
    {
       Exception::OpenError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot open file %1 for writing: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
@@ -722,7 +722,7 @@ void Project::write(const QByteArray& data)
    if ( file.write(data) != data.size() )
    {
       Exception::WriteError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Error writing to file %1: %2").arg(_path).arg(file.errorString()));
       throw e;
    }
@@ -769,7 +769,7 @@ void Project::makeRoot()
    if ( _type < 0 || _type >= factory.size() )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Invald project type %1 when max is %2.").arg(_type).arg(factory.size() - 1));
       throw e;
    }
@@ -779,7 +779,7 @@ void Project::makeRoot()
    if ( !_root )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Expected pointer to new root block object when null was given."));
       throw e;
    }

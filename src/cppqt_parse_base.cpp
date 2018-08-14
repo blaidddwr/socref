@@ -1,7 +1,7 @@
 #include "cppqt_parse_base.h"
 #include <QStack>
 #include <QRegularExpression>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_template.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_class.h"
@@ -11,6 +11,7 @@
 
 
 
+using namespace Sut;
 using namespace CppQt::Parse;
 //
 
@@ -40,7 +41,7 @@ QStringList Base::makeComment(const QString& text, int justified)
    if ( justified < 0 )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Invalid justification of %1.").arg(justified));
       throw e;
    }
@@ -133,7 +134,7 @@ QStringList Base::makeTemplateComments(const AbstractBlock* block)
    if ( !block )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Given block pointer cannot be null."));
       throw e;
    }
@@ -183,7 +184,7 @@ QString Base::makePreScope(const AbstractBlock* block)
    if ( !block )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Given block pointer cannot be null."));
       throw e;
    }
@@ -193,7 +194,7 @@ QString Base::makePreScope(const AbstractBlock* block)
    if ( !parent )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Parent of given block does not exist or it does not have a parent."));
       throw e;
    }
@@ -214,7 +215,7 @@ QString Base::makePreScope(const AbstractBlock* block)
    else
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Parent of given block is invalid type."));
       throw e;
    }
@@ -242,7 +243,7 @@ QString Base::makePreClassScope(const AbstractBlock* block)
    if ( !block )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Given block pointer cannot be null."));
       throw e;
    }
@@ -300,7 +301,7 @@ QString Base::makeTemplateDeclaration(const AbstractBlock* block)
    if ( !block )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Given block pointer cannot be null."));
       throw e;
    }
@@ -353,7 +354,7 @@ QString Base::makeTemplateArguments(const AbstractBlock* block, bool declarative
    if ( !block )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Given block pointer cannot be null."));
       throw e;
    }

@@ -1,7 +1,7 @@
 #include "cppqt_parse_function.h"
 #include <QStack>
 #include <QRegularExpression>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_parse_base.h"
 #include "cppqt_function.h"
 #include "cppqt_blockfactory.h"
@@ -15,6 +15,7 @@
 
 
 
+using namespace Sut;
 using namespace CppQt::Parse;
 //
 
@@ -223,7 +224,7 @@ bool Function::isMatch(const QString& line)
    if ( hasCode() || !_definition.isEmpty() ) return false;
 
    // Create a new regular expression line with this object's function's name. 
-   QString regular {QStringLiteral("\\A.*[: ]") + makeName(true) + QStringLiteral("\\(\\s*")};
+   QString regular {QStringLiteral("\\A.*") + makeName(true) + QStringLiteral("\\(\\s*")};
 
    // Add any arguments of this object's function to the regular expression line. 
    for (auto argument : _block->arguments())
@@ -242,7 +243,8 @@ bool Function::isMatch(const QString& line)
 
    // Evaluate the line with the constructed regular expression line to determine a 
    // match, returning its result. 
-   return QRegularExpression(regular).match(line).hasMatch();
+   bool lala {QRegularExpression(regular).match(line).hasMatch()};
+   return lala;
 }
 
 
@@ -278,7 +280,7 @@ void Function::setCutOff(int value)
    if ( value < 0 )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set cut off to invalid value %1.").arg(value));
       throw e;
    }
@@ -526,6 +528,16 @@ QString Function::makeReturnValue()
    // Create a new return string. 
    QString ret;
 
+   // Check to see if this object's function is an operator type. 
+   if ( _block->type() == BlockFactory::OperatorType )
+   {
+      // If this object's operator's name contains a space for the first character then 
+      // it is an operator type that has no return declaration so return an empty 
+      // string. 
+      const QString name {_block->Base::name()};
+      if ( !name.isEmpty() && name.at(0) == QChar(' ') ) return ret;
+   }
+
    // If this object's function is a slot or signal then set the return to void. 
    if ( _block->type() == BlockFactory::SlotType || _block->type() == BlockFactory::SignalType )
    {
@@ -574,10 +586,7 @@ QString Function::makeName(bool isRegExp)
 
       // If the regular expression flag is set then pad the operation characters of this 
       // object's operator. 
-      if ( isRegExp )
-      {
-         for (auto ch : valid->operation()) ret += QStringLiteral("\\") + ch;
-      }
+      if ( isRegExp ) ret += QRegularExpression::escape(valid->operation());
 
       // Else this is not a regular expression name so append the operation of this 
       // object's operator. 

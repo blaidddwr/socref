@@ -7,7 +7,7 @@
 #include <QCheckBox>
 #include <QLineEdit>
 #include <QComboBox>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "gui_blockview.h"
 #include "gui_textedit.h"
 #include "gui_listedit.h"
@@ -17,6 +17,7 @@
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -191,7 +192,7 @@ QCheckBox* AbstractEdit::addCheckBox(int index)
    if ( _block->fieldType(index) != AbstractBlock::Field::Boolean )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set checkbox widget for field %1 when it is not a boolean type.")
                    .arg(index));
       throw e;
@@ -234,7 +235,7 @@ QLineEdit* AbstractEdit::addLineEdit(QFormLayout* form, int index)
    if ( _block->fieldType(index) != AbstractBlock::Field::String )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set line edit widget for field %1 when it is not a string type.")
                    .arg(index));
       throw e;
@@ -279,7 +280,7 @@ TextEdit* AbstractEdit::addTextEdit(QFormLayout* form, int index)
    if ( _block->fieldType(index) != AbstractBlock::Field::String )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set text edit widget for field %1 when it is not a string type.")
                    .arg(index));
       throw e;
@@ -324,7 +325,7 @@ ListEdit* AbstractEdit::addListEdit(QFormLayout* form, int index)
    if ( _block->fieldType(index) != AbstractBlock::Field::StringList )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set list edit widget for field %1 when it is not a string list type.")
                    .arg(index));
       throw e;
@@ -371,7 +372,7 @@ QComboBox* AbstractEdit::addComboEdit(QFormLayout* form, int index, const QStrin
    if ( _block->fieldType(index) != AbstractBlock::Field::String )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set combo box widget for field %1 when it is not a string type.")
                    .arg(index));
       throw e;
@@ -461,11 +462,10 @@ bool AbstractEdit::tryApply()
    }
 
    // Catch any exception thrown from the apply interface. 
-   catch (Exception::Base e)
+   catch (Exception::InvalidArgument e)
    {
       // Report the exception to the user and return false on failure. 
-      MainWindow::showException(e
-                                ,tr("An error occured while attempting to save changes to this block."));
+      MainWindow::showException(e,tr("Cannot save changes to this block."));
       return false;
    }
 }
@@ -525,7 +525,7 @@ void AbstractEdit::checkField(int index)
    if ( !_block )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot add edit widget to object with no block pointer."));
       throw e;
    }
@@ -535,7 +535,7 @@ void AbstractEdit::checkField(int index)
    if ( _edits.contains(index) )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Edit dialog already contains field index %1.").arg(index));
       throw e;
    }
@@ -544,7 +544,7 @@ void AbstractEdit::checkField(int index)
    if ( index < 0 || index >= _block->fieldSize() )
    {
       Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Field index %1 is out of range (%2 total).")
                    .arg(index)
                    .arg(_block->fieldSize()));

@@ -1,10 +1,11 @@
 #include "blockmodel.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "abstractblockfactory.h"
 #include "abstractblock.h"
 
 
 
+using namespace Sut;
 using namespace std;
 //
 
@@ -508,7 +509,7 @@ void BlockModel::notifyChange(AbstractBlock* block, const QVector<int>& roles)
    if ( !parent )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("A name changed signal was emitted with the root block."));
       throw e;
    }

@@ -5,7 +5,7 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "gui_abstractedit.h"
 #include "abstractblock.h"
 #include "abstractblockfactory.h"
@@ -15,6 +15,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -453,7 +454,7 @@ void BlockView::updateView()
    if ( !_view )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
       throw e;
    }

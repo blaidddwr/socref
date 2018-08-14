@@ -1,5 +1,5 @@
 #include "cppqt_access.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_access_view.h"
 #include "cppqt_access_edit.h"
 #include "cppqt_blockfactory.h"
@@ -9,6 +9,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -210,7 +211,7 @@ AbstractBlock::Field Access::fieldType(int index) const
    default:
       {
          Exception::OutOfRange e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
                       .arg(index)
                       .arg(fieldSize() - 1));
@@ -242,7 +243,7 @@ QVariant Access::field(int index) const
    default:
       {
          Exception::OutOfRange e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
                       .arg(index)
                       .arg(fieldSize() - 1));
@@ -664,7 +665,7 @@ void Access::setAccessType(Type value)
    if ( isNormal(value) && hasSignalsOrSlots() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Normal access types cannot contain signals and/or slots."));
       throw e;
    }
@@ -674,7 +675,7 @@ void Access::setAccessType(Type value)
    if ( isSlot(value) && ( hasRegular() || hasSignals() ) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Slot access types cannot contain functions, variables, and/or signals."));
       throw e;
    }
@@ -684,7 +685,7 @@ void Access::setAccessType(Type value)
    if ( value == Type::Signals && ( hasRegular() || hasSlots() ) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Signals access type cannot contain functions, variables, and/or slots."));
       throw e;
    }

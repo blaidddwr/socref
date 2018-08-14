@@ -3,7 +3,7 @@
 #include <memory>
 #include <QThread>
 #include <QFileInfoList>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "global.h"
 //
 
@@ -25,7 +25,7 @@ public:
    explicit ScanThread(std::unique_ptr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent = nullptr);
    int size() const;
    bool hasException() const;
-   const Exception::Base& exception() const;
+   const Sut::Exception& exception() const;
 signals:
    /*!
     * Signals that the scan thread has started working on the given file index. The 
@@ -52,7 +52,7 @@ private:
     * A pointer that this scan thread uses to save any Socrates exception that occurs 
     * within its separate scanning thread. 
     */
-   Exception::Base* _exception {nullptr};
+   Sut::Exception* _exception {nullptr};
 };
 
 

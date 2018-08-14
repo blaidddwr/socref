@@ -1,7 +1,7 @@
 #include "cppqt_namespace.h"
 #include <memory>
 #include <QDomDocument>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_namespace_view.h"
 #include "cppqt_namespace_edit.h"
 #include "cppqt_blockfactory.h"
@@ -9,6 +9,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -154,7 +155,7 @@ const Namespace* Namespace::root() const
    if ( !ret )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Root block is not expected Namespace type."));
       throw e;
    }
@@ -181,7 +182,7 @@ Namespace* Namespace::root()
    if ( !ret )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Root block is not expected Namespace type."));
       throw e;
    }

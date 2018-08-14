@@ -4,7 +4,7 @@
 #include <QObject>
 #include <QDomElement>
 #include <QVariant>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "global.h"
 #include "gui.h"
 //
@@ -344,8 +344,8 @@ template<class T> const T* AbstractBlock::cast(int toType) const
    // successfully. 
    else
    {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      Sut::Exception::LogicError e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed casting object to required type."));
       throw e;
    }
@@ -383,8 +383,8 @@ template<class T> T* AbstractBlock::cast(int toType)
    // successfully. 
    else
    {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      Sut::Exception::LogicError e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed casting object to required type."));
       throw e;
    }

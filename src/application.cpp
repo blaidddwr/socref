@@ -1,9 +1,10 @@
 #include "application.h"
 #include <QDebug>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 
 
 
+using namespace Sut;
 //
 
 
@@ -41,7 +42,7 @@ bool Application::notify(QObject* receiver, QEvent* event)
    }
 
    // Catch any thrown exception and report it to debug output. 
-   catch (Exception::Base e)
+   catch (Exception e)
    {
       qDebug().nospace().noquote() << QStringLiteral("EXCEPTION");
       qDebug().nospace().noquote() << QString("Location: %1:%2").arg(e.file()).arg(e.line());

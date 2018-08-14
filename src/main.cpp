@@ -1,8 +1,12 @@
 #include <QDebug>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "application.h"
 #include "gui_mainwindow.h"
 #include "projectfactory.h"
+
+
+
+using namespace Sut;
 //
 
 
@@ -38,7 +42,7 @@ int main(int argc, char** argv)
 
    // Catch any thrown exception, reporting it and exiting this program with a 
    // failure code. 
-   catch (Exception::Base e)
+   catch (Exception e)
    {
       qDebug().nospace().noquote() << QStringLiteral("EXCEPTION");
       qDebug().nospace().noquote() << QString("Location: %1:%2").arg(e.file()).arg(e.line());

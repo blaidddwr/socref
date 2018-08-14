@@ -8,13 +8,14 @@
 #include <QFileDialog>
 #include <QSettings>
 #include <QAction>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "project.h"
 #include "dictionarymodel.h"
 #include "application.h"
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -40,7 +41,7 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
    if ( !_project )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot give nullptr as argument for project settings constructor."));
       throw e;
    }

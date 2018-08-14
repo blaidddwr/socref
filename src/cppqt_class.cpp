@@ -1,5 +1,5 @@
 #include "cppqt_class.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_class_view.h"
 #include "cppqt_class_edit.h"
 #include "cppqt_blockfactory.h"
@@ -12,6 +12,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -627,7 +628,7 @@ void Class::setQtObject(bool state)
    if ( !state && hasSignalsOrSlots() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Class must be a Qt Object because it has slots and/or signals."));
       throw e;
    }

@@ -8,6 +8,7 @@
 
 
 using namespace std;
+using namespace Sut;
 //
 
 
@@ -87,13 +88,13 @@ bool ScanThread::hasException() const
  *
  * @return Reference to exception that occurred while parsing source files. 
  */
-const Exception::Base& ScanThread::exception() const
+const Sut::Exception& ScanThread::exception() const
 {
    // Make sure this object has an exception that was caught. 
    if ( !_exception )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot get exception when none has been set."));
       throw e;
    }
@@ -142,9 +143,9 @@ void ScanThread::run()
 
    // If any defined exception is caught then save it to this object's caught 
    // exception pointer. 
-   catch (Exception::Base e)
+   catch (Exception e)
    {
-      _exception = new Exception::Base(e);
+      _exception = (&e)->makeCopy();
    }
 
    // Report on any other std or unknown exception. 
@@ -180,7 +181,7 @@ void ScanThread::parse(AbstractParser* parser, const QFileInfo& info)
    if ( !file.open(QFile::ReadWrite|QIODevice::Text) )
    {
       Exception::SystemError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed opening file %1: %2")
                    .arg(info.canonicalFilePath())
                    .arg(file.errorString()));
@@ -214,7 +215,7 @@ void ScanThread::buildList(const QString& scanDirectory, const QStringList& filt
    if ( !dir.exists() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Directory %1 does not exist.").arg(scanDirectory));
       throw e;
    }

@@ -1,6 +1,6 @@
 #include "projectfactory.h"
 #include <QObject>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_blockfactory.h"
 #include "cppqt_parse_factory.h"
 #include "cppqt_gui_settingsdialog.h"

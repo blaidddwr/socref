@@ -1,5 +1,4 @@
 #include "cppqt_parse_factory.h"
-#include <exception.h>
 #include "cppqt_parse_global.h"
 #include "cppqt_parse_header.h"
 #include "cppqt_parse_source.h"
@@ -12,6 +11,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace CppQt;
 using namespace CppQt::Parse;
 //
@@ -84,7 +84,7 @@ Factory::Factory(const AbstractBlock* root):
    if ( !_root )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(
                tr("Root block is type '%1' intead of namespace.")
                .arg(root->factory().name(root->type())));

@@ -8,12 +8,13 @@
 #include <QRegularExpression>
 #include <QMessageBox>
 #include <QSettings>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "application.h"
 #include "dictionarymodel.h"
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -547,7 +548,7 @@ void TextEdit::Dialog::setupSpeller()
    if ( aspell_error_number(temp) )
    {
       Exception::SystemError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed initializing Aspell library for spell checking: %1")
                    .arg(aspell_error_message(temp)));
       throw e;

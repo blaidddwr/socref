@@ -1,7 +1,11 @@
 #ifndef SINGLETONFACTORY_H
 #define SINGLETONFACTORY_H
 #include <QObject>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
+
+
+
+using namespace Sut;
 //
 
 
@@ -54,7 +58,7 @@ template<class T> T& SingletonFactory<T>::instance()
    if ( !_instance )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Attempted to get factory when none has been set."));
       throw e;
    }

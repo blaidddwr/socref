@@ -8,6 +8,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -153,7 +154,7 @@ AbstractBlock::Field Type::fieldType(int index) const
    default:
       {
          Exception::OutOfRange e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
                       .arg(index)
                       .arg(fieldSize() - 1));
@@ -185,7 +186,7 @@ QVariant Type::field(int index) const
    default:
       {
          Exception::OutOfRange e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
                       .arg(index)
                       .arg(fieldSize() - 1));
@@ -458,7 +459,7 @@ void Type::setType(const QString& value)
    if ( !isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("The given string '%1' is not a valid C++ type.").arg(value));
       throw e;
    }

@@ -1,7 +1,7 @@
 #include "cppqt_parse_source.h"
 #include <QStack>
 #include <QRegularExpression>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_parse_function.h"
 #include "cppqt_parse_variable.h"
 #include "cppqt_function.h"
@@ -14,6 +14,7 @@
 
 
 
+using namespace Sut;
 using namespace CppQt::Parse;
 //
 
@@ -274,6 +275,7 @@ Source::Source(const Namespace* block):
    if ( !block )
    {
       Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("The given namespace block pointer is null and invalid."));
       throw e;
    }

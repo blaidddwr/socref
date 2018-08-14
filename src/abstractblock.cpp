@@ -1,12 +1,13 @@
 #include "abstractblock.h"
 #include <QDomDocument>
 #include <QMap>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "abstractblockfactory.h"
 
 
 
 using namespace std;
+using namespace Sut;
 //
 
 
@@ -138,7 +139,7 @@ AbstractBlock* AbstractBlock::get(int index) const
    if ( index < 0 || index >= _children.size() )
    {
       Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot get child %1 when only %2 children exist.")
                    .arg(index)
                    .arg(_children.size()));
@@ -305,7 +306,7 @@ void AbstractBlock::setField(int index, const QVariant& value)
    if ( index < 0 || index >= fieldSize() )
    {
       Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Given block field %1 is out of range (%2 total).")
                    .arg(index)
                    .arg(fieldSize()));
@@ -407,7 +408,7 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
    if ( !child )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot insert child block with null pointer."));
       throw e;
    }
@@ -416,7 +417,7 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
    if ( !buildList().contains(child->type()) )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.")
                    .arg(child->type())
                    .arg(type()));
@@ -456,7 +457,7 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
    if ( index < 0 && index >= _children.size() )
    {
       Exception::OutOfRange e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot take child %1 when only %2 children exist.")
                    .arg(index)
                    .arg(_children.size()));
@@ -542,7 +543,7 @@ void AbstractBlock::read(const QDomElement& element)
       if ( !buildList().contains(child->type()) )
       {
          Exception::ReadError e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Loaded illegal child block type '%1' to block type '%2'")
                       .arg(factory().name(child->type()))
                       .arg(factory().name(type())));
@@ -696,7 +697,7 @@ void AbstractBlock::notifyNameModified()
    if ( !root )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot notify a name change of the root block."));
       throw e;
    }
@@ -731,7 +732,7 @@ void AbstractBlock::notifyBodyModified()
    if ( !root )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot notify a body change of the root block."));
       throw e;
    }
@@ -957,7 +958,7 @@ void AbstractBlock::readChild(const QDomElement& element)
    if ( !ok )
    {
       Exception::ReadError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Type attribute is not an integer."));
       throw e;
    }
@@ -966,7 +967,7 @@ void AbstractBlock::readChild(const QDomElement& element)
    if ( type < 0 || type >= factory().size() )
    {
       Exception::ReadError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(type).arg(factory().size()));
       throw e;
    }

@@ -13,8 +13,7 @@ TARGET = socref
 TEMPLATE = app
 VERSION = $${MAJOR_VERSION}.$${MINOR_VERSION}.$${REVISION}
 
-INCLUDEPATH += ../../socerr/src
-LIBS += -L../../socerr/build -lsocerr -laspell
+LIBS += -lsocutil -laspell
 
 DEFINES += QT_DEPRECATED_WARNINGS \
     MAJOR_VERSION=$${MAJOR_VERSION} \

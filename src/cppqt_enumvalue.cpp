@@ -1,5 +1,5 @@
 #include "cppqt_enumvalue.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_enumvalue_view.h"
 #include "cppqt_enumvalue_edit.h"
 #include "cppqt_blockfactory.h"

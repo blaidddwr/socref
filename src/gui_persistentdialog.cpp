@@ -1,9 +1,10 @@
 #include "gui_persistentdialog.h"
 #include <QSettings>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -90,7 +91,7 @@ void PersistentDialog::saveSettings(const char* geometryKey)
    if ( _geometryKey )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("The geometry key for this persistent dialog has already been set."));
       throw e;
    }

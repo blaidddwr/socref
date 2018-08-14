@@ -1,5 +1,5 @@
 #include "cppqt_constructor.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_constructor_edit.h"
 #include "cppqt_blockfactory.h"
 #include "common.h"
@@ -7,6 +7,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -110,7 +111,7 @@ QString Constructor::className() const
    if ( !access || !access->parent() )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Parent or grandparent is nullptr."));
       throw e;
    }
@@ -127,7 +128,7 @@ QString Constructor::className() const
    else
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Grandparent does not contain CppQt::Base class."));
       throw e;
    }

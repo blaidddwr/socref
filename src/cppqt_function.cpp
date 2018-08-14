@@ -1,5 +1,5 @@
 #include "cppqt_function.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "cppqt_function_view.h"
 #include "cppqt_function_edit.h"
 #include "cppqt_variable.h"
@@ -13,6 +13,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -853,7 +854,7 @@ void Function::setReturnType(const QString& value)
    if ( !value.isEmpty() && !Type::isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set invalid return type '%1'.").arg(value));
       throw e;
    }
@@ -911,7 +912,7 @@ void Function::setDefault(bool state)
    if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as default when it is not a class method."));
       throw e;
    }
@@ -937,7 +938,7 @@ void Function::setExplicit(bool state)
    if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as explicit when it is not a class method."));
       throw e;
    }
@@ -963,7 +964,7 @@ void Function::setVirtual(bool state)
    if ( parent() && state && ( isStatic() || hasTemplates() || !isMethod() ) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as virtual when it is static, has templates, or is not a class method."));
       throw e;
    }
@@ -989,7 +990,7 @@ void Function::setConst(bool state)
    if ( parent() && state && !isMethod() )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as const when it is not a class method."));
       throw e;
    }
@@ -1015,7 +1016,7 @@ void Function::setConstExpr(bool state)
    if ( parent() && state && _virtual )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as constexpr when it is virtual."));
       throw e;
    }
@@ -1041,7 +1042,7 @@ void Function::setStatic(bool state)
    if ( parent() && state && _virtual )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as static when it is virtual."));
       throw e;
    }
@@ -1067,7 +1068,7 @@ void Function::setOverride(bool state)
    if ( parent() && state && ( !_virtual || _abstract ) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as override when it is not virtual or it is abstract."));
       throw e;
    }
@@ -1093,7 +1094,7 @@ void Function::setFinal(bool state)
    if ( parent() && state && ( !_virtual || _abstract ) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as final when it is not virtual or it is abstract."));
       throw e;
    }
@@ -1119,7 +1120,7 @@ void Function::setAbstract(bool state)
    if ( parent() && state && ( !_virtual || _override || _final ) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set function as abstract when it is not virtual or it is override/final."));
       throw e;
    }

@@ -1,5 +1,4 @@
 #include "cppqt_parent.h"
-#include <exception.h>
 #include "cppqt_parent_view.h"
 #include "cppqt_parent_edit.h"
 #include "cppqt_blockfactory.h"
@@ -9,6 +8,7 @@
 
 
 using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -169,7 +169,7 @@ AbstractBlock::Field Parent::fieldType(int index) const
    default:
       {
          Exception::OutOfRange e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
                       .arg(index)
                       .arg(fieldSize() - 1));
@@ -202,7 +202,7 @@ QVariant Parent::field(int index) const
    default:
       {
          Exception::OutOfRange e;
-         MARK_EXCEPTION(e);
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
                       .arg(index)
                       .arg(fieldSize() - 1));
@@ -422,7 +422,7 @@ void Parent::setClassName(const QString& value)
    if ( !Type::isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Class name '%1' is not valid.").arg(value));
       throw e;
    }
