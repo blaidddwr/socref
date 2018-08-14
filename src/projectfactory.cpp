@@ -7,6 +7,7 @@
 
 
 
+using namespace Sut;
 using namespace std;
 //
 
@@ -47,6 +48,7 @@ QString ProjectFactory::name(int type) const
       {
          // This project type is not recognized so throw an exception. 
          Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
          throw e;
       }
@@ -75,6 +77,7 @@ QString ProjectFactory::defaultFilters(int type) const
       {
          // This project type is not recognized so throw an exception. 
          Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
          throw e;
       }
@@ -103,6 +106,7 @@ std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
       {
          // This project type is not recognized so throw an exception. 
          Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
          throw e;
       }
@@ -131,6 +135,7 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
       {
          // This project type is not recognized so throw an exception. 
          Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
          throw e;
       }
@@ -162,6 +167,7 @@ std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int typ
       {
          // This project type is not recognized so throw an exception. 
          Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
          e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
          throw e;
       }

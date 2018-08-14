@@ -53,7 +53,7 @@ const char* MainWindow::_viewStateKey {"gui.mainwindow.view.state"};
  * @param text The text of the modal window to give the exception context to the 
  *             user. 
  */
-void MainWindow::showException(const Exception& exception, const QString& text)
+void MainWindow::showException(const Sut::Exception& exception, const QString& text)
 {
    // Create and initialize a new message box, using the given exception and text to 
    // populate it. 

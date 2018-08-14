@@ -2,10 +2,6 @@
 #define SINGLETONFACTORY_H
 #include <QObject>
 #include <socutil/sut_exceptions.h>
-
-
-
-using namespace Sut;
 //
 
 
@@ -57,7 +53,7 @@ template<class T> T& SingletonFactory<T>::instance()
    // Make sure a global instance has been set. 
    if ( !_instance )
    {
-      Exception::LogicError e;
+      Sut::Exception::LogicError e;
       SUT_MARK_EXCEPTION(e);
       e.setDetails(QObject::tr("Attempted to get factory when none has been set."));
       throw e;

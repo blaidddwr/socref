@@ -432,22 +432,22 @@
     </typeList>
     <typeList type="15">
       <data version="0">
-        <name>SocErr</name>
+        <name>SocUtil</name>
       </data>
       <type type="16">
         <data version="0">
-          <type>Exception::Base*</type>
+          <type>Sut::Exception*</type>
         </data>
       </type>
       <type type="16">
         <data version="0">
-          <type>const Exception::Base&amp;</type>
+          <type>const Sut::Exception&amp;</type>
         </data>
       </type>
     </typeList>
     <typeList type="15">
       <data version="0">
-        <name>This</name>
+        <name>SocRef</name>
       </data>
       <typeList type="15">
         <data version="0">
@@ -3068,7 +3068,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <data version="0">
                 <name>exception</name>
                 <description>The exception whose title and details is displayed to the user in a model dialog.</description>
-                <type>const Exception::Base&amp;</type>
+                <type>const Sut::Exception&amp;</type>
               </data>
             </variable>
             <variable type="1">
@@ -17799,7 +17799,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <name>exception</name>
             <description>Returns a reference to the exception that occurred in this scan thread's separate thread causing failure. If this scan thread has no exception this itself will throw an exception.</description>
             <const/>
-            <type>const Exception::Base&amp;</type>
+            <type>const Sut::Exception&amp;</type>
             <return_description>Reference to exception that occurred while parsing source files.</return_description>
             <operation>Make sure this object has an exception that was caught.</operation>
             <operation>Return a reference to the caught exception.</operation>
@@ -17916,7 +17916,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <data version="0">
             <name>_exception</name>
             <description>A pointer that this scan thread uses to save any Socrates exception that occurs within its separate scanning thread.</description>
-            <type>Exception::Base*</type>
+            <type>Sut::Exception*</type>
             <initializer>nullptr</initializer>
           </data>
         </variable>
