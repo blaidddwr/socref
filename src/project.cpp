@@ -122,7 +122,6 @@ Project::Project(const QString& path):
          // Figure out what element this is based off its tag name and set the appropriate 
          // data for this project. 
          QDomElement element {node.toElement()};
-         qDebug() << element.tagName();
          switch (tags.indexOf(element.tagName()))
          {
          case Name:

@@ -105,7 +105,8 @@ QDomElement DictionaryModel::write(QDomDocument& document) const
    QDomElement ret {document.createElement("na")};
 
    // Iterate through all words of this model's word list, appending a new XML child 
-   // element for each word. Each word is copied in the child element's tag name. 
+   // element for each word. Each word is copied in the child element's enclosing 
+   // text. 
    for (auto word: _list)
    {
       QDomElement element {document.createElement("word")};
@@ -219,8 +220,7 @@ void DictionaryModel::read(const QDomElement& element)
    QDomNode node {element.firstChild()};
    while ( !node.isNull() )
    {
-      // If the child node is an element then append its tag name to this model's word 
-      // list. 
+      // If the child node is an element then append its text to this model's word list. 
       if ( node.isElement() ) _list << node.toElement().text();
 
       // Iterate to the next sibling node. 

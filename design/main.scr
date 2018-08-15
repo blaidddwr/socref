@@ -5,13 +5,16 @@
   <filters>*.cpp *.h</filters>
   <scandir>../src</scandir>
   <dictionary>
-    <AbstractBlock/>
-    <AbstractParser/>
-    <CppQt/>
-    <QAbstractItemModel/>
-    <QCoreApplication/>
-    <QThread/>
-    <preprocessor/>
+    <word>AbstractBlock</word>
+    <word>AbstractParser</word>
+    <word>AbstractParserFactory</word>
+    <word>AbstractProjectFactory</word>
+    <word>C++/Qt</word>
+    <word>CppQt</word>
+    <word>QAbstractItemModel</word>
+    <word>QCoreApplication</word>
+    <word>QThread</word>
+    <word>preprocessor</word>
   </dictionary>
   <root type="0">
     <data version="0"/>
@@ -265,7 +268,7 @@
         </type>
         <type type="16">
           <data version="0">
-            <type>std::unique_ptr&lt;QWidget></type>
+            <type>Sut::QPtr&lt;QWidget></type>
           </data>
         </type>
       </typeList>
@@ -426,7 +429,7 @@
       </type>
       <type type="16">
         <data version="0">
-          <type>std::unique_ptr&lt;QDialog></type>
+          <type>Sut::QPtr&lt;QDialog></type>
         </data>
       </type>
     </typeList>
@@ -465,12 +468,12 @@
         </type>
         <type type="16">
           <data version="0">
-            <type>std::unique_ptr&lt;AbstractBlock></type>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
           </data>
         </type>
         <type type="16">
           <data version="0">
-            <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
+            <type>Sut::QPtr&lt;AbstractBlock>&amp;&amp;</type>
           </data>
         </type>
         <type type="16">
@@ -505,7 +508,12 @@
         </type>
         <type type="16">
           <data version="0">
-            <type>std::unique_ptr&lt;AbstractParserFactory></type>
+            <type>Sut::QPtr&lt;AbstractParserFactory></type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>Sut::QPtr&lt;AbstractParserFactory>&amp;&amp;</type>
           </data>
         </type>
       </typeList>
@@ -520,7 +528,7 @@
         </type>
         <type type="16">
           <data version="0">
-            <type>std::unique_ptr&lt;AbstractParser></type>
+            <type>Sut::QPtr&lt;AbstractParser></type>
           </data>
         </type>
         <type type="16">
@@ -540,7 +548,7 @@
         </type>
         <type type="16">
           <data version="0">
-            <type>std::unique_ptr&lt;Project>&amp;&amp;</type>
+            <type>Sut::QPtr&lt;Project>&amp;&amp;</type>
           </data>
         </type>
       </typeList>
@@ -571,12 +579,12 @@
       </type>
       <type type="16">
         <data version="0">
-          <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+          <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
         </data>
       </type>
       <type type="16">
         <data version="0">
-          <type>std::unique_ptr&lt;ScanThread></type>
+          <type>Sut::QPtr&lt;ScanThread></type>
         </data>
       </type>
     </typeList>
@@ -3109,7 +3117,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <variable type="1">
               <data version="0">
                 <name>project</name>
-                <type>std::unique_ptr&lt;Project>&amp;&amp;</type>
+                <type>Sut::QPtr&lt;Project>&amp;&amp;</type>
               </data>
             </variable>
           </function>
@@ -4632,7 +4640,7 @@ The global header file has forward declarations of all classes within its namesp
                 <const/>
                 <override/>
                 <final/>
-                <type>std::unique_ptr&lt;AbstractParser></type>
+                <type>Sut::QPtr&lt;AbstractParser></type>
                 <return_description>See interface docs.</return_description>
                 <operation>Make sure the given file name is not empty.</operation>
                 <operation>Create the is header flag and set its value.</operation>
@@ -6987,7 +6995,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Singleton&lt;Settings></class>
+            <class>Sut::Singleton&lt;Settings></class>
           </data>
         </parent>
         <access type="5">
@@ -7208,7 +7216,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Singleton&lt;BlockFactory></class>
+            <class>Sut::Singleton&lt;BlockFactory></class>
           </data>
         </parent>
         <access type="5">
@@ -7407,7 +7415,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
               <operation>Based off the given block type create a new block of that type and return its smart pointer.</operation>
             </data>
@@ -7434,7 +7442,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
               <operation>Create a new namespace block which is used as this project type's root block and return its pointer.</operation>
             </data>
@@ -8096,7 +8104,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -8107,7 +8115,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -8145,7 +8153,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -8462,7 +8470,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -8528,7 +8536,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -8637,7 +8645,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -8960,7 +8968,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -9026,7 +9034,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -9102,7 +9110,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -9424,7 +9432,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -9490,7 +9498,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -9566,7 +9574,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -9819,7 +9827,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -9829,7 +9837,7 @@ The name field has a special interface for checking if it is valid which can be 
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -9897,7 +9905,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -10191,7 +10199,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -10256,7 +10264,7 @@ The name field has a special interface for checking if it is valid which can be 
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -10412,7 +10420,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -10748,7 +10756,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -10759,7 +10767,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -10797,7 +10805,7 @@ The name field has a special interface for checking if it is valid which can be 
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -11203,7 +11211,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -11268,7 +11276,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -11585,7 +11593,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -12142,7 +12150,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -12190,7 +12198,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -12446,7 +12454,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -12511,7 +12519,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -12678,7 +12686,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -13080,7 +13088,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -13146,7 +13154,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -13348,7 +13356,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -13685,7 +13693,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -13722,7 +13730,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -13852,7 +13860,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -13890,7 +13898,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -14018,7 +14026,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -14063,7 +14071,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -14215,7 +14223,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -14232,7 +14240,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -14462,7 +14470,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -14528,7 +14536,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -14643,7 +14651,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -15008,7 +15016,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;QWidget></type>
+              <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -15073,7 +15081,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
-              <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -15137,7 +15145,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <virtual/>
               <const/>
               <override/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -15365,7 +15373,7 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <const/>
               <override/>
               <final/>
-              <type>std::unique_ptr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -15387,138 +15395,6 @@ The persistence of the qt splitter is made unique by this class overriding the s
         </access>
       </class>
     </namespace>
-    <class type="4">
-      <data version="0">
-        <name>Singleton</name>
-        <description>This template can be inherited by any class that wants to be a singleton class. Any class that uses this template to be a singleton class must have a default constructor. A singleton class is a class that has only one global instance for the entire program.</description>
-      </data>
-      <typeList type="15">
-        <data version="0">
-          <name>Custom</name>
-        </data>
-        <type type="16">
-          <data version="0">
-            <type>T&amp;</type>
-          </data>
-        </type>
-        <type type="16">
-          <data version="0">
-            <type>T*</type>
-          </data>
-        </type>
-      </typeList>
-      <template type="3">
-        <data version="0">
-          <name>T</name>
-          <description>This must be the class type that inherits this class.</description>
-          <type>class</type>
-        </data>
-      </template>
-      <access type="5">
-        <data version="0">
-          <type>public:</type>
-        </data>
-        <function type="2">
-          <data version="0">
-            <name>instance</name>
-            <description>Returns the single global instance of the singleton class that inherits from this template class.</description>
-            <static/>
-            <type>T&amp;</type>
-            <return_description>Reference to singleton class instance.</return_description>
-            <operation>If the global pointer is null then make a new instance.</operation>
-            <operation>Return a reference to the global instance.</operation>
-          </data>
-        </function>
-      </access>
-      <access type="5">
-        <data version="0">
-          <type>private:</type>
-        </data>
-        <variable type="1">
-          <data version="0">
-            <name>_instance</name>
-            <description>Pointer to the global single instance of the singleton class that inherits from this template class.</description>
-            <static/>
-            <type>T*</type>
-            <initializer>nullptr</initializer>
-          </data>
-        </variable>
-      </access>
-    </class>
-    <class type="4">
-      <data version="0">
-        <name>SingletonFactory</name>
-        <description>This template can be inherited by any class that wants to be a singleton factory. A singleton class is a class that has only one global instance for the entire program. The global instance can be set to a new instance at anytime, deleting any existing instance. The is most commonly used with abstract factories that have a single global instance in a program.</description>
-      </data>
-      <typeList type="15">
-        <data version="0">
-          <name>Custom</name>
-        </data>
-        <type type="16">
-          <data version="0">
-            <type>T&amp;</type>
-          </data>
-        </type>
-        <type type="16">
-          <data version="0">
-            <type>T*</type>
-          </data>
-        </type>
-      </typeList>
-      <template type="3">
-        <data version="0">
-          <name>T</name>
-          <description>This must be the class type that inherits this class.</description>
-          <type>class</type>
-        </data>
-      </template>
-      <access type="5">
-        <data version="0">
-          <type>public:</type>
-        </data>
-        <function type="2">
-          <data version="0">
-            <name>instance</name>
-            <description>Returns the single global instance of the singleton factory that inherits from this template class. If an instance has never been set then an exception is thrown.</description>
-            <static/>
-            <type>T&amp;</type>
-            <return_description>Reference to singleton factory instance.</return_description>
-            <operation>Make sure a global instance has been set.</operation>
-            <operation>Return a reference to the global instance.</operation>
-          </data>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>setInstance</name>
-            <description>Sets a new instance of the singleton factory that inherits this template class with the given pointer. If an instance already exists the old one is deleted and replaced by the new one given.</description>
-            <static/>
-            <type>void</type>
-            <operation>Delete any previously set global instance and then set the new instance given.</operation>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>instance</name>
-              <description>Pointer to the new global instance for the singleton factory inherited from this template class.</description>
-              <type>T*</type>
-            </data>
-          </variable>
-        </function>
-      </access>
-      <access type="5">
-        <data version="0">
-          <type>private:</type>
-        </data>
-        <variable type="1">
-          <data version="0">
-            <name>_instance</name>
-            <description>Pointer to the global single instance of the singleton factory that inherits from this template class.</description>
-            <static/>
-            <type>T*</type>
-            <initializer>nullptr</initializer>
-          </data>
-        </variable>
-      </access>
-    </class>
     <class type="4">
       <data version="0">
         <name>AbstractBlock</name>
@@ -15654,7 +15530,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <virtual/>
             <const/>
             <abstract/>
-            <type>std::unique_ptr&lt;QWidget></type>
+            <type>Sut::QPtr&lt;QWidget></type>
             <return_description>New GUI view that represents this block's data.</return_description>
           </data>
         </function>
@@ -15711,7 +15587,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <description>This interface returns an abstract edit GUI dialog that provides the ability to edit this block's data.</description>
             <virtual/>
             <abstract/>
-            <type>std::unique_ptr&lt;::Gui::AbstractEdit></type>
+            <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
             <return_description>Abstract edit GUI dialog to edit this block's data.</return_description>
           </data>
         </function>
@@ -15801,7 +15677,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <name>makeCopy</name>
             <description>Makes an exact copy of this block. This uses other virtual functions to create a copy of this block. The new block returned has no parent.</description>
             <const/>
-            <type>std::unique_ptr&lt;AbstractBlock></type>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>Exact copy of this block's data as a new block.</return_description>
             <operation>Create a new blank block of the same type as this block.</operation>
             <operation>Make sure the new blank block is the same type as this block.</operation>
@@ -16033,7 +15909,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <data version="0">
               <name>child</name>
               <description>Pointer to the new block that is inserted as this block's child.</description>
-              <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
+              <type>Sut::QPtr&lt;AbstractBlock>&amp;&amp;</type>
             </data>
           </variable>
         </function>
@@ -16041,7 +15917,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <data version="0">
             <name>take</name>
             <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. If the index is out of range then an exception is thrown.</description>
-            <type>std::unique_ptr&lt;AbstractBlock></type>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>Pointer to child that was taken from this block.</return_description>
             <operation>Make sure the given index is within range.</operation>
             <operation>Remove the child from this block's child list at the given index, saving the pointer and notifying of modification.</operation>
@@ -16139,7 +16015,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <virtual/>
             <const/>
             <abstract/>
-            <type>std::unique_ptr&lt;AbstractBlock></type>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>Pointer to the newly created block.</return_description>
           </data>
         </function>
@@ -16446,31 +16322,6 @@ This class itself handles all copying, reading, and writing of blocks by using t
             </data>
           </variable>
         </function>
-        <function type="2">
-          <data version="0">
-            <name>setParent</name>
-            <description>Sets this block's parent to the given block, adding it to its new parent's list with the given index. If the index is less than 1 it is prepended, else if it is greater than the size of the list it is appended. This will remove any previous parent this block may have had. The new parent can be a null pointer which means this block will have no parent.</description>
-            <type>void</type>
-            <operation>If this block already has a parent then remove it from the parent's child list.</operation>
-            <operation>Set this block's parent to the new parent, if any.</operation>
-            <operation>If the new parent is not null then insert this block into the new parent's child list at the given index.</operation>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>parent</name>
-              <description>Pointer to the new parent for this block.</description>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>index</name>
-              <description>The index where this block will be added to its new parent's list.</description>
-              <type>int</type>
-              <initializer>-1</initializer>
-            </data>
-          </variable>
-        </function>
         <variable type="1">
           <data version="0">
             <name>_versionTag</name>
@@ -16603,7 +16454,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <virtual/>
             <const/>
             <abstract/>
-            <type>std::unique_ptr&lt;AbstractBlock></type>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>Pointer to new block with given type.</return_description>
           </data>
           <variable type="1">
@@ -16628,7 +16479,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <virtual/>
             <const/>
             <abstract/>
-            <type>std::unique_ptr&lt;AbstractBlock></type>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>Pointer to new root block for this project type.</return_description>
           </data>
         </function>
@@ -16976,7 +16827,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <virtual/>
             <const/>
             <abstract/>
-            <type>std::unique_ptr&lt;AbstractParser></type>
+            <type>Sut::QPtr&lt;AbstractParser></type>
             <return_description>Pointer to new parser object or null pointer.</return_description>
           </data>
           <variable type="1">
@@ -17004,7 +16855,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
       <parent type="13">
         <data version="0">
           <access>public</access>
-          <class>SingletonFactory&lt;AbstractProjectFactory></class>
+          <class>Sut::SingletonFactory&lt;AbstractProjectFactory></class>
         </data>
       </parent>
       <access type="5">
@@ -17072,7 +16923,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <virtual/>
             <const/>
             <abstract/>
-            <type>std::unique_ptr&lt;QDialog></type>
+            <type>Sut::QPtr&lt;QDialog></type>
             <return_description>Pointer to the new settings dialog for the given project type.</return_description>
           </data>
           <variable type="1">
@@ -17108,7 +16959,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <virtual/>
             <const/>
             <abstract/>
-            <type>std::unique_ptr&lt;AbstractParserFactory></type>
+            <type>Sut::QPtr&lt;AbstractParserFactory></type>
             <return_description>Pointer to created parser factory for the given project type.</return_description>
           </data>
           <variable type="1">
@@ -17222,7 +17073,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <const/>
             <override/>
             <final/>
-            <type>std::unique_ptr&lt;QDialog></type>
+            <type>Sut::QPtr&lt;QDialog></type>
             <return_description>See interface docs.</return_description>
             <operation>Return a new settings dialog for the given project type.</operation>
             <operation>This project type is not recognized so throw an exception.</operation>
@@ -17264,7 +17115,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <const/>
             <override/>
             <final/>
-            <type>std::unique_ptr&lt;AbstractParserFactory></type>
+            <type>Sut::QPtr&lt;AbstractParserFactory></type>
             <return_description>See interface docs.</return_description>
             <operation>Create a new parser factory for the given project type using the given block root.</operation>
             <operation>This project type is not recognized so throw an exception.</operation>
@@ -17506,7 +17357,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <data version="0">
               <name>block</name>
               <description>Pointer to the block that is inserted into this model.</description>
-              <type>std::unique_ptr&lt;AbstractBlock>&amp;&amp;</type>
+              <type>Sut::QPtr&lt;AbstractBlock>&amp;&amp;</type>
             </data>
           </variable>
         </function>
@@ -17574,7 +17425,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <name>copy</name>
             <description>Returns a pointer to a copy of the block at the given index. If the given index is not valid then a null pointer is returned.</description>
             <const/>
-            <type>std::unique_ptr&lt;AbstractBlock></type>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>Pointer to a copy of the given index or a null pointer if the given index is invalid.</return_description>
             <operation>If the given index is not valid then return null.</operation>
             <operation>Get the block pointer from the given index and make sure it is not null.</operation>
@@ -17592,7 +17443,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
           <data version="0">
             <name>cut</name>
             <description>Returns a pointer to the block at the given index, removing that index from the model but not deleting its block. Instead the ownership of the block is returned. If the given index is not valid then a null pointer is returned.</description>
-            <type>std::unique_ptr&lt;AbstractBlock></type>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>Pointer to the block at the given index now removed or null pointer if the given index is not valid.</return_description>
             <operation>Make sure the given index is valid.</operation>
             <operation>Get the block pointer from the given index and make sure it is not null.</operation>
@@ -17711,6 +17562,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <name>_root</name>
             <description>A pointer to the root block for this model's data. If this model is empty then this is null.</description>
             <type>AbstractBlock*</type>
+            <initializer>nullptr</initializer>
           </data>
         </variable>
         <variable type="1">
@@ -17749,7 +17601,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <data version="0">
               <name>factory</name>
               <description>The parser factory that this scan thread will use to make all parser objects for each matched source file. This scan thread takes ownership of the factory.</description>
-              <type>std::unique_ptr&lt;AbstractParserFactory>&amp;&amp;</type>
+              <type>Sut::QPtr&lt;AbstractParserFactory>&amp;&amp;</type>
             </data>
           </variable>
           <variable type="1">
@@ -18031,7 +17883,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <type>QDomElement</type>
             <return_description>XML element that contains a copy of this model's word list.</return_description>
             <operation>Create a new XML element.</operation>
-            <operation>Iterate through all words of this model's word list, appending a new XML child element for each word. Each word is copied in the child element's tag name.</operation>
+            <operation>Iterate through all words of this model's word list, appending a new XML child element for each word. Each word is copied in the child element's enclosing text.</operation>
             <operation>Return the root XML element.</operation>
           </data>
           <variable type="1">
@@ -18087,7 +17939,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <type>void</type>
             <operation>Notify the model that a reset has begun and then clear this model's word list.</operation>
             <operation>Iterate through all children of the given XML element.</operation>
-            <operation>If the child node is an element then append its tag name to this model's word list.</operation>
+            <operation>If the child node is an element then append its text to this model's word list.</operation>
             <operation>Iterate to the next sibling node.</operation>
             <operation>Notify the model that the reset has finished.</operation>
           </data>
@@ -18248,7 +18100,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <name>makeScanner</name>
             <description>Makes and returns a pointer to a new scan thread that can be used for scanning and parsing matched source files in the scan directory of this project.</description>
             <const/>
-            <type>std::unique_ptr&lt;ScanThread></type>
+            <type>Sut::QPtr&lt;ScanThread></type>
             <return_description>Pointer to new scan thread object.</return_description>
             <operation>Create a new scan thread with a newly created parser factory and this project's scan directory and filters, returning its pointer.</operation>
           </data>
@@ -18501,7 +18353,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <type>void</type>
             <operation>Make sure this project's type is within range and valid.</operation>
             <operation>Create a new root block for this project and make sure it is not null.</operation>
-            <operation>Set the new root block's parent to this project, connect its modified signal, and set it to this project's block model root block.</operation>
+            <operation>Connect its modified signal and set it to this project's block model root block.</operation>
           </data>
         </function>
         <variable type="1">

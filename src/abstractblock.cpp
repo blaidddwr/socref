@@ -492,7 +492,7 @@ Sut::QPtr<AbstractBlock> AbstractBlock::take(int index)
  */
 void AbstractBlock::remove(int index)
 {
-   // Take this block's child from the given index and delete it.
+   // Take this block's child from the given index and delete it. 
    take(index).reset(nullptr);
 }
 
