@@ -7,7 +7,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -87,9 +87,9 @@ QList<int> TypeList::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<QWidget> TypeList::makeView() const
+Sut::QPtr<QWidget> TypeList::makeView() const
 {
-   return unique_ptr<QWidget>(new View(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -102,9 +102,9 @@ std::unique_ptr<QWidget> TypeList::makeView() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> TypeList::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> TypeList::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -135,9 +135,9 @@ TypeList::TypeList(bool isDefault)
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> TypeList::makeBlank() const
+Sut::QPtr<AbstractBlock> TypeList::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new TypeList);
+   return QPtr<AbstractBlock>(new TypeList);
 }
 
 

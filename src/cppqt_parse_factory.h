@@ -30,7 +30,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         virtual std::unique_ptr<AbstractParser> make(const QString& name, const QString& extension) const override final;
+         virtual Sut::QPtr<AbstractParser> make(const QString& name, const QString& extension) const override final;
       public:
          explicit Factory(const AbstractBlock* root);
       private:

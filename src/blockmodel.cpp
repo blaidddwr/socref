@@ -6,7 +6,6 @@
 
 
 using namespace Sut;
-using namespace std;
 //
 
 
@@ -140,9 +139,9 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
    switch (role)
    {
    case Qt::DisplayRole:
-      return QVariant(pointer(index)->name());
+      return QVariant(block->name());
    case Qt::DecorationRole:
-      return pointer(index)->icon().pixmap(_iconSize,_iconSize);
+      return block->icon().pixmap(_iconSize,_iconSize);
    default:
       return QVariant();
    }
@@ -199,7 +198,7 @@ AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
  *
  * @return True on success or false on failure. 
  */
-bool BlockModel::insert(const QModelIndex& index, std::unique_ptr<AbstractBlock>&& block)
+bool BlockModel::insert(const QModelIndex& index, Sut::QPtr<AbstractBlock>&& block)
 {
    // Make sure the given pointer is not null. 
    if ( !block ) return false;
@@ -344,7 +343,7 @@ bool BlockModel::remove(const QModelIndex& index)
  * @return Pointer to a copy of the given index or a null pointer if the given 
  *         index is invalid. 
  */
-std::unique_ptr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
+Sut::QPtr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
 {
    // If the given index is not valid then return null. 
    if ( !index.isValid() ) return nullptr;
@@ -372,7 +371,7 @@ std::unique_ptr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
  * @return Pointer to the block at the given index now removed or null pointer if 
  *         the given index is not valid. 
  */
-std::unique_ptr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
+Sut::QPtr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
 {
    // Make sure the given index is valid. 
    if ( !index.isValid() ) return nullptr;
@@ -391,7 +390,7 @@ std::unique_ptr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
    // called. 
    int row {index.row()};
    beginRemoveRows(index.parent(),row,row);
-   unique_ptr<AbstractBlock> ret {parent->take(row)};
+   QPtr<AbstractBlock> ret {parent->take(row)};
    endRemoveRows();
    return ret;
 }

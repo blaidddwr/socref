@@ -23,9 +23,9 @@ namespace CppQt
       virtual QString name() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override final;
    protected:
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
    };
 }
 

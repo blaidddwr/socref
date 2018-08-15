@@ -1,7 +1,7 @@
 #ifndef BLOCKMODEL_H
 #define BLOCKMODEL_H
-#include <memory>
 #include <QtCore>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 //
 
@@ -41,12 +41,12 @@ public:
 public:
    explicit BlockModel(QObject* parent = nullptr);
    AbstractBlock* pointer(const QModelIndex& index) const;
-   bool insert(const QModelIndex& index, std::unique_ptr<AbstractBlock>&& block);
+   bool insert(const QModelIndex& index, Sut::QPtr<AbstractBlock>&& block);
    QModelIndex moveUp(const QModelIndex& index);
    QModelIndex moveDown(const QModelIndex& index);
    bool remove(const QModelIndex& index);
-   std::unique_ptr<AbstractBlock> copy(const QModelIndex& index) const;
-   std::unique_ptr<AbstractBlock> cut(const QModelIndex& index);
+   Sut::QPtr<AbstractBlock> copy(const QModelIndex& index) const;
+   Sut::QPtr<AbstractBlock> cut(const QModelIndex& index);
    const AbstractBlockFactory* factory() const;
    void setRoot(AbstractBlock* root);
 private slots:
@@ -63,7 +63,7 @@ private:
     * A pointer to the root block for this model's data. If this model is empty then 
     * this is null. 
     */
-   AbstractBlock* _root;
+   AbstractBlock* _root {nullptr};
    /*!
     * A read only pointer to this model block type's block factory. If this model is 
     * empty then this is null. 

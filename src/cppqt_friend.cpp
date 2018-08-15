@@ -5,7 +5,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace CppQt;
 //
 
@@ -67,9 +67,9 @@ QString Friend::name() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Friend::makeBlank() const
+Sut::QPtr<AbstractBlock> Friend::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Friend);
+   return QPtr<AbstractBlock>(new Friend);
 }
 
 

@@ -10,7 +10,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 using namespace CppQt;
 using namespace CppQt::Parse;
@@ -30,7 +29,7 @@ using namespace CppQt::Parse;
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractParser> Factory::make(const QString& name, const QString& extension) const
+Sut::QPtr<AbstractParser> Factory::make(const QString& name, const QString& extension) const
 {
    // Make sure the given file name is not empty. 
    if ( name.isEmpty() ) return nullptr;
@@ -42,14 +41,14 @@ std::unique_ptr<AbstractParser> Factory::make(const QString& name, const QString
    // and return it. 
    if ( isHeader && name == QStringLiteral("global") )
    {
-      return unique_ptr<AbstractParser>(new Global(_root));
+      return QPtr<AbstractParser>(new Global(_root));
    }
 
    // Else if this is the unique main source file then create a new main parser and 
    // return it. 
    else if ( !isHeader && name == QStringLiteral("main") )
    {
-      return unique_ptr<AbstractParser>(new Main(_root));
+      return QPtr<AbstractParser>(new Main(_root));
    }
 
    // Create the list of namespace names from the given file name. 
@@ -60,11 +59,11 @@ std::unique_ptr<AbstractParser> Factory::make(const QString& name, const QString
    {
       // Remove the common name from the list and return the found common parser. 
       names.takeLast();
-      return unique_ptr<AbstractParser>(findCommon(_root,names,name,isHeader));
+      return QPtr<AbstractParser>(findCommon(_root,names,name,isHeader));
    }
 
    // Else this is a global or class file so return the found header/source parser. 
-   else return unique_ptr<AbstractParser>(find(_root,names,name,isHeader));
+   else return QPtr<AbstractParser>(find(_root,names,name,isHeader));
 }
 
 

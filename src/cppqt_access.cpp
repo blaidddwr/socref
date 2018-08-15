@@ -8,7 +8,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
@@ -167,9 +166,9 @@ QList<int> Access::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<QWidget> Access::makeView() const
+Sut::QPtr<QWidget> Access::makeView() const
 {
-   return unique_ptr<QWidget>(new View(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -262,9 +261,9 @@ QVariant Access::field(int index) const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Access::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Access::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -471,9 +470,9 @@ QString Access::accessTypeString() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Access::makeBlank() const
+Sut::QPtr<AbstractBlock> Access::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Access);
+   return QPtr<AbstractBlock>(new Access);
 }
 
 

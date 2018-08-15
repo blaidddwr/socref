@@ -17,7 +17,6 @@
 
 
 using namespace Sut;
-using namespace std;
 //
 
 
@@ -123,6 +122,7 @@ Project::Project(const QString& path):
          // Figure out what element this is based off its tag name and set the appropriate 
          // data for this project. 
          QDomElement element {node.toElement()};
+         qDebug() << element.tagName();
          switch (tags.indexOf(element.tagName()))
          {
          case Name:
@@ -276,11 +276,11 @@ QString Project::scanFilters() const
  *
  * @return Pointer to new scan thread object. 
  */
-std::unique_ptr<ScanThread> Project::makeScanner() const
+Sut::QPtr<ScanThread> Project::makeScanner() const
 {
    // Create a new scan thread with a newly created parser factory and this project's 
    // scan directory and filters, returning its pointer. 
-   return unique_ptr<ScanThread>
+   return QPtr<ScanThread>
    {
       new ScanThread(AbstractProjectFactory::instance().makeParserFactory(_type,_root)
                      ,_scanDirectory
@@ -776,7 +776,7 @@ void Project::makeRoot()
    }
 
    // Create a new root block for this project and make sure it is not null. 
-   _root = factory.blockFactory(_type).makeRootBlock().release();
+   _root = factory.blockFactory(_type).makeRootBlock().release(this);
    if ( !_root )
    {
       Exception::LogicError e;
@@ -785,9 +785,8 @@ void Project::makeRoot()
       throw e;
    }
 
-   // Set the new root block's parent to this project, connect its modified signal, 
-   // and set it to this project's block model root block. 
-   _root->QObject::setParent(this);
+   // Connect its modified signal and set it to this project's block model root 
+   // block. 
    connect(_root,&AbstractBlock::modified,this,&Project::projectModified);
    _model->setRoot(_root);
 }

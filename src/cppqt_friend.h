@@ -21,7 +21,7 @@ namespace CppQt
       virtual int type() const override final;
       virtual QString name() const override final;
    protected:
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
       virtual void checkField(const QString& value);
    };
 }

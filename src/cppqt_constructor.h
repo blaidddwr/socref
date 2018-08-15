@@ -22,13 +22,13 @@ namespace CppQt
       virtual QString name() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override;
    public:
       QString className() const;
    public slots:
       void classNameChanged();
    protected:
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override;
       virtual bool checkName(const QString& value) override final;
    };
 }

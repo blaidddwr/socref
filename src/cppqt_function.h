@@ -36,11 +36,11 @@ namespace CppQt
       virtual QString name() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
+      virtual Sut::QPtr<QWidget> makeView() const override final;
       virtual int fieldSize() const override final;
       virtual AbstractBlock::Field fieldType(int index) const override final;
       virtual QVariant field(int index) const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override;
    public:
       explicit Function(bool isDefault = false);
       bool isDefault() const;
@@ -130,7 +130,7 @@ namespace CppQt
           */
          ,Total
       };
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override;
       virtual void fieldModified(int index) override final;
       virtual void quietlySetField(int index, const QVariant& value) override final;
       virtual bool childAdded(AbstractBlock* child) override final;

@@ -21,7 +21,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -150,30 +150,30 @@ QString BlockFactory::elementName(int type) const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type, bool isDefault) const
+Sut::QPtr<AbstractBlock> BlockFactory::makeBlock(int type, bool isDefault) const
 {
    // Based off the given block type create a new block of that type and return its 
    // smart pointer. 
    switch (type)
    {
-   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace(isDefault));
-   case VariableType: return unique_ptr<AbstractBlock>(new Variable(isDefault));
-   case FunctionType: return unique_ptr<AbstractBlock>(new Function(isDefault));
-   case TemplateType: return unique_ptr<AbstractBlock>(new Template(isDefault));
-   case ClassType: return unique_ptr<AbstractBlock>(new Class(isDefault));
-   case AccessType: return unique_ptr<AbstractBlock>(new Access);
-   case OperatorType: return unique_ptr<AbstractBlock>(new Operator(isDefault));
-   case SlotType: return unique_ptr<AbstractBlock>(new Slot(isDefault));
-   case SignalType: return unique_ptr<AbstractBlock>(new Signal(isDefault));
-   case ConstructorType: return unique_ptr<AbstractBlock>(new Constructor);
-   case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
-   case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration(isDefault));
-   case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue(isDefault));
-   case ParentType: return unique_ptr<AbstractBlock>(new Parent(isDefault));
-   case UsingType: return unique_ptr<AbstractBlock>(new Using(isDefault));
-   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList(isDefault));
-   case TypeType: return unique_ptr<AbstractBlock>(new Type(isDefault));
-   case FriendType: return unique_ptr<AbstractBlock>(new Friend(isDefault));
+   case NamespaceType: return QPtr<AbstractBlock>(new Namespace(isDefault));
+   case VariableType: return QPtr<AbstractBlock>(new Variable(isDefault));
+   case FunctionType: return QPtr<AbstractBlock>(new Function(isDefault));
+   case TemplateType: return QPtr<AbstractBlock>(new Template(isDefault));
+   case ClassType: return QPtr<AbstractBlock>(new Class(isDefault));
+   case AccessType: return QPtr<AbstractBlock>(new Access);
+   case OperatorType: return QPtr<AbstractBlock>(new Operator(isDefault));
+   case SlotType: return QPtr<AbstractBlock>(new Slot(isDefault));
+   case SignalType: return QPtr<AbstractBlock>(new Signal(isDefault));
+   case ConstructorType: return QPtr<AbstractBlock>(new Constructor);
+   case DestructorType: return QPtr<AbstractBlock>(new Destructor);
+   case EnumerationType: return QPtr<AbstractBlock>(new Enumeration(isDefault));
+   case EnumValueType: return QPtr<AbstractBlock>(new EnumValue(isDefault));
+   case ParentType: return QPtr<AbstractBlock>(new Parent(isDefault));
+   case UsingType: return QPtr<AbstractBlock>(new Using(isDefault));
+   case TypeListType: return QPtr<AbstractBlock>(new TypeList(isDefault));
+   case TypeType: return QPtr<AbstractBlock>(new Type(isDefault));
+   case FriendType: return QPtr<AbstractBlock>(new Friend(isDefault));
    default: return nullptr;
    }
 }
@@ -188,9 +188,9 @@ std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type, bool isDefault)
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
+Sut::QPtr<AbstractBlock> BlockFactory::makeRootBlock() const
 {
    // Create a new namespace block which is used as this project type's root block 
    // and return its pointer. 
-   return unique_ptr<AbstractBlock>(new Namespace);
+   return QPtr<AbstractBlock>(new Namespace);
 }

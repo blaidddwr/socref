@@ -20,12 +20,12 @@ namespace CppQt
    public:
       virtual int type() const override final;
       virtual QIcon icon() const override final;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+      virtual Sut::QPtr<QWidget> makeView() const override final;
+      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override final;
    public:
       explicit Template(bool isDefault = false);
    protected:
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
    };
 }
 

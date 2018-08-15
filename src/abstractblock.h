@@ -1,10 +1,10 @@
 #ifndef ABSTRACTBLOCK_H
 #define ABSTRACTBLOCK_H
-#include <memory>
 #include <QObject>
 #include <QDomElement>
 #include <QVariant>
 #include <socutil/sut_exceptions.h>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 #include "gui.h"
 //
@@ -109,7 +109,7 @@ public:
     *
     * @return New GUI view that represents this block's data. 
     */
-   virtual std::unique_ptr<QWidget> makeView() const = 0;
+   virtual Sut::QPtr<QWidget> makeView() const = 0;
    /*!
     * This interface returns the number of fields this block contains. 
     *
@@ -139,7 +139,7 @@ public:
     *
     * @return Abstract edit GUI dialog to edit this block's data. 
     */
-   virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() = 0;
+   virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() = 0;
 public:
    const AbstractBlock* root() const;
    AbstractBlock* parent() const;
@@ -147,7 +147,7 @@ public:
    const QList<AbstractBlock*>& list() const;
    int indexOf(AbstractBlock* pointer) const;
    AbstractBlock* get(int index) const;
-   std::unique_ptr<AbstractBlock> makeCopy() const;
+   Sut::QPtr<AbstractBlock> makeCopy() const;
    bool containsType(int type) const;
    bool containsType(const QList<int>& types) const;
    template<class T> QList<T*> makeListOfType(int type) const;
@@ -158,8 +158,8 @@ public:
    void setField(int index, const QVariant& value);
    void moveUp(int index);
    void moveDown(int index);
-   void insert(int index, std::unique_ptr<AbstractBlock>&& child);
-   std::unique_ptr<AbstractBlock> take(int index);
+   void insert(int index, Sut::QPtr<AbstractBlock>&& child);
+   Sut::QPtr<AbstractBlock> take(int index);
    void remove(int index);
    void read(const QDomElement& element);
 signals:
@@ -192,7 +192,7 @@ protected:
     *
     * @return Pointer to the newly created block. 
     */
-   virtual std::unique_ptr<AbstractBlock> makeBlank() const = 0;
+   virtual Sut::QPtr<AbstractBlock> makeBlank() const = 0;
    /*!
     * This interface returns the current data version for this block type. This 
     * version is saved to this block's data when written and then used when read in 
@@ -254,7 +254,6 @@ private:
    void copyChildren(const AbstractBlock* parent);
    void copyDataFrom(const AbstractBlock* other);
    void readChild(const QDomElement& element);
-   void setParent(AbstractBlock* parent, int index = -1);
    /*!
     * The name for version attributes. 
     */

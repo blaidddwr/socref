@@ -4,7 +4,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -53,9 +53,9 @@ QIcon Signal::icon() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Signal::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Signal::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -86,7 +86,7 @@ Signal::Signal(bool isDefault)
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Signal::makeBlank() const
+Sut::QPtr<AbstractBlock> Signal::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Signal);
+   return QPtr<AbstractBlock>(new Signal);
 }

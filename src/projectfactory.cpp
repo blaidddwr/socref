@@ -8,7 +8,6 @@
 
 
 using namespace Sut;
-using namespace std;
 //
 
 
@@ -96,12 +95,12 @@ QString ProjectFactory::defaultFilters(int type) const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<QDialog> ProjectFactory::makeSettings(int type) const
+Sut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
 {
    // Return a new settings dialog for the given project type. 
    switch (type)
    {
-   case CppQtType: return unique_ptr<QDialog>(new CppQt::Gui::SettingsDialog);
+   case CppQtType: return QPtr<QDialog>(new CppQt::Gui::SettingsDialog);
    default:
       {
          // This project type is not recognized so throw an exception. 
@@ -156,13 +155,13 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const AbstractBlock* root) const
+Sut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const AbstractBlock* root) const
 {
    // Create a new parser factory for the given project type using the given block 
    // root. 
    switch (type)
    {
-   case CppQtType: return unique_ptr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
+   case CppQtType: return QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
    default:
       {
          // This project type is not recognized so throw an exception. 

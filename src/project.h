@@ -1,7 +1,7 @@
 #ifndef PROJECT_H
 #define PROJECT_H
-#include <memory>
 #include <QFileSystemWatcher>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 
 
@@ -35,7 +35,7 @@ public:
    QString name() const;
    QString scanDirectory() const;
    QString scanFilters() const;
-   std::unique_ptr<ScanThread> makeScanner() const;
+   Sut::QPtr<ScanThread> makeScanner() const;
    BlockModel* model();
    DictionaryModel* dictionary();
    void setName(const QString& value);

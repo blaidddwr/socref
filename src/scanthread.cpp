@@ -1,5 +1,4 @@
 #include "scanthread.h"
-#include <memory>
 #include <QDebug>
 #include <QDir>
 #include "abstractparserfactory.h"
@@ -7,7 +6,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 //
 
@@ -33,13 +31,13 @@ using namespace Sut;
  *
  * @param parent The parent of this object if any. 
  */
-ScanThread::ScanThread(std::unique_ptr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent):
+ScanThread::ScanThread(Sut::QPtr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent):
    QThread(parent),
    _factory(factory.get())
 {
    // Set this object as the given factory's parent and build the list of files to 
    // parse. 
-   factory.release()->setParent(this);
+   factory.release(this);
    buildList(scanDirectory,filters);
 }
 
@@ -133,7 +131,7 @@ void ScanThread::run()
          // Make a parser object for the current file using this object's parser factory 
          // and run it if it is not null. 
          const QFileInfo info {_list.at(i)};
-         unique_ptr<AbstractParser> parser
+         QPtr<AbstractParser> parser
          {
             _factory->make(info.completeBaseName().toLower(),info.suffix().toLower())
          };

@@ -6,7 +6,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 using namespace CppQt;
 //

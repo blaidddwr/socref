@@ -1,7 +1,7 @@
 #ifndef CPPQT_BLOCKFACTORY_H
 #define CPPQT_BLOCKFACTORY_H
 #include "abstractblockfactory.h"
-#include "singleton.h"
+#include <socutil/sut_singleton.h>
 //
 
 
@@ -13,7 +13,7 @@ namespace CppQt
     * enumeration representing all possible block types for its project type. This is 
     * a singleton class and has only one single global instance. 
     */
-   class BlockFactory : public AbstractBlockFactory, public Singleton<BlockFactory>
+   class BlockFactory : public AbstractBlockFactory, public Sut::Singleton<BlockFactory>
    {
    public:
       /*!
@@ -106,8 +106,8 @@ namespace CppQt
       virtual int size() const override final;
       virtual QString name(int type) const override final;
       virtual QString elementName(int type) const override final;
-      virtual std::unique_ptr<AbstractBlock> makeBlock(int type, bool isDefault) const override final;
-      virtual std::unique_ptr<AbstractBlock> makeRootBlock() const override final;
+      virtual Sut::QPtr<AbstractBlock> makeBlock(int type, bool isDefault) const override final;
+      virtual Sut::QPtr<AbstractBlock> makeRootBlock() const override final;
    };
 }
 

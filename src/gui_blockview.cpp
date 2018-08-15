@@ -14,7 +14,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 using namespace Gui;
 //
@@ -207,7 +206,7 @@ void BlockView::editTriggered()
    if ( !block ) return;
 
    // Make a new edit dialog from the block pointer and make sure it is not null. 
-   unique_ptr<AbstractEdit> edit {block->makeEdit()};
+   QPtr<AbstractEdit> edit {block->makeEdit()};
    if ( !edit ) return;
 
    // Initialize the edit dialog and then execute it. 
@@ -239,7 +238,7 @@ void BlockView::cutTriggered()
 
    // Cut the current index's block from its model, updating this view's index and 
    // context menu. 
-   _copy = _model->cut(_current).release();
+   _copy = _model->cut(_current).release(QApplication::instance());
    updateIndex();
    updateContextMenu();
 }
@@ -262,7 +261,7 @@ void BlockView::copyTriggered()
    delete _copy;
 
    // Copy the current index's block from its model, updating this view's actions. 
-   _copy = _model->copy(_current).release();
+   _copy = _model->copy(_current).release(QApplication::instance());
    updateActions();
 }
 
@@ -450,7 +449,7 @@ void BlockView::updateView()
    if ( !block ) return;
 
    // Make a new view from the block pointer and make sure it is not null. 
-   _view = block->makeView().release();
+   _view = block->makeView().release(this);
    if ( !_view )
    {
       Exception::LogicError e;

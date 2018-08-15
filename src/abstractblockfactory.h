@@ -1,8 +1,8 @@
 #ifndef ABSTRACTBLOCKFACTORY_H
 #define ABSTRACTBLOCKFACTORY_H
-#include <memory>
 #include <QString>
 #include <QIcon>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 #include "gui.h"
 //
@@ -68,7 +68,7 @@ public:
     *
     * @return Pointer to new block with given type. 
     */
-   virtual std::unique_ptr<AbstractBlock> makeBlock(int type, bool isDefault) const = 0;
+   virtual Sut::QPtr<AbstractBlock> makeBlock(int type, bool isDefault) const = 0;
    /*!
     * This interface makes a new root block and returns its pointer. The root block is 
     * used as the root block for all projects of this project type. The new root block 
@@ -76,7 +76,7 @@ public:
     *
     * @return Pointer to new root block for this project type. 
     */
-   virtual std::unique_ptr<AbstractBlock> makeRootBlock() const = 0;
+   virtual Sut::QPtr<AbstractBlock> makeRootBlock() const = 0;
 };
 
 

@@ -109,8 +109,6 @@ SOURCES += \
     cppqt_parse_main.cpp
 
 HEADERS += \
-    singleton.h \
-    singletonfactory.h \
     abstractprojectfactory.h \
     project.h \
     abstractblockfactory.h \

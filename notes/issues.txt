@@ -1,1 +1,5 @@
 
+* Add a delete property for C++/Qt functions.
+
+* Fix issue with C++/Qt constructor parsing with propreties not working.
+

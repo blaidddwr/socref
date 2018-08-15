@@ -6,7 +6,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -92,9 +92,9 @@ QList<int> Operator::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Operator::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Operator::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -146,9 +146,9 @@ QString Operator::operation() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Operator::makeBlank() const
+Sut::QPtr<AbstractBlock> Operator::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Operator);
+   return QPtr<AbstractBlock>(new Operator);
 }
 
 

@@ -8,7 +8,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -103,9 +103,9 @@ QList<int> Enumeration::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<QWidget> Enumeration::makeView() const
+Sut::QPtr<QWidget> Enumeration::makeView() const
 {
-   return unique_ptr<QWidget>(new View(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -182,9 +182,9 @@ QVariant Enumeration::field(int index) const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Enumeration::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Enumeration::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -248,9 +248,9 @@ QList<EnumValue*> Enumeration::values() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Enumeration::makeBlank() const
+Sut::QPtr<AbstractBlock> Enumeration::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Enumeration);
+   return QPtr<AbstractBlock>(new Enumeration);
 }
 
 

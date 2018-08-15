@@ -5,7 +5,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -54,9 +54,9 @@ QIcon Template::icon() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<QWidget> Template::makeView() const
+Sut::QPtr<QWidget> Template::makeView() const
 {
-   return unique_ptr<QWidget>(new View(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -69,9 +69,9 @@ std::unique_ptr<QWidget> Template::makeView() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Template::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Template::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -106,7 +106,7 @@ Template::Template(bool isDefault)
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Template::makeBlank() const
+Sut::QPtr<AbstractBlock> Template::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Template);
+   return QPtr<AbstractBlock>(new Template);
 }

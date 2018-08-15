@@ -6,7 +6,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
@@ -88,9 +87,9 @@ QList<int> Constructor::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Constructor::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Constructor::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -158,9 +157,9 @@ void Constructor::classNameChanged()
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Constructor::makeBlank() const
+Sut::QPtr<AbstractBlock> Constructor::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Constructor);
+   return QPtr<AbstractBlock>(new Constructor);
 }
 
 

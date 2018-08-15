@@ -1,6 +1,5 @@
 #ifndef GUI_ABSTRACTEDIT_H
 #define GUI_ABSTRACTEDIT_H
-#include <memory>
 #include <QMap>
 #include "gui_persistentdialog.h"
 #include "gui.h"

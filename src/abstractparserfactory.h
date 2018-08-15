@@ -1,7 +1,7 @@
 #ifndef ABSTRACTPARSERFACTORY_H
 #define ABSTRACTPARSERFACTORY_H
-#include <memory>
 #include <QObject>
+#include <socutil/sut_qptr.h>
 #include "abstractparser.h"
 #include "global.h"
 //
@@ -30,7 +30,7 @@ public:
     *
     * @return Pointer to new parser object or null pointer. 
     */
-   virtual std::unique_ptr<AbstractParser> make(const QString& name, const QString& extension) const = 0;
+   virtual Sut::QPtr<AbstractParser> make(const QString& name, const QString& extension) const = 0;
 };
 
 

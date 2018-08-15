@@ -1,5 +1,4 @@
 #include "cppqt_namespace.h"
-#include <memory>
 #include <QDomDocument>
 #include <socutil/sut_exceptions.h>
 #include "cppqt_namespace_view.h"
@@ -8,7 +7,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
@@ -82,9 +80,9 @@ QList<int> Namespace::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<QWidget> Namespace::makeView() const
+Sut::QPtr<QWidget> Namespace::makeView() const
 {
-   return unique_ptr<QWidget>(new View(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -97,9 +95,9 @@ std::unique_ptr<QWidget> Namespace::makeView() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Namespace::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Namespace::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -201,7 +199,7 @@ Namespace* Namespace::root()
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Namespace::makeBlank() const
+Sut::QPtr<AbstractBlock> Namespace::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Namespace);
+   return QPtr<AbstractBlock>(new Namespace);
 }

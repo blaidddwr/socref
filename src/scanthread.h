@@ -1,9 +1,9 @@
 #ifndef SCANTHREAD_H
 #define SCANTHREAD_H
-#include <memory>
 #include <QThread>
 #include <QFileInfoList>
 #include <socutil/sut_exceptions.h>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 //
 
@@ -22,7 +22,7 @@ class ScanThread : public QThread
 {
    Q_OBJECT
 public:
-   explicit ScanThread(std::unique_ptr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent = nullptr);
+   explicit ScanThread(Sut::QPtr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent = nullptr);
    int size() const;
    bool hasException() const;
    const Sut::Exception& exception() const;

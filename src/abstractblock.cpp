@@ -6,7 +6,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 //
 
@@ -161,10 +160,10 @@ AbstractBlock* AbstractBlock::get(int index) const
  *
  * @return Exact copy of this block's data as a new block. 
  */
-std::unique_ptr<AbstractBlock> AbstractBlock::makeCopy() const
+Sut::QPtr<AbstractBlock> AbstractBlock::makeCopy() const
 {
    // Create a new blank block of the same type as this block. 
-   unique_ptr<AbstractBlock> ret {makeBlank()};
+   QPtr<AbstractBlock> ret {makeBlank()};
 
    // Make sure the new blank block is the same type as this block. 
    if ( type() != ret->type() )
@@ -402,7 +401,7 @@ void AbstractBlock::moveDown(int index)
  *
  * @param child Pointer to the new block that is inserted as this block's child. 
  */
-void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
+void AbstractBlock::insert(int index, Sut::QPtr<AbstractBlock>&& child)
 {
    // Make sure the given pointer is not null. 
    if ( !child )
@@ -426,8 +425,8 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
 
    // Insert the given block as a child of this block at the given index and notify 
    // of modification. 
-   AbstractBlock* adopted {child.release()};
-   adopted->setParent(this,index);
+   AbstractBlock* adopted {child.release(this)};
+   _children.insert(index,adopted);
    notifyModified();
 
    // Starting with this block iterate up the tree of parents, calling their child 
@@ -451,7 +450,7 @@ void AbstractBlock::insert(int index, std::unique_ptr<AbstractBlock>&& child)
  *
  * @return Pointer to child that was taken from this block. 
  */
-std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
+Sut::QPtr<AbstractBlock> AbstractBlock::take(int index)
 {
    // Make sure the given index is within range. 
    if ( index < 0 && index >= _children.size() )
@@ -466,8 +465,8 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
 
    // Remove the child from this block's child list at the given index, saving the 
    // pointer and notifying of modification. 
-   unique_ptr<AbstractBlock> ret {_children.at(index)};
-   ret->setParent(nullptr);
+   QPtr<AbstractBlock> ret {_children.at(index)};
+   _children.removeAll(ret.get());
    notifyModified();
 
    // Starting with this block iterate up the tree of parents, calling their child 
@@ -493,8 +492,8 @@ std::unique_ptr<AbstractBlock> AbstractBlock::take(int index)
  */
 void AbstractBlock::remove(int index)
 {
-   // Take this block's child from the given index and delete it. 
-   take(index).reset();
+   // Take this block's child from the given index and delete it.
+   take(index).reset(nullptr);
 }
 
 
@@ -907,11 +906,7 @@ QDomElement AbstractBlock::writeData(QDomDocument& document) const
 void AbstractBlock::copyChildren(const AbstractBlock* parent)
 {
    // Iterate through all the children of the given block. 
-   for (auto child : qAsConst(parent->_children))
-   {
-      // Make a copy of the child and append it to this block. 
-      child->makeCopy().release()->setParent(this,size());
-   }
+   for (auto child : qAsConst(parent->_children)) _children << child->makeCopy().release(this);
 }
 
 
@@ -974,45 +969,10 @@ void AbstractBlock::readChild(const QDomElement& element)
 
    // Create a new block with the read in type and append it to this block's child 
    // list. 
-   unique_ptr<AbstractBlock> child {factory().makeBlock(type,false)};
-   AbstractBlock* back {child.get()};
-   child.release()->setParent(this,size());
+   QPtr<AbstractBlock> child {factory().makeBlock(type,false)};
+   AbstractBlock* back {child.release(this)};
+   _children << back;
 
    // Have the new block read in its data and children from the given element. 
    back->read(element);
-}
-
-
-
-
-
-
-/*!
- * Sets this block's parent to the given block, adding it to its new parent's list 
- * with the given index. If the index is less than 1 it is prepended, else if it is 
- * greater than the size of the list it is appended. This will remove any previous 
- * parent this block may have had. The new parent can be a null pointer which means 
- * this block will have no parent. 
- *
- * @param parent Pointer to the new parent for this block. 
- *
- * @param index The index where this block will be added to its new parent's list. 
- */
-void AbstractBlock::setParent(AbstractBlock* parent, int index)
-{
-   // If this block already has a parent then remove it from the parent's child list. 
-   if ( AbstractBlock* oldParent = AbstractBlock::parent() )
-   {
-      oldParent->_children.removeOne(this);
-   }
-
-   // Set this block's parent to the new parent, if any. 
-   QObject::setParent(parent);
-
-   // If the new parent is not null then insert this block into the new parent's 
-   // child list at the given index. 
-   if ( parent )
-   {
-      parent->_children.insert(index,this);
-   }
 }

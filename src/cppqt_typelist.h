@@ -24,12 +24,12 @@ namespace CppQt
       virtual QString name() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+      virtual Sut::QPtr<QWidget> makeView() const override final;
+      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override final;
    public:
       explicit TypeList(bool isDefault = false);
    protected:
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
       virtual bool childNameModified(AbstractBlock* child) override final;
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;

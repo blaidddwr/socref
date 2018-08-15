@@ -4,7 +4,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -88,9 +88,9 @@ QList<int> Destructor::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Destructor::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Destructor::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -103,7 +103,7 @@ std::unique_ptr<::Gui::AbstractEdit> Destructor::makeEdit()
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Destructor::makeBlank() const
+Sut::QPtr<AbstractBlock> Destructor::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Destructor);
+   return QPtr<AbstractBlock>(new Destructor);
 }

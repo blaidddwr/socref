@@ -4,7 +4,7 @@
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -89,9 +89,9 @@ QList<int> Slot::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Slot::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Slot::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -122,7 +122,7 @@ Slot::Slot(bool isDefault)
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Slot::makeBlank() const
+Sut::QPtr<AbstractBlock> Slot::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Slot);
+   return QPtr<AbstractBlock>(new Slot);
 }

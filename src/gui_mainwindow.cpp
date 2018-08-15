@@ -17,7 +17,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 using namespace Gui;
 //
@@ -103,11 +102,11 @@ MainWindow::MainWindow(QWidget* parent):
  *
  * @param project  
  */
-void MainWindow::setProject(std::unique_ptr<Project>&& project)
+void MainWindow::setProject(Sut::QPtr<Project>&& project)
 {
    // Delete any previous project this window may contain and set the new project. 
    delete _project;
-   _project = project.release();
+   _project = project.release(this);
 
    // Update this window's title and actions. 
    updateTitle();
@@ -118,7 +117,6 @@ void MainWindow::setProject(std::unique_ptr<Project>&& project)
 
    // Set the project's parent to this window, updating this this window's block view 
    // and updating its modification state. 
-   _project->setParent(this);
    _view->setModel(_project->model());
    setWindowModified(_project->isModified());
 
@@ -170,7 +168,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 void MainWindow::newTriggered(int type)
 {
    // Create a new project with the given type. 
-   unique_ptr<Project> project {new Project(type)};
+   QPtr<Project> project {new Project(type)};
    project->setName(tr("Untitled Project"));
 
    // If this window has no project then set it to the new project. 
@@ -218,7 +216,7 @@ void MainWindow::openTriggered()
    try
    {
       // Open a new project with the file path. 
-      unique_ptr<Project> project {new Project(path)};
+      QPtr<Project> project {new Project(path)};
 
       // If this window has no project that set it to the opened project. 
       if ( !_project ) setProject(std::move(project));
@@ -324,7 +322,7 @@ void MainWindow::scanTriggered()
    {
       // Create a new scanner from this window's project, then create a new scan dialog 
       // with the new scanner, and then execute the scan dialog. 
-      unique_ptr<ScanThread> scanner {_project->makeScanner()};
+      QPtr<ScanThread> scanner {_project->makeScanner()};
       ScanDialog dialog(scanner.get());
       dialog.exec();
    }
@@ -360,7 +358,7 @@ void MainWindow::settingTriggered(int type)
 {
    // Make a new setting dialog using the given project type and make sure it is not 
    // null. 
-   unique_ptr<QDialog> settings {AbstractProjectFactory::instance().makeSettings(type)};
+   QPtr<QDialog> settings {AbstractProjectFactory::instance().makeSettings(type)};
    if ( !settings )
    {
       Exception::LogicError e;
@@ -487,7 +485,7 @@ void MainWindow::projectFileChanged()
    {
       // Reload the project by creating a new project with the same file path and 
       // setting this window's project to the reloaded one. 
-      unique_ptr<Project> project {new Project(_project->path())};
+      QPtr<Project> project {new Project(_project->path())};
       setProject(std::move(project));
    }
 

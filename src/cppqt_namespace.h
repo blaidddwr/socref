@@ -21,15 +21,15 @@ namespace CppQt
       virtual int type() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
-      virtual std::unique_ptr<QWidget> makeView() const override;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override;
+      virtual Sut::QPtr<QWidget> makeView() const override;
+      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override;
       virtual QList<AbstractBlock*> realChildren() const;
    public:
       explicit Namespace(bool isDefault = false);
       const Namespace* root() const;
       Namespace* root();
    protected:
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override;
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override;
    };
 }
 

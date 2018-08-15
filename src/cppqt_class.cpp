@@ -11,7 +11,6 @@
 
 
 
-using namespace std;
 using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
@@ -125,9 +124,9 @@ QList<int> Class::buildList() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<QWidget> Class::makeView() const
+Sut::QPtr<QWidget> Class::makeView() const
 {
-   return unique_ptr<QWidget>(new View(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -203,9 +202,9 @@ QVariant Class::field(int index) const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Class::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Class::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -429,9 +428,9 @@ QList<Parent*> Class::parents() const
  *
  * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Class::makeBlank() const
+Sut::QPtr<AbstractBlock> Class::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Class);
+   return QPtr<AbstractBlock>(new Class);
 }
 
 
