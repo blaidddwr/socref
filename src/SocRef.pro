@@ -2,8 +2,8 @@ lessThan(QT_MAJOR_VERSION,5): error("Requires Qt 5")
 lessThan(QT_MINOR_VERSION,7): error("Requires Qt 5.7")
 
 MAJOR_VERSION = 0
-MINOR_VERSION = 5
-REVISION = 0
+MINOR_VERSION = 0
+REVISION = 9999
 
 QT += core gui widgets xml
 
