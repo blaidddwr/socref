@@ -6,6 +6,7 @@
   * The special main function and its file is now parsed.
   * Fixed issue where parsing initializer lines of constructors with noexcept failed.
 * The C++/Qt function view now only reports the total number of operations.
+* Added the deleted property to C++/Qt functions.
 * Added custom spell checking words to be added on a per project basis.
 * Open project file dialog now persistently rememebers the last directory a project was opened.
 

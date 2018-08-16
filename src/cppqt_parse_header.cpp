@@ -154,6 +154,7 @@ void Header::evaluateFunction(CppQt::Function* block)
    // If the given block has the correct attributes to be defined in the header file 
    // then add its parser to the definitions section. 
    if ( !block->isDefault()
+        && !block->isDeleted()
         && block->type() != BlockFactory::SignalType
         && ( isTemplate() || ( block->hasTemplates() && !block->isPrivateMethod() ) )
         && !block->isAbstract() )

@@ -44,6 +44,7 @@ namespace CppQt
    public:
       explicit Function(bool isDefault = false);
       bool isDefault() const;
+      bool isDeleted() const;
       bool isExplicit() const;
       bool isVirtual() const;
       bool isConst() const;
@@ -74,6 +75,10 @@ namespace CppQt
           * extend the list of base fields this class inherits. 
           */
          Default = Base::Field::Total
+         /*!
+          * This defines the deleted field. This is a boolean property. 
+          */
+         ,Deleted
          /*!
           * Defines the explicit field. This is a boolean property. 
           */
@@ -142,6 +147,7 @@ namespace CppQt
    private:
       QString attributes() const;
       void setDefault(bool state);
+      void setDeleted(bool state);
       void setExplicit(bool state);
       void setVirtual(bool state);
       void setConst(bool state);
@@ -160,6 +166,10 @@ namespace CppQt
        * The default property for this function block. 
        */
       bool _default {false};
+      /*!
+       * The deleted property for this function block. 
+       */
+      bool _deleted {false};
       /*!
        * The explicit property for this function block. 
        */

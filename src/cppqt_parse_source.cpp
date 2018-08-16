@@ -224,6 +224,7 @@ void Source::evaluateFunction(CppQt::Function* block)
    if ( !isTemplate()
         && !block->isAbstract()
         && !block->isDefault()
+        && !block->isDeleted()
         && block->type() != BlockFactory::SignalType
         && ( !block->hasTemplates() || block->isPrivateMethod() ) )
    {

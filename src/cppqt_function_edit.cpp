@@ -151,6 +151,7 @@ QString Function::Edit::fieldTitle(int index) const
    case Base::Field::Name: return tr("Name:");
    case Base::Field::Description: return tr("Description:");
    case Field::Default: return tr("Default");
+   case Field::Deleted: return tr("Deleted");
    case Field::Explicit: return tr("Explicit");
    case Field::Virtual: return tr("Virtual");
    case Field::Const: return tr("Constant");

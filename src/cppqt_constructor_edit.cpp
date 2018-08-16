@@ -42,7 +42,8 @@ QLayout* Constructor::Edit::leftLayout()
    addCheckBoxes(ret
                  ,{Field::NoExcept
                    ,Field::Explicit
-                   ,Field::Default}
+                   ,Field::Default
+                   ,Field::Deleted}
                  ,3
                  ,"Properties:");
 

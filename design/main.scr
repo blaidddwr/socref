@@ -11312,6 +11312,15 @@ The persistence of the qt splitter is made unique by this class overriding the s
           </function>
           <function type="2">
             <data version="0">
+              <name>isDeleted</name>
+              <description>Tests if this function block's deleted property is set, returning true if it is.</description>
+              <const/>
+              <type>bool</type>
+              <return_description>True if this block's deleted property is set or false otherwise.</return_description>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
               <name>isExplicit</name>
               <description>Tests if this function block's explicit property is set, returning true if it is.</description>
               <const/>
@@ -11505,6 +11514,12 @@ The persistence of the qt splitter is made unique by this class overriding the s
                 <name>Default</name>
                 <description>Defines the default field. This is a boolean property. Its value is set to extend the list of base fields this class inherits.</description>
                 <value>Base::Field::Total</value>
+              </data>
+            </enumval>
+            <enumval type="12">
+              <data version="0">
+                <name>Deleted</name>
+                <description>This defines the deleted field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
@@ -11783,6 +11798,22 @@ The persistence of the qt splitter is made unique by this class overriding the s
           </function>
           <function type="2">
             <data version="0">
+              <name>setDeleted</name>
+              <description>Sets the state of this function block's deleted property to the given state. If the new state is illegal then an exception is thrown.</description>
+              <type>void</type>
+              <operation>Make sure the given state is valid given this function block's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>state</name>
+                <description>The new state this function block's property is set to.</description>
+                <type>bool</type>
+              </data>
+            </variable>
+          </function>
+          <function type="2">
+            <data version="0">
               <name>setExplicit</name>
               <description>Sets the state of this function block's explicit property to the given state. If the new state is illegal then an exception is thrown.</description>
               <type>void</type>
@@ -11915,13 +11946,21 @@ The persistence of the qt splitter is made unique by this class overriding the s
               <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is in addition to the base fields this block inherits.</description>
               <static/>
               <type>const QStringList</type>
-              <initializer>"default","explicit","virtual","const","constexpr","static","noexcept","override","final","abstract","type","return_description","operation"</initializer>
+              <initializer>"default","deleted","explicit","virtual","const","constexpr","static","noexcept","override","final","abstract","type","return_description","operation"</initializer>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>_default</name>
               <description>The default property for this function block.</description>
+              <type>bool</type>
+              <initializer>false</initializer>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_deleted</name>
+              <description>The deleted property for this function block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>

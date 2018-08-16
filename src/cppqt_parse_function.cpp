@@ -66,7 +66,8 @@ void Function::outputDeclaration()
       // comments to output. 
       if ( _block->isAbstract()
            || _block->type() == BlockFactory::SignalType
-           || _block->isDefault() )
+           || _block->isDefault()
+           || _block->isDeleted() )
       {
          outputComments();
       }
@@ -93,6 +94,7 @@ void Function::outputDeclaration()
       if ( _block->isFinal() ) line += QStringLiteral(" final");
       if ( _block->isAbstract() ) line += QStringLiteral(" = 0");
       if ( _block->isDefault() ) line += QStringLiteral(" = default");
+      if ( _block->isDeleted() ) line += QStringLiteral(" = delete");
 
       // Add the closing semicolon to the line. 
       line += QStringLiteral(";");
@@ -243,8 +245,7 @@ bool Function::isMatch(const QString& line)
 
    // Evaluate the line with the constructed regular expression line to determine a 
    // match, returning its result. 
-   bool lala {QRegularExpression(regular).match(line).hasMatch()};
-   return lala;
+   return QRegularExpression(regular).match(line).hasMatch();
 }
 
 

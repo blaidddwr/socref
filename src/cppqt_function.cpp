@@ -27,6 +27,7 @@ using namespace CppQt;
 const QStringList Function::_fields
 {
    "default"
+   ,"deleted"
    ,"explicit"
    ,"virtual"
    ,"const"
@@ -175,6 +176,7 @@ AbstractBlock::Field Function::fieldType(int index) const
    switch (index)
    {
    case Field::Default:
+   case Field::Deleted:
    case Field::Explicit:
    case Field::Virtual:
    case Field::Const:
@@ -211,6 +213,7 @@ QVariant Function::field(int index) const
    switch (index)
    {
    case Field::Default: return _default;
+   case Field::Deleted: return _deleted;
    case Field::Explicit: return _explicit;
    case Field::Virtual: return _virtual;
    case Field::Const: return _const;
@@ -279,6 +282,21 @@ Function::Function(bool isDefault)
 bool Function::isDefault() const
 {
    return _default;
+}
+
+
+
+
+
+
+/*!
+ * Tests if this function block's deleted property is set, returning true if it is. 
+ *
+ * @return True if this block's deleted property is set or false otherwise. 
+ */
+bool Function::isDeleted() const
+{
+   return _deleted;
 }
 
 
@@ -635,6 +653,7 @@ void Function::fieldModified(int index)
    switch (index)
    {
    case Field::Default:
+   case Field::Deleted:
    case Field::Explicit:
    case Field::Virtual:
    case Field::Const:
@@ -678,6 +697,9 @@ void Function::quietlySetField(int index, const QVariant& value)
    {
    case Field::Default:
       setDefault(value.toBool());
+      break;
+   case Field::Deleted:
+      setDeleted(value.toBool());
       break;
    case Field::Explicit:
       setExplicit(value.toBool());
@@ -879,6 +901,7 @@ QString Function::attributes() const
    // capital letter flags. 
    QString ret;
    if ( _default ) ret.append("D");
+   if ( _deleted ) ret.append("d");
    if ( _explicit ) ret.append("E");
    if ( _const ) ret.append("C");
    if ( _constExpr ) ret.append("X");
@@ -908,16 +931,43 @@ QString Function::attributes() const
 void Function::setDefault(bool state)
 {
    // Make sure the given state is valid given this function block's current context. 
-   if ( parent() && state && !isMethod() )
+   if ( ( parent() && state && !isMethod() ) || ( state && _deleted ) )
    {
       Exception::InvalidArgument e;
       SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as default when it is not a class method."));
+      e.setDetails(tr("Cannot set function as default when it is not a class method or has the deleted property."));
       throw e;
    }
 
    // Set this block's state to the new one given. 
    _default = state;
+}
+
+
+
+
+
+
+/*!
+ * Sets the state of this function block's deleted property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
+ *
+ * @param state The new state this function block's property is set to. 
+ */
+void Function::setDeleted(bool state)
+{
+   // Make sure the given state is valid given this function block's current context. 
+   if ( ( parent() && ( ( type() != BlockFactory::OperatorType && type() != BlockFactory::ConstructorType ) || !isMethod() ) )
+        || ( state && _default ) )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set function as deleted if it is not a constructor, class operator, or has the default property."));
+      throw e;
+   }
+
+   // Set this block's state to the new one given. 
+   _deleted = state;
 }
 
 

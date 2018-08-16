@@ -108,6 +108,7 @@ QString Function::View::displayProperties()
    // block has set. 
    QStringList list;
    if ( _block->isDefault() ) list << "default";
+   if ( _block->isDeleted() ) list << "deleted";
    if ( _block->isExplicit() ) list << "explicit";
    if ( _block->isVirtual() ) list << "virtual";
    if ( _block->isConst() ) list << "const";

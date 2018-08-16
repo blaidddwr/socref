@@ -51,6 +51,7 @@ QLayout* Operator::Edit::leftLayout()
                    ,Field::Const
                    ,Field::NoExcept
                    ,Field::Default
+                   ,Field::Deleted
                    ,Field::Virtual
                    ,Field::Abstract
                    ,Field::Override
