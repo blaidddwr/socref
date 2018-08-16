@@ -208,5 +208,5 @@ RESOURCES += \
 
 isEmpty(PREFIX) { PREFIX = /usr/local }
 program.path = $${PREFIX}/bin
-program.files = $${PWD}/../build/$${TARGET}
+program.files = $${TARGET}
 INSTALLS += program
