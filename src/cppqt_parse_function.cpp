@@ -231,7 +231,7 @@ bool Function::isMatch(const QString& line)
    {
       regular += argument->variableType().replace("*","\\*") + QStringLiteral(".*");
    }
-   regular += QStringLiteral("\\):?");
+   regular += QStringLiteral("\\)");
 
    // Add any set flags of this object's function that belong in the definition to 
    // the regular expression line. 
@@ -239,7 +239,7 @@ bool Function::isMatch(const QString& line)
    if ( _block->isNoExcept() ) regular += QStringLiteral("\\s+noexcept");
 
    // Add the closing syntax to the regular expression line. 
-   regular += QStringLiteral("\\s*\\z");
+   regular += QStringLiteral("\\s*:?\\s*\\z");
 
    // Evaluate the line with the constructed regular expression line to determine a 
    // match, returning its result. 
