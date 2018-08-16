@@ -1,37 +1,25 @@
 #include "cppqt_template.h"
-#include "cppqt_view_template.h"
-#include "cppqt_edit_template.h"
+#include "cppqt_template_view.h"
+#include "cppqt_template_edit.h"
 #include "cppqt_blockfactory.h"
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
+//
 
 
 
 
 
 
-Template::Template(const QString& name):
-   Variable(name)
-{}
-
-
-
-
-
-
-Template::Template(const QString& type, const QString& name):
-   Variable(type,name)
-{}
-
-
-
-
-
-
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 int Template::type() const
 {
    return BlockFactory::TemplateType;
@@ -42,10 +30,17 @@ int Template::type() const
 
 
 
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 QIcon Template::icon() const
 {
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/template.svg");
+   // Initialize the static icon for this block type. 
+   static QIcon ret(":/icons/template.svg");
+
+   // Return the icon. 
    return ret;
 }
 
@@ -54,9 +49,14 @@ QIcon Template::icon() const
 
 
 
-QList<int> Template::buildList() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<QWidget> Template::makeView() const
 {
-   return QList<int>();
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -64,9 +64,14 @@ QList<int> Template::buildList() const
 
 
 
-unique_ptr<QWidget> Template::makeView() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<::Gui::AbstractEdit> Template::makeEdit()
 {
-   return unique_ptr<QWidget>(new View::Template(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -74,9 +79,21 @@ unique_ptr<QWidget> Template::makeView() const
 
 
 
-unique_ptr<AbstractEdit> Template::makeEdit()
+/*!
+ * Constructs a new template block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Template::Template(bool isDefault)
 {
-   return unique_ptr<AbstractEdit>(new Edit::Template(this));
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault )
+   {
+      setType("class");
+      setName("T");
+   }
 }
 
 
@@ -84,7 +101,12 @@ unique_ptr<AbstractEdit> Template::makeEdit()
 
 
 
-unique_ptr<AbstractBlock> Template::makeBlank() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<AbstractBlock> Template::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Template);
+   return QPtr<AbstractBlock>(new Template);
 }

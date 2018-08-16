@@ -1,28 +1,24 @@
 #include "cppqt_signal.h"
-#include "cppqt_view_signal.h"
-#include "cppqt_edit_signal.h"
+#include "cppqt_signal_edit.h"
 #include "cppqt_blockfactory.h"
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
+//
 
 
 
 
 
 
-Signal::Signal(const QString& name):
-   Slot(name)
-{}
-
-
-
-
-
-
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 int Signal::type() const
 {
    return BlockFactory::SignalType;
@@ -33,10 +29,17 @@ int Signal::type() const
 
 
 
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 QIcon Signal::icon() const
 {
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/signal.svg");
+   // Initialize the static icon for this block type. 
+   static QIcon ret(":/icons/signal.svg");
+
+   // Return the icon. 
    return ret;
 }
 
@@ -45,9 +48,14 @@ QIcon Signal::icon() const
 
 
 
-std::unique_ptr<QWidget> Signal::makeView() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<::Gui::AbstractEdit> Signal::makeEdit()
 {
-   return unique_ptr<QWidget>(new View::Signal(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -55,9 +63,17 @@ std::unique_ptr<QWidget> Signal::makeView() const
 
 
 
-std::unique_ptr<::Gui::AbstractEdit> Signal::makeEdit()
+/*!
+ * Constructs a new signal block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Signal::Signal(bool isDefault)
 {
-   return unique_ptr<AbstractEdit>(new Edit::Signal(this));
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setName(QStringLiteral("signal"));
 }
 
 
@@ -65,7 +81,12 @@ std::unique_ptr<::Gui::AbstractEdit> Signal::makeEdit()
 
 
 
-std::unique_ptr<AbstractBlock> Signal::makeBlank() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<AbstractBlock> Signal::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Signal);
+   return QPtr<AbstractBlock>(new Signal);
 }

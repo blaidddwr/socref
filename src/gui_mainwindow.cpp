@@ -6,19 +6,18 @@
 #include <QCloseEvent>
 #include <QSettings>
 #include "gui_projectdialog.h"
+#include "gui_dictionarydialog.h"
 #include "gui_scandialog.h"
 #include "gui_blockview.h"
-#include "gui_aboutdialog.h"
 #include "abstractprojectfactory.h"
 #include "project.h"
 #include "abstractblock.h"
-#include "application.h"
-#include "common.h"
 #include "scanthread.h"
+#include "application.h"
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -32,6 +31,40 @@ const char* MainWindow::_geometryKey {"gui.mainwindow.geometry"};
  * The key used to save/restore the state of the main window using Qt settings. 
  */
 const char* MainWindow::_stateKey {"gui.mainwindow.state"};
+/*!
+ * The key used to save/restore the state of the block view contained in the main 
+ * window using Qt settings. 
+ */
+const char* MainWindow::_viewStateKey {"gui.mainwindow.view.state"};
+
+
+
+
+
+
+/*!
+ * Shows a modal dialog that informs the user of the given exception that occurred 
+ * along with a custom text message to give it context. 
+ *
+ * @param exception The exception whose title and details is displayed to the user 
+ *                  in a model dialog. 
+ *
+ * @param text The text of the modal window to give the exception context to the 
+ *             user. 
+ */
+void MainWindow::showException(const Sut::Exception& exception, const QString& text)
+{
+   // Create and initialize a new message box, using the given exception and text to 
+   // populate it. 
+   QMessageBox info;
+   info.setIcon(QMessageBox::Warning);
+   info.setWindowTitle(exception.title());
+   info.setText(text);
+   info.setInformativeText(exception.details());
+
+   // Execute the message box dialog. 
+   info.exec();
+}
 
 
 
@@ -42,33 +75,18 @@ const char* MainWindow::_stateKey {"gui.mainwindow.state"};
  * Constructs a new main window with the optional parent. 
  *
  * @param parent Optional parent for this new main window. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Setup this object's GUI, restore the state and geometry of the main window, 
- *    update this object's title, and update this object's actions. 
  */
 MainWindow::MainWindow(QWidget* parent):
    QMainWindow(parent)
 {
+   // Create this window's GUI and restore the state and geometry of the main window 
+   // and its block view. 
    setupGui();
    restoreSettings();
+
+   // Update this window's title and actions. 
    updateTitle();
    updateActions();
-}
-
-
-
-
-
-
-/*!
- * Saves the state and geometry of the main window. 
- */
-MainWindow::~MainWindow()
-{
-   saveSettings();
 }
 
 
@@ -83,39 +101,26 @@ MainWindow::~MainWindow()
  * project. 
  *
  * @param project  
- *
- *
- * Steps of Operation: 
- *
- * 1. Delete any previous project this window may contain, setting the new pointer 
- *    as this window's project. 
- *
- * 2. Update this window's title and file menu actions. If the new project given is 
- *    a null pointer then return. 
- *
- * 3. Set this window's new project's parent as this window, set this window's 
- *    block view with the new project's model, and set this window's modified state 
- *    based on the new project's modified state. 
- *
- * 4. Connect all project signals to this window's slots. 
  */
-void MainWindow::setProject(std::unique_ptr<Project>&& project)
+void MainWindow::setProject(Sut::QPtr<Project>&& project)
 {
-   // 1
+   // Delete any previous project this window may contain and set the new project. 
    delete _project;
-   _project = project.release();
+   _project = project.release(this);
 
-   // 2
+   // Update this window's title and actions. 
    updateTitle();
    updateActions();
+
+   // Check to see if the new project for this window is a null pointer. 
    if ( !_project ) return;
 
-   // 3
-   _project->setParent(this);
+   // Set the project's parent to this window, updating this this window's block view 
+   // and updating its modification state. 
    _view->setModel(_project->model());
    setWindowModified(_project->isModified());
 
-   // 4
+   // Connect all of the new project signals. 
    connect(_project,&Project::nameChanged,this,&MainWindow::projectNameChanged);
    connect(_project,&Project::modified,this,&MainWindow::projectModified);
    connect(_project,&Project::saved,this,&MainWindow::projectSaved);
@@ -128,21 +133,23 @@ void MainWindow::setProject(std::unique_ptr<Project>&& project)
 
 
 /*!
- * Implements the Qt interface which is called when this window has a close event. 
- * This implementation determines if it is OK to close the window and accept the 
- * event or not and ignore it. 
+ * Implements _QWidget_ interface. This implementation determines if it is OK to 
+ * close the window and accept the event or not and ignore it. 
  *
- * @param event Pointer to the close event that this is processing. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If it is OK to close this window then accept the given event else reject it. 
+ * @param event See Qt docs. 
  */
 void MainWindow::closeEvent(QCloseEvent* event)
 {
-   // 1
-   if ( isOkToClose() ) event->accept();
+   // Check to see if it is OK to close this window's project. 
+   if ( isOkToClose() )
+   {
+      // Save the geometry and state of this window and its block view and accept the 
+      // close event. 
+      saveSettings();
+      event->accept();
+   }
+
+   // Else it is not OK to close this window to ignore the close event. 
    else event->ignore();
 }
 
@@ -157,26 +164,20 @@ void MainWindow::closeEvent(QCloseEvent* event)
  * created. 
  *
  * @param type The project type used to create a new project. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create new project _project_ with the given type and set its name to the 
- *    default. 
- *
- * 2. If this window has no project then set it to _project_, else create a new 
- *    main window and set the new window's project to _project_. 
  */
 void MainWindow::newTriggered(int type)
 {
-   // 1
-   unique_ptr<Project> project {new Project(type)};
+   // Create a new project with the given type. 
+   QPtr<Project> project {new Project(type)};
    project->setName(tr("Untitled Project"));
 
-   // 2
+   // If this window has no project then set it to the new project. 
    if ( !_project ) setProject(std::move(project));
+
+   // Else this window already has a project. 
    else
    {
+      // Create a new window, setting its project to the new project, and then show it. 
       MainWindow* window {new MainWindow};
       window->setProject(std::move(project));
       window->show();
@@ -192,51 +193,49 @@ void MainWindow::newTriggered(int type)
  * Called when the open action is triggered. This opens a file dialog for the user 
  * to select a Socrates Reference project and if successful open it. The open 
  * project is set to this window if it has none or a new window otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a file dialog _file_ and query the user for a project file to open by 
- *    modal execution of it. If execution fails then return. 
- *
- * 2. Create a string _path_ setting it to the path of the first file selected from 
- *    the file dialog _file_. 
- *
- * 3. Open a new project with the path _path_. If this window has no project that 
- *    set it to this new project, else create a new main window with the new 
- *    project. 
- *
- * 4. If any exception is caught while opening the new project report it to the 
- *    user. 
  */
 void MainWindow::openTriggered()
 {
-   // 1
-   QFileDialog fileDialog(nullptr,tr("Open Project"),"",tr("Socrates' Reference File (*.scr)"));
+   // Create initialize a file dialog for opening a project file. 
+   QFileDialog fileDialog(nullptr
+                          ,tr("Open Project")
+                          ,QDir::currentPath()
+                          ,tr("Socrates' Reference File (*.scr)"));
    fileDialog.setAcceptMode(QFileDialog::AcceptOpen);
+
+   // Execute the file dialog and make sure it returned accepted. 
    if ( !fileDialog.exec() ) return;
 
-   // 2
+   // Get the first file path selected by the user from the file dialog. 
    QStringList files = fileDialog.selectedFiles();
    const QString path = files.constFirst();
 
-   // 3
+   // Set the current working directory to the parent directory of the selected 
+   // project. 
+   QDir::setCurrent(QFileInfo(path).dir().path());
    try
    {
-      unique_ptr<Project> project {new Project(path)};
+      // Open a new project with the file path. 
+      QPtr<Project> project {new Project(path)};
+
+      // If this window has no project that set it to the opened project. 
       if ( !_project ) setProject(std::move(project));
+
+      // Else this window already has a project. 
       else
       {
+         // Create a new window, setting its project to the opened project, and then show 
+         // it. 
          MainWindow* window = new MainWindow;
          window->setProject(std::move(project));
          window->show();
       }
    }
 
-   // 4
-   catch (Exception::Base e)
+   // Catch any exception while opening the new project and report it to the user. 
+   catch (Exception e)
    {
-      showException(tr("An error occured while attempting to open the project."),e);
+      showException(e,tr("An error occured while attempting to open the project."));
    }
 }
 
@@ -273,20 +272,36 @@ void MainWindow::saveAsTriggered()
 
 
 /*!
+ * Called when the dictionary action is triggered, executing a project dictionary 
+ * dialog if this window contains a project. 
+ */
+void MainWindow::dictionaryTriggered()
+{
+   // Make sure this window has a project. 
+   if ( _project )
+   {
+      // Create a new dictionary dialog with this window's project and execute it. 
+      DictionaryDialog dictionary(_project);
+      dictionary.exec();
+   }
+}
+
+
+
+
+
+
+/*!
  * Called when the properties action is triggered, executing a project properties 
  * dialog if this window contains a project. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this window has a project then create a new project dialog with this 
- *    window and its project executing it in modal mode. 
  */
 void MainWindow::propertiesTriggered()
 {
+   // Make sure this window has a project. 
    if ( _project )
    {
-      ProjectDialog settings(_project,this);
+      // Create a new project dialog with this window's project and execute it. 
+      ProjectDialog settings(_project);
       settings.exec();
    }
 }
@@ -299,19 +314,15 @@ void MainWindow::propertiesTriggered()
 /*!
  * Called when the scan action is triggered. If this window has a project then a 
  * project scan is executed using the scan dialog class. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this window has a project then create a new scanner from its project, then 
- *    create a new scan dialog with the new scanner, and then modal execute the new 
- *    dialog. 
  */
 void MainWindow::scanTriggered()
 {
+   // Make sure this window has a project. 
    if ( _project )
    {
-      unique_ptr<ScanThread> scanner {_project->makeScanner()};
+      // Create a new scanner from this window's project, then create a new scan dialog 
+      // with the new scanner, and then execute the scan dialog. 
+      QPtr<ScanThread> scanner {_project->makeScanner()};
       ScanDialog dialog(scanner.get());
       dialog.exec();
    }
@@ -328,6 +339,7 @@ void MainWindow::scanTriggered()
  */
 void MainWindow::closeTriggered()
 {
+   // If this window's project is OK to close then do so. 
    if ( isOkToClose() ) setProject(nullptr);
 }
 
@@ -341,28 +353,21 @@ void MainWindow::closeTriggered()
  * the given project type. 
  *
  * @param type The project type whose settings dialog is displayed. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new setting dialog _settings_ using the given project type. If the 
- *    returned settings dialog is null then throw an exception. 
- *
- * 2. Execute the _settings_ dialog in modal mode. 
  */
 void MainWindow::settingTriggered(int type)
 {
-   // 1
-   unique_ptr<QDialog> settings {AbstractProjectFactory::instance().makeSettings(type)};
+   // Make a new setting dialog using the given project type and make sure it is not 
+   // null. 
+   QPtr<QDialog> settings {AbstractProjectFactory::instance().makeSettings(type)};
    if ( !settings )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Project factory's make settings returned a null pointer."));
       throw e;
    }
 
-   // 2
+   // Execute the settings dialog. 
    settings->exec();
 }
 
@@ -372,17 +377,42 @@ void MainWindow::settingTriggered(int type)
 
 
 /*!
- * Called when the about action is triggered, executing the about dialog. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create an about dialog and execute it in modal mode. 
+ * Called when the about action is triggered, executing the about message box. 
  */
 void MainWindow::aboutTriggered()
 {
-   AboutDialog dialog;
-   dialog.exec();
+   // Open the internal file containing the HTML of the about dialog and make sure it 
+   // worked. 
+   QFile file(":/html/about.html");
+   if ( !file.open(QIODevice::ReadOnly) )
+   {
+      Exception::SystemError e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed opening about.html: %1").arg(file.errorString()));
+      throw e;
+   }
+
+   // Read in the entire contents of the HTML and replace the application version 
+   // string. 
+   QString text {file.readAll()};
+   text.replace("%SOCREF_VER%",Application::versionString());
+
+   // Execute a message box about dialog. 
+   QMessageBox::about(this,tr("About Socrates' Reference"),text);
+}
+
+
+
+
+
+
+/*!
+ * Called when the about qt action is triggered, executing the about qt message 
+ * box. 
+ */
+void MainWindow::aboutQtTriggered()
+{
+   QMessageBox::aboutQt(this);
 }
 
 
@@ -405,8 +435,8 @@ void MainWindow::projectNameChanged()
 
 
 /*!
- * Called when this window's project has been modified, setting this window state 
- * as modified. 
+ * Called when this window's project has been modified, updating this window as 
+ * modified. 
  */
 void MainWindow::projectModified()
 {
@@ -419,7 +449,7 @@ void MainWindow::projectModified()
 
 
 /*!
- * Called when this window's project has been saved, setting this window state as 
+ * Called when this window's project has been saved, updating this window as 
  * unmodified. 
  */
 void MainWindow::projectSaved()
@@ -433,46 +463,36 @@ void MainWindow::projectSaved()
 
 
 /*!
- * Called when this window's project file has been modified by something besides 
- * the project itself. This executes a dialog informing the user of this fact and 
- * reloads the project if the user chooses to do so. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new message box that informs the user the project file has changed 
- *    and ask the user if they want to reload the project or ignore this event. If 
- *    the user chooses to ignore it then return. 
- *
- * 2. Create a new project with the current project's file and then set the new 
- *    project to this window. 
- *
- * 3. If any exception is caught while attempting to reload the project then inform 
- *    the user. 
+ * Called when this window's project file has been modified by an outside source. 
+ * This executes a dialog informing the user of this fact and reloads the project 
+ * if the user chooses to do so. 
  */
 void MainWindow::projectFileChanged()
 {
-   // 1
+   // Create a new message box that informs the user the project file has changed and 
+   // asks the user if they want to reload the project or ignore it. 
    QMessageBox notice;
    notice.setWindowTitle(tr("Project File Changed"));
    notice.setText(tr("The currently open project's file has been modified."));
    notice.setIcon(QMessageBox::Warning);
    notice.addButton(tr("Reload"),QMessageBox::AcceptRole);
    notice.addButton(tr("Ignore"),QMessageBox::RejectRole);
+
+   // Execute the message box and check to see if they chose to reload the project. 
    int answer = notice.exec();
    if ( answer != QMessageBox::AcceptRole ) return;
-
-   // 2
    try
    {
-      unique_ptr<Project> project {new Project(_project->path())};
+      // Reload the project by creating a new project with the same file path and 
+      // setting this window's project to the reloaded one. 
+      QPtr<Project> project {new Project(_project->path())};
       setProject(std::move(project));
    }
 
-   // 3
-   catch (Exception::Base e)
+   // Catch any exception while attempting to reload the project and inform the user. 
+   catch (Exception e)
    {
-      showException(tr("An error occured while attempting to reload the project."),e);
+      showException(e,tr("An error occured while attempting to reload the project."));
    }
 }
 
@@ -483,17 +503,11 @@ void MainWindow::projectFileChanged()
 
 /*!
  * Updates this window's title, including the project name if it has one. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this window has a project then set the window title with the project name 
- *    and type along with the application's name, else just set it to the 
- *    application's name. 
  */
 void MainWindow::updateTitle()
 {
-   // 1
+   // If this window has a project then set the window title with the project name 
+   // else just set it to the application's name. 
    if ( _project )
    {
       setWindowTitle(tr("%1[*] (%2) - Socrates' Reference")
@@ -511,25 +525,18 @@ void MainWindow::updateTitle()
 /*!
  * Updates some of this window's actions by enabling or disabling them based off 
  * aspects of this window's project. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this window has a project and it is now new then enable the save action 
- *    else disable it. 
- *
- * 2. If this window has a project then enable the save as, close, properties, and 
- *    scan actions. Else if this window has no project disable the same actions. 
  */
 void MainWindow::updateActions()
 {
-   // 1
+   // Enable or disable the save action based off this window's project. 
    if ( _project ) _saveAction->setDisabled(_project->isNew());
    else _saveAction->setDisabled(true);
 
-   // 2
+   // Enable or disable all other relevant actions based off this window having a 
+   // project or not. 
    _saveAsAction->setDisabled(!_project);
    _closeAction->setDisabled(!_project);
+   _dictionaryAction->setDisabled(!_project);
    _propertiesAction->setDisabled(!_project);
    _scanAction->setDisabled(!_project);
 }
@@ -547,45 +554,35 @@ void MainWindow::updateActions()
  *
  * @return True if it is OK to close this window's current project or this window 
  *         has no project, else false is returned. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this window has no project or the project is not modified then return 
- *    true. 
- *
- * 2. Create a Qt message box _confirm_ that queries the user about what to do with 
- *    this window's project's unsaved changes. The options are to save the project, 
- *    cancel closing it, or discard the changes. 
- *
- * 3. Executes the _confirm_ dialog in modal mode and get the user's response. If 
- *    cancel is chosen then return false, else if save is chosen then attempt to 
- *    save the project returning its result, else if discard is chosen then return 
- *    true. 
  */
 bool MainWindow::isOkToClose()
 {
-   // 1
+   // If this window has no project or the project is not modified then return that 
+   // it is OK. 
    if ( !_project || !_project->isModified() ) return true;
 
-   // 2
+   // Create a message box that queries the user about what to do with this window's 
+   // project's unsaved changes. 
    QMessageBox confirm;
    confirm.setWindowTitle(tr("Unsaved Project Changes"));
    confirm.setText(tr("The currently open project has unsaved changes. Closing the project will cause all unsaved changes to be lost!"));
    confirm.setIcon(QMessageBox::Question);
    confirm.setStandardButtons(QMessageBox::Save|QMessageBox::Cancel|QMessageBox::Discard);
 
-   // 3
+   // Execute the message box and get the user's response. 
    switch (confirm.exec())
    {
-   case QMessageBox::Cancel:
-      return false;
    case QMessageBox::Save:
+
+      // If this window's project is new then attempt to save as else attempt to save. 
       if ( _project->isNew() ) return saveAs();
       else return save();
-      break;
+
+   // If the user choose cancel then return that it is not OK else the user choose 
+   // discard so return that it is OK. 
+   case QMessageBox::Cancel: return false;
+   default: return true;
    }
-   return true;
 }
 
 
@@ -601,45 +598,38 @@ bool MainWindow::isOkToClose()
  *
  * @return True if this window's project was successfully saved to a new location 
  *         or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this window has no project then return false. 
- *
- * 2. Create a new file dialog _dialog_, setting its accept mode to saving a file 
- *    and executing it in modal mode. If execution fails then return false. 
- *
- * 3. Get the file path from _dialog_ chosen by the user and attempt to save the 
- *    project with that file path. If a Socrates exception is caught then report it 
- *    to the user and return false. 
- *
- * 4. Update this window's actions and return true on success. 
  */
 bool MainWindow::saveAs()
 {
-   // 1
+   // Make sure this window has a project to save. 
    if ( !_project ) return false;
 
-   // 2
+   // Create a new file dialog to query the user for a file path to save this 
+   // window's project. 
    QFileDialog dialog(nullptr,tr("Save Project"),"",tr("Socrates' Reference File (*.scr)"));
    dialog.setAcceptMode(QFileDialog::AcceptSave);
+
+   // Execute the file dialog and make sure it returned accepted. 
    if ( !dialog.exec() ) return false;
 
-   // 3
+   // Get the first file path from the file dialog chosen by the user. 
    QStringList files = dialog.selectedFiles();
    const QString path = files.constFirst();
    try
    {
+      // Attempt to save this window's project to the file path. 
       _project->saveAs(path);
    }
-   catch (Exception::Base e)
+
+   // Catch any exception thrown while attempting to save the project, reporting it 
+   // to the user and returning failure. 
+   catch (Exception e)
    {
-      showException(tr("An error occured while attempting to save the project."),e);
+      showException(e,tr("An error occured while attempting to save the project."));
       return false;
    }
 
-   // 4
+   // Update this window's actions and return success. 
    updateActions();
    return true;
 }
@@ -654,34 +644,26 @@ bool MainWindow::saveAs()
  * failure. If this window has no project then false is returned. 
  *
  * @return True if the project was successfully saved or false otherwise. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this window has no project then return false. 
- *
- * 2. Attempt to save this project. If any Socrates exception is caught then report 
- *    it to the user and return false. 
- *
- * 3. Return true on success. 
  */
 bool MainWindow::save()
 {
-   // 1
+   // Make sure this window has a project to save. 
    if ( !_project ) return false;
-
-   // 2
    try
    {
+      // Attempt to save this window's project. 
       _project->save();
    }
-   catch (Exception::Base e)
+
+   // Catch any exception thrown while attempting to save the project, reporting it 
+   // to the user and returning failure. 
+   catch (Exception e)
    {
-      showException(tr("An error occured while attempting to save the project."),e);
+      showException(e,tr("An error occured while attempting to save the project."));
       return false;
    }
 
-   // 3
+   // Return success. 
    return true;
 }
 
@@ -692,19 +674,18 @@ bool MainWindow::save()
 
 /*!
  * Restores the state and geometry of the main window from Qt settings. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Restore this window's state and geometry for the main window using Qt 
- *    settings and this class's keys. 
  */
 void MainWindow::restoreSettings()
 {
-   // 1
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   // Create a settings object using this application's keys. 
+   QSettings settings;
+
+   // Restore this window's state and geometry. 
    restoreGeometry(settings.value(_geometryKey).toByteArray());
    restoreState(settings.value(_stateKey).toByteArray());
+
+   // Restore this window's block view state. 
+   _view->restoreState(settings.value(_viewStateKey).toByteArray());
 }
 
 
@@ -714,19 +695,18 @@ void MainWindow::restoreSettings()
 
 /*!
  * Saves the state and geometry of the main window to Qt settings. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Save this window's state and geometry for the main window using Qt settings 
- *    and this class's keys. 
  */
 void MainWindow::saveSettings()
 {
-   // 1
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   // Create a settings object using this application's keys. 
+   QSettings settings;
+
+   // Save this window's state and geometry. 
    settings.setValue(_geometryKey,saveGeometry());
    settings.setValue(_stateKey,saveState());
+
+   // Save this window's block view state. 
+   settings.setValue(_viewStateKey,_view->saveState());
 }
 
 
@@ -736,30 +716,19 @@ void MainWindow::saveSettings()
 
 /*!
  * Constructs and initializes all GUI elements for this new main window. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Load this application's logo icon if it hasn't already been loaded and then 
- *    set this window's icon to it. 
- *
- * 2. Create a new block view object for this window, setting it as this window's 
- *    central widget. 
- *
- * 3. Setup this new window's actions and menus. 
  */
 void MainWindow::setupGui()
 {
-   // 1
+   // Load this application's logo icon if it hasn't already been loaded. 
    static QIcon icon;
    if ( icon.isNull() ) icon = QIcon(":/icons/main.svg");
-   setWindowIcon(icon);
 
-   // 2
+   // Create the block view for this window and set it as the central widget. 
    _view = new BlockView(this);
    setCentralWidget(_view);
 
-   // 3
+   // Set this window's icon and create it's actions and menus. 
+   setWindowIcon(icon);
    setupActions();
    setupMenus();
 }
@@ -771,78 +740,66 @@ void MainWindow::setupGui()
 
 /*!
  * Constructs and initializes all actions for this new window. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new action for this window's open action. 
- *
- * 2. Create a new action for this window's save action. 
- *
- * 3. Create a new action for this window's save as action. 
- *
- * 4. Create a new action for this window's properties action. 
- *
- * 5. Create a new action for this window's scan action. 
- *
- * 6. Create a new action for this window's close action. 
- *
- * 7. Create a new action for this window's exit action, connecting its triggered 
- *    signal to close this window. 
- *
- * 8. Create a new action for this window's about action. 
- *
- * 9. Setup the new project and project settings actions. 
  */
 void MainWindow::setupActions()
 {
-   // 1
+   // Create and initialize the open action for this window. 
    _openAction = new QAction(tr("&Open"),this);
    _openAction->setShortcut(QKeySequence::Open);
    _openAction->setStatusTip(tr("Open an existing project."));
    connect(_openAction,&QAction::triggered,this,&MainWindow::openTriggered);
 
-   // 2
+   // Create and initialize the save action for this window. 
    _saveAction = new QAction(tr("&Save"),this);
    _saveAction->setShortcut(QKeySequence::Save);
    _saveAction->setStatusTip(tr("Save current project."));
    connect(_saveAction,&QAction::triggered,this,&MainWindow::saveTriggered);
 
-   // 3
+   // Create and initialize the save as action for this window. 
    _saveAsAction = new QAction(tr("Save &As"),this);
    _saveAsAction->setShortcut(QKeySequence::SaveAs);
    _saveAsAction->setStatusTip(tr("Save current project under a new path."));
    connect(_saveAsAction,&QAction::triggered,this,&MainWindow::saveAsTriggered);
 
-   // 4
+   // Create and initialize the dictionary action for this window. 
+   _dictionaryAction = new QAction(tr("&Dictionary"),this);
+   _dictionaryAction->setStatusTip(tr("Edit the custom dictionary of a project."));
+   connect(_dictionaryAction,&QAction::triggered,this,&MainWindow::dictionaryTriggered);
+
+   // Create and initialize the properties action for this window. 
    _propertiesAction = new QAction(tr("&Properties"),this);
    _propertiesAction->setStatusTip(tr("Edit basic properties of a project."));
    connect(_propertiesAction,&QAction::triggered,this,&MainWindow::propertiesTriggered);
 
-   // 5
+   // Create and initialize the scan action for this window. 
    _scanAction = new QAction(tr("Scan"),this);
    _scanAction->setStatusTip(tr("Scan and parse source files to add documentation."));
    _scanAction->setShortcut(Qt::CTRL + Qt::Key_B);
    connect(_scanAction,&QAction::triggered,this,&MainWindow::scanTriggered);
 
-   // 6
+   // Create and initialize the close action for this window. 
    _closeAction = new QAction(tr("&Close"),this);
    _closeAction->setShortcut(QKeySequence::Close);
    _closeAction->setStatusTip(tr("Close the current project."));
    connect(_closeAction,&QAction::triggered,this,&MainWindow::closeTriggered);
 
-   // 7
+   // Create and initialize the exit action for this window. 
    _exitAction = new QAction(tr("&Exit"),this);
    _exitAction->setShortcut(QKeySequence::Quit);
    _exitAction->setStatusTip(tr("Exit this window."));
    connect(_exitAction,&QAction::triggered,this,&QWidget::close);
 
-   // 8
+   // Create and initialize the about action for this window. 
    _aboutAction = new QAction(tr("&About"),this);
    _aboutAction->setStatusTip(tr("Get information about this program."));
    connect(_aboutAction,&QAction::triggered,this,&MainWindow::aboutTriggered);
 
-   // 9
+   // Create and initialize the about qt action for this window. 
+   _aboutQtAction = new QAction(tr("&About Qt"),this);
+   _aboutQtAction->setStatusTip(tr("Get information about the Qt library."));
+   connect(_aboutQtAction,&QAction::triggered,this,&MainWindow::aboutQtTriggered);
+
+   // Create the new actions and setting actions. 
    setupNewActions();
    setupSettingActions();
 }
@@ -854,20 +811,14 @@ void MainWindow::setupActions()
 
 /*!
  * Creates this window's new actions for each project type that exists. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Iterate through every project type, creating a new action for each one. Add 
- *    each new action to this window's list of new actions and connect its signal 
- *    to this window's appropriate slot using a lambda function to save the type. 
  */
 void MainWindow::setupNewActions()
 {
-   // 1
+   // Iterate through every project type. 
    AbstractProjectFactory& factory = AbstractProjectFactory::instance();
    for (int i = 0; i < factory.size() ;++i)
    {
+      // Create a new action for the project type and connect its triggered signal. 
       _newActions.append(new QAction(factory.name(i),this));
       connect(_newActions.back(),&QAction::triggered,[this,i]{ newTriggered(i); });
    }
@@ -880,21 +831,14 @@ void MainWindow::setupNewActions()
 
 /*!
  * Creates this window's setting actions for each project type that exists. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Iterate through every project type, creating a new action for each one. Add 
- *    each new action to this window's list of setting actions and connect its 
- *    signal to this window's appropriate slot using a lambda function to save the 
- *    type. 
  */
 void MainWindow::setupSettingActions()
 {
-   // 1
+   // Iterate through every project type. 
    AbstractProjectFactory& factory = AbstractProjectFactory::instance();
    for (int i = 0; i < factory.size() ;++i)
    {
+      // Create a settings action for the project type and connect its triggered signal. 
       _settingActions.append(new QAction(factory.name(i),this));
       connect(_settingActions.back(),&QAction::triggered,[this,i]{ settingTriggered(i); });
    }
@@ -907,30 +851,25 @@ void MainWindow::setupSettingActions()
 
 /*!
  * Constructs and initializes this new window's menus, adding them to its menu bar. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Setup and add the file menu and then add the context menu from this new 
- *    window's block view object. 
- *
- * 2. Add the settings menu, adding all setting actions to the menu. 
- *
- * 3. Add the help menu, adding the single about action to it. 
  */
 void MainWindow::setupMenus()
 {
-   // 1
+   // Create and add the file menu to this window's menu bar. 
    setupFileMenu();
+
+   // Add this window's block view's context menu to its menu bar. 
    menuBar()->addMenu(_view->contextMenu());
 
-   // 2
+   // Add the settings menu to this window's menu bar, adding all setting actions. 
    QMenu* settingsMenu = menuBar()->addMenu(tr("&Settings"));
    for (auto action : qAsConst(_settingActions)) settingsMenu->addAction(action);
 
-   // 3
+   menuBar()->addSeparator();
+   // Add the help menu to this window's menu bar, adding the about and about qt 
+   // actions. 
    QMenu* helpMenu = menuBar()->addMenu(tr("&Help"));
    helpMenu->addAction(_aboutAction);
+   helpMenu->addAction(_aboutQtAction);
 }
 
 
@@ -939,34 +878,26 @@ void MainWindow::setupMenus()
 
 
 /*!
- * Construct and initialize this new window's file menu, adding it to this window's 
- * menu bar. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Add a new file menu to this window's menu bar, saving its pointer to _file_. 
- *
- * 2. Add a new sub menu to _file_, populating it with all new actions of this 
- *    window. 
- *
- * 3. Add all other actions to _file_, adding separators where appropriate. 
+ * Constructs and initializes this new window's file menu, adding it to this 
+ * window's menu bar. 
  */
 void MainWindow::setupFileMenu()
 {
-   // 1
+   // Create and add the new file menu to this window's menu bar. 
    QMenu* file = menuBar()->addMenu(tr("&File"));
 
-   // 2
+   // Add the new menu to the file menu, populating it with all new actions of this 
+   // window. 
    QMenu* newMenu = file->addMenu(tr("&New"));
    for (auto action : qAsConst(_newActions)) newMenu->addAction(action);
 
-   // 3
+   // Add all other actions to the file menu, adding separators where appropriate. 
    file->addAction(_openAction);
    file->addAction(_saveAction);
    file->addAction(_saveAsAction);
    file->addAction(_closeAction);
    file->addSeparator();
+   file->addAction(_dictionaryAction);
    file->addAction(_propertiesAction);
    file->addAction(_scanAction);
    file->addSeparator();

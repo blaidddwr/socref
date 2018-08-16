@@ -1,9 +1,9 @@
 #ifndef SCANTHREAD_H
 #define SCANTHREAD_H
-#include <memory>
 #include <QThread>
 #include <QFileInfoList>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 //
 
@@ -22,10 +22,10 @@ class ScanThread : public QThread
 {
    Q_OBJECT
 public:
-   explicit ScanThread(std::unique_ptr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent = nullptr);
+   explicit ScanThread(Sut::QPtr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent = nullptr);
    int size() const;
    bool hasException() const;
-   const Exception::Base& exception() const;
+   const Sut::Exception& exception() const;
 signals:
    /*!
     * Signals that the scan thread has started working on the given file index. The 
@@ -38,9 +38,8 @@ signals:
 protected:
    virtual void run() override final;
 private:
-   void buildList(const QString& scanDirectory, const QStringList& filters);
-   bool run(const QFileInfo& info);
    static void parse(AbstractParser* parser, const QFileInfo& info);
+   void buildList(const QString& scanDirectory, const QStringList& filters);
    /*!
     * A pointer to the parser factory this scan thread uses for making parser objects. 
     */
@@ -53,7 +52,7 @@ private:
     * A pointer that this scan thread uses to save any Socrates exception that occurs 
     * within its separate scanning thread. 
     */
-   Exception::Base* _exception {nullptr};
+   Sut::Exception* _exception {nullptr};
 };
 
 

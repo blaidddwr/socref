@@ -1,55 +1,102 @@
 #ifndef CPPQT_PARENT_H
 #define CPPQT_PARENT_H
 #include "abstractblock.h"
+//
 
 
 
 namespace CppQt
 {
+   /*!
+    * This is the parent block. This represents a single inheritance class for another 
+    * C++ class. This contains the class name being inherited and its access type of 
+    * public, protected, or private. 
+    */
    class Parent : public AbstractBlock
    {
       Q_OBJECT
    public:
-      enum class Access
-      {
-         Public
-         ,Protected
-         ,Private
-      };
-      explicit Parent() = default;
-      explicit Parent(const QString& className);
-      virtual QString name() const override final;
+      class Edit;
+      class View;
+   public:
       virtual int type() const override final;
       virtual const AbstractBlockFactory& factory() const override final;
+      virtual QString name() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
-      const QStringList& accessNames() const;
-      QString accessName() const;
-      Access access() const;
-      void setAccess(Access access);
-      void setAccess(const QString& accessName);
+      virtual Sut::QPtr<QWidget> makeView() const override final;
+      virtual int fieldSize() const override final;
+      virtual AbstractBlock::Field fieldType(int index) const override final;
+      virtual QVariant field(int index) const override final;
+      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override final;
+   public:
+      /*!
+       * Defines all possible access types a parent class can have. 
+       */
+      enum class Access
+      {
+         /*!
+          * Defines the public type. 
+          */
+         Public
+         /*!
+          * Defines the protected type. 
+          */
+         ,Protected
+         /*!
+          * Defines the private type. 
+          */
+         ,Private
+      };
+      explicit Parent(bool isDefault = false);
+      Parent::Access access() const;
+      QString accessString() const;
       QString className() const;
-      void setClassName(const QString& templateArgument);
    protected:
-      virtual void readData(const QDomElement& data, int version) override final;
-      virtual int writeVersion() const override final;
-      virtual QDomElement writeData(QDomDocument& document) const override final;
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
-      virtual void copyDataFrom(const AbstractBlock* object) override final;
+      /*!
+       * Defines the fields this block contains. 
+       */
+      enum Field
+      {
+         /*!
+          * Defines the access type field. 
+          */
+         AccessType
+         /*!
+          * Defines the class name field. 
+          */
+         ,ClassName
+         /*!
+          * Defines the total number of fields this block defines. 
+          */
+         ,Total
+      };
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
+      virtual int version() const override final;
+      virtual QString fieldTag(int index) const override final;
+      virtual int fieldIndexOf(const QString& name) const override final;
+      virtual void fieldModified(int index) override final;
+      virtual void quietlySetField(int index, const QVariant& value) override final;
    private:
-      void readVersion0(const QDomElement &data);
-      void readVersion1(const QDomElement &data);
-      void readVersion2(const QDomElement &data);
-      constexpr static int _version {2};
+      void setClassName(const QString& value);
+      /*!
+       * List of this block's field tag names that follow the same order as this block's 
+       * enumeration of fields. 
+       */
+      static const QStringList _fields;
+      /*!
+       * List of access type names that follow the same order as this block's enumeration 
+       * of possible access types. 
+       */
       static const QStringList _accessNames;
-      static const char* _accessTag;
-      static const char* _templateArgumentTag;
-      static const char* _nameTag;
-      static const char* _classTag;
+      /*!
+       * The access type for this parent block. 
+       */
       Access _access {Access::Public};
-      QString _class;
+      /*!
+       * The class name for this parent block. 
+       */
+      QString _className;
    };
 }
 

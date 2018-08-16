@@ -1,43 +1,43 @@
 <RCC>
     <qresource prefix="/">
-        <file>icons/namespace.svg</file>
-        <file>icons/main.svg</file>
-        <file>icons/variable.svg</file>
-        <file>icons/function.svg</file>
-        <file>icons/class.svg</file>
-        <file>icons/private.svg</file>
-        <file>icons/protected.svg</file>
-        <file>icons/signal.svg</file>
-        <file>icons/slot.svg</file>
-        <file>icons/template.svg</file>
-        <file>icons/aclass.svg</file>
-        <file>icons/abstract.svg</file>
-        <file>icons/static.svg</file>
-        <file>icons/vclass.svg</file>
-        <file>icons/virtual.svg</file>
-        <file>icons/aslot.svg</file>
-        <file>icons/vslot.svg</file>
-        <file>icons/prislots.svg</file>
-        <file>icons/proslots.svg</file>
-        <file>icons/public.svg</file>
-        <file>icons/pubslots.svg</file>
-        <file>icons/signals.svg</file>
-        <file>icons/parent.svg</file>
-        <file>icons/svariable.svg</file>
-        <file>icons/vdestructor.svg</file>
-        <file>icons/adestructor.svg</file>
-        <file>icons/constructor.svg</file>
-        <file>icons/destructor.svg</file>
-        <file>icons/enumeration.svg</file>
-        <file>icons/enumvalue.svg</file>
-        <file>icons/voperator.svg</file>
-        <file>icons/aoperator.svg</file>
-        <file>icons/operator.svg</file>
-        <file>icons/priparent.svg</file>
-        <file>icons/proparent.svg</file>
-        <file>icons/declaration.svg</file>
-        <file>icons/typelist.svg</file>
-        <file>icons/type.svg</file>
-        <file>html/about.html</file>
+        <file alias="icons/namespace.svg">../data/icons/namespace.svg</file>
+        <file alias="icons/main.svg">../data/icons/main.svg</file>
+        <file alias="icons/variable.svg">../data/icons/variable.svg</file>
+        <file alias="icons/function.svg">../data/icons/function.svg</file>
+        <file alias="icons/class.svg">../data/icons/class.svg</file>
+        <file alias="icons/private.svg">../data/icons/private.svg</file>
+        <file alias="icons/protected.svg">../data/icons/protected.svg</file>
+        <file alias="icons/signal.svg">../data/icons/signal.svg</file>
+        <file alias="icons/slot.svg">../data/icons/slot.svg</file>
+        <file alias="icons/template.svg">../data/icons/template.svg</file>
+        <file alias="icons/aclass.svg">../data/icons/aclass.svg</file>
+        <file alias="icons/abstract.svg">../data/icons/abstract.svg</file>
+        <file alias="icons/static.svg">../data/icons/static.svg</file>
+        <file alias="icons/vclass.svg">../data/icons/vclass.svg</file>
+        <file alias="icons/virtual.svg">../data/icons/virtual.svg</file>
+        <file alias="icons/aslot.svg">../data/icons/aslot.svg</file>
+        <file alias="icons/vslot.svg">../data/icons/vslot.svg</file>
+        <file alias="icons/prislots.svg">../data/icons/prislots.svg</file>
+        <file alias="icons/proslots.svg">../data/icons/proslots.svg</file>
+        <file alias="icons/public.svg">../data/icons/public.svg</file>
+        <file alias="icons/pubslots.svg">../data/icons/pubslots.svg</file>
+        <file alias="icons/signals.svg">../data/icons/signals.svg</file>
+        <file alias="icons/parent.svg">../data/icons/parent.svg</file>
+        <file alias="icons/svariable.svg">../data/icons/svariable.svg</file>
+        <file alias="icons/vdestructor.svg">../data/icons/vdestructor.svg</file>
+        <file alias="icons/adestructor.svg">../data/icons/adestructor.svg</file>
+        <file alias="icons/constructor.svg">../data/icons/constructor.svg</file>
+        <file alias="icons/destructor.svg">../data/icons/destructor.svg</file>
+        <file alias="icons/enumeration.svg">../data/icons/enumeration.svg</file>
+        <file alias="icons/enumvalue.svg">../data/icons/enumvalue.svg</file>
+        <file alias="icons/voperator.svg">../data/icons/voperator.svg</file>
+        <file alias="icons/aoperator.svg">../data/icons/aoperator.svg</file>
+        <file alias="icons/operator.svg">../data/icons/operator.svg</file>
+        <file alias="icons/priparent.svg">../data/icons/priparent.svg</file>
+        <file alias="icons/proparent.svg">../data/icons/proparent.svg</file>
+        <file alias="icons/declaration.svg">../data/icons/declaration.svg</file>
+        <file alias="icons/typelist.svg">../data/icons/typelist.svg</file>
+        <file alias="icons/type.svg">../data/icons/type.svg</file>
+        <file alias="html/about.html">../data/html/about.html</file>
     </qresource>
 </RCC>

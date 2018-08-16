@@ -1,7 +1,8 @@
 #ifndef GUI_MAINWINDOW_H
 #define GUI_MAINWINDOW_H
-#include <memory>
 #include <QMainWindow>
+#include <socutil/sut_exceptions.h>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 #include "gui.h"
 //
@@ -30,9 +31,9 @@ namespace Gui
    {
       Q_OBJECT
    public:
+      static void showException(const Sut::Exception& exception, const QString& text);
       explicit MainWindow(QWidget* parent = nullptr);
-      ~MainWindow();
-      void setProject(std::unique_ptr<Project>&& project);
+      void setProject(Sut::QPtr<Project>&& project);
    protected:
       virtual void closeEvent(QCloseEvent* event) override final;
    private slots:
@@ -40,11 +41,13 @@ namespace Gui
       void openTriggered();
       void saveTriggered();
       void saveAsTriggered();
+      void dictionaryTriggered();
       void propertiesTriggered();
       void scanTriggered();
       void closeTriggered();
       void settingTriggered(int type);
       void aboutTriggered();
+      void aboutQtTriggered();
       void projectNameChanged();
       void projectModified();
       void projectSaved();
@@ -72,6 +75,11 @@ namespace Gui
        */
       static const char* _stateKey;
       /*!
+       * The key used to save/restore the state of the block view contained in the main 
+       * window using Qt settings. 
+       */
+      static const char* _viewStateKey;
+      /*!
        * Pointer to this window's block view. 
        */
       BlockView* _view;
@@ -96,6 +104,11 @@ namespace Gui
        * Pointer this this window's save as action. 
        */
       QAction* _saveAsAction;
+      /*!
+       * Pointer this this window's dictionary action used to open the project dictionary 
+       * dialog. 
+       */
+      QAction* _dictionaryAction;
       /*!
        * Pointer this this window's property action used to open the project properties 
        * dialog. 
@@ -122,6 +135,10 @@ namespace Gui
        * Pointer this this window's about action. 
        */
       QAction* _aboutAction;
+      /*!
+       * Pointer this this window's about qt action. 
+       */
+      QAction* _aboutQtAction;
    };
 }
 

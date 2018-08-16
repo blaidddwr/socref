@@ -1,11 +1,11 @@
 #include "blockmodel.h"
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
 #include "abstractblockfactory.h"
 #include "abstractblock.h"
 
 
 
-using namespace std;
+using namespace Sut;
 //
 
 
@@ -14,72 +14,27 @@ using namespace std;
 
 
 /*!
- * This constructs a new block model with the given root block and parent. Both the 
- * root block and parent can be given as null. A null root block means this model 
- * is empty. 
+ * Implements _QAbstractItemModel_ interface. 
  *
- * @param root The root block this model will use for its data or null to make this 
- *             model empty. 
+ * @param row See Qt docs. 
  *
- * @param parent The parent for this model. 
+ * @param column See Qt docs. 
  *
+ * @param parent See Qt docs. 
  *
- * Steps of Operation: 
- *
- * 1. If the root given is not null then get the block type's block factory and 
- *    connect the root block signals to this new block model. 
- */
-BlockModel::BlockModel(AbstractBlock* root, QObject* parent):
-   QAbstractItemModel(parent),
-   _root(root)
-{
-   // 1
-   if ( _root )
-   {
-      _factory = &(_root->factory());
-      connect(_root,&AbstractBlock::nameModified,this,&BlockModel::blockNameModified);
-      connect(_root,&AbstractBlock::bodyModified,this,&BlockModel::blockBodyModified);
-   }
-}
-
-
-
-
-
-
-/*!
- * This implements the interface that returns a a model index for the given row, 
- * column, and parent. 
- *
- * @param row The row whose index is returned. 
- *
- * @param column The column whose index is returned. 
- *
- * @param parent The parent index of the index that is returned. 
- *
- * @return A model index for the given row, column, and parent. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given row is less than 0 or the column is not 0 then return an invalid 
- *    index. 
- *
- * 2. Get the block pointer of the given parent index. If the given row is out of 
- *    range of the parent block's list of children then return an invalid index. 
- *
- * 3. Return a new index with the given row, column, and parent index. 
+ * @return See Qt docs. 
  */
 QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) const
 {
-   // 1
+   // If the given row or column is not valid then return an invalid index. 
    if ( row < 0 || column != 0 ) return QModelIndex();
 
-   // 2
+   // Get the block pointer for the given parent index and make sure the row is 
+   // within range of its child size. 
    AbstractBlock* parent_ {pointer(parent)};
    if ( row >= parent_->size() ) return QModelIndex();
 
-   // 3
+   // Return a new index with its internal pointer set to the block pointer. 
    return createIndex(row,column,parent_->get(row));
 }
 
@@ -89,28 +44,25 @@ QModelIndex BlockModel::index(int row, int column, const QModelIndex& parent) co
 
 
 /*!
- * This implements the interface that returns the parent index of a given index. 
+ * Implements _QAbstractItemModel_ interface. 
  *
- * @param child The index whose parent is returned. 
+ * @param child See Qt docs. 
  *
- * @return Parent index of the given index. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Get the pointer to the given index's parent block. If the parent block 
- *    pointer is null or the parent's parent is null then return an invalid index. 
- *
- * 2. Return the given index's parent index using the grandparent to get the 
- *    parent's row. 
+ * @return See Qt docs. 
  */
 QModelIndex BlockModel::parent(const QModelIndex& child) const
 {
-   // 1
-   AbstractBlock* parent = pointer(child)->parent();
+   // Get the block pointer of the given child index, making sure it is not null. 
+   AbstractBlock* childBlock {pointer(child)};
+   if ( !childBlock ) return QModelIndex();
+
+   // Get the parent of the child block, making sure it is not null and its parent is 
+   // not null. 
+   AbstractBlock* parent = childBlock->parent();
    if ( !parent || !parent->parent() ) return QModelIndex();
 
-   // 2
+   // Return the given index's parent index using the grandparent to get the parent's 
+   // row. 
    AbstractBlock* grandparent = parent->parent();
    return createIndex(grandparent->indexOf(parent),0,parent);
 }
@@ -121,24 +73,23 @@ QModelIndex BlockModel::parent(const QModelIndex& child) const
 
 
 /*!
- * This implements the interface that returns the number of rows the given index 
- * contains. 
+ * Implements _QAbstractItemModel_ interface. This returns the number of children 
+ * the block with the given index contains. 
  *
- * @param index The index whose contained number of rows is returned. 
+ * @param index See Qt docs. 
  *
- * @return Number of rows the given index contains. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this model's root pointer is null then return 0, else return the number of 
- *    children this index's block contains. 
+ * @return See Qt docs. 
  */
 int BlockModel::rowCount(const QModelIndex& index) const
 {
-   // 1
+   // Check if this model has no root block. 
    if ( !_root ) return 0;
-   return pointer(index)->size();
+
+   // Get the block pointer for the given index, returning 0 if it is null or its 
+   // children size if it is not. 
+   AbstractBlock* block {pointer(index)};
+   if ( !block ) return 0;
+   else return block->size();
 }
 
 
@@ -147,16 +98,15 @@ int BlockModel::rowCount(const QModelIndex& index) const
 
 
 /*!
- * This implements the interface that returns the number of columns the given index 
- * contains. This model always contains 1 column regardless of index. 
+ * Implements _QAbstractItemModel_ interface. This model always has 1 column. 
  *
- * @param parent The index is not used for this model because the number of columns 
- *               is static. 
+ * @param parent See Qt docs. 
  *
- * @return This models column count is always 1. 
+ * @return See Qt docs. 
  */
 int BlockModel::columnCount(const QModelIndex& parent) const
 {
+   // Return 1. 
    Q_UNUSED(parent)
    return 1;
 }
@@ -167,37 +117,49 @@ int BlockModel::columnCount(const QModelIndex& parent) const
 
 
 /*!
- * This implements the interface that returns data for the given index with the 
- * given role. This model only implements the display and decoration roles. 
+ * Implements _QAbstractItemModel_ interface. This model only implements the 
+ * display and decoration roles. 
  *
- * @param index The index whose data is returned. 
+ * @param index See Qt docs. 
  *
- * @param role The role of the requested data. 
+ * @param role See Qt docs. 
  *
- * @return Data requested from given index and role. For this model this is a 
- *         string or qt image. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given role is the display role then return the given index's block 
- *    name, else if the given role is the decoration role then return the given 
- *    index's block icon resized to this model's preferred icon size, else this is 
- *    an unsupported role so return nothing. 
+ * @return See Qt docs. 
  */
 QVariant BlockModel::data(const QModelIndex& index, int role) const
 {
-   // 1
+   // Get the block pointer for the given index, returning a null qt variant if it is 
+   // null. 
+   AbstractBlock* block {pointer(index)};
+   if ( !block ) return QVariant();
+
+   // Based off the role return either the block's display name for display role or 
+   // the block's icon for decoration role. The icon is transformed to a pixel map 
+   // with specific dimensions. 
    switch (role)
    {
    case Qt::DisplayRole:
-      return QVariant(pointer(index)->name());
+      return QVariant(block->name());
    case Qt::DecorationRole:
-      return pointer(index)->icon().pixmap(_iconSize,_iconSize);
+      return block->icon().pixmap(_iconSize,_iconSize);
    default:
       return QVariant();
    }
 }
+
+
+
+
+
+
+/*!
+ * Constructs a new block model with the optional parent. 
+ *
+ * @param parent The parent for this model. 
+ */
+BlockModel::BlockModel(QObject* parent):
+   QAbstractItemModel(parent)
+{}
 
 
 
@@ -212,20 +174,13 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
  *
  * @return Block pointer of the given index or the root block pointer if the index 
  *         is invalid. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given index is valid return the given index's internal pointer recast 
- *    as a block pointer, else it is invalid so return this model's root block 
- *    pointer. 
  */
 AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
 {
-   // 1
-   AbstractBlock* ret {_root};
-   if ( index.isValid() ) ret = reinterpret_cast<AbstractBlock*>(index.internalPointer());
-   return ret;
+   // If the given index is valid then return its internal pointer else return this 
+   // model's root block pointer. 
+   if ( index.isValid() ) return reinterpret_cast<AbstractBlock*>(index.internalPointer());
+   return _root;
 }
 
 
@@ -242,24 +197,20 @@ AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
  * @param block Pointer to the block that is inserted into this model. 
  *
  * @return True on success or false on failure. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given block pointer is null then return false. 
- *
- * 2. Prepend the given block pointer as a new child of the given index's block, 
- *    signaling the model that a new row is being inserted and returning true for 
- *    success. 
  */
-bool BlockModel::insert(const QModelIndex& index, std::unique_ptr<AbstractBlock>&& block)
+bool BlockModel::insert(const QModelIndex& index, Sut::QPtr<AbstractBlock>&& block)
 {
-   // 1
+   // Make sure the given pointer is not null. 
    if ( !block ) return false;
 
-   // 2
+   // Get the parent block pointer to the given index and make sure it is not null. 
+   AbstractBlock* parent {pointer(index)};
+   if ( !parent ) return false;
+
+   // Insert the given child block at the beginning of the given parent's block's 
+   // child list, notifying the model of a row insertion and returning success. 
    beginInsertRows(index,0,0);
-   pointer(index)->insert(0,std::move(block));
+   parent->insert(0,std::move(block));
    endInsertRows();
    return true;
 }
@@ -277,32 +228,29 @@ bool BlockModel::insert(const QModelIndex& index, std::unique_ptr<AbstractBlock>
  * @param index The index that will possibly be moved up by 1. 
  *
  * @return New index for the given index that was possibly moved. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given index's row is already 0 then return the given index unchanged. 
- *
- * 2. Move the block of the given index up by one in it's parent's list of 
- *    children, signaling the model that the row is being moved. SPECIAL NOTE: the 
- *    given index is destroyed when the begin move rows qt function is called. 
- *
- * 3. Return a new index where the given index's block moved. 
  */
 QModelIndex BlockModel::moveUp(const QModelIndex& index)
 {
-   // 1
-   if ( index.row() == 0 ) return index;
+   // Make sure the given index is valid and is not in the first row. 
+   if ( !index.isValid() || index.row() == 0 ) return index;
 
-   // 2
+   // Get the block pointer from the given index and make sure it is not null. 
    AbstractBlock* block {pointer(index)};
+   if ( !block ) return index;
+
+   // Get the parent block pointer and make sure it is not null. 
    AbstractBlock* parent {block->parent()};
+   if ( !parent ) return index;
+
+   // Move the block with the given index up by one in it's parent's child list, 
+   // notifying the model that the row has moved. SPECIAL NOTE: the given index is 
+   // destroyed when the begin move rows qt function is called. 
    int row {index.row()};
    beginMoveRows(index.parent(),row,row,index.parent(),row - 1);
    parent->moveUp(row);
    endMoveRows();
 
-   // 3
+   // Return a new index where the given index's block moved. 
    return createIndex(row - 1,0,block);
 }
 
@@ -319,33 +267,29 @@ QModelIndex BlockModel::moveUp(const QModelIndex& index)
  * @param index The index that will possibly be moved up by 1. 
  *
  * @return New index for the given index that was possibly moved. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given index's row is already at the end of its sibling list then 
- *    return the given index unchanged. 
- *
- * 2. Move the block of the given index down by one in it's parent's list of 
- *    children, signaling the model that the row is being moved. SPECIAL NOTE: the 
- *    given index is destroyed when the begin move rows qt function is called. 
- *
- * 3. Return a new index where the given index's block moved. 
  */
 QModelIndex BlockModel::moveDown(const QModelIndex& index)
 {
-   // 1
+   // Make sure the given index is valid and is not in the last row. 
    if ( index.row() >= (rowCount(index.parent()) - 1) ) return index;
 
-   // 2
+   // Get the block pointer from the given index and make sure it is not null. 
    AbstractBlock* block {pointer(index)};
+   if ( !block ) return index;
+
+   // Get the parent block pointer and make sure it is not null. 
    AbstractBlock* parent {block->parent()};
+   if ( !parent ) return index;
+
+   // Move the block with the given index down by one in it's parent's child list, 
+   // notifying the model that the row has moved. SPECIAL NOTE: the given index is 
+   // destroyed when the begin move rows qt function is called. 
    int row {index.row()};
    beginMoveRows(index.parent(),row,row,index.parent(),row + 2);
    parent->moveDown(row);
    endMoveRows();
 
-   // 3
+   // Return a new index where the given index's block moved. 
    return createIndex(row + 1,0,block);
 }
 
@@ -361,23 +305,23 @@ QModelIndex BlockModel::moveDown(const QModelIndex& index)
  * @param index The index that is removed from this model. 
  *
  * @return True on success or false on failure. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given index is invalid then return false. 
- *
- * 2. Remove the given index's block from its parent block, signaling the model 
- *    that a row is being removed and returning true on success. SPECIAL NOTE: the 
- *    given index is destroyed when the begin remove rows qt function is called. 
  */
 bool BlockModel::remove(const QModelIndex& index)
 {
-   // 1
+   // Make sure the given index is valid. 
    if ( !index.isValid() ) return false;
 
-   // 2
-   AbstractBlock* parent {pointer(index.parent())};
+   // Get the block pointer from the given index and make sure it is not null. 
+   AbstractBlock* block {pointer(index)};
+   if ( !block ) return false;
+
+   // Get the parent block pointer and make sure it is not null. 
+   AbstractBlock* parent {block->parent()};
+   if ( !parent ) return false;
+
+   // Remove the block with the given index from its parent block, notifying the 
+   // model that a row was removed and returning success. SPECIAL NOTE: the given 
+   // index is destroyed when the begin remove rows qt function is called. 
    int row {index.row()};
    beginRemoveRows(index.parent(),row,row);
    parent->remove(row);
@@ -398,18 +342,18 @@ bool BlockModel::remove(const QModelIndex& index)
  *
  * @return Pointer to a copy of the given index or a null pointer if the given 
  *         index is invalid. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given index is not valid then return a null pointer, else return a 
- *    pointer to a new copy of the block at the given index. 
  */
-std::unique_ptr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
+Sut::QPtr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
 {
-   // 1
+   // If the given index is not valid then return null. 
    if ( !index.isValid() ) return nullptr;
-   return pointer(index.parent())->get(index.row())->makeCopy();
+
+   // Get the block pointer from the given index and make sure it is not null. 
+   AbstractBlock* block {pointer(index)};
+   if ( !block ) return nullptr;
+
+   // Make a copy of the block with the given index and return its pointer. 
+   return block->makeCopy();
 }
 
 
@@ -426,27 +370,27 @@ std::unique_ptr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
  *
  * @return Pointer to the block at the given index now removed or null pointer if 
  *         the given index is not valid. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given index is not valid then return a null pointer. 
- *
- * 2. Take the child block at the given index from its parent block, signaling the 
- *    model that a row is being removed and returning a smart pointer to the 
- *    orphaned child block. SPECIAL NOTE: the given index is destroyed when the 
- *    begin remove rows qt function is called. 
  */
-std::unique_ptr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
+Sut::QPtr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
 {
-   // 1
+   // Make sure the given index is valid. 
    if ( !index.isValid() ) return nullptr;
 
-   // 2
-   AbstractBlock* parent {pointer(index.parent())};
+   // Get the block pointer from the given index and make sure it is not null. 
+   AbstractBlock* block {pointer(index)};
+   if ( !block ) return nullptr;
+
+   // Get the parent block pointer and make sure it is not null. 
+   AbstractBlock* parent {block->parent()};
+   if ( !parent ) return nullptr;
+
+   // Take the child block with the given index from its parent block, notifying the 
+   // model that a row was removed and returning the taken block's pointer. SPECIAL 
+   // NOTE: the given index is destroyed when the begin remove rows qt function is 
+   // called. 
    int row {index.row()};
    beginRemoveRows(index.parent(),row,row);
-   unique_ptr<AbstractBlock> ret {parent->take(row)};
+   QPtr<AbstractBlock> ret {parent->take(row)};
    endRemoveRows();
    return ret;
 }
@@ -478,46 +422,34 @@ const AbstractBlockFactory* BlockModel::factory() const
  * Sets a new root block for this model's data. If the given pointer is null then 
  * this model is set to be empty with no data to represent. 
  *
- * @param newRoot Pointer to root block that this model will use or null to set 
- *                this model as empty. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Signal to the model that the beginning of a reset is happening. 
- *
- * 2. If this model already has a root block pointer then disconnect all qt signals 
- *    between this model and that root block. 
- *
- * 3. Set this model's root block to the new pointer given and this model's block 
- *    factory pointer to null. If the given new pointer is not null then set this 
- *    model's block factory pointer to this block type's block factory and connect 
- *    the root block signals to this object. 
- *
- * 4. Signal to the model that the reset has finished. 
+ * @param root Pointer to root block that this model will use or null to set this 
+ *             model as empty. 
  */
-void BlockModel::setRoot(AbstractBlock* newRoot)
+void BlockModel::setRoot(AbstractBlock* root)
 {
-   // 1
+   // Notify the model that a reset has begun. 
    beginResetModel();
 
-   // 2
-   if ( _root )
-   {
-      disconnect(_root);
-   }
+   // Disconnect any previous root block of this model. 
+   if ( _root ) disconnect(_root);
 
-   // 3
-   _root = newRoot;
+   // Set the new root for this model and its factory to null just in case the new 
+   // root is null. 
+   _root = root;
    _factory = nullptr;
+
+   // Check if the new root is not null. 
    if ( _root )
    {
+      // Set this model's block factory to the one from this model's new root block. 
       _factory = &(_root->factory());
+
+      // Connect the name and body modified signals of the new root block to this model. 
       connect(_root,&AbstractBlock::nameModified,this,&BlockModel::blockNameModified);
       connect(_root,&AbstractBlock::bodyModified,this,&BlockModel::blockBodyModified);
    }
 
-   // 4
+   // Notify the model that the reset has ended. 
    endResetModel();
 }
 
@@ -568,27 +500,21 @@ void BlockModel::blockBodyModified(AbstractBlock* block)
  *              changed. 
  *
  * @param roles The data roles used when emitting data changed. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given block pointer has no parent then throw an exception. 
- *
- * 2. Determine the index for the given block pointer within this model and emit 
- *    the data changed signal with the found index and given roles. 
  */
 void BlockModel::notifyChange(AbstractBlock* block, const QVector<int>& roles)
 {
-   // 1
-   if ( !block->parent() )
+   // Get the parent block pointer of the given block and make sure it is not null. 
+   AbstractBlock* parent {block->parent()};
+   if ( !parent )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("A name changed signal was emitted with the root block."));
       throw e;
    }
 
-   // 2
-   QModelIndex index = createIndex(block->parent()->indexOf(block),0,block);
+   // Determine the index for the given block and signal the data changed for that 
+   // index and given roles. 
+   QModelIndex index = createIndex(parent->indexOf(block),0,block);
    emit dataChanged(index,index,roles);
 }

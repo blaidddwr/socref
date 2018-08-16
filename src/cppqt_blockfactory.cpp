@@ -13,14 +13,15 @@
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
 #include "cppqt_parent.h"
-#include "cppqt_declaration.h"
+#include "cppqt_using.h"
 #include "cppqt_typelist.h"
 #include "cppqt_type.h"
+#include "cppqt_friend.h"
 #include "projectfactory.h"
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -31,9 +32,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements the interface that returns the project type of this block factory. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @return Project type of this block factory. 
+ * @return See interface docs. 
  */
 int BlockFactory::type() const
 {
@@ -46,13 +47,14 @@ int BlockFactory::type() const
 
 
 /*!
- * Implements the interface that returns the number of block types that exist for 
- * this factory. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @return Number of block types that exist for this factory. 
+ * @return See interface docs. 
  */
 int BlockFactory::size() const
 {
+   // Use the total enumeration to return the total size of defined blocks for this 
+   // block factory. 
    return Total;
 }
 
@@ -62,33 +64,35 @@ int BlockFactory::size() const
 
 
 /*!
- * Implements the interface that returns the display name for the given block type. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @param type Block type whose display name is returned. 
+ * @param type See interface docs. 
  *
- * @return Display name for the given block type. 
+ * @return See interface docs. 
  */
 QString BlockFactory::name(int type) const
 {
+   // Based off the given block type return its display name. 
    switch (type)
    {
-   case NamespaceType: return "Namespace";
-   case VariableType: return "Variable";
-   case FunctionType: return "Function";
-   case TemplateType: return "Template";
-   case ClassType: return "Class";
-   case AccessType: return "Access";
-   case OperatorType: return "Operator";
-   case SlotType: return "Slot";
-   case SignalType: return "Signal";
-   case ConstructorType: return "Constructor";
-   case DestructorType: return "Destructor";
-   case EnumerationType: return "Enumeration";
-   case EnumValueType: return "Enum Value";
-   case ParentType: return "Parent";
-   case DeclarationType: return "Declaration";
-   case TypeListType: return "Type List";
-   case TypeType: return "Type";
+   case NamespaceType: return QObject::tr("Namespace");
+   case VariableType: return QObject::tr("Variable");
+   case FunctionType: return QObject::tr("Function");
+   case TemplateType: return QObject::tr("Template");
+   case ClassType: return QObject::tr("Class");
+   case AccessType: return QObject::tr("Access");
+   case OperatorType: return QObject::tr("Operator");
+   case SlotType: return QObject::tr("Slot");
+   case SignalType: return QObject::tr("Signal");
+   case ConstructorType: return QObject::tr("Constructor");
+   case DestructorType: return QObject::tr("Destructor");
+   case EnumerationType: return QObject::tr("Enumeration");
+   case EnumValueType: return QObject::tr("Enumeration Value");
+   case ParentType: return QObject::tr("Parent");
+   case UsingType: return QObject::tr("Using");
+   case TypeListType: return QObject::tr("Type List");
+   case TypeType: return QObject::tr("Type");
+   case FriendType: return QObject::tr("Friend");
    default: return QString();
    }
 }
@@ -99,14 +103,15 @@ QString BlockFactory::name(int type) const
 
 
 /*!
- * Implements the interface that returns the element name for the given block type. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @param type Block type whose element name is returned. 
+ * @param type See interface docs. 
  *
- * @return Element name for the given block type. 
+ * @return See interface docs. 
  */
 QString BlockFactory::elementName(int type) const
 {
+   // Based off the given block type return its element name. 
    switch (type)
    {
    case NamespaceType: return "namespace";
@@ -123,9 +128,10 @@ QString BlockFactory::elementName(int type) const
    case EnumerationType: return "enumeration";
    case EnumValueType: return "enumval";
    case ParentType: return "parent";
-   case DeclarationType: return "declaration";
+   case UsingType: return "using";
    case TypeListType: return "typeList";
    case TypeType: return "type";
+   case FriendType: return "friend";
    default: return "unknown";
    }
 }
@@ -136,34 +142,38 @@ QString BlockFactory::elementName(int type) const
 
 
 /*!
- * Implements the interface that makes a new block of the given type and returns 
- * its pointer. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @param type Block type which is made and returned. 
+ * @param type See interface docs. 
  *
- * @return Pointer to new block with the given type. 
+ * @param isDefault See interface docs. 
+ *
+ * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
+Sut::QPtr<AbstractBlock> BlockFactory::makeBlock(int type, bool isDefault) const
 {
+   // Based off the given block type create a new block of that type and return its 
+   // smart pointer. 
    switch (type)
    {
-   case NamespaceType: return unique_ptr<AbstractBlock>(new Namespace("unnamed_namespace"));
-   case VariableType: return unique_ptr<AbstractBlock>(new Variable("int","unnamed_variable"));
-   case FunctionType: return unique_ptr<AbstractBlock>(new Function("void","unnamed_function"));
-   case TemplateType: return unique_ptr<AbstractBlock>(new Template("class","unnamed_template"));
-   case ClassType: return unique_ptr<AbstractBlock>(new Class("unnamed_class"));
-   case AccessType: return unique_ptr<AbstractBlock>(new Access(Access::Type::Public));
-   case OperatorType: return unique_ptr<AbstractBlock>(new Operator("void"));
-   case SlotType: return unique_ptr<AbstractBlock>(new Slot("unnamed_slot"));
-   case SignalType: return unique_ptr<AbstractBlock>(new Signal("unnamed_signal"));
-   case ConstructorType: return unique_ptr<AbstractBlock>(new Constructor);
-   case DestructorType: return unique_ptr<AbstractBlock>(new Destructor);
-   case EnumerationType: return unique_ptr<AbstractBlock>(new Enumeration("unnamed_enumeration"));
-   case EnumValueType: return unique_ptr<AbstractBlock>(new EnumValue("unnamed_value"));
-   case ParentType: return unique_ptr<AbstractBlock>(new Parent("unnamed_parent"));
-   case DeclarationType: return unique_ptr<AbstractBlock>(new Declaration(Declaration::Type::Using,"this"));
-   case TypeListType: return unique_ptr<AbstractBlock>(new TypeList("Unnamed List"));
-   case TypeType: return unique_ptr<AbstractBlock>(new Type("unnamed_type"));
+   case NamespaceType: return QPtr<AbstractBlock>(new Namespace(isDefault));
+   case VariableType: return QPtr<AbstractBlock>(new Variable(isDefault));
+   case FunctionType: return QPtr<AbstractBlock>(new Function(isDefault));
+   case TemplateType: return QPtr<AbstractBlock>(new Template(isDefault));
+   case ClassType: return QPtr<AbstractBlock>(new Class(isDefault));
+   case AccessType: return QPtr<AbstractBlock>(new Access);
+   case OperatorType: return QPtr<AbstractBlock>(new Operator(isDefault));
+   case SlotType: return QPtr<AbstractBlock>(new Slot(isDefault));
+   case SignalType: return QPtr<AbstractBlock>(new Signal(isDefault));
+   case ConstructorType: return QPtr<AbstractBlock>(new Constructor);
+   case DestructorType: return QPtr<AbstractBlock>(new Destructor);
+   case EnumerationType: return QPtr<AbstractBlock>(new Enumeration(isDefault));
+   case EnumValueType: return QPtr<AbstractBlock>(new EnumValue(isDefault));
+   case ParentType: return QPtr<AbstractBlock>(new Parent(isDefault));
+   case UsingType: return QPtr<AbstractBlock>(new Using(isDefault));
+   case TypeListType: return QPtr<AbstractBlock>(new TypeList(isDefault));
+   case TypeType: return QPtr<AbstractBlock>(new Type(isDefault));
+   case FriendType: return QPtr<AbstractBlock>(new Friend(isDefault));
    default: return nullptr;
    }
 }
@@ -174,11 +184,13 @@ std::unique_ptr<AbstractBlock> BlockFactory::makeBlock(int type) const
 
 
 /*!
- * Implements the interface that makes a new root block and returns its pointer. 
+ * Implements _AbstractBlockFactory_ interface. 
  *
- * @return Pointer to new root block for this project type. 
+ * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> BlockFactory::makeRootBlock() const
+Sut::QPtr<AbstractBlock> BlockFactory::makeRootBlock() const
 {
-   return unique_ptr<AbstractBlock>(new Namespace);
+   // Create a new namespace block which is used as this project type's root block 
+   // and return its pointer. 
+   return QPtr<AbstractBlock>(new Namespace);
 }

@@ -1,38 +1,32 @@
 #ifndef CPPQT_OPERATOR_H
 #define CPPQT_OPERATOR_H
 #include "cppqt_function.h"
+//
 
 
 
 namespace CppQt
 {
+   /*!
+    * This is the operator block. This represents C++ operator overloading functions. 
+    */
    class Operator : public Function
    {
       Q_OBJECT
    public:
-      explicit Operator() = default;
-      explicit Operator(const QString& returnType);
-      virtual QString name() const override final;
+      class Edit;
+   public:
       virtual int type() const override final;
+      virtual QString name() const override final;
       virtual QIcon icon() const override final;
       virtual QList<int> buildList() const override final;
-      virtual std::unique_ptr<QWidget> makeView() const override final;
-      virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() override final;
+      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override final;
+   public:
+      explicit Operator(bool isDefault = false);
       QString operation() const;
-      void setOperation(const QString& operation);
    protected:
-      virtual void readData(const QDomElement& data, int version) override final;
-      virtual int writeVersion() const override final;
-      virtual QDomElement writeData(QDomDocument& document) const override final;
-      virtual std::unique_ptr<AbstractBlock> makeBlank() const override final;
-      virtual void copyDataFrom(const AbstractBlock* object) override final;
-   private:
-      void readVersion0(const QDomElement &data);
-      void readVersion1(const QDomElement &data);
-      constexpr static int _version {1};
-      static const char* _operationTag;
-      static const char* _operatorTag;
-      QString _operation {"++"};
+      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
+      virtual bool checkName(const QString& value) override final;
    };
 }
 

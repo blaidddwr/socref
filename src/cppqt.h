@@ -1,26 +1,28 @@
 
 /*!
+ * Contains the C++/Qt project type. 
  */
 namespace CppQt
 {
+   class Settings;
    class BlockFactory;
    class Base;
-   class Namespace;
-   class Template;
-   class Variable;
-   class Parent;
-   class Function;
-   class Access;
-   class EnumValue;
-   class Type;
    class TypeList;
-   class Class;
+   class Type;
+   class Enumeration;
+   class EnumValue;
+   class Namespace;
+   class Variable;
+   class Template;
+   class Function;
    class Operator;
+   class Class;
+   class Access;
+   class Slot;
+   class Signal;
    class Constructor;
    class Destructor;
-   class Slot;
-   class Enumeration;
-   class Signal;
-   class Slot;
-   class Declaration;
+   class Parent;
+   class Using;
+   class Friend;
 }

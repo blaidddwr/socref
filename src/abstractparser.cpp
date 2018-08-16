@@ -1,6 +1,10 @@
 #include "abstractparser.h"
 #include <QFile>
-#include <exception.h>
+#include <socutil/sut_exceptions.h>
+
+
+
+using namespace Sut;
 //
 
 
@@ -9,13 +13,8 @@
 
 
 /*!
- * This constructs a new parser object that will be a root or primary parser. This 
- * means this parser will be assumed to be the root parser of a source file. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Allocate new resources required for this new parser object. 
+ * Constructs a new parser object that will be a root or primary parser. This means 
+ * this parser will be assumed to be the root parser of a source file. 
  */
 AbstractParser::AbstractParser():
    _input(new QStringList),
@@ -30,28 +29,23 @@ AbstractParser::AbstractParser():
 
 
 /*!
- * This constructs a new parser object that is a child of another parser object. 
- * This sets up this object to use the resources of its root parser object. 
+ * Constructs a new parser object that is a child of another parser object. This 
+ * sets up this object to use the resources of its root parser object. 
  *
  * @param parent The parent parser object for this new parser object. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Set this object's parent as the given parent parser, add this parser to its 
- *    parent's list of children, and set this object's root parser pointer. 
- *
- * 2. Set all resource pointers to point to this object's root parser resources. 
  */
 AbstractParser::AbstractParser(AbstractParser* parent)
 {
-   // 1
+   // Set this object's parent as the given parent parser and add this parser to its 
+   // parent's list of children. 
    setParent(parent);
    parent->_children << this;
+
+   // Find the root parser and this object's root parser pointer. 
    if ( parent->_root ) _root = parent->_root;
    else _root = parent;
 
-   // 2
+   // Set all resource pointers to point to this object's root parser resources. 
    _input = _root->_input;
    _index = _root->_index;
    _indent = _root->_indent;
@@ -64,19 +58,15 @@ AbstractParser::AbstractParser(AbstractParser* parent)
 
 
 /*!
- * This deletes the dynamically allocated resources if this parser if it is the 
- * root. If this is a child parser then this does nothing. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this is a root parser then delete all allocated resources else do nothing. 
+ * Deletes the dynamically allocated resources if this is a root parser. If this 
+ * object is a child parser then nothing is done. 
  */
 AbstractParser::~AbstractParser()
 {
-   // 1
+   // Make sure this is the root parser. 
    if ( !_root )
    {
+      // Delete all resources of this root parser. 
       delete _input;
       delete _index;
       delete _output;
@@ -89,35 +79,27 @@ AbstractParser::~AbstractParser()
 
 
 /*!
- * This parses the given file using this parser as the root parser. If this is a 
- * child parser then this does nothing. 
+ * Parses the given file using this parser as the root parser. If this is a child 
+ * parser then this does nothing. 
  *
  * @param file Qt file handle to the file that is parsed. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this is not a root parser then return. 
- *
- * 2. Set the read line index to the beginning, call the initialize interface, and 
- *    read in all lines of the source file. 
- *
- * 3. Process the input lines, output lines, and then write the output to the 
- *    source file. 
  */
 void AbstractParser::execute(QFile* file)
 {
-   // 1
+   // Make sure this is a root parser. 
    if ( _root ) return;
 
-   // 2
+   // Initialize this parser and read in the given file. 
    *_index = 0;
    initialize();
    read(file);
 
-   // 3
+   // Process the input from the read in file then process the output making a 
+   // temporary output. 
    processInput();
    processOutput();
+
+   // Possibly write the processed output to the given file. 
    write(file);
 }
 
@@ -127,7 +109,8 @@ void AbstractParser::execute(QFile* file)
 
 
 /*!
- * This interface initializes this parser. The default implementation does nothing. 
+ * This interface initializes this parser and is called before any parsing begins. 
+ * The default implementation does nothing. 
  */
 void AbstractParser::initialize()
 {}
@@ -138,31 +121,25 @@ void AbstractParser::initialize()
 
 
 /*!
- * Signals this parser that the given child parser should be used for calling the 
- * interface for reading lines until it returns false or the last line is 
- * processed. If the given parser is not a direct child of this parser then an 
- * exception is thrown. 
+ * Signals this parser that the given child parser should be used for reading lines 
+ * until it returns false or the last line is processed. If the given parser is not 
+ * a direct child of this parser then an exception is thrown. 
  *
  * @param child Pointer to the child parser whose interface for reading lines will 
  *              be called from now on. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given parser object's parent is not this parser then throw an 
- *    exception, else set the internal child pointer signal variable to the given 
- *    parser. 
  */
 void AbstractParser::stepIntoChild(AbstractParser* child)
 {
-   // 1
+   // Make sure the given parser is a direct child of this parser. 
    if ( child->parent() != this )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot step into abstract pointer that is not a child."));
       throw e;
    }
+
+   // Set this object's step into child pointer to the given parser. 
    _child = child;
 }
 
@@ -191,23 +168,19 @@ int AbstractParser::indent() const
  * Sets the indent, in spaces, that is prepended to each line added to output. 
  *
  * @param indent The new indent value in spaces. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given indent is less than 0 then throw an exception, else set the root 
- *    parser object's indent to the new value given. 
  */
 void AbstractParser::setIndent(int indent)
 {
-   // 1
+   // Make sure the given indent is not negative. 
    if ( indent < 0 )
    {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
+      Exception::OutOfRange e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Cannot set indent to %1.").arg(indent));
       throw e;
    }
+
+   // Set the this object's root indent to the new value. 
    *_indent = indent;
 }
 
@@ -223,22 +196,12 @@ void AbstractParser::setIndent(int indent)
  *
  * @param line The line that is prepended with the indent and appended to the 
  *             output. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Prepend the given line with spaces equal to the indent of the root parser. 
- *
- * 2. Append the given line to the list of output lines of the root parser. 
  */
 void AbstractParser::add(const QString& line)
 {
-   // 1
-   QString whitespace;
-   for (int i = 0; i < *_indent ;++i) whitespace.append(' ');
-
-   // 2
-   *_output << whitespace.append(line);
+   // Add white space equal to this object's root indent to the beginning of the 
+   // given line and then append the line as a new output line. 
+   *_output << QString(*_indent,' ').append(line);
 }
 
 
@@ -254,6 +217,8 @@ void AbstractParser::add(const QString& line)
  */
 void AbstractParser::add(const QStringList& lines)
 {
+   // Iterate through all strings of the given string list and add each one as 
+   // output. 
    for (auto line : lines) add(line);
 }
 
@@ -270,6 +235,7 @@ void AbstractParser::add(const QStringList& lines)
  */
 void AbstractParser::add(int count)
 {
+   // Add the given number of blank lines to output. 
    while ( count-- > 0 ) *_output << QString();
 }
 
@@ -282,29 +248,23 @@ void AbstractParser::add(int count)
  * Reads in the source file, splitting them into lines, and prepares the output. 
  *
  * @param file The file used as input. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Read all contents of the given file, storing it as this object's original 
- *    contents. If reading in the file failed then throw an exception. 
- *
- * 2. Split the original content by line and save it to this object's list of input 
- *    lines to be processed. 
  */
 void AbstractParser::read(QFile* file)
 {
-   // 1
+   // Read in the entire contents of the given file to this object's original string. 
    _original = file->readAll();
+
+   // Make sure reading in the given file did not fail. 
    if ( file->error() )
    {
       Exception::SystemError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed reading in file: %1").arg(file->errorString()));
       throw e;
    }
 
-   // 2
+   // Split this object's original content by line and save it to this object's list 
+   // of input lines to be processed. 
    *_input = _original.split('\n');
 }
 
@@ -316,24 +276,23 @@ void AbstractParser::read(QFile* file)
 /*!
  * Processes the input of the source file, using the read line interface for 
  * processing. 
- *
- *
- * Steps of Operation: 
- *
- * 1. While the root parser object's index is not at the end of the input line list 
- *    continue. Call the read line interface with the next input line to process. 
- *    If the interface returns false then return. If the step into child function 
- *    was called and set the child pointer signal then call the child's process 
- *    input function and then set the child pointer signal back to null. 
  */
 void AbstractParser::processInput()
 {
-   // 1
+   // Iterate through all input lines using this object's root index to keep track of 
+   // which line is next. 
    while ( *_index < _input->size() )
    {
+      // Process the next line, returning from this function if the interface returns 
+      // false. This will move parsing back to the parent parser unless this is the root 
+      // parser in which case processing of input will end. 
       if ( !readLine(_input->at((*_index)++)) ) return;
+
+      // Check if the step into child pointer was set. 
       if ( _child )
       {
+         // Step into this object's step into child pointer for processing until it returns 
+         // and then clear the step into child pointer. 
          _child->processInput();
          _child = nullptr;
       }
@@ -347,18 +306,14 @@ void AbstractParser::processInput()
 
 /*!
  * Processes the output by calling the make output interface. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Clear the root parser object's output string list, set its indent to 0, and 
- *    call the make output interface. 
  */
 void AbstractParser::processOutput()
 {
-   // 1
+   // Clear any output lines this parser may contain and reset the root indent to 0. 
    _output->clear();
    *_indent = 0;
+
+   // Call the make output interface responsible for building all output lines. 
    makeOutput();
 }
 
@@ -374,38 +329,30 @@ void AbstractParser::processOutput()
  *
  * @param file The file that is truncated and written to if the output is different 
  *             from the original. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Join the root parser object's output lines into the string _newSource_. 
- *
- * 2. If _newSource_ is different from the root parser object's original file 
- *    content then continue. Truncate the given file to 0 size and then write out 
- *    the contents of _newSource_ to the given file. If any error occurs in 
- *    truncating or writing to the given file then throw an exception. 
  */
 void AbstractParser::write(QFile* file)
 {
-   // 1
+   // Join the root parser object's output lines into a single new source string. 
    QString newSource {_output->join('\n').append('\n')};
 
-   // 2
-   if ( _original != newSource )
+   // Make sure the new source string is different from the original file. 
+   if ( _original == newSource ) return;
+
+   // Truncate the given file and make sure it did not fail. 
+   if ( !file->resize(0) )
    {
-      if ( !file->resize(0) )
-      {
-         Exception::SystemError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Failed truncating file: %1").arg(file->errorString()));
-         throw e;
-      }
-      if ( file->write(newSource.toLocal8Bit()) == -1 )
-      {
-         Exception::SystemError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Failed writing to file: %1").arg(file->errorString()));
-         throw e;
-      }
+      Exception::SystemError e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed truncating file: %1").arg(file->errorString()));
+      throw e;
+   }
+
+   // Write the new source string to the given file and make sure it did not fail. 
+   if ( file->write(newSource.toLocal8Bit()) == -1 )
+   {
+      Exception::SystemError e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed writing to file: %1").arg(file->errorString()));
+      throw e;
    }
 }

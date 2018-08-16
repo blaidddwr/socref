@@ -1,7 +1,7 @@
 #ifndef PROJECT_H
 #define PROJECT_H
-#include <memory>
 #include <QFileSystemWatcher>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 
 
@@ -35,11 +35,12 @@ public:
    QString name() const;
    QString scanDirectory() const;
    QString scanFilters() const;
-   std::unique_ptr<ScanThread> makeScanner() const;
+   Sut::QPtr<ScanThread> makeScanner() const;
    BlockModel* model();
-   void setName(const QString& newName);
-   void setScanDirectory(const QString& newPath);
-   void setScanFilters(const QString& newFilters);
+   DictionaryModel* dictionary();
+   void setName(const QString& value);
+   void setScanDirectory(const QString& path);
+   void setScanFilters(const QString& value);
    void save();
    void saveAs(const QString& path);
 signals:
@@ -61,7 +62,7 @@ signals:
     */
    void saveFileChanged();
 private slots:
-   void blockModified();
+   void projectModified();
    void fileChanged();
 private:
    void signalModified();
@@ -69,7 +70,6 @@ private:
    void convertScanDirectory(const QString& path);
    void readTypeElement(const QDomElement& element);
    void write(const QByteArray& data);
-   void saveBasicInfo(QDomDocument& document, QDomElement* project);
    void setFileHash(const QByteArray& bytes);
    void makeRoot();
    /*!
@@ -92,6 +92,10 @@ private:
     * The tag name for the root block element. 
     */
    static const char* _rootTag;
+   /*!
+    * The tag name for the custom dictionary element. 
+    */
+   static const char* _dictionaryTag;
    /*!
     * The name of the id attribute. 
     */
@@ -129,6 +133,11 @@ private:
     * Pointer to this project's block model. 
     */
    BlockModel* _model;
+   /*!
+    * Pointer to the dictionary model for this project that contains all custom spell 
+    * checking words. 
+    */
+   DictionaryModel* _dictionary;
    /*!
     * The hash value of this project's save file used to determine if an outside 
     * source wrote to said save file. 

@@ -1,12 +1,16 @@
 #include "gui_textedit.h"
 #include <QAction>
 #include <QDebug>
+#include <socutil/sut_exceptions.h>
 #include "gui_textedit_highlighter.h"
 #include "gui_textedit_dialog.h"
 #include "gui_textdialog.h"
+#include "abstractblock.h"
+#include "project.h"
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -23,21 +27,74 @@ const char* TextEdit::_defaultLang {"en_US"};
 
 
 /*!
- * Constructs a new text editor with an optional parent. Spell checking and the 
- * dialog popup shortcut are enabled by default. 
+ * Constructs a new text editor with the given block and an optional parent. Spell 
+ * checking and the dialog popup shortcut are enabled by default. 
+ *
+ * @param block Pointer to the block that is contextually being used. This usually 
+ *              means the block that is being edited. This is used to get the 
+ *              custom dictionary model of the block's project. 
  *
  * @param parent Optional parent for this new text editor. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create this text editor's highlighter and setup its shortcut actions. 
  */
-TextEdit::TextEdit(QWidget* parent):
+TextEdit::TextEdit(AbstractBlock* block, QWidget* parent):
    QPlainTextEdit(parent)
 {
-   // 1
-   _spellHighlighter = new Highlighter(document());
+   // Make sure the given block pointer is not null. 
+   if ( !block )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("The given block pointer is null and invalid."));
+      throw e;
+   }
+
+   // Get the project pointer from the given block making sure it is not null. 
+   Project* project {qobject_cast<Project*>(block->root()->QObject::parent())};
+   if ( !project )
+   {
+      Exception::LogicError e;
+      SUT_MARK_EXCEPTION(e);
+      e.setTitle(tr("Parent of root block is not a project."));
+      throw e;
+   }
+
+   // Set the custom dictionary to the project's dictionary. 
+   _dictionary = project->dictionary();
+
+   // Create this text editor's highlighter and setup its shortcut actions. 
+   _spellHighlighter = new Highlighter(_dictionary,document());
+   setupActions();
+}
+
+
+
+
+
+
+/*!
+ * Constructs a new text editor with the given custom dictionary and an optional 
+ * parent. Spell checking and the dialog popup shortcut are enabled by default. 
+ *
+ * @param dictionary The custom dictionary model this new text dialog uses to check 
+ *                   for custom spell checking words. 
+ *
+ * @param parent Optional parent for this new text editor. 
+ */
+TextEdit::TextEdit(DictionaryModel* dictionary, QWidget* parent):
+   QPlainTextEdit(parent),
+   _dictionary(dictionary)
+{
+   // Make sure the given custom dictionary pointer is not null. 
+   if ( !dictionary )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("The given custom dictionary pointer is null and invalid."));
+      throw e;
+   }
+
+   // Create this text editor's highlighter and setup its shortcut actions. 
+   _spellHighlighter = new Highlighter(_dictionary,document());
    setupActions();
 }
 
@@ -82,27 +139,21 @@ bool TextEdit::isDialogPopupEnabled() const
  *
  * @param enabled True to enable this editor's spell checking or false to disable 
  *                it. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given state is to disable spell checking then delete any highlighter 
- *    this editor may have and set its pointer to null, else if this editor has no 
- *    highlighter then create a new one. 
- *
- * 2. Set this editor's spell checking enable state to the new one given. 
  */
 void TextEdit::setSpellCheckEnabled(bool enabled)
 {
-   // 1
+   // Check to see if spell checking is being disabled. 
    if ( !enabled )
    {
+      // Delete any highlighter this editor may have and set its pointer to null. 
       delete _spellHighlighter;
       _spellHighlighter = nullptr;
    }
-   else if ( !_spellHighlighter ) _spellHighlighter = new Highlighter(document());
 
-   // 2
+   // Else if this editor has no highlighter then create a new one. 
+   else if ( !_spellHighlighter ) _spellHighlighter = new Highlighter(_dictionary,document());
+
+   // Update this editor's spell checking enable state. 
    _spellCheckEnabled = enabled;
 }
 
@@ -130,19 +181,19 @@ void TextEdit::setDialogPopupEnabled(bool enabled)
 
 /*!
  * Called when this editor's spell checker action is triggered. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this editor's spell checking is disabled then return, else create a new 
- *    spell checker dialog and execute it in modal mode. 
  */
 void TextEdit::spellCheckTriggered()
 {
-   // 1
+   // Make sure spell checking is enabled. 
    if ( !_spellCheckEnabled ) return;
+
+   // Create a new spell checker dialog and execute it in modal mode. 
    Dialog spellCheck(this);
    spellCheck.exec();
+
+   // Reset the text of this widget so any added custom spell check words are no 
+   // longer marked as misspelled in the highlighter. 
+   setPlainText(toPlainText());
 }
 
 
@@ -152,31 +203,22 @@ void TextEdit::spellCheckTriggered()
 
 /*!
  * Called when this editor's dialog popup action is triggered. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If this editor's dialog popup shortcut is disabled then return. 
- *
- * 2. Create a new text dialog _dialog_, setting its text to this editor's text and 
- *    its title. 
- *
- * 3. Execute _dialog_ in modal mode. If execution returns success then set this 
- *    editor's text to the text of _dialog_. 
  */
 void TextEdit::dialogPopupTriggered()
 {
-   // 1
+   // Make sure this editor's dialog popup action is enabled. 
    if ( !_dialogPopupEnabled ) return;
 
-   // 2
-   TextDialog dialog;
+   // Create a new text dialog, setting its content to this editor's text and its 
+   // title. 
+   TextDialog dialog(_dictionary);
    dialog.setWindowTitle("Text Editor");
    dialog.setText(toPlainText());
 
-   // 3
+   // Execute the text dialog in modal mode and check to see if it returns accept. 
    if ( dialog.exec() )
    {
+      // Update this text editor's contents with the text of the text dialog. 
       setPlainText(dialog.text());
    }
 }
@@ -189,31 +231,24 @@ void TextEdit::dialogPopupTriggered()
 /*!
  * Constructs and initializes this new editor's actions for spell checking and 
  * dialog popup shortcut. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new action _spell_ for this editor's spell checking action. 
- *
- * 2. Create a new action _dialog_ for this editor's dialog popup action. 
- *
- * 3. Add _spell_ and _dialog_ to this editor's actions. 
  */
 void TextEdit::setupActions()
 {
-   // 1
+   // Create and initialize this editor's spell checking action and connect its 
+   // triggered signal. 
    QAction* spell {new QAction(this)};
    spell->setShortcutContext(Qt::WidgetShortcut);
    spell->setShortcut(Qt::CTRL + Qt::Key_S);
    connect(spell,&QAction::triggered,this,&TextEdit::spellCheckTriggered);
 
-   // 2
+   // Create and initialize this editor's dialog popup action and connect its 
+   // triggered signal. 
    QAction* dialog {new QAction(this)};
    dialog->setShortcutContext(Qt::WidgetShortcut);
    dialog->setShortcut(Qt::CTRL + Qt::Key_E);
    connect(dialog,&QAction::triggered,this,&TextEdit::dialogPopupTriggered);
 
-   // 3
+   // Add this editor's shortcut actions. 
    addAction(spell);
    addAction(dialog);
 }

@@ -14,29 +14,30 @@ class Application : public QApplication
 {
    Q_OBJECT
 public:
-   explicit Application(int& argc, char** argv);
    virtual bool notify(QObject* receiver, QEvent* event) override final;
+public:
    static QString versionString();
+   explicit Application(int& argc, char** argv);
    /*!
     * Major version of this program. 
     */
-   constexpr static int _majorVersion {0};
+   constexpr static int _majorVersion {MAJOR_VERSION};
    /*!
     * Minor version of this program. 
     */
-   constexpr static int _minorVersion {4};
+   constexpr static int _minorVersion {MINOR_VERSION};
    /*!
     * Revision number of this program. 
     */
-   constexpr static int _revision {6};
+   constexpr static int _revision {REVISION};
    /*!
-    * The company key used to access this program's qt settings. 
+    * The organization key used to access this program's qt settings. 
     */
-   static const char* _companyKey;
+   static const char* _organizationKey;
    /*!
-    * The program key used to access this program's qt settings. 
+    * The application key used to access this program's qt settings. 
     */
-   static const char* _programKey;
+   static const char* _applicationKey;
 };
 
 

@@ -21,7 +21,10 @@ namespace Gui
       Q_OBJECT
    public:
       explicit PersistentDialog(const char* geometryKey = nullptr, QWidget* parent = nullptr);
-      virtual ~PersistentDialog() override;
+   public slots:
+      virtual void done(int r) override final;
+   protected:
+      virtual void closeEvent(QCloseEvent* event) override;
    protected:
       void saveSettings(const char* geometryKey);
    private:

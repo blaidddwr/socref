@@ -8,6 +8,7 @@
 class QFormLayout;
 class QHBoxLayout;
 class QLineEdit;
+class QListView;
 //
 
 

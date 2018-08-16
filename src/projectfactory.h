@@ -6,8 +6,8 @@
 
 
 /*!
- * This implements the abstract project factory class that provides all factories 
- * and information needed for a project type. 
+ * This is the global project factory for this application, providing all factories 
+ * and information needed for each project type. 
  */
 class ProjectFactory : public AbstractProjectFactory
 {
@@ -29,9 +29,9 @@ public:
    virtual int size() const override final;
    virtual QString name(int type) const override final;
    virtual QString defaultFilters(int type) const override final;
-   virtual std::unique_ptr<QDialog> makeSettings(int type) const override final;
+   virtual Sut::QPtr<QDialog> makeSettings(int type) const override final;
    virtual const AbstractBlockFactory& blockFactory(int type) const override final;
-   virtual std::unique_ptr<AbstractParserFactory> makeParserFactory(int type, AbstractBlock* root) const override final;
+   virtual Sut::QPtr<AbstractParserFactory> makeParserFactory(int type, const AbstractBlock* root) const override final;
 };
 
 

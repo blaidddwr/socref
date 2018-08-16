@@ -1,9 +1,10 @@
 #ifndef ABSTRACTBLOCK_H
 #define ABSTRACTBLOCK_H
-#include <memory>
 #include <QObject>
 #include <QDomElement>
-#include <exception.h>
+#include <QVariant>
+#include <socutil/sut_exceptions.h>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 #include "gui.h"
 //
@@ -11,23 +12,62 @@
 
 
 /*!
- * This represents a single block of data in the reference system. It conforms to a 
- * parent child relationship where each block can have any number of children that 
- * are also blocks. The children are structured in an ordered list so they can be 
- * represented as a tree like structure in a view. Blocks also spawn the GUI 
- * elements that represent their models. Copying of blocks is also performed with 
- * other virtual interface functions. Many helper functions are available to 
- * navigate the tree structure of children and parents. Blocks are identified by a 
- * type which is an integer value that must be unique among all block types of a 
- * project type supplied by the block factory. Blocks are saved and opened using 
- * XML elements. The data for these XML elements have version numbers so later 
- * versions of this software can identify and read previous versions of XML 
- * elements. 
+ * This represents a single block in this application's reference system. The block 
+ * system is the core function of this application, representing blocks as a single 
+ * atomic item for referencing code. The block system conforms to a parent child 
+ * relationship. Virtual interfaces are provided for basic information, spawning 
+ * view and abstract edit widgets, and defining all field data of the block. Using 
+ * the field data interface this class can make copies of any implementation type 
+ * along with saving/writing the blocks. 
+ * 
+ * The block system represents all elements of code structure in a reference. 
+ * Individual implementations should be defined for different code objects such as 
+ * variables or functions. They should also be defined for modifiers or additions 
+ * to other blocks, such as arguments to a function or methods to a class. 
+ * 
+ * Each block can have a single parent and any number of children. The children are 
+ * contained in a ordered list to allow the entire block structure to be viewed in 
+ * this application's block view widget. This allows for easy mimicking of most 
+ * code structures that also follow this relationship, such as arguments of a 
+ * function or methods of a class. 
+ * 
+ * The virtual interfaces for this class fall into three primary groupings. The 
+ * first provides the system with basic information usually required to display the 
+ * block in the block view. The second deals with spawning view and abstract edit 
+ * widgets to have a detailed view of the block or edit its data, respectively. The 
+ * final deals with making the data of the block visible to the application by 
+ * defining a list of fields. Optional interfaces are also provides for dealing 
+ * with child events, such as children being added or removed. 
+ * 
+ * This class itself handles all copying, reading, and writing of blocks by using 
+ * the fields interface which should provide it with all data for an 
+ * implementation. This class also handles all management of children internally. 
+ * As a result an implementation of this class only needs to provide information 
+ * about itself, letting this abstract class take care of its management. 
  */
 class AbstractBlock : public QObject
 {
    Q_OBJECT
 public:
+   /*!
+    * Defines the different types of data for a field. 
+    */
+   enum Field
+   {
+      /*!
+       * Defines the boolean field type. This type is a simply true or false. If this 
+       * field type is never set this it should be false by default. 
+       */
+      Boolean
+      /*!
+       * Defines the string field type. 
+       */
+      ,String
+      /*!
+       * Defines the string list field type. 
+       */
+      ,StringList
+   };
    /*!
     * This interface returns this block's type. 
     *
@@ -69,34 +109,59 @@ public:
     *
     * @return New GUI view that represents this block's data. 
     */
-   virtual std::unique_ptr<QWidget> makeView() const = 0;
+   virtual Sut::QPtr<QWidget> makeView() const = 0;
    /*!
-    * This interface returns a editable GUI widget that provides the ability to edit 
-    * this block's data. 
+    * This interface returns the number of fields this block contains. 
     *
-    * @return New editable GUI widget to edit this block's data. 
+    * @return The number of fields this object contains. 
     */
-   virtual std::unique_ptr<::Gui::AbstractEdit> makeEdit() = 0;
-   virtual std::unique_ptr<AbstractBlock> makeCopy() const;
-   AbstractBlock* root();
+   virtual int fieldSize() const = 0;
+   /*!
+    * This interface returns the field type for the given field index of this block. 
+    *
+    * @param index Index of the field whose field type is returned. 
+    *
+    * @return Field type of the given field index of this block. 
+    */
+   virtual Field fieldType(int index) const = 0;
+   /*!
+    * This interface returns the value of the field with the given index for this 
+    * block. 
+    *
+    * @param index Index of the field whose value is returned. 
+    *
+    * @return Value of the field with the given index for this block. 
+    */
+   virtual QVariant field(int index) const = 0;
+   /*!
+    * This interface returns an abstract edit GUI dialog that provides the ability to 
+    * edit this block's data. 
+    *
+    * @return Abstract edit GUI dialog to edit this block's data. 
+    */
+   virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() = 0;
+public:
    const AbstractBlock* root() const;
    AbstractBlock* parent() const;
    int size() const;
    const QList<AbstractBlock*>& list() const;
    int indexOf(AbstractBlock* pointer) const;
    AbstractBlock* get(int index) const;
+   Sut::QPtr<AbstractBlock> makeCopy() const;
    bool containsType(int type) const;
    bool containsType(const QList<int>& types) const;
    template<class T> QList<T*> makeListOfType(int type) const;
    template<class T> const T* cast(int toType) const;
+   QDomElement write(QDomDocument& document) const;
+   AbstractBlock* root();
    template<class T> T* cast(int toType);
+   void setField(int index, const QVariant& value);
    void moveUp(int index);
    void moveDown(int index);
-   void insert(int index, std::unique_ptr<AbstractBlock>&& child);
-   std::unique_ptr<AbstractBlock> take(int index);
+   void insert(int index, Sut::QPtr<AbstractBlock>&& child);
+   Sut::QPtr<AbstractBlock> take(int index);
    void remove(int index);
    void read(const QDomElement& element);
-   QDomElement write(QDomDocument& document) const;
 signals:
    /*!
     * Signals that a child block of this block has been modified. The given child 
@@ -122,56 +187,72 @@ signals:
    void bodyModified(AbstractBlock* child);
 protected:
    /*!
-    * This interface reads in the data for this block from the given XML element and 
-    * version number. 
-    *
-    * @param element The XML element used to read in this blocks data. 
-    *
-    * @param version The version of the data stored in the XML. 
-    */
-   virtual void readData(const QDomElement& element, int version) = 0;
-   /*!
-    * This interface returns the current version number of XML elements written for 
-    * this block type. 
-    *
-    * @return Current version number. 
-    */
-   virtual int writeVersion() const = 0;
-   /*!
-    * This interface returns a XML element containing the data for this block using 
-    * the current version number. Attributes should never be used with this element 
-    * because the block system already uses one for the version number. 
-    *
-    * @param document XML document to use for creating new elements. 
-    *
-    * @return XML element containing the data of this block. 
-    */
-   virtual QDomElement writeData(QDomDocument& document) const = 0;
-   /*!
     * This interface makes a new block object of this block's type with no data and 
     * returns a pointer to the new block. 
     *
     * @return Pointer to the newly created block. 
     */
-   virtual std::unique_ptr<AbstractBlock> makeBlank() const = 0;
+   virtual Sut::QPtr<AbstractBlock> makeBlank() const = 0;
    /*!
-    * This interface copies all data from the given block to this block, overwriting 
-    * any data this block may already contain. This does not copy any children. 
+    * This interface returns the current data version for this block type. This 
+    * version is saved to this block's data when written and then used when read in 
+    * for backwards compatibility. 
     *
-    * @param other The other block whose data will be copied. 
+    * @return Current data version. 
     */
-   virtual void copyDataFrom(const AbstractBlock* other) = 0;
+   virtual int version() const = 0;
+   /*!
+    * This interface returns the tag name for the field with the given index for this 
+    * block. The tag name must be unique among all fields and is used for reading and 
+    * writing this block. 
+    *
+    * @param index Index of the field whose tag name is returned. 
+    *
+    * @return Tag name for the field with the given index for this block. 
+    */
+   virtual QString fieldTag(int index) const = 0;
+   /*!
+    * This interface returns the index of the field that has the given tag name for 
+    * this block. If no field is found with the given tag name this returns -1. 
+    *
+    * @param name Tag name of the field whose index is returned. 
+    *
+    * @return Index of the field with the given tag name or -1 if no field exists with 
+    *         that tag name. 
+    */
+   virtual int fieldIndexOf(const QString& name) const = 0;
+   /*!
+    * This interface is called when the field with the given index for this block has 
+    * been modified. 
+    *
+    * @param index Index of the field which has just been modified. 
+    */
+   virtual void fieldModified(int index) = 0;
+   /*!
+    * This interface quietly sets the value of the field with the given index to the 
+    * new given value. This must be done quietly without calling any notify methods 
+    * because the base abstract class has already done so using the field modified 
+    * interface. 
+    *
+    * @param index Index of the field whose value is set to the new given value. 
+    *
+    * @param value New value that the field with the given index is set to. 
+    */
+   virtual void quietlySetField(int index, const QVariant& value) = 0;
    virtual bool childNameModified(AbstractBlock* child);
    virtual bool childAdded(AbstractBlock* child);
    virtual bool childRemoved(AbstractBlock* child);
    virtual bool childMoved(AbstractBlock* child);
+protected:
+   int dataVersion() const;
    void notifyModified();
    void notifyNameModified();
    void notifyBodyModified();
-   static QDomElement makeElement(QDomDocument& document, const QString& tagName, const QString& text);
 private:
+   void readData(const QDomElement& element);
+   QDomElement writeData(QDomDocument& document) const;
    void copyChildren(const AbstractBlock* parent);
-   void setParent(AbstractBlock* parent, int index = -1);
+   void copyDataFrom(const AbstractBlock* other);
    void readChild(const QDomElement& element);
    /*!
     * The name for version attributes. 
@@ -185,6 +266,17 @@ private:
     * The name for type attributes. 
     */
    static const char* _typeTag;
+   /*!
+    * The data version of the data this block is reading in or the current version if 
+    * no data is being read in. 
+    */
+   int _version;
+   /*!
+    * True if this block is currently reading in its field data or false otherwise. 
+    * Used so this block does not emit modification signals while it is being read in 
+    * from a file. 
+    */
+   bool _readIn {false};
    /*!
     * Pointer list of this block's children. 
     */
@@ -205,26 +297,17 @@ private:
  * @param type The type whose matches are added to the list. 
  *
  * @return List of this block's children that is given type. 
- *
- *
- * Steps of Operation: 
- *
- * 1. Create a new list of pointers _ret_ of the given template type. Iterate 
- *    through the list of this block's children. If a child matches the given type 
- *    then append its pointer to _ret_. 
- *
- * 2. Return _ret_. 
  */
 template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
 {
-   // 1
+   // Generate a pointer list of all this block's children that match the given type. 
    QList<T*> ret;
    for (auto child : list())
    {
       if ( T* variable = child->cast<T>(type) ) ret.append(variable);
    }
 
-   // 2
+   // Return the pointer list of matched children. 
    return ret;
 }
 
@@ -244,30 +327,24 @@ template<class T> QList<T*> AbstractBlock::makeListOfType(int type) const
  *
  * @return If successful then a read only pointer of requested cast type, else a 
  *         null pointer. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given type to cast does not match this block's type then return a null 
- *    pointer. 
- *
- * 2. Cast this block's pointer to the requested class type and return the cast 
- *    pointer. If the cast fails then throw an exception. 
  */
 template<class T> const T* AbstractBlock::cast(int toType) const
 {
-   // 1
+   // Make sure the given type matches this block's type. 
    if ( type() != toType )
    {
       return nullptr;
    }
 
-   // 2
+   // If this block is successfully cast as the given type then return its pointer. 
    if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
+
+   // Else an internal error has occurred because this block should have cast 
+   // successfully. 
    else
    {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      Sut::Exception::LogicError e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed casting object to required type."));
       throw e;
    }
@@ -289,30 +366,24 @@ template<class T> const T* AbstractBlock::cast(int toType) const
  *
  * @return If successful then a pointer of requested cast type, else a null 
  *         pointer. 
- *
- *
- * Steps of Operation: 
- *
- * 1. If the given type to cast does not match this block's type then return a null 
- *    pointer. 
- *
- * 2. Cast this block's pointer to the requested class type and return the cast 
- *    pointer. If the cast fails then throw an exception. 
  */
 template<class T> T* AbstractBlock::cast(int toType)
 {
-   // 1
+   // Make sure the given type matches this block's type. 
    if ( type() != toType )
    {
       return nullptr;
    }
 
-   // 2
+   // If this block is successfully cast as the given type then return its pointer. 
    if ( T* ret = qobject_cast<T*>(this) ) return ret;
+
+   // Else an internal error has occurred because this block should have cast 
+   // successfully. 
    else
    {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      Sut::Exception::LogicError e;
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Failed casting object to required type."));
       throw e;
    }

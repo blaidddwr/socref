@@ -1,47 +1,40 @@
 #include "cppqt_parent.h"
-#include <exception.h>
-#include "cppqt_view_parent.h"
-#include "cppqt_edit_parent.h"
+#include "cppqt_parent_view.h"
+#include "cppqt_parent_edit.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_type.h"
-#include "domelementreader.h"
 #include "common.h"
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
+//
+
+
+
+/*!
+ * List of this block's field tag names that follow the same order as this block's 
+ * enumeration of fields. 
+ */
+const QStringList Parent::_fields {"access","class"};
+/*!
+ * List of access type names that follow the same order as this block's enumeration 
+ * of possible access types. 
+ */
 const QStringList Parent::_accessNames {"public","protected","private"};
-const char* Parent::_accessTag {"access"};
-const char* Parent::_templateArgumentTag {"template"};
-const char* Parent::_nameTag {"name"};
-const char* Parent::_classTag {"class"};
 
 
 
 
 
 
-Parent::Parent(const QString& className):
-   _class(className)
-{}
-
-
-
-
-
-
-QString Parent::name() const
-{
-   return accessName();
-}
-
-
-
-
-
-
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 int Parent::type() const
 {
    return BlockFactory::ParentType;
@@ -52,7 +45,12 @@ int Parent::type() const
 
 
 
-const AbstractBlockFactory&Parent::factory() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+const AbstractBlockFactory& Parent::factory() const
 {
    return BlockFactory::instance();
 }
@@ -62,25 +60,41 @@ const AbstractBlockFactory&Parent::factory() const
 
 
 
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+QString Parent::name() const
+{
+   // Return only the access type string of this parent block. 
+   return accessString();
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 QIcon Parent::icon() const
 {
-   static bool isLoaded {false};
-   static QIcon public_;
-   static QIcon protected_;
-   static QIcon private_;
-   if ( !isLoaded )
-   {
-      public_ = QIcon(":/icons/parent.svg");
-      protected_ = QIcon(":/icons/proparent.svg");
-      private_ = QIcon(":/icons/priparent.svg");
-      isLoaded = true;
-   }
+   // Initialize all static icons for this block type. 
+   static QIcon publicIcon(":/icons/parent.svg");
+   static QIcon protectedIcon(":/icons/proparent.svg");
+   static QIcon privateIcon(":/icons/priparent.svg");
+
+   // Return the appropriate icon based off this parent block's access type. 
    switch (_access)
    {
-   case Access::Public: return public_;
-   case Access::Protected: return protected_;
-   case Access::Private: return private_;
-   default: return public_;
+   case Access::Public: return publicIcon;
+   case Access::Protected: return protectedIcon;
+   case Access::Private: return privateIcon;
+   default: return publicIcon;
    }
 }
 
@@ -89,6 +103,11 @@ QIcon Parent::icon() const
 
 
 
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 QList<int> Parent::buildList() const
 {
    return QList<int>();
@@ -99,9 +118,14 @@ QList<int> Parent::buildList() const
 
 
 
-std::unique_ptr<QWidget> Parent::makeView() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<QWidget> Parent::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Parent(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -109,9 +133,15 @@ std::unique_ptr<QWidget> Parent::makeView() const
 
 
 
-std::unique_ptr<::Gui::AbstractEdit> Parent::makeEdit()
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+int Parent::fieldSize() const
 {
-   return unique_ptr<AbstractEdit>(new Edit::Parent(this));
+   // Use the field enumeration to return the total number of fields. 
+   return Field::Total;
 }
 
 
@@ -119,111 +149,29 @@ std::unique_ptr<::Gui::AbstractEdit> Parent::makeEdit()
 
 
 
-const QStringList&Parent::accessNames() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+AbstractBlock::Field Parent::fieldType(int index) const
 {
-   return _accessNames;
-}
-
-
-
-
-
-
-QString Parent::accessName() const
-{
-   return _accessNames.at(static_cast<int>(_access));
-}
-
-
-
-
-
-
-Parent::Access Parent::access() const
-{
-   return _access;
-}
-
-
-
-
-
-
-void Parent::setAccess(Parent::Access access)
-{
-   if ( _access != access )
+   // Based off the given field index return its type. 
+   switch (index)
    {
-      _access = access;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
+   case Field::AccessType:
+   case Field::ClassName: return AbstractBlock::Field::String;
 
-
-
-
-
-
-void Parent::setAccess(const QString& accessName)
-{
-   setAccess(static_cast<Access>(_accessNames.indexOf(accessName)));
-}
-
-
-
-
-
-
-QString Parent::className() const
-{
-   return _class;
-}
-
-
-
-
-
-
-void Parent::setClassName(const QString& className)
-{
-   if ( !Type::isValidTypeString(className) )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Class name '%1' is not valid.").arg(className));
-      throw e;
-   }
-   if ( _class != className )
-   {
-      _class = className;
-      emit modified();
-   }
-}
-
-
-
-
-
-
-void Parent::readData(const QDomElement& data, int version)
-{
-   switch (version)
-   {
-   case 0:
-      readVersion0(data);
-      break;
-   case 1:
-      readVersion1(data);
-      break;
-   case 2:
-      readVersion2(data);
-      break;
+   // If the given index is unknown then throw an exception. 
    default:
       {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
+         Exception::OutOfRange e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
+                      .arg(index)
+                      .arg(fieldSize() - 1));
          throw e;
       }
    }
@@ -234,112 +182,250 @@ void Parent::readData(const QDomElement& data, int version)
 
 
 
-int Parent::writeVersion() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+QVariant Parent::field(int index) const
 {
-   return _version;
-}
-
-
-
-
-
-
-QDomElement Parent::writeData(QDomDocument& document) const
-{
-   QDomElement ret {document.createElement("na")};
-   ret.appendChild(makeElement(document,_accessTag,_accessNames.at(static_cast<int>(_access))));
-   ret.appendChild(makeElement(document,_classTag,_class));
-   return ret;
-}
-
-
-
-
-
-
-std::unique_ptr<AbstractBlock> Parent::makeBlank() const
-{
-   return unique_ptr<AbstractBlock>(new Parent);
-}
-
-
-
-
-
-
-void Parent::copyDataFrom(const AbstractBlock* object)
-{
-   if ( const Parent* object_ = qobject_cast<const Parent*>(object) )
+   // Based off the given field index return its value. 
+   switch (index)
    {
-      _access = object_->_access;
-      _class = object_->_class;
+   case Field::AccessType: return accessString();
+   case Field::ClassName: return _className;
+
+   // If the given index is unknown then throw an exception. 
+   default:
+      {
+         Exception::OutOfRange e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Given block field index %1 is out of range (%2 max).")
+                      .arg(index)
+                      .arg(fieldSize() - 1));
+         throw e;
+      }
    }
-   else
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<::Gui::AbstractEdit> Parent::makeEdit()
+{
+   return QPtr<AbstractEdit>(new Edit(this));
+}
+
+
+
+
+
+
+/*!
+ * Constructs a new parent block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Parent::Parent(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setClassName(QStringLiteral("object"));
+}
+
+
+
+
+
+
+/*!
+ * Return the access type of this parent block. 
+ *
+ * @return Access type for this parent block. 
+ */
+Parent::Access Parent::access() const
+{
+   return _access;
+}
+
+
+
+
+
+
+/*!
+ * Return the string version of this block's access type. 
+ *
+ * @return String version of this block's access type. 
+ */
+QString Parent::accessString() const
+{
+   // Use this block's access names list to return the string version of this block's 
+   // access type. 
+   return _accessNames.at(static_cast<int>(_access));
+}
+
+
+
+
+
+
+/*!
+ * Returns the class name of this parent block. 
+ *
+ * @return Class name of this parent block. 
+ */
+QString Parent::className() const
+{
+   return _className;
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<AbstractBlock> Parent::makeBlank() const
+{
+   return QPtr<AbstractBlock>(new Parent);
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+int Parent::version() const
+{
+   return 0;
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+QString Parent::fieldTag(int index) const
+{
+   // Use this block's fields list to figure out the tag at the given index. 
+   return _fields.at(index);
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param name See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+int Parent::fieldIndexOf(const QString& name) const
+{
+   // Use this block's fields list to figure out the index of the given tag name. 
+   return _fields.indexOf(name);
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ */
+void Parent::fieldModified(int index)
+{
+   // Notify that this block's body has changed and it is modified. 
+   notifyModified();
+   notifyBodyModified();
+
+   // If the given field index is the access type then also notify this block's name 
+   // has changed. 
+   if ( index == Field::AccessType ) notifyNameModified();
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ *
+ * @param value See interface docs. 
+ */
+void Parent::quietlySetField(int index, const QVariant& value)
+{
+   // Based off the given field index set its value to the new one given. If the 
+   // given index is unknown then do nothing. 
+   switch (index)
    {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
+   case Field::AccessType:
+      _access = static_cast<Access>(_accessNames.indexOf(value.toString()));
+      break;
+   case Field::ClassName:
+      setClassName(value.toString());
+      break;
+   }
+}
+
+
+
+
+
+
+/*!
+ * Sets the class name field for this parent block. If the given value is not valid 
+ * then an exception is thrown. 
+ *
+ * @param value The new value for this parent block's class name field. 
+ */
+void Parent::setClassName(const QString& value)
+{
+   // Make sure the new given value is valid. 
+   if ( !Type::isValidTypeString(value) )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Class name '%1' is not valid.").arg(value));
       throw e;
    }
-}
 
-
-
-
-
-
-void Parent::readVersion0(const QDomElement& data)
-{
-   DomElementReader reader(data);
-   _access = static_cast<Access>(_accessNames.indexOf(reader.attribute(_accessTag)));
-   QString templateArgument {reader.attribute(_templateArgumentTag,false)};
-   _class = reader.attribute(_nameTag,false);
-   if ( !templateArgument.isEmpty() ) _class.append("<").append(templateArgument).append(">");
-}
-
-
-
-
-
-
-void Parent::readVersion1(const QDomElement& data)
-{
-   QString access;
-   QString templateArgument;
-   DomElementReader reader(data);
-   reader.set(_accessTag,&access);
-   reader.set(_templateArgumentTag,&templateArgument,false);
-   reader.set(_nameTag,&_class,false);
-   reader.read();
-   if ( !reader.allRequiredFound() )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading all required elements."));
-      throw e;
-   }
-   _access = static_cast<Access>(_accessNames.indexOf(access));
-   if ( !templateArgument.isEmpty() ) _class.append("<").append(templateArgument).append(">");
-}
-
-
-
-
-
-
-void Parent::readVersion2(const QDomElement& data)
-{
-   QString access;
-   DomElementReader reader(data);
-   reader.set(_accessTag,&access);
-   reader.set(_classTag,&_class);
-   reader.read();
-   if ( !reader.allRequiredFound() )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading all required elements."));
-      throw e;
-   }
-   _access = static_cast<Access>(_accessNames.indexOf(access));
+   // Set the new value to this parent block's class name field. 
+   _className = value;
 }

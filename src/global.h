@@ -1,5 +1,4 @@
 
-class DomElementReader;
 class AbstractBlock;
 class AbstractBlockFactory;
 class AbstractParser;
@@ -8,5 +7,6 @@ class AbstractProjectFactory;
 class ProjectFactory;
 class BlockModel;
 class ScanThread;
+class DictionaryModel;
 class Project;
 class Application;

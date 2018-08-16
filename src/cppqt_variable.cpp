@@ -1,67 +1,44 @@
 #include "cppqt_variable.h"
-#include <exception.h>
-#include "cppqt_view_variable.h"
-#include "cppqt_edit_variable.h"
+#include <socutil/sut_exceptions.h>
+#include "cppqt_variable_view.h"
+#include "cppqt_variable_edit.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_function.h"
 #include "cppqt_type.h"
-#include "domelementreader.h"
-#include "common.h"
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
-const char* Variable::_constExprTag {"constexpr"};
-const char* Variable::_staticTag {"static"};
-const char* Variable::_mutableTag {"mutable"};
-const char* Variable::_typeTag {"type"};
-const char* Variable::_initializerTag {"initializer"};
+//
 
 
 
-
-
-
-Variable::Variable(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-Variable::Variable(const QString& type, const QString& name):
-   Base(name),
-   _type(type)
+/*!
+ * List of this block's field tag names that follow the same order as this block's 
+ * enumeration of fields. This is in addition to the base fields this block 
+ * inherits. 
+ */
+const QStringList Variable::_fields
 {
-   checkTypeSyntax(type);
-}
+   "constexpr"
+   ,"static"
+   ,"mutable"
+   ,"type"
+   ,"initializer"
+};
 
 
 
 
 
 
-QString Variable::name() const
-{
-   QString ret {Base::name()};
-   if ( !_initializer.isEmpty() )
-   {
-      if ( isFunctionArgument() ) ret.append(" =");
-      else ret.append(" {}");
-   }
-   ret.append(attributes());
-   return ret;
-}
-
-
-
-
-
-
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 int Variable::type() const
 {
    return BlockFactory::VariableType;
@@ -72,18 +49,30 @@ int Variable::type() const
 
 
 
-QIcon Variable::icon() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+QString Variable::name() const
 {
-   static bool isLoaded {false};
-   static QIcon regular;
-   static QIcon static_;
-   if ( !isLoaded )
+   // Create a string and set it to this variable's base name. 
+   QString ret {Base::name()};
+
+   // Check to see if this variable has an initial vallue. 
+   if ( !_initializer.isEmpty() )
    {
-      regular = QIcon(":/icons/variable.svg");
-      static_ = QIcon(":/icons/svariable.svg");
+      // Append the initial value indicator appropriate for the context of this 
+      // variable. 
+      if ( isArgument() ) ret.append(" =");
+      else ret.append(" {}");
    }
-   if ( _static ) return static_;
-   else return regular;
+
+   // Append this variable's property markers. 
+   ret.append(attributes());
+
+   // Return this variable's display name. 
+   return ret;
 }
 
 
@@ -91,6 +80,32 @@ QIcon Variable::icon() const
 
 
 
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+QIcon Variable::icon() const
+{
+   // Initialize the static icons for this block type. 
+   static QIcon regularIcon(":/icons/variable.svg");
+   static QIcon staticIcon(":/icons/svariable.svg");
+
+   // Return the correct icon based off this variable's properties. 
+   if ( _static ) return staticIcon;
+   else return regularIcon;
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 QList<int> Variable::buildList() const
 {
    return QList<int>();
@@ -101,9 +116,14 @@ QList<int> Variable::buildList() const
 
 
 
-unique_ptr<QWidget> Variable::makeView() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<QWidget> Variable::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Variable(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -111,9 +131,15 @@ unique_ptr<QWidget> Variable::makeView() const
 
 
 
-unique_ptr<AbstractEdit> Variable::makeEdit()
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+int Variable::fieldSize() const
 {
-   return unique_ptr<AbstractEdit>(new Edit::Variable(this));
+   // Use the field enumeration to return the total number of fields. 
+   return Field::Total;
 }
 
 
@@ -121,6 +147,107 @@ unique_ptr<AbstractEdit> Variable::makeEdit()
 
 
 
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+AbstractBlock::Field Variable::fieldType(int index) const
+{
+   // Based off the given field index return its type. 
+   switch (index)
+   {
+   case Field::ConstExpr:
+   case Field::Static:
+   case Field::Mutable: return AbstractBlock::Field::Boolean;
+   case Field::Type:
+   case Field::Initializer: return AbstractBlock::Field::String;
+
+   // If the given index is unknown for this block then call its base class 
+   // interface. 
+   default: return Base::fieldType(index);
+   }
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+QVariant Variable::field(int index) const
+{
+   // Based off the given field index return its value. 
+   switch (index)
+   {
+   case Field::ConstExpr: return _constExpr;
+   case Field::Static: return _static;
+   case Field::Mutable: return _mutable;
+   case Field::Type: return _type;
+   case Field::Initializer: return _initializer;
+
+   // If the given index is unknown for this block then call its base class 
+   // interface. 
+   default: return Base::field(index);
+   }
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<::Gui::AbstractEdit> Variable::makeEdit()
+{
+   return QPtr<AbstractEdit>(new Edit(this));
+}
+
+
+
+
+
+
+/*!
+ * Constructs a new variable block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Variable::Variable(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault )
+   {
+      setType(QStringLiteral("int"));
+      setName(QStringLiteral("var"));
+   }
+}
+
+
+
+
+
+
+/*!
+ * Tests if this variable block's constant expression property is set. 
+ *
+ * @return True if this block's constant expression property is set or false 
+ *         otherwise. 
+ */
 bool Variable::isConstExpr() const
 {
    return _constExpr;
@@ -131,29 +258,11 @@ bool Variable::isConstExpr() const
 
 
 
-void Variable::setConstExpr(bool isConstExpr)
-{
-   if ( isConstExpr && isFunctionArgument() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set as static when it is a function argument."));
-      throw e;
-   }
-   if ( _constExpr != isConstExpr )
-   {
-      _constExpr = isConstExpr;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
+/*!
+ * Tests if this variable block's static property is set. 
+ *
+ * @return True if this block's static property is set or false otherwise. 
+ */
 bool Variable::isStatic() const
 {
    return _static;
@@ -164,29 +273,11 @@ bool Variable::isStatic() const
 
 
 
-void Variable::setStatic(bool isStatic)
-{
-   if ( isStatic && !isClassMember() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set as static when it is not a class member."));
-      throw e;
-   }
-   if ( _static != isStatic )
-   {
-      _static = isStatic;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
+/*!
+ * Tests if this variable block's mutable property is set. 
+ *
+ * @return True if this block's mutable property is set or false otherwise. 
+ */
 bool Variable::isMutable() const
 {
    return _mutable;
@@ -197,29 +288,11 @@ bool Variable::isMutable() const
 
 
 
-void Variable::setMutable(bool isMutable)
-{
-   if ( isMutable && !isClassMember() )
-   {
-      Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set as mutable when it is not a class member."));
-      throw e;
-   }
-   if ( _mutable != isMutable )
-   {
-      _mutable = isMutable;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
+/*!
+ * Returns this variable block's type field value. 
+ *
+ * @return This variable's C++ type. 
+ */
 QString Variable::variableType() const
 {
    return _type;
@@ -230,25 +303,15 @@ QString Variable::variableType() const
 
 
 
-void Variable::setVariableType(const QString& type)
-{
-   checkTypeSyntax(type);
-   if ( _type != type )
-   {
-      _type = type;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
-}
-
-
-
-
-
-
+/*!
+ * Tests if this variable block has an initial value. 
+ *
+ * @return True if this variable has an initial value or false otherwise. 
+ */
 bool Variable::hasInitializer() const
 {
+   // Test if this variable's initial value string is empty to determine if it has 
+   // one. 
    return !_initializer.isEmpty();
 }
 
@@ -257,6 +320,11 @@ bool Variable::hasInitializer() const
 
 
 
+/*!
+ * Returns this variable block's initial value or an empty string if none is set. 
+ *
+ * @return This variable's initial value or an empty string is none is set. 
+ */
 QString Variable::initializer() const
 {
    return _initializer;
@@ -267,15 +335,21 @@ QString Variable::initializer() const
 
 
 
-void Variable::setInitializer(const QString& initializer)
+/*!
+ * Tests if this variable block is a member of a C++ class, returning true if it is 
+ * a member. 
+ *
+ * @return True if this variable is a class member or false otherwise. 
+ */
+bool Variable::isMember() const
 {
-   if ( _initializer != initializer )
-   {
-      _initializer = initializer;
-      notifyModified();
-      notifyNameModified();
-      notifyBodyModified();
-   }
+   // Get this block's parent block pointer and make sure it is not null. 
+   AbstractBlock* up {parent()};
+   if ( !up ) return false;
+
+   // Test if this variable is an argument by seeing if its parent block is an access 
+   // type. 
+   return up->type() == BlockFactory::AccessType;
 }
 
 
@@ -283,19 +357,16 @@ void Variable::setInitializer(const QString& initializer)
 
 
 
-bool Variable::isClassMember() const
+/*!
+ * Tests if this variable block is an argument of a C++ function, returning true if 
+ * it is an argument. 
+ *
+ * @return True if this is a function argument or false otherwise. 
+ */
+bool Variable::isArgument() const
 {
-   if ( parent()->type() == BlockFactory::AccessType ) return true;
-   else return false;
-}
-
-
-
-
-
-
-bool Variable::isFunctionArgument() const
-{
+   // Test if this variable is an argument by seeing if its parent is a function 
+   // block type. 
    return qobject_cast<Function*>(parent());
 }
 
@@ -304,24 +375,45 @@ bool Variable::isFunctionArgument() const
 
 
 
-void Variable::readData(const QDomElement& data, int version)
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<AbstractBlock> Variable::makeBlank() const
 {
-   Base::readData(data,version);
-   switch (version)
+   return QPtr<AbstractBlock>(new Variable);
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ */
+void Variable::fieldModified(int index)
+{
+   // Based off the given field index notify the changes to this block. 
+   switch (index)
    {
-   case 0:
-      readVersion0(data);
+   case Field::ConstExpr:
+   case Field::Static:
+   case Field::Mutable:
+   case Field::Type:
+   case Field::Initializer:
+      notifyModified();
+      notifyNameModified();
+      notifyBodyModified();
       break;
-   case 1:
-      readVersion1(data);
-      break;
+
+   // If the given index is not unknown for this block then call its base interface. 
    default:
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
-         throw e;
-      }
+      Base::fieldModified(index);
+      break;
    }
 }
 
@@ -330,27 +422,63 @@ void Variable::readData(const QDomElement& data, int version)
 
 
 
-int Variable::writeVersion() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @param index See interface docs. 
+ *
+ * @param value See interface docs. 
+ */
+void Variable::quietlySetField(int index, const QVariant& value)
 {
-   return _version;
-}
-
-
-
-
-
-
-QDomElement Variable::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Base::writeData(document)};
-   if ( _constExpr ) ret.appendChild(document.createElement(_constExprTag));
-   if ( _static ) ret.appendChild(document.createElement(_staticTag));
-   if ( _mutable ) ret.appendChild(document.createElement(_mutableTag));
-   ret.appendChild(makeElement(document,_typeTag,_type));
-   if ( !_initializer.isEmpty() )
+   // Based off the given field index set its value to the new given value. 
+   switch (index)
    {
-      ret.appendChild(makeElement(document,_initializerTag,_initializer));
+   case Field::ConstExpr:
+      setConstExpr(value.toBool());
+      break;
+   case Field::Static:
+      setStatic(value.toBool());
+      break;
+   case Field::Mutable:
+      setMutable(value.toBool());
+      break;
+   case Field::Type:
+      setType(value.toString());
+      break;
+   case Field::Initializer:
+      _initializer = value.toString();
+      break;
+
+   // If the given index is not unknown for this block then call its base interface. 
+   default:
+      Base::quietlySetField(index,value);
    }
+}
+
+
+
+
+
+
+/*!
+ * Implements _CppQt::Base_ interface. 
+ *
+ * @return See interface docs. 
+ */
+QStringList Variable::fields() const
+{
+   // Initialize an empty static string list. 
+   static QStringList ret;
+
+   // If the string list is empty then populate it. 
+   if ( ret.isEmpty() )
+   {
+      ret.append(Base::fields());
+      ret.append(_fields);
+   }
+
+   // Return the combined fields string list. 
    return ret;
 }
 
@@ -359,64 +487,25 @@ QDomElement Variable::writeData(QDomDocument& document) const
 
 
 
-unique_ptr<AbstractBlock> Variable::makeBlank() const
+/*!
+ * Sets this variable block's type field to the new given value. If the new value 
+ * is not a valid C++ type then an exception is thrown. 
+ *
+ * @param value The new value that this variable block's return type is set to. 
+ */
+void Variable::setType(const QString& value)
 {
-   return unique_ptr<AbstractBlock>(new Variable);
-}
-
-
-
-
-
-
-void Variable::copyDataFrom(const AbstractBlock* object)
-{
-   if ( const Variable* object_ = qobject_cast<const Variable*>(object) )
-   {
-      Base::copyDataFrom(object);
-      _type = object_->_type;
-      _constExpr = object_->_constExpr;
-      _static = object_->_static;
-      _mutable = object_->_mutable;
-      _initializer = object_->_initializer;
-   }
-   else
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
-      throw e;
-   }
-}
-
-
-
-
-
-
-QString Variable::attributes() const
-{
-   QString ret;
-   if ( _constExpr ) ret.append("X");
-   if ( _mutable ) ret.append("M");
-   if ( !ret.isEmpty() ) ret.prepend(" ");
-   return ret;
-}
-
-
-
-
-
-
-void Variable::checkTypeSyntax(const QString& type)
-{
-   if ( !Type::isValidTypeString(type) )
+   // Make sure the given value is valid given this variable's current context. 
+   if ( !Type::isValidTypeString(value) )
    {
       Exception::InvalidArgument e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set invalid type '%1'.").arg(type));
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set invalid type '%1'.").arg(value));
       throw e;
    }
+
+   // Set this block's value to the new one given. 
+   _type = value;
 }
 
 
@@ -424,13 +513,26 @@ void Variable::checkTypeSyntax(const QString& type)
 
 
 
-void Variable::readVersion0(const QDomElement& data)
+/*!
+ * Returns a string displaying any properties this variable block has set. If no 
+ * properties are set then this returns an empty string. 
+ *
+ * @return String displaying any properties this variable block has set. 
+ */
+QString Variable::attributes() const
 {
-   DomElementReader reader(data);
-   _constExpr = reader.attributeToInt(_constExprTag,false);
-   _static = reader.attributeToInt(_staticTag,false);
-   _type = reader.attribute(_typeTag);
-   _initializer = reader.attribute(_initializerTag,false);
+   // Create a string, appending any properties this variable has using single 
+   // capital letters. 
+   QString ret;
+   if ( _constExpr ) ret.append("X");
+   if ( _static ) ret.append("S");
+   if ( _mutable ) ret.append("M");
+
+   // If the string is not empty then enclose it with brackets and a space. 
+   if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
+
+   // Return the attributes string. 
+   return ret;
 }
 
 
@@ -438,20 +540,75 @@ void Variable::readVersion0(const QDomElement& data)
 
 
 
-void Variable::readVersion1(const QDomElement& data)
+/*!
+ * Sets the state of this variable block's constant expression property to the 
+ * given state. If the new state is illegal then an exception is thrown. 
+ *
+ * @param state The new state this variable block's property is set to. 
+ */
+void Variable::setConstExpr(bool state)
 {
-   DomElementReader reader(data);
-   reader.set(_constExprTag,&_constExpr,false);
-   reader.set(_staticTag,&_static,false);
-   reader.set(_mutableTag,&_mutable,false);
-   reader.set(_typeTag,&_type);
-   reader.set(_initializerTag,&_initializer,false);
-   reader.read();
-   if ( !reader.allRequiredFound() )
+   // Make sure the given state is valid given this variable's current context. 
+   if ( parent() && state && isArgument() )
    {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading all required elements."));
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set as constant expression when it is a function argument."));
       throw e;
    }
+
+   // Set this block's state to the new one given. 
+   _constExpr = state;
+}
+
+
+
+
+
+
+/*!
+ * Sets the state of this variable block's static property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
+ *
+ * @param state The new state this variable block's property is set to. 
+ */
+void Variable::setStatic(bool state)
+{
+   // Make sure the given state is valid given this variable's current context. 
+   if ( parent() && state && !isMember() )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set as static when it is not a class member."));
+      throw e;
+   }
+
+   // Set this block's state to the new one given. 
+   _static = state;
+}
+
+
+
+
+
+
+/*!
+ * Sets the state of this variable block's mutable property to the given state. If 
+ * the new state is illegal then an exception is thrown. 
+ *
+ * @param state The new state this variable block's property is set to. 
+ */
+void Variable::setMutable(bool state)
+{
+   // Make sure the given state is valid given this variable's current context. 
+   if ( parent() && state && !isMember() )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set as mutable when it is not a class member."));
+      throw e;
+   }
+
+   // Set this block's state to the new one given. 
+   _mutable = state;
 }

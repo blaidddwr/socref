@@ -1,43 +1,26 @@
 #include "cppqt_operator.h"
-#include <exception.h>
-#include "cppqt_view_operator.h"
-#include "cppqt_edit_operator.h"
+#include <socutil/sut_exceptions.h>
+#include "cppqt_operator_edit.h"
 #include "cppqt_blockfactory.h"
-#include "domelementreader.h"
 #include "common.h"
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
-const char* Operator::_operationTag {"operation"};
-const char* Operator::_operatorTag {"operator"};
+//
 
 
 
 
 
 
-Operator::Operator(const QString& returnType):
-   Function(returnType,QString())
-{}
-
-
-
-
-
-
-QString Operator::name() const
-{
-   return fullName(!isVoidReturn(),QString("operator").append(_operation));
-}
-
-
-
-
-
-
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 int Operator::type() const
 {
    return BlockFactory::OperatorType;
@@ -48,22 +31,16 @@ int Operator::type() const
 
 
 
-QIcon Operator::icon() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+QString Operator::name() const
 {
-   static bool isLoaded {false};
-   static QIcon regular;
-   static QIcon virtual_;
-   static QIcon abstract;
-   if ( !isLoaded )
-   {
-      regular = QIcon(":/icons/operator.svg");
-      virtual_ = QIcon(":/icons/voperator.svg");
-      abstract = QIcon(":/icons/aoperator.svg");
-      isLoaded = true;
-   }
-   if ( isAbstract() ) return abstract;
-   else if ( isVirtual() ) return virtual_;
-   else return regular;
+   // Return the display name of this operator block using the special operator 
+   // overloading syntax for its function name. 
+   return fullName(!isVoidReturn(),QString("operator").append(Base::name()));
 }
 
 
@@ -71,6 +48,35 @@ QIcon Operator::icon() const
 
 
 
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+QIcon Operator::icon() const
+{
+   // Initialize the static icons for this block type. 
+   static QIcon regularIcon(":/icons/operator.svg");
+   static QIcon virtualIcon(":/icons/voperator.svg");
+   static QIcon abstractIcon(":/icons/aoperator.svg");
+
+   // Return the appropriate icon for this operator block given its current 
+   // properties. 
+   if ( isAbstract() ) return abstractIcon;
+   else if ( isVirtual() ) return virtualIcon;
+   else return regularIcon;
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
 QList<int> Operator::buildList() const
 {
    return QList<int>{BlockFactory::VariableType};
@@ -81,9 +87,14 @@ QList<int> Operator::buildList() const
 
 
 
-unique_ptr<QWidget> Operator::makeView() const
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<::Gui::AbstractEdit> Operator::makeEdit()
 {
-   return unique_ptr<QWidget>(new View::Operator(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -91,9 +102,21 @@ unique_ptr<QWidget> Operator::makeView() const
 
 
 
-unique_ptr<AbstractEdit> Operator::makeEdit()
+/*!
+ * Constructs a new operator block with a default state or null state based off the 
+ * given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Operator::Operator(bool isDefault)
 {
-   return unique_ptr<AbstractEdit>(new Edit::Operator(this));
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault )
+   {
+      setReturnType(QStringLiteral("void"));
+      setName(QStringLiteral("="));
+   }
 }
 
 
@@ -101,9 +124,16 @@ unique_ptr<AbstractEdit> Operator::makeEdit()
 
 
 
+/*!
+ * Returns the operation that this operator block is overloading. 
+ *
+ * @return Operation that this operator block is overloading. 
+ */
 QString Operator::operation() const
 {
-   return _operation;
+   // Return this block's base name that the operator type uses to store the 
+   // operation it overloads. 
+   return Base::name();
 }
 
 
@@ -111,14 +141,14 @@ QString Operator::operation() const
 
 
 
-void Operator::setOperation(const QString& operation)
+/*!
+ * Implements _AbstractBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<AbstractBlock> Operator::makeBlank() const
 {
-    if ( _operation != operation )
-    {
-       _operation = operation;
-       notifyModified();
-       notifyNameModified();
-    }
+   return QPtr<AbstractBlock>(new Operator);
 }
 
 
@@ -126,106 +156,18 @@ void Operator::setOperation(const QString& operation)
 
 
 
-void Operator::readData(const QDomElement& data, int version)
+/*!
+ * Implements _CppQt::Base_ interface. This implementation validates any string 
+ * because the name for operator blocks is the operator it is overloading. 
+ *
+ * @param value See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+bool Operator::checkName(const QString& value)
 {
-   Function::readData(data,version);
-   switch (version)
-   {
-   case 0:
-      readVersion0(data);
-      break;
-   case 1:
-      readVersion1(data);
-      break;
-   default:
-      {
-         Exception::LogicError e;
-         MARK_EXCEPTION(e);
-         e.setDetails(tr("Unknown version number %1 given for reading block.").arg(version));
-         throw e;
-      }
-   }
-}
-
-
-
-
-
-
-int Operator::writeVersion() const
-{
-   return _version;
-}
-
-
-
-
-
-
-QDomElement Operator::writeData(QDomDocument& document) const
-{
-   QDomElement ret {Function::writeData(document)};
-   ret.appendChild(makeElement(document,_operatorTag,_operation));
-   return ret;
-}
-
-
-
-
-
-
-unique_ptr<AbstractBlock> Operator::makeBlank() const
-{
-   return unique_ptr<AbstractBlock>(new Operator);
-}
-
-
-
-
-
-
-void Operator::copyDataFrom(const AbstractBlock* object)
-{
-   if ( const Operator* object_ = qobject_cast<const Operator*>(object) )
-   {
-      Function::copyDataFrom(object);
-      _operation = object_->_operation;
-   }
-   else
-   {
-      Exception::LogicError e;
-      MARK_EXCEPTION(e);
-      e.setDetails("Block object given to copy is not correct type");
-      throw e;
-   }
-}
-
-
-
-
-
-
-void Operator::readVersion0(const QDomElement& data)
-{
-   DomElementReader reader(data);
-   _operation = reader.attribute(_operationTag);
-}
-
-
-
-
-
-
-void Operator::readVersion1(const QDomElement& data)
-{
-   DomElementReader reader(data);
-   reader.set(_operatorTag,&_operation);
-   reader.read();
-   if ( !reader.allRequiredFound() )
-   {
-      Exception::ReadError e;
-      MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading all required elements."));
-      throw e;
-   }
+   // This validates any string no matter what so ignore the given value and return 
+   // true. 
+   Q_UNUSED(value)
+   return true;
 }

@@ -1,8 +1,8 @@
 #ifndef ABSTRACTPROJECTFACTORY_H
 #define ABSTRACTPROJECTFACTORY_H
-#include <memory>
 #include <QString>
-#include "singletonfactory.h"
+#include <socutil/sut_singletonfactory.h>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 
 
@@ -21,7 +21,7 @@ class QDialog;
  * again after that. To maintain backwards compatibility all previously defined 
  * project types must maintain the specific integer that defines them. 
  */
-class AbstractProjectFactory : public SingletonFactory<AbstractProjectFactory>
+class AbstractProjectFactory : public Sut::SingletonFactory<AbstractProjectFactory>
 {
 public:
    /*!
@@ -63,7 +63,7 @@ public:
     *
     * @return Pointer to the new settings dialog for the given project type. 
     */
-   virtual std::unique_ptr<QDialog> makeSettings(int type) const = 0;
+   virtual Sut::QPtr<QDialog> makeSettings(int type) const = 0;
    /*!
     * This interface returns a read only reference to the block factory for the given 
     * project type. 
@@ -84,7 +84,7 @@ public:
     *
     * @return Pointer to created parser factory for the given project type. 
     */
-   virtual std::unique_ptr<AbstractParserFactory> makeParserFactory(int type, AbstractBlock* root) const = 0;
+   virtual Sut::QPtr<AbstractParserFactory> makeParserFactory(int type, const AbstractBlock* root) const = 0;
 };
 
 

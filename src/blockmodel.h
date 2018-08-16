@@ -1,15 +1,15 @@
 #ifndef BLOCKMODEL_H
 #define BLOCKMODEL_H
-#include <memory>
 #include <QtCore>
+#include <socutil/sut_qptr.h>
 #include "global.h"
 //
 
 
 
 /*!
- * This implements the Qt abstract item model class and is used to model the tree 
- * structure of a project's block data. It only implements the interfaces necessary 
+ * This is the abstract item model for the entire block tree of a project, using 
+ * the Qt abstract item model class. It only implements the interfaces necessary 
  * for read only functionality through Qt view classes. However the writable 
  * functionality exists with custom functions outside the Qt framework. The custom 
  * write operations supported are inserting blocks, moving blocks up and down, 
@@ -33,21 +33,22 @@ public:
        */
       ,Body = 101
    };
-   explicit BlockModel(AbstractBlock* root = nullptr, QObject* parent = nullptr);
    virtual QModelIndex index(int row, int column, const QModelIndex& parent) const override final;
    virtual QModelIndex parent(const QModelIndex& child) const override final;
    virtual int rowCount(const QModelIndex& index) const override final;
    virtual int columnCount(const QModelIndex& parent) const override final;
    virtual QVariant data(const QModelIndex& index, int role) const override final;
+public:
+   explicit BlockModel(QObject* parent = nullptr);
    AbstractBlock* pointer(const QModelIndex& index) const;
-   bool insert(const QModelIndex& index, std::unique_ptr<AbstractBlock>&& block);
+   bool insert(const QModelIndex& index, Sut::QPtr<AbstractBlock>&& block);
    QModelIndex moveUp(const QModelIndex& index);
    QModelIndex moveDown(const QModelIndex& index);
    bool remove(const QModelIndex& index);
-   std::unique_ptr<AbstractBlock> copy(const QModelIndex& index) const;
-   std::unique_ptr<AbstractBlock> cut(const QModelIndex& index);
+   Sut::QPtr<AbstractBlock> copy(const QModelIndex& index) const;
+   Sut::QPtr<AbstractBlock> cut(const QModelIndex& index);
    const AbstractBlockFactory* factory() const;
-   void setRoot(AbstractBlock* newRoot);
+   void setRoot(AbstractBlock* root);
 private slots:
    void blockNameModified(AbstractBlock* block);
    void blockBodyModified(AbstractBlock* block);
@@ -62,7 +63,7 @@ private:
     * A pointer to the root block for this model's data. If this model is empty then 
     * this is null. 
     */
-   AbstractBlock* _root;
+   AbstractBlock* _root {nullptr};
    /*!
     * A read only pointer to this model block type's block factory. If this model is 
     * empty then this is null. 

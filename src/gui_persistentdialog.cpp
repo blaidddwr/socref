@@ -1,10 +1,10 @@
 #include "gui_persistentdialog.h"
 #include <QSettings>
-#include "application.h"
-#include "exception.h"
+#include <socutil/sut_exceptions.h>
 
 
 
+using namespace Sut;
 using namespace Gui;
 //
 
@@ -26,6 +26,7 @@ using namespace Gui;
 PersistentDialog::PersistentDialog(const char* geometryKey, QWidget* parent):
    QDialog(parent)
 {
+   // If the geometry key is not null then save the geometry of this dialog. 
    if ( geometryKey ) saveSettings(geometryKey);
 }
 
@@ -35,22 +36,41 @@ PersistentDialog::PersistentDialog(const char* geometryKey, QWidget* parent):
 
 
 /*!
- * Saves the geometry of this persistent dialog if the geometry key has been set, 
- * else this does nothing. 
+ * Implements _QDialog_ interface. This is implemented so when done is called it 
+ * closes this dialog. 
  *
- *
- * Steps of Operation: 
- *
- * 1. If this object's geometry key has been set then use Qt settings to save this 
- *    object's dialog geometry using the geometry key. 
+ * @param r See Qt docs. 
  */
-PersistentDialog::~PersistentDialog()
+void PersistentDialog::done(int r)
 {
+   // Call the qt dialog interface and then close this dialog. 
+   QDialog::done(r);
+   close();
+}
+
+
+
+
+
+
+/*!
+ * Implements _QWidget::closeEvent_. This saves the geometry of this persistent 
+ * dialog and calls the inherited interface. 
+ *
+ * @param event See Qt docs. 
+ */
+void PersistentDialog::closeEvent(QCloseEvent* event)
+{
+   // Check to see if this dialog has a geometry key. 
    if ( _geometryKey )
    {
-      QSettings settings(Application::_companyKey,Application::_programKey);
+      // Save the geometry for this dialog. 
+      QSettings settings;
       settings.setValue(_geometryKey,saveGeometry());
    }
+
+   // Call the parent interface. 
+   QDialog::closeEvent(event);
 }
 
 
@@ -64,28 +84,21 @@ PersistentDialog::~PersistentDialog()
  * has already been set then an exception is thrown. 
  *
  * @param geometryKey  
- *
- *
- * Steps of Operation: 
- *
- * 1. If this object's geometry key is not null then throw an exception. 
- *
- * 2. Set this object's geometry key to the one given and then restore the geometry 
- *    of this persistent dialog using the given geometry key. 
  */
 void PersistentDialog::saveSettings(const char* geometryKey)
 {
-   // 1
+   // Make sure the geometry key for this dialog is not already set. 
    if ( _geometryKey )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("The geometry key for this persistent dialog has already been set."));
       throw e;
    }
 
-   // 2
+   // Set the geometry key for this dialog and restore its geometry using the same 
+   // key. 
    _geometryKey = geometryKey;
-   QSettings settings(Application::_companyKey,Application::_programKey);
+   QSettings settings;
    restoreGeometry(settings.value(_geometryKey).toByteArray());
 }

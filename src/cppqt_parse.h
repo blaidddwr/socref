@@ -1,12 +1,21 @@
 
 namespace CppQt
 {
+   /*!
+    * Contains all C++/Qt parsing elements. 
+    */
    namespace Parse
    {
-      class Global;
-      class Function;
+      class Factory;
       class Base;
-      class Enumeration;
+      class Global;
+      class Source;
+      class Header;
+      class Main;
       class Variable;
+      class Function;
+      class Access;
+      class Enumeration;
+      class Forward;
    }
 }

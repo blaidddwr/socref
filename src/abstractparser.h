@@ -48,6 +48,7 @@ protected:
     * indent functions to do so. 
     */
    virtual void makeOutput() = 0;
+protected:
    void stepIntoChild(AbstractParser* child);
    int indent() const;
    void setIndent(int indent);

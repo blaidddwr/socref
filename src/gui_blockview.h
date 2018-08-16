@@ -32,11 +32,9 @@ namespace Gui
       Q_OBJECT
    public:
       explicit BlockView(QWidget* parent = nullptr);
-      virtual ~BlockView() override final;
       QMenu* contextMenu() const;
       bool canPaste() const;
       void setModel(BlockModel* model);
-   public slots:
    private slots:
       void addTriggered(int type);
       void removeTriggered();
@@ -57,8 +55,6 @@ namespace Gui
       void updateActions();
       void updateAddActions();
       void updateTitle(AbstractBlock* block);
-      void restoreSettings();
-      void saveSettings();
       void setupGui();
       void setupTreeView();
       void setupArea();
@@ -71,9 +67,10 @@ namespace Gui
        */
       constexpr static int _titleIconSize {32};
       /*!
-       * The state key used by this object to save/restore qt settings of its state. 
+       * Pointer to a copied block that any instance of this class can use to paste into 
+       * their current block model if possible. 
        */
-      static const char* _stateKey;
+      static AbstractBlock* _copy;
       /*!
        * Pointer to this object's scroll area used to contain its detailed view widget. 
        */
@@ -100,11 +97,6 @@ namespace Gui
        * The currently selected model index of this object. 
        */
       QModelIndex _current;
-      /*!
-       * Pointer to a copied block that any instance of this class can use to paste into 
-       * their current block model if possible. 
-       */
-      static AbstractBlock* _copy;
       /*!
        * Pointer to this object's title icon label used as part of the title bar above 
        * the detailed view. 

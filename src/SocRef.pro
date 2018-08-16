@@ -1,14 +1,24 @@
+lessThan(QT_MAJOR_VERSION,5): error("Requires Qt 5")
+lessThan(QT_MINOR_VERSION,7): error("Requires Qt 5.7")
+
+MAJOR_VERSION = 0
+MINOR_VERSION = 5
+REVISION = 0
+
 QT += core gui widgets xml
 
 CONFIG += c++11
 
 TARGET = socref
 TEMPLATE = app
+VERSION = $${MAJOR_VERSION}.$${MINOR_VERSION}.$${REVISION}
 
-INCLUDEPATH += ../../socerr/src
-LIBS += -L../../socerr/build -lsocerr -laspell
+LIBS += -lsocutil -laspell
 
-DEFINES += QT_DEPRECATED_WARNINGS
+DEFINES += QT_DEPRECATED_WARNINGS \
+    MAJOR_VERSION=$${MAJOR_VERSION} \
+    MINOR_VERSION=$${MINOR_VERSION} \
+    REVISION=$${REVISION}
 
 SOURCES += \
     main.cpp \
@@ -23,53 +33,26 @@ SOURCES += \
     cppqt_namespace.cpp \
     gui_blockview.cpp \
     gui_abstractedit.cpp \
-    cppqt_edit_namespace.cpp \
     cppqt_variable.cpp \
     cppqt_base.cpp \
-    domelementreader.cpp \
-    cppqt_edit_base.cpp \
-    cppqt_edit_variable.cpp \
-    cppqt_view_base.cpp \
-    cppqt_view_variable.cpp \
     cppqt_signal.cpp \
     cppqt_function.cpp \
-    cppqt_view_function.cpp \
     cppqt_template.cpp \
-    cppqt_edit_function.cpp \
-    cppqt_edit_template.cpp \
     cppqt_class.cpp \
     cppqt_access.cpp \
-    cppqt_view_class.cpp \
-    cppqt_view_common.cpp \
-    cppqt_view_access.cpp \
-    cppqt_gui_listdialog.cpp \
     gui_textedit.cpp \
     gui_textedit_highlighter.cpp \
     gui_textedit_dialog.cpp \
     gui_textdialog.cpp \
-    cppqt_gui_listdialog_model.cpp \
-    cppqt_edit_class.cpp \
-    cppqt_edit_access.cpp \
     cppqt_operator.cpp \
-    cppqt_edit_operator.cpp \
     cppqt_constructor.cpp \
-    cppqt_edit_constructor.cpp \
     cppqt_destructor.cpp \
-    cppqt_edit_destructor.cpp \
     cppqt_slot.cpp \
-    cppqt_edit_slot.cpp \
-    cppqt_edit_signal.cpp \
     cppqt_enumeration.cpp \
-    cppqt_edit_enumeration.cpp \
     cppqt_enumvalue.cpp \
-    cppqt_edit_enumvalue.cpp \
     cppqt_parent.cpp \
-    cppqt_view_parent.cpp \
-    cppqt_edit_parent.cpp \
     abstractparser.cpp \
-    cppqt_parserfactory.cpp \
     scanthread.cpp \
-    common.cpp \
     gui_scandialog.cpp \
     cppqt_parse_global.cpp \
     cppqt_parse_function.cpp \
@@ -77,29 +60,55 @@ SOURCES += \
     cppqt_parse_header.cpp \
     cppqt_parse_variable.cpp \
     cppqt_parse_enumeration.cpp \
-    cppqt_parse_common.cpp \
     cppqt_parse_source.cpp \
     cppqt_parse_access.cpp \
     cppqt_parse_forward.cpp \
     gui_persistentdialog.cpp \
     cppqt_gui_settingsdialog.cpp \
-    cppqt_declaration.cpp \
-    cppqt_view_declaration.cpp \
-    cppqt_edit_declaration.cpp \
-    cppqt_parse_declaration.cpp \
-    gui_aboutdialog.cpp \
     cppqt_typelist.cpp \
     cppqt_type.cpp \
-    cppqt_view_typelist.cpp \
-    cppqt_view_type.cpp \
-    cppqt_edit_type.cpp \
     cppqt_settings.cpp \
-    cppqt_edit_typelist.cpp \
-    cppqt_gui_typeselection.cpp
+    cppqt_gui_typeselection.cpp \
+    cppqt_using.cpp \
+    cppqt_friend.cpp \
+    cppqt_typelist_edit.cpp \
+    cppqt_typelist_view.cpp \
+    cppqt_base_view.cpp \
+    cppqt_type_edit.cpp \
+    cppqt_type_view.cpp \
+    cppqt_enumeration_edit.cpp \
+    cppqt_enumeration_view.cpp \
+    cppqt_enumvalue_edit.cpp \
+    cppqt_enumvalue_view.cpp \
+    cppqt_namespace_edit.cpp \
+    cppqt_namespace_view.cpp \
+    cppqt_variable_edit.cpp \
+    cppqt_variable_view.cpp \
+    gui_listedit.cpp \
+    gui_listedit_model.cpp \
+    cppqt_function_edit.cpp \
+    cppqt_function_view.cpp \
+    cppqt_template_edit.cpp \
+    cppqt_template_view.cpp \
+    cppqt_operator_edit.cpp \
+    cppqt_class_edit.cpp \
+    cppqt_class_view.cpp \
+    cppqt_access_edit.cpp \
+    cppqt_access_view.cpp \
+    cppqt_slot_edit.cpp \
+    cppqt_signal_edit.cpp \
+    cppqt_constructor_edit.cpp \
+    cppqt_destructor_edit.cpp \
+    cppqt_parent_edit.cpp \
+    cppqt_parent_view.cpp \
+    cppqt_using_edit.cpp \
+    cppqt_using_view.cpp \
+    cppqt_parse_factory.cpp \
+    dictionarymodel.cpp \
+    gui_dictionarydialog.cpp \
+    cppqt_parse_main.cpp
 
 HEADERS += \
-    singleton.h \
-    singletonfactory.h \
     abstractprojectfactory.h \
     project.h \
     abstractblockfactory.h \
@@ -113,68 +122,31 @@ HEADERS += \
     cppqt_namespace.h \
     gui_blockview.h \
     gui_abstractedit.h \
-    cppqt_edit_namespace.h \
-    cppqt_view_namespace.h \
     cppqt_variable.h \
     cppqt_base.h \
     global.h \
     gui.h \
     cppqt.h \
-    cppqt_edit.h \
     cppqt_gui.h \
-    cppqt_view.h \
-    cppqt_edit_base.h \
-    cppqt_edit_variable.h \
-    cppqt_view_base.h \
-    cppqt_view_variable.h \
     cppqt_signal.h \
     cppqt_function.h \
-    cppqt_view_function.h \
     cppqt_template.h \
-    cppqt_view_template.h \
-    cppqt_edit_function.h \
-    cppqt_edit_template.h \
     cppqt_class.h \
     cppqt_access.h \
-    cppqt_view_class.h \
-    cppqt_view_common.h \
-    cppqt_view_access.h \
-    cppqt_gui_listdialog.h \
     gui_textedit.h \
     gui_textedit_highlighter.h \
     gui_textedit_dialog.h \
     gui_textdialog.h \
-    cppqt_gui_listdialog_model.h \
-    cppqt_edit_class.h \
-    cppqt_edit_access.h \
     cppqt_operator.h \
-    cppqt_view_operator.h \
-    cppqt_edit_operator.h \
     cppqt_constructor.h \
-    cppqt_view_constructor.h \
-    cppqt_edit_constructor.h \
     cppqt_destructor.h \
-    cppqt_edit_destructor.h \
-    cppqt_view_destructor.h \
     cppqt_slot.h \
-    cppqt_view_slot.h \
-    cppqt_edit_slot.h \
-    cppqt_view_signal.h \
-    cppqt_edit_signal.h \
     cppqt_enumeration.h \
-    cppqt_view_enumeration.h \
-    cppqt_edit_enumeration.h \
     cppqt_enumvalue.h \
-    cppqt_view_enumvalue.h \
-    cppqt_edit_enumvalue.h \
     cppqt_parent.h \
-    cppqt_view_parent.h \
-    cppqt_edit_parent.h \
     abstractparser.h \
     abstractparserfactory.h \
-    cppqt_parserfactory.h \
     scanthread.h \
-    common.h \
     gui_scandialog.h \
     cppqt_parse.h \
     cppqt_parse_global.h \
@@ -183,27 +155,58 @@ HEADERS += \
     cppqt_parse_header.h \
     cppqt_parse_variable.h \
     cppqt_parse_enumeration.h \
-    cppqt_parse_common.h \
     cppqt_parse_source.h \
     cppqt_parse_access.h \
-    domelementreader.h \
     cppqt_parse_forward.h \
-    domelementreader_match.h \
     gui_persistentdialog.h \
     cppqt_gui_settingsdialog.h \
-    cppqt_declaration.h \
-    cppqt_view_declaration.h \
-    cppqt_edit_declaration.h \
-    cppqt_parse_declaration.h \
-    gui_aboutdialog.h \
     cppqt_typelist.h \
     cppqt_type.h \
-    cppqt_view_typelist.h \
-    cppqt_view_type.h \
-    cppqt_edit_type.h \
     cppqt_settings.h \
-    cppqt_edit_typelist.h \
-    cppqt_gui_typeselection.h
+    cppqt_gui_typeselection.h \
+    cppqt_using.h \
+    cppqt_friend.h \
+    cppqt_typelist_edit.h \
+    cppqt_typelist_view.h \
+    cppqt_base_view.h \
+    cppqt_type_edit.h \
+    cppqt_type_view.h \
+    cppqt_enumeration_edit.h \
+    cppqt_enumeration_view.h \
+    cppqt_enumvalue_edit.h \
+    cppqt_enumvalue_view.h \
+    cppqt_namespace_edit.h \
+    cppqt_namespace_view.h \
+    cppqt_variable_edit.h \
+    cppqt_variable_view.h \
+    gui_listedit.h \
+    gui_listedit_model.h \
+    cppqt_function_edit.h \
+    cppqt_function_view.h \
+    cppqt_template_edit.h \
+    cppqt_template_view.h \
+    cppqt_operator_edit.h \
+    cppqt_class_edit.h \
+    cppqt_class_view.h \
+    cppqt_access_edit.h \
+    cppqt_access_view.h \
+    cppqt_slot_edit.h \
+    cppqt_signal_edit.h \
+    cppqt_constructor_edit.h \
+    cppqt_destructor_edit.h \
+    cppqt_parent_edit.h \
+    cppqt_parent_view.h \
+    cppqt_using_edit.h \
+    cppqt_using_view.h \
+    cppqt_parse_factory.h \
+    dictionarymodel.h \
+    gui_dictionarydialog.h \
+    cppqt_parse_main.h
 
 RESOURCES += \
     resources.qrc
+
+isEmpty(PREFIX) { PREFIX = /usr/local }
+program.path = $${PREFIX}/bin
+program.files = $${PWD}/../build/$${TARGET}
+INSTALLS += program

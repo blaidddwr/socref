@@ -1,14 +1,13 @@
 #include "cppqt_namespace.h"
-#include <memory>
 #include <QDomDocument>
-#include <exception.h>
-#include "cppqt_view_namespace.h"
-#include "cppqt_edit_namespace.h"
+#include <socutil/sut_exceptions.h>
+#include "cppqt_namespace_view.h"
+#include "cppqt_namespace_edit.h"
 #include "cppqt_blockfactory.h"
 
 
 
-using namespace std;
+using namespace Sut;
 using namespace Gui;
 using namespace CppQt;
 //
@@ -19,22 +18,9 @@ using namespace CppQt;
 
 
 /*!
+ * Implements _AbstractBlock_ interface. 
  *
- * @param name  
- */
-Namespace::Namespace(const QString& name):
-   Base(name)
-{}
-
-
-
-
-
-
-/*!
- * Implements the interface that returns this block's type. 
- *
- * @return This block's type. 
+ * @return See interface docs. 
  */
 int Namespace::type() const
 {
@@ -47,14 +33,16 @@ int Namespace::type() const
 
 
 /*!
- * Implements the interface that returns the icon of this block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return The icon of this block. 
+ * @return See interface docs. 
  */
 QIcon Namespace::icon() const
 {
-   static QIcon ret;
-   if ( ret.isNull() ) ret = QIcon(":/icons/namespace.svg");
+   // Initialize the static icon for this block type. 
+   static QIcon ret(":/icons/namespace.svg");
+
+   // Return the icon. 
    return ret;
 }
 
@@ -64,10 +52,9 @@ QIcon Namespace::icon() const
 
 
 /*!
- * Implements the interface that returns a list of types that this block type can 
- * contain as children. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return List of allowed types this block can contain as children. 
+ * @return See interface docs. 
  */
 QList<int> Namespace::buildList() const
 {
@@ -89,14 +76,13 @@ QList<int> Namespace::buildList() const
 
 
 /*!
- * Implements the interface that returns a view that provides a detailed read only 
- * GUI representation of this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New GUI view that represents this block's data. 
+ * @return See interface docs. 
  */
-std::unique_ptr<QWidget> Namespace::makeView() const
+Sut::QPtr<QWidget> Namespace::makeView() const
 {
-   return unique_ptr<QWidget>(new View::Namespace(this));
+   return QPtr<QWidget>(new View(this));
 }
 
 
@@ -105,14 +91,13 @@ std::unique_ptr<QWidget> Namespace::makeView() const
 
 
 /*!
- * Implements the interface that returns a editable GUI widget that provides the 
- * ability to edit this block's data. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return New editable GUI widget to edit this block's data. 
+ * @return See interface docs. 
  */
-std::unique_ptr<::Gui::AbstractEdit> Namespace::makeEdit()
+Sut::QPtr<::Gui::AbstractEdit> Namespace::makeEdit()
 {
-   return unique_ptr<AbstractEdit>(new Edit::Namespace(this));
+   return QPtr<AbstractEdit>(new Edit(this));
 }
 
 
@@ -121,6 +106,11 @@ std::unique_ptr<::Gui::AbstractEdit> Namespace::makeEdit()
 
 
 /*!
+ * This interface returns the real block children for this block. The real block 
+ * children are all children of any access block children. If this is not a class 
+ * then it is simply all direct children. 
+ *
+ * @return Pointer list of all real children for this block. 
  */
 QList<AbstractBlock*> Namespace::realChildren() const
 {
@@ -133,17 +123,42 @@ QList<AbstractBlock*> Namespace::realChildren() const
 
 
 /*!
+ * Constructs a new namespace block with a default state or null state based off 
+ * the given flag. 
+ *
+ * @param isDefault True to initialize this new block to its default state or false 
+ *                  to leave it in a null state. 
+ */
+Namespace::Namespace(bool isDefault)
+{
+   // If the given flag is set to default then initialize this new block. 
+   if ( isDefault ) setName(QStringLiteral("space"));
+}
+
+
+
+
+
+
+/*!
+ * Returns a pointer to the root namespace of this block's entire project. 
+ *
+ * @return Pointer to the root namespace of this block's project. 
  */
 const Namespace* Namespace::root() const
 {
+   // Get the root pointer for this block, casting it as a namespace block and making 
+   // sure it worked. 
    const Namespace* ret {qobject_cast<const Namespace*>(AbstractBlock::root())};
    if ( !ret )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Root block is not expected Namespace type."));
       throw e;
    }
+
+   // Return the root namespace pointer. 
    return ret;
 }
 
@@ -153,17 +168,24 @@ const Namespace* Namespace::root() const
 
 
 /*!
+ * Returns a pointer to the root namespace of this block's entire project. 
+ *
+ * @return Pointer to the root namespace of this block's project. 
  */
 Namespace* Namespace::root()
 {
+   // Get the root pointer for this block, casting it as a namespace block and making 
+   // sure it worked. 
    Namespace* ret {qobject_cast<Namespace*>(AbstractBlock::root())};
    if ( !ret )
    {
       Exception::LogicError e;
-      MARK_EXCEPTION(e);
+      SUT_MARK_EXCEPTION(e);
       e.setDetails(tr("Root block is not expected Namespace type."));
       throw e;
    }
+
+   // Return the root namespace pointer. 
    return ret;
 }
 
@@ -173,12 +195,11 @@ Namespace* Namespace::root()
 
 
 /*!
- * Implements the interface that makes a new block object of this block's type with 
- * no data and returns a pointer to the new block. 
+ * Implements _AbstractBlock_ interface. 
  *
- * @return Pointer to the newly created block. 
+ * @return See interface docs. 
  */
-std::unique_ptr<AbstractBlock> Namespace::makeBlank() const
+Sut::QPtr<AbstractBlock> Namespace::makeBlank() const
 {
-   return unique_ptr<AbstractBlock>(new Namespace);
+   return QPtr<AbstractBlock>(new Namespace);
 }

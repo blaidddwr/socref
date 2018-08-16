@@ -1,10 +1,12 @@
 
 namespace CppQt
 {
+   /*!
+    * Contains all custom C++/Qt GUI elements. 
+    */
    namespace Gui
    {
-      class TypeDialog;
-      class TypeListDialog;
+      class SettingsDialog;
       class TypeSelection;
    }
 }
