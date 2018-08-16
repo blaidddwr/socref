@@ -7,7 +7,6 @@
 #include "cppqt_template.h"
 #include "cppqt_constructor.h"
 #include "cppqt_parent.h"
-#include "common.h"
 
 
 

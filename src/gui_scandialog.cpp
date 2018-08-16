@@ -9,7 +9,6 @@
 #include "gui_mainwindow.h"
 #include "scanthread.h"
 #include "application.h"
-#include "common.h"
 
 
 

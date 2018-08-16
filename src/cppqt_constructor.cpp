@@ -2,7 +2,6 @@
 #include <socutil/sut_exceptions.h>
 #include "cppqt_constructor_edit.h"
 #include "cppqt_blockfactory.h"
-#include "common.h"
 
 
 

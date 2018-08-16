@@ -4,7 +4,6 @@
 #include "cppqt_enumeration_edit.h"
 #include "cppqt_blockfactory.h"
 #include "cppqt_enumvalue.h"
-#include "common.h"
 
 
 
