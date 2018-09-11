@@ -1,0 +1,4 @@
+
+* C++/Qt types can now contain "..." for variadic template arguments.
+* Added the thread local property for C++/Qt variables.
+

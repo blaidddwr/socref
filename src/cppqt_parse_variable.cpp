@@ -45,6 +45,7 @@ void Variable::outputDeclaration()
    if ( _block->isConstExpr() ) line += QStringLiteral("constexpr ");
    if ( _block->isStatic() ) line += QStringLiteral("static ");
    if ( _block->isMutable() ) line += QStringLiteral("mutable ");
+   if ( _block->isThreadLocal() ) line += QStringLiteral("thread_local ");
    if ( line.isEmpty() && !_block->isMember() ) line += QStringLiteral("extern ");
 
    // Add this object's variable type and and then its name separated by a space. 

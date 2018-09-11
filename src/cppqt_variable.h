@@ -36,6 +36,7 @@ namespace CppQt
       bool isConstExpr() const;
       bool isStatic() const;
       bool isMutable() const;
+      bool isThreadLocal() const;
       QString variableType() const;
       bool hasInitializer() const;
       QString initializer() const;
@@ -61,6 +62,10 @@ namespace CppQt
           */
          ,Mutable
          /*!
+          * Defines the thread local field. This is a boolean property. 
+          */
+         ,ThreadLocal
+         /*!
           * Defines the type field. This holds the C++ type for a variable block. 
           */
          ,Type
@@ -85,6 +90,7 @@ namespace CppQt
       void setConstExpr(bool state);
       void setStatic(bool state);
       void setMutable(bool state);
+      void setThreadLocal(bool state);
       /*!
        * List of this block's field tag names that follow the same order as this block's 
        * enumeration of fields. This is in addition to the base fields this block 
@@ -103,6 +109,10 @@ namespace CppQt
        * The mutable property for this variable block. 
        */
       bool _mutable {false};
+      /*!
+       * The thread local property for this variable block. 
+       */
+      bool _threadLocal {false};
       /*!
        * The C++ type for this variable block. 
        */

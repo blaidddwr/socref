@@ -930,12 +930,22 @@ QString Function::attributes() const
 void Function::setDefault(bool state)
 {
    // Make sure the given state is valid given this function block's current context. 
-   if ( ( parent() && state && !isMethod() ) || ( state && _deleted ) )
+   if ( parent() )
    {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as default when it is not a class method or has the deleted property."));
-      throw e;
+      if ( !isMethod() )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as default when it is not a class method."));
+         throw e;
+      }
+      if ( _deleted )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as default when it has the deleted property."));
+         throw e;
+      }
    }
 
    // Set this block's state to the new one given. 
@@ -956,13 +966,22 @@ void Function::setDefault(bool state)
 void Function::setDeleted(bool state)
 {
    // Make sure the given state is valid given this function block's current context. 
-   if ( ( parent() && ( ( type() != BlockFactory::OperatorType && type() != BlockFactory::ConstructorType ) || !isMethod() ) )
-        || ( state && _default ) )
+   if ( parent() && state )
    {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as deleted if it is not a constructor, class operator, or has the default property."));
-      throw e;
+      if ( type() != BlockFactory::ConstructorType && type() != BlockFactory::OperatorType )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as deleted if it is not a constructor or class operator."));
+         throw e;
+      }
+      if ( _default )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as deleted if it has the default property."));
+         throw e;
+      }
    }
 
    // Set this block's state to the new one given. 
@@ -1009,12 +1028,29 @@ void Function::setExplicit(bool state)
 void Function::setVirtual(bool state)
 {
    // Make sure the given state is valid given this function block's current context. 
-   if ( parent() && state && ( isStatic() || hasTemplates() || !isMethod() ) )
+   if ( parent() && state )
    {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as virtual when it is static, has templates, or is not a class method."));
-      throw e;
+      if ( _static )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as virtual when it is static."));
+         throw e;
+      }
+      if ( hasTemplates() )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as virtual when it has templates."));
+         throw e;
+      }
+      if ( !isMethod() )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as virtual when it is not a class method."));
+         throw e;
+      }
    }
 
    // Set this block's state to the new one given. 
@@ -1113,12 +1149,22 @@ void Function::setStatic(bool state)
 void Function::setOverride(bool state)
 {
    // Make sure the given state is valid given this function block's current context. 
-   if ( parent() && state && ( !_virtual || _abstract ) )
+   if ( parent() && state )
    {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as override when it is not virtual or it is abstract."));
-      throw e;
+      if ( !_virtual )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as override when it is not virtual."));
+         throw e;
+      }
+      if ( _abstract )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as override when it is abstract."));
+         throw e;
+      }
    }
 
    // Set this block's state to the new one given. 
@@ -1139,12 +1185,22 @@ void Function::setOverride(bool state)
 void Function::setFinal(bool state)
 {
    // Make sure the given state is valid given this function block's current context. 
-   if ( parent() && state && ( !_virtual || _abstract ) )
+   if ( parent() && state )
    {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as final when it is not virtual or it is abstract."));
-      throw e;
+      if ( !_virtual )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as final when it is not virtual."));
+         throw e;
+      }
+      if ( _abstract )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as final when it is abstract."));
+         throw e;
+      }
    }
 
    // Set this block's state to the new one given. 
@@ -1165,12 +1221,29 @@ void Function::setFinal(bool state)
 void Function::setAbstract(bool state)
 {
    // Make sure the given state is valid given this function block's current context. 
-   if ( parent() && state && ( !_virtual || _override || _final ) )
+   if ( parent() && state )
    {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set function as abstract when it is not virtual or it is override/final."));
-      throw e;
+      if ( !_virtual )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as abstract when it is not virtual."));
+         throw e;
+      }
+      if ( _override )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as abstract when it is override."));
+         throw e;
+      }
+      if ( _final )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set function as abstract when it is final."));
+         throw e;
+      }
    }
 
    // Set this block's state to the new one given. 

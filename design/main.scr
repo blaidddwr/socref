@@ -10318,6 +10318,15 @@ The name field has a special interface for checking if it is valid which can be 
           </function>
           <function type="2">
             <data version="0">
+              <name>isThreadLocal</name>
+              <description>Tests if this variable block's thread local property is set.</description>
+              <const/>
+              <type>bool</type>
+              <return_description>True if this block's thread local property is set or false otherwise.</return_description>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
               <name>variableType</name>
               <description>Returns this variable block's type field value.</description>
               <const/>
@@ -10392,6 +10401,12 @@ The name field has a special interface for checking if it is valid which can be 
               <data version="0">
                 <name>Mutable</name>
                 <description>Defines the mutable field. This is a boolean property.</description>
+              </data>
+            </enumval>
+            <enumval type="12">
+              <data version="0">
+                <name>ThreadLocal</name>
+                <description>Defines the thread local field. This is a boolean property.</description>
               </data>
             </enumval>
             <enumval type="12">
@@ -10570,13 +10585,29 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
             </variable>
           </function>
+          <function type="2">
+            <data version="0">
+              <name>setThreadLocal</name>
+              <description>Sets the state of this variable block's thread local property to the given state. If the new state is illegal then an exception is thrown.</description>
+              <type>void</type>
+              <operation>Make sure the given state is valid given this variable's current context.</operation>
+              <operation>Set this block's state to the new one given.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>state</name>
+                <description>The new state this variable block's property is set to.</description>
+                <type>bool</type>
+              </data>
+            </variable>
+          </function>
           <variable type="1">
             <data version="0">
               <name>_fields</name>
               <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is in addition to the base fields this block inherits.</description>
               <static/>
               <type>const QStringList</type>
-              <initializer>"constexpr","static","mutable","type","initializer"</initializer>
+              <initializer>"constexpr","static","mutable","threadlocal","type","initializer"</initializer>
             </data>
           </variable>
           <variable type="1">
@@ -10599,6 +10630,14 @@ The name field has a special interface for checking if it is valid which can be 
             <data version="0">
               <name>_mutable</name>
               <description>The mutable property for this variable block.</description>
+              <type>bool</type>
+              <initializer>false</initializer>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_threadLocal</name>
+              <description>The thread local property for this variable block.</description>
               <type>bool</type>
               <initializer>false</initializer>
             </data>

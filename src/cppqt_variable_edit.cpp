@@ -49,7 +49,10 @@ QLayout* Variable::Edit::layout()
 
    // Add the constant expression, static, and mutable properties as check box 
    // properties. 
-   addCheckBoxes(ret,{Field::ConstExpr,Field::Static,Field::Mutable},4,"Properties:");
+   addCheckBoxes(ret
+                 ,{Field::ConstExpr,Field::Static,Field::Mutable,Field::ThreadLocal}
+                 ,4
+                 ,"Properties:");
 
    // Return the form layout. 
    return ret;
@@ -96,6 +99,7 @@ QString Variable::Edit::fieldTitle(int index) const
    case Field::ConstExpr: return tr("Constant Expression");
    case Field::Static: return tr("Static");
    case Field::Mutable: return tr("Mutable");
+   case Field::ThreadLocal: return tr("Thread Local");
    case Field::Initializer: return tr("Initializer:");
 
    // If the given field index is unknown then throw an exception. 

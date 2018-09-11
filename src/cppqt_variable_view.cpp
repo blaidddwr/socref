@@ -80,6 +80,7 @@ QString Variable::View::displayProperties()
    if ( _block->isConstExpr() ) list << "constexpr";
    if ( _block->isStatic() ) list << "static";
    if ( _block->isMutable() ) list << "mutable";
+   if ( _block->isThreadLocal() ) list << "thread_local";
 
    // If the string list is empty then return an empty string. 
    if ( list.isEmpty() ) return QString();

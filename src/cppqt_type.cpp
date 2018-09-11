@@ -227,7 +227,7 @@ Sut::QPtr<::Gui::AbstractEdit> Type::makeEdit()
 bool Type::isValidTypeString(const QString& value)
 {
    // Make sure the given string matches basic syntax. 
-   if ( !QRegularExpression("\\A\\s*(const\\s+)?((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*(<(.*)>)?)+(\\s*\\*(\\s*const)?)*\\s*&{0,2}\\s*\\z").match(value).hasMatch() )
+   if ( !QRegularExpression("\\A\\s*(const\\s+)?((::)?[a-zA-Z_]+[a-z-A-Z0-9_]*(<(.*)>)?)+(\\s*\\*(\\s*const)?)*\\s*&{0,2}(\\.\\.\\.)?\\s*\\z").match(value).hasMatch() )
    {
       return false;
    }

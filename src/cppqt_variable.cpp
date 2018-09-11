@@ -25,6 +25,7 @@ const QStringList Variable::_fields
    "constexpr"
    ,"static"
    ,"mutable"
+   ,"threadlocal"
    ,"type"
    ,"initializer"
 };
@@ -161,7 +162,8 @@ AbstractBlock::Field Variable::fieldType(int index) const
    {
    case Field::ConstExpr:
    case Field::Static:
-   case Field::Mutable: return AbstractBlock::Field::Boolean;
+   case Field::Mutable:
+   case Field::ThreadLocal: return AbstractBlock::Field::Boolean;
    case Field::Type:
    case Field::Initializer: return AbstractBlock::Field::String;
 
@@ -191,6 +193,7 @@ QVariant Variable::field(int index) const
    case Field::ConstExpr: return _constExpr;
    case Field::Static: return _static;
    case Field::Mutable: return _mutable;
+   case Field::ThreadLocal: return _threadLocal;
    case Field::Type: return _type;
    case Field::Initializer: return _initializer;
 
@@ -281,6 +284,21 @@ bool Variable::isStatic() const
 bool Variable::isMutable() const
 {
    return _mutable;
+}
+
+
+
+
+
+
+/*!
+ * Tests if this variable block's thread local property is set. 
+ *
+ * @return True if this block's thread local property is set or false otherwise. 
+ */
+bool Variable::isThreadLocal() const
+{
+   return _threadLocal;
 }
 
 
@@ -403,6 +421,7 @@ void Variable::fieldModified(int index)
    case Field::ConstExpr:
    case Field::Static:
    case Field::Mutable:
+   case Field::ThreadLocal:
    case Field::Type:
    case Field::Initializer:
       notifyModified();
@@ -442,6 +461,9 @@ void Variable::quietlySetField(int index, const QVariant& value)
       break;
    case Field::Mutable:
       setMutable(value.toBool());
+      break;
+   case Field::ThreadLocal:
+      setThreadLocal(value.toBool());
       break;
    case Field::Type:
       setType(value.toString());
@@ -527,6 +549,7 @@ QString Variable::attributes() const
    if ( _constExpr ) ret.append("X");
    if ( _static ) ret.append("S");
    if ( _mutable ) ret.append("M");
+   if ( _threadLocal ) ret.append("L");
 
    // If the string is not empty then enclose it with brackets and a space. 
    if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
@@ -575,12 +598,22 @@ void Variable::setConstExpr(bool state)
 void Variable::setStatic(bool state)
 {
    // Make sure the given state is valid given this variable's current context. 
-   if ( parent() && state && !isMember() )
+   if ( parent() )
    {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set as static when it is not a class member."));
-      throw e;
+      if ( state && !isMember() )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set as static when it is not a class member."));
+         throw e;
+      }
+      if ( !state && _threadLocal && isMember() )
+      {
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(tr("Cannot set as non-static when it is a thread local class member."));
+         throw e;
+      }
    }
 
    // Set this block's state to the new one given. 
@@ -611,4 +644,30 @@ void Variable::setMutable(bool state)
 
    // Set this block's state to the new one given. 
    _mutable = state;
+}
+
+
+
+
+
+
+/*!
+ * Sets the state of this variable block's thread local property to the given 
+ * state. If the new state is illegal then an exception is thrown. 
+ *
+ * @param state The new state this variable block's property is set to. 
+ */
+void Variable::setThreadLocal(bool state)
+{
+   // Make sure the given state is valid given this variable's current context. 
+   if ( parent() && state && !_static && isMember() )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Cannot set as thread local when it is a non-static class member."));
+      throw e;
+   }
+
+   // Set this block's state to the new one given. 
+   _threadLocal = state;
 }
