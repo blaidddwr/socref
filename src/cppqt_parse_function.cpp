@@ -231,7 +231,7 @@ bool Function::isMatch(const QString& line)
    // Add any arguments of this object's function to the regular expression line. 
    for (auto argument : _block->arguments())
    {
-      regular += argument->variableType().replace("*","\\*") + QStringLiteral(".*");
+      regular += argument->variableType().replace("*","\\*").replace(".","\\.") + QStringLiteral(".*");
    }
    regular += QStringLiteral("\\)");
 

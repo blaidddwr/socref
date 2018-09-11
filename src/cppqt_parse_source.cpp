@@ -87,7 +87,7 @@ bool Source::readLine(const QString& line)
       if ( !_pastTop ) readTop(line);
 
       // Check to see if the given line is the beginning of a function definition. 
-      if ( QRegularExpression("\\A.*\\([a-zA-Z0-9_,<>:&\\* ]*\\)[ constexp]*:?\\s*\\z").match(line).hasMatch() )
+      if ( QRegularExpression("\\A.*\\([a-zA-Z0-9_,<>:&\\*\\. ]*\\)[ constexp]*:?\\s*\\z").match(line).hasMatch() )
       {
          // Check to see if this function is defined in the namespace of this parser. 
          if ( Function* child = findDefined(line) )
