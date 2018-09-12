@@ -229,9 +229,12 @@ bool Function::isMatch(const QString& line)
    QString regular {QStringLiteral("\\A.*") + makeName(true) + QStringLiteral("\\(\\s*")};
 
    // Add any arguments of this object's function to the regular expression line. 
+   bool first {true};
    for (auto argument : _block->arguments())
    {
-      regular += argument->variableType().replace("*","\\*").replace(".","\\.") + QStringLiteral(".*");
+      if ( !first ) regular += QStringLiteral(",[^,]*");
+      else first = false;
+      regular += argument->variableType().replace("*","\\*").replace(".","\\.") + QStringLiteral("[^,]*");
    }
    regular += QStringLiteral("\\)");
 
