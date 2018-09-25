@@ -6,7 +6,6 @@ namespace CppQt
     */
    namespace Parse
    {
-      class Declarative;
       class Factory;
       class Base;
       class Global;
@@ -18,5 +17,6 @@ namespace CppQt
       class Access;
       class Enumeration;
       class Forward;
+      class Declarative;
    }
 }

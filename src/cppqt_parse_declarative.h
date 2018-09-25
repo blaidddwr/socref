@@ -10,6 +10,10 @@ namespace CppQt
    namespace Parse
    {
       /*!
+       * This is the base declarative parser. This base parser is responsible for using 
+       * and friend declarations in header files. This only adds a single output with no 
+       * comments or definition. This also does not read in any lines because it requires 
+       * no input parsing. 
        */
       class Declarative : public Base
       {
