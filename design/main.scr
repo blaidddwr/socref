@@ -569,6 +569,31 @@
       </type>
       <type type="16">
         <data version="0">
+          <type>CppQt::Access*</type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
+          <type>CppQt::Enumeration*</type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
+          <type>CppQt::Function*</type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
+          <type>CppQt::Using*</type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
+          <type>CppQt::Variable*</type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
           <type>DictionaryModel*</type>
         </data>
       </type>
@@ -4568,26 +4593,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </data>
           <type type="16">
             <data version="0">
-              <type>CppQt::Access*</type>
-            </data>
-          </type>
-          <type type="16">
-            <data version="0">
-              <type>CppQt::Enumeration*</type>
-            </data>
-          </type>
-          <type type="16">
-            <data version="0">
-              <type>CppQt::Variable*</type>
-            </data>
-          </type>
-          <type type="16">
-            <data version="0">
-              <type>CppQt::Function*</type>
-            </data>
-          </type>
-          <type type="16">
-            <data version="0">
               <type>Variable*</type>
             </data>
           </type>
@@ -4612,6 +4617,116 @@ The edit menu is the context menu of the block view class. The settings menu is 
             </data>
           </type>
         </typeList>
+        <class type="4">
+          <data version="0">
+            <name>Declarative</name>
+            <qtobject/>
+          </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>outputComments</name>
+                <description>Implements _CppQt::Parse::Base_ interface. This does nothing because declarative comments do not exist.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDeclaration</name>
+                <description>Implements _CppQt::Parse::Base_ interface.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+                <operation>Add the single declarative statement of the using or friend block of this parser to output.</operation>
+              </data>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>outputDefinition</name>
+                <description>Implements _CppQt::Parse::Base_ interface. This does nothing because declarative definitions do not exist.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+              </data>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <description>Constructs a new declarative parser with the given using or friend block and parent parser.</description>
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The using or friend block that defines this new declarative parser.</description>
+                  <type>CppQt::Using*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>parent</name>
+                  <description>The parent parser for this new declarative parser.</description>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>protected:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>readLine</name>
+                <description>Implements _AbstractParser_ interface. This interface does nothing because nothing unique is saved in their parsed files.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>bool</type>
+                <return_description>See interface docs.</return_description>
+                <operation>Do nothing and return false.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>line</name>
+                  <description>See interface docs.</description>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <description>The using or friend block that defines this parser.</description>
+                <type>CppQt::Using*</type>
+              </data>
+            </variable>
+          </access>
+        </class>
         <class type="4">
           <data version="0">
             <name>Factory</name>
@@ -5813,6 +5928,7 @@ Lines of code inside functions are parsed and remembered just like it is in the 
                 <operation>Check to see if this object's namespace is a class.</operation>
                 <operation>If the given block is an access type then create an access parser and append it to this object's declarations.</operation>
                 <operation>Else if the given block is a class then create a forward parser and append it to this object's declarations.</operation>
+                <operation>Else if the given block is a using or friend block then create a declarative parser and append it to this object's declarations.</operation>
               </data>
               <variable type="1">
                 <data version="0">

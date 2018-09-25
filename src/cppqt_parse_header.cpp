@@ -7,6 +7,7 @@
 #include "cppqt_parse_enumeration.h"
 #include "cppqt_parse_access.h"
 #include "cppqt_parse_forward.h"
+#include "cppqt_parse_declarative.h"
 #include "cppqt_function.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
@@ -15,6 +16,7 @@
 #include "cppqt_class.h"
 #include "cppqt_parent.h"
 #include "cppqt_settings.h"
+#include "cppqt_using.h"
 
 
 
@@ -197,6 +199,13 @@ void Header::evaluateOther(AbstractBlock* block)
       else if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )
       {
          _declarations.append(new Forward(valid,this));
+      }
+
+      // Else if the given block is a using or friend block then create a declarative 
+      // parser and append it to this object's declarations. 
+      else if ( Using* valid = qobject_cast<Using*>(block) )
+      {
+         _declarations.append(new Declarative(valid,this));
       }
    }
 }
