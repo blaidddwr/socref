@@ -6113,6 +6113,7 @@ Lines of code inside functions are parsed and remembered just like it is in the 
                 <type>void</type>
                 <operation>Make sure this object's variable is static or not a class member.</operation>
                 <operation>Create a new line with the template declaration for this object's variable.</operation>
+                <operation>Add the thread local flag if this object's variable has it set.</operation>
                 <operation>Add this object's variable type and then its scoped name separated by a space.</operation>
                 <operation>Finish the definition line and add it to output.</operation>
               </data>

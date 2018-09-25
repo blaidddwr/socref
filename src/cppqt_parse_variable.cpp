@@ -73,6 +73,9 @@ void Variable::outputDefinition()
       QString line {makeTemplateDeclaration(_block)};
       if ( !line.isEmpty() ) line += QStringLiteral(" ");
 
+      // Add the thread local flag if this object's variable has it set. 
+      if ( _block->isThreadLocal() ) line += QStringLiteral("thread_local ");
+
       // Add this object's variable type and then its scoped name separated by a space. 
       line += _block->variableType()
             + QStringLiteral(" ")
