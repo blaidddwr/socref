@@ -946,15 +946,14 @@ void AbstractBlock::copyDataFrom(const AbstractBlock* other)
 void AbstractBlock::readChild(const QDomElement& element)
 {
    // Read in the type attribute from the given child element. 
-   bool ok;
-   int type {element.attribute(_typeTag,"nan").toInt(&ok)};
+   int type {factory().typeByElementName(element.tagName())};
 
    // Make sure reading in the type did not fail. 
-   if ( !ok )
+   if ( type < 0 )
    {
       Exception::ReadError e;
       SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Type attribute is not an integer."));
+      e.setDetails(tr("Unrecognized block type with element name '%1'.").arg(element.tagName()));
       throw e;
    }
 

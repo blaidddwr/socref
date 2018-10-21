@@ -105,6 +105,41 @@ QString BlockFactory::name(int type) const
 /*!
  * Implements _AbstractBlockFactory_ interface. 
  *
+ * @param elementName See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+int BlockFactory::typeByElementName(const QString& elementName) const
+{
+   if ( elementName == QStringLiteral("namespace") ) return 0;
+   else if ( elementName == QStringLiteral("variable") ) return 1;
+   else if ( elementName == QStringLiteral("function") ) return 2;
+   else if ( elementName == QStringLiteral("template") ) return 3;
+   else if ( elementName == QStringLiteral("class") ) return 4;
+   else if ( elementName == QStringLiteral("access") ) return 5;
+   else if ( elementName == QStringLiteral("operator") ) return 6;
+   else if ( elementName == QStringLiteral("slot") ) return 7;
+   else if ( elementName == QStringLiteral("signal") ) return 8;
+   else if ( elementName == QStringLiteral("constructor") ) return 9;
+   else if ( elementName == QStringLiteral("destructor") ) return 10;
+   else if ( elementName == QStringLiteral("enumeration") ) return 11;
+   else if ( elementName == QStringLiteral("enumval") ) return 12;
+   else if ( elementName == QStringLiteral("parent") ) return 13;
+   else if ( elementName == QStringLiteral("using") ) return 14;
+   else if ( elementName == QStringLiteral("typeList") ) return 15;
+   else if ( elementName == QStringLiteral("type") ) return 16;
+   else if ( elementName == QStringLiteral("friend") ) return 17;
+   else return -1;
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractBlockFactory_ interface. 
+ *
  * @param type See interface docs. 
  *
  * @return See interface docs. 

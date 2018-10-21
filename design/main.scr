@@ -7507,6 +7507,25 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           </function>
           <function type="2">
             <data version="0">
+              <name>typeByElementName</name>
+              <description>Implements _AbstractBlockFactory_ interface.</description>
+              <virtual/>
+              <const/>
+              <override/>
+              <final/>
+              <type>int</type>
+              <return_description>See interface docs.</return_description>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>elementName</name>
+                <description>See interface docs.</description>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function type="2">
+            <data version="0">
               <name>elementName</name>
               <description>Implements _AbstractBlockFactory_ interface.</description>
               <virtual/>
@@ -16572,7 +16591,7 @@ This class itself handles all copying, reading, and writing of blocks by using t
     <class type="4">
       <data version="0">
         <name>AbstractBlockFactory</name>
-        <description>This represents the factory that can produce blocks for a specific project type. There should only be one instance of this class for each project type. Along with making new blocks this factory also gives basic information about each block type such as its display and element names. To maintain backwards compatibility all previously defined block types must maintain the specific integer that defines them.</description>
+        <description>This represents the factory that can produce blocks for a specific project type. There should only be one instance of this class for each project type. Along with making new blocks this factory also gives basic information about each block type such as its display and element names. The two element name functions must mirror one another in an implementation or undefined behavior will occur.</description>
       </data>
       <access type="5">
         <data version="0">
@@ -16622,6 +16641,24 @@ This class itself handles all copying, reading, and writing of blocks by using t
               <name>type</name>
               <description>Block type whose display name is returned.</description>
               <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>typeByElementName</name>
+            <description>This interface returns the integer type of the block with the given element name. If no block type exists with the given name then -1 is returned.</description>
+            <virtual/>
+            <const/>
+            <abstract/>
+            <type>int</type>
+            <return_description>The integer type of the block with the given element name if found or -1 if no block type is found with that element name.</return_description>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>elementName</name>
+              <description>The given element name whose integer type is returned if found.</description>
+              <type>const QString&amp;</type>
             </data>
           </variable>
         </function>

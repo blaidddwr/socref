@@ -105,6 +105,7 @@ namespace CppQt
       virtual int type() const override final;
       virtual int size() const override final;
       virtual QString name(int type) const override final;
+      virtual int typeByElementName(const QString& elementName) const override final;
       virtual QString elementName(int type) const override final;
       virtual Sut::QPtr<AbstractBlock> makeBlock(int type, bool isDefault) const override final;
       virtual Sut::QPtr<AbstractBlock> makeRootBlock() const override final;
