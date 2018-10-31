@@ -6,6 +6,7 @@
   <scandir>../src</scandir>
   <dictionary>
     <word>AbstractBlock</word>
+    <word>AbstractBlockFactory</word>
     <word>AbstractParser</word>
     <word>AbstractParserFactory</word>
     <word>AbstractProjectFactory</word>
@@ -74,6 +75,11 @@
         <type type="16">
           <data version="0">
             <type>QList&lt;int></type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QMap&lt;QString,int></type>
           </data>
         </type>
         <type type="16">
@@ -173,7 +179,7 @@
         </type>
         <type type="16">
           <data version="0">
-            <type>QList&lt;QDomElement>*</type>
+            <type>QVector&lt;QDomElement*></type>
           </data>
         </type>
       </typeList>
@@ -209,6 +215,11 @@
         <type type="16">
           <data version="0">
             <type>const QString&amp;</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QVector&lt;QString></type>
           </data>
         </type>
       </typeList>
@@ -605,6 +616,11 @@
       <type type="16">
         <data version="0">
           <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
+          <type>Sut::QPtr&lt;BasicBlock></type>
         </data>
       </type>
       <type type="16">
@@ -17804,6 +17820,212 @@ This class itself handles all copying, reading, and writing of blocks by using t
             <description>A read only pointer to this model block type's block factory. If this model is empty then this is null.</description>
             <type>const AbstractBlockFactory*</type>
             <initializer>nullptr</initializer>
+          </data>
+        </variable>
+      </access>
+    </class>
+    <class type="4">
+      <data version="0">
+        <name>BasicBlock</name>
+      </data>
+    </class>
+    <class type="4">
+      <data version="0">
+        <name>BasicBlockFactory</name>
+      </data>
+      <parent type="13">
+        <data version="0">
+          <access>public</access>
+          <class>AbstractBlockFactory</class>
+        </data>
+      </parent>
+      <access type="5">
+        <data version="0">
+          <type>public:</type>
+        </data>
+        <function type="2">
+          <data version="0">
+            <name>size</name>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>int</type>
+            <return_description>See interface docs.</return_description>
+          </data>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>name</name>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>QString</type>
+            <return_description>See interface docs.</return_description>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>type</name>
+              <description>See interface docs.</description>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>typeByElementName</name>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>int</type>
+            <return_description>See interface docs.</return_description>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>elementName</name>
+              <description>See interface docs.</description>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>elementName</name>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>QString</type>
+            <return_description>See interface docs.</return_description>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>type</name>
+              <description>See interface docs.</description>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>makeBlock</name>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <return_description>See interface docs.</return_description>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>type</name>
+              <description>See interface docs.</description>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>isDefault</name>
+              <description>See interface docs.</description>
+              <type>bool</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>makeRootBlock</name>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <final/>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <return_description>See interface docs.</return_description>
+          </data>
+        </function>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>public:</type>
+        </data>
+        <constructor type="9">
+          <data version="0">
+            <type>void</type>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>xmlPath</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>elementNames</name>
+              <type>const QStringList&amp;</type>
+            </data>
+          </variable>
+        </constructor>
+        <destructor type="10">
+          <data version="0">
+            <virtual/>
+            <override/>
+            <type>void</type>
+          </data>
+        </destructor>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>protected:</type>
+        </data>
+        <function type="2">
+          <data version="0">
+            <name>makeBasicBlock</name>
+            <virtual/>
+            <abstract/>
+            <type>Sut::QPtr&lt;BasicBlock></type>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>index</name>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>private:</type>
+        </data>
+        <variable type="1">
+          <data version="0">
+            <name>_typeNames</name>
+            <type>QVector&lt;QString></type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_typeElementNames</name>
+            <type>QStringList</type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_typeDefinitions</name>
+            <type>QVector&lt;QDomElement*></type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_rootType</name>
+            <type>int</type>
+            <initializer>-1</initializer>
           </data>
         </variable>
       </access>

@@ -107,7 +107,8 @@ SOURCES += \
     dictionarymodel.cpp \
     gui_dictionarydialog.cpp \
     cppqt_parse_main.cpp \
-    cppqt_parse_declarative.cpp
+    cppqt_parse_declarative.cpp \
+    basicblockfactory.cpp
 
 HEADERS += \
     abstractprojectfactory.h \
@@ -203,7 +204,8 @@ HEADERS += \
     dictionarymodel.h \
     gui_dictionarydialog.h \
     cppqt_parse_main.h \
-    cppqt_parse_declarative.h
+    cppqt_parse_declarative.h \
+    basicblockfactory.h
 
 RESOURCES += \
     resources.qrc
