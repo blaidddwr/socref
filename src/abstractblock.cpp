@@ -530,7 +530,7 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
  */
 bool AbstractBlock::childNameModified(AbstractBlock* child)
 {
-   Q_UNUSED(child);
+   Q_UNUSED(child)
 
    // Return false. 
    return false;
@@ -553,7 +553,7 @@ bool AbstractBlock::childNameModified(AbstractBlock* child)
  */
 bool AbstractBlock::childAdded(AbstractBlock* child)
 {
-   Q_UNUSED(child);
+   Q_UNUSED(child)
 
    // Return false. 
    return false;
@@ -577,7 +577,7 @@ bool AbstractBlock::childAdded(AbstractBlock* child)
  */
 bool AbstractBlock::childRemoved(AbstractBlock* child)
 {
-   Q_UNUSED(child);
+   Q_UNUSED(child)
 
    // Return false. 
    return false;
@@ -601,7 +601,7 @@ bool AbstractBlock::childRemoved(AbstractBlock* child)
  */
 bool AbstractBlock::childMoved(AbstractBlock* child)
 {
-   Q_UNUSED(child);
+   Q_UNUSED(child)
 
    // Return false. 
    return false;

@@ -179,7 +179,7 @@
         </type>
         <type type="16">
           <data version="0">
-            <type>QVector&lt;QDomElement*></type>
+            <type>QList&lt;QDomElement></type>
           </data>
         </type>
       </typeList>
@@ -215,11 +215,6 @@
         <type type="16">
           <data version="0">
             <type>const QString&amp;</type>
-          </data>
-        </type>
-        <type type="16">
-          <data version="0">
-            <type>QVector&lt;QString></type>
           </data>
         </type>
       </typeList>
@@ -17635,57 +17630,104 @@ This class itself handles all copying using another specialized interface for co
         <function type="2">
           <data version="0">
             <name>type</name>
-            <description>This interface returns this block's type.</description>
+            <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
             <const/>
-            <abstract/>
+            <override/>
+            <final/>
             <type>int</type>
-            <return_description>This block's type.</return_description>
+            <return_description>See interface docs.</return_description>
           </data>
         </function>
         <function type="2">
           <data version="0">
             <name>factory</name>
-            <description>This interface returns a reference to this block's factory which produces all block types for this project type.</description>
+            <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
             <const/>
-            <abstract/>
+            <override/>
+            <final/>
             <type>const AbstractBlockFactory&amp;</type>
-            <return_description>Reference to block factory.</return_description>
+            <return_description>See interface docs.</return_description>
           </data>
         </function>
         <function type="2">
           <data version="0">
             <name>name</name>
-            <description>This interface returns the name of this block. The name is used to display the block as text in a tree view and as a title when selected.</description>
+            <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
             <const/>
-            <abstract/>
+            <override/>
             <type>QString</type>
-            <return_description>The name of this block.</return_description>
+            <return_description>See interface docs.</return_description>
           </data>
         </function>
         <function type="2">
           <data version="0">
             <name>icon</name>
-            <description>This interface returns the icon of this block. The icon is displayed in a tree view of this block and its title if selected.</description>
+            <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
             <const/>
-            <abstract/>
+            <override/>
             <type>QIcon</type>
-            <return_description>The icon of this block.</return_description>
+            <return_description>See interface docs.</return_description>
           </data>
         </function>
         <function type="2">
           <data version="0">
             <name>buildList</name>
-            <description>This interface returns a list of types that this block can contain as children. If the same type is listed more than once any repeated occurrences are ignored and the type is allowed to be this block's parent.</description>
+            <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
             <const/>
-            <abstract/>
+            <override/>
+            <final/>
             <type>QList&lt;int></type>
-            <return_description>List of allowed types this block can contain as children.</return_description>
+            <return_description>See interface docs.</return_description>
           </data>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>makeView</name>
+            <description>Implements _AbstractBlock_ interface.</description>
+            <virtual/>
+            <const/>
+            <override/>
+            <type>Sut::QPtr&lt;QWidget></type>
+            <return_description>See interface docs.</return_description>
+          </data>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>makeEdit</name>
+            <description>Implements _AbstractBlock_ interface.</description>
+            <virtual/>
+            <override/>
+            <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
+            <return_description>See interface docs.</return_description>
+          </data>
+        </function>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>public:</type>
+        </data>
+        <function type="2">
+          <data version="0">
+            <name>initialize</name>
+            <type>void</type>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>element</name>
+              <type>const QDomElement&amp;</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>isDefault</name>
+              <type>bool</type>
+            </data>
+          </variable>
         </function>
       </access>
       <access type="5">
@@ -17695,9 +17737,10 @@ This class itself handles all copying using another specialized interface for co
         <function type="2">
           <data version="0">
             <name>readData</name>
-            <description>This interface reads in the data for this block from the given XML element, overwriting any data this block currently holds.</description>
+            <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
-            <abstract/>
+            <override/>
+            <final/>
             <type>void</type>
           </data>
           <variable type="1">
@@ -17711,12 +17754,13 @@ This class itself handles all copying using another specialized interface for co
         <function type="2">
           <data version="0">
             <name>writeData</name>
-            <description>This interface returns a XML element containing the data for this block using the current version number. Attributes should never be used with this element because of their indeterminate nature.</description>
+            <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
             <const/>
-            <abstract/>
+            <override/>
+            <final/>
             <type>QDomElement</type>
-            <return_description>XML element containing the data of this block.</return_description>
+            <return_description>See interface docs.</return_description>
           </data>
           <variable type="1">
             <data version="0">
@@ -17728,10 +17772,22 @@ This class itself handles all copying using another specialized interface for co
         </function>
         <function type="2">
           <data version="0">
-            <name>copyDataFrom</name>
-            <description>This interface copies all data from the given block to this block, overwriting any data this block may already contain. This does not copy any children.</description>
+            <name>makeBlank</name>
+            <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
-            <abstract/>
+            <const/>
+            <override/>
+            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <return_description>See interface docs.</return_description>
+          </data>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>copyDataFrom</name>
+            <description>Implements _AbstractBlock_ interface.</description>
+            <virtual/>
+            <override/>
+            <final/>
             <type>void</type>
           </data>
           <variable type="1">
@@ -17747,6 +17803,11 @@ This class itself handles all copying using another specialized interface for co
     <class type="4">
       <data version="0">
         <name>BasicBlockFactory</name>
+        <description>This mostly implements the abstract block factory. This facilitates reading in a XML configuration file that defines all basic blocks types this factory can produce. The definition of each basic block type is provided as a root level XML element.
+
+All interfaces from the abstract block factory are implemented except for the element name interface. This must be implemented by the actual project type and is used by this interface to make sure any enumeration it contains matches the XML file. The order of block types within any enumeration must match the order in the XML configuration file this basic block factory loads.
+
+A new interface is also provided for creating implementation classes of the basic block class. Basic blocks do no require to implemented and can simply be generic basic blocks. To do this simply return a null pointer with this class's interface.</description>
       </data>
       <parent type="13">
         <data version="0">
@@ -17768,6 +17829,8 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>int</type>
             <return_description>See interface docs.</return_description>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Return the number of basic block definitions.</operation>
           </data>
         </function>
         <function type="2">
@@ -17780,6 +17843,9 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>QString</type>
             <return_description>See interface docs.</return_description>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Make sure the given type is not out of range.</operation>
+            <operation>Return the display name of the given block type.</operation>
           </data>
           <variable type="1">
             <data version="0">
@@ -17799,31 +17865,14 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>int</type>
             <return_description>See interface docs.</return_description>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Return the index of the given element name or -1 if it is not found.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>elementName</name>
               <description>See interface docs.</description>
               <type>const QString&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>elementName</name>
-            <description>Implements _AbstractBlockFactory_ interface.</description>
-            <virtual/>
-            <const/>
-            <override/>
-            <final/>
-            <type>QString</type>
-            <return_description>See interface docs.</return_description>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>type</name>
-              <description>See interface docs.</description>
-              <type>int</type>
             </data>
           </variable>
         </function>
@@ -17837,6 +17886,11 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>See interface docs.</return_description>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Make sure the given type is not out of range.</operation>
+            <operation>Create a new basic block, implemented or generic.</operation>
+            <operation>Initialize the new basic block with its XML definition and default state.</operation>
+            <operation>Return the new basic block.</operation>
           </data>
           <variable type="1">
             <data version="0">
@@ -17863,6 +17917,8 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>See interface docs.</return_description>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Make a new root block without default values and return it.</operation>
           </data>
         </function>
       </access>
@@ -17872,28 +17928,17 @@ This class itself handles all copying using another specialized interface for co
         </data>
         <constructor type="9">
           <data version="0">
+            <description>Constructs a new basic block factory, reading in the XML configuration file at the given path.</description>
             <type>void</type>
           </data>
           <variable type="1">
             <data version="0">
               <name>xmlPath</name>
+              <description>The path of the XML configuration file defining all basic block types this new factory can produce.</description>
               <type>const QString&amp;</type>
             </data>
           </variable>
-          <variable type="1">
-            <data version="0">
-              <name>elementNames</name>
-              <type>const QStringList&amp;</type>
-            </data>
-          </variable>
         </constructor>
-        <destructor type="10">
-          <data version="0">
-            <virtual/>
-            <override/>
-            <type>void</type>
-          </data>
-        </destructor>
       </access>
       <access type="5">
         <data version="0">
@@ -17902,13 +17947,17 @@ This class itself handles all copying using another specialized interface for co
         <function type="2">
           <data version="0">
             <name>makeBasicBlock</name>
+            <description>This interface creates the class that implements the given basic block type, if any. If this is a generic basic block type that does not require a specialized class then a null pointer is returned. The default implementation always returns a null pointer.</description>
             <virtual/>
-            <abstract/>
+            <const/>
             <type>Sut::QPtr&lt;BasicBlock></type>
+            <return_description>Pointer to a new class implementation of the given basic block type or a null pointer if this basic block type is generic.</return_description>
+            <operation>Return a null pointer.</operation>
           </data>
           <variable type="1">
             <data version="0">
-              <name>index</name>
+              <name>type</name>
+              <description>The block type of the basic block that is made if not generic.</description>
               <type>int</type>
             </data>
           </variable>
@@ -17920,27 +17969,112 @@ This class itself handles all copying using another specialized interface for co
         </data>
         <variable type="1">
           <data version="0">
-            <name>_typeNames</name>
-            <type>QVector&lt;QString></type>
+            <name>_displayTag</name>
+            <description>The name of the display attribute for XML basic block definitions.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"display"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_rootTag</name>
+            <description>The name of the root attribute for XML basic block definitions.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"root"</initializer>
+          </data>
+        </variable>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>private:</type>
+        </data>
+        <function type="2">
+          <data version="0">
+            <name>read</name>
+            <description>Reads in the XML configuration file at the given path.</description>
+            <type>void</type>
+            <operation>Open the XML file from the given path, making sure it worked.</operation>
+            <operation>Create a new XML document and set its contents to the opened XML file.</operation>
+            <operation>Iterate through all children of the XML document.</operation>
+            <operation>If the current node is an element then read it in as a definition.</operation>
+            <operation>Move to the next sibling node.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>path</name>
+              <description>The path of the XML configuration file defining all basic block types this new factory can produce.</description>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>readDefinition</name>
+            <description>Reads in a single basic block type definition from the given root XML element, appending it to this factory's list of basic block type definitions.</description>
+            <type>void</type>
+            <operation>Make sure the given element has the display attribute.</operation>
+            <operation>Check to see if the given element has the root element.</operation>
+            <operation>Make sure the root block type has not already been set.</operation>
+            <operation>Set the root block type to the basic block type definition about to be added.</operation>
+            <operation>Add the new basic block type definition of this factory's list.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>element</name>
+              <description>The XML element that defines a basic block type.</description>
+              <type>const QDomElement&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>check</name>
+            <description>Makes sure this factory's list of basic block definitions match with this factory's implementation's element name interface. If a mismatch is detected then an exception is thrown.</description>
+            <const/>
+            <type>void</type>
+            <operation>Iterate through all basic block type definitions of this factory.</operation>
+            <operation>Make sure the element name matches between this factory's list and the element name interface.</operation>
+            <operation>Mark this factory as having its consistency checked.</operation>
+          </data>
+        </function>
+        <variable type="1">
+          <data version="0">
+            <name>_typeDisplayNames</name>
+            <description>List of display names for this factory's basic block type definitions.</description>
+            <type>QStringList</type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_typeElementNames</name>
+            <description>List of element names for this factory's list of basic block type definitions.</description>
             <type>QStringList</type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_typeDefinitions</name>
-            <type>QVector&lt;QDomElement*></type>
+            <description>List of XML elements for this factory's list of basic block type definitions.</description>
+            <type>QList&lt;QDomElement></type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_rootType</name>
+            <description>Index to the basic block type definition that is considered the root block type for this factory's implementation's project type.</description>
             <type>int</type>
             <initializer>-1</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_isChecked</name>
+            <description>True if this factory has been checked for consistency with its implementation or false otherwise.</description>
+            <mutable/>
+            <type>bool</type>
+            <initializer>false</initializer>
           </data>
         </variable>
       </access>
