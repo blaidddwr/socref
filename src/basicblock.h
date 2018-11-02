@@ -21,12 +21,31 @@ public:
    virtual Sut::QPtr<QWidget> makeView() const override;
    virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override;
 public:
-   void initialize(const QDomElement& element, bool isDefault);
+   void initialize(const QDomElement& element, const QList<int>& _buildList, bool isDefault);
 protected:
    virtual void readData(const QDomElement& element) override final;
    virtual QDomElement writeData(QDomDocument& document) const override final;
    virtual Sut::QPtr<AbstractBlock> makeBlank() const override;
    virtual void copyDataFrom(const AbstractBlock* other) override final;
+private:
+   /*!
+    */
+   QDomElement _editDefinition;
+   /*!
+    */
+   QDomElement _viewDefinition;
+   /*!
+    */
+   QMap<QString,QVariant> _fields;
+   /*!
+    */
+   QList<int> _buildList;
+   /*!
+    */
+   QString _nameFieldId;
+   /*!
+    */
+   QString _iconPath;
 };
 
 

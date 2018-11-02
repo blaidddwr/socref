@@ -104,9 +104,11 @@ Sut::QPtr<::Gui::AbstractEdit> BasicBlock::makeEdit()
  *
  * @param element  
  *
+ * @param _buildList  
+ *
  * @param isDefault  
  */
-void BasicBlock::initialize(const QDomElement& element, bool isDefault)
+void BasicBlock::initialize(const QDomElement& element, const QList<int>& _buildList, bool isDefault)
 {}
 
 
@@ -161,13 +163,4 @@ Sut::QPtr<AbstractBlock> BasicBlock::makeBlank() const
  * @param other The other block whose data will be copied. 
  */
 void BasicBlock::copyDataFrom(const AbstractBlock* other)
-{}
-
-
-
-
-
-
-/*! !!! UNKNOWN FUNCTION !!! */
-void BasicBlock::initialize(const QDomElement& element)
 {}

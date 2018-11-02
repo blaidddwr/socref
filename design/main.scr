@@ -92,6 +92,11 @@
             <type>const QVector&lt;int>&amp;</type>
           </data>
         </type>
+        <type type="16">
+          <data version="0">
+            <type>QList&lt;QList&lt;int>></type>
+          </data>
+        </type>
       </typeList>
       <typeList type="15">
         <data version="0">
@@ -255,6 +260,11 @@
         <type type="16">
           <data version="0">
             <type>const QVariant&amp;</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>QMap&lt;QString,QVariant></type>
           </data>
         </type>
       </typeList>
@@ -17724,6 +17734,12 @@ This class itself handles all copying using another specialized interface for co
           </variable>
           <variable type="1">
             <data version="0">
+              <name>_buildList</name>
+              <type>const QList&lt;int>&amp;</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
               <name>isDefault</name>
               <type>bool</type>
             </data>
@@ -17798,6 +17814,47 @@ This class itself handles all copying using another specialized interface for co
             </data>
           </variable>
         </function>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>private:</type>
+        </data>
+        <variable type="1">
+          <data version="0">
+            <name>_editDefinition</name>
+            <type>QDomElement</type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_viewDefinition</name>
+            <type>QDomElement</type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_fields</name>
+            <type>QMap&lt;QString,QVariant></type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_buildList</name>
+            <type>QList&lt;int></type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_nameFieldId</name>
+            <type>QString</type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_iconPath</name>
+            <type>QString</type>
+          </data>
+        </variable>
       </access>
     </class>
     <class type="4">
@@ -17930,6 +17987,7 @@ A new interface is also provided for creating implementation classes of the basi
           <data version="0">
             <description>Constructs a new basic block factory, reading in the XML configuration file at the given path.</description>
             <type>void</type>
+            <operation>Read in the XML, then add all type definitions, and then build all build lists for each type defined.</operation>
           </data>
           <variable type="1">
             <data version="0">
@@ -17985,6 +18043,15 @@ A new interface is also provided for creating implementation classes of the basi
             <initializer>"root"</initializer>
           </data>
         </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_buildTag</name>
+            <description>The tag name of the build list element for XML basic block definitions.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"buildlist"</initializer>
+          </data>
+        </variable>
       </access>
       <access type="5">
         <data version="0">
@@ -18030,6 +18097,41 @@ A new interface is also provided for creating implementation classes of the basi
         </function>
         <function type="2">
           <data version="0">
+            <name>buildLists</name>
+            <description>Builds the build lists for all basic block types that his basic block factory defines.</description>
+            <type>void</type>
+            <operation>Iterate through all type definitions of this factory.</operation>
+            <operation>Initialize the next build list.</operation>
+            <operation>Iterate through all nodes of the type definition.</operation>
+            <operation>If the node is an element and matches the build list tag name then build a build list using the found build list XML element.</operation>
+            <operation>Move to the next sibling.</operation>
+            <operation>Add the next build list to the list of type definitions for this factory.</operation>
+          </data>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>buildList</name>
+            <description>Builds the next build list for this factory's basic block type definitions using the given XML element as the build list element and returning the built build list.</description>
+            <type>QList&lt;int></type>
+            <return_description>Build list for the next block type definition using the given build list element.</return_description>
+            <operation>Initialize the return build list that will be returned.</operation>
+            <operation>Iterate through all children nodes of the given element.</operation>
+            <operation>Check to see if this node is an element.</operation>
+            <operation>Find the index of the block type the element is referencing, checking to make sure it is valid.</operation>
+            <operation>Append the block type to the build list.</operation>
+            <operation>Move to the next sibling.</operation>
+            <operation>Return the built build list.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>element</name>
+              <description>Build list XML element used to build the build list.</description>
+              <type>const QDomElement&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
             <name>check</name>
             <description>Makes sure this factory's list of basic block definitions match with this factory's implementation's element name interface. If a mismatch is detected then an exception is thrown.</description>
             <const/>
@@ -18058,6 +18160,13 @@ A new interface is also provided for creating implementation classes of the basi
             <name>_typeDefinitions</name>
             <description>List of XML elements for this factory's list of basic block type definitions.</description>
             <type>QList&lt;QDomElement></type>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_buildLists</name>
+            <description>List of build lists for this factory's list of basic block type definitions.</description>
+            <type>QList&lt;QList&lt;int>></type>
           </data>
         </variable>
         <variable type="1">

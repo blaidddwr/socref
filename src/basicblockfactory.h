@@ -45,9 +45,15 @@ private:
     * The name of the root attribute for XML basic block definitions. 
     */
    static const char* _rootTag;
+   /*!
+    * The tag name of the build list element for XML basic block definitions. 
+    */
+   static const char* _buildTag;
 private:
    void read(const QString& path);
    void readDefinition(const QDomElement& element);
+   void buildLists();
+   QList<int> buildList(const QDomElement& element);
    void check() const;
    /*!
     * List of display names for this factory's basic block type definitions. 
@@ -61,6 +67,10 @@ private:
     * List of XML elements for this factory's list of basic block type definitions. 
     */
    QList<QDomElement> _typeDefinitions;
+   /*!
+    * List of build lists for this factory's list of basic block type definitions. 
+    */
+   QList<QList<int>> _buildLists;
    /*!
     * Index to the basic block type definition that is considered the root block type 
     * for this factory's implementation's project type. 
