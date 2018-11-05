@@ -126,7 +126,7 @@ Sut::QPtr<AbstractBlock> BasicBlockFactory::makeBlock(int type, bool isDefault) 
    if ( !ret ) ret.reset(new BasicBlock);
 
    // Initialize the new basic block with its XML definition and default state. 
-   ret->initialize(_typeDefinitions.at(type),_buildLists.at(type),isDefault);
+   ret->initialize(type,this,_typeDefinitions.at(type),_buildLists.at(type),isDefault);
 
    // Return the new basic block. 
    return ret;
