@@ -17611,6 +17611,11 @@ This class itself handles all copying using another specialized interface for co
     <class type="4">
       <data version="0">
         <name>BasicBlock</name>
+        <description>This implements the abstract block class. This is designed as a basic block that reads in its type configuration from an XML element supplied to it from its corresponding factory class. The XML definition provides the basic block type information about all data fields it stores, all basic information, the build list for its block type, and definitions for its basic editor and viewer. Instances of this class must be initialized before they can be used.
+
+This class can be inherited and most abstract block functionality can be overridden except for any interface related to the block's data. Any block class inheriting from this basic block class cannot add additional data, all of which must be defined within the basic block type. The basic interfaces for getting the block's type and factory also cannot be overridden.
+
+This class provides protected helper methods for getting the values of its data fields. These are intended to be used with specialized implementations of the basic block class that require to know the value of certain data fields. Access to the data fields are read only using these methods.</description>
         <qtobject/>
       </data>
       <typeList type="15">
@@ -17651,21 +17656,25 @@ This class itself handles all copying using another specialized interface for co
         <enumeration type="11">
           <data version="0">
             <name>Field</name>
+            <description>Defines all possible field types for basic block data.</description>
             <class/>
           </data>
           <enumval type="12">
             <data version="0">
               <name>Bool</name>
+              <description>Defines the boolean field type.</description>
             </data>
           </enumval>
           <enumval type="12">
             <data version="0">
               <name>String</name>
+              <description>Defines the string field type.</description>
             </data>
           </enumval>
           <enumval type="12">
             <data version="0">
               <name>StringList</name>
+              <description>Defines the string list field type.</description>
             </data>
           </enumval>
         </enumeration>
@@ -17684,6 +17693,8 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>int</type>
             <return_description>See interface docs.</return_description>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Return the block type of this basic block.</operation>
           </data>
         </function>
         <function type="2">
@@ -17696,6 +17707,8 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>const AbstractBlockFactory&amp;</type>
             <return_description>See interface docs.</return_description>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Return a reference to this basic block's factory.</operation>
           </data>
         </function>
         <function type="2">
@@ -17707,6 +17720,10 @@ This class itself handles all copying using another specialized interface for co
             <override/>
             <type>QString</type>
             <return_description>See interface docs.</return_description>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Make sure this basic block's name field id is not empty.</operation>
+            <operation>Get this basic block's field with its name field id, making it exists and is the correct field type.</operation>
+            <operation>Return the found string field.</operation>
           </data>
         </function>
         <function type="2">
@@ -17718,6 +17735,8 @@ This class itself handles all copying using another specialized interface for co
             <override/>
             <type>QIcon</type>
             <return_description>See interface docs.</return_description>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Return this basic block type's icon.</operation>
           </data>
         </function>
         <function type="2">
@@ -17729,6 +17748,8 @@ This class itself handles all copying using another specialized interface for co
             <override/>
             <type>QList&lt;int></type>
             <return_description>See interface docs.</return_description>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Return this basic block type's build list.</operation>
           </data>
         </function>
         <function type="2">
@@ -17760,35 +17781,49 @@ This class itself handles all copying using another specialized interface for co
         <function type="2">
           <data version="0">
             <name>initialize</name>
+            <description>Initializes this basic block to the given type. This must be called before this basic block can be used and cannot be called again.</description>
             <type>void</type>
+            <operation>Make sure this basic block has NOT been initialized.</operation>
+            <operation>Set the type, factory, and build list for this new basic block.</operation>
+            <operation>Save the XML element definition for making copies of this basic block.</operation>
+            <operation>Prepare an enumeration and string list that stores all possible element tag names that are recognized.</operation>
+            <operation>Iterate through all node children of the given XML definition element.</operation>
+            <operation>Check to see if the node is an element.</operation>
+            <operation>Determine if the tag name of this element is recognized as a configuration option, adding the field or setting the option if it is.</operation>
+            <operation>Move to the next sibling node.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>type</name>
+              <description>The block type of this new basic block.</description>
               <type>int</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>factory</name>
+              <description>The basic block factory that made this new basic block.</description>
               <type>const AbstractBlockFactory*</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>element</name>
+              <description>The XML element that defines all data fields and options of the basic block type this new basic block is being initialized to.</description>
               <type>const QDomElement&amp;</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>buildList</name>
+              <description>The build list of the basic block type this new basic block is being initialized to.</description>
               <type>const QList&lt;int>&amp;</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>isDefault</name>
+              <description>True if the data fields should be set to default values or false to set them to their null values.</description>
               <type>bool</type>
             </data>
           </variable>
@@ -17806,11 +17841,17 @@ This class itself handles all copying using another specialized interface for co
             <override/>
             <final/>
             <type>void</type>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Iterate through all node children of the given data element.</operation>
+            <operation>Check to see if the node is an element.</operation>
+            <operation>Find the data field with the id that matches the element's tag name, making sure it exists.</operation>
+            <operation>Set the data field based off what type it is, throwing an exception if it is an unknown type.</operation>
+            <operation>Move to the next sibling node.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>element</name>
-              <description>The XML element used to read in this blocks data.</description>
+              <description>See interface docs.</description>
               <type>const QDomElement&amp;</type>
             </data>
           </variable>
@@ -17825,11 +17866,16 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>QDomElement</type>
             <return_description>See interface docs.</return_description>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Create the return data element.</operation>
+            <operation>Iterate through all data fields of this basic block.</operation>
+            <operation>Based off the data field type write out its data as child elements appended to the data element to be returned, throwing an exception if the field is an unknown type.</operation>
+            <operation>Return the complete data element that stores this basic block's field data.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>document</name>
-              <description>XML document to use for creating new elements.</description>
+              <description>See interface docs.</description>
               <type>QDomDocument&amp;</type>
             </data>
           </variable>
@@ -17844,14 +17890,20 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>See interface docs.</return_description>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Create a new uninitialized basic block.</operation>
+            <operation>Initialize the new basic block to this basic block's type.</operation>
+            <operation>Return the initialized basic block.</operation>
           </data>
         </function>
         <function type="2">
           <data version="0">
             <name>makeBlankBasic</name>
+            <description>This interface creates a new uninitialized basic block. This is intended to be used by any classes implementing the basic block class so copies of their blocks can be made correctly. This new interface was made instead of allowing the abstract block interface to be overridden because basic blocks require initialization. The default implementation returns a null pointer.</description>
             <virtual/>
             <const/>
             <type>Sut::QPtr&lt;BasicBlock></type>
+            <return_description>Pointer to a new basic block of a specific type that has a unique implementation class or a null pointer if this is a generic basic block.</return_description>
           </data>
         </function>
         <function type="2">
@@ -17862,11 +17914,17 @@ This class itself handles all copying using another specialized interface for co
             <override/>
             <final/>
             <type>void</type>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Cast the given abstract block to a basic block, making sure it worked.</operation>
+            <operation>Iterate through all the fields of the given basic block.</operation>
+            <operation>Find the corresponding field of this basic block, making sure it was found.</operation>
+            <operation>Make sure the field types matched between this and the other basic block.</operation>
+            <operation>Copy the value of the given basic block field to this basic block.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>other</name>
-              <description>The other block whose data will be copied.</description>
+              <description>See interface docs.</description>
               <type>const AbstractBlock*</type>
             </data>
           </variable>
@@ -17879,11 +17937,16 @@ This class itself handles all copying using another specialized interface for co
         <function type="2">
           <data version="0">
             <name>getBool</name>
+            <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a boolean then an exception is thrown.</description>
             <type>bool</type>
+            <return_description>Value of this basic block's field with the given id.</return_description>
+            <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
+            <operation>Return the value of the data field.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>id</name>
+              <description>The id of this basic block's field whose value is returned.</description>
               <type>const QString&amp;</type>
             </data>
           </variable>
@@ -17891,11 +17954,16 @@ This class itself handles all copying using another specialized interface for co
         <function type="2">
           <data version="0">
             <name>getString</name>
+            <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a string then an exception is thrown.</description>
             <type>QString</type>
+            <return_description>Value of this basic block's field with the given id.</return_description>
+            <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
+            <operation>Return the value of the data field.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>id</name>
+              <description>The id of this basic block's field whose value is returned.</description>
               <type>const QString&amp;</type>
             </data>
           </variable>
@@ -17903,11 +17971,16 @@ This class itself handles all copying using another specialized interface for co
         <function type="2">
           <data version="0">
             <name>getStringList</name>
+            <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a string list then an exception is thrown.</description>
             <type>QStringList</type>
+            <return_description>Value of this basic block's field with the given id.</return_description>
+            <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
+            <operation>Return the value of the data field.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>id</name>
+              <description>The id of this basic block's field whose value is returned.</description>
               <type>const QString&amp;</type>
             </data>
           </variable>
@@ -17917,63 +17990,166 @@ This class itself handles all copying using another specialized interface for co
         <data version="0">
           <type>private:</type>
         </data>
-        <function type="2">
+        <variable type="1">
           <data version="0">
-            <name>get</name>
-            <type>QVariant</type>
+            <name>_boolTag</name>
+            <description>The boolean tag name of elements that define a boolean data field.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"bool"</initializer>
           </data>
-          <variable type="1">
-            <data version="0">
-              <name>id</name>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-        </function>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_stringTag</name>
+            <description>The string tag name of elements that define a string data field.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"string"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_stringListTag</name>
+            <description>The string list tag name of elements that define a string list data field.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"stringlist"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_nameTag</name>
+            <description>The tag name of the element used to define the name option that specifies which string field is used for this block's name.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"name"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_iconTag</name>
+            <description>The tag name of the element used to define the path for this basic block type's icon.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"icon"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_editTag</name>
+            <description>The tag name of the element that hold the configuration for this basic block type's edit class.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"edit"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_viewTag</name>
+            <description>The tag name of the element that hold the configuration for this basic block type's view class.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"view"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_idKey</name>
+            <description>The attribute name for the id of data field element definitions.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"id"</initializer>
+          </data>
+        </variable>
+        <variable type="1">
+          <data version="0">
+            <name>_defaultKey</name>
+            <description>The attribute name for default values of data field element definitions.</description>
+            <static/>
+            <type>const char*</type>
+            <initializer>"default"</initializer>
+          </data>
+        </variable>
+      </access>
+      <access type="5">
+        <data version="0">
+          <type>private:</type>
+        </data>
         <function type="2">
           <data version="0">
             <name>addField</name>
+            <description>Appends a new data field to this basic block. This is only used when initializing a basic block to its type and adding the data field definitions.</description>
             <type>void</type>
+            <operation>Get the id the new data field of this basic block will use, making sure the id attribute exists in the given element.</operation>
+            <operation>Make sure this basic block does not already have a field with the given id.</operation>
+            <operation>Add the new field of the given type, setting its default value if the given state indicates to do so or leaving it to its null value if not. Note for string list types there is no default value possible.</operation>
           </data>
           <variable type="1">
             <data version="0">
               <name>type</name>
+              <description>The type of the data field  that is appended to this basic block.</description>
               <type>Field</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>element</name>
+              <description>The data field element defining the data field that is added to this basic block.</description>
               <type>const QDomElement&amp;</type>
             </data>
           </variable>
           <variable type="1">
             <data version="0">
               <name>isDefault</name>
+              <description>True if the newly appended data field should be set to its default value or false if it is set to its null value.</description>
               <type>bool</type>
+            </data>
+          </variable>
+        </function>
+        <function type="2">
+          <data version="0">
+            <name>get</name>
+            <description>Return the data field of this basic block with the given id. If no field exists with the given id then an exception is thrown.</description>
+            <type>QVariant</type>
+            <return_description>Data field of this data block with the given id.</return_description>
+            <operation>Make sure this basic block has been initialized.</operation>
+            <operation>Find this basic block's data field with the given id, making sure it exists.</operation>
+            <operation>Return the found data field.</operation>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>id</name>
+              <description>The id of this basic block's data field which is returned.</description>
+              <type>const QString&amp;</type>
             </data>
           </variable>
         </function>
         <variable type="1">
           <data version="0">
             <name>_definition</name>
+            <description>XML element that defines this basic block type. Used to make copies of this basic block.</description>
             <type>QDomElement</type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_editDefinition</name>
+            <description>XML element that defines the editor of this basic block type.</description>
             <type>QDomElement</type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_viewDefinition</name>
+            <description>XML element that defines the viewer of this basic block type.</description>
             <type>QDomElement</type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_type</name>
+            <description>The block type of this basic block. Also used to keep track of this basic block being initialized or not. If it is not initialized it is -1 else it is its block type.</description>
             <type>int</type>
             <initializer>-1</initializer>
           </data>
@@ -17981,30 +18157,35 @@ This class itself handles all copying using another specialized interface for co
         <variable type="1">
           <data version="0">
             <name>_factory</name>
+            <description>The basic block factory that made this basic block.</description>
             <type>const AbstractBlockFactory*</type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_fields</name>
+            <description>Data fields of this basic block mapped with their string ids.</description>
             <type>QMap&lt;QString,QVariant></type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_buildList</name>
+            <description>The build list for this basic block type.</description>
             <type>QList&lt;int></type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_nameFieldId</name>
+            <description>The data field id that this basic block uses for a display name. If this is empty this basic block's display name is also empty.</description>
             <type>QString</type>
           </data>
         </variable>
         <variable type="1">
           <data version="0">
             <name>_iconPath</name>
+            <description>The path to the icon for this basic block type.</description>
             <type>QString</type>
           </data>
         </variable>
