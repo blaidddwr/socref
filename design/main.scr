@@ -195,6 +195,21 @@
       </typeList>
       <typeList type="15">
         <data version="0">
+          <name>JSON</name>
+        </data>
+        <type type="16">
+          <data version="0">
+            <type>QJsonObject</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
+            <type>const QJsonObject&amp;</type>
+          </data>
+        </type>
+      </typeList>
+      <typeList type="15">
+        <data version="0">
           <name>ModelIndex</name>
         </data>
         <type type="16">
@@ -391,11 +406,6 @@
       <type type="16">
         <data version="0">
           <type>QIcon</type>
-        </data>
-      </type>
-      <type type="16">
-        <data version="0">
-          <type>QJsonObject</type>
         </data>
       </type>
       <type type="16">
@@ -2590,6 +2600,158 @@ Because this widget uses the text dialog class for editing individual list items
               <name>_block</name>
               <description>Pointer to the block that is contextually being used in text dialog objects this widget opens.</description>
               <type>AbstractBlock*</type>
+            </data>
+          </variable>
+        </access>
+      </class>
+      <class type="4">
+        <data version="0">
+          <name>TypeSelection</name>
+          <description>This is the type selection widget. This expanded push button widget provides a menu with all available variable types parsed from a given JSON object. Objects within the given object are recursively transformed into sub menus. This is only used for editors of blocks of a project type that has strongly typed variables such as C++.</description>
+          <qtobject/>
+        </data>
+        <parent type="13">
+          <data version="0">
+            <access>public</access>
+            <class>QPushButton</class>
+          </data>
+        </parent>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new type selection widget with the given JSON object for menu generation and the optional parent.</description>
+              <explicit/>
+              <type>void</type>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>object</name>
+                <description>The root JSON object that is used to populate the menus and sub menus of this new type selection widget.</description>
+                <type>const QJsonObject&amp;</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>parent</name>
+                <description>Optional parent for this new widget.</description>
+                <type>QWidget*</type>
+                <initializer>nullptr</initializer>
+              </data>
+            </variable>
+          </constructor>
+          <function type="2">
+            <data version="0">
+              <name>value</name>
+              <description>Returns the current variable type selected for this type selection widget.</description>
+              <const/>
+              <type>QString</type>
+              <return_description>Current C++ type selected for this type selection widget.</return_description>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>setValue</name>
+              <description>Set the current variable type selected by this widget to the new value given.</description>
+              <type>void</type>
+              <operation>Set the current type value of this widget to the new one given and update the text on the button of this widget.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>value</name>
+                <description>The new type value for this type selection.</description>
+                <type>QString</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>private slots:</type>
+          </data>
+          <slot type="7">
+            <data version="0">
+              <name>selectionTriggered</name>
+              <description>Called when the user chooses a type value from this selection's menu.</description>
+              <type>void</type>
+              <operation>Set the current C++ type of this selection to the value at the given index.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>index</name>
+                <description>The index of the type value chosen in the menu.</description>
+                <type>int</type>
+              </data>
+            </variable>
+          </slot>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>private:</type>
+          </data>
+          <function type="2">
+            <data version="0">
+              <name>setupMenu</name>
+              <description>Recursively builds and returns a type selection menu from the given JSON object. Any children JSON objects are recursively added as sub menus.</description>
+              <type>QMenu*</type>
+              <return_description>Type selection menu  built from the given JSON object.</return_description>
+              <operation>Create a new menu, setting its title to the given key value.</operation>
+              <operation>Iterate through all children of the given JSON object.</operation>
+              <operation>If the JSON value is am object  then add a sub menu built by recursively calling this method, else if it is a null value then add it as an action to this menu using its key value as the type value.</operation>
+              <operation>Return the new menu.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>object</name>
+                <description>The JSON object that is parsed to create a new type selection menu.</description>
+                <type>const QJsonObject&amp;</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>key</name>
+                <description>The key that is used to set the title of the returned menu. This should be the key where this JSON object is stored in its parent JSON object or empty if this is the root menu.</description>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>addType</name>
+              <description>Add a type selection action to the given menu with the given type value.</description>
+              <type>void</type>
+              <operation>Get the index where the new type will be added to this object's list of possible types and then add it.</operation>
+              <operation>Create the action for selecting this new type value, replacing the ampersand to display correctly and connecting its triggered signal.</operation>
+              <operation>Add the new type selection action to the given menu.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>menu</name>
+                <description>The menu which is added to.</description>
+                <type>QMenu*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>value</name>
+                <type>QString</type>
+              </data>
+            </variable>
+          </function>
+          <variable type="1">
+            <data version="0">
+              <name>_types</name>
+              <description>List of all possible types the menu of this widget allows the user to select.</description>
+              <type>QStringList</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_value</name>
+              <description>The current type value for this selection widget.</description>
+              <type>QString</type>
             </data>
           </variable>
         </access>
@@ -15667,7 +15829,7 @@ Each block can have a single parent and any number of children. The children are
 
 The virtual interfaces for this class fall into three primary groupings. The first provides the system with basic information usually required to display the block in the block view. The second deals with spawning view and abstract edit widgets to have a detailed view of the block or edit its data, respectively. The final deals with reading from and writing to XML elements used for saving projects to an XML file. Optional interfaces are also provides for dealing with child events, such as children being added or removed.
 
-This class itself handles all copying using another specialized interface for copying implementation data and another regular method for copying children blocks. This class also handles all management of children internally. As a result an implementation of this class only needs to provide information about itself, letting this abstract class take care of its management.</description>
+This class itself handles all copying using another specialized interface for copying implementation data and another regular method for copying children blocks. This class also handles all management of children internally.</description>
         <qtobject/>
       </data>
       <typeList type="15">

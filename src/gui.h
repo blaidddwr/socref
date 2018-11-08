@@ -9,6 +9,7 @@ namespace Gui
    class TextDialog;
    class TextEdit;
    class ListEdit;
+   class TypeSelection;
    class BlockView;
    class MainWindow;
    class ProjectDialog;

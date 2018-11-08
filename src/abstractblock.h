@@ -40,9 +40,7 @@
  * 
  * This class itself handles all copying using another specialized interface for 
  * copying implementation data and another regular method for copying children 
- * blocks. This class also handles all management of children internally. As a 
- * result an implementation of this class only needs to provide information about 
- * itself, letting this abstract class take care of its management. 
+ * blocks. This class also handles all management of children internally. 
  */
 class AbstractBlock : public QObject
 {
