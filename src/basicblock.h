@@ -11,7 +11,10 @@
  * corresponding factory class. The XML definition provides the basic block type 
  * information about all data fields it stores, all basic information, the build 
  * list for its block type, and definitions for its basic editor and viewer. 
- * Instances of this class must be initialized before they can be used. 
+ * Instances of this class must be initialized before they can be used. Two 
+ * additional interfaces are defined in this class for implementations to help in 
+ * creating copies of itself and defining possible variable types if its project 
+ * type uses hardly typed variables. 
  * 
  * This class can be inherited and most abstract block functionality can be 
  * overridden except for any interface related to the block's data. Any block class 
@@ -65,6 +68,7 @@ protected:
    virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
    virtual Sut::QPtr<BasicBlock> makeBlankBasic() const;
    virtual void copyDataFrom(const AbstractBlock* other) override final;
+   virtual QJsonObject typeList() const;
 protected:
    bool getBool(const QString& id);
    QString getString(const QString& id);
@@ -111,6 +115,7 @@ private:
     */
    static const char* _defaultKey;
 private:
+   void check() const;
    void addField(Field type, const QDomElement& element, bool isDefault);
    QVariant get(const QString& id);
    /*!

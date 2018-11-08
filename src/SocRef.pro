@@ -109,7 +109,8 @@ SOURCES += \
     cppqt_parse_main.cpp \
     cppqt_parse_declarative.cpp \
     basicblockfactory.cpp \
-    basicblock.cpp
+    basicblock.cpp \
+    basicblock_edit.cpp
 
 HEADERS += \
     abstractprojectfactory.h \
@@ -207,7 +208,8 @@ HEADERS += \
     cppqt_parse_main.h \
     cppqt_parse_declarative.h \
     basicblockfactory.h \
-    basicblock.h
+    basicblock.h \
+    basicblock_edit.h
 
 RESOURCES += \
     resources.qrc

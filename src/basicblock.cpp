@@ -1,5 +1,6 @@
 #include "basicblock.h"
 #include <QIcon>
+#include <QJsonObject>
 #include <socutil/sut_exceptions.h>
 
 
@@ -63,13 +64,7 @@ const char* BasicBlock::_defaultKey {"default"};
 int BasicBlock::type() const
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Return the block type of this basic block. 
    return _type;
@@ -88,13 +83,7 @@ int BasicBlock::type() const
 const AbstractBlockFactory& BasicBlock::factory() const
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Return a reference to this basic block's factory. 
    return *_factory;
@@ -113,13 +102,7 @@ const AbstractBlockFactory& BasicBlock::factory() const
 QString BasicBlock::name() const
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Make sure this basic block's name field id is not empty. 
    if ( _nameFieldId.isEmpty() ) return QString();
@@ -152,13 +135,7 @@ QString BasicBlock::name() const
 QIcon BasicBlock::icon() const
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Return this basic block type's icon. 
    return QIcon(_iconPath);
@@ -177,13 +154,7 @@ QIcon BasicBlock::icon() const
 QList<int> BasicBlock::buildList() const
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Return this basic block type's build list. 
    return _buildList;
@@ -318,13 +289,7 @@ void BasicBlock::initialize(int type, const AbstractBlockFactory* factory, const
 void BasicBlock::readData(const QDomElement& element)
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Iterate through all node children of the given data element. 
    QDomNode node {element.firstChild()};
@@ -381,13 +346,7 @@ void BasicBlock::readData(const QDomElement& element)
 QDomElement BasicBlock::writeData(QDomDocument& document) const
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Create the return data element. 
    QDomElement ret {document.createElement("na")};
@@ -446,13 +405,7 @@ QDomElement BasicBlock::writeData(QDomDocument& document) const
 Sut::QPtr<AbstractBlock> BasicBlock::makeBlank() const
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Create a new uninitialized basic block. 
    QPtr<BasicBlock> ret {makeBlankBasic()};
@@ -498,13 +451,7 @@ Sut::QPtr<BasicBlock> BasicBlock::makeBlankBasic() const
 void BasicBlock::copyDataFrom(const AbstractBlock* other)
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Cast the given abstract block to a basic block, making sure it worked. 
    const BasicBlock* basic {qobject_cast<const BasicBlock*>(other)};
@@ -541,6 +488,31 @@ void BasicBlock::copyDataFrom(const AbstractBlock* other)
       // Copy the value of the given basic block field to this basic block. 
       *j = *i;
    }
+}
+
+
+
+
+
+
+/*!
+ * This interface returns a JSON object of available variable types within the 
+ * scope of this basic block. This is used for project types that use hardly typed 
+ * variables such as C++. For project types like PHP that use soft variables this 
+ * can returns an empty object. This is called on a specific block instance because 
+ * the available types for selection can depend on the scope which should be 
+ * determined by the variable's parent block. There can be additional JSON objects 
+ * nested within the root which provides additional types for selection. Each key 
+ * in the JSON object is used as a possible type for selection. The default 
+ * implementation returns a null pointer, assuming a softly typed project type. 
+ *
+ * @return List of all possible variable types, with possible nested lists, for 
+ *         hardly typed project types or an empty object for softly typed project 
+ *         types. 
+ */
+QJsonObject BasicBlock::typeList() const
+{
+   return QJsonObject();
 }
 
 
@@ -639,6 +611,27 @@ QStringList BasicBlock::getStringList(const QString& id)
 
 
 /*!
+ * Checks to make sure this basic block has been initialized, throwing an exception 
+ * if it is uninitialized. 
+ */
+void BasicBlock::check() const
+{
+   // Make sure this basic block has been initialized. 
+   if ( _type == -1 )
+   {
+      Exception::LogicError e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Attempting to use uninitialized basic block object."));
+      throw e;
+   }
+}
+
+
+
+
+
+
+/*!
  * Appends a new data field to this basic block. This is only used when 
  * initializing a basic block to its type and adding the data field definitions. 
  *
@@ -712,17 +705,11 @@ void BasicBlock::addField(Field type, const QDomElement& element, bool isDefault
 QVariant BasicBlock::get(const QString& id)
 {
    // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
+   check();
 
    // Find this basic block's data field with the given id, making sure it exists. 
-   auto i {_fields.find(id)};
-   if ( i == _fields.end() )
+   auto i {qAsConst(_fields).find(id)};
+   if ( i == _fields.cend() )
    {
       Exception::InvalidArgument e;
       SUT_MARK_EXCEPTION(e);
