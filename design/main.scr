@@ -702,13 +702,11 @@
       <class type="4">
         <data version="0">
           <name>AbstractEdit</name>
-          <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI and handling the events associated with what it creates. An implementation of this class is responsible for handling any special apply actions and constructing the rest of the GUI. This is a persistent dialog. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog.
+          <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI and handling the events associated with what it creates. An implementation of this class is responsible for handling apply actions and constructing the rest of the GUI. This is a persistent dialog. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog.
 
-This class constructs OK, apply, and cancel buttons and handles their clicked events. An interface for applying changes to the block being edited is provided and an implementation must implement any special apply actions. Any exceptions thrown inside the apply interface are caught by this class and reported to the user, not closing its dialog if the OK button was clicked. Because this is a persistent dialog an implementation of this class must define its own unique key using the save settings method of the persistent dialog class.
+This class constructs OK, apply, and cancel buttons and handles their clicked events. An interface for applying changes to the block being edited is provided. Any exceptions thrown inside the apply interface are caught by this class and reported to the user, not closing its dialog if the OK button was clicked. Because this is a persistent dialog an implementation of this class must define its own unique key using the save settings method of the persistent dialog class.
 
-This class provides methods for adding edit widgets for one of the block fields of the block it edits. These methods will add a new row to a given form and return a pointer to the edit widget for a given block field. This abstract class itself handles applying any fields being edited in this fashion. Only one edit widget can be used for each unique block field.
-
-An implementation of this class must construct the form portion of this dialog giving user access to the data of the block being edited. This is accomplished through another interface that returns a layout of the form portion that an implementation must implement. The form portion is positioned at the top of the dialog while the buttons this class creates is at the bottom.
+An implementation of this class must construct the form portion of this dialog giving user access to the data of the block being edited. This is accomplished through another interface that returns a layout of the form portion. The form portion is positioned at the top of the dialog while the buttons this class creates is at the bottom.
 </description>
           <qtobject/>
         </data>
@@ -724,16 +722,9 @@ An implementation of this class must construct the form portion of this dialog g
           </data>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new abstract edit object with the given block and an optional parent. The new abstract edit is not initialized and not ready to be used as a dialog until that method is called.</description>
+              <description>Constructs a new abstract edit object with an optional parent. The new abstract edit is not initialized and not ready to be used as a dialog until the initialize method is called.</description>
               <explicit/>
             </data>
-            <variable type="1">
-              <data version="0">
-                <name>block</name>
-                <description>Pointer to the block this dialog is editing.</description>
-                <type>AbstractBlock*</type>
-              </data>
-            </variable>
             <variable type="1">
               <data version="0">
                 <name>parent</name>
@@ -770,32 +761,11 @@ An implementation of this class must construct the form portion of this dialog g
           </function>
           <function type="2">
             <data version="0">
-              <name>fieldTitle</name>
-              <description>This interface returns the title for the given field type. The title is displayed with any default form added through this base class's methods.</description>
-              <virtual/>
-              <const/>
-              <abstract/>
-              <type>QString</type>
-              <return_description>Title of the given field type.</return_description>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
               <name>apply</name>
-              <description>This interface is called when the user has clicked the apply or OK buttons and expected to update the block an implementation is editing. If an exception is thrown from this interface then the user is informed and the dialog is not closed. The default implementation applies all edit widgets added to this object during construction.</description>
+              <description>This interface is called when the user has clicked the apply or OK button and is expected to update the block it is editing with the editor dialog values. If an exception is thrown from this interface then the user is informed and the dialog is not closed.</description>
               <virtual/>
+              <abstract/>
               <type>void</type>
-              <operation>Iterate through all of this object's edit widgets.</operation>
-              <operation>Figure out the field type for this edit widget, check if it is the correct edit widget type and if so set the edited block's field value.</operation>
-              <operation>Check if this is a valid line edit widget and if so set the edited block's field value.</operation>
-              <operation>Else check if this is a valid text edit widget and if so set the edited block's field value.</operation>
-              <operation>Else check if this is a valid combo box widget and if so set the edited block's field value.</operation>
             </data>
           </function>
         </access>
@@ -803,171 +773,6 @@ An implementation of this class must construct the form portion of this dialog g
           <data version="0">
             <type>protected:</type>
           </data>
-          <function type="2">
-            <data version="0">
-              <name>addCheckBoxes</name>
-              <description>Adds a new grid of checkbox edit widgets for the given fields to the given form layout using the given title and maximum row size. If anything is wrong with any of the given field indexes then an exception is thrown.</description>
-              <type>void</type>
-              <operation>Create a new grid layout and initialize the row and column indexes.</operation>
-              <operation>Iterate through all given field indexes.</operation>
-              <operation>Add a new checkbox for the field index, adding one to the row and making sure it does not go beyond the max row size.</operation>
-              <operation>Reset the row index to 0 and increment the column index.</operation>
-              <operation>Add the check boxes layout to the given form layout using the given title.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>form</name>
-                <description>Pointer to the form layout which has the grid of checkbox widgets added to it.</description>
-                <type>QFormLayout*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>fields</name>
-                <description>List of field indexes which have checkbox edit widgets added to them.</description>
-                <type>const QList&lt;int>&amp;</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>rowSize</name>
-                <description>The maximum row size for the checkbox grid layout.</description>
-                <type>int</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>title</name>
-                <description>Title used when adding the grid layout to the given form layout.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>addCheckBox</name>
-              <description>Adds a new checkbox edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a boolean then an exception is thrown.</description>
-              <type>QCheckBox*</type>
-              <return_description>Pointer to the new checkbox edit widget attached to the block field with the given index.</return_description>
-              <operation>Make sure the given field index can be added and it is the correct type.</operation>
-              <operation>Create a new checkbox edit widget with the field title of the given index, setting its value to the current value of the edited block's field.</operation>
-              <operation>Insert the edit widget into this object's mapping of edit widgets and return a pointer to the checkbox.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>Index of the field that has an edit widget attached to it.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>addLineEdit</name>
-              <description>Adds a new line edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string then an exception is thrown.</description>
-              <type>QLineEdit*</type>
-              <return_description>Pointer to the new line edit widget attached to the block field with the given index.</return_description>
-              <operation>Make sure the given field index can be added and it is the correct type.</operation>
-              <operation>Create a new line edit widget, setting its value to the current value of the edited block's field and adding it to the given form layout with its field title.</operation>
-              <operation>Insert the edit widget into this object's mapping of them and return a pointer to the line edit widget.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>form</name>
-                <description>Pointer to the form layout which has the new edit widget added to it.</description>
-                <type>QFormLayout*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>Index of the field that has an edit widget attached to it.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>addTextEdit</name>
-              <description>Adds a new text edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string then an exception is thrown.</description>
-              <type>TextEdit*</type>
-              <return_description>Pointer to the new text edit widget attached to the block field with the given index.</return_description>
-              <operation>Make sure the given field index can be added and it is the correct type.</operation>
-              <operation>Create a new text edit widget, setting its value to the current value of the edited block's field and adding it to the given form layout with its field title.</operation>
-              <operation>Insert the edit widget into this object's mapping of them and return a pointer to the text edit widget.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>form</name>
-                <description>Pointer to the form layout which has the new edit widget added to it.</description>
-                <type>QFormLayout*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>Index of the field that has an edit widget attached to it.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>addListEdit</name>
-              <description>Adds a new list edit widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string list then an exception is thrown.</description>
-              <type>ListEdit*</type>
-              <return_description>Pointer to the new list edit widget attached to the block field with the given index.</return_description>
-              <operation>Make sure the given field index can be added and it is the correct type.</operation>
-              <operation>Create a new list edit widget, setting its value to the current value of the edited block's field and adding it to the given form layout with its field title.</operation>
-              <operation>Insert the edit widget into this object's mapping of them and return a pointer to the list edit widget.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>form</name>
-                <description>Pointer to the form layout which has the new edit widget added to it.</description>
-                <type>QFormLayout*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>Index of the field that has an edit widget attached to it.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>addComboEdit</name>
-              <description>Adds a new combo box widget to the block field with the given index, returning its pointer. If this edit dialog already contains an edit widget for this field, the index is out of range, or the field type is not a string list then an exception is thrown.</description>
-              <type>QComboBox*</type>
-              <return_description>Pointer to the new combo box widget attached to the block field with the given index.</return_description>
-              <operation>Make sure the given field index can be added and it is the correct type.</operation>
-              <operation>Create a new combo box widget, adding the given options, setting its value to the current value of the edited block's field, and adding it to the given form layout with its field title.</operation>
-              <operation>Insert the edit widget into this object's mapping of them and return a pointer to the combo box.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>form</name>
-                <description>Pointer to the form layout which has the new edit widget added to it.</description>
-                <type>QFormLayout*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>Index of the field that has an edit widget attached to it.</description>
-                <type>int</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>options</name>
-                <description>All possible options added to the new combo box.</description>
-                <type>const QStringList&amp;</type>
-              </data>
-            </variable>
-          </function>
           <function type="2">
             <data version="0">
               <name>setDisabled</name>
@@ -1030,29 +835,6 @@ An implementation of this class must construct the form portion of this dialog g
               <operation>Return the buttons layout.</operation>
             </data>
           </function>
-          <function type="2">
-            <data version="0">
-              <name>checkField</name>
-              <description>Checks the given field index and makes sure it is valid and this dialog does not already contain an edit widget for it, throwing an exception if any check fails. This also makes sure its object has a valid block pointer.</description>
-              <type>void</type>
-              <operation>Make sure this dialog has a block pointer that is not null.</operation>
-              <operation>Make sure this dialog does not already have an edit widget attached to the given field index.</operation>
-              <operation>Make sure the given field index is within range.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <variable type="1">
-            <data version="0">
-              <name>_block</name>
-              <description>Pointer to the block that this dialog is editing.</description>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
           <variable type="1">
             <data version="0">
               <name>_ok</name>
@@ -1065,13 +847,6 @@ An implementation of this class must construct the form portion of this dialog g
               <name>_apply</name>
               <description>Pointer to this object's apply button.</description>
               <type>QPushButton*</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>_edits</name>
-              <description>Mapping of pointers to all edit widgets that have been added to this edit dialog. The key represents the field index the corresponding edit widget is attached to.</description>
-              <type>QMap&lt;int,QWidget*></type>
             </data>
           </variable>
         </access>
@@ -15838,11 +15613,6 @@ This class itself handles all copying using another specialized interface for co
         </data>
         <type type="16">
           <data version="0">
-            <type>Field</type>
-          </data>
-        </type>
-        <type type="16">
-          <data version="0">
             <type>T*</type>
           </data>
         </type>
@@ -17847,6 +17617,7 @@ This class provides protected helper methods for getting the values of its data 
             </data>
             <constructor type="9">
               <data version="0">
+                <explicit/>
                 <type>void</type>
               </data>
               <variable type="1">

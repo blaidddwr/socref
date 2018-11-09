@@ -17,7 +17,7 @@ class BasicBlock::Edit : public Gui::AbstractEdit
 {
    Q_OBJECT
 public:
-   Edit(BasicBlock* block);
+   explicit Edit(BasicBlock* block);
 protected:
    virtual QLayout* layout() override final;
    virtual void apply();
