@@ -17,10 +17,10 @@
  * type uses hardly typed variables. 
  * 
  * This class can be inherited and most abstract block functionality can be 
- * overridden except for any interface related to the block's data. Any block class 
- * inheriting from this basic block class cannot add additional data, all of which 
- * must be defined within the basic block type. The basic interfaces for getting 
- * the block's type and factory also cannot be overridden. 
+ * overridden except for any interface related to the block's data, basic 
+ * interfaces for getting the block's type and factory, and making the editor for 
+ * basic blocks. Any block class inheriting from this basic block class cannot add 
+ * additional data, all of which must be defined within the basic block type. 
  * 
  * This class provides protected helper methods for getting the values of its data 
  * fields. These are intended to be used with specialized implementations of the 
@@ -59,7 +59,7 @@ public:
    virtual QIcon icon() const override;
    virtual QList<int> buildList() const override;
    virtual Sut::QPtr<QWidget> makeView() const override;
-   virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override;
+   virtual Sut::QPtr<Gui::AbstractEdit> makeEdit() override final;
 public:
    void initialize(int type, const AbstractBlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault);
 protected:

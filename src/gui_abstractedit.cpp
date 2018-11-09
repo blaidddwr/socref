@@ -23,7 +23,7 @@ using namespace Gui;
  * @param parent Optional parent for this new abstract edit dialog. 
  */
 AbstractEdit::AbstractEdit(QWidget* parent):
-   PersistentDialog(nullptr,parent)
+   PersistentDialog(parent)
 {}
 
 

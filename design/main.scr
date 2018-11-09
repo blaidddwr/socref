@@ -21,6 +21,7 @@
     <word>QCoreApplication</word>
     <word>QThread</word>
     <word>preprocessor</word>
+    <word>splitter</word>
   </dictionary>
   <root type="0">
     <data version="0"/>
@@ -610,7 +611,7 @@
       </typeList>
       <type type="16">
         <data version="0">
-          <type>::Gui::ListEdit*</type>
+          <type>Gui::ListEdit*</type>
         </data>
       </type>
       <type type="16">
@@ -660,7 +661,7 @@
       </type>
       <type type="16">
         <data version="0">
-          <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
+          <type>Sut::QPtr&lt;Gui::AbstractEdit></type>
         </data>
       </type>
       <type type="16">
@@ -869,16 +870,28 @@ An implementation of this class must construct the form portion of this dialog g
           </data>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new persistent dialog with the optional geometry key and parent. If no geometry key is given this new dialog will effectively do nothing unless the save settings method is called before its destruction.</description>
+              <description>Constructs a new persistent dialog with an optional parent. This new dialog will effectively do nothing unless the save settings method is called before its destruction.</description>
               <explicit/>
-              <operation>If the geometry key is not null then save the geometry of this dialog.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>parent</name>
+                <description>Optional parent for this new persistent dialog.</description>
+                <type>QWidget*</type>
+                <initializer>nullptr</initializer>
+              </data>
+            </variable>
+          </constructor>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new persistent dialog with the given geometry key and an optional parent.</description>
+              <explicit/>
             </data>
             <variable type="1">
               <data version="0">
                 <name>geometryKey</name>
-                <description>The optional geometry key used as the Qt settings key to store the geometry of a unique dialog class.</description>
-                <type>const char*</type>
-                <initializer>nullptr</initializer>
+                <description>The optional geometry key used as the Qt settings key to store the geometry of a unique dialog class. If this string is empty it is ignored and no geometry is set.</description>
+                <type>const QString&amp;</type>
               </data>
             </variable>
             <variable type="1">
@@ -946,13 +959,14 @@ An implementation of this class must construct the form portion of this dialog g
               <name>saveSettings</name>
               <description>Sets the geometry key for this persistent dialog and then restores the geometry of this dialog using the given geometry key. If the geometry key for this dialog has already been set then an exception is thrown.</description>
               <type>void</type>
+              <operation>Make sure the given geometry key is not empty.</operation>
               <operation>Make sure the geometry key for this dialog is not already set.</operation>
               <operation>Set the geometry key for this dialog and restore its geometry using the same key.</operation>
             </data>
             <variable type="1">
               <data version="0">
                 <name>geometryKey</name>
-                <type>const char*</type>
+                <type>const QString&amp;</type>
               </data>
             </variable>
           </function>
@@ -964,9 +978,8 @@ An implementation of this class must construct the form portion of this dialog g
           <variable type="1">
             <data version="0">
               <name>_geometryKey</name>
-              <description>Pointer to the geometry key for this persistent dialog that must be unique for the class inheriting this one.</description>
-              <type>const char*</type>
-              <initializer>nullptr</initializer>
+              <description>The geometry key for this persistent dialog that must be unique for the class inheriting this one. If no key has been set this is empty.</description>
+              <type>QString</type>
             </data>
           </variable>
         </access>
@@ -15723,7 +15736,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface returns an abstract edit GUI dialog that provides the ability to edit this block's data.</description>
             <virtual/>
             <abstract/>
-            <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
+            <type>Sut::QPtr&lt;Gui::AbstractEdit></type>
             <return_description>Abstract edit GUI dialog to edit this block's data.</return_description>
           </data>
         </function>
@@ -17570,7 +17583,7 @@ This class itself handles all copying using another specialized interface for co
         <name>BasicBlock</name>
         <description>This implements the abstract block class. This is designed as a basic block that reads in its type configuration from an XML element supplied to it from its corresponding factory class. The XML definition provides the basic block type information about all data fields it stores, all basic information, the build list for its block type, and definitions for its basic editor and viewer. Instances of this class must be initialized before they can be used. Two additional interfaces are defined in this class for implementations to help in creating copies of itself and defining possible variable types if its project type uses hardly typed variables.
 
-This class can be inherited and most abstract block functionality can be overridden except for any interface related to the block's data. Any block class inheriting from this basic block class cannot add additional data, all of which must be defined within the basic block type. The basic interfaces for getting the block's type and factory also cannot be overridden.
+This class can be inherited and most abstract block functionality can be overridden except for any interface related to the block's data, basic interfaces for getting the block's type and factory, and making the editor for basic blocks. Any block class inheriting from this basic block class cannot add additional data, all of which must be defined within the basic block type.
 
 This class provides protected helper methods for getting the values of its data fields. These are intended to be used with specialized implementations of the basic block class that require to know the value of certain data fields. Access to the data fields are read only using these methods.</description>
         <qtobject/>
@@ -17603,6 +17616,9 @@ This class provides protected helper methods for getting the values of its data 
         <class type="4">
           <data version="0">
             <name>Edit</name>
+            <description>This is the basic block editor that implements the abstract edit GUI class. Like the basic block it edits this class reads in its configuration from an XML element supplied to it from its basic block. The XML definition provides all information about the layout of the form and what fields edit widgets control. This class cannot be implemented by another more specialized class because all data is designed to be on the basic block layer and this editor must be aware of all data in the basic block it edits.
+
+The layout of this editor is defined by the XML element between different layout widgets contained within a qt splitter. Each layout added to the splitter can either be a form layout or a vertical layout. The state of the splitter is persistent along with the editor's dialog geometry.</description>
             <qtobject/>
           </data>
           <parent type="13">
@@ -17617,12 +17633,15 @@ This class provides protected helper methods for getting the values of its data 
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new editor with the given basic block which it edits.</description>
                 <explicit/>
                 <type>void</type>
+                <operation>Make sure the given block pointer is not null.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
+                  <description>The basic block this new editor is editing.</description>
                   <type>BasicBlock*</type>
                 </data>
               </variable>
@@ -17641,6 +17660,14 @@ This class provides protected helper methods for getting the values of its data 
                 <final/>
                 <type>QLayout*</type>
                 <return_description>See interface docs.</return_description>
+                <operation>Create this editor's splitter widget.</operation>
+                <operation>Prepare an enumeration and matching string list that matches any recognized element tag names.</operation>
+                <operation>Iterate through all children nodes of this editor's basic block's edit definition XML element.</operation>
+                <operation>Check to see if this node is an element.</operation>
+                <operation>Determine if this element is a form or a layout, calling the appropriate method for building the sub layout and adding it to this editor's splitter as a widget.</operation>
+                <operation>Move to the next sibling node.</operation>
+                <operation>Save the geometry settings of this persistent dialog and the state of this editor's splitter widget using a base key generated from this basic block's project type name and its element name.</operation>
+                <operation>Create a return layout, add this editor's splitter widget to it, and return the layout.</operation>
               </data>
             </function>
             <function type="2">
@@ -17649,23 +17676,29 @@ This class provides protected helper methods for getting the values of its data 
                 <description>Implements _Gui::AbstractEdit_ interface.</description>
                 <virtual/>
                 <type>void</type>
+                <operation>Prepare a function for throwing a common exception if a type mismatch occurs.</operation>
+                <operation>Iterate through all widgets of this editor.</operation>
+                <operation>Get the matching basic block field of the edit widget, making sure the field exists.</operation>
+                <operation>Figure out what type the edit widget is and set the value of the basic block field to the value of the edit widget, making sure the basic block field is of the correct type.</operation>
+                <operation>Else the edit widget is of an unknown type so throw an exception.</operation>
               </data>
             </function>
-          </access>
-          <access type="5">
-            <data version="0">
-              <type>private:</type>
-            </data>
             <function type="2">
               <data version="0">
-                <name>checkId</name>
-                <static/>
-                <type>QString</type>
+                <name>closeEvent</name>
+                <description>Implements _QWidget_ interface. This implementation uses this interface to save the state of its splitter widget and then calls its parent interface.</description>
+                <virtual/>
+                <override/>
+                <final/>
+                <type>void</type>
+                <operation>Save the state of this editor's splitter with its state key.</operation>
+                <operation>Call this object's parent interface.</operation>
               </data>
               <variable type="1">
                 <data version="0">
-                  <name>element</name>
-                  <type>const QDomElement&amp;</type>
+                  <name>event</name>
+                  <description>See Qt docs.</description>
+                  <type>QCloseEvent*</type>
                 </data>
               </variable>
             </function>
@@ -17676,12 +17709,156 @@ This class provides protected helper methods for getting the values of its data 
             </data>
             <function type="2">
               <data version="0">
-                <name>setupForm</name>
-                <type>QLayout*</type>
+                <name>extractId</name>
+                <description>Returns the value of the id attribute from the given XML element. If the id attribute does not exist or is empty then an exception is thrown.</description>
+                <static/>
+                <type>QString</type>
+                <return_description>Value of the id attribute of the given XML element.</return_description>
+                <operation>Get the id attribute value from the given XML element and make sure it is not empty or not set.</operation>
+                <operation>Return the id attribute value.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>XML element whose id attribute value is extracted and return.</description>
+                  <type>const QDomElement&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <variable type="1">
+              <data version="0">
+                <name>_formTag</name>
+                <description>The tag name for a form element used to define a column of this editor using a form layout.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"form"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_layoutTag</name>
+                <description>The tag name for a layout element used to define a column of this editor using a vertical layout.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"layout"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_idKey</name>
+                <description>The attribute name for the id used to reference what data field an edit element edits.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"id"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_displayKey</name>
+                <description>The attribute name for the display string used as the title of an edit element.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"display"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_checkboxesTag</name>
+                <description>The tag name for a check boxes element used to define a check boxes edit widget.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"checkboxes"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_checkboxTag</name>
+                <description>The tag name for a checkbox element used to define a single checkbox within a check boxes element.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"checkbox"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_lineTag</name>
+                <description>The tag name for a line edit element used to define a line edit widget.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"line"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_textTag</name>
+                <description>The tag name for a text edit element used to define a text edit widget.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"text"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_listTag</name>
+                <description>The tag name of a list edit element used to define a list edit widget.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"list"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_typeTag</name>
+                <description>The tag name for a type selection widget used to define a type selection edit widget.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"type"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_rowSizeKey</name>
+                <description>The attribute name for the row size of a check boxes edit element.</description>
+                <static/>
+                <type>const char*</type>
+                <initializer>"rowsize"</initializer>
+              </data>
+            </variable>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>saveSettings</name>
+                <description>Sets the base key used by this dialog to save its geometry and state and restores its geometry and state. Additional strings are appended to this base string to the geometry and state.</description>
+                <type>void</type>
+                <operation>Set the geometry and state keys for this dialog using the given base key.</operation>
+                <operation>Restore the state of this object's splitter using the state key.</operation>
+                <operation>Call the abstract edit save settings method using the geometry key.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>baseKey</name>
+                  <description>The base key which is copied to generate this object's geometry and state keys.</description>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>setupForm</name>
+                <description>Creates and initializes a form layout row of this new editor's form using the given XML element to define all edit widgets it contains.</description>
+                <type>QWidget*</type>
+                <return_description>A widget whose layout is set to a form layout row created with the provided XML element definition.</return_description>
+                <operation>Create a new form layout and add all widgets defined by the given XML element.</operation>
+                <operation>Create a return widget, set its layout to the new form layout, and return it.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>element</name>
+                  <description>The XML element that defines the newly created form layout.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -17689,11 +17866,16 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>setupLayout</name>
-                <type>QLayout*</type>
+                <description>Creates and initializes a vertical layout row of this new editor's form using the given XML element to define all edit widgets it contains.</description>
+                <type>QWidget*</type>
+                <return_description>A widget whose layout is set to a vertical layout row created with the provided XML element definition.</return_description>
+                <operation>Create a new vertical layout and add all widgets defined by the given XML element.</operation>
+                <operation>Create a return widget, set its layout to the new form layout, and return it.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML element that defines the newly created vertical layout.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -17701,17 +17883,25 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>addWidgets</name>
+                <description>Adds all edit widgets to the given layout using the given XML element which defines all edit widgets to add. The given layout can be a form or vertical layout.</description>
                 <type>void</type>
+                <operation>Prepare an enumeration and matching string list that matches any recognized edit element tag names.</operation>
+                <operation>Iterate through all children nodes of the given element.</operation>
+                <operation>Check to see if the node is an element.</operation>
+                <operation>Determine which edit element this is by its tag name and call the appropriate method for adding a new edit widget.</operation>
+                <operation>Move to the next sibling node.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>layout</name>
+                  <description>A form or vertical layout that has all created edit widgets added to it.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML element that defines all edit widgets to create and add to the given layout.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -17719,17 +17909,29 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>addCheckBoxes</name>
+                <description>Adds a new check boxes layout of check box edit widgets to the given layout using the given XML element to define the new check box edit widgets. This also adds the new edit widget to this editor's list of edit widgets.</description>
                 <type>void</type>
+                <operation>Get the row size attribute from the given XML element, or its default if it does not exist, and make sure reading it as an integer worked.</operation>
+                <operation>Make sure the row size is not a negative integer.</operation>
+                <operation>Create the grid layout for the new check boxes edit widget and initialize the row and column indexes.</operation>
+                <operation>Iterate through all child nodes of the given element.</operation>
+                <operation>Check to see if the node is an element.</operation>
+                <operation>Check to see if the element's tag name matches the check box tag.</operation>
+                <operation>Setup a new check box edit widget and then add it to the grid layout using the current row and column indexes.</operation>
+                <operation>If the row index is above the row size then reset it and increment the column index.</operation>
+                <operation>Add the new grid layout with all the check box edit widgets to the given layout.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>layout</name>
+                  <description>The layout that has the new layout of edit widgets added to it.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML edit element that defines the new layout of edit widgets and children elements that define each check box edit widget that is created.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -17737,17 +17939,23 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>addLineEdit</name>
+                <description>Adds a new line edit widget to the given layout using the given XML element to define the new edit widget. This also adds the new edit widget to this editor's list of edit widgets.</description>
                 <type>void</type>
+                <operation>Get the id attribute from the given XML element and then get the basic block field value with the id.</operation>
+                <operation>Create and initialize the new line edit widget.</operation>
+                <operation>Add the new widget to this editor's list of edit widgets and to the given layout.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>layout</name>
+                  <description>The layout that has the new edit widget added to it.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML edit element that defines the new edit widget that is created.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -17755,17 +17963,23 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>addTextEdit</name>
+                <description>Adds a new text edit widget to the given layout using the given XML element to define the new edit widget. This also adds the new edit widget to this editor's list of edit widgets.</description>
                 <type>void</type>
+                <operation>Get the id attribute from the given XML element and then get the basic block field value with the id.</operation>
+                <operation>Create and initialize the new text edit widget.</operation>
+                <operation>Add the new widget to this editor's list of edit widgets and to the given layout.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>layout</name>
+                  <description>The layout that has the new edit widget added to it.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML edit element that defines the new edit widget that is created.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -17773,17 +17987,23 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>addListEdit</name>
+                <description>Adds a new list edit widget to the given layout using the given XML element to define the new edit widget. This also adds the new edit widget to this editor's list of edit widgets.</description>
                 <type>void</type>
+                <operation>Get the id attribute from the given XML element and then get the basic block field value with the id.</operation>
+                <operation>Create and initialize the new list edit widget.</operation>
+                <operation>Add the new widget to this editor's list of edit widgets and to the given layout.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>layout</name>
+                  <description>The layout that has the new edit widget added to it.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML edit element that defines the new edit widget that is created.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -17791,17 +18011,23 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>addTypeEdit</name>
+                <description>Adds a new type selection edit widget to the given layout using the given XML element to define the new edit widget. This also adds the new edit widget to this editor's list of edit widgets.</description>
                 <type>void</type>
+                <operation>Get the id attribute from the given XML element and then get the basic block field value with the id.</operation>
+                <operation>Create and initialize the new type selection edit widget.</operation>
+                <operation>Add the new widget to this editor's list of edit widgets and to the given layout.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>layout</name>
+                  <description>The layout that has the new edit widget added to it.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML edit element that defines the new edit widget that is created.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -17809,17 +18035,24 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>setupCheckBox</name>
+                <description>Creates and initializes a new check box widget with the given id and title, returning its pointer. This also adds it to this editor's list of edit widgets.</description>
                 <type>QCheckBox*</type>
+                <return_description>Pointer to the new check box edit widget.</return_description>
+                <operation>Get the basic block field value with the given id.</operation>
+                <operation>Create and initialize the new check box edit widget.</operation>
+                <operation>Add the new check box to this editor's list of edit widgets and then return its pointer.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>id</name>
+                  <description>The basic block field id the new check box edit widget is attached to.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>title</name>
+                  <description>The display title of the new check box edit widget.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
@@ -17827,23 +18060,30 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>add</name>
+                <description>Adds the given widget to the given layout using the given XML element to derive its display title. The given layout must be a vertical or form layout.</description>
                 <type>void</type>
+                <operation>If the given layout is a form then use its methods to add the given item to it with a title derived from the given XML element.</operation>
+                <operation>Else if the given layout is a vertical box then use its methods to add the given item to it with a title derived from the given XML element.</operation>
+                <operation>Else this is an unsupported layout type so throw an exception.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>layout</name>
+                  <description>The layout that has the given widget added to it.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML element whose display attribute is used as the display title.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>item</name>
+                  <description>The widget that is added to the given with a display title extracted from the given XML element.</description>
                   <type>QWidget*</type>
                 </data>
               </variable>
@@ -17851,41 +18091,56 @@ This class provides protected helper methods for getting the values of its data 
             <function type="2">
               <data version="0">
                 <name>add</name>
+                <description>Adds the given item to the given layout using the given XML element to derive its display title. The given layout must be a vertical or form layout.</description>
                 <type>void</type>
+                <operation>If the given layout is a form then use its methods to add the given item to it with a title derived from the given XML element.</operation>
+                <operation>Else if the given layout is a vertical box then use its methods to add the given item to it with a title derived from the given XML element.</operation>
+                <operation>Else this is an unsupported layout type so throw an exception.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>layout</name>
+                  <description>The layout that has the given item added to it.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>The XML element whose display attribute is used as the display title.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>item</name>
+                  <description>The item that is added to the given with a display title extracted from the given XML element.</description>
                   <type>QLayout*</type>
                 </data>
               </variable>
             </function>
             <function type="2">
               <data version="0">
-                <name>check</name>
+                <name>fieldValue</name>
+                <description>Return the value of this editor's basic block's field with the given id, checking its type matches with the given type. This assumes this is being called to add a new edit widget so additional checks are done. If this editor already has an edit widget with the given id, no field exists with the given id, or the field type does not match the given type then an exception is thrown.</description>
                 <type>QVariant</type>
+                <return_description>Basic block field value with the given id.</return_description>
+                <operation>Make sure this editor's list of edit widgets does not already contain the given id.</operation>
+                <operation>Get this editor's basic block's field with the given id, making sure it exists.</operation>
+                <operation>Make sure the field type matches the given type.</operation>
+                <operation>Return the basic block field value.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>id</name>
+                  <description>The basic block field id whose value is returned.</description>
                   <type>const QString&amp;</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>type</name>
+                  <description>The basic block field type that is checked with the field type matched with the given id.</description>
                   <type>quint32</type>
                 </data>
               </variable>
@@ -17893,13 +18148,29 @@ This class provides protected helper methods for getting the values of its data 
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The basic block that this editor is editing.</description>
                 <type>BasicBlock*</type>
               </data>
             </variable>
             <variable type="1">
               <data version="0">
+                <name>_splitter</name>
+                <description>The qt splitter of this edit dialog that splits each single layout column between one another.</description>
+                <type>QSplitter*</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
                 <name>_widgets</name>
+                <description>The list of edit widgets this editor contains.</description>
                 <type>QMap&lt;QString,QWidget*></type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_stateKey</name>
+                <description>The state key for this edit dialog used to keep its qt splitter persistent.</description>
+                <type>QString</type>
               </data>
             </variable>
           </access>
@@ -17907,6 +18178,7 @@ This class provides protected helper methods for getting the values of its data 
         <class type="4">
           <data version="0">
             <name>View</name>
+            <qtobject/>
           </data>
         </class>
       </access>
@@ -18030,7 +18302,8 @@ This class provides protected helper methods for getting the values of its data 
             <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
             <override/>
-            <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
+            <final/>
+            <type>Sut::QPtr&lt;Gui::AbstractEdit></type>
             <return_description>See interface docs.</return_description>
           </data>
         </function>

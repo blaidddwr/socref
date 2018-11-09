@@ -2,6 +2,7 @@
 #include <QIcon>
 #include <QJsonObject>
 #include <socutil/sut_exceptions.h>
+#include "basicblock_edit.h"
 
 
 
@@ -183,8 +184,10 @@ Sut::QPtr<QWidget> BasicBlock::makeView() const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<::Gui::AbstractEdit> BasicBlock::makeEdit()
-{}
+Sut::QPtr<Gui::AbstractEdit> BasicBlock::makeEdit()
+{
+   return QPtr<Gui::AbstractEdit>(new Edit(this));
+}
 
 
 

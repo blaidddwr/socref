@@ -95,7 +95,7 @@ public:
     *
     * @return Abstract edit GUI dialog to edit this block's data. 
     */
-   virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() = 0;
+   virtual Sut::QPtr<Gui::AbstractEdit> makeEdit() = 0;
 public:
    const AbstractBlock* root() const;
    AbstractBlock* parent() const;
