@@ -17745,15 +17745,6 @@ The layout of this editor is defined by the XML element between different layout
             </variable>
             <variable type="1">
               <data version="0">
-                <name>_idKey</name>
-                <description>The attribute name for the id used to reference what data field an edit element edits.</description>
-                <static/>
-                <type>const char*</type>
-                <initializer>"id"</initializer>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
                 <name>_displayKey</name>
                 <description>The attribute name for the display string used as the title of an edit element.</description>
                 <static/>
@@ -18178,8 +18169,144 @@ The layout of this editor is defined by the XML element between different layout
         <class type="4">
           <data version="0">
             <name>View</name>
+            <description>This is the basic block view that displays an associated basic block. Like the basic block it views this class reads in its configuration from an XML element supplied to it from its basic block. The XML definition provides all information about the layout of display elements this view displays. This class can be implemented by another more specialized class and is necessary to do so if the custom viewing element is used.</description>
             <qtobject/>
           </data>
+          <parent type="13">
+            <data version="0">
+              <access>public</access>
+              <class>QLabel</class>
+            </data>
+          </parent>
+          <access type="5">
+            <data version="0">
+              <type>public:</type>
+            </data>
+            <constructor type="9">
+              <data version="0">
+                <explicit/>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>block</name>
+                  <description>The basic block this new view is viewing.</description>
+                  <type>BasicBlock*</type>
+                </data>
+              </variable>
+            </constructor>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>public slots:</type>
+            </data>
+            <slot type="7">
+              <data version="0">
+                <name>update</name>
+                <type>void</type>
+              </data>
+            </slot>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>_header1Tag</name>
+                <static/>
+                <type>const char*</type>
+                <initializer>"h1"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_header2Tag</name>
+                <static/>
+                <type>const char*</type>
+                <initializer>"h2"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_header3Tag</name>
+                <static/>
+                <type>const char*</type>
+                <initializer>"h3"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_paragraphsTag</name>
+                <static/>
+                <type>const char*</type>
+                <initializer>"ps"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_customTag</name>
+                <static/>
+                <type>const char*</type>
+                <initializer>"custom"</initializer>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>_nameKey</name>
+                <static/>
+                <type>const char*</type>
+                <initializer>"name"</initializer>
+              </data>
+            </variable>
+          </access>
+          <access type="5">
+            <data version="0">
+              <type>private:</type>
+            </data>
+            <function type="2">
+              <data version="0">
+                <name>addParagraphs</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>text</name>
+                  <type>QString*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>element</name>
+                  <type>const QDomElement&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function type="2">
+              <data version="0">
+                <name>addCustom</name>
+                <type>void</type>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>text</name>
+                  <type>QString*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>element</name>
+                  <type>const QDomElement&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <variable type="1">
+              <data version="0">
+                <name>_block</name>
+                <type>BasicBlock*</type>
+              </data>
+            </variable>
+          </access>
         </class>
       </access>
       <access type="5">

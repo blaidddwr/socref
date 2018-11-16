@@ -111,7 +111,8 @@ SOURCES += \
     basicblockfactory.cpp \
     basicblock.cpp \
     basicblock_edit.cpp \
-    gui_typeselection.cpp
+    gui_typeselection.cpp \
+    basicblock_view.cpp
 
 HEADERS += \
     abstractprojectfactory.h \
@@ -211,12 +212,13 @@ HEADERS += \
     basicblockfactory.h \
     basicblock.h \
     basicblock_edit.h \
-    gui_typeselection.h
+    gui_typeselection.h \
+    basicblock_view.h
 
 RESOURCES += \
     resources.qrc
 
 isEmpty(PREFIX) { PREFIX = /usr/local }
 program.path = $${PREFIX}/bin
-program.files = $${TARGET}
+program.files = $${OUT_PWD}/$${TARGET}
 INSTALLS += program

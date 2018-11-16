@@ -48,11 +48,6 @@ private:
     */
    static const char* _layoutTag;
    /*!
-    * The attribute name for the id used to reference what data field an edit element 
-    * edits. 
-    */
-   static const char* _idKey;
-   /*!
     * The attribute name for the display string used as the title of an edit element. 
     */
    static const char* _displayKey;

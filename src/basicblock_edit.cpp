@@ -34,11 +34,6 @@ const char* BasicBlock::Edit::_formTag {"form"};
  */
 const char* BasicBlock::Edit::_layoutTag {"layout"};
 /*!
- * The attribute name for the id used to reference what data field an edit element 
- * edits. 
- */
-const char* BasicBlock::Edit::_idKey {"id"};
-/*!
  * The attribute name for the display string used as the title of an edit element. 
  */
 const char* BasicBlock::Edit::_displayKey {"display"};
