@@ -18184,13 +18184,16 @@ The layout of this editor is defined by the XML element between different layout
             </data>
             <constructor type="9">
               <data version="0">
+                <description>Constructs a new view with the given basic block which is displays.</description>
                 <explicit/>
                 <type>void</type>
+                <operation>Format this new view's label.</operation>
+                <operation>Update this new view so it is not blank.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>block</name>
-                  <description>The basic block this new view is viewing.</description>
+                  <description>The basic block this new view is displaying.</description>
                   <type>BasicBlock*</type>
                 </data>
               </variable>
@@ -18203,7 +18206,15 @@ The layout of this editor is defined by the XML element between different layout
             <slot type="7">
               <data version="0">
                 <name>update</name>
+                <description>Updates the label of this view to display its basic block using the view definition provided by it. This overwrites any existing text and replaces it with the new updated version.</description>
                 <type>void</type>
+                <operation>Create a new string that will hold the new rich text of this view.</operation>
+                <operation>Prepare an enumeration and matching string list for recognizing element tag names.</operation>
+                <operation>Iterate through all child nodes of this view's basic block's view definition element.</operation>
+                <operation>Check to see if the node is an element.</operation>
+                <operation>Figure out which display element this is, if any, and add its string to the new updated rich text.</operation>
+                <operation>Move to the next node sibling.</operation>
+                <operation>Set the text of this view's label to the updated rich text.</operation>
               </data>
             </slot>
           </access>
@@ -18214,6 +18225,7 @@ The layout of this editor is defined by the XML element between different layout
             <variable type="1">
               <data version="0">
                 <name>_header1Tag</name>
+                <description>The tag name for a header 1 display element, 1 being the largest.</description>
                 <static/>
                 <type>const char*</type>
                 <initializer>"h1"</initializer>
@@ -18222,6 +18234,7 @@ The layout of this editor is defined by the XML element between different layout
             <variable type="1">
               <data version="0">
                 <name>_header2Tag</name>
+                <description>The tag name for a header 2 display element, 1 being the largest.</description>
                 <static/>
                 <type>const char*</type>
                 <initializer>"h2"</initializer>
@@ -18230,6 +18243,7 @@ The layout of this editor is defined by the XML element between different layout
             <variable type="1">
               <data version="0">
                 <name>_header3Tag</name>
+                <description>The tag name for a header 3 display element, 1 being the largest.</description>
                 <static/>
                 <type>const char*</type>
                 <initializer>"h3"</initializer>
@@ -18238,6 +18252,7 @@ The layout of this editor is defined by the XML element between different layout
             <variable type="1">
               <data version="0">
                 <name>_paragraphsTag</name>
+                <description>The tag name for a paragraphs display element that displays a basic block field as multiple paragraphs separated by double newline characters.</description>
                 <static/>
                 <type>const char*</type>
                 <initializer>"ps"</initializer>
@@ -18246,6 +18261,7 @@ The layout of this editor is defined by the XML element between different layout
             <variable type="1">
               <data version="0">
                 <name>_customTag</name>
+                <description>The tag name for a custom display element specifying a custom method to call that returned a custom string.</description>
                 <static/>
                 <type>const char*</type>
                 <initializer>"custom"</initializer>
@@ -18254,6 +18270,7 @@ The layout of this editor is defined by the XML element between different layout
             <variable type="1">
               <data version="0">
                 <name>_nameKey</name>
+                <description>The attribute name for the custom method name of a custom display element.</description>
                 <static/>
                 <type>const char*</type>
                 <initializer>"name"</initializer>
@@ -18267,17 +18284,24 @@ The layout of this editor is defined by the XML element between different layout
             <function type="2">
               <data version="0">
                 <name>addParagraphs</name>
+                <description>Adds paragraphs to the given rich text based off the given XML display element definition. If the basic block field referenced by the given display element then nothing will be added. The basic block field referenced must be a string or an exception is thrown.</description>
                 <type>void</type>
+                <operation>Make sure the given display element has the id attribute.</operation>
+                <operation>Get the basic block field that the given display element references and make sure it is a string.</operation>
+                <operation>Split the basic block field into a string list of paragraphs based off double newline characters being the separator, checking to make sure the generated string list is not empty.</operation>
+                <operation>Add the string list to the given rich text as paragraphs.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>text</name>
+                  <description>Pointer to the rich text that paragraphs are added to if the given display element's basic block field is not empty.</description>
                   <type>QString*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>XML display element definition that references the basic block field to add as paragraphs to the given rich text.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -18285,17 +18309,22 @@ The layout of this editor is defined by the XML element between different layout
             <function type="2">
               <data version="0">
                 <name>addCustom</name>
+                <description>Adds custom content to the given rich text based off the given XML custom display element. If the provided method name does not exist for this object then an exception is thrown.</description>
                 <type>void</type>
+                <operation>Lookup the custom method referenced by the name attribute of the given custom display element definition, making sure the method exists.</operation>
+                <operation>Invoke the custom method of this object and add the content it returns to the given rich text.</operation>
               </data>
               <variable type="1">
                 <data version="0">
                   <name>text</name>
+                  <description>The rich text that custom content is added to.</description>
                   <type>QString*</type>
                 </data>
               </variable>
               <variable type="1">
                 <data version="0">
                   <name>element</name>
+                  <description>XML custom display element definition that provides the custom method name to call and is expected to return a string of custom content.</description>
                   <type>const QDomElement&amp;</type>
                 </data>
               </variable>
@@ -18303,6 +18332,7 @@ The layout of this editor is defined by the XML element between different layout
             <variable type="1">
               <data version="0">
                 <name>_block</name>
+                <description>The basic block that this view is displaying.</description>
                 <type>BasicBlock*</type>
               </data>
             </variable>
