@@ -100,7 +100,7 @@ Sut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
    // Return a new settings dialog for the given project type. 
    switch (type)
    {
-   case CppQtType: return QPtr<QDialog>(new CppQt::Gui::SettingsDialog);
+   //case CppQtType: return QPtr<QDialog>(new CppQt::Gui::SettingsDialog);
    default:
       {
          // This project type is not recognized so throw an exception. 
@@ -161,7 +161,7 @@ Sut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, con
    // root. 
    switch (type)
    {
-   case CppQtType: return QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
+   //case CppQtType: return QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
    default:
       {
          // This project type is not recognized so throw an exception. 

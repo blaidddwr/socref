@@ -226,6 +226,11 @@ void BasicBlock::Edit::apply()
          throw e;
       }
    }
+
+   // Notify the block system that this editor's basic block has been modified. 
+   _block->notifyModified();
+   _block->notifyNameModified();
+   _block->notifyBodyModified();
 }
 
 

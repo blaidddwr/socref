@@ -18,7 +18,7 @@ class BasicBlock::View : public QLabel
 {
    Q_OBJECT
 public:
-   explicit View(BasicBlock* block);
+   explicit View(const BasicBlock* block);
 public slots:
    void update();
 private:
@@ -51,10 +51,11 @@ private:
 private:
    void addParagraphs(QString* text, const QDomElement& element);
    void addCustom(QString* text, const QDomElement& element);
+   QStringList parseBoldMarkers(const QStringList& list);
    /*!
     * The basic block that this view is displaying. 
     */
-   BasicBlock* _block;
+   const BasicBlock* _block;
 };
 
 

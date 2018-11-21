@@ -1,0 +1,65 @@
+<cppqt>
+
+
+
+<typelist display="Type List">
+    <icon>:/icons/typelist.svg</icon>
+    <string id="name" default="list"/>
+    <name>name</name>
+    <buildlist>
+        <typelist/>
+        <type/>
+    </buildlist>
+    <edit>
+        <form>
+            <line id="name" display="Title:"/>
+        </form>
+    </edit>
+    <view>
+        <h1>Under Construction</h1>
+    </view>
+</typelist>
+
+
+
+<type display="Type">
+    <icon>:/icons/type.svg</icon>
+    <string id="type" default="int"/>
+    <name>type</name>
+    <edit>
+        <form>
+            <line id="type" display="Type:"/>
+        </form>
+    </edit>
+    <view>
+        <h1>Type Definition</h1>
+        <ps id="type"/>
+    </view>
+</type>
+
+
+
+<namespace display="Namespace" root="yes">
+    <icon>:/icons/namespace.svg</icon>
+    <string id="name" default="space"/>
+    <string id="description"/>
+    <name>name</name>
+    <buildlist>
+        <typelist/>
+        <namespace/>
+    </buildlist>
+    <edit>
+        <form>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+        </form>
+    </edit>
+    <view>
+        <h1>Description</h1>
+        <ps id="description"/>
+    </view>
+</namespace>
+
+
+
+</cppqt>

@@ -590,6 +590,11 @@
         </type>
         <type type="16">
           <data version="0">
+            <type>const BasicBlock*</type>
+          </data>
+        </type>
+        <type type="16">
+          <data version="0">
             <type>Sut::QPtr&lt;BasicBlock></type>
           </data>
         </type>
@@ -7324,7 +7329,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>AbstractBlockFactory</class>
+            <class>BasicBlockFactory</class>
           </data>
         </parent>
         <parent type="13">
@@ -7341,6 +7346,18 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <data version="0">
               <description>Defines all possible block types for the C++/Qt project type.</description>
             </data>
+            <enumval type="12">
+              <data version="0">
+                <name>TypeListType</name>
+                <description>Defines the type list block. This is for storing variable/function types because C++ is a strongly typed language.</description>
+              </data>
+            </enumval>
+            <enumval type="12">
+              <data version="0">
+                <name>TypeType</name>
+                <description>Defines the type block. This defines a specific type a variable or a function's return can make as their type.</description>
+              </data>
+            </enumval>
             <enumval type="12">
               <data version="0">
                 <name>NamespaceType</name>
@@ -7433,18 +7450,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </enumval>
             <enumval type="12">
               <data version="0">
-                <name>TypeListType</name>
-                <description>Defines the type list block. This is for storing variable/function types because C++ is a strongly typed language.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>TypeType</name>
-                <description>Defines the type block. This defines a specific type a variable or a function's return can make as their type.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
                 <name>FriendType</name>
                 <description>Defines the friend block. This is for friend declarations within classes.</description>
               </data>
@@ -7456,6 +7461,11 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               </data>
             </enumval>
           </enumeration>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
           <function type="2">
             <data version="0">
               <name>type</name>
@@ -7467,58 +7477,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <type>int</type>
               <return_description>See interface docs.</return_description>
             </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>size</name>
-              <description>Implements _AbstractBlockFactory_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Use the total enumeration to return the total size of defined blocks for this block factory.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>name</name>
-              <description>Implements _AbstractBlockFactory_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QString</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given block type return its display name.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>type</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>typeByElementName</name>
-              <description>Implements _AbstractBlockFactory_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>elementName</name>
-                <description>See interface docs.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
           </function>
           <function type="2">
             <data version="0">
@@ -7540,46 +7498,16 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               </data>
             </variable>
           </function>
-          <function type="2">
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
+          <constructor type="9">
             <data version="0">
-              <name>makeBlock</name>
-              <description>Implements _AbstractBlockFactory_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;AbstractBlock></type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given block type create a new block of that type and return its smart pointer.</operation>
+              <type>void</type>
             </data>
-            <variable type="1">
-              <data version="0">
-                <name>type</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>isDefault</name>
-                <description>See interface docs.</description>
-                <type>bool</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeRootBlock</name>
-              <description>Implements _AbstractBlockFactory_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;AbstractBlock></type>
-              <return_description>See interface docs.</return_description>
-              <operation>Create a new namespace block which is used as this project type's root block and return its pointer.</operation>
-            </data>
-          </function>
+          </constructor>
         </access>
       </class>
       <class type="4">
@@ -17681,6 +17609,7 @@ The layout of this editor is defined by the XML element between different layout
                 <operation>Get the matching basic block field of the edit widget, making sure the field exists.</operation>
                 <operation>Figure out what type the edit widget is and set the value of the basic block field to the value of the edit widget, making sure the basic block field is of the correct type.</operation>
                 <operation>Else the edit widget is of an unknown type so throw an exception.</operation>
+                <operation>Notify the block system that this editor's basic block has been modified.</operation>
               </data>
             </function>
             <function type="2">
@@ -18194,7 +18123,7 @@ The layout of this editor is defined by the XML element between different layout
                 <data version="0">
                   <name>block</name>
                   <description>The basic block this new view is displaying.</description>
-                  <type>BasicBlock*</type>
+                  <type>const BasicBlock*</type>
                 </data>
               </variable>
             </constructor>
@@ -18288,7 +18217,8 @@ The layout of this editor is defined by the XML element between different layout
                 <type>void</type>
                 <operation>Make sure the given display element has the id attribute.</operation>
                 <operation>Get the basic block field that the given display element references and make sure it is a string.</operation>
-                <operation>Split the basic block field into a string list of paragraphs based off double newline characters being the separator, checking to make sure the generated string list is not empty.</operation>
+                <operation>Split the basic block field into a string list of paragraphs based off double newline characters being the separator, parsing each string for bold underline markers.</operation>
+                <operation>Make sure the list of paragraphs is not empty.</operation>
                 <operation>Add the string list to the given rich text as paragraphs.</operation>
               </data>
               <variable type="1">
@@ -18329,11 +18259,36 @@ The layout of this editor is defined by the XML element between different layout
                 </data>
               </variable>
             </function>
+            <function type="2">
+              <data version="0">
+                <name>parseBoldMarkers</name>
+                <description>Parses all underline characters from the given list of strings, replacing them with HTML bold tags. The parsed list of strings is returned.</description>
+                <type>QStringList</type>
+                <return_description>Parsed list of strings, replacing underlines with HTML bold tags.</return_description>
+                <operation>Create an empty string list that will be returned.</operation>
+                <operation>Iterate through all strings of the given string list.</operation>
+                <operation>Create an empty parsed string and initialize the ingress state.</operation>
+                <operation>Iterate through every character of the text.</operation>
+                <operation>Check if the current character is an underline.</operation>
+                <operation>Append an opening or closing HTML old tag to the parsed string depending on the ingress state.</operation>
+                <operation>Invert the ingress state.</operation>
+                <operation>Else the current character is not an underline so simply append it to the parsed string.</operation>
+                <operation>Add the parsed string to the list of parsed strings returned.</operation>
+                <operation>Return the parsed string list.</operation>
+              </data>
+              <variable type="1">
+                <data version="0">
+                  <name>list</name>
+                  <description>List of strings that is parsed to replace underline characters with HTML bold tags.</description>
+                  <type>const QStringList&amp;</type>
+                </data>
+              </variable>
+            </function>
             <variable type="1">
               <data version="0">
                 <name>_block</name>
                 <description>The basic block that this view is displaying.</description>
-                <type>BasicBlock*</type>
+                <type>const BasicBlock*</type>
               </data>
             </variable>
           </access>
@@ -18821,6 +18776,7 @@ The layout of this editor is defined by the XML element between different layout
           <data version="0">
             <name>get</name>
             <description>Return the data field of this basic block with the given id. If no field exists with the given id then an exception is thrown.</description>
+            <const/>
             <type>QVariant</type>
             <return_description>Data field of this data block with the given id.</return_description>
             <operation>Make sure this basic block has been initialized.</operation>

@@ -1,6 +1,6 @@
 #ifndef CPPQT_BLOCKFACTORY_H
 #define CPPQT_BLOCKFACTORY_H
-#include "abstractblockfactory.h"
+#include "basicblockfactory.h"
 #include <socutil/sut_singleton.h>
 //
 
@@ -13,7 +13,7 @@ namespace CppQt
     * enumeration representing all possible block types for its project type. This is 
     * a singleton class and has only one single global instance. 
     */
-   class BlockFactory : public AbstractBlockFactory, public Sut::Singleton<BlockFactory>
+   class BlockFactory : public BasicBlockFactory, public Sut::Singleton<BlockFactory>
    {
    public:
       /*!
@@ -22,9 +22,19 @@ namespace CppQt
       enum 
       {
          /*!
+          * Defines the type list block. This is for storing variable/function types because 
+          * C++ is a strongly typed language. 
+          */
+         TypeListType
+         /*!
+          * Defines the type block. This defines a specific type a variable or a function's 
+          * return can make as their type. 
+          */
+         ,TypeType
+         /*!
           * Defines the namespace block. 
           */
-         NamespaceType
+         ,NamespaceType
          /*!
           * Defines the variable block. 
           */
@@ -84,16 +94,6 @@ namespace CppQt
           */
          ,UsingType
          /*!
-          * Defines the type list block. This is for storing variable/function types because 
-          * C++ is a strongly typed language. 
-          */
-         ,TypeListType
-         /*!
-          * Defines the type block. This defines a specific type a variable or a function's 
-          * return can make as their type. 
-          */
-         ,TypeType
-         /*!
           * Defines the friend block. This is for friend declarations within classes. 
           */
          ,FriendType
@@ -102,13 +102,11 @@ namespace CppQt
           */
          ,Total
       };
+   public:
       virtual int type() const override final;
-      virtual int size() const override final;
-      virtual QString name(int type) const override final;
-      virtual int typeByElementName(const QString& elementName) const override final;
       virtual QString elementName(int type) const override final;
-      virtual Sut::QPtr<AbstractBlock> makeBlock(int type, bool isDefault) const override final;
-      virtual Sut::QPtr<AbstractBlock> makeRootBlock() const override final;
+   public:
+      BlockFactory();
    };
 }
 

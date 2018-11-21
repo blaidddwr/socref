@@ -39,5 +39,6 @@
         <file alias="icons/typelist.svg">../data/icons/typelist.svg</file>
         <file alias="icons/type.svg">../data/icons/type.svg</file>
         <file alias="html/about.html">../data/html/about.html</file>
+        <file alias="cppqt/defs.xml">../data/cppqt/defs.xml</file>
     </qresource>
 </RCC>

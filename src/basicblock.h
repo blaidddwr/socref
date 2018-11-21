@@ -117,7 +117,7 @@ private:
 private:
    void check() const;
    void addField(Field type, const QDomElement& element, bool isDefault);
-   QVariant get(const QString& id);
+   QVariant get(const QString& id) const;
    /*!
     * XML element that defines this basic block type. Used to make copies of this 
     * basic block. 

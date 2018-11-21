@@ -46,7 +46,7 @@ const char* BasicBlock::View::_nameKey {"name"};
  *
  * @param block The basic block this new view is displaying. 
  */
-BasicBlock::View::View(BasicBlock* block):
+BasicBlock::View::View(const BasicBlock* block):
    _block(block)
 {
    // Format this new view's label. 
@@ -158,9 +158,14 @@ void BasicBlock::View::addParagraphs(QString* text, const QDomElement& element)
    }
 
    // Split the basic block field into a string list of paragraphs based off double 
-   // newline characters being the separator, checking to make sure the generated 
-   // string list is not empty. 
-   QStringList paragraphs {field.toString().split("\n\n",QString::SkipEmptyParts)};
+   // newline characters being the separator, parsing each string for bold underline 
+   // markers. 
+   QStringList paragraphs
+   {
+      parseBoldMarkers(field.toString().split("\n\n",QString::SkipEmptyParts))
+   };
+
+   // Make sure the list of paragraphs is not empty. 
    if ( !paragraphs.isEmpty() )
    {
       // Add the string list to the given rich text as paragraphs. 
@@ -204,4 +209,58 @@ void BasicBlock::View::addCustom(QString* text, const QDomElement& element)
    QMetaMethod method {metaObject()->method(index)};
    method.invoke(this,Qt::DirectConnection,Q_RETURN_ARG(QString,subtext));
    *text += subtext;
+}
+
+
+
+
+
+
+/*!
+ * Parses all underline characters from the given list of strings, replacing them 
+ * with HTML bold tags. The parsed list of strings is returned. 
+ *
+ * @param list List of strings that is parsed to replace underline characters with 
+ *             HTML bold tags. 
+ *
+ * @return Parsed list of strings, replacing underlines with HTML bold tags. 
+ */
+QStringList BasicBlock::View::parseBoldMarkers(const QStringList& list)
+{
+   // Create an empty string list that will be returned. 
+   QStringList ret;
+
+   // Iterate through all strings of the given string list. 
+   for (auto text: list)
+   {
+      // Create an empty parsed string and initialize the ingress state. 
+      QString parsed;
+      bool ingress {true};
+
+      // Iterate through every character of the text. 
+      for (auto ch: text)
+      {
+         // Check if the current character is an underline. 
+         if ( ch == QChar('_') )
+         {
+            // Append an opening or closing HTML old tag to the parsed string depending on the 
+            // ingress state. 
+            if ( ingress ) parsed.append("<b>");
+            else parsed.append("</b>");
+
+            // Invert the ingress state. 
+            ingress = !ingress;
+         }
+
+         // Else the current character is not an underline so simply append it to the 
+         // parsed string. 
+         else parsed.append(ch);
+      }
+
+      // Add the parsed string to the list of parsed strings returned. 
+      ret << parsed;
+   }
+
+   // Return the parsed string list. 
+   return ret;
 }

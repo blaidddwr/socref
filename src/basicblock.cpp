@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include <socutil/sut_exceptions.h>
 #include "basicblock_edit.h"
+#include "basicblock_view.h"
 
 
 
@@ -172,7 +173,9 @@ QList<int> BasicBlock::buildList() const
  * @return See interface docs. 
  */
 Sut::QPtr<QWidget> BasicBlock::makeView() const
-{}
+{
+   return QPtr<QWidget>(new View(this));
+}
 
 
 
@@ -651,7 +654,7 @@ void BasicBlock::addField(Field type, const QDomElement& element, bool isDefault
    // Get the id the new data field of this basic block will use, making sure the id 
    // attribute exists in the given element. 
    const QString key {element.attribute(_idKey)};
-   if ( !key.isEmpty() )
+   if ( key.isEmpty() )
    {
       Exception::ReadError e;
       SUT_MARK_EXCEPTION(e);
@@ -705,7 +708,7 @@ void BasicBlock::addField(Field type, const QDomElement& element, bool isDefault
  *
  * @return Data field of this data block with the given id. 
  */
-QVariant BasicBlock::get(const QString& id)
+QVariant BasicBlock::get(const QString& id) const
 {
    // Make sure this basic block has been initialized. 
    check();
