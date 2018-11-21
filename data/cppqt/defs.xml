@@ -16,7 +16,8 @@
         </form>
     </edit>
     <view>
-        <h1>Under Construction</h1>
+        <custom name="displayTypeLists"/>
+        <custom name="displayTypes"/>
     </view>
 </typelist>
 
@@ -32,7 +33,7 @@
         </form>
     </edit>
     <view>
-        <h1>Type Definition</h1>
+        <h3>Type Definition</h3>
         <ps id="type"/>
     </view>
 </type>
@@ -55,7 +56,7 @@
         </form>
     </edit>
     <view>
-        <h1>Description</h1>
+        <h3>Description</h3>
         <ps id="description"/>
     </view>
 </namespace>

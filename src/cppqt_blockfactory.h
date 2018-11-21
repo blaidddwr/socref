@@ -107,6 +107,8 @@ namespace CppQt
       virtual QString elementName(int type) const override final;
    public:
       BlockFactory();
+   protected:
+      virtual Sut::QPtr<BasicBlock> makeBasicBlock(int type) const;
    };
 }
 

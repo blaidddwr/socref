@@ -18,11 +18,9 @@ using namespace CppQt;
  * @param block Type list block this new view displays. 
  */
 TypeList::View::View(const TypeList* block):
-   Base::View(block),
+   BasicBlock::View(block),
    _block(block)
-{
-   setText(displayText());
-}
+{}
 
 
 
@@ -30,27 +28,10 @@ TypeList::View::View(const TypeList* block):
 
 
 /*!
- * Returns the HTML rich text that displays the body of this view's type list 
- * block. 
+ * Returns a rich text string that displays all type lists this view's type list 
+ * block contains as children. 
  *
- * @return HTML rich text that displays the body of this view's type list block. 
- */
-QString TypeList::View::displayText()
-{
-   // Return a HTML string of the description, type lists, and types in that order. 
-   return displayDescription().append(displayTypeLists()).append(displayTypes());
-}
-
-
-
-
-
-
-/*!
- * Returns a HTML string that displays all type lists this view's type list block 
- * contains as children. 
- *
- * @return HTML string that displays all type lists this view's type list block 
+ * @return Rich text that displays all type lists this view's type list block 
  *         contains. 
  */
 QString TypeList::View::displayTypeLists()
@@ -66,14 +47,16 @@ QString TypeList::View::displayTypeLists()
    };
    if ( list.isEmpty() ) return ret;
 
-   // Add a HTML title and beginning paragraph tag, then iterate through all type 
-   // list children and append their info as HTML, and then add a HTML ending 
-   // paragraph tag. 
-   ret.append(tr("<h3>Type Lists</h3><p>"));
-   for (auto typeList: list) ret.append(typeList->name()).append("<br/>");
-   ret.append("</p>");
+   // Add a rich text title. 
+   ret += QStringLiteral("<h3>Type Lists</h3>");
 
-   // Return the HTML string. 
+   // Add a beginning paragraph tag, then iterate through all type list children and 
+   // append their info as rich text, and then add an ending paragraph tag. 
+   ret += QStringLiteral("<p>");
+   for (auto typeList: list) ret += typeList->name() + QStringLiteral("<br/>");
+   ret += QStringLiteral("</p>");
+
+   // Return the rich text string. 
    return ret;
 }
 
@@ -83,10 +66,10 @@ QString TypeList::View::displayTypeLists()
 
 
 /*!
- * Returns a HTML string that displays all type blocks this view's type list block 
- * contains as children. 
+ * Returns a rich text string that displays all type blocks this view's type list 
+ * block contains as children. 
  *
- * @return HTML string that displays all type blocks this view's type list block 
+ * @return Rich text that displays all type blocks this view's type list block 
  *         contains. 
  */
 QString TypeList::View::displayTypes()
@@ -99,12 +82,15 @@ QString TypeList::View::displayTypes()
    const QList<Type*> list {_block->makeListOfType<Type>(BlockFactory::TypeType)};
    if ( list.isEmpty() ) return ret;
 
-   // Add a HTML title, then iterate through all type children and append their info 
-   // as HTML, and then add a HTML ending paragraph. 
-   ret.append(tr("<h3>Types</h3><p>"));
-   for (auto type: list) ret.append(type->name().replace("<","&lt;")).append("<br/>");
-   ret.append("</p>");
+   // Add a rich text title. 
+   ret += QStringLiteral("<h3>Types</h3>");
 
-   // Return the HTML string. 
+   // Add a beginning paragraph tag, then iterate through all type children and 
+   // append their info as rich text, and then add an ending paragraph. 
+   ret += QStringLiteral("<p>");
+   for (auto type: list) ret += type->name().replace("<","&lt;") + QStringLiteral("<br/>");
+   ret += QStringLiteral("</p>");
+
+   // Return the rich text string. 
    return ret;
 }

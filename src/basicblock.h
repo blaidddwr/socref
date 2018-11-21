@@ -58,15 +58,15 @@ public:
    virtual QString name() const override;
    virtual QIcon icon() const override;
    virtual QList<int> buildList() const override;
-   virtual Sut::QPtr<QWidget> makeView() const override;
+   virtual Sut::QPtr<QWidget> makeView() const override final;
    virtual Sut::QPtr<Gui::AbstractEdit> makeEdit() override final;
 public:
    void initialize(int type, const AbstractBlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault);
 protected:
+   virtual Sut::QPtr<BasicBlock::View> makeBasicView() const;
    virtual void readData(const QDomElement& element) override final;
    virtual QDomElement writeData(QDomDocument& document) const override final;
    virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
-   virtual Sut::QPtr<BasicBlock> makeBlankBasic() const;
    virtual void copyDataFrom(const AbstractBlock* other) override final;
    virtual QJsonObject typeList() const;
 protected:

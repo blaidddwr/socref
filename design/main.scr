@@ -11,6 +11,8 @@
     <word>AbstractParser</word>
     <word>AbstractParserFactory</word>
     <word>AbstractProjectFactory</word>
+    <word>BasicBlock</word>
+    <word>BasicBlockFactory</word>
     <word>C++</word>
     <word>C++/Qt</word>
     <word>CppQt</word>
@@ -662,6 +664,11 @@
       <type type="16">
         <data version="0">
           <type>ScanThread*</type>
+        </data>
+      </type>
+      <type type="16">
+        <data version="0">
+          <type>Sut::QPtr&lt;BasicBlock::View></type>
         </data>
       </type>
       <type type="16">
@@ -7488,7 +7495,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <final/>
               <type>QString</type>
               <return_description>See interface docs.</return_description>
-              <operation>Based off the given block type return its element name.</operation>
+              <operation>Based off the given block type return its element name, throwing an exception if the given type is unknown.</operation>
             </data>
             <variable type="1">
               <data version="0">
@@ -7505,437 +7512,33 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           </data>
           <constructor type="9">
             <data version="0">
+              <description>Constructs a new C++/Qt block factory.</description>
               <type>void</type>
             </data>
           </constructor>
         </access>
-      </class>
-      <class type="4">
-        <data version="0">
-          <name>Base</name>
-          <description>This is the base block class used by many other concrete block types within the C++/Qt project type. Because this is not a concrete block type it does not implement all abstract interfaces of the abstract block class. The two common fields this base class implements are the name and description fields. Certain abstract block interfaces are handled exclusively by this base class.
-
-This base class handles the abstract block interfaces that query for field tag names and finding their index. This is done by adding a new virtual function that other blocks using this block must implement. This interface returns the full list of all field tag names for its block, and should be built up from previous block classes it inherits from. Also because of this the field enumeration of other classes using this one should begin their enumeration with the total size of the previous field enumeration it inherits from.
-
-The name field has a special interface for checking if it is valid which can be overridden by inherited classes. It does provide a default interface that will work in most cases.</description>
-          <qtobject/>
-        </data>
-        <parent type="13">
-          <data version="0">
-            <access>public</access>
-            <class>AbstractBlock</class>
-          </data>
-        </parent>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
-          <class type="4">
-            <data version="0">
-              <name>View</name>
-              <description>This is the base view class for its parent block. Because this is the base class that is not actually used as a concrete class this view class is also made in that way. This contained helper display functions that multiple concrete views use such as parsing bold text and making template argument lists. It also provides displaying its block's description field if a base block pointer is provided in its constructor.</description>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>QLabel</class>
-              </data>
-            </parent>
-            <access type="5">
-              <data version="0">
-                <type>public:</type>
-              </data>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new base view object with no associated base block.</description>
-                  <explicit/>
-                </data>
-              </constructor>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new base view with the given base block.</description>
-                  <explicit/>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Constant pointer to the base block this new view is showing.</description>
-                    <type>const Base*</type>
-                  </data>
-                </variable>
-              </constructor>
-            </access>
-            <access type="5">
-              <data version="0">
-                <type>protected:</type>
-              </data>
-              <function type="2">
-                <data version="0">
-                  <name>parseBoldMarkers</name>
-                  <description>Parses all underline characters from the given text, replacing it with HTML bold tags. The parsed text is returned.</description>
-                  <static/>
-                  <type>QString</type>
-                  <return_description>Parsed text replacing underlines with HTML bold tags.</return_description>
-                  <operation>Create an empty string and initialize the ingress state.</operation>
-                  <operation>Iterate through every character of the given text.</operation>
-                  <operation>Check if the current character is an underline.</operation>
-                  <operation>If ingress is true then append a beginning HTML bold marker else append a ending HTML bold marker.</operation>
-                  <operation>Invert the ingress state.</operation>
-                  <operation>Else the current character is not an underline so simply append it.</operation>
-                  <operation>Return the bold HTML formatted string.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>text</name>
-                    <description>Text that is parsed to replace underline characters with HTML bold tags.</description>
-                    <type>const QString&amp;</type>
-                  </data>
-                </variable>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>displayDescription</name>
-                  <description>Returns an HTML string containing the description of this view's base block. The HTML returned contains a title and one or more paragraphs of the base block's description field. If this view has no base block this returns an empty string.</description>
-                  <type>QString</type>
-                  <return_description>HTML string containing the description of this view's base block or an empty string if this object has no base block.</return_description>
-                  <operation>Create an empty string and make sure this view has a block pointer.</operation>
-                  <operation>Split this view's block's description field into paragraphs using double newlines as the separator and make sure the there is at least one paragraph.</operation>
-                  <operation>Append the HTML title for the description.</operation>
-                  <operation>Iterate through almost every paragraph except for the very last one.</operation>
-                  <operation>Append the paragraph with underline bold markers parsed and separating HTML paragraph markers.</operation>
-                  <operation>Append the very last paragraph with underline markers parsed and the final ending paragraph HTML tag.</operation>
-                  <operation>Return the HTML description string.</operation>
-                </data>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>displayTemplates</name>
-                  <description>Returns a HTML string containing a list of any template arguments this view's block may contain. Each template argument also has its own description added to the HTML string. If this view has no base block this returns an empty string.</description>
-                  <type>QString</type>
-                  <return_description>HTML string containing list of any template arguments this view's block may contain or an empty string if this object has no base block.</return_description>
-                  <operation>Create an empty string and make sure this view has a block pointer.</operation>
-                  <operation>Create a pointer list of all template blocks this view's block contains as direct children, making sure that list is not empty.</operation>
-                  <operation>Append the HTML title for templates.</operation>
-                  <operation>Iterate through all template block pointers and append an HTML paragraph describing each one.</operation>
-                  <operation>Return the HTML templates string.</operation>
-                </data>
-              </function>
-            </access>
-            <access type="5">
-              <data version="0">
-                <type>private:</type>
-              </data>
-              <function type="2">
-                <data version="0">
-                  <name>setupLabel</name>
-                  <description>Initializes the properties of this base label widget.</description>
-                  <type>void</type>
-                  <operation>Initialize this label widget.</operation>
-                </data>
-              </function>
-              <variable type="1">
-                <data version="0">
-                  <name>_block</name>
-                  <description>Pointer to the base block this view is showing or null if the block being viewed does not inherit from the base block.</description>
-                  <type>const Base*</type>
-                  <initializer>nullptr</initializer>
-                </data>
-              </variable>
-            </access>
-          </class>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>factory</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>const AbstractBlockFactory&amp;</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>name</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>QString</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldSize</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Use the field enumeration to return the total number of fields.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldType</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>AbstractBlock::Field</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given index return its field type.</operation>
-              <operation>If the given index is unknown then throw an exception.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>field</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>QVariant</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given index return its field value.</operation>
-              <operation>If the given index is unknown then throw an exception.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>description</name>
-              <description>Returns this block's description field.</description>
-              <const/>
-              <type>QString</type>
-              <return_description>This block's description field.</return_description>
-            </data>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>protected:</type>
-          </data>
-          <enumeration type="11">
-            <data version="0">
-              <name>Field</name>
-              <description>Defines the fields this block contains.</description>
-            </data>
-            <enumval type="12">
-              <data version="0">
-                <name>Name</name>
-                <description>Defines the name field. This field is for the basic name of many concrete blocks.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>Description</name>
-                <description>Defines the description field. This is used by many concrete blocks for its general description.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>Total</name>
-                <description>Defines the total number of fields this block defines.</description>
-              </data>
-            </enumval>
-          </enumeration>
-          <function type="2">
-            <data version="0">
-              <name>version</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldTag</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QString</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Use this block's fields interface to figure out the tag at the given index.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldIndexOf</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Use this block's fields interface to figure out the index of the given tag name.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>name</name>
-                <description>See interface docs.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldModified</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <type>void</type>
-              <operation>Notify of modification regardless of specific field type.</operation>
-              <operation>Based off the given field index notify that this block's body or name has been modified.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>quietlySetField</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <type>void</type>
-              <operation>Based off the given field index set its value to the new one given.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>See interface docs.</description>
-                <type>const QVariant&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fields</name>
-              <description>This interface returns the full list of of all field tag names for this block that matches the order of this block's field enumeration. The default implementation returns the two base fields for this base class.</description>
-              <virtual/>
-              <const/>
-              <type>QStringList</type>
-              <return_description>Full list of all field tag names for this block.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>checkName</name>
-              <description>This interface checks to make sure the given name is a valid name for this block type, returning true if it is valid. This implementation makes sure it is a basic C++ alphanumeric name.</description>
-              <virtual/>
-              <type>bool</type>
-              <return_description>True if the given name is valid or false otherwise.</return_description>
-              <operation>Use a regular expression to determine if the given string has correct syntax.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>The name value whose syntax is checked to be valid or not.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-        </access>
         <access type="5">
           <data version="0">
             <type>protected:</type>
           </data>
           <function type="2">
             <data version="0">
-              <name>setName</name>
-              <description>Sets this block's name field, making sure the given new value has correct syntax. If the syntax is not correct an exception is thrown.</description>
-              <type>void</type>
-              <operation>Make sure the given value has correct syntax.</operation>
-              <operation>Set this block's name field to the new value given.</operation>
+              <name>makeBasicBlock</name>
+              <description>Implements _BasicBlockFactory_ interface.</description>
+              <virtual/>
+              <const/>
+              <type>Sut::QPtr&lt;BasicBlock></type>
+              <return_description>See interface docs.</return_description>
+              <operation>Based off the given block type return a new instance of that type or a null pointer if that type does not have an implementation.</operation>
             </data>
             <variable type="1">
               <data version="0">
-                <name>value</name>
-                <description>New value for this block's name field.</description>
-                <type>const QString&amp;</type>
+                <name>type</name>
+                <description>See interface docs.</description>
+                <type>int</type>
               </data>
             </variable>
           </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>private:</type>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>_fields</name>
-              <description>List of this block's field tag names that follow the same order as this block's enumeration of fields.</description>
-              <static/>
-              <type>const QStringList</type>
-              <initializer>"name","description"</initializer>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>_name</name>
-              <description>This block's name field value.</description>
-              <type>QString</type>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>_description</name>
-              <description>This block's description field value.</description>
-              <type>QString</type>
-            </data>
-          </variable>
         </access>
       </class>
       <class type="4">
@@ -7947,84 +7550,13 @@ The name field has a special interface for checking if it is valid which can be 
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Base</class>
+            <class>BasicBlock</class>
           </data>
         </parent>
         <access type="5">
           <data version="0">
             <type>public:</type>
           </data>
-          <class type="4">
-            <data version="0">
-              <name>Edit</name>
-              <description>This is the edit class for the type list block.</description>
-              <qtobject/>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>::Gui::AbstractEdit</class>
-              </data>
-            </parent>
-            <access type="5">
-              <data version="0">
-                <type>public:</type>
-              </data>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new type list edit object with the given type list block.</description>
-                  <explicit/>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Type list block that this new edit object edits.</description>
-                    <type>TypeList*</type>
-                  </data>
-                </variable>
-              </constructor>
-            </access>
-            <access type="5">
-              <data version="0">
-                <type>protected:</type>
-              </data>
-              <function type="2">
-                <data version="0">
-                  <name>layout</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <override/>
-                  <final/>
-                  <type>QLayout*</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Save the geometry of this dialog.</operation>
-                  <operation>Create a new form layout, adding the base name field and then the base description field.</operation>
-                  <operation>Return the form layout.</operation>
-                </data>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>fieldTitle</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QString</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Based off the given field index return its title.</operation>
-                  <operation>If the given index is unknown then throw an exception.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>index</name>
-                    <description>See interface docs.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-          </class>
           <class type="4">
             <data version="0">
               <name>View</name>
@@ -8034,7 +7566,7 @@ The name field has a special interface for checking if it is valid which can be 
             <parent type="13">
               <data version="0">
                 <access>public</access>
-                <class>Base::View</class>
+                <class>BasicBlock::View</class>
               </data>
             </parent>
             <access type="5">
@@ -8061,35 +7593,28 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
               <function type="2">
                 <data version="0">
-                  <name>displayText</name>
-                  <description>Returns the HTML rich text that displays the body of this view's type list block.</description>
-                  <type>QString</type>
-                  <return_description>HTML rich text that displays the body of this view's type list block.</return_description>
-                  <operation>Return a HTML string of the description, type lists, and types in that order.</operation>
-                </data>
-              </function>
-              <function type="2">
-                <data version="0">
                   <name>displayTypeLists</name>
-                  <description>Returns a HTML string that displays all type lists this view's type list block contains as children.</description>
+                  <description>Returns a rich text string that displays all type lists this view's type list block contains as children.</description>
                   <type>QString</type>
-                  <return_description>HTML string that displays all type lists this view's type list block contains.</return_description>
+                  <return_description>Rich text that displays all type lists this view's type list block contains.</return_description>
                   <operation>Create an empty return string.</operation>
                   <operation>Create a pointer list of all type list children of this view's type list block and make sure it is not empty.</operation>
-                  <operation>Add a HTML title and beginning paragraph tag, then iterate through all type list children and append their info as HTML, and then add a HTML ending paragraph tag.</operation>
-                  <operation>Return the HTML string.</operation>
+                  <operation>Add a rich text title.</operation>
+                  <operation>Add a beginning paragraph tag, then iterate through all type list children and append their info as rich text, and then add an ending paragraph tag.</operation>
+                  <operation>Return the rich text string.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
                   <name>displayTypes</name>
-                  <description>Returns a HTML string that displays all type blocks this view's type list block contains as children.</description>
+                  <description>Returns a rich text string that displays all type blocks this view's type list block contains as children.</description>
                   <type>QString</type>
-                  <return_description>HTML string that displays all type blocks this view's type list block contains.</return_description>
+                  <return_description>Rich text that displays all type blocks this view's type list block contains.</return_description>
                   <operation>Create an empty return string.</operation>
                   <operation>Create a pointer list of all type children of this view's type list block and make sure it is not empty.</operation>
-                  <operation>Add a HTML title, then iterate through all type children and append their info as HTML, and then add a HTML ending paragraph.</operation>
-                  <operation>Return the HTML string.</operation>
+                  <operation>Add a rich text title.</operation>
+                  <operation>Add a beginning paragraph tag, then iterate through all type children and append their info as rich text, and then add an ending paragraph.</operation>
+                  <operation>Return the rich text string.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -8106,100 +7631,13 @@ The name field has a special interface for checking if it is valid which can be 
           <data version="0">
             <type>public:</type>
           </data>
-          <function type="2">
-            <data version="0">
-              <name>type</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>name</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QString</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Return the base name appended with the number of children this block contains.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>icon</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QIcon</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Initialize the static icon for this block type.</operation>
-              <operation>Return the icon.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>buildList</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QList&lt;int></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeView</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;QWidget></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeEdit</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new type list block with a default state or null state based off the given flag.</description>
+              <description>Constructs a new type list block.</description>
+              <default/>
               <explicit/>
               <type>void</type>
-              <operation>If the given flag is set to default then initialize this new block.</operation>
             </data>
-            <variable type="1">
-              <data version="0">
-                <name>isDefault</name>
-                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
-                <type>bool</type>
-                <initializer>false</initializer>
-              </data>
-            </variable>
           </constructor>
         </access>
         <access type="5">
@@ -8208,13 +7646,13 @@ The name field has a special interface for checking if it is valid which can be 
           </data>
           <function type="2">
             <data version="0">
-              <name>makeBlank</name>
-              <description>Implements _AbstractBlock_ interface.</description>
+              <name>makeBasicView</name>
+              <description>Implements _BasicBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <final/>
-              <type>Sut::QPtr&lt;AbstractBlock></type>
+              <type>Sut::QPtr&lt;BasicBlock::View></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -8278,37 +7716,44 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
             </variable>
           </function>
-          <function type="2">
-            <data version="0">
-              <name>checkName</name>
-              <description>Implements _CppQt::Base_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>bool</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Use a regular expression to determine if the given value is valid.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>See interface docs.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
         </access>
       </class>
       <class type="4">
         <data version="0">
           <name>Type</name>
-          <description>This is the type block. This is used to define a specific C++ type, either literal or template. It also provides helper syntax validation static functions which other classes within the C++/Qt project type can use.</description>
+          <description>This is the type block. This is used to define a specific C++ type, either literal or template.</description>
           <qtobject/>
         </data>
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>AbstractBlock</class>
+            <class>BasicBlock</class>
+          </data>
+        </parent>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
+          <constructor type="9">
+            <data version="0">
+              <description>Constructs a new type block.</description>
+              <default/>
+              <explicit/>
+              <type>void</type>
+            </data>
+          </constructor>
+        </access>
+      </class>
+      <class type="4">
+        <data version="0">
+          <name>Namespace</name>
+          <description>This is the namespace block. This defines a C++ namespace. This block is used as the root block for C++/Qt projects as the global namespace.</description>
+          <qtobject/>
+        </data>
+        <parent type="13">
+          <data version="0">
+            <access>public</access>
+            <class>Base</class>
           </data>
         </parent>
         <access type="5">
@@ -8318,7 +7763,7 @@ The name field has a special interface for checking if it is valid which can be 
           <class type="4">
             <data version="0">
               <name>Edit</name>
-              <description>This is the edit class for the type block.</description>
+              <description>This is the edit class for the namespace block.</description>
               <qtobject/>
             </data>
             <parent type="13">
@@ -8333,14 +7778,14 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
               <constructor type="9">
                 <data version="0">
-                  <description>Constructs a new type edit object with the given type block.</description>
+                  <description>Constructs a new type edit object with the given namespace block.</description>
                   <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>block</name>
-                    <description>Type block that this new edit object edits.</description>
-                    <type>Type*</type>
+                    <description>Namespace block that this new edit object edits.</description>
+                    <type>Namespace*</type>
                   </data>
                 </variable>
               </constructor>
@@ -8358,8 +7803,8 @@ The name field has a special interface for checking if it is valid which can be 
                   <final/>
                   <type>QLayout*</type>
                   <return_description>See interface docs.</return_description>
-                  <operation>Save the geometry for this dialog.</operation>
-                  <operation>Create a new form layout, adding the type name field and connecting its text changed signal.</operation>
+                  <operation>Save the geometry of this dialog.</operation>
+                  <operation>Create a new form layout, adding the base name field and then the base description field.</operation>
                   <operation>Return the form layout.</operation>
                 </data>
               </function>
@@ -8374,7 +7819,7 @@ The name field has a special interface for checking if it is valid which can be 
                   <type>QString</type>
                   <return_description>See interface docs.</return_description>
                   <operation>Based off the given field index return its title.</operation>
-                  <operation>If the given index is unknown then throw an exception.</operation>
+                  <operation>If the given field index is unknown then throw an exception.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
@@ -8385,29 +7830,11 @@ The name field has a special interface for checking if it is valid which can be 
                 </variable>
               </function>
             </access>
-            <access type="5">
-              <data version="0">
-                <type>private slots:</type>
-              </data>
-              <slot type="7">
-                <data version="0">
-                  <name>textChanged</name>
-                  <description>Called when the text in this edit object's line edit widget for the type name field has changed. This enables or disables the OK/apply buttons of its dialog depending on if the text is a valid type name or not.</description>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>text</name>
-                    <description>The new text that the qt line edit widget contains.</description>
-                    <type>const QString&amp;</type>
-                  </data>
-                </variable>
-              </slot>
-            </access>
           </class>
           <class type="4">
             <data version="0">
               <name>View</name>
-              <description>This is the view class for the type block.</description>
+              <description>This is the view class for the namespace block.</description>
               <qtobject/>
             </data>
             <parent type="13">
@@ -8422,38 +7849,18 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
               <constructor type="9">
                 <data version="0">
-                  <description>Constructs a new view object with the given type block.</description>
+                  <description>Constructs a new view object with the given namespace block.</description>
                   <explicit/>
+                  <operation>Display the base description for this view's namespace block and nothing else.</operation>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>block</name>
-                    <description>Type block this new view displays.</description>
-                    <type>const Type*</type>
+                    <description>Namespace block this new view displays.</description>
+                    <type>const Namespace*</type>
                   </data>
                 </variable>
               </constructor>
-            </access>
-            <access type="5">
-              <data version="0">
-                <type>private:</type>
-              </data>
-              <function type="2">
-                <data version="0">
-                  <name>displayText</name>
-                  <description>Returns the HTML rich text that displays the body of this view's type block.</description>
-                  <type>QString</type>
-                  <return_description>HTML rich text that displays the body of this view's type block.</return_description>
-                  <operation>Return this blocks name, making it HTML safe.</operation>
-                </data>
-              </function>
-              <variable type="1">
-                <data version="0">
-                  <name>_block</name>
-                  <description>Pointer to the type block this view is showing.</description>
-                  <type>const Type*</type>
-                </data>
-              </variable>
             </access>
           </class>
         </access>
@@ -8468,32 +7875,7 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <final/>
               <type>int</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>factory</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>const AbstractBlockFactory&amp;</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>name</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QString</type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
@@ -8504,7 +7886,6 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <final/>
               <type>QIcon</type>
               <return_description>See interface docs.</return_description>
               <operation>Initialize the static icon for this block type.</operation>
@@ -8518,7 +7899,6 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <final/>
               <type>QList&lt;int></type>
               <return_description>See interface docs.</return_description>
             </data>
@@ -8530,65 +7910,9 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <final/>
               <type>Sut::QPtr&lt;QWidget></type>
               <return_description>See interface docs.</return_description>
             </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldSize</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Use the field enumeration to return the total number of fields.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldType</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>AbstractBlock::Field</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given field index return its type.</operation>
-              <operation>If the given index is unknown then throw an exception.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>field</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QVariant</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given field index return its value.</operation>
-              <operation>If the given index is unknown then throw an exception.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
           </function>
           <function type="2">
             <data version="0">
@@ -8596,9 +7920,18 @@ The name field has a special interface for checking if it is valid which can be 
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <override/>
-              <final/>
               <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
               <return_description>See interface docs.</return_description>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>realChildren</name>
+              <description>This interface returns the real block children for this block. The real block children are all children of any access block children. If this is not a class then it is simply all direct children.</description>
+              <virtual/>
+              <const/>
+              <type>QList&lt;AbstractBlock*></type>
+              <return_description>Pointer list of all real children for this block.</return_description>
             </data>
           </function>
         </access>
@@ -8606,53 +7939,9 @@ The name field has a special interface for checking if it is valid which can be 
           <data version="0">
             <type>public:</type>
           </data>
-          <function type="2">
-            <data version="0">
-              <name>isValidTypeString</name>
-              <description>Tests if the given string is a valid C++ type, returning true if it is valid. The only validation that is done is checking proper syntax since checking actual names is beyond the scope of this program.</description>
-              <static/>
-              <type>bool</type>
-              <return_description>True if the given string has valid syntax for a C++ type or false otherwise.</return_description>
-              <operation>Make sure the given string matches basic syntax.</operation>
-              <operation>Find all template argument matches within the given string.</operation>
-              <operation>Iterate through all template argument matches.</operation>
-              <operation>If the current template argument match is not valid then return false.</operation>
-              <operation>All syntax testing worked so return true.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>The string that is checked for valid C++ type syntax.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>isValidTemplateArgument</name>
-              <description>Tests if the given string is a valid C++ template argument for a C++ type, returning true if it is valid. The only validation that is done is checking proper syntax.</description>
-              <static/>
-              <type>bool</type>
-              <return_description>True if the given string has valid syntax for a C++ template argument or false otherwise.</return_description>
-              <operation>Initialize the regular expression that will be used for basic syntax checking.</operation>
-              <operation>Split up all template arguments and iterate through them all.</operation>
-              <operation>Make sure the template argument matches basic syntax.</operation>
-              <operation>Check to see if this template argument has additional arguments nested within it.</operation>
-              <operation>Recursively call this method to make sure nested template argument is valid, returning false if it is not.</operation>
-              <operation>Else the template argument failed basic syntax so return false.</operation>
-              <operation>All syntax testing worked so return true.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>The string that is checked for valid C++ template argument syntax.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new type block with a default state or null state based off the given flag.</description>
+              <description>Constructs a new namespace block with a default state or null state based off the given flag.</description>
               <explicit/>
               <type>void</type>
               <operation>If the given flag is set to default then initialize this new block.</operation>
@@ -8668,11 +7957,23 @@ The name field has a special interface for checking if it is valid which can be 
           </constructor>
           <function type="2">
             <data version="0">
-              <name>cppType</name>
-              <description>Returns the type string this this block.</description>
+              <name>root</name>
+              <description>Returns a pointer to the root namespace of this block's entire project.</description>
               <const/>
-              <type>QString</type>
-              <return_description>Type string for this block.</return_description>
+              <type>const Namespace*</type>
+              <return_description>Pointer to the root namespace of this block's project.</return_description>
+              <operation>Get the root pointer for this block, casting it as a namespace block and making sure it worked.</operation>
+              <operation>Return the root namespace pointer.</operation>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>root</name>
+              <description>Returns a pointer to the root namespace of this block's entire project.</description>
+              <type>Namespace*</type>
+              <return_description>Pointer to the root namespace of this block's project.</return_description>
+              <operation>Get the root pointer for this block, casting it as a namespace block and making sure it worked.</operation>
+              <operation>Return the root namespace pointer.</operation>
             </data>
           </function>
         </access>
@@ -8680,24 +7981,6 @@ The name field has a special interface for checking if it is valid which can be 
           <data version="0">
             <type>protected:</type>
           </data>
-          <enumeration type="11">
-            <data version="0">
-              <name>Field</name>
-              <description>Defines the fields this block contains.</description>
-            </data>
-            <enumval type="12">
-              <data version="0">
-                <name>TypeName</name>
-                <description>Defines the type name field. This field is used to store the actual C++ type declaration.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>Total</name>
-                <description>Defines the total number of fields this block defines.</description>
-              </data>
-            </enumval>
-          </enumeration>
           <function type="2">
             <data version="0">
               <name>makeBlank</name>
@@ -8705,143 +7988,10 @@ The name field has a special interface for checking if it is valid which can be 
               <virtual/>
               <const/>
               <override/>
-              <final/>
               <type>Sut::QPtr&lt;AbstractBlock></type>
               <return_description>See interface docs.</return_description>
             </data>
           </function>
-          <function type="2">
-            <data version="0">
-              <name>version</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldTag</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QString</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Return this block's field tag at the given index.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldIndexOf</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Return the index of this block's field tag that matches the given name.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>name</name>
-                <description>See interface docs.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldModified</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>void</type>
-              <operation>Based off the field index given notify the changes to this block. If the given index is not defined then do nothing.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>quietlySetField</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>void</type>
-              <operation>Based off the given field index set its value. If the given index is not defined then do nothing.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>See interface docs.</description>
-                <type>const QVariant&amp;</type>
-              </data>
-            </variable>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>private:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>setType</name>
-              <description>Sets this block's type name field to the new value. If the given value is not a valid C++ type then an exception is thrown.</description>
-              <type>void</type>
-              <operation>Make sure the given value has valid type syntax.</operation>
-              <operation>Set this block's type value to the new one given.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>The new value for this block's type name field.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <variable type="1">
-            <data version="0">
-              <name>_fields</name>
-              <description>List of this block's field tag names that follow the same order as this block's enumeration of fields.</description>
-              <static/>
-              <type>const QStringList</type>
-              <initializer>"type"</initializer>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>_type</name>
-              <description>The C++ type declaration for this type block.</description>
-              <type>QString</type>
-            </data>
-          </variable>
         </access>
       </class>
       <class type="4">
@@ -9724,14 +8874,18 @@ The name field has a special interface for checking if it is valid which can be 
       </class>
       <class type="4">
         <data version="0">
-          <name>Namespace</name>
-          <description>This is the namespace block. This defines a C++ namespace. This block is used as the root block for C++/Qt projects as the global namespace.</description>
+          <name>Base</name>
+          <description>This is the base block class used by many other concrete block types within the C++/Qt project type. Because this is not a concrete block type it does not implement all abstract interfaces of the abstract block class. The two common fields this base class implements are the name and description fields. Certain abstract block interfaces are handled exclusively by this base class.
+
+This base class handles the abstract block interfaces that query for field tag names and finding their index. This is done by adding a new virtual function that other blocks using this block must implement. This interface returns the full list of all field tag names for its block, and should be built up from previous block classes it inherits from. Also because of this the field enumeration of other classes using this one should begin their enumeration with the total size of the previous field enumeration it inherits from.
+
+The name field has a special interface for checking if it is valid which can be overridden by inherited classes. It does provide a default interface that will work in most cases.</description>
           <qtobject/>
         </data>
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Base</class>
+            <class>AbstractBlock</class>
           </data>
         </parent>
         <access type="5">
@@ -9740,14 +8894,13 @@ The name field has a special interface for checking if it is valid which can be 
           </data>
           <class type="4">
             <data version="0">
-              <name>Edit</name>
-              <description>This is the edit class for the namespace block.</description>
-              <qtobject/>
+              <name>View</name>
+              <description>This is the base view class for its parent block. Because this is the base class that is not actually used as a concrete class this view class is also made in that way. This contained helper display functions that multiple concrete views use such as parsing bold text and making template argument lists. It also provides displaying its block's description field if a base block pointer is provided in its constructor.</description>
             </data>
             <parent type="13">
               <data version="0">
                 <access>public</access>
-                <class>::Gui::AbstractEdit</class>
+                <class>QLabel</class>
               </data>
             </parent>
             <access type="5">
@@ -9756,14 +8909,20 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
               <constructor type="9">
                 <data version="0">
-                  <description>Constructs a new type edit object with the given namespace block.</description>
+                  <description>Constructs a new base view object with no associated base block.</description>
+                  <explicit/>
+                </data>
+              </constructor>
+              <constructor type="9">
+                <data version="0">
+                  <description>Constructs a new base view with the given base block.</description>
                   <explicit/>
                 </data>
                 <variable type="1">
                   <data version="0">
                     <name>block</name>
-                    <description>Namespace block that this new edit object edits.</description>
-                    <type>Namespace*</type>
+                    <description>Constant pointer to the base block this new view is showing.</description>
+                    <type>const Base*</type>
                   </data>
                 </variable>
               </constructor>
@@ -9774,71 +8933,76 @@ The name field has a special interface for checking if it is valid which can be 
               </data>
               <function type="2">
                 <data version="0">
-                  <name>layout</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <override/>
-                  <final/>
-                  <type>QLayout*</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Save the geometry of this dialog.</operation>
-                  <operation>Create a new form layout, adding the base name field and then the base description field.</operation>
-                  <operation>Return the form layout.</operation>
+                  <name>parseBoldMarkers</name>
+                  <description>Parses all underline characters from the given text, replacing it with HTML bold tags. The parsed text is returned.</description>
+                  <static/>
+                  <type>QString</type>
+                  <return_description>Parsed text replacing underlines with HTML bold tags.</return_description>
+                  <operation>Create an empty string and initialize the ingress state.</operation>
+                  <operation>Iterate through every character of the given text.</operation>
+                  <operation>Check if the current character is an underline.</operation>
+                  <operation>If ingress is true then append a beginning HTML bold marker else append a ending HTML bold marker.</operation>
+                  <operation>Invert the ingress state.</operation>
+                  <operation>Else the current character is not an underline so simply append it.</operation>
+                  <operation>Return the bold HTML formatted string.</operation>
+                </data>
+                <variable type="1">
+                  <data version="0">
+                    <name>text</name>
+                    <description>Text that is parsed to replace underline characters with HTML bold tags.</description>
+                    <type>const QString&amp;</type>
+                  </data>
+                </variable>
+              </function>
+              <function type="2">
+                <data version="0">
+                  <name>displayDescription</name>
+                  <description>Returns an HTML string containing the description of this view's base block. The HTML returned contains a title and one or more paragraphs of the base block's description field. If this view has no base block this returns an empty string.</description>
+                  <type>QString</type>
+                  <return_description>HTML string containing the description of this view's base block or an empty string if this object has no base block.</return_description>
+                  <operation>Create an empty string and make sure this view has a block pointer.</operation>
+                  <operation>Split this view's block's description field into paragraphs using double newlines as the separator and make sure the there is at least one paragraph.</operation>
+                  <operation>Append the HTML title for the description.</operation>
+                  <operation>Iterate through almost every paragraph except for the very last one.</operation>
+                  <operation>Append the paragraph with underline bold markers parsed and separating HTML paragraph markers.</operation>
+                  <operation>Append the very last paragraph with underline markers parsed and the final ending paragraph HTML tag.</operation>
+                  <operation>Return the HTML description string.</operation>
                 </data>
               </function>
               <function type="2">
                 <data version="0">
-                  <name>fieldTitle</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
+                  <name>displayTemplates</name>
+                  <description>Returns a HTML string containing a list of any template arguments this view's block may contain. Each template argument also has its own description added to the HTML string. If this view has no base block this returns an empty string.</description>
                   <type>QString</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Based off the given field index return its title.</operation>
-                  <operation>If the given field index is unknown then throw an exception.</operation>
+                  <return_description>HTML string containing list of any template arguments this view's block may contain or an empty string if this object has no base block.</return_description>
+                  <operation>Create an empty string and make sure this view has a block pointer.</operation>
+                  <operation>Create a pointer list of all template blocks this view's block contains as direct children, making sure that list is not empty.</operation>
+                  <operation>Append the HTML title for templates.</operation>
+                  <operation>Iterate through all template block pointers and append an HTML paragraph describing each one.</operation>
+                  <operation>Return the HTML templates string.</operation>
                 </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>index</name>
-                    <description>See interface docs.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
               </function>
             </access>
-          </class>
-          <class type="4">
-            <data version="0">
-              <name>View</name>
-              <description>This is the view class for the namespace block.</description>
-              <qtobject/>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>Base::View</class>
-              </data>
-            </parent>
             <access type="5">
               <data version="0">
-                <type>public:</type>
+                <type>private:</type>
               </data>
-              <constructor type="9">
+              <function type="2">
                 <data version="0">
-                  <description>Constructs a new view object with the given namespace block.</description>
-                  <explicit/>
-                  <operation>Display the base description for this view's namespace block and nothing else.</operation>
+                  <name>setupLabel</name>
+                  <description>Initializes the properties of this base label widget.</description>
+                  <type>void</type>
+                  <operation>Initialize this label widget.</operation>
                 </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Namespace block this new view displays.</description>
-                    <type>const Namespace*</type>
-                  </data>
-                </variable>
-              </constructor>
+              </function>
+              <variable type="1">
+                <data version="0">
+                  <name>_block</name>
+                  <description>Pointer to the base block this view is showing or null if the block being viewed does not inherit from the base block.</description>
+                  <type>const Base*</type>
+                  <initializer>nullptr</initializer>
+                </data>
+              </variable>
             </access>
           </class>
         </access>
@@ -9848,111 +9012,242 @@ The name field has a special interface for checking if it is valid which can be 
           </data>
           <function type="2">
             <data version="0">
-              <name>type</name>
+              <name>factory</name>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <virtual/>
+              <const/>
+              <override/>
+              <final/>
+              <type>const AbstractBlockFactory&amp;</type>
+              <return_description>See interface docs.</return_description>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>name</name>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <virtual/>
+              <const/>
+              <override/>
+              <type>QString</type>
+              <return_description>See interface docs.</return_description>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>fieldSize</name>
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
               <type>int</type>
               <return_description>See interface docs.</return_description>
+              <operation>Use the field enumeration to return the total number of fields.</operation>
             </data>
           </function>
           <function type="2">
             <data version="0">
-              <name>icon</name>
+              <name>fieldType</name>
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
-              <type>QIcon</type>
+              <type>AbstractBlock::Field</type>
               <return_description>See interface docs.</return_description>
-              <operation>Initialize the static icon for this block type.</operation>
-              <operation>Return the icon.</operation>
+              <operation>Based off the given index return its field type.</operation>
+              <operation>If the given index is unknown then throw an exception.</operation>
             </data>
+            <variable type="1">
+              <data version="0">
+                <name>index</name>
+                <description>See interface docs.</description>
+                <type>int</type>
+              </data>
+            </variable>
           </function>
           <function type="2">
             <data version="0">
-              <name>buildList</name>
+              <name>field</name>
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
               <const/>
               <override/>
-              <type>QList&lt;int></type>
+              <type>QVariant</type>
               <return_description>See interface docs.</return_description>
+              <operation>Based off the given index return its field value.</operation>
+              <operation>If the given index is unknown then throw an exception.</operation>
             </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeView</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>Sut::QPtr&lt;QWidget></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeEdit</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>realChildren</name>
-              <description>This interface returns the real block children for this block. The real block children are all children of any access block children. If this is not a class then it is simply all direct children.</description>
-              <virtual/>
-              <const/>
-              <type>QList&lt;AbstractBlock*></type>
-              <return_description>Pointer list of all real children for this block.</return_description>
-            </data>
+            <variable type="1">
+              <data version="0">
+                <name>index</name>
+                <description>See interface docs.</description>
+                <type>int</type>
+              </data>
+            </variable>
           </function>
         </access>
         <access type="5">
           <data version="0">
             <type>public:</type>
           </data>
-          <constructor type="9">
-            <data version="0">
-              <description>Constructs a new namespace block with a default state or null state based off the given flag.</description>
-              <explicit/>
-              <type>void</type>
-              <operation>If the given flag is set to default then initialize this new block.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>isDefault</name>
-                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
-                <type>bool</type>
-                <initializer>false</initializer>
-              </data>
-            </variable>
-          </constructor>
           <function type="2">
             <data version="0">
-              <name>root</name>
-              <description>Returns a pointer to the root namespace of this block's entire project.</description>
+              <name>description</name>
+              <description>Returns this block's description field.</description>
               <const/>
-              <type>const Namespace*</type>
-              <return_description>Pointer to the root namespace of this block's project.</return_description>
-              <operation>Get the root pointer for this block, casting it as a namespace block and making sure it worked.</operation>
-              <operation>Return the root namespace pointer.</operation>
+              <type>QString</type>
+              <return_description>This block's description field.</return_description>
+            </data>
+          </function>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>protected:</type>
+          </data>
+          <enumeration type="11">
+            <data version="0">
+              <name>Field</name>
+              <description>Defines the fields this block contains.</description>
+            </data>
+            <enumval type="12">
+              <data version="0">
+                <name>Name</name>
+                <description>Defines the name field. This field is for the basic name of many concrete blocks.</description>
+              </data>
+            </enumval>
+            <enumval type="12">
+              <data version="0">
+                <name>Description</name>
+                <description>Defines the description field. This is used by many concrete blocks for its general description.</description>
+              </data>
+            </enumval>
+            <enumval type="12">
+              <data version="0">
+                <name>Total</name>
+                <description>Defines the total number of fields this block defines.</description>
+              </data>
+            </enumval>
+          </enumeration>
+          <function type="2">
+            <data version="0">
+              <name>version</name>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <virtual/>
+              <const/>
+              <override/>
+              <final/>
+              <type>int</type>
+              <return_description>See interface docs.</return_description>
             </data>
           </function>
           <function type="2">
             <data version="0">
-              <name>root</name>
-              <description>Returns a pointer to the root namespace of this block's entire project.</description>
-              <type>Namespace*</type>
-              <return_description>Pointer to the root namespace of this block's project.</return_description>
-              <operation>Get the root pointer for this block, casting it as a namespace block and making sure it worked.</operation>
-              <operation>Return the root namespace pointer.</operation>
+              <name>fieldTag</name>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <virtual/>
+              <const/>
+              <override/>
+              <final/>
+              <type>QString</type>
+              <return_description>See interface docs.</return_description>
+              <operation>Use this block's fields interface to figure out the tag at the given index.</operation>
             </data>
+            <variable type="1">
+              <data version="0">
+                <name>index</name>
+                <description>See interface docs.</description>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>fieldIndexOf</name>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <virtual/>
+              <const/>
+              <override/>
+              <final/>
+              <type>int</type>
+              <return_description>See interface docs.</return_description>
+              <operation>Use this block's fields interface to figure out the index of the given tag name.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>name</name>
+                <description>See interface docs.</description>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>fieldModified</name>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <virtual/>
+              <override/>
+              <type>void</type>
+              <operation>Notify of modification regardless of specific field type.</operation>
+              <operation>Based off the given field index notify that this block's body or name has been modified.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>index</name>
+                <description>See interface docs.</description>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>quietlySetField</name>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <virtual/>
+              <override/>
+              <type>void</type>
+              <operation>Based off the given field index set its value to the new one given.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>index</name>
+                <description>See interface docs.</description>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>value</name>
+                <description>See interface docs.</description>
+                <type>const QVariant&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>fields</name>
+              <description>This interface returns the full list of of all field tag names for this block that matches the order of this block's field enumeration. The default implementation returns the two base fields for this base class.</description>
+              <virtual/>
+              <const/>
+              <type>QStringList</type>
+              <return_description>Full list of all field tag names for this block.</return_description>
+            </data>
+          </function>
+          <function type="2">
+            <data version="0">
+              <name>checkName</name>
+              <description>This interface checks to make sure the given name is a valid name for this block type, returning true if it is valid. This implementation makes sure it is a basic C++ alphanumeric name.</description>
+              <virtual/>
+              <type>bool</type>
+              <return_description>True if the given name is valid or false otherwise.</return_description>
+              <operation>Use a regular expression to determine if the given string has correct syntax.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>value</name>
+                <description>The name value whose syntax is checked to be valid or not.</description>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
           </function>
         </access>
         <access type="5">
@@ -9961,15 +9256,48 @@ The name field has a special interface for checking if it is valid which can be 
           </data>
           <function type="2">
             <data version="0">
-              <name>makeBlank</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>Sut::QPtr&lt;AbstractBlock></type>
-              <return_description>See interface docs.</return_description>
+              <name>setName</name>
+              <description>Sets this block's name field, making sure the given new value has correct syntax. If the syntax is not correct an exception is thrown.</description>
+              <type>void</type>
+              <operation>Make sure the given value has correct syntax.</operation>
+              <operation>Set this block's name field to the new value given.</operation>
             </data>
+            <variable type="1">
+              <data version="0">
+                <name>value</name>
+                <description>New value for this block's name field.</description>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
           </function>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>private:</type>
+          </data>
+          <variable type="1">
+            <data version="0">
+              <name>_fields</name>
+              <description>List of this block's field tag names that follow the same order as this block's enumeration of fields.</description>
+              <static/>
+              <type>const QStringList</type>
+              <initializer>"name","description"</initializer>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_name</name>
+              <description>This block's name field value.</description>
+              <type>QString</type>
+            </data>
+          </variable>
+          <variable type="1">
+            <data version="0">
+              <name>_description</name>
+              <description>This block's description field value.</description>
+              <type>QString</type>
+            </data>
+          </variable>
         </access>
       </class>
       <class type="4">
@@ -18117,7 +17445,6 @@ The layout of this editor is defined by the XML element between different layout
                 <explicit/>
                 <type>void</type>
                 <operation>Format this new view's label.</operation>
-                <operation>Update this new view so it is not blank.</operation>
               </data>
               <variable type="1">
                 <data version="0">
@@ -18404,6 +17731,7 @@ The layout of this editor is defined by the XML element between different layout
             <virtual/>
             <const/>
             <override/>
+            <final/>
             <type>Sut::QPtr&lt;QWidget></type>
             <return_description>See interface docs.</return_description>
           </data>
@@ -18481,6 +17809,16 @@ The layout of this editor is defined by the XML element between different layout
         </data>
         <function type="2">
           <data version="0">
+            <name>makeBasicView</name>
+            <description>This interface returns a new basic block view implementation for this basic block. The default interface returns a generic basic block view. This should be used for basic block views that use the custom view element in its definition.</description>
+            <virtual/>
+            <const/>
+            <type>Sut::QPtr&lt;BasicBlock::View></type>
+            <return_description>New basic block view implementation for this basic block.</return_description>
+          </data>
+        </function>
+        <function type="2">
+          <data version="0">
             <name>readData</name>
             <description>Implements _AbstractBlock_ interface.</description>
             <virtual/>
@@ -18537,19 +17875,9 @@ The layout of this editor is defined by the XML element between different layout
             <type>Sut::QPtr&lt;AbstractBlock></type>
             <return_description>See interface docs.</return_description>
             <operation>Make sure this basic block has been initialized.</operation>
-            <operation>Create a new uninitialized basic block.</operation>
+            <operation>Create a new uninitialized basic block, making sure it worked.</operation>
             <operation>Initialize the new basic block to this basic block's type.</operation>
             <operation>Return the initialized basic block.</operation>
-          </data>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>makeBlankBasic</name>
-            <description>This interface creates a new uninitialized basic block. This is intended to be used by any classes implementing the basic block class so copies of their blocks can be made correctly. This new interface was made instead of allowing the abstract block interface to be overridden because basic blocks require initialization. The default implementation returns a null pointer.</description>
-            <virtual/>
-            <const/>
-            <type>Sut::QPtr&lt;BasicBlock></type>
-            <return_description>Pointer to a new basic block of a specific type that has a unique implementation class or a null pointer if this is a generic basic block.</return_description>
           </data>
         </function>
         <function type="2">

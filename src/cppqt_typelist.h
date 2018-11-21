@@ -1,6 +1,6 @@
 #ifndef CPPQT_TYPELIST_H
 #define CPPQT_TYPELIST_H
-#include "cppqt_base.h"
+#include "basicblock.h"
 //
 
 
@@ -13,27 +13,21 @@ namespace CppQt
     * users to better organize all defined types for a C++/Qt project because it is a 
     * hardly typed language and the list of defined types quickly becomes very long. 
     */
-   class TypeList : public Base
+   class TypeList : public BasicBlock
    {
       Q_OBJECT
    public:
-      class Edit;
       class View;
    public:
-      virtual int type() const override final;
-      virtual QString name() const override final;
-      virtual QIcon icon() const override final;
-      virtual QList<int> buildList() const override final;
-      virtual Sut::QPtr<QWidget> makeView() const override final;
-      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override final;
-   public:
-      explicit TypeList(bool isDefault = false);
+      /*!
+       * Constructs a new type list block. 
+       */
+      Q_INVOKABLE explicit TypeList() = default;
    protected:
-      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
+      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
       virtual bool childNameModified(AbstractBlock* child) override final;
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;
-      virtual bool checkName(const QString& value) override final;
    };
 }
 

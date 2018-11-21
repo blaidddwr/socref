@@ -174,7 +174,9 @@ QList<int> BasicBlock::buildList() const
  */
 Sut::QPtr<QWidget> BasicBlock::makeView() const
 {
-   return QPtr<QWidget>(new View(this));
+   QPtr<BasicBlock::View> ret(makeBasicView());
+   ret->update();
+   return ret;
 }
 
 
@@ -189,7 +191,7 @@ Sut::QPtr<QWidget> BasicBlock::makeView() const
  */
 Sut::QPtr<Gui::AbstractEdit> BasicBlock::makeEdit()
 {
-   return QPtr<Gui::AbstractEdit>(new Edit(this));
+   return new Edit(this);
 }
 
 
@@ -280,6 +282,23 @@ void BasicBlock::initialize(int type, const AbstractBlockFactory* factory, const
       // Move to the next sibling node. 
       node = node.nextSibling();
    }
+}
+
+
+
+
+
+
+/*!
+ * This interface returns a new basic block view implementation for this basic 
+ * block. The default interface returns a generic basic block view. This should be 
+ * used for basic block views that use the custom view element in its definition. 
+ *
+ * @return New basic block view implementation for this basic block. 
+ */
+Sut::QPtr<BasicBlock::View> BasicBlock::makeBasicView() const
+{
+   return new View(this);
 }
 
 
@@ -413,35 +432,22 @@ Sut::QPtr<AbstractBlock> BasicBlock::makeBlank() const
    // Make sure this basic block has been initialized. 
    check();
 
-   // Create a new uninitialized basic block. 
-   QPtr<BasicBlock> ret {makeBlankBasic()};
-   if ( !ret ) ret.reset(new BasicBlock);
+   // Create a new uninitialized basic block, making sure it worked. 
+   QPtr<BasicBlock> ret {qobject_cast<BasicBlock*>(metaObject()->newInstance())};
+   if ( !ret )
+   {
+      Exception::LogicError e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("Failed making new instance of basic block type %1.")
+                   .arg(metaObject()->className()));
+      throw e;
+   }
 
    // Initialize the new basic block to this basic block's type. 
    ret->initialize(_type,_factory,_definition,_buildList,false);
 
    // Return the initialized basic block. 
    return ret;
-}
-
-
-
-
-
-
-/*!
- * This interface creates a new uninitialized basic block. This is intended to be 
- * used by any classes implementing the basic block class so copies of their blocks 
- * can be made correctly. This new interface was made instead of allowing the 
- * abstract block interface to be overridden because basic blocks require 
- * initialization. The default implementation returns a null pointer. 
- *
- * @return Pointer to a new basic block of a specific type that has a unique 
- *         implementation class or a null pointer if this is a generic basic block. 
- */
-Sut::QPtr<BasicBlock> BasicBlock::makeBlankBasic() const
-{
-   return nullptr;
 }
 
 

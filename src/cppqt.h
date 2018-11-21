@@ -6,12 +6,12 @@ namespace CppQt
 {
    class Settings;
    class BlockFactory;
-   class Base;
    class TypeList;
    class Type;
+   class Namespace;
    class Enumeration;
    class EnumValue;
-   class Namespace;
+   class Base;
    class Variable;
    class Template;
    class Function;

@@ -54,9 +54,6 @@ BasicBlock::View::View(const BasicBlock* block):
    setWordWrap(true);
    setTextFormat(Qt::RichText);
    setMargin(8);
-
-   // Update this new view so it is not blank. 
-   update();
 }
 
 
@@ -93,13 +90,13 @@ void BasicBlock::View::update()
          switch (list.indexOf(element.tagName()))
          {
          case Title1:
-            text += QStringLiteral("<h2>") + element.text() + QStringLiteral("</h2>");
+            text += QStringLiteral("<h1>") + element.text() + QStringLiteral("</h1>");
             break;
          case Title2:
-            text += QStringLiteral("<h3>") + element.text() + QStringLiteral("</h3>");
+            text += QStringLiteral("<h2>") + element.text() + QStringLiteral("</h2>");
             break;
          case Title3:
-            text += QStringLiteral("<h4>") + element.text() + QStringLiteral("</h4>");
+            text += QStringLiteral("<h3>") + element.text() + QStringLiteral("</h3>");
             break;
          case Paragraphs:
             addParagraphs(&text,element);

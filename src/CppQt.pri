@@ -1,6 +1,8 @@
 
 SOURCES += \
-    cppqt_blockfactory.cpp
+    cppqt_blockfactory.cpp \
+    cppqt_typelist.cpp \
+    cppqt_typelist_view.cpp
     #cppqt_namespace.cpp \
     #cppqt_variable.cpp \
     #cppqt_base.cpp
@@ -26,17 +28,11 @@ SOURCES += \
     #cppqt_parse_access.cpp \
     #cppqt_parse_forward.cpp \
     #cppqt_gui_settingsdialog.cpp \
-    #cppqt_typelist.cpp \
-    #cppqt_type.cpp \
     #cppqt_settings.cpp \
     #cppqt_gui_typeselection.cpp \
     #cppqt_using.cpp \
     #cppqt_friend.cpp \
-    #cppqt_typelist_edit.cpp \
-    #cppqt_typelist_view.cpp \
     #cppqt_base_view.cpp \
-    #cppqt_type_edit.cpp \
-    #cppqt_type_view.cpp \
     #cppqt_enumeration_edit.cpp \
     #cppqt_enumeration_view.cpp \
     #cppqt_enumvalue_edit.cpp \
@@ -68,7 +64,10 @@ SOURCES += \
 
 HEADERS += \
     cppqt.h \
-    cppqt_blockfactory.h
+    cppqt_blockfactory.h \
+    cppqt_typelist.h \
+    cppqt_typelist_view.h \
+    cppqt_type.h
     #cppqt_variable.h \
     #cppqt_gui.h \
     #cppqt_namespace.h \
@@ -96,17 +95,11 @@ HEADERS += \
     #cppqt_parse_access.h \
     #cppqt_parse_forward.h \
     #cppqt_gui_settingsdialog.h \
-    #cppqt_typelist.h \
-    #cppqt_type.h \
     #cppqt_settings.h \
     #cppqt_gui_typeselection.h \
     #cppqt_using.h \
     #cppqt_friend.h \
-    #cppqt_typelist_edit.h \
-    #cppqt_typelist_view.h \
     #cppqt_base_view.h \
-    #cppqt_type_edit.h \
-    #cppqt_type_view.h \
     #cppqt_enumeration_edit.h \
     #cppqt_enumeration_view.h \
     #cppqt_enumvalue_edit.h \
