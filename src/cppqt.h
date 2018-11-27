@@ -5,7 +5,7 @@
 namespace CppQt
 {
    class Settings;
-   class BlockFactory;
+   class Factory;
    class TypeList;
    class Type;
    class Namespace;

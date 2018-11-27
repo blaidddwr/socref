@@ -17,6 +17,8 @@ namespace CppQt
    class Settings : public Sut::Singleton<Settings>
    {
    public:
+      class Dialog;
+   public:
       Settings();
       int indentSpaces() const;
       int headerLines() const;
@@ -27,7 +29,6 @@ namespace CppQt
       void setFunctionLines(int value);
       void setMaxColumns(int value);
    private:
-      void updateSetting(const QString& key, int value);
       /*!
        * The settings key used to save the indent spaces setting. 
        */
@@ -44,6 +45,8 @@ namespace CppQt
        * The settings key used to save the max columns setting. 
        */
       static const char* _maxColumnsKey;
+   private:
+      void updateSetting(const QString& key, int value);
       /*!
        * The number of spaces used per indent in parsed code. 
        */

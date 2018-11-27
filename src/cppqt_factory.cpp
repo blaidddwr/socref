@@ -1,4 +1,4 @@
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include <socutil/sut_exceptions.h>
 #include <projectfactory.h>
 #include "cppqt_typelist.h"
@@ -20,7 +20,7 @@ using namespace CppQt;
  *
  * @return See interface docs. 
  */
-int BlockFactory::type() const
+int Factory::type() const
 {
    return ProjectFactory::CppQtType;
 }
@@ -37,7 +37,7 @@ int BlockFactory::type() const
  *
  * @return See interface docs. 
  */
-QString BlockFactory::elementName(int type) const
+QString Factory::elementName(int type) const
 {
    // Based off the given block type return its element name, throwing an exception 
    // if the given type is unknown. 
@@ -79,7 +79,7 @@ QString BlockFactory::elementName(int type) const
 /*!
  * Constructs a new C++/Qt block factory. 
  */
-BlockFactory::BlockFactory():
+Factory::Factory():
    BasicBlockFactory(QStringLiteral(":/cppqt/defs.xml"))
 {}
 
@@ -95,7 +95,7 @@ BlockFactory::BlockFactory():
  *
  * @return See interface docs. 
  */
-Sut::QPtr<BasicBlock> BlockFactory::makeBasicBlock(int type) const
+Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
 {
    // Based off the given block type return a new instance of that type or a null 
    // pointer if that type does not have an implementation. 

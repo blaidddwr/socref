@@ -1,6 +1,6 @@
 #include "cppqt_typelist_view.h"
 #include "cppqt_type.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 
 
 
@@ -43,7 +43,7 @@ QString TypeList::View::displayTypeLists()
    // and make sure it is not empty. 
    const QList<CppQt::TypeList*> list
    {
-      _block->makeListOfType<CppQt::TypeList>(BlockFactory::TypeListType)
+      _block->makeListOfType<CppQt::TypeList>(Factory::TypeListType)
    };
    if ( list.isEmpty() ) return ret;
 
@@ -79,7 +79,7 @@ QString TypeList::View::displayTypes()
 
    // Create a pointer list of all type children of this view's type list block and 
    // make sure it is not empty. 
-   const QList<Type*> list {_block->makeListOfType<Type>(BlockFactory::TypeType)};
+   const QList<Type*> list {_block->makeListOfType<Type>(Factory::TypeType)};
    if ( list.isEmpty() ) return ret;
 
    // Add a rich text title. 

@@ -18,7 +18,7 @@ namespace CppQt
       /*!
        * Constructs a new type block. 
        */
-      Q_INVOKABLE explicit Type() = default;
+      explicit Type() = default;
    };
 }
 

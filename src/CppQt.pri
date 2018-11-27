@@ -1,6 +1,8 @@
 
 SOURCES += \
-    cppqt_blockfactory.cpp \
+    cppqt_settings.cpp \
+    cppqt_settings_dialog.cpp \
+    cppqt_factory.cpp \
     cppqt_typelist.cpp \
     cppqt_typelist_view.cpp
     #cppqt_namespace.cpp \
@@ -64,7 +66,9 @@ SOURCES += \
 
 HEADERS += \
     cppqt.h \
-    cppqt_blockfactory.h \
+    cppqt_settings.h \
+    cppqt_settings_dialog.h \
+    cppqt_factory.h \
     cppqt_typelist.h \
     cppqt_typelist_view.h \
     cppqt_type.h

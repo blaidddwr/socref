@@ -1,5 +1,5 @@
-#ifndef CPPQT_BLOCKFACTORY_H
-#define CPPQT_BLOCKFACTORY_H
+#ifndef CPPQT_FACTORY_H
+#define CPPQT_FACTORY_H
 #include "basicblockfactory.h"
 #include <socutil/sut_singleton.h>
 //
@@ -13,7 +13,7 @@ namespace CppQt
     * enumeration representing all possible block types for its project type. This is 
     * a singleton class and has only one single global instance. 
     */
-   class BlockFactory : public BasicBlockFactory, public Sut::Singleton<BlockFactory>
+   class Factory : public BasicBlockFactory, public Sut::Singleton<Factory>
    {
    public:
       /*!
@@ -106,7 +106,7 @@ namespace CppQt
       virtual int type() const override final;
       virtual QString elementName(int type) const override final;
    public:
-      BlockFactory();
+      Factory();
    protected:
       virtual Sut::QPtr<BasicBlock> makeBasicBlock(int type) const;
    };

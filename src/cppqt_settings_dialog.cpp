@@ -1,4 +1,4 @@
-#include "cppqt_gui_settingsdialog.h"
+#include "cppqt_settings_dialog.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QFormLayout>
@@ -9,7 +9,7 @@
 
 
 
-using namespace CppQt::Gui;
+using namespace CppQt;
 //
 
 
@@ -20,7 +20,7 @@ using namespace CppQt::Gui;
 /*!
  * Constructs a new settings dialog. 
  */
-SettingsDialog::SettingsDialog():
+Settings::Dialog::Dialog():
    ::Gui::PersistentDialog("cppqt.gui.settingsdialog.geometry")
 {
    // Create the GUI for this new dialog and set its window title. 
@@ -37,7 +37,7 @@ SettingsDialog::SettingsDialog():
  * Called when the OK button is clicked. This applies all global settings and 
  * closes the dialog. 
  */
-void SettingsDialog::okClicked()
+void Settings::Dialog::okClicked()
 {
    // Apply all global settings of this dialog and close it. 
    applyClicked();
@@ -53,10 +53,10 @@ void SettingsDialog::okClicked()
  * Called when the apply button is clicked. This applies the global setting values 
  * of this dialog. 
  */
-void SettingsDialog::applyClicked()
+void Settings::Dialog::applyClicked()
 {
    // Get the global settings object and apply all settings. 
-   Settings& settings {Settings::instance()};
+   Settings& settings {instance()};
    settings.setIndentSpaces(_indentSpacesBox->value());
    settings.setHeaderLines(_headerLinesBox->value());
    settings.setFunctionLines(_functionLinesBox->value());
@@ -71,7 +71,7 @@ void SettingsDialog::applyClicked()
 /*!
  * Creates and initializes all GUI elements for this new dialog. 
  */
-void SettingsDialog::setupGui()
+void Settings::Dialog::setupGui()
 {
    // Create a new vertical layout, adding the form layout and then the buttons 
    // layout. 
@@ -94,27 +94,30 @@ void SettingsDialog::setupGui()
  *
  * @return Form layout containing all edit widgets for this new dialog. 
  */
-QLayout* SettingsDialog::setupForm()
+QLayout* Settings::Dialog::setupForm()
 {
+   // Get the global settings instance. 
+   Settings& settings {instance()};
+
    // Create the indent spaces edit widget and set its value to the current global 
    // setting. 
    _indentSpacesBox = new QSpinBox;
-   _indentSpacesBox->setValue(Settings::instance().indentSpaces());
+   _indentSpacesBox->setValue(settings.indentSpaces());
 
    // Create the header lines edit widget and set its value to the current global 
    // setting. 
    _headerLinesBox = new QSpinBox;
-   _headerLinesBox->setValue(Settings::instance().headerLines());
+   _headerLinesBox->setValue(settings.headerLines());
 
    // Create the function lines edit widget and set its value to the current global 
    // setting. 
    _functionLinesBox = new QSpinBox;
-   _functionLinesBox->setValue(Settings::instance().functionLines());
+   _functionLinesBox->setValue(settings.functionLines());
 
    // Create the max columns edit widget and set its value to the current global 
    // setting. 
    _maxColumnsBox = new QSpinBox;
-   _maxColumnsBox->setValue(Settings::instance().maxColumns());
+   _maxColumnsBox->setValue(settings.maxColumns());
 
    // Create a new form layout, adding the indent spaces widget then the header lines 
    // widget then the function lines widget and then the max columns widget. 
@@ -139,15 +142,15 @@ QLayout* SettingsDialog::setupForm()
  *
  * @return Layout containing buttons for this new dialog. 
  */
-QLayout* SettingsDialog::setupButtons()
+QLayout* Settings::Dialog::setupButtons()
 {
    // Create the OK button for this dialog, connecting its clicked signal. 
    QPushButton* ok {new QPushButton(tr("&Ok"))};
-   connect(ok,&QPushButton::clicked,this,&SettingsDialog::okClicked);
+   connect(ok,&QPushButton::clicked,this,&Dialog::okClicked);
 
    // Create the apply button for this dialog, connecting its clicked signal. 
    QPushButton* apply {new QPushButton(tr("&Apply"))};
-   connect(apply,&QPushButton::clicked,this,&SettingsDialog::okClicked);
+   connect(apply,&QPushButton::clicked,this,&Dialog::okClicked);
 
    // Create the cancel button for this dialog, connecting its clicked signal. 
    QPushButton* cancel {new QPushButton(tr("&Cancel"))};

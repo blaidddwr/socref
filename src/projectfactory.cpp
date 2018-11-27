@@ -1,9 +1,9 @@
 #include "projectfactory.h"
 #include <QObject>
 #include <socutil/sut_exceptions.h>
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include "cppqt_parse_factory.h"
-#include "cppqt_gui_settingsdialog.h"
+#include "cppqt_settings_dialog.h"
 
 
 
@@ -100,7 +100,7 @@ Sut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
    // Return a new settings dialog for the given project type. 
    switch (type)
    {
-   //case CppQtType: return QPtr<QDialog>(new CppQt::Gui::SettingsDialog);
+   case CppQtType: return QPtr<QDialog>(new CppQt::Settings::Dialog);
    default:
       {
          // This project type is not recognized so throw an exception. 
@@ -129,7 +129,7 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
    // Return a reference to the block factory of the given project type. 
    switch (type)
    {
-   case CppQtType: return CppQt::BlockFactory::instance();
+   case CppQtType: return CppQt::Factory::instance();
    default:
       {
          // This project type is not recognized so throw an exception. 

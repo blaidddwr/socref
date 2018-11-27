@@ -4302,296 +4302,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
       </typeList>
       <namespace type="0">
         <data version="0">
-          <name>Gui</name>
-          <description>Contains all custom C++/Qt GUI elements.</description>
-        </data>
-        <class type="4">
-          <data version="0">
-            <name>SettingsDialog</name>
-            <description>This is the settings dialog. This allows the user to edit all global settings for the C++/Qt project type.</description>
-            <qtobject/>
-          </data>
-          <parent type="13">
-            <data version="0">
-              <access>public</access>
-              <class>::Gui::PersistentDialog</class>
-            </data>
-          </parent>
-          <access type="5">
-            <data version="0">
-              <type>public:</type>
-            </data>
-            <constructor type="9">
-              <data version="0">
-                <description>Constructs a new settings dialog.</description>
-                <explicit/>
-                <type>void</type>
-                <operation>Create the GUI for this new dialog and set its window title.</operation>
-              </data>
-            </constructor>
-          </access>
-          <access type="5">
-            <data version="0">
-              <type>private slots:</type>
-            </data>
-            <slot type="7">
-              <data version="0">
-                <name>okClicked</name>
-                <description>Called when the OK button is clicked. This applies all global settings and closes the dialog.</description>
-                <type>void</type>
-                <operation>Apply all global settings of this dialog and close it.</operation>
-              </data>
-            </slot>
-            <slot type="7">
-              <data version="0">
-                <name>applyClicked</name>
-                <description>Called when the apply button is clicked. This applies the global setting values of this dialog.</description>
-                <type>void</type>
-                <operation>Get the global settings object and apply all settings.</operation>
-              </data>
-            </slot>
-          </access>
-          <access type="5">
-            <data version="0">
-              <type>private:</type>
-            </data>
-            <function type="2">
-              <data version="0">
-                <name>setupGui</name>
-                <description>Creates and initializes all GUI elements for this new dialog.</description>
-                <type>void</type>
-                <operation>Create a new vertical layout, adding the form layout and then the buttons layout.</operation>
-                <operation>Set the layout of this new dialog.</operation>
-              </data>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>setupForm</name>
-                <description>Creates and initializes all edit widgets for this new dialog, returning a form layout containing the edit widgets.</description>
-                <type>QLayout*</type>
-                <return_description>Form layout containing all edit widgets for this new dialog.</return_description>
-                <operation>Create the indent spaces edit widget and set its value to the current global setting.</operation>
-                <operation>Create the header lines edit widget and set its value to the current global setting.</operation>
-                <operation>Create the function lines edit widget and set its value to the current global setting.</operation>
-                <operation>Create the max columns edit widget and set its value to the current global setting.</operation>
-                <operation>Create a new form layout, adding the indent spaces widget then the header lines widget then the function lines widget and then the max columns widget.</operation>
-                <operation>Return the form layout.</operation>
-              </data>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>setupButtons</name>
-                <description>Creates and initializes the OK, apply, and cancel buttons for this new dialog, returning the buttons layout.</description>
-                <type>QLayout*</type>
-                <return_description>Layout containing buttons for this new dialog.</return_description>
-                <operation>Create the OK button for this dialog, connecting its clicked signal.</operation>
-                <operation>Create the apply button for this dialog, connecting its clicked signal.</operation>
-                <operation>Create the cancel button for this dialog, connecting its clicked signal.</operation>
-                <operation>Create a new horizontal layout, adding the OK button then the apply button then a stretch and then the cancel button.</operation>
-                <operation>Return the buttons layout.</operation>
-              </data>
-            </function>
-            <variable type="1">
-              <data version="0">
-                <name>_indentSpacesBox</name>
-                <description>The edit widget for the indent spaces setting.</description>
-                <type>QSpinBox*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>_headerLinesBox</name>
-                <description>The edit widget for the header lines setting.</description>
-                <type>QSpinBox*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>_functionLinesBox</name>
-                <description>The edit widget for the function lines setting.</description>
-                <type>QSpinBox*</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>_maxColumnsBox</name>
-                <description>The edit widget for the max columns setting.</description>
-                <type>QSpinBox*</type>
-              </data>
-            </variable>
-          </access>
-        </class>
-        <class type="4">
-          <data version="0">
-            <name>TypeSelection</name>
-            <description>This is the type selection widget. This expanded push button widget provides a menu with all available C++ types parsed from a given block. Any type lists are grabbed from any parent block above the block given and added to the menu of this widget. Type lists are recursively transformed into sub menus.</description>
-            <qtobject/>
-          </data>
-          <parent type="13">
-            <data version="0">
-              <access>public</access>
-              <class>QPushButton</class>
-            </data>
-          </parent>
-          <access type="5">
-            <data version="0">
-              <type>public:</type>
-            </data>
-            <constructor type="9">
-              <data version="0">
-                <description>Constructs a new type selection widget with the given block for menu generation and the optional parent.</description>
-                <explicit/>
-                <type>void</type>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <description>The block that is used to generate the type selection menu based off any type lists contained in any of its parents.</description>
-                  <type>AbstractBlock*</type>
-                </data>
-              </variable>
-              <variable type="1">
-                <data version="0">
-                  <name>parent</name>
-                  <description>Optional parent for this new widget.</description>
-                  <type>QWidget*</type>
-                  <initializer>nullptr</initializer>
-                </data>
-              </variable>
-            </constructor>
-            <function type="2">
-              <data version="0">
-                <name>value</name>
-                <description>Returns the current C++ type selected for this type selection widget.</description>
-                <const/>
-                <type>QString</type>
-                <return_description>Current C++ type selected for this type selection widget.</return_description>
-              </data>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>setValue</name>
-                <description>Set the current C++ type selected by this widget to the new value given.</description>
-                <type>void</type>
-                <operation>Set the current type value of this widget to the new one given.</operation>
-                <operation>Set the display text of this button, replacing ampersand with double ampersand so it displays correctly.</operation>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>value</name>
-                  <description>The new type value for this type selection.</description>
-                  <type>const QString&amp;</type>
-                </data>
-              </variable>
-            </function>
-          </access>
-          <access type="5">
-            <data version="0">
-              <type>private slots:</type>
-            </data>
-            <slot type="7">
-              <data version="0">
-                <name>selectionTriggered</name>
-                <description>Called when the user chooses a type value from this selection's menu.</description>
-                <type>void</type>
-                <operation>Set the current C++ type of this selection to the value at the given index.</operation>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>index</name>
-                  <description>The index of the type value chosen in the menu.</description>
-                  <type>int</type>
-                </data>
-              </variable>
-            </slot>
-          </access>
-          <access type="5">
-            <data version="0">
-              <type>private:</type>
-            </data>
-            <function type="2">
-              <data version="0">
-                <name>buildRootMenu</name>
-                <description>Builds and returns the type selection menu for this new widget from the given block.</description>
-                <type>QMenu*</type>
-                <return_description>The type selection menu for this new widget.</return_description>
-                <operation>Create a new menu.</operation>
-                <operation>Iterate up to the next block's parent until it is null.</operation>
-                <operation>Iterate through all type list children blocks of the current parent block and build a sub menu for each one.</operation>
-                <operation>Move up to the next parent.</operation>
-                <operation>Return the built type selection menu.</operation>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <description>The block that is used to generate the returned type selection menu.</description>
-                  <type>AbstractBlock*</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>buildMenu</name>
-                <description>Builds and returns a sub menu for the type selection menu from the given type list. Any children type lists are recursively added to the returned sub menu.</description>
-                <type>QMenu*</type>
-                <return_description>Sub menu for the type selection menu built from the given type list.</return_description>
-                <operation>Create a new sub menu using the name of the given type list.</operation>
-                <operation>Iterate through all children of the given type list block.</operation>
-                <operation>If the child block is a type list then add a sub menu built by recursively calling this method.</operation>
-                <operation>Else if the block is a simple type then add it.</operation>
-                <operation>Return the sub menu.</operation>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>block</name>
-                  <description>The type list block used to generate the returned sub menu.</description>
-                  <type>TypeList*</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>addType</name>
-                <description>Add a type selection action to the given menu with the given type block.</description>
-                <type>void</type>
-                <operation>Get the index where the new type will be added to this object's list of possible types and then add it.</operation>
-                <operation>Create the action for selecting this new type value, replacing the ampersand to display correctly and connecting its triggered signal.</operation>
-                <operation>Add the new type selection action to the given menu.</operation>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>menu</name>
-                  <description>The menu which is added to.</description>
-                  <type>QMenu*</type>
-                </data>
-              </variable>
-              <variable type="1">
-                <data version="0">
-                  <name>type</name>
-                  <description>The type block used to generate the type selection added.</description>
-                  <type>Type*</type>
-                </data>
-              </variable>
-            </function>
-            <variable type="1">
-              <data version="0">
-                <name>_types</name>
-                <description>List of all possible types the menu of this widget allows the user to select.</description>
-                <type>QStringList</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>_value</name>
-                <description>The current C++ type value for this selection widget.</description>
-                <type>QString</type>
-              </data>
-            </variable>
-          </access>
-        </class>
-      </namespace>
-      <namespace type="0">
-        <data version="0">
           <name>Parse</name>
           <description>Contains all C++/Qt parsing elements.</description>
         </data>
@@ -7128,6 +6838,128 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           <data version="0">
             <type>public:</type>
           </data>
+          <class type="4">
+            <data version="0">
+              <name>Dialog</name>
+              <description>This is the settings dialog. This allows the user to edit all global settings for the C++/Qt project type.</description>
+              <qtobject/>
+            </data>
+            <parent type="13">
+              <data version="0">
+                <access>public</access>
+                <class>::Gui::PersistentDialog</class>
+              </data>
+            </parent>
+            <access type="5">
+              <data version="0">
+                <type>public:</type>
+              </data>
+              <constructor type="9">
+                <data version="0">
+                  <description>Constructs a new settings dialog.</description>
+                  <explicit/>
+                  <type>void</type>
+                  <operation>Create the GUI for this new dialog and set its window title.</operation>
+                </data>
+              </constructor>
+            </access>
+            <access type="5">
+              <data version="0">
+                <type>private slots:</type>
+              </data>
+              <slot type="7">
+                <data version="0">
+                  <name>okClicked</name>
+                  <description>Called when the OK button is clicked. This applies all global settings and closes the dialog.</description>
+                  <type>void</type>
+                  <operation>Apply all global settings of this dialog and close it.</operation>
+                </data>
+              </slot>
+              <slot type="7">
+                <data version="0">
+                  <name>applyClicked</name>
+                  <description>Called when the apply button is clicked. This applies the global setting values of this dialog.</description>
+                  <type>void</type>
+                  <operation>Get the global settings object and apply all settings.</operation>
+                </data>
+              </slot>
+            </access>
+            <access type="5">
+              <data version="0">
+                <type>private:</type>
+              </data>
+              <function type="2">
+                <data version="0">
+                  <name>setupGui</name>
+                  <description>Creates and initializes all GUI elements for this new dialog.</description>
+                  <type>void</type>
+                  <operation>Create a new vertical layout, adding the form layout and then the buttons layout.</operation>
+                  <operation>Set the layout of this new dialog.</operation>
+                </data>
+              </function>
+              <function type="2">
+                <data version="0">
+                  <name>setupForm</name>
+                  <description>Creates and initializes all edit widgets for this new dialog, returning a form layout containing the edit widgets.</description>
+                  <type>QLayout*</type>
+                  <return_description>Form layout containing all edit widgets for this new dialog.</return_description>
+                  <operation>Get the global settings instance.</operation>
+                  <operation>Create the indent spaces edit widget and set its value to the current global setting.</operation>
+                  <operation>Create the header lines edit widget and set its value to the current global setting.</operation>
+                  <operation>Create the function lines edit widget and set its value to the current global setting.</operation>
+                  <operation>Create the max columns edit widget and set its value to the current global setting.</operation>
+                  <operation>Create a new form layout, adding the indent spaces widget then the header lines widget then the function lines widget and then the max columns widget.</operation>
+                  <operation>Return the form layout.</operation>
+                </data>
+              </function>
+              <function type="2">
+                <data version="0">
+                  <name>setupButtons</name>
+                  <description>Creates and initializes the OK, apply, and cancel buttons for this new dialog, returning the buttons layout.</description>
+                  <type>QLayout*</type>
+                  <return_description>Layout containing buttons for this new dialog.</return_description>
+                  <operation>Create the OK button for this dialog, connecting its clicked signal.</operation>
+                  <operation>Create the apply button for this dialog, connecting its clicked signal.</operation>
+                  <operation>Create the cancel button for this dialog, connecting its clicked signal.</operation>
+                  <operation>Create a new horizontal layout, adding the OK button then the apply button then a stretch and then the cancel button.</operation>
+                  <operation>Return the buttons layout.</operation>
+                </data>
+              </function>
+              <variable type="1">
+                <data version="0">
+                  <name>_indentSpacesBox</name>
+                  <description>The edit widget for the indent spaces setting.</description>
+                  <type>QSpinBox*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>_headerLinesBox</name>
+                  <description>The edit widget for the header lines setting.</description>
+                  <type>QSpinBox*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>_functionLinesBox</name>
+                  <description>The edit widget for the function lines setting.</description>
+                  <type>QSpinBox*</type>
+                </data>
+              </variable>
+              <variable type="1">
+                <data version="0">
+                  <name>_maxColumnsBox</name>
+                  <description>The edit widget for the max columns setting.</description>
+                  <type>QSpinBox*</type>
+                </data>
+              </variable>
+            </access>
+          </class>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>public:</type>
+          </data>
           <constructor type="9">
             <data version="0">
               <description>Constructs a new settings global instance, retrieving all persistent settings from qt settings.</description>
@@ -7240,28 +7072,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           <data version="0">
             <type>private:</type>
           </data>
-          <function type="2">
-            <data version="0">
-              <name>updateSetting</name>
-              <description>Updates the given setting to the given value using qt settings so it is persistent.</description>
-              <type>void</type>
-              <operation>Create a qt settings object and save the given value to the given key.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>key</name>
-                <description>The key where the given value is saved.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>The value that is saved to the given key.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
           <variable type="1">
             <data version="0">
               <name>_indentSpacesKey</name>
@@ -7298,6 +7108,33 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <initializer>"settings.cppqt.header.maxcolumns"</initializer>
             </data>
           </variable>
+        </access>
+        <access type="5">
+          <data version="0">
+            <type>private:</type>
+          </data>
+          <function type="2">
+            <data version="0">
+              <name>updateSetting</name>
+              <description>Updates the given setting to the given value using qt settings so it is persistent.</description>
+              <type>void</type>
+              <operation>Create a qt settings object and save the given value to the given key.</operation>
+            </data>
+            <variable type="1">
+              <data version="0">
+                <name>key</name>
+                <description>The key where the given value is saved.</description>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+            <variable type="1">
+              <data version="0">
+                <name>value</name>
+                <description>The value that is saved to the given key.</description>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
           <variable type="1">
             <data version="0">
               <name>_indentSpaces</name>
@@ -7330,7 +7167,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
       </class>
       <class type="4">
         <data version="0">
-          <name>BlockFactory</name>
+          <name>Factory</name>
           <description>This is the block factory for the C++/Qt project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance.</description>
         </data>
         <parent type="13">
@@ -7342,7 +7179,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Sut::Singleton&lt;BlockFactory></class>
+            <class>Sut::Singleton&lt;Factory></class>
           </data>
         </parent>
         <access type="5">
