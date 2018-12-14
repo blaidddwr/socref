@@ -1,139 +1,11 @@
 #include "cppqt_namespace.h"
-#include <QDomDocument>
 #include <socutil/sut_exceptions.h>
-#include "cppqt_namespace_view.h"
-#include "cppqt_namespace_edit.h"
-#include "cppqt_blockfactory.h"
 
 
 
 using namespace Sut;
-using namespace Gui;
 using namespace CppQt;
 //
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-int Namespace::type() const
-{
-   return BlockFactory::NamespaceType;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-QIcon Namespace::icon() const
-{
-   // Initialize the static icon for this block type. 
-   static QIcon ret(":/icons/namespace.svg");
-
-   // Return the icon. 
-   return ret;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-QList<int> Namespace::buildList() const
-{
-   return QList<int>
-   {
-      BlockFactory::NamespaceType
-      ,BlockFactory::VariableType
-      ,BlockFactory::FunctionType
-      ,BlockFactory::ClassType
-      ,BlockFactory::OperatorType
-      ,BlockFactory::EnumerationType
-      ,BlockFactory::TypeListType
-   };
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<QWidget> Namespace::makeView() const
-{
-   return QPtr<QWidget>(new View(this));
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<::Gui::AbstractEdit> Namespace::makeEdit()
-{
-   return QPtr<AbstractEdit>(new Edit(this));
-}
-
-
-
-
-
-
-/*!
- * This interface returns the real block children for this block. The real block 
- * children are all children of any access block children. If this is not a class 
- * then it is simply all direct children. 
- *
- * @return Pointer list of all real children for this block. 
- */
-QList<AbstractBlock*> Namespace::realChildren() const
-{
-   return list();
-}
-
-
-
-
-
-
-/*!
- * Constructs a new namespace block with a default state or null state based off 
- * the given flag. 
- *
- * @param isDefault True to initialize this new block to its default state or false 
- *                  to leave it in a null state. 
- */
-Namespace::Namespace(bool isDefault)
-{
-   // If the given flag is set to default then initialize this new block. 
-   if ( isDefault ) setName(QStringLiteral("space"));
-}
 
 
 
@@ -187,19 +59,4 @@ Namespace* Namespace::root()
 
    // Return the root namespace pointer. 
    return ret;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<AbstractBlock> Namespace::makeBlank() const
-{
-   return QPtr<AbstractBlock>(new Namespace);
 }

@@ -3,6 +3,7 @@
 #include <projectfactory.h>
 #include "cppqt_typelist.h"
 #include "cppqt_type.h"
+#include "cppqt_namespace.h"
 
 
 
@@ -103,6 +104,7 @@ Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
    {
    case TypeListType: return QPtr<BasicBlock>(new TypeList);
    case TypeType: return QPtr<BasicBlock>(new Type);
+   case NamespaceType: return QPtr<BasicBlock>(new Namespace);
    default: return nullptr;
    }
 }

@@ -16,9 +16,10 @@ namespace CppQt
       Q_OBJECT
    public:
       explicit View(const TypeList* block);
-   private:
+   private slots:
       QString displayTypeLists();
       QString displayTypes();
+   private:
       /*!
        * Pointer to the type list block this view is showing. 
        */

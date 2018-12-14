@@ -7590,207 +7590,20 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Base</class>
+            <class>BasicBlock</class>
           </data>
         </parent>
         <access type="5">
           <data version="0">
             <type>public:</type>
           </data>
-          <class type="4">
-            <data version="0">
-              <name>Edit</name>
-              <description>This is the edit class for the namespace block.</description>
-              <qtobject/>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>::Gui::AbstractEdit</class>
-              </data>
-            </parent>
-            <access type="5">
-              <data version="0">
-                <type>public:</type>
-              </data>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new type edit object with the given namespace block.</description>
-                  <explicit/>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Namespace block that this new edit object edits.</description>
-                    <type>Namespace*</type>
-                  </data>
-                </variable>
-              </constructor>
-            </access>
-            <access type="5">
-              <data version="0">
-                <type>protected:</type>
-              </data>
-              <function type="2">
-                <data version="0">
-                  <name>layout</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <override/>
-                  <final/>
-                  <type>QLayout*</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Save the geometry of this dialog.</operation>
-                  <operation>Create a new form layout, adding the base name field and then the base description field.</operation>
-                  <operation>Return the form layout.</operation>
-                </data>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>fieldTitle</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QString</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Based off the given field index return its title.</operation>
-                  <operation>If the given field index is unknown then throw an exception.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>index</name>
-                    <description>See interface docs.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-          </class>
-          <class type="4">
-            <data version="0">
-              <name>View</name>
-              <description>This is the view class for the namespace block.</description>
-              <qtobject/>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>Base::View</class>
-              </data>
-            </parent>
-            <access type="5">
-              <data version="0">
-                <type>public:</type>
-              </data>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new view object with the given namespace block.</description>
-                  <explicit/>
-                  <operation>Display the base description for this view's namespace block and nothing else.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Namespace block this new view displays.</description>
-                    <type>const Namespace*</type>
-                  </data>
-                </variable>
-              </constructor>
-            </access>
-          </class>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>type</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>icon</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>QIcon</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Initialize the static icon for this block type.</operation>
-              <operation>Return the icon.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>buildList</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>QList&lt;int></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeView</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>Sut::QPtr&lt;QWidget></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeEdit</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>realChildren</name>
-              <description>This interface returns the real block children for this block. The real block children are all children of any access block children. If this is not a class then it is simply all direct children.</description>
-              <virtual/>
-              <const/>
-              <type>QList&lt;AbstractBlock*></type>
-              <return_description>Pointer list of all real children for this block.</return_description>
-            </data>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new namespace block with a default state or null state based off the given flag.</description>
+              <description>Constructs a new namespace block.</description>
+              <default/>
               <explicit/>
               <type>void</type>
-              <operation>If the given flag is set to default then initialize this new block.</operation>
             </data>
-            <variable type="1">
-              <data version="0">
-                <name>isDefault</name>
-                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
-                <type>bool</type>
-                <initializer>false</initializer>
-              </data>
-            </variable>
           </constructor>
           <function type="2">
             <data version="0">
@@ -7811,22 +7624,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <return_description>Pointer to the root namespace of this block's project.</return_description>
               <operation>Get the root pointer for this block, casting it as a namespace block and making sure it worked.</operation>
               <operation>Return the root namespace pointer.</operation>
-            </data>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>protected:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>makeBlank</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <type>Sut::QPtr&lt;AbstractBlock></type>
-              <return_description>See interface docs.</return_description>
             </data>
           </function>
         </access>

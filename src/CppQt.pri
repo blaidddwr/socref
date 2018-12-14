@@ -4,8 +4,8 @@ SOURCES += \
     cppqt_settings_dialog.cpp \
     cppqt_factory.cpp \
     cppqt_typelist.cpp \
-    cppqt_typelist_view.cpp
-    #cppqt_namespace.cpp \
+    cppqt_typelist_view.cpp \
+    cppqt_namespace.cpp
     #cppqt_variable.cpp \
     #cppqt_base.cpp
     #cppqt_signal.cpp \
@@ -71,10 +71,10 @@ HEADERS += \
     cppqt_factory.h \
     cppqt_typelist.h \
     cppqt_typelist_view.h \
-    cppqt_type.h
+    cppqt_type.h \
+    cppqt_namespace.h
     #cppqt_variable.h \
     #cppqt_gui.h \
-    #cppqt_namespace.h \
     #cppqt_base.h \
     #cppqt_signal.h \
     #cppqt_function.h \

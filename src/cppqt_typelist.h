@@ -22,7 +22,7 @@ namespace CppQt
       /*!
        * Constructs a new type list block. 
        */
-      explicit TypeList() = default;
+      Q_INVOKABLE explicit TypeList() = default;
    protected:
       virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
       virtual bool childNameModified(AbstractBlock* child) override final;
