@@ -7210,6 +7210,18 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </enumval>
             <enumval type="12">
               <data version="0">
+                <name>EnumerationType</name>
+                <description>Defines the enumeration block. This is for C++ enumerations of all types.</description>
+              </data>
+            </enumval>
+            <enumval type="12">
+              <data version="0">
+                <name>EnumValueType</name>
+                <description>Defines the enumeration value block. This is for specific enumeration values.</description>
+              </data>
+            </enumval>
+            <enumval type="12">
+              <data version="0">
                 <name>VariableType</name>
                 <description>Defines the variable block.</description>
               </data>
@@ -7266,18 +7278,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <data version="0">
                 <name>DestructorType</name>
                 <description>Defines the destructor block.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>EnumerationType</name>
-                <description>Defines the enumeration block. This is for C++ enumerations of all types.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>EnumValueType</name>
-                <description>Defines the enumeration value block. This is for specific enumeration values.</description>
               </data>
             </enumval>
             <enumval type="12">
@@ -7637,133 +7637,13 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Base</class>
+            <class>BasicBlock</class>
           </data>
         </parent>
         <access type="5">
           <data version="0">
             <type>public:</type>
           </data>
-          <class type="4">
-            <data version="0">
-              <name>Edit</name>
-              <description>This is the edit class for the enumeration block.</description>
-              <qtobject/>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>::Gui::AbstractEdit</class>
-              </data>
-            </parent>
-            <access type="5">
-              <data version="0">
-                <type>public:</type>
-              </data>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new type edit object with the given enumeration block.</description>
-                  <explicit/>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Enumeration block that this new edit object edits.</description>
-                    <type>Enumeration*</type>
-                  </data>
-                </variable>
-              </constructor>
-            </access>
-            <access type="5">
-              <data version="0">
-                <type>protected:</type>
-              </data>
-              <function type="2">
-                <data version="0">
-                  <name>layout</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <override/>
-                  <final/>
-                  <type>QLayout*</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Save the geometry of this dialog.</operation>
-                  <operation>Create a new form layout, adding the base name field then the base description field and then the class field as a checkbox.</operation>
-                  <operation>Return the form layout.</operation>
-                </data>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>fieldTitle</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QString</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Based off the given field index return its title.</operation>
-                  <operation>If the given index is unknown then throw an exception.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>index</name>
-                    <description>See interface docs.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-          </class>
-          <class type="4">
-            <data version="0">
-              <name>View</name>
-              <description>This is the view class for the enumeration block.</description>
-              <qtobject/>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>Base::View</class>
-              </data>
-            </parent>
-            <access type="5">
-              <data version="0">
-                <type>public:</type>
-              </data>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new view object with the given enumeration block.</description>
-                  <explicit/>
-                  <operation>Display the base description field and nothing else.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Enumeration block this new view displays.</description>
-                    <type>const Enumeration*</type>
-                  </data>
-                </variable>
-              </constructor>
-            </access>
-          </class>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>type</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
           <function type="2">
             <data version="0">
               <name>name</name>
@@ -7779,110 +7659,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <operation>Return the name string.</operation>
             </data>
           </function>
-          <function type="2">
-            <data version="0">
-              <name>icon</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QIcon</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Initialize the static icon for this block type.</operation>
-              <operation>Return the icon.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>buildList</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QList&lt;int></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeView</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;QWidget></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldSize</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Use the field enumeration to return the total number of fields.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldType</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>AbstractBlock::Field</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given field index return its type.</operation>
-              <operation>If the given index is unknown for this block then call its base interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>field</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QVariant</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given field index return its value.</operation>
-              <operation>If the given index is unknown for this block then call its base interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeEdit</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
         </access>
         <access type="5">
           <data version="0">
@@ -7890,19 +7666,11 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           </data>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new enumeration block with a default state or null state based off the given flag.</description>
+              <description>Constructs a new enumeration block.</description>
+              <default/>
               <explicit/>
               <type>void</type>
-              <operation>If the given flag is set to default then initialize this new block.</operation>
             </data>
-            <variable type="1">
-              <data version="0">
-                <name>isDefault</name>
-                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
-                <type>bool</type>
-                <initializer>false</initializer>
-              </data>
-            </variable>
           </constructor>
           <function type="2">
             <data version="0">
@@ -7924,143 +7692,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </data>
           </function>
         </access>
-        <access type="5">
-          <data version="0">
-            <type>protected:</type>
-          </data>
-          <enumeration type="11">
-            <data version="0">
-              <name>Field</name>
-              <description>Defines the fields this block contains in addition to its base fields.</description>
-            </data>
-            <enumval type="12">
-              <data version="0">
-                <name>Class</name>
-                <description>Defines the class field. It's value is set to extend the list of base fields this class inherits.</description>
-                <value>Base::Field::Total</value>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>Total</name>
-                <description>Defines the total number of fields this block defines.</description>
-              </data>
-            </enumval>
-          </enumeration>
-          <function type="2">
-            <data version="0">
-              <name>makeBlank</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;AbstractBlock></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldModified</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>void</type>
-              <operation>Based off the given field index notify the changes to this block.</operation>
-              <operation>If the given index is unknown for this block then call its base interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>quietlySetField</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>void</type>
-              <operation>Based off the given field index set its value to the new given value.</operation>
-              <operation>If the given index is unknown for this block then call its base interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>See interface docs.</description>
-                <type>const QVariant&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fields</name>
-              <description>Implements _CppQt::Base_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QStringList</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Initialize an empty static string list.</operation>
-              <operation>If the static string list is empty then populate it.</operation>
-              <operation>Return the combined fields list.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>checkName</name>
-              <description>Implements _CppQt::Base::checkName_ interface. This implementation allows an empty string to be valid as a given name for anonymous enumerations.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>bool</type>
-              <return_description>See interface docs.</return_description>
-              <operation>If the given value is empty then return true else call and return this block's base interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>See interface docs.</description>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>private:</type>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>_fields</name>
-              <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is in addition to the base fields this block inherits.</description>
-              <static/>
-              <type>const QStringList</type>
-              <initializer>"class"</initializer>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>_class</name>
-              <description>The block's class field value.</description>
-              <type>bool</type>
-              <initializer>false</initializer>
-            </data>
-          </variable>
-        </access>
       </class>
       <class type="4">
         <data version="0">
@@ -8071,84 +7702,13 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Base</class>
+            <class>BasicBlock</class>
           </data>
         </parent>
         <access type="5">
           <data version="0">
             <type>public:</type>
           </data>
-          <class type="4">
-            <data version="0">
-              <name>Edit</name>
-              <description>This is the edit class for the enumeration value block.</description>
-              <qtobject/>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>::Gui::AbstractEdit</class>
-              </data>
-            </parent>
-            <access type="5">
-              <data version="0">
-                <type>public:</type>
-              </data>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new type edit object with the given enumeration value block.</description>
-                  <explicit/>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Enumeration value block that this new edit object edits.</description>
-                    <type>EnumValue*</type>
-                  </data>
-                </variable>
-              </constructor>
-            </access>
-            <access type="5">
-              <data version="0">
-                <type>protected:</type>
-              </data>
-              <function type="2">
-                <data version="0">
-                  <name>layout</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <override/>
-                  <final/>
-                  <type>QLayout*</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Save the geometry of this dialog.</operation>
-                  <operation>Create a new form layout, adding the base name field then the base description field and then the value field.</operation>
-                  <operation>Return the form layout.</operation>
-                </data>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>fieldTitle</name>
-                  <description>Implements _Gui::AbstractEdit_ interface.</description>
-                  <virtual/>
-                  <const/>
-                  <override/>
-                  <final/>
-                  <type>QString</type>
-                  <return_description>See interface docs.</return_description>
-                  <operation>Based off the given field index return its title.</operation>
-                  <operation>If the given field index is unknown then throw an exception.</operation>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>index</name>
-                    <description>See interface docs.</description>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-          </class>
           <class type="4">
             <data version="0">
               <name>View</name>
@@ -8158,7 +7718,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <parent type="13">
               <data version="0">
                 <access>public</access>
-                <class>Base::View</class>
+                <class>BasicBlock::View</class>
               </data>
             </parent>
             <access type="5">
@@ -8185,21 +7745,12 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               </data>
               <function type="2">
                 <data version="0">
-                  <name>displayText</name>
-                  <description>Returns HTML rich text that displays the body of this view's enumeration value block.</description>
-                  <type>QString</type>
-                  <return_description>HTML rich text that displays the body of this view's enumeration value block.</return_description>
-                  <operation>Return the HTML string that displays this view's enumeration value block's description and possible value.</operation>
-                </data>
-              </function>
-              <function type="2">
-                <data version="0">
                   <name>displayValue</name>
-                  <description>Returns a HTML string that displays the value field for this view's enumeration value block. If there is no value then this returns an empty string.</description>
+                  <description>Returns rich text that displays the value field for this view's enumeration value block. If there is no value then this returns an empty string.</description>
                   <type>QString</type>
-                  <return_description>HTML string that displays the value field for this view's enumeration value block or an empty string if there is no value.</return_description>
+                  <return_description>Rich text that displays the value field for this view's enumeration value block or an empty string if there is no value.</return_description>
                   <operation>Get this view's enumeration value block's value field and make sure it is not empty.</operation>
-                  <operation>Return a HTML string that displays this view's enumeration value block's value field along with a title.</operation>
+                  <operation>Return the rich text that displays this view's enumeration value block's value field along with a title.</operation>
                 </data>
               </function>
               <variable type="1">
@@ -8218,18 +7769,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           </data>
           <function type="2">
             <data version="0">
-              <name>type</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
               <name>name</name>
               <description>Implements _AbstractBlock_ interface.</description>
               <virtual/>
@@ -8243,110 +7782,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <operation>Return the name string.</operation>
             </data>
           </function>
-          <function type="2">
-            <data version="0">
-              <name>icon</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QIcon</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Initialize the static icon for this block type.</operation>
-              <operation>Return the icon.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>buildList</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QList&lt;int></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeView</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;QWidget></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldSize</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>int</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Use the field enumeration to return the total number of fields.</operation>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldType</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>AbstractBlock::Field</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given field index return its type.</operation>
-              <operation>If the given index is unknown for this block then call its base class interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>field</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QVariant</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Based off the given field index return its value.</operation>
-              <operation>If the given index is unknown for this block then call its base class interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>makeEdit</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;::Gui::AbstractEdit></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
         </access>
         <access type="5">
           <data version="0">
@@ -8354,19 +7789,11 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           </data>
           <constructor type="9">
             <data version="0">
-              <description>Constructs a new enumeration value block with a default state or null state based off the given flag.</description>
+              <description>Constructs a new enumeration value block.</description>
+              <default/>
               <explicit/>
               <type>void</type>
-              <operation>If the given flag is set to default then initialize this new block.</operation>
             </data>
-            <variable type="1">
-              <data version="0">
-                <name>isDefault</name>
-                <description>True to initialize this new block to its default state or false to leave it in a null state.</description>
-                <type>bool</type>
-                <initializer>false</initializer>
-              </data>
-            </variable>
           </constructor>
           <function type="2">
             <data version="0">
@@ -8387,123 +7814,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <return_description>The set value for this enumeration value block or an empty string if it has none.</return_description>
             </data>
           </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>protected:</type>
-          </data>
-          <enumeration type="11">
-            <data version="0">
-              <name>Field</name>
-              <description>Defines the fields this block contains in addition to its base fields.</description>
-            </data>
-            <enumval type="12">
-              <data version="0">
-                <name>Value</name>
-                <description>Defines the value field. This field is for when an enumeration value is set to a specific value. Its value is set to extend the list of base fields this class inherits.</description>
-                <value>Base::Field::Total</value>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>Total</name>
-                <description>Defines the total number of fields this block defines.</description>
-              </data>
-            </enumval>
-          </enumeration>
-          <function type="2">
-            <data version="0">
-              <name>makeBlank</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;AbstractBlock></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fieldModified</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>void</type>
-              <operation>Based off the given field index notify the changes to this block.</operation>
-              <operation>If the given index is unknown for this block then call its base class interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>quietlySetField</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>void</type>
-              <operation>Based off the given field index set its value to the new given value.</operation>
-              <operation>If the given index is unknown for this block then call its base class interface.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>index</name>
-                <description>See interface docs.</description>
-                <type>int</type>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
-                <name>value</name>
-                <description>See interface docs.</description>
-                <type>const QVariant&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>fields</name>
-              <description>Implements _CppQt::Base_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QStringList</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Initialize an empty static string list.</operation>
-              <operation>If the string list is empty then populate it.</operation>
-              <operation>Return the combined fields string list.</operation>
-            </data>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>private:</type>
-          </data>
-          <variable type="1">
-            <data version="0">
-              <name>_fields</name>
-              <description>List of this block's field tag names that follow the same order as this block's enumeration of fields. This is in addition to the base fields this block inherits.</description>
-              <static/>
-              <type>const QStringList</type>
-              <initializer>"value"</initializer>
-            </data>
-          </variable>
-          <variable type="1">
-            <data version="0">
-              <name>_value</name>
-              <description>The set integer value for this enumeration value block, if any. This is a string because the integer can be defined as another enumeration value or a macro.</description>
-              <type>QString</type>
-            </data>
-          </variable>
         </access>
       </class>
       <class type="4">
@@ -17556,6 +16866,7 @@ The layout of this editor is defined by the XML element between different layout
           <data version="0">
             <name>getBool</name>
             <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a boolean then an exception is thrown.</description>
+            <const/>
             <type>bool</type>
             <return_description>Value of this basic block's field with the given id.</return_description>
             <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
@@ -17573,6 +16884,7 @@ The layout of this editor is defined by the XML element between different layout
           <data version="0">
             <name>getString</name>
             <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a string then an exception is thrown.</description>
+            <const/>
             <type>QString</type>
             <return_description>Value of this basic block's field with the given id.</return_description>
             <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
@@ -17590,6 +16902,7 @@ The layout of this editor is defined by the XML element between different layout
           <data version="0">
             <name>getStringList</name>
             <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a string list then an exception is thrown.</description>
+            <const/>
             <type>QStringList</type>
             <return_description>Value of this basic block's field with the given id.</return_description>
             <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>

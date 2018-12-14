@@ -47,6 +47,8 @@ QString Factory::elementName(int type) const
    case TypeListType: return QStringLiteral("typelist");
    case TypeType: return QStringLiteral("type");
    case NamespaceType: return QStringLiteral("namespace");
+   case EnumerationType: return QStringLiteral("enumeration");
+   case EnumValueType: return QStringLiteral("enumvalue");
    case VariableType: return QStringLiteral("variable");
    case FunctionType: return QStringLiteral("function");
    case TemplateType: return QStringLiteral("template");
@@ -57,8 +59,6 @@ QString Factory::elementName(int type) const
    case SignalType: return QStringLiteral("signal");
    case ConstructorType: return QStringLiteral("constructor");
    case DestructorType: return QStringLiteral("destructor");
-   case EnumerationType: return QStringLiteral("enumeration");
-   case EnumValueType: return QStringLiteral("enumval");
    case ParentType: return QStringLiteral("parent");
    case UsingType: return QStringLiteral("using");
    case FriendType: return QStringLiteral("friend");

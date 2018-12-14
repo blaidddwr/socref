@@ -194,7 +194,7 @@ void BasicBlock::Edit::apply()
       if ( QCheckBox* valid = qobject_cast<QCheckBox*>(*i) )
       {
          if ( j->type() != QVariant::Bool ) throwTypeMismatch(i.key());
-         *j = valid->checkState();
+         *j = (bool)valid->checkState();
       }
       else if ( QLineEdit* valid = qobject_cast<QLineEdit*>(*i) )
       {

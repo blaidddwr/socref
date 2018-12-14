@@ -5,7 +5,10 @@ SOURCES += \
     cppqt_factory.cpp \
     cppqt_typelist.cpp \
     cppqt_typelist_view.cpp \
-    cppqt_namespace.cpp
+    cppqt_namespace.cpp \
+    cppqt_enumeration.cpp \
+    cppqt_enumvalue.cpp \
+    cppqt_enumvalue_view.cpp
     #cppqt_variable.cpp \
     #cppqt_base.cpp
     #cppqt_signal.cpp \
@@ -17,8 +20,6 @@ SOURCES += \
     #cppqt_constructor.cpp \
     #cppqt_destructor.cpp \
     #cppqt_slot.cpp \
-    #cppqt_enumeration.cpp \
-    #cppqt_enumvalue.cpp \
     #cppqt_parent.cpp \
     #cppqt_parse_global.cpp \
     #cppqt_parse_function.cpp \
@@ -38,7 +39,6 @@ SOURCES += \
     #cppqt_enumeration_edit.cpp \
     #cppqt_enumeration_view.cpp \
     #cppqt_enumvalue_edit.cpp \
-    #cppqt_enumvalue_view.cpp \
     #cppqt_namespace_edit.cpp \
     #cppqt_namespace_view.cpp \
     #cppqt_variable_edit.cpp \
@@ -72,7 +72,10 @@ HEADERS += \
     cppqt_typelist.h \
     cppqt_typelist_view.h \
     cppqt_type.h \
-    cppqt_namespace.h
+    cppqt_namespace.h \
+    cppqt_enumeration.h \
+    cppqt_enumvalue.h \
+    cppqt_enumvalue_view.h
     #cppqt_variable.h \
     #cppqt_gui.h \
     #cppqt_base.h \
@@ -85,8 +88,6 @@ HEADERS += \
     #cppqt_constructor.h \
     #cppqt_destructor.h \
     #cppqt_slot.h \
-    #cppqt_enumeration.h \
-    #cppqt_enumvalue.h \
     #cppqt_parent.h \
     #cppqt_parse.h \
     #cppqt_parse_global.h \
@@ -107,7 +108,6 @@ HEADERS += \
     #cppqt_enumeration_edit.h \
     #cppqt_enumeration_view.h \
     #cppqt_enumvalue_edit.h \
-    #cppqt_enumvalue_view.h \
     #cppqt_namespace_edit.h \
     #cppqt_namespace_view.h \
     #cppqt_variable_edit.h \

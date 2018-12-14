@@ -540,7 +540,7 @@ QJsonObject BasicBlock::typeList() const
  *
  * @return Value of this basic block's field with the given id. 
  */
-bool BasicBlock::getBool(const QString& id)
+bool BasicBlock::getBool(const QString& id) const
 {
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 
@@ -570,7 +570,7 @@ bool BasicBlock::getBool(const QString& id)
  *
  * @return Value of this basic block's field with the given id. 
  */
-QString BasicBlock::getString(const QString& id)
+QString BasicBlock::getString(const QString& id) const
 {
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 
@@ -600,7 +600,7 @@ QString BasicBlock::getString(const QString& id)
  *
  * @return Value of this basic block's field with the given id. 
  */
-QStringList BasicBlock::getStringList(const QString& id)
+QStringList BasicBlock::getStringList(const QString& id) const
 {
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 

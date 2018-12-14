@@ -36,6 +36,14 @@ namespace CppQt
           */
          ,NamespaceType
          /*!
+          * Defines the enumeration block. This is for C++ enumerations of all types. 
+          */
+         ,EnumerationType
+         /*!
+          * Defines the enumeration value block. This is for specific enumeration values. 
+          */
+         ,EnumValueType
+         /*!
           * Defines the variable block. 
           */
          ,VariableType
@@ -77,14 +85,6 @@ namespace CppQt
           * Defines the destructor block. 
           */
          ,DestructorType
-         /*!
-          * Defines the enumeration block. This is for C++ enumerations of all types. 
-          */
-         ,EnumerationType
-         /*!
-          * Defines the enumeration value block. This is for specific enumeration values. 
-          */
-         ,EnumValueType
          /*!
           * Defines the parent block. This is for adding parents to a class's inheritance. 
           */

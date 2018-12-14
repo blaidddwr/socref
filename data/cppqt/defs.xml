@@ -48,6 +48,7 @@
     <buildlist>
         <typelist/>
         <namespace/>
+        <enumeration/>
     </buildlist>
     <edit>
         <form>
@@ -60,6 +61,53 @@
         <ps id="description"/>
     </view>
 </namespace>
+
+
+
+<enumeration display="Enumeration">
+    <icon>:/icons/enumeration.svg</icon>
+    <string id="name" default="space"/>
+    <string id="description"/>
+    <bool id="class"/>
+    <name>name</name>
+    <buildlist>
+        <enumvalue/>
+    </buildlist>
+    <edit>
+        <form>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+            <checkboxes display="Properties:">
+                <checkbox id="class" display="Class"/>
+            </checkboxes>
+        </form>
+    </edit>
+    <view>
+        <h3>Description</h3>
+        <ps id="description"/>
+    </view>
+</enumeration>
+
+
+
+<enumvalue display="Enumeration Value">
+    <icon>:/icons/enumvalue.svg</icon>
+    <string id="name" default=""/>
+    <string id="value"/>
+    <name>name</name>
+    <edit>
+        <form>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+            <line id="value" display="Value:"/>
+        </form>
+    </edit>
+    <view>
+        <h3>Description</h3>
+        <ps id="description"/>
+        <custom name="displayValue"/>
+    </view>
+</enumvalue>
 
 
 

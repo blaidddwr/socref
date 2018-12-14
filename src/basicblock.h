@@ -70,9 +70,9 @@ protected:
    virtual void copyDataFrom(const AbstractBlock* other) override final;
    virtual QJsonObject typeList() const;
 protected:
-   bool getBool(const QString& id);
-   QString getString(const QString& id);
-   QStringList getStringList(const QString& id);
+   bool getBool(const QString& id) const;
+   QString getString(const QString& id) const;
+   QStringList getStringList(const QString& id) const;
 private:
    /*!
     * The boolean tag name of elements that define a boolean data field. 
