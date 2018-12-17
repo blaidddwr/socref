@@ -516,7 +516,7 @@ void BasicBlock::copyDataFrom(const AbstractBlock* other)
  * determined by the variable's parent block. There can be additional JSON objects 
  * nested within the root which provides additional types for selection. Each key 
  * in the JSON object is used as a possible type for selection. The default 
- * implementation returns a null pointer, assuming a softly typed project type. 
+ * implementation returns an empty object, assuming a softly typed project type. 
  *
  * @return List of all possible variable types, with possible nested lists, for 
  *         hardly typed project types or an empty object for softly typed project 
@@ -725,7 +725,7 @@ QVariant BasicBlock::get(const QString& id) const
    {
       Exception::InvalidArgument e;
       SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given field id '%1' does not exist."));
+      e.setDetails(tr("The given field id '%1' does not exist.").arg(id));
       throw e;
    }
 

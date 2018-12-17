@@ -8,9 +8,10 @@ SOURCES += \
     cppqt_namespace.cpp \
     cppqt_enumeration.cpp \
     cppqt_enumvalue.cpp \
-    cppqt_enumvalue_view.cpp
-    #cppqt_variable.cpp \
-    #cppqt_base.cpp
+    cppqt_enumvalue_view.cpp \
+    cppqt_base.cpp \
+    cppqt_variable.cpp \
+    cppqt_variable_view.cpp
     #cppqt_signal.cpp \
     #cppqt_function.cpp \
     #cppqt_template.cpp \
@@ -42,7 +43,6 @@ SOURCES += \
     #cppqt_namespace_edit.cpp \
     #cppqt_namespace_view.cpp \
     #cppqt_variable_edit.cpp \
-    #cppqt_variable_view.cpp \
     #cppqt_function_edit.cpp \
     #cppqt_function_view.cpp \
     #cppqt_template_edit.cpp \
@@ -75,10 +75,11 @@ HEADERS += \
     cppqt_namespace.h \
     cppqt_enumeration.h \
     cppqt_enumvalue.h \
-    cppqt_enumvalue_view.h
-    #cppqt_variable.h \
+    cppqt_enumvalue_view.h \
+    cppqt_base.h \
+    cppqt_variable.h \
+    cppqt_variable_view.h
     #cppqt_gui.h \
-    #cppqt_base.h \
     #cppqt_signal.h \
     #cppqt_function.h \
     #cppqt_template.h \
@@ -111,7 +112,6 @@ HEADERS += \
     #cppqt_namespace_edit.h \
     #cppqt_namespace_view.h \
     #cppqt_variable_edit.h \
-    #cppqt_variable_view.h \
     #cppqt_function_edit.h \
     #cppqt_function_view.h \
     #cppqt_template_edit.h \

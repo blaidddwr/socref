@@ -18,46 +18,7 @@ using namespace CppQt;
 Variable::View::View(const Variable* block):
    Base::View(block),
    _block(block)
-{
-   setText(displayText());
-}
-
-
-
-
-
-
-/*!
- * Returns the HTML rich text that displays the body of this view's variable block. 
- *
- * @return HTML rich text that displays the body of this view's variable block. 
- */
-QString Variable::View::displayText()
-{
-   // Return as HTML this view's variable block's type, description, properties, and 
-   // initial value in that order. 
-   return displayType().append(displayDescription())
-                       .append(displayProperties())
-                       .append(displayInitializer());
-}
-
-
-
-
-
-
-/*!
- * Returns a HTML string that displays the type field for this view's variable 
- * block. 
- *
- * @return HTML string that displays the type field of this view's variable block. 
- */
-QString Variable::View::displayType()
-{
-   // Create and return a HTML string that displays this view's variable block type 
-   // field. All special characters must be replaced to preserve the HTML. 
-   return tr("<h3>Type</h3><p>%1</p>").arg(_block->variableType().replace("<","&lt;"));
-}
+{}
 
 
 

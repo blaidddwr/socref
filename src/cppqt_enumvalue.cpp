@@ -1,4 +1,5 @@
 #include "cppqt_enumvalue.h"
+#include "cppqt_enumvalue_view.h"
 
 
 
@@ -59,4 +60,19 @@ bool EnumValue::hasValue() const
 QString EnumValue::value() const
 {
    return getString("value");
+}
+
+
+
+
+
+
+/*!
+ * Implements _BasicBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<BasicBlock::View> EnumValue::makeBasicView() const
+{
+   return new View(this);
 }

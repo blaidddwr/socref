@@ -4,6 +4,9 @@
 #include "cppqt_typelist.h"
 #include "cppqt_type.h"
 #include "cppqt_namespace.h"
+#include "cppqt_enumeration.h"
+#include "cppqt_enumvalue.h"
+#include "cppqt_variable.h"
 
 
 
@@ -105,6 +108,9 @@ Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
    case TypeListType: return QPtr<BasicBlock>(new TypeList);
    case TypeType: return QPtr<BasicBlock>(new Type);
    case NamespaceType: return QPtr<BasicBlock>(new Namespace);
+   case EnumerationType: return QPtr<BasicBlock>(new Enumeration);
+   case EnumValueType: return QPtr<BasicBlock>(new EnumValue);
+   case VariableType: return QPtr<BasicBlock>(new Variable);
    default: return nullptr;
    }
 }

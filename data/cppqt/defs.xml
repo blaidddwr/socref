@@ -49,6 +49,7 @@
         <typelist/>
         <namespace/>
         <enumeration/>
+        <variable/>
     </buildlist>
     <edit>
         <form>
@@ -92,7 +93,8 @@
 
 <enumvalue display="Enumeration Value">
     <icon>:/icons/enumvalue.svg</icon>
-    <string id="name" default=""/>
+    <string id="name" default="value"/>
+    <string id="description"/>
     <string id="value"/>
     <name>name</name>
     <edit>
@@ -108,6 +110,41 @@
         <custom name="displayValue"/>
     </view>
 </enumvalue>
+
+
+
+<variable display="Variable">
+    <string id="name" default="var"/>
+    <string id="description"/>
+    <string id="type" default="int"/>
+    <string id="initializer"/>
+    <bool id="constexpr"/>
+    <bool id="static"/>
+    <bool id="mutable"/>
+    <bool id="threadlocal"/>
+    <edit>
+        <form>
+            <type id="type" display="Type:"/>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+            <line id="initializer" display="Initializer:"/>
+            <checkboxes display="Properties:" rowsize="4">
+                <checkbox id="constexpr" display="Constant Expression"/>
+                <checkbox id="static" display="Static"/>
+                <checkbox id="mutable" display="Mutable"/>
+                <checkbox id="threadlocal" display="Thread Local"/>
+            </checkboxes>
+        </form>
+    </edit>
+    <view>
+        <h3>Type</h3>
+        <ps id="type"/>
+        <h3>Description</h3>
+        <ps id="description"/>
+        <custom name="displayProperties"/>
+        <custom name="displayInitializer"/>
+    </view>
+</variable>
 
 
 

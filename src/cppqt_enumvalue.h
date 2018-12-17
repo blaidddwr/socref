@@ -27,6 +27,8 @@ namespace CppQt
       Q_INVOKABLE explicit EnumValue() = default;
       bool hasValue() const;
       QString value() const;
+   protected:
+      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
    };
 }
 
