@@ -3,13 +3,10 @@ SOURCES += \
     cppqt_settings.cpp \
     cppqt_settings_dialog.cpp \
     cppqt_factory.cpp \
-    cppqt_typelist.cpp \
-    cppqt_typelist_view.cpp \
     cppqt_namespace.cpp \
     cppqt_enumeration.cpp \
     cppqt_enumvalue.cpp \
     cppqt_enumvalue_view.cpp \
-    cppqt_base.cpp \
     cppqt_variable.cpp \
     cppqt_variable_view.cpp
     #cppqt_signal.cpp \
@@ -69,14 +66,10 @@ HEADERS += \
     cppqt_settings.h \
     cppqt_settings_dialog.h \
     cppqt_factory.h \
-    cppqt_typelist.h \
-    cppqt_typelist_view.h \
-    cppqt_type.h \
     cppqt_namespace.h \
     cppqt_enumeration.h \
     cppqt_enumvalue.h \
     cppqt_enumvalue_view.h \
-    cppqt_base.h \
     cppqt_variable.h \
     cppqt_variable_view.h
     #cppqt_gui.h \

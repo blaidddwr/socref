@@ -23,7 +23,7 @@ QString Variable::name() const
    QString ret {getString("name")};
 
    // Check to see if this variable has an initial vallue. 
-   if ( !hasInitializer() )
+   if ( hasInitializer() )
    {
       // Append the initial value indicator appropriate for the context of this 
       // variable. 

@@ -508,31 +508,6 @@ void BasicBlock::copyDataFrom(const AbstractBlock* other)
 
 
 /*!
- * This interface returns a JSON object of available variable types within the 
- * scope of this basic block. This is used for project types that use hardly typed 
- * variables such as C++. For project types like PHP that use soft variables this 
- * can returns an empty object. This is called on a specific block instance because 
- * the available types for selection can depend on the scope which should be 
- * determined by the variable's parent block. There can be additional JSON objects 
- * nested within the root which provides additional types for selection. Each key 
- * in the JSON object is used as a possible type for selection. The default 
- * implementation returns an empty object, assuming a softly typed project type. 
- *
- * @return List of all possible variable types, with possible nested lists, for 
- *         hardly typed project types or an empty object for softly typed project 
- *         types. 
- */
-QJsonObject BasicBlock::typeList() const
-{
-   return QJsonObject();
-}
-
-
-
-
-
-
-/*!
  * Returns the value of this basic block's field with the given id. If the given id 
  * does not exist or is not a boolean then an exception is thrown. 
  *

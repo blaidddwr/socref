@@ -12,7 +12,6 @@
 #include <socutil/sut_exceptions.h>
 #include "gui_textedit.h"
 #include "gui_listedit.h"
-#include "gui_typeselection.h"
 #include "projectfactory.h"
 #include "abstractblockfactory.h"
 
@@ -58,11 +57,6 @@ const char* BasicBlock::Edit::_textTag {"text"};
  * The tag name of a list edit element used to define a list edit widget. 
  */
 const char* BasicBlock::Edit::_listTag {"list"};
-/*!
- * The tag name for a type selection widget used to define a type selection edit 
- * widget. 
- */
-const char* BasicBlock::Edit::_typeTag {"type"};
 /*!
  * The attribute name for the row size of a check boxes edit element. 
  */
@@ -209,11 +203,6 @@ void BasicBlock::Edit::apply()
       else if ( Gui::ListEdit* valid = qobject_cast<Gui::ListEdit*>(*i) )
       {
          if ( j->type() != QVariant::StringList ) throwTypeMismatch(i.key());
-         *j = valid->value();
-      }
-      else if ( Gui::TypeSelection* valid = qobject_cast<Gui::TypeSelection*>(*i) )
-      {
-         if ( j->type() != QVariant::String ) throwTypeMismatch(i.key());
          *j = valid->value();
       }
 
@@ -384,8 +373,8 @@ void BasicBlock::Edit::addWidgets(QLayout* layout, const QDomElement& element)
 {
    // Prepare an enumeration and matching string list that matches any recognized 
    // edit element tag names. 
-   enum {CheckBoxes,LineEdit,TextEdit,ListEdit,TypeEdit};
-   static const QStringList list {_checkboxesTag,_lineTag,_textTag,_listTag,_typeTag};
+   enum {CheckBoxes,LineEdit,TextEdit,ListEdit};
+   static const QStringList list {_checkboxesTag,_lineTag,_textTag,_listTag};
 
    // Iterate through all children nodes of the given element. 
    QDomNode node {element.firstChild()};
@@ -410,9 +399,6 @@ void BasicBlock::Edit::addWidgets(QLayout* layout, const QDomElement& element)
             break;
          case ListEdit:
             addListEdit(layout,child);
-            break;
-         case TypeEdit:
-            addTypeEdit(layout,child);
             break;
          }
       }
@@ -589,38 +575,6 @@ void BasicBlock::Edit::addListEdit(QLayout* layout, const QDomElement& element)
    // Create and initialize the new list edit widget. 
    Gui::ListEdit* edit {new Gui::ListEdit(_block)};
    edit->setValue(field.toStringList());
-
-   // Add the new widget to this editor's list of edit widgets and to the given 
-   // layout. 
-   _widgets.insert(id,edit);
-   add(layout,element,edit);
-}
-
-
-
-
-
-
-/*!
- * Adds a new type selection edit widget to the given layout using the given XML 
- * element to define the new edit widget. This also adds the new edit widget to 
- * this editor's list of edit widgets. 
- *
- * @param layout The layout that has the new edit widget added to it. 
- *
- * @param element The XML edit element that defines the new edit widget that is 
- *                created. 
- */
-void BasicBlock::Edit::addTypeEdit(QLayout* layout, const QDomElement& element)
-{
-   // Get the id attribute from the given XML element and then get the basic block 
-   // field value with the id. 
-   QString id {extractId(element)};
-   QVariant field {fieldValue(id,QVariant::String)};
-
-   // Create and initialize the new type selection edit widget. 
-   Gui::TypeSelection* edit {new Gui::TypeSelection(_block->typeList())};
-   edit->setValue(field.toString());
 
    // Add the new widget to this editor's list of edit widgets and to the given 
    // layout. 

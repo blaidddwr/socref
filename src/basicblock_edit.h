@@ -73,11 +73,6 @@ private:
     */
    static const char* _listTag;
    /*!
-    * The tag name for a type selection widget used to define a type selection edit 
-    * widget. 
-    */
-   static const char* _typeTag;
-   /*!
     * The attribute name for the row size of a check boxes edit element. 
     */
    static const char* _rowSizeKey;
@@ -90,7 +85,6 @@ private:
    void addLineEdit(QLayout* layout, const QDomElement& element);
    void addTextEdit(QLayout* layout, const QDomElement& element);
    void addListEdit(QLayout* layout, const QDomElement& element);
-   void addTypeEdit(QLayout* layout, const QDomElement& element);
    QCheckBox* setupCheckBox(const QString& id, const QString& title);
    void add(QLayout* layout, const QDomElement& element, QWidget* item);
    void add(QLayout* layout, const QDomElement& element, QLayout* item);

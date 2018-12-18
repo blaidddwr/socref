@@ -1,6 +1,6 @@
 #ifndef CPPQT_VARIABLE_H
 #define CPPQT_VARIABLE_H
-#include "cppqt_base.h"
+#include "basicblock.h"
 //
 
 
@@ -13,7 +13,7 @@ namespace CppQt
     * mutable, and thread local properties. This also supports having an initial 
     * value. 
     */
-   class Variable : public Base
+   class Variable : public BasicBlock
    {
       Q_OBJECT
    public:

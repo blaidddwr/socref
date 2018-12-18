@@ -1,8 +1,6 @@
 #include "cppqt_factory.h"
 #include <socutil/sut_exceptions.h>
 #include <projectfactory.h>
-#include "cppqt_typelist.h"
-#include "cppqt_type.h"
 #include "cppqt_namespace.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
@@ -47,8 +45,6 @@ QString Factory::elementName(int type) const
    // if the given type is unknown. 
    switch (type)
    {
-   case TypeListType: return QStringLiteral("typelist");
-   case TypeType: return QStringLiteral("type");
    case NamespaceType: return QStringLiteral("namespace");
    case EnumerationType: return QStringLiteral("enumeration");
    case EnumValueType: return QStringLiteral("enumvalue");
@@ -105,8 +101,6 @@ Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
    // pointer if that type does not have an implementation. 
    switch (type)
    {
-   case TypeListType: return QPtr<BasicBlock>(new TypeList);
-   case TypeType: return QPtr<BasicBlock>(new Type);
    case NamespaceType: return QPtr<BasicBlock>(new Namespace);
    case EnumerationType: return QPtr<BasicBlock>(new Enumeration);
    case EnumValueType: return QPtr<BasicBlock>(new EnumValue);

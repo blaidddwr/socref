@@ -16,7 +16,7 @@ using namespace CppQt;
  * @param block Variable block this new view displays. 
  */
 Variable::View::View(const Variable* block):
-   Base::View(block),
+   BasicBlock::View(block),
    _block(block)
 {}
 

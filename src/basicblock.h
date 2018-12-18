@@ -68,7 +68,6 @@ protected:
    virtual QDomElement writeData(QDomDocument& document) const override final;
    virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
    virtual void copyDataFrom(const AbstractBlock* other) override final;
-   virtual QJsonObject typeList() const;
 protected:
    bool getBool(const QString& id) const;
    QString getString(const QString& id) const;

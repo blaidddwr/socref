@@ -7202,18 +7202,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </data>
             <enumval type="12">
               <data version="0">
-                <name>TypeListType</name>
-                <description>Defines the type list block. This is for storing variable/function types because C++ is a strongly typed language.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
-                <name>TypeType</name>
-                <description>Defines the type block. This defines a specific type a variable or a function's return can make as their type.</description>
-              </data>
-            </enumval>
-            <enumval type="12">
-              <data version="0">
                 <name>NamespaceType</name>
                 <description>Defines the namespace block.</description>
               </data>
@@ -7386,209 +7374,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               </data>
             </variable>
           </function>
-        </access>
-      </class>
-      <class type="4">
-        <data version="0">
-          <name>TypeList</name>
-          <description>This is the type list block. This is used to contain C++ defined types and other type lists to allow for nesting. This container block type is provided to allow users to better organize all defined types for a C++/Qt project because it is a hardly typed language and the list of defined types quickly becomes very long.</description>
-          <qtobject/>
-        </data>
-        <parent type="13">
-          <data version="0">
-            <access>public</access>
-            <class>BasicBlock</class>
-          </data>
-        </parent>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
-          <class type="4">
-            <data version="0">
-              <name>View</name>
-              <description>This is the view class for the type list block.</description>
-              <qtobject/>
-            </data>
-            <parent type="13">
-              <data version="0">
-                <access>public</access>
-                <class>BasicBlock::View</class>
-              </data>
-            </parent>
-            <access type="5">
-              <data version="0">
-                <type>public:</type>
-              </data>
-              <constructor type="9">
-                <data version="0">
-                  <description>Constructs a new view object with the given type list block.</description>
-                  <explicit/>
-                </data>
-                <variable type="1">
-                  <data version="0">
-                    <name>block</name>
-                    <description>Type list block this new view displays.</description>
-                    <type>const TypeList*</type>
-                  </data>
-                </variable>
-              </constructor>
-            </access>
-            <access type="5">
-              <data version="0">
-                <type>private:</type>
-              </data>
-              <function type="2">
-                <data version="0">
-                  <name>displayTypeLists</name>
-                  <description>Returns a rich text string that displays all type lists this view's type list block contains as children.</description>
-                  <type>QString</type>
-                  <return_description>Rich text that displays all type lists this view's type list block contains.</return_description>
-                  <operation>Create an empty return string.</operation>
-                  <operation>Create a pointer list of all type list children of this view's type list block and make sure it is not empty.</operation>
-                  <operation>Add a rich text title.</operation>
-                  <operation>Add a beginning paragraph tag, then iterate through all type list children and append their info as rich text, and then add an ending paragraph tag.</operation>
-                  <operation>Return the rich text string.</operation>
-                </data>
-              </function>
-              <function type="2">
-                <data version="0">
-                  <name>displayTypes</name>
-                  <description>Returns a rich text string that displays all type blocks this view's type list block contains as children.</description>
-                  <type>QString</type>
-                  <return_description>Rich text that displays all type blocks this view's type list block contains.</return_description>
-                  <operation>Create an empty return string.</operation>
-                  <operation>Create a pointer list of all type children of this view's type list block and make sure it is not empty.</operation>
-                  <operation>Add a rich text title.</operation>
-                  <operation>Add a beginning paragraph tag, then iterate through all type children and append their info as rich text, and then add an ending paragraph.</operation>
-                  <operation>Return the rich text string.</operation>
-                </data>
-              </function>
-              <variable type="1">
-                <data version="0">
-                  <name>_block</name>
-                  <description>Pointer to the type list block this view is showing.</description>
-                  <type>const TypeList*</type>
-                </data>
-              </variable>
-            </access>
-          </class>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
-          <constructor type="9">
-            <data version="0">
-              <description>Constructs a new type list block.</description>
-              <default/>
-              <explicit/>
-              <type>void</type>
-            </data>
-          </constructor>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>protected:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>makeBasicView</name>
-              <description>Implements _BasicBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
-              <return_description>See interface docs.</return_description>
-            </data>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>childNameModified</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>bool</type>
-              <return_description>See interface docs.</return_description>
-              <operation>This does not use the given child pointer.</operation>
-              <operation>Notify the body has changed and return false.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>child</name>
-                <description>See interface docs.</description>
-                <type>AbstractBlock*</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>childAdded</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>bool</type>
-              <return_description>See interface docs.</return_description>
-              <operation>This does not use the given child pointer.</operation>
-              <operation>Notify the name and body has changed and return false.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>child</name>
-                <description>See interface docs.</description>
-                <type>AbstractBlock*</type>
-              </data>
-            </variable>
-          </function>
-          <function type="2">
-            <data version="0">
-              <name>childRemoved</name>
-              <description>Implements _AbstractBlock_ interface.</description>
-              <virtual/>
-              <override/>
-              <final/>
-              <type>bool</type>
-              <return_description>See interface docs.</return_description>
-              <operation>This does not use the given child pointer.</operation>
-              <operation>Notify the name and body has changed and return false.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>child</name>
-                <description>See interface docs.</description>
-                <type>AbstractBlock*</type>
-              </data>
-            </variable>
-          </function>
-        </access>
-      </class>
-      <class type="4">
-        <data version="0">
-          <name>Type</name>
-          <description>This is the type block. This is used to define a specific C++ type, either literal or template.</description>
-          <qtobject/>
-        </data>
-        <parent type="13">
-          <data version="0">
-            <access>public</access>
-            <class>BasicBlock</class>
-          </data>
-        </parent>
-        <access type="5">
-          <data version="0">
-            <type>public:</type>
-          </data>
-          <constructor type="9">
-            <data version="0">
-              <description>Constructs a new type block.</description>
-              <default/>
-              <explicit/>
-              <type>void</type>
-            </data>
-          </constructor>
         </access>
       </class>
       <class type="4">
@@ -7845,67 +7630,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
       </class>
       <class type="4">
         <data version="0">
-          <name>Base</name>
-          <description>This is the base block class used by many other concrete block types within the C++/Qt project type. This base class implements returning a list of possible types this block can assume, such as a variable type or function return type, because C++ is a hardly typed language.</description>
-          <qtobject/>
-        </data>
-        <parent type="13">
-          <data version="0">
-            <access>public</access>
-            <class>BasicBlock</class>
-          </data>
-        </parent>
-        <access type="5">
-          <data version="0">
-            <type>protected:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>typeList</name>
-              <description>Implements _BasicBlock_ interface.</description>
-              <virtual/>
-              <const/>
-              <override/>
-              <final/>
-              <type>QJsonObject</type>
-              <return_description>See interface docs.</return_description>
-              <operation>Create a new JSON return object and get the parent of this block.</operation>
-              <operation>Iterate up the chain of block parents until it is a null pointer.</operation>
-              <operation>Iterate through all type list children blocks of this block and add their type lists to the return JSON object.</operation>
-              <operation>Move up to the next block parent in the chain.</operation>
-              <operation>Return the fully populated JSON object of types.</operation>
-            </data>
-          </function>
-        </access>
-        <access type="5">
-          <data version="0">
-            <type>private:</type>
-          </data>
-          <function type="2">
-            <data version="0">
-              <name>addList</name>
-              <description>Adds the given list of types to a new JSON object that is returned. This also recursively adds any child type lists within the given type list block to the returned JSON object as an object within it.</description>
-              <static/>
-              <type>QJsonObject</type>
-              <return_description>A new JSON object that contains a full list of all types contained in the given type list block, including all children type lists.</return_description>
-              <operation>Create a new JSON object that will be populated and returned.</operation>
-              <operation>Iterate through all children of the given type list block.</operation>
-              <operation>If the child block is a type list then add a new JSON object to the given object created and populated by recursively calling this method.</operation>
-              <operation>Else if the block is a simple type then add it.</operation>
-              <operation>Return the populated JSON object.</operation>
-            </data>
-            <variable type="1">
-              <data version="0">
-                <name>block</name>
-                <description>The type list block that is used to populate the given JSON object with all types and child type lists it contains.</description>
-                <type>const TypeList&amp;</type>
-              </data>
-            </variable>
-          </function>
-        </access>
-      </class>
-      <class type="4">
-        <data version="0">
           <name>Variable</name>
           <description>This is the variable block. This represents any global, class member, or function argument variable. This supports the constant expression, static, mutable, and thread local properties. This also supports having an initial value.</description>
           <qtobject/>
@@ -7913,7 +7637,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent type="13">
           <data version="0">
             <access>public</access>
-            <class>Base</class>
+            <class>BasicBlock</class>
           </data>
         </parent>
         <access type="5">
@@ -15164,15 +14888,6 @@ The layout of this editor is defined by the XML element between different layout
             </variable>
             <variable type="1">
               <data version="0">
-                <name>_typeTag</name>
-                <description>The tag name for a type selection widget used to define a type selection edit widget.</description>
-                <static/>
-                <type>const char*</type>
-                <initializer>"type"</initializer>
-              </data>
-            </variable>
-            <variable type="1">
-              <data version="0">
                 <name>_rowSizeKey</name>
                 <description>The attribute name for the row size of a check boxes edit element.</description>
                 <static/>
@@ -15347,30 +15062,6 @@ The layout of this editor is defined by the XML element between different layout
                 <type>void</type>
                 <operation>Get the id attribute from the given XML element and then get the basic block field value with the id.</operation>
                 <operation>Create and initialize the new list edit widget.</operation>
-                <operation>Add the new widget to this editor's list of edit widgets and to the given layout.</operation>
-              </data>
-              <variable type="1">
-                <data version="0">
-                  <name>layout</name>
-                  <description>The layout that has the new edit widget added to it.</description>
-                  <type>QLayout*</type>
-                </data>
-              </variable>
-              <variable type="1">
-                <data version="0">
-                  <name>element</name>
-                  <description>The XML edit element that defines the new edit widget that is created.</description>
-                  <type>const QDomElement&amp;</type>
-                </data>
-              </variable>
-            </function>
-            <function type="2">
-              <data version="0">
-                <name>addTypeEdit</name>
-                <description>Adds a new type selection edit widget to the given layout using the given XML element to define the new edit widget. This also adds the new edit widget to this editor's list of edit widgets.</description>
-                <type>void</type>
-                <operation>Get the id attribute from the given XML element and then get the basic block field value with the id.</operation>
-                <operation>Create and initialize the new type selection edit widget.</operation>
                 <operation>Add the new widget to this editor's list of edit widgets and to the given layout.</operation>
               </data>
               <variable type="1">
@@ -16010,16 +15701,6 @@ The layout of this editor is defined by the XML element between different layout
               <type>const AbstractBlock*</type>
             </data>
           </variable>
-        </function>
-        <function type="2">
-          <data version="0">
-            <name>typeList</name>
-            <description>This interface returns a JSON object of available variable types within the scope of this basic block. This is used for project types that use hardly typed variables such as C++. For project types like PHP that use soft variables this can returns an empty object. This is called on a specific block instance because the available types for selection can depend on the scope which should be determined by the variable's parent block. There can be additional JSON objects nested within the root which provides additional types for selection. Each key in the JSON object is used as a possible type for selection. The default implementation returns an empty object, assuming a softly typed project type.</description>
-            <virtual/>
-            <const/>
-            <type>QJsonObject</type>
-            <return_description>List of all possible variable types, with possible nested lists, for hardly typed project types or an empty object for softly typed project types.</return_description>
-          </data>
         </function>
       </access>
       <access type="5">

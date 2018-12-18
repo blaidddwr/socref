@@ -22,19 +22,9 @@ namespace CppQt
       enum 
       {
          /*!
-          * Defines the type list block. This is for storing variable/function types because 
-          * C++ is a strongly typed language. 
-          */
-         TypeListType
-         /*!
-          * Defines the type block. This defines a specific type a variable or a function's 
-          * return can make as their type. 
-          */
-         ,TypeType
-         /*!
           * Defines the namespace block. 
           */
-         ,NamespaceType
+         NamespaceType
          /*!
           * Defines the enumeration block. This is for C++ enumerations of all types. 
           */
