@@ -1,6 +1,6 @@
 #ifndef CPPQT_ENUMERATION_H
 #define CPPQT_ENUMERATION_H
-#include "basicblock.h"
+#include "cppqt_base.h"
 #include "cppqt.h"
 //
 
@@ -13,7 +13,7 @@ namespace CppQt
     * enumeration values for a C++ enumeration. This provides for unnamed, regular, 
     * and class enumerations. 
     */
-   class Enumeration : public BasicBlock
+   class Enumeration : public Base
    {
       Q_OBJECT
    public:

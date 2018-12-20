@@ -5,6 +5,8 @@
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
 #include "cppqt_variable.h"
+#include "cppqt_template.h"
+#include "cppqt_function.h"
 
 
 
@@ -105,6 +107,8 @@ Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
    case EnumerationType: return QPtr<BasicBlock>(new Enumeration);
    case EnumValueType: return QPtr<BasicBlock>(new EnumValue);
    case VariableType: return QPtr<BasicBlock>(new Variable);
+   case TemplateType: return QPtr<BasicBlock>(new Template);
+   case FunctionType: return QPtr<BasicBlock>(new Function);
    default: return nullptr;
    }
 }

@@ -61,6 +61,15 @@ private:
     */
    static const char* _checkboxTag;
    /*!
+    * The tag name for a combo box element used to define a combo box widget. 
+    */
+   static const char* _comboTag;
+   /*!
+    * The tag name for an option element nested within combo elements used to define a 
+    * value of a combo box widget. 
+    */
+   static const char* _optionTag;
+   /*!
     * The tag name for a line edit element used to define a line edit widget. 
     */
    static const char* _lineTag;
@@ -76,12 +85,18 @@ private:
     * The attribute name for the row size of a check boxes edit element. 
     */
    static const char* _rowSizeKey;
+   /*!
+    * The attribute name for the value of an option element nested within a combo 
+    * element. 
+    */
+   static const char* _valueKey;
 private:
    void saveSettings(const QString& baseKey);
    QWidget* setupForm(const QDomElement& element);
    QWidget* setupLayout(const QDomElement& element);
    void addWidgets(QLayout* layout, const QDomElement& element);
    void addCheckBoxes(QLayout* layout, const QDomElement& element);
+   void addComboBox(QLayout* layout, const QDomElement& element);
    void addLineEdit(QLayout* layout, const QDomElement& element);
    void addTextEdit(QLayout* layout, const QDomElement& element);
    void addListEdit(QLayout* layout, const QDomElement& element);

@@ -1,6 +1,6 @@
 #ifndef CPPQT_ENUMVALUE_H
 #define CPPQT_ENUMVALUE_H
-#include "basicblock.h"
+#include "cppqt_base.h"
 //
 
 
@@ -13,7 +13,7 @@ namespace CppQt
     * Because the integer can be another enumeration value or a macro this value is 
     * allowed to be a string. 
     */
-   class EnumValue : public BasicBlock
+   class EnumValue : public Base
    {
       Q_OBJECT
    public:

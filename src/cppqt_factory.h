@@ -38,14 +38,14 @@ namespace CppQt
           */
          ,VariableType
          /*!
-          * Defines the function block. 
-          */
-         ,FunctionType
-         /*!
           * Defines the template block. This is used for template arguments in classes and 
           * functions. 
           */
          ,TemplateType
+         /*!
+          * Defines the function block. 
+          */
+         ,FunctionType
          /*!
           * Defines the class block. 
           */

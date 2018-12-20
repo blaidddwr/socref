@@ -8,6 +8,7 @@
 #include <QGridLayout>
 #include <QLabel>
 #include <QCheckBox>
+#include <QComboBox>
 #include <QLineEdit>
 #include <socutil/sut_exceptions.h>
 #include "gui_textedit.h"
@@ -46,6 +47,15 @@ const char* BasicBlock::Edit::_checkboxesTag {"checkboxes"};
  */
 const char* BasicBlock::Edit::_checkboxTag {"checkbox"};
 /*!
+ * The tag name for a combo box element used to define a combo box widget. 
+ */
+const char* BasicBlock::Edit::_comboTag {"combo"};
+/*!
+ * The tag name for an option element nested within combo elements used to define a 
+ * value of a combo box widget. 
+ */
+const char* BasicBlock::Edit::_optionTag {"option"};
+/*!
  * The tag name for a line edit element used to define a line edit widget. 
  */
 const char* BasicBlock::Edit::_lineTag {"line"};
@@ -61,6 +71,11 @@ const char* BasicBlock::Edit::_listTag {"list"};
  * The attribute name for the row size of a check boxes edit element. 
  */
 const char* BasicBlock::Edit::_rowSizeKey {"rowsize"};
+/*!
+ * The attribute name for the value of an option element nested within a combo 
+ * element. 
+ */
+const char* BasicBlock::Edit::_valueKey {"value"};
 
 
 
@@ -189,6 +204,11 @@ void BasicBlock::Edit::apply()
       {
          if ( j->type() != QVariant::Bool ) throwTypeMismatch(i.key());
          *j = (bool)valid->checkState();
+      }
+      else if ( QComboBox* valid = qobject_cast<QComboBox*>(*i) )
+      {
+         if ( j->type() != QVariant::String ) throwTypeMismatch(i.key());
+         *j = valid->currentText();
       }
       else if ( QLineEdit* valid = qobject_cast<QLineEdit*>(*i) )
       {
@@ -373,8 +393,8 @@ void BasicBlock::Edit::addWidgets(QLayout* layout, const QDomElement& element)
 {
    // Prepare an enumeration and matching string list that matches any recognized 
    // edit element tag names. 
-   enum {CheckBoxes,LineEdit,TextEdit,ListEdit};
-   static const QStringList list {_checkboxesTag,_lineTag,_textTag,_listTag};
+   enum {CheckBoxes,ComboBox,LineEdit,TextEdit,ListEdit};
+   static const QStringList list {_checkboxesTag,_comboTag,_lineTag,_textTag,_listTag};
 
    // Iterate through all children nodes of the given element. 
    QDomNode node {element.firstChild()};
@@ -390,6 +410,9 @@ void BasicBlock::Edit::addWidgets(QLayout* layout, const QDomElement& element)
          {
          case CheckBoxes:
             addCheckBoxes(layout,child);
+            break;
+         case ComboBox:
+            addComboBox(layout,child);
             break;
          case LineEdit:
             addLineEdit(layout,child);
@@ -485,6 +508,68 @@ void BasicBlock::Edit::addCheckBoxes(QLayout* layout, const QDomElement& element
    // Add the new grid layout with all the check box edit widgets to the given 
    // layout. 
    add(layout,element,grid);
+}
+
+
+
+
+
+
+/*!
+ * Adds a new line combo widget to the given layout using the given XML element to 
+ * define the new edit widget. This also adds the new edit widget to this editor's 
+ * list of edit widgets. 
+ *
+ * @param layout The layout that has the new edit widget added to it. 
+ *
+ * @param element The XML edit element that defines the new edit widget that is 
+ *                created. 
+ */
+void BasicBlock::Edit::addComboBox(QLayout* layout, const QDomElement& element)
+{
+   // Get the id attribute from the given XML element and then get the basic block 
+   // field value with the id. 
+   QString id {extractId(element)};
+   QVariant field {fieldValue(id,QVariant::String)};
+
+   // Create and initialize the new combo box widget. 
+   QComboBox* edit {new QComboBox};
+
+   // Iterate through all child nodes of the given element. 
+   QDomNode node {element.firstChild()};
+   while ( !node.isNull() )
+   {
+      // If the node is an element and its tag name matches an option then add it as a 
+      // possible value to select in the new combo box, making sure the option element 
+      // has the value attribute. 
+      if ( node.isElement() )
+      {
+         QDomElement child {node.toElement()};
+         if ( child.tagName() == _optionTag )
+         {
+            if ( !child.hasAttribute(_valueKey) )
+            {
+               Exception::ReadError e;
+               SUT_MARK_EXCEPTION(e);
+               e.setDetails(tr("XML option element does not contain the value attribute."));
+               throw e;
+            }
+            edit->addItem(child.attribute(_valueKey));
+         }
+      }
+
+      // Move to the next sibling node. 
+      node = node.nextSibling();
+   }
+
+   // Set the currently selected option in the new combo box to the value of the 
+   // basic block field being edited by it. 
+   edit->setCurrentText(field.toString());
+
+   // Add the new widget to this editor's list of edit widgets and to the given 
+   // layout. 
+   _widgets.insert(id,edit);
+   add(layout,element,edit);
 }
 
 

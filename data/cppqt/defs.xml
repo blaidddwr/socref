@@ -11,6 +11,7 @@
         <namespace/>
         <enumeration/>
         <variable/>
+        <function/>
     </buildlist>
     <edit>
         <form>
@@ -106,6 +107,89 @@
         <custom name="displayInitializer"/>
     </view>
 </variable>
+
+
+
+<template display="Template">
+    <icon>:/icons/template.svg</icon>
+    <string id="type" default="class"/>
+    <string id="name" default="T"/>
+    <string id="description"/>
+    <name>name</name>
+    <edit>
+        <form>
+            <line id="type" display="Type:"/>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+        </form>
+    </edit>
+    <view>
+        <h3>Type</h3>
+        <ps id="type"/>
+        <h3>Description</h3>
+        <ps id="description"/>
+    </view>
+</template>
+
+
+
+<function display="Function">
+    <string id="name" default="foo"/>
+    <string id="description"/>
+    <string id="type" default="void"/>
+    <string id="return_description"/>
+    <stringlist id="operation"/>
+    <bool id="default"/>
+    <bool id="deleted"/>
+    <bool id="invokable"/>
+    <bool id="explicit"/>
+    <bool id="virtual"/>
+    <bool id="const"/>
+    <bool id="constexpr"/>
+    <bool id="static"/>
+    <bool id="noexcept"/>
+    <bool id="override"/>
+    <bool id="final"/>
+    <bool id="abstract"/>
+    <buildlist>
+        <variable/>
+        <template/>
+    </buildlist>
+    <edit>
+        <form>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+            <line id="type" display="Return Type:"/>
+            <text id="return_description" display="Return Description:"/>
+            <checkboxes display="Properties:" rowsize="8">
+                <checkbox id="default" display="Default"/>
+                <checkbox id="deleted" display="Deleted"/>
+                <checkbox id="invokable" display="Qt Invokable"/>
+                <checkbox id="explicit" display="Explicit"/>
+                <checkbox id="const" display="Constant"/>
+                <checkbox id="constexpr" display="Constant Expression"/>
+                <checkbox id="static" display="Static"/>
+                <checkbox id="noexcept" display="No Exceptions"/>
+                <checkbox id="virtual" display="Virtual"/>
+                <checkbox id="override" display="Override"/>
+                <checkbox id="final" display="Final"/>
+                <checkbox id="abstract" display="Abstract"/>
+            </checkboxes>
+        </form>
+        <layout>
+            <list id="operation" display="Steps of Operation"/>
+        </layout>
+    </edit>
+    <view>
+        <custom name="displayArguments"/>
+        <custom name="displayReturn"/>
+        <custom name="displayTemplates"/>
+        <h3>Description</h3>
+        <ps id="description"/>
+        <custom name="displayOperations"/>
+        <custom name="displayProperties"/>
+    </view>
+</function>
 
 
 
