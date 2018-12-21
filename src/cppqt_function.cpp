@@ -4,6 +4,8 @@
 #include "cppqt_variable.h"
 #include "cppqt_factory.h"
 #include "cppqt_template.h"
+#include "cppqt_class.h"
+#include "cppqt_access.h"
 
 
 
@@ -28,8 +30,9 @@ QString Function::name() const
    // If this block has templates then append a template indicator. 
    if ( hasTemplates() ) ret += QStringLiteral("<> ");
 
-   // If the has void return indicator is not true then append a return indicator. 
-   if ( !isVoidReturn() ) ret += QStringLiteral("... ");
+   // If this block is not a constructor, destructor, and its has void return 
+   // indicator is not true then append a return indicator. 
+   if ( !isConstructor() && !isDestructor() && !isVoidReturn() ) ret += QStringLiteral("... ");
 
    // Append the function name and then the number of arguments. 
    const QList<Variable*> list {arguments()};
@@ -114,7 +117,7 @@ QIcon Function::icon() const
  */
 bool Function::isConstructor() const
 {
-   return baseName() == QStringLiteral("^");
+   return Base::baseName() == QStringLiteral("^");
 }
 
 
@@ -129,7 +132,7 @@ bool Function::isConstructor() const
  */
 bool Function::isDestructor() const
 {
-   return baseName() == QStringLiteral("~^");
+   return Base::baseName() == QStringLiteral("~^");
 }
 
 
@@ -160,8 +163,7 @@ bool Function::isOperator() const
 bool Function::isSignal() const
 {
    if ( !isMethod() ) return false;
-   // .
-   return false;
+   return parent()->cast<Access>(Factory::AccessType)->isSignal();
 }
 
 
@@ -177,8 +179,7 @@ bool Function::isSignal() const
 bool Function::isSlot() const
 {
    if ( !isMethod() ) return false;
-   // .
-   return false;
+   return parent()->cast<Access>(Factory::AccessType)->isSlot();
 }
 
 
@@ -382,16 +383,24 @@ bool Function::isAbstract() const
  */
 QString Function::baseName() const
 {
+   // Create a new return string with the regular base name of this function. 
    QString ret {Base::baseName()};
+
+   // If this function is not a method then return the regular base name. 
    if ( !isMethod() ) return ret;
+
+   // If this function is a constructor or destructor then change its base name to 
+   // the name of its class, prepending a ~ if it is a destructor. 
    if ( ret == QStringLiteral("^") )
    {
-      ///TODO
+      ret = parent()->parent()->cast<Class>(Factory::ClassType)->baseName();
    }
    else if ( ret == QStringLiteral("~^") )
    {
-      ///TODO
+      ret = QStringLiteral("~") + parent()->parent()->cast<Class>(Factory::ClassType)->baseName();
    }
+
+   // Return the base name. 
    return ret;
 }
 
@@ -498,8 +507,7 @@ bool Function::isPrivateMethod() const
 
    // Determine if this function block is a private method by seeing if its parent 
    // access block's type is private. 
-   //return parent()->cast<Access>(Factory::AccessType)->accessType() == Access::Private;
-   return false;
+   return parent()->cast<Access>(Factory::AccessType)->isPrivate();
 }
 
 
@@ -523,8 +531,7 @@ bool Function::hasAnyTemplates() const
    // any parent classes contain templates. 
    if ( isMethod() )
    {
-      //return parent()->parent()->cast<Class>(Factory::ClassType)->hasAnyTemplates();
-      return false;
+      return parent()->parent()->cast<Class>(Factory::ClassType)->hasAnyTemplates();
    }
 
    // If this is reached then there are no templates so return false. 
@@ -584,6 +591,35 @@ QList<Variable*> Function::arguments() const
 
 
 /*!
+ * Called when this function's class block has changed its name. This in turn 
+ * notifies this block's name has changed if it is a constructor or destructor. 
+ */
+void Function::classNameChanged()
+{
+   if ( isConstructor() || isDestructor() ) notifyNameModified();
+}
+
+
+
+
+
+
+/*!
+ * Implements _BasicBlock_ interface. 
+ *
+ * @return See interface docs. 
+ */
+Sut::QPtr<BasicBlock::View> Function::makeBasicView() const
+{
+   return new View(this);
+}
+
+
+
+
+
+
+/*!
  * Implements _AbstractBlock_ interface. 
  *
  * @param child See interface docs. 
@@ -594,11 +630,11 @@ bool Function::childAdded(AbstractBlock* child)
 {
    Q_UNUSED(child)
 
-   // .
+   // Notify the name and body of this block has changed. 
    notifyNameModified();
    notifyBodyModified();
 
-   // .
+   // Return false to end propagation. 
    return false;
 }
 
@@ -618,27 +654,12 @@ bool Function::childRemoved(AbstractBlock* child)
 {
    Q_UNUSED(child)
 
-   // .
+   // Notify the name and body of this block has changed.  
    notifyNameModified();
    notifyBodyModified();
 
-   // .
+   // Return false to end propagation. 
    return false;
-}
-
-
-
-
-
-
-/*!
- * Implements _BasicBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<BasicBlock::View> Function::makeBasicView() const
-{
-   return new View(this);
 }
 
 

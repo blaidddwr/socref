@@ -59,10 +59,12 @@ namespace CppQt
       bool hasTemplates() const;
       QList<Template*> templates() const;
       QList<Variable*> arguments() const;
+   public slots:
+      void classNameChanged();
    protected:
+      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;
-      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
    private:
       QString attributes() const;
    };

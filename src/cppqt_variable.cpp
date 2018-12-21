@@ -1,6 +1,8 @@
 #include "cppqt_variable.h"
 #include <QIcon>
 #include "cppqt_variable_view.h"
+#include "cppqt_factory.h"
+#include "cppqt_function.h"
 
 
 
@@ -180,14 +182,13 @@ QString Variable::initializer() const
  */
 bool Variable::isMember() const
 {
-   return false;
    // Get this block's parent block pointer and make sure it is not null. 
-   //AbstractBlock* up {parent()};
-   //if ( !up ) return false;
+   AbstractBlock* up {parent()};
+   if ( !up ) return false;
 
    // Test if this variable is an argument by seeing if its parent block is an access 
    // type. 
-   //return up->type() == Factory::AccessType;
+   return up->type() == Factory::AccessType;
 }
 
 
@@ -203,10 +204,9 @@ bool Variable::isMember() const
  */
 bool Variable::isArgument() const
 {
-   return false;
    // Test if this variable is an argument by seeing if its parent is a function 
    // block type. 
-   //return qobject_cast<Function*>(parent());
+   return qobject_cast<Function*>(parent());
 }
 
 

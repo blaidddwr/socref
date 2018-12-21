@@ -12,6 +12,7 @@
         <enumeration/>
         <variable/>
         <function/>
+        <class/>
     </buildlist>
     <edit>
         <form>
@@ -190,6 +191,61 @@
         <custom name="displayProperties"/>
     </view>
 </function>
+
+
+
+<class display="Class">
+    <string id="name" default="object"/>
+    <string id="description"/>
+    <bool id="qtobject"/>
+    <buildlist>
+        <template/>
+        <access/>
+    </buildlist>
+    <edit>
+        <form>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+            <checkboxes display="Properties:" rowsize="1">
+                <checkbox id="qtobject" display="Qt Object"/>
+            </checkboxes>
+        </form>
+    </edit>
+    <view>
+        <h3>Description</h3>
+        <ps id="description"/>
+        <custom name="displayQtObject"/>
+        <custom name="displayParents"/>
+    </view>
+</class>
+
+
+
+<access display="Access">
+    <string id="type" default="public:"/>
+    <buildlist>
+        <enumeration/>
+        <variable/>
+        <function/>
+        <class/>
+    </buildlist>
+    <edit>
+        <form>
+            <combo id="type" display="Type:">
+                <option value="public:"/>
+                <option value="protected:"/>
+                <option value="private:"/>
+                <option value="signals:"/>
+                <option value="public slots:"/>
+                <option value="protected slots:"/>
+                <option value="private slots:"/>
+            </combo>
+        </form>
+    </edit>
+    <view>
+        <custom name="displayInfo"/>
+    </view>
+</access>
 
 
 

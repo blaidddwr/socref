@@ -7,6 +7,8 @@
 #include "cppqt_variable.h"
 #include "cppqt_template.h"
 #include "cppqt_function.h"
+#include "cppqt_class.h"
+#include "cppqt_access.h"
 
 
 
@@ -109,6 +111,8 @@ Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
    case VariableType: return QPtr<BasicBlock>(new Variable);
    case TemplateType: return QPtr<BasicBlock>(new Template);
    case FunctionType: return QPtr<BasicBlock>(new Function);
+   case ClassType: return QPtr<BasicBlock>(new Class);
+   case AccessType: return QPtr<BasicBlock>(new Access);
    default: return nullptr;
    }
 }

@@ -12,11 +12,12 @@ SOURCES += \
     cppqt_variable_view.cpp \
     cppqt_template.cpp \
     cppqt_function.cpp \
-    cppqt_function_view.cpp
-    #cppqt_template.cpp
+    cppqt_function_view.cpp \
+    cppqt_class.cpp \
+    cppqt_class_view.cpp \
+    cppqt_access.cpp \
+    cppqt_access_view.cpp
     #cppqt_signal.cpp \
-    #cppqt_class.cpp \
-    #cppqt_access.cpp \
     #cppqt_operator.cpp \
     #cppqt_constructor.cpp \
     #cppqt_destructor.cpp \
@@ -48,9 +49,7 @@ SOURCES += \
     #cppqt_template_view.cpp \
     #cppqt_operator_edit.cpp \
     #cppqt_class_edit.cpp \
-    #cppqt_class_view.cpp \
     #cppqt_access_edit.cpp \
-    #cppqt_access_view.cpp \
     #cppqt_slot_edit.cpp \
     #cppqt_signal_edit.cpp \
     #cppqt_constructor_edit.cpp \
@@ -77,11 +76,13 @@ HEADERS += \
     cppqt_variable_view.h \
     cppqt_template.h \
     cppqt_function.h \
-    cppqt_function_view.h
+    cppqt_function_view.h \
+    cppqt_class.h \
+    cppqt_class_view.h \
+    cppqt_access.h \
+    cppqt_access_view.h
     #cppqt_gui.h \
     #cppqt_signal.h \
-    #cppqt_class.h \
-    #cppqt_access.h \
     #cppqt_operator.h \
     #cppqt_constructor.h \
     #cppqt_destructor.h \
@@ -114,9 +115,7 @@ HEADERS += \
     #cppqt_template_view.h \
     #cppqt_operator_edit.h \
     #cppqt_class_edit.h \
-    #cppqt_class_view.h \
     #cppqt_access_edit.h \
-    #cppqt_access_view.h \
     #cppqt_slot_edit.h \
     #cppqt_signal_edit.h \
     #cppqt_constructor_edit.h \
