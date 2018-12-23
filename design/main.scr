@@ -24,6 +24,7 @@
     <word>QThread</word>
     <word>destructor</word>
     <word>destructors</word>
+    <word>incrementing</word>
     <word>invokable</word>
     <word>namespace</word>
     <word>prepending</word>
@@ -8857,6 +8858,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                   <operation>Initialize all counters.</operation>
                   <operation>Iterate through all block children of this view's access block.</operation>
                   <operation>Increment the appropriate counter based off the child block's type.</operation>
+                  <operation>Figure out if this function block is abstract, virtual, or regular, incrementing the correct counter based off that information.</operation>
                   <operation>Create an empty return string.</operation>
                   <operation>Append rich text info about each block type if their count is above zero.</operation>
                   <operation>Return the rich text.</operation>

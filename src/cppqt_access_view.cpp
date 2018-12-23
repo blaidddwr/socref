@@ -1,5 +1,6 @@
 #include "cppqt_access_view.h"
 #include "cppqt_factory.h"
+#include "cppqt_function.h"
 
 
 
@@ -40,6 +41,8 @@ QString Access::View::displayInfo()
    int enumerationAmt {0};
    int variableAmt {0};
    int functionAmt {0};
+   int virtualAmt {0};
+   int abstractAmt {0};
    int classAmt {0};
    int declareAmt {0};
 
@@ -56,8 +59,15 @@ QString Access::View::displayInfo()
          variableAmt++;
          break;
       case Factory::FunctionType:
-         functionAmt++;
-         break;
+         {
+            // Figure out if this function block is abstract, virtual, or regular, 
+            // incrementing the correct counter based off that information. 
+            Function* valid {child->cast<Function>(Factory::FunctionType)};
+            if ( valid->isAbstract() ) abstractAmt++;
+            else if ( valid->isVirtual() ) virtualAmt++;
+            else functionAmt++;
+            break;
+         }
       case Factory::ClassType:
          classAmt++;
          break;
@@ -74,6 +84,8 @@ QString Access::View::displayInfo()
    if ( enumerationAmt ) ret += tr("%n enumeration(s)<br/>","",enumerationAmt);
    if ( variableAmt ) ret += tr("%n variable(s)<br/>","",variableAmt);
    if ( functionAmt ) ret += tr("%n function(s)<br/>","",functionAmt);
+   if ( virtualAmt ) ret += tr("%n virtual function(s)<br/>","",virtualAmt);
+   if ( abstractAmt ) ret += tr("%n abstract function(s)<br/>","",abstractAmt);
    if ( classAmt ) ret += tr("%n class(es)<br/>","",classAmt);
    if ( declareAmt ) ret += tr("%n declaration(s)<br/>","",declareAmt);
 
