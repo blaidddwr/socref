@@ -16,6 +16,5 @@ namespace CppQt
    class Class;
    class Access;
    class Parent;
-   class Using;
-   class Friend;
+   class Declaration;
 }

@@ -41,6 +41,7 @@ QString Access::View::displayInfo()
    int variableAmt {0};
    int functionAmt {0};
    int classAmt {0};
+   int declareAmt {0};
 
    // Iterate through all block children of this view's access block. 
    for (auto child : _block->list())
@@ -60,6 +61,9 @@ QString Access::View::displayInfo()
       case Factory::ClassType:
          classAmt++;
          break;
+      case Factory::DeclarationType:
+         declareAmt++;
+         break;
       }
    }
 
@@ -71,6 +75,7 @@ QString Access::View::displayInfo()
    if ( variableAmt ) ret += tr("%n variable(s)<br/>","",variableAmt);
    if ( functionAmt ) ret += tr("%n function(s)<br/>","",functionAmt);
    if ( classAmt ) ret += tr("%n class(es)<br/>","",classAmt);
+   if ( declareAmt ) ret += tr("%n declaration(s)<br/>","",declareAmt);
 
    // Return the rich text. 
    return ret;

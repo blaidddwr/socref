@@ -61,6 +61,10 @@ public:
    virtual Sut::QPtr<QWidget> makeView() const override final;
    virtual Sut::QPtr<Gui::AbstractEdit> makeEdit() override final;
 public:
+   /*!
+    * Constructs a new basic block. 
+    */
+   Q_INVOKABLE explicit BasicBlock() = default;
    void initialize(int type, const AbstractBlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault);
 protected:
    virtual Sut::QPtr<BasicBlock::View> makeBasicView() const;

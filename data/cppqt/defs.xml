@@ -201,6 +201,7 @@
     <buildlist>
         <template/>
         <access/>
+        <parent/>
     </buildlist>
     <edit>
         <form>
@@ -228,6 +229,7 @@
         <variable/>
         <function/>
         <class/>
+        <declaration/>
     </buildlist>
     <edit>
         <form>
@@ -243,9 +245,50 @@
         </form>
     </edit>
     <view>
+        <h3>Tally</h3>
         <custom name="displayInfo"/>
     </view>
 </access>
+
+
+
+<parent display="Parent">
+    <string id="access" default="public"/>
+    <string id="class" default="parent"/>
+    <name>class</name>
+    <edit>
+        <form>
+            <combo id="access" display="Access:">
+                <option value="public"/>
+                <option value="protected"/>
+                <option value="private"/>
+            </combo>
+            <line id="class" display="Class:"/>
+        </form>
+    </edit>
+    <view>
+        <h3>Access</h3>
+        <ps id="access"/>
+        <h3>Class</h3>
+        <ps id="class"/>
+    </view>
+</parent>
+
+
+
+<declaration display="Declaration">
+    <icon>:/icons/declaration.svg</icon>
+    <string id="line" default="friend foo()"/>
+    <edit>
+        <form>
+            <line id="line" display="Line:"/>
+        </form>
+    </edit>
+    <view>
+        <h3>Line</h3>
+        <ps id="line"/>
+    </view>
+</declaration>
 
 
 

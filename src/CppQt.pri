@@ -16,51 +16,9 @@ SOURCES += \
     cppqt_class.cpp \
     cppqt_class_view.cpp \
     cppqt_access.cpp \
-    cppqt_access_view.cpp
-    #cppqt_signal.cpp \
-    #cppqt_operator.cpp \
-    #cppqt_constructor.cpp \
-    #cppqt_destructor.cpp \
-    #cppqt_slot.cpp \
-    #cppqt_parent.cpp \
-    #cppqt_parse_global.cpp \
-    #cppqt_parse_function.cpp \
-    #cppqt_parse_base.cpp \
-    #cppqt_parse_header.cpp \
-    #cppqt_parse_variable.cpp \
-    #cppqt_parse_enumeration.cpp \
-    #cppqt_parse_source.cpp \
-    #cppqt_parse_access.cpp \
-    #cppqt_parse_forward.cpp \
-    #cppqt_gui_settingsdialog.cpp \
-    #cppqt_settings.cpp \
-    #cppqt_gui_typeselection.cpp \
-    #cppqt_using.cpp \
-    #cppqt_friend.cpp \
-    #cppqt_base_view.cpp \
-    #cppqt_enumeration_edit.cpp \
-    #cppqt_enumeration_view.cpp \
-    #cppqt_enumvalue_edit.cpp \
-    #cppqt_namespace_edit.cpp \
-    #cppqt_namespace_view.cpp \
-    #cppqt_variable_edit.cpp \
-    #cppqt_function_edit.cpp \
-    #cppqt_template_edit.cpp \
-    #cppqt_template_view.cpp \
-    #cppqt_operator_edit.cpp \
-    #cppqt_class_edit.cpp \
-    #cppqt_access_edit.cpp \
-    #cppqt_slot_edit.cpp \
-    #cppqt_signal_edit.cpp \
-    #cppqt_constructor_edit.cpp \
-    #cppqt_destructor_edit.cpp \
-    #cppqt_parent_edit.cpp \
-    #cppqt_parent_view.cpp \
-    #cppqt_using_edit.cpp \
-    #cppqt_using_view.cpp \
-    #cppqt_parse_factory.cpp \
-    #cppqt_parse_main.cpp \
-    #cppqt_parse_declarative.cpp \
+    cppqt_access_view.cpp \
+    cppqt_parent.cpp \
+    cppqt_declaration.cpp
 
 HEADERS += \
     cppqt.h \
@@ -80,50 +38,8 @@ HEADERS += \
     cppqt_class.h \
     cppqt_class_view.h \
     cppqt_access.h \
-    cppqt_access_view.h
-    #cppqt_gui.h \
-    #cppqt_signal.h \
-    #cppqt_operator.h \
-    #cppqt_constructor.h \
-    #cppqt_destructor.h \
-    #cppqt_slot.h \
-    #cppqt_parent.h \
-    #cppqt_parse.h \
-    #cppqt_parse_global.h \
-    #cppqt_parse_function.h \
-    #cppqt_parse_base.h \
-    #cppqt_parse_header.h \
-    #cppqt_parse_variable.h \
-    #cppqt_parse_enumeration.h \
-    #cppqt_parse_source.h \
-    #cppqt_parse_access.h \
-    #cppqt_parse_forward.h \
-    #cppqt_gui_settingsdialog.h \
-    #cppqt_settings.h \
-    #cppqt_gui_typeselection.h \
-    #cppqt_using.h \
-    #cppqt_friend.h \
-    #cppqt_base_view.h \
-    #cppqt_enumeration_edit.h \
-    #cppqt_enumeration_view.h \
-    #cppqt_enumvalue_edit.h \
-    #cppqt_namespace_edit.h \
-    #cppqt_namespace_view.h \
-    #cppqt_variable_edit.h \
-    #cppqt_function_edit.h \
-    #cppqt_template_edit.h \
-    #cppqt_template_view.h \
-    #cppqt_operator_edit.h \
-    #cppqt_class_edit.h \
-    #cppqt_access_edit.h \
-    #cppqt_slot_edit.h \
-    #cppqt_signal_edit.h \
-    #cppqt_constructor_edit.h \
-    #cppqt_destructor_edit.h \
-    #cppqt_parent_edit.h \
-    #cppqt_parent_view.h \
-    #cppqt_using_edit.h \
-    #cppqt_using_view.h \
-    #cppqt_parse_factory.h \
-    #cppqt_parse_main.h \
-    #cppqt_parse_declarative.h \
+    cppqt_access_view.h \
+    cppqt_parent.h \
+    cppqt_declaration.h
+
+include(CppQt_Parse.pri)

@@ -5,6 +5,7 @@
 #include "cppqt_template.h"
 #include "cppqt_function.h"
 #include "cppqt_access.h"
+#include "cppqt_parent.h"
 
 
 
@@ -228,8 +229,7 @@ QList<Template*> Class::templates() const
  */
 QList<Parent*> Class::parents() const
 {
-   //return makeListOfType<Parent>(Factory::ParentType);
-   return QList<Parent*>();
+   return makeListOfType<Parent>(Factory::ParentType);
 }
 
 
@@ -265,7 +265,7 @@ bool Class::childNameModified(AbstractBlock* child)
    // of this block has changed. 
    if ( qobject_cast<Template*>(child)
         || qobject_cast<Function*>(child)
-        /*|| qobject_cast<Parent*>(child)*/ )
+        || qobject_cast<Parent*>(child) )
    {
       notifyNameModified();
    }
@@ -292,7 +292,7 @@ bool Class::childAdded(AbstractBlock* child)
    // this block has changed. 
    if ( qobject_cast<Template*>(child)
         || qobject_cast<Function*>(child)
-        /*|| qobject_cast<Parent*>(child)*/ )
+        || qobject_cast<Parent*>(child) )
    {
       notifyNameModified();
    }
@@ -326,7 +326,7 @@ bool Class::childRemoved(AbstractBlock* child)
    // this block has changed. 
    if ( qobject_cast<Template*>(child)
         || qobject_cast<Function*>(child)
-        /*|| qobject_cast<Parent*>(child)*/ )
+        || qobject_cast<Parent*>(child) )
    {
       notifyNameModified();
    }

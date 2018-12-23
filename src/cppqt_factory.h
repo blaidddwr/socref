@@ -56,37 +56,13 @@ namespace CppQt
           */
          ,AccessType
          /*!
-          * Defines the operator block. 
-          */
-         ,OperatorType
-         /*!
-          * Defines the slot type. This is for Qt slot functions. 
-          */
-         ,SlotType
-         /*!
-          * Defines the signal block. This is for Qt signal functions. 
-          */
-         ,SignalType
-         /*!
-          * Defines the constructor block. 
-          */
-         ,ConstructorType
-         /*!
-          * Defines the destructor block. 
-          */
-         ,DestructorType
-         /*!
           * Defines the parent block. This is for adding parents to a class's inheritance. 
           */
          ,ParentType
          /*!
-          * Defines the using block. This is for using declarations within classes. 
+          * Defines the declaration block. This is for declarations within classes. 
           */
-         ,UsingType
-         /*!
-          * Defines the friend block. This is for friend declarations within classes. 
-          */
-         ,FriendType
+         ,DeclarationType
          /*!
           * Defines the total number of unique blocks the C++/Qt project type contains. 
           */

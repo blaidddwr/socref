@@ -1,4 +1,5 @@
 #include "cppqt_class_view.h"
+#include "cppqt_parent.h"
 
 
 
@@ -68,9 +69,9 @@ QString Class::View::displayParents()
    // rich text. 
    for (auto parent : list)
    {
-      ret += QStringLiteral("<p><b>%1</b> %2</p>");
-           //+ parent->accessString()
-           //+ parent->className().replace("<","&lt;");
+      ret += QStringLiteral("<p><b>%1</b> %2</p>")
+           + parent->accessString()
+           + parent->className().replace("<","&lt;");
    }
 
    // Return the inheritance rich text. 

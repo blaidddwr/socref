@@ -9,6 +9,8 @@
 #include "cppqt_function.h"
 #include "cppqt_class.h"
 #include "cppqt_access.h"
+#include "cppqt_parent.h"
+#include "cppqt_declaration.h"
 
 
 
@@ -57,14 +59,8 @@ QString Factory::elementName(int type) const
    case TemplateType: return QStringLiteral("template");
    case ClassType: return QStringLiteral("class");
    case AccessType: return QStringLiteral("access");
-   case OperatorType: return QStringLiteral("operator");
-   case SlotType: return QStringLiteral("slot");
-   case SignalType: return QStringLiteral("signal");
-   case ConstructorType: return QStringLiteral("constructor");
-   case DestructorType: return QStringLiteral("destructor");
    case ParentType: return QStringLiteral("parent");
-   case UsingType: return QStringLiteral("using");
-   case FriendType: return QStringLiteral("friend");
+   case DeclarationType: return QStringLiteral("declaration");
    default:
       {
          Exception::InvalidArgument e;
@@ -113,6 +109,8 @@ Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
    case FunctionType: return QPtr<BasicBlock>(new Function);
    case ClassType: return QPtr<BasicBlock>(new Class);
    case AccessType: return QPtr<BasicBlock>(new Access);
+   case ParentType: return QPtr<BasicBlock>(new Parent);
+   case DeclarationType: return QPtr<BasicBlock>(new Declaration);
    default: return nullptr;
    }
 }
