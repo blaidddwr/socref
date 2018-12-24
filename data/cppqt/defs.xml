@@ -216,6 +216,7 @@
         <h3>Description</h3>
         <ps id="description"/>
         <custom name="displayQtObject"/>
+        <custom name="displayTemplates"/>
         <custom name="displayParents"/>
     </view>
 </class>

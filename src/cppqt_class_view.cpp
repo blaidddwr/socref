@@ -1,5 +1,6 @@
 #include "cppqt_class_view.h"
 #include "cppqt_parent.h"
+#include "cppqt_template.h"
 
 
 
@@ -78,4 +79,20 @@ QString Class::View::displayParents()
 
    // Return the inheritance rich text. 
    return ret;
+}
+
+
+
+
+
+
+/*!
+ * Wrapper method that calls the static method in _CppQt::Template_ of the same 
+ * name. 
+ *
+ * @return See wrapped method docs. 
+ */
+QString Class::View::displayTemplates()
+{
+   return Template::displayTemplates(*_block);
 }

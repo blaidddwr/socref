@@ -261,11 +261,17 @@ Sut::QPtr<BasicBlock::View> Class::makeBasicView() const
  */
 bool Class::childNameModified(AbstractBlock* child)
 {
-   // If the child modified is a template, function, or parent then notify the name 
-   // of this block has changed. 
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
+   // If the child modified is a template or parent then notify the name and body of 
+   // this block has changed. 
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
+   {
+      notifyNameModified();
+      notifyBodyModified();
+   }
+
+   // Else if the child modified is a function then notify the name of this block has 
+   // changed.  
+   else if ( qobject_cast<Function*>(child) )
    {
       notifyNameModified();
    }
@@ -288,19 +294,19 @@ bool Class::childNameModified(AbstractBlock* child)
  */
 bool Class::childAdded(AbstractBlock* child)
 {
-   // If the child added is a template, function, or parent then notify the name of 
+   // If the child added is a template or parent then notify the name and body of 
    // this block has changed. 
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
    {
       notifyNameModified();
+      notifyBodyModified();
    }
 
    // If the child added is a function then connect this object's name changed signal 
-   // to the function. 
+   // to the function and notify the name of this block has changed. 
    if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
    {
+      notifyNameModified();
       connect(this,&Class::nameChanged,valid,&Function::classNameChanged);
    }
 
@@ -322,19 +328,19 @@ bool Class::childAdded(AbstractBlock* child)
  */
 bool Class::childRemoved(AbstractBlock* child)
 {
-   // If the child removed is a template, function, or parent then notify the name of 
+   // If the child added is a template or parent then notify the name and body of 
    // this block has changed. 
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
    {
       notifyNameModified();
+      notifyBodyModified();
    }
 
-   // If the child removed is a function then disconnect all signals between it and 
-   // this object. 
+   // If the child added is a function then connect this object's name changed signal 
+   // to the function and notify the name of this block has changed. 
    if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
    {
+      notifyNameModified();
       disconnect(valid);
    }
 
