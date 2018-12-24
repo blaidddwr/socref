@@ -4332,7 +4332,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </data>
           <type type="16">
             <data version="0">
-              <type>Variable*</type>
+              <type>const CppQt::Declaration*</type>
             </data>
           </type>
           <type type="16">
@@ -4358,7 +4358,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
         </typeList>
         <class type="4">
           <data version="0">
-            <name>Factory</name>
+            <name>PFactory</name>
             <description>This is the parser factory for the C++/Qt project type. This recognizes three primary file types. The naming convention for all types are the same. These types are global header files, header files, and source files.
 
 Files are named based off their fully scoped namespace name. Each namespace is separated by underscores. If the file is for common functions, variables, and enumerations outside of a class the keyword "common" is appended its name. The root namespace has the special file named global.h for its global header.
@@ -6249,12 +6249,8 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <description>Makes and returns a string that is the return type for this object's function. The returned string also includes a space after the return type.</description>
                 <type>QString</type>
                 <return_description>Return type for this object's function along with an extra space.</return_description>
-                <operation>Create a new return string.</operation>
-                <operation>Check to see if this object's function is an operator type.</operation>
-                <operation>If this object's operator's name contains a space for the first character then it is an operator type that has no return declaration so return an empty string.</operation>
-                <operation>If this object's function is a slot or signal then set the return to void.</operation>
-                <operation>Else this is a function with a return type so set the return string to that type with an additional space.</operation>
-                <operation>Return the return string.</operation>
+                <operation>If this view's function block is a constructor or destructor then return an empty string.</operation>
+                <operation>Else this is a function type with a return value so return it with a space appending it.</operation>
               </data>
             </function>
             <function type="2">
@@ -6263,14 +6259,8 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <description>Makes and returns a string that is the function name for this object's function. This is just the name of the function, not including the return type or arguments. This can return a string intended for regular expression matching if the given flag is set to do so.</description>
                 <type>QString</type>
                 <return_description>The function name for this object's function, padded with regular expression syntax is set to do so.</return_description>
-                <operation>Create a new return string.</operation>
-                <operation>Check to see if this object's function is an operator.</operation>
-                <operation>Set the return string to the operator keyword.</operation>
-                <operation>If the regular expression flag is set then pad the operation characters of this object's operator.</operation>
-                <operation>Else this is not a regular expression name so append the operation of this object's operator.</operation>
-                <operation>Else if this object's function is a destructor then set the return string appropriately.</operation>
-                <operation>Else if this object's function is a constructor then set the return string appropriately.</operation>
-                <operation>Else this object's function is normal so set the return string to the base name.</operation>
+                <operation>Create a new return string that contains the base name of this view's function block.</operation>
+                <operation>If the regular expression flag is set then escape the return string in case it has any special characters.</operation>
                 <operation>Return the function name string.</operation>
               </data>
               <variable type="1">
@@ -6793,8 +6783,8 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <variable type="1">
                 <data version="0">
                   <name>block</name>
-                  <description>The using or friend block that defines this new declarative parser.</description>
-                  <type>CppQt::Using*</type>
+                  <description>The declaration block that defines this new declarative parser.</description>
+                  <type>const CppQt::Declaration*</type>
                 </data>
               </variable>
               <variable type="1">
@@ -6837,8 +6827,8 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <variable type="1">
               <data version="0">
                 <name>_block</name>
-                <description>The using or friend block that defines this parser.</description>
-                <type>CppQt::Using*</type>
+                <description>The declaration block that defines this parser.</description>
+                <type>const CppQt::Declaration*</type>
               </data>
             </variable>
           </access>

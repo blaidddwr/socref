@@ -1,11 +1,11 @@
-#include "cppqt_parse_factory.h"
+#include "cppqt_parse_pfactory.h"
 #include "cppqt_parse_global.h"
 #include "cppqt_parse_header.h"
 #include "cppqt_parse_source.h"
 #include "cppqt_parse_main.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include "abstractblock.h"
 
 
@@ -29,7 +29,7 @@ using namespace CppQt::Parse;
  *
  * @return See interface docs. 
  */
-Sut::QPtr<AbstractParser> Factory::make(const QString& name, const QString& extension) const
+Sut::QPtr<AbstractParser> PFactory::make(const QString& name, const QString& extension) const
 {
    // Make sure the given file name is not empty. 
    if ( name.isEmpty() ) return nullptr;
@@ -76,7 +76,7 @@ Sut::QPtr<AbstractParser> Factory::make(const QString& name, const QString& exte
  *
  * @param root The root block used by this parser factory. 
  */
-Factory::Factory(const AbstractBlock* root):
+PFactory::PFactory(const AbstractBlock* root):
    _root(qobject_cast<const Namespace*>(root))
 {
    // Make sure the given root pointer is not null. 
@@ -116,7 +116,7 @@ Factory::Factory(const AbstractBlock* root):
  * @return Pointer to the appropriate parser that matched the given file 
  *         information or null if no match is found. 
  */
-AbstractParser* Factory::find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index) const
+AbstractParser* PFactory::find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index) const
 {
    // Make sure the given namespace pointer and index are valid. 
    if ( index < 0 || index > names.size() || !current ) return nullptr;
@@ -125,7 +125,7 @@ AbstractParser* Factory::find(const Namespace* current, const QStringList& names
    if ( index == names.size() )
    {
       // If the current block is a namespace then return a global parser. 
-      if ( current->type() == BlockFactory::NamespaceType )
+      if ( current->type() == Factory::NamespaceType )
       {
          return new Parse::Global(current);
       }
@@ -174,7 +174,7 @@ AbstractParser* Factory::find(const Namespace* current, const QStringList& names
  * @return Pointer to the common parser that matched the given file information or 
  *         null if no match is found. 
  */
-AbstractParser* Factory::findCommon(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index) const
+AbstractParser* PFactory::findCommon(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index) const
 {
    // Make sure the given namespace pointer and index are valid. 
    if ( index < 0 || index > names.size() || !current ) return nullptr;
@@ -184,7 +184,7 @@ AbstractParser* Factory::findCommon(const Namespace* current, const QStringList&
    {
       // If this last block is a namespace then return its common header or source 
       // parser. 
-      if ( current->type() == BlockFactory::NamespaceType )
+      if ( current->type() == Factory::NamespaceType )
       {
          if ( isHeader ) return new Parse::Header(current,name);
          else return new Parse::Source(current,name);
@@ -217,7 +217,7 @@ AbstractParser* Factory::findCommon(const Namespace* current, const QStringList&
  *
  * @return Pointer to matching namespace or null if no match is found. 
  */
-const Namespace* Factory::findNamespace(const Namespace* current, const QString& name) const
+const Namespace* PFactory::findNamespace(const Namespace* current, const QString& name) const
 {
    // Iterate through the list of the given namespace block's real children. 
    QList<AbstractBlock*> list {current->realChildren()};

@@ -69,9 +69,11 @@ QString Class::View::displayParents()
    // rich text. 
    for (auto parent : list)
    {
-      ret += QStringLiteral("<p><b>%1</b> %2</p>")
+      ret += QStringLiteral("<p><b>")
            + parent->accessString()
-           + parent->className().replace("<","&lt;");
+           + QStringLiteral("</b> ")
+           + parent->className().replace("<","&lt;")
+           + QStringLiteral("</p>");
    }
 
    // Return the inheritance rich text. 

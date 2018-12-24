@@ -2,7 +2,7 @@
 #include <QObject>
 #include <socutil/sut_exceptions.h>
 #include "cppqt_factory.h"
-#include "cppqt_parse_factory.h"
+#include "cppqt_parse_pfactory.h"
 #include "cppqt_settings_dialog.h"
 
 
@@ -161,7 +161,7 @@ Sut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, con
    // root. 
    switch (type)
    {
-   //case CppQtType: return QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
+   case CppQtType: return QPtr<AbstractParserFactory>(new CppQt::Parse::PFactory(root));
    default:
       {
          // This project type is not recognized so throw an exception. 
