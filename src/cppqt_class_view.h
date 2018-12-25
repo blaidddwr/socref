@@ -9,7 +9,7 @@
 namespace CppQt
 {
    /*!
-    * This is the view class for the class block.
+    * This is the view class for the class block. 
     */
    class Class::View : public BasicBlock::View
    {
@@ -22,7 +22,7 @@ namespace CppQt
       QString displayTemplates();
    private:
       /*!
-       * The class block that this view is displaying.
+       * The class block that this view is displaying. 
        */
       const Class* _block;
    };

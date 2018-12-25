@@ -11,7 +11,7 @@ SOURCES += \
     cppqt_parse_forward.cpp \
     cppqt_parse_main.cpp \
     cppqt_parse_declarative.cpp \
-    $$PWD/cppqt_parse_pfactory.cpp
+    $$PWD/cppqt_parse_factory.cpp
 
 HEADERS += \
     cppqt_parse.h \
@@ -26,4 +26,4 @@ HEADERS += \
     cppqt_parse_forward.h \
     cppqt_parse_main.h \
     cppqt_parse_declarative.h \
-    $$PWD/cppqt_parse_pfactory.h
+    $$PWD/cppqt_parse_factory.h

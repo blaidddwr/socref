@@ -1,5 +1,5 @@
-#ifndef CPPQT_PARSE_PFACTORY_H
-#define CPPQT_PARSE_PFACTORY_H
+#ifndef CPPQT_PARSE_FACTORY_H
+#define CPPQT_PARSE_FACTORY_H
 #include "abstractparserfactory.h"
 #include "cppqt.h"
 //
@@ -26,17 +26,17 @@ namespace CppQt
        * and source of a namespace is simply all functions, variables, and enumerations 
        * scoped within its namespace. 
        */
-      class PFactory : public AbstractParserFactory
+      class Factory : public AbstractParserFactory
       {
          Q_OBJECT
       public:
          virtual Sut::QPtr<AbstractParser> make(const QString& name, const QString& extension) const override final;
       public:
-         explicit PFactory(const AbstractBlock* root);
+         explicit Factory(const AbstractBlock* root);
       private:
          AbstractParser* find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index = 0) const;
          AbstractParser* findCommon(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index = 0) const;
-         const Namespace* findNamespace(const Namespace* current, const QString& name) const;
+         const CppQt::Namespace* findNamespace(const Namespace* current, const QString& name) const;
          /*!
           * Pointer to the root block used by this parser factory and all parser objects it 
           * makes. 

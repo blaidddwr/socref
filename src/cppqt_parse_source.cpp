@@ -282,7 +282,7 @@ Source::Source(const Namespace* block):
    }
 
    // If the given namespace block is a class then determine if it has any templates. 
-   if ( const Class* valid = block->cast<Class>(Factory::ClassType) )
+   if ( const Class* valid = block->cast<Class>(CppQt::Factory::ClassType) )
    {
       _isTemplate = valid->hasAnyTemplates();
    }
@@ -532,7 +532,7 @@ void Source::makeUsingName()
    while ( back )
    {
       // If the current parent is a namespace block then push its pointer to the stack. 
-      if ( Namespace* valid = back->cast<Namespace>(Factory::NamespaceType) )
+      if ( Namespace* valid = back->cast<Namespace>(CppQt::Factory::NamespaceType) )
       {
          list.push(valid);
       }
@@ -572,7 +572,7 @@ void Source::evaluateAll()
    for (auto child : qAsConst(_children))
    {
       // If the child is a variable block then call its evaluate interface. 
-      if ( CppQt::Variable* valid = child->cast<CppQt::Variable>(Factory::VariableType) )
+      if ( CppQt::Variable* valid = child->cast<CppQt::Variable>(CppQt::Factory::VariableType) )
       {
          evaluateVariable(valid);
       }

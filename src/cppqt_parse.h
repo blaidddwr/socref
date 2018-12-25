@@ -6,7 +6,7 @@ namespace CppQt
     */
    namespace Parse
    {
-      class PFactory;
+      class Factory;
       class Base;
       class Global;
       class Source;

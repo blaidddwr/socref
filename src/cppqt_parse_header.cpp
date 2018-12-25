@@ -180,31 +180,31 @@ void Header::evaluateOther(AbstractBlock* block)
 {
    // If the given block is an enumeration then create an enumeration parser and 
    // append it to this object's declarations. 
-   if ( CppQt::Enumeration* valid = block->cast<CppQt::Enumeration>(Factory::EnumerationType) )
+   if ( CppQt::Enumeration* valid = block->cast<CppQt::Enumeration>(CppQt::Factory::EnumerationType) )
    {
       _declarations.append(new Enumeration(valid,this));
    }
 
    // Check to see if this object's namespace is a class. 
-   if ( _block->type() == Factory::ClassType )
+   if ( _block->type() == CppQt::Factory::ClassType )
    {
       // If the given block is an access type then create an access parser and append it 
       // to this object's declarations. 
-      if ( CppQt::Access* valid = block->cast<CppQt::Access>(Factory::AccessType) )
+      if ( CppQt::Access* valid = block->cast<CppQt::Access>(CppQt::Factory::AccessType) )
       {
          _declarations.append(new Access(valid,this));
       }
 
       // Else if the given block is a class then create a forward parser and append it 
       // to this object's declarations. 
-      else if ( Class* valid = block->cast<Class>(Factory::ClassType) )
+      else if ( Class* valid = block->cast<Class>(CppQt::Factory::ClassType) )
       {
          _declarations.append(new Forward(valid,this));
       }
 
       // Else if the given block is a using or friend block then create a declarative 
       // parser and append it to this object's declarations. 
-      else if ( Declaration* valid = block->cast<Declaration>(Factory::DeclarationType) )
+      else if ( Declaration* valid = block->cast<Declaration>(CppQt::Factory::DeclarationType) )
       {
          _declarations.append(new Declarative(valid,this));
       }
@@ -242,7 +242,7 @@ void Header::outputDeclarations()
 
    // Get a pointer to this object's namespace as a class if it is a class, else this 
    // will be null. 
-   const Class* block {_block->cast<const Class>(Factory::ClassType)};
+   const Class* block {_block->cast<const Class>(CppQt::Factory::ClassType)};
 
    // Check to see if this object's namespace is a class. 
    if ( block )
@@ -322,7 +322,7 @@ void Header::outputClassDeclaration(const Class* block)
    for (auto child : block->list())
    {
       // Make sure the child is a parent block type. 
-      if ( Parent* valid = child->cast<Parent>(Factory::ParentType) )
+      if ( Parent* valid = child->cast<Parent>(CppQt::Factory::ParentType) )
       {
          // Check to see if this is the first parent being added to the line. 
          if ( first )
