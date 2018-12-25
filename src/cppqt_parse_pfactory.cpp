@@ -227,7 +227,7 @@ const Namespace* PFactory::findNamespace(const Namespace* current, const QString
       if ( Namespace* valid = qobject_cast<Namespace*>(child) )
       {
          // If the namespace or class name matches the given name then return its pointer. 
-         if ( valid->Base::name().toLower() == name ) return valid;
+         if ( valid->baseName().toLower() == name ) return valid;
       }
    }
 

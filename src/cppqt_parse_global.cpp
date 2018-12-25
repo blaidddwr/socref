@@ -81,7 +81,7 @@ void Global::makeOutput()
    for (auto item : list)
    {
       // If the class block has no templates then add its forward declaration to output. 
-      if ( !item->hasTemplates() ) add(QString("class ").append(item->Base::name()).append(";"));
+      if ( !item->hasTemplates() ) add(QString("class ").append(item->baseName()).append(";"));
    }
 
    // Add all closing brackets for all namespace declarations to output. 
@@ -166,7 +166,7 @@ void Global::endNamespaceNesting()
 void Global::outputNamespace(const Namespace* block)
 {
    // Add the namespace declaration line and then an opening bracket line to output. 
-   add(QString("namespace ").append(block->Base::name()));
+   add(QString("namespace ").append(block->baseName()));
    add("{");
 
    // Add a single indent spacing to this parser and increment the depth. 

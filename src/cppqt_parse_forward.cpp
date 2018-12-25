@@ -29,7 +29,7 @@ void Forward::outputComments()
 void Forward::outputDeclaration()
 {
    // Add the forward class declaration to output using this object's class. 
-   add(QStringLiteral("class ") + _block->Base::name() + QStringLiteral(";"));
+   add(QStringLiteral("class ") + _block->baseName() + QStringLiteral(";"));
 }
 
 

@@ -552,8 +552,8 @@ void Source::makeUsingName()
       // Append the beginning of the using declaration, then all found namespaces in the 
       // stack, and then this object's namespace. 
       _usingName.append("using namespace ");
-      while ( list.size() > 1 ) _usingName.append(list.pop()->Base::name()).append("::");
-      _usingName.append(list.pop()->Base::name()).append(";");
+      while ( list.size() > 1 ) _usingName.append(list.pop()->baseName()).append("::");
+      _usingName.append(list.pop()->baseName()).append(";");
    }
 }
 

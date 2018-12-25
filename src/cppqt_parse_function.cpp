@@ -468,7 +468,7 @@ void Function::outputArgumentComments()
 
       // Create a base string that starts with the variable name and a space, getting 
       // the justified length from the base string length. 
-      QString base {QStringLiteral("@param ") + argument->Base::name() + QStringLiteral(" ")};
+      QString base {QStringLiteral("@param ") + argument->baseName() + QStringLiteral(" ")};
       int justified {base.size()};
 
       // Add the variable block's description to the base string. 
@@ -599,7 +599,7 @@ QString Function::makeArguments(bool withInitializers)
       else ret += QStringLiteral(", ");
 
       // Append the argument type, a space, and its name. 
-      ret += argument->variableType() + QStringLiteral(" ") + argument->Base::name();
+      ret += argument->variableType() + QStringLiteral(" ") + argument->baseName();
 
       // If the with initializers flag is set and this argument has one then add it. 
       if ( withInitializers && argument->hasInitializer() )

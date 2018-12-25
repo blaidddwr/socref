@@ -90,7 +90,7 @@ void Main::evaluateFunction(CppQt::Function* block)
    if ( _found ) return;
 
    // Check to see if the given function block's name matches main. 
-   if ( block->Base::name() == QStringLiteral("main") )
+   if ( block->baseName() == QStringLiteral("main") )
    {
       // Check to see if the arguments for the given block matches the signature of 
       // main. 

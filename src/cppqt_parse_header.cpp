@@ -315,7 +315,7 @@ void Header::outputClassDeclaration(const Class* block)
    if ( !line.isEmpty() ) line.append(" ");
 
    // Append the class keyword and then the scoped class name to the line. 
-   line.append("class ").append(Base::makePreClassScope(block->parent())).append(block->Base::name());
+   line.append("class ").append(Base::makePreClassScope(block->parent())).append(block->baseName());
 
    // Iterate through all children of the given class block. 
    bool first {true};

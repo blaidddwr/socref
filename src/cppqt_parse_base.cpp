@@ -271,7 +271,7 @@ QString Base::makePreClassScope(const AbstractBlock* block)
       // Append the scope of the class to the return string, including any template 
       // arguments. 
       const Class* classBlock {classes.pop()};
-      ret += classBlock->Base::name() + makeTemplateArguments(classBlock) + QStringLiteral("::");
+      ret += classBlock->baseName() + makeTemplateArguments(classBlock) + QStringLiteral("::");
    }
 
    // Return the class scope string. 
@@ -385,7 +385,7 @@ QString Base::makeTemplateArguments(const AbstractBlock* block, bool declarative
          // Append the template child block's name, including its type if this is 
          // declarative. 
          if ( declarative ) ret +=  item->templateType() + QChar(' ');
-         ret += item->Base::name();
+         ret += item->baseName();
       }
 
       // Append the closing carrot. 
