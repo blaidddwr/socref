@@ -42,7 +42,7 @@ QString EnumValue::name() const
 bool EnumValue::hasValue() const
 {
    // Test if this block's set value is not empty to determine if it has a value. 
-   return getString("value").isEmpty();
+   return !getString("value").isEmpty();
 }
 
 

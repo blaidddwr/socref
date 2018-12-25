@@ -75,7 +75,8 @@ void Function::outputDeclaration()
       QString line {makeTemplateArguments(_block,true)};
       if ( !line.isEmpty() ) line += QChar(' ');
 
-      // Add any set flags of this object's function that come before the name. 
+      // Add any set flags of this object's function that come before the name.
+      if ( _block->isQtInvokable() ) line += QStringLiteral("Q_INVOKABLE ");
       if ( _block->isExplicit() ) line += QStringLiteral("explicit ");
       if ( _block->isVirtual() ) line += QStringLiteral("virtual ");
       if ( _block->isConstExpr() ) line += QStringLiteral("constexpr ");
