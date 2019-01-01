@@ -22,7 +22,7 @@ QString EnumValue::name() const
    QString ret {getString("name")};
 
    // If this enumeration value has a set value then append that info to the string. 
-   if ( getString("value").isEmpty() ) ret.append(" =");
+   if ( !getString("value").isEmpty() ) ret.append(" =");
 
    // Return the name string. 
    return ret;
