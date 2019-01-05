@@ -441,11 +441,9 @@ void Project::save()
    QDomElement filters {document.createElement(_scanFiltersTag)};
    filters.appendChild(document.createTextNode(_scanFilters));
 
-   // Create the type element saving this project's type in its integer and string 
-   // form. 
+   // Create the type element saving this project type's element name. 
    QDomElement type {document.createElement(_typeTag)};
-   type.setAttribute(_idTag,QString::number(_type));
-   type.appendChild(document.createTextNode(AbstractProjectFactory::instance().name(_type)));
+   type.appendChild(document.createTextNode(AbstractProjectFactory::instance().elementName(_type)));
 
    // Create the dictionary element saving this project's custom dictionary data. 
    QDomElement dictionary {_dictionary->write(document)};
@@ -658,38 +656,17 @@ void Project::convertScanDirectory(const QString& path)
  */
 void Project::readTypeElement(const QDomElement& element)
 {
-   // Read in the integer type attribute from the given element and make sure it 
-   // worked. 
-   bool ok;
-   _type = element.attribute(_idTag).toInt(&ok);
-   if ( !ok )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Read in invalid type that is not an integer."));
-      throw e;
-   }
+   // Look up the project type with the element name supplied by the given XML 
+   // element. 
+   _type = AbstractProjectFactory::instance().typeByElementName(element.text());
 
-   // Make sure the read in type is within range and valid. 
-   AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
-   if ( _type < 0 || _type >= factory.size() )
+   // Make sure the element name was recognized and a known type returned, throwing 
+   // an exception if it is unknown. 
+   if ( _type < 0 )
    {
       Exception::ReadError e;
       SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Read in invalid type %1 when max is %2.")
-                   .arg(_type)
-                   .arg(factory.size() - 1));
-      throw e;
-   }
-
-   // Make sure the project type name matches the name in the given element. 
-   if ( element.text() != factory.name(_type) )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Read in invalid type name %1 when it should be %2.")
-                   .arg(element.text())
-                   .arg(factory.name(_type)));
+      e.setDetails(tr("Unknown project type '%1' encountered.").arg(element.text()));
       throw e;
    }
 }

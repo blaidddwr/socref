@@ -16,10 +16,11 @@ class QDialog;
  * This represents the factory that provides all other factories and information to 
  * define a project type. A project type is defined as a specific programming 
  * language that a project references. This is a global singleton class so only one 
- * instance of this factory is available for the entire program. A new factory 
+ * instance of this factory is available for the entire application. A new factory 
  * instance must be set at initialization of the program and should not be set 
  * again after that. To maintain backwards compatibility all previously defined 
- * project types must maintain the specific integer that defines them. 
+ * project type element names must never change and the two element methods must 
+ * mirror one another. 
  */
 class AbstractProjectFactory : public Sut::SingletonFactory<AbstractProjectFactory>
 {
@@ -45,6 +46,27 @@ public:
     * @return Display name for the given project type. 
     */
    virtual QString name(int type) const = 0;
+   /*!
+    * This interface returns the project type with the given element name. If no 
+    * project type exists with the given name then -1 is returned. 
+    *
+    * @param elementName The given element name of the project type that is returned 
+    *                    if found. 
+    *
+    * @return The integer value of the project type with the given element name if 
+    *         found or -1 if no project type is found with the given element name. 
+    */
+   virtual int typeByElementName(const QString& elementName) const = 0;
+   /*!
+    * This interface returns the element name for the given project type. The element 
+    * name is used as the tag name in the XML project file to determine what project 
+    * type it is. 
+    *
+    * @param type Project type whose element name is returned. 
+    *
+    * @return Element name for the given project type. 
+    */
+   virtual QString elementName(int type) const = 0;
    /*!
     * This interface returns the default filters for the scanning of source files the 
     * given project type possesses. 

@@ -62,6 +62,58 @@ QString ProjectFactory::name(int type) const
 /*!
  * Implements _AbstractProjectFactory_ interface. 
  *
+ * @param elementName See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+int ProjectFactory::typeByElementName(const QString& elementName) const
+{
+   // Initialize a static list of element names for all project types that must match 
+   // the same order of enumerated project types in this factory. 
+   static const QStringList names {"cppqt"};
+
+   // Return the project type of the given name that matches the index in the static 
+   // list of names, returning -1 if no match is found. 
+   return names.indexOf(elementName);
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractProjectFactory_ interface. 
+ *
+ * @param type See interface docs. 
+ *
+ * @return See interface docs. 
+ */
+QString ProjectFactory::elementName(int type) const
+{
+   // Return the element name of the given project type. 
+   switch (type)
+   {
+   case CppQtType: return QObject::tr("cppqt");
+   default:
+      {
+         // This project type is not recognized so throw an exception. 
+         Exception::InvalidArgument e;
+         SUT_MARK_EXCEPTION(e);
+         e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
+         throw e;
+      }
+   }
+}
+
+
+
+
+
+
+/*!
+ * Implements _AbstractProjectFactory_ interface. 
+ *
  * @param type See interface docs. 
  *
  * @return See interface docs. 

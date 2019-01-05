@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project>
   <name>Socrates' Reference</name>
-  <type id="0">C++/Qt</type>
+  <type>cppqt</type>
   <filters>*.cpp *.h</filters>
   <scandir>../src</scandir>
   <dictionary>
@@ -10237,7 +10237,7 @@ This class itself handles all copying using another specialized interface for co
     </class>
     <class>
       <data>
-        <description>This represents the factory that provides all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire program. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project types must maintain the specific integer that defines them.</description>
+        <description>This represents the factory that provides all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire application. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project type element names must never change and the two element methods must mirror one another.</description>
         <name>AbstractProjectFactory</name>
       </data>
       <parent>
@@ -10284,6 +10284,44 @@ This class itself handles all copying using another specialized interface for co
           <variable>
             <data>
               <description>Project type whose display name is returned.</description>
+              <initializer></initializer>
+              <name>type</name>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <abstract/>
+            <const/>
+            <description>This interface returns the project type with the given element name. If no project type exists with the given name then -1 is returned.</description>
+            <name>typeByElementName</name>
+            <return_description>The integer value of the project type with the given element name if found or -1 if no project type is found with the given element name.</return_description>
+            <type>int</type>
+            <virtual/>
+          </data>
+          <variable>
+            <data>
+              <description>The given element name of the project type that is returned if found.</description>
+              <initializer></initializer>
+              <name>elementName</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <abstract/>
+            <const/>
+            <description>This interface returns the element name for the given project type. The element name is used as the tag name in the XML project file to determine what project type it is.</description>
+            <name>elementName</name>
+            <return_description>Element name for the given project type.</return_description>
+            <type>QString</type>
+            <virtual/>
+          </data>
+          <variable>
+            <data>
+              <description>Project type whose element name is returned.</description>
               <initializer></initializer>
               <name>type</name>
               <type>int</type>
@@ -10430,6 +10468,50 @@ This class itself handles all copying using another specialized interface for co
             <final/>
             <name>name</name>
             <operation>Return the display name of the given project type.</operation>
+            <operation>This project type is not recognized so throw an exception.</operation>
+            <override/>
+            <return_description>See interface docs.</return_description>
+            <type>QString</type>
+            <virtual/>
+          </data>
+          <variable>
+            <data>
+              <description>See interface docs.</description>
+              <initializer></initializer>
+              <name>type</name>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Implements _AbstractProjectFactory_ interface.</description>
+            <final/>
+            <name>typeByElementName</name>
+            <operation>Initialize a static list of element names for all project types that must match the same order of enumerated project types in this factory.</operation>
+            <operation>Return the project type of the given name that matches the index in the static list of names, returning -1 if no match is found.</operation>
+            <override/>
+            <return_description>See interface docs.</return_description>
+            <type>int</type>
+            <virtual/>
+          </data>
+          <variable>
+            <data>
+              <description>See interface docs.</description>
+              <initializer></initializer>
+              <name>elementName</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Implements _AbstractProjectFactory_ interface.</description>
+            <final/>
+            <name>elementName</name>
+            <operation>Return the element name of the given project type.</operation>
             <operation>This project type is not recognized so throw an exception.</operation>
             <override/>
             <return_description>See interface docs.</return_description>
@@ -13464,7 +13546,7 @@ A new interface is also provided for creating implementation classes of the basi
             <operation>Create the name element saving this project's name.</operation>
             <operation>Create the scan directory element saving this project's scan directory as the path relative to the file path of this project.</operation>
             <operation>Create the filters element saving this project's scan filters.</operation>
-            <operation>Create the type element saving this project's type in its integer and string form.</operation>
+            <operation>Create the type element saving this project type's element name.</operation>
             <operation>Create the dictionary element saving this project's custom dictionary data.</operation>
             <operation>Create the root block element saving this project's root block and all its children.</operation>
             <operation>Create the root project element, adding all previous elements created, and then add the root element to the XML document.</operation>
@@ -13603,9 +13685,8 @@ A new interface is also provided for creating implementation classes of the basi
           <data>
             <description>Reads the given element as the XML type element for this project, setting this project's type. If the given XML element is not a valid type element then an exception is thrown.</description>
             <name>readTypeElement</name>
-            <operation>Read in the integer type attribute from the given element and make sure it worked.</operation>
-            <operation>Make sure the read in type is within range and valid.</operation>
-            <operation>Make sure the project type name matches the name in the given element.</operation>
+            <operation>Look up the project type with the element name supplied by the given XML element.</operation>
+            <operation>Make sure the element name was recognized and a known type returned, throwing an exception if it is unknown.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
