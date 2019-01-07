@@ -4,6 +4,7 @@
 #include "cppqt_factory.h"
 #include "cppqt_parse_factory.h"
 #include "cppqt_settings_dialog.h"
+#include "glsl_factory.h"
 
 
 
@@ -43,6 +44,7 @@ QString ProjectFactory::name(int type) const
    switch (type)
    {
    case CppQtType: return QObject::tr("C++/Qt");
+   case GLSLType: return QObject::tr("GLSL");
    default:
       {
          // This project type is not recognized so throw an exception. 
@@ -70,7 +72,7 @@ int ProjectFactory::typeByElementName(const QString& elementName) const
 {
    // Initialize a static list of element names for all project types that must match 
    // the same order of enumerated project types in this factory. 
-   static const QStringList names {"cppqt"};
+   static const QStringList names {"cppqt","glsl"};
 
    // Return the project type of the given name that matches the index in the static 
    // list of names, returning -1 if no match is found. 
@@ -94,7 +96,8 @@ QString ProjectFactory::elementName(int type) const
    // Return the element name of the given project type. 
    switch (type)
    {
-   case CppQtType: return QObject::tr("cppqt");
+   case CppQtType: return QStringLiteral("cppqt");
+   case GLSLType: return QStringLiteral("glsl");
    default:
       {
          // This project type is not recognized so throw an exception. 
@@ -123,7 +126,8 @@ QString ProjectFactory::defaultFilters(int type) const
    // Return default file filters for the given project type. 
    switch (type)
    {
-   case CppQtType: return QString("*.cpp *.h");
+   case CppQtType: return QStringLiteral("*.cpp *.h");
+   case GLSLType: return QStringLiteral("*.glsl");
    default:
       {
          // This project type is not recognized so throw an exception. 
@@ -182,6 +186,7 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
    switch (type)
    {
    case CppQtType: return CppQt::Factory::instance();
+   case GLSLType: return GLSL::Factory::instance();
    default:
       {
          // This project type is not recognized so throw an exception. 

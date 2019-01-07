@@ -11,7 +11,9 @@ namespace CppQt
    /*!
     * This is the block factory for the C++/Qt project type. This class defines an 
     * enumeration representing all possible block types for its project type. This is 
-    * a singleton class and has only one single global instance. 
+    * a singleton class and has only one single global instance. This also inherits 
+    * from the basic block factory class to allow for XML definitions of block type 
+    * data. 
     */
    class Factory : public BasicBlockFactory, public Sut::Singleton<Factory>
    {

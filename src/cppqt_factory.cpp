@@ -1,6 +1,6 @@
 #include "cppqt_factory.h"
 #include <socutil/sut_exceptions.h>
-#include <projectfactory.h>
+#include "projectfactory.h"
 #include "cppqt_namespace.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"

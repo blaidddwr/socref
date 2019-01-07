@@ -56,6 +56,7 @@ HEADERS += \
 
 include(Gui.pri)
 include(CppQt.pri)
+include(GLSL.pri)
 
 RESOURCES += \
     resources.qrc

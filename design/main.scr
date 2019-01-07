@@ -16,6 +16,7 @@
     <word>C++</word>
     <word>C++/Qt</word>
     <word>CppQt</word>
+    <word>GLSL</word>
     <word>Gui</word>
     <word>JSON</word>
     <word>PHP</word>
@@ -28,6 +29,7 @@
     <word>namespace</word>
     <word>prepending</word>
     <word>preprocessor</word>
+    <word>shader</word>
     <word>splitter</word>
   </dictionary>
   <root>
@@ -6701,7 +6703,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
       </class>
       <class>
         <data>
-          <description>This is the block factory for the C++/Qt project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance.</description>
+          <description>This is the block factory for the C++/Qt project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance. This also inherits from the basic block factory class to allow for XML definitions of block type data.</description>
           <name>Factory</name>
         </data>
         <parent>
@@ -8921,6 +8923,158 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         </access>
       </class>
     </namespace>
+    <namespace>
+      <data>
+        <description>Contains the GLSL project type.</description>
+        <name>GLSL</name>
+      </data>
+      <class>
+        <data>
+          <description>This is the block factory for the GLSL project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance. This also inherits from the basic block factory class to allow for XML definitions of block type data.</description>
+          <name>Factory</name>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>BasicBlockFactory</class>
+          </data>
+        </parent>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Sut::Singleton&lt;Factory></class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <enumeration>
+            <data>
+              <description>Defines all possible block types for the GLSL project type.</description>
+              <name></name>
+            </data>
+            <enumvalue>
+              <data>
+                <description>Defines the namespace block.</description>
+                <name>NamespaceType</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>Defines the shader block. This is for an entire shader program and defines the main function defined in a shader program file.</description>
+                <name>ShaderType</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>Defines the variable block.</description>
+                <name>VariableType</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>Defines the struct block. This is used for structures that can be defined in shader programs.</description>
+                <name>StructType</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>Defines the function block. This is used to subroutine functions that can be defined in shader programs.</description>
+                <name>FunctionType</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>Defines the total number of unique blocks the GLSL project type contains.</description>
+                <name>Total</name>
+                <value></value>
+              </data>
+            </enumvalue>
+          </enumeration>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _AbstractBlockFactory_ interface.</description>
+              <final/>
+              <name>type</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>int</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _AbstractBlockFactory_ interface.</description>
+              <final/>
+              <name>elementName</name>
+              <operation>Based off the given block type return its element name, throwing an exception if the given type is unknown.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new GLSL block factory.</description>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>protected:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _BasicBlockFactory_ interface.</description>
+              <name>makeBasicBlock</name>
+              <operation>Based off the given block type return a new instance of that type or a null pointer if that type does not have an implementation.</operation>
+              <return_description>See interface docs.</return_description>
+              <type>Sut::QPtr&lt;BasicBlock></type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+      </class>
+    </namespace>
     <class>
       <data>
         <description>This represents a single block in this application's reference system. The block system is the core function of this application, representing blocks as a single atomic item for referencing code. The block system conforms to a parent child relationship. Virtual interfaces are provided for basic information, spawning view and abstract edit widgets. Interfaces are also provided for reading from and writing to XML elements.
@@ -10443,12 +10597,24 @@ This class itself handles all copying using another specialized interface for co
           </enumvalue>
           <enumvalue>
             <data>
+              <description>Defines the GLSL project type.</description>
+              <name>GLSLType</name>
+              <value></value>
+            </data>
+          </enumvalue>
+          <enumvalue>
+            <data>
               <description>Defines the total number of all project types.</description>
               <name>Total</name>
               <value></value>
             </data>
           </enumvalue>
         </enumeration>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
         <function>
           <data>
             <const/>

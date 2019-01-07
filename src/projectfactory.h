@@ -22,10 +22,15 @@ public:
        */
       CppQtType
       /*!
+       * Defines the GLSL project type. 
+       */
+      ,GLSLType
+      /*!
        * Defines the total number of all project types. 
        */
       ,Total
    };
+public:
    virtual int size() const override final;
    virtual QString name(int type) const override final;
    virtual int typeByElementName(const QString& elementName) const override final;
