@@ -1,7 +1,10 @@
 #include "glsl_factory.h"
 #include <socutil/sut_exceptions.h>
 #include "projectfactory.h"
-#include "basicblock.h"
+#include "glsl_namespace.h"
+#include "glsl_shader.h"
+#include "glsl_variable.h"
+#include "glsl_struct.h"
 
 
 
@@ -83,5 +86,14 @@ Factory::Factory():
  */
 Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
 {
-   return nullptr;
+   // Based off the given block type return a new instance of that type or a null 
+   // pointer if that type does not have an implementation. 
+   switch (type)
+   {
+   case NamespaceType: return QPtr<BasicBlock>(new Namespace);
+   case ShaderType: return QPtr<BasicBlock>(new Shader);
+   case VariableType: return QPtr<BasicBlock>(new Variable);
+   case StructType: return QPtr<BasicBlock>(new Struct);
+   default: return nullptr;
+   }
 }

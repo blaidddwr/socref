@@ -76,6 +76,16 @@ const char* BasicBlock::Edit::_rowSizeKey {"rowsize"};
  * element. 
  */
 const char* BasicBlock::Edit::_valueKey {"value"};
+/*!
+ * The attribute name for the option of disabling spell checking on a text edit 
+ * widget if the attribute is set to no. 
+ */
+const char* BasicBlock::Edit::_spellKey {"spell"};
+/*!
+ * The attribute name for the option of disabling the popup dialog on a text edit 
+ * widget if the attribute is set to no. 
+ */
+const char* BasicBlock::Edit::_dialogKey {"dialog"};
 
 
 
@@ -628,6 +638,19 @@ void BasicBlock::Edit::addTextEdit(QLayout* layout, const QDomElement& element)
    // Create and initialize the new text edit widget. 
    Gui::TextEdit* edit {new Gui::TextEdit(_block)};
    edit->setPlainText(field.toString());
+
+   // If the spell check attribute option is set to no then disable spell checking. 
+   if ( element.attribute(_spellKey).toLower() == QStringLiteral("no") )
+   {
+      edit->setSpellCheckEnabled(false);
+   }
+
+   // If the dialog popup attribute option is set to no then disable the dialog 
+   // popup. 
+   if ( element.attribute(_dialogKey).toLower() == QStringLiteral("no") )
+   {
+      edit->setDialogPopupEnabled(false);
+   }
 
    // Add the new widget to this editor's list of edit widgets and to the given 
    // layout. 

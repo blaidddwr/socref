@@ -68,7 +68,7 @@
     <name>name</name>
     <edit>
         <form>
-            <text id="layout" display="Layout:"/>
+            <text id="layout" spell="no" dialog="no" display="Layout:"/>
             <line id="type" display="Type:"/>
             <line id="name" display="Name:"/>
             <text id="description" display="Description:"/>
@@ -79,7 +79,7 @@
         <ps id="type"/>
         <h3>Description</h3>
         <ps id="description"/>
-        <!-- <custom name="displayLayout"/> -->
+        <custom name="displayLayout"/>
     </view>
 </variable>
 
@@ -87,7 +87,7 @@
 
 <struct display="Structure">
     <icon>:/icons/struct.svg</icon>
-    <string id="name" default="var"/>
+    <string id="name" default="struct"/>
     <string id="description"/>
     <string id="type" default="STRUCT"/>
     <string id="layout"/>
@@ -108,6 +108,7 @@
         <ps id="type"/>
         <h3>Description</h3>
         <ps id="description"/>
+        <custom name="displayLayout"/>
     </view>
 </struct>
 

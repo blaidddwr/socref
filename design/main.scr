@@ -27,10 +27,12 @@
     <word>destructors</word>
     <word>invokable</word>
     <word>namespace</word>
+    <word>prepended</word>
     <word>prepending</word>
     <word>preprocessor</word>
     <word>shader</word>
     <word>splitter</word>
+    <word>struct</word>
   </dictionary>
   <root>
     <data>
@@ -7260,24 +7262,24 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               </data>
               <function>
                 <data>
-                  <description>Returns a HTML string that displays any properties this view's variable block has set. If this view's variable block has no properties set then this returns an empty string.</description>
+                  <description>Returns rich text that displays any properties this view's variable block has set. If this view's variable block has no properties set then this returns an empty string.</description>
                   <name>displayProperties</name>
                   <operation>Create an empty string list, appending any properties this view's variable block has set.</operation>
                   <operation>If the string list is empty then return an empty string.</operation>
                   <operation>Else this view's block has set properties so return a HTML string displaying those set properties.</operation>
-                  <return_description>HTML string that displays any properties this view's variable block has set or an empty string if no properties are set.</return_description>
+                  <return_description>Rich text that displays any properties this view's variable block has set or an empty string if no properties are set.</return_description>
                   <type>QString</type>
                 </data>
               </function>
               <function>
                 <data>
-                  <description>Returns a HTML string that displays the initial value of this view's variable block. If the variable block has no initial value then an empty string is returned.</description>
+                  <description>Returns rich text that displays the initial value of this view's variable block. If the variable block has no initial value then an empty string is returned.</description>
                   <name>displayInitializer</name>
                   <operation>Create an empty string.</operation>
                   <operation>Make sure this view's block has an initial value.</operation>
                   <operation>Append a HTML string that displays this view's variable block's initial value, separating that value by the comma delimiter.</operation>
                   <operation>Return the initial value HTML string.</operation>
-                  <return_description>HTML string that displays the initial value of this view's variable block or an empty string if there is no initial value.</return_description>
+                  <return_description>Rich text that displays the initial value of this view's variable block or an empty string if there is no initial value.</return_description>
                   <type>QString</type>
                 </data>
               </function>
@@ -9071,6 +9073,295 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <type>int</type>
               </data>
             </variable>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the base block class used by many other concrete block types within the GLSL project type. This base class provides methods for getting the base name and description of a block which almost all block types share.</description>
+          <name>Base</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>BasicBlock</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Returns the base name for this block.</description>
+              <name>baseName</name>
+              <return_description>Base name for this block.</return_description>
+              <type>QString</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns the description for this block.</description>
+              <name>description</name>
+              <return_description>Description for this block.</return_description>
+              <type>QString</type>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the namespace block. While GLSL has no concept of a namespace this block is used for file organization. Each namespace is prepended to the file name of a shader and separated by underscores.</description>
+          <name>Namespace</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Base</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Constructs a new namespace block.</description>
+              <explicit/>
+              <invokable/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the shader block. This represents a shader program for GLSL. Each shader program source file is assumed to be in its own file whose file name ends with the shader name. Anything contained in a shader is added to the source file along with the necessary main function.</description>
+          <name>Shader</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Base</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <final/>
+              <name>name</name>
+              <operation>Initialize a static string list of all possible shader types and an enumeration of the same that matches the order of the string list.</operation>
+              <operation>Create a new string and initialize it to this block's base name.</operation>
+              <operation>Figure out what shader type this block is and append the appropriate tag, throwing an exception if the shader type string is not recognized.</operation>
+              <operation>Return the name of this block.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Constructs a new shader bock.</description>
+              <explicit/>
+              <invokable/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns this block's shader type.</description>
+              <name>shaderType</name>
+              <return_description>This block's shader type.</return_description>
+              <type>QString</type>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the variable block. This is used for all variables defined in a shader program along with any local variables and function arguments.</description>
+          <name>Variable</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Base</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <class>
+            <data>
+              <description>This is the view class for the variable block.</description>
+              <name>View</name>
+              <qtobject/>
+            </data>
+            <parent>
+              <data>
+                <access>public</access>
+                <class>BasicBlock::View</class>
+              </data>
+            </parent>
+            <access>
+              <data>
+                <type>public:</type>
+              </data>
+              <function>
+                <data>
+                  <description>Constructs a new view with the given variable block.</description>
+                  <explicit/>
+                  <name>^</name>
+                  <return_description></return_description>
+                  <type></type>
+                </data>
+                <variable>
+                  <data>
+                    <description>The variable block that this new view displays.</description>
+                    <initializer></initializer>
+                    <name>block</name>
+                    <type>const Variable*</type>
+                  </data>
+                </variable>
+              </function>
+            </access>
+            <access>
+              <data>
+                <type>private slots:</type>
+              </data>
+              <function>
+                <data>
+                  <description>Returns rich text that displays a list of all layout qualifiers for this view's variable block. If this view's variable block has no layout qualifiers then this returns an empty string.</description>
+                  <name>displayLayout</name>
+                  <operation>Create a new empty string.</operation>
+                  <operation>Get the list of layout qualifiers for this view's variable block and make sure it is not empty.</operation>
+                  <operation>Add a title to the returned rich text.</operation>
+                  <operation>Add all individual qualifiers to the rich text on a new line for each one.</operation>
+                  <operation>Close the rich text paragraph.</operation>
+                  <operation>Return the layout rich text or empty string if there is no layouts.</operation>
+                  <return_description>Rich text that displays a list of all layout qualifiers for this view's variable block or an empty string if there are no qualifiers.</return_description>
+                  <type>QString</type>
+                </data>
+              </function>
+            </access>
+            <access>
+              <data>
+                <type>private:</type>
+              </data>
+              <variable>
+                <data>
+                  <description>Pointer to the variable block that this view displays.</description>
+                  <initializer></initializer>
+                  <name>_block</name>
+                  <type>const Variable*</type>
+                </data>
+              </variable>
+            </access>
+          </class>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description></description>
+              <explicit/>
+              <invokable/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns this variable block's type string.</description>
+              <name>typeString</name>
+              <return_description>This variable block's type string.</return_description>
+              <type>QString</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns this variable block's list of layout qualifiers.</description>
+              <name>layout</name>
+              <return_description>This variable block's list of layout qualifiers.</return_description>
+              <type>QStringList</type>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>protected:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _BasicBlock_ interface.</description>
+              <final/>
+              <name>makeBasicView</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the struct block. This represents variable structures that can be defined in GLSL shader programs which is a collection of individual variables. Because this is nearly identical to the variable block type in GLSL this simply inherits from that class.</description>
+          <name>Struct</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Variable</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Constructs a new struct block.</description>
+              <explicit/>
+              <invokable/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
           </function>
         </access>
       </class>
@@ -11507,6 +11798,24 @@ The layout of this editor is defined by the XML element between different layout
                 <type>const char*</type>
               </data>
             </variable>
+            <variable>
+              <data>
+                <description>The attribute name for the option of disabling spell checking on a text edit widget if the attribute is set to no.</description>
+                <initializer>"spell"</initializer>
+                <name>_spellKey</name>
+                <static/>
+                <type>const char*</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The attribute name for the option of disabling the popup dialog on a text edit widget if the attribute is set to no.</description>
+                <initializer>"dialog"</initializer>
+                <name>_dialogKey</name>
+                <static/>
+                <type>const char*</type>
+              </data>
+            </variable>
           </access>
           <access>
             <data>
@@ -11693,6 +12002,8 @@ The layout of this editor is defined by the XML element between different layout
                 <name>addTextEdit</name>
                 <operation>Get the id attribute from the given XML element and then get the basic block field value with the id.</operation>
                 <operation>Create and initialize the new text edit widget.</operation>
+                <operation>If the spell check attribute option is set to no then disable spell checking.</operation>
+                <operation>If the dialog popup attribute option is set to no then disable the dialog popup.</operation>
                 <operation>Add the new widget to this editor's list of edit widgets and to the given layout.</operation>
                 <return_description></return_description>
                 <type>void</type>

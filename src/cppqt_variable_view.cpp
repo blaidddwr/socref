@@ -26,11 +26,11 @@ Variable::View::View(const Variable* block):
 
 
 /*!
- * Returns a HTML string that displays any properties this view's variable block 
- * has set. If this view's variable block has no properties set then this returns 
- * an empty string. 
+ * Returns rich text that displays any properties this view's variable block has 
+ * set. If this view's variable block has no properties set then this returns an 
+ * empty string. 
  *
- * @return HTML string that displays any properties this view's variable block has 
+ * @return Rich text that displays any properties this view's variable block has 
  *         set or an empty string if no properties are set. 
  */
 QString Variable::View::displayProperties()
@@ -57,12 +57,11 @@ QString Variable::View::displayProperties()
 
 
 /*!
- * Returns a HTML string that displays the initial value of this view's variable 
- * block. If the variable block has no initial value then an empty string is 
- * returned. 
+ * Returns rich text that displays the initial value of this view's variable block. 
+ * If the variable block has no initial value then an empty string is returned. 
  *
- * @return HTML string that displays the initial value of this view's variable 
- *         block or an empty string if there is no initial value. 
+ * @return Rich text that displays the initial value of this view's variable block 
+ *         or an empty string if there is no initial value. 
  */
 QString Variable::View::displayInitializer()
 {

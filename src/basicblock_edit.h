@@ -90,6 +90,16 @@ private:
     * element. 
     */
    static const char* _valueKey;
+   /*!
+    * The attribute name for the option of disabling spell checking on a text edit 
+    * widget if the attribute is set to no. 
+    */
+   static const char* _spellKey;
+   /*!
+    * The attribute name for the option of disabling the popup dialog on a text edit 
+    * widget if the attribute is set to no. 
+    */
+   static const char* _dialogKey;
 private:
    void saveSettings(const QString& baseKey);
    QWidget* setupForm(const QDomElement& element);
