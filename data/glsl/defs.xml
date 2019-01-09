@@ -136,11 +136,11 @@
         </layout>
     </edit>
     <view>
-        <!-- <custom name="displayArguments"/> -->
-        <!-- <custom name="displayReturn"/> -->
+        <custom name="displayArguments"/>
+        <custom name="displayReturn"/>
         <h3>Description</h3>
         <ps id="description"/>
-        <!-- <custom name="displayOperations"/> -->
+        <custom name="displayOperations"/>
     </view>
 </function>
 

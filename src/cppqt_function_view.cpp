@@ -46,7 +46,7 @@ QString Function::View::displayArguments()
    if ( list.isEmpty() ) return ret;
 
    // Append a title. 
-   ret.append(tr("<h3>Arguments</h3>"));
+   ret += QStringLiteral("<h3>") + tr("Arguments") + QStringLiteral("</h3>");
 
    // Iterate through all child variable blocks. 
    for (auto variable : list)
@@ -57,11 +57,15 @@ QString Function::View::displayArguments()
 
       // Append the child variable information as rich text including the possible 
       // initial value. 
-      ret.append(tr("<p><u>%1</u> <b>%2</b>%3 : %4</p>")
-                 .arg(variable->variableType().replace("<","&lt;"))
-                 .arg(variable->baseName())
-                 .arg(initializer)
-                 .arg(variable->description()));
+      ret += QStringLiteral("<p><u>")
+           + variable->variableType().replace("<","&lt;")
+           + QStringLiteral("</u> <b>")
+           + variable->baseName()
+           + QStringLiteral("</b>")
+           + initializer
+           + QStringLiteral(" : ")
+           + variable->description()
+           + QStringLiteral("</p>");
    }
 
    // Return the arguments rich text. 
@@ -102,25 +106,32 @@ QString Function::View::displayProperties()
    // Create an empty string list, appending any properties this view's function 
    // block has set. 
    QStringList list;
-   if ( _block->isDefault() ) list << "Default";
-   if ( _block->isDeleted() ) list << "Deleted";
-   if ( _block->isQtInvokable() ) list << "Qt Invokable";
-   if ( _block->isExplicit() ) list << "Explicit";
-   if ( _block->isVirtual() ) list << "Virtual";
-   if ( _block->isConst() ) list << "Constant";
-   if ( _block->isConstExpr() ) list << "Constant Expression";
-   if ( _block->isStatic() ) list << "Static";
-   if ( _block->isNoExcept() ) list << "No Exceptions";
-   if ( _block->isOverride() ) list << "Override";
-   if ( _block->isFinal() ) list << "Final";
-   if ( _block->isAbstract() ) list << "Abstract(=0)";
+   if ( _block->isDefault() ) list << tr("Default");
+   if ( _block->isDeleted() ) list << tr("Deleted");
+   if ( _block->isQtInvokable() ) list << tr("Qt Invokable");
+   if ( _block->isExplicit() ) list << tr("Explicit");
+   if ( _block->isVirtual() ) list << tr("Virtual");
+   if ( _block->isConst() ) list << tr("Constant");
+   if ( _block->isConstExpr() ) list << tr("Constant Expression");
+   if ( _block->isStatic() ) list << tr("Static");
+   if ( _block->isNoExcept() ) list << tr("No Exceptions");
+   if ( _block->isOverride() ) list << tr("Override");
+   if ( _block->isFinal() ) list << tr("Final");
+   if ( _block->isAbstract() ) list << tr("Abstract(=0)");
 
    // If the string list is empty then return an empty string. 
    if ( list.isEmpty() ) return QString();
 
    // Else this view's block has set properties so return rich text displaying those 
    // set properties. 
-   else return tr("<h3>Properties</h3><ul><li>%1</li></ul>").arg(list.join("</li><li>"));
+   else
+   {
+      return QStringLiteral("<h3>")
+             + tr("Properties")
+             + QStringLiteral("</h3><ul><li>")
+             + list.join("</li><li>")
+             + QStringLiteral("</li></ul>");
+   }
 }
 
 
@@ -145,9 +156,16 @@ QString Function::View::displayReturn()
 
    // Else this view's function block has a return type so return rich text 
    // displaying that return type and its description. 
-   else return tr("<h3>Return</h3><p><u>%1</u> : %2</p>")
-               .arg(returnType.replace("<","&lt;"))
-               .arg(_block->returnDescription());
+   else
+   {
+      return QStringLiteral("<h3>")
+             + tr("Return")
+             + QStringLiteral("</h3><p><u>")
+             + returnType.replace("<","&lt;")
+             + QStringLiteral("</u> : ")
+             + _block->returnDescription()
+             + QStringLiteral("</p>");
+   }
 }
 
 
@@ -165,5 +183,5 @@ QString Function::View::displayReturn()
 QString Function::View::displayOperations()
 {
    // Return rich text displaying the number of operations. 
-   return tr("<i>%n operation(s)</i>",0,_block->operations().size());
+   return tr("<i>%n operation(s)</i>",nullptr,_block->operations().size());
 }

@@ -44,7 +44,7 @@ QString Variable::View::displayLayout()
    if ( !layout.isEmpty() )
    {
       // Add a title to the returned rich text. 
-      ret += QStringLiteral("<h3>Layout Qualifiers</h3><p>");
+      ret += QStringLiteral("<h3>") + tr("Layout Qualifiers") + QStringLiteral("</h3><p>");
 
       // Add all individual qualifiers to the rich text on a new line for each one. 
       for (auto qualifier: layout)

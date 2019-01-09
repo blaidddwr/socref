@@ -5,6 +5,7 @@
 #include "glsl_shader.h"
 #include "glsl_variable.h"
 #include "glsl_struct.h"
+#include "glsl_function.h"
 
 
 
@@ -94,6 +95,7 @@ Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
    case ShaderType: return QPtr<BasicBlock>(new Shader);
    case VariableType: return QPtr<BasicBlock>(new Variable);
    case StructType: return QPtr<BasicBlock>(new Struct);
+   case FunctionType: return QPtr<BasicBlock>(new Function);
    default: return nullptr;
    }
 }

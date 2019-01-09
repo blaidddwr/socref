@@ -9365,6 +9365,251 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           </function>
         </access>
       </class>
+      <class>
+        <data>
+          <description>This is the function block. This represents any subroutine functions that can be defined in a GLSL shader program.</description>
+          <name>Function</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Base</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <class>
+            <data>
+              <description>This is the view class for the function block.</description>
+              <name>View</name>
+              <qtobject/>
+            </data>
+            <parent>
+              <data>
+                <access>public</access>
+                <class>BasicBlock::View</class>
+              </data>
+            </parent>
+            <access>
+              <data>
+                <type>public:</type>
+              </data>
+              <function>
+                <data>
+                  <description>Constructs a new view with the given function block.</description>
+                  <explicit/>
+                  <name>^</name>
+                  <return_description></return_description>
+                  <type></type>
+                </data>
+                <variable>
+                  <data>
+                    <description>The function block that this new view displays.</description>
+                    <initializer></initializer>
+                    <name>block</name>
+                    <type>const Function*</type>
+                  </data>
+                </variable>
+              </function>
+            </access>
+            <access>
+              <data>
+                <type>private slots:</type>
+              </data>
+              <function>
+                <data>
+                  <description>Returns rich text that displays all variable arguments for this view's function block. If there are no arguments an empty string is returned.</description>
+                  <name>displayArguments</name>
+                  <operation>Create an empty return string.</operation>
+                  <operation>Make a pointer list of all children variables of this view's function block and make sure it is not empty.</operation>
+                  <operation>Append a title.</operation>
+                  <operation>Iterate through all child variable blocks, appending a description of each variable into the returned rich text.</operation>
+                  <operation>Return the arguments rich text.</operation>
+                  <return_description>Rich text that displays all variable arguments for this view's function block or an empty string if there are no arguments to display.</return_description>
+                  <type>QString</type>
+                </data>
+              </function>
+              <function>
+                <data>
+                  <description>Returns rich text that displays the return type and description for this view's function block. If the return type is void then an empty string is returned.</description>
+                  <name>displayReturn</name>
+                  <operation>Get the return type of this view's function block.</operation>
+                  <operation>If the return type is empty or is equal to void then return an empty string.</operation>
+                  <operation>Else this view's function block has a return type so return rich text displaying that return type and its description.</operation>
+                  <return_description>Rich text that displays the return type and description for this view's function block or an empty string if the return type is void.</return_description>
+                  <type>QString</type>
+                </data>
+              </function>
+              <function>
+                <data>
+                  <description>Returns rich text that displays all operations for this view's function block. If there are no operations then an empty string is returned.</description>
+                  <name>displayOperations</name>
+                  <return_description>Rich text that displays all operations for this view's function block or an empty string if there are no operations.</return_description>
+                  <type>QString</type>
+                </data>
+              </function>
+            </access>
+            <access>
+              <data>
+                <type>private:</type>
+              </data>
+              <variable>
+                <data>
+                  <description>Pointer to the function block that this view displays.</description>
+                  <initializer></initializer>
+                  <name>_block</name>
+                  <type>const Function*</type>
+                </data>
+              </variable>
+            </access>
+          </class>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <final/>
+              <name>name</name>
+              <operation>Create an empty return string.</operation>
+              <operation>If this block's void return indicator is not true then append a return indicator.</operation>
+              <operation>Append the function name and then the number of arguments.</operation>
+              <operation>Return the full display name string.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Constructs a new function block.</description>
+              <explicit/>
+              <invokable/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns the return type of this function block.</description>
+              <name>returnType</name>
+              <return_description>Return type of this function block.</return_description>
+              <type>QString</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns the return description of this function block.</description>
+              <name>returnDescription</name>
+              <return_description></return_description>
+              <type>QString</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns the full list of all operations of this function block.</description>
+              <name>operations</name>
+              <return_description>Full list of all operations for this function block.</return_description>
+              <type>QStringList</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Tests if this function block's return block is void and therefore has no return, returning true if it is.</description>
+              <name>isVoidReturn</name>
+              <operation>Test to see if this function block's return type is void.</operation>
+              <return_description>True if this function block's return type is void or false otherwise.</return_description>
+              <type>bool</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns a pointer list of all variable children blocks of this function block.</description>
+              <name>arguments</name>
+              <return_description>Pointer list of all variable children blocks of this function block.</return_description>
+              <type>QList&lt;Variable*></type>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>protected:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _BasicBlock_ interface.</description>
+              <final/>
+              <name>makeBasicView</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <final/>
+              <name>childAdded</name>
+              <operation>Notify the name and body of this block has changed.</operation>
+              <operation>Return false to end propagation.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>AbstractBlock*</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Implements _AbstractBlock_ interface.</description>
+              <final/>
+              <name>childRemoved</name>
+              <operation>Notify the name and body of this block has changed. </operation>
+              <operation>Return false to end propagation.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>AbstractBlock*</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+      </class>
     </namespace>
     <class>
       <data>
