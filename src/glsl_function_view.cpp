@@ -101,11 +101,11 @@ QString Function::View::displayReturn()
 
 
 /*!
- * Returns rich text that displays all operations for this view's function block. 
- * If there are no operations then an empty string is returned. 
+ * Returns rich text that displays the number of operations for this view's 
+ * function block. 
  *
- * @return Rich text that displays all operations for this view's function block or 
- *         an empty string if there are no operations. 
+ * @return Rich text that displays the number of operations for this view's 
+ *         function block. 
  */
 QString Function::View::displayOperations()
 {

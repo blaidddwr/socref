@@ -8930,6 +8930,178 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <description>Contains the GLSL project type.</description>
         <name>GLSL</name>
       </data>
+      <namespace>
+        <data>
+          <description></description>
+          <name>Parse</name>
+        </data>
+        <class>
+          <data>
+            <description></description>
+            <name>Factory</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>AbstractParserFactory</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <const/>
+                <description>Implements _AbstractParserFactory_ interface.</description>
+                <final/>
+                <name>make</name>
+                <operation>Initialize a static list of all possible sub extensions for the different shader types.</operation>
+                <operation>Split the given name into its actual name and the sub extension, making sure there is only one period separating the two.</operation>
+                <operation>Figure out the shader type of this file based off of its sub extension, making sure the sub extension string is recognized.</operation>
+                <operation>Separate the list of namespace names and shader name in the files given name.</operation>
+                <operation>Create a reverse stack of pointers to the namespace name strings that will be worked on by the recursive find function.</operation>
+                <operation>Call the recursive find method that attempts to find a matching shader, returning its result.</operation>
+                <override/>
+                <return_description>See interface docs.</return_description>
+                <type>Sut::QPtr&lt;AbstractParser></type>
+                <virtual/>
+              </data>
+              <variable>
+                <data>
+                  <description>See interface docs.</description>
+                  <initializer></initializer>
+                  <name>name</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>See interface docs.</description>
+                  <initializer></initializer>
+                  <name>extension</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Constructs a new GLSL parser factory with the given root block.</description>
+                <explicit/>
+                <name>^</name>
+                <operation>Make sure the given root pointer is not null.</operation>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>The root block used by this parser factory.</description>
+                  <initializer></initializer>
+                  <name>root</name>
+                  <type>const AbstractBlock*</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>private:</type>
+            </data>
+            <function>
+              <data>
+                <description>Recursively attempts to find a matching namespace that is a child of the given namespace and matches the top string pointed to on the given stack. This continues recursively calls itself until a shader that matches is found and a parser returned or no match is found and a null pointer is returned.</description>
+                <name>find</name>
+                <operation>If there is only one name left in the given stack then call the find shader function.</operation>
+                <operation>Else there is more namespace names to resolve.</operation>
+                <operation>Get the next name from the given stack.</operation>
+                <operation>Search the given base namespace block's children, recursively calling this function if a namespace that matches the next name is found.</operation>
+                <operation>No namespace name match is found so return a null pointer.</operation>
+                <return_description>Pointer to new shader parser if a match is found or a null pointer if no match is found.</return_description>
+                <static/>
+                <type>AbstractParser*</type>
+              </data>
+              <variable>
+                <data>
+                  <description>The current namespace that is being searched for a child namespace or shader.</description>
+                  <initializer></initializer>
+                  <name>base</name>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The stack of names still to be resolved. The very last name being the name of the shader that is being searched. These are pointers to strings so the strings must not be destroyed while this function is being called.</description>
+                  <initializer></initializer>
+                  <name>names</name>
+                  <type>QStack&lt;const QString*>*</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The shader type that should be matched with its name.</description>
+                  <initializer></initializer>
+                  <name>type</name>
+                  <type>Shader::Type</type>
+                </data>
+              </variable>
+            </function>
+            <function>
+              <data>
+                <description>Attempts to find a matching shader with the given name and type as a child in the given namespace. This returns a pointer to a new shader parser if a match is found or a null pointer if no match is found.</description>
+                <name>findShader</name>
+                <operation>Search the given base namespace block's children, returning a new shader parser of a matched shader if it is found.</operation>
+                <operation>No shader match is found so return a null pointer.</operation>
+                <return_description>Pointer to new shader parser if a match is found or a null pointer if no match is found.</return_description>
+                <static/>
+                <type>AbstractParser*</type>
+              </data>
+              <variable>
+                <data>
+                  <description>The namespace whose children are searched for a matching shader block.</description>
+                  <initializer></initializer>
+                  <name>base</name>
+                  <type>const Namespace*</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The base name of the shader that should be matched.</description>
+                  <initializer></initializer>
+                  <name>name</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The type of the shader that should be matched.</description>
+                  <initializer></initializer>
+                  <name>type</name>
+                  <type>Shader::Type</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>private:</type>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer to the root block used by this parser factory and all parser objects it makes.</description>
+                <initializer></initializer>
+                <name>_root</name>
+                <type>const Namespace*</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+      </namespace>
       <class>
         <data>
           <description>This is the block factory for the GLSL project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance. This also inherits from the basic block factory class to allow for XML definitions of block type data.</description>
@@ -9157,13 +9329,131 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           <data>
             <type>public:</type>
           </data>
+          <class>
+            <data>
+              <description>This is the view class for the shader block.</description>
+              <name>View</name>
+              <qtobject/>
+            </data>
+            <parent>
+              <data>
+                <access>public</access>
+                <class>BasicBlock::View</class>
+              </data>
+            </parent>
+            <access>
+              <data>
+                <type>public:</type>
+              </data>
+              <function>
+                <data>
+                  <description>Constructs a new view with the given shader block.</description>
+                  <explicit/>
+                  <name>^</name>
+                  <return_description></return_description>
+                  <type></type>
+                </data>
+                <variable>
+                  <data>
+                    <description>The shader block that this new view displays.</description>
+                    <initializer></initializer>
+                    <name>block</name>
+                    <type>const Shader*</type>
+                  </data>
+                </variable>
+              </function>
+            </access>
+            <access>
+              <data>
+                <type>private slots:</type>
+              </data>
+              <function>
+                <data>
+                  <description>Returns rich text that displays the number of operations for this view's function block.</description>
+                  <name>displayOperations</name>
+                  <return_description>Rich text that displays the number of operations for this view's function block.</return_description>
+                  <type>QString</type>
+                </data>
+              </function>
+            </access>
+            <access>
+              <data>
+                <type>private:</type>
+              </data>
+              <variable>
+                <data>
+                  <description>Pointer to the shader block that this view displays.</description>
+                  <initializer></initializer>
+                  <name>_block</name>
+                  <type>const Shader*</type>
+                </data>
+              </variable>
+            </access>
+          </class>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <enumeration>
+            <data>
+              <description>This defines all possible shader types.</description>
+              <name>Type</name>
+            </data>
+            <enumvalue>
+              <data>
+                <description>This defines the vertex shader type.</description>
+                <name>Vertex</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>This defines the tessellation control shader type.</description>
+                <name>TessellationControl</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>This defines the tessellation evaluation shader type.</description>
+                <name>TessellationEvaluation</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>This defines the geometry shader type.</description>
+                <name>Geometry</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>This defines the fragment shader type.</description>
+                <name>Fragment</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>This defines the compute shader type.</description>
+                <name>Compute</name>
+                <value></value>
+              </data>
+            </enumvalue>
+          </enumeration>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
               <description>Implements _AbstractBlock_ interface.</description>
               <final/>
               <name>name</name>
-              <operation>Initialize a static string list of all possible shader types and an enumeration of the same that matches the order of the string list.</operation>
               <operation>Create a new string and initialize it to this block's base name.</operation>
               <operation>Figure out what shader type this block is and append the appropriate tag, throwing an exception if the shader type string is not recognized.</operation>
               <operation>Return the name of this block.</operation>
@@ -9194,8 +9484,45 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <const/>
               <description>Returns this block's shader type.</description>
               <name>shaderType</name>
+              <operation>Initialize a static string list of all possible shader types that matches the order of enumerated types. </operation>
+              <operation>Return this block's shader type based off the index of the static string list.</operation>
               <return_description>This block's shader type.</return_description>
+              <type>Shader::Type</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns this block's shader type as a string.</description>
+              <name>shaderTypeString</name>
+              <return_description>This block's shader type as a string.</return_description>
               <type>QString</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Returns the full list of all operations of this shader block.</description>
+              <name>operations</name>
+              <return_description>Full list of all operations for this shader block.</return_description>
+              <type>QStringList</type>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>protected:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _BasicBlock_ interface.</description>
+              <final/>
+              <name>makeBasicView</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <virtual/>
             </data>
           </function>
         </access>
@@ -9445,9 +9772,9 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               </function>
               <function>
                 <data>
-                  <description>Returns rich text that displays all operations for this view's function block. If there are no operations then an empty string is returned.</description>
+                  <description>Returns rich text that displays the number of operations for this view's function block.</description>
                   <name>displayOperations</name>
-                  <return_description>Rich text that displays all operations for this view's function block or an empty string if there are no operations.</return_description>
+                  <return_description>Rich text that displays the number of operations for this view's function block.</return_description>
                   <type>QString</type>
                 </data>
               </function>

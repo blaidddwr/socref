@@ -3,6 +3,7 @@ SOURCES += \
     glsl_factory.cpp \
     glsl_base.cpp \
     glsl_shader.cpp \
+    glsl_shader_view.cpp \
     glsl_variable.cpp \
     glsl_variable_view.cpp \
     glsl_function.cpp \
@@ -14,8 +15,11 @@ HEADERS += \
     glsl_base.h \
     glsl_namespace.h \
     glsl_shader.h \
+    glsl_shader_view.h \
     glsl_variable.h \
     glsl_variable_view.h \
     glsl_struct.h \
     glsl_function.h \
     glsl_function_view.h
+
+include(GLSL_Parse.pri)

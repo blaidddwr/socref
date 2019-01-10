@@ -17,13 +17,50 @@ namespace GLSL
    {
       Q_OBJECT
    public:
+      class View;
+   public:
+      /*!
+       * This defines all possible shader types. 
+       */
+      enum Type
+      {
+         /*!
+          * This defines the vertex shader type. 
+          */
+         Vertex
+         /*!
+          * This defines the tessellation control shader type. 
+          */
+         ,TessellationControl
+         /*!
+          * This defines the tessellation evaluation shader type. 
+          */
+         ,TessellationEvaluation
+         /*!
+          * This defines the geometry shader type. 
+          */
+         ,Geometry
+         /*!
+          * This defines the fragment shader type. 
+          */
+         ,Fragment
+         /*!
+          * This defines the compute shader type. 
+          */
+         ,Compute
+      };
+   public:
       virtual QString name() const override final;
    public:
       /*!
        * Constructs a new shader bock. 
        */
       Q_INVOKABLE explicit Shader() = default;
-      QString shaderType() const;
+      Shader::Type shaderType() const;
+      QString shaderTypeString() const;
+      QStringList operations() const;
+   protected:
+      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
    };
 }
 

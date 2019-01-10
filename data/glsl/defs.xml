@@ -30,6 +30,7 @@
     <string id="name" default="shader"/>
     <string id="description"/>
     <string id="type" default="vertex"/>
+    <stringlist id="operation"/>
     <buildlist>
         <variable/>
         <struct/>
@@ -39,8 +40,8 @@
         <form>
             <combo id="type" display="Type:">
                 <option value="vertex"/>
-                <option value="tesselation control"/>
-                <option value="tesselation evaluation"/>
+                <option value="tessellation control"/>
+                <option value="tessellation evaluation"/>
                 <option value="geometry"/>
                 <option value="fragment"/>
                 <option value="compute"/>
@@ -48,12 +49,16 @@
             <line id="name" display="Name:"/>
             <text id="description" display="Description:"/>
         </form>
+        <layout>
+            <list id="operation" display="Steps of Operation"/>
+        </layout>
     </edit>
     <view>
         <h3>Type</h3>
         <ps id="type"/>
         <h3>Description</h3>
         <ps id="description"/>
+        <custom name="displayOperations"/>
     </view>
 </shader>
 

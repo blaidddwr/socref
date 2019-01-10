@@ -5,6 +5,7 @@
 #include "cppqt_parse_factory.h"
 #include "cppqt_settings_dialog.h"
 #include "glsl_factory.h"
+#include "glsl_parse_factory.h"
 
 
 
@@ -219,6 +220,7 @@ Sut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, con
    switch (type)
    {
    case CppQtType: return QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
+   case GLSLType: return QPtr<AbstractParserFactory>(new GLSL::Parse::Factory(root));
    default:
       {
          // This project type is not recognized so throw an exception. 
