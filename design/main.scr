@@ -19,10 +19,13 @@
     <word>GLSL</word>
     <word>Gui</word>
     <word>JSON</word>
+    <word>OpenGL</word>
     <word>PHP</word>
     <word>QAbstractItemModel</word>
     <word>QCoreApplication</word>
     <word>QThread</word>
+    <word>Struct</word>
+    <word>decrement</word>
     <word>destructor</word>
     <word>destructors</word>
     <word>invokable</word>
@@ -8932,12 +8935,12 @@ This parser also has the concept of a cut off. The cut off is an integer that de
       </data>
       <namespace>
         <data>
-          <description></description>
+          <description>Contains all GLSL parsing elements.</description>
           <name>Parse</name>
         </data>
         <class>
           <data>
-            <description></description>
+            <description>This is the parser factory for the GLSL project type. This recognizes only one type of source file, that being a shader source file that defines a single GLSL shader. Sub extensions are also used to identify the shader type. All shader types defined as of OpenGL version 4.3 are recognized.</description>
             <name>Factory</name>
             <qtobject/>
           </data>
@@ -9097,6 +9100,279 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <initializer></initializer>
                 <name>_root</name>
                 <type>const Namespace*</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class>
+          <data>
+            <description>This is the base parser that all other GLSL parser classes use for common functionality. Currently the only common functionality is adding comments.</description>
+            <name>Base</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>AbstractParser</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <default/>
+                <description>Constructs a new root parser base object.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+            </function>
+            <function>
+              <data>
+                <description>Constructs a new base parser that is a child of the given parser.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>The parent parser object for this new base parser.</description>
+                  <initializer></initializer>
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>protected:</type>
+            </data>
+            <function>
+              <data>
+                <description>Wrapper for the _AbstractParser_ method.</description>
+                <name>addComment</name>
+                <return_description></return_description>
+                <type>void</type>
+              </data>
+              <variable>
+                <data>
+                  <description>The text that is used to make and added and formatted output lines.</description>
+                  <initializer></initializer>
+                  <name>text</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The justification used for adding extra spaces before every output line after the first.</description>
+                  <initializer>0</initializer>
+                  <name>justified</name>
+                  <type>int</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+        </class>
+        <class>
+          <data>
+            <description>This is the variable parser. This outputs all variable definitions for a shader source file. This parser does not require reading in any lines of code.</description>
+            <name>Variable</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Constructs a new variable parser with the given variable block and parent parser.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>Variable block that defines this new parser.</description>
+                  <initializer></initializer>
+                  <name>block</name>
+                  <type>const GLSL::Variable*</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The parent parser object for this new variable parser.</description>
+                  <initializer></initializer>
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>protected:</type>
+            </data>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface. This parser does not read in any input so this does nothing.</description>
+                <final/>
+                <name>readLine</name>
+                <override/>
+                <return_description>See interface docs.</return_description>
+                <type>bool</type>
+                <virtual/>
+              </data>
+              <variable>
+                <data>
+                  <description>See interface docs.</description>
+                  <initializer></initializer>
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface. This outputs the definition of this parser object's variable block.</description>
+                <name>makeOutput</name>
+                <operation>Output the description of this parser object's variable block.</operation>
+                <operation>Output the definition.</operation>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>protected:</type>
+            </data>
+            <function>
+              <data>
+                <description>Returns the layout part of this parser object's variable definition.</description>
+                <name>makeLayout</name>
+                <operation>Create a new string that will be returned and get all layout qualifiers of this parser object's variable block.</operation>
+                <operation>If there are no qualifiers then return an empty string.</operation>
+                <operation>Add the beginning of the layout definition.</operation>
+                <operation>Iterate through all qualifiers and add them to the layout definition.</operation>
+                <operation>Add the end of the layout definition and return it.</operation>
+                <return_description>Layout part of this parser object's variable definition.</return_description>
+                <type>QString</type>
+              </data>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>private:</type>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer to the variable block that defines this parser.</description>
+                <initializer></initializer>
+                <name>_block</name>
+                <type>const GLSL::Variable*</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class>
+          <data>
+            <description>This is the struct parser. This outputs all struct definitions, including the variable definitions contained within the struct, for a shader source file. This parser does not require reading in any lines of code.</description>
+            <name>Struct</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>Variable</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Constructs a new struct parser with the given struct block and parent parser.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>Struct block that defines this new parser.</description>
+                  <initializer></initializer>
+                  <name>block</name>
+                  <type>const GLSL::Struct*</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The parent parser object for this new variable parser.</description>
+                  <initializer></initializer>
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>protected:</type>
+            </data>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface. This outputs the definition of this parser object's struct block.</description>
+                <final/>
+                <name>makeOutput</name>
+                <operation>Output the description of this parser object's struct block.</operation>
+                <operation>Output the definition and opening bracket.</operation>
+                <operation>Increment the indent, output all variable comments and definitions, and then decrement the indent.</operation>
+                <operation>Output the closing bracket, name, and closing semicolon for this struct definition.</operation>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>private:</type>
+            </data>
+            <function>
+              <data>
+                <description>Adds the definitions of all variables this parser object's struct block contains along with their description comment before every definition.</description>
+                <name>makeVariables</name>
+                <operation>Get the list of all child variable blocks of this parser object's struct block.</operation>
+                <operation>Iterate through the list of variable blocks.</operation>
+                <operation>If this is not the first variable definition then add one blank line.</operation>
+                <operation>Add the description of the variable block to output.</operation>
+                <operation>Add the definition of the variable block to output.</operation>
+                <return_description></return_description>
+                <type>void</type>
+              </data>
+            </function>
+            <variable>
+              <data>
+                <description>Pointer to the struct block that defines this parser.</description>
+                <initializer></initializer>
+                <name>_block</name>
+                <type>const GLSL::Struct*</type>
               </data>
             </variable>
           </access>
@@ -11071,6 +11347,60 @@ This class itself handles all copying using another specialized interface for co
               <description>The number of blank lines added to the output.</description>
               <initializer></initializer>
               <name>count</name>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Adds output lines from the given text with the given justification, max columns per line, and comment token. The lines are formatted as paragraphs, using double newline characters to separate the paragraphs. The justification is used to add extra space to every other line after the first one. This does not add the  opening and closing comment lines. At the beginning of each line the given comment characters are added.</description>
+            <name>addComment</name>
+            <operation>Make sure the given justified value is valid.</operation>
+            <operation>Make sure the given text is not empty.</operation>
+            <operation>Split the given text into paragraphs, using double newline characters as the separator and skipping empty paragraphs.</operation>
+            <operation>Iterate through all the paragraphs.</operation>
+            <operation>Split the paragraph into its individual words.</operation>
+            <operation>Keep working until all words have been processed.</operation>
+            <operation>Initialize the total number of columns used and the next output line.</operation>
+            <operation>Check if this is the first line.</operation>
+            <operation>Else this is not the first line so append the number of justification spaces to the output line and add the number of columns used to the total.</operation>
+            <operation>Append the first word to the output line. The columns used was already added to the total when it was initialized.</operation>
+            <operation>Keep working until there are no more words to process or the output line has reached the maximum number of columns.</operation>
+            <operation>Add the number of columns the next word will use to the total and then add the next word to the output line.</operation>
+            <operation>Add the finished output line to the output file of this parser.</operation>
+            <operation>If this is not the last paragraph add a separator line for the next one.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>The comment token that is added to the beginning of each comment line added to this parser object's output file.</description>
+              <initializer></initializer>
+              <name>token</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The text that is used to make and added and formatted output lines.</description>
+              <initializer></initializer>
+              <name>text</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The justification used for adding extra spaces before every output line after the first.</description>
+              <initializer></initializer>
+              <name>justified</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The maximum number of columns each line of a comment can possess.</description>
+              <initializer></initializer>
+              <name>max</name>
               <type>int</type>
             </data>
           </variable>

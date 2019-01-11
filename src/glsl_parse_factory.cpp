@@ -130,7 +130,7 @@ AbstractParser* Factory::find(const Namespace* base, QStack<const QString*>* nam
    if ( names->size() == 1 ) return findShader(base,*names->pop(),type);
 
    // Else there is more namespace names to resolve. 
-   else
+   else if ( !names->isEmpty() )
    {
       // Get the next name from the given stack. 
       const QString& name {*names->pop()};
@@ -144,10 +144,10 @@ AbstractParser* Factory::find(const Namespace* base, QStack<const QString*>* nam
             if ( valid->baseName() == name ) return find(valid,names,type);
          }
       }
-
-      // No namespace name match is found so return a null pointer. 
-      return nullptr;
    }
+
+   // No namespace name match is found so return a null pointer. 
+   return nullptr;
 }
 
 

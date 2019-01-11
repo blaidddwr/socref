@@ -1,5 +1,6 @@
 #include "abstractparser.h"
 #include <QFile>
+#include <QRegularExpression>
 #include <socutil/sut_exceptions.h>
 
 
@@ -237,6 +238,95 @@ void AbstractParser::add(int count)
 {
    // Add the given number of blank lines to output. 
    while ( count-- > 0 ) *_output << QString();
+}
+
+
+
+
+
+
+/*!
+ * Adds output lines from the given text with the given justification, max columns 
+ * per line, and comment token. The lines are formatted as paragraphs, using double 
+ * newline characters to separate the paragraphs. The justification is used to add 
+ * extra space to every other line after the first one. This does not add the 
+ * opening and closing comment lines. At the beginning of each line the given 
+ * comment characters are added. 
+ *
+ * @param token The comment token that is added to the beginning of each comment 
+ *              line added to this parser object's output file. 
+ *
+ * @param text The text that is used to make and added and formatted output lines. 
+ *
+ * @param justified The justification used for adding extra spaces before every 
+ *                  output line after the first. 
+ *
+ * @param max The maximum number of columns each line of a comment can possess. 
+ */
+void AbstractParser::addComment(const QString& token, const QString& text, int justified, int max)
+{
+   // Make sure the given justified value is valid. 
+   if ( justified < 0 )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(QObject::tr("Invalid justification of %1.").arg(justified));
+      throw e;
+   }
+
+   // Make sure the given text is not empty. 
+   if ( text.isEmpty() ) return;
+
+   // Split the given text into paragraphs, using double newline characters as the 
+   // separator and skipping empty paragraphs. 
+   QStringList paragraphs {text.split("\n\n",QString::SkipEmptyParts)};
+
+   // Iterate through all the paragraphs. 
+   bool first {true};
+   for (int i = 0; i < paragraphs.size() ;++i)
+   {
+      // Split the paragraph into its individual words. 
+      QStringList words {paragraphs.at(i).split(QRegularExpression("\\s+"))};
+
+      // Keep working until all words have been processed. 
+      while ( !words.isEmpty() )
+      {
+         // Initialize the total number of columns used and the next output line. 
+         int total {words.first().size()};
+         QString line {token};
+
+         // Check if this is the first line. 
+         if ( first ) first = false;
+
+         // Else this is not the first line so append the number of justification spaces to 
+         // the output line and add the number of columns used to the total. 
+         else
+         {
+            line += QString(justified,QChar(' '));
+            total += justified;
+         }
+
+         // Append the first word to the output line. The columns used was already added to 
+         // the total when it was initialized. 
+         line.append(words.takeFirst()).append(" ");
+
+         // Keep working until there are no more words to process or the output line has 
+         // reached the maximum number of columns. 
+         while ( !words.isEmpty() && (total + words.first().size() + 1) <= max )
+         {
+            // Add the number of columns the next word will use to the total and then add the 
+            // next word to the output line. 
+            total += words.first().size() + 1;
+            line += words.takeFirst() + QStringLiteral(" ");
+         }
+
+         // Add the finished output line to the output file of this parser. 
+         add(line);
+      }
+
+      // If this is not the last paragraph add a separator line for the next one. 
+      if ( i != (paragraphs.size() - 1) ) add(token);
+   }
 }
 
 

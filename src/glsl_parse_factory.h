@@ -12,6 +12,10 @@ namespace GLSL
    namespace Parse
    {
       /*!
+       * This is the parser factory for the GLSL project type. This recognizes only one 
+       * type of source file, that being a shader source file that defines a single GLSL 
+       * shader. Sub extensions are also used to identify the shader type. All shader 
+       * types defined as of OpenGL version 4.3 are recognized. 
        */
       class Factory : public AbstractParserFactory
       {
