@@ -18,9 +18,9 @@ namespace GLSL
       {
          Q_OBJECT
       public:
-         explicit Struct(const GLSL::Struct* block, AbstractParser* parent);
-      protected:
          virtual void makeOutput() override final;
+      public:
+         explicit Struct(const GLSL::Struct* block, AbstractParser* parent);
       private:
          void makeVariables();
          /*!

@@ -17,11 +17,7 @@ namespace GLSL
       {
          Q_OBJECT
       public:
-         /*!
-          * Constructs a new root parser base object. 
-          */
-         explicit Base() = default;
-         explicit Base(AbstractParser* parent);
+         using AbstractParser::AbstractParser;
       protected:
          void addComment(const QString& text, int justified = 0);
       };

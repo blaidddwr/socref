@@ -14,23 +14,6 @@ using namespace GLSL::Parse;
 
 
 /*!
- * Constructs a new struct parser with the given struct block and parent parser. 
- *
- * @param block Struct block that defines this new parser. 
- *
- * @param parent The parent parser object for this new variable parser. 
- */
-Struct::Struct(const GLSL::Struct* block, AbstractParser* parent):
-   Variable(block,parent),
-   _block(block)
-{}
-
-
-
-
-
-
-/*!
  * Implements _AbstractParser_ interface. This outputs the definition of this 
  * parser object's struct block. 
  */
@@ -56,6 +39,23 @@ void Struct::makeOutput()
    add(QStringLiteral("}"));
    add(_block->baseName() + QStringLiteral(";"));
 }
+
+
+
+
+
+
+/*!
+ * Constructs a new struct parser with the given struct block and parent parser. 
+ *
+ * @param block Struct block that defines this new parser. 
+ *
+ * @param parent The parent parser object for this new variable parser. 
+ */
+Struct::Struct(const GLSL::Struct* block, AbstractParser* parent):
+   Variable(block,parent),
+   _block(block)
+{}
 
 
 

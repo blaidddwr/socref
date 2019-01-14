@@ -12,6 +12,29 @@ using namespace GLSL::Parse;
 
 
 /*!
+ * Implements _AbstractParser_ interface. 
+ */
+void Variable::makeOutput()
+{
+   // Output the description of this parser object's variable block. 
+   add(QStringLiteral("///"));
+   addComment(_block->description());
+   add(QStringLiteral("///"));
+
+   // Output the definition. 
+   add(makeLayout()
+       + _block->typeString()
+       + QStringLiteral(" ")
+       + _block->baseName()
+       + QStringLiteral(";"));
+}
+
+
+
+
+
+
+/*!
  * Constructs a new variable parser with the given variable block and parent 
  * parser. 
  *
@@ -41,30 +64,6 @@ bool Variable::readLine(const QString& line)
 {
    Q_UNUSED(line)
    return false;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractParser_ interface. This outputs the definition of this 
- * parser object's variable block. 
- */
-void Variable::makeOutput()
-{
-   // Output the description of this parser object's variable block. 
-   add(QStringLiteral("///"));
-   addComment(_block->description());
-   add(QStringLiteral("///"));
-
-   // Output the definition. 
-   add(makeLayout()
-       + _block->typeString()
-       + QStringLiteral(" ")
-       + _block->baseName()
-       + QStringLiteral(";"));
 }
 
 

@@ -1,6 +1,7 @@
 #include "glsl_parse_factory.h"
 #include <QStack>
 #include <socutil/sut_exceptions.h>
+#include "glsl_parse_shader.h"
 #include "glsl_factory.h"
 #include "glsl_namespace.h"
 
@@ -57,7 +58,7 @@ Sut::QPtr<AbstractParser> Factory::make(const QString& name, const QString& exte
                    .arg(extension));
       throw e;
    }
-   const Shader::Type type {static_cast<Shader::Type>(i)};
+   const GLSL::Shader::Type type {static_cast<GLSL::Shader::Type>(i)};
 
    // Separate the list of namespace names and shader name in the files given name. 
    QStringList names {subextnames.at(0).split('_')};
@@ -123,7 +124,7 @@ Factory::Factory(const AbstractBlock* root):
  * @return Pointer to new shader parser if a match is found or a null pointer if no 
  *         match is found. 
  */
-AbstractParser* Factory::find(const Namespace* base, QStack<const QString*>* names, Shader::Type type)
+AbstractParser* Factory::find(const Namespace* base, QStack<const QString*>* names, GLSL::Shader::Type type)
 {
    // If there is only one name left in the given stack then call the find shader 
    // function. 
@@ -170,15 +171,15 @@ AbstractParser* Factory::find(const Namespace* base, QStack<const QString*>* nam
  * @return Pointer to new shader parser if a match is found or a null pointer if no 
  *         match is found. 
  */
-AbstractParser* Factory::findShader(const Namespace* base, const QString& name, Shader::Type type)
+AbstractParser* Factory::findShader(const Namespace* base, const QString& name, GLSL::Shader::Type type)
 {
    // Search the given base namespace block's children, returning a new shader parser 
    // of a matched shader if it is found. 
    for (auto child: base->list())
    {
-      if ( const Shader* valid = child->cast<const Shader>(GLSL::Factory::ShaderType) )
+      if ( const GLSL::Shader* valid = child->cast<const GLSL::Shader>(GLSL::Factory::ShaderType) )
       {
-         if ( valid->baseName() == name && valid->shaderType() == type ) return nullptr;//TODO: return parser!
+         if ( valid->baseName() == name && valid->shaderType() == type ) return new Shader(valid);
       }
    }
 

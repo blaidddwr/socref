@@ -9050,7 +9050,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                   <description>The shader type that should be matched with its name.</description>
                   <initializer></initializer>
                   <name>type</name>
-                  <type>Shader::Type</type>
+                  <type>GLSL::Shader::Type</type>
                 </data>
               </variable>
             </function>
@@ -9085,7 +9085,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                   <description>The type of the shader that should be matched.</description>
                   <initializer></initializer>
                   <name>type</name>
-                  <type>Shader::Type</type>
+                  <type>GLSL::Shader::Type</type>
                 </data>
               </variable>
             </function>
@@ -9120,33 +9120,11 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <data>
               <type>public:</type>
             </data>
-            <function>
+            <declaration>
               <data>
-                <default/>
-                <description>Constructs a new root parser base object.</description>
-                <explicit/>
-                <name>^</name>
-                <return_description></return_description>
-                <type></type>
+                <line>using AbstractParser::AbstractParser</line>
               </data>
-            </function>
-            <function>
-              <data>
-                <description>Constructs a new base parser that is a child of the given parser.</description>
-                <explicit/>
-                <name>^</name>
-                <return_description></return_description>
-                <type></type>
-              </data>
-              <variable>
-                <data>
-                  <description>The parent parser object for this new base parser.</description>
-                  <initializer></initializer>
-                  <name>parent</name>
-                  <type>AbstractParser*</type>
-                </data>
-              </variable>
-            </function>
+            </declaration>
           </access>
           <access>
             <data>
@@ -9180,6 +9158,192 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         </class>
         <class>
           <data>
+            <description>This is the shader root parser. This parser is responsible for parsing a shader program file. It collects all defined variables, structures, and functions and outputs them to the source file. It also reads in any undefined functions found in the source file and outputs them again as an unknown function.</description>
+            <name>Shader</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Constructs a new shader root parser with the given shader block.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>The shader block that defines this new root parser.</description>
+                  <initializer></initializer>
+                  <name>block</name>
+                  <type>const GLSL::Shader*</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>protected:</type>
+            </data>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface.</description>
+                <final/>
+                <name>initialize</name>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface.</description>
+                <final/>
+                <name>readLine</name>
+                <operation>If this is a preprocessor line then add it to this parser object's list of preprocessor lines.</operation>
+                <operation>Else check to see if the given line is a header of a function.</operation>
+                <operation>If this function is defined in this shader parser then step into it for read line processing.</operation>
+                <operation>Else check if this is an undefined function found in the shader source file.</operation>
+                <operation>Add a new undefined function parser and then step into it for read line processing.</operation>
+                <operation>Always return true because this root shader parser reads the entire source file.</operation>
+                <override/>
+                <return_description>See interface docs.</return_description>
+                <type>bool</type>
+                <virtual/>
+              </data>
+              <variable>
+                <data>
+                  <description>See interface docs.</description>
+                  <initializer></initializer>
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface.</description>
+                <final/>
+                <name>makeOutput</name>
+                <operation>Add any preprocessor lines to output.</operation>
+                <operation>Iterate through all variable child parser objects and add their outputs.</operation>
+                <operation>Iterate through all struct child parser objects and add their outputs.</operation>
+                <operation>Iterate through all function child parser objects and add their outputs.</operation>
+                <operation>Add the comment header and output of the special main function for the shader program file.</operation>
+                <operation>Add one final blank line at the end of the file.</operation>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>private:</type>
+            </data>
+            <function>
+              <data>
+                <description>Evaluates all children of this object's shader block, adding new child parser objects for each variable, struct, and function block it finds.</description>
+                <name>evaluate</name>
+                <operation>Iterate through all children of this shader parser object's shader block.</operation>
+                <operation>If the child is a variable block then make a new child parser and add it to this object's list of variables.</operation>
+                <operation>If the child is a struct block then make a new child parser and add it to this object's list of structures.</operation>
+                <operation>If the child is a function block then make a new child parser and add it to this object's list of functions and its list of defined functions.</operation>
+                <operation>Lastly create a function parser for the special main function of this parser object's shader block.</operation>
+                <return_description></return_description>
+                <type>void</type>
+              </data>
+            </function>
+            <function>
+              <data>
+                <description>Attempts to find a defined function definition of this parser with the given definition string. If a match is found its function parser pointer is returned.</description>
+                <name>findDefined</name>
+                <operation>Iterate through all defined function parser objects of this parser.</operation>
+                <operation>If the function parser matches the given definition header then return its pointer.</operation>
+                <operation>No match was found so return null.</operation>
+                <return_description>Pointer of matched function parser if match is found or null if no match is found.</return_description>
+                <type>Function*</type>
+              </data>
+              <variable>
+                <data>
+                  <description>The function definition header whose match is looked for in this object's list of defined function parser objects.</description>
+                  <initializer></initializer>
+                  <name>definition</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <variable>
+              <data>
+                <description>Pointer to the shader block that defines this parser.</description>
+                <initializer></initializer>
+                <name>_block</name>
+                <type>const GLSL::Shader*</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>List of variable parser children that is part of this shader object's shader program.</description>
+                <initializer></initializer>
+                <name>_variables</name>
+                <type>QList&lt;Variable*></type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>List of struct parser children that is part of this shader object's shader program.</description>
+                <initializer></initializer>
+                <name>_structs</name>
+                <type>QList&lt;Struct*></type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>List of all function parser children that is part of this shader object's shader program.</description>
+                <initializer></initializer>
+                <name>_functions</name>
+                <type>QList&lt;Function*></type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>List of defined function parser children that is part of this shader object's shader program.</description>
+                <initializer></initializer>
+                <name>_defined</name>
+                <type>QList&lt;Function*></type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The special main function parser that is part of this shader object's shader program.</description>
+                <initializer></initializer>
+                <name>_main</name>
+                <type>Function*</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>List preprocessor lines for the shader program source file of this parser.</description>
+                <initializer></initializer>
+                <name>_preProcess</name>
+                <type>QStringList</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class>
+          <data>
             <description>This is the variable parser. This outputs all variable definitions for a shader source file. This parser does not require reading in any lines of code.</description>
             <name>Variable</name>
             <qtobject/>
@@ -9190,6 +9354,23 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <class>Base</class>
             </data>
           </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface.</description>
+                <name>makeOutput</name>
+                <operation>Output the description of this parser object's variable block.</operation>
+                <operation>Output the definition.</operation>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+          </access>
           <access>
             <data>
               <type>public:</type>
@@ -9243,18 +9424,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 </data>
               </variable>
             </function>
-            <function>
-              <data>
-                <description>Implements _AbstractParser_ interface. This outputs the definition of this parser object's variable block.</description>
-                <name>makeOutput</name>
-                <operation>Output the description of this parser object's variable block.</operation>
-                <operation>Output the definition.</operation>
-                <override/>
-                <return_description></return_description>
-                <type>void</type>
-                <virtual/>
-              </data>
-            </function>
           </access>
           <access>
             <data>
@@ -9306,6 +9475,26 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </data>
             <function>
               <data>
+                <description>Implements _AbstractParser_ interface. This outputs the definition of this parser object's struct block.</description>
+                <final/>
+                <name>makeOutput</name>
+                <operation>Output the description of this parser object's struct block.</operation>
+                <operation>Output the definition and opening bracket.</operation>
+                <operation>Increment the indent, output all variable comments and definitions, and then decrement the indent.</operation>
+                <operation>Output the closing bracket, name, and closing semicolon for this struct definition.</operation>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
                 <description>Constructs a new struct parser with the given struct block and parent parser.</description>
                 <explicit/>
                 <name>^</name>
@@ -9332,26 +9521,6 @@ This parser also has the concept of a cut off. The cut off is an integer that de
           </access>
           <access>
             <data>
-              <type>protected:</type>
-            </data>
-            <function>
-              <data>
-                <description>Implements _AbstractParser_ interface. This outputs the definition of this parser object's struct block.</description>
-                <final/>
-                <name>makeOutput</name>
-                <operation>Output the description of this parser object's struct block.</operation>
-                <operation>Output the definition and opening bracket.</operation>
-                <operation>Increment the indent, output all variable comments and definitions, and then decrement the indent.</operation>
-                <operation>Output the closing bracket, name, and closing semicolon for this struct definition.</operation>
-                <override/>
-                <return_description></return_description>
-                <type>void</type>
-                <virtual/>
-              </data>
-            </function>
-          </access>
-          <access>
-            <data>
               <type>private:</type>
             </data>
             <function>
@@ -9373,6 +9542,321 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <initializer></initializer>
                 <name>_block</name>
                 <type>const GLSL::Struct*</type>
+              </data>
+            </variable>
+          </access>
+        </class>
+        <class>
+          <data>
+            <description>This is the function parser. This is responsible for parsing all function definitions inside a shader program, including the special main function. This reads in all code lines defined within any function present in a shader source file.
+
+This parser can be defined, undefined, or the special main function. A defined function means it is linked with an actual function block. An undefined function parser means it is an unknown function definition found in the shader source file. The special main function is the main function of the shader program.
+
+Because this function parser is responsible for the special main function it must copy a reference of the operations for its function instead of simply using the function block interface.</description>
+            <name>Function</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>Base</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface.</description>
+                <name>makeOutput</name>
+                <operation>Check if this is a defined function.</operation>
+                <operation>Make comment header output and then add the definition line to output.</operation>
+                <operation>Else if this is an undefined function make a simple comment header stating as such.</operation>
+                <operation>Else if this is not a defined function then add the static string definition to output.</operation>
+                <operation>If this object has no code lines then add an opening and closing bracket to output.</operation>
+                <operation>Else this object does have code lines so add them to output with an opening and closing bracket.</operation>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Constructs a new function parser as undefined with the given static definition header and parent parser.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>Static definition header for this new undefined function parser.</description>
+                  <initializer></initializer>
+                  <name>definition</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The parent parser object for this new function parser.</description>
+                  <initializer></initializer>
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </function>
+            <function>
+              <data>
+                <description>Constructs a new function parser as defined with the given function block and parent parser.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>The function block that defines this new function parser.</description>
+                  <initializer></initializer>
+                  <name>block</name>
+                  <type>const GLSL::Function*</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The parent parser object for this new function parser.</description>
+                  <initializer></initializer>
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </function>
+            <function>
+              <data>
+                <description>Constructs a new function parser as the special main function of a shader program file with the given steps of operation and parent parser.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>The steps of operation for the special main function of this parser object's shader source file.</description>
+                  <initializer></initializer>
+                  <name>operations</name>
+                  <type>const QStringList&amp;</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The parent parser object for this new function parser.</description>
+                  <initializer></initializer>
+                  <name>parent</name>
+                  <type>AbstractParser*</type>
+                </data>
+              </variable>
+            </function>
+            <function>
+              <data>
+                <description>Determines if the given line matches the definition header for this function parser, returning true if it is a match. If the function parser already has code or is not a defined parser then false is always returned.</description>
+                <name>isMatch</name>
+                <operation>Make sure this object does not have code.</operation>
+                <operation>Check to see if this parser object does not have a valid function block pointer.</operation>
+                <operation>If this parser is undefined then return false else this is the special main function so match the given line against that definition.</operation>
+                <operation>Create a new regular expression line with this object's function's name.</operation>
+                <operation>Add any arguments of this object's function to the regular expression line.</operation>
+                <operation>Add the closing syntax to the regular expression line.</operation>
+                <operation>Evaluate the line with the constructed regular expression line to determine a match, returning its result.</operation>
+                <return_description>True if the given line matches the definition header for this parser or false if it does not, it has code, or is undefined.</return_description>
+                <type>bool</type>
+              </data>
+              <variable>
+                <data>
+                  <description>The line presumed to be another function definition header that is matched with this function parser.</description>
+                  <initializer></initializer>
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>protected:</type>
+            </data>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface.</description>
+                <final/>
+                <name>readLine</name>
+                <operation>If the given line is a opening and closing bracket that means this function has no code lines so return false.</operation>
+                <operation>Check to see if the given line is an opening bracket.</operation>
+                <operation>Increment the bracket level by one, returning true if this is the very first opening bracket.</operation>
+                <operation>Check to see if the given line is a closing bracket.</operation>
+                <operation>Decease the bracket level by one, returning false if this is the final closing bracket.</operation>
+                <operation>Else check to see if the given line is inside the main opening and closing brackets.</operation>
+                <operation>Check to see if the given line is an inline comment.</operation>
+                <operation>If the given inline comment line is the first for its grouping then set this object's edge past to true and process the inline comment, if this is a proceeding inline comment line after the first then just ignore it.</operation>
+                <operation>Else the given line is regular code so set this object's edge past to false and add the given line to this object's code line list.</operation>
+                <operation>The given line is not the last line of code for this function so return true.</operation>
+                <override/>
+                <return_description>See interface docs.</return_description>
+                <type>bool</type>
+                <virtual/>
+              </data>
+              <variable>
+                <data>
+                  <description>See interface docs.</description>
+                  <initializer></initializer>
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>private:</type>
+            </data>
+            <function>
+              <data>
+                <description>Processes the given inline comment line, adding the next step of operations of this object's function as an inline comment to this object's code line list or a blank inline comment if there are no more steps of operation to use.</description>
+                <name>processInlineComment</name>
+                <operation>Calculate the number of spaces that should be used for this inline comment grouping.</operation>
+                <operation>If the next operation iterator of this object is not past the end of this object's function's steps of operation then insert an inline comment with the next operation.</operation>
+                <operation>Else there are no more steps of operation to add as inline comments so add a blank inline comment to this object's code line list.</operation>
+                <return_description></return_description>
+                <type>void</type>
+              </data>
+              <variable>
+                <data>
+                  <description>The inline comment given as an input line from the read line interface. The line must not be modified so the number of spaces can be calculated.</description>
+                  <initializer></initializer>
+                  <name>line</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+            </function>
+            <function>
+              <data>
+                <description>Inserts a new inline comment to this object's code line list with the given steps of operation index and spacing, separating the comment into as many number of lines as needed.</description>
+                <name>insertInlineComment</name>
+                <operation>Split operation from this object's function's steps of operation with the given index into a list of words.</operation>
+                <operation>Keep going until the list of words is empty.</operation>
+                <operation>Create a total columns used variable with the first word's size plus one space.</operation>
+                <operation>Create a new line string, adding spaces then comment characters then the first word from the list and then a space.</operation>
+                <operation>Keep going until the word list is empty or the line has reached the maximum number of columns.</operation>
+                <operation>Take and add the next word from the list to the line and an additional space, adding the number of columns the addition used.</operation>
+                <operation>Add the inline comment line to this object's code line list.</operation>
+                <return_description></return_description>
+                <type>void</type>
+              </data>
+              <variable>
+                <data>
+                  <description>The index of the operation in this object's function's steps of operation to use to generate the inline comment.</description>
+                  <initializer></initializer>
+                  <name>index</name>
+                  <type>int</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>The number of spaces added before every inline comment line generated.</description>
+                  <initializer></initializer>
+                  <name>spacing</name>
+                  <type>int</type>
+                </data>
+              </variable>
+            </function>
+            <function>
+              <data>
+                <description>This adds the comment header of a defined function to this parser object's output lines. This parser must contain a valid pointer to a valid function block or its behavior is undefined.</description>
+                <name>makeCommentOutput</name>
+                <operation>Add an empty comment line and then the function's description.</operation>
+                <operation>Iterate through all variable blocks of this parser object's function block.</operation>
+                <operation>Add an empty comment line to output.</operation>
+                <operation>Create a base string that starts with the variable name and a space, getting the justified length from the base string length.</operation>
+                <operation>Add comments from the base string and the variable's description.</operation>
+                <operation>If this parser object's function block does not have a void return then add the description for the return variable.</operation>
+                <operation>Finish by adding an empty comment line.</operation>
+                <return_description></return_description>
+                <type>void</type>
+              </data>
+            </function>
+            <function>
+              <data>
+                <description>Makes and returns the argument list for this object's function. The returned arguments string includes the opening and closing parenthesis. This parser must contain a valid pointer to a valid function block or its behavior is undefined.</description>
+                <name>makeArguments</name>
+                <operation>Create a new return string with the opening parenthesis.</operation>
+                <operation>Iterate through all arguments of this object's function block.</operation>
+                <operation>If this is not the first argument then add a separating comma and space.</operation>
+                <operation>Append the argument type, a space, and its name.</operation>
+                <operation>Add the closing parenthesis.</operation>
+                <operation>Return the arguments string.</operation>
+                <return_description>Argument list for this object's function, including the opening and closing parenthesis.</return_description>
+                <type>QString</type>
+              </data>
+            </function>
+            <variable>
+              <data>
+                <description>Pointer to this object's function block if it is defined and not the main function. If it is undefined for the main function this is null.</description>
+                <initializer>nullptr</initializer>
+                <name>_block</name>
+                <type>const GLSL::Function*</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>Static definition string that contains the definition header for this parser if it is undefined, otherwise this remains empty.</description>
+                <initializer></initializer>
+                <name>_definition</name>
+                <type>QString</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The steps of operation for this function parser if it is defined or the special main function. If this is an undefined function parser this remains empty.</description>
+                <initializer></initializer>
+                <name>_operations</name>
+                <type>const QStringList</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>List of code lines for this parser object's function definition.</description>
+                <initializer></initializer>
+                <name>_code</name>
+                <type>QStringList</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The current number of bracket levels this parser is in while reading in lines. Used for processing input. Each opening bracket is one level up and closing bracket is one level down.</description>
+                <initializer>0</initializer>
+                <name>_level</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>True if an inline comment is currently being read in and the first line of it has already been read or false otherwise.</description>
+                <initializer>false</initializer>
+                <name>_edgePast</name>
+                <type>bool</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The next index to be used in this object's steps of operation for inserting inline comments.</description>
+                <initializer>0</initializer>
+                <name>_nextOperation</name>
+                <type>int</type>
               </data>
             </variable>
           </access>

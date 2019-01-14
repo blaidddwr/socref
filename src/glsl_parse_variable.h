@@ -18,10 +18,11 @@ namespace GLSL
       {
          Q_OBJECT
       public:
+         virtual void makeOutput() override;
+      public:
          explicit Variable(const GLSL::Variable* block, AbstractParser* parent);
       protected:
          virtual bool readLine(const QString& line) override final;
-         virtual void makeOutput() override;
       protected:
          QString makeLayout();
       private:

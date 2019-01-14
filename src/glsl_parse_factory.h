@@ -25,8 +25,8 @@ namespace GLSL
       public:
          explicit Factory(const AbstractBlock* root);
       private:
-         static AbstractParser* find(const Namespace* base, QStack<const QString*>* names, Shader::Type type);
-         static AbstractParser* findShader(const Namespace* base, const QString& name, Shader::Type type);
+         static AbstractParser* find(const Namespace* base, QStack<const QString*>* names, GLSL::Shader::Type type);
+         static AbstractParser* findShader(const Namespace* base, const QString& name, GLSL::Shader::Type type);
       private:
          /*!
           * Pointer to the root block used by this parser factory and all parser objects it 
