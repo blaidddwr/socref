@@ -9125,6 +9125,39 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <line>using AbstractParser::AbstractParser</line>
               </data>
             </declaration>
+            <function>
+              <data>
+                <description>This interface outputs the number of blank lines that precedes this parser object's definition. The default implementation does nothing.</description>
+                <name>outputLines</name>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+            <function>
+              <data>
+                <description>This interface outputs the comments and definition of this parser. In the case of the special main function of a shader program the comment header is not added to output in this interface. The default implementation does nothing.</description>
+                <name>outputDefinition</name>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+          </access>
+          <access>
+            <data>
+              <type>protected:</type>
+            </data>
+            <function>
+              <data>
+                <description>Implements _AbstractParser_ interface. This implementation does nothing and is defined because some GLSL parser classes do not need to implement this.</description>
+                <name>makeOutput</name>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
           </access>
           <access>
             <data>
@@ -9236,10 +9269,9 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <final/>
                 <name>makeOutput</name>
                 <operation>Add any preprocessor lines to output.</operation>
-                <operation>Iterate through all variable child parser objects and add their outputs.</operation>
-                <operation>Iterate through all struct child parser objects and add their outputs.</operation>
-                <operation>Iterate through all function child parser objects and add their outputs.</operation>
-                <operation>Add the comment header, definition header, and output of the special main function for the shader program file.</operation>
+                <operation>Iterate through all parser children of this root parser.</operation>
+                <operation>Add the blank lines and then the definition of the child parser to output.</operation>
+                <operation>Add the blank lines, comment header, definition header, and then definition of the special main function for the shader program file.</operation>
                 <override/>
                 <return_description></return_description>
                 <type>void</type>
@@ -9256,9 +9288,9 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <description>Evaluates all children of this object's shader block, adding new child parser objects for each variable, struct, and function block it finds.</description>
                 <name>evaluate</name>
                 <operation>Iterate through all children of this shader parser object's shader block.</operation>
-                <operation>If the child is a variable block then make a new child parser and add it to this object's list of variables.</operation>
-                <operation>If the child is a struct block then make a new child parser and add it to this object's list of structures.</operation>
-                <operation>If the child is a function block then make a new child parser and add it to this object's list of functions and its list of defined functions.</operation>
+                <operation>If the child is a variable block then make a new child parser and add it to this object's list of parser children.</operation>
+                <operation>If the child is a struct block then make a new child parser and add it to this object's list of parser children.</operation>
+                <operation>If the child is a function block then make a new child parser and add it to this object's list of parser children and its list of defined functions.</operation>
                 <operation>Lastly create a function parser for the special main function of this parser object's shader block.</operation>
                 <return_description></return_description>
                 <type>void</type>
@@ -9294,26 +9326,10 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </variable>
             <variable>
               <data>
-                <description>List of variable parser children that is part of this shader object's shader program.</description>
+                <description>List of parser children that is part of this shader object's shader program.</description>
                 <initializer></initializer>
-                <name>_variables</name>
-                <type>QList&lt;Variable*></type>
-              </data>
-            </variable>
-            <variable>
-              <data>
-                <description>List of struct parser children that is part of this shader object's shader program.</description>
-                <initializer></initializer>
-                <name>_structs</name>
-                <type>QList&lt;Struct*></type>
-              </data>
-            </variable>
-            <variable>
-              <data>
-                <description>List of all function parser children that is part of this shader object's shader program.</description>
-                <initializer></initializer>
-                <name>_functions</name>
-                <type>QList&lt;Function*></type>
+                <name>_children</name>
+                <type>QList&lt;Base*></type>
               </data>
             </variable>
             <variable>
@@ -9360,10 +9376,18 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </data>
             <function>
               <data>
-                <description>Implements _AbstractParser_ interface.</description>
-                <name>makeOutput</name>
-                <operation>Output the description of this parser object's variable block.</operation>
-                <operation>Output the definition.</operation>
+                <description>Implements _GLSL::Parse::Base_ interface.</description>
+                <name>outputLines</name>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+            <function>
+              <data>
+                <description>Implements _GLSL::Parse::Base_ interface.</description>
+                <name>outputDefinition</name>
                 <override/>
                 <return_description></return_description>
                 <type>void</type>
@@ -9475,13 +9499,20 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             </data>
             <function>
               <data>
-                <description>Implements _AbstractParser_ interface. This outputs the definition of this parser object's struct block.</description>
+                <description>Implements _GLSL::Parse::Base_ interface.</description>
                 <final/>
-                <name>makeOutput</name>
-                <operation>Output the description of this parser object's struct block.</operation>
-                <operation>Output the definition and opening bracket.</operation>
-                <operation>Increment the indent, output all variable comments and definitions, and then decrement the indent.</operation>
-                <operation>Output the closing bracket, name, and closing semicolon for this struct definition.</operation>
+                <name>outputLines</name>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+            <function>
+              <data>
+                <description>Implements _GLSL::Parse::Base_ interface.</description>
+                <final/>
+                <name>outputDefinition</name>
                 <override/>
                 <return_description></return_description>
                 <type>void</type>
@@ -9568,14 +9599,20 @@ Because this function parser is responsible for the special main function it mus
             </data>
             <function>
               <data>
-                <description>Implements _AbstractParser_ interface.</description>
-                <name>makeOutput</name>
-                <operation>Check if this is a defined function.</operation>
-                <operation>Make comment header output and then add the definition line to output.</operation>
-                <operation>Else if this is an undefined function make a simple comment header stating as such.</operation>
-                <operation>Else if this is not a defined function then add the static string definition to output.</operation>
-                <operation>If this object has no code lines then add an opening and closing bracket to output.</operation>
-                <operation>Else this object does have code lines so add them to output with an opening and closing bracket.</operation>
+                <description>Implements _GLSL::Parse::Base_ interface.</description>
+                <final/>
+                <name>outputLines</name>
+                <override/>
+                <return_description></return_description>
+                <type>void</type>
+                <virtual/>
+              </data>
+            </function>
+            <function>
+              <data>
+                <description>Implements _GLSL::Parse::Base_ interface.</description>
+                <final/>
+                <name>outputDefinition</name>
                 <override/>
                 <return_description></return_description>
                 <type>void</type>
@@ -13440,6 +13477,7 @@ The layout of this editor is defined by the XML element between different layout
             <function>
               <data>
                 <description>Implements _Gui::AbstractEdit_ interface.</description>
+                <final/>
                 <name>apply</name>
                 <operation>Prepare a function for throwing a common exception if a type mismatch occurs.</operation>
                 <operation>Iterate through all widgets of this editor.</operation>
@@ -13447,6 +13485,7 @@ The layout of this editor is defined by the XML element between different layout
                 <operation>Figure out what type the edit widget is and set the value of the basic block field to the value of the edit widget, making sure the basic block field is of the correct type.</operation>
                 <operation>Else the edit widget is of an unknown type so throw an exception.</operation>
                 <operation>Notify the block system that this editor's basic block has been modified.</operation>
+                <override/>
                 <return_description></return_description>
                 <type>void</type>
                 <virtual/>

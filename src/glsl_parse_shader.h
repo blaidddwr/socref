@@ -34,20 +34,9 @@ namespace GLSL
           */
          const GLSL::Shader* _block;
          /*!
-          * List of variable parser children that is part of this shader object's shader 
-          * program. 
+          * List of parser children that is part of this shader object's shader program. 
           */
-         QList<Variable*> _variables;
-         /*!
-          * List of struct parser children that is part of this shader object's shader 
-          * program. 
-          */
-         QList<Struct*> _structs;
-         /*!
-          * List of all function parser children that is part of this shader object's shader 
-          * program. 
-          */
-         QList<Function*> _functions;
+         QList<Base*> _children;
          /*!
           * List of defined function parser children that is part of this shader object's 
           * shader program. 

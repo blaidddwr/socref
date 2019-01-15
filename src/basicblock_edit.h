@@ -33,7 +33,7 @@ public:
    explicit Edit(BasicBlock* block);
 protected:
    virtual QLayout* layout() override final;
-   virtual void apply();
+   virtual void apply() override final;
    virtual void closeEvent(QCloseEvent* event) override final;
 private:
    static QString extractId(const QDomElement& element);

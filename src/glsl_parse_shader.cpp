@@ -72,8 +72,8 @@ bool Shader::readLine(const QString& line)
       {
          // Add a new undefined function parser and then step into it for read line 
          // processing. 
-         _functions << new Function(line,this);
-         stepIntoChild(_functions.back());
+         _children << new Function(line,this);
+         stepIntoChild(_children.back());
       }
    }
 
@@ -95,35 +95,22 @@ void Shader::makeOutput()
    // Add any preprocessor lines to output. 
    add(_preProcess);
 
-   // Iterate through all variable child parser objects and add their outputs. 
-   for (auto variableParser: _variables)
+   // Iterate through all parser children of this root parser. 
+   for (auto child: qAsConst(_children))
    {
-      add(Settings::instance().variableLines());
-      variableParser->makeOutput();
+      // Add the blank lines and then the definition of the child parser to output. 
+      child->outputLines();
+      child->outputDefinition();
    }
 
-   // Iterate through all struct child parser objects and add their outputs. 
-   for (auto structParser: _structs)
-   {
-      add(Settings::instance().structLines());
-      structParser->makeOutput();
-   }
-
-   // Iterate through all function child parser objects and add their outputs. 
-   for (auto functionParser: _functions)
-   {
-      add(Settings::instance().functionLines());
-      functionParser->makeOutput();
-   }
-
-   // Add the comment header, definition header, and output of the special main 
-   // function for the shader program file. 
+   // Add the blank lines, comment header, definition header, and then definition of 
+   // the special main function for the shader program file. 
    add(Settings::instance().functionLines());
    add(QStringLiteral("///"));
    addComment(_block->description());
    add(QStringLiteral("///"));
    add(QStringLiteral("void main()"));
-   _main->makeOutput();
+   _main->outputDefinition();
 }
 
 
@@ -141,26 +128,26 @@ void Shader::evaluate()
    for (auto child: _block->list())
    {
       // If the child is a variable block then make a new child parser and add it to 
-      // this object's list of variables. 
+      // this object's list of parser children. 
       if ( GLSL::Variable* valid = child->cast<GLSL::Variable>(GLSL::Factory::VariableType) )
       {
-         _variables << new Variable(valid,this);
+         _children << new Variable(valid,this);
       }
 
       // If the child is a struct block then make a new child parser and add it to this 
-      // object's list of structures. 
+      // object's list of parser children. 
       else if ( GLSL::Struct* valid = child->cast<GLSL::Struct>(GLSL::Factory::StructType) )
       {
-         _structs << new Struct(valid,this);
+         _children << new Struct(valid,this);
       }
 
       // If the child is a function block then make a new child parser and add it to 
-      // this object's list of functions and its list of defined functions. 
+      // this object's list of parser children and its list of defined functions. 
       else if ( GLSL::Function* valid = child->cast<GLSL::Function>(GLSL::Factory::FunctionType) )
       {
          Function* parser {new Function(valid,this)};
+         _children << parser;
          _defined << parser;
-         _functions << parser;
       }
    }
 

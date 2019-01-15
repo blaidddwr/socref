@@ -15,38 +15,47 @@ using namespace GLSL::Parse;
 
 
 /*!
- * Implements _AbstractParser_ interface. 
+ * Implements _GLSL::Parse::Base_ interface. 
  */
-void Function::makeOutput()
+void Function::outputLines()
 {
-   // Check if this is a defined function. 
-   if ( _block )
-   {
-      // Make comment header output and then add the definition line to output. 
-      makeCommentOutput();
-      add(_block->returnType() + QStringLiteral(" ") + _block->baseName() + makeArguments());
-   }
+    add(Settings::instance().functionLines());
+}
 
-   // Else if this is an undefined function make a simple comment header stating as 
-   // such. 
-   else if ( !_definition.isEmpty() ) add(QStringLiteral("/// !!! UNKNOWN FUNCTION !!!"));
 
-   // Else if this is not a defined function then add the static string definition to 
-   // output. 
-   else if ( !_definition.isEmpty() ) add(_definition);
 
-   // If this object has no code lines then add an opening and closing bracket to 
-   // output. 
-   if ( _code.isEmpty() ) add("{}");
 
-   // Else this object does have code lines so add them to output with an opening and 
-   // closing bracket. 
-   else
-   {
-      add("{");
-      add(_code);
-      add("}");
-   }
+
+
+/*!
+ * Implements _GLSL::Parse::Base_ interface. 
+ */
+void Function::outputDefinition()
+{
+    // .
+    if ( _block )
+    {
+       // .
+       makeCommentOutput();
+       add(_block->returnType() + QStringLiteral(" ") + _block->baseName() + makeArguments());
+    }
+
+    // .
+    else if ( !_definition.isEmpty() ) add(QStringLiteral("/// !!! UNKNOWN FUNCTION !!!"));
+
+    // .
+    else if ( !_definition.isEmpty() ) add(_definition);
+
+    // .
+    if ( _code.isEmpty() ) add("{}");
+
+    // .
+    else
+    {
+       add("{");
+       add(_code);
+       add("}");
+    }
 }
 
 

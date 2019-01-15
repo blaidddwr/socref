@@ -213,7 +213,7 @@ void BasicBlock::Edit::apply()
       if ( QCheckBox* valid = qobject_cast<QCheckBox*>(*i) )
       {
          if ( j->type() != QVariant::Bool ) throwTypeMismatch(i.key());
-         *j = (bool)valid->checkState();
+         *j = static_cast<bool>(valid->checkState());
       }
       else if ( QComboBox* valid = qobject_cast<QComboBox*>(*i) )
       {

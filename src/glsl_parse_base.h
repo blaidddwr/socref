@@ -18,6 +18,10 @@ namespace GLSL
          Q_OBJECT
       public:
          using AbstractParser::AbstractParser;
+         virtual void outputLines();
+         virtual void outputDefinition();
+      protected:
+         virtual void makeOutput() override;
       protected:
          void addComment(const QString& text, int justified = 0);
       };

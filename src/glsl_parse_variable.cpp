@@ -1,5 +1,6 @@
 #include "glsl_parse_variable.h"
 #include "glsl_variable.h"
+#include "glsl_settings.h"
 
 
 
@@ -12,21 +13,34 @@ using namespace GLSL::Parse;
 
 
 /*!
- * Implements _AbstractParser_ interface. 
+ * Implements _GLSL::Parse::Base_ interface. 
  */
-void Variable::makeOutput()
+void Variable::outputLines()
 {
-   // Output the description of this parser object's variable block. 
-   add(QStringLiteral("///"));
-   addComment(_block->description());
-   add(QStringLiteral("///"));
+    add(Settings::instance().variableLines());
+}
 
-   // Output the definition. 
-   add(makeLayout()
-       + _block->typeString()
-       + QStringLiteral(" ")
-       + _block->baseName()
-       + QStringLiteral(";"));
+
+
+
+
+
+/*!
+ * Implements _GLSL::Parse::Base_ interface. 
+ */
+void Variable::outputDefinition()
+{
+    // .
+    add(QStringLiteral("///"));
+    addComment(_block->description());
+    add(QStringLiteral("///"));
+
+    // .
+    add(makeLayout()
+        + _block->typeString()
+        + QStringLiteral(" ")
+        + _block->baseName()
+        + QStringLiteral(";"));
 }
 
 

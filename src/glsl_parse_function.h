@@ -29,7 +29,8 @@ namespace GLSL
       {
          Q_OBJECT
       public:
-         virtual void makeOutput() override;
+         virtual void outputLines() override final;
+         virtual void outputDefinition() override final;
       public:
          explicit Function(const QString& definition, AbstractParser* parent);
          explicit Function(const GLSL::Function* block, AbstractParser* parent);

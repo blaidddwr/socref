@@ -18,7 +18,8 @@ namespace GLSL
       {
          Q_OBJECT
       public:
-         virtual void makeOutput() override final;
+         virtual void outputLines() override final;
+         virtual void outputDefinition() override final;
       public:
          explicit Struct(const GLSL::Struct* block, AbstractParser* parent);
       private:
