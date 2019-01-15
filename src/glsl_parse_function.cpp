@@ -2,6 +2,7 @@
 #include <QRegularExpression>
 #include "glsl_function.h"
 #include "glsl_variable.h"
+#include "glsl_settings.h"
 
 
 
@@ -297,7 +298,8 @@ void Function::insertInlineComment(int index, int spacing)
 
       // Keep going until the word list is empty or the line has reached the maximum 
       // number of columns. 
-      while ( !words.isEmpty() && (total + words.first().size() + 1) <= 80 )//TODO: max columns setting
+      while ( !words.isEmpty()
+              && (total + words.first().size() + 1) <= Settings::instance().maxColumns() )
       {
          // Take and add the next word from the list to the line and an additional space, 
          // adding the number of columns the addition used. 

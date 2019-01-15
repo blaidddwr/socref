@@ -1,4 +1,5 @@
 #include "glsl_parse_base.h"
+#include "glsl_settings.h"
 
 
 
@@ -20,5 +21,5 @@ using namespace GLSL::Parse;
  */
 void Base::addComment(const QString& text, int justified)
 {
-   AbstractParser::addComment(QStringLiteral("/// "),text,justified,80);//TODO;settings
+   AbstractParser::addComment(QStringLiteral("/// "),text,justified,Settings::instance().maxColumns());
 }

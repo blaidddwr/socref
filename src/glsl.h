@@ -4,6 +4,7 @@
  */
 namespace GLSL
 {
+   class Settings;
    class Factory;
    class Base;
    class Namespace;

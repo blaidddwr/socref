@@ -6,6 +6,7 @@
 #include "cppqt_settings_dialog.h"
 #include "glsl_factory.h"
 #include "glsl_parse_factory.h"
+#include "glsl_settings_dialog.h"
 
 
 
@@ -158,6 +159,7 @@ Sut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
    switch (type)
    {
    case CppQtType: return QPtr<QDialog>(new CppQt::Settings::Dialog);
+   case GLSLType: return QPtr<QDialog>(new GLSL::Settings::Dialog);
    default:
       {
          // This project type is not recognized so throw an exception. 

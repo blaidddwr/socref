@@ -8,6 +8,7 @@
 #include "glsl_struct.h"
 #include "glsl_function.h"
 #include "glsl_factory.h"
+#include "glsl_settings.h"
 
 
 
@@ -97,33 +98,32 @@ void Shader::makeOutput()
    // Iterate through all variable child parser objects and add their outputs. 
    for (auto variableParser: _variables)
    {
-      add(1);//TODO:setting
+      add(Settings::instance().variableLines());
       variableParser->makeOutput();
    }
 
    // Iterate through all struct child parser objects and add their outputs. 
    for (auto structParser: _structs)
    {
-      add(3);//TODO:setting
+      add(Settings::instance().structLines());
       structParser->makeOutput();
    }
 
    // Iterate through all function child parser objects and add their outputs. 
    for (auto functionParser: _functions)
    {
-      add(6);//TODO:setting
+      add(Settings::instance().functionLines());
       functionParser->makeOutput();
    }
 
-   // Add the comment header and output of the special main function for the shader 
-   // program file. 
+   // Add the comment header, definition header, and output of the special main 
+   // function for the shader program file. 
+   add(Settings::instance().functionLines());
    add(QStringLiteral("///"));
    addComment(_block->description());
    add(QStringLiteral("///"));
+   add(QStringLiteral("void main()"));
    _main->makeOutput();
-
-   // Add one final blank line at the end of the file. 
-   add(1);
 }
 
 
@@ -186,6 +186,10 @@ void Shader::evaluate()
  */
 Function* Shader::findDefined(const QString& definition)
 {
+   // If the given definition matches the special main function then return its 
+   // pointer. 
+   if ( _main->isMatch(definition) ) return _main;
+
    // Iterate through all defined function parser objects of this parser. 
    for (auto function : qAsConst(_defined))
    {

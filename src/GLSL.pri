@@ -1,5 +1,7 @@
 
 SOURCES += \
+    glsl_settings.cpp \
+    glsl_settings_dialog.cpp \
     glsl_factory.cpp \
     glsl_base.cpp \
     glsl_shader.cpp \
@@ -11,6 +13,8 @@ SOURCES += \
 
 HEADERS += \
     glsl.h \
+    glsl_settings.h \
+    glsl_settings_dialog.h \
     glsl_factory.h \
     glsl_base.h \
     glsl_namespace.h \

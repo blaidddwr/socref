@@ -1,15 +1,14 @@
-#include "cppqt_settings_dialog.h"
-#include <QHBoxLayout>
+#include "glsl_settings_dialog.h"
 #include <QVBoxLayout>
 #include <QFormLayout>
-#include <QPushButton>
 #include <QSpinBox>
 #include <QLabel>
-#include "cppqt_settings.h"
+#include <QPushButton>
+#include "glsl_settings.h"
 
 
 
-using namespace CppQt;
+using namespace GLSL;
 //
 
 
@@ -21,11 +20,11 @@ using namespace CppQt;
  * Constructs a new settings dialog. 
  */
 Settings::Dialog::Dialog():
-   ::Gui::PersistentDialog("cppqt.gui.settingsdialog.geometry")
+   Gui::PersistentDialog("cppqt.gui.settingsdialog.geometry")
 {
    // Create the GUI for this new dialog and set its window title. 
    setupGui();
-   setWindowTitle(tr("C++/Qt Settings"));
+   setWindowTitle(tr("GLSL Settings"));
 }
 
 
@@ -57,9 +56,10 @@ void Settings::Dialog::applyClicked()
 {
    // Get the global settings object and apply all settings. 
    Settings& settings {instance()};
-   settings.setIndentSpaces(_indentSpacesBox->value());
-   settings.setHeaderLines(_headerLinesBox->value());
+   settings.setVariableLines(_variableLinesBox->value());
+   settings.setStructLines(_structLinesBox->value());
    settings.setFunctionLines(_functionLinesBox->value());
+   settings.setIndentSpaces(_indentSpacesBox->value());
    settings.setMaxColumns(_maxColumnsBox->value());
 }
 
@@ -99,20 +99,25 @@ QLayout* Settings::Dialog::setupForm()
    // Get the global settings instance. 
    Settings& settings {instance()};
 
-   // Create the indent spaces edit widget and set its value to the current global 
+   // Create the variable lines edit widget and set its value to the current global 
    // setting. 
-   _indentSpacesBox = new QSpinBox;
-   _indentSpacesBox->setValue(settings.indentSpaces());
+   _variableLinesBox = new QSpinBox;
+   _variableLinesBox->setValue(settings.variableLines());
 
-   // Create the header lines edit widget and set its value to the current global 
+   // Create the structure lines edit widget and set its value to the current global 
    // setting. 
-   _headerLinesBox = new QSpinBox;
-   _headerLinesBox->setValue(settings.headerLines());
+   _structLinesBox = new QSpinBox;
+   _structLinesBox->setValue(settings.structLines());
 
    // Create the function lines edit widget and set its value to the current global 
    // setting. 
    _functionLinesBox = new QSpinBox;
    _functionLinesBox->setValue(settings.functionLines());
+
+   // Create the indent spaces edit widget and set its value to the current global 
+   // setting. 
+   _indentSpacesBox = new QSpinBox;
+   _indentSpacesBox->setValue(settings.indentSpaces());
 
    // Create the max columns edit widget and set its value to the current global 
    // setting. 
@@ -122,9 +127,10 @@ QLayout* Settings::Dialog::setupForm()
    // Create a new form layout, adding the indent spaces widget then the header lines 
    // widget then the function lines widget and then the max columns widget. 
    QFormLayout* ret {new QFormLayout};
+   ret->addRow(new QLabel(tr("Variable Lines:")),_variableLinesBox);
+   ret->addRow(new QLabel(tr("Structure Lines:")),_structLinesBox);
+   ret->addRow(new QLabel(tr("Function Lines:")),_functionLinesBox);
    ret->addRow(new QLabel(tr("Indent Spacing:")),_indentSpacesBox);
-   ret->addRow(new QLabel(tr("Header Lines:")),_headerLinesBox);
-   ret->addRow(new QLabel(tr("Function Header Lines:")),_functionLinesBox);
    ret->addRow(new QLabel(tr("Maximum Columns:")),_maxColumnsBox);
 
    // Return the form layout. 
