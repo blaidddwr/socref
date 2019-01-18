@@ -103,13 +103,13 @@
     <edit>
         <form>
             <text id="layout" display="Layout:"/>
-            <line id="type" display="Type Name:"/>
+            <line id="type" display="Type:"/>
             <line id="name" display="Name:"/>
             <text id="description" display="Description:"/>
         </form>
     </edit>
     <view>
-        <h3>Type Name</h3>
+        <h3>Type</h3>
         <ps id="type"/>
         <h3>Description</h3>
         <ps id="description"/>

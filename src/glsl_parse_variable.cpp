@@ -30,16 +30,15 @@ void Variable::outputLines()
  */
 void Variable::outputDefinition()
 {
-    // .
+    // Output the description of this parser object's variable block. 
     add(QStringLiteral("///"));
     addComment(_block->description());
     add(QStringLiteral("///"));
 
-    // .
+    // Output the definition. 
     add(makeLayout()
         + _block->typeString()
-        + QStringLiteral(" ")
-        + _block->baseName()
+        + makeName()
         + QStringLiteral(";"));
 }
 
@@ -114,5 +113,25 @@ QString Variable::makeLayout()
 
    // Add the end of the layout definition and return it. 
    ret += QStringLiteral(") ");
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ * Returns the name of this parser object's variable definition, prepending a space 
+ * if it is not empty. 
+ *
+ * @return Name of this parser object's variable definition. 
+ */
+QString Variable::makeName()
+{
+   // Return the base name of this object's variable block, prepending a space if it 
+   // is not empty. 
+   QString ret {_block->baseName()};
+   if ( !ret.isEmpty() ) ret.prepend(' ');
    return ret;
 }

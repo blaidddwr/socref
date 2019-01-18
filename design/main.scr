@@ -9388,6 +9388,8 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <data>
                 <description>Implements _GLSL::Parse::Base_ interface.</description>
                 <name>outputDefinition</name>
+                <operation>Output the description of this parser object's variable block.</operation>
+                <operation>Output the definition.</operation>
                 <override/>
                 <return_description></return_description>
                 <type>void</type>
@@ -9471,6 +9473,15 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <data>
               <type>private:</type>
             </data>
+            <function>
+              <data>
+                <description>Returns the name of this parser object's variable definition, prepending a space if it is not empty.</description>
+                <name>makeName</name>
+                <operation>Return the base name of this object's variable block, prepending a space if it is not empty.</operation>
+                <return_description>Name of this parser object's variable definition.</return_description>
+                <type>QString</type>
+              </data>
+            </function>
             <variable>
               <data>
                 <description>Pointer to the variable block that defines this parser.</description>
@@ -9513,6 +9524,10 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <description>Implements _GLSL::Parse::Base_ interface.</description>
                 <final/>
                 <name>outputDefinition</name>
+                <operation>Output the description of this parser object's struct block.</operation>
+                <operation>Output the definition and opening bracket.</operation>
+                <operation>Increment the indent, output all variable comments and definitions, and then decrement the indent.</operation>
+                <operation>Output the closing bracket, name, and closing semicolon for this struct definition.</operation>
                 <override/>
                 <return_description></return_description>
                 <type>void</type>
@@ -9613,6 +9628,12 @@ Because this function parser is responsible for the special main function it mus
                 <description>Implements _GLSL::Parse::Base_ interface.</description>
                 <final/>
                 <name>outputDefinition</name>
+                <operation>Check if this is a defined function.</operation>
+                <operation>Make comment header output and then add the definition line to output.</operation>
+                <operation>Else check if this is an undefined function.</operation>
+                <operation>Add a comment highlighting this is an unknown function and the static string definition to output.</operation>
+                <operation>If this object has no code lines then add an opening and closing bracket to output.</operation>
+                <operation>Else this object does have code lines so add them to output with an opening and closing bracket.</operation>
                 <override/>
                 <return_description></return_description>
                 <type>void</type>
@@ -9737,8 +9758,8 @@ Because this function parser is responsible for the special main function it mus
                 <operation>Increment the bracket level by one, returning true if this is the very first opening bracket.</operation>
                 <operation>Check to see if the given line is a closing bracket.</operation>
                 <operation>Decease the bracket level by one, returning false if this is the final closing bracket.</operation>
-                <operation>Else check to see if the given line is inside the main opening and closing brackets.</operation>
-                <operation>Check to see if the given line is an inline comment.</operation>
+                <operation>Check to see if the given line is inside the main opening and closing brackets.</operation>
+                <operation>Check to see if the given line is an inline comment, making sure this is not an undefined function.</operation>
                 <operation>If the given inline comment line is the first for its grouping then set this object's edge past to true and process the inline comment, if this is a proceeding inline comment line after the first then just ignore it.</operation>
                 <operation>Else the given line is regular code so set this object's edge past to false and add the given line to this object's code line list.</operation>
                 <operation>The given line is not the last line of code for this function so return true.</operation>

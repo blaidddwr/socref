@@ -27,6 +27,7 @@ namespace GLSL
       protected:
          QString makeLayout();
       private:
+         QString makeName();
          /*!
           * Pointer to the variable block that defines this parser. 
           */

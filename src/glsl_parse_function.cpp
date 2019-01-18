@@ -32,24 +32,29 @@ void Function::outputLines()
  */
 void Function::outputDefinition()
 {
-    // .
+    // Check if this is a defined function. 
     if ( _block )
     {
-       // .
+       // Make comment header output and then add the definition line to output. 
        makeCommentOutput();
        add(_block->returnType() + QStringLiteral(" ") + _block->baseName() + makeArguments());
     }
 
-    // .
-    else if ( !_definition.isEmpty() ) add(QStringLiteral("/// !!! UNKNOWN FUNCTION !!!"));
+    // Else check if this is an undefined function. 
+    else if ( !_definition.isEmpty() )
+    {
+       // Add a comment highlighting this is an unknown function and the static string 
+       // definition to output. 
+       add(QStringLiteral("/// !!! UNKNOWN FUNCTION !!!"));
+       add(_definition);
+    }
 
-    // .
-    else if ( !_definition.isEmpty() ) add(_definition);
-
-    // .
+    // If this object has no code lines then add an opening and closing bracket to 
+    // output. 
     if ( _code.isEmpty() ) add("{}");
 
-    // .
+    // Else this object does have code lines so add them to output with an opening and 
+    // closing bracket. 
     else
     {
        add("{");
@@ -206,12 +211,12 @@ bool Function::readLine(const QString& line)
       if ( _level == 0 ) return false;
    }
 
-   // Else check to see if the given line is inside the main opening and closing 
-   // brackets. 
-   else if ( _level > 0 )
+   // Check to see if the given line is inside the main opening and closing brackets. 
+   if ( _level > 0 )
    {
-      // Check to see if the given line is an inline comment. 
-      if ( _block && QRegularExpression("\\A\\s*// .*\\z").match(line).hasMatch() )
+      // Check to see if the given line is an inline comment, making sure this is not an 
+      // undefined function. 
+      if ( ( _block || _definition.isEmpty() ) && QRegularExpression("\\A\\s*// .*\\z").match(line).hasMatch() )
       {
          // If the given inline comment line is the first for its grouping then set this 
          // object's edge past to true and process the inline comment, if this is a 

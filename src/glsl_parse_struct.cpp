@@ -32,21 +32,23 @@ void Struct::outputLines()
  */
 void Struct::outputDefinition()
 {
-    // .
+    // Output the description of this parser object's struct block. 
     add(QStringLiteral("///"));
     addComment(_block->description());
     add(QStringLiteral("///"));
 
-    // .
+    // Output the definition and opening bracket. 
     add(makeLayout() + _block->typeString());
     add(QStringLiteral("{"));
 
-    // .
+    // Increment the indent, output all variable comments and definitions, and then 
+    // decrement the indent. 
     setIndent(indent() + 3);
     makeVariables();
     setIndent(indent() - 3);
 
-    // .
+    // Output the closing bracket, name, and closing semicolon for this struct 
+    // definition. 
     add(QStringLiteral("}"));
     add(_block->baseName() + QStringLiteral(";"));
 }
