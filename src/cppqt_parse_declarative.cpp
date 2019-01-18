@@ -1,5 +1,5 @@
 #include "cppqt_parse_declarative.h"
-#include "cppqt_using.h"
+#include "cppqt_declaration.h"
 
 
 
@@ -30,7 +30,7 @@ void Declarative::outputDeclaration()
 {
    // Add the single declarative statement of the using or friend block of this 
    // parser to output. 
-   add(_block->name() + QStringLiteral(" ") + _block->fieldName() + QStringLiteral(";"));
+   add(_block->line() + QStringLiteral(";"));
 }
 
 
@@ -54,11 +54,11 @@ void Declarative::outputDefinition()
  * Constructs a new declarative parser with the given using or friend block and 
  * parent parser. 
  *
- * @param block The using or friend block that defines this new declarative parser. 
+ * @param block The declaration block that defines this new declarative parser. 
  *
  * @param parent The parent parser for this new declarative parser. 
  */
-Declarative::Declarative(CppQt::Using* block, AbstractParser* parent):
+Declarative::Declarative(const CppQt::Declaration* block, AbstractParser* parent):
    Base(parent),
    _block(block)
 {}

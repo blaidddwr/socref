@@ -3,7 +3,7 @@
 #include "cppqt_parse_base.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include "cppqt_settings.h"
 
 
@@ -77,11 +77,11 @@ void Global::makeOutput()
 
    // Iterate through a list of all children class blocks of the namespace of this 
    // parser. 
-   QList<Class*> list {_block->makeListOfType<Class>(BlockFactory::ClassType)};
+   QList<Class*> list {_block->makeListOfType<Class>(Factory::ClassType)};
    for (auto item : list)
    {
       // If the class block has no templates then add its forward declaration to output. 
-      if ( !item->hasTemplates() ) add(QString("class ").append(item->Base::name()).append(";"));
+      if ( !item->hasTemplates() ) add(QString("class ").append(item->baseName()).append(";"));
    }
 
    // Add all closing brackets for all namespace declarations to output. 
@@ -113,7 +113,7 @@ void Global::beginNamespaceNesting(bool outputLast)
    while ( block->parent() )
    {
       // If the current parent is a namespace then push it onto the stack. 
-      if ( const Namespace* valid = block->cast<Namespace>(BlockFactory::NamespaceType) )
+      if ( const Namespace* valid = block->cast<Namespace>(Factory::NamespaceType) )
       {
          scope.push(valid);
       }
@@ -166,7 +166,7 @@ void Global::endNamespaceNesting()
 void Global::outputNamespace(const Namespace* block)
 {
    // Add the namespace declaration line and then an opening bracket line to output. 
-   add(QString("namespace ").append(block->Base::name()));
+   add(QString("namespace ").append(block->baseName()));
    add("{");
 
    // Add a single indent spacing to this parser and increment the depth. 

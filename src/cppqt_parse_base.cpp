@@ -3,7 +3,7 @@
 #include <QRegularExpression>
 #include <socutil/sut_exceptions.h>
 #include "cppqt_template.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include "cppqt_class.h"
 #include "cppqt_namespace.h"
 #include "cppqt_template.h"
@@ -143,14 +143,14 @@ QStringList Base::makeTemplateComments(const AbstractBlock* block)
    QStringList ret;
 
    // Iterate through all of the given block's template child blocks. 
-   for (auto child : block->makeListOfType<Template>(BlockFactory::TemplateType))
+   for (auto child : block->makeListOfType<Template>(Factory::TemplateType))
    {
       // Add a blank comment line to the output lines. 
       ret << QStringLiteral(" *");
 
       // Create a new comment string with the justified part of the string and then get 
       // the number of justified spaces required. 
-      QString comment {QStringLiteral("@tparam ") + child->Base::name() + QStringLiteral(" ")};
+      QString comment {QStringLiteral("@tparam ") + child->baseName() + QStringLiteral(" ")};
       int justified {comment.size()};
 
       // Add the final part of the comment string and then make formatted comment output 
@@ -203,13 +203,13 @@ QString Base::makePreScope(const AbstractBlock* block)
    if ( !parent->parent() ) return QString();
 
    // If the parent is a namespace block then return the namespace scope. 
-   if ( parent->type() == BlockFactory::NamespaceType )
+   if ( parent->type() == Factory::NamespaceType )
    {
       return parent->name() + QStringLiteral("::");
    }
 
    // Else if the parent is an access block then return the class scope. 
-   else if ( parent->type() == BlockFactory::AccessType ) return makePreClassScope(parent);
+   else if ( parent->type() == Factory::AccessType ) return makePreClassScope(parent);
 
    // Else the parent is an invalid type so throw an exception. 
    else
@@ -256,7 +256,7 @@ QString Base::makePreClassScope(const AbstractBlock* block)
    while ( block->parent() )
    {
       // If the parent is a namespace type then stop iterating through parents. 
-      if ( block->type() == BlockFactory::NamespaceType ) break;
+      if ( block->type() == Factory::NamespaceType ) break;
 
       // Else if the parent is a class then push its pointer to the stack. 
       else if ( const Class* valid = qobject_cast<const Class*>(block) ) classes.push(valid);
@@ -271,7 +271,7 @@ QString Base::makePreClassScope(const AbstractBlock* block)
       // Append the scope of the class to the return string, including any template 
       // arguments. 
       const Class* classBlock {classes.pop()};
-      ret += classBlock->Base::name() + makeTemplateArguments(classBlock) + QStringLiteral("::");
+      ret += classBlock->baseName() + makeTemplateArguments(classBlock) + QStringLiteral("::");
    }
 
    // Return the class scope string. 
@@ -310,11 +310,11 @@ QString Base::makeTemplateDeclaration(const AbstractBlock* block)
    while ( block->parent() )
    {
       // If the parent is a namespace block then stop iterating through parents. 
-      if ( block->type() == BlockFactory::NamespaceType ) break;
+      if ( block->type() == Factory::NamespaceType ) break;
 
       // Else if the parent block contains template child blocks then return its 
       // declarative template arguments string. 
-      else if ( block->containsType(BlockFactory::TemplateType) )
+      else if ( block->containsType(Factory::TemplateType) )
       {
          return makeTemplateArguments(block,true);
       }
@@ -364,7 +364,7 @@ QString Base::makeTemplateArguments(const AbstractBlock* block, bool declarative
 
    // Get the given block's list of template block children and make sure it is not 
    // empty. 
-   const QList<Template*> list {block->makeListOfType<Template>(BlockFactory::TemplateType)};
+   const QList<Template*> list {block->makeListOfType<Template>(Factory::TemplateType)};
    if ( !list.isEmpty() )
    {
       // Append the opening carrot, including the template declaration if this is 
@@ -384,8 +384,8 @@ QString Base::makeTemplateArguments(const AbstractBlock* block, bool declarative
 
          // Append the template child block's name, including its type if this is 
          // declarative. 
-         if ( declarative ) ret +=  item->variableType() + QChar(' ');
-         ret += item->Base::name();
+         if ( declarative ) ret +=  item->templateType() + QChar(' ');
+         ret += item->baseName();
       }
 
       // Append the closing carrot. 

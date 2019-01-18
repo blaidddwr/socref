@@ -20,6 +20,8 @@ using namespace Sut;
  * @param argc See GCC docs. 
  *
  * @param argv See GCC docs. 
+ *
+ * @return See GCC docs. 
  */
 int main(int argc, char** argv)
 {

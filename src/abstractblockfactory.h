@@ -13,9 +13,8 @@
  * This represents the factory that can produce blocks for a specific project type. 
  * There should only be one instance of this class for each project type. Along 
  * with making new blocks this factory also gives basic information about each 
- * block type such as its display and element names. To maintain backwards 
- * compatibility all previously defined block types must maintain the specific 
- * integer that defines them. 
+ * block type such as its display and element names. The two element name functions 
+ * must mirror one another in an implementation or undefined behavior will occur. 
  */
 class AbstractBlockFactory
 {
@@ -47,6 +46,17 @@ public:
     * @return Display name for the given block type. 
     */
    virtual QString name(int type) const = 0;
+   /*!
+    * This interface returns the integer type of the block with the given element 
+    * name. If no block type exists with the given name then -1 is returned. 
+    *
+    * @param elementName The given element name whose integer type is returned if 
+    *                    found. 
+    *
+    * @return The integer type of the block with the given element name if found or -1 
+    *         if no block type is found with that element name. 
+    */
+   virtual int typeByElementName(const QString& elementName) const = 0;
    /*!
     * This interface returns the element name for the given block type. The element 
     * name is used as the tag name in XML elements for reading/writing of blocks. 

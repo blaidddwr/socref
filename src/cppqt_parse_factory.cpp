@@ -5,13 +5,12 @@
 #include "cppqt_parse_main.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include "abstractblock.h"
 
 
 
 using namespace Sut;
-using namespace CppQt;
 using namespace CppQt::Parse;
 //
 
@@ -125,7 +124,7 @@ AbstractParser* Factory::find(const Namespace* current, const QStringList& names
    if ( index == names.size() )
    {
       // If the current block is a namespace then return a global parser. 
-      if ( current->type() == BlockFactory::NamespaceType )
+      if ( current->type() == CppQt::Factory::NamespaceType )
       {
          return new Parse::Global(current);
       }
@@ -184,7 +183,7 @@ AbstractParser* Factory::findCommon(const Namespace* current, const QStringList&
    {
       // If this last block is a namespace then return its common header or source 
       // parser. 
-      if ( current->type() == BlockFactory::NamespaceType )
+      if ( current->type() == CppQt::Factory::NamespaceType )
       {
          if ( isHeader ) return new Parse::Header(current,name);
          else return new Parse::Source(current,name);
@@ -217,7 +216,7 @@ AbstractParser* Factory::findCommon(const Namespace* current, const QStringList&
  *
  * @return Pointer to matching namespace or null if no match is found. 
  */
-const Namespace* Factory::findNamespace(const Namespace* current, const QString& name) const
+const CppQt::Namespace* Factory::findNamespace(const Namespace* current, const QString& name) const
 {
    // Iterate through the list of the given namespace block's real children. 
    QList<AbstractBlock*> list {current->realChildren()};
@@ -227,7 +226,7 @@ const Namespace* Factory::findNamespace(const Namespace* current, const QString&
       if ( Namespace* valid = qobject_cast<Namespace*>(child) )
       {
          // If the namespace or class name matches the given name then return its pointer. 
-         if ( valid->Base::name().toLower() == name ) return valid;
+         if ( valid->baseName().toLower() == name ) return valid;
       }
    }
 

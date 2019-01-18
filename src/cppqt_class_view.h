@@ -1,7 +1,7 @@
 #ifndef CPPQT_CLASS_VIEW_H
 #define CPPQT_CLASS_VIEW_H
 #include "cppqt_class.h"
-#include "cppqt_base_view.h"
+#include "basicblock_view.h"
 //
 
 
@@ -11,15 +11,16 @@ namespace CppQt
    /*!
     * This is the view class for the class block. 
     */
-   class Class::View : public Base::View
+   class Class::View : public BasicBlock::View
    {
       Q_OBJECT
    public:
       explicit View(const Class* block);
-   private:
-      QString displayText();
+   private slots:
       QString displayQtObject();
       QString displayParents();
+      QString displayTemplates();
+   private:
       /*!
        * The class block that this view is displaying. 
        */

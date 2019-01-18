@@ -14,20 +14,35 @@ using namespace Gui;
 
 
 /*!
- * Constructs a new persistent dialog with the optional geometry key and parent. If 
- * no geometry key is given this new dialog will effectively do nothing unless the 
- * save settings method is called before its destruction. 
- *
- * @param geometryKey The optional geometry key used as the Qt settings key to 
- *                    store the geometry of a unique dialog class. 
+ * Constructs a new persistent dialog with an optional parent. This new dialog will 
+ * effectively do nothing unless the save settings method is called before its 
+ * destruction. 
  *
  * @param parent Optional parent for this new persistent dialog. 
  */
-PersistentDialog::PersistentDialog(const char* geometryKey, QWidget* parent):
+PersistentDialog::PersistentDialog(QWidget* parent):
+   QDialog(parent)
+{}
+
+
+
+
+
+
+/*!
+ * Constructs a new persistent dialog with the given geometry key and an optional 
+ * parent. 
+ *
+ * @param geometryKey The optional geometry key used as the Qt settings key to 
+ *                    store the geometry of a unique dialog class. If this string 
+ *                    is empty it is ignored and no geometry is set. 
+ *
+ * @param parent Optional parent for this new persistent dialog. 
+ */
+PersistentDialog::PersistentDialog(const QString& geometryKey, QWidget* parent):
    QDialog(parent)
 {
-   // If the geometry key is not null then save the geometry of this dialog. 
-   if ( geometryKey ) saveSettings(geometryKey);
+   saveSettings(geometryKey);
 }
 
 
@@ -62,7 +77,7 @@ void PersistentDialog::done(int r)
 void PersistentDialog::closeEvent(QCloseEvent* event)
 {
    // Check to see if this dialog has a geometry key. 
-   if ( _geometryKey )
+   if ( !_geometryKey.isEmpty() )
    {
       // Save the geometry for this dialog. 
       QSettings settings;
@@ -85,10 +100,19 @@ void PersistentDialog::closeEvent(QCloseEvent* event)
  *
  * @param geometryKey  
  */
-void PersistentDialog::saveSettings(const char* geometryKey)
+void PersistentDialog::saveSettings(const QString& geometryKey)
 {
+   // Make sure the given geometry key is not empty. 
+   if ( geometryKey.isEmpty() )
+   {
+      Exception::InvalidArgument e;
+      SUT_MARK_EXCEPTION(e);
+      e.setDetails(tr("The given geometry key is empty."));
+      throw e;
+   }
+
    // Make sure the geometry key for this dialog is not already set. 
-   if ( _geometryKey )
+   if ( !_geometryKey.isEmpty() )
    {
       Exception::LogicError e;
       SUT_MARK_EXCEPTION(e);

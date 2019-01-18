@@ -4,13 +4,11 @@
 #include <socutil/sut_exceptions.h>
 #include "cppqt_parse_base.h"
 #include "cppqt_function.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_template.h"
-#include "cppqt_operator.h"
-#include "cppqt_constructor.h"
-#include "cppqt_destructor.h"
+#include "cppqt_variable.h"
 #include "cppqt_settings.h"
 
 
@@ -65,7 +63,7 @@ void Function::outputDeclaration()
       // If this object's function is abstract, a signal, or is default then add its 
       // comments to output. 
       if ( _block->isAbstract()
-           || _block->type() == BlockFactory::SignalType
+           || _block->isSignal()
            || _block->isDefault()
            || _block->isDeleted() )
       {
@@ -78,6 +76,7 @@ void Function::outputDeclaration()
       if ( !line.isEmpty() ) line += QChar(' ');
 
       // Add any set flags of this object's function that come before the name. 
+      if ( _block->isQtInvokable() ) line += QStringLiteral("Q_INVOKABLE ");
       if ( _block->isExplicit() ) line += QStringLiteral("explicit ");
       if ( _block->isVirtual() ) line += QStringLiteral("virtual ");
       if ( _block->isConstExpr() ) line += QStringLiteral("constexpr ");
@@ -470,7 +469,7 @@ void Function::outputArgumentComments()
 
       // Create a base string that starts with the variable name and a space, getting 
       // the justified length from the base string length. 
-      QString base {QStringLiteral("@param ") + argument->Base::name() + QStringLiteral(" ")};
+      QString base {QStringLiteral("@param ") + argument->baseName() + QStringLiteral(" ")};
       int justified {base.size()};
 
       // Add the variable block's description to the base string. 
@@ -529,35 +528,13 @@ void Function::outputReturnDescriptionComment()
  */
 QString Function::makeReturnValue()
 {
-   // Create a new return string. 
-   QString ret;
+   // If this view's function block is a constructor or destructor then return an 
+   // empty string. 
+   if ( _block->isConstructor() || _block->isDestructor() ) return QString();
 
-   // Check to see if this object's function is an operator type. 
-   if ( _block->type() == BlockFactory::OperatorType )
-   {
-      // If this object's operator's name contains a space for the first character then 
-      // it is an operator type that has no return declaration so return an empty 
-      // string. 
-      const QString name {_block->Base::name()};
-      if ( !name.isEmpty() && name.at(0) == QChar(' ') ) return ret;
-   }
-
-   // If this object's function is a slot or signal then set the return to void. 
-   if ( _block->type() == BlockFactory::SlotType || _block->type() == BlockFactory::SignalType )
-   {
-      ret = QStringLiteral("void ");
-   }
-
-   // Else this is a function with a return type so set the return string to that 
-   // type with an additional space. 
-   else if ( _block->type() != BlockFactory::ConstructorType
-             && _block->type() != BlockFactory::DestructorType )
-   {
-      ret = _block->returnType() + QStringLiteral(" ");
-   }
-
-   // Return the return string. 
-   return ret;
+   // Else this is a function type with a return value so return it with a space 
+   // appending it. 
+   else return _block->returnType() + QStringLiteral(" ");
 }
 
 
@@ -579,41 +556,13 @@ QString Function::makeReturnValue()
  */
 QString Function::makeName(bool isRegExp)
 {
-   // Create a new return string. 
-   QString ret;
+   // Create a new return string that contains the base name of this view's function 
+   // block. 
+   QString ret {_block->baseName()};
 
-   // Check to see if this object's function is an operator. 
-   if ( const Operator* valid = qobject_cast<const Operator*>(_block) )
-   {
-      // Set the return string to the operator keyword. 
-      ret = QStringLiteral("operator");
-
-      // If the regular expression flag is set then pad the operation characters of this 
-      // object's operator. 
-      if ( isRegExp ) ret += QRegularExpression::escape(valid->operation());
-
-      // Else this is not a regular expression name so append the operation of this 
-      // object's operator. 
-      else ret += valid->operation();
-   }
-
-   // Else if this object's function is a destructor then set the return string 
-   // appropriately. 
-   else if ( const Destructor* valid = qobject_cast<const Destructor*>(_block) )
-   {
-      ret = QStringLiteral("~") + valid->className();
-   }
-
-   // Else if this object's function is a constructor then set the return string 
-   // appropriately. 
-   else if ( const Constructor* valid = qobject_cast<const Constructor*>(_block) )
-   {
-      ret = valid->className();
-   }
-
-   // Else this object's function is normal so set the return string to the base 
-   // name. 
-   else ret = _block->Base::name();
+   // If the regular expression flag is set then escape the return string in case it 
+   // has any special characters. 
+   if ( isRegExp ) ret = QRegularExpression::escape(ret);
 
    // Return the function name string. 
    return ret;
@@ -651,7 +600,7 @@ QString Function::makeArguments(bool withInitializers)
       else ret += QStringLiteral(", ");
 
       // Append the argument type, a space, and its name. 
-      ret += argument->variableType() + QStringLiteral(" ") + argument->Base::name();
+      ret += argument->variableType() + QStringLiteral(" ") + argument->baseName();
 
       // If the with initializers flag is set and this argument has one then add it. 
       if ( withInitializers && argument->hasInitializer() )

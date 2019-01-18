@@ -1,12 +1,8 @@
 #include "cppqt_template.h"
-#include "cppqt_template_view.h"
-#include "cppqt_template_edit.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 
 
 
-using namespace Sut;
-using namespace Gui;
 using namespace CppQt;
 //
 
@@ -16,31 +12,43 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Returns rich text containing a list of any template arguments the given block 
+ * may contain. Each template argument also has its own description added to the 
+ * rich text. 
  *
- * @return See interface docs. 
- */
-int Template::type() const
-{
-   return BlockFactory::TemplateType;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
+ * @param block The base block whose direct block children are searched for 
+ *              template blocks whose information is added to returned rich text. 
  *
- * @return See interface docs. 
+ * @return Rich text containing list of any template arguments the given block may 
+ *         contain. 
  */
-QIcon Template::icon() const
+QString Template::displayTemplates(const Base& block)
 {
-   // Initialize the static icon for this block type. 
-   static QIcon ret(":/icons/template.svg");
+   // Create an empty string that will contain the rich text. 
+   QString ret;
 
-   // Return the icon. 
+   // Create a pointer list of all template blocks this view's block contains as 
+   // direct children, making sure that list is not empty. 
+   const QList<Template*> list {block.makeListOfType<Template>(Factory::TemplateType)};
+   if ( list.isEmpty() ) return ret;
+
+   // Append the rich text title for templates. 
+   ret += QStringLiteral("<h3>Templates</h3>");
+
+   // Iterate through all template block pointers and append a rich text paragraph 
+   // describing each one. 
+   for (auto templateBlock : list)
+   {
+      ret += QStringLiteral("<p>")
+           + templateBlock->templateType()
+           + QStringLiteral(" <b>")
+           + templateBlock->baseName()
+           + QStringLiteral("</b> : ")
+           + templateBlock->description()
+           + QStringLiteral("</p>");
+   }
+
+   // Return the rich text. 
    return ret;
 }
 
@@ -50,63 +58,11 @@ QIcon Template::icon() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Returns the template type of this template block. 
  *
- * @return See interface docs. 
+ * @return Template type of this template block. 
  */
-Sut::QPtr<QWidget> Template::makeView() const
+QString Template::templateType() const
 {
-   return QPtr<QWidget>(new View(this));
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<::Gui::AbstractEdit> Template::makeEdit()
-{
-   return QPtr<AbstractEdit>(new Edit(this));
-}
-
-
-
-
-
-
-/*!
- * Constructs a new template block with a default state or null state based off the 
- * given flag. 
- *
- * @param isDefault True to initialize this new block to its default state or false 
- *                  to leave it in a null state. 
- */
-Template::Template(bool isDefault)
-{
-   // If the given flag is set to default then initialize this new block. 
-   if ( isDefault )
-   {
-      setType("class");
-      setName("T");
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<AbstractBlock> Template::makeBlank() const
-{
-   return QPtr<AbstractBlock>(new Template);
+   return getString("type");
 }

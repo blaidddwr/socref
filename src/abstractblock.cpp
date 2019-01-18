@@ -30,6 +30,39 @@ const char* AbstractBlock::_typeTag {"type"};
 
 
 /*!
+ * This interface makes an exact copy of this block. A default implementation of 
+ * this interface is given that uses other virtual functions to create a copy of 
+ * this block. The new block returned has no parent. 
+ *
+ * @return Exact copy of this block's data as a new block. 
+ */
+Sut::QPtr<AbstractBlock> AbstractBlock::makeCopy() const
+{
+   // Create a new blank block identical to this block's type. 
+   QPtr<AbstractBlock> ret {makeBlank()};
+
+   // Make sure the new block is the same type. 
+   if ( type() != ret->type() )
+   {
+      Exception::LogicError e;
+      e.setDetails(tr("Cannot copy data from a different block type."));
+      throw e;
+   }
+
+   // Copy this block's children and implementation data to the new block. 
+   ret->copyChildren(this);
+   ret->copyDataFrom(this);
+
+   // Return the new block. 
+   return ret;
+}
+
+
+
+
+
+
+/*!
  * This returns the root block in this block's tree structure. The root block is 
  * the common parent of all other blocks that has no parent itself. 
  *
@@ -155,38 +188,6 @@ AbstractBlock* AbstractBlock::get(int index) const
 
 
 /*!
- * Makes an exact copy of this block. This uses other virtual functions to create a 
- * copy of this block. The new block returned has no parent. 
- *
- * @return Exact copy of this block's data as a new block. 
- */
-Sut::QPtr<AbstractBlock> AbstractBlock::makeCopy() const
-{
-   // Create a new blank block of the same type as this block. 
-   QPtr<AbstractBlock> ret {makeBlank()};
-
-   // Make sure the new blank block is the same type as this block. 
-   if ( type() != ret->type() )
-   {
-      Exception::LogicError e;
-      e.setDetails(tr("Cannot copy data from a different block type."));
-      throw e;
-   }
-
-   // Copy this block's children and data to the new block. 
-   ret->copyChildren(this);
-   ret->copyDataFrom(this);
-
-   // Return the new block. 
-   return ret;
-}
-
-
-
-
-
-
-/*!
  * Tests if this block contains any children of the given type. 
  *
  * @param type The block type to search for within this block's list of children. 
@@ -238,39 +239,6 @@ bool AbstractBlock::containsType(const QList<int>& types) const
 
 
 /*!
- * Writes out this block's data as an XML element. This includes all children as 
- * child XML elements which have their write functions called recursively. 
- *
- * @param document  
- *
- * @return XML element that stores this block's data and all children underneath 
- *         it. 
- */
-QDomElement AbstractBlock::write(QDomDocument& document) const
-{
-   // Create the data element for this bock's data. 
-   QDomElement data {writeData(document)};
-
-   // Create a new element that will contain this block's data and all children. 
-   QDomElement ret {document.createElement(factory().elementName(type()))};
-
-   // Set the type attribute and add the data element for this bock. 
-   ret.setAttribute(_typeTag,type());
-   ret.appendChild(data);
-
-   // Add all of this block's children elements. 
-   for (auto child : _children) ret.appendChild(child->write(document));
-
-   // Return the element containing all data and children of this block. 
-   return ret;
-}
-
-
-
-
-
-
-/*!
  * This returns the root block in this block's tree structure. The root block is 
  * the common parent of all other blocks that has no parent itself. 
  *
@@ -284,45 +252,6 @@ AbstractBlock* AbstractBlock::root()
 
    // Return the root pointer. 
    return root;
-}
-
-
-
-
-
-
-/*!
- * Sets the value of the field with the given index for this block. If the given 
- * index is out of range then an exception is thrown. 
- *
- * @param index Index of the field whose value is set to the given value. 
- *
- * @param value Value that is set to the field with the given index. 
- */
-void AbstractBlock::setField(int index, const QVariant& value)
-{
-   // Make sure the given index is within range. 
-   if ( index < 0 || index >= fieldSize() )
-   {
-      Exception::OutOfRange e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Given block field %1 is out of range (%2 total).")
-                   .arg(index)
-                   .arg(fieldSize()));
-      throw e;
-   }
-
-   // Make sure the new value for the field is different from the currently set 
-   // value. 
-   if ( value != field(index) )
-   {
-      // Call the appropriate interfaces to update the field's value. 
-      quietlySetField(index,value);
-
-      // If this block is not currently being read in from a file then notify this field 
-      // has been modified. 
-      if ( !_readIn ) fieldModified(index);
-   }
 }
 
 
@@ -557,6 +486,39 @@ void AbstractBlock::read(const QDomElement& element)
 
 
 /*!
+ * Writes out this block's data as an XML element. This includes all children as 
+ * child XML elements which have their write functions called recursively. 
+ *
+ * @param document  
+ *
+ * @return XML element that stores this block's data and all children underneath 
+ *         it. 
+ */
+QDomElement AbstractBlock::write(QDomDocument& document) const
+{
+   // Create the data element for this bock's data. 
+   QDomElement data {writeData(document)};
+   data.setTagName(_dataTag);
+
+   // Create a new element that will contain this block's data and all children. 
+   QDomElement ret {document.createElement(factory().elementName(type()))};
+
+   // Add the data element for the return element. 
+   ret.appendChild(data);
+
+   // Add all of this block's children elements. 
+   for (auto child : _children) ret.appendChild(child->write(document));
+
+   // Return the element containing all data and children of this block. 
+   return ret;
+}
+
+
+
+
+
+
+/*!
  * This interface is called whenever a child below this block has modified its 
  * name. This keeps getting called on the next block parent until this returns 
  * false. The default implementation does nothing and returns false. 
@@ -568,8 +530,9 @@ void AbstractBlock::read(const QDomElement& element)
  */
 bool AbstractBlock::childNameModified(AbstractBlock* child)
 {
-   // Return false. 
    Q_UNUSED(child)
+
+   // Return false. 
    return false;
 }
 
@@ -590,8 +553,9 @@ bool AbstractBlock::childNameModified(AbstractBlock* child)
  */
 bool AbstractBlock::childAdded(AbstractBlock* child)
 {
-   // Return false. 
    Q_UNUSED(child)
+
+   // Return false. 
    return false;
 }
 
@@ -613,8 +577,9 @@ bool AbstractBlock::childAdded(AbstractBlock* child)
  */
 bool AbstractBlock::childRemoved(AbstractBlock* child)
 {
-   // Return false. 
    Q_UNUSED(child)
+
+   // Return false. 
    return false;
 }
 
@@ -636,28 +601,10 @@ bool AbstractBlock::childRemoved(AbstractBlock* child)
  */
 bool AbstractBlock::childMoved(AbstractBlock* child)
 {
-   // Return false. 
    Q_UNUSED(child)
+
+   // Return false. 
    return false;
-}
-
-
-
-
-
-
-/*!
- * Returns the data version of the data this block is reading in. If this block is 
- * not reading in data then this is the current version for this block's data. 
- *
- * @return Data version of the data this block is reading in or the current version 
- *         if data is not being read in. 
- */
-int AbstractBlock::dataVersion() const
-{
-   // Return this object's internal version state, which can be either the version 
-   // being read in or the current version. 
-   return _version;
 }
 
 
@@ -747,156 +694,6 @@ void AbstractBlock::notifyBodyModified()
 
 
 /*!
- * Reads in this block's field data from the given XML element. This overwrites any 
- * values this block's fields may already contain. 
- *
- * @param element The XML element that is read in as this block's data. 
- */
-void AbstractBlock::readData(const QDomElement& element)
-{
-   // Set this block's version number to the version attribute from the given XML 
-   // element and the read in state to true. 
-   _version = element.attribute(_versionTag,"0").toInt();
-   _readIn = true;
-
-   // Create a mapping used for all string list fields. 
-   QMap<int,QStringList> lists;
-
-   // Iterate through all fields of this block. 
-   for (int i = 0; i < fieldSize() ;++i)
-   {
-      // Determine the field type and set its value to the default state. 
-      switch (fieldType(i))
-      {
-      case Boolean:
-         setField(i,false);
-         break;
-      case String:
-         setField(i,QString());
-         break;
-      case StringList:
-         setField(i,QStringList());
-
-         // For the string list type also add an empty string list to the mapping. 
-         lists.insert(i,QStringList());
-         break;
-      }
-   }
-
-   // Iterate through all children nodes of the given element. 
-   QDomNode node {element.firstChild()};
-   while ( !node.isNull() )
-   {
-      // Check if the node is an element. 
-      if ( node.isElement() )
-      {
-         // Try to find the field index with the given tag name of the element. 
-         QDomElement element {node.toElement()};
-         int i {fieldIndexOf(element.tagName())};
-         if ( i >= 0 )
-         {
-            // Set the value of the field with the found index based off its type. 
-            switch (fieldType(i))
-            {
-            case Boolean:
-               quietlySetField(i,true);
-               break;
-            case String:
-               quietlySetField(i,element.text());
-               break;
-            case StringList:
-
-               // If this is a string list append the element's text as a new string to the 
-               // string list's temporary mapping. 
-               lists[i] << element.text();
-               break;
-            }
-         }
-      }
-
-      // Move to the next sibling node. 
-      node = node.nextSibling();
-   }
-
-   // Iterate through the string list fields mapping and set their respective fields. 
-   for ( auto i = lists.begin(); i != lists.end() ;++i)
-   {
-      quietlySetField(i.key(),*i);
-   }
-
-   // Set this block's data version to the current version and the read in state to 
-   // false. 
-   _version = version();
-   _readIn = false;
-}
-
-
-
-
-
-
-/*!
- * Writes out this block's field data to the returned XML element, using the given 
- * XML document to create the returned element. 
- *
- * @param document XML document used for creating the returned data element. 
- *
- * @return XML element containing all this block's field data. 
- */
-QDomElement AbstractBlock::writeData(QDomDocument& document) const
-{
-   // Create the return element and set its version attribute. 
-   QDomElement ret {document.createElement(_dataTag)};
-   ret.setAttribute(_versionTag,QString::number(version()));
-
-   // Iterate through all fields for this block. 
-   for (int i = 0; i < fieldSize() ;++i)
-   {
-      // Determine the field type and append the necessary elements to the return 
-      // element to save the field's value. 
-      switch (fieldType(i))
-      {
-      case Boolean:
-         if ( field(i).toBool() ) ret.appendChild(document.createElement(fieldTag(i)));
-         break;
-      case String:
-         {
-            // If this string field's value is not empty then append an element containing its 
-            // value to the return element. 
-            QString value {field(i).toString()};
-            if ( !value.isEmpty() )
-            {
-               QDomElement element {document.createElement(fieldTag(i))};
-               element.appendChild(document.createTextNode(value));
-               ret.appendChild(element);
-            }
-            break;
-         }
-      case StringList:
-         {
-            // Append elements for each string the list contains, each element containing the 
-            // value of each string. 
-            for (auto string: field(i).toStringList())
-            {
-               QDomElement element {document.createElement(fieldTag(i))};
-               element.appendChild(document.createTextNode(string));
-               ret.appendChild(element);
-            }
-            break;
-         }
-      }
-   }
-
-   // Return the element containing all field data for this block. 
-   return ret;
-}
-
-
-
-
-
-
-/*!
  * Copies all children from the given block and appends the copies to the list of 
  * this block's children. This does not remove any previous children already part 
  * of this block. 
@@ -915,29 +712,6 @@ void AbstractBlock::copyChildren(const AbstractBlock* parent)
 
 
 /*!
- * Copies all field data from the given block to this one, overwriting all field 
- * data this block currently contains. This assumes the given block is the same 
- * type as this one. 
- *
- * @param other Pointer to the block whose field data is copied to this block. 
- */
-void AbstractBlock::copyDataFrom(const AbstractBlock* other)
-{
-   // Iterate through all fields for this block. 
-   for (int i = 0; i < fieldSize() ;++i)
-   {
-      // Set the value of this block's field to the value of the other block's same 
-      // field. 
-      quietlySetField(i,other->field(i));
-   }
-}
-
-
-
-
-
-
-/*!
  * Creates a new child reading it in from the given XML element. The new child is 
  * then appended to this block's list of children. 
  *
@@ -946,15 +720,14 @@ void AbstractBlock::copyDataFrom(const AbstractBlock* other)
 void AbstractBlock::readChild(const QDomElement& element)
 {
    // Read in the type attribute from the given child element. 
-   bool ok;
-   int type {element.attribute(_typeTag,"nan").toInt(&ok)};
+   int type {factory().typeByElementName(element.tagName())};
 
    // Make sure reading in the type did not fail. 
-   if ( !ok )
+   if ( type < 0 )
    {
       Exception::ReadError e;
       SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Type attribute is not an integer."));
+      e.setDetails(tr("Unrecognized block type with element name '%1'.").arg(element.tagName()));
       throw e;
    }
 

@@ -1,43 +1,16 @@
 #include "cppqt_class.h"
 #include <socutil/sut_exceptions.h>
 #include "cppqt_class_view.h"
-#include "cppqt_class_edit.h"
-#include "cppqt_blockfactory.h"
-#include "cppqt_access.h"
+#include "cppqt_factory.h"
 #include "cppqt_template.h"
-#include "cppqt_constructor.h"
+#include "cppqt_function.h"
+#include "cppqt_access.h"
 #include "cppqt_parent.h"
 
 
 
-using namespace Sut;
-using namespace Gui;
 using namespace CppQt;
 //
-
-
-
-/*!
- * List of this block's field tag names that follow the same order as this block's 
- * enumeration of fields. This is in addition to the base fields this block 
- * inherits. 
- */
-const QStringList Class::_fields {"qtobject"};
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-int Class::type() const
-{
-   return BlockFactory::ClassType;
-}
 
 
 
@@ -55,13 +28,13 @@ QString Class::name() const
    QString ret;
 
    // If this class has templates then append an indicator. 
-   if ( hasTemplates() ) ret.append("<> ");
+   if ( hasTemplates() ) ret += QStringLiteral("<> ");
 
    // Append the base name of this class. 
-   ret.append(Base::name());
+   ret += baseName();
 
    // If this class inherits from any other classes append an indicator. 
-   if ( containsType(BlockFactory::ParentType) ) ret.append(" :");
+   if ( containsType(Factory::ParentType) ) ret += QStringLiteral(" :");
 
    // Return the display name string. 
    return ret;
@@ -96,122 +69,6 @@ QIcon Class::icon() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-QList<int> Class::buildList() const
-{
-   // Create the build list for this block type. 
-   QList<int> ret {BlockFactory::AccessType,BlockFactory::ParentType,BlockFactory::TypeListType};
-
-   // If this class is not virtual and is not a qt object then append templates to 
-   // the build list. 
-   if ( !isVirtual() && !_qtObject ) ret << BlockFactory::TemplateType;
-
-   // Return the build list. 
-   return ret;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<QWidget> Class::makeView() const
-{
-   return QPtr<QWidget>(new View(this));
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-int Class::fieldSize() const
-{
-   return Field::Total;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @param index See interface docs. 
- *
- * @return See interface docs. 
- */
-AbstractBlock::Field Class::fieldType(int index) const
-{
-   // Based off the given field index return its type. 
-   switch (index)
-   {
-   case Field::QtObject: return AbstractBlock::Field::Boolean;
-
-   // If the given index is unknown to this block then call its base interface. 
-   default: return Base::fieldType(index);
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @param index See interface docs. 
- *
- * @return See interface docs. 
- */
-QVariant Class::field(int index) const
-{
-   // Based off the given field index return its value. 
-   switch (index)
-   {
-   case Field::QtObject: return _qtObject;
-
-   // If the given index is unknown to this block then call its base interface. 
-   default: return Base::field(index);
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<::Gui::AbstractEdit> Class::makeEdit()
-{
-   return QPtr<AbstractEdit>(new Edit(this));
-}
-
-
-
-
-
-
-/*!
  * Implements _CppQt::Namespace_ interface. 
  *
  * @return See interface docs. 
@@ -222,7 +79,7 @@ QList<AbstractBlock*> Class::realChildren() const
    QList<AbstractBlock*> ret;
 
    // Iterate through all access block children of this class block. 
-   for (auto child : makeListOfType<Access>(BlockFactory::AccessType))
+   for (auto child : makeListOfType<Access>(Factory::AccessType))
    {
       // Append the access block's pointer and then all of its children block pointers. 
       ret << child << child->list();
@@ -238,31 +95,13 @@ QList<AbstractBlock*> Class::realChildren() const
 
 
 /*!
- * Constructs a new class block with a default state or null state based off the 
- * given flag. 
- *
- * @param isDefault True to initialize this new block to its default state or false 
- *                  to leave it in a null state. 
- */
-Class::Class(bool isDefault)
-{
-   // If the given flag is set to default then initialize this new block. 
-   if ( isDefault ) setName(QStringLiteral("object"));
-}
-
-
-
-
-
-
-/*!
  * Tests of this class block is a qt object. 
  *
  * @return True if this class is a qt object or false otherwise. 
  */
 bool Class::isQtObject() const
 {
-   return _qtObject;
+   return getBool("qtobject");
 }
 
 
@@ -279,7 +118,7 @@ bool Class::isVirtual() const
 {
    // Iterate through all access block children of this class block, returning true 
    // if any of them has any virtual functions. 
-   for (auto access : makeListOfType<Access>(BlockFactory::AccessType))
+   for (auto access : makeListOfType<Access>(Factory::AccessType))
    {
       if ( access->hasVirtual() ) return true;
    }
@@ -302,36 +141,12 @@ bool Class::isAbstract() const
 {
    // Iterate through all access block children of this class block, returning true 
    // if any of them has any abstract functions. 
-   for (auto access : makeListOfType<Access>(BlockFactory::AccessType))
+   for (auto access : makeListOfType<Access>(Factory::AccessType))
    {
       if ( access->hasAbstract() ) return true;
    }
 
    // If this is reached then this class has no abstract methods so return false. 
-   return false;
-}
-
-
-
-
-
-
-/*!
- * Tests if this class has any signals or slots. 
- *
- * @return True if this class has any signals and/or slots, otherwise false is 
- *         returned. 
- */
-bool Class::hasSignalsOrSlots() const
-{
-   // Iterate through all access block children of this class block, returning true 
-   // if any of them has any signals or slots. 
-   for (auto access : makeListOfType<Access>(BlockFactory::AccessType))
-   {
-      if ( access->hasSignalsOrSlots() ) return true;
-   }
-
-   // If this is reached then this class has no signals or slots so return false. 
    return false;
 }
 
@@ -347,7 +162,7 @@ bool Class::hasSignalsOrSlots() const
  */
 bool Class::hasTemplates() const
 {
-   return containsType(BlockFactory::TemplateType);
+   return containsType(Factory::TemplateType);
 }
 
 
@@ -369,10 +184,10 @@ bool Class::hasAnyTemplates() const
    // Iterate up the chain of block parents starting with this block's parent until a 
    // namespace or null pointer is reached. 
    AbstractBlock* back {parent()};
-   while ( back && back->type() != BlockFactory::NamespaceType )
+   while ( back && back->type() != Factory::NamespaceType )
    {
       // If this parent is a class and it has template arguments then return true. 
-      if ( Class* valid = back->cast<Class>(BlockFactory::ClassType) )
+      if ( Class* valid = back->cast<Class>(Factory::ClassType) )
       {
          if ( valid->hasTemplates() ) return true;
       }
@@ -398,7 +213,7 @@ bool Class::hasAnyTemplates() const
  */
 QList<Template*> Class::templates() const
 {
-   return makeListOfType<Template>(BlockFactory::TemplateType);
+   return makeListOfType<Template>(Factory::TemplateType);
 }
 
 
@@ -414,7 +229,7 @@ QList<Template*> Class::templates() const
  */
 QList<Parent*> Class::parents() const
 {
-   return makeListOfType<Parent>(BlockFactory::ParentType);
+   return makeListOfType<Parent>(Factory::ParentType);
 }
 
 
@@ -423,68 +238,13 @@ QList<Parent*> Class::parents() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _BasicBlock_ interface. 
  *
  * @return See interface docs. 
  */
-Sut::QPtr<AbstractBlock> Class::makeBlank() const
+Sut::QPtr<BasicBlock::View> Class::makeBasicView() const
 {
-   return QPtr<AbstractBlock>(new Class);
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @param index See interface docs. 
- */
-void Class::fieldModified(int index)
-{
-   // Based off the given field index notify of changes to this block. 
-   switch (index)
-   {
-   case Field::QtObject:
-      notifyModified();
-      notifyBodyModified();
-      break;
-
-   // If the given index is unknown to this block then call its base interface. 
-   default:
-      Base::fieldModified(index);
-      break;
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @param index See interface docs. 
- *
- * @param value See interface docs. 
- */
-void Class::quietlySetField(int index, const QVariant& value)
-{
-   // Based off the given field index set its value to the new one given. 
-   switch (index)
-   {
-   case Field::QtObject:
-      setQtObject(value.toBool());
-      break;
-
-   // If the given index is unknown to this block then call its base interface. 
-   default:
-      Base::quietlySetField(index,value);
-      break;
-   }
+   return new View(this);
 }
 
 
@@ -501,11 +261,17 @@ void Class::quietlySetField(int index, const QVariant& value)
  */
 bool Class::childNameModified(AbstractBlock* child)
 {
-   // If the child modified is a template, function, or parent then notify the name 
-   // of this block has changed. 
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
+   // If the child modified is a template or parent then notify the name and body of 
+   // this block has changed. 
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
+   {
+      notifyNameModified();
+      notifyBodyModified();
+   }
+
+   // Else if the child modified is a function then notify the name of this block has 
+   // changed.  
+   else if ( qobject_cast<Function*>(child) )
    {
       notifyNameModified();
    }
@@ -528,20 +294,20 @@ bool Class::childNameModified(AbstractBlock* child)
  */
 bool Class::childAdded(AbstractBlock* child)
 {
-   // If the child added is a template, function, or parent then notify the name of 
+   // If the child added is a template or parent then notify the name and body of 
    // this block has changed. 
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
    {
       notifyNameModified();
+      notifyBodyModified();
    }
 
-   // If the child added is a constructor then connect this object's name changed 
-   // signal to the constructor. 
-   if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
+   // If the child added is a function then connect this object's name changed signal 
+   // to the function and notify the name of this block has changed. 
+   if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
    {
-      connect(this,&Class::nameChanged,constructor,&Constructor::classNameChanged);
+      notifyNameModified();
+      connect(this,&Class::nameChanged,valid,&Function::classNameChanged);
    }
 
    // Return false to stop any additional calls. 
@@ -562,75 +328,22 @@ bool Class::childAdded(AbstractBlock* child)
  */
 bool Class::childRemoved(AbstractBlock* child)
 {
-   // If the child removed is a template, function, or parent then notify the name of 
+   // If the child added is a template or parent then notify the name and body of 
    // this block has changed. 
-   if ( qobject_cast<Template*>(child)
-        || qobject_cast<Function*>(child)
-        || qobject_cast<Parent*>(child) )
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
    {
       notifyNameModified();
+      notifyBodyModified();
    }
 
-   // If the child removed is a constructor then disconnect all signals between it 
-   // and this object. 
-   if ( Constructor* constructor = qobject_cast<Constructor*>(child) )
+   // If the child added is a function then connect this object's name changed signal 
+   // to the function and notify the name of this block has changed. 
+   if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
    {
-      disconnect(constructor);
+      notifyNameModified();
+      disconnect(valid);
    }
 
    // Return false to stop any additional calls. 
    return false;
-}
-
-
-
-
-
-
-/*!
- * Implements _CppQt::Base_ interface. 
- *
- * @return See interface docs. 
- */
-QStringList Class::fields() const
-{
-   // Initialize an empty static string list. 
-   static QStringList ret;
-
-   // If the string list is empty then populate it. 
-   if ( ret.isEmpty() )
-   {
-      ret.append(Base::fields());
-      ret.append(_fields);
-   }
-
-   // Return the combined fields string list. 
-   return ret;
-}
-
-
-
-
-
-
-/*!
- * Sets the state of this class block's qt object property to the given state. If 
- * the new state is illegal then an exception is thrown. 
- *
- * @param state The new state this class block's property is set to. 
- */
-void Class::setQtObject(bool state)
-{
-   // Make sure the new state is valid based off this class block having signals or 
-   // slots. 
-   if ( !state && hasSignalsOrSlots() )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Class must be a Qt Object because it has slots and/or signals."));
-      throw e;
-   }
-
-   // Set this block's state to the new one given. 
-   _qtObject = state;
 }

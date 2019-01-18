@@ -45,7 +45,7 @@ void Enumeration::outputDeclaration()
    if ( _block->isClass() ) line.append("class ");
 
    // Append the base name of this object's enumeration. 
-   line += _block->Base::name();
+   line += _block->baseName();
 
    // Add the enumeration header line, then an opening bracket line, and then 
    // increment the indent. 
@@ -72,7 +72,7 @@ void Enumeration::outputDeclaration()
       else line.append(",");
 
       // Append the base name of the enumeration value block. 
-      line += value->Base::name();
+      line += value->baseName();
 
       // If the enumeration value block has a value set then append it to the line. 
       if ( value->hasValue() ) line += QStringLiteral(" = ") + value->value();

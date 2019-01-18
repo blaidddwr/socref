@@ -1,40 +1,10 @@
 #include "cppqt_enumvalue.h"
-#include <socutil/sut_exceptions.h>
 #include "cppqt_enumvalue_view.h"
-#include "cppqt_enumvalue_edit.h"
-#include "cppqt_blockfactory.h"
-#include "cppqt_type.h"
 
 
 
-using namespace Sut;
-using namespace Gui;
 using namespace CppQt;
 //
-
-
-
-/*!
- * List of this block's field tag names that follow the same order as this block's 
- * enumeration of fields. This is in addition to the base fields this block 
- * inherits. 
- */
-const QStringList EnumValue::_fields {"value"};
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-int EnumValue::type() const
-{
-   return BlockFactory::EnumValueType;
-}
 
 
 
@@ -49,161 +19,13 @@ int EnumValue::type() const
 QString EnumValue::name() const
 {
    // Create a string setting it to this block's base name. 
-   QString ret {Base::name()};
+   QString ret {getString("name")};
 
    // If this enumeration value has a set value then append that info to the string. 
-   if ( !_value.isEmpty() ) ret.append(" =");
+   if ( !getString("value").isEmpty() ) ret.append(" =");
 
    // Return the name string. 
    return ret;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-QIcon EnumValue::icon() const
-{
-   // Initialize the static icon for this block type. 
-   static QIcon ret(":/icons/enumvalue.svg");
-
-   // Return the icon. 
-   return ret;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-QList<int> EnumValue::buildList() const
-{
-   return QList<int>();
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<QWidget> EnumValue::makeView() const
-{
-   return QPtr<QWidget>(new View(this));
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-int EnumValue::fieldSize() const
-{
-   // Use the field enumeration to return the total number of fields. 
-   return Field::Total;
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @param index See interface docs. 
- *
- * @return See interface docs. 
- */
-AbstractBlock::Field EnumValue::fieldType(int index) const
-{
-   // Based off the given field index return its type. 
-   switch (index)
-   {
-   case Field::Value: return AbstractBlock::Field::String;
-
-   // If the given index is unknown for this block then call its base class 
-   // interface. 
-   default: return Base::fieldType(index);
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @param index See interface docs. 
- *
- * @return See interface docs. 
- */
-QVariant EnumValue::field(int index) const
-{
-   // Based off the given field index return its value. 
-   switch (index)
-   {
-   case Field::Value: return _value;
-
-   // If the given index is unknown for this block then call its base class 
-   // interface. 
-   default: return Base::field(index);
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @return See interface docs. 
- */
-Sut::QPtr<::Gui::AbstractEdit> EnumValue::makeEdit()
-{
-   return QPtr<AbstractEdit>(new Edit(this));
-}
-
-
-
-
-
-
-/*!
- * Constructs a new enumeration value block with a default state or null state 
- * based off the given flag. 
- *
- * @param isDefault True to initialize this new block to its default state or false 
- *                  to leave it in a null state. 
- */
-EnumValue::EnumValue(bool isDefault)
-{
-   // If the given flag is set to default then initialize this new block. 
-   if ( isDefault ) setName("field");
 }
 
 
@@ -220,7 +42,7 @@ EnumValue::EnumValue(bool isDefault)
 bool EnumValue::hasValue() const
 {
    // Test if this block's set value is not empty to determine if it has a value. 
-   return !_value.isEmpty();
+   return !getString("value").isEmpty();
 }
 
 
@@ -237,7 +59,7 @@ bool EnumValue::hasValue() const
  */
 QString EnumValue::value() const
 {
-   return _value;
+   return getString("value");
 }
 
 
@@ -246,94 +68,11 @@ QString EnumValue::value() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _BasicBlock_ interface. 
  *
  * @return See interface docs. 
  */
-Sut::QPtr<AbstractBlock> EnumValue::makeBlank() const
+Sut::QPtr<BasicBlock::View> EnumValue::makeBasicView() const
 {
-   return QPtr<AbstractBlock>(new EnumValue);
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @param index See interface docs. 
- */
-void EnumValue::fieldModified(int index)
-{
-   // Based off the given field index notify the changes to this block. 
-   switch (index)
-   {
-   case Field::Value:
-      notifyModified();
-      notifyNameModified();
-      break;
-
-   // If the given index is unknown for this block then call its base class 
-   // interface. 
-   default:
-      Base::fieldModified(index);
-      break;
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements _AbstractBlock_ interface. 
- *
- * @param index See interface docs. 
- *
- * @param value See interface docs. 
- */
-void EnumValue::quietlySetField(int index, const QVariant& value)
-{
-   // Based off the given field index set its value to the new given value. 
-   switch (index)
-   {
-   case Field::Value:
-      _value = value.toString();
-      break;
-
-   // If the given index is unknown for this block then call its base class 
-   // interface. 
-   default:
-      Base::quietlySetField(index,value);
-      break;
-   }
-}
-
-
-
-
-
-
-/*!
- * Implements _CppQt::Base_ interface. 
- *
- * @return See interface docs. 
- */
-QStringList EnumValue::fields() const
-{
-   // Initialize an empty static string list. 
-   static QStringList ret;
-
-   // If the string list is empty then populate it. 
-   if ( ret.isEmpty() )
-   {
-      ret.append(Base::fields());
-      ret.append(_fields);
-   }
-
-   // Return the combined fields string list. 
-   return ret;
+   return new View(this);
 }

@@ -23,14 +23,14 @@ namespace CppQt
          virtual void outputDeclaration() override final;
          virtual void outputDefinition() override final;
       public:
-         explicit Declarative(CppQt::Using* block, AbstractParser* parent);
+         explicit Declarative(const CppQt::Declaration* block, AbstractParser* parent);
       protected:
          virtual bool readLine(const QString& line) override final;
       private:
          /*!
-          * The using or friend block that defines this parser. 
+          * The declaration block that defines this parser. 
           */
-         CppQt::Using* _block;
+         const CppQt::Declaration* _block;
       };
    }
 }

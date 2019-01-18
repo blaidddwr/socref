@@ -55,6 +55,7 @@ protected:
    void add(const QString& line);
    void add(const QStringList& lines);
    void add(int count);
+   void addComment(const QString& token, const QString& text, int justified, int max);
 private:
    void read(QFile* file);
    void processInput();

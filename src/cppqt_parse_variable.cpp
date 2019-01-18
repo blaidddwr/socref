@@ -49,7 +49,7 @@ void Variable::outputDeclaration()
    if ( line.isEmpty() && !_block->isMember() ) line += QStringLiteral("extern ");
 
    // Add this object's variable type and and then its name separated by a space. 
-   line += _block->variableType() + QStringLiteral(" ") + _block->Base::name();
+   line += _block->variableType() + QStringLiteral(" ") + _block->baseName();
 
    // Finish the declaration line and add it to output. 
    finishOutput(&line
@@ -80,7 +80,7 @@ void Variable::outputDefinition()
       line += _block->variableType()
             + QStringLiteral(" ")
             + makePreScope(_block)
-            + _block->Base::name();
+            + _block->baseName();
 
       // Finish the definition line and add it to output. 
       finishOutput(&line,_block->hasInitializer() && !_block->isConstExpr());

@@ -4,11 +4,12 @@
  */
 namespace Gui
 {
+   class AbstractEdit;
    class PersistentDialog;
    class TextDialog;
    class TextEdit;
    class ListEdit;
-   class AbstractEdit;
+   class TypeSelection;
    class BlockView;
    class MainWindow;
    class ProjectDialog;

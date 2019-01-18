@@ -6,6 +6,8 @@ class AbstractParserFactory;
 class AbstractProjectFactory;
 class ProjectFactory;
 class BlockModel;
+class BasicBlock;
+class BasicBlockFactory;
 class ScanThread;
 class DictionaryModel;
 class Project;

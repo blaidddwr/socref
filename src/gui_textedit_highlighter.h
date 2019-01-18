@@ -23,7 +23,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit Highlighter(DictionaryModel* dictionary, QTextDocument* parent);
-      ~Highlighter();
+      virtual ~Highlighter() override final;
    protected:
       virtual void highlightBlock(const QString& text) override final;
    private:

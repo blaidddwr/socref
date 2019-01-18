@@ -36,7 +36,7 @@ namespace CppQt
       private:
          AbstractParser* find(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index = 0) const;
          AbstractParser* findCommon(const Namespace* current, const QStringList& names, const QString& name, bool isHeader, int index = 0) const;
-         const Namespace* findNamespace(const Namespace* current, const QString& name) const;
+         const CppQt::Namespace* findNamespace(const Namespace* current, const QString& name) const;
          /*!
           * Pointer to the root block used by this parser factory and all parser objects it 
           * makes. 

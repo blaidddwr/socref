@@ -32,7 +32,7 @@ void Access::outputDeclaration()
    // Decrease the indent by one, then add the access declaration line to output, and 
    // then increment the indent. 
    setIndent(indent() - _indentSpaces);
-   add(_block->accessTypeString());
+   add(_block->accessString());
    setIndent(indent() + _indentSpaces);
 }
 

@@ -17,55 +17,18 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      class Edit;
       class View;
    public:
-      virtual int type() const override final;
       virtual QString name() const override final;
-      virtual QIcon icon() const override final;
-      virtual QList<int> buildList() const override final;
-      virtual Sut::QPtr<QWidget> makeView() const override final;
-      virtual int fieldSize() const override final;
-      virtual AbstractBlock::Field fieldType(int index) const override final;
-      virtual QVariant field(int index) const override final;
-      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override final;
    public:
-      explicit EnumValue(bool isDefault = false);
+      /*!
+       * Constructs a new enumeration value block. 
+       */
+      Q_INVOKABLE explicit EnumValue() = default;
       bool hasValue() const;
       QString value() const;
    protected:
-      /*!
-       * Defines the fields this block contains in addition to its base fields. 
-       */
-      enum Field
-      {
-         /*!
-          * Defines the value field. This field is for when an enumeration value is set to a 
-          * specific value. Its value is set to extend the list of base fields this class 
-          * inherits. 
-          */
-         Value = Base::Field::Total
-         /*!
-          * Defines the total number of fields this block defines. 
-          */
-         ,Total
-      };
-      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
-      virtual void fieldModified(int index) override final;
-      virtual void quietlySetField(int index, const QVariant& value) override final;
-      virtual QStringList fields() const override final;
-   private:
-      /*!
-       * List of this block's field tag names that follow the same order as this block's 
-       * enumeration of fields. This is in addition to the base fields this block 
-       * inherits. 
-       */
-      static const QStringList _fields;
-      /*!
-       * The set integer value for this enumeration value block, if any. This is a string 
-       * because the integer can be defined as another enumeration value or a macro. 
-       */
-      QString _value;
+      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
    };
 }
 

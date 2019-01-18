@@ -1,0 +1,7 @@
+
+* Created massive overhaul of block system to add a new generic layer above the abstract layer.
+  * The C++/Qt project type was completely overhauled to use this new layer.
+    * Type lists have been removed. Types are now manually entered as a string for any relevant block type.
+    * The display for various block types has been changed.
+    * Slots, signals, constructors, and desctructors have all been merged into a single function block type.
+* Added new GLSL project type for commenting OpenGL shader code.

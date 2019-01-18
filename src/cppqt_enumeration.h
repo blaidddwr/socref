@@ -17,54 +17,14 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      class Edit;
-      class View;
-   public:
-      virtual int type() const override final;
       virtual QString name() const override final;
-      virtual QIcon icon() const override final;
-      virtual QList<int> buildList() const override final;
-      virtual Sut::QPtr<QWidget> makeView() const override final;
-      virtual int fieldSize() const override final;
-      virtual AbstractBlock::Field fieldType(int index) const override final;
-      virtual QVariant field(int index) const override final;
-      virtual Sut::QPtr<::Gui::AbstractEdit> makeEdit() override final;
    public:
-      explicit Enumeration(bool isDefault = false);
+      /*!
+       * Constructs a new enumeration block. 
+       */
+      Q_INVOKABLE explicit Enumeration() = default;
       bool isClass() const;
       QList<EnumValue*> values() const;
-   protected:
-      /*!
-       * Defines the fields this block contains in addition to its base fields. 
-       */
-      enum Field
-      {
-         /*!
-          * Defines the class field. It's value is set to extend the list of base fields 
-          * this class inherits. 
-          */
-         Class = Base::Field::Total
-         /*!
-          * Defines the total number of fields this block defines. 
-          */
-         ,Total
-      };
-      virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
-      virtual void fieldModified(int index) override final;
-      virtual void quietlySetField(int index, const QVariant& value) override final;
-      virtual QStringList fields() const override final;
-      virtual bool checkName(const QString& value) override final;
-   private:
-      /*!
-       * List of this block's field tag names that follow the same order as this block's 
-       * enumeration of fields. This is in addition to the base fields this block 
-       * inherits. 
-       */
-      static const QStringList _fields;
-      /*!
-       * The block's class field value. 
-       */
-      bool _class {false};
    };
 }
 

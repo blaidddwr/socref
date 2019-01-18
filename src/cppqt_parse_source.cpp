@@ -9,7 +9,7 @@
 #include "cppqt_namespace.h"
 #include "cppqt_class.h"
 #include "cppqt_access.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include "cppqt_settings.h"
 
 
@@ -225,7 +225,7 @@ void Source::evaluateFunction(CppQt::Function* block)
         && !block->isAbstract()
         && !block->isDefault()
         && !block->isDeleted()
-        && block->type() != BlockFactory::SignalType
+        && !block->isSignal()
         && ( !block->hasTemplates() || block->isPrivateMethod() ) )
    {
       addDefined(new Function(block,this));
@@ -282,7 +282,7 @@ Source::Source(const Namespace* block):
    }
 
    // If the given namespace block is a class then determine if it has any templates. 
-   if ( const Class* valid = block->cast<Class>(BlockFactory::ClassType) )
+   if ( const Class* valid = block->cast<Class>(CppQt::Factory::ClassType) )
    {
       _isTemplate = valid->hasAnyTemplates();
    }
@@ -532,7 +532,7 @@ void Source::makeUsingName()
    while ( back )
    {
       // If the current parent is a namespace block then push its pointer to the stack. 
-      if ( Namespace* valid = back->cast<Namespace>(BlockFactory::NamespaceType) )
+      if ( Namespace* valid = back->cast<Namespace>(CppQt::Factory::NamespaceType) )
       {
          list.push(valid);
       }
@@ -552,8 +552,8 @@ void Source::makeUsingName()
       // Append the beginning of the using declaration, then all found namespaces in the 
       // stack, and then this object's namespace. 
       _usingName.append("using namespace ");
-      while ( list.size() > 1 ) _usingName.append(list.pop()->Base::name()).append("::");
-      _usingName.append(list.pop()->Base::name()).append(";");
+      while ( list.size() > 1 ) _usingName.append(list.pop()->baseName()).append("::");
+      _usingName.append(list.pop()->baseName()).append(";");
    }
 }
 
@@ -572,7 +572,7 @@ void Source::evaluateAll()
    for (auto child : qAsConst(_children))
    {
       // If the child is a variable block then call its evaluate interface. 
-      if ( CppQt::Variable* valid = child->cast<CppQt::Variable>(BlockFactory::VariableType) )
+      if ( CppQt::Variable* valid = child->cast<CppQt::Variable>(CppQt::Factory::VariableType) )
       {
          evaluateVariable(valid);
       }

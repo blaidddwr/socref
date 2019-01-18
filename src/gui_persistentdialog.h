@@ -20,19 +20,20 @@ namespace Gui
    {
       Q_OBJECT
    public:
-      explicit PersistentDialog(const char* geometryKey = nullptr, QWidget* parent = nullptr);
+      explicit PersistentDialog(QWidget* parent = nullptr);
+      explicit PersistentDialog(const QString& geometryKey, QWidget* parent = nullptr);
    public slots:
       virtual void done(int r) override final;
    protected:
       virtual void closeEvent(QCloseEvent* event) override;
    protected:
-      void saveSettings(const char* geometryKey);
+      void saveSettings(const QString& geometryKey);
    private:
       /*!
-       * Pointer to the geometry key for this persistent dialog that must be unique for 
-       * the class inheriting this one. 
+       * The geometry key for this persistent dialog that must be unique for the class 
+       * inheriting this one. If no key has been set this is empty. 
        */
-      const char* _geometryKey {nullptr};
+      QString _geometryKey;
    };
 }
 

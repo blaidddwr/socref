@@ -11,12 +11,13 @@
 #include "cppqt_function.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
-#include "cppqt_blockfactory.h"
+#include "cppqt_factory.h"
 #include "cppqt_access.h"
 #include "cppqt_class.h"
 #include "cppqt_parent.h"
+#include "cppqt_variable.h"
+#include "cppqt_declaration.h"
 #include "cppqt_settings.h"
-#include "cppqt_using.h"
 
 
 
@@ -157,7 +158,7 @@ void Header::evaluateFunction(CppQt::Function* block)
    // then add its parser to the definitions section. 
    if ( !block->isDefault()
         && !block->isDeleted()
-        && block->type() != BlockFactory::SignalType
+        && !block->isSignal()
         && ( isTemplate() || ( block->hasTemplates() && !block->isPrivateMethod() ) )
         && !block->isAbstract() )
    {
@@ -179,31 +180,31 @@ void Header::evaluateOther(AbstractBlock* block)
 {
    // If the given block is an enumeration then create an enumeration parser and 
    // append it to this object's declarations. 
-   if ( CppQt::Enumeration* valid = block->cast<CppQt::Enumeration>(BlockFactory::EnumerationType) )
+   if ( CppQt::Enumeration* valid = block->cast<CppQt::Enumeration>(CppQt::Factory::EnumerationType) )
    {
       _declarations.append(new Enumeration(valid,this));
    }
 
    // Check to see if this object's namespace is a class. 
-   if ( _block->type() == BlockFactory::ClassType )
+   if ( _block->type() == CppQt::Factory::ClassType )
    {
       // If the given block is an access type then create an access parser and append it 
       // to this object's declarations. 
-      if ( CppQt::Access* valid = block->cast<CppQt::Access>(BlockFactory::AccessType) )
+      if ( CppQt::Access* valid = block->cast<CppQt::Access>(CppQt::Factory::AccessType) )
       {
          _declarations.append(new Access(valid,this));
       }
 
       // Else if the given block is a class then create a forward parser and append it 
       // to this object's declarations. 
-      else if ( Class* valid = block->cast<Class>(BlockFactory::ClassType) )
+      else if ( Class* valid = block->cast<Class>(CppQt::Factory::ClassType) )
       {
          _declarations.append(new Forward(valid,this));
       }
 
       // Else if the given block is a using or friend block then create a declarative 
       // parser and append it to this object's declarations. 
-      else if ( Using* valid = qobject_cast<Using*>(block) )
+      else if ( Declaration* valid = block->cast<Declaration>(CppQt::Factory::DeclarationType) )
       {
          _declarations.append(new Declarative(valid,this));
       }
@@ -241,7 +242,7 @@ void Header::outputDeclarations()
 
    // Get a pointer to this object's namespace as a class if it is a class, else this 
    // will be null. 
-   const Class* block {_block->cast<const Class>(BlockFactory::ClassType)};
+   const Class* block {_block->cast<const Class>(CppQt::Factory::ClassType)};
 
    // Check to see if this object's namespace is a class. 
    if ( block )
@@ -314,14 +315,14 @@ void Header::outputClassDeclaration(const Class* block)
    if ( !line.isEmpty() ) line.append(" ");
 
    // Append the class keyword and then the scoped class name to the line. 
-   line.append("class ").append(Base::makePreClassScope(block->parent())).append(block->Base::name());
+   line.append("class ").append(Base::makePreClassScope(block->parent())).append(block->baseName());
 
    // Iterate through all children of the given class block. 
    bool first {true};
    for (auto child : block->list())
    {
       // Make sure the child is a parent block type. 
-      if ( Parent* valid = child->cast<Parent>(BlockFactory::ParentType) )
+      if ( Parent* valid = child->cast<Parent>(CppQt::Factory::ParentType) )
       {
          // Check to see if this is the first parent being added to the line. 
          if ( first )
