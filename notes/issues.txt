@@ -1,0 +1,7 @@
+
+* Fix debugging to follow Qt standard, so get rid of almost all exceptions. Only keep exceptions for opening and savings files because those errors a normal user could read. Make a custom exception class for opening and saving.
+
+* Rework the modified signals for abstract blocks to be more coherent.
+
+* Fix the spaghetti code that is C++/Qt parsing.
+
