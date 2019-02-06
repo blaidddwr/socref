@@ -1,6 +1,5 @@
-#ifndef GUI_ABSTRACTEDIT_H
-#define GUI_ABSTRACTEDIT_H
-#include <QMap>
+#ifndef ABSTRACT_BLOCKEDIT_H
+#define ABSTRACT_BLOCKEDIT_H
 #include "gui_persistentdialog.h"
 
 
@@ -10,7 +9,7 @@ class QPushButton;
 
 
 
-namespace Gui
+namespace Abstract
 {
    /*!
     * This represents a dialog for editing the data of a block. This class provides 
@@ -35,11 +34,11 @@ namespace Gui
     * portion is positioned at the top of the dialog while the buttons this class 
     * creates is at the bottom.  
     */
-   class AbstractEdit : public PersistentDialog
+   class BlockEdit : public Gui::PersistentDialog
    {
       Q_OBJECT
    public:
-      explicit AbstractEdit(QWidget* parent = nullptr);
+      explicit BlockEdit(QWidget* parent = nullptr);
       void initialize();
    protected:
       /*!

@@ -22,8 +22,8 @@ DEFINES += QT_DEPRECATED_WARNINGS \
 
 SOURCES += \
     main.cpp \
+    exception.cpp \
     project.cpp \
-    abstractblock.cpp \
     projectfactory.cpp \
     application.cpp \
     blockmodel.cpp \
@@ -37,10 +37,8 @@ SOURCES += \
 
 HEADERS += \
     global.h \
-    abstractprojectfactory.h \
+    exception.h \
     project.h \
-    abstractblockfactory.h \
-    abstractblock.h \
     projectfactory.h \
     application.h \
     blockmodel.h \
@@ -53,6 +51,7 @@ HEADERS += \
     basicblock_edit.h \
     basicblock_view.h
 
+include(Abstract.pri)
 include(Gui.pri)
 include(CppQt.pri)
 include(GLSL.pri)

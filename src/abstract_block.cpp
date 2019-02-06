@@ -1,11 +1,10 @@
-#include "abstractblock.h"
-#include <QDomDocument>
-#include <QMap>
+#include "abstract_block.h"
 #include <socutil/soc_ut_qptr.h>
-#include "abstractblockfactory.h"
+#include "abstract_blockfactory.h"
 
 
 
+using namespace Abstract;
 //
 
 
@@ -13,15 +12,15 @@
 /*!
  * The name for version attributes. 
  */
-const char* AbstractBlock::_versionTag {"version"};
+const char* Block::_versionTag {"version"};
 /*!
  * The tag name for data elements. 
  */
-const char* AbstractBlock::_dataTag {"data"};
+const char* Block::_dataTag {"data"};
 /*!
  * The name for type attributes. 
  */
-const char* AbstractBlock::_typeTag {"type"};
+const char* Block::_typeTag {"type"};
 
 
 
@@ -35,10 +34,10 @@ const char* AbstractBlock::_typeTag {"type"};
  *
  * @return Exact copy of this block's data as a new block. 
  */
-Soc::Ut::QPtr<AbstractBlock> AbstractBlock::makeCopy() const
+Soc::Ut::QPtr<Abstract::Block> Block::makeCopy() const
 {
    // Create a new blank block identical to this block's type. 
-   Soc::Ut::QPtr<AbstractBlock> ret {makeBlank()};
+   Soc::Ut::QPtr<Block> ret {makeBlank()};
 
    // Make sure the new block is the same type. 
    Q_ASSERT(type() == ret->type());
@@ -62,10 +61,10 @@ Soc::Ut::QPtr<AbstractBlock> AbstractBlock::makeCopy() const
  *
  * @return Read only pointer to the root block. 
  */
-const AbstractBlock* AbstractBlock::root() const
+const Abstract::Block* Block::root() const
 {
    // Iterate up the tree of parents until the root pointer is found. 
-   const AbstractBlock* root {this};
+   const Block* root {this};
    while ( root->parent() ) root = root->parent();
 
    // Return the root pointer. 
@@ -84,10 +83,10 @@ const AbstractBlock* AbstractBlock::root() const
  * @return If this block is the root then a null pointer, else a pointer to this 
  *         block's parent. 
  */
-AbstractBlock* AbstractBlock::parent() const
+Abstract::Block* Block::parent() const
 {
    // Return the qt object of this object cast as an abstract block. 
-   return qobject_cast<AbstractBlock*>(QObject::parent());
+   return qobject_cast<Block*>(QObject::parent());
 }
 
 
@@ -100,7 +99,7 @@ AbstractBlock* AbstractBlock::parent() const
  *
  * @return Number of children this block contains. 
  */
-int AbstractBlock::size() const
+int Block::size() const
 {
    // Return this block's child list size. 
    return _children.size();
@@ -117,7 +116,7 @@ int AbstractBlock::size() const
  *
  * @return Reference to this block's list of children. 
  */
-const QList<AbstractBlock*>& AbstractBlock::list() const
+const QList<Abstract::Block*>& Block::list() const
 {
    // Return a constant reference to this block's internal children list. 
    return _children;
@@ -139,7 +138,7 @@ const QList<AbstractBlock*>& AbstractBlock::list() const
  * @return If a match is found then the index of the child with the given pointer, 
  *         else -1. 
  */
-int AbstractBlock::indexOf(AbstractBlock* pointer) const
+int Block::indexOf(Block* pointer) const
 {
    // Return the index of the given child pointer using the qt method of this block's 
    // child list. 
@@ -159,7 +158,7 @@ int AbstractBlock::indexOf(AbstractBlock* pointer) const
  *
  * @return Pointer to this block's child with given index. 
  */
-AbstractBlock* AbstractBlock::get(int index) const
+Abstract::Block* Block::get(int index) const
 {
    // Make sure the given index is within range. 
    Q_ASSERT(index >= 0);
@@ -181,7 +180,7 @@ AbstractBlock* AbstractBlock::get(int index) const
  *
  * @return True if this block contains any children of the given type, else false. 
  */
-bool AbstractBlock::containsType(int type) const
+bool Block::containsType(int type) const
 {
    // Iterate through list of this block's children. 
    for (auto child : qAsConst(_children))
@@ -207,7 +206,7 @@ bool AbstractBlock::containsType(int type) const
  *
  * @return True if this block contains any children of any type given, else false. 
  */
-bool AbstractBlock::containsType(const QList<int>& types) const
+bool Block::containsType(const QList<int>& types) const
 {
    // Iterate through list of this block's children. 
    for (auto child : qAsConst(_children))
@@ -234,7 +233,7 @@ bool AbstractBlock::containsType(const QList<int>& types) const
  * @return XML element that stores this block's data and all children underneath 
  *         it. 
  */
-QDomElement AbstractBlock::write(QDomDocument& document) const
+QDomElement Block::write(QDomDocument& document) const
 {
    // Create the data element for this bock's data. 
    QDomElement data {writeData(document)};
@@ -264,10 +263,10 @@ QDomElement AbstractBlock::write(QDomDocument& document) const
  *
  * @return Pointer to the root block. 
  */
-AbstractBlock* AbstractBlock::root()
+Abstract::Block* Block::root()
 {
    // Iterate up the tree of parents until the root pointer is found. 
-   AbstractBlock* root {this};
+   Block* root {this};
    while ( root->parent() ) root = root->parent();
 
    // Return the root pointer. 
@@ -286,7 +285,7 @@ AbstractBlock* AbstractBlock::root()
  *
  * @param index The index of the child block moved up by one. 
  */
-void AbstractBlock::moveUp(int index)
+void Block::moveUp(int index)
 {
    Q_ASSERT(index > 0);
    Q_ASSERT(index < _children.size());
@@ -302,7 +301,7 @@ void AbstractBlock::moveUp(int index)
    // Starting with this block iterate up the tree of parents, calling their child 
    // moved interface, until the root block is reached or the child moved interface 
    // returns false. 
-   AbstractBlock* notify {this};
+   Block* notify {this};
    while ( notify && notify->childMoved(_children.at(index - 1)) ) notify = notify->parent();
 }
 
@@ -318,7 +317,7 @@ void AbstractBlock::moveUp(int index)
  *
  * @param index The index of the child block moved down by one. 
  */
-void AbstractBlock::moveDown(int index)
+void Block::moveDown(int index)
 {
    // Make sure the given index is within range and not already at the bottom of the 
    // list. 
@@ -332,7 +331,7 @@ void AbstractBlock::moveDown(int index)
    // Starting with this block iterate up the tree of parents, calling their child 
    // moved interface, until the root block is reached or the child moved interface 
    // returns false. 
-   AbstractBlock* notify {this};
+   Block* notify {this};
    while ( notify && notify->childMoved(_children.at(index + 1)) ) notify = notify->parent();
 }
 
@@ -352,20 +351,20 @@ void AbstractBlock::moveDown(int index)
  *
  * @param child Pointer to the new block that is inserted as this block's child. 
  */
-void AbstractBlock::insert(int index, Soc::Ut::QPtr<AbstractBlock>&& child)
+void Block::insert(int index, Soc::Ut::QPtr<Block>&& child)
 {
    // Make sure the given pointer is not null. 
    Q_CHECK_PTR(child.get());
    Q_ASSERT(buildList().contains(child->type()));
 
    // Make sure the given block's type can be a child of this block. 
-   AbstractBlock* adopted {child.release(this)};
+   Block* adopted {child.release(this)};
    _children.insert(index,adopted);
    notifyModified();
 
    // Insert the given block as a child of this block at the given index and notify 
    // of modification. 
-   AbstractBlock* notify {this};
+   Block* notify {this};
    while ( notify && notify->childAdded(adopted) ) notify = notify->parent();
 }
 
@@ -383,7 +382,7 @@ void AbstractBlock::insert(int index, Soc::Ut::QPtr<AbstractBlock>&& child)
  *
  * @return Pointer to child that was taken from this block. 
  */
-Soc::Ut::QPtr<AbstractBlock> AbstractBlock::take(int index)
+Soc::Ut::QPtr<Abstract::Block> Block::take(int index)
 {
    // Make sure the given index is within range. 
    Q_ASSERT(index >= 0);
@@ -391,14 +390,14 @@ Soc::Ut::QPtr<AbstractBlock> AbstractBlock::take(int index)
 
    // Remove the child from this block's child list at the given index, saving the 
    // pointer and notifying of modification. 
-   Soc::Ut::QPtr<AbstractBlock> ret {_children.at(index)};
+   Soc::Ut::QPtr<Block> ret {_children.at(index)};
    _children.removeAll(ret.get());
    notifyModified();
 
    // Starting with this block iterate up the tree of parents, calling their child 
    // removed interface, until the root block is reached or the child removed 
    // interface returns false. 
-   AbstractBlock* notify {this};
+   Block* notify {this};
    while ( notify && notify->childRemoved(ret.get()) ) notify = notify->parent();
 
    // Return the removed child pointer. 
@@ -416,7 +415,7 @@ Soc::Ut::QPtr<AbstractBlock> AbstractBlock::take(int index)
  *
  * @param index The index of the child that is removed and deleted. 
  */
-void AbstractBlock::remove(int index)
+void Block::remove(int index)
 {
    // Take this block's child from the given index and delete it. 
    take(index).reset(nullptr);
@@ -435,7 +434,7 @@ void AbstractBlock::remove(int index)
  *
  * @param element The XML element that stores block data this block reads as input. 
  */
-void AbstractBlock::read(const QDomElement& element)
+void Block::read(const QDomElement& element)
 {
    // Delete and clear any existing children this block may contain. 
    qDeleteAll(_children);
@@ -484,11 +483,10 @@ void AbstractBlock::read(const QDomElement& element)
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
  */
-bool AbstractBlock::childNameModified(AbstractBlock* child)
+bool Block::childNameModified(Block* child)
 {
-   Q_UNUSED(child)
-
    // Return false. 
+   Q_UNUSED(child);
    return false;
 }
 
@@ -507,11 +505,10 @@ bool AbstractBlock::childNameModified(AbstractBlock* child)
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
  */
-bool AbstractBlock::childAdded(AbstractBlock* child)
+bool Block::childAdded(Block* child)
 {
-   Q_UNUSED(child)
-
    // Return false. 
+   Q_UNUSED(child);
    return false;
 }
 
@@ -531,11 +528,10 @@ bool AbstractBlock::childAdded(AbstractBlock* child)
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
  */
-bool AbstractBlock::childRemoved(AbstractBlock* child)
+bool Block::childRemoved(Block* child)
 {
-   Q_UNUSED(child)
-
    // Return false. 
+   Q_UNUSED(child);
    return false;
 }
 
@@ -555,11 +551,10 @@ bool AbstractBlock::childRemoved(AbstractBlock* child)
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
  */
-bool AbstractBlock::childMoved(AbstractBlock* child)
+bool Block::childMoved(Block* child)
 {
-   Q_UNUSED(child)
-
    // Return false. 
+   Q_UNUSED(child);
    return false;
 }
 
@@ -572,10 +567,10 @@ bool AbstractBlock::childMoved(AbstractBlock* child)
  * Notifies this block has been modified by finding its root block and emitting its 
  * modified signal. 
  */
-void AbstractBlock::notifyModified()
+void Block::notifyModified()
 {
    // Find the root block of this block and emit its modified signal. 
-   AbstractBlock* root {this};
+   Block* root {this};
    while ( root->parent() ) root = root->parent();
    emit root->modified();
 }
@@ -590,10 +585,10 @@ void AbstractBlock::notifyModified()
  * emitting its name modified signal. If this is called by a root block an 
  * exception is thrown because the root has no name. 
  */
-void AbstractBlock::notifyNameModified()
+void Block::notifyNameModified()
 {
    // Get a pointer to this block's parent block. 
-   AbstractBlock* root {parent()};
+   Block* root {parent()};
 
    // Make sure the parent block pointer is not null. 
    Q_CHECK_PTR(root);
@@ -601,7 +596,7 @@ void AbstractBlock::notifyNameModified()
    // Starting with this block's parent iterate up the tree of parents, calling their 
    // child name modified interface, until the root block is reached or the child 
    // name modified interface returns false. 
-   AbstractBlock* notify {root};
+   Block* notify {root};
    while ( notify && notify->childNameModified(this) ) notify = notify->parent();
 
    // Find the root block of this block and emit its name modified signal. 
@@ -619,10 +614,10 @@ void AbstractBlock::notifyNameModified()
  * emitting its name modified signal. If this is called by a root block an 
  * exception is thrown because the root has no body. 
  */
-void AbstractBlock::notifyBodyModified()
+void Block::notifyBodyModified()
 {
    // Get a pointer to this block's parent block. 
-   AbstractBlock* root {parent()};
+   Block* root {parent()};
 
    // Make sure the parent block pointer is not null. 
    Q_CHECK_PTR(root);
@@ -644,7 +639,7 @@ void AbstractBlock::notifyBodyModified()
  *
  * @param parent Pointer to block whose children are copied. 
  */
-void AbstractBlock::copyChildren(const AbstractBlock* parent)
+void Block::copyChildren(const Block* parent)
 {
    // Iterate through all the children of the given block. 
    for (auto child : qAsConst(parent->_children)) _children << child->makeCopy().release(this);
@@ -661,7 +656,7 @@ void AbstractBlock::copyChildren(const AbstractBlock* parent)
  *
  * @param element XML element used to read in the new child. 
  */
-void AbstractBlock::readChild(const QDomElement& element)
+void Block::readChild(const QDomElement& element)
 {
    // Read in the type attribute from the given child element. 
    int type {factory().typeByElementName(element.tagName())};
@@ -674,8 +669,8 @@ void AbstractBlock::readChild(const QDomElement& element)
 
    // Create a new block with the read in type and append it to this block's child 
    // list. 
-   Soc::Ut::QPtr<AbstractBlock> child {factory().makeBlock(type,false)};
-   AbstractBlock* back {child.release(this)};
+   Soc::Ut::QPtr<Block> child {factory().makeBlock(type,false)};
+   Block* back {child.release(this)};
    _children << back;
 
    // Have the new block read in its data and children from the given element. 

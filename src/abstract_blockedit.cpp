@@ -1,11 +1,12 @@
-#include "gui_abstractedit.h"
+#include "abstract_blockedit.h"
 #include <QVBoxLayout>
 #include <QPushButton>
-#include "gui_mainwindow.h"
+#include <QMessageBox>
+#include "exception.h"
 
 
 
-using namespace Gui;
+using namespace Abstract;
 //
 
 
@@ -20,8 +21,8 @@ using namespace Gui;
  *
  * @param parent Optional parent for this new abstract edit dialog. 
  */
-AbstractEdit::AbstractEdit(QWidget* parent):
-   PersistentDialog(parent)
+BlockEdit::BlockEdit(QWidget* parent):
+   Gui::PersistentDialog(parent)
 {}
 
 
@@ -33,7 +34,7 @@ AbstractEdit::AbstractEdit(QWidget* parent):
  * Constructs and initializes the GUI for this abstract edit dialog, making it 
  * ready to be used as a GUI dialog window. 
  */
-void AbstractEdit::initialize()
+void BlockEdit::initialize()
 {
    // Setup this object's buttons. This must be done before the layout interface is 
    // called because its buttons may be accessed in that interface. 
@@ -59,7 +60,7 @@ void AbstractEdit::initialize()
  *
  * @param disabled True to disable apply and OK buttons or false to enable them. 
  */
-void AbstractEdit::setDisabled(bool disabled)
+void BlockEdit::setDisabled(bool disabled)
 {
    // Set the disabled state of this object's apply and OK buttons based off the 
    // given state. 
@@ -76,7 +77,7 @@ void AbstractEdit::setDisabled(bool disabled)
  * Called when this object's OK button is clicked. This tries to apply changes to 
  * the implementation's block and if successful closes this dialog. 
  */
-void AbstractEdit::okClicked()
+void BlockEdit::okClicked()
 {
    // Try to apply changes and if it works close this dialog with accept. 
    if ( tryApply() ) done(QDialog::Accepted);
@@ -91,7 +92,7 @@ void AbstractEdit::okClicked()
  * Called when this object's apply button is clicked. This tries to apply changes 
  * to the implementation's block and if successful updates the block's view. 
  */
-void AbstractEdit::applyClicked()
+void BlockEdit::applyClicked()
 {
    tryApply();
 }
@@ -108,7 +109,7 @@ void AbstractEdit::applyClicked()
  * @return True is the implementation applied changes successfully or false if an 
  *         exception was thrown. 
  */
-bool AbstractEdit::tryApply()
+bool BlockEdit::tryApply()
 {
    try
    {
@@ -119,7 +120,11 @@ bool AbstractEdit::tryApply()
 
    // Catch any exception thrown from the apply interface, returning false on 
    // failure. 
-   catch (...) { return false; }
+   catch (Exception e)
+   {
+      QMessageBox::warning(this,tr("Failed Applying Changes"),e.message());
+      return false;
+   }
 }
 
 
@@ -133,15 +138,15 @@ bool AbstractEdit::tryApply()
  *
  * @return Horizontal layout containing this object's three buttons. 
  */
-QLayout* AbstractEdit::setupButtons()
+QLayout* BlockEdit::setupButtons()
 {
    // Create the OK button for this dialog, connecting its clicked signal. 
    _ok = new QPushButton(tr("&Ok"));
-   connect(_ok,&QPushButton::clicked,this,&AbstractEdit::okClicked);
+   connect(_ok,&QPushButton::clicked,this,&BlockEdit::okClicked);
 
    // Create the apply button for this dialog, connecting its clicked signal. 
    _apply = new QPushButton(tr("&Apply"));
-   connect(_apply,&QPushButton::clicked,this,&AbstractEdit::applyClicked);
+   connect(_apply,&QPushButton::clicked,this,&BlockEdit::applyClicked);
 
    // Create the cancel button for this dialog, connecting its clicked signal. 
    QPushButton* cancel {new QPushButton(tr("&Cancel"))};

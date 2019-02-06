@@ -1,10 +1,9 @@
 
 /*!
- * Contains all basic GUI elements. 
+ * Contains all GUI elements for this application. 
  */
 namespace Gui
 {
-   class AbstractEdit;
    class PersistentDialog;
    class TextDialog;
    class TextEdit;

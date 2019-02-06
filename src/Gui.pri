@@ -3,7 +3,6 @@ SOURCES += \
     gui_mainwindow.cpp \
     gui_projectdialog.cpp \
     gui_blockview.cpp \
-    gui_abstractedit.cpp \
     gui_textedit.cpp \
     gui_textedit_highlighter.cpp \
     gui_textedit_dialog.cpp \
@@ -19,7 +18,6 @@ HEADERS += \
     gui_mainwindow.h \
     gui_projectdialog.h \
     gui_blockview.h \
-    gui_abstractedit.h \
     gui_textedit.h \
     gui_textedit_highlighter.h \
     gui_textedit_dialog.h \

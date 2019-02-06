@@ -11,3 +11,5 @@
 
 * Expand classes nested in classes needlessly.
 
+* Completely redo parsing to a more sane model.
+

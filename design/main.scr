@@ -45,9 +45,885 @@
     </data>
     <namespace>
       <data>
-        <description>Contains all basic GUI elements.</description>
-        <name>Gui</name>
+        <description>Contains all abstract interface classes that define the meta structure of this application.</description>
+        <name>Abstract</name>
       </data>
+      <class>
+        <data>
+          <description>This represents a single block in this application's reference system. The block system is the core function of this application, representing blocks as a single atomic item for referencing code. The block system conforms to a parent child relationship. Virtual interfaces are provided for basic information, spawning view and abstract edit widgets. Interfaces are also provided for reading from and writing to XML elements.
+
+The block system represents all elements of code structure in a reference. Individual implementations should be defined for different code objects such as variables or functions. They should also be defined for modifiers or additions to other blocks, such as arguments to a function or methods to a class.
+
+Each block can have a single parent and any number of children. The children are contained in a ordered list to allow the entire block structure to be viewed in this application's block view widget. This allows for easy mimicking of most code structures that also follow this relationship, such as arguments of a function or methods of a class.
+
+The virtual interfaces for this class fall into three primary groupings. The first provides the system with basic information usually required to display the block in the block view. The second deals with spawning view and abstract edit widgets to have a detailed view of the block or edit its data, respectively. The final deals with reading from and writing to XML elements used for saving projects to an XML file. Optional interfaces are also provides for dealing with child events, such as children being added or removed.
+
+This class itself handles all copying using another specialized interface for copying implementation data and another regular method for copying children blocks. This class also handles all management of children internally.</description>
+          <name>Block</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>QObject</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns this block's type.</description>
+              <name>type</name>
+              <return_description>This block's type.</return_description>
+              <type>int</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns a reference to this block's factory which produces all block types for this project type.</description>
+              <name>factory</name>
+              <return_description>Reference to block factory.</return_description>
+              <type>const Abstract::BlockFactory&amp;</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the name of this block. The name is used to display the block as text in a tree view and as a title when selected.</description>
+              <name>name</name>
+              <return_description>The name of this block.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the icon of this block. The icon is displayed in a tree view of this block and its title if selected.</description>
+              <name>icon</name>
+              <return_description>The icon of this block.</return_description>
+              <type>QIcon</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns a list of types that this block can contain as children. If the same type is listed more than once any repeated occurrences are ignored and the type is allowed to be this block's parent.</description>
+              <name>buildList</name>
+              <return_description>List of allowed types this block can contain as children.</return_description>
+              <type>QList&lt;int></type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns a view that provides a detailed read only GUI representation of this block's data.</description>
+              <name>makeView</name>
+              <return_description>New GUI view that represents this block's data.</return_description>
+              <type>Soc::Ut::QPtr&lt;QWidget></type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This interface makes an exact copy of this block. A default implementation of this interface is given that uses other virtual functions to create a copy of this block. The new block returned has no parent.</description>
+              <name>makeCopy</name>
+              <operation>Create a new blank block identical to this block's type.</operation>
+              <operation>Make sure the new block is the same type.</operation>
+              <operation>Copy this block's children and implementation data to the new block.</operation>
+              <operation>Return the new block.</operation>
+              <return_description>Exact copy of this block's data as a new block.</return_description>
+              <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <description>This interface returns an abstract edit GUI dialog that provides the ability to edit this block's data.</description>
+              <name>makeEdit</name>
+              <return_description>Abstract edit GUI dialog to edit this block's data.</return_description>
+              <type>Soc::Ut::QPtr&lt;Abstract::BlockEdit></type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
+              <name>root</name>
+              <operation>Iterate up the tree of parents until the root pointer is found.</operation>
+              <operation>Return the root pointer.</operation>
+              <return_description>Read only pointer to the root block.</return_description>
+              <type>const Abstract::Block*</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This returns a pointer to the parent of this block. If this block is the root block then null is returned.</description>
+              <name>parent</name>
+              <operation>Return the qt object of this object cast as an abstract block.</operation>
+              <return_description>If this block is the root then a null pointer, else a pointer to this block's parent.</return_description>
+              <type>Abstract::Block*</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This returns the number of children this block contains.</description>
+              <name>size</name>
+              <operation>Return this block's child list size.</operation>
+              <return_description>Number of children this block contains.</return_description>
+              <type>int</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This returns a read only reference to this block's list of children blocks. The list is a list of pointers to all child blocks.</description>
+              <name>list</name>
+              <operation>Return a constant reference to this block's internal children list.</operation>
+              <return_description>Reference to this block's list of children.</return_description>
+              <type>const QList&lt;Abstract::Block*>&amp;</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This gets the index where the child with the given pointer is stored in this block's list of children. If no child with the given pointer is found then -1 is returned.</description>
+              <name>indexOf</name>
+              <operation>Return the index of the given child pointer using the qt method of this block's child list.</operation>
+              <return_description>If a match is found then the index of the child with the given pointer, else -1.</return_description>
+              <type>int</type>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer of child block to match in this block's list and return its index.</description>
+                <initializer></initializer>
+                <name>pointer</name>
+                <type>Block*</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This returns a pointer to this block's child with the given index. If the index is out of range an exception is thrown.</description>
+              <name>get</name>
+              <operation>Make sure the given index is within range.</operation>
+              <operation>Return a pointer to this block's child with the given index.</operation>
+              <return_description>Pointer to this block's child with given index.</return_description>
+              <type>Abstract::Block*</type>
+            </data>
+            <variable>
+              <data>
+                <description>Index of the child whose pointer is returned.</description>
+                <initializer></initializer>
+                <name>index</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Tests if this block contains any children of the given type.</description>
+              <name>containsType</name>
+              <operation>Iterate through list of this block's children.</operation>
+              <operation>If the child matches the given type then return true.</operation>
+              <operation>Return false because no child was found with the given type.</operation>
+              <return_description>True if this block contains any children of the given type, else false.</return_description>
+              <type>bool</type>
+            </data>
+            <variable>
+              <data>
+                <description>The block type to search for within this block's list of children.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Tests if this block contains any children of any type given.</description>
+              <name>containsType</name>
+              <operation>Iterate through list of this block's children.</operation>
+              <operation>If the child matches any of the given types then return true.</operation>
+              <operation>Return false because no child was found with the given type.</operation>
+              <return_description>True if this block contains any children of any type given, else false.</return_description>
+              <type>bool</type>
+            </data>
+            <variable>
+              <data>
+                <description>List of block types to search for within this block's list of children.</description>
+                <initializer></initializer>
+                <name>types</name>
+                <type>const QList&lt;int>&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Build a list of this block's children that matches the given type. The returned list has no other copies.</description>
+              <name>makeListOfType</name>
+              <operation>Generate a pointer list of all this block's children that match the given type.</operation>
+              <operation>Return the pointer list of matched children.</operation>
+              <return_description>List of this block's children that is given type.</return_description>
+              <type>QList&lt;T*></type>
+            </data>
+            <template>
+              <data>
+                <description>The child class type that is matched.</description>
+                <name>T</name>
+                <type>class</type>
+              </data>
+            </template>
+            <variable>
+              <data>
+                <description>The type whose matches are added to the list.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
+              <name>cast</name>
+              <operation>Make sure the given type matches this block's type.</operation>
+              <operation>Cast this block to the given type and make sure it works.</operation>
+              <operation>Return the type casted  pointer.</operation>
+              <return_description>If successful then a read only pointer of requested cast type, else a null pointer.</return_description>
+              <type>const T*</type>
+            </data>
+            <template>
+              <data>
+                <description>The class type that is cast.</description>
+                <name>T</name>
+                <type>class</type>
+              </data>
+            </template>
+            <variable>
+              <data>
+                <description>The block type that this block is cast to.</description>
+                <initializer></initializer>
+                <name>toType</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Writes out this block's data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
+              <name>write</name>
+              <operation>Create the data element for this bock's data.</operation>
+              <operation>Create a new element that will contain this block's data and all children.</operation>
+              <operation>Add the data element for the return element.</operation>
+              <operation>Add all of this block's children elements.</operation>
+              <operation>Return the element containing all data and children of this block.</operation>
+              <return_description>XML element that stores this block's data and all children underneath it.</return_description>
+              <type>QDomElement</type>
+            </data>
+            <variable>
+              <data>
+                <description></description>
+                <initializer></initializer>
+                <name>document</name>
+                <type>QDomDocument&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
+              <name>root</name>
+              <operation>Iterate up the tree of parents until the root pointer is found.</operation>
+              <operation>Return the root pointer.</operation>
+              <return_description>Pointer to the root block.</return_description>
+              <type>Abstract::Block*</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
+              <name>cast</name>
+              <operation>Make sure the given type matches this block's type.</operation>
+              <operation>Cast this block to the given type and make sure it works.</operation>
+              <operation>Return the type casted pointer.</operation>
+              <return_description>If successful then a pointer of requested cast type, else a null pointer.</return_description>
+              <type>T*</type>
+            </data>
+            <template>
+              <data>
+                <description>The class type that is cast.</description>
+                <name>T</name>
+                <type>class</type>
+              </data>
+            </template>
+            <variable>
+              <data>
+                <description>The block type that this block is cast to.</description>
+                <initializer></initializer>
+                <name>toType</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Moves the child block with the given index up the list by one where the very top of the list is index 0. If the given index is already at the top of the list or out of range then this does nothing.</description>
+              <name>moveUp</name>
+              <operation>Make sure the given index is within range and not already at the top of the list.</operation>
+              <operation>Swap the child pointer at the given index with the pointer directly above it in this block's child list and notify of modification.</operation>
+              <operation>Starting with this block iterate up the tree of parents, calling their child moved interface, until the root block is reached or the child moved interface returns false.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The index of the child block moved up by one.</description>
+                <initializer></initializer>
+                <name>index</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Moves the child block with the given index down the list by one where the very top of the list is index 0. If the given index is already at the bottom of the list or out of range then this does nothing.</description>
+              <name>moveDown</name>
+              <operation>Make sure the given index is within range and not already at the bottom of the list.</operation>
+              <operation>Swap the child pointer at the given index with the pointer directly below it in this block's child list and notify of modification.</operation>
+              <operation>Starting with this block iterate up the tree of parents, calling their child moved interface, until the root block is reached or the child moved interface returns false.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The index of the child block moved down by one.</description>
+                <initializer></initializer>
+                <name>index</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
+              <name>insert</name>
+              <operation>Make sure the given pointer is not null.</operation>
+              <operation>Make sure the given block's type can be a child of this block.</operation>
+              <operation>Insert the given block as a child of this block at the given index and notify of modification.</operation>
+              <operation>Starting with this block iterate up the tree of parents, calling their child added interface, until the root block is reached or the child added interface returns false.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The index where the new block is inserted.</description>
+                <initializer></initializer>
+                <name>index</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>Pointer to the new block that is inserted as this block's child.</description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>Soc::Ut::QPtr&lt;Block>&amp;&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. If the index is out of range then an exception is thrown.</description>
+              <name>take</name>
+              <operation>Make sure the given index is within range.</operation>
+              <operation>Remove the child from this block's child list at the given index, saving the pointer and notifying of modification.</operation>
+              <operation>Starting with this block iterate up the tree of parents, calling their child removed interface, until the root block is reached or the child removed interface returns false.</operation>
+              <operation>Return the removed child pointer.</operation>
+              <return_description>Pointer to child that was taken from this block.</return_description>
+              <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
+            </data>
+            <variable>
+              <data>
+                <description>The index of the child that is taken.</description>
+                <initializer></initializer>
+                <name>index</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
+              <name>remove</name>
+              <operation>Take this block's child from the given index and delete it.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The index of the child that is removed and deleted.</description>
+                <initializer></initializer>
+                <name>index</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Reads in block data from an XML element. This clears any existing data this block contains, including the removal and deletion of all existing children. This recursively adds any children contained in the XML reading in their data from child XML elements.</description>
+              <name>read</name>
+              <operation>Delete and clear any existing children this block may contain.</operation>
+              <operation>Iterate through all children nodes of the given element.</operation>
+              <operation>Check if the node is an element.</operation>
+              <operation>If the tag name is the data tag then read in this block's data else read in the element as a new child for this block.</operation>
+              <operation>Move to the next node sibling.</operation>
+              <operation>Make sure all children of this block is allowed to this block's child list.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The XML element that stores block data this block reads as input.</description>
+                <initializer></initializer>
+                <name>element</name>
+                <type>const QDomElement&amp;</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>signals:</type>
+          </data>
+          <function>
+            <data>
+              <description>Signals that a child block of this block has been modified. The given child block could be any depth below this block. Only the root block emits this signal.</description>
+              <name>modified</name>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Signals that a child block of this block with the given pointer has modified its name. The given child block could be any depth below this block. Only the root block emits this signal.</description>
+              <name>nameModified</name>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer of the child whose name has changed.</description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>Block*</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Signals that a child block of this block with the given pointer has modified its body. The given child block could be any depth below this block. Only the root block emits this signal.</description>
+              <name>bodyModified</name>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description></description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>Block*</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>protected:</type>
+          </data>
+          <function>
+            <data>
+              <abstract/>
+              <description>This interface reads in the data for this block from the given XML element, overwriting any data this block currently holds.</description>
+              <name>readData</name>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>The XML element used to read in this blocks data.</description>
+                <initializer></initializer>
+                <name>element</name>
+                <type>const QDomElement&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns a XML element containing the data for this block using the current version number. Attributes should never be used with this element because of their indeterminate nature.</description>
+              <name>writeData</name>
+              <return_description>XML element containing the data of this block.</return_description>
+              <type>QDomElement</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>XML document to use for creating new elements.</description>
+                <initializer></initializer>
+                <name>document</name>
+                <type>QDomDocument&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <name>makeBlank</name>
+              <return_description>Pointer to the newly created block.</return_description>
+              <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <description>This interface copies all data from the given block to this block, overwriting any data this block may already contain. This does not copy any children.</description>
+              <name>copyDataFrom</name>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>The other block whose data will be copied.</description>
+                <initializer></initializer>
+                <name>other</name>
+                <type>const Block*</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>This interface is called whenever a child below this block has modified its name. This keeps getting called on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
+              <name>childNameModified</name>
+              <operation>Return false.</operation>
+              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer to the child block that has modified its name.</description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>Block*</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>This interface is called whenever a new child below this block has been added. This keeps getting called on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
+              <name>childAdded</name>
+              <operation>Return false.</operation>
+              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer to the child block that been added to its new parent block.</description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>Block*</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>This interface is called whenever an existing child below this block has been removed. This keeps getting called on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
+              <name>childRemoved</name>
+              <operation>Return false.</operation>
+              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer to the child block that has been removed from its former parent block. This object can be deleted right after this call.</description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>Block*</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>This interface is called whenever an existing child below this block has been moved. This keeps getting called on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
+              <name>childMoved</name>
+              <operation>Return false.</operation>
+              <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer to the child block that has been moved in its parent's list of children.</description>
+                <initializer></initializer>
+                <name>child</name>
+                <type>Block*</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>protected:</type>
+          </data>
+          <function>
+            <data>
+              <description>Notifies this block has been modified by finding its root block and emitting its modified signal.</description>
+              <name>notifyModified</name>
+              <operation>Find the root block of this block and emit its modified signal.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Notifies this block's name has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no name.</description>
+              <name>notifyNameModified</name>
+              <operation>Get a pointer to this block's parent block.</operation>
+              <operation>Make sure the parent block pointer is not null.</operation>
+              <operation>Starting with this block's parent iterate up the tree of parents, calling their child name modified interface, until the root block is reached or the child name modified interface returns false.</operation>
+              <operation>Find the root block of this block and emit its name modified signal.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Notifies this block's body has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no body.</description>
+              <name>notifyBodyModified</name>
+              <operation>Get a pointer to this block's parent block.</operation>
+              <operation>Make sure the parent block pointer is not null.</operation>
+              <operation>Find the root block of this block and emit its body modified signal.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <function>
+            <data>
+              <description>Copies all children from the given block and appends the copies to the list of this block's children. This does not remove any previous children already part of this block.</description>
+              <name>copyChildren</name>
+              <operation>Iterate through all the children of the given block.</operation>
+              <operation>Make a copy of the child and append it to this block.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>Pointer to block whose children are copied.</description>
+                <initializer></initializer>
+                <name>parent</name>
+                <type>const Block*</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Creates a new child reading it in from the given XML element. The new child is then appended to this block's list of children.</description>
+              <name>readChild</name>
+              <operation>Read in the type attribute from the given child element.</operation>
+              <operation>Make sure reading in the type did not fail.</operation>
+              <operation>Make sure the read in type is within range of this block's factory.</operation>
+              <operation>Create a new block with the read in type and append it to this block's child list.</operation>
+              <operation>Have the new block read in its data and children from the given element.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>XML element used to read in the new child.</description>
+                <initializer></initializer>
+                <name>element</name>
+                <type>const QDomElement&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <variable>
+            <data>
+              <description>The name for version attributes.</description>
+              <initializer>"version"</initializer>
+              <name>_versionTag</name>
+              <static/>
+              <type>const char*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The tag name for data elements.</description>
+              <initializer>"data"</initializer>
+              <name>_dataTag</name>
+              <static/>
+              <type>const char*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The name for type attributes.</description>
+              <initializer>"type"</initializer>
+              <name>_typeTag</name>
+              <static/>
+              <type>const char*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>Pointer list of this block's children.</description>
+              <initializer></initializer>
+              <name>_children</name>
+              <type>QList&lt;Block*></type>
+            </data>
+          </variable>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This represents a label that displays the data of a block. This connects to the block it represents and updates its label whenever its block updates itself. This provides a single virtual method that should render the text of its label, displaying all data of its connected block. The block is read only because this is only meant for displaying its data.</description>
+          <name>BlockView</name>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>QLabel</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new block view with the given block.</description>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The block that this view displays.</description>
+                <initializer></initializer>
+                <name>block</name>
+                <type>const Block*</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public slots:</type>
+          </data>
+          <function>
+            <data>
+              <description>Called when this view's block's data has changed. This clears this view's text and calls the interface to render it again with the updated block.</description>
+              <name>blockUpdated</name>
+              <operation>Clear this view's text and render it again.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>protected:</type>
+          </data>
+          <function>
+            <data>
+              <abstract/>
+              <description>This interface renders the text onto this label displaying all data of the block this view displays.</description>
+              <name>renderText</name>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>protected:</type>
+          </data>
+          <function>
+            <data>
+              <description>Returns a reference to the block this view displays, type casted to the specific block type of this view. It is assumed the type given can be type cast successfully.</description>
+              <name>block</name>
+              <operation>Type cast this view's block to the given block type and make sure it worked.</operation>
+              <operation>Return a reference to this view's type casted block.</operation>
+              <return_description>Reference to the block this view displays.</return_description>
+              <type>const T&amp;</type>
+            </data>
+            <template>
+              <data>
+                <description>Block type to return as a reference.</description>
+                <name>T</name>
+                <type>class</type>
+              </data>
+            </template>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <variable>
+            <data>
+              <description>The block that this view displays.</description>
+              <initializer></initializer>
+              <name>_block</name>
+              <type>const Block*</type>
+            </data>
+          </variable>
+        </access>
+      </class>
       <class>
         <data>
           <description>This represents a dialog for editing the data of a block. This class provides partial construction of the dialog GUI and handling the events associated with what it creates. An implementation of this class is responsible for handling apply actions and constructing the rest of the GUI. This is a persistent dialog. The GUI of this object is not constructed in this object's constructor since it relies on an interface call as part of its construction process. Instead an initialization method must be called before this object can be used as a dialog.
@@ -56,13 +932,13 @@ This class constructs OK, apply, and cancel buttons and handles their clicked ev
 
 An implementation of this class must construct the form portion of this dialog giving user access to the data of the block being edited. This is accomplished through another interface that returns a layout of the form portion. The form portion is positioned at the top of the dialog while the buttons this class creates is at the bottom.
 </description>
-          <name>AbstractEdit</name>
+          <name>BlockEdit</name>
           <qtobject/>
         </data>
         <parent>
           <data>
             <access>public</access>
-            <class>PersistentDialog</class>
+            <class>Gui::PersistentDialog</class>
           </data>
         </parent>
         <access>
@@ -212,6 +1088,329 @@ An implementation of this class must construct the form portion of this dialog g
           </variable>
         </access>
       </class>
+      <class>
+        <data>
+          <description>This represents the factory that can produce blocks for a specific project type. There should only be one instance of this class for each project type. Along with making new blocks this factory also gives basic information about each block type such as its display and element names. The two element name functions must mirror one another in an implementation or undefined behavior will occur.</description>
+          <name>BlockFactory</name>
+        </data>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
+              <name>~^</name>
+              <return_description></return_description>
+              <type></type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the project type of this block factory.</description>
+              <name>type</name>
+              <return_description>Project type.</return_description>
+              <type>int</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the number of block types that exist for this factory. Block types must be defined for all integers from 0 to one less than the number of block types returned by this interface.</description>
+              <name>size</name>
+              <return_description>Number of block types that exist for this factory.</return_description>
+              <type>int</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the display name for the given block type.</description>
+              <name>name</name>
+              <return_description>Display name for the given block type.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Block type whose display name is returned.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the integer type of the block with the given element name. If no block type exists with the given name then -1 is returned.</description>
+              <name>typeByElementName</name>
+              <return_description>The integer type of the block with the given element name if found or -1 if no block type is found with that element name.</return_description>
+              <type>int</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>The given element name whose integer type is returned if found.</description>
+                <initializer></initializer>
+                <name>elementName</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the element name for the given block type. The element name is used as the tag name in XML elements for reading/writing of blocks.</description>
+              <name>elementName</name>
+              <return_description>Element name for the given block type.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Block type whose element name is returned.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface makes a new block of the given type and returns its pointer. The new block is expected to have either a null data or new default state, depending on the given flag.</description>
+              <name>makeBlock</name>
+              <return_description>Pointer to new block with given type.</return_description>
+              <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Block type which is made and returned.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>True if the new block is initialized to a default state or false if it is uninitialized in a null state.</description>
+                <initializer></initializer>
+                <name>isDefault</name>
+                <type>bool</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface makes a new root block and returns its pointer. The root block is used as the root block for all projects of this project type. The new root block is expected to have a null data state.</description>
+              <name>makeRootBlock</name>
+              <return_description>Pointer to new root block for this project type.</return_description>
+              <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This represents the factory that provides all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire application. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project type element names must never change and the two element methods must mirror one another.</description>
+          <name>ProjectFactory</name>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Soc::Ut::SingletonFactory&lt;ProjectFactory></class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
+              <name>~^</name>
+              <return_description></return_description>
+              <type></type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the number of project types that exist. Project types must be defined for all integers from 0 to one less than the number of project types returned by this interface.</description>
+              <name>size</name>
+              <return_description>Number of project types that exist.</return_description>
+              <type>int</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the display name for the given project type.</description>
+              <name>name</name>
+              <return_description>Display name for the given project type.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Project type whose display name is returned.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the project type with the given element name. If no project type exists with the given name then -1 is returned.</description>
+              <name>typeByElementName</name>
+              <return_description>The integer value of the project type with the given element name if found or -1 if no project type is found with the given element name.</return_description>
+              <type>int</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>The given element name of the project type that is returned if found.</description>
+                <initializer></initializer>
+                <name>elementName</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the element name for the given project type. The element name is used as the tag name in the XML project file to determine what project type it is.</description>
+              <name>elementName</name>
+              <return_description>Element name for the given project type.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Project type whose element name is returned.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the default filters for the scanning of source files the given project type possesses.</description>
+              <name>defaultFilters</name>
+              <return_description>Default file filters for the given project type.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Project type whose default file filters are returned.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface makes a new settings dialog for the given project type. The settings dialog for a project type should contain all general settings for that project type, saving the settings in the qt settings class.</description>
+              <name>makeSettings</name>
+              <return_description>Pointer to the new settings dialog for the given project type.</return_description>
+              <type>Soc::Ut::QPtr&lt;QDialog></type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Project type whose settings dialog is returned.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns a read only reference to the block factory for the given project type.</description>
+              <name>blockFactory</name>
+              <return_description>Read only reference to block factory for the given project type.</return_description>
+              <type>const Abstract::BlockFactory&amp;</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Project type whose block factory is returned as a reference.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface makes a new parser factory for the given project type with the given block pointer as the root of an existing project to be parsed.</description>
+              <name>makeParserFactory</name>
+              <return_description>Pointer to created parser factory for the given project type.</return_description>
+              <type>Soc::Ut::QPtr&lt;AbstractParserFactory></type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>Project type whose parser factory type is made and returned.</description>
+                <initializer></initializer>
+                <name>type</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>Pointer to root block of existing project that will be parsed with the returned parser factory.</description>
+                <initializer></initializer>
+                <name>root</name>
+                <type>const Block*</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+      </class>
+    </namespace>
+    <namespace>
+      <data>
+        <description>Contains all GUI elements for this application.</description>
+        <name>Gui</name>
+      </data>
       <class>
         <data>
           <description>This is a base dialog class that allows any dialog class inheriting it to keep a persistent geometry whenever the dialog is closed and opened again. This is done by using Qt settings, saving the dialog geometry upon destruction and restoring it upon construction or calling a method. A unique key must be given to this class for each dialog inheriting it to avoid Qt setting collisions of saved geometry. If a key is never given to this class then it will not save any geometry.</description>
@@ -11150,700 +12349,36 @@ Because this function parser is responsible for the special main function it mus
     </namespace>
     <class>
       <data>
-        <description>This represents a single block in this application's reference system. The block system is the core function of this application, representing blocks as a single atomic item for referencing code. The block system conforms to a parent child relationship. Virtual interfaces are provided for basic information, spawning view and abstract edit widgets. Interfaces are also provided for reading from and writing to XML elements.
-
-The block system represents all elements of code structure in a reference. Individual implementations should be defined for different code objects such as variables or functions. They should also be defined for modifiers or additions to other blocks, such as arguments to a function or methods to a class.
-
-Each block can have a single parent and any number of children. The children are contained in a ordered list to allow the entire block structure to be viewed in this application's block view widget. This allows for easy mimicking of most code structures that also follow this relationship, such as arguments of a function or methods of a class.
-
-The virtual interfaces for this class fall into three primary groupings. The first provides the system with basic information usually required to display the block in the block view. The second deals with spawning view and abstract edit widgets to have a detailed view of the block or edit its data, respectively. The final deals with reading from and writing to XML elements used for saving projects to an XML file. Optional interfaces are also provides for dealing with child events, such as children being added or removed.
-
-This class itself handles all copying using another specialized interface for copying implementation data and another regular method for copying children blocks. This class also handles all management of children internally.</description>
-        <name>AbstractBlock</name>
-        <qtobject/>
+        <description>This contains a simple message that can be used for throwing messages as an exception to communicate why something failed.</description>
+        <name>Exception</name>
       </data>
-      <parent>
-        <data>
-          <access>public</access>
-          <class>QObject</class>
-        </data>
-      </parent>
       <access>
         <data>
           <type>public:</type>
         </data>
         <function>
           <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns this block's type.</description>
-            <name>type</name>
-            <return_description>This block's type.</return_description>
-            <type>int</type>
-            <virtual/>
+            <description>Constructs a new exception with the given error message.</description>
+            <name>^</name>
+            <return_description></return_description>
+            <type></type>
           </data>
+          <variable>
+            <data>
+              <description>Error message explaining what occurred to cause this new exception.</description>
+              <initializer></initializer>
+              <name>message</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
         </function>
         <function>
           <data>
-            <abstract/>
             <const/>
-            <description>This interface returns a reference to this block's factory which produces all block types for this project type.</description>
-            <name>factory</name>
-            <return_description>Reference to block factory.</return_description>
-            <type>const AbstractBlockFactory&amp;</type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the name of this block. The name is used to display the block as text in a tree view and as a title when selected.</description>
-            <name>name</name>
-            <return_description>The name of this block.</return_description>
+            <description>Returns the message of this exception explaining the error that occurred.</description>
+            <name>message</name>
+            <return_description>The message of this exception.</return_description>
             <type>QString</type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the icon of this block. The icon is displayed in a tree view of this block and its title if selected.</description>
-            <name>icon</name>
-            <return_description>The icon of this block.</return_description>
-            <type>QIcon</type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns a list of types that this block can contain as children. If the same type is listed more than once any repeated occurrences are ignored and the type is allowed to be this block's parent.</description>
-            <name>buildList</name>
-            <return_description>List of allowed types this block can contain as children.</return_description>
-            <type>QList&lt;int></type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns a view that provides a detailed read only GUI representation of this block's data.</description>
-            <name>makeView</name>
-            <return_description>New GUI view that represents this block's data.</return_description>
-            <type>Soc::Ut::QPtr&lt;QWidget></type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>This interface makes an exact copy of this block. A default implementation of this interface is given that uses other virtual functions to create a copy of this block. The new block returned has no parent.</description>
-            <name>makeCopy</name>
-            <operation>Create a new blank block identical to this block's type.</operation>
-            <operation>Make sure the new block is the same type.</operation>
-            <operation>Copy this block's children and implementation data to the new block.</operation>
-            <operation>Return the new block.</operation>
-            <return_description>Exact copy of this block's data as a new block.</return_description>
-            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <description>This interface returns an abstract edit GUI dialog that provides the ability to edit this block's data.</description>
-            <name>makeEdit</name>
-            <return_description>Abstract edit GUI dialog to edit this block's data.</return_description>
-            <type>Soc::Ut::QPtr&lt;Gui::AbstractEdit></type>
-            <virtual/>
-          </data>
-        </function>
-      </access>
-      <access>
-        <data>
-          <type>public:</type>
-        </data>
-        <function>
-          <data>
-            <const/>
-            <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
-            <name>root</name>
-            <operation>Iterate up the tree of parents until the root pointer is found.</operation>
-            <operation>Return the root pointer.</operation>
-            <return_description>Read only pointer to the root block.</return_description>
-            <type>const AbstractBlock*</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>This returns a pointer to the parent of this block. If this block is the root block then null is returned.</description>
-            <name>parent</name>
-            <operation>Return the qt object of this object cast as an abstract block.</operation>
-            <return_description>If this block is the root then a null pointer, else a pointer to this block's parent.</return_description>
-            <type>AbstractBlock*</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>This returns the number of children this block contains.</description>
-            <name>size</name>
-            <operation>Return this block's child list size.</operation>
-            <return_description>Number of children this block contains.</return_description>
-            <type>int</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>This returns a read only reference to this block's list of children blocks. The list is a list of pointers to all child blocks.</description>
-            <name>list</name>
-            <operation>Return a constant reference to this block's internal children list.</operation>
-            <return_description>Reference to this block's list of children.</return_description>
-            <type>const QList&lt;AbstractBlock*>&amp;</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>This gets the index where the child with the given pointer is stored in this block's list of children. If no child with the given pointer is found then -1 is returned.</description>
-            <name>indexOf</name>
-            <operation>Return the index of the given child pointer using the qt method of this block's child list.</operation>
-            <return_description>If a match is found then the index of the child with the given pointer, else -1.</return_description>
-            <type>int</type>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer of child block to match in this block's list and return its index.</description>
-              <initializer></initializer>
-              <name>pointer</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>This returns a pointer to this block's child with the given index. If the index is out of range an exception is thrown.</description>
-            <name>get</name>
-            <operation>Make sure the given index is within range.</operation>
-            <operation>Return a pointer to this block's child with the given index.</operation>
-            <return_description>Pointer to this block's child with given index.</return_description>
-            <type>AbstractBlock*</type>
-          </data>
-          <variable>
-            <data>
-              <description>Index of the child whose pointer is returned.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Tests if this block contains any children of the given type.</description>
-            <name>containsType</name>
-            <operation>Iterate through list of this block's children.</operation>
-            <operation>If the child matches the given type then return true.</operation>
-            <operation>Return false because no child was found with the given type.</operation>
-            <return_description>True if this block contains any children of the given type, else false.</return_description>
-            <type>bool</type>
-          </data>
-          <variable>
-            <data>
-              <description>The block type to search for within this block's list of children.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Tests if this block contains any children of any type given.</description>
-            <name>containsType</name>
-            <operation>Iterate through list of this block's children.</operation>
-            <operation>If the child matches any of the given types then return true.</operation>
-            <operation>Return false because no child was found with the given type.</operation>
-            <return_description>True if this block contains any children of any type given, else false.</return_description>
-            <type>bool</type>
-          </data>
-          <variable>
-            <data>
-              <description>List of block types to search for within this block's list of children.</description>
-              <initializer></initializer>
-              <name>types</name>
-              <type>const QList&lt;int>&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Build a list of this block's children that matches the given type. The returned list has no other copies.</description>
-            <name>makeListOfType</name>
-            <operation>Generate a pointer list of all this block's children that match the given type.</operation>
-            <operation>Return the pointer list of matched children.</operation>
-            <return_description>List of this block's children that is given type.</return_description>
-            <type>QList&lt;T*></type>
-          </data>
-          <template>
-            <data>
-              <description>The child class type that is matched.</description>
-              <name>T</name>
-              <type>class</type>
-            </data>
-          </template>
-          <variable>
-            <data>
-              <description>The type whose matches are added to the list.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
-            <name>cast</name>
-            <operation>Make sure the given type matches this block's type.</operation>
-            <operation>Cast this block to the given type and make sure it works.</operation>
-            <operation>Return the type casted  pointer.</operation>
-            <return_description>If successful then a read only pointer of requested cast type, else a null pointer.</return_description>
-            <type>const T*</type>
-          </data>
-          <template>
-            <data>
-              <description>The class type that is cast.</description>
-              <name>T</name>
-              <type>class</type>
-            </data>
-          </template>
-          <variable>
-            <data>
-              <description>The block type that this block is cast to.</description>
-              <initializer></initializer>
-              <name>toType</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Writes out this block's data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
-            <name>write</name>
-            <operation>Create the data element for this bock's data.</operation>
-            <operation>Create a new element that will contain this block's data and all children.</operation>
-            <operation>Add the data element for the return element.</operation>
-            <operation>Add all of this block's children elements.</operation>
-            <operation>Return the element containing all data and children of this block.</operation>
-            <return_description>XML element that stores this block's data and all children underneath it.</return_description>
-            <type>QDomElement</type>
-          </data>
-          <variable>
-            <data>
-              <description></description>
-              <initializer></initializer>
-              <name>document</name>
-              <type>QDomDocument&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
-            <name>root</name>
-            <operation>Iterate up the tree of parents until the root pointer is found.</operation>
-            <operation>Return the root pointer.</operation>
-            <return_description>Pointer to the root block.</return_description>
-            <type>AbstractBlock*</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
-            <name>cast</name>
-            <operation>Make sure the given type matches this block's type.</operation>
-            <operation>Cast this block to the given type and make sure it works.</operation>
-            <operation>Return the type casted pointer.</operation>
-            <return_description>If successful then a pointer of requested cast type, else a null pointer.</return_description>
-            <type>T*</type>
-          </data>
-          <template>
-            <data>
-              <description>The class type that is cast.</description>
-              <name>T</name>
-              <type>class</type>
-            </data>
-          </template>
-          <variable>
-            <data>
-              <description>The block type that this block is cast to.</description>
-              <initializer></initializer>
-              <name>toType</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Moves the child block with the given index up the list by one where the very top of the list is index 0. If the given index is already at the top of the list or out of range then this does nothing.</description>
-            <name>moveUp</name>
-            <operation>Make sure the given index is within range and not already at the top of the list.</operation>
-            <operation>Swap the child pointer at the given index with the pointer directly above it in this block's child list and notify of modification.</operation>
-            <operation>Starting with this block iterate up the tree of parents, calling their child moved interface, until the root block is reached or the child moved interface returns false.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index of the child block moved up by one.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Moves the child block with the given index down the list by one where the very top of the list is index 0. If the given index is already at the bottom of the list or out of range then this does nothing.</description>
-            <name>moveDown</name>
-            <operation>Make sure the given index is within range and not already at the bottom of the list.</operation>
-            <operation>Swap the child pointer at the given index with the pointer directly below it in this block's child list and notify of modification.</operation>
-            <operation>Starting with this block iterate up the tree of parents, calling their child moved interface, until the root block is reached or the child moved interface returns false.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index of the child block moved down by one.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
-            <name>insert</name>
-            <operation>Make sure the given pointer is not null.</operation>
-            <operation>Make sure the given block's type can be a child of this block.</operation>
-            <operation>Insert the given block as a child of this block at the given index and notify of modification.</operation>
-            <operation>Starting with this block iterate up the tree of parents, calling their child added interface, until the root block is reached or the child added interface returns false.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index where the new block is inserted.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>int</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>Pointer to the new block that is inserted as this block's child.</description>
-              <initializer></initializer>
-              <name>child</name>
-              <type>Soc::Ut::QPtr&lt;AbstractBlock>&amp;&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. If the index is out of range then an exception is thrown.</description>
-            <name>take</name>
-            <operation>Make sure the given index is within range.</operation>
-            <operation>Remove the child from this block's child list at the given index, saving the pointer and notifying of modification.</operation>
-            <operation>Starting with this block iterate up the tree of parents, calling their child removed interface, until the root block is reached or the child removed interface returns false.</operation>
-            <operation>Return the removed child pointer.</operation>
-            <return_description>Pointer to child that was taken from this block.</return_description>
-            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
-          </data>
-          <variable>
-            <data>
-              <description>The index of the child that is taken.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
-            <name>remove</name>
-            <operation>Take this block's child from the given index and delete it.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index of the child that is removed and deleted.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Reads in block data from an XML element. This clears any existing data this block contains, including the removal and deletion of all existing children. This recursively adds any children contained in the XML reading in their data from child XML elements.</description>
-            <name>read</name>
-            <operation>Delete and clear any existing children this block may contain.</operation>
-            <operation>Iterate through all children nodes of the given element.</operation>
-            <operation>Check if the node is an element.</operation>
-            <operation>If the tag name is the data tag then read in this block's data else read in the element as a new child for this block.</operation>
-            <operation>Move to the next node sibling.</operation>
-            <operation>Make sure all children of this block is allowed to this block's child list.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>The XML element that stores block data this block reads as input.</description>
-              <initializer></initializer>
-              <name>element</name>
-              <type>const QDomElement&amp;</type>
-            </data>
-          </variable>
-        </function>
-      </access>
-      <access>
-        <data>
-          <type>signals:</type>
-        </data>
-        <function>
-          <data>
-            <description>Signals that a child block of this block has been modified. The given child block could be any depth below this block. Only the root block emits this signal.</description>
-            <name>modified</name>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <description>Signals that a child block of this block with the given pointer has modified its name. The given child block could be any depth below this block. Only the root block emits this signal.</description>
-            <name>nameModified</name>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer of the child whose name has changed.</description>
-              <initializer></initializer>
-              <name>child</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Signals that a child block of this block with the given pointer has modified its body. The given child block could be any depth below this block. Only the root block emits this signal.</description>
-            <name>bodyModified</name>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description></description>
-              <initializer></initializer>
-              <name>child</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-      </access>
-      <access>
-        <data>
-          <type>protected:</type>
-        </data>
-        <function>
-          <data>
-            <abstract/>
-            <description>This interface reads in the data for this block from the given XML element, overwriting any data this block currently holds.</description>
-            <name>readData</name>
-            <return_description></return_description>
-            <type>void</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>The XML element used to read in this blocks data.</description>
-              <initializer></initializer>
-              <name>element</name>
-              <type>const QDomElement&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns a XML element containing the data for this block using the current version number. Attributes should never be used with this element because of their indeterminate nature.</description>
-            <name>writeData</name>
-            <return_description>XML element containing the data of this block.</return_description>
-            <type>QDomElement</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>XML document to use for creating new elements.</description>
-              <initializer></initializer>
-              <name>document</name>
-              <type>QDomDocument&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
-            <name>makeBlank</name>
-            <return_description>Pointer to the newly created block.</return_description>
-            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <description>This interface copies all data from the given block to this block, overwriting any data this block may already contain. This does not copy any children.</description>
-            <name>copyDataFrom</name>
-            <return_description></return_description>
-            <type>void</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>The other block whose data will be copied.</description>
-              <initializer></initializer>
-              <name>other</name>
-              <type>const AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>This interface is called whenever a child below this block has modified its name. This keeps getting called on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
-            <name>childNameModified</name>
-            <operation>Return false.</operation>
-            <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
-            <type>bool</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer to the child block that has modified its name.</description>
-              <initializer></initializer>
-              <name>child</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>This interface is called whenever a new child below this block has been added. This keeps getting called on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
-            <name>childAdded</name>
-            <operation>Return false.</operation>
-            <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
-            <type>bool</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer to the child block that been added to its new parent block.</description>
-              <initializer></initializer>
-              <name>child</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>This interface is called whenever an existing child below this block has been removed. This keeps getting called on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
-            <name>childRemoved</name>
-            <operation>Return false.</operation>
-            <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
-            <type>bool</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer to the child block that has been removed from its former parent block. This object can be deleted right after this call.</description>
-              <initializer></initializer>
-              <name>child</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>This interface is called whenever an existing child below this block has been moved. This keeps getting called on the next block parent until this returns false. The default implementation does nothing and returns false.</description>
-            <name>childMoved</name>
-            <operation>Return false.</operation>
-            <return_description>True if this interface should be called again on this blocks parent or false otherwise.</return_description>
-            <type>bool</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer to the child block that has been moved in its parent's list of children.</description>
-              <initializer></initializer>
-              <name>child</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-      </access>
-      <access>
-        <data>
-          <type>protected:</type>
-        </data>
-        <function>
-          <data>
-            <description>Notifies this block has been modified by finding its root block and emitting its modified signal.</description>
-            <name>notifyModified</name>
-            <operation>Find the root block of this block and emit its modified signal.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <description>Notifies this block's name has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no name.</description>
-            <name>notifyNameModified</name>
-            <operation>Get a pointer to this block's parent block.</operation>
-            <operation>Make sure the parent block pointer is not null.</operation>
-            <operation>Starting with this block's parent iterate up the tree of parents, calling their child name modified interface, until the root block is reached or the child name modified interface returns false.</operation>
-            <operation>Find the root block of this block and emit its name modified signal.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <description>Notifies this block's body has been modified by finding its root block and emitting its name modified signal. If this is called by a root block an exception is thrown because the root has no body.</description>
-            <name>notifyBodyModified</name>
-            <operation>Get a pointer to this block's parent block.</operation>
-            <operation>Make sure the parent block pointer is not null.</operation>
-            <operation>Find the root block of this block and emit its body modified signal.</operation>
-            <return_description></return_description>
-            <type>void</type>
           </data>
         </function>
       </access>
@@ -11851,218 +12386,14 @@ This class itself handles all copying using another specialized interface for co
         <data>
           <type>private:</type>
         </data>
-        <function>
-          <data>
-            <description>Copies all children from the given block and appends the copies to the list of this block's children. This does not remove any previous children already part of this block.</description>
-            <name>copyChildren</name>
-            <operation>Iterate through all the children of the given block.</operation>
-            <operation>Make a copy of the child and append it to this block.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer to block whose children are copied.</description>
-              <initializer></initializer>
-              <name>parent</name>
-              <type>const AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Creates a new child reading it in from the given XML element. The new child is then appended to this block's list of children.</description>
-            <name>readChild</name>
-            <operation>Read in the type attribute from the given child element.</operation>
-            <operation>Make sure reading in the type did not fail.</operation>
-            <operation>Make sure the read in type is within range of this block's factory.</operation>
-            <operation>Create a new block with the read in type and append it to this block's child list.</operation>
-            <operation>Have the new block read in its data and children from the given element.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>XML element used to read in the new child.</description>
-              <initializer></initializer>
-              <name>element</name>
-              <type>const QDomElement&amp;</type>
-            </data>
-          </variable>
-        </function>
         <variable>
           <data>
-            <description>The name for version attributes.</description>
-            <initializer>"version"</initializer>
-            <name>_versionTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The tag name for data elements.</description>
-            <initializer>"data"</initializer>
-            <name>_dataTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The name for type attributes.</description>
-            <initializer>"type"</initializer>
-            <name>_typeTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>Pointer list of this block's children.</description>
+            <description>The message for this exception explaining what occurred.</description>
             <initializer></initializer>
-            <name>_children</name>
-            <type>QList&lt;AbstractBlock*></type>
+            <name>_message</name>
+            <type>const QString</type>
           </data>
         </variable>
-      </access>
-    </class>
-    <class>
-      <data>
-        <description>This represents the factory that can produce blocks for a specific project type. There should only be one instance of this class for each project type. Along with making new blocks this factory also gives basic information about each block type such as its display and element names. The two element name functions must mirror one another in an implementation or undefined behavior will occur.</description>
-        <name>AbstractBlockFactory</name>
-      </data>
-      <access>
-        <data>
-          <type>public:</type>
-        </data>
-        <function>
-          <data>
-            <default/>
-            <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
-            <name>~^</name>
-            <return_description></return_description>
-            <type></type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the project type of this block factory.</description>
-            <name>type</name>
-            <return_description>Project type.</return_description>
-            <type>int</type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the number of block types that exist for this factory. Block types must be defined for all integers from 0 to one less than the number of block types returned by this interface.</description>
-            <name>size</name>
-            <return_description>Number of block types that exist for this factory.</return_description>
-            <type>int</type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the display name for the given block type.</description>
-            <name>name</name>
-            <return_description>Display name for the given block type.</return_description>
-            <type>QString</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Block type whose display name is returned.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the integer type of the block with the given element name. If no block type exists with the given name then -1 is returned.</description>
-            <name>typeByElementName</name>
-            <return_description>The integer type of the block with the given element name if found or -1 if no block type is found with that element name.</return_description>
-            <type>int</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>The given element name whose integer type is returned if found.</description>
-              <initializer></initializer>
-              <name>elementName</name>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the element name for the given block type. The element name is used as the tag name in XML elements for reading/writing of blocks.</description>
-            <name>elementName</name>
-            <return_description>Element name for the given block type.</return_description>
-            <type>QString</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Block type whose element name is returned.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface makes a new block of the given type and returns its pointer. The new block is expected to have either a null data or new default state, depending on the given flag.</description>
-            <name>makeBlock</name>
-            <return_description>Pointer to new block with given type.</return_description>
-            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Block type which is made and returned.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>True if the new block is initialized to a default state or false if it is uninitialized in a null state.</description>
-              <initializer></initializer>
-              <name>isDefault</name>
-              <type>bool</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface makes a new root block and returns its pointer. The root block is used as the root block for all projects of this project type. The new root block is expected to have a null data state.</description>
-            <name>makeRootBlock</name>
-            <return_description>Pointer to new root block for this project type.</return_description>
-            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
-            <virtual/>
-          </data>
-        </function>
       </access>
     </class>
     <class>
@@ -12511,185 +12842,6 @@ This class itself handles all copying using another specialized interface for co
               <initializer></initializer>
               <name>extension</name>
               <type>const QString&amp;</type>
-            </data>
-          </variable>
-        </function>
-      </access>
-    </class>
-    <class>
-      <data>
-        <description>This represents the factory that provides all other factories and information to define a project type. A project type is defined as a specific programming language that a project references. This is a global singleton class so only one instance of this factory is available for the entire application. A new factory instance must be set at initialization of the program and should not be set again after that. To maintain backwards compatibility all previously defined project type element names must never change and the two element methods must mirror one another.</description>
-        <name>AbstractProjectFactory</name>
-      </data>
-      <parent>
-        <data>
-          <access>public</access>
-          <class>Soc::Ut::SingletonFactory&lt;AbstractProjectFactory></class>
-        </data>
-      </parent>
-      <access>
-        <data>
-          <type>public:</type>
-        </data>
-        <function>
-          <data>
-            <default/>
-            <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
-            <name>~^</name>
-            <return_description></return_description>
-            <type></type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the number of project types that exist. Project types must be defined for all integers from 0 to one less than the number of project types returned by this interface.</description>
-            <name>size</name>
-            <return_description>Number of project types that exist.</return_description>
-            <type>int</type>
-            <virtual/>
-          </data>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the display name for the given project type.</description>
-            <name>name</name>
-            <return_description>Display name for the given project type.</return_description>
-            <type>QString</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Project type whose display name is returned.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the project type with the given element name. If no project type exists with the given name then -1 is returned.</description>
-            <name>typeByElementName</name>
-            <return_description>The integer value of the project type with the given element name if found or -1 if no project type is found with the given element name.</return_description>
-            <type>int</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>The given element name of the project type that is returned if found.</description>
-              <initializer></initializer>
-              <name>elementName</name>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the element name for the given project type. The element name is used as the tag name in the XML project file to determine what project type it is.</description>
-            <name>elementName</name>
-            <return_description>Element name for the given project type.</return_description>
-            <type>QString</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Project type whose element name is returned.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns the default filters for the scanning of source files the given project type possesses.</description>
-            <name>defaultFilters</name>
-            <return_description>Default file filters for the given project type.</return_description>
-            <type>QString</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Project type whose default file filters are returned.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface makes a new settings dialog for the given project type. The settings dialog for a project type should contain all general settings for that project type, saving the settings in the qt settings class.</description>
-            <name>makeSettings</name>
-            <return_description>Pointer to the new settings dialog for the given project type.</return_description>
-            <type>Soc::Ut::QPtr&lt;QDialog></type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Project type whose settings dialog is returned.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface returns a read only reference to the block factory for the given project type.</description>
-            <name>blockFactory</name>
-            <return_description>Read only reference to block factory for the given project type.</return_description>
-            <type>const AbstractBlockFactory&amp;</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Project type whose block factory is returned as a reference.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <abstract/>
-            <const/>
-            <description>This interface makes a new parser factory for the given project type with the given block pointer as the root of an existing project to be parsed.</description>
-            <name>makeParserFactory</name>
-            <return_description>Pointer to created parser factory for the given project type.</return_description>
-            <type>Soc::Ut::QPtr&lt;AbstractParserFactory></type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>Project type whose parser factory type is made and returned.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>Pointer to root block of existing project that will be parsed with the returned parser factory.</description>
-              <initializer></initializer>
-              <name>root</name>
-              <type>const AbstractBlock*</type>
             </data>
           </variable>
         </function>
