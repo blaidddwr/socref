@@ -1,11 +1,9 @@
 #include "abstractparser.h"
 #include <QFile>
 #include <QRegularExpression>
-#include <socutil/sut_exceptions.h>
 
 
 
-using namespace Sut;
 //
 
 
@@ -132,13 +130,7 @@ void AbstractParser::initialize()
 void AbstractParser::stepIntoChild(AbstractParser* child)
 {
    // Make sure the given parser is a direct child of this parser. 
-   if ( child->parent() != this )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot step into abstract pointer that is not a child."));
-      throw e;
-   }
+   Q_ASSERT(child->parent() == this);
 
    // Set this object's step into child pointer to the given parser. 
    _child = child;
@@ -173,13 +165,7 @@ int AbstractParser::indent() const
 void AbstractParser::setIndent(int indent)
 {
    // Make sure the given indent is not negative. 
-   if ( indent < 0 )
-   {
-      Exception::OutOfRange e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set indent to %1.").arg(indent));
-      throw e;
-   }
+   Q_ASSERT(indent >= 0);
 
    // Set the this object's root indent to the new value. 
    *_indent = indent;
@@ -266,13 +252,7 @@ void AbstractParser::add(int count)
 void AbstractParser::addComment(const QString& token, const QString& text, int justified, int max)
 {
    // Make sure the given justified value is valid. 
-   if ( justified < 0 )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Invalid justification of %1.").arg(justified));
-      throw e;
-   }
+   Q_ASSERT(justified >= 0);
 
    // Make sure the given text is not empty. 
    if ( text.isEmpty() ) return;
@@ -345,13 +325,7 @@ void AbstractParser::read(QFile* file)
    _original = file->readAll();
 
    // Make sure reading in the given file did not fail. 
-   if ( file->error() )
-   {
-      Exception::SystemError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed reading in file: %1").arg(file->errorString()));
-      throw e;
-   }
+   Q_ASSERT(!file->error());
 
    // Split this object's original content by line and save it to this object's list 
    // of input lines to be processed. 
@@ -429,20 +403,10 @@ void AbstractParser::write(QFile* file)
    if ( _original == newSource ) return;
 
    // Truncate the given file and make sure it did not fail. 
-   if ( !file->resize(0) )
-   {
-      Exception::SystemError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed truncating file: %1").arg(file->errorString()));
-      throw e;
-   }
+   bool success {file->resize(0)};
+   Q_ASSERT(success);
 
    // Write the new source string to the given file and make sure it did not fail. 
-   if ( file->write(newSource.toLocal8Bit()) == -1 )
-   {
-      Exception::SystemError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed writing to file: %1").arg(file->errorString()));
-      throw e;
-   }
+   qint64 written {file->write(newSource.toLocal8Bit())};
+   Q_ASSERT(written != -1);
 }

@@ -1,8 +1,8 @@
 #ifndef ABSTRACTPROJECTFACTORY_H
 #define ABSTRACTPROJECTFACTORY_H
 #include <QString>
-#include <socutil/sut_singletonfactory.h>
-#include <socutil/sut_qptr.h>
+#include <socutil/soc_ut_singletonfactory.h>
+#include <socutil/soc_ut_qptr.h>
 #include "global.h"
 
 
@@ -22,7 +22,7 @@ class QDialog;
  * project type element names must never change and the two element methods must 
  * mirror one another. 
  */
-class AbstractProjectFactory : public Sut::SingletonFactory<AbstractProjectFactory>
+class AbstractProjectFactory : public Soc::Ut::SingletonFactory<AbstractProjectFactory>
 {
 public:
    /*!
@@ -85,7 +85,7 @@ public:
     *
     * @return Pointer to the new settings dialog for the given project type. 
     */
-   virtual Sut::QPtr<QDialog> makeSettings(int type) const = 0;
+   virtual Soc::Ut::QPtr<QDialog> makeSettings(int type) const = 0;
    /*!
     * This interface returns a read only reference to the block factory for the given 
     * project type. 
@@ -106,7 +106,7 @@ public:
     *
     * @return Pointer to created parser factory for the given project type. 
     */
-   virtual Sut::QPtr<AbstractParserFactory> makeParserFactory(int type, const AbstractBlock* root) const = 0;
+   virtual Soc::Ut::QPtr<AbstractParserFactory> makeParserFactory(int type, const AbstractBlock* root) const = 0;
 };
 
 

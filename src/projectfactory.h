@@ -36,9 +36,9 @@ public:
    virtual int typeByElementName(const QString& elementName) const override final;
    virtual QString elementName(int type) const override final;
    virtual QString defaultFilters(int type) const override final;
-   virtual Sut::QPtr<QDialog> makeSettings(int type) const override final;
+   virtual Soc::Ut::QPtr<QDialog> makeSettings(int type) const override final;
    virtual const AbstractBlockFactory& blockFactory(int type) const override final;
-   virtual Sut::QPtr<AbstractParserFactory> makeParserFactory(int type, const AbstractBlock* root) const override final;
+   virtual Soc::Ut::QPtr<AbstractParserFactory> makeParserFactory(int type, const AbstractBlock* root) const override final;
 };
 
 

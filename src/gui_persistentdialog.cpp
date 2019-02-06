@@ -1,10 +1,8 @@
 #include "gui_persistentdialog.h"
 #include <QSettings>
-#include <socutil/sut_exceptions.h>
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -103,22 +101,10 @@ void PersistentDialog::closeEvent(QCloseEvent* event)
 void PersistentDialog::saveSettings(const QString& geometryKey)
 {
    // Make sure the given geometry key is not empty. 
-   if ( geometryKey.isEmpty() )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given geometry key is empty."));
-      throw e;
-   }
+   Q_ASSERT(!geometryKey.isEmpty());
 
    // Make sure the geometry key for this dialog is not already set. 
-   if ( !_geometryKey.isEmpty() )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The geometry key for this persistent dialog has already been set."));
-      throw e;
-   }
+   Q_ASSERT(_geometryKey.isEmpty());
 
    // Set the geometry key for this dialog and restore its geometry using the same 
    // key. 

@@ -1,9 +1,7 @@
 #include "gui_listedit_model.h"
-#include <socutil/sut_exceptions.h>
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -31,13 +29,7 @@ QVariant ListEdit::Model::headerData(int section, Qt::Orientation orientation, i
 
    // Get a pointer of this object's parent list edit widget and make sure it worked. 
    ListEdit* edit {qobject_cast<ListEdit*>(parent())};
-   if ( !edit )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Parent is not expected type CppQt::Gui::ListDialog"));
-      throw e;
-   }
+   Q_CHECK_PTR(edit);
 
    // Return the item title appended with the given section number. 
    return QString(edit->_listItemTitle).append(" #").append(QString::number(section + 1));
@@ -239,13 +231,7 @@ bool ListEdit::Model::remove(const QModelIndex& index)
 QModelIndex ListEdit::Model::moveUp(const QModelIndex& index)
 {
    // Make sure this model has a string list. 
-   if ( !_list )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot move any index of model that has no string list."));
-      throw e;
-   }
+   Q_CHECK_PTR(_list);
 
    // Make sure the given index is valid and within range. 
    if ( !index.isValid() || index.row() <= 0 || index.row() >= _list->size() ) return index;
@@ -281,13 +267,7 @@ QModelIndex ListEdit::Model::moveUp(const QModelIndex& index)
 QModelIndex ListEdit::Model::moveDown(const QModelIndex& index)
 {
    // Make sure this model has a string list. 
-   if ( !_list )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot move any index of model that has no string list."));
-      throw e;
-   }
+   Q_CHECK_PTR(_list);
 
    // Make sure the given index is valid and within range. 
    if ( !index.isValid() || index.row() < 0 || index.row() == (_list->size() - 1) ) return index;

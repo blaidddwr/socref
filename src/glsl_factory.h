@@ -1,7 +1,7 @@
 #ifndef GLSL_FACTORY_H
 #define GLSL_FACTORY_H
 #include "basicblockfactory.h"
-#include <socutil/sut_singleton.h>
+#include <socutil/soc_ut_singleton.h>
 //
 
 
@@ -15,7 +15,7 @@ namespace GLSL
     * from the basic block factory class to allow for XML definitions of block type 
     * data. 
     */
-   class Factory : public BasicBlockFactory, public Sut::Singleton<Factory>
+   class Factory : public BasicBlockFactory, public Soc::Ut::Singleton<Factory>
    {
    public:
       /*!
@@ -57,7 +57,7 @@ namespace GLSL
    public:
       Factory();
    protected:
-      virtual Sut::QPtr<BasicBlock> makeBasicBlock(int type) const;
+      virtual Soc::Ut::QPtr<BasicBlock> makeBasicBlock(int type) const override final;
    };
 }
 

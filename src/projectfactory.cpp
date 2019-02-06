@@ -1,6 +1,5 @@
 #include "projectfactory.h"
 #include <QObject>
-#include <socutil/sut_exceptions.h>
 #include "cppqt_factory.h"
 #include "cppqt_parse_factory.h"
 #include "cppqt_settings_dialog.h"
@@ -10,7 +9,6 @@
 
 
 
-using namespace Sut;
 //
 
 
@@ -48,13 +46,8 @@ QString ProjectFactory::name(int type) const
    case CppQtType: return QObject::tr("C++/Qt");
    case GLSLType: return QObject::tr("GLSL");
    default:
-      {
-         // This project type is not recognized so throw an exception. 
-         Exception::InvalidArgument e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
-         throw e;
-      }
+      // This project type is not recognized so throw an exception. 
+      Q_ASSERT(false);
    }
 }
 
@@ -101,13 +94,8 @@ QString ProjectFactory::elementName(int type) const
    case CppQtType: return QStringLiteral("cppqt");
    case GLSLType: return QStringLiteral("glsl");
    default:
-      {
-         // This project type is not recognized so throw an exception. 
-         Exception::InvalidArgument e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
-         throw e;
-      }
+      // This project type is not recognized so throw an exception. 
+      Q_ASSERT(false);
    }
 }
 
@@ -131,13 +119,8 @@ QString ProjectFactory::defaultFilters(int type) const
    case CppQtType: return QStringLiteral("*.cpp *.h");
    case GLSLType: return QStringLiteral("*.glsl");
    default:
-      {
-         // This project type is not recognized so throw an exception. 
-         Exception::InvalidArgument e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
-         throw e;
-      }
+      // This project type is not recognized so throw an exception. 
+      Q_ASSERT(false);
    }
 }
 
@@ -153,21 +136,16 @@ QString ProjectFactory::defaultFilters(int type) const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
+Soc::Ut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
 {
    // Return a new settings dialog for the given project type. 
    switch (type)
    {
-   case CppQtType: return QPtr<QDialog>(new CppQt::Settings::Dialog);
-   case GLSLType: return QPtr<QDialog>(new GLSL::Settings::Dialog);
+   case CppQtType: return Soc::Ut::QPtr<QDialog>(new CppQt::Settings::Dialog);
+   case GLSLType: return Soc::Ut::QPtr<QDialog>(new GLSL::Settings::Dialog);
    default:
-      {
-         // This project type is not recognized so throw an exception. 
-         Exception::InvalidArgument e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
-         throw e;
-      }
+      // This project type is not recognized so throw an exception. 
+      Q_ASSERT(false);
    }
 }
 
@@ -191,13 +169,8 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
    case CppQtType: return CppQt::Factory::instance();
    case GLSLType: return GLSL::Factory::instance();
    default:
-      {
-         // This project type is not recognized so throw an exception. 
-         Exception::InvalidArgument e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
-         throw e;
-      }
+      // This project type is not recognized so throw an exception. 
+      Q_ASSERT(false);
    }
 }
 
@@ -215,21 +188,16 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const AbstractBlock* root) const
+Soc::Ut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const AbstractBlock* root) const
 {
    // Create a new parser factory for the given project type using the given block 
    // root. 
    switch (type)
    {
-   case CppQtType: return QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
-   case GLSLType: return QPtr<AbstractParserFactory>(new GLSL::Parse::Factory(root));
+   case CppQtType: return Soc::Ut::QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
+   case GLSLType: return Soc::Ut::QPtr<AbstractParserFactory>(new GLSL::Parse::Factory(root));
    default:
-      {
-         // This project type is not recognized so throw an exception. 
-         Exception::InvalidArgument e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Unrecognized project type %1.").arg(type));
-         throw e;
-      }
+      // This project type is not recognized so throw an exception. 
+      Q_ASSERT(false);
    }
 }

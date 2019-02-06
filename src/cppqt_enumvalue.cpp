@@ -72,7 +72,7 @@ QString EnumValue::value() const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<BasicBlock::View> EnumValue::makeBasicView() const
+Soc::Ut::QPtr<BasicBlock::View> EnumValue::makeBasicView() const
 {
    return new View(this);
 }

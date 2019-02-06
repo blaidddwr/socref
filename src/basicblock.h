@@ -58,8 +58,8 @@ public:
    virtual QString name() const override;
    virtual QIcon icon() const override;
    virtual QList<int> buildList() const override;
-   virtual Sut::QPtr<QWidget> makeView() const override final;
-   virtual Sut::QPtr<Gui::AbstractEdit> makeEdit() override final;
+   virtual Soc::Ut::QPtr<QWidget> makeView() const override final;
+   virtual Soc::Ut::QPtr<Gui::AbstractEdit> makeEdit() override final;
 public:
    /*!
     * Constructs a new basic block. 
@@ -67,10 +67,10 @@ public:
    Q_INVOKABLE explicit BasicBlock() = default;
    void initialize(int type, const AbstractBlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault);
 protected:
-   virtual Sut::QPtr<BasicBlock::View> makeBasicView() const;
+   virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const;
    virtual void readData(const QDomElement& element) override final;
    virtual QDomElement writeData(QDomDocument& document) const override final;
-   virtual Sut::QPtr<AbstractBlock> makeBlank() const override final;
+   virtual Soc::Ut::QPtr<AbstractBlock> makeBlank() const override final;
    virtual void copyDataFrom(const AbstractBlock* other) override final;
 protected:
    bool getBool(const QString& id) const;
@@ -118,7 +118,6 @@ private:
     */
    static const char* _defaultKey;
 private:
-   void check() const;
    void addField(Field type, const QDomElement& element, bool isDefault);
    QVariant get(const QString& id) const;
    /*!

@@ -3,7 +3,6 @@
 
 
 
-using namespace Sut;
 using namespace CppQt;
 //
 
@@ -40,12 +39,7 @@ QIcon Parent::icon() const
    case Access::Protected: return protectedIcon;
    case Access::Private: return privateIcon;
    default:
-      {
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Unkonwn access type '%1' for parent block.").arg(accessString()));
-         throw e;
-      }
+      Q_ASSERT(false);
    }
 }
 

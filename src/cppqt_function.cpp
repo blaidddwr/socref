@@ -609,7 +609,7 @@ void Function::classNameChanged()
  *
  * @return See interface docs. 
  */
-Sut::QPtr<BasicBlock::View> Function::makeBasicView() const
+Soc::Ut::QPtr<BasicBlock::View> Function::makeBasicView() const
 {
    return new View(this);
 }

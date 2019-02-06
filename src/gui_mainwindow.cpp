@@ -17,7 +17,6 @@
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -36,35 +35,6 @@ const char* MainWindow::_stateKey {"gui.mainwindow.state"};
  * window using Qt settings. 
  */
 const char* MainWindow::_viewStateKey {"gui.mainwindow.view.state"};
-
-
-
-
-
-
-/*!
- * Shows a modal dialog that informs the user of the given exception that occurred 
- * along with a custom text message to give it context. 
- *
- * @param exception The exception whose title and details is displayed to the user 
- *                  in a model dialog. 
- *
- * @param text The text of the modal window to give the exception context to the 
- *             user. 
- */
-void MainWindow::showException(const Sut::Exception& exception, const QString& text)
-{
-   // Create and initialize a new message box, using the given exception and text to 
-   // populate it. 
-   QMessageBox info;
-   info.setIcon(QMessageBox::Warning);
-   info.setWindowTitle(exception.title());
-   info.setText(text);
-   info.setInformativeText(exception.details());
-
-   // Execute the message box dialog. 
-   info.exec();
-}
 
 
 
@@ -102,7 +72,7 @@ MainWindow::MainWindow(QWidget* parent):
  *
  * @param project  
  */
-void MainWindow::setProject(Sut::QPtr<Project>&& project)
+void MainWindow::setProject(Soc::Ut::QPtr<Project>&& project)
 {
    // Delete any previous project this window may contain and set the new project. 
    delete _project;
@@ -168,7 +138,7 @@ void MainWindow::closeEvent(QCloseEvent* event)
 void MainWindow::newTriggered(int type)
 {
    // Create a new project with the given type. 
-   QPtr<Project> project {new Project(type)};
+   Soc::Ut::QPtr<Project> project {new Project(type)};
    project->setName(tr("Untitled Project"));
 
    // If this window has no project then set it to the new project. 
@@ -213,29 +183,21 @@ void MainWindow::openTriggered()
    // Set the current working directory to the parent directory of the selected 
    // project. 
    QDir::setCurrent(QFileInfo(path).dir().path());
-   try
+
+   // Open a new project with the file path. 
+   Soc::Ut::QPtr<Project> project {new Project(path)};
+
+   // If this window has no project that set it to the opened project. 
+   if ( !_project ) setProject(std::move(project));
+
+   // Else this window already has a project. 
+   else
    {
-      // Open a new project with the file path. 
-      QPtr<Project> project {new Project(path)};
-
-      // If this window has no project that set it to the opened project. 
-      if ( !_project ) setProject(std::move(project));
-
-      // Else this window already has a project. 
-      else
-      {
-         // Create a new window, setting its project to the opened project, and then show 
-         // it. 
-         MainWindow* window = new MainWindow;
-         window->setProject(std::move(project));
-         window->show();
-      }
-   }
-
-   // Catch any exception while opening the new project and report it to the user. 
-   catch (Exception e)
-   {
-      showException(e,tr("An error occured while attempting to open the project."));
+      // Create a new window, setting its project to the opened project, and then show 
+      // it. 
+      MainWindow* window = new MainWindow;
+      window->setProject(std::move(project));
+      window->show();
    }
 }
 
@@ -322,7 +284,7 @@ void MainWindow::scanTriggered()
    {
       // Create a new scanner from this window's project, then create a new scan dialog 
       // with the new scanner, and then execute the scan dialog. 
-      QPtr<ScanThread> scanner {_project->makeScanner()};
+      Soc::Ut::QPtr<ScanThread> scanner {_project->makeScanner()};
       ScanDialog dialog(scanner.get());
       dialog.exec();
    }
@@ -358,14 +320,8 @@ void MainWindow::settingTriggered(int type)
 {
    // Make a new setting dialog using the given project type and make sure it is not 
    // null. 
-   QPtr<QDialog> settings {AbstractProjectFactory::instance().makeSettings(type)};
-   if ( !settings )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Project factory's make settings returned a null pointer."));
-      throw e;
-   }
+   Soc::Ut::QPtr<QDialog> settings {AbstractProjectFactory::instance().makeSettings(type)};
+   Q_CHECK_PTR(settings.get());
 
    // Execute the settings dialog. 
    settings->exec();
@@ -384,13 +340,8 @@ void MainWindow::aboutTriggered()
    // Open the internal file containing the HTML of the about dialog and make sure it 
    // worked. 
    QFile file(":/html/about.html");
-   if ( !file.open(QIODevice::ReadOnly) )
-   {
-      Exception::SystemError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed opening about.html: %1").arg(file.errorString()));
-      throw e;
-   }
+   bool ok {file.open(QIODevice::ReadOnly)};
+   Q_ASSERT(ok);
 
    // Read in the entire contents of the HTML and replace the application version 
    // string. 
@@ -481,19 +432,10 @@ void MainWindow::projectFileChanged()
    // Execute the message box and check to see if they chose to reload the project. 
    int answer = notice.exec();
    if ( answer != QMessageBox::AcceptRole ) return;
-   try
-   {
-      // Reload the project by creating a new project with the same file path and 
-      // setting this window's project to the reloaded one. 
-      QPtr<Project> project {new Project(_project->path())};
-      setProject(std::move(project));
-   }
 
-   // Catch any exception while attempting to reload the project and inform the user. 
-   catch (Exception e)
-   {
-      showException(e,tr("An error occured while attempting to reload the project."));
-   }
+   // Reload the project by creating a new project with the same file path and 
+   // setting this window's project to the reloaded one. 
+   setProject(Soc::Ut::QPtr<Project>(new Project(_project->path())));
 }
 
 
@@ -615,19 +557,9 @@ bool MainWindow::saveAs()
    // Get the first file path from the file dialog chosen by the user. 
    QStringList files = dialog.selectedFiles();
    const QString path = files.constFirst();
-   try
-   {
-      // Attempt to save this window's project to the file path. 
-      _project->saveAs(path);
-   }
 
-   // Catch any exception thrown while attempting to save the project, reporting it 
-   // to the user and returning failure. 
-   catch (Exception e)
-   {
-      showException(e,tr("An error occured while attempting to save the project."));
-      return false;
-   }
+   // Attempt to save this window's project to the file path. 
+   _project->saveAs(path);
 
    // Update this window's actions and return success. 
    updateActions();
@@ -649,19 +581,9 @@ bool MainWindow::save()
 {
    // Make sure this window has a project to save. 
    if ( !_project ) return false;
-   try
-   {
-      // Attempt to save this window's project. 
-      _project->save();
-   }
 
-   // Catch any exception thrown while attempting to save the project, reporting it 
-   // to the user and returning failure. 
-   catch (Exception e)
-   {
-      showException(e,tr("An error occured while attempting to save the project."));
-      return false;
-   }
+   // Attempt to save this window's project. 
+   _project->save();
 
    // Return success. 
    return true;

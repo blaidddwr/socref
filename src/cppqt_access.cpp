@@ -1,13 +1,11 @@
 #include "cppqt_access.h"
 #include <QRegularExpression>
-#include <socutil/sut_exceptions.h>
 #include "cppqt_access_view.h"
 #include "cppqt_factory.h"
 #include "cppqt_function.h"
 
 
 
-using namespace Sut;
 using namespace CppQt;
 //
 
@@ -77,12 +75,7 @@ QIcon Access::icon() const
    case Type::Private: return privateIcon;
    case Type::PrivateSlots: return privateSlotsIcon;
    default:
-      {
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Unkonwn access block type detected."));
-         throw e;
-      }
+      Q_ASSERT(false);
    }
 }
 
@@ -211,7 +204,7 @@ QString Access::accessString() const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<BasicBlock::View> Access::makeBasicView() const
+Soc::Ut::QPtr<BasicBlock::View> Access::makeBasicView() const
 {
    return new View(this);
 }

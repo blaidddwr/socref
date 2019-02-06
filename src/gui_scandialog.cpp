@@ -5,14 +5,12 @@
 #include <QPushButton>
 #include <QSettings>
 #include <QCloseEvent>
-#include <socutil/sut_exceptions.h>
 #include "gui_mainwindow.h"
 #include "scanthread.h"
 #include "application.h"
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -37,13 +35,7 @@ ScanDialog::ScanDialog(ScanThread* scanner, QWidget* parent):
    _scanner(scanner)
 {
    // Make sure the given scanner pointer is not null. 
-   if ( !scanner )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot give null pointer as scanner argument for scan dialog."));
-      throw e;
-   }
+   Q_CHECK_PTR(scanner);
 
    // Create the GUI for this dialog and set its title. 
    setupGui();
@@ -129,23 +121,12 @@ void ScanDialog::progressChanged(int index)
 
 /*!
  * Called when the scan thread for this dialog has finished scanning all files. 
- * This closes this dialog on accept. If the scan thread has an exception from its 
- * separate thread then it is shown to the user. 
+ * This closes this dialog on accept. 
  */
 void ScanDialog::scanFinished()
 {
-   // Check to see if the scanner thread threw an exception. 
-   if ( _scanner->hasException() )
-   {
-      // Inform the user about the exception thrown in the scanner thread and close this 
-      // dialog with rejected. 
-      MainWindow::showException(_scanner->exception()
-                                ,tr("An error occured while scanning and parsing files."));
-      done(QDialog::Rejected);
-   }
-
-   // Else there was no error so close this dialog with accepted. 
-   else done(QDialog::Accepted);
+   // Close this dialog with accepted. 
+   done(QDialog::Accepted);
 }
 
 

@@ -60,7 +60,7 @@ namespace GLSL
       QString shaderTypeString() const;
       QStringList operations() const;
    protected:
-      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
    };
 }
 

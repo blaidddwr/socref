@@ -1,12 +1,10 @@
 #include "gui_abstractedit.h"
 #include <QVBoxLayout>
 #include <QPushButton>
-#include <socutil/sut_exceptions.h>
 #include "gui_mainwindow.h"
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -119,13 +117,9 @@ bool AbstractEdit::tryApply()
       return true;
    }
 
-   // Catch any exception thrown from the apply interface. 
-   catch (Exception::InvalidArgument e)
-   {
-      // Report the exception to the user and return false on failure. 
-      MainWindow::showException(e,tr("Cannot save changes to this block."));
-      return false;
-   }
+   // Catch any exception thrown from the apply interface, returning false on 
+   // failure. 
+   catch (...) { return false; }
 }
 
 

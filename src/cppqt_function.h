@@ -62,7 +62,7 @@ namespace CppQt
    public slots:
       void classNameChanged();
    protected:
-      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
       virtual bool childAdded(AbstractBlock* child) override final;
       virtual bool childRemoved(AbstractBlock* child) override final;
    private:

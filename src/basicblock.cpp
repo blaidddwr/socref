@@ -1,13 +1,11 @@
 #include "basicblock.h"
 #include <QIcon>
 #include <QJsonObject>
-#include <socutil/sut_exceptions.h>
 #include "basicblock_edit.h"
 #include "basicblock_view.h"
 
 
 
-using namespace Sut;
 //
 
 
@@ -66,7 +64,7 @@ const char* BasicBlock::_defaultKey {"default"};
 int BasicBlock::type() const
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Return the block type of this basic block. 
    return _type;
@@ -85,7 +83,7 @@ int BasicBlock::type() const
 const AbstractBlockFactory& BasicBlock::factory() const
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Return a reference to this basic block's factory. 
    return *_factory;
@@ -104,7 +102,7 @@ const AbstractBlockFactory& BasicBlock::factory() const
 QString BasicBlock::name() const
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Make sure this basic block's name field id is not empty. 
    if ( _nameFieldId.isEmpty() ) return QString();
@@ -112,13 +110,7 @@ QString BasicBlock::name() const
    // Get this basic block's field with its name field id, making it exists and is 
    // the correct field type. 
    const QVariant field {_fields.value(_nameFieldId)};
-   if ( field.type() != QVariant::String )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Name field id '%1' points to invalid field.").arg(_nameFieldId));
-      throw e;
-   }
+   Q_ASSERT(field.type() == QVariant::String);
 
    // Return the found string field. 
    return field.toString();
@@ -137,7 +129,7 @@ QString BasicBlock::name() const
 QIcon BasicBlock::icon() const
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Return this basic block type's icon. 
    return QIcon(_iconPath);
@@ -156,7 +148,7 @@ QIcon BasicBlock::icon() const
 QList<int> BasicBlock::buildList() const
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Return this basic block type's build list. 
    return _buildList;
@@ -172,9 +164,9 @@ QList<int> BasicBlock::buildList() const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<QWidget> BasicBlock::makeView() const
+Soc::Ut::QPtr<QWidget> BasicBlock::makeView() const
 {
-   QPtr<BasicBlock::View> ret(makeBasicView());
+   Soc::Ut::QPtr<BasicBlock::View> ret(makeBasicView());
    ret->update();
    return ret;
 }
@@ -189,7 +181,7 @@ Sut::QPtr<QWidget> BasicBlock::makeView() const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<Gui::AbstractEdit> BasicBlock::makeEdit()
+Soc::Ut::QPtr<Gui::AbstractEdit> BasicBlock::makeEdit()
 {
    return new Edit(this);
 }
@@ -219,13 +211,7 @@ Sut::QPtr<Gui::AbstractEdit> BasicBlock::makeEdit()
 void BasicBlock::initialize(int type, const AbstractBlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault)
 {
    // Make sure this basic block has NOT been initialized. 
-   if ( _type != -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to initialize basic block object that is already initialized."));
-      throw e;
-   }
+   Q_ASSERT(_type == -1);
 
    // Set the type, factory, and build list for this new basic block. 
    _type = type;
@@ -296,7 +282,7 @@ void BasicBlock::initialize(int type, const AbstractBlockFactory* factory, const
  *
  * @return New basic block view implementation for this basic block. 
  */
-Sut::QPtr<BasicBlock::View> BasicBlock::makeBasicView() const
+Soc::Ut::QPtr<BasicBlock::View> BasicBlock::makeBasicView() const
 {
    return new View(this);
 }
@@ -314,7 +300,7 @@ Sut::QPtr<BasicBlock::View> BasicBlock::makeBasicView() const
 void BasicBlock::readData(const QDomElement& element)
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Iterate through all node children of the given data element. 
    QDomNode node {element.firstChild()};
@@ -343,10 +329,7 @@ void BasicBlock::readData(const QDomElement& element)
                *i = i->toStringList() << child.text();
                break;
             default:
-               Exception::LogicError e;
-               SUT_MARK_EXCEPTION(e);
-               e.setDetails(tr("Encountered basic block field of unsupported type."));
-               throw e;
+               Q_ASSERT(false);
             }
          }
       }
@@ -371,7 +354,7 @@ void BasicBlock::readData(const QDomElement& element)
 QDomElement BasicBlock::writeData(QDomDocument& document) const
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Create the return data element. 
    QDomElement ret {document.createElement("na")};
@@ -406,10 +389,7 @@ QDomElement BasicBlock::writeData(QDomDocument& document) const
             break;
          }
       default:
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Encountered basic block field of unsupported type."));
-         throw e;
+         Q_ASSERT(false);
       }
    }
 
@@ -427,21 +407,14 @@ QDomElement BasicBlock::writeData(QDomDocument& document) const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<AbstractBlock> BasicBlock::makeBlank() const
+Soc::Ut::QPtr<AbstractBlock> BasicBlock::makeBlank() const
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Create a new uninitialized basic block, making sure it worked. 
-   QPtr<BasicBlock> ret {qobject_cast<BasicBlock*>(metaObject()->newInstance())};
-   if ( !ret )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed making new instance of basic block type %1.")
-                   .arg(metaObject()->className()));
-      throw e;
-   }
+   Soc::Ut::QPtr<BasicBlock> ret {qobject_cast<BasicBlock*>(metaObject()->newInstance())};
+   Q_CHECK_PTR(ret.get());
 
    // Initialize the new basic block to this basic block's type. 
    ret->initialize(_type,_factory,_definition,_buildList,false);
@@ -463,39 +436,21 @@ Sut::QPtr<AbstractBlock> BasicBlock::makeBlank() const
 void BasicBlock::copyDataFrom(const AbstractBlock* other)
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Cast the given abstract block to a basic block, making sure it worked. 
    const BasicBlock* basic {qobject_cast<const BasicBlock*>(other)};
-   if ( !basic )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Given abstract block to copy is not a basic block."));
-      throw e;
-   }
+   Q_CHECK_PTR(basic);
 
    // Iterate through all the fields of the given basic block. 
    for (auto i = basic->_fields.cbegin(); i != basic->_fields.cend() ;++i)
    {
       // Find the corresponding field of this basic block, making sure it was found. 
       auto j {_fields.find(i.key())};
-      if ( j == _fields.end() )
-      {
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Missing field to copy from given basic block."));
-         throw e;
-      }
+      Q_ASSERT(j != _fields.end());
 
       // Make sure the field types matched between this and the other basic block. 
-      if ( i->type() != j->type() )
-      {
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Field type mismatch with given basic block."));
-         throw e;
-      }
+      Q_ASSERT(i->type() == j->type());
 
       // Copy the value of the given basic block field to this basic block. 
       *j = *i;
@@ -520,13 +475,7 @@ bool BasicBlock::getBool(const QString& id) const
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 
    const QVariant field {get(id)};
-   if ( field.type() != QVariant::Bool )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given field id '%1' is not a boolean."));
-      throw e;
-   }
+   Q_ASSERT(field.type() == QVariant::Bool);
 
    // Return the value of the data field. 
    return field.toBool();
@@ -550,13 +499,7 @@ QString BasicBlock::getString(const QString& id) const
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 
    const QVariant field {get(id)};
-   if ( field.type() != QVariant::String )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given field id '%1' is not a string."));
-      throw e;
-   }
+   Q_ASSERT(field.type() == QVariant::String);
 
    // Return the value of the data field. 
    return field.toString();
@@ -580,37 +523,10 @@ QStringList BasicBlock::getStringList(const QString& id) const
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 
    const QVariant field {get(id)};
-   if ( field.type() != QVariant::StringList )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given field id '%1' is not a string list."));
-      throw e;
-   }
+   Q_ASSERT(field.type() == QVariant::StringList);
 
    // Return the value of the data field. 
    return field.toStringList();
-}
-
-
-
-
-
-
-/*!
- * Checks to make sure this basic block has been initialized, throwing an exception 
- * if it is uninitialized. 
- */
-void BasicBlock::check() const
-{
-   // Make sure this basic block has been initialized. 
-   if ( _type == -1 )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to use uninitialized basic block object."));
-      throw e;
-   }
 }
 
 
@@ -635,24 +551,10 @@ void BasicBlock::addField(Field type, const QDomElement& element, bool isDefault
    // Get the id the new data field of this basic block will use, making sure the id 
    // attribute exists in the given element. 
    const QString key {element.attribute(_idKey)};
-   if ( key.isEmpty() )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Field definition element %1 missing id attribute.").arg(element.tagName()));
-      throw e;
-   }
+   Q_ASSERT(!key.isEmpty());
 
    // Make sure this basic block does not already have a field with the given id. 
-   if ( _fields.contains(key) )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Field definition element %1 redefining id '%2'.")
-                   .arg(element.tagName())
-                   .arg(key));
-      throw e;
-   }
+   Q_ASSERT(!_fields.contains(key));
 
    // Add the new field of the given type, setting its default value if the given 
    // state indicates to do so or leaving it to its null value if not. Note for 
@@ -692,17 +594,11 @@ void BasicBlock::addField(Field type, const QDomElement& element, bool isDefault
 QVariant BasicBlock::get(const QString& id) const
 {
    // Make sure this basic block has been initialized. 
-   check();
+   Q_ASSERT(_type != -1);
 
    // Find this basic block's data field with the given id, making sure it exists. 
    auto i {qAsConst(_fields).find(id)};
-   if ( i == _fields.cend() )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given field id '%1' does not exist.").arg(id));
-      throw e;
-   }
+   Q_ASSERT(i != _fields.cend());
 
    // Return the found data field. 
    return *i;

@@ -1,9 +1,7 @@
 #include "cppqt_namespace.h"
-#include <socutil/sut_exceptions.h>
 
 
 
-using namespace Sut;
 using namespace CppQt;
 //
 
@@ -39,13 +37,7 @@ const Namespace* Namespace::root() const
    // Get the root pointer for this block, casting it as a namespace block and making 
    // sure it worked. 
    const Namespace* ret {qobject_cast<const Namespace*>(AbstractBlock::root())};
-   if ( !ret )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Root block is not expected Namespace type."));
-      throw e;
-   }
+   Q_CHECK_PTR(ret);
 
    // Return the root namespace pointer. 
    return ret;
@@ -66,13 +58,7 @@ Namespace* Namespace::root()
    // Get the root pointer for this block, casting it as a namespace block and making 
    // sure it worked. 
    Namespace* ret {qobject_cast<Namespace*>(AbstractBlock::root())};
-   if ( !ret )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Root block is not expected Namespace type."));
-      throw e;
-   }
+   Q_CHECK_PTR(ret);
 
    // Return the root namespace pointer. 
    return ret;

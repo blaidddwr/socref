@@ -3,13 +3,11 @@
 #include <QListView>
 #include <QPushButton>
 #include <QAction>
-#include <socutil/sut_exceptions.h>
 #include "project.h"
 #include "dictionarymodel.h"
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -28,13 +26,7 @@ DictionaryDialog::DictionaryDialog(Project* project):
    PersistentDialog("gui.dictionarydialog.geometry")
 {
    // Make sure the given project pointer is not null. 
-   if ( !project )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given project pointer is null and invalid."));
-      throw e;
-   }
+   Q_CHECK_PTR(project);
 
    // Get the dictionary model of the given project. 
    _model = project->dictionary();

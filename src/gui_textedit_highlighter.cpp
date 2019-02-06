@@ -1,12 +1,10 @@
 #include "gui_textedit_highlighter.h"
 #include <aspell.h>
 #include <QRegularExpression>
-#include <socutil/sut_exceptions.h>
 #include "dictionarymodel.h"
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -105,15 +103,7 @@ void TextEdit::Highlighter::setupSpeller()
    // Create this highlighter's Aspell speller using the configuration and make sure 
    // it worked. 
    AspellCanHaveError* temp {new_aspell_speller(_spellConfig)};
-   if ( aspell_error_number(temp) )
-   {
-      Exception::SystemError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(
-               tr("Failed initializing Aspell library for spell checking: %1")
-               .arg(aspell_error_message(temp)));
-      throw e;
-   }
+   Q_ASSERT(!aspell_error_number(temp));
 
    // Set this highlighter's speller by extracting it from the temporary holder. 
    _spell = to_aspell_speller(temp);

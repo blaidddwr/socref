@@ -28,7 +28,7 @@ namespace CppQt
       bool hasValue() const;
       QString value() const;
    protected:
-      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
    };
 }
 

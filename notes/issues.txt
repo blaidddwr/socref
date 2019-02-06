@@ -5,3 +5,9 @@
 
 * Fix the spaghetti code that is C++/Qt parsing.
 
+* Add support for struct blocks in C++/Qt and nested template functions within template classes.
+
+* Fix nested template classes to be included correctly within the main class.
+
+* Expand classes nested in classes needlessly.
+

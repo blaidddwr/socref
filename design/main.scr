@@ -25,6 +25,7 @@
     <word>QCoreApplication</word>
     <word>QThread</word>
     <word>Struct</word>
+    <word>casted</word>
     <word>decrement</word>
     <word>destructor</word>
     <word>destructors</word>
@@ -175,8 +176,7 @@ An implementation of this class must construct the form portion of this dialog g
               <description>Calls this object's apply interface, returning true if it was successful or false if it caught an exception.</description>
               <name>tryApply</name>
               <operation>Call this object's apply interface and return true on success.</operation>
-              <operation>Catch any exception thrown from the apply interface.</operation>
-              <operation>Report the exception to the user and return false on failure.</operation>
+              <operation>Catch any exception thrown from the apply interface, returning false on failure.</operation>
               <return_description>True is the implementation applied changes successfully or false if an exception was thrown.</return_description>
               <type>bool</type>
             </data>
@@ -2655,33 +2655,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </data>
           <function>
             <data>
-              <description>Shows a modal dialog that informs the user of the given exception that occurred along with a custom text message to give it context.</description>
-              <name>showException</name>
-              <operation>Create and initialize a new message box, using the given exception and text to populate it.</operation>
-              <operation>Execute the message box dialog.</operation>
-              <return_description></return_description>
-              <static/>
-              <type>void</type>
-            </data>
-            <variable>
-              <data>
-                <description>The exception whose title and details is displayed to the user in a model dialog.</description>
-                <initializer></initializer>
-                <name>exception</name>
-                <type>const Sut::Exception&amp;</type>
-              </data>
-            </variable>
-            <variable>
-              <data>
-                <description>The text of the modal window to give the exception context to the user.</description>
-                <initializer></initializer>
-                <name>text</name>
-                <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function>
-            <data>
               <description>Constructs a new main window with the optional parent.</description>
               <explicit/>
               <name>^</name>
@@ -2716,7 +2689,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
                 <description></description>
                 <initializer></initializer>
                 <name>project</name>
-                <type>Sut::QPtr&lt;Project>&amp;&amp;</type>
+                <type>Soc::Ut::QPtr&lt;Project>&amp;&amp;</type>
               </data>
             </variable>
           </function>
@@ -2784,7 +2757,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>If this window has no project that set it to the opened project.</operation>
               <operation>Else this window already has a project.</operation>
               <operation>Create a new window, setting its project to the opened project, and then show it.</operation>
-              <operation>Catch any exception while opening the new project and report it to the user.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -2913,7 +2885,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Create a new message box that informs the user the project file has changed and asks the user if they want to reload the project or ignore it.</operation>
               <operation>Execute the message box and check to see if they chose to reload the project.</operation>
               <operation>Reload the project by creating a new project with the same file path and setting this window's project to the reloaded one.</operation>
-              <operation>Catch any exception while attempting to reload the project and inform the user.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -2964,7 +2935,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Execute the file dialog and make sure it returned accepted.</operation>
               <operation>Get the first file path from the file dialog chosen by the user.</operation>
               <operation>Attempt to save this window's project to the file path.</operation>
-              <operation>Catch any exception thrown while attempting to save the project, reporting it to the user and returning failure.</operation>
               <operation>Update this window's actions and return success.</operation>
               <return_description>True if this window's project was successfully saved to a new location or false otherwise.</return_description>
               <type>bool</type>
@@ -2976,7 +2946,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>save</name>
               <operation>Make sure this window has a project to save.</operation>
               <operation>Attempt to save this window's project.</operation>
-              <operation>Catch any exception thrown while attempting to save the project, reporting it to the user and returning failure.</operation>
               <operation>Return success.</operation>
               <return_description>True if the project was successfully saved or false otherwise.</return_description>
               <type>bool</type>
@@ -3591,11 +3560,9 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </function>
           <function>
             <data>
-              <description>Called when the scan thread for this dialog has finished scanning all files. This closes this dialog on accept. If the scan thread has an exception from its separate thread then it is shown to the user.</description>
+              <description>Called when the scan thread for this dialog has finished scanning all files. This closes this dialog on accept.</description>
               <name>scanFinished</name>
-              <operation>Check to see if the scanner thread threw an exception.</operation>
-              <operation>Inform the user about the exception thrown in the scanner thread and close this dialog with rejected.</operation>
-              <operation>Else there was no error so close this dialog with accepted.</operation>
+              <operation>Close this dialog with accepted.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -3692,7 +3659,7 @@ The global header file has forward declarations of all classes within its namesp
                 <operation>Else this is a global or class file so return the found header/source parser.</operation>
                 <override/>
                 <return_description>See interface docs.</return_description>
-                <type>Sut::QPtr&lt;AbstractParser></type>
+                <type>Soc::Ut::QPtr&lt;AbstractParser></type>
                 <virtual/>
               </data>
               <variable>
@@ -6346,7 +6313,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent>
           <data>
             <access>public</access>
-            <class>Sut::Singleton&lt;Settings></class>
+            <class>Soc::Ut::Singleton&lt;Settings></class>
           </data>
         </parent>
         <access>
@@ -6720,7 +6687,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
         <parent>
           <data>
             <access>public</access>
-            <class>Sut::Singleton&lt;Factory></class>
+            <class>Soc::Ut::Singleton&lt;Factory></class>
           </data>
         </parent>
         <access>
@@ -6870,10 +6837,12 @@ This parser also has the concept of a cut off. The cut off is an integer that de
             <data>
               <const/>
               <description>Implements _BasicBlockFactory_ interface.</description>
+              <final/>
               <name>makeBasicBlock</name>
               <operation>Based off the given block type return a new instance of that type or a null pointer if that type does not have an implementation.</operation>
+              <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock></type>
               <virtual/>
             </data>
             <variable>
@@ -7203,7 +7172,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
               <virtual/>
             </data>
           </function>
@@ -7450,7 +7419,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
               <virtual/>
             </data>
           </function>
@@ -8003,7 +7972,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
               <virtual/>
             </data>
           </function>
@@ -8333,7 +8302,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
               <virtual/>
             </data>
           </function>
@@ -8612,7 +8581,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
               <virtual/>
             </data>
           </function>
@@ -8968,7 +8937,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
                 <operation>Call the recursive find method that attempts to find a matching shader, returning its result.</operation>
                 <override/>
                 <return_description>See interface docs.</return_description>
-                <type>Sut::QPtr&lt;AbstractParser></type>
+                <type>Soc::Ut::QPtr&lt;AbstractParser></type>
                 <virtual/>
               </data>
               <variable>
@@ -9928,7 +9897,7 @@ Because this function parser is responsible for the special main function it mus
         <parent>
           <data>
             <access>public</access>
-            <class>Sut::Singleton&lt;Settings></class>
+            <class>Soc::Ut::Singleton&lt;Settings></class>
           </data>
         </parent>
         <access>
@@ -10355,7 +10324,7 @@ Because this function parser is responsible for the special main function it mus
         <parent>
           <data>
             <access>public</access>
-            <class>Sut::Singleton&lt;Factory></class>
+            <class>Soc::Ut::Singleton&lt;Factory></class>
           </data>
         </parent>
         <access>
@@ -10470,10 +10439,12 @@ Because this function parser is responsible for the special main function it mus
             <data>
               <const/>
               <description>Implements _BasicBlockFactory_ interface.</description>
+              <final/>
               <name>makeBasicBlock</name>
               <operation>Based off the given block type return a new instance of that type or a null pointer if that type does not have an implementation.</operation>
+              <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock></type>
               <virtual/>
             </data>
             <variable>
@@ -10760,7 +10731,7 @@ Because this function parser is responsible for the special main function it mus
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
               <virtual/>
             </data>
           </function>
@@ -10896,7 +10867,7 @@ Because this function parser is responsible for the special main function it mus
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
               <virtual/>
             </data>
           </function>
@@ -11128,7 +11099,7 @@ Because this function parser is responsible for the special main function it mus
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Sut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
               <virtual/>
             </data>
           </function>
@@ -11263,7 +11234,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface returns a view that provides a detailed read only GUI representation of this block's data.</description>
             <name>makeView</name>
             <return_description>New GUI view that represents this block's data.</return_description>
-            <type>Sut::QPtr&lt;QWidget></type>
+            <type>Soc::Ut::QPtr&lt;QWidget></type>
             <virtual/>
           </data>
         </function>
@@ -11277,7 +11248,7 @@ This class itself handles all copying using another specialized interface for co
             <operation>Copy this block's children and implementation data to the new block.</operation>
             <operation>Return the new block.</operation>
             <return_description>Exact copy of this block's data as a new block.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
             <virtual/>
           </data>
         </function>
@@ -11287,7 +11258,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface returns an abstract edit GUI dialog that provides the ability to edit this block's data.</description>
             <name>makeEdit</name>
             <return_description>Abstract edit GUI dialog to edit this block's data.</return_description>
-            <type>Sut::QPtr&lt;Gui::AbstractEdit></type>
+            <type>Soc::Ut::QPtr&lt;Gui::AbstractEdit></type>
             <virtual/>
           </data>
         </function>
@@ -11446,8 +11417,8 @@ This class itself handles all copying using another specialized interface for co
             <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
             <name>cast</name>
             <operation>Make sure the given type matches this block's type.</operation>
-            <operation>If this block is successfully cast as the given type then return its pointer.</operation>
-            <operation>Else an internal error has occurred because this block should have cast successfully.</operation>
+            <operation>Cast this block to the given type and make sure it works.</operation>
+            <operation>Return the type casted  pointer.</operation>
             <return_description>If successful then a read only pointer of requested cast type, else a null pointer.</return_description>
             <type>const T*</type>
           </data>
@@ -11469,6 +11440,28 @@ This class itself handles all copying using another specialized interface for co
         </function>
         <function>
           <data>
+            <const/>
+            <description>Writes out this block's data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
+            <name>write</name>
+            <operation>Create the data element for this bock's data.</operation>
+            <operation>Create a new element that will contain this block's data and all children.</operation>
+            <operation>Add the data element for the return element.</operation>
+            <operation>Add all of this block's children elements.</operation>
+            <operation>Return the element containing all data and children of this block.</operation>
+            <return_description>XML element that stores this block's data and all children underneath it.</return_description>
+            <type>QDomElement</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>document</name>
+              <type>QDomDocument&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
             <description>This returns the root block in this block's tree structure. The root block is the common parent of all other blocks that has no parent itself.</description>
             <name>root</name>
             <operation>Iterate up the tree of parents until the root pointer is found.</operation>
@@ -11482,8 +11475,8 @@ This class itself handles all copying using another specialized interface for co
             <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
             <name>cast</name>
             <operation>Make sure the given type matches this block's type.</operation>
-            <operation>If this block is successfully cast as the given type then return its pointer.</operation>
-            <operation>Else an internal error has occurred because this block should have cast successfully.</operation>
+            <operation>Cast this block to the given type and make sure it works.</operation>
+            <operation>Return the type casted pointer.</operation>
             <return_description>If successful then a pointer of requested cast type, else a null pointer.</return_description>
             <type>T*</type>
           </data>
@@ -11565,7 +11558,7 @@ This class itself handles all copying using another specialized interface for co
               <description>Pointer to the new block that is inserted as this block's child.</description>
               <initializer></initializer>
               <name>child</name>
-              <type>Sut::QPtr&lt;AbstractBlock>&amp;&amp;</type>
+              <type>Soc::Ut::QPtr&lt;AbstractBlock>&amp;&amp;</type>
             </data>
           </variable>
         </function>
@@ -11578,7 +11571,7 @@ This class itself handles all copying using another specialized interface for co
             <operation>Starting with this block iterate up the tree of parents, calling their child removed interface, until the root block is reached or the child removed interface returns false.</operation>
             <operation>Return the removed child pointer.</operation>
             <return_description>Pointer to child that was taken from this block.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
           </data>
           <variable>
             <data>
@@ -11625,28 +11618,6 @@ This class itself handles all copying using another specialized interface for co
               <initializer></initializer>
               <name>element</name>
               <type>const QDomElement&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Writes out this block's data as an XML element. This includes all children as child XML elements which have their write functions called recursively.</description>
-            <name>write</name>
-            <operation>Create the data element for this bock's data.</operation>
-            <operation>Create a new element that will contain this block's data and all children.</operation>
-            <operation>Add the data element for the return element.</operation>
-            <operation>Add all of this block's children elements.</operation>
-            <operation>Return the element containing all data and children of this block.</operation>
-            <return_description>XML element that stores this block's data and all children underneath it.</return_description>
-            <type>QDomElement</type>
-          </data>
-          <variable>
-            <data>
-              <description></description>
-              <initializer></initializer>
-              <name>document</name>
-              <type>QDomDocument&amp;</type>
             </data>
           </variable>
         </function>
@@ -11744,7 +11715,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
             <name>makeBlank</name>
             <return_description>Pointer to the newly created block.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
             <virtual/>
           </data>
         </function>
@@ -12061,7 +12032,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface makes a new block of the given type and returns its pointer. The new block is expected to have either a null data or new default state, depending on the given flag.</description>
             <name>makeBlock</name>
             <return_description>Pointer to new block with given type.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
             <virtual/>
           </data>
           <variable>
@@ -12088,7 +12059,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface makes a new root block and returns its pointer. The root block is used as the root block for all projects of this project type. The new root block is expected to have a null data state.</description>
             <name>makeRootBlock</name>
             <return_description>Pointer to new root block for this project type.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
             <virtual/>
           </data>
         </function>
@@ -12523,7 +12494,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface makes a new parser object from the given file and and extension. This can return a null pointer in which case the source file is ignored and skipped.</description>
             <name>make</name>
             <return_description>Pointer to new parser object or null pointer.</return_description>
-            <type>Sut::QPtr&lt;AbstractParser></type>
+            <type>Soc::Ut::QPtr&lt;AbstractParser></type>
             <virtual/>
           </data>
           <variable>
@@ -12553,7 +12524,7 @@ This class itself handles all copying using another specialized interface for co
       <parent>
         <data>
           <access>public</access>
-          <class>Sut::SingletonFactory&lt;AbstractProjectFactory></class>
+          <class>Soc::Ut::SingletonFactory&lt;AbstractProjectFactory></class>
         </data>
       </parent>
       <access>
@@ -12664,7 +12635,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface makes a new settings dialog for the given project type. The settings dialog for a project type should contain all general settings for that project type, saving the settings in the qt settings class.</description>
             <name>makeSettings</name>
             <return_description>Pointer to the new settings dialog for the given project type.</return_description>
-            <type>Sut::QPtr&lt;QDialog></type>
+            <type>Soc::Ut::QPtr&lt;QDialog></type>
             <virtual/>
           </data>
           <variable>
@@ -12702,7 +12673,7 @@ This class itself handles all copying using another specialized interface for co
             <description>This interface makes a new parser factory for the given project type with the given block pointer as the root of an existing project to be parsed.</description>
             <name>makeParserFactory</name>
             <return_description>Pointer to created parser factory for the given project type.</return_description>
-            <type>Sut::QPtr&lt;AbstractParserFactory></type>
+            <type>Soc::Ut::QPtr&lt;AbstractParserFactory></type>
             <virtual/>
           </data>
           <variable>
@@ -12881,7 +12852,7 @@ This class itself handles all copying using another specialized interface for co
             <operation>This project type is not recognized so throw an exception.</operation>
             <override/>
             <return_description>See interface docs.</return_description>
-            <type>Sut::QPtr&lt;QDialog></type>
+            <type>Soc::Ut::QPtr&lt;QDialog></type>
             <virtual/>
           </data>
           <variable>
@@ -12925,7 +12896,7 @@ This class itself handles all copying using another specialized interface for co
             <operation>This project type is not recognized so throw an exception.</operation>
             <override/>
             <return_description>See interface docs.</return_description>
-            <type>Sut::QPtr&lt;AbstractParserFactory></type>
+            <type>Soc::Ut::QPtr&lt;AbstractParserFactory></type>
             <virtual/>
           </data>
           <variable>
@@ -12949,174 +12920,128 @@ This class itself handles all copying using another specialized interface for co
     </class>
     <class>
       <data>
-        <description>This is the abstract item model for the entire block tree of a project, using the Qt abstract item model class. It only implements the interfaces necessary for read only functionality through Qt view classes. However the writable functionality exists with custom functions outside the Qt framework. The custom write operations supported are inserting blocks, moving blocks up and down, removing blocks, copying blocks, and cutting blocks.</description>
-        <name>BlockModel</name>
-        <qtobject/>
+        <description>This mostly implements the abstract block factory. This facilitates reading in a XML configuration file that defines all basic blocks types this factory can produce. The definition of each basic block type is provided as a root level XML element.
+
+All interfaces from the abstract block factory are implemented except for the element name interface. This must be implemented by the actual project type and is used by this interface to make sure any enumeration it contains matches the XML file. The order of block types within any enumeration must match the order in the XML configuration file this basic block factory loads.
+
+A new interface is also provided for creating implementation classes of the basic block class. Basic blocks do no require to implemented and can simply be generic basic blocks. To do this simply return a null pointer with this class's interface.</description>
+        <name>BasicBlockFactory</name>
       </data>
       <parent>
         <data>
           <access>public</access>
-          <class>QAbstractItemModel</class>
+          <class>AbstractBlockFactory</class>
         </data>
       </parent>
       <access>
         <data>
           <type>public:</type>
         </data>
-        <enumeration>
-          <data>
-            <description>Defines custom data roles this model uses for data changed signals.</description>
-            <name>Role</name>
-          </data>
-          <enumvalue>
-            <data>
-              <description>Defines the name role which encompasses the title and icon of a block changing.</description>
-              <name>Name</name>
-              <value>100</value>
-            </data>
-          </enumvalue>
-          <enumvalue>
-            <data>
-              <description>Defines the body role which encompasses the body of a block changing.</description>
-              <name>Body</name>
-              <value>101</value>
-            </data>
-          </enumvalue>
-        </enumeration>
         <function>
           <data>
             <const/>
-            <description>Implements _QAbstractItemModel_ interface.</description>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
             <final/>
-            <name>index</name>
-            <operation>If the given row or column is not valid then return an invalid index.</operation>
-            <operation>Get the block pointer for the given parent index and make sure the row is within range of its child size.</operation>
-            <operation>Return a new index with its internal pointer set to the block pointer.</operation>
+            <name>size</name>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Return the number of basic block definitions.</operation>
             <override/>
-            <return_description>See Qt docs.</return_description>
-            <type>QModelIndex</type>
+            <return_description>See interface docs.</return_description>
+            <type>int</type>
+            <virtual/>
+          </data>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <final/>
+            <name>name</name>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Make sure the given type is not out of range.</operation>
+            <operation>Return the display name of the given block type.</operation>
+            <override/>
+            <return_description>See interface docs.</return_description>
+            <type>QString</type>
             <virtual/>
           </data>
           <variable>
             <data>
-              <description>See Qt docs.</description>
+              <description>See interface docs.</description>
               <initializer></initializer>
-              <name>row</name>
+              <name>type</name>
               <type>int</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>See Qt docs.</description>
-              <initializer></initializer>
-              <name>column</name>
-              <type>int</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>See Qt docs.</description>
-              <initializer></initializer>
-              <name>parent</name>
-              <type>const QModelIndex&amp;</type>
             </data>
           </variable>
         </function>
         <function>
           <data>
             <const/>
-            <description>Implements _QAbstractItemModel_ interface.</description>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
             <final/>
-            <name>parent</name>
-            <operation>Get the block pointer of the given child index, making sure it is not null.</operation>
-            <operation>Get the parent of the child block, making sure it is not null and its parent is not null.</operation>
-            <operation>Return the given index's parent index using the grandparent to get the parent's row.</operation>
+            <name>typeByElementName</name>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Return the index of the given element name or -1 if it is not found.</operation>
             <override/>
-            <return_description>See Qt docs.</return_description>
-            <type>QModelIndex</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>See Qt docs.</description>
-              <initializer></initializer>
-              <name>child</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Implements _QAbstractItemModel_ interface. This returns the number of children the block with the given index contains.</description>
-            <final/>
-            <name>rowCount</name>
-            <operation>Check if this model has no root block.</operation>
-            <operation>Get the block pointer for the given index, returning 0 if it is null or its children size if it is not.</operation>
-            <override/>
-            <return_description>See Qt docs.</return_description>
+            <return_description>See interface docs.</return_description>
             <type>int</type>
             <virtual/>
           </data>
           <variable>
             <data>
-              <description>See Qt docs.</description>
+              <description>See interface docs.</description>
               <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
+              <name>elementName</name>
+              <type>const QString&amp;</type>
             </data>
           </variable>
         </function>
         <function>
           <data>
             <const/>
-            <description>Implements _QAbstractItemModel_ interface. This model always has 1 column.</description>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
             <final/>
-            <name>columnCount</name>
-            <operation>Return 1.</operation>
+            <name>makeBlock</name>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Make sure the given type is not out of range.</operation>
+            <operation>Create a new basic block, implemented or generic.</operation>
+            <operation>Initialize the new basic block with its XML definition and default state.</operation>
+            <operation>Return the new basic block.</operation>
             <override/>
-            <return_description>See Qt docs.</return_description>
-            <type>int</type>
+            <return_description>See interface docs.</return_description>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
             <virtual/>
           </data>
           <variable>
             <data>
-              <description>See Qt docs.</description>
+              <description>See interface docs.</description>
               <initializer></initializer>
-              <name>parent</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Implements _QAbstractItemModel_ interface. This model only implements the display and decoration roles.</description>
-            <final/>
-            <name>data</name>
-            <operation>Get the block pointer for the given index, returning a null qt variant if it is null.</operation>
-            <operation>Based off the role return either the block's display name for display role or the block's icon for decoration role. The icon is transformed to a pixel map with specific dimensions.</operation>
-            <override/>
-            <return_description>See Qt docs.</return_description>
-            <type>QVariant</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>See Qt docs.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>See Qt docs.</description>
-              <initializer></initializer>
-              <name>role</name>
+              <name>type</name>
               <type>int</type>
             </data>
           </variable>
+          <variable>
+            <data>
+              <description>See interface docs.</description>
+              <initializer></initializer>
+              <name>isDefault</name>
+              <type>bool</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <final/>
+            <name>makeRootBlock</name>
+            <operation>If this factory has not been checked for consistency then do so.</operation>
+            <operation>Make a new root block without default values and return it.</operation>
+            <override/>
+            <return_description>See interface docs.</return_description>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
+            <virtual/>
+          </data>
         </function>
       </access>
       <access>
@@ -13125,234 +13050,42 @@ This class itself handles all copying using another specialized interface for co
         </data>
         <function>
           <data>
-            <description>Constructs a new block model with the  optional parent.</description>
-            <explicit/>
+            <description>Constructs a new basic block factory, reading in the XML configuration file at the given path.</description>
             <name>^</name>
+            <operation>Read in the XML, then add all type definitions, and then build all build lists for each type defined.</operation>
             <return_description></return_description>
             <type></type>
           </data>
           <variable>
             <data>
-              <description>The parent for this model.</description>
-              <initializer>nullptr</initializer>
-              <name>parent</name>
-              <type>QObject*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Returns the block pointer the given index represents in this model. If the given index is invalid this model's root block pointer is returned.</description>
-            <name>pointer</name>
-            <operation>If the given index is valid then return its internal pointer else return this model's root block pointer.</operation>
-            <return_description>Block pointer of the given index or the root block pointer if the index is invalid.</return_description>
-            <type>AbstractBlock*</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index whose block pointer is returned.</description>
+              <description>The path of the XML configuration file defining all basic block types this new factory can produce.</description>
               <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Inserts a new block into this model at the beginning of the given index's list of children.</description>
-            <name>insert</name>
-            <operation>Make sure the given pointer is not null.</operation>
-            <operation>Get the parent block pointer to the given index and make sure it is not null.</operation>
-            <operation>Insert the given child block at the beginning of the given parent's block's child list, notifying the model of a row insertion and returning success.</operation>
-            <return_description>True on success or false on failure.</return_description>
-            <type>bool</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index where the given block is inserted.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>Pointer to the block that is inserted into this model.</description>
-              <initializer></initializer>
-              <name>block</name>
-              <type>Sut::QPtr&lt;AbstractBlock>&amp;&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Moves the given index up by one in the list of siblings it is part of. If the given index is already at row 0 then this does nothing. Returns the new index for the given index that was or was not moved.</description>
-            <name>moveUp</name>
-            <operation>Make sure the given index is valid and is not in the first row.</operation>
-            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
-            <operation>Get the parent block pointer and make sure it is not null.</operation>
-            <operation>Move the block with the given index up by one in it's parent's child list, notifying the model that the row has moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
-            <operation>Return a new index where the given index's block moved.</operation>
-            <return_description>New index for the given index that was possibly moved.</return_description>
-            <type>QModelIndex</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index that will possibly be moved up by 1.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Moves the given index down by one in the list of siblings it is part of. If the given index is already at the end of its list of siblings then this does nothing. Returns the new index for the given index that was or was not moved.</description>
-            <name>moveDown</name>
-            <operation>Make sure the given index is valid and is not in the last row.</operation>
-            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
-            <operation>Get the parent block pointer and make sure it is not null.</operation>
-            <operation>Move the block with the given index down by one in it's parent's child list, notifying the model that the row has moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
-            <operation>Return a new index where the given index's block moved.</operation>
-            <return_description>New index for the given index that was possibly moved.</return_description>
-            <type>QModelIndex</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index that will possibly be moved up by 1.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Removes the given index and its block for this model. If the index is not given this does nothing and returns false.</description>
-            <name>remove</name>
-            <operation>Make sure the given index is valid.</operation>
-            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
-            <operation>Get the parent block pointer and make sure it is not null.</operation>
-            <operation>Remove the block with the given index from its parent block, notifying the model that a row was removed and returning success. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
-            <return_description>True on success or false on failure.</return_description>
-            <type>bool</type>
-          </data>
-          <variable>
-            <data>
-              <description>The index that is removed from this model.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Returns a pointer to a copy of the block at the given index. If the given index is not valid then a null pointer is returned.</description>
-            <name>copy</name>
-            <operation>If the given index is not valid then return null.</operation>
-            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
-            <operation>Make a copy of the block with the given index and return its pointer.</operation>
-            <return_description>Pointer to a copy of the given index or a null pointer if the given index is invalid.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
-          </data>
-          <variable>
-            <data>
-              <description>The given index whose block is copied and returned.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Returns a pointer to the block at the given index, removing that index from the model but not deleting its block. Instead the ownership of the block is returned. If the given index is not valid then a null pointer is returned.</description>
-            <name>cut</name>
-            <operation>Make sure the given index is valid.</operation>
-            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
-            <operation>Get the parent block pointer and make sure it is not null.</operation>
-            <operation>Take the child block with the given index from its parent block, notifying the model that a row was removed and returning the taken block's pointer. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
-            <return_description>Pointer to the block at the given index now removed or null pointer if the given index is not valid.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
-          </data>
-          <variable>
-            <data>
-              <description>The index that is removed from this model and its block returned.</description>
-              <initializer></initializer>
-              <name>index</name>
-              <type>const QModelIndex&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Returns a read only pointer to the block factory of the project type for this model's blocks. If the model is not set to any block data then a null pointer is returned.</description>
-            <name>factory</name>
-            <return_description>Read only pointer to black factory for this model's block type or null pointer if this model is empty.</return_description>
-            <type>const AbstractBlockFactory*</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <description>Sets a new root block for this model's data. If the given pointer is null then this model is set to be empty with no data to represent.</description>
-            <name>setRoot</name>
-            <operation>Notify the model that a reset has begun.</operation>
-            <operation>Disconnect any previous root block of this model.</operation>
-            <operation>Set the new root for this model and its factory to null just in case the new root is null.</operation>
-            <operation>Check if the new root is not null.</operation>
-            <operation>Set this model's block factory to the one from this model's new root block.</operation>
-            <operation>Connect the name and body modified signals of the new root block to this model.</operation>
-            <operation>Notify the model that the reset has ended.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer to root block that this model will use or null to set this model as empty.</description>
-              <initializer></initializer>
-              <name>root</name>
-              <type>AbstractBlock*</type>
+              <name>xmlPath</name>
+              <type>const QString&amp;</type>
             </data>
           </variable>
         </function>
       </access>
       <access>
         <data>
-          <type>private slots:</type>
+          <type>protected:</type>
         </data>
         <function>
           <data>
-            <description>Called when the root block contained within this model emits a name modified signal indicating a block with the given pointer within this model modified its name.</description>
-            <name>blockNameModified</name>
-            <return_description></return_description>
-            <type>void</type>
+            <const/>
+            <description>This interface creates the class that implements the given basic block type, if any. If this is a generic basic block type that does not require a specialized class then a null pointer is returned. The default implementation always returns a null pointer.</description>
+            <name>makeBasicBlock</name>
+            <operation>Return a null pointer.</operation>
+            <return_description>Pointer to a new class implementation of the given basic block type or a null pointer if this basic block type is generic.</return_description>
+            <type>Soc::Ut::QPtr&lt;BasicBlock></type>
+            <virtual/>
           </data>
           <variable>
             <data>
-              <description>Pointer to the block whose name has changed.</description>
+              <description>The block type of the basic block that is made if not generic.</description>
               <initializer></initializer>
-              <name>block</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Called when the root block contained within this model emits a body modified signal indicating a block with the given pointer within this model modified its body.</description>
-            <name>blockBodyModified</name>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>Pointer to the block whose body has changed.</description>
-              <initializer></initializer>
-              <name>block</name>
-              <type>AbstractBlock*</type>
+              <name>type</name>
+              <type>int</type>
             </data>
           </variable>
         </function>
@@ -13361,56 +13094,177 @@ This class itself handles all copying using another specialized interface for co
         <data>
           <type>private:</type>
         </data>
+        <variable>
+          <data>
+            <description>The name of the display attribute for XML basic block definitions.</description>
+            <initializer>"display"</initializer>
+            <name>_displayTag</name>
+            <static/>
+            <type>const char*</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>The name of the root attribute for XML basic block definitions.</description>
+            <initializer>"root"</initializer>
+            <name>_rootTag</name>
+            <static/>
+            <type>const char*</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>The tag name of the build list element for XML basic block definitions.</description>
+            <initializer>"buildlist"</initializer>
+            <name>_buildTag</name>
+            <static/>
+            <type>const char*</type>
+          </data>
+        </variable>
+      </access>
+      <access>
+        <data>
+          <type>private:</type>
+        </data>
         <function>
           <data>
-            <description>Determines the model index for the given block pointer and emits the data changed signal with that index and the given roles.</description>
-            <name>notifyChange</name>
-            <operation>Get the parent block pointer of the given block and make sure it is not null.</operation>
-            <operation>Determine the index for the given block and signal the data changed for that index and given roles.</operation>
+            <description>Reads in the XML configuration file at the given path.</description>
+            <name>read</name>
+            <operation>Open the XML file from the given path, making sure it worked.</operation>
+            <operation>Create a new XML document and set its contents to the opened XML file.</operation>
+            <operation>Iterate through all children of the XML document.</operation>
+            <operation>If the current node is an element then read it in as a definition.</operation>
+            <operation>Move to the next sibling node.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description>Pointer to the block whose index is found and used to emit data changed.</description>
+              <description>The path of the XML configuration file defining all basic block types this new factory can produce.</description>
               <initializer></initializer>
-              <name>block</name>
-              <type>AbstractBlock*</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>The data roles used when emitting data changed.</description>
-              <initializer></initializer>
-              <name>roles</name>
-              <type>const QVector&lt;int>&amp;</type>
+              <name>path</name>
+              <type>const QString&amp;</type>
             </data>
           </variable>
         </function>
+        <function>
+          <data>
+            <description>Reads in a single basic block type definition from the given root XML element, appending it to this factory's list of basic block type definitions.</description>
+            <name>readDefinition</name>
+            <operation>Make sure the given element has the display attribute.</operation>
+            <operation>Check to see if the given element has the root element.</operation>
+            <operation>Make sure the root block type has not already been set.</operation>
+            <operation>Set the root block type to the basic block type definition about to be added.</operation>
+            <operation>Add the new basic block type definition of this factory's list.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>The XML element that defines a basic block type.</description>
+              <initializer></initializer>
+              <name>element</name>
+              <type>const QDomElement&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Builds the build lists for all basic block types that his basic block factory defines.</description>
+            <name>buildLists</name>
+            <operation>Iterate through all type definitions of this factory.</operation>
+            <operation>Initialize the next build list.</operation>
+            <operation>Iterate through all nodes of the type definition.</operation>
+            <operation>If the node is an element and matches the build list tag name then build a build list using the found build list XML element.</operation>
+            <operation>Move to the next sibling.</operation>
+            <operation>Add the next build list to the list of type definitions for this factory.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+        </function>
+        <function>
+          <data>
+            <description>Builds the next build list for this factory's basic block type definitions using the given XML element as the build list element and returning the built build list.</description>
+            <name>buildList</name>
+            <operation>Initialize the return build list that will be returned.</operation>
+            <operation>Iterate through all children nodes of the given element.</operation>
+            <operation>Check to see if this node is an element.</operation>
+            <operation>Find the index of the block type the element is referencing, checking to make sure it is valid.</operation>
+            <operation>Append the block type to the build list.</operation>
+            <operation>Move to the next sibling.</operation>
+            <operation>Return the built build list.</operation>
+            <return_description>Build list for the next block type definition using the given build list element.</return_description>
+            <type>QList&lt;int></type>
+          </data>
+          <variable>
+            <data>
+              <description>Build list XML element used to build the build list.</description>
+              <initializer></initializer>
+              <name>element</name>
+              <type>const QDomElement&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Makes sure this factory's list of basic block definitions match with this factory's implementation's element name interface. If a mismatch is detected then an exception is thrown.</description>
+            <name>check</name>
+            <operation>If consistency has already been checked then return true immediately.</operation>
+            <operation>Iterate through all basic block type definitions of this factory.</operation>
+            <operation>Make sure the element name matches between this factory's list and the element name interface, returning false if there is a mismatch.</operation>
+            <operation>Mark this factory as having its consistency checked and return true.</operation>
+            <return_description></return_description>
+            <type>bool</type>
+          </data>
+        </function>
         <variable>
           <data>
-            <constexpr/>
-            <description>The preferred icon size for indexes of this model when displayed in a view. This represents both the width and height.</description>
-            <initializer>24</initializer>
-            <name>_iconSize</name>
-            <static/>
+            <description>List of display names for this factory's basic block type definitions.</description>
+            <initializer></initializer>
+            <name>_typeDisplayNames</name>
+            <type>QStringList</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>List of element names for this factory's list of basic block type definitions.</description>
+            <initializer></initializer>
+            <name>_typeElementNames</name>
+            <type>QStringList</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>List of XML elements for this factory's list of basic block type definitions.</description>
+            <initializer></initializer>
+            <name>_typeDefinitions</name>
+            <type>QList&lt;QDomElement></type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>List of build lists for this factory's list of basic block type definitions.</description>
+            <initializer></initializer>
+            <name>_buildLists</name>
+            <type>QList&lt;QList&lt;int>></type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>Index to the basic block type definition that is considered the root block type for this factory's implementation's project type.</description>
+            <initializer>-1</initializer>
+            <name>_rootType</name>
             <type>int</type>
           </data>
         </variable>
         <variable>
           <data>
-            <description>A pointer to the root block for this model's data. If this model is empty then this is null.</description>
-            <initializer>nullptr</initializer>
-            <name>_root</name>
-            <type>AbstractBlock*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>A read only pointer to this model block type's block factory. If this model is empty then this is null.</description>
-            <initializer>nullptr</initializer>
-            <name>_factory</name>
-            <type>const AbstractBlockFactory*</type>
+            <description>True if this factory has been checked for consistency with its implementation or false otherwise.</description>
+            <initializer>false</initializer>
+            <mutable/>
+            <name>_isChecked</name>
+            <type>bool</type>
           </data>
         </variable>
       </access>
@@ -13500,7 +13354,6 @@ The layout of this editor is defined by the XML element between different layout
                 <description>Implements _Gui::AbstractEdit_ interface.</description>
                 <final/>
                 <name>apply</name>
-                <operation>Prepare a function for throwing a common exception if a type mismatch occurs.</operation>
                 <operation>Iterate through all widgets of this editor.</operation>
                 <operation>Get the matching basic block field of the edit widget, making sure the field exists.</operation>
                 <operation>Figure out what type the edit widget is and set the value of the basic block field to the value of the edit widget, making sure the basic block field is of the correct type.</operation>
@@ -14402,7 +14255,7 @@ The layout of this editor is defined by the XML element between different layout
             <name>makeView</name>
             <override/>
             <return_description>See interface docs.</return_description>
-            <type>Sut::QPtr&lt;QWidget></type>
+            <type>Soc::Ut::QPtr&lt;QWidget></type>
             <virtual/>
           </data>
         </function>
@@ -14413,7 +14266,7 @@ The layout of this editor is defined by the XML element between different layout
             <name>makeEdit</name>
             <override/>
             <return_description>See interface docs.</return_description>
-            <type>Sut::QPtr&lt;Gui::AbstractEdit></type>
+            <type>Soc::Ut::QPtr&lt;Gui::AbstractEdit></type>
             <virtual/>
           </data>
         </function>
@@ -14500,7 +14353,7 @@ The layout of this editor is defined by the XML element between different layout
             <description>This interface returns a new basic block view implementation for this basic block. The default interface returns a generic basic block view. This should be used for basic block views that use the custom view element in its definition.</description>
             <name>makeBasicView</name>
             <return_description>New basic block view implementation for this basic block.</return_description>
-            <type>Sut::QPtr&lt;BasicBlock::View></type>
+            <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
             <virtual/>
           </data>
         </function>
@@ -14566,7 +14419,7 @@ The layout of this editor is defined by the XML element between different layout
             <operation>Return the initialized basic block.</operation>
             <override/>
             <return_description>See interface docs.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
             <virtual/>
           </data>
         </function>
@@ -14750,16 +14603,6 @@ The layout of this editor is defined by the XML element between different layout
         </data>
         <function>
           <data>
-            <const/>
-            <description>Checks to make sure this basic block has been initialized, throwing an exception if it is uninitialized.</description>
-            <name>check</name>
-            <operation>Make sure this basic block has been initialized.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
-        <function>
-          <data>
             <description>Appends a new data field to this basic block. This is only used when initializing a basic block to its type and adding the data field definitions.</description>
             <name>addField</name>
             <operation>Get the id the new data field of this basic block will use, making sure the id attribute exists in the given element.</operation>
@@ -14889,128 +14732,174 @@ The layout of this editor is defined by the XML element between different layout
     </class>
     <class>
       <data>
-        <description>This mostly implements the abstract block factory. This facilitates reading in a XML configuration file that defines all basic blocks types this factory can produce. The definition of each basic block type is provided as a root level XML element.
-
-All interfaces from the abstract block factory are implemented except for the element name interface. This must be implemented by the actual project type and is used by this interface to make sure any enumeration it contains matches the XML file. The order of block types within any enumeration must match the order in the XML configuration file this basic block factory loads.
-
-A new interface is also provided for creating implementation classes of the basic block class. Basic blocks do no require to implemented and can simply be generic basic blocks. To do this simply return a null pointer with this class's interface.</description>
-        <name>BasicBlockFactory</name>
+        <description>This is the abstract item model for the entire block tree of a project, using the Qt abstract item model class. It only implements the interfaces necessary for read only functionality through Qt view classes. However the writable functionality exists with custom functions outside the Qt framework. The custom write operations supported are inserting blocks, moving blocks up and down, removing blocks, copying blocks, and cutting blocks.</description>
+        <name>BlockModel</name>
+        <qtobject/>
       </data>
       <parent>
         <data>
           <access>public</access>
-          <class>AbstractBlockFactory</class>
+          <class>QAbstractItemModel</class>
         </data>
       </parent>
       <access>
         <data>
           <type>public:</type>
         </data>
-        <function>
+        <enumeration>
           <data>
-            <const/>
-            <description>Implements _AbstractBlockFactory_ interface.</description>
-            <final/>
-            <name>size</name>
-            <operation>If this factory has not been checked for consistency then do so.</operation>
-            <operation>Return the number of basic block definitions.</operation>
-            <override/>
-            <return_description>See interface docs.</return_description>
-            <type>int</type>
-            <virtual/>
+            <description>Defines custom data roles this model uses for data changed signals.</description>
+            <name>Role</name>
           </data>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Implements _AbstractBlockFactory_ interface.</description>
-            <final/>
-            <name>name</name>
-            <operation>If this factory has not been checked for consistency then do so.</operation>
-            <operation>Make sure the given type is not out of range.</operation>
-            <operation>Return the display name of the given block type.</operation>
-            <override/>
-            <return_description>See interface docs.</return_description>
-            <type>QString</type>
-            <virtual/>
-          </data>
-          <variable>
+          <enumvalue>
             <data>
-              <description>See interface docs.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
+              <description>Defines the name role which encompasses the title and icon of a block changing.</description>
+              <name>Name</name>
+              <value>100</value>
             </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Implements _AbstractBlockFactory_ interface.</description>
-            <final/>
-            <name>typeByElementName</name>
-            <operation>If this factory has not been checked for consistency then do so.</operation>
-            <operation>Return the index of the given element name or -1 if it is not found.</operation>
-            <override/>
-            <return_description>See interface docs.</return_description>
-            <type>int</type>
-            <virtual/>
-          </data>
-          <variable>
+          </enumvalue>
+          <enumvalue>
             <data>
-              <description>See interface docs.</description>
-              <initializer></initializer>
-              <name>elementName</name>
-              <type>const QString&amp;</type>
+              <description>Defines the body role which encompasses the body of a block changing.</description>
+              <name>Body</name>
+              <value>101</value>
             </data>
-          </variable>
-        </function>
+          </enumvalue>
+        </enumeration>
         <function>
           <data>
             <const/>
-            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <description>Implements _QAbstractItemModel_ interface.</description>
             <final/>
-            <name>makeBlock</name>
-            <operation>If this factory has not been checked for consistency then do so.</operation>
-            <operation>Make sure the given type is not out of range.</operation>
-            <operation>Create a new basic block, implemented or generic.</operation>
-            <operation>Initialize the new basic block with its XML definition and default state.</operation>
-            <operation>Return the new basic block.</operation>
+            <name>index</name>
+            <operation>If the given row or column is not valid then return an invalid index.</operation>
+            <operation>Get the block pointer for the given parent index and make sure the row is within range of its child size.</operation>
+            <operation>Return a new index with its internal pointer set to the block pointer.</operation>
             <override/>
-            <return_description>See interface docs.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <return_description>See Qt docs.</return_description>
+            <type>QModelIndex</type>
             <virtual/>
           </data>
           <variable>
             <data>
-              <description>See interface docs.</description>
+              <description>See Qt docs.</description>
               <initializer></initializer>
-              <name>type</name>
+              <name>row</name>
               <type>int</type>
             </data>
           </variable>
           <variable>
             <data>
-              <description>See interface docs.</description>
+              <description>See Qt docs.</description>
               <initializer></initializer>
-              <name>isDefault</name>
-              <type>bool</type>
+              <name>column</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>See Qt docs.</description>
+              <initializer></initializer>
+              <name>parent</name>
+              <type>const QModelIndex&amp;</type>
             </data>
           </variable>
         </function>
         <function>
           <data>
             <const/>
-            <description>Implements _AbstractBlockFactory_ interface.</description>
+            <description>Implements _QAbstractItemModel_ interface.</description>
             <final/>
-            <name>makeRootBlock</name>
-            <operation>If this factory has not been checked for consistency then do so.</operation>
-            <operation>Make a new root block without default values and return it.</operation>
+            <name>parent</name>
+            <operation>Get the block pointer of the given child index, making sure it is not null.</operation>
+            <operation>Get the parent of the child block, making sure it is not null and its parent is not null.</operation>
+            <operation>Return the given index's parent index using the grandparent to get the parent's row.</operation>
             <override/>
-            <return_description>See interface docs.</return_description>
-            <type>Sut::QPtr&lt;AbstractBlock></type>
+            <return_description>See Qt docs.</return_description>
+            <type>QModelIndex</type>
             <virtual/>
           </data>
+          <variable>
+            <data>
+              <description>See Qt docs.</description>
+              <initializer></initializer>
+              <name>child</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Implements _QAbstractItemModel_ interface. This returns the number of children the block with the given index contains.</description>
+            <final/>
+            <name>rowCount</name>
+            <operation>Check if this model has no root block.</operation>
+            <operation>Get the block pointer for the given index, returning 0 if it is null or its children size if it is not.</operation>
+            <override/>
+            <return_description>See Qt docs.</return_description>
+            <type>int</type>
+            <virtual/>
+          </data>
+          <variable>
+            <data>
+              <description>See Qt docs.</description>
+              <initializer></initializer>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Implements _QAbstractItemModel_ interface. This model always has 1 column.</description>
+            <final/>
+            <name>columnCount</name>
+            <operation>Return 1.</operation>
+            <override/>
+            <return_description>See Qt docs.</return_description>
+            <type>int</type>
+            <virtual/>
+          </data>
+          <variable>
+            <data>
+              <description>See Qt docs.</description>
+              <initializer></initializer>
+              <name>parent</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Implements _QAbstractItemModel_ interface. This model only implements the display and decoration roles.</description>
+            <final/>
+            <name>data</name>
+            <operation>Get the block pointer for the given index, returning a null qt variant if it is null.</operation>
+            <operation>Based off the role return either the block's display name for display role or the block's icon for decoration role. The icon is transformed to a pixel map with specific dimensions.</operation>
+            <override/>
+            <return_description>See Qt docs.</return_description>
+            <type>QVariant</type>
+            <virtual/>
+          </data>
+          <variable>
+            <data>
+              <description>See Qt docs.</description>
+              <initializer></initializer>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>See Qt docs.</description>
+              <initializer></initializer>
+              <name>role</name>
+              <type>int</type>
+            </data>
+          </variable>
         </function>
       </access>
       <access>
@@ -15019,42 +14908,234 @@ A new interface is also provided for creating implementation classes of the basi
         </data>
         <function>
           <data>
-            <description>Constructs a new basic block factory, reading in the XML configuration file at the given path.</description>
+            <description>Constructs a new block model with the  optional parent.</description>
+            <explicit/>
             <name>^</name>
-            <operation>Read in the XML, then add all type definitions, and then build all build lists for each type defined.</operation>
             <return_description></return_description>
             <type></type>
           </data>
           <variable>
             <data>
-              <description>The path of the XML configuration file defining all basic block types this new factory can produce.</description>
+              <description>The parent for this model.</description>
+              <initializer>nullptr</initializer>
+              <name>parent</name>
+              <type>QObject*</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Returns the block pointer the given index represents in this model. If the given index is invalid this model's root block pointer is returned.</description>
+            <name>pointer</name>
+            <operation>If the given index is valid then return its internal pointer else return this model's root block pointer.</operation>
+            <return_description>Block pointer of the given index or the root block pointer if the index is invalid.</return_description>
+            <type>AbstractBlock*</type>
+          </data>
+          <variable>
+            <data>
+              <description>The index whose block pointer is returned.</description>
               <initializer></initializer>
-              <name>xmlPath</name>
-              <type>const QString&amp;</type>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Inserts a new block into this model at the beginning of the given index's list of children.</description>
+            <name>insert</name>
+            <operation>Make sure the given pointer is not null.</operation>
+            <operation>Get the parent block pointer to the given index and make sure it is not null.</operation>
+            <operation>Insert the given child block at the beginning of the given parent's block's child list, notifying the model of a row insertion and returning success.</operation>
+            <return_description>True on success or false on failure.</return_description>
+            <type>bool</type>
+          </data>
+          <variable>
+            <data>
+              <description>The index where the given block is inserted.</description>
+              <initializer></initializer>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>Pointer to the block that is inserted into this model.</description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>Soc::Ut::QPtr&lt;AbstractBlock>&amp;&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Moves the given index up by one in the list of siblings it is part of. If the given index is already at row 0 then this does nothing. Returns the new index for the given index that was or was not moved.</description>
+            <name>moveUp</name>
+            <operation>Make sure the given index is valid and is not in the first row.</operation>
+            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+            <operation>Get the parent block pointer and make sure it is not null.</operation>
+            <operation>Move the block with the given index up by one in it's parent's child list, notifying the model that the row has moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
+            <operation>Return a new index where the given index's block moved.</operation>
+            <return_description>New index for the given index that was possibly moved.</return_description>
+            <type>QModelIndex</type>
+          </data>
+          <variable>
+            <data>
+              <description>The index that will possibly be moved up by 1.</description>
+              <initializer></initializer>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Moves the given index down by one in the list of siblings it is part of. If the given index is already at the end of its list of siblings then this does nothing. Returns the new index for the given index that was or was not moved.</description>
+            <name>moveDown</name>
+            <operation>Make sure the given index is valid and is not in the last row.</operation>
+            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+            <operation>Get the parent block pointer and make sure it is not null.</operation>
+            <operation>Move the block with the given index down by one in it's parent's child list, notifying the model that the row has moved. SPECIAL NOTE: the given index is destroyed when the begin move rows qt function is called.</operation>
+            <operation>Return a new index where the given index's block moved.</operation>
+            <return_description>New index for the given index that was possibly moved.</return_description>
+            <type>QModelIndex</type>
+          </data>
+          <variable>
+            <data>
+              <description>The index that will possibly be moved up by 1.</description>
+              <initializer></initializer>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Removes the given index and its block for this model. If the index is not given this does nothing and returns false.</description>
+            <name>remove</name>
+            <operation>Make sure the given index is valid.</operation>
+            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+            <operation>Get the parent block pointer and make sure it is not null.</operation>
+            <operation>Remove the block with the given index from its parent block, notifying the model that a row was removed and returning success. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
+            <return_description>True on success or false on failure.</return_description>
+            <type>bool</type>
+          </data>
+          <variable>
+            <data>
+              <description>The index that is removed from this model.</description>
+              <initializer></initializer>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Returns a pointer to a copy of the block at the given index. If the given index is not valid then a null pointer is returned.</description>
+            <name>copy</name>
+            <operation>If the given index is not valid then return null.</operation>
+            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+            <operation>Make a copy of the block with the given index and return its pointer.</operation>
+            <return_description>Pointer to a copy of the given index or a null pointer if the given index is invalid.</return_description>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
+          </data>
+          <variable>
+            <data>
+              <description>The given index whose block is copied and returned.</description>
+              <initializer></initializer>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Returns a pointer to the block at the given index, removing that index from the model but not deleting its block. Instead the ownership of the block is returned. If the given index is not valid then a null pointer is returned.</description>
+            <name>cut</name>
+            <operation>Make sure the given index is valid.</operation>
+            <operation>Get the block pointer from the given index and make sure it is not null.</operation>
+            <operation>Get the parent block pointer and make sure it is not null.</operation>
+            <operation>Take the child block with the given index from its parent block, notifying the model that a row was removed and returning the taken block's pointer. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
+            <return_description>Pointer to the block at the given index now removed or null pointer if the given index is not valid.</return_description>
+            <type>Soc::Ut::QPtr&lt;AbstractBlock></type>
+          </data>
+          <variable>
+            <data>
+              <description>The index that is removed from this model and its block returned.</description>
+              <initializer></initializer>
+              <name>index</name>
+              <type>const QModelIndex&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <const/>
+            <description>Returns a read only pointer to the block factory of the project type for this model's blocks. If the model is not set to any block data then a null pointer is returned.</description>
+            <name>factory</name>
+            <return_description>Read only pointer to black factory for this model's block type or null pointer if this model is empty.</return_description>
+            <type>const AbstractBlockFactory*</type>
+          </data>
+        </function>
+        <function>
+          <data>
+            <description>Sets a new root block for this model's data. If the given pointer is null then this model is set to be empty with no data to represent.</description>
+            <name>setRoot</name>
+            <operation>Notify the model that a reset has begun.</operation>
+            <operation>Disconnect any previous root block of this model.</operation>
+            <operation>Set the new root for this model and its factory to null just in case the new root is null.</operation>
+            <operation>Check if the new root is not null.</operation>
+            <operation>Set this model's block factory to the one from this model's new root block.</operation>
+            <operation>Connect the name and body modified signals of the new root block to this model.</operation>
+            <operation>Notify the model that the reset has ended.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>Pointer to root block that this model will use or null to set this model as empty.</description>
+              <initializer></initializer>
+              <name>root</name>
+              <type>AbstractBlock*</type>
             </data>
           </variable>
         </function>
       </access>
       <access>
         <data>
-          <type>protected:</type>
+          <type>private slots:</type>
         </data>
         <function>
           <data>
-            <const/>
-            <description>This interface creates the class that implements the given basic block type, if any. If this is a generic basic block type that does not require a specialized class then a null pointer is returned. The default implementation always returns a null pointer.</description>
-            <name>makeBasicBlock</name>
-            <operation>Return a null pointer.</operation>
-            <return_description>Pointer to a new class implementation of the given basic block type or a null pointer if this basic block type is generic.</return_description>
-            <type>Sut::QPtr&lt;BasicBlock></type>
-            <virtual/>
+            <description>Called when the root block contained within this model emits a name modified signal indicating a block with the given pointer within this model modified its name.</description>
+            <name>blockNameModified</name>
+            <return_description></return_description>
+            <type>void</type>
           </data>
           <variable>
             <data>
-              <description>The block type of the basic block that is made if not generic.</description>
+              <description>Pointer to the block whose name has changed.</description>
               <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
+              <name>block</name>
+              <type>AbstractBlock*</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Called when the root block contained within this model emits a body modified signal indicating a block with the given pointer within this model modified its body.</description>
+            <name>blockBodyModified</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>Pointer to the block whose body has changed.</description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>AbstractBlock*</type>
             </data>
           </variable>
         </function>
@@ -15063,176 +15144,56 @@ A new interface is also provided for creating implementation classes of the basi
         <data>
           <type>private:</type>
         </data>
-        <variable>
-          <data>
-            <description>The name of the display attribute for XML basic block definitions.</description>
-            <initializer>"display"</initializer>
-            <name>_displayTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The name of the root attribute for XML basic block definitions.</description>
-            <initializer>"root"</initializer>
-            <name>_rootTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The tag name of the build list element for XML basic block definitions.</description>
-            <initializer>"buildlist"</initializer>
-            <name>_buildTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-      </access>
-      <access>
-        <data>
-          <type>private:</type>
-        </data>
         <function>
           <data>
-            <description>Reads in the XML configuration file at the given path.</description>
-            <name>read</name>
-            <operation>Open the XML file from the given path, making sure it worked.</operation>
-            <operation>Create a new XML document and set its contents to the opened XML file.</operation>
-            <operation>Iterate through all children of the XML document.</operation>
-            <operation>If the current node is an element then read it in as a definition.</operation>
-            <operation>Move to the next sibling node.</operation>
+            <description>Determines the model index for the given block pointer and emits the data changed signal with that index and the given roles.</description>
+            <name>notifyChange</name>
+            <operation>Get the parent block pointer of the given block and make sure it is not null.</operation>
+            <operation>Determine the index for the given block and signal the data changed for that index and given roles.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description>The path of the XML configuration file defining all basic block types this new factory can produce.</description>
+              <description>Pointer to the block whose index is found and used to emit data changed.</description>
               <initializer></initializer>
-              <name>path</name>
-              <type>const QString&amp;</type>
+              <name>block</name>
+              <type>AbstractBlock*</type>
             </data>
           </variable>
-        </function>
-        <function>
-          <data>
-            <description>Reads in a single basic block type definition from the given root XML element, appending it to this factory's list of basic block type definitions.</description>
-            <name>readDefinition</name>
-            <operation>Make sure the given element has the display attribute.</operation>
-            <operation>Check to see if the given element has the root element.</operation>
-            <operation>Make sure the root block type has not already been set.</operation>
-            <operation>Set the root block type to the basic block type definition about to be added.</operation>
-            <operation>Add the new basic block type definition of this factory's list.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
           <variable>
             <data>
-              <description>The XML element that defines a basic block type.</description>
+              <description>The data roles used when emitting data changed.</description>
               <initializer></initializer>
-              <name>element</name>
-              <type>const QDomElement&amp;</type>
+              <name>roles</name>
+              <type>const QVector&lt;int>&amp;</type>
             </data>
           </variable>
         </function>
-        <function>
-          <data>
-            <description>Builds the build lists for all basic block types that his basic block factory defines.</description>
-            <name>buildLists</name>
-            <operation>Iterate through all type definitions of this factory.</operation>
-            <operation>Initialize the next build list.</operation>
-            <operation>Iterate through all nodes of the type definition.</operation>
-            <operation>If the node is an element and matches the build list tag name then build a build list using the found build list XML element.</operation>
-            <operation>Move to the next sibling.</operation>
-            <operation>Add the next build list to the list of type definitions for this factory.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <description>Builds the next build list for this factory's basic block type definitions using the given XML element as the build list element and returning the built build list.</description>
-            <name>buildList</name>
-            <operation>Initialize the return build list that will be returned.</operation>
-            <operation>Iterate through all children nodes of the given element.</operation>
-            <operation>Check to see if this node is an element.</operation>
-            <operation>Find the index of the block type the element is referencing, checking to make sure it is valid.</operation>
-            <operation>Append the block type to the build list.</operation>
-            <operation>Move to the next sibling.</operation>
-            <operation>Return the built build list.</operation>
-            <return_description>Build list for the next block type definition using the given build list element.</return_description>
-            <type>QList&lt;int></type>
-          </data>
-          <variable>
-            <data>
-              <description>Build list XML element used to build the build list.</description>
-              <initializer></initializer>
-              <name>element</name>
-              <type>const QDomElement&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Makes sure this factory's list of basic block definitions match with this factory's implementation's element name interface. If a mismatch is detected then an exception is thrown.</description>
-            <name>check</name>
-            <operation>Iterate through all basic block type definitions of this factory.</operation>
-            <operation>Make sure the element name matches between this factory's list and the element name interface.</operation>
-            <operation>Mark this factory as having its consistency checked.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
         <variable>
           <data>
-            <description>List of display names for this factory's basic block type definitions.</description>
-            <initializer></initializer>
-            <name>_typeDisplayNames</name>
-            <type>QStringList</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>List of element names for this factory's list of basic block type definitions.</description>
-            <initializer></initializer>
-            <name>_typeElementNames</name>
-            <type>QStringList</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>List of XML elements for this factory's list of basic block type definitions.</description>
-            <initializer></initializer>
-            <name>_typeDefinitions</name>
-            <type>QList&lt;QDomElement></type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>List of build lists for this factory's list of basic block type definitions.</description>
-            <initializer></initializer>
-            <name>_buildLists</name>
-            <type>QList&lt;QList&lt;int>></type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>Index to the basic block type definition that is considered the root block type for this factory's implementation's project type.</description>
-            <initializer>-1</initializer>
-            <name>_rootType</name>
+            <constexpr/>
+            <description>The preferred icon size for indexes of this model when displayed in a view. This represents both the width and height.</description>
+            <initializer>24</initializer>
+            <name>_iconSize</name>
+            <static/>
             <type>int</type>
           </data>
         </variable>
         <variable>
           <data>
-            <description>True if this factory has been checked for consistency with its implementation or false otherwise.</description>
-            <initializer>false</initializer>
-            <mutable/>
-            <name>_isChecked</name>
-            <type>bool</type>
+            <description>A pointer to the root block for this model's data. If this model is empty then this is null.</description>
+            <initializer>nullptr</initializer>
+            <name>_root</name>
+            <type>AbstractBlock*</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>A read only pointer to this model block type's block factory. If this model is empty then this is null.</description>
+            <initializer>nullptr</initializer>
+            <name>_factory</name>
+            <type>const AbstractBlockFactory*</type>
           </data>
         </variable>
       </access>
@@ -15267,7 +15228,7 @@ A new interface is also provided for creating implementation classes of the basi
               <description>The parser factory that this scan thread will use to make all parser objects for each matched source file. This scan thread takes ownership of the factory.</description>
               <initializer></initializer>
               <name>factory</name>
-              <type>Sut::QPtr&lt;AbstractParserFactory>&amp;&amp;</type>
+              <type>Soc::Ut::QPtr&lt;AbstractParserFactory>&amp;&amp;</type>
             </data>
           </variable>
           <variable>
@@ -15304,27 +15265,6 @@ A new interface is also provided for creating implementation classes of the basi
             <type>int</type>
           </data>
         </function>
-        <function>
-          <data>
-            <const/>
-            <description>Tests if an exception occurred in this scan thread's separate thread while parsing source files.</description>
-            <name>hasException</name>
-            <operation>Return a boolean based off this object's exception pointer.</operation>
-            <return_description>True if an exception occurred else false it scanning was successful with no error.</return_description>
-            <type>bool</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Returns a reference to the exception that occurred in this scan thread's separate thread causing failure. If this scan thread has no exception this itself will throw an exception.</description>
-            <name>exception</name>
-            <operation>Make sure this object has an exception that was caught.</operation>
-            <operation>Return a reference to the caught exception.</operation>
-            <return_description>Reference to exception that occurred while parsing source files.</return_description>
-            <type>const Sut::Exception&amp;</type>
-          </data>
-        </function>
       </access>
       <access>
         <data>
@@ -15353,16 +15293,13 @@ A new interface is also provided for creating implementation classes of the basi
         </data>
         <function>
           <data>
-            <description>Implements _QThread_ interface. This iterates through all files to be parsed and parses them, constantly checking for any requested interruption and handling any exceptions thrown from a parser or the parser factory.</description>
+            <description>Implements _QThread_ interface. This iterates through all files to be parsed and parses them, constantly checking for any requested interruption.</description>
             <final/>
             <name>run</name>
-            <operation>Remove any caught exception from a previous run.</operation>
             <operation>Iterate through this object's list of files to be parsed.</operation>
             <operation>Check to see if interruption of this thread is requested.</operation>
             <operation>Signal progress has occurred.</operation>
             <operation>Make a parser object for the current file using this object's parser factory and run it if it is not null.</operation>
-            <operation>If any defined exception is caught then save it to this object's caught exception pointer.</operation>
-            <operation>Report on any other std or unknown exception.</operation>
             <override/>
             <return_description></return_description>
             <type>void</type>
@@ -15442,14 +15379,6 @@ A new interface is also provided for creating implementation classes of the basi
             <initializer></initializer>
             <name>_list</name>
             <type>QFileInfoList</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>A pointer that this scan thread uses to save any Socrates exception that occurs within its separate scanning thread.</description>
-            <initializer>nullptr</initializer>
-            <name>_exception</name>
-            <type>Sut::Exception*</type>
           </data>
         </variable>
       </access>
@@ -15806,7 +15735,7 @@ A new interface is also provided for creating implementation classes of the basi
             <name>makeScanner</name>
             <operation>Create a new scan thread with a newly created parser factory and this project's scan directory and filters, returning its pointer.</operation>
             <return_description>Pointer to new scan thread object.</return_description>
-            <type>Sut::QPtr&lt;ScanThread></type>
+            <type>Soc::Ut::QPtr&lt;ScanThread></type>
           </data>
         </function>
         <function>
@@ -16030,7 +15959,7 @@ A new interface is also provided for creating implementation classes of the basi
             <description>Reads the given element as the XML type element for this project, setting this project's type. If the given XML element is not a valid type element then an exception is thrown.</description>
             <name>readTypeElement</name>
             <operation>Look up the project type with the element name supplied by the given XML element.</operation>
-            <operation>Make sure the element name was recognized and a known type returned, throwing an exception if it is unknown.</operation>
+            <operation>Make sure the element name was recognized and a known type returned.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -16247,41 +16176,6 @@ A new interface is also provided for creating implementation classes of the basi
           <class>QApplication</class>
         </data>
       </parent>
-      <access>
-        <data>
-          <type>public:</type>
-        </data>
-        <function>
-          <data>
-            <description>Implements _QCoreApplication_ interface. The only thing this does is add a catch section so exceptions are handled.</description>
-            <final/>
-            <name>notify</name>
-            <operation>Call the qt implementation of this method.</operation>
-            <operation>Catch any thrown exception and report it to debug output.</operation>
-            <operation>Return the code that says this event has not been handled because an exception was thrown.</operation>
-            <override/>
-            <return_description>See Qt docs.</return_description>
-            <type>bool</type>
-            <virtual/>
-          </data>
-          <variable>
-            <data>
-              <description>See Qt docs.</description>
-              <initializer></initializer>
-              <name>receiver</name>
-              <type>QObject*</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>See Qt docs.</description>
-              <initializer></initializer>
-              <name>event</name>
-              <type>QEvent*</type>
-            </data>
-          </variable>
-        </function>
-      </access>
       <access>
         <data>
           <type>public:</type>

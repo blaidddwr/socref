@@ -1,7 +1,7 @@
 #ifndef BLOCKMODEL_H
 #define BLOCKMODEL_H
 #include <QtCore>
-#include <socutil/sut_qptr.h>
+#include <socutil/soc_ut_qptr.h>
 #include "global.h"
 //
 
@@ -41,12 +41,12 @@ public:
 public:
    explicit BlockModel(QObject* parent = nullptr);
    AbstractBlock* pointer(const QModelIndex& index) const;
-   bool insert(const QModelIndex& index, Sut::QPtr<AbstractBlock>&& block);
+   bool insert(const QModelIndex& index, Soc::Ut::QPtr<AbstractBlock>&& block);
    QModelIndex moveUp(const QModelIndex& index);
    QModelIndex moveDown(const QModelIndex& index);
    bool remove(const QModelIndex& index);
-   Sut::QPtr<AbstractBlock> copy(const QModelIndex& index) const;
-   Sut::QPtr<AbstractBlock> cut(const QModelIndex& index);
+   Soc::Ut::QPtr<AbstractBlock> copy(const QModelIndex& index) const;
+   Soc::Ut::QPtr<AbstractBlock> cut(const QModelIndex& index);
    const AbstractBlockFactory* factory() const;
    void setRoot(AbstractBlock* root);
 private slots:

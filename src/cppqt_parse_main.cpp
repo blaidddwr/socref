@@ -6,7 +6,6 @@
 
 
 
-using namespace Sut;
 using namespace CppQt::Parse;
 //
 
@@ -26,13 +25,7 @@ Main::Main(const Namespace* block):
    Source(block)
 {
    // Make sure the given namespace block is the root block for its project. 
-   if ( block->parent() )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given namespace block is not the root block."));
-      throw e;
-   }
+   Q_ASSERT(block->parent() != nullptr);
 }
 
 

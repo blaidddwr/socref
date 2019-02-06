@@ -1,11 +1,9 @@
 #include "blockmodel.h"
-#include <socutil/sut_exceptions.h>
 #include "abstractblockfactory.h"
 #include "abstractblock.h"
 
 
 
-using namespace Sut;
 //
 
 
@@ -198,7 +196,7 @@ AbstractBlock* BlockModel::pointer(const QModelIndex& index) const
  *
  * @return True on success or false on failure. 
  */
-bool BlockModel::insert(const QModelIndex& index, Sut::QPtr<AbstractBlock>&& block)
+bool BlockModel::insert(const QModelIndex& index, Soc::Ut::QPtr<AbstractBlock>&& block)
 {
    // Make sure the given pointer is not null. 
    if ( !block ) return false;
@@ -343,7 +341,7 @@ bool BlockModel::remove(const QModelIndex& index)
  * @return Pointer to a copy of the given index or a null pointer if the given 
  *         index is invalid. 
  */
-Sut::QPtr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
+Soc::Ut::QPtr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
 {
    // If the given index is not valid then return null. 
    if ( !index.isValid() ) return nullptr;
@@ -371,7 +369,7 @@ Sut::QPtr<AbstractBlock> BlockModel::copy(const QModelIndex& index) const
  * @return Pointer to the block at the given index now removed or null pointer if 
  *         the given index is not valid. 
  */
-Sut::QPtr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
+Soc::Ut::QPtr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
 {
    // Make sure the given index is valid. 
    if ( !index.isValid() ) return nullptr;
@@ -390,7 +388,7 @@ Sut::QPtr<AbstractBlock> BlockModel::cut(const QModelIndex& index)
    // called. 
    int row {index.row()};
    beginRemoveRows(index.parent(),row,row);
-   QPtr<AbstractBlock> ret {parent->take(row)};
+   Soc::Ut::QPtr<AbstractBlock> ret {parent->take(row)};
    endRemoveRows();
    return ret;
 }
@@ -505,13 +503,7 @@ void BlockModel::notifyChange(AbstractBlock* block, const QVector<int>& roles)
 {
    // Get the parent block pointer of the given block and make sure it is not null. 
    AbstractBlock* parent {block->parent()};
-   if ( !parent )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("A name changed signal was emitted with the root block."));
-      throw e;
-   }
+   Q_CHECK_PTR(parent);
 
    // Determine the index for the given block and signal the data changed for that 
    // index and given roles. 

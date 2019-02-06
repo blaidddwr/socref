@@ -1,10 +1,8 @@
 #include "basicblock_view.h"
 #include <QMetaMethod>
-#include <socutil/sut_exceptions.h>
 
 
 
-using namespace Sut;
 //
 
 
@@ -135,24 +133,12 @@ void BasicBlock::View::update()
 void BasicBlock::View::addParagraphs(QString* text, const QDomElement& element)
 {
    // Make sure the given display element has the id attribute. 
-   if ( !element.hasAttribute(_idKey) )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Paragraphs view element missing id attribute."));
-      throw e;
-   }
+   Q_ASSERT(element.hasAttribute(_idKey));
 
    // Get the basic block field that the given display element references and make 
    // sure it is a string. 
    const QVariant field {_block->get(element.attribute(_idKey))};
-   if ( field.type() != QVariant::String )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Paragraphs view element referencing baisc block field that is not a string."));
-      throw e;
-   }
+   Q_ASSERT(field.type() == QVariant::String);
 
    // Split the basic block field into a string list of paragraphs based off double 
    // newline characters being the separator, parsing each string for bold underline 
@@ -192,13 +178,7 @@ void BasicBlock::View::addCustom(QString* text, const QDomElement& element)
    // display element definition, making sure the method exists. 
    QByteArray signature {element.attribute(_nameKey).toLocal8Bit() + "()"};
    int index {metaObject()->indexOfMethod(QMetaObject::normalizedSignature(signature.data()))};
-   if ( index < 0 )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Custom view element referencing unknown method '%1'.").arg(signature.data()));
-      throw e;
-   }
+   Q_ASSERT(index >= 0);
 
    // Invoke the custom method of this object and add the content it returns to the 
    // given rich text. 

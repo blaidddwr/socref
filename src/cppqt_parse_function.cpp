@@ -1,7 +1,6 @@
 #include "cppqt_parse_function.h"
 #include <QStack>
 #include <QRegularExpression>
-#include <socutil/sut_exceptions.h>
 #include "cppqt_parse_base.h"
 #include "cppqt_function.h"
 #include "cppqt_factory.h"
@@ -13,7 +12,6 @@
 
 
 
-using namespace Sut;
 using namespace CppQt::Parse;
 //
 
@@ -280,13 +278,7 @@ bool Function::hasCode() const
 void Function::setCutOff(int value)
 {
    // Make sure the new value is valid. 
-   if ( value < 0 )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot set cut off to invalid value %1.").arg(value));
-      throw e;
-   }
+   Q_ASSERT(value >= 0);
 
    // Set the new value. 
    _cutOff = value;

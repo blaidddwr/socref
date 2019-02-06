@@ -1,7 +1,6 @@
 #include "cppqt_parse_source.h"
 #include <QStack>
 #include <QRegularExpression>
-#include <socutil/sut_exceptions.h>
 #include "cppqt_parse_function.h"
 #include "cppqt_parse_variable.h"
 #include "cppqt_function.h"
@@ -14,7 +13,6 @@
 
 
 
-using namespace Sut;
 using namespace CppQt::Parse;
 //
 
@@ -273,13 +271,7 @@ Source::Source(const Namespace* block):
    _children(block->realChildren())
 {
    // Make sure the given namespace pointer is not null. 
-   if ( !block )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given namespace block pointer is null and invalid."));
-      throw e;
-   }
+   Q_CHECK_PTR(block);
 
    // If the given namespace block is a class then determine if it has any templates. 
    if ( const Class* valid = block->cast<Class>(CppQt::Factory::ClassType) )

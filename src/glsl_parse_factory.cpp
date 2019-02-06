@@ -1,13 +1,11 @@
 #include "glsl_parse_factory.h"
 #include <QStack>
-#include <socutil/sut_exceptions.h>
 #include "glsl_parse_shader.h"
 #include "glsl_factory.h"
 #include "glsl_namespace.h"
 
 
 
-using namespace Sut;
 using namespace GLSL::Parse;
 //
 
@@ -25,7 +23,7 @@ using namespace GLSL::Parse;
  *
  * @return See interface docs. 
  */
-Sut::QPtr<AbstractParser> Factory::make(const QString& name, const QString& extension) const
+Soc::Ut::QPtr<AbstractParser> Factory::make(const QString& name, const QString& extension) const
 {
    Q_UNUSED(extension)
 
@@ -36,28 +34,12 @@ Sut::QPtr<AbstractParser> Factory::make(const QString& name, const QString& exte
    // Split the given name into its actual name and the sub extension, making sure 
    // there is only one period separating the two. 
    QStringList subextnames {name.split('.')};
-   if ( subextnames.size() != 2 )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Encountered shader file %1%2 with unknown format.")
-                   .arg(name)
-                   .arg(extension));
-      throw e;
-   }
+   Q_ASSERT(subextnames.size() == 2);
 
    // Figure out the shader type of this file based off of its sub extension, making 
    // sure the sub extension string is recognized. 
    const int i {exts.indexOf(subextnames.at(1))};
-   if ( i < 0 )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Encountered shader file %1%2 with unknown shader type format.")
-                   .arg(name)
-                   .arg(extension));
-      throw e;
-   }
+   Q_ASSERT(i >= 0);
    const GLSL::Shader::Type type {static_cast<GLSL::Shader::Type>(i)};
 
    // Separate the list of namespace names and shader name in the files given name. 
@@ -90,14 +72,7 @@ Factory::Factory(const AbstractBlock* root):
    _root(qobject_cast<const Namespace*>(root))
 {
    // Make sure the given root pointer is not null. 
-   if ( !_root )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Root block is type '%1' intead of namespace.")
-                   .arg(root->factory().name(root->type())));
-      throw e;
-   }
+   Q_CHECK_PTR(root);
 }
 
 

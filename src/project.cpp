@@ -5,7 +5,6 @@
 #include <QFileSystemWatcher>
 #include <QCryptographicHash>
 #include <QDomDocument>
-#include <socutil/sut_exceptions.h>
 #include "abstractprojectfactory.h"
 #include "abstractparserfactory.h"
 #include "abstractblockfactory.h"
@@ -16,7 +15,6 @@
 
 
 
-using namespace Sut;
 //
 
 
@@ -275,11 +273,11 @@ QString Project::scanFilters() const
  *
  * @return Pointer to new scan thread object. 
  */
-Sut::QPtr<ScanThread> Project::makeScanner() const
+Soc::Ut::QPtr<ScanThread> Project::makeScanner() const
 {
    // Create a new scan thread with a newly created parser factory and this project's 
    // scan directory and filters, returning its pointer. 
-   return QPtr<ScanThread>
+   return Soc::Ut::QPtr<ScanThread>
    {
       new ScanThread(AbstractProjectFactory::instance().makeParserFactory(_type,_root)
                      ,_scanDirectory
@@ -364,14 +362,7 @@ void Project::setScanDirectory(const QString& path)
    if ( current.canonicalFilePath() == info.canonicalFilePath() ) return;
 
    // Make sure the new path is a valid directory. 
-   if ( !info.isDir() )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to set scan directory as '%1' which is not a directory.")
-                   .arg(path));
-      throw e;
-   }
+   Q_ASSERT(info.isDir());
 
    // Set this project's scan directory to the new path given in its canonical form 
    // and signal modification. 
@@ -415,13 +406,7 @@ void Project::setScanFilters(const QString& value)
 void Project::save()
 {
    // Make sure this is not a new project and has a file path. 
-   if ( _path.isEmpty() )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Attempting to save new project that has no path."));
-      throw e;
-   }
+   Q_ASSERT(!_path.isEmpty());
 
    // Create a new XML document, appending its XML processing instructions. 
    QDomDocument document;
@@ -587,23 +572,12 @@ QByteArray Project::read()
 {
    // Open this project's file and make sure it worked. 
    QFile file(_path);
-   if ( !file.open(QIODevice::ReadOnly) )
-   {
-      Exception::OpenError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot open file %1 for reading: %2").arg(_path).arg(file.errorString()));
-      throw e;
-   }
+   bool ok {file.open(QIODevice::ReadOnly)};
+   Q_ASSERT(ok);
 
    // Read in the entire contents of this project's file and make sure it worked. 
    QByteArray ret = file.readAll();
-   if ( file.error() != QFileDevice::NoError )
-   {
-      Exception::WriteError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Error reading from file %1: %2").arg(_path).arg(file.errorString()));
-      throw e;
-   }
+   Q_ASSERT(file.error() == QFileDevice::NoError);
 
    // Set this project's file hash with the read in byte array and return it. 
    setFileHash(ret);
@@ -628,15 +602,8 @@ void Project::convertScanDirectory(const QString& path)
    // Make sure the given path is a valid directory relative to the directory this 
    // project's file is located. 
    QDir directory {QFileInfo(_path).dir()};
-   if ( !directory.cd(path) )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Scan directory in XML file is invalid; failed changing directory from %1 to %2.")
-                   .arg(directory.canonicalPath())
-                   .arg(_scanDirectory));
-      throw e;
-   }
+   bool ok {directory.cd(path)};
+   Q_ASSERT(ok);
 
    // Set this project's scan directory to the path given in its canonical form. 
    _scanDirectory = directory.canonicalPath();
@@ -660,15 +627,8 @@ void Project::readTypeElement(const QDomElement& element)
    // element. 
    _type = AbstractProjectFactory::instance().typeByElementName(element.text());
 
-   // Make sure the element name was recognized and a known type returned, throwing 
-   // an exception if it is unknown. 
-   if ( _type < 0 )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Unknown project type '%1' encountered.").arg(element.text()));
-      throw e;
-   }
+   // Make sure the element name was recognized and a known type returned. 
+   Q_ASSERT(_type >= 0);
 }
 
 
@@ -687,22 +647,12 @@ void Project::write(const QByteArray& data)
 {
    // Open this project's file for truncated writing and make sure it worked. 
    QFile file(_path);
-   if ( !file.open(QIODevice::WriteOnly|QIODevice::Truncate) )
-   {
-      Exception::OpenError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot open file %1 for writing: %2").arg(_path).arg(file.errorString()));
-      throw e;
-   }
+   bool ok {file.open(QIODevice::WriteOnly|QIODevice::Truncate)};
+   Q_ASSERT(ok);
 
    // Write out the given byte array to the opened file and make sure it worked. 
-   if ( file.write(data) != data.size() )
-   {
-      Exception::WriteError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Error writing to file %1: %2").arg(_path).arg(file.errorString()));
-      throw e;
-   }
+   qint64 written {file.write(data)};
+   Q_ASSERT(written == data.size());
 
    // Set this project's file hash with the given byte array. 
    setFileHash(data);
@@ -743,23 +693,12 @@ void Project::makeRoot()
 {
    // Make sure this project's type is within range and valid. 
    AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
-   if ( _type < 0 || _type >= factory.size() )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Invald project type %1 when max is %2.").arg(_type).arg(factory.size() - 1));
-      throw e;
-   }
+   Q_ASSERT(_type >= 0);
+   Q_ASSERT(_type < factory.size());
 
    // Create a new root block for this project and make sure it is not null. 
    _root = factory.blockFactory(_type).makeRootBlock().release(this);
-   if ( !_root )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Expected pointer to new root block object when null was given."));
-      throw e;
-   }
+   Q_CHECK_PTR(_root);
 
    // Connect its modified signal and set it to this project's block model root 
    // block. 

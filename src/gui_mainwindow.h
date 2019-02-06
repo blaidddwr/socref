@@ -1,8 +1,7 @@
 #ifndef GUI_MAINWINDOW_H
 #define GUI_MAINWINDOW_H
 #include <QMainWindow>
-#include <socutil/sut_exceptions.h>
-#include <socutil/sut_qptr.h>
+#include <socutil/soc_ut_qptr.h>
 #include "global.h"
 #include "gui.h"
 //
@@ -31,9 +30,8 @@ namespace Gui
    {
       Q_OBJECT
    public:
-      static void showException(const Sut::Exception& exception, const QString& text);
       explicit MainWindow(QWidget* parent = nullptr);
-      void setProject(Sut::QPtr<Project>&& project);
+      void setProject(Soc::Ut::QPtr<Project>&& project);
    protected:
       virtual void closeEvent(QCloseEvent* event) override final;
    private slots:

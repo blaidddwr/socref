@@ -1,12 +1,11 @@
 #include "abstractblock.h"
 #include <QDomDocument>
 #include <QMap>
-#include <socutil/sut_exceptions.h>
+#include <socutil/soc_ut_qptr.h>
 #include "abstractblockfactory.h"
 
 
 
-using namespace Sut;
 //
 
 
@@ -36,18 +35,13 @@ const char* AbstractBlock::_typeTag {"type"};
  *
  * @return Exact copy of this block's data as a new block. 
  */
-Sut::QPtr<AbstractBlock> AbstractBlock::makeCopy() const
+Soc::Ut::QPtr<AbstractBlock> AbstractBlock::makeCopy() const
 {
    // Create a new blank block identical to this block's type. 
-   QPtr<AbstractBlock> ret {makeBlank()};
+   Soc::Ut::QPtr<AbstractBlock> ret {makeBlank()};
 
    // Make sure the new block is the same type. 
-   if ( type() != ret->type() )
-   {
-      Exception::LogicError e;
-      e.setDetails(tr("Cannot copy data from a different block type."));
-      throw e;
-   }
+   Q_ASSERT(type() == ret->type());
 
    // Copy this block's children and implementation data to the new block. 
    ret->copyChildren(this);
@@ -168,15 +162,8 @@ int AbstractBlock::indexOf(AbstractBlock* pointer) const
 AbstractBlock* AbstractBlock::get(int index) const
 {
    // Make sure the given index is within range. 
-   if ( index < 0 || index >= _children.size() )
-   {
-      Exception::OutOfRange e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot get child %1 when only %2 children exist.")
-                   .arg(index)
-                   .arg(_children.size()));
-      throw e;
-   }
+   Q_ASSERT(index >= 0);
+   Q_ASSERT(index < _children.size());
 
    // Return a pointer to this block's child with the given index. 
    return _children.at(index);
@@ -239,6 +226,39 @@ bool AbstractBlock::containsType(const QList<int>& types) const
 
 
 /*!
+ * Writes out this block's data as an XML element. This includes all children as 
+ * child XML elements which have their write functions called recursively. 
+ *
+ * @param document  
+ *
+ * @return XML element that stores this block's data and all children underneath 
+ *         it. 
+ */
+QDomElement AbstractBlock::write(QDomDocument& document) const
+{
+   // Create the data element for this bock's data. 
+   QDomElement data {writeData(document)};
+   data.setTagName(_dataTag);
+
+   // Create a new element that will contain this block's data and all children. 
+   QDomElement ret {document.createElement(factory().elementName(type()))};
+
+   // Add the data element for the return element. 
+   ret.appendChild(data);
+
+   // Add all of this block's children elements. 
+   for (auto child : _children) ret.appendChild(child->write(document));
+
+   // Return the element containing all data and children of this block. 
+   return ret;
+}
+
+
+
+
+
+
+/*!
  * This returns the root block in this block's tree structure. The root block is 
  * the common parent of all other blocks that has no parent itself. 
  *
@@ -268,6 +288,8 @@ AbstractBlock* AbstractBlock::root()
  */
 void AbstractBlock::moveUp(int index)
 {
+   Q_ASSERT(index > 0);
+   Q_ASSERT(index < _children.size());
    // Make sure the given index is within range and not already at the top of the 
    // list. 
    if ( index < 1 || index >= _children.size() ) return;
@@ -330,37 +352,19 @@ void AbstractBlock::moveDown(int index)
  *
  * @param child Pointer to the new block that is inserted as this block's child. 
  */
-void AbstractBlock::insert(int index, Sut::QPtr<AbstractBlock>&& child)
+void AbstractBlock::insert(int index, Soc::Ut::QPtr<AbstractBlock>&& child)
 {
    // Make sure the given pointer is not null. 
-   if ( !child )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot insert child block with null pointer."));
-      throw e;
-   }
+   Q_CHECK_PTR(child.get());
+   Q_ASSERT(buildList().contains(child->type()));
 
    // Make sure the given block's type can be a child of this block. 
-   if ( !buildList().contains(child->type()) )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot insert child block of type %1 to parent block of type %2.")
-                   .arg(child->type())
-                   .arg(type()));
-      throw e;
-   }
-
-   // Insert the given block as a child of this block at the given index and notify 
-   // of modification. 
    AbstractBlock* adopted {child.release(this)};
    _children.insert(index,adopted);
    notifyModified();
 
-   // Starting with this block iterate up the tree of parents, calling their child 
-   // added interface, until the root block is reached or the child added interface 
-   // returns false. 
+   // Insert the given block as a child of this block at the given index and notify 
+   // of modification. 
    AbstractBlock* notify {this};
    while ( notify && notify->childAdded(adopted) ) notify = notify->parent();
 }
@@ -379,22 +383,15 @@ void AbstractBlock::insert(int index, Sut::QPtr<AbstractBlock>&& child)
  *
  * @return Pointer to child that was taken from this block. 
  */
-Sut::QPtr<AbstractBlock> AbstractBlock::take(int index)
+Soc::Ut::QPtr<AbstractBlock> AbstractBlock::take(int index)
 {
    // Make sure the given index is within range. 
-   if ( index < 0 && index >= _children.size() )
-   {
-      Exception::OutOfRange e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot take child %1 when only %2 children exist.")
-                   .arg(index)
-                   .arg(_children.size()));
-      throw e;
-   }
+   Q_ASSERT(index >= 0);
+   Q_ASSERT(index < _children.size());
 
    // Remove the child from this block's child list at the given index, saving the 
    // pointer and notifying of modification. 
-   QPtr<AbstractBlock> ret {_children.at(index)};
+   Soc::Ut::QPtr<AbstractBlock> ret {_children.at(index)};
    _children.removeAll(ret.get());
    notifyModified();
 
@@ -468,49 +465,8 @@ void AbstractBlock::read(const QDomElement& element)
    // Make sure all children of this block is allowed to this block's child list. 
    for (auto child: qAsConst(_children))
    {
-      if ( !buildList().contains(child->type()) )
-      {
-         Exception::ReadError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Loaded illegal child block type '%1' to block type '%2'")
-                      .arg(factory().name(child->type()))
-                      .arg(factory().name(type())));
-         throw e;
-      }
+      Q_ASSERT(buildList().contains(child->type()));
    }
-}
-
-
-
-
-
-
-/*!
- * Writes out this block's data as an XML element. This includes all children as 
- * child XML elements which have their write functions called recursively. 
- *
- * @param document  
- *
- * @return XML element that stores this block's data and all children underneath 
- *         it. 
- */
-QDomElement AbstractBlock::write(QDomDocument& document) const
-{
-   // Create the data element for this bock's data. 
-   QDomElement data {writeData(document)};
-   data.setTagName(_dataTag);
-
-   // Create a new element that will contain this block's data and all children. 
-   QDomElement ret {document.createElement(factory().elementName(type()))};
-
-   // Add the data element for the return element. 
-   ret.appendChild(data);
-
-   // Add all of this block's children elements. 
-   for (auto child : _children) ret.appendChild(child->write(document));
-
-   // Return the element containing all data and children of this block. 
-   return ret;
 }
 
 
@@ -640,13 +596,7 @@ void AbstractBlock::notifyNameModified()
    AbstractBlock* root {parent()};
 
    // Make sure the parent block pointer is not null. 
-   if ( !root )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot notify a name change of the root block."));
-      throw e;
-   }
+   Q_CHECK_PTR(root);
 
    // Starting with this block's parent iterate up the tree of parents, calling their 
    // child name modified interface, until the root block is reached or the child 
@@ -675,13 +625,7 @@ void AbstractBlock::notifyBodyModified()
    AbstractBlock* root {parent()};
 
    // Make sure the parent block pointer is not null. 
-   if ( !root )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot notify a body change of the root block."));
-      throw e;
-   }
+   Q_CHECK_PTR(root);
 
    // Find the root block of this block and emit its body modified signal. 
    while ( root->parent() ) root = root->parent();
@@ -723,26 +667,14 @@ void AbstractBlock::readChild(const QDomElement& element)
    int type {factory().typeByElementName(element.tagName())};
 
    // Make sure reading in the type did not fail. 
-   if ( type < 0 )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Unrecognized block type with element name '%1'.").arg(element.tagName()));
-      throw e;
-   }
+   Q_ASSERT(type >= 0);
 
    // Make sure the read in type is within range of this block's factory. 
-   if ( type < 0 || type >= factory().size() )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Read in invalid type %1 when max is %2.").arg(type).arg(factory().size()));
-      throw e;
-   }
+   Q_ASSERT(type < factory().size());
 
    // Create a new block with the read in type and append it to this block's child 
    // list. 
-   QPtr<AbstractBlock> child {factory().makeBlock(type,false)};
+   Soc::Ut::QPtr<AbstractBlock> child {factory().makeBlock(type,false)};
    AbstractBlock* back {child.release(this)};
    _children << back;
 

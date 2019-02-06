@@ -24,7 +24,6 @@ SOURCES += \
     main.cpp \
     project.cpp \
     abstractblock.cpp \
-    gui_mainwindow.cpp \
     projectfactory.cpp \
     application.cpp \
     blockmodel.cpp \

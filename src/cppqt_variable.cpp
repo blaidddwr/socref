@@ -219,7 +219,7 @@ bool Variable::isArgument() const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<BasicBlock::View> Variable::makeBasicView() const
+Soc::Ut::QPtr<BasicBlock::View> Variable::makeBasicView() const
 {
    return new View(this);
 }

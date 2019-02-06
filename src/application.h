@@ -14,8 +14,6 @@ class Application : public QApplication
 {
    Q_OBJECT
 public:
-   virtual bool notify(QObject* receiver, QEvent* event) override final;
-public:
    static QString versionString();
    explicit Application(int& argc, char** argv);
    /*!

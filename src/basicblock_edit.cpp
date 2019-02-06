@@ -10,7 +10,6 @@
 #include <QCheckBox>
 #include <QComboBox>
 #include <QLineEdit>
-#include <socutil/sut_exceptions.h>
 #include "gui_textedit.h"
 #include "gui_listedit.h"
 #include "projectfactory.h"
@@ -18,7 +17,6 @@
 
 
 
-using namespace Sut;
 //
 
 
@@ -101,13 +99,7 @@ BasicBlock::Edit::Edit(BasicBlock* block):
    _block(block)
 {
    // Make sure the given block pointer is not null. 
-   if ( !block )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Invalid null pointer."));
-      throw e;
-   }
+   Q_CHECK_PTR(block);
 }
 
 
@@ -183,67 +175,45 @@ QLayout* BasicBlock::Edit::layout()
  */
 void BasicBlock::Edit::apply()
 {
-   // Prepare a function for throwing a common exception if a type mismatch occurs. 
-   auto throwTypeMismatch = [](const QString& key)
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Edit widget points to block field id '%1' with incorrect type.")
-                   .arg(key));
-      throw e;
-   };
-
    // Iterate through all widgets of this editor. 
    for (auto i = _widgets.cbegin(); i != _widgets.cend() ;++i)
    {
       // Get the matching basic block field of the edit widget, making sure the field 
       // exists. 
       auto j {_block->_fields.find(i.key())};
-      if ( j == _block->_fields.end() )
-      {
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Edit widget points to unkonwn block field id '%1'.").arg(i.key()));
-         throw e;
-      }
+      Q_ASSERT(j != _block->_fields.end());
 
       // Figure out what type the edit widget is and set the value of the basic block 
       // field to the value of the edit widget, making sure the basic block field is of 
       // the correct type. 
       if ( QCheckBox* valid = qobject_cast<QCheckBox*>(*i) )
       {
-         if ( j->type() != QVariant::Bool ) throwTypeMismatch(i.key());
+         Q_ASSERT(j->type() == QVariant::Bool);
          *j = static_cast<bool>(valid->checkState());
       }
       else if ( QComboBox* valid = qobject_cast<QComboBox*>(*i) )
       {
-         if ( j->type() != QVariant::String ) throwTypeMismatch(i.key());
+         Q_ASSERT(j->type() == QVariant::String);
          *j = valid->currentText();
       }
       else if ( QLineEdit* valid = qobject_cast<QLineEdit*>(*i) )
       {
-         if ( j->type() != QVariant::String ) throwTypeMismatch(i.key());
+         Q_ASSERT(j->type() == QVariant::String);
          *j = valid->text();
       }
       else if ( Gui::TextEdit* valid = qobject_cast<Gui::TextEdit*>(*i) )
       {
-         if ( j->type() != QVariant::String ) throwTypeMismatch(i.key());
+         Q_ASSERT(j->type() == QVariant::String);
          *j = valid->toPlainText();
       }
       else if ( Gui::ListEdit* valid = qobject_cast<Gui::ListEdit*>(*i) )
       {
-         if ( j->type() != QVariant::StringList ) throwTypeMismatch(i.key());
+         Q_ASSERT(j->type() == QVariant::StringList);
          *j = valid->value();
       }
 
       // Else the edit widget is of an unknown type so throw an exception. 
-      else
-      {
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Edit widget of unknown type encountered."));
-         throw e;
-      }
+      else Q_ASSERT(false);
    }
 
    // Notify the block system that this editor's basic block has been modified. 
@@ -291,13 +261,7 @@ QString BasicBlock::Edit::extractId(const QDomElement& element)
    // Get the id attribute value from the given XML element and make sure it is not 
    // empty or not set. 
    const QString id {element.attribute(_idKey)};
-   if ( id.isEmpty() )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("XML edit element does not contain valid id attribute."));
-      throw e;
-   }
+   Q_ASSERT(!id.isEmpty());
 
    // Return the id attribute value. 
    return id;
@@ -463,22 +427,10 @@ void BasicBlock::Edit::addCheckBoxes(QLayout* layout, const QDomElement& element
    // does not exist, and make sure reading it as an integer worked. 
    bool ok;
    int rowSize {element.attribute(_rowSizeKey,"1").toInt(&ok)};
-   if ( !ok )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("XML checkboxes edit element does not contain valid rowsize attribute."));
-      throw e;
-   }
+   Q_ASSERT(ok);
 
    // Make sure the row size is not a negative integer. 
-   if ( rowSize < 0 )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("XML checkboxes edit element contains negative rowsize."));
-      throw e;
-   }
+   Q_ASSERT(rowSize >= 0);
 
    // Create the grid layout for the new check boxes edit widget and initialize the 
    // row and column indexes. 
@@ -557,13 +509,7 @@ void BasicBlock::Edit::addComboBox(QLayout* layout, const QDomElement& element)
          QDomElement child {node.toElement()};
          if ( child.tagName() == _optionTag )
          {
-            if ( !child.hasAttribute(_valueKey) )
-            {
-               Exception::ReadError e;
-               SUT_MARK_EXCEPTION(e);
-               e.setDetails(tr("XML option element does not contain the value attribute."));
-               throw e;
-            }
+            Q_ASSERT(child.hasAttribute(_valueKey));
             edit->addItem(child.attribute(_valueKey));
          }
       }
@@ -755,13 +701,7 @@ void BasicBlock::Edit::add(QLayout* layout, const QDomElement& element, QWidget*
    }
 
    // Else this is an unsupported layout type so throw an exception. 
-   else
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Given layout is of unsupported type."));
-      throw e;
-   }
+   else Q_ASSERT(false);
 }
 
 
@@ -799,13 +739,7 @@ void BasicBlock::Edit::add(QLayout* layout, const QDomElement& element, QLayout*
    }
 
    // Else this is an unsupported layout type so throw an exception. 
-   else
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Given layout is of unsupported type."));
-      throw e;
-   }
+   else Q_ASSERT(false);
 }
 
 
@@ -831,34 +765,14 @@ QVariant BasicBlock::Edit::fieldValue(const QString& id, quint32 type)
 {
    // Make sure this editor's list of edit widgets does not already contain the given 
    // id. 
-   if ( _widgets.contains(id) )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("XML edit element overrides already existing edit widget with id '%1'.")
-                   .arg(id));
-      throw e;
-   }
+   Q_ASSERT(!_widgets.contains(id));
 
    // Get this editor's basic block's field with the given id, making sure it exists. 
    auto i {qAsConst(_block->_fields).find(id)};
-   if ( i == _block->_fields.cend() )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("XML edit element id '%1' does not match known block field.").arg(id));
-      throw e;
-   }
+   Q_ASSERT(i != _block->_fields.cend());
 
    // Make sure the field type matches the given type. 
-   if ( i->type() != type )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("XML edit element points to block incorrect block field type with id '%1'.")
-                   .arg(id));
-      throw e;
-   }
+   Q_ASSERT(i->type() == type);
 
    // Return the basic block field value. 
    return *i;

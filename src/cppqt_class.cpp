@@ -1,5 +1,4 @@
 #include "cppqt_class.h"
-#include <socutil/sut_exceptions.h>
 #include "cppqt_class_view.h"
 #include "cppqt_factory.h"
 #include "cppqt_template.h"
@@ -242,7 +241,7 @@ QList<Parent*> Class::parents() const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<BasicBlock::View> Class::makeBasicView() const
+Soc::Ut::QPtr<BasicBlock::View> Class::makeBasicView() const
 {
    return new View(this);
 }

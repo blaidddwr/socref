@@ -8,14 +8,12 @@
 #include <QFileDialog>
 #include <QSettings>
 #include <QAction>
-#include <socutil/sut_exceptions.h>
 #include "project.h"
 #include "dictionarymodel.h"
 #include "application.h"
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -38,13 +36,7 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent):
    _project(project)
 {
    // Make sure the given project pointer is not null. 
-   if ( !_project )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Cannot give nullptr as argument for project settings constructor."));
-      throw e;
-   }
+   Q_CHECK_PTR(project);
 
    // Create the GUI of this new dialog and set its window title. 
    setupGui();

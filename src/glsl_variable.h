@@ -23,7 +23,7 @@ namespace GLSL
       QString typeString() const;
       QStringList layout() const;
    protected:
-      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
    };
 }
 

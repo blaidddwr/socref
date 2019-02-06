@@ -1,5 +1,4 @@
 #include "cppqt_factory.h"
-#include <socutil/sut_exceptions.h>
 #include "projectfactory.h"
 #include "cppqt_namespace.h"
 #include "cppqt_enumeration.h"
@@ -14,7 +13,6 @@
 
 
 
-using namespace Sut;
 using namespace CppQt;
 //
 
@@ -62,12 +60,7 @@ QString Factory::elementName(int type) const
    case ParentType: return QStringLiteral("parent");
    case DeclarationType: return QStringLiteral("declaration");
    default:
-      {
-         Exception::InvalidArgument e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Unknown C++/Qt Block type %1.").arg(type));
-         throw e;
-      }
+      Q_ASSERT(false);
    }
 }
 
@@ -95,22 +88,22 @@ Factory::Factory():
  *
  * @return See interface docs. 
  */
-Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
+Soc::Ut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
 {
    // Based off the given block type return a new instance of that type or a null 
    // pointer if that type does not have an implementation. 
    switch (type)
    {
-   case NamespaceType: return QPtr<BasicBlock>(new Namespace);
-   case EnumerationType: return QPtr<BasicBlock>(new Enumeration);
-   case EnumValueType: return QPtr<BasicBlock>(new EnumValue);
-   case VariableType: return QPtr<BasicBlock>(new Variable);
-   case TemplateType: return QPtr<BasicBlock>(new Template);
-   case FunctionType: return QPtr<BasicBlock>(new Function);
-   case ClassType: return QPtr<BasicBlock>(new Class);
-   case AccessType: return QPtr<BasicBlock>(new Access);
-   case ParentType: return QPtr<BasicBlock>(new Parent);
-   case DeclarationType: return QPtr<BasicBlock>(new Declaration);
+   case NamespaceType: return Soc::Ut::QPtr<BasicBlock>(new Namespace);
+   case EnumerationType: return Soc::Ut::QPtr<BasicBlock>(new Enumeration);
+   case EnumValueType: return Soc::Ut::QPtr<BasicBlock>(new EnumValue);
+   case VariableType: return Soc::Ut::QPtr<BasicBlock>(new Variable);
+   case TemplateType: return Soc::Ut::QPtr<BasicBlock>(new Template);
+   case FunctionType: return Soc::Ut::QPtr<BasicBlock>(new Function);
+   case ClassType: return Soc::Ut::QPtr<BasicBlock>(new Class);
+   case AccessType: return Soc::Ut::QPtr<BasicBlock>(new Access);
+   case ParentType: return Soc::Ut::QPtr<BasicBlock>(new Parent);
+   case DeclarationType: return Soc::Ut::QPtr<BasicBlock>(new Declaration);
    default: return nullptr;
    }
 }

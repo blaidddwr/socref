@@ -1,7 +1,6 @@
 #include "gui_textedit.h"
 #include <QAction>
 #include <QDebug>
-#include <socutil/sut_exceptions.h>
 #include "gui_textedit_highlighter.h"
 #include "gui_textedit_dialog.h"
 #include "gui_textdialog.h"
@@ -10,7 +9,6 @@
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -40,23 +38,11 @@ TextEdit::TextEdit(AbstractBlock* block, QWidget* parent):
    QPlainTextEdit(parent)
 {
    // Make sure the given block pointer is not null. 
-   if ( !block )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given block pointer is null and invalid."));
-      throw e;
-   }
+   Q_CHECK_PTR(block);
 
    // Get the project pointer from the given block making sure it is not null. 
    Project* project {qobject_cast<Project*>(block->root()->QObject::parent())};
-   if ( !project )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setTitle(tr("Parent of root block is not a project."));
-      throw e;
-   }
+   Q_CHECK_PTR(project);
 
    // Set the custom dictionary to the project's dictionary. 
    _dictionary = project->dictionary();
@@ -85,13 +71,7 @@ TextEdit::TextEdit(DictionaryModel* dictionary, QWidget* parent):
    _dictionary(dictionary)
 {
    // Make sure the given custom dictionary pointer is not null. 
-   if ( !dictionary )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("The given custom dictionary pointer is null and invalid."));
-      throw e;
-   }
+   Q_CHECK_PTR(dictionary);
 
    // Create this text editor's highlighter and setup its shortcut actions. 
    _spellHighlighter = new Highlighter(_dictionary,document());

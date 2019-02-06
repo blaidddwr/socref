@@ -1,10 +1,8 @@
 #include "glsl_shader.h"
-#include <socutil/sut_exceptions.h>
 #include "glsl_shader_view.h"
 
 
 
-using namespace Sut;
 using namespace GLSL;
 //
 
@@ -45,13 +43,6 @@ QString Shader::name() const
    case Compute:
       ret += QStringLiteral(" [C]");
       break;
-   default:
-      {
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(tr("Shader block has unknown type '%1'.").arg(shaderType()));
-         throw e;
-      }
    }
 
    // Return the name of this block. 
@@ -126,7 +117,7 @@ QStringList Shader::operations() const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<BasicBlock::View> Shader::makeBasicView() const
+Soc::Ut::QPtr<BasicBlock::View> Shader::makeBasicView() const
 {
    return new View(this);
 }

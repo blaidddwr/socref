@@ -36,7 +36,7 @@ namespace CppQt
       bool isMember() const;
       bool isArgument() const;
    protected:
-      virtual Sut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
    private:
       QString attributes() const;
    };

@@ -1,7 +1,7 @@
 #ifndef CPPQT_SETTINGS_H
 #define CPPQT_SETTINGS_H
 #include <QString>
-#include <socutil/sut_singleton.h>
+#include <socutil/soc_ut_singleton.h>
 //
 
 
@@ -14,7 +14,7 @@ namespace CppQt
     * persistent. As mentioned, it is also a single global class since it holds global 
     * settings. 
     */
-   class Settings : public Sut::Singleton<Settings>
+   class Settings : public Soc::Ut::Singleton<Settings>
    {
    public:
       class Dialog;

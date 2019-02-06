@@ -3,8 +3,7 @@
 #include <QObject>
 #include <QDomElement>
 #include <QVariant>
-#include <socutil/sut_exceptions.h>
-#include <socutil/sut_qptr.h>
+#include <socutil/soc_ut_qptr.h>
 #include "global.h"
 #include "gui.h"
 //
@@ -87,15 +86,15 @@ public:
     *
     * @return New GUI view that represents this block's data. 
     */
-   virtual Sut::QPtr<QWidget> makeView() const = 0;
-   virtual Sut::QPtr<AbstractBlock> makeCopy() const;
+   virtual Soc::Ut::QPtr<QWidget> makeView() const = 0;
+   virtual Soc::Ut::QPtr<AbstractBlock> makeCopy() const;
    /*!
     * This interface returns an abstract edit GUI dialog that provides the ability to 
     * edit this block's data. 
     *
     * @return Abstract edit GUI dialog to edit this block's data. 
     */
-   virtual Sut::QPtr<Gui::AbstractEdit> makeEdit() = 0;
+   virtual Soc::Ut::QPtr<Gui::AbstractEdit> makeEdit() = 0;
 public:
    const AbstractBlock* root() const;
    AbstractBlock* parent() const;
@@ -107,15 +106,15 @@ public:
    bool containsType(const QList<int>& types) const;
    template<class T> QList<T*> makeListOfType(int type) const;
    template<class T> const T* cast(int toType) const;
+   QDomElement write(QDomDocument& document) const;
    AbstractBlock* root();
    template<class T> T* cast(int toType);
    void moveUp(int index);
    void moveDown(int index);
-   void insert(int index, Sut::QPtr<AbstractBlock>&& child);
-   Sut::QPtr<AbstractBlock> take(int index);
+   void insert(int index, Soc::Ut::QPtr<AbstractBlock>&& child);
+   Soc::Ut::QPtr<AbstractBlock> take(int index);
    void remove(int index);
    void read(const QDomElement& element);
-   QDomElement write(QDomDocument& document) const;
 signals:
    /*!
     * Signals that a child block of this block has been modified. The given child 
@@ -163,7 +162,7 @@ protected:
     *
     * @return Pointer to the newly created block. 
     */
-   virtual Sut::QPtr<AbstractBlock> makeBlank() const = 0;
+   virtual Soc::Ut::QPtr<AbstractBlock> makeBlank() const = 0;
    /*!
     * This interface copies all data from the given block to this block, overwriting 
     * any data this block may already contain. This does not copy any children. 
@@ -253,18 +252,12 @@ template<class T> const T* AbstractBlock::cast(int toType) const
       return nullptr;
    }
 
-   // If this block is successfully cast as the given type then return its pointer. 
-   if ( const T* ret = qobject_cast<const T*>(this) ) return ret;
+   // Cast this block to the given type and make sure it works. 
+   const T* ret = qobject_cast<const T*>(this);
+   Q_CHECK_PTR(ret);
 
-   // Else an internal error has occurred because this block should have cast 
-   // successfully. 
-   else
-   {
-      Sut::Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed casting object to required type."));
-      throw e;
-   }
+   // Return the type casted pointer. 
+   return ret;
 }
 
 
@@ -292,18 +285,12 @@ template<class T> T* AbstractBlock::cast(int toType)
       return nullptr;
    }
 
-   // If this block is successfully cast as the given type then return its pointer. 
-   if ( T* ret = qobject_cast<T*>(this) ) return ret;
+   // Cast this block to the given type and make sure it works. 
+   T* ret = qobject_cast<T*>(this);
+   Q_CHECK_PTR(ret);
 
-   // Else an internal error has occurred because this block should have cast 
-   // successfully. 
-   else
-   {
-      Sut::Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed casting object to required type."));
-      throw e;
-   }
+   // Return the type casted pointer. 
+   return ret;
 }
 
 

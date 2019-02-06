@@ -5,7 +5,6 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include <socutil/sut_exceptions.h>
 #include "gui_abstractedit.h"
 #include "abstractblock.h"
 #include "abstractblockfactory.h"
@@ -14,7 +13,6 @@
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -206,7 +204,7 @@ void BlockView::editTriggered()
    if ( !block ) return;
 
    // Make a new edit dialog from the block pointer and make sure it is not null. 
-   QPtr<AbstractEdit> edit {block->makeEdit()};
+   Soc::Ut::QPtr<AbstractEdit> edit {block->makeEdit()};
    if ( !edit ) return;
 
    // Initialize the edit dialog and then execute it. 
@@ -450,13 +448,7 @@ void BlockView::updateView()
 
    // Make a new view from the block pointer and make sure it is not null. 
    _view = block->makeView().release(this);
-   if ( !_view )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Got unexpected nullptr when creating view widget for block."));
-      throw e;
-   }
+   Q_CHECK_PTR(_view);
 
    // Set this object's detailed view and update its title. 
    _area->setWidget(_view);

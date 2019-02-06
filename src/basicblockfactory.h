@@ -30,12 +30,12 @@ public:
    virtual int size() const override final;
    virtual QString name(int type) const override final;
    virtual int typeByElementName(const QString& elementName) const override final;
-   virtual Sut::QPtr<AbstractBlock> makeBlock(int type, bool isDefault) const override final;
-   virtual Sut::QPtr<AbstractBlock> makeRootBlock() const override final;
+   virtual Soc::Ut::QPtr<AbstractBlock> makeBlock(int type, bool isDefault) const override final;
+   virtual Soc::Ut::QPtr<AbstractBlock> makeRootBlock() const override final;
 public:
    BasicBlockFactory(const QString& xmlPath);
 protected:
-   virtual Sut::QPtr<BasicBlock> makeBasicBlock(int type) const;
+   virtual Soc::Ut::QPtr<BasicBlock> makeBasicBlock(int type) const;
 private:
    /*!
     * The name of the display attribute for XML basic block definitions. 
@@ -54,7 +54,7 @@ private:
    void readDefinition(const QDomElement& element);
    void buildLists();
    QList<int> buildList(const QDomElement& element);
-   void check() const;
+   bool check() const;
    /*!
     * List of display names for this factory's basic block type definitions. 
     */

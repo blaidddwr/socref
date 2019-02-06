@@ -1,7 +1,6 @@
 #include "cppqt_parse_base.h"
 #include <QStack>
 #include <QRegularExpression>
-#include <socutil/sut_exceptions.h>
 #include "cppqt_template.h"
 #include "cppqt_factory.h"
 #include "cppqt_class.h"
@@ -11,7 +10,6 @@
 
 
 
-using namespace Sut;
 using namespace CppQt::Parse;
 //
 
@@ -38,13 +36,7 @@ using namespace CppQt::Parse;
 QStringList Base::makeComment(const QString& text, int justified)
 {
    // Make sure the given justified value is valid. 
-   if ( justified < 0 )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Invalid justification of %1.").arg(justified));
-      throw e;
-   }
+   Q_ASSERT(justified >= 0);
 
    // Get the maximum columns setting and create a new string list that will be 
    // returned. 
@@ -131,13 +123,7 @@ QStringList Base::makeComment(const QString& text, int justified)
 QStringList Base::makeTemplateComments(const AbstractBlock* block)
 {
    // Make sure the given block pointer is not null. 
-   if ( !block )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Given block pointer cannot be null."));
-      throw e;
-   }
+   Q_CHECK_PTR(block);
 
    // Create a string list that will be returned. 
    QStringList ret;
@@ -181,23 +167,11 @@ QStringList Base::makeTemplateComments(const AbstractBlock* block)
 QString Base::makePreScope(const AbstractBlock* block)
 {
    // Make sure the given block pointer is not null. 
-   if ( !block )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Given block pointer cannot be null."));
-      throw e;
-   }
+   Q_CHECK_PTR(block);
 
    // Get the parent of the given block and make sure it is not null. 
    AbstractBlock* parent {block->parent()};
-   if ( !parent )
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Parent of given block does not exist or it does not have a parent."));
-      throw e;
-   }
+   Q_CHECK_PTR(parent);
 
    // If the parent is the root block then return an empty string. 
    if ( !parent->parent() ) return QString();
@@ -212,13 +186,7 @@ QString Base::makePreScope(const AbstractBlock* block)
    else if ( parent->type() == Factory::AccessType ) return makePreClassScope(parent);
 
    // Else the parent is an invalid type so throw an exception. 
-   else
-   {
-      Exception::LogicError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Parent of given block is invalid type."));
-      throw e;
-   }
+   else Q_ASSERT(false);
 }
 
 
@@ -240,13 +208,7 @@ QString Base::makePreScope(const AbstractBlock* block)
 QString Base::makePreClassScope(const AbstractBlock* block)
 {
    // Make sure the given block pointer is not null. 
-   if ( !block )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Given block pointer cannot be null."));
-      throw e;
-   }
+   Q_CHECK_PTR(block);
 
    // Create a new return string and a class pointer stack. 
    QString ret;
@@ -298,13 +260,7 @@ QString Base::makePreClassScope(const AbstractBlock* block)
 QString Base::makeTemplateDeclaration(const AbstractBlock* block)
 {
    // Make sure the given block pointer is not null. 
-   if ( !block )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Given block pointer cannot be null."));
-      throw e;
-   }
+   Q_CHECK_PTR(block);
 
    // Iterate through the parents of the given block. 
    while ( block->parent() )
@@ -351,13 +307,7 @@ QString Base::makeTemplateDeclaration(const AbstractBlock* block)
 QString Base::makeTemplateArguments(const AbstractBlock* block, bool declarative)
 {
    // Make sure the given block pointer is not null. 
-   if ( !block )
-   {
-      Exception::InvalidArgument e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Given block pointer cannot be null."));
-      throw e;
-   }
+   Q_CHECK_PTR(block);
 
    // Create a new return string. 
    QString ret;

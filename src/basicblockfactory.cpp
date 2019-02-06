@@ -1,11 +1,9 @@
 #include "basicblockfactory.h"
 #include <QFile>
-#include <socutil/sut_exceptions.h>
 #include "basicblock.h"
 
 
 
-using namespace Sut;
 //
 
 
@@ -36,7 +34,7 @@ const char* BasicBlockFactory::_buildTag {"buildlist"};
 int BasicBlockFactory::size() const
 {
    // If this factory has not been checked for consistency then do so. 
-   if ( !_isChecked ) check();
+   Q_ASSERT(check());
 
    // Return the number of basic block definitions. 
    return _typeDisplayNames.size();
@@ -57,16 +55,11 @@ int BasicBlockFactory::size() const
 QString BasicBlockFactory::name(int type) const
 {
    // If this factory has not been checked for consistency then do so. 
-   if ( !_isChecked ) check();
+   Q_ASSERT(check());
 
    // Make sure the given type is not out of range. 
-   if ( type < 0 || type >= _typeDisplayNames.size() )
-   {
-      Exception::OutOfRange e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Given block type %1 is out of range.").arg(type));
-      throw e;
-   }
+   Q_ASSERT(type >= 0);
+   Q_ASSERT(type < _typeDisplayNames.size());
 
    // Return the display name of the given block type. 
    return _typeDisplayNames.at(type);
@@ -87,7 +80,7 @@ QString BasicBlockFactory::name(int type) const
 int BasicBlockFactory::typeByElementName(const QString& elementName) const
 {
    // If this factory has not been checked for consistency then do so. 
-   if ( !_isChecked ) check();
+   Q_ASSERT(check());
 
    // Return the index of the given element name or -1 if it is not found. 
    return _typeElementNames.indexOf(elementName);
@@ -107,22 +100,17 @@ int BasicBlockFactory::typeByElementName(const QString& elementName) const
  *
  * @return See interface docs. 
  */
-Sut::QPtr<AbstractBlock> BasicBlockFactory::makeBlock(int type, bool isDefault) const
+Soc::Ut::QPtr<AbstractBlock> BasicBlockFactory::makeBlock(int type, bool isDefault) const
 {
    // If this factory has not been checked for consistency then do so. 
-   if ( !_isChecked ) check();
+   Q_ASSERT(check());
 
    // Make sure the given type is not out of range. 
-   if ( type < 0 || type >= _typeDisplayNames.size() )
-   {
-      Exception::OutOfRange e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Given block type %1 is out of range.").arg(type));
-      throw e;
-   }
+   Q_ASSERT(type >= 0);
+   Q_ASSERT(type < _typeDisplayNames.size());
 
    // Create a new basic block, implemented or generic. 
-   Sut::QPtr<BasicBlock> ret {makeBasicBlock(type)};
+   Soc::Ut::QPtr<BasicBlock> ret {makeBasicBlock(type)};
    if ( !ret ) ret.reset(new BasicBlock);
 
    // Initialize the new basic block with its XML definition and default state. 
@@ -142,10 +130,10 @@ Sut::QPtr<AbstractBlock> BasicBlockFactory::makeBlock(int type, bool isDefault) 
  *
  * @return See interface docs. 
  */
-Sut::QPtr<AbstractBlock> BasicBlockFactory::makeRootBlock() const
+Soc::Ut::QPtr<AbstractBlock> BasicBlockFactory::makeRootBlock() const
 {
    // If this factory has not been checked for consistency then do so. 
-   if ( !_isChecked ) check();
+   Q_ASSERT(check());
 
    // Make a new root block without default values and return it. 
    return makeBlock(_rootType,false);
@@ -187,7 +175,7 @@ BasicBlockFactory::BasicBlockFactory(const QString& xmlPath)
  * @return Pointer to a new class implementation of the given basic block type or a 
  *         null pointer if this basic block type is generic. 
  */
-Sut::QPtr<BasicBlock> BasicBlockFactory::makeBasicBlock(int type) const
+Soc::Ut::QPtr<BasicBlock> BasicBlockFactory::makeBasicBlock(int type) const
 {
    Q_UNUSED(type)
 
@@ -210,15 +198,8 @@ void BasicBlockFactory::read(const QString& path)
 {
    // Open the XML file from the given path, making sure it worked. 
    QFile file(path);
-   if ( !file.open(QIODevice::ReadOnly) )
-   {
-      Exception::OpenError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Cannot open file %1 for reading: %2")
-                   .arg(path)
-                   .arg(file.errorString()));
-      throw e;
-   }
+   bool ok {file.open(QIODevice::ReadOnly)};
+   Q_ASSERT(ok);
 
    // Create a new XML document and set its contents to the opened XML file. 
    QDomDocument document;
@@ -250,28 +231,13 @@ void BasicBlockFactory::read(const QString& path)
 void BasicBlockFactory::readDefinition(const QDomElement& element)
 {
    // Make sure the given element has the display attribute. 
-   if ( !element.hasAttribute(_displayTag) )
-   {
-      Exception::ReadError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(QObject::tr("Block type element definition %1 does not have required 'display' attribute.")
-                   .arg(element.tagName()));
-      throw e;
-   }
+   Q_ASSERT(element.hasAttribute(_displayTag));
 
    // Check to see if the given element has the root element. 
    if ( element.hasAttribute(_rootTag) )
    {
       // Make sure the root block type has not already been set. 
-      if ( _rootType != -1 )
-      {
-         Exception::ReadError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Root block type is redefined to %1 when it is already defined as %2.")
-                      .arg(element.tagName())
-                      .arg(_typeElementNames.at(_rootType)));
-         throw e;
-      }
+      Q_ASSERT(_rootType == -1);
 
       // Set the root block type to the basic block type definition about to be added. 
       _rootType = _typeDisplayNames.size();
@@ -355,14 +321,7 @@ QList<int> BasicBlockFactory::buildList(const QDomElement& element)
          // sure it is valid. 
          QDomElement child {node.toElement()};
          int index {_typeElementNames.indexOf(child.tagName())};
-         if ( index == -1 )
-         {
-            Exception::ReadError e;
-            SUT_MARK_EXCEPTION(e);
-            e.setDetails(QObject::tr("Unknown block type '%1' in build list.")
-                         .arg(child.tagName()));
-            throw e;
-         }
+         Q_ASSERT(index != -1);
 
          // Append the block type to the build list. 
          ret << index;
@@ -386,25 +345,20 @@ QList<int> BasicBlockFactory::buildList(const QDomElement& element)
  * factory's implementation's element name interface. If a mismatch is detected 
  * then an exception is thrown. 
  */
-void BasicBlockFactory::check() const
+bool BasicBlockFactory::check() const
 {
+   // If consistency has already been checked then return true immediately. 
+   if ( _isChecked ) return true;
+
    // Iterate through all basic block type definitions of this factory. 
    for(int i = 0; i < _typeElementNames.size() ;++i)
    {
       // Make sure the element name matches between this factory's list and the element 
-      // name interface. 
-      if ( _typeElementNames.at(i) != elementName(i) )
-      {
-         Exception::LogicError e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Block type %1 has mismatched element names ('%2' != '%3').")
-                      .arg(i)
-                      .arg(_typeElementNames.at(i))
-                      .arg(elementName(i)));
-         throw e;
-      }
+      // name interface, returning false if there is a mismatch. 
+      if ( _typeElementNames.at(i) != elementName(i) ) return false;
    }
 
-   // Mark this factory as having its consistency checked. 
+   // Mark this factory as having its consistency checked and return true. 
    _isChecked = true;
+   return true;
 }

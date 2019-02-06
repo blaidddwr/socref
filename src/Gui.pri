@@ -1,5 +1,6 @@
 
 SOURCES += \
+    gui_mainwindow.cpp \
     gui_projectdialog.cpp \
     gui_blockview.cpp \
     gui_abstractedit.cpp \

@@ -8,13 +8,11 @@
 #include <QRegularExpression>
 #include <QMessageBox>
 #include <QSettings>
-#include <socutil/sut_exceptions.h>
 #include "application.h"
 #include "dictionarymodel.h"
 
 
 
-using namespace Sut;
 using namespace Gui;
 //
 
@@ -545,14 +543,7 @@ void TextEdit::Dialog::setupSpeller()
    // Create the Aspell speller for this dialog using the configuration and make sure 
    // it worked. 
    AspellCanHaveError* temp {new_aspell_speller(_spellConfig)};
-   if ( aspell_error_number(temp) )
-   {
-      Exception::SystemError e;
-      SUT_MARK_EXCEPTION(e);
-      e.setDetails(tr("Failed initializing Aspell library for spell checking: %1")
-                   .arg(aspell_error_message(temp)));
-      throw e;
-   }
+   Q_ASSERT(!aspell_error_number(temp));
 
    // Set the speller of this dialog by extracting it from the temporary holder. 
    _spell = to_aspell_speller(temp);
