@@ -1,4 +1,4 @@
-#include "basicblock_edit.h"
+#include "basic_blockedit.h"
 #include <QJsonObject>
 #include <QSettings>
 #include <QSplitter>
@@ -13,10 +13,11 @@
 #include "gui_textedit.h"
 #include "gui_listedit.h"
 #include "projectfactory.h"
-#include "abstractblockfactory.h"
+#include "abstract_blockfactory.h"
 
 
 
+using namespace Basic;
 //
 
 
@@ -25,65 +26,65 @@
  * The tag name for a form element used to define a column of this editor using a 
  * form layout. 
  */
-const char* BasicBlock::Edit::_formTag {"form"};
+const char* BlockEdit::_formTag {"form"};
 /*!
  * The tag name for a layout element used to define a column of this editor using a 
  * vertical layout. 
  */
-const char* BasicBlock::Edit::_layoutTag {"layout"};
+const char* BlockEdit::_layoutTag {"layout"};
 /*!
  * The attribute name for the display string used as the title of an edit element. 
  */
-const char* BasicBlock::Edit::_displayKey {"display"};
+const char* BlockEdit::_displayKey {"display"};
 /*!
  * The tag name for a check boxes element used to define a check boxes edit widget. 
  */
-const char* BasicBlock::Edit::_checkboxesTag {"checkboxes"};
+const char* BlockEdit::_checkboxesTag {"checkboxes"};
 /*!
  * The tag name for a checkbox element used to define a single checkbox within a 
  * check boxes element. 
  */
-const char* BasicBlock::Edit::_checkboxTag {"checkbox"};
+const char* BlockEdit::_checkboxTag {"checkbox"};
 /*!
  * The tag name for a combo box element used to define a combo box widget. 
  */
-const char* BasicBlock::Edit::_comboTag {"combo"};
+const char* BlockEdit::_comboTag {"combo"};
 /*!
  * The tag name for an option element nested within combo elements used to define a 
  * value of a combo box widget. 
  */
-const char* BasicBlock::Edit::_optionTag {"option"};
+const char* BlockEdit::_optionTag {"option"};
 /*!
  * The tag name for a line edit element used to define a line edit widget. 
  */
-const char* BasicBlock::Edit::_lineTag {"line"};
+const char* BlockEdit::_lineTag {"line"};
 /*!
  * The tag name for a text edit element used to define a text edit widget. 
  */
-const char* BasicBlock::Edit::_textTag {"text"};
+const char* BlockEdit::_textTag {"text"};
 /*!
  * The tag name of a list edit element used to define a list edit widget. 
  */
-const char* BasicBlock::Edit::_listTag {"list"};
+const char* BlockEdit::_listTag {"list"};
 /*!
  * The attribute name for the row size of a check boxes edit element. 
  */
-const char* BasicBlock::Edit::_rowSizeKey {"rowsize"};
+const char* BlockEdit::_rowSizeKey {"rowsize"};
 /*!
  * The attribute name for the value of an option element nested within a combo 
  * element. 
  */
-const char* BasicBlock::Edit::_valueKey {"value"};
+const char* BlockEdit::_valueKey {"value"};
 /*!
  * The attribute name for the option of disabling spell checking on a text edit 
  * widget if the attribute is set to no. 
  */
-const char* BasicBlock::Edit::_spellKey {"spell"};
+const char* BlockEdit::_spellKey {"spell"};
 /*!
  * The attribute name for the option of disabling the popup dialog on a text edit 
  * widget if the attribute is set to no. 
  */
-const char* BasicBlock::Edit::_dialogKey {"dialog"};
+const char* BlockEdit::_dialogKey {"dialog"};
 
 
 
@@ -95,12 +96,9 @@ const char* BasicBlock::Edit::_dialogKey {"dialog"};
  *
  * @param block The basic block this new editor is editing. 
  */
-BasicBlock::Edit::Edit(BasicBlock* block):
-   _block(block)
-{
-   // Make sure the given block pointer is not null. 
-   Q_CHECK_PTR(block);
-}
+BlockEdit::BlockEdit(Block* block):
+   Abstract::BlockEdit(block)
+{}
 
 
 
@@ -112,7 +110,7 @@ BasicBlock::Edit::Edit(BasicBlock* block):
  *
  * @return See interface docs. 
  */
-QLayout* BasicBlock::Edit::layout()
+QLayout* BlockEdit::layout()
 {
    // Create this editor's splitter widget. 
    _splitter = new QSplitter(this);
@@ -124,7 +122,7 @@ QLayout* BasicBlock::Edit::layout()
 
    // Iterate through all children nodes of this editor's basic block's edit 
    // definition XML element. 
-   QDomNode node {_block->_editDefinition.firstChild()};
+   QDomNode node {block<Block>()._editDefinition.firstChild()};
    while ( !node.isNull() )
    {
       // Check to see if this node is an element. 
@@ -152,11 +150,11 @@ QLayout* BasicBlock::Edit::layout()
    // Save the geometry settings of this persistent dialog and the state of this 
    // editor's splitter widget using a base key generated from this basic block's 
    // project type name and its element name. 
-   const AbstractBlockFactory& factory {_block->factory()};
+   const Abstract::BlockFactory& factory {block<Block>().factory()};
    saveSettings(QStringLiteral("basicblock.edit.")
                 + ProjectFactory::instance().name(factory.type())
                 + QStringLiteral(".")
-                + factory.elementName(_block->type()));
+                + factory.elementName(block<Block>().type()));
 
    // Create a return layout, add this editor's splitter widget to it, and return the 
    // layout. 
@@ -173,15 +171,15 @@ QLayout* BasicBlock::Edit::layout()
 /*!
  * Implements _Gui::AbstractEdit_ interface. 
  */
-void BasicBlock::Edit::apply()
+void BlockEdit::apply()
 {
    // Iterate through all widgets of this editor. 
    for (auto i = _widgets.cbegin(); i != _widgets.cend() ;++i)
    {
       // Get the matching basic block field of the edit widget, making sure the field 
       // exists. 
-      auto j {_block->_fields.find(i.key())};
-      Q_ASSERT(j != _block->_fields.end());
+      auto j {block<Block>()._fields.find(i.key())};
+      Q_ASSERT(j != block<Block>()._fields.end());
 
       // Figure out what type the edit widget is and set the value of the basic block 
       // field to the value of the edit widget, making sure the basic block field is of 
@@ -217,9 +215,7 @@ void BasicBlock::Edit::apply()
    }
 
    // Notify the block system that this editor's basic block has been modified. 
-   _block->notifyModified();
-   _block->notifyNameModified();
-   _block->notifyBodyModified();
+   block<Block>().update();
 }
 
 
@@ -233,14 +229,14 @@ void BasicBlock::Edit::apply()
  *
  * @param event See Qt docs. 
  */
-void BasicBlock::Edit::closeEvent(QCloseEvent* event)
+void BlockEdit::closeEvent(QCloseEvent* event)
 {
    // Save the state of this editor's splitter with its state key. 
    QSettings settings;
    settings.setValue(_stateKey,_splitter->saveState());
 
    // Call this object's parent interface. 
-   Gui::AbstractEdit::closeEvent(event);
+   Abstract::BlockEdit::closeEvent(event);
 }
 
 
@@ -256,11 +252,11 @@ void BasicBlock::Edit::closeEvent(QCloseEvent* event)
  *
  * @return Value of the id attribute of the given XML element. 
  */
-QString BasicBlock::Edit::extractId(const QDomElement& element)
+QString BlockEdit::extractId(const QDomElement& element)
 {
    // Get the id attribute value from the given XML element and make sure it is not 
    // empty or not set. 
-   const QString id {element.attribute(_idKey)};
+   const QString id {element.attribute(Block::_idKey)};
    Q_ASSERT(!id.isEmpty());
 
    // Return the id attribute value. 
@@ -280,7 +276,7 @@ QString BasicBlock::Edit::extractId(const QDomElement& element)
  * @param baseKey The base key which is copied to generate this object's geometry 
  *                and state keys. 
  */
-void BasicBlock::Edit::saveSettings(const QString& baseKey)
+void BlockEdit::saveSettings(const QString& baseKey)
 {
    // Set the geometry and state keys for this dialog using the given base key. 
    QString geometryKey {baseKey + QStringLiteral(".geometry")};
@@ -291,7 +287,7 @@ void BasicBlock::Edit::saveSettings(const QString& baseKey)
    _splitter->restoreState(settings.value(_stateKey).toByteArray());
 
    // Call the abstract edit save settings method using the geometry key. 
-   Gui::AbstractEdit::saveSettings(geometryKey);
+   Abstract::BlockEdit::saveSettings(geometryKey);
 }
 
 
@@ -308,7 +304,7 @@ void BasicBlock::Edit::saveSettings(const QString& baseKey)
  * @return A widget whose layout is set to a form layout row created with the 
  *         provided XML element definition. 
  */
-QWidget* BasicBlock::Edit::setupForm(const QDomElement& element)
+QWidget* BlockEdit::setupForm(const QDomElement& element)
 {
    // Create a new form layout and add all widgets defined by the given XML element. 
    QFormLayout* column {new QFormLayout};
@@ -334,7 +330,7 @@ QWidget* BasicBlock::Edit::setupForm(const QDomElement& element)
  * @return A widget whose layout is set to a vertical layout row created with the 
  *         provided XML element definition. 
  */
-QWidget* BasicBlock::Edit::setupLayout(const QDomElement& element)
+QWidget* BlockEdit::setupLayout(const QDomElement& element)
 {
    // Create a new vertical layout and add all widgets defined by the given XML 
    // element. 
@@ -363,7 +359,7 @@ QWidget* BasicBlock::Edit::setupLayout(const QDomElement& element)
  * @param element The XML element that defines all edit widgets to create and add 
  *                to the given layout. 
  */
-void BasicBlock::Edit::addWidgets(QLayout* layout, const QDomElement& element)
+void BlockEdit::addWidgets(QLayout* layout, const QDomElement& element)
 {
    // Prepare an enumeration and matching string list that matches any recognized 
    // edit element tag names. 
@@ -421,7 +417,7 @@ void BasicBlock::Edit::addWidgets(QLayout* layout, const QDomElement& element)
  *                and children elements that define each check box edit widget that 
  *                is created. 
  */
-void BasicBlock::Edit::addCheckBoxes(QLayout* layout, const QDomElement& element)
+void BlockEdit::addCheckBoxes(QLayout* layout, const QDomElement& element)
 {
    // Get the row size attribute from the given XML element, or its default if it 
    // does not exist, and make sure reading it as an integer worked. 
@@ -487,7 +483,7 @@ void BasicBlock::Edit::addCheckBoxes(QLayout* layout, const QDomElement& element
  * @param element The XML edit element that defines the new edit widget that is 
  *                created. 
  */
-void BasicBlock::Edit::addComboBox(QLayout* layout, const QDomElement& element)
+void BlockEdit::addComboBox(QLayout* layout, const QDomElement& element)
 {
    // Get the id attribute from the given XML element and then get the basic block 
    // field value with the id. 
@@ -543,7 +539,7 @@ void BasicBlock::Edit::addComboBox(QLayout* layout, const QDomElement& element)
  * @param element The XML edit element that defines the new edit widget that is 
  *                created. 
  */
-void BasicBlock::Edit::addLineEdit(QLayout* layout, const QDomElement& element)
+void BlockEdit::addLineEdit(QLayout* layout, const QDomElement& element)
 {
    // Get the id attribute from the given XML element and then get the basic block 
    // field value with the id. 
@@ -574,7 +570,7 @@ void BasicBlock::Edit::addLineEdit(QLayout* layout, const QDomElement& element)
  * @param element The XML edit element that defines the new edit widget that is 
  *                created. 
  */
-void BasicBlock::Edit::addTextEdit(QLayout* layout, const QDomElement& element)
+void BlockEdit::addTextEdit(QLayout* layout, const QDomElement& element)
 {
    // Get the id attribute from the given XML element and then get the basic block 
    // field value with the id. 
@@ -582,7 +578,7 @@ void BasicBlock::Edit::addTextEdit(QLayout* layout, const QDomElement& element)
    QVariant field {fieldValue(id,QVariant::String)};
 
    // Create and initialize the new text edit widget. 
-   Gui::TextEdit* edit {new Gui::TextEdit(_block)};
+   Gui::TextEdit* edit {new Gui::TextEdit(&block<Block>())};
    edit->setPlainText(field.toString());
 
    // If the spell check attribute option is set to no then disable spell checking. 
@@ -619,7 +615,7 @@ void BasicBlock::Edit::addTextEdit(QLayout* layout, const QDomElement& element)
  * @param element The XML edit element that defines the new edit widget that is 
  *                created. 
  */
-void BasicBlock::Edit::addListEdit(QLayout* layout, const QDomElement& element)
+void BlockEdit::addListEdit(QLayout* layout, const QDomElement& element)
 {
    // Get the id attribute from the given XML element and then get the basic block 
    // field value with the id. 
@@ -627,7 +623,7 @@ void BasicBlock::Edit::addListEdit(QLayout* layout, const QDomElement& element)
    QVariant field {fieldValue(id,QVariant::StringList)};
 
    // Create and initialize the new list edit widget. 
-   Gui::ListEdit* edit {new Gui::ListEdit(_block)};
+   Gui::ListEdit* edit {new Gui::ListEdit(&block<Block>())};
    edit->setValue(field.toStringList());
 
    // Add the new widget to this editor's list of edit widgets and to the given 
@@ -651,7 +647,7 @@ void BasicBlock::Edit::addListEdit(QLayout* layout, const QDomElement& element)
  *
  * @return Pointer to the new check box edit widget. 
  */
-QCheckBox* BasicBlock::Edit::setupCheckBox(const QString& id, const QString& title)
+QCheckBox* BlockEdit::setupCheckBox(const QString& id, const QString& title)
 {
    // Get the basic block field value with the given id. 
    QVariant field {fieldValue(id,QVariant::Bool)};
@@ -683,7 +679,7 @@ QCheckBox* BasicBlock::Edit::setupCheckBox(const QString& id, const QString& tit
  * @param item The widget that is added to the given with a display title extracted 
  *             from the given XML element. 
  */
-void BasicBlock::Edit::add(QLayout* layout, const QDomElement& element, QWidget* item)
+void BlockEdit::add(QLayout* layout, const QDomElement& element, QWidget* item)
 {
    // If the given layout is a form then use its methods to add the given item to it 
    // with a title derived from the given XML element. 
@@ -721,7 +717,7 @@ void BasicBlock::Edit::add(QLayout* layout, const QDomElement& element, QWidget*
  * @param item The item that is added to the given with a display title extracted 
  *             from the given XML element. 
  */
-void BasicBlock::Edit::add(QLayout* layout, const QDomElement& element, QLayout* item)
+void BlockEdit::add(QLayout* layout, const QDomElement& element, QLayout* item)
 {
    // If the given layout is a form then use its methods to add the given item to it 
    // with a title derived from the given XML element. 
@@ -761,15 +757,15 @@ void BasicBlock::Edit::add(QLayout* layout, const QDomElement& element, QLayout*
  *
  * @return Basic block field value with the given id. 
  */
-QVariant BasicBlock::Edit::fieldValue(const QString& id, quint32 type)
+QVariant BlockEdit::fieldValue(const QString& id, quint32 type)
 {
    // Make sure this editor's list of edit widgets does not already contain the given 
    // id. 
    Q_ASSERT(!_widgets.contains(id));
 
    // Get this editor's basic block's field with the given id, making sure it exists. 
-   auto i {qAsConst(_block->_fields).find(id)};
-   Q_ASSERT(i != _block->_fields.cend());
+   auto i {qAsConst(block<Block>()._fields).find(id)};
+   Q_ASSERT(i != block<Block>()._fields.cend());
 
    // Make sure the field type matches the given type. 
    Q_ASSERT(i->type() == type);

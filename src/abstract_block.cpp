@@ -296,7 +296,7 @@ void Block::moveUp(int index)
    // Swap the child pointer at the given index with the pointer directly above it in 
    // this block's child list and notify of modification. 
    std::swap(_children[index - 1],_children[index]);
-   notifyModified();
+   update();
 
    // Starting with this block iterate up the tree of parents, calling their child 
    // moved interface, until the root block is reached or the child moved interface 
@@ -326,7 +326,7 @@ void Block::moveDown(int index)
    // Swap the child pointer at the given index with the pointer directly below it in 
    // this block's child list and notify of modification. 
    std::swap(_children[index],_children[index + 1]);
-   notifyModified();
+   update();
 
    // Starting with this block iterate up the tree of parents, calling their child 
    // moved interface, until the root block is reached or the child moved interface 
@@ -360,7 +360,7 @@ void Block::insert(int index, Soc::Ut::QPtr<Block>&& child)
    // Make sure the given block's type can be a child of this block. 
    Block* adopted {child.release(this)};
    _children.insert(index,adopted);
-   notifyModified();
+   update();
 
    // Insert the given block as a child of this block at the given index and notify 
    // of modification. 
@@ -392,7 +392,7 @@ Soc::Ut::QPtr<Abstract::Block> Block::take(int index)
    // pointer and notifying of modification. 
    Soc::Ut::QPtr<Block> ret {_children.at(index)};
    _children.removeAll(ret.get());
-   notifyModified();
+   update();
 
    // Starting with this block iterate up the tree of parents, calling their child 
    // removed interface, until the root block is reached or the child removed 
@@ -474,16 +474,16 @@ void Block::read(const QDomElement& element)
 
 
 /*!
- * This interface is called whenever a child below this block has modified its 
- * name. This keeps getting called on the next block parent until this returns 
- * false. The default implementation does nothing and returns false. 
+ * This interface is called whenever a child below this block has updated itself. 
+ * This keeps getting called on the next block parent until this returns false. The 
+ * default implementation does nothing and returns false. 
  *
  * @param child Pointer to the child block that has modified its name. 
  *
  * @return True if this interface should be called again on this blocks parent or 
  *         false otherwise. 
  */
-bool Block::childNameModified(Block* child)
+bool Block::childIsUpdated(Block* child)
 {
    // Return false. 
    Q_UNUSED(child);
@@ -564,29 +564,14 @@ bool Block::childMoved(Block* child)
 
 
 /*!
- * Notifies this block has been modified by finding its root block and emitting its 
- * modified signal. 
+ * Notifies that this block's data has been updated and any view attached to this 
+ * block must update itself. 
  */
-void Block::notifyModified()
+void Block::update()
 {
-   // Find the root block of this block and emit its modified signal. 
-   Block* root {this};
-   while ( root->parent() ) root = root->parent();
-   emit root->modified();
-}
+   // Emit this blocks updated signal. 
+   emit updated();
 
-
-
-
-
-
-/*!
- * Notifies this block's name has been modified by finding its root block and 
- * emitting its name modified signal. If this is called by a root block an 
- * exception is thrown because the root has no name. 
- */
-void Block::notifyNameModified()
-{
    // Get a pointer to this block's parent block. 
    Block* root {parent()};
 
@@ -594,37 +579,14 @@ void Block::notifyNameModified()
    Q_CHECK_PTR(root);
 
    // Starting with this block's parent iterate up the tree of parents, calling their 
-   // child name modified interface, until the root block is reached or the child 
-   // name modified interface returns false. 
+   // child is updated interface, until the root block is reached or the interface 
+   // returns false. 
    Block* notify {root};
-   while ( notify && notify->childNameModified(this) ) notify = notify->parent();
+   while ( notify && notify->childIsUpdated(this) ) notify = notify->parent();
 
-   // Find the root block of this block and emit its name modified signal. 
+   // Find the root block of this block and emit its child updated signal. 
    while ( root->parent() ) root = root->parent();
-   emit root->nameModified(this);
-}
-
-
-
-
-
-
-/*!
- * Notifies this block's body has been modified by finding its root block and 
- * emitting its name modified signal. If this is called by a root block an 
- * exception is thrown because the root has no body. 
- */
-void Block::notifyBodyModified()
-{
-   // Get a pointer to this block's parent block. 
-   Block* root {parent()};
-
-   // Make sure the parent block pointer is not null. 
-   Q_CHECK_PTR(root);
-
-   // Find the root block of this block and emit its body modified signal. 
-   while ( root->parent() ) root = root->parent();
-   emit root->bodyModified(this);
+   emit root->childUpdated(this);
 }
 
 

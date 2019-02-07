@@ -117,27 +117,17 @@ namespace Abstract
       void read(const QDomElement& element);
    signals:
       /*!
-       * Signals that a child block of this block has been modified. The given child 
-       * block could be any depth below this block. Only the root block emits this 
-       * signal. 
+       * Signals that this block has been updated and any view attached to it must update 
+       * this block's display. 
        */
-      void modified();
+      void updated();
       /*!
-       * Signals that a child block of this block with the given pointer has modified its 
-       * name. The given child block could be any depth below this block. Only the root 
-       * block emits this signal. 
+       * Signals that a child block of this block has been updated. The given child block 
+       * could be any depth below this block. Only the root block emits this signal. 
        *
-       * @param child Pointer of the child whose name has changed. 
+       * @param child The child block which has been updated. 
        */
-      void nameModified(Block* child);
-      /*!
-       * Signals that a child block of this block with the given pointer has modified its 
-       * body. The given child block could be any depth below this block. Only the root 
-       * block emits this signal. 
-       *
-       * @param child  
-       */
-      void bodyModified(Block* child);
+      void childUpdated(Block* child);
    protected:
       /*!
        * This interface reads in the data for this block from the given XML element, 
@@ -170,14 +160,12 @@ namespace Abstract
        * @param other The other block whose data will be copied. 
        */
       virtual void copyDataFrom(const Block* other) = 0;
-      virtual bool childNameModified(Block* child);
+      virtual bool childIsUpdated(Block* child);
       virtual bool childAdded(Block* child);
       virtual bool childRemoved(Block* child);
       virtual bool childMoved(Block* child);
    protected:
-      void notifyModified();
-      void notifyNameModified();
-      void notifyBodyModified();
+      void update();
    private:
       void copyChildren(const Block* parent);
       void readChild(const QDomElement& element);

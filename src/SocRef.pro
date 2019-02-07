@@ -29,10 +29,6 @@ SOURCES += \
     blockmodel.cpp \
     abstractparser.cpp \
     scanthread.cpp \
-    basicblockfactory.cpp \
-    basicblock.cpp \
-    basicblock_edit.cpp \
-    basicblock_view.cpp \
     dictionarymodel.cpp
 
 HEADERS += \
@@ -45,14 +41,11 @@ HEADERS += \
     abstractparser.h \
     abstractparserfactory.h \
     scanthread.h \
-    dictionarymodel.h \
-    basicblockfactory.h \
-    basicblock.h \
-    basicblock_edit.h \
-    basicblock_view.h
+    dictionarymodel.h
 
 include(Abstract.pri)
 include(Gui.pri)
+include(Basic.pri)
 include(CppQt.pri)
 include(GLSL.pri)
 

@@ -1,4 +1,5 @@
 #include "abstract_blockview.h"
+#include "abstract_block.h"
 
 
 
@@ -18,7 +19,9 @@ using namespace Abstract;
 BlockView::BlockView(const Block* block):
    _block(block)
 {
+   // Make sure the block pointer is valid and connect the updated signal. 
    Q_CHECK_PTR(block);
+   connect(block,&Block::updated,this,&BlockView::blockUpdated);
 }
 
 

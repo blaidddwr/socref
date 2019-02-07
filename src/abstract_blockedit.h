@@ -1,6 +1,7 @@
 #ifndef ABSTRACT_BLOCKEDIT_H
 #define ABSTRACT_BLOCKEDIT_H
 #include "gui_persistentdialog.h"
+#include "abstract.h"
 
 
 
@@ -38,7 +39,7 @@ namespace Abstract
    {
       Q_OBJECT
    public:
-      explicit BlockEdit(QWidget* parent = nullptr);
+      explicit BlockEdit(Block* block, QWidget* parent = nullptr);
       void initialize();
    protected:
       /*!
@@ -58,6 +59,7 @@ namespace Abstract
       virtual void apply() = 0;
    protected:
       void setDisabled(bool disabled);
+      template<class T> T& block();
    private slots:
       void okClicked();
       void applyClicked();
@@ -72,7 +74,35 @@ namespace Abstract
        * Pointer to this object's apply button. 
        */
       QPushButton* _apply;
+      /*!
+       * The block that this widget edits. 
+       */
+      Block* _block;
    };
+
+
+
+
+
+
+   /*!
+    * Returns a reference to the block this widget edits, type casted to the specific 
+    * block type of this widget. It is assumed the type given can be type cast 
+    * successfully. 
+    *
+    * @tparam T Block type to return as a reference. 
+    *
+    * @return Reference to the block this widget edits. 
+    */
+   template<class T> T& BlockEdit::block()
+   {
+      // Type cast this object's block to the given block type and make sure it worked. 
+      T* ret {qobject_cast<T*>(_block)};
+      Q_CHECK_PTR(ret);
+   
+      // Return a reference to this object's type casted block. 
+      return *ret;
+   }
 }
 
 

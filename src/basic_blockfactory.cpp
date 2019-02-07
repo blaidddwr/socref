@@ -1,9 +1,10 @@
-#include "basicblockfactory.h"
+#include "basic_blockfactory.h"
 #include <QFile>
-#include "basicblock.h"
+#include "basic_block.h"
 
 
 
+using namespace Basic;
 //
 
 
@@ -11,15 +12,15 @@
 /*!
  * The name of the display attribute for XML basic block definitions. 
  */
-const char* BasicBlockFactory::_displayTag {"display"};
+const char* BlockFactory::_displayTag {"display"};
 /*!
  * The name of the root attribute for XML basic block definitions. 
  */
-const char* BasicBlockFactory::_rootTag {"root"};
+const char* BlockFactory::_rootTag {"root"};
 /*!
  * The tag name of the build list element for XML basic block definitions. 
  */
-const char* BasicBlockFactory::_buildTag {"buildlist"};
+const char* BlockFactory::_buildTag {"buildlist"};
 
 
 
@@ -27,11 +28,11 @@ const char* BasicBlockFactory::_buildTag {"buildlist"};
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface. 
  *
  * @return See interface docs. 
  */
-int BasicBlockFactory::size() const
+int BlockFactory::size() const
 {
    // If this factory has not been checked for consistency then do so. 
    Q_ASSERT(check());
@@ -46,13 +47,13 @@ int BasicBlockFactory::size() const
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface. 
  *
  * @param type See interface docs. 
  *
  * @return See interface docs. 
  */
-QString BasicBlockFactory::name(int type) const
+QString BlockFactory::name(int type) const
 {
    // If this factory has not been checked for consistency then do so. 
    Q_ASSERT(check());
@@ -71,13 +72,13 @@ QString BasicBlockFactory::name(int type) const
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface. 
  *
  * @param elementName See interface docs. 
  *
  * @return See interface docs. 
  */
-int BasicBlockFactory::typeByElementName(const QString& elementName) const
+int BlockFactory::typeByElementName(const QString& elementName) const
 {
    // If this factory has not been checked for consistency then do so. 
    Q_ASSERT(check());
@@ -92,7 +93,7 @@ int BasicBlockFactory::typeByElementName(const QString& elementName) const
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface. 
  *
  * @param type See interface docs. 
  *
@@ -100,7 +101,7 @@ int BasicBlockFactory::typeByElementName(const QString& elementName) const
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<AbstractBlock> BasicBlockFactory::makeBlock(int type, bool isDefault) const
+Soc::Ut::QPtr<Abstract::Block> BlockFactory::makeBlock(int type, bool isDefault) const
 {
    // If this factory has not been checked for consistency then do so. 
    Q_ASSERT(check());
@@ -110,8 +111,8 @@ Soc::Ut::QPtr<AbstractBlock> BasicBlockFactory::makeBlock(int type, bool isDefau
    Q_ASSERT(type < _typeDisplayNames.size());
 
    // Create a new basic block, implemented or generic. 
-   Soc::Ut::QPtr<BasicBlock> ret {makeBasicBlock(type)};
-   if ( !ret ) ret.reset(new BasicBlock);
+   Soc::Ut::QPtr<Block> ret {makeBasicBlock(type)};
+   if ( !ret ) ret.reset(new Block);
 
    // Initialize the new basic block with its XML definition and default state. 
    ret->initialize(type,this,_typeDefinitions.at(type),_buildLists.at(type),isDefault);
@@ -126,11 +127,11 @@ Soc::Ut::QPtr<AbstractBlock> BasicBlockFactory::makeBlock(int type, bool isDefau
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<AbstractBlock> BasicBlockFactory::makeRootBlock() const
+Soc::Ut::QPtr<Abstract::Block> BlockFactory::makeRootBlock() const
 {
    // If this factory has not been checked for consistency then do so. 
    Q_ASSERT(check());
@@ -151,7 +152,7 @@ Soc::Ut::QPtr<AbstractBlock> BasicBlockFactory::makeRootBlock() const
  * @param xmlPath The path of the XML configuration file defining all basic block 
  *                types this new factory can produce. 
  */
-BasicBlockFactory::BasicBlockFactory(const QString& xmlPath)
+BlockFactory::BlockFactory(const QString& xmlPath)
 {
    // Read in the XML, then add all type definitions, and then build all build lists 
    // for each type defined. 
@@ -175,7 +176,7 @@ BasicBlockFactory::BasicBlockFactory(const QString& xmlPath)
  * @return Pointer to a new class implementation of the given basic block type or a 
  *         null pointer if this basic block type is generic. 
  */
-Soc::Ut::QPtr<BasicBlock> BasicBlockFactory::makeBasicBlock(int type) const
+Soc::Ut::QPtr<Block> BlockFactory::makeBasicBlock(int type) const
 {
    Q_UNUSED(type)
 
@@ -194,7 +195,7 @@ Soc::Ut::QPtr<BasicBlock> BasicBlockFactory::makeBasicBlock(int type) const
  * @param path The path of the XML configuration file defining all basic block 
  *             types this new factory can produce. 
  */
-void BasicBlockFactory::read(const QString& path)
+void BlockFactory::read(const QString& path)
 {
    // Open the XML file from the given path, making sure it worked. 
    QFile file(path);
@@ -228,7 +229,7 @@ void BasicBlockFactory::read(const QString& path)
  *
  * @param element The XML element that defines a basic block type. 
  */
-void BasicBlockFactory::readDefinition(const QDomElement& element)
+void BlockFactory::readDefinition(const QDomElement& element)
 {
    // Make sure the given element has the display attribute. 
    Q_ASSERT(element.hasAttribute(_displayTag));
@@ -258,7 +259,7 @@ void BasicBlockFactory::readDefinition(const QDomElement& element)
  * Builds the build lists for all basic block types that his basic block factory 
  * defines. 
  */
-void BasicBlockFactory::buildLists()
+void BlockFactory::buildLists()
 {
    // Iterate through all type definitions of this factory. 
    for (auto element: qAsConst(_typeDefinitions))
@@ -305,7 +306,7 @@ void BasicBlockFactory::buildLists()
  * @return Build list for the next block type definition using the given build list 
  *         element. 
  */
-QList<int> BasicBlockFactory::buildList(const QDomElement& element)
+QList<int> BlockFactory::buildList(const QDomElement& element)
 {
    // Initialize the return build list that will be returned. 
    QList<int> ret;
@@ -345,7 +346,7 @@ QList<int> BasicBlockFactory::buildList(const QDomElement& element)
  * factory's implementation's element name interface. If a mismatch is detected 
  * then an exception is thrown. 
  */
-bool BasicBlockFactory::check() const
+bool BlockFactory::check() const
 {
    // If consistency has already been checked then return true immediately. 
    if ( _isChecked ) return true;

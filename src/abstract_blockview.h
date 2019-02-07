@@ -17,8 +17,9 @@ namespace Abstract
     */
    class BlockView : public QLabel
    {
+      Q_OBJECT
    public:
-      BlockView(const Block* block);
+      explicit BlockView(const Block* block);
    public slots:
       void blockUpdated();
    protected:

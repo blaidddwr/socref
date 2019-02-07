@@ -1,11 +1,12 @@
-#include "basicblock.h"
+#include "basic_block.h"
 #include <QIcon>
 #include <QJsonObject>
-#include "basicblock_edit.h"
-#include "basicblock_view.h"
+#include "basic_blockedit.h"
+#include "basic_blockview.h"
 
 
 
+using namespace Basic;
 //
 
 
@@ -13,43 +14,43 @@
 /*!
  * The boolean tag name of elements that define a boolean data field. 
  */
-const char* BasicBlock::_boolTag {"bool"};
+const char* Block::_boolTag {"bool"};
 /*!
  * The string tag name of elements that define a string data field. 
  */
-const char* BasicBlock::_stringTag {"string"};
+const char* Block::_stringTag {"string"};
 /*!
  * The string list tag name of elements that define a string list data field. 
  */
-const char* BasicBlock::_stringListTag {"stringlist"};
+const char* Block::_stringListTag {"stringlist"};
 /*!
  * The tag name of the element used to define the name option that specifies which 
  * string field is used for this block's name. 
  */
-const char* BasicBlock::_nameTag {"name"};
+const char* Block::_nameTag {"name"};
 /*!
  * The tag name of the element used to define the path for this basic block type's 
  * icon. 
  */
-const char* BasicBlock::_iconTag {"icon"};
+const char* Block::_iconTag {"icon"};
 /*!
  * The tag name of the element that hold the configuration for this basic block 
  * type's edit class. 
  */
-const char* BasicBlock::_editTag {"edit"};
+const char* Block::_editTag {"edit"};
 /*!
  * The tag name of the element that hold the configuration for this basic block 
  * type's view class. 
  */
-const char* BasicBlock::_viewTag {"view"};
+const char* Block::_viewTag {"view"};
 /*!
  * The attribute name for the id of data field element definitions. 
  */
-const char* BasicBlock::_idKey {"id"};
+const char* Block::_idKey {"id"};
 /*!
  * The attribute name for default values of data field element definitions. 
  */
-const char* BasicBlock::_defaultKey {"default"};
+const char* Block::_defaultKey {"default"};
 
 
 
@@ -57,11 +58,11 @@ const char* BasicBlock::_defaultKey {"default"};
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
-int BasicBlock::type() const
+int Block::type() const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
@@ -76,11 +77,11 @@ int BasicBlock::type() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
-const AbstractBlockFactory& BasicBlock::factory() const
+const Abstract::BlockFactory& Block::factory() const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
@@ -95,11 +96,11 @@ const AbstractBlockFactory& BasicBlock::factory() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
-QString BasicBlock::name() const
+QString Block::name() const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
@@ -122,11 +123,11 @@ QString BasicBlock::name() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
-QIcon BasicBlock::icon() const
+QIcon Block::icon() const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
@@ -141,11 +142,11 @@ QIcon BasicBlock::icon() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
-QList<int> BasicBlock::buildList() const
+QList<int> Block::buildList() const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
@@ -160,13 +161,13 @@ QList<int> BasicBlock::buildList() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<QWidget> BasicBlock::makeView() const
+Soc::Ut::QPtr<QWidget> Block::makeView() const
 {
-   Soc::Ut::QPtr<BasicBlock::View> ret(makeBasicView());
+   Soc::Ut::QPtr<Basic::BlockView> ret(makeBasicView());
    ret->update();
    return ret;
 }
@@ -177,13 +178,13 @@ Soc::Ut::QPtr<QWidget> BasicBlock::makeView() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<Gui::AbstractEdit> BasicBlock::makeEdit()
+Soc::Ut::QPtr<Abstract::BlockEdit> Block::makeEdit()
 {
-   return new Edit(this);
+   return new BlockEdit(this);
 }
 
 
@@ -208,7 +209,7 @@ Soc::Ut::QPtr<Gui::AbstractEdit> BasicBlock::makeEdit()
  * @param isDefault True if the data fields should be set to default values or 
  *                  false to set them to their null values. 
  */
-void BasicBlock::initialize(int type, const AbstractBlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault)
+void Block::initialize(int type, const Abstract::BlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault)
 {
    // Make sure this basic block has NOT been initialized. 
    Q_ASSERT(_type == -1);
@@ -282,9 +283,9 @@ void BasicBlock::initialize(int type, const AbstractBlockFactory* factory, const
  *
  * @return New basic block view implementation for this basic block. 
  */
-Soc::Ut::QPtr<BasicBlock::View> BasicBlock::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Block::makeBasicView() const
 {
-   return new View(this);
+   return new BlockView(this);
 }
 
 
@@ -293,11 +294,11 @@ Soc::Ut::QPtr<BasicBlock::View> BasicBlock::makeBasicView() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @param element See interface docs. 
  */
-void BasicBlock::readData(const QDomElement& element)
+void Block::readData(const QDomElement& element)
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
@@ -345,13 +346,13 @@ void BasicBlock::readData(const QDomElement& element)
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @param document See interface docs. 
  *
  * @return See interface docs. 
  */
-QDomElement BasicBlock::writeData(QDomDocument& document) const
+QDomElement Block::writeData(QDomDocument& document) const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
@@ -403,17 +404,17 @@ QDomElement BasicBlock::writeData(QDomDocument& document) const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<AbstractBlock> BasicBlock::makeBlank() const
+Soc::Ut::QPtr<Abstract::Block> Block::makeBlank() const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
 
    // Create a new uninitialized basic block, making sure it worked. 
-   Soc::Ut::QPtr<BasicBlock> ret {qobject_cast<BasicBlock*>(metaObject()->newInstance())};
+   Soc::Ut::QPtr<Block> ret {qobject_cast<Block*>(metaObject()->newInstance())};
    Q_CHECK_PTR(ret.get());
 
    // Initialize the new basic block to this basic block's type. 
@@ -429,17 +430,17 @@ Soc::Ut::QPtr<AbstractBlock> BasicBlock::makeBlank() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @param other See interface docs. 
  */
-void BasicBlock::copyDataFrom(const AbstractBlock* other)
+void Block::copyDataFrom(const Abstract::Block* other)
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);
 
    // Cast the given abstract block to a basic block, making sure it worked. 
-   const BasicBlock* basic {qobject_cast<const BasicBlock*>(other)};
+   const Block* basic {qobject_cast<const Block*>(other)};
    Q_CHECK_PTR(basic);
 
    // Iterate through all the fields of the given basic block. 
@@ -470,7 +471,7 @@ void BasicBlock::copyDataFrom(const AbstractBlock* other)
  *
  * @return Value of this basic block's field with the given id. 
  */
-bool BasicBlock::getBool(const QString& id) const
+bool Block::getBool(const QString& id) const
 {
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 
@@ -494,7 +495,7 @@ bool BasicBlock::getBool(const QString& id) const
  *
  * @return Value of this basic block's field with the given id. 
  */
-QString BasicBlock::getString(const QString& id) const
+QString Block::getString(const QString& id) const
 {
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 
@@ -518,7 +519,7 @@ QString BasicBlock::getString(const QString& id) const
  *
  * @return Value of this basic block's field with the given id. 
  */
-QStringList BasicBlock::getStringList(const QString& id) const
+QStringList Block::getStringList(const QString& id) const
 {
    // Get the data field of this basic block with the given id, making sure it is the 
    // correct type. 
@@ -546,7 +547,7 @@ QStringList BasicBlock::getStringList(const QString& id) const
  * @param isDefault True if the newly appended data field should be set to its 
  *                  default value or false if it is set to its null value. 
  */
-void BasicBlock::addField(Field type, const QDomElement& element, bool isDefault)
+void Block::addField(Field type, const QDomElement& element, bool isDefault)
 {
    // Get the id the new data field of this basic block will use, making sure the id 
    // attribute exists in the given element. 
@@ -591,7 +592,7 @@ void BasicBlock::addField(Field type, const QDomElement& element, bool isDefault
  *
  * @return Data field of this data block with the given id. 
  */
-QVariant BasicBlock::get(const QString& id) const
+QVariant Block::get(const QString& id) const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);

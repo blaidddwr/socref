@@ -15,15 +15,20 @@ using namespace Abstract;
 
 
 /*!
- * Constructs a new abstract edit object with an optional parent. The new abstract 
- * edit is not initialized and not ready to be used as a dialog until the 
- * initialize method is called. 
+ * Constructs a new abstract edit object with the given block and an optional 
+ * parent. The new abstract edit is not initialized and not ready to be used as a 
+ * dialog until the initialize method is called. 
+ *
+ * @param block The block that this widget edits. 
  *
  * @param parent Optional parent for this new abstract edit dialog. 
  */
-BlockEdit::BlockEdit(QWidget* parent):
-   Gui::PersistentDialog(parent)
-{}
+BlockEdit::BlockEdit(Block* block, QWidget* parent):
+   Gui::PersistentDialog(parent),
+   _block(block)
+{
+   Q_CHECK_PTR(block);
+}
 
 
 
