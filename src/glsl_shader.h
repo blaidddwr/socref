@@ -17,8 +17,6 @@ namespace GLSL
    {
       Q_OBJECT
    public:
-      class View;
-   public:
       /*!
        * This defines all possible shader types. 
        */
@@ -60,7 +58,7 @@ namespace GLSL
       QString shaderTypeString() const;
       QStringList operations() const;
    protected:
-      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const override final;
    };
 }
 

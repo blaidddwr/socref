@@ -23,7 +23,7 @@ using namespace CppQt;
 SettingsDialog::SettingsDialog():
    ::Gui::PersistentDialog("cppqt.gui.settingsdialog.geometry")
 {
-   // Create the GUI for this new dialog and set its window title.
+   // Create the GUI for this new dialog and set its window title. 
    setupGui();
    setWindowTitle(tr("C++/Qt Settings"));
 }

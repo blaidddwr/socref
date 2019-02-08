@@ -61,7 +61,7 @@ namespace Basic
       virtual QString name() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
-      virtual Soc::Ut::QPtr<QWidget> makeView() const override final;
+      virtual Soc::Ut::QPtr<Abstract::BlockView> makeView() const override final;
       virtual Soc::Ut::QPtr<Abstract::BlockEdit> makeEdit() override final;
    public:
       /*!

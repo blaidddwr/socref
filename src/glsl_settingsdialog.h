@@ -1,6 +1,5 @@
-#ifndef GLSL_SETTINGS_DIALOG_H
-#define GLSL_SETTINGS_DIALOG_H
-#include "glsl_settings.h"
+#ifndef GLSL_SETTINGSDIALOG_H
+#define GLSL_SETTINGSDIALOG_H
 #include "gui_persistentdialog.h"
 
 
@@ -16,11 +15,11 @@ namespace GLSL
     * This is the settings dialog. This allows the user to edit all global settings 
     * for the GLSL project type. 
     */
-   class Settings::Dialog : public Gui::PersistentDialog
+   class SettingsDialog : public Gui::PersistentDialog
    {
       Q_OBJECT
    public:
-      explicit Dialog();
+      explicit SettingsDialog();
    private slots:
       void okClicked();
       void applyClicked();

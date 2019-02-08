@@ -1,5 +1,5 @@
 #include "glsl_variable.h"
-#include "glsl_variable_view.h"
+#include "glsl_variableview.h"
 
 
 
@@ -42,11 +42,11 @@ QStringList Variable::layout() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock::View> Variable::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Variable::makeBasicView() const
 {
-   return new View(this);
+   return new VariableView(this);
 }

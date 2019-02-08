@@ -63,7 +63,7 @@ QString Factory::elementName(int type) const
  * Constructs a new GLSL block factory. 
  */
 Factory::Factory():
-   BasicBlockFactory(":/glsl/defs.xml")
+   Basic::BlockFactory(":/glsl/defs.xml")
 {}
 
 
@@ -72,23 +72,23 @@ Factory::Factory():
 
 
 /*!
- * Implements _BasicBlockFactory_ interface. 
+ * Implements _Basic::BlockFactory_ interface. 
  *
  * @param type See interface docs. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
+Soc::Ut::QPtr<Basic::Block> Factory::makeBasicBlock(int type) const
 {
    // Based off the given block type return a new instance of that type or a null 
    // pointer if that type does not have an implementation. 
    switch (type)
    {
-   case NamespaceType: return Soc::Ut::QPtr<BasicBlock>(new Namespace);
-   case ShaderType: return Soc::Ut::QPtr<BasicBlock>(new Shader);
-   case VariableType: return Soc::Ut::QPtr<BasicBlock>(new Variable);
-   case StructType: return Soc::Ut::QPtr<BasicBlock>(new Struct);
-   case FunctionType: return Soc::Ut::QPtr<BasicBlock>(new Function);
+   case NamespaceType: return Soc::Ut::QPtr<Basic::Block>(new Namespace);
+   case ShaderType: return Soc::Ut::QPtr<Basic::Block>(new Shader);
+   case VariableType: return Soc::Ut::QPtr<Basic::Block>(new Variable);
+   case StructType: return Soc::Ut::QPtr<Basic::Block>(new Struct);
+   case FunctionType: return Soc::Ut::QPtr<Basic::Block>(new Function);
    default: return nullptr;
    }
 }

@@ -1,11 +1,9 @@
 #include "projectfactory.h"
 #include <QObject>
 #include "cppqt_factory.h"
-#include "cppqt_parse_factory.h"
-#include "cppqt_settings_dialog.h"
+#include "cppqt_settingsdialog.h"
 #include "glsl_factory.h"
-#include "glsl_parse_factory.h"
-#include "glsl_settings_dialog.h"
+#include "glsl_settingsdialog.h"
 
 
 
@@ -141,8 +139,8 @@ Soc::Ut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
    // Return a new settings dialog for the given project type. 
    switch (type)
    {
-   case CppQtType: return Soc::Ut::QPtr<QDialog>(new CppQt::Settings::Dialog);
-   case GLSLType: return Soc::Ut::QPtr<QDialog>(new GLSL::Settings::Dialog);
+   case CppQtType: return Soc::Ut::QPtr<QDialog>(new CppQt::SettingsDialog);
+   case GLSLType: return Soc::Ut::QPtr<QDialog>(new GLSL::SettingsDialog);
    default:
       // This project type is not recognized so throw an exception. 
       Q_ASSERT(false);
@@ -194,8 +192,8 @@ Soc::Ut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type,
    // root. 
    switch (type)
    {
-   case CppQtType: return Soc::Ut::QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
-   case GLSLType: return Soc::Ut::QPtr<AbstractParserFactory>(new GLSL::Parse::Factory(root));
+   //case CppQtType: return Soc::Ut::QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
+   //case GLSLType: return Soc::Ut::QPtr<AbstractParserFactory>(new GLSL::Parse::Factory(root));
    default:
       // This project type is not recognized so throw an exception. 
       Q_ASSERT(false);

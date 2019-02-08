@@ -1,0 +1,28 @@
+#ifndef GLSL_FUNCTIONVIEW_H
+#define GLSL_FUNCTIONVIEW_H
+#include "basic_blockview.h"
+#include "glsl.h"
+//
+
+
+
+namespace GLSL
+{
+   /*!
+    * This is the view class for the function block. 
+    */
+   class FunctionView : public Basic::BlockView
+   {
+      Q_OBJECT
+   public:
+      explicit FunctionView(const Function* block);
+   private slots:
+      QString displayArguments();
+      QString displayReturn();
+      QString displayOperations();
+   };
+}
+
+
+
+#endif

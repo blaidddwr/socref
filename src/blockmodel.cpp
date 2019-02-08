@@ -139,7 +139,7 @@ QVariant BlockModel::data(const QModelIndex& index, int role) const
    case Qt::DisplayRole:
       return QVariant(block->name());
    case Qt::DecorationRole:
-      return block->icon().pixmap(_iconSize,_iconSize);
+      return block->icon();//.pixmap(_iconSize,_iconSize); //TODO; REMOVE this?
    default:
       return QVariant();
    }

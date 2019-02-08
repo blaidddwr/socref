@@ -1,5 +1,5 @@
 #include "glsl_shader.h"
-#include "glsl_shader_view.h"
+#include "glsl_shaderview.h"
 
 
 
@@ -12,7 +12,7 @@ using namespace GLSL;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -113,11 +113,11 @@ QStringList Shader::operations() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock::View> Shader::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Shader::makeBasicView() const
 {
-   return new View(this);
+   return new ShaderView(this);
 }

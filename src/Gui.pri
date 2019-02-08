@@ -10,7 +10,6 @@ SOURCES += \
     gui_scandialog.cpp \
     gui_persistentdialog.cpp \
     gui_listedit.cpp \
-    gui_listedit_model.cpp \
     gui_dictionarydialog.cpp
 
 HEADERS += \
@@ -25,5 +24,4 @@ HEADERS += \
     gui_scandialog.h \
     gui_persistentdialog.h \
     gui_listedit.h \
-    gui_listedit_model.h \
     gui_dictionarydialog.h

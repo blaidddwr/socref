@@ -17,8 +17,6 @@ namespace GLSL
    class Settings : public Soc::Ut::Singleton<Settings>
    {
    public:
-      class Dialog;
-   public:
       Settings();
       int variableLines() const;
       int structLines() const;

@@ -135,10 +135,10 @@ This class itself handles all copying using another specialized interface for co
             <data>
               <abstract/>
               <const/>
-              <description>This interface returns a view that provides a detailed read only GUI representation of this block's data.</description>
+              <description>This interface returns a block view that provides a detailed read only GUI representation of this block's data.</description>
               <name>makeView</name>
               <return_description>New GUI view that represents this block's data.</return_description>
-              <type>Soc::Ut::QPtr&lt;QWidget></type>
+              <type>Soc::Ut::QPtr&lt;BlockView></type>
               <virtual/>
             </data>
           </function>
@@ -2550,7 +2550,7 @@ Because this widget uses the text dialog class for editing individual list items
             <data>
               <description>Sets the string list for this edit widget to the given list.</description>
               <name>setValue</name>
-              <operation>Set the new value of this object's string list and update its model.</operation>
+              <operation>Set the new value of this object's model.</operation>
               <operation>Auto fit all new rows of text and reset this object's current model index to invalid.</operation>
               <return_description></return_description>
               <type>void</type>
@@ -2598,7 +2598,9 @@ Because this widget uses the text dialog class for editing individual list items
             <data>
               <description>Called when the add action is triggered, adding a new string to this edit widget after the current index.</description>
               <name>addTriggered</name>
-              <operation>Add a new string after this object's current model index and then auto fit the text of all rows.</operation>
+              <operation>If the current index is valid then add a new string after it.</operation>
+              <operation>Else add a new string at the beginning of the model.</operation>
+              <operation>Auto fit the text of all rows.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -2608,7 +2610,7 @@ Because this widget uses the text dialog class for editing individual list items
               <description>Called when the remove action is triggered, removing this object's current model index if it is valid.</description>
               <name>removeTriggered</name>
               <operation>Make sure this object's current model index is valid.</operation>
-              <operation>Remove the current model index from the model and reset it to invalid.</operation>
+              <operation>Remove the current model index from the model.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -2617,8 +2619,7 @@ Because this widget uses the text dialog class for editing individual list items
             <data>
               <description>Called when the move up action is triggered, moving this object's current model index up by one if it is valid.</description>
               <name>moveUpTriggered</name>
-              <operation>Make sure this object's current model index is valid.</operation>
-              <operation>Move this object's current model index up by one, updating the index and auto fitting all text rows.</operation>
+              <operation>Make sure this object's current model index is valid and not at the beginning.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -2627,8 +2628,7 @@ Because this widget uses the text dialog class for editing individual list items
             <data>
               <description>Called when the move down action is triggered, moving this object's current model index down by one if it is valid.</description>
               <name>moveDownTriggered</name>
-              <operation>Make sure this object's current model index is valid.</operation>
-              <operation>Move this object's current model index down by one, updating the index and auto fitting all text rows.</operation>
+              <operation>Make sure this object's current model index is valid and not at the end.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -2687,317 +2687,33 @@ Because this widget uses the text dialog class for editing individual list items
           <data>
             <type>private:</type>
           </data>
-          <class>
+          <function>
             <data>
-              <description>This is the model for its parent list edit widget which handles modeling the underlying string list for the qt table view of its parent list edit widget.</description>
-              <name>Model</name>
-              <qtobject/>
+              <description>Moves this object's current index within this object's model by the amount given. This assumes this object's current index is valid and the given move amount does not remove it off the list itself.</description>
+              <name>move</name>
+              <operation>Make sure the current index is valid.</operation>
+              <operation>Get the row and data of the current index.</operation>
+              <operation>Remove the current row and then insert a new one, moved by the amount given.</operation>
+              <operation>Update the current index to the moved data and set its data.</operation>
+              <operation>Update the selection to the moved index and then auto fit the text of all rows.</operation>
+              <return_description></return_description>
+              <type>void</type>
             </data>
-            <parent>
+            <variable>
               <data>
-                <access>public</access>
-                <class>QAbstractListModel</class>
+                <description>The amount this object's current index is moved, negative being up and positive being down.</description>
+                <initializer></initializer>
+                <name>amount</name>
+                <type>int</type>
               </data>
-            </parent>
-            <access>
-              <data>
-                <type>public:</type>
-              </data>
-              <function>
-                <data>
-                  <const/>
-                  <description>Implements _QAbstractItemModel_ interface. This implementation only returns header information for the rows.</description>
-                  <final/>
-                  <name>headerData</name>
-                  <operation>Make sure the given orientation is vertical and the given role is display.</operation>
-                  <operation>Get a pointer of this object's parent list edit widget and make sure it worked.</operation>
-                  <operation>Return the item title appended with the given section number.</operation>
-                  <override/>
-                  <return_description>See Qt docs.</return_description>
-                  <type>QVariant</type>
-                  <virtual/>
-                </data>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>section</name>
-                    <type>int</type>
-                  </data>
-                </variable>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>orientation</name>
-                    <type>Qt::Orientation</type>
-                  </data>
-                </variable>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>role</name>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <const/>
-                  <description>Implements _QAbstractItemModel_ interface. This implementation returns the string list size or 0 if its empty.</description>
-                  <final/>
-                  <name>rowCount</name>
-                  <operation>If this model has no string list or the given parent is valid then return 0 else return its string list size.</operation>
-                  <override/>
-                  <return_description>See Qt docs.</return_description>
-                  <type>int</type>
-                  <virtual/>
-                </data>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>parent</name>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <const/>
-                  <description>Implements _QAbstractItemModel_ interface. This implementation returns the string in it's string list for the display and edit roles.</description>
-                  <final/>
-                  <name>data</name>
-                  <operation>Make sure this model has a string list and the given index row is within range.</operation>
-                  <operation>If the given role is display or edit then return the string at the given row else return nothing.</operation>
-                  <override/>
-                  <return_description>See Qt docs.</return_description>
-                  <type>QVariant</type>
-                  <virtual/>
-                </data>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>index</name>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>role</name>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <description>Implements _QAbstractItemModel_ interface. This implementation sets the string in this model's string list at the given index.</description>
-                  <final/>
-                  <name>setData</name>
-                  <operation>Make sure this model has a string list and the given index row is within range.</operation>
-                  <operation>Make sure the given role is edit.</operation>
-                  <operation>Set the string in this model's string list at the given model index row, signal the data has changed, and return success.</operation>
-                  <operation>Else this is an unsupported role so return failure.</operation>
-                  <override/>
-                  <return_description>See Qt docs.</return_description>
-                  <type>bool</type>
-                  <virtual/>
-                </data>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>index</name>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>value</name>
-                    <type>const QVariant&amp;</type>
-                  </data>
-                </variable>
-                <variable>
-                  <data>
-                    <description>See Qt docs.</description>
-                    <initializer></initializer>
-                    <name>role</name>
-                    <type>int</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>public:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Constructs a new model with an optional parent.</description>
-                  <explicit/>
-                  <name>^</name>
-                  <return_description></return_description>
-                  <type></type>
-                </data>
-                <variable>
-                  <data>
-                    <description>Optional parent for this new model.</description>
-                    <initializer>nullptr</initializer>
-                    <name>parent</name>
-                    <type>QObject*</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <description>Constructs a new model with the given string list and an optional parent.</description>
-                  <explicit/>
-                  <name>^</name>
-                  <return_description></return_description>
-                  <type></type>
-                </data>
-                <variable>
-                  <data>
-                    <description>Pointer to the string list this new model represents.</description>
-                    <initializer></initializer>
-                    <name>list</name>
-                    <type>QStringList*</type>
-                  </data>
-                </variable>
-                <variable>
-                  <data>
-                    <description>Optional parent for this new model.</description>
-                    <initializer>nullptr</initializer>
-                    <name>parent</name>
-                    <type>QObject*</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <description>Adds a new string after the given model index, returning true on success. If the given model index is invalid a new string is added at the beginning of this model's string list.</description>
-                  <name>addAfter</name>
-                  <operation>Make sure this model has a string list and the given index row is within range.</operation>
-                  <operation>Determine the row where a new string will be inserted into this model's string list.</operation>
-                  <operation>Insert a new string into this model's string list, notifying this model that the insertion happened and returning success.</operation>
-                  <return_description>True on success or false otherwise.</return_description>
-                  <type>bool</type>
-                </data>
-                <variable>
-                  <data>
-                    <description>The index which has a new string added after it in this model's string list.</description>
-                    <initializer></initializer>
-                    <name>index</name>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <description>Removes a string with the given model index, returning true on success.</description>
-                  <name>remove</name>
-                  <operation>Make sure this model has a string list, the given index is valid, and the given index row is within range.</operation>
-                  <operation>Remove the string with the given index row from this model's string list, notifying this model that a row has been removed and returning success. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
-                  <return_description>True on success or false otherwise.</return_description>
-                  <type>bool</type>
-                </data>
-                <variable>
-                  <data>
-                    <description>The model index of the string that is removed.</description>
-                    <initializer></initializer>
-                    <name>index</name>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <description>Moves the string with the given model index up its model's string list by one, returning a new model index for the moved string. Moving up means decreasing its index by one. The given index becomes invalid if the string is moved and should always be overwritten by the returned index. If this model has no string list then an exception is thrown.</description>
-                  <name>moveUp</name>
-                  <operation>Make sure this model has a string list.</operation>
-                  <operation>Make sure the given index is valid and within range.</operation>
-                  <operation>Move the string with the given index up this model's string list by one, notifying this model that a row has been moved. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
-                  <operation>Return a new model index for the moved string.</operation>
-                  <return_description>New model index for the string with the given index.</return_description>
-                  <type>QModelIndex</type>
-                </data>
-                <variable>
-                  <data>
-                    <description>The model index of the string that is moved.</description>
-                    <initializer></initializer>
-                    <name>index</name>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <description>Moves the string with the given model index down its model's string list by one, returning a new model index for the moved string. Moving down means increasing its index by one. The given index becomes invalid if the string is moved and should always be overwritten by the returned index. If this model has no string list then an exception is thrown.</description>
-                  <name>moveDown</name>
-                  <operation>Make sure this model has a string list.</operation>
-                  <operation>Make sure the given index is valid and within range.</operation>
-                  <operation>Move the string with the given index down this model's string list by one, notifying this model that a row has been moved. SPECIAL NOTE: the given index is destroyed when the begin remove rows qt function is called.</operation>
-                  <operation>Return a new model index for the moved string.</operation>
-                  <return_description>New model index for the string with the given index.</return_description>
-                  <type>QModelIndex</type>
-                </data>
-                <variable>
-                  <data>
-                    <description>The model index of the string that is moved.</description>
-                    <initializer></initializer>
-                    <name>index</name>
-                    <type>const QModelIndex&amp;</type>
-                  </data>
-                </variable>
-              </function>
-              <function>
-                <data>
-                  <description>Sets the string list for this model. This model does not take ownership of the given string list and must not be deleted as long as it is part of this model. A null pointer can be passed to set this model to a null state.</description>
-                  <name>setList</name>
-                  <operation>Set this model's string list pointer to the new value given, notifying this model that a reset of the entire model has occurred.</operation>
-                  <return_description></return_description>
-                  <type>void</type>
-                </data>
-                <variable>
-                  <data>
-                    <description>Pointer to the string list this model is set to or null to set this model to a null state.</description>
-                    <initializer></initializer>
-                    <name>list</name>
-                    <type>QStringList*</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private:</type>
-              </data>
-              <variable>
-                <data>
-                  <description>Pointer to the string list this model represents.</description>
-                  <initializer>nullptr</initializer>
-                  <name>_list</name>
-                  <type>QStringList*</type>
-                </data>
-              </variable>
-            </access>
-          </class>
-        </access>
-        <access>
-          <data>
-            <type>private:</type>
-          </data>
+            </variable>
+          </function>
           <function>
             <data>
               <description>Initializes the table view along with creating its model for this new list edit widget.</description>
               <name>setupView</name>
               <operation>Create this object's model set it to this table view.</operation>
+              <operation>Configure this new table view.</operation>
               <operation>Configure this table view's horizontal header.</operation>
               <operation>Connect the double clicked signal of this table view.</operation>
               <return_description></return_description>
@@ -3065,7 +2781,7 @@ Because this widget uses the text dialog class for editing individual list items
               <description>Pointer to the string list model for this list edit widget.</description>
               <initializer></initializer>
               <name>_model</name>
-              <type>Model*</type>
+              <type>QStringListModel*</type>
             </data>
           </variable>
           <variable>
@@ -3074,14 +2790,6 @@ Because this widget uses the text dialog class for editing individual list items
               <initializer></initializer>
               <name>_current</name>
               <type>QModelIndex</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>The string list for this list edit widget.</description>
-              <initializer></initializer>
-              <name>_list</name>
-              <type>QStringList</type>
             </data>
           </variable>
           <variable>
@@ -3595,10 +3303,10 @@ Because this widget uses the text dialog class for editing individual list items
           </variable>
           <variable>
             <data>
-              <description>Pointer to this object's current detailed view widget, if any.</description>
+              <description>Pointer to this object's current detailed block view, if any.</description>
               <initializer>nullptr</initializer>
               <name>_view</name>
-              <type>QWidget*</type>
+              <type>Abstract::BlockView*</type>
             </data>
           </variable>
           <variable>
@@ -4813,7 +4521,7 @@ This class provides protected helper methods for getting the values of its data 
               <name>makeView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Soc::Ut::QPtr&lt;QWidget></type>
+              <type>Soc::Ut::QPtr&lt;Abstract::BlockView></type>
               <virtual/>
             </data>
           </function>
@@ -12642,146 +12350,6 @@ Because this function parser is responsible for the special main function it mus
           <data>
             <type>public:</type>
           </data>
-          <class>
-            <data>
-              <description>This is the settings dialog. This allows the user to edit all global settings for the GLSL project type.</description>
-              <name>Dialog</name>
-              <qtobject/>
-            </data>
-            <parent>
-              <data>
-                <access>public</access>
-                <class>Gui::PersistentDialog</class>
-              </data>
-            </parent>
-            <access>
-              <data>
-                <type>public:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Constructs a new settings dialog.</description>
-                  <explicit/>
-                  <name>^</name>
-                  <operation>Create the GUI for this new dialog and set its window title.</operation>
-                  <return_description></return_description>
-                  <type></type>
-                </data>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private slots:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Called when the OK button is clicked. This applies all global settings and closes the dialog.</description>
-                  <name>okClicked</name>
-                  <operation>Apply all global settings of this dialog and close it.</operation>
-                  <return_description></return_description>
-                  <type>void</type>
-                </data>
-              </function>
-              <function>
-                <data>
-                  <description>Called when the apply button is clicked. This applies the global setting values of this dialog.</description>
-                  <name>applyClicked</name>
-                  <operation>Get the global settings object and apply all settings.</operation>
-                  <return_description></return_description>
-                  <type>void</type>
-                </data>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Creates and initializes all GUI elements for this new dialog.</description>
-                  <name>setupGui</name>
-                  <operation>Create a new vertical layout, adding the form layout and then the buttons layout.</operation>
-                  <operation>Set the layout of this new dialog.</operation>
-                  <return_description></return_description>
-                  <type>void</type>
-                </data>
-              </function>
-              <function>
-                <data>
-                  <description>Creates and initializes all edit widgets for this new dialog, returning a form layout containing the edit widgets.</description>
-                  <name>setupForm</name>
-                  <operation>Get the global settings instance.</operation>
-                  <operation>Create the variable lines edit widget and set its value to the current global setting.</operation>
-                  <operation>Create the structure lines edit widget and set its value to the current global setting.</operation>
-                  <operation>Create the function lines edit widget and set its value to the current global setting.</operation>
-                  <operation>Create the indent spaces edit widget and set its value to the current global setting.</operation>
-                  <operation>Create the max columns edit widget and set its value to the current global setting.</operation>
-                  <operation>Create a new form layout, adding the indent spaces widget then the header lines widget then the function lines widget and then the max columns widget.</operation>
-                  <operation>Return the form layout.</operation>
-                  <return_description>Form layout containing all edit widgets for this new dialog.</return_description>
-                  <type>QLayout*</type>
-                </data>
-              </function>
-              <function>
-                <data>
-                  <description>Creates and initializes the OK, apply, and cancel buttons for this new dialog, returning the buttons layout.</description>
-                  <name>setupButtons</name>
-                  <operation>Create the OK button for this dialog, connecting its clicked signal.</operation>
-                  <operation>Create the apply button for this dialog, connecting its clicked signal.</operation>
-                  <operation>Create the cancel button for this dialog, connecting its clicked signal.</operation>
-                  <operation>Create a new horizontal layout, adding the OK button then the apply button then a stretch and then the cancel button.</operation>
-                  <operation>Return the buttons layout.</operation>
-                  <return_description>Layout containing buttons for this new dialog.</return_description>
-                  <type>QLayout*</type>
-                </data>
-              </function>
-              <variable>
-                <data>
-                  <description>The edit widget for the variable lines setting.</description>
-                  <initializer></initializer>
-                  <name>_variableLinesBox</name>
-                  <type>QSpinBox*</type>
-                </data>
-              </variable>
-              <variable>
-                <data>
-                  <description>The edit widget for the structure lines setting.</description>
-                  <initializer></initializer>
-                  <name>_structLinesBox</name>
-                  <type>QSpinBox*</type>
-                </data>
-              </variable>
-              <variable>
-                <data>
-                  <description>The edit widget for the function lines setting.</description>
-                  <initializer></initializer>
-                  <name>_functionLinesBox</name>
-                  <type>QSpinBox*</type>
-                </data>
-              </variable>
-              <variable>
-                <data>
-                  <description>The edit widget for the indent spaces setting.</description>
-                  <initializer></initializer>
-                  <name>_indentSpacesBox</name>
-                  <type>QSpinBox*</type>
-                </data>
-              </variable>
-              <variable>
-                <data>
-                  <description>The edit widget for the max columns setting.</description>
-                  <initializer></initializer>
-                  <name>_maxColumnsBox</name>
-                  <type>QSpinBox*</type>
-                </data>
-              </variable>
-            </access>
-          </class>
-        </access>
-        <access>
-          <data>
-            <type>public:</type>
-          </data>
           <function>
             <data>
               <description>Constructs a new settings global instance, retrieving all persistent settings from qt settings.</description>
@@ -13050,13 +12618,148 @@ Because this function parser is responsible for the special main function it mus
       </class>
       <class>
         <data>
+          <description>This is the settings dialog. This allows the user to edit all global settings for the GLSL project type.</description>
+          <name>SettingsDialog</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Gui::PersistentDialog</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new settings dialog.</description>
+              <explicit/>
+              <name>^</name>
+              <operation>Create the GUI for this new dialog and set its window title.</operation>
+              <return_description></return_description>
+              <type></type>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private slots:</type>
+          </data>
+          <function>
+            <data>
+              <description>Called when the OK button is clicked. This applies all global settings and closes the dialog.</description>
+              <name>okClicked</name>
+              <operation>Apply all global settings of this dialog and close it.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Called when the apply button is clicked. This applies the global setting values of this dialog.</description>
+              <name>applyClicked</name>
+              <operation>Get the global settings object and apply all settings.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <function>
+            <data>
+              <description>Creates and initializes all GUI elements for this new dialog.</description>
+              <name>setupGui</name>
+              <operation>Create a new vertical layout, adding the form layout and then the buttons layout.</operation>
+              <operation>Set the layout of this new dialog.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Creates and initializes all edit widgets for this new dialog, returning a form layout containing the edit widgets.</description>
+              <name>setupForm</name>
+              <operation>Get the global settings instance.</operation>
+              <operation>Create the variable lines edit widget and set its value to the current global setting.</operation>
+              <operation>Create the structure lines edit widget and set its value to the current global setting.</operation>
+              <operation>Create the function lines edit widget and set its value to the current global setting.</operation>
+              <operation>Create the indent spaces edit widget and set its value to the current global setting.</operation>
+              <operation>Create the max columns edit widget and set its value to the current global setting.</operation>
+              <operation>Create a new form layout, adding the indent spaces widget then the header lines widget then the function lines widget and then the max columns widget.</operation>
+              <operation>Return the form layout.</operation>
+              <return_description>Form layout containing all edit widgets for this new dialog.</return_description>
+              <type>QLayout*</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Creates and initializes the OK, apply, and cancel buttons for this new dialog, returning the buttons layout.</description>
+              <name>setupButtons</name>
+              <operation>Create the OK button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create the apply button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create the cancel button for this dialog, connecting its clicked signal.</operation>
+              <operation>Create a new horizontal layout, adding the OK button then the apply button then a stretch and then the cancel button.</operation>
+              <operation>Return the buttons layout.</operation>
+              <return_description>Layout containing buttons for this new dialog.</return_description>
+              <type>QLayout*</type>
+            </data>
+          </function>
+          <variable>
+            <data>
+              <description>The edit widget for the variable lines setting.</description>
+              <initializer></initializer>
+              <name>_variableLinesBox</name>
+              <type>QSpinBox*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The edit widget for the structure lines setting.</description>
+              <initializer></initializer>
+              <name>_structLinesBox</name>
+              <type>QSpinBox*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The edit widget for the function lines setting.</description>
+              <initializer></initializer>
+              <name>_functionLinesBox</name>
+              <type>QSpinBox*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The edit widget for the indent spaces setting.</description>
+              <initializer></initializer>
+              <name>_indentSpacesBox</name>
+              <type>QSpinBox*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The edit widget for the max columns setting.</description>
+              <initializer></initializer>
+              <name>_maxColumnsBox</name>
+              <type>QSpinBox*</type>
+            </data>
+          </variable>
+        </access>
+      </class>
+      <class>
+        <data>
           <description>This is the block factory for the GLSL project type. This class defines an enumeration representing all possible block types for its project type. This is a singleton class and has only one single global instance. This also inherits from the basic block factory class to allow for XML definitions of block type data.</description>
           <name>Factory</name>
         </data>
         <parent>
           <data>
             <access>public</access>
-            <class>BasicBlockFactory</class>
+            <class>Basic::BlockFactory</class>
           </data>
         </parent>
         <parent>
@@ -13176,13 +12879,13 @@ Because this function parser is responsible for the special main function it mus
           <function>
             <data>
               <const/>
-              <description>Implements _BasicBlockFactory_ interface.</description>
+              <description>Implements _Basic::BlockFactory_ interface.</description>
               <final/>
               <name>makeBasicBlock</name>
               <operation>Based off the given block type return a new instance of that type or a null pointer if that type does not have an implementation.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Soc::Ut::QPtr&lt;BasicBlock></type>
+              <type>Soc::Ut::QPtr&lt;Basic::Block></type>
               <virtual/>
             </data>
             <variable>
@@ -13205,7 +12908,7 @@ Because this function parser is responsible for the special main function it mus
         <parent>
           <data>
             <access>public</access>
-            <class>BasicBlock</class>
+            <class>Basic::Block</class>
           </data>
         </parent>
         <access>
@@ -13277,72 +12980,6 @@ Because this function parser is responsible for the special main function it mus
           <data>
             <type>public:</type>
           </data>
-          <class>
-            <data>
-              <description>This is the view class for the shader block.</description>
-              <name>View</name>
-              <qtobject/>
-            </data>
-            <parent>
-              <data>
-                <access>public</access>
-                <class>BasicBlock::View</class>
-              </data>
-            </parent>
-            <access>
-              <data>
-                <type>public:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Constructs a new view with the given shader block.</description>
-                  <explicit/>
-                  <name>^</name>
-                  <return_description></return_description>
-                  <type></type>
-                </data>
-                <variable>
-                  <data>
-                    <description>The shader block that this new view displays.</description>
-                    <initializer></initializer>
-                    <name>block</name>
-                    <type>const Shader*</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private slots:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Returns rich text that displays the number of operations for this view's function block.</description>
-                  <name>displayOperations</name>
-                  <return_description>Rich text that displays the number of operations for this view's function block.</return_description>
-                  <type>QString</type>
-                </data>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private:</type>
-              </data>
-              <variable>
-                <data>
-                  <description>Pointer to the shader block that this view displays.</description>
-                  <initializer></initializer>
-                  <name>_block</name>
-                  <type>const Shader*</type>
-                </data>
-              </variable>
-            </access>
-          </class>
-        </access>
-        <access>
-          <data>
-            <type>public:</type>
-          </data>
           <enumeration>
             <data>
               <description>This defines all possible shader types.</description>
@@ -13399,7 +13036,7 @@ Because this function parser is responsible for the special main function it mus
           <function>
             <data>
               <const/>
-              <description>Implements _AbstractBlock_ interface.</description>
+              <description>Implements _Abstract::Block_ interface.</description>
               <final/>
               <name>name</name>
               <operation>Create a new string and initialize it to this block's base name.</operation>
@@ -13464,13 +13101,61 @@ Because this function parser is responsible for the special main function it mus
           <function>
             <data>
               <const/>
-              <description>Implements _BasicBlock_ interface.</description>
+              <description>Implements _Basic::Block_ interface.</description>
               <final/>
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;Basic::BlockView></type>
               <virtual/>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the view class for the shader block.</description>
+          <name>ShaderView</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Basic::BlockView</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new view with the given shader block.</description>
+              <explicit/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The shader block that this new view displays.</description>
+                <initializer></initializer>
+                <name>block</name>
+                <type>const Shader*</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private slots:</type>
+          </data>
+          <function>
+            <data>
+              <description>Returns rich text that displays the number of operations for this view's function block.</description>
+              <name>displayOperations</name>
+              <return_description>Rich text that displays the number of operations for this view's function block.</return_description>
+              <type>QString</type>
             </data>
           </function>
         </access>
@@ -13487,78 +13172,6 @@ Because this function parser is responsible for the special main function it mus
             <class>Base</class>
           </data>
         </parent>
-        <access>
-          <data>
-            <type>public:</type>
-          </data>
-          <class>
-            <data>
-              <description>This is the view class for the variable block.</description>
-              <name>View</name>
-              <qtobject/>
-            </data>
-            <parent>
-              <data>
-                <access>public</access>
-                <class>BasicBlock::View</class>
-              </data>
-            </parent>
-            <access>
-              <data>
-                <type>public:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Constructs a new view with the given variable block.</description>
-                  <explicit/>
-                  <name>^</name>
-                  <return_description></return_description>
-                  <type></type>
-                </data>
-                <variable>
-                  <data>
-                    <description>The variable block that this new view displays.</description>
-                    <initializer></initializer>
-                    <name>block</name>
-                    <type>const Variable*</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private slots:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Returns rich text that displays a list of all layout qualifiers for this view's variable block. If this view's variable block has no layout qualifiers then this returns an empty string.</description>
-                  <name>displayLayout</name>
-                  <operation>Create a new empty string.</operation>
-                  <operation>Get the list of layout qualifiers for this view's variable block and make sure it is not empty.</operation>
-                  <operation>Add a title to the returned rich text.</operation>
-                  <operation>Add all individual qualifiers to the rich text on a new line for each one.</operation>
-                  <operation>Close the rich text paragraph.</operation>
-                  <operation>Return the layout rich text or empty string if there is no layouts.</operation>
-                  <return_description>Rich text that displays a list of all layout qualifiers for this view's variable block or an empty string if there are no qualifiers.</return_description>
-                  <type>QString</type>
-                </data>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private:</type>
-              </data>
-              <variable>
-                <data>
-                  <description>Pointer to the variable block that this view displays.</description>
-                  <initializer></initializer>
-                  <name>_block</name>
-                  <type>const Variable*</type>
-                </data>
-              </variable>
-            </access>
-          </class>
-        </access>
         <access>
           <data>
             <type>public:</type>
@@ -13600,13 +13213,67 @@ Because this function parser is responsible for the special main function it mus
           <function>
             <data>
               <const/>
-              <description>Implements _BasicBlock_ interface.</description>
+              <description>Implements _Basic::Block_ interface.</description>
               <final/>
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;Basic::BlockView></type>
               <virtual/>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the view class for the variable block.</description>
+          <name>VariableView</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Basic::BlockView</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new view with the given variable block.</description>
+              <explicit/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The variable block that this new view displays.</description>
+                <initializer></initializer>
+                <name>block</name>
+                <type>const Variable*</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private slots:</type>
+          </data>
+          <function>
+            <data>
+              <description>Returns rich text that displays a list of all layout qualifiers for this view's variable block. If this view's variable block has no layout qualifiers then this returns an empty string.</description>
+              <name>displayLayout</name>
+              <operation>Create a new empty string.</operation>
+              <operation>Get the list of layout qualifiers for this view's variable block and make sure it is not empty.</operation>
+              <operation>Add a title to the returned rich text.</operation>
+              <operation>Add all individual qualifiers to the rich text on a new line for each one.</operation>
+              <operation>Close the rich text paragraph.</operation>
+              <operation>Return the layout rich text or empty string if there is no layouts.</operation>
+              <return_description>Rich text that displays a list of all layout qualifiers for this view's variable block or an empty string if there are no qualifiers.</return_description>
+              <type>QString</type>
             </data>
           </function>
         </access>
@@ -13656,100 +13323,10 @@ Because this function parser is responsible for the special main function it mus
           <data>
             <type>public:</type>
           </data>
-          <class>
-            <data>
-              <description>This is the view class for the function block.</description>
-              <name>View</name>
-              <qtobject/>
-            </data>
-            <parent>
-              <data>
-                <access>public</access>
-                <class>BasicBlock::View</class>
-              </data>
-            </parent>
-            <access>
-              <data>
-                <type>public:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Constructs a new view with the given function block.</description>
-                  <explicit/>
-                  <name>^</name>
-                  <return_description></return_description>
-                  <type></type>
-                </data>
-                <variable>
-                  <data>
-                    <description>The function block that this new view displays.</description>
-                    <initializer></initializer>
-                    <name>block</name>
-                    <type>const Function*</type>
-                  </data>
-                </variable>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private slots:</type>
-              </data>
-              <function>
-                <data>
-                  <description>Returns rich text that displays all variable arguments for this view's function block. If there are no arguments an empty string is returned.</description>
-                  <name>displayArguments</name>
-                  <operation>Create an empty return string.</operation>
-                  <operation>Make a pointer list of all children variables of this view's function block and make sure it is not empty.</operation>
-                  <operation>Append a title.</operation>
-                  <operation>Iterate through all child variable blocks, appending a description of each variable into the returned rich text.</operation>
-                  <operation>Return the arguments rich text.</operation>
-                  <return_description>Rich text that displays all variable arguments for this view's function block or an empty string if there are no arguments to display.</return_description>
-                  <type>QString</type>
-                </data>
-              </function>
-              <function>
-                <data>
-                  <description>Returns rich text that displays the return type and description for this view's function block. If the return type is void then an empty string is returned.</description>
-                  <name>displayReturn</name>
-                  <operation>Get the return type of this view's function block.</operation>
-                  <operation>If the return type is empty or is equal to void then return an empty string.</operation>
-                  <operation>Else this view's function block has a return type so return rich text displaying that return type and its description.</operation>
-                  <return_description>Rich text that displays the return type and description for this view's function block or an empty string if the return type is void.</return_description>
-                  <type>QString</type>
-                </data>
-              </function>
-              <function>
-                <data>
-                  <description>Returns rich text that displays the number of operations for this view's function block.</description>
-                  <name>displayOperations</name>
-                  <return_description>Rich text that displays the number of operations for this view's function block.</return_description>
-                  <type>QString</type>
-                </data>
-              </function>
-            </access>
-            <access>
-              <data>
-                <type>private:</type>
-              </data>
-              <variable>
-                <data>
-                  <description>Pointer to the function block that this view displays.</description>
-                  <initializer></initializer>
-                  <name>_block</name>
-                  <type>const Function*</type>
-                </data>
-              </variable>
-            </access>
-          </class>
-        </access>
-        <access>
-          <data>
-            <type>public:</type>
-          </data>
           <function>
             <data>
               <const/>
-              <description>Implements _AbstractBlock_ interface.</description>
+              <description>Implements _Abstract::Block_ interface.</description>
               <final/>
               <name>name</name>
               <operation>Create an empty return string.</operation>
@@ -13832,21 +13409,21 @@ Because this function parser is responsible for the special main function it mus
           <function>
             <data>
               <const/>
-              <description>Implements _BasicBlock_ interface.</description>
+              <description>Implements _Basic::Block_ interface.</description>
               <final/>
               <name>makeBasicView</name>
               <override/>
               <return_description>See interface docs.</return_description>
-              <type>Soc::Ut::QPtr&lt;BasicBlock::View></type>
+              <type>Soc::Ut::QPtr&lt;Basic::BlockView></type>
               <virtual/>
             </data>
           </function>
           <function>
             <data>
-              <description>Implements _AbstractBlock_ interface.</description>
+              <description>Implements _Abstract::Block_ interface.</description>
               <final/>
               <name>childAdded</name>
-              <operation>Notify the name and body of this block has changed.</operation>
+              <operation>Notify that this block requires updating.</operation>
               <operation>Return false to end propagation.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
@@ -13858,16 +13435,16 @@ Because this function parser is responsible for the special main function it mus
                 <description>See interface docs.</description>
                 <initializer></initializer>
                 <name>child</name>
-                <type>AbstractBlock*</type>
+                <type>Abstract::Block*</type>
               </data>
             </variable>
           </function>
           <function>
             <data>
-              <description>Implements _AbstractBlock_ interface.</description>
+              <description>Implements _Abstract::Block_ interface.</description>
               <final/>
               <name>childRemoved</name>
-              <operation>Notify the name and body of this block has changed. </operation>
+              <operation>Notify that this block requires updating.</operation>
               <operation>Return false to end propagation.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
@@ -13879,9 +13456,81 @@ Because this function parser is responsible for the special main function it mus
                 <description>See interface docs.</description>
                 <initializer></initializer>
                 <name>child</name>
-                <type>AbstractBlock*</type>
+                <type>Abstract::Block*</type>
               </data>
             </variable>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the view class for the function block.</description>
+          <name>FunctionView</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Basic::BlockView</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new view with the given function block.</description>
+              <explicit/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The function block that this new view displays.</description>
+                <initializer></initializer>
+                <name>block</name>
+                <type>const Function*</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private slots:</type>
+          </data>
+          <function>
+            <data>
+              <description>Returns rich text that displays all variable arguments for this view's function block. If there are no arguments an empty string is returned.</description>
+              <name>displayArguments</name>
+              <operation>Create an empty return string.</operation>
+              <operation>Make a pointer list of all children variables of this view's function block and make sure it is not empty.</operation>
+              <operation>Append a title.</operation>
+              <operation>Iterate through all child variable blocks, appending a description of each variable into the returned rich text.</operation>
+              <operation>Return the arguments rich text.</operation>
+              <return_description>Rich text that displays all variable arguments for this view's function block or an empty string if there are no arguments to display.</return_description>
+              <type>QString</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Returns rich text that displays the return type and description for this view's function block. If the return type is void then an empty string is returned.</description>
+              <name>displayReturn</name>
+              <operation>Get the return type of this view's function block.</operation>
+              <operation>If the return type is empty or is equal to void then return an empty string.</operation>
+              <operation>Else this view's function block has a return type so return rich text displaying that return type and its description.</operation>
+              <return_description>Rich text that displays the return type and description for this view's function block or an empty string if the return type is void.</return_description>
+              <type>QString</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Returns rich text that displays the number of operations for this view's function block.</description>
+              <name>displayOperations</name>
+              <return_description>Rich text that displays the number of operations for this view's function block.</return_description>
+              <type>QString</type>
+            </data>
           </function>
         </access>
       </class>
@@ -14625,26 +14274,6 @@ Because this function parser is responsible for the special main function it mus
         <data>
           <type>public:</type>
         </data>
-        <enumeration>
-          <data>
-            <description>Defines custom data roles this model uses for data changed signals.</description>
-            <name>Role</name>
-          </data>
-          <enumvalue>
-            <data>
-              <description>Defines the name role which encompasses the title and icon of a block changing.</description>
-              <name>Name</name>
-              <value>100</value>
-            </data>
-          </enumvalue>
-          <enumvalue>
-            <data>
-              <description>Defines the body role which encompasses the body of a block changing.</description>
-              <name>Body</name>
-              <value>101</value>
-            </data>
-          </enumvalue>
-        </enumeration>
         <function>
           <data>
             <const/>

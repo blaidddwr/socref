@@ -1,4 +1,5 @@
-#include "glsl_function_view.h"
+#include "glsl_functionview.h"
+#include "glsl_function.h"
 #include "glsl_variable.h"
 
 
@@ -16,9 +17,8 @@ using namespace GLSL;
  *
  * @param block The function block that this new view displays. 
  */
-Function::View::View(const Function* block):
-   BasicBlock::View(block),
-   _block(block)
+FunctionView::FunctionView(const Function* block):
+   Basic::BlockView(block)
 {}
 
 
@@ -33,14 +33,14 @@ Function::View::View(const Function* block):
  * @return Rich text that displays all variable arguments for this view's function 
  *         block or an empty string if there are no arguments to display. 
  */
-QString Function::View::displayArguments()
+QString FunctionView::displayArguments()
 {
    // Create an empty return string. 
    QString ret;
 
    // Make a pointer list of all children variables of this view's function block and 
    // make sure it is not empty. 
-   const QList<Variable*> list {_block->arguments()};
+   const QList<Variable*> list {block<Function>().arguments()};
    if ( list.isEmpty() ) return ret;
 
    // Append a title. 
@@ -74,10 +74,10 @@ QString Function::View::displayArguments()
  * @return Rich text that displays the return type and description for this view's 
  *         function block or an empty string if the return type is void. 
  */
-QString Function::View::displayReturn()
+QString FunctionView::displayReturn()
 {
    // Get the return type of this view's function block. 
-   QString returnType {_block->returnType()};
+   QString returnType {block<Function>().returnType()};
 
    // If the return type is empty or is equal to void then return an empty string. 
    if ( returnType.isEmpty() || returnType == QString("void") ) return QString();
@@ -90,7 +90,7 @@ QString Function::View::displayReturn()
              + tr("Return")
              + QStringLiteral("</h3><p><u>")
              + returnType + QStringLiteral("</u> : ")
-             + _block->returnDescription()
+             + block<Function>().returnDescription()
              + QStringLiteral("</p>");
    }
 }
@@ -107,7 +107,7 @@ QString Function::View::displayReturn()
  * @return Rich text that displays the number of operations for this view's 
  *         function block. 
  */
-QString Function::View::displayOperations()
+QString FunctionView::displayOperations()
 {
-   return tr("<i>%n operation(s)</i>",nullptr,_block->operations().size());
+   return tr("<i>%n operation(s)</i>",nullptr,block<Function>().operations().size());
 }

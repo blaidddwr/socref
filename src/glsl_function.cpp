@@ -1,5 +1,5 @@
 #include "glsl_function.h"
-#include "glsl_function_view.h"
+#include "glsl_functionview.h"
 #include "glsl_factory.h"
 #include "glsl_variable.h"
 
@@ -14,7 +14,7 @@ using namespace GLSL;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -115,13 +115,13 @@ QList<Variable*> Function::arguments() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock::View> Function::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Function::makeBasicView() const
 {
-   return new View(this);
+   return new FunctionView(this);
 }
 
 
@@ -130,19 +130,17 @@ Soc::Ut::QPtr<BasicBlock::View> Function::makeBasicView() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @param child See interface docs. 
  *
  * @return See interface docs. 
  */
-bool Function::childAdded(AbstractBlock* child)
+bool Function::childAdded(Abstract::Block* child)
 {
+   // Notify that this block requires updating. 
    Q_UNUSED(child)
-
-   // Notify the name and body of this block has changed. 
-   notifyNameModified();
-   notifyBodyModified();
+   update();
 
    // Return false to end propagation. 
    return false;
@@ -154,19 +152,17 @@ bool Function::childAdded(AbstractBlock* child)
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @param child See interface docs. 
  *
  * @return See interface docs. 
  */
-bool Function::childRemoved(AbstractBlock* child)
+bool Function::childRemoved(Abstract::Block* child)
 {
+   // Notify that this block requires updating. 
    Q_UNUSED(child)
-
-   // Notify the name and body of this block has changed.  
-   notifyNameModified();
-   notifyBodyModified();
+   update();
 
    // Return false to end propagation. 
    return false;

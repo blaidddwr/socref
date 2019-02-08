@@ -82,12 +82,12 @@ namespace Abstract
        */
       virtual QList<int> buildList() const = 0;
       /*!
-       * This interface returns a view that provides a detailed read only GUI 
+       * This interface returns a block view that provides a detailed read only GUI 
        * representation of this block's data. 
        *
        * @return New GUI view that represents this block's data. 
        */
-      virtual Soc::Ut::QPtr<QWidget> makeView() const = 0;
+      virtual Soc::Ut::QPtr<BlockView> makeView() const = 0;
       virtual Soc::Ut::QPtr<Abstract::Block> makeCopy() const;
       /*!
        * This interface returns an abstract edit GUI dialog that provides the ability to 

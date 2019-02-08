@@ -1,4 +1,5 @@
-#include "glsl_variable_view.h"
+#include "glsl_variableview.h"
+#include "glsl_variable.h"
 
 
 
@@ -15,9 +16,8 @@ using namespace GLSL;
  *
  * @param block The variable block that this new view displays. 
  */
-Variable::View::View(const Variable* block):
-   BasicBlock::View(block),
-   _block(block)
+VariableView::VariableView(const Variable* block):
+   Basic::BlockView(block)
 {}
 
 
@@ -33,14 +33,14 @@ Variable::View::View(const Variable* block):
  * @return Rich text that displays a list of all layout qualifiers for this view's 
  *         variable block or an empty string if there are no qualifiers. 
  */
-QString Variable::View::displayLayout()
+QString VariableView::displayLayout()
 {
    // Create a new empty string. 
    QString ret;
 
    // Get the list of layout qualifiers for this view's variable block and make sure 
    // it is not empty. 
-   const QStringList layout {_block->layout()};
+   const QStringList layout {block<Variable>().layout()};
    if ( !layout.isEmpty() )
    {
       // Add a title to the returned rich text. 

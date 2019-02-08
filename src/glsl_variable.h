@@ -15,15 +15,13 @@ namespace GLSL
    {
       Q_OBJECT
    public:
-      class View;
-   public:
       /*!
        */
       Q_INVOKABLE explicit Variable() = default;
       QString typeString() const;
       QStringList layout() const;
    protected:
-      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const override final;
    };
 }
 

@@ -19,20 +19,6 @@ class BlockModel : public QAbstractItemModel
 {
    Q_OBJECT
 public:
-   /*!
-    * Defines custom data roles this model uses for data changed signals. 
-    */
-   enum Role
-   {
-      /*!
-       * Defines the name role which encompasses the title and icon of a block changing. 
-       */
-      Name = 100
-      /*!
-       * Defines the body role which encompasses the body of a block changing. 
-       */
-      ,Body = 101
-   };
    virtual QModelIndex index(int row, int column, const QModelIndex& parent) const override final;
    virtual QModelIndex parent(const QModelIndex& child) const override final;
    virtual int rowCount(const QModelIndex& index) const override final;

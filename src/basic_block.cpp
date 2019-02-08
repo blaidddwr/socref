@@ -165,7 +165,7 @@ QList<int> Block::buildList() const
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<QWidget> Block::makeView() const
+Soc::Ut::QPtr<Abstract::BlockView> Block::makeView() const
 {
    Soc::Ut::QPtr<Basic::BlockView> ret(makeBasicView());
    ret->update();
