@@ -575,9 +575,6 @@ void Block::update()
    // Get a pointer to this block's parent block. 
    Block* root {parent()};
 
-   // Make sure the parent block pointer is not null. 
-   Q_CHECK_PTR(root);
-
    // Starting with this block's parent iterate up the tree of parents, calling their 
    // child is updated interface, until the root block is reached or the interface 
    // returns false. 
@@ -585,6 +582,7 @@ void Block::update()
    while ( notify && notify->childIsUpdated(this) ) notify = notify->parent();
 
    // Find the root block of this block and emit its child updated signal. 
+   root = this;
    while ( root->parent() ) root = root->parent();
    emit root->childUpdated(this);
 }

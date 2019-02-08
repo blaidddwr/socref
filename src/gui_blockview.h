@@ -51,10 +51,15 @@ namespace Gui
       void contextMenuRequested(const QPoint& position);
    private:
       /*!
-       * The width and height of icons, in pixels, presented in this object's tree view 
-       * of blocks. 
+       * The width and height of title icons, in pixels, presented in this object's tree 
+       * view of blocks. 
        */
       constexpr static int _titleIconSize {32};
+      /*!
+       * The width and height of list icons, in pixels, presented in this object's tree 
+       * view of blocks. 
+       */
+      constexpr static int _iconSize {24};
       /*!
        * Pointer to a copied block that any instance of this class can use to paste into 
        * their current block model if possible. 
@@ -110,9 +115,9 @@ namespace Gui
        */
       QLabel* _titleText;
       /*!
-       * Pointer to this object's current detailed view widget, if any. 
+       * Pointer to this object's current detailed block view, if any. 
        */
-      QWidget* _view {nullptr};
+      Abstract::BlockView* _view {nullptr};
       /*!
        * Pointer list of this object's currently available add actions used for adding 
        * new blocks to the current index. 

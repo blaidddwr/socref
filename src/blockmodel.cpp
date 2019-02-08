@@ -464,9 +464,10 @@ void BlockModel::setRoot(Abstract::Block* root)
  */
 void BlockModel::blockUpdated(Abstract::Block* block)
 {
-   // Get the parent block pointer of the given block and make sure it is not null. 
+   // Get the parent block pointer of the given block, returning immediately if it is 
+   // the root block. 
    Abstract::Block* parent {block->parent()};
-   Q_CHECK_PTR(parent);
+   if ( !parent ) return;
 
    // Determine the index for the given block and signal the data changed for that 
    // index and given roles. 

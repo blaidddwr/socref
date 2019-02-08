@@ -6,6 +6,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include "abstract_block.h"
+#include "abstract_blockview.h"
 #include "abstract_blockedit.h"
 #include "abstract_blockfactory.h"
 #include "blockmodel.h"
@@ -449,8 +450,9 @@ void BlockView::updateView()
    _view = block->makeView().release(this);
    Q_CHECK_PTR(_view);
 
-   // Set this object's detailed view and update its title. 
+   // Set this object's detailed view and updating it and its title. 
    _area->setWidget(_view);
+   _view->blockUpdated();
    updateTitle(block);
 }
 
@@ -614,6 +616,7 @@ void BlockView::setupTreeView()
    _treeView = new QTreeView;
    _treeView->setHeaderHidden(true);
    _treeView->setContextMenuPolicy(Qt::CustomContextMenu);
+   _treeView->setIconSize(QSize(_iconSize,_iconSize));
 
    // Connect the context menu requested signal and add the tree view to this 
    // object's splitter. 

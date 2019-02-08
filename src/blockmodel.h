@@ -39,12 +39,6 @@ private slots:
    void blockUpdated(Abstract::Block* block);
 private:
    /*!
-    * The preferred icon size for indexes of this model when displayed in a view. This 
-    * represents both the width and height. 
-    */
-   constexpr static int _iconSize {24};
-private:
-   /*!
     * A pointer to the root block for this model's data. If this model is empty then 
     * this is null. 
     */

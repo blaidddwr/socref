@@ -708,7 +708,6 @@ This class itself handles all copying using another specialized interface for co
               <name>update</name>
               <operation>Emit this blocks updated signal.</operation>
               <operation>Get a pointer to this block's parent block.</operation>
-              <operation>Make sure the parent block pointer is not null.</operation>
               <operation>Starting with this block's parent iterate up the tree of parents, calling their child is updated interface, until the root block is reached or the interface returns false.</operation>
               <operation>Find the root block of this block and emit its child updated signal.</operation>
               <return_description></return_description>
@@ -3073,9 +3072,19 @@ Because this widget uses the text dialog class for editing individual list items
           <variable>
             <data>
               <constexpr/>
-              <description>The width and height of icons, in pixels, presented in this object's tree view of blocks.</description>
+              <description>The width and height of title icons, in pixels, presented in this object's tree view of blocks.</description>
               <initializer>32</initializer>
               <name>_titleIconSize</name>
+              <static/>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <constexpr/>
+              <description>The width and height of list icons, in pixels, presented in this object's tree view of blocks.</description>
+              <initializer>24</initializer>
+              <name>_iconSize</name>
               <static/>
               <type>int</type>
             </data>
@@ -3102,7 +3111,7 @@ Because this widget uses the text dialog class for editing individual list items
               <operation>Make sure this view's current index is valid.</operation>
               <operation>Get the block pointer of the current index and make sure it is not null.</operation>
               <operation>Make a new view from the block pointer and make sure it is not null.</operation>
-              <operation>Set this object's detailed view and update its title.</operation>
+              <operation>Set this object's detailed view and updating it and its title.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -14619,7 +14628,7 @@ Because this function parser is responsible for the special main function it mus
           <data>
             <description>Called when the root block contained within this model emits a child updated signal indicating a block with the given pointer within this model has updated itself.</description>
             <name>blockUpdated</name>
-            <operation>Get the parent block pointer of the given block and make sure it is not null.</operation>
+            <operation>Get the parent block pointer of the given block, returning immediately if it is the root block.</operation>
             <operation>Determine the index for the given block and signal the data changed for that index and given roles.</operation>
             <return_description></return_description>
             <type>void</type>
@@ -14633,21 +14642,6 @@ Because this function parser is responsible for the special main function it mus
             </data>
           </variable>
         </function>
-      </access>
-      <access>
-        <data>
-          <type>private:</type>
-        </data>
-        <variable>
-          <data>
-            <constexpr/>
-            <description>The preferred icon size for indexes of this model when displayed in a view. This represents both the width and height.</description>
-            <initializer>24</initializer>
-            <name>_iconSize</name>
-            <static/>
-            <type>int</type>
-          </data>
-        </variable>
       </access>
       <access>
         <data>
