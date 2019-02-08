@@ -2,6 +2,10 @@
 #define GUI_LISTEDIT_H
 #include <QTableView>
 #include "abstract.h"
+
+
+
+class QStringListModel;
 //
 
 
@@ -39,8 +43,7 @@ namespace Gui
       void doubleClicked(const QModelIndex& index);
       virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) override final;
    private:
-      class Model;
-   private:
+      void move(int amount);
       void setupView();
       void setupActions();
       void autoFitText();
@@ -53,15 +56,11 @@ namespace Gui
       /*!
        * Pointer to the string list model for this list edit widget. 
        */
-      Model* _model;
+      QStringListModel* _model;
       /*!
        * The currently selected model index for this list edit widget. 
        */
       QModelIndex _current;
-      /*!
-       * The string list for this list edit widget. 
-       */
-      QStringList _list;
       /*!
        * Pointer to the block that is contextually being used in text dialog objects this 
        * widget opens. 

@@ -1,7 +1,7 @@
 #include "gui_listedit.h"
+#include <QStringListModel>
 #include <QHeaderView>
 #include <QAction>
-#include "gui_listedit_model.h"
 #include "gui_textdialog.h"
 
 
@@ -70,7 +70,7 @@ ListEdit::ListEdit(Abstract::Block* block, const QString& listItemTitle, QWidget
  */
 QStringList ListEdit::value() const
 {
-   return _list;
+   return _model->stringList();
 }
 
 
@@ -85,9 +85,8 @@ QStringList ListEdit::value() const
  */
 void ListEdit::setValue(const QStringList& list)
 {
-   // Set the new value of this object's string list and update its model. 
-   _list = list;
-   _model->setList(&_list);
+   // Set the new value of this object's model. 
+   _model->setStringList(list);
 
    // Auto fit all new rows of text and reset this object's current model index to 
    // invalid. 
@@ -124,9 +123,13 @@ void ListEdit::resizeEvent(QResizeEvent* event)
  */
 void ListEdit::addTriggered()
 {
-   // Add a new string after this object's current model index and then auto fit the 
-   // text of all rows. 
-   _model->addAfter(_current);
+   // If the current index is valid then add a new string after it. 
+   if ( _current.isValid() ) _model->insertRow(_current.row() + 1);
+
+   // Else add a new string at the beginning of the model. 
+   else _model->insertRow(0);
+
+   // Auto fit the text of all rows. 
    autoFitText();
 }
 
@@ -144,9 +147,8 @@ void ListEdit::removeTriggered()
    // Make sure this object's current model index is valid. 
    if ( _current.isValid() )
    {
-      // Remove the current model index from the model and reset it to invalid. 
-      _model->remove(_current);
-      _current = QModelIndex();
+      // Remove the current model index from the model. 
+      _model->removeRow(_current.row());
    }
 }
 
@@ -161,14 +163,8 @@ void ListEdit::removeTriggered()
  */
 void ListEdit::moveUpTriggered()
 {
-   // Make sure this object's current model index is valid. 
-   if ( _current.isValid() )
-   {
-      // Move this object's current model index up by one, updating the index and auto 
-      // fitting all text rows. 
-      _current = _model->moveUp(_current);
-      autoFitText();
-   }
+   // Make sure this object's current model index is valid and not at the beginning. 
+   if ( _current.isValid() && _current.row() > 0 ) move(-1);
 }
 
 
@@ -182,14 +178,8 @@ void ListEdit::moveUpTriggered()
  */
 void ListEdit::moveDownTriggered()
 {
-   // Make sure this object's current model index is valid. 
-   if ( _current.isValid() )
-   {
-      // Move this object's current model index down by one, updating the index and auto 
-      // fitting all text rows. 
-      _current = _model->moveDown(_current);
-      autoFitText();
-   }
+   // Make sure this object's current model index is valid and not at the end. 
+   if ( _current.isValid() && (_current.row() + 1) < _model->rowCount() ) move(1);
 }
 
 
@@ -208,7 +198,7 @@ void ListEdit::doubleClicked(const QModelIndex& index)
 {
    // Make sure the given index is valid and is within range of this object's string 
    // list. 
-   if ( !index.isValid() || index.row() < 0 || index.row() >= _list.size() ) return;
+   if ( !index.isValid() || index.row() < 0 || index.row() >= _model->rowCount() ) return;
 
    // Create a new text dialog, setting its title to the item title and its text to 
    // the string with the given model index. 
@@ -258,14 +248,54 @@ void ListEdit::selectionChanged(const QItemSelection& selected, const QItemSelec
 
 
 /*!
+ * Moves this object's current index within this object's model by the amount 
+ * given. This assumes this object's current index is valid and the given move 
+ * amount does not remove it off the list itself. 
+ *
+ * @param amount The amount this object's current index is moved, negative being up 
+ *               and positive being down. 
+ */
+void ListEdit::move(int amount)
+{
+   // Make sure the current index is valid. 
+   Q_ASSERT(_current.isValid());
+
+   // Get the row and data of the current index. 
+   int row {_current.row()};
+   QString data {_model->data(_current).toString()};
+
+   // Remove the current row and then insert a new one, moved by the amount given. 
+   _model->removeRow(row);
+   _model->insertRow(row + amount);
+
+   // Update the current index to the moved data and set its data. 
+   _current = _model->index(row + amount);
+   _model->setData(_current,data);
+
+   // Update the selection to the moved index and then auto fit the text of all rows. 
+   selectionModel()->clearSelection();
+   selectionModel()->setCurrentIndex(_current,QItemSelectionModel::Select);
+   autoFitText();
+}
+
+
+
+
+
+
+/*!
  * Initializes the table view along with creating its model for this new list edit 
  * widget. 
  */
 void ListEdit::setupView()
 {
    // Create this object's model set it to this table view. 
-   _model = new Model(&_list,this);
+   _model = new QStringListModel(this);
    setModel(_model);
+
+   // Configure this new table view. 
+   setWordWrap(true);
+   setEditTriggers(NoEditTriggers);
 
    // Configure this table view's horizontal header. 
    horizontalHeader()->setStretchLastSection(true);
@@ -332,7 +362,7 @@ void ListEdit::setupActions()
 void ListEdit::autoFitText()
 {
    // Iterate through all text rows and update their height to fit their text. 
-   for (int i = 0; i < _list.size() ;++i) autoFitText(i);
+   for (int i = 0; i < _model->rowCount() ;++i) autoFitText(i);
 }
 
 
@@ -357,7 +387,7 @@ void ListEdit::autoFitText(int row)
    // given row. 
    QFontMetricsF metrics {fontMetrics()};
    qreal width {static_cast<qreal>(columnWidth(0))};
-   const QString text {_list.at(row)};
+   const QString text {_model->data(_model->index(row)).toString()};
 
    // Create and initialize all variables used for determining the number of lines 
    // required to fit the given row's text. 
