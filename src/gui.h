@@ -5,10 +5,9 @@
 namespace Gui
 {
    class PersistentDialog;
-   class TextDialog;
    class TextEdit;
+   class TextDialog;
    class ListEdit;
-   class TypeSelection;
    class BlockView;
    class MainWindow;
    class ProjectDialog;

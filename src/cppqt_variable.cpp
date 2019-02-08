@@ -1,6 +1,6 @@
 #include "cppqt_variable.h"
 #include <QIcon>
-#include "cppqt_variable_view.h"
+#include "cppqt_variableview.h"
 #include "cppqt_factory.h"
 #include "cppqt_function.h"
 
@@ -15,7 +15,7 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -46,7 +46,7 @@ QString Variable::name() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -183,7 +183,7 @@ QString Variable::initializer() const
 bool Variable::isMember() const
 {
    // Get this block's parent block pointer and make sure it is not null. 
-   AbstractBlock* up {parent()};
+   Abstract::Block* up {parent()};
    if ( !up ) return false;
 
    // Test if this variable is an argument by seeing if its parent block is an access 
@@ -215,13 +215,13 @@ bool Variable::isArgument() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock::View> Variable::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Variable::makeBasicView() const
 {
-   return new View(this);
+   return new VariableView(this);
 }
 
 

@@ -22,7 +22,7 @@ using namespace Gui;
  *
  * @param parent Optional parent for this new list edit widget. 
  */
-ListEdit::ListEdit(AbstractBlock* block, QWidget* parent):
+ListEdit::ListEdit(Abstract::Block* block, QWidget* parent):
    QTableView(parent),
    _block(block)
 {
@@ -48,7 +48,7 @@ ListEdit::ListEdit(AbstractBlock* block, QWidget* parent):
  *
  * @param parent Optional parent for this new list edit widget. 
  */
-ListEdit::ListEdit(AbstractBlock* block, const QString& listItemTitle, QWidget* parent):
+ListEdit::ListEdit(Abstract::Block* block, const QString& listItemTitle, QWidget* parent):
    QTableView(parent),
    _listItemTitle(listItemTitle),
    _block(block)
@@ -234,13 +234,11 @@ void ListEdit::doubleClicked(const QModelIndex& index)
 
 
 /*!
- * Called when the selection of this object's qt table view's selection model has 
- * changed. This implementation updates its object's current model index with the 
- * first in the given selected list. 
+ * Implements _QAbstractItemView_ interface. 
  *
- * @param selected List of model indexes that have been selected. 
+ * @param selected See Qt docs. 
  *
- * @param deselected List of model indexes that have been deselected. 
+ * @param deselected See Qt docs. 
  */
 void ListEdit::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
@@ -273,12 +271,8 @@ void ListEdit::setupView()
    horizontalHeader()->setStretchLastSection(true);
    horizontalHeader()->setHidden(true);
 
-   // Connect the double clicked and selection changed signals of this table view. 
+   // Connect the double clicked signal of this table view. 
    connect(this,&QTableView::doubleClicked,this,&ListEdit::doubleClicked);
-   connect(selectionModel()
-           ,&QItemSelectionModel::selectionChanged
-           ,this
-           ,&ListEdit::selectionChanged);
 }
 
 

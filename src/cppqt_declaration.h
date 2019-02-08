@@ -1,6 +1,6 @@
 #ifndef CPPQT_DECLARATION_H
 #define CPPQT_DECLARATION_H
-#include "basicblock.h"
+#include "basic_block.h"
 //
 
 
@@ -12,7 +12,7 @@ namespace CppQt
     * classes. While declarations can be made outside of classes this block is limited 
     * to declarations made within class declarations. 
     */
-   class Declaration : public BasicBlock
+   class Declaration : public Basic::Block
    {
       Q_OBJECT
    public:

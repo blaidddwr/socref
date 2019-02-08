@@ -1,4 +1,5 @@
-#include "cppqt_function_view.h"
+#include "cppqt_functionview.h"
+#include "cppqt_function.h"
 #include "cppqt_variable.h"
 #include "cppqt_template.h"
 
@@ -17,9 +18,8 @@ using namespace CppQt;
  *
  * @param block Function block this new view displays. 
  */
-Function::View::View(const Function* block):
-   BasicBlock::View(block),
-   _block(block)
+FunctionView::FunctionView(const Function* block):
+   Basic::BlockView(block)
 {}
 
 
@@ -35,14 +35,14 @@ Function::View::View(const Function* block):
  * @return Rich text that displays any arguments this view's function block 
  *         contains or an empty string if there are no arguments. 
  */
-QString Function::View::displayArguments()
+QString FunctionView::displayArguments()
 {
    // Create an empty return string. 
    QString ret;
 
    // Make a pointer list of all children variables of this view's function block and 
    // make sure it is not empty. 
-   const QList<CppQt::Variable*> list {_block->arguments()};
+   const QList<CppQt::Variable*> list {block<Function>().arguments()};
    if ( list.isEmpty() ) return ret;
 
    // Append a title. 
@@ -83,9 +83,9 @@ QString Function::View::displayArguments()
  *
  * @return See wrapped method docs. 
  */
-QString Function::View::displayTemplates()
+QString FunctionView::displayTemplates()
 {
-   return Template::displayTemplates(*_block);
+   return Template::displayTemplates(block<Function>());
 }
 
 
@@ -101,23 +101,23 @@ QString Function::View::displayTemplates()
  * @return Rich text that displays any properties this view's function block has 
  *         set or an empty string if no properties are set. 
  */
-QString Function::View::displayProperties()
+QString FunctionView::displayProperties()
 {
    // Create an empty string list, appending any properties this view's function 
    // block has set. 
    QStringList list;
-   if ( _block->isDefault() ) list << tr("Default");
-   if ( _block->isDeleted() ) list << tr("Deleted");
-   if ( _block->isQtInvokable() ) list << tr("Qt Invokable");
-   if ( _block->isExplicit() ) list << tr("Explicit");
-   if ( _block->isVirtual() ) list << tr("Virtual");
-   if ( _block->isConst() ) list << tr("Constant");
-   if ( _block->isConstExpr() ) list << tr("Constant Expression");
-   if ( _block->isStatic() ) list << tr("Static");
-   if ( _block->isNoExcept() ) list << tr("No Exceptions");
-   if ( _block->isOverride() ) list << tr("Override");
-   if ( _block->isFinal() ) list << tr("Final");
-   if ( _block->isAbstract() ) list << tr("Abstract(=0)");
+   if ( block<Function>().isDefault() ) list << tr("Default");
+   if ( block<Function>().isDeleted() ) list << tr("Deleted");
+   if ( block<Function>().isQtInvokable() ) list << tr("Qt Invokable");
+   if ( block<Function>().isExplicit() ) list << tr("Explicit");
+   if ( block<Function>().isVirtual() ) list << tr("Virtual");
+   if ( block<Function>().isConst() ) list << tr("Constant");
+   if ( block<Function>().isConstExpr() ) list << tr("Constant Expression");
+   if ( block<Function>().isStatic() ) list << tr("Static");
+   if ( block<Function>().isNoExcept() ) list << tr("No Exceptions");
+   if ( block<Function>().isOverride() ) list << tr("Override");
+   if ( block<Function>().isFinal() ) list << tr("Final");
+   if ( block<Function>().isAbstract() ) list << tr("Abstract(=0)");
 
    // If the string list is empty then return an empty string. 
    if ( list.isEmpty() ) return QString();
@@ -146,10 +146,10 @@ QString Function::View::displayProperties()
  * @return Rich text that displays the return type field of this view's function 
  *         block. 
  */
-QString Function::View::displayReturn()
+QString FunctionView::displayReturn()
 {
    // Get the return type of this view's function block. 
-   QString returnType {_block->returnType()};
+   QString returnType {block<Function>().returnType()};
 
    // If the return type is empty or is equal to "void" then return an empty string. 
    if ( returnType.isEmpty() || returnType == QString("void") ) return QString();
@@ -163,7 +163,7 @@ QString Function::View::displayReturn()
              + QStringLiteral("</h3><p><u>")
              + returnType.replace("<","&lt;")
              + QStringLiteral("</u> : ")
-             + _block->returnDescription()
+             + block<Function>().returnDescription()
              + QStringLiteral("</p>");
    }
 }
@@ -180,8 +180,8 @@ QString Function::View::displayReturn()
  * @return Rich text that displays the number of operations of this view's function 
  *         block. 
  */
-QString Function::View::displayOperations()
+QString FunctionView::displayOperations()
 {
    // Return rich text displaying the number of operations. 
-   return tr("<i>%n operation(s)</i>",nullptr,_block->operations().size());
+   return tr("<i>%n operation(s)</i>",nullptr,block<Function>().operations().size());
 }

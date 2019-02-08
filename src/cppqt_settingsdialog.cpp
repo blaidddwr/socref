@@ -1,4 +1,4 @@
-#include "cppqt_settings_dialog.h"
+#include "cppqt_settingsdialog.h"
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QFormLayout>
@@ -20,10 +20,10 @@ using namespace CppQt;
 /*!
  * Constructs a new settings dialog. 
  */
-Settings::Dialog::Dialog():
+SettingsDialog::SettingsDialog():
    ::Gui::PersistentDialog("cppqt.gui.settingsdialog.geometry")
 {
-   // Create the GUI for this new dialog and set its window title. 
+   // Create the GUI for this new dialog and set its window title.
    setupGui();
    setWindowTitle(tr("C++/Qt Settings"));
 }
@@ -37,7 +37,7 @@ Settings::Dialog::Dialog():
  * Called when the OK button is clicked. This applies all global settings and 
  * closes the dialog. 
  */
-void Settings::Dialog::okClicked()
+void SettingsDialog::okClicked()
 {
    // Apply all global settings of this dialog and close it. 
    applyClicked();
@@ -53,10 +53,10 @@ void Settings::Dialog::okClicked()
  * Called when the apply button is clicked. This applies the global setting values 
  * of this dialog. 
  */
-void Settings::Dialog::applyClicked()
+void SettingsDialog::applyClicked()
 {
    // Get the global settings object and apply all settings. 
-   Settings& settings {instance()};
+   Settings& settings {Settings::instance()};
    settings.setIndentSpaces(_indentSpacesBox->value());
    settings.setHeaderLines(_headerLinesBox->value());
    settings.setFunctionLines(_functionLinesBox->value());
@@ -71,7 +71,7 @@ void Settings::Dialog::applyClicked()
 /*!
  * Creates and initializes all GUI elements for this new dialog. 
  */
-void Settings::Dialog::setupGui()
+void SettingsDialog::setupGui()
 {
    // Create a new vertical layout, adding the form layout and then the buttons 
    // layout. 
@@ -94,10 +94,10 @@ void Settings::Dialog::setupGui()
  *
  * @return Form layout containing all edit widgets for this new dialog. 
  */
-QLayout* Settings::Dialog::setupForm()
+QLayout* SettingsDialog::setupForm()
 {
    // Get the global settings instance. 
-   Settings& settings {instance()};
+   Settings& settings {Settings::instance()};
 
    // Create the indent spaces edit widget and set its value to the current global 
    // setting. 
@@ -142,15 +142,15 @@ QLayout* Settings::Dialog::setupForm()
  *
  * @return Layout containing buttons for this new dialog. 
  */
-QLayout* Settings::Dialog::setupButtons()
+QLayout* SettingsDialog::setupButtons()
 {
    // Create the OK button for this dialog, connecting its clicked signal. 
    QPushButton* ok {new QPushButton(tr("&Ok"))};
-   connect(ok,&QPushButton::clicked,this,&Dialog::okClicked);
+   connect(ok,&QPushButton::clicked,this,&SettingsDialog::okClicked);
 
    // Create the apply button for this dialog, connecting its clicked signal. 
    QPushButton* apply {new QPushButton(tr("&Apply"))};
-   connect(apply,&QPushButton::clicked,this,&Dialog::applyClicked);
+   connect(apply,&QPushButton::clicked,this,&SettingsDialog::applyClicked);
 
    // Create the cancel button for this dialog, connecting its clicked signal. 
    QPushButton* cancel {new QPushButton(tr("&Cancel"))};

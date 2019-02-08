@@ -4,6 +4,7 @@
 #include <QModelIndex>
 #include <QItemSelection>
 #include "global.h"
+#include "abstract.h"
 
 
 
@@ -49,18 +50,6 @@ namespace Gui
       void modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles);
       void contextMenuRequested(const QPoint& position);
    private:
-      void updateView();
-      void updateIndex();
-      void updateContextMenu();
-      void updateActions();
-      void updateAddActions();
-      void updateTitle(AbstractBlock* block);
-      void setupGui();
-      void setupTreeView();
-      void setupArea();
-      QLayout* setupTitleBar();
-      void setupActions();
-      void setupMenu();
       /*!
        * The width and height of icons, in pixels, presented in this object's tree view 
        * of blocks. 
@@ -70,7 +59,20 @@ namespace Gui
        * Pointer to a copied block that any instance of this class can use to paste into 
        * their current block model if possible. 
        */
-      static AbstractBlock* _copy;
+      static Abstract::Block* _copy;
+   private:
+      void updateView();
+      void updateIndex();
+      void updateContextMenu();
+      void updateActions();
+      void updateAddActions();
+      void updateTitle(Abstract::Block* block);
+      void setupGui();
+      void setupTreeView();
+      void setupArea();
+      QLayout* setupTitleBar();
+      void setupActions();
+      void setupMenu();
       /*!
        * Pointer to this object's scroll area used to contain its detailed view widget. 
        */
@@ -88,7 +90,7 @@ namespace Gui
        * Pointer to the abstract block factory for the project type of this object's 
        * currently set block model. 
        */
-      const AbstractBlockFactory* _factory {nullptr};
+      const Abstract::BlockFactory* _factory {nullptr};
       /*!
        * Pointer the selection model of this object's tree view. 
        */

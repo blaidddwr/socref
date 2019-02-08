@@ -1,6 +1,5 @@
-#ifndef CPPQT_SETTINGS_DIALOG_H
-#define CPPQT_SETTINGS_DIALOG_H
-#include "cppqt_settings.h"
+#ifndef CPPQT_SETTINGSDIALOG_H
+#define CPPQT_SETTINGSDIALOG_H
 #include "gui_persistentdialog.h"
 
 
@@ -16,11 +15,11 @@ namespace CppQt
     * This is the settings dialog. This allows the user to edit all global settings 
     * for the C++/Qt project type. 
     */
-   class Settings::Dialog : public ::Gui::PersistentDialog
+   class SettingsDialog : public ::Gui::PersistentDialog
    {
       Q_OBJECT
    public:
-      explicit Dialog();
+      explicit SettingsDialog();
    private slots:
       void okClicked();
       void applyClicked();

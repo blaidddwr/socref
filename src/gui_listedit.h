@@ -1,7 +1,7 @@
 #ifndef GUI_LISTEDIT_H
 #define GUI_LISTEDIT_H
 #include <QTableView>
-#include "global.h"
+#include "abstract.h"
 //
 
 
@@ -25,8 +25,8 @@ namespace Gui
    {
       Q_OBJECT
    public:
-      explicit ListEdit(AbstractBlock* block, QWidget* parent = nullptr);
-      explicit ListEdit(AbstractBlock* block, const QString& listItemTitle, QWidget* parent = nullptr);
+      explicit ListEdit(Abstract::Block* block, QWidget* parent = nullptr);
+      explicit ListEdit(Abstract::Block* block, const QString& listItemTitle, QWidget* parent = nullptr);
       QStringList value() const;
       void setValue(const QStringList& list);
    protected:
@@ -37,7 +37,7 @@ namespace Gui
       void moveUpTriggered();
       void moveDownTriggered();
       void doubleClicked(const QModelIndex& index);
-      void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected);
+      virtual void selectionChanged(const QItemSelection& selected, const QItemSelection& deselected) override final;
    private:
       class Model;
    private:
@@ -66,7 +66,7 @@ namespace Gui
        * Pointer to the block that is contextually being used in text dialog objects this 
        * widget opens. 
        */
-      AbstractBlock* _block;
+      Abstract::Block* _block;
    };
 }
 

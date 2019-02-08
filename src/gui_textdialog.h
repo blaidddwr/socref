@@ -3,6 +3,7 @@
 #include "gui_persistentdialog.h"
 #include "gui.h"
 #include "global.h"
+#include "abstract.h"
 //
 
 
@@ -23,7 +24,7 @@ namespace Gui
    {
       Q_OBJECT
    public:
-      explicit TextDialog(AbstractBlock* block, QWidget* parent = nullptr);
+      explicit TextDialog(Abstract::Block* block, QWidget* parent = nullptr);
       explicit TextDialog(DictionaryModel* dictionary, QWidget* parent = nullptr);
       QString text() const;
       void setText(const QString& text);

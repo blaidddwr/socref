@@ -1,6 +1,6 @@
 #include "cppqt_access.h"
 #include <QRegularExpression>
-#include "cppqt_access_view.h"
+#include "cppqt_accessview.h"
 #include "cppqt_factory.h"
 #include "cppqt_function.h"
 
@@ -32,7 +32,7 @@ const QStringList Access::_typeNames
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -49,7 +49,7 @@ QString Access::name() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -200,13 +200,13 @@ QString Access::accessString() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock::View> Access::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Access::makeBasicView() const
 {
-   return new View(this);
+   return new AccessView(this);
 }
 
 
@@ -215,13 +215,13 @@ Soc::Ut::QPtr<BasicBlock::View> Access::makeBasicView() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @param child See interface docs. 
  *
  * @return See interface docs. 
  */
-bool Access::childNameModified(AbstractBlock* child)
+bool Access::childIsUpdated(Abstract::Block* child)
 {
    // This does not use the given child pointer. 
    Q_UNUSED(child)
@@ -242,14 +242,13 @@ bool Access::childNameModified(AbstractBlock* child)
  *
  * @return See interface docs. 
  */
-bool Access::childAdded(AbstractBlock* child)
+bool Access::childAdded(Abstract::Block* child)
 {
    // This does not use the given child pointer. 
    Q_UNUSED(child)
 
    // Notify the name and body of this block has changed. 
-   notifyNameModified();
-   notifyBodyModified();
+   update();
 
    // Return true to pass this event up to its parent class block. 
    return true;
@@ -267,14 +266,13 @@ bool Access::childAdded(AbstractBlock* child)
  *
  * @return See interface docs. 
  */
-bool Access::childRemoved(AbstractBlock* child)
+bool Access::childRemoved(Abstract::Block* child)
 {
    // This does not use the given child pointer. 
    Q_UNUSED(child)
 
    // Notify the name and body of this block has changed. 
-   notifyNameModified();
-   notifyBodyModified();
+   update();
 
    // Return true to pass this event up to its parent class block. 
    return true;

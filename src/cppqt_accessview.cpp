@@ -1,4 +1,5 @@
-#include "cppqt_access_view.h"
+#include "cppqt_accessview.h"
+#include "cppqt_access.h"
 #include "cppqt_factory.h"
 #include "cppqt_function.h"
 
@@ -17,9 +18,8 @@ using namespace CppQt;
  *
  * @param block Access block this new view displays. 
  */
-Access::View::View(const Access* block):
-   BasicBlock::View(block),
-   _block(block)
+AccessView::AccessView(const Access* block):
+   Basic::BlockView(block)
 {}
 
 
@@ -35,7 +35,7 @@ Access::View::View(const Access* block):
  *
  * @return Rich text that displays the body of this view's access block. 
  */
-QString Access::View::displayInfo()
+QString AccessView::displayInfo()
 {
    // Initialize all counters. 
    int enumerationAmt {0};
@@ -47,7 +47,7 @@ QString Access::View::displayInfo()
    int declareAmt {0};
 
    // Iterate through all block children of this view's access block. 
-   for (auto child : _block->list())
+   for (auto child : block<Access>().list())
    {
       // Increment the appropriate counter based off the child block's type. 
       switch (child->type())

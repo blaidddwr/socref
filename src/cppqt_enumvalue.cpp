@@ -1,5 +1,5 @@
 #include "cppqt_enumvalue.h"
-#include "cppqt_enumvalue_view.h"
+#include "cppqt_enumvalueview.h"
 
 
 
@@ -12,7 +12,7 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -68,11 +68,11 @@ QString EnumValue::value() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock::View> EnumValue::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> EnumValue::makeBasicView() const
 {
-   return new View(this);
+   return new EnumValueView(this);
 }

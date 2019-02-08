@@ -1,6 +1,6 @@
 #ifndef CPPQT_PARENT_H
 #define CPPQT_PARENT_H
-#include "basicblock.h"
+#include "basic_block.h"
 //
 
 
@@ -12,7 +12,7 @@ namespace CppQt
     * C++ class. This contains the class name being inherited and its access type of 
     * public, protected, or private. 
     */
-   class Parent : public BasicBlock
+   class Parent : public Basic::Block
    {
       Q_OBJECT
    public:

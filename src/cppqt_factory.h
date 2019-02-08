@@ -1,6 +1,6 @@
 #ifndef CPPQT_FACTORY_H
 #define CPPQT_FACTORY_H
-#include "basicblockfactory.h"
+#include "basic_blockfactory.h"
 #include <socutil/soc_ut_singleton.h>
 //
 
@@ -15,7 +15,7 @@ namespace CppQt
     * from the basic block factory class to allow for XML definitions of block type 
     * data. 
     */
-   class Factory : public BasicBlockFactory, public Soc::Ut::Singleton<Factory>
+   class Factory : public Basic::BlockFactory, public Soc::Ut::Singleton<Factory>
    {
    public:
       /*!
@@ -76,7 +76,7 @@ namespace CppQt
    public:
       Factory();
    protected:
-      virtual Soc::Ut::QPtr<BasicBlock> makeBasicBlock(int type) const override final;
+      virtual Soc::Ut::QPtr<Basic::Block> makeBasicBlock(int type) const override final;
    };
 }
 

@@ -5,10 +5,10 @@
 #include <QFileSystemWatcher>
 #include <QCryptographicHash>
 #include <QDomDocument>
-#include "abstractprojectfactory.h"
+#include "abstract_block.h"
+#include "abstract_blockfactory.h"
+#include "abstract_projectfactory.h"
 #include "abstractparserfactory.h"
-#include "abstractblockfactory.h"
-#include "abstractblock.h"
 #include "blockmodel.h"
 #include "scanthread.h"
 #include "dictionarymodel.h"
@@ -71,7 +71,7 @@ Project::Project(int type):
    // filters. 
    makeRoot();
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
-   _scanFilters = AbstractProjectFactory::instance().defaultFilters(_type);
+   _scanFilters = Abstract::ProjectFactory::instance().defaultFilters(_type);
 }
 
 
@@ -279,7 +279,7 @@ Soc::Ut::QPtr<ScanThread> Project::makeScanner() const
    // scan directory and filters, returning its pointer. 
    return Soc::Ut::QPtr<ScanThread>
    {
-      new ScanThread(AbstractProjectFactory::instance().makeParserFactory(_type,_root)
+      new ScanThread(Abstract::ProjectFactory::instance().makeParserFactory(_type,_root)
                      ,_scanDirectory
                      ,_scanFilters.split(' '))
    };
@@ -428,7 +428,7 @@ void Project::save()
 
    // Create the type element saving this project type's element name. 
    QDomElement type {document.createElement(_typeTag)};
-   type.appendChild(document.createTextNode(AbstractProjectFactory::instance().elementName(_type)));
+   type.appendChild(document.createTextNode(Abstract::ProjectFactory::instance().elementName(_type)));
 
    // Create the dictionary element saving this project's custom dictionary data. 
    QDomElement dictionary {_dictionary->write(document)};
@@ -625,7 +625,7 @@ void Project::readTypeElement(const QDomElement& element)
 {
    // Look up the project type with the element name supplied by the given XML 
    // element. 
-   _type = AbstractProjectFactory::instance().typeByElementName(element.text());
+   _type = Abstract::ProjectFactory::instance().typeByElementName(element.text());
 
    // Make sure the element name was recognized and a known type returned. 
    Q_ASSERT(_type >= 0);
@@ -692,7 +692,7 @@ void Project::setFileHash(const QByteArray& bytes)
 void Project::makeRoot()
 {
    // Make sure this project's type is within range and valid. 
-   AbstractProjectFactory& factory {AbstractProjectFactory::instance()};
+   Abstract::ProjectFactory& factory {Abstract::ProjectFactory::instance()};
    Q_ASSERT(_type >= 0);
    Q_ASSERT(_type < factory.size());
 
@@ -702,6 +702,6 @@ void Project::makeRoot()
 
    // Connect its modified signal and set it to this project's block model root 
    // block. 
-   connect(_root,&AbstractBlock::modified,this,&Project::projectModified);
+   connect(_root,&Abstract::Block::childUpdated,this,&Project::projectModified);
    _model->setRoot(_root);
 }

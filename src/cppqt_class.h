@@ -18,11 +18,8 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      class View;
-   public:
       virtual QString name() const override final;
       virtual QIcon icon() const override final;
-      virtual QList<AbstractBlock*> realChildren() const override final;
    public:
       /*!
        * Constructs a new class block. 
@@ -42,10 +39,10 @@ namespace CppQt
        */
       void nameChanged();
    protected:
-      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
-      virtual bool childNameModified(AbstractBlock* child) override final;
-      virtual bool childAdded(AbstractBlock* child) override final;
-      virtual bool childRemoved(AbstractBlock* child) override final;
+      virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const override final;
+      virtual bool childIsUpdated(Abstract::Block* child) override final;
+      virtual bool childAdded(Abstract::Block* child) override final;
+      virtual bool childRemoved(Abstract::Block* child) override final;
    };
 }
 

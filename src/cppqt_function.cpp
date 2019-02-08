@@ -1,6 +1,6 @@
 #include "cppqt_function.h"
 #include <QRegularExpression>
-#include "cppqt_function_view.h"
+#include "cppqt_functionview.h"
 #include "cppqt_variable.h"
 #include "cppqt_factory.h"
 #include "cppqt_template.h"
@@ -18,7 +18,7 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -51,7 +51,7 @@ QString Function::name() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -480,7 +480,7 @@ QStringList Function::operations() const
 bool Function::isMethod() const
 {
    // Get this block's parent pointer and make sure it is not null. 
-   AbstractBlock* up {parent()};
+   Abstract::Block* up {parent()};
    if ( !up ) return false;
 
    // Determine if this function block is a method by seeing if its parent is an 
@@ -596,7 +596,7 @@ QList<Variable*> Function::arguments() const
  */
 void Function::classNameChanged()
 {
-   if ( isConstructor() || isDestructor() ) notifyNameModified();
+   if ( isConstructor() || isDestructor() ) update();
 }
 
 
@@ -605,13 +605,13 @@ void Function::classNameChanged()
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock::View> Function::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Function::makeBasicView() const
 {
-   return new View(this);
+   return new FunctionView(this);
 }
 
 
@@ -620,19 +620,17 @@ Soc::Ut::QPtr<BasicBlock::View> Function::makeBasicView() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @param child See interface docs. 
  *
  * @return See interface docs. 
  */
-bool Function::childAdded(AbstractBlock* child)
+bool Function::childAdded(Abstract::Block* child)
 {
-   Q_UNUSED(child)
-
-   // Notify the name and body of this block has changed. 
-   notifyNameModified();
-   notifyBodyModified();
+   // Notify this block requires updating. 
+   Q_UNUSED(child);
+   update();
 
    // Return false to end propagation. 
    return false;
@@ -644,19 +642,17 @@ bool Function::childAdded(AbstractBlock* child)
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @param child See interface docs. 
  *
  * @return See interface docs. 
  */
-bool Function::childRemoved(AbstractBlock* child)
+bool Function::childRemoved(Abstract::Block* child)
 {
-   Q_UNUSED(child)
-
-   // Notify the name and body of this block has changed.  
-   notifyNameModified();
-   notifyBodyModified();
+   // Notify this block requires updating. 
+   Q_UNUSED(child);
+   update();
 
    // Return false to end propagation. 
    return false;

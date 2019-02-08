@@ -2,6 +2,7 @@
 #define GUI_TEXTEDIT_H
 #include <QPlainTextEdit>
 #include "global.h"
+#include "abstract.h"
 //
 
 
@@ -27,7 +28,7 @@ namespace Gui
    {
       Q_OBJECT
    public:
-      explicit TextEdit(AbstractBlock* block, QWidget* parent = nullptr);
+      explicit TextEdit(Abstract::Block* block, QWidget* parent = nullptr);
       explicit TextEdit(DictionaryModel* dictionary, QWidget* parent = nullptr);
       bool isSpellCheckEnabled() const;
       bool isDialogPopupEnabled() const;
@@ -40,11 +41,12 @@ namespace Gui
       class Highlighter;
       class Dialog;
    private:
-      void setupActions();
       /*!
        * The default language used by this editor's spell checking library Aspell. 
        */
       static const char* _defaultLang;
+   private:
+      void setupActions();
       /*!
        * True if spell checking is enabled for this editor or false otherwise. 
        */

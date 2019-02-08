@@ -1,4 +1,5 @@
-#include "cppqt_class_view.h"
+#include "cppqt_classview.h"
+#include "cppqt_class.h"
 #include "cppqt_parent.h"
 #include "cppqt_template.h"
 
@@ -17,9 +18,8 @@ using namespace CppQt;
  *
  * @param block Class block this new view displays. 
  */
-Class::View::View(const Class* block):
-   BasicBlock::View(block),
-   _block(block)
+ClassView::ClassView(const Class* block):
+   Basic::BlockView(block)
 {}
 
 
@@ -34,10 +34,10 @@ Class::View::View(const Class* block):
  * @return Rich text that displays the qt object property of this view's class 
  *         block. 
  */
-QString Class::View::displayQtObject()
+QString ClassView::displayQtObject()
 {
    // Return qt object property state of this view's class block as rich text. 
-   return tr("<p><b>Qt Object</b> : %1</p>").arg(_block->isQtObject() ? "Yes" : "No");
+   return tr("<p><b>Qt Object</b> : %1</p>").arg(block<Class>().isQtObject() ? "Yes" : "No");
 }
 
 
@@ -53,14 +53,14 @@ QString Class::View::displayQtObject()
  * @return Rich text that displays the inheritance of this view's class block or an 
  *         empty string if it has no inheritance. 
  */
-QString Class::View::displayParents()
+QString ClassView::displayParents()
 {
    // Create an empty return string. 
    QString ret;
 
    // Make a pointer list of child parent blocks this view's class block contains and 
    // make sure it is not empty. 
-   const QList<Parent*> list {_block->parents()};
+   const QList<Parent*> list {block<Class>().parents()};
    if ( list.isEmpty() ) return ret;
 
    // Append a rich text title. 
@@ -92,7 +92,7 @@ QString Class::View::displayParents()
  *
  * @return See wrapped method docs. 
  */
-QString Class::View::displayTemplates()
+QString ClassView::displayTemplates()
 {
-   return Template::displayTemplates(*_block);
+   return Template::displayTemplates(block<Class>());
 }

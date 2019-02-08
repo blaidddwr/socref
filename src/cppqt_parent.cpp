@@ -20,7 +20,7 @@ const QStringList Parent::_accessNames {"public","protected","private"};
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */

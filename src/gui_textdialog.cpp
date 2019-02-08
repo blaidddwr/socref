@@ -24,7 +24,7 @@ using namespace Gui;
  *
  * @param parent Optional parent for this new text dialog. 
  */
-TextDialog::TextDialog(AbstractBlock* block, QWidget* parent):
+TextDialog::TextDialog(Abstract::Block* block, QWidget* parent):
    PersistentDialog("gui.textdialog.geometry",parent),
    _edit(new TextEdit(block,this))
 {

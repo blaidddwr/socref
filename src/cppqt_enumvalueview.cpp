@@ -1,4 +1,5 @@
-#include "cppqt_enumvalue_view.h"
+#include "cppqt_enumvalueview.h"
+#include "cppqt_enumvalue.h"
 
 
 
@@ -15,9 +16,8 @@ using namespace CppQt;
  *
  * @param block Enumeration value block this new view displays. 
  */
-EnumValue::View::View(const EnumValue* block):
-   BasicBlock::View(block),
-   _block(block)
+EnumValueView::EnumValueView(const EnumValue* block):
+   Basic::BlockView(block)
 {}
 
 
@@ -32,11 +32,11 @@ EnumValue::View::View(const EnumValue* block):
  * @return Rich text that displays the value field for this view's enumeration 
  *         value block or an empty string if there is no value. 
  */
-QString EnumValue::View::displayValue()
+QString EnumValueView::displayValue()
 {
    // Get this view's enumeration value block's value field and make sure it is not 
    // empty. 
-   QString value {_block->value()};
+   QString value {block<EnumValue>().value()};
    if ( value.isEmpty() ) return QString();
 
    // Return the rich text that displays this view's enumeration value block's value 

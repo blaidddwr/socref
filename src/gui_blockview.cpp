@@ -5,9 +5,9 @@
 #include <QLabel>
 #include <QVBoxLayout>
 #include <QHBoxLayout>
-#include "gui_abstractedit.h"
-#include "abstractblock.h"
-#include "abstractblockfactory.h"
+#include "abstract_block.h"
+#include "abstract_blockedit.h"
+#include "abstract_blockfactory.h"
 #include "blockmodel.h"
 #include "application.h"
 
@@ -22,7 +22,7 @@ using namespace Gui;
  * Pointer to a copied block that any instance of this class can use to paste into 
  * their current block model if possible. 
  */
-AbstractBlock* BlockView::_copy {nullptr};
+Abstract::Block* BlockView::_copy {nullptr};
 
 
 
@@ -78,7 +78,7 @@ bool BlockView::canPaste() const
    // If this view's current index is not a null pointer and the copied block's type 
    // is contained within the current block's build list then return true, else 
    // return false. 
-   AbstractBlock* index {_model->pointer(_current)};
+   Abstract::Block* index {_model->pointer(_current)};
    if ( index && index->buildList().contains(_copy->type()) ) return true;
    else return false;
 }
@@ -200,11 +200,11 @@ void BlockView::editTriggered()
    if ( !_current.isValid() ) return;
 
    // Get the block pointer from the current index and make sure it is not null. 
-   AbstractBlock* block {_model->pointer(_current)};
+   Abstract::Block* block {_model->pointer(_current)};
    if ( !block ) return;
 
    // Make a new edit dialog from the block pointer and make sure it is not null. 
-   Soc::Ut::QPtr<AbstractEdit> edit {block->makeEdit()};
+   Soc::Ut::QPtr<Abstract::BlockEdit> edit {block->makeEdit()};
    if ( !edit ) return;
 
    // Initialize the edit dialog and then execute it. 
@@ -325,7 +325,7 @@ void BlockView::moveDownTriggered()
 void BlockView::selectionModelChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
    // This does not care what was deselected. 
-   Q_UNUSED(deselected)
+   Q_UNUSED(deselected);
 
    // Update this view's current index, setting it to invalid to no indexes are 
    // selected. 
@@ -384,17 +384,16 @@ void BlockView::modelDestroyed()
  */
 void BlockView::modelDataChanged(const QModelIndex& topLeft, const QModelIndex& bottomRight, const QVector<int>& roles)
 {
-   // This does not care about the bottom right because this view works as a single 
-   // selection model. 
-   Q_UNUSED(bottomRight)
+   // Ignore the given bottom right index and roles changed. 
+   Q_UNUSED(bottomRight);
+   Q_UNUSED(roles);
 
    // Make sure the index whose data has changed is the current index and it is 
    // valid. 
    if ( topLeft == _current && _current.isValid() )
    {
-      // Update this view's title if needed, detailed view if needed, and context menu. 
-      if ( roles.contains(BlockModel::Name) ) updateTitle(_model->pointer(_current));
-      if ( roles.contains(BlockModel::Body) ) updateView();
+      // Update this view's title and context menu. 
+      updateTitle(_model->pointer(_current));
       updateContextMenu();
    }
 }
@@ -443,7 +442,7 @@ void BlockView::updateView()
    if ( !_current.isValid() ) return;
 
    // Get the block pointer of the current index and make sure it is not null. 
-   AbstractBlock* block {_model->pointer(_current)};
+   Abstract::Block* block {_model->pointer(_current)};
    if ( !block ) return;
 
    // Make a new view from the block pointer and make sure it is not null. 
@@ -545,7 +544,7 @@ void BlockView::updateAddActions()
 
    // Get the block pointer from this view's current index and make sure it is not 
    // null. 
-   AbstractBlock* block {_model->pointer(_current)};
+   Abstract::Block* block {_model->pointer(_current)};
    if ( !block ) return;
 
    // Iterate through the build list of the block pointer, adding a new action for 
@@ -569,7 +568,7 @@ void BlockView::updateAddActions()
  * @param block Pointer to the block whose icon and display name is used for the 
  *              title if it is not null. 
  */
-void BlockView::updateTitle(AbstractBlock* block)
+void BlockView::updateTitle(Abstract::Block* block)
 {
    // Clear this view's current title. 
    _titleIcon->clear();

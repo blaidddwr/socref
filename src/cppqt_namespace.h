@@ -15,8 +15,6 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      virtual QList<AbstractBlock*> realChildren() const;
-   public:
       /*!
        * Constructs a new namespace block. 
        */

@@ -17,8 +17,6 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      class View;
-   public:
       virtual QString name() const override final;
    public:
       /*!
@@ -28,7 +26,7 @@ namespace CppQt
       bool hasValue() const;
       QString value() const;
    protected:
-      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const override final;
    };
 }
 

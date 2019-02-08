@@ -2,7 +2,7 @@
 #define BLOCKMODEL_H
 #include <QtCore>
 #include <socutil/soc_ut_qptr.h>
-#include "global.h"
+#include "abstract.h"
 //
 
 
@@ -40,35 +40,34 @@ public:
    virtual QVariant data(const QModelIndex& index, int role) const override final;
 public:
    explicit BlockModel(QObject* parent = nullptr);
-   AbstractBlock* pointer(const QModelIndex& index) const;
-   bool insert(const QModelIndex& index, Soc::Ut::QPtr<AbstractBlock>&& block);
+   Abstract::Block* pointer(const QModelIndex& index) const;
+   bool insert(const QModelIndex& index, Soc::Ut::QPtr<Abstract::Block>&& block);
    QModelIndex moveUp(const QModelIndex& index);
    QModelIndex moveDown(const QModelIndex& index);
    bool remove(const QModelIndex& index);
-   Soc::Ut::QPtr<AbstractBlock> copy(const QModelIndex& index) const;
-   Soc::Ut::QPtr<AbstractBlock> cut(const QModelIndex& index);
-   const AbstractBlockFactory* factory() const;
-   void setRoot(AbstractBlock* root);
+   Soc::Ut::QPtr<Abstract::Block> copy(const QModelIndex& index) const;
+   Soc::Ut::QPtr<Abstract::Block> cut(const QModelIndex& index);
+   const Abstract::BlockFactory* factory() const;
+   void setRoot(Abstract::Block* root);
 private slots:
-   void blockNameModified(AbstractBlock* block);
-   void blockBodyModified(AbstractBlock* block);
+   void blockUpdated(Abstract::Block* block);
 private:
-   void notifyChange(AbstractBlock* block, const QVector<int>& roles);
    /*!
     * The preferred icon size for indexes of this model when displayed in a view. This 
     * represents both the width and height. 
     */
    constexpr static int _iconSize {24};
+private:
    /*!
     * A pointer to the root block for this model's data. If this model is empty then 
     * this is null. 
     */
-   AbstractBlock* _root {nullptr};
+   Abstract::Block* _root {nullptr};
    /*!
     * A read only pointer to this model block type's block factory. If this model is 
     * empty then this is null. 
     */
-   const AbstractBlockFactory* _factory {nullptr};
+   const Abstract::BlockFactory* _factory {nullptr};
 };
 
 

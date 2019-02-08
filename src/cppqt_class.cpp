@@ -1,5 +1,5 @@
 #include "cppqt_class.h"
-#include "cppqt_class_view.h"
+#include "cppqt_classview.h"
 #include "cppqt_factory.h"
 #include "cppqt_template.h"
 #include "cppqt_function.h"
@@ -17,7 +17,7 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -45,7 +45,7 @@ QString Class::name() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface. 
  *
  * @return See interface docs. 
  */
@@ -60,32 +60,6 @@ QIcon Class::icon() const
    if ( isAbstract() ) return abstractIcon;
    else if ( isVirtual() ) return virtualIcon;
    else return regularIcon;
-}
-
-
-
-
-
-
-/*!
- * Implements _CppQt::Namespace_ interface. 
- *
- * @return See interface docs. 
- */
-QList<AbstractBlock*> Class::realChildren() const
-{
-   // Create an empty block pointer return list. 
-   QList<AbstractBlock*> ret;
-
-   // Iterate through all access block children of this class block. 
-   for (auto child : makeListOfType<Access>(Factory::AccessType))
-   {
-      // Append the access block's pointer and then all of its children block pointers. 
-      ret << child << child->list();
-   }
-
-   // Return the pointer list of real children. 
-   return ret;
 }
 
 
@@ -182,7 +156,7 @@ bool Class::hasAnyTemplates() const
 
    // Iterate up the chain of block parents starting with this block's parent until a 
    // namespace or null pointer is reached. 
-   AbstractBlock* back {parent()};
+   Abstract::Block* back {parent()};
    while ( back && back->type() != Factory::NamespaceType )
    {
       // If this parent is a class and it has template arguments then return true. 
@@ -237,13 +211,13 @@ QList<Parent*> Class::parents() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock::View> Class::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Class::makeBasicView() const
 {
-   return new View(this);
+   return new ClassView(this);
 }
 
 
@@ -258,22 +232,11 @@ Soc::Ut::QPtr<BasicBlock::View> Class::makeBasicView() const
  *
  * @return See interface docs. 
  */
-bool Class::childNameModified(AbstractBlock* child)
+bool Class::childIsUpdated(Abstract::Block* child)
 {
-   // If the child modified is a template or parent then notify the name and body of 
-   // this block has changed. 
-   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
-   {
-      notifyNameModified();
-      notifyBodyModified();
-   }
-
-   // Else if the child modified is a function then notify the name of this block has 
-   // changed.  
-   else if ( qobject_cast<Function*>(child) )
-   {
-      notifyNameModified();
-   }
+   // If the child modified is a template, parent, or function then notify this block 
+   // requires updating. 
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) || qobject_cast<Function*>(child) ) update();
 
    // Return false to stop any additional calls. 
    return false;
@@ -291,22 +254,18 @@ bool Class::childNameModified(AbstractBlock* child)
  *
  * @return See interface docs. 
  */
-bool Class::childAdded(AbstractBlock* child)
+bool Class::childAdded(Abstract::Block* child)
 {
-   // If the child added is a template or parent then notify the name and body of 
-   // this block has changed. 
-   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
-   {
-      notifyNameModified();
-      notifyBodyModified();
-   }
+   // If the child added is a template or parent then notify this block requires 
+   // updating. 
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) ) update();
 
-   // If the child added is a function then connect this object's name changed signal 
-   // to the function and notify the name of this block has changed. 
-   if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
+   // Else if the child added is a function then connect this object's name changed 
+   // signal to the function and notify this block requires updating. 
+   else if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
    {
-      notifyNameModified();
       connect(this,&Class::nameChanged,valid,&Function::classNameChanged);
+      update();
    }
 
    // Return false to stop any additional calls. 
@@ -325,22 +284,18 @@ bool Class::childAdded(AbstractBlock* child)
  *
  * @return See interface docs. 
  */
-bool Class::childRemoved(AbstractBlock* child)
+bool Class::childRemoved(Abstract::Block* child)
 {
-   // If the child added is a template or parent then notify the name and body of 
-   // this block has changed. 
-   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) )
-   {
-      notifyNameModified();
-      notifyBodyModified();
-   }
+   // If the child added is a template or parent then notify this block requires 
+   // updating. 
+   if ( qobject_cast<Template*>(child) || qobject_cast<Parent*>(child) ) update();
 
-   // If the child added is a function then connect this object's name changed signal 
-   // to the function and notify the name of this block has changed. 
-   if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
+   // Else if the child added is a function then connect this object's name changed 
+   // signal to the function and notify this block requires updating. 
+   else if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
    {
-      notifyNameModified();
       disconnect(valid);
+      update();
    }
 
    // Return false to stop any additional calls. 

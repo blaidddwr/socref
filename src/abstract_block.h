@@ -2,6 +2,7 @@
 #define ABSTRACT_BLOCK_H
 #include <QObject>
 #include <QDomElement>
+#include <QIcon>
 #include <socutil/soc_ut_qptr.h>
 #include "abstract.h"
 //

@@ -1,6 +1,6 @@
 #ifndef CPPQT_ACCESS_H
 #define CPPQT_ACCESS_H
-#include "basicblock.h"
+#include "basic_block.h"
 //
 
 
@@ -15,11 +15,9 @@ namespace CppQt
     * public, protected, private, signals, public slots, protected slots, and private 
     * slots. 
     */
-   class Access : public BasicBlock
+   class Access : public Basic::Block
    {
       Q_OBJECT
-   public:
-      class View;
    public:
       virtual QString name() const override final;
       virtual QIcon icon() const override final;
@@ -35,10 +33,10 @@ namespace CppQt
       bool hasAbstract() const;
       QString accessString() const;
    protected:
-      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
-      virtual bool childNameModified(AbstractBlock* child) override final;
-      virtual bool childAdded(AbstractBlock* child) override final;
-      virtual bool childRemoved(AbstractBlock* child) override final;
+      virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const override final;
+      virtual bool childIsUpdated(Abstract::Block* child) override final;
+      virtual bool childAdded(Abstract::Block* child) override final;
+      virtual bool childRemoved(Abstract::Block* child) override final;
    private:
       /*!
        * Defines all possible access types. 

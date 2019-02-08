@@ -1,6 +1,6 @@
 #ifndef CPPQT_BASE_H
 #define CPPQT_BASE_H
-#include "basicblock.h"
+#include "basic_block.h"
 //
 
 
@@ -12,7 +12,7 @@ namespace CppQt
     * C++/Qt project type. This base class provides methods for getting the base name 
     * and description of a block which almost all block types share. 
     */
-   class Base : public BasicBlock
+   class Base : public Basic::Block
    {
       Q_OBJECT
    public:

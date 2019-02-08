@@ -17,8 +17,6 @@ namespace CppQt
    class Settings : public Soc::Ut::Singleton<Settings>
    {
    public:
-      class Dialog;
-   public:
       Settings();
       int indentSpaces() const;
       int headerLines() const;

@@ -9,9 +9,9 @@
 #include "gui_dictionarydialog.h"
 #include "gui_scandialog.h"
 #include "gui_blockview.h"
-#include "abstractprojectfactory.h"
+#include "abstract_block.h"
+#include "abstract_projectfactory.h"
 #include "project.h"
-#include "abstractblock.h"
 #include "scanthread.h"
 #include "application.h"
 
@@ -320,7 +320,7 @@ void MainWindow::settingTriggered(int type)
 {
    // Make a new setting dialog using the given project type and make sure it is not 
    // null. 
-   Soc::Ut::QPtr<QDialog> settings {AbstractProjectFactory::instance().makeSettings(type)};
+   Soc::Ut::QPtr<QDialog> settings {Abstract::ProjectFactory::instance().makeSettings(type)};
    Q_CHECK_PTR(settings.get());
 
    // Execute the settings dialog. 
@@ -454,7 +454,7 @@ void MainWindow::updateTitle()
    {
       setWindowTitle(tr("%1[*] (%2) - Socrates' Reference")
                      .arg(_project->name())
-                     .arg(AbstractProjectFactory::instance().name(_project->type())));
+                     .arg(Abstract::ProjectFactory::instance().name(_project->type())));
    }
    else setWindowTitle(tr("Socrates' Reference"));
 }
@@ -737,7 +737,7 @@ void MainWindow::setupActions()
 void MainWindow::setupNewActions()
 {
    // Iterate through every project type. 
-   AbstractProjectFactory& factory = AbstractProjectFactory::instance();
+   Abstract::ProjectFactory& factory = Abstract::ProjectFactory::instance();
    for (int i = 0; i < factory.size() ;++i)
    {
       // Create a new action for the project type and connect its triggered signal. 
@@ -757,7 +757,7 @@ void MainWindow::setupNewActions()
 void MainWindow::setupSettingActions()
 {
    // Iterate through every project type. 
-   AbstractProjectFactory& factory = AbstractProjectFactory::instance();
+   Abstract::ProjectFactory& factory = Abstract::ProjectFactory::instance();
    for (int i = 0; i < factory.size() ;++i)
    {
       // Create a settings action for the project type and connect its triggered signal. 

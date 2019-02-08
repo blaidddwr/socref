@@ -22,7 +22,7 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface. 
  *
  * @return See interface docs. 
  */
@@ -37,7 +37,7 @@ int Factory::type() const
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface. 
  *
  * @param type See interface docs. 
  *
@@ -73,7 +73,7 @@ QString Factory::elementName(int type) const
  * Constructs a new C++/Qt block factory. 
  */
 Factory::Factory():
-   BasicBlockFactory(QStringLiteral(":/cppqt/defs.xml"))
+   Basic::BlockFactory(QStringLiteral(":/cppqt/defs.xml"))
 {}
 
 
@@ -82,28 +82,28 @@ Factory::Factory():
 
 
 /*!
- * Implements _BasicBlockFactory_ interface. 
+ * Implements _Basic::BlockFactory_ interface. 
  *
  * @param type See interface docs. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
+Soc::Ut::QPtr<Basic::Block> Factory::makeBasicBlock(int type) const
 {
    // Based off the given block type return a new instance of that type or a null 
    // pointer if that type does not have an implementation. 
    switch (type)
    {
-   case NamespaceType: return Soc::Ut::QPtr<BasicBlock>(new Namespace);
-   case EnumerationType: return Soc::Ut::QPtr<BasicBlock>(new Enumeration);
-   case EnumValueType: return Soc::Ut::QPtr<BasicBlock>(new EnumValue);
-   case VariableType: return Soc::Ut::QPtr<BasicBlock>(new Variable);
-   case TemplateType: return Soc::Ut::QPtr<BasicBlock>(new Template);
-   case FunctionType: return Soc::Ut::QPtr<BasicBlock>(new Function);
-   case ClassType: return Soc::Ut::QPtr<BasicBlock>(new Class);
-   case AccessType: return Soc::Ut::QPtr<BasicBlock>(new Access);
-   case ParentType: return Soc::Ut::QPtr<BasicBlock>(new Parent);
-   case DeclarationType: return Soc::Ut::QPtr<BasicBlock>(new Declaration);
+   case NamespaceType: return Soc::Ut::QPtr<Basic::Block>(new Namespace);
+   case EnumerationType: return Soc::Ut::QPtr<Basic::Block>(new Enumeration);
+   case EnumValueType: return Soc::Ut::QPtr<Basic::Block>(new EnumValue);
+   case VariableType: return Soc::Ut::QPtr<Basic::Block>(new Variable);
+   case TemplateType: return Soc::Ut::QPtr<Basic::Block>(new Template);
+   case FunctionType: return Soc::Ut::QPtr<Basic::Block>(new Function);
+   case ClassType: return Soc::Ut::QPtr<Basic::Block>(new Class);
+   case AccessType: return Soc::Ut::QPtr<Basic::Block>(new Access);
+   case ParentType: return Soc::Ut::QPtr<Basic::Block>(new Parent);
+   case DeclarationType: return Soc::Ut::QPtr<Basic::Block>(new Declaration);
    default: return nullptr;
    }
 }

@@ -1,4 +1,5 @@
-#include "cppqt_variable_view.h"
+#include "cppqt_variableview.h"
+#include "cppqt_variable.h"
 
 
 
@@ -15,9 +16,8 @@ using namespace CppQt;
  *
  * @param block Variable block this new view displays. 
  */
-Variable::View::View(const Variable* block):
-   BasicBlock::View(block),
-   _block(block)
+VariableView::VariableView(const Variable* block):
+   Basic::BlockView(block)
 {}
 
 
@@ -33,15 +33,15 @@ Variable::View::View(const Variable* block):
  * @return Rich text that displays any properties this view's variable block has 
  *         set or an empty string if no properties are set. 
  */
-QString Variable::View::displayProperties()
+QString VariableView::displayProperties()
 {
    // Create an empty string list, appending any properties this view's variable 
    // block has set. 
    QStringList list;
-   if ( _block->isConstExpr() ) list << "constexpr";
-   if ( _block->isStatic() ) list << "static";
-   if ( _block->isMutable() ) list << "mutable";
-   if ( _block->isThreadLocal() ) list << "thread_local";
+   if ( block<Variable>().isConstExpr() ) list << "constexpr";
+   if ( block<Variable>().isStatic() ) list << "static";
+   if ( block<Variable>().isMutable() ) list << "mutable";
+   if ( block<Variable>().isThreadLocal() ) list << "thread_local";
 
    // If the string list is empty then return an empty string. 
    if ( list.isEmpty() ) return QString();
@@ -63,17 +63,17 @@ QString Variable::View::displayProperties()
  * @return Rich text that displays the initial value of this view's variable block 
  *         or an empty string if there is no initial value. 
  */
-QString Variable::View::displayInitializer()
+QString VariableView::displayInitializer()
 {
    // Create an empty string. 
    QString ret;
 
    // Make sure this view's block has an initial value. 
-   if ( !_block->hasInitializer() ) return ret;
+   if ( !block<Variable>().hasInitializer() ) return ret;
 
    // Append a HTML string that displays this view's variable block's initial value, 
    // separating that value by the comma delimiter. 
-   const QStringList parts {_block->initializer().split(",")};
+   const QStringList parts {block<Variable>().initializer().split(",")};
    ret.append(tr("<h3>Initializer</h3>"));
    for (auto part : parts) ret.append(part).append("<br/>");
 

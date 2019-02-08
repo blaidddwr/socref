@@ -17,8 +17,6 @@ namespace CppQt
    {
       Q_OBJECT
    public:
-      class View;
-   public:
       virtual QString name() const override final;
       virtual QIcon icon() const override;
    public:
@@ -36,7 +34,7 @@ namespace CppQt
       bool isMember() const;
       bool isArgument() const;
    protected:
-      virtual Soc::Ut::QPtr<BasicBlock::View> makeBasicView() const override final;
+      virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const override final;
    private:
       QString attributes() const;
    };

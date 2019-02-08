@@ -3,6 +3,7 @@
 #include <QFileSystemWatcher>
 #include <socutil/soc_ut_qptr.h>
 #include "global.h"
+#include "abstract.h"
 
 
 
@@ -128,7 +129,7 @@ private:
    /*!
     * Pointer to this project's root block. 
     */
-   AbstractBlock* _root;
+   Abstract::Block* _root;
    /*!
     * Pointer to this project's block model. 
     */

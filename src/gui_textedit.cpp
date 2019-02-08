@@ -4,7 +4,7 @@
 #include "gui_textedit_highlighter.h"
 #include "gui_textedit_dialog.h"
 #include "gui_textdialog.h"
-#include "abstractblock.h"
+#include "abstract_block.h"
 #include "project.h"
 
 
@@ -34,7 +34,7 @@ const char* TextEdit::_defaultLang {"en_US"};
  *
  * @param parent Optional parent for this new text editor. 
  */
-TextEdit::TextEdit(AbstractBlock* block, QWidget* parent):
+TextEdit::TextEdit(Abstract::Block* block, QWidget* parent):
    QPlainTextEdit(parent)
 {
    // Make sure the given block pointer is not null. 

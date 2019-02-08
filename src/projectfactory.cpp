@@ -155,13 +155,13 @@ Soc::Ut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
 
 
 /*!
- * Implements _AbstractProjectFactory_ interface. 
+ * Implements _Abstract::ProjectFactory_ interface. 
  *
  * @param type See interface docs. 
  *
  * @return See interface docs. 
  */
-const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
+const Abstract::BlockFactory& ProjectFactory::blockFactory(int type) const
 {
    // Return a reference to the block factory of the given project type. 
    switch (type)
@@ -188,7 +188,7 @@ const AbstractBlockFactory& ProjectFactory::blockFactory(int type) const
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const AbstractBlock* root) const
+Soc::Ut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const Abstract::Block* root) const
 {
    // Create a new parser factory for the given project type using the given block 
    // root. 

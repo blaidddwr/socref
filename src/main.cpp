@@ -26,7 +26,7 @@ int main(int argc, char** argv)
    // Create a new global project factory and set it to this programs global project 
    // factory instance. 
    ProjectFactory factory;
-   AbstractProjectFactory::setInstance(&factory);
+   Abstract::ProjectFactory::setInstance(&factory);
 
    // Create a new blank main window and show it. 
    Gui::MainWindow* window {new Gui::MainWindow};
