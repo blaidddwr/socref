@@ -567,7 +567,7 @@ bool Function::hasTemplates() const
  */
 QList<Template*> Function::templates() const
 {
-   return makeListOfType<Template>(Factory::TemplateType);
+   return createListOfType<Template>(Factory::TemplateType);
 }
 
 
@@ -582,7 +582,7 @@ QList<Template*> Function::templates() const
  */
 QList<Variable*> Function::arguments() const
 {
-   return makeListOfType<Variable>(Factory::VariableType);
+   return createListOfType<Variable>(Factory::VariableType);
 }
 
 

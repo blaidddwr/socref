@@ -82,20 +82,20 @@ namespace Abstract
        */
       virtual QList<int> buildList() const = 0;
       /*!
-       * This interface returns a block view that provides a detailed read only GUI 
-       * representation of this block's data. 
+       * This interface creates and returns a block view that provides a detailed read 
+       * only GUI representation of this block's data. 
        *
        * @return New GUI view that represents this block's data. 
        */
-      virtual Soc::Ut::QPtr<BlockView> makeView() const = 0;
-      virtual Soc::Ut::QPtr<Abstract::Block> makeCopy() const;
+      virtual Soc::Ut::QPtr<BlockView> createView() const = 0;
+      virtual Soc::Ut::QPtr<Abstract::Block> createCopy() const;
       /*!
-       * This interface returns an abstract edit GUI dialog that provides the ability to 
-       * edit this block's data. 
+       * This interface creates and returns an abstract edit GUI dialog that provides the 
+       * ability to edit this block's data. 
        *
        * @return Abstract edit GUI dialog to edit this block's data. 
        */
-      virtual Soc::Ut::QPtr<Abstract::BlockEdit> makeEdit() = 0;
+      virtual Soc::Ut::QPtr<Abstract::BlockEdit> createEdit() = 0;
    public:
       const Abstract::Block* root() const;
       Abstract::Block* parent() const;
@@ -105,7 +105,7 @@ namespace Abstract
       Abstract::Block* get(int index) const;
       bool containsType(int type) const;
       bool containsType(const QList<int>& types) const;
-      template<class T> QList<T*> makeListOfType(int type) const;
+      template<class T> QList<T*> createListOfType(int type) const;
       template<class T> const T* cast(int toType) const;
       QDomElement write(QDomDocument& document) const;
       Abstract::Block* root();
@@ -148,12 +148,12 @@ namespace Abstract
        */
       virtual QDomElement writeData(QDomDocument& document) const = 0;
       /*!
-       * This interface makes a new block object of this block's type with no data and 
-       * returns a pointer to the new block. 
+       * This interface creates and returns a new block object of this block's type with 
+       * no data and returns a pointer to the new block. 
        *
-       * @return Pointer to the newly created block. 
+       * @return The newly created blank block. 
        */
-      virtual Soc::Ut::QPtr<Abstract::Block> makeBlank() const = 0;
+      virtual Soc::Ut::QPtr<Abstract::Block> createBlank() const = 0;
       /*!
        * This interface copies all data from the given block to this block, overwriting 
        * any data this block may already contain. This does not copy any children. 
@@ -194,8 +194,8 @@ namespace Abstract
 
 
    /*!
-    * Build a list of this block's children that matches the given type. The returned 
-    * list has no other copies. 
+    * creates and returns a list of this block's children that matches the given type. 
+    * The returned list has no other copies. 
     *
     * @tparam T The child class type that is matched. 
     *
@@ -203,7 +203,7 @@ namespace Abstract
     *
     * @return List of this block's children that is given type. 
     */
-   template<class T> QList<T*> Block::makeListOfType(int type) const
+   template<class T> QList<T*> Block::createListOfType(int type) const
    {
       // Generate a pointer list of all this block's children that match the given type. 
       QList<T*> ret;

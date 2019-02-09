@@ -165,7 +165,7 @@ QList<int> Block::buildList() const
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<Abstract::BlockView> Block::makeView() const
+Soc::Ut::QPtr<Abstract::BlockView> Block::createView() const
 {
    Soc::Ut::QPtr<Basic::BlockView> ret(makeBasicView());
    ret->update();
@@ -182,7 +182,7 @@ Soc::Ut::QPtr<Abstract::BlockView> Block::makeView() const
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<Abstract::BlockEdit> Block::makeEdit()
+Soc::Ut::QPtr<Abstract::BlockEdit> Block::createEdit()
 {
    return new BlockEdit(this);
 }
@@ -408,7 +408,7 @@ QDomElement Block::writeData(QDomDocument& document) const
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<Abstract::Block> Block::makeBlank() const
+Soc::Ut::QPtr<Abstract::Block> Block::createBlank() const
 {
    // Make sure this basic block has been initialized. 
    Q_ASSERT(_type != -1);

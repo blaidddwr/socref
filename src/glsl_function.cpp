@@ -106,7 +106,7 @@ bool Function::isVoidReturn() const
  */
 QList<Variable*> Function::arguments() const
 {
-   return makeListOfType<Variable>(Factory::VariableType);
+   return createListOfType<Variable>(Factory::VariableType);
 }
 
 

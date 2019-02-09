@@ -28,16 +28,16 @@ const char* Block::_typeTag {"type"};
 
 
 /*!
- * This interface makes an exact copy of this block. A default implementation of 
- * this interface is given that uses other virtual functions to create a copy of 
- * this block. The new block returned has no parent. 
+ * This interface creates and returns an exact copy of this block. A default 
+ * implementation of this interface is given that uses other virtual functions to 
+ * create a copy of this block. The new block returned has no parent. 
  *
  * @return Exact copy of this block's data as a new block. 
  */
-Soc::Ut::QPtr<Abstract::Block> Block::makeCopy() const
+Soc::Ut::QPtr<Abstract::Block> Block::createCopy() const
 {
    // Create a new blank block identical to this block's type. 
-   Soc::Ut::QPtr<Block> ret {makeBlank()};
+   Soc::Ut::QPtr<Block> ret {createBlank()};
 
    // Make sure the new block is the same type. 
    Q_ASSERT(type() == ret->type());
@@ -602,7 +602,7 @@ void Block::update()
 void Block::copyChildren(const Block* parent)
 {
    // Iterate through all the children of the given block. 
-   for (auto child : qAsConst(parent->_children)) _children << child->makeCopy().release(this);
+   for (auto child : qAsConst(parent->_children)) _children << child->createCopy().release(this);
 }
 
 
@@ -629,7 +629,7 @@ void Block::readChild(const QDomElement& element)
 
    // Create a new block with the read in type and append it to this block's child 
    // list. 
-   Soc::Ut::QPtr<Block> child {factory().makeBlock(type,false)};
+   Soc::Ut::QPtr<Block> child {factory().createBlock(type,false)};
    Block* back {child.release(this)};
    _children << back;
 

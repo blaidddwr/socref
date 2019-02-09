@@ -184,17 +184,17 @@ void MainWindow::openTriggered()
    // project. 
    QDir::setCurrent(QFileInfo(path).dir().path());
 
-   // Open a new project with the file path. 
+   // Open a new project with the file path.
    Soc::Ut::QPtr<Project> project {new Project(path)};
 
-   // If this window has no project that set it to the opened project. 
+   // If this window has no project that set it to the opened project.
    if ( !_project ) setProject(std::move(project));
 
-   // Else this window already has a project. 
+   // Else this window already has a project.
    else
    {
-      // Create a new window, setting its project to the opened project, and then show 
-      // it. 
+      // Create a new window, setting its project to the opened project, and then show
+      // it.
       MainWindow* window = new MainWindow;
       window->setProject(std::move(project));
       window->show();
@@ -558,10 +558,10 @@ bool MainWindow::saveAs()
    QStringList files = dialog.selectedFiles();
    const QString path = files.constFirst();
 
-   // Attempt to save this window's project to the file path. 
+   // Attempt to save this window's project to the file path.
    _project->saveAs(path);
 
-   // Update this window's actions and return success. 
+   // Update this window's actions and return success.
    updateActions();
    return true;
 }
@@ -582,10 +582,10 @@ bool MainWindow::save()
    // Make sure this window has a project to save. 
    if ( !_project ) return false;
 
-   // Attempt to save this window's project. 
+   // Attempt to save this window's project.
    _project->save();
 
-   // Return success. 
+   // Return success.
    return true;
 }
 

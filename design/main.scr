@@ -135,8 +135,8 @@ This class itself handles all copying using another specialized interface for co
             <data>
               <abstract/>
               <const/>
-              <description>This interface returns a block view that provides a detailed read only GUI representation of this block's data.</description>
-              <name>makeView</name>
+              <description>This interface creates and returns a block view that provides a detailed read only GUI representation of this block's data.</description>
+              <name>createView</name>
               <return_description>New GUI view that represents this block's data.</return_description>
               <type>Soc::Ut::QPtr&lt;BlockView></type>
               <virtual/>
@@ -145,8 +145,8 @@ This class itself handles all copying using another specialized interface for co
           <function>
             <data>
               <const/>
-              <description>This interface makes an exact copy of this block. A default implementation of this interface is given that uses other virtual functions to create a copy of this block. The new block returned has no parent.</description>
-              <name>makeCopy</name>
+              <description>This interface creates and returns an exact copy of this block. A default implementation of this interface is given that uses other virtual functions to create a copy of this block. The new block returned has no parent.</description>
+              <name>createCopy</name>
               <operation>Create a new blank block identical to this block's type.</operation>
               <operation>Make sure the new block is the same type.</operation>
               <operation>Copy this block's children and implementation data to the new block.</operation>
@@ -159,8 +159,8 @@ This class itself handles all copying using another specialized interface for co
           <function>
             <data>
               <abstract/>
-              <description>This interface returns an abstract edit GUI dialog that provides the ability to edit this block's data.</description>
-              <name>makeEdit</name>
+              <description>This interface creates and returns an abstract edit GUI dialog that provides the ability to edit this block's data.</description>
+              <name>createEdit</name>
               <return_description>Abstract edit GUI dialog to edit this block's data.</return_description>
               <type>Soc::Ut::QPtr&lt;Abstract::BlockEdit></type>
               <virtual/>
@@ -292,8 +292,8 @@ This class itself handles all copying using another specialized interface for co
           <function>
             <data>
               <const/>
-              <description>Build a list of this block's children that matches the given type. The returned list has no other copies.</description>
-              <name>makeListOfType</name>
+              <description>creates and returns a list of this block's children that matches the given type. The returned list has no other copies.</description>
+              <name>createListOfType</name>
               <operation>Generate a pointer list of all this block's children that match the given type.</operation>
               <operation>Return the pointer list of matched children.</operation>
               <return_description>List of this block's children that is given type.</return_description>
@@ -600,9 +600,9 @@ This class itself handles all copying using another specialized interface for co
             <data>
               <abstract/>
               <const/>
-              <description>This interface makes a new block object of this block's type with no data and returns a pointer to the new block.</description>
-              <name>makeBlank</name>
-              <return_description>Pointer to the newly created block.</return_description>
+              <description>This interface creates and returns a new block object of this block's type with no data and returns a pointer to the new block.</description>
+              <name>createBlank</name>
+              <return_description>The newly created blank block.</return_description>
               <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
               <virtual/>
             </data>
@@ -1194,9 +1194,9 @@ An implementation of this class must construct the form portion of this dialog g
             <data>
               <abstract/>
               <const/>
-              <description>This interface makes a new block of the given type and returns its pointer. The new block is expected to have either a null data or new default state, depending on the given flag.</description>
-              <name>makeBlock</name>
-              <return_description>Pointer to new block with given type.</return_description>
+              <description>This interface creates and returns a new block of the given type. The new block is expected to have either a null data or new default state, depending on the given flag.</description>
+              <name>createBlock</name>
+              <return_description>New block with given type.</return_description>
               <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
               <virtual/>
             </data>
@@ -1221,9 +1221,9 @@ An implementation of this class must construct the form portion of this dialog g
             <data>
               <abstract/>
               <const/>
-              <description>This interface makes a new root block and returns its pointer. The root block is used as the root block for all projects of this project type. The new root block is expected to have a null data state.</description>
-              <name>makeRootBlock</name>
-              <return_description>Pointer to new root block for this project type.</return_description>
+              <description>This interface creates and returns a new root block. The root block is used as the root block for all projects of this project type. The new root block is expected to have a null data state.</description>
+              <name>createRootBlock</name>
+              <return_description>New root block for this project type.</return_description>
               <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
               <virtual/>
             </data>
@@ -4585,7 +4585,7 @@ This class provides protected helper methods for getting the values of its data 
               <const/>
               <description>Implements _Abstract::Block_ interface.</description>
               <final/>
-              <name>makeView</name>
+              <name>createView</name>
               <override/>
               <return_description>See interface docs.</return_description>
               <type>Soc::Ut::QPtr&lt;Abstract::BlockView></type>
@@ -4596,7 +4596,7 @@ This class provides protected helper methods for getting the values of its data 
             <data>
               <description>Implements _Abstract::Block_ interface.</description>
               <final/>
-              <name>makeEdit</name>
+              <name>createEdit</name>
               <override/>
               <return_description>See interface docs.</return_description>
               <type>Soc::Ut::QPtr&lt;Abstract::BlockEdit></type>
@@ -4745,7 +4745,7 @@ This class provides protected helper methods for getting the values of its data 
               <const/>
               <description>Implements _Abstract::Block_ interface.</description>
               <final/>
-              <name>makeBlank</name>
+              <name>createBlank</name>
               <operation>Make sure this basic block has been initialized.</operation>
               <operation>Create a new uninitialized basic block, making sure it worked.</operation>
               <operation>Initialize the new basic block to this basic block's type.</operation>
@@ -5985,7 +5985,7 @@ A new interface is also provided for creating implementation classes of the basi
               <const/>
               <description>Implements _Abstract::BlockFactory_ interface.</description>
               <final/>
-              <name>makeBlock</name>
+              <name>createBlock</name>
               <operation>If this factory has not been checked for consistency then do so.</operation>
               <operation>Make sure the given type is not out of range.</operation>
               <operation>Create a new basic block, implemented or generic.</operation>
@@ -6018,7 +6018,7 @@ A new interface is also provided for creating implementation classes of the basi
               <const/>
               <description>Implements _Abstract::BlockFactory_ interface.</description>
               <final/>
-              <name>makeRootBlock</name>
+              <name>createRootBlock</name>
               <operation>If this factory has not been checked for consistency then do so.</operation>
               <operation>Make a new root block without default values and return it.</operation>
               <override/>
@@ -6057,10 +6057,10 @@ A new interface is also provided for creating implementation classes of the basi
           <function>
             <data>
               <const/>
-              <description>This interface creates the class that implements the given basic block type, if any. If this is a generic basic block type that does not require a specialized class then a null pointer is returned. The default implementation always returns a null pointer.</description>
-              <name>makeBasicBlock</name>
+              <description>This interface creates and returns the class that implements the given basic block type, if any. If this is a generic basic block type that does not require a specialized class then a null pointer is returned. The default implementation always returns a null pointer.</description>
+              <name>createBasicBlock</name>
               <operation>Return a null pointer.</operation>
-              <return_description>Pointer to a new class implementation of the given basic block type or a null pointer if this basic block type is generic.</return_description>
+              <return_description>New instance of class implementation of the given basic block type or a null pointer if this basic block type is generic.</return_description>
               <type>Soc::Ut::QPtr&lt;Block></type>
               <virtual/>
             </data>
@@ -9474,7 +9474,7 @@ This parser also has the concept of a cut off. The cut off is an integer that de
               <const/>
               <description>Implements _Basic::BlockFactory_ interface.</description>
               <final/>
-              <name>makeBasicBlock</name>
+              <name>createBasicBlock</name>
               <operation>Based off the given block type return a new instance of that type or a null pointer if that type does not have an implementation.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
@@ -12948,7 +12948,7 @@ Because this function parser is responsible for the special main function it mus
               <const/>
               <description>Implements _Basic::BlockFactory_ interface.</description>
               <final/>
-              <name>makeBasicBlock</name>
+              <name>createBasicBlock</name>
               <operation>Based off the given block type return a new instance of that type or a null pointer if that type does not have an implementation.</operation>
               <override/>
               <return_description>See interface docs.</return_description>

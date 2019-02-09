@@ -76,7 +76,7 @@ namespace CppQt
    public:
       Factory();
    protected:
-      virtual Soc::Ut::QPtr<Basic::Block> makeBasicBlock(int type) const override final;
+      virtual Soc::Ut::QPtr<Basic::Block> createBasicBlock(int type) const override final;
    };
 }
 

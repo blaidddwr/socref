@@ -78,7 +78,7 @@ Factory::Factory():
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<Basic::Block> Factory::makeBasicBlock(int type) const
+Soc::Ut::QPtr<Basic::Block> Factory::createBasicBlock(int type) const
 {
    // Based off the given block type return a new instance of that type or a null 
    // pointer if that type does not have an implementation. 

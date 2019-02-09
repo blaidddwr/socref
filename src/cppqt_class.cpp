@@ -91,7 +91,7 @@ bool Class::isVirtual() const
 {
    // Iterate through all access block children of this class block, returning true 
    // if any of them has any virtual functions. 
-   for (auto access : makeListOfType<Access>(Factory::AccessType))
+   for (auto access : createListOfType<Access>(Factory::AccessType))
    {
       if ( access->hasVirtual() ) return true;
    }
@@ -114,7 +114,7 @@ bool Class::isAbstract() const
 {
    // Iterate through all access block children of this class block, returning true 
    // if any of them has any abstract functions. 
-   for (auto access : makeListOfType<Access>(Factory::AccessType))
+   for (auto access : createListOfType<Access>(Factory::AccessType))
    {
       if ( access->hasAbstract() ) return true;
    }
@@ -186,7 +186,7 @@ bool Class::hasAnyTemplates() const
  */
 QList<Template*> Class::templates() const
 {
-   return makeListOfType<Template>(Factory::TemplateType);
+   return createListOfType<Template>(Factory::TemplateType);
 }
 
 
@@ -202,7 +202,7 @@ QList<Template*> Class::templates() const
  */
 QList<Parent*> Class::parents() const
 {
-   return makeListOfType<Parent>(Factory::ParentType);
+   return createListOfType<Parent>(Factory::ParentType);
 }
 
 

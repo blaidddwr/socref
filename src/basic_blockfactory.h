@@ -33,12 +33,12 @@ namespace Basic
       virtual int size() const override final;
       virtual QString name(int type) const override final;
       virtual int typeByElementName(const QString& elementName) const override final;
-      virtual Soc::Ut::QPtr<Abstract::Block> makeBlock(int type, bool isDefault) const override final;
-      virtual Soc::Ut::QPtr<Abstract::Block> makeRootBlock() const override final;
+      virtual Soc::Ut::QPtr<Abstract::Block> createBlock(int type, bool isDefault) const override final;
+      virtual Soc::Ut::QPtr<Abstract::Block> createRootBlock() const override final;
    public:
       BlockFactory(const QString& xmlPath);
    protected:
-      virtual Soc::Ut::QPtr<Block> makeBasicBlock(int type) const;
+      virtual Soc::Ut::QPtr<Block> createBasicBlock(int type) const;
    private:
       /*!
        * The name of the display attribute for XML basic block definitions. 

@@ -61,8 +61,8 @@ namespace Basic
       virtual QString name() const override;
       virtual QIcon icon() const override;
       virtual QList<int> buildList() const override;
-      virtual Soc::Ut::QPtr<Abstract::BlockView> makeView() const override final;
-      virtual Soc::Ut::QPtr<Abstract::BlockEdit> makeEdit() override final;
+      virtual Soc::Ut::QPtr<Abstract::BlockView> createView() const override final;
+      virtual Soc::Ut::QPtr<Abstract::BlockEdit> createEdit() override final;
    public:
       /*!
        * Constructs a new basic block. 
@@ -73,7 +73,7 @@ namespace Basic
       virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const;
       virtual void readData(const QDomElement& element) override final;
       virtual QDomElement writeData(QDomDocument& document) const override final;
-      virtual Soc::Ut::QPtr<Abstract::Block> makeBlank() const override final;
+      virtual Soc::Ut::QPtr<Abstract::Block> createBlank() const override final;
       virtual void copyDataFrom(const Abstract::Block* other) override final;
    protected:
       bool getBool(const QString& id) const;

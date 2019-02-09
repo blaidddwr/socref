@@ -160,7 +160,7 @@ void BlockView::addTriggered(int type)
 
    // Insert a new block of the given type into this view's model with its current 
    // index, updating its current index and context menu. 
-   _model->insert(_current,_factory->makeBlock(type,true));
+   _model->insert(_current,_factory->createBlock(type,true));
    updateIndex();
    updateContextMenu();
 }
@@ -205,7 +205,7 @@ void BlockView::editTriggered()
    if ( !block ) return;
 
    // Make a new edit dialog from the block pointer and make sure it is not null. 
-   Soc::Ut::QPtr<Abstract::BlockEdit> edit {block->makeEdit()};
+   Soc::Ut::QPtr<Abstract::BlockEdit> edit {block->createEdit()};
    if ( !edit ) return;
 
    // Initialize the edit dialog and then execute it. 
@@ -277,7 +277,7 @@ void BlockView::pasteTriggered()
 {
    // If pasting is possible then insert a new copy of the copied block into this 
    // view's model at the current index. 
-   if ( canPaste() ) _model->insert(_current,_copy->makeCopy());
+   if ( canPaste() ) _model->insert(_current,_copy->createCopy());
 }
 
 
@@ -447,7 +447,7 @@ void BlockView::updateView()
    if ( !block ) return;
 
    // Make a new view from the block pointer and make sure it is not null. 
-   _view = block->makeView().release(this);
+   _view = block->createView().release(this);
    Q_CHECK_PTR(_view);
 
    // Set this object's detailed view and updating it and its title. 

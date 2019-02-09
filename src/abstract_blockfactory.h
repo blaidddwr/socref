@@ -67,26 +67,26 @@ namespace Abstract
        */
       virtual QString elementName(int type) const = 0;
       /*!
-       * This interface makes a new block of the given type and returns its pointer. The 
-       * new block is expected to have either a null data or new default state, depending 
-       * on the given flag. 
+       * This interface creates and returns a new block of the given type. The new block 
+       * is expected to have either a null data or new default state, depending on the 
+       * given flag. 
        *
        * @param type Block type which is made and returned. 
        *
        * @param isDefault True if the new block is initialized to a default state or 
        *                  false if it is uninitialized in a null state. 
        *
-       * @return Pointer to new block with given type. 
+       * @return New block with given type. 
        */
-      virtual Soc::Ut::QPtr<Abstract::Block> makeBlock(int type, bool isDefault) const = 0;
+      virtual Soc::Ut::QPtr<Abstract::Block> createBlock(int type, bool isDefault) const = 0;
       /*!
-       * This interface makes a new root block and returns its pointer. The root block is 
-       * used as the root block for all projects of this project type. The new root block 
-       * is expected to have a null data state. 
+       * This interface creates and returns a new root block. The root block is used as 
+       * the root block for all projects of this project type. The new root block is 
+       * expected to have a null data state. 
        *
-       * @return Pointer to new root block for this project type. 
+       * @return New root block for this project type. 
        */
-      virtual Soc::Ut::QPtr<Abstract::Block> makeRootBlock() const = 0;
+      virtual Soc::Ut::QPtr<Abstract::Block> createRootBlock() const = 0;
    };
 }
 

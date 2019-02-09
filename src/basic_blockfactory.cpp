@@ -101,7 +101,7 @@ int BlockFactory::typeByElementName(const QString& elementName) const
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<Abstract::Block> BlockFactory::makeBlock(int type, bool isDefault) const
+Soc::Ut::QPtr<Abstract::Block> BlockFactory::createBlock(int type, bool isDefault) const
 {
    // If this factory has not been checked for consistency then do so. 
    Q_ASSERT(check());
@@ -111,7 +111,7 @@ Soc::Ut::QPtr<Abstract::Block> BlockFactory::makeBlock(int type, bool isDefault)
    Q_ASSERT(type < _typeDisplayNames.size());
 
    // Create a new basic block, implemented or generic. 
-   Soc::Ut::QPtr<Block> ret {makeBasicBlock(type)};
+   Soc::Ut::QPtr<Block> ret {createBasicBlock(type)};
    if ( !ret ) ret.reset(new Block);
 
    // Initialize the new basic block with its XML definition and default state. 
@@ -131,13 +131,13 @@ Soc::Ut::QPtr<Abstract::Block> BlockFactory::makeBlock(int type, bool isDefault)
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<Abstract::Block> BlockFactory::makeRootBlock() const
+Soc::Ut::QPtr<Abstract::Block> BlockFactory::createRootBlock() const
 {
    // If this factory has not been checked for consistency then do so. 
    Q_ASSERT(check());
 
    // Make a new root block without default values and return it. 
-   return makeBlock(_rootType,false);
+   return createBlock(_rootType,false);
 }
 
 
@@ -166,17 +166,17 @@ BlockFactory::BlockFactory(const QString& xmlPath)
 
 
 /*!
- * This interface creates the class that implements the given basic block type, if 
- * any. If this is a generic basic block type that does not require a specialized 
- * class then a null pointer is returned. The default implementation always returns 
- * a null pointer. 
+ * This interface creates and returns the class that implements the given basic 
+ * block type, if any. If this is a generic basic block type that does not require 
+ * a specialized class then a null pointer is returned. The default implementation 
+ * always returns a null pointer. 
  *
  * @param type The block type of the basic block that is made if not generic. 
  *
- * @return Pointer to a new class implementation of the given basic block type or a 
+ * @return New instance of class implementation of the given basic block type or a 
  *         null pointer if this basic block type is generic. 
  */
-Soc::Ut::QPtr<Block> BlockFactory::makeBasicBlock(int type) const
+Soc::Ut::QPtr<Block> BlockFactory::createBasicBlock(int type) const
 {
    Q_UNUSED(type)
 

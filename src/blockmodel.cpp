@@ -351,7 +351,7 @@ Soc::Ut::QPtr<Abstract::Block> BlockModel::copy(const QModelIndex& index) const
    if ( !block ) return nullptr;
 
    // Make a copy of the block with the given index and return its pointer. 
-   return block->makeCopy();
+   return block->createCopy();
 }
 
 
