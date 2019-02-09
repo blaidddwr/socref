@@ -1,8 +1,8 @@
 #include "gui_textedit.h"
 #include <QAction>
 #include <QDebug>
-#include "gui_textedit_highlighter.h"
-#include "gui_textedit_dialog.h"
+#include "gui_spellerhighlighter.h"
+#include "gui_spellerdialog.h"
 #include "gui_textdialog.h"
 #include "abstract_block.h"
 #include "project.h"
@@ -48,7 +48,7 @@ TextEdit::TextEdit(Abstract::Block* block, QWidget* parent):
    _dictionary = project->dictionary();
 
    // Create this text editor's highlighter and setup its shortcut actions. 
-   _spellHighlighter = new Highlighter(_dictionary,document());
+   _spellHighlighter = new SpellerHighlighter(_dictionary,_defaultLang,document());
    setupActions();
 }
 
@@ -74,7 +74,7 @@ TextEdit::TextEdit(DictionaryModel* dictionary, QWidget* parent):
    Q_CHECK_PTR(dictionary);
 
    // Create this text editor's highlighter and setup its shortcut actions. 
-   _spellHighlighter = new Highlighter(_dictionary,document());
+   _spellHighlighter = new SpellerHighlighter(_dictionary,_defaultLang,document());
    setupActions();
 }
 
@@ -131,7 +131,7 @@ void TextEdit::setSpellCheckEnabled(bool enabled)
    }
 
    // Else if this editor has no highlighter then create a new one. 
-   else if ( !_spellHighlighter ) _spellHighlighter = new Highlighter(_dictionary,document());
+   else if ( !_spellHighlighter ) _spellHighlighter = new SpellerHighlighter(_dictionary,_defaultLang,document());
 
    // Update this editor's spell checking enable state. 
    _spellCheckEnabled = enabled;
@@ -168,8 +168,8 @@ void TextEdit::spellCheckTriggered()
    if ( !_spellCheckEnabled ) return;
 
    // Create a new spell checker dialog and execute it in modal mode. 
-   Dialog spellCheck(this);
-   spellCheck.exec();
+   SpellerDialog dialog(_dictionary,_defaultLang,document(),this);
+   dialog.exec();
 
    // Reset the text of this widget so any added custom spell check words are no 
    // longer marked as misspelled in the highlighter. 

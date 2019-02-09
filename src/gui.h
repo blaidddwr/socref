@@ -5,6 +5,8 @@
 namespace Gui
 {
    class PersistentDialog;
+   class SpellerHighlighter;
+   class SpellerDialog;
    class TextEdit;
    class TextDialog;
    class ListEdit;

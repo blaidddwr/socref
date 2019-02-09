@@ -3,6 +3,7 @@
 #include <QPlainTextEdit>
 #include "global.h"
 #include "abstract.h"
+#include "gui.h"
 //
 
 
@@ -38,9 +39,6 @@ namespace Gui
       void spellCheckTriggered();
       void dialogPopupTriggered();
    private:
-      class Highlighter;
-      class Dialog;
-   private:
       /*!
        * The default language used by this editor's spell checking library Aspell. 
        */
@@ -56,14 +54,14 @@ namespace Gui
        */
       bool _dialogPopupEnabled {true};
       /*!
-       * Pointer to the custom dictionary model used for custom spell checking words. 
+       * The custom dictionary model used for custom spell checking words. 
        */
       DictionaryModel* _dictionary;
       /*!
        * Pointer to the spell checking highlighter for this editor. This is null if spell 
        * checking is disabled. 
        */
-      Highlighter* _spellHighlighter;
+      SpellerHighlighter* _spellHighlighter;
    };
 }
 

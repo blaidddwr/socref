@@ -1,4 +1,4 @@
-#include "gui_textedit_highlighter.h"
+#include "gui_spellerhighlighter.h"
 #include <aspell.h>
 #include <QRegularExpression>
 #include "dictionarymodel.h"
@@ -19,20 +19,27 @@ using namespace Gui;
  * @param dictionary The custom dictionary model this new highlighter uses to check 
  *                   for custom spell checking words. 
  *
- * @param parent The text document of the text editor that is the parent for this 
- *               new highlighter. 
+ * @param language The language used with this highlighter's spell checking engine. 
+ *
+ * @param document The text document of the text editor that is the parent for this 
+ *                 new highlighter. 
  */
-TextEdit::Highlighter::Highlighter(DictionaryModel* dictionary, QTextDocument* parent):
-   QSyntaxHighlighter(parent),
+SpellerHighlighter::SpellerHighlighter(DictionaryModel* dictionary, const char* language, QTextDocument* document):
+   QSyntaxHighlighter(document),
    _dictionary(dictionary)
 {
+   // Make sure the given dictionary, language, and document pointers are valid. 
+   Q_CHECK_PTR(dictionary);
+   Q_CHECK_PTR(language);
+   Q_CHECK_PTR(document);
+
    // Initialize the highlight format for misspelled words. 
    _format.setFontUnderline(true);
    _format.setUnderlineColor(Qt::red);
    _format.setUnderlineStyle(QTextCharFormat::WaveUnderline);
 
    // Setup this highlighter's spell checking library. 
-   setupSpeller();
+   setupSpeller(language);
 }
 
 
@@ -43,7 +50,7 @@ TextEdit::Highlighter::Highlighter(DictionaryModel* dictionary, QTextDocument* p
 /*!
  * Delete this highlighter's spell checking library resources. 
  */
-TextEdit::Highlighter::~Highlighter()
+SpellerHighlighter::~SpellerHighlighter()
 {
    // Free this highlighter's Aspell resources. 
    delete_aspell_speller(_spell);
@@ -61,7 +68,7 @@ TextEdit::Highlighter::~Highlighter()
  *
  * @param text See Qt docs. 
  */
-void TextEdit::Highlighter::highlightBlock(const QString& text)
+void SpellerHighlighter::highlightBlock(const QString& text)
 {
    // Use a Qt regular expression to match all words in the given text block. 
    QRegularExpression pattern("[^\\s\\t:,._]+");
@@ -91,14 +98,16 @@ void TextEdit::Highlighter::highlightBlock(const QString& text)
 
 
 /*!
- * Constructs and initializes all Aspell library resources for this new 
- * highlighter. 
+ * Constructs and initializes all Aspell library resources for this new highlighter 
+ * using the given language. 
+ *
+ * @param language The language used with this highlighter's spell checking engine. 
  */
-void TextEdit::Highlighter::setupSpeller()
+void SpellerHighlighter::setupSpeller(const char* language)
 {
    // Create and set this highlighter's Aspell configuration. 
    _spellConfig = new_aspell_config();
-   aspell_config_replace(_spellConfig,"lang",_defaultLang);
+   aspell_config_replace(_spellConfig,"lang",language);
 
    // Create this highlighter's Aspell speller using the configuration and make sure 
    // it worked. 

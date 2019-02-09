@@ -1,5 +1,6 @@
-#include "gui_textedit_dialog.h"
+#include "gui_spellerdialog.h"
 #include <aspell.h>
+#include <QTextDocument>
 #include <QHBoxLayout>
 #include <QVBoxLayout>
 #include <QLabel>
@@ -22,7 +23,7 @@ using namespace Gui;
  * The text added before and after a snippet view representing dots to communicate 
  * there is more text on either side. 
  */
-const char* TextEdit::Dialog::_snippetDots {"..."};
+const char* SpellerDialog::_snippetDots {"..."};
 
 
 
@@ -30,16 +31,32 @@ const char* TextEdit::Dialog::_snippetDots {"..."};
 
 
 /*!
- * Constructs a new spell checker dialog with the given text editor parent. 
+ * Constructs a new spell checker dialog with the given dictionary, language, and 
+ * qt text document. An optional parent can also be given. 
  *
- * @param parent The parent text edit for this new spell checking dialog. 
+ * @param dictionary The custom dictionary model this spell checker uses to check 
+ *                   for custom words. 
+ *
+ * @param language The language used with this spell checker's engine. 
+ *
+ * @param document The text document that this spell checker scans for misspelled 
+ *                 words. 
+ *
+ * @param parent Optional parent that this dialog will block if it is executed in 
+ *               modal mode. 
  */
-TextEdit::Dialog::Dialog(TextEdit* parent):
-   PersistentDialog("gui.textedit.dialog.geometry",parent),
-   _edit(parent)
+SpellerDialog::SpellerDialog(DictionaryModel* dictionary, const char* language, QTextDocument* document, QWidget* parent):
+   PersistentDialog("gui.spellerdialog.geometry",parent),
+   _document(document),
+   _dictionary(dictionary)
 {
+   // Make sure the given dictionary, language, and document pointers are valid. 
+   Q_CHECK_PTR(dictionary);
+   Q_CHECK_PTR(language);
+   Q_CHECK_PTR(document);
+
    // Setup the speller, GUI, and window title for this new dialog. 
-   setupSpeller();
+   setupSpeller(language);
    setupGui();
    setWindowTitle("Spell Checker");
 }
@@ -52,7 +69,7 @@ TextEdit::Dialog::Dialog(TextEdit* parent):
 /*!
  * Delete this object's spell checking library resources. 
  */
-TextEdit::Dialog::~Dialog()
+SpellerDialog::~SpellerDialog()
 {
    // Free the speller resources of this dialog. 
    delete_aspell_speller(_spell);
@@ -70,7 +87,7 @@ TextEdit::Dialog::~Dialog()
  *
  * @return Always returns Qt dialog accept. 
  */
-int TextEdit::Dialog::exec()
+int SpellerDialog::exec()
 {
    // Show this dialog so it is not invisible. 
    show();
@@ -91,14 +108,14 @@ int TextEdit::Dialog::exec()
  * word in the parent editor's text of this dialog and then finds the next 
  * misspelled word. 
  */
-void TextEdit::Dialog::changeClicked()
+void SpellerDialog::changeClicked()
 {
    // Replace the currently misspelled word with the text from the word edit widget 
    // of this dialog. 
-   QString text {_edit->toPlainText()};
+   QString text {_document->toPlainText()};
    text.remove(_offset,_length);
    text.insert(_offset,_wordEdit->text());
-   _edit->setPlainText(text);
+   _document->setPlainText(text);
 
    // Find the next misspelled word. 
    findNextWord();
@@ -113,7 +130,7 @@ void TextEdit::Dialog::changeClicked()
  * Called when the ignore once button is clicked. This skips the current misspelled 
  * word and finds the next one. 
  */
-void TextEdit::Dialog::ignoreOnceClicked()
+void SpellerDialog::ignoreOnceClicked()
 {
    // Skip the current misspelled word and find the next one. 
    _offset += _length;
@@ -130,7 +147,7 @@ void TextEdit::Dialog::ignoreOnceClicked()
  * misspelled word to the list of words to ignore and finds the next misspelled 
  * word. 
  */
-void TextEdit::Dialog::ignoreAllClicked()
+void SpellerDialog::ignoreAllClicked()
 {
    // Add the current misspelled word to the list of ignored words for this dialog 
    // and then find the next misspelled word. 
@@ -147,11 +164,11 @@ void TextEdit::Dialog::ignoreAllClicked()
  * Called when the add button is clicked. This adds this object's current 
  * misspelled word to this object's text edit's custom dictionary. 
  */
-void TextEdit::Dialog::addClicked()
+void SpellerDialog::addClicked()
 {
    // Add the current misspelled word to this object's text edit's custom dictionary 
    // and then find the next misspelled word. 
-   _edit->_dictionary->addWord(_currentWord);
+   _dictionary->addWord(_currentWord);
    findNextWord();
 }
 
@@ -167,7 +184,7 @@ void TextEdit::Dialog::addClicked()
  *
  * @param text New text in the word edit widget of this dialog. 
  */
-void TextEdit::Dialog::wordTextChanged(const QString& text)
+void SpellerDialog::wordTextChanged(const QString& text)
 {
    // Change the enabled state of the word edit widget of this dialog based off it 
    // being misspelled or not. 
@@ -185,11 +202,11 @@ void TextEdit::Dialog::wordTextChanged(const QString& text)
  *
  * @return True if a misspelled word is found or false otherwise. 
  */
-bool TextEdit::Dialog::findNextWord()
+bool SpellerDialog::findNextWord()
 {
    // Find the first word of the parent editor's text at or after the offset of this 
    // dialog. 
-   QString text {_edit->toPlainText()};
+   QString text {_document->toPlainText()};
    QRegularExpression pattern("[^\\s\\t:,._]+");
    QRegularExpressionMatch match {pattern.match(text,_offset)};
 
@@ -233,13 +250,13 @@ bool TextEdit::Dialog::findNextWord()
  *
  * @return True if the given word is spelled correctly or false otherwise. 
  */
-bool TextEdit::Dialog::isCorrectWord(const QString& word)
+bool SpellerDialog::isCorrectWord(const QString& word)
 {
    // Check to see if the given word is in the ignore list of this dialog. 
    if ( _ignored.contains(word) ) return true;
 
    // Check to see if the given word is in the custom dictionary. 
-   if ( _edit->_dictionary->hasWord(word) ) return true;
+   if ( _dictionary->hasWord(word) ) return true;
 
    // Use the spell checker of this dialog to see and return if the given word is 
    // spelled correctly. 
@@ -259,7 +276,7 @@ bool TextEdit::Dialog::isCorrectWord(const QString& word)
  * @return True if the user wants to run spell checking again and a misspelled word 
  *         was found or false otherwise. 
  */
-bool TextEdit::Dialog::queryEndOfText()
+bool SpellerDialog::queryEndOfText()
 {
    // Create a message box to query the user if they want to spell check again from 
    // the beginning. 
@@ -298,7 +315,7 @@ bool TextEdit::Dialog::queryEndOfText()
  * @param match The Qt regular expression match within the given complete text that 
  *              is a misspelled word. 
  */
-void TextEdit::Dialog::setWord(const QRegularExpressionMatch& match)
+void SpellerDialog::setWord(const QRegularExpressionMatch& match)
 {
    // Set the misspelled word for this dialog. 
    _currentWord = match.captured();
@@ -323,10 +340,10 @@ void TextEdit::Dialog::setWord(const QRegularExpressionMatch& match)
  *
  * @param length The length of the misspelled word in the given complete text. 
  */
-void TextEdit::Dialog::setSnippet(int begin, int length)
+void SpellerDialog::setSnippet(int begin, int length)
 {
    // Get the text of the parent editor for this dialog. 
-   QString text {_edit->toPlainText()};
+   QString text {_document->toPlainText()};
 
    // Figure out the beginning offset and length for the left half of the new 
    // snippet. 
@@ -364,7 +381,7 @@ void TextEdit::Dialog::setSnippet(int begin, int length)
  * Update the word change suggestions displayed to the user for the current 
  * misspelled word of this dialog. 
  */
-void TextEdit::Dialog::updateSuggested()
+void SpellerDialog::updateSuggested()
 {
    // Get a list of word change suggestions from the current misspelled word of this 
    // dialog. 
@@ -402,7 +419,7 @@ void TextEdit::Dialog::updateSuggested()
 /*!
  * Constructs and initializes all GUI elements for this new dialog. 
  */
-void TextEdit::Dialog::setupGui()
+void SpellerDialog::setupGui()
 {
    // Create a new vertical layout, adding the top layout and then adding the 
    // buttons. 
@@ -425,7 +442,7 @@ void TextEdit::Dialog::setupGui()
  *
  * @return Pointer to the layout of the top part of the GUI for this dialog. 
  */
-QLayout* TextEdit::Dialog::setupTop()
+QLayout* SpellerDialog::setupTop()
 {
    // Create and initialize the suggestions view label of this dialog. 
    _suggestionsView = new QLabel;
@@ -455,12 +472,12 @@ QLayout* TextEdit::Dialog::setupTop()
  * @return Pointer to the layout of the word edit portion of the GUI for this 
  *         dialog. 
  */
-QLayout* TextEdit::Dialog::setupWordEdit()
+QLayout* SpellerDialog::setupWordEdit()
 {
    // Create the word line edit widget for this new dialog, connecting its text 
    // changed signal. 
    _wordEdit = new QLineEdit;
-   connect(_wordEdit,&QLineEdit::textChanged,this,&Dialog::wordTextChanged);
+   connect(_wordEdit,&QLineEdit::textChanged,this,&SpellerDialog::wordTextChanged);
 
    // Create and initialize the snippet view label for this new dialog. 
    _snippetView = new QLabel;
@@ -489,23 +506,23 @@ QLayout* TextEdit::Dialog::setupWordEdit()
  *
  * @return Pointer to layout of all buttons for this new dialog. 
  */
-QLayout* TextEdit::Dialog::setupButtons()
+QLayout* SpellerDialog::setupButtons()
 {
    // Create the change button for this dialog, connecting its clicked signal. 
    _changeButton = new QPushButton(tr("&Change"));
-   connect(_changeButton,&QPushButton::clicked,this,&Dialog::changeClicked);
+   connect(_changeButton,&QPushButton::clicked,this,&SpellerDialog::changeClicked);
 
    // Create the ignore once button for this dialog, connecting its clicked signal. 
    QPushButton* ignoreOnce {new QPushButton(tr("&Ignore Once"))};
-   connect(ignoreOnce,&QPushButton::clicked,this,&Dialog::ignoreOnceClicked);
+   connect(ignoreOnce,&QPushButton::clicked,this,&SpellerDialog::ignoreOnceClicked);
 
    // Create the ignore all button for this dialog, connecting its clicked signal. 
    QPushButton* ignoreAll {new QPushButton(tr("Ignore &All"))};
-   connect(ignoreAll,&QPushButton::clicked,this,&Dialog::ignoreAllClicked);
+   connect(ignoreAll,&QPushButton::clicked,this,&SpellerDialog::ignoreAllClicked);
 
    // Create the add button for this dialog, connecting its clicked signal. 
    QPushButton* add {new QPushButton(tr("Add"))};
-   connect(add,&QPushButton::clicked,this,&Dialog::addClicked);
+   connect(add,&QPushButton::clicked,this,&SpellerDialog::addClicked);
 
    // Create the cancel button for this dialog, connecting its clicked signal. 
    QPushButton* cancel {new QPushButton(tr("Canc&el"))};
@@ -533,12 +550,14 @@ QLayout* TextEdit::Dialog::setupButtons()
 
 /*!
  * Constructs and initializes all Aspell library resources for this new dialog. 
+ *
+ * @param language The language used with this highlighter's spell checking engine. 
  */
-void TextEdit::Dialog::setupSpeller()
+void SpellerDialog::setupSpeller(const char* language)
 {
    // Create and set the Aspell configuration of this dialog. 
    _spellConfig = new_aspell_config();
-   aspell_config_replace(_spellConfig,"lang",_defaultLang);
+   aspell_config_replace(_spellConfig,"lang",language);
 
    // Create the Aspell speller for this dialog using the configuration and make sure 
    // it worked. 

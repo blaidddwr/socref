@@ -1,7 +1,7 @@
-#ifndef GUI_TEXTEDIT_HIGHLIGHTER_H
-#define GUI_TEXTEDIT_HIGHLIGHTER_H
+#ifndef GUI_SPELLERHIGHLIGHTER_H
+#define GUI_SPELLERHIGHLIGHTER_H
 #include <QSyntaxHighlighter>
-#include "gui_textedit.h"
+#include "global.h"
 
 
 
@@ -14,20 +14,20 @@ class AspellSpeller;
 namespace Gui
 {
    /*!
-    * This is the spell checking syntax highlighter for its parent text editor class. 
-    * This highlights any misspelled words in its parent editor by changing its text 
-    * format so it is visible to the user. 
+    * This is a spell checking syntax highlighter for its given qt text document. This 
+    * highlights any misspelled words in its given qt text document by changing its 
+    * text format so it is visible to the user. 
     */
-   class TextEdit::Highlighter : public QSyntaxHighlighter
+   class SpellerHighlighter : public QSyntaxHighlighter
    {
       Q_OBJECT
    public:
-      explicit Highlighter(DictionaryModel* dictionary, QTextDocument* parent);
-      virtual ~Highlighter() override final;
+      explicit SpellerHighlighter(DictionaryModel* dictionary, const char* language, QTextDocument* document);
+      virtual ~SpellerHighlighter() override final;
    protected:
       virtual void highlightBlock(const QString& text) override final;
    private:
-      void setupSpeller();
+      void setupSpeller(const char* language);
       /*!
        * The text format used by this highlighter for any misspelled words in its parent 
        * editor. 
