@@ -744,7 +744,8 @@ This class itself handles all copying using another specialized interface for co
               <operation>Read in the type attribute from the given child element.</operation>
               <operation>Make sure reading in the type did not fail.</operation>
               <operation>Make sure the read in type is within range of this block's factory.</operation>
-              <operation>Create a new block with the read in type and append it to this block's child list.</operation>
+              <operation>Create a new block with the read in type and make sure it worked.</operation>
+              <operation>Take ownership of the new child block and append it to this block's child list.</operation>
               <operation>Have the new block read in its data and children from the given element.</operation>
               <return_description></return_description>
               <type>void</type>
@@ -3582,6 +3583,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>If this window has no project that set it to the opened project.</operation>
               <operation>Else this window already has a project.</operation>
               <operation>Create a new window, setting its project to the opened project, and then show it.</operation>
+              <operation>If an exception was thrown then report it to the user.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -3761,6 +3763,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Get the first file path from the file dialog chosen by the user.</operation>
               <operation>Attempt to save this window's project to the file path.</operation>
               <operation>Update this window's actions and return success.</operation>
+              <operation>If an exception was thrown then report it to the user and return false.</operation>
               <return_description>True if this window's project was successfully saved to a new location or false otherwise.</return_description>
               <type>bool</type>
             </data>
@@ -3772,6 +3775,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Make sure this window has a project to save.</operation>
               <operation>Attempt to save this window's project.</operation>
               <operation>Return success.</operation>
+              <operation>If an exception was thrown then report it to the user and return false.</operation>
               <return_description>True if the project was successfully saved or false otherwise.</return_description>
               <type>bool</type>
             </data>
@@ -4724,7 +4728,8 @@ This class provides protected helper methods for getting the values of its data 
               <operation>Make sure this basic block has been initialized.</operation>
               <operation>Create the return data element.</operation>
               <operation>Iterate through all data fields of this basic block.</operation>
-              <operation>Based off the data field type write out its data as child elements appended to the data element to be returned, throwing an exception if the field is an unknown type.</operation>
+              <operation>Based off the data field type write out its data as child elements appended to the data element to be returned, marking if an unknown field type is found.</operation>
+              <operation>Make sure no unknown field type was encountered.</operation>
               <operation>Return the complete data element that stores this basic block's field data.</operation>
               <override/>
               <return_description>See interface docs.</return_description>

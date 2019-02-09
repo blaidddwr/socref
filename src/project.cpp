@@ -9,6 +9,7 @@
 #include "abstract_blockfactory.h"
 #include "abstract_projectfactory.h"
 #include "abstractparserfactory.h"
+#include "exception.h"
 #include "blockmodel.h"
 #include "scanthread.h"
 #include "dictionarymodel.h"
@@ -572,12 +573,17 @@ QByteArray Project::read()
 {
    // Open this project's file and make sure it worked. 
    QFile file(_path);
-   bool ok {file.open(QIODevice::ReadOnly)};
-   Q_ASSERT(ok);
+   if ( !file.open(QIODevice::ReadOnly) )
+   {
+      throw Exception(tr("Failed opening %1: %2").arg(_path).arg(file.errorString()));
+   }
 
    // Read in the entire contents of this project's file and make sure it worked. 
    QByteArray ret = file.readAll();
-   Q_ASSERT(file.error() == QFileDevice::NoError);
+   if ( file.error() != QFileDevice::NoError )
+   {
+      throw Exception(tr("Failed reading %1: %2").arg(_path).arg(file.errorString()));
+   }
 
    // Set this project's file hash with the read in byte array and return it. 
    setFileHash(ret);
@@ -602,8 +608,10 @@ void Project::convertScanDirectory(const QString& path)
    // Make sure the given path is a valid directory relative to the directory this 
    // project's file is located. 
    QDir directory {QFileInfo(_path).dir()};
-   bool ok {directory.cd(path)};
-   Q_ASSERT(ok);
+   if ( !directory.cd(path) )
+   {
+      throw Exception(tr("The scanning directory %1 in %2 does not exist.").arg(path).arg(_path));
+   }
 
    // Set this project's scan directory to the path given in its canonical form. 
    _scanDirectory = directory.canonicalPath();
@@ -628,7 +636,13 @@ void Project::readTypeElement(const QDomElement& element)
    _type = Abstract::ProjectFactory::instance().typeByElementName(element.text());
 
    // Make sure the element name was recognized and a known type returned. 
-   Q_ASSERT(_type >= 0);
+   if ( _type < 0 )
+   {
+      throw Exception(tr("Unknown project type '%1' in %2:%3.")
+                      .arg(element.text())
+                      .arg(_path)
+                      .arg(element.lineNumber()));
+   }
 }
 
 
@@ -647,12 +661,16 @@ void Project::write(const QByteArray& data)
 {
    // Open this project's file for truncated writing and make sure it worked. 
    QFile file(_path);
-   bool ok {file.open(QIODevice::WriteOnly|QIODevice::Truncate)};
-   Q_ASSERT(ok);
+   if ( !file.open(QIODevice::WriteOnly|QIODevice::Truncate) )
+   {
+      throw Exception(tr("Failed opening %1: %2").arg(_path).arg(file.errorString()));
+   }
 
    // Write out the given byte array to the opened file and make sure it worked. 
-   qint64 written {file.write(data)};
-   Q_ASSERT(written == data.size());
+   if ( file.write(data) != data.size() )
+   {
+      throw Exception(tr("Failed writing to %1: %2").arg(_path).arg(file.errorString()));
+   }
 
    // Set this project's file hash with the given byte array. 
    setFileHash(data);

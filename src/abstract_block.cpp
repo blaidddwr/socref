@@ -1,6 +1,7 @@
 #include "abstract_block.h"
 #include <socutil/soc_ut_qptr.h>
 #include "abstract_blockfactory.h"
+#include "exception.h"
 
 
 
@@ -464,7 +465,13 @@ void Block::read(const QDomElement& element)
    // Make sure all children of this block is allowed to this block's child list. 
    for (auto child: qAsConst(_children))
    {
-      Q_ASSERT(buildList().contains(child->type()));
+      if ( !buildList().contains(child->type()) )
+      {
+         throw Exception(tr("Illegal child block type '%1' contained in block type '%2' on line %3.")
+                         .arg(factory().name(type()))
+                         .arg(factory().name(child->type()))
+                         .arg(element.lineNumber()));
+      }
    }
 }
 
@@ -622,14 +629,21 @@ void Block::readChild(const QDomElement& element)
    int type {factory().typeByElementName(element.tagName())};
 
    // Make sure reading in the type did not fail. 
-   Q_ASSERT(type >= 0);
+   if ( type < 0 )
+   {
+      throw Exception(tr("Unknown block type '%1' on line %2.")
+                      .arg(element.tagName())
+                      .arg(element.lineNumber()));
+   }
 
    // Make sure the read in type is within range of this block's factory. 
    Q_ASSERT(type < factory().size());
 
-   // Create a new block with the read in type and append it to this block's child 
-   // list. 
+   // Create a new block with the read in type and make sure it worked. 
    Soc::Ut::QPtr<Block> child {factory().createBlock(type,false)};
+   Q_CHECK_PTR(child.get());
+
+   // Take ownership of the new child block and append it to this block's child list. 
    Block* back {child.release(this)};
    _children << back;
 

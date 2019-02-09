@@ -3,6 +3,7 @@
 #include <QJsonObject>
 #include "basic_blockedit.h"
 #include "basic_blockview.h"
+#include "exception.h"
 
 
 
@@ -330,7 +331,10 @@ void Block::readData(const QDomElement& element)
                *i = i->toStringList() << child.text();
                break;
             default:
-               Q_ASSERT(false);
+               throw Exception(tr("Unknown data element '%1' on line %2 within block element on line %3.")
+                               .arg(child.tagName())
+                               .arg(child.lineNumber())
+                               .arg(element.lineNumber()));
             }
          }
       }
@@ -361,11 +365,11 @@ QDomElement Block::writeData(QDomDocument& document) const
    QDomElement ret {document.createElement("na")};
 
    // Iterate through all data fields of this basic block. 
+   bool foundUnkonwn {false};
    for (auto i = _fields.cbegin(); i != _fields.cend() ;++i)
    {
       // Based off the data field type write out its data as child elements appended to 
-      // the data element to be returned, throwing an exception if the field is an 
-      // unknown type. 
+      // the data element to be returned, marking if an unknown field type is found. 
       switch (i->type())
       {
       case QVariant::Bool:
@@ -390,9 +394,12 @@ QDomElement Block::writeData(QDomDocument& document) const
             break;
          }
       default:
-         Q_ASSERT(false);
+         foundUnkonwn = true;
       }
    }
+
+   // Make sure no unknown field type was encountered. 
+   Q_ASSERT(!foundUnkonwn);
 
    // Return the complete data element that stores this basic block's field data. 
    return ret;
