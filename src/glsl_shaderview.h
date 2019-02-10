@@ -9,7 +9,8 @@
 namespace GLSL
 {
    /*!
-    * This is the view class for the shader block. 
+    * This is the view class for the shader block. This provides a custom display 
+    * showing the number of operations for the shader function. 
     */
    class ShaderView : public Basic::BlockView
    {

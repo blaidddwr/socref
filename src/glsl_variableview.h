@@ -9,7 +9,8 @@
 namespace GLSL
 {
    /*!
-    * This is the view class for the variable block. 
+    * This is the view class for the variable block. This provides a custom display 
+    * showing the layout, if any, of this view's variable. 
     */
    class VariableView : public Basic::BlockView
    {

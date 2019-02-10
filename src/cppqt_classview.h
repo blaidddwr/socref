@@ -9,7 +9,8 @@
 namespace CppQt
 {
    /*!
-    * This is the view class for the class block. 
+    * This is the view class for the class block. This provides custom displays that 
+    * show if this view's class is a qt object, any parents it has, and any templates. 
     */
    class ClassView : public Basic::BlockView
    {

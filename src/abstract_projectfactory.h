@@ -99,17 +99,18 @@ namespace Abstract
        */
       virtual const Abstract::BlockFactory& blockFactory(int type) const = 0;
       /*!
-       * This interface makes a new parser factory for the given project type with the 
-       * given block pointer as the root of an existing project to be parsed. 
+       * This interface creates and returns a mapping of scanner objects for the given 
+       * root block that will be used for scanning all source files that match any of the 
+       * mapped scanner objects returned. The key for the returned mapping are file names 
+       * that are matched with any source files found in the scanning directory. 
        *
-       * @param type Project type whose parser factory type is made and returned. 
+       * @param root Root block of existing project that will be parsed with the returned 
+       *             mapping of scanner objects. 
        *
-       * @param root Pointer to root block of existing project that will be parsed with 
-       *             the returned parser factory. 
-       *
-       * @return Pointer to created parser factory for the given project type. 
+       * @return Mapping of scanner objects used for scanning source files of the given 
+       *         root block's project. 
        */
-      virtual Soc::Ut::QPtr<AbstractParserFactory> makeParserFactory(int type, const Block* root) const = 0;
+      virtual QMap<QString,Scanner*> createScannerList(const Block* root) const = 0;
    };
 }
 

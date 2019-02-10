@@ -9,7 +9,8 @@
 namespace GLSL
 {
    /*!
-    * This is the view class for the function block. 
+    * This is the view class for the function block. This provides custom displays for 
+    * this function's arguments, its return value, and it number of operations. 
     */
    class FunctionView : public Basic::BlockView
    {

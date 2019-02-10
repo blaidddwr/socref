@@ -9,7 +9,9 @@
 namespace CppQt
 {
    /*!
-    * This is the view class for the variable block. 
+    * This is the view class for the variable block. This provides custom displays 
+    * that show the properties and initializer of this view's variable, if any for 
+    * either one. 
     */
    class VariableView : public Basic::BlockView
    {
