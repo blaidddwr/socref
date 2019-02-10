@@ -730,6 +730,9 @@ void MainWindow::setupGui()
    _view = new BlockView(this);
    setCentralWidget(_view);
 
+   // Call the status bar method so it is created for this new window right away. 
+   statusBar();
+
    // Set this window's icon and create it's actions and menus. 
    setWindowIcon(icon);
    setupActions();

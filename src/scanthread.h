@@ -58,12 +58,12 @@ private:
    /*!
     * The directory that this scan thread will scan for source files. 
     */
-   const QString& _scanDirectory;
+   const QString _scanDirectory;
    /*!
     * The file filters this scan thread will use for filtering the files in the given 
     * scan directory. Only files that match any of these filters will be scanned. 
     */
-   const QStringList& _filters;
+   const QStringList _filters;
 };
 
 

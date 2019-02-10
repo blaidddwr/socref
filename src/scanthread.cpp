@@ -85,7 +85,6 @@ void ScanThread::run()
             emit progressChanged(percentComplete);
          }
       }
-      msleep(100);
    }
 
    // Catch any exception thrown within this thread and emit it as a signal. 

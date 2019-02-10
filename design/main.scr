@@ -3830,6 +3830,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>setupGui</name>
               <operation>Load this application's logo icon if it hasn't already been loaded.</operation>
               <operation>Create the block view for this window and set it as the central widget.</operation>
+              <operation>Call the status bar method so it is created for this new window right away.</operation>
               <operation>Set this window's icon and create it's actions and menus.</operation>
               <return_description></return_description>
               <type>void</type>
@@ -14590,7 +14591,7 @@ The mapping of scanner objects are used to determine which scanner object to use
             <description>The directory that this scan thread will scan for source files.</description>
             <initializer></initializer>
             <name>_scanDirectory</name>
-            <type>const QString&amp;</type>
+            <type>const QString</type>
           </data>
         </variable>
         <variable>
@@ -14598,7 +14599,7 @@ The mapping of scanner objects are used to determine which scanner object to use
             <description>The file filters this scan thread will use for filtering the files in the given scan directory. Only files that match any of these filters will be scanned.</description>
             <initializer></initializer>
             <name>_filters</name>
-            <type>const QStringList&amp;</type>
+            <type>const QStringList</type>
           </data>
         </variable>
       </access>
