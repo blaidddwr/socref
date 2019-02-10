@@ -110,7 +110,7 @@ namespace Abstract
        * @return Mapping of scanner objects used for scanning source files of the given 
        *         root block's project. 
        */
-      virtual QMap<QString,Scanner*> createScannerList(const Block* root) const = 0;
+      virtual QMap<QString,Scanner*> createScannerMap(const Block* root) const = 0;
    };
 }
 

@@ -42,6 +42,8 @@ namespace Gui
       void dictionaryTriggered();
       void propertiesTriggered();
       void scanTriggered();
+      void scanFinished();
+      void scanExceptionThrown(const Exception& e);
       void closeTriggered();
       void settingTriggered(int type);
       void aboutTriggered();
@@ -85,6 +87,12 @@ namespace Gui
        * Pointer to this window's project. 
        */
       Project* _project {nullptr};
+      /*!
+       * The scan thread object that is currently running an active scan of this window's 
+       * project's source files if this is not null. If no active scan is underway then 
+       * this is null. 
+       */
+      ScanThread* _scanThread {nullptr};
       /*!
        * List of new actions for this window used to create new projects of a given type 
        * for each action. 

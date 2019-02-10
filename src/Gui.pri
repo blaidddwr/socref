@@ -7,7 +7,6 @@ SOURCES += \
     gui_spellerdialog.cpp \
     gui_textedit.cpp \
     gui_textdialog.cpp \
-    gui_scandialog.cpp \
     gui_persistentdialog.cpp \
     gui_listedit.cpp \
     gui_dictionarydialog.cpp
@@ -21,7 +20,6 @@ HEADERS += \
     gui_spellerdialog.h \
     gui_textedit.h \
     gui_textdialog.h \
-    gui_scandialog.h \
     gui_persistentdialog.h \
     gui_listedit.h \
     gui_dictionarydialog.h

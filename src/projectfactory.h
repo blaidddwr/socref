@@ -38,7 +38,7 @@ public:
    virtual QString defaultFilters(int type) const override final;
    virtual Soc::Ut::QPtr<QDialog> makeSettings(int type) const override final;
    virtual const Abstract::BlockFactory& blockFactory(int type) const override final;
-   virtual Soc::Ut::QPtr<AbstractParserFactory> makeParserFactory(int type, const Abstract::Block* root) const override final;
+   virtual QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root) const override final;
 };
 
 

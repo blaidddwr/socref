@@ -269,21 +269,15 @@ QString Project::scanFilters() const
 
 
 /*!
- * Makes and returns a pointer to a new scan thread that can be used for scanning 
- * and parsing matched source files in the scan directory of this project. 
+ * Creates and returns a mapping of scanner objects that can be used to parse any 
+ * source files that belong to this project. 
  *
- * @return Pointer to new scan thread object. 
+ * @return Mapping of scanner objects that can be used to parse any source files 
+ *         that belong to this project. 
  */
-Soc::Ut::QPtr<ScanThread> Project::makeScanner() const
+const QMap<QString,Scanner*> Project::createScannerMap() const
 {
-   // Create a new scan thread with a newly created parser factory and this project's 
-   // scan directory and filters, returning its pointer. 
-   return Soc::Ut::QPtr<ScanThread>
-   {
-      new ScanThread(Abstract::ProjectFactory::instance().makeParserFactory(_type,_root)
-                     ,_scanDirectory
-                     ,_scanFilters.split(' '))
-   };
+   return Abstract::ProjectFactory::instance().createScannerMap(_root);
 }
 
 

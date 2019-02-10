@@ -365,11 +365,10 @@ QDomElement Block::writeData(QDomDocument& document) const
    QDomElement ret {document.createElement("na")};
 
    // Iterate through all data fields of this basic block. 
-   bool foundUnkonwn {false};
    for (auto i = _fields.cbegin(); i != _fields.cend() ;++i)
    {
       // Based off the data field type write out its data as child elements appended to 
-      // the data element to be returned, marking if an unknown field type is found. 
+      // the data element to be returned, marking sure the field type is recognized. 
       switch (i->type())
       {
       case QVariant::Bool:
@@ -394,12 +393,9 @@ QDomElement Block::writeData(QDomDocument& document) const
             break;
          }
       default:
-         foundUnkonwn = true;
+         Q_ASSERT(false);
       }
    }
-
-   // Make sure no unknown field type was encountered. 
-   Q_ASSERT(!foundUnkonwn);
 
    // Return the complete data element that stores this basic block's field data. 
    return ret;

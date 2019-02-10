@@ -1,13 +1,14 @@
 #include "gui_mainwindow.h"
 #include <QAction>
 #include <QMenuBar>
+#include <QStatusBar>
+#include <QProgressBar>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QSettings>
 #include "gui_projectdialog.h"
 #include "gui_dictionarydialog.h"
-#include "gui_scandialog.h"
 #include "gui_blockview.h"
 #include "abstract_block.h"
 #include "abstract_projectfactory.h"
@@ -289,15 +290,65 @@ void MainWindow::propertiesTriggered()
  */
 void MainWindow::scanTriggered()
 {
-   // Make sure this window has a project. 
-   if ( _project )
+   // Make sure this window has a project and does not have a currently running scan 
+   // thread. 
+   if ( _project && !_scanThread )
    {
-      // Create a new scanner from this window's project, then create a new scan dialog 
-      // with the new scanner, and then execute the scan dialog. 
-      Soc::Ut::QPtr<ScanThread> scanner {_project->makeScanner()};
-      ScanDialog dialog(scanner.get());
-      dialog.exec();
+      // Create a new scan thread and progress bar for this window. 
+      _scanThread = new ScanThread(_project->createScannerMap(),_project->scanDirectory(),_project->scanFilters().split(' ',QString::SkipEmptyParts),this);
+      QProgressBar* progressBar {new QProgressBar};
+
+      // Connect all required signals for this window's new scan thread. 
+      connect(_scanThread,&ScanThread::progressChanged,progressBar,&QProgressBar::setValue);
+      connect(_scanThread,&ScanThread::finished,this,&MainWindow::scanFinished);
+      connect(_scanThread,&ScanThread::finished,progressBar,&QProgressBar::deleteLater);
+      connect(_scanThread,&ScanThread::exceptionThrown,this,&MainWindow::scanExceptionThrown);
+
+      // Initialize the progress bar and add it to this window's status bar. 
+      progressBar->setRange(0,100);
+      progressBar->setValue(0);
+      statusBar()->addWidget(progressBar);
+
+      // Start the new scan thread. 
+      _scanThread->start();
    }
+}
+
+
+
+
+
+
+/*!
+ * Called when an active scan of this window's project's source files have 
+ * finished. 
+ */
+void MainWindow::scanFinished()
+{
+   // Make sure this window's scan thread pointer is valid. 
+   Q_CHECK_PTR(_scanThread);
+
+   // Delete this window's scan thread and reset its pointer to null. 
+   delete _scanThread;
+   _scanThread = nullptr;
+}
+
+
+
+
+
+
+/*!
+ * Called when an active scan of this window's project's source files fails and 
+ * throws an exception within its thread, opening a warning message box informing 
+ * the user of what went wrong. 
+ *
+ * @param e The exception that was thrown within the scan thread that caused it to 
+ *          fail. 
+ */
+void MainWindow::scanExceptionThrown(const Exception& e)
+{
+   QMessageBox::warning(this,tr("Scanning Failed"),e.message());
 }
 
 

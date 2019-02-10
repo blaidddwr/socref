@@ -1387,7 +1387,7 @@ An implementation of this class must construct the form portion of this dialog g
               <abstract/>
               <const/>
               <description>This interface creates and returns a mapping of scanner objects for the given root block that will be used for scanning all source files that match any of the mapped scanner objects returned. The key for the returned mapping are file names that are matched with any source files found in the scanning directory.</description>
-              <name>createScannerList</name>
+              <name>createScannerMap</name>
               <return_description>Mapping of scanner objects used for scanning source files of the given root block's project.</return_description>
               <type>QMap&lt;QString,Scanner*></type>
               <virtual/>
@@ -3621,11 +3621,40 @@ The edit menu is the context menu of the block view class. The settings menu is 
             <data>
               <description>Called when the scan action is triggered. If this window has a project then a project scan is executed using the scan dialog class.</description>
               <name>scanTriggered</name>
-              <operation>Make sure this window has a project.</operation>
-              <operation>Create a new scanner from this window's project, then create a new scan dialog with the new scanner, and then execute the scan dialog.</operation>
+              <operation>Make sure this window has a project and does not have a currently running scan thread.</operation>
+              <operation>Create a new scan thread and progress bar for this window.</operation>
+              <operation>Connect all required signals for this window's new scan thread.</operation>
+              <operation>Initialize the progress bar and add it to this window's status bar.</operation>
+              <operation>Start the new scan thread.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
+          </function>
+          <function>
+            <data>
+              <description>Called when an active scan of this window's project's source files have finished.</description>
+              <name>scanFinished</name>
+              <operation>Make sure this window's scan thread pointer is valid.</operation>
+              <operation>Delete this window's scan thread and reset its pointer to null.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Called when an active scan of this window's project's source files fails and throws an exception within its thread, opening a warning message box informing the user of what went wrong.</description>
+              <name>scanExceptionThrown</name>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The exception that was thrown within the scan thread that caused it to fail.</description>
+                <initializer></initializer>
+                <name>e</name>
+                <type>const Exception&amp;</type>
+              </data>
+            </variable>
           </function>
           <function>
             <data>
@@ -3909,6 +3938,14 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <initializer>nullptr</initializer>
               <name>_project</name>
               <type>Project*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The scan thread object that is currently running an active scan of  this window's project's source files if this is not null. If no active scan is underway then this is null.</description>
+              <initializer>nullptr</initializer>
+              <name>_scanThread</name>
+              <type>ScanThread*</type>
             </data>
           </variable>
           <variable>
@@ -4270,170 +4307,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </variable>
         </access>
       </class>
-      <class>
-        <data>
-          <description>This is the scan dialog which executes a scan thread and reports on its progress, closing once the scanning is complete or fails. Progress of scanning is presented to the user using a progress bar. This dialog allows the user to cancel the scanning process with a cancel button which requests the scan thread to interrupt itself before completion.</description>
-          <name>ScanDialog</name>
-          <qtobject/>
-        </data>
-        <parent>
-          <data>
-            <access>public</access>
-            <class>PersistentDialog</class>
-          </data>
-        </parent>
-        <access>
-          <data>
-            <type>public:</type>
-          </data>
-          <function>
-            <data>
-              <description>Constructs a new scan dialog with the given scan thread and optional parent. This does not start the scanning process but only prepares the dialog to start execution. If the given scan thread pointer is null then an exception is thrown.</description>
-              <explicit/>
-              <name>^</name>
-              <operation>Make sure the given scanner pointer is not null.</operation>
-              <operation>Create the GUI for this dialog and set its title.</operation>
-              <operation>Connect the given scanner signals to this new dialog.</operation>
-              <return_description></return_description>
-              <type></type>
-            </data>
-            <variable>
-              <data>
-                <description>Pointer to the scan thread this new dialog will use for execution. This dialog does not take ownership of the scan thread. The pointer cannot be null.</description>
-                <initializer></initializer>
-                <name>scanner</name>
-                <type>ScanThread*</type>
-              </data>
-            </variable>
-            <variable>
-              <data>
-                <description>Optional parent for this new dialog.</description>
-                <initializer>nullptr</initializer>
-                <name>parent</name>
-                <type>QWidget*</type>
-              </data>
-            </variable>
-          </function>
-          <function>
-            <data>
-              <description>Implements _QDialog_ interface. This implementation starts execution of the scan thread of this dialog and then passes execution to the dialog.</description>
-              <final/>
-              <name>exec</name>
-              <operation>Start the scanner thread and then pass execution to the dialog.</operation>
-              <override/>
-              <return_description>See Qt docs.</return_description>
-              <type>int</type>
-              <virtual/>
-            </data>
-          </function>
-        </access>
-        <access>
-          <data>
-            <type>protected:</type>
-          </data>
-          <function>
-            <data>
-              <description>Implements _QWidget_ interface. This implementation requests its scan thread to finish and ignores the close event so the scan thread can exit cleanly.</description>
-              <final/>
-              <name>closeEvent</name>
-              <operation>Request the scan thread for this dialog interrupts itself and ignore the given close event.</operation>
-              <override/>
-              <return_description></return_description>
-              <type>void</type>
-              <virtual/>
-            </data>
-            <variable>
-              <data>
-                <description>See Qt docs.</description>
-                <initializer></initializer>
-                <name>event</name>
-                <type>QCloseEvent*</type>
-              </data>
-            </variable>
-          </function>
-        </access>
-        <access>
-          <data>
-            <type>private slots:</type>
-          </data>
-          <function>
-            <data>
-              <description>Called when the cancel button for this dialog is clicked, requesting the scan thread for this dialog to interrupt itself and exit.</description>
-              <name>cancelClicked</name>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-          </function>
-          <function>
-            <data>
-              <description>Called when the scan thread's progress for this dialog has changed. This updates the progress bar for this dialog.</description>
-              <name>progressChanged</name>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-            <variable>
-              <data>
-                <description>The current file index that is being parsed by the scan thread of this dialog.</description>
-                <initializer></initializer>
-                <name>index</name>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function>
-            <data>
-              <description>Called when the scan thread for this dialog has finished scanning all files. This closes this dialog on accept.</description>
-              <name>scanFinished</name>
-              <operation>Close this dialog with accepted.</operation>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-          </function>
-        </access>
-        <access>
-          <data>
-            <type>private:</type>
-          </data>
-          <function>
-            <data>
-              <description>Constructs and initializes the GUI for this new dialog.</description>
-              <name>setupGui</name>
-              <operation>Create and initialize the progress bar for this new dialog.</operation>
-              <operation>Create a new vertical layout, adding the progress bar and then the bottom layout.</operation>
-              <operation>Set the layout of this new dialog.</operation>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-          </function>
-          <function>
-            <data>
-              <description>Constructs and initializes the bottom GUI for this new dialog, returning its layout.</description>
-              <name>setupBottom</name>
-              <operation>Create the push button for this dialog, connecting its clicked signal.</operation>
-              <operation>Create a new horizontal layout, adding a stretch then the cancel button and then another stretch.</operation>
-              <operation>Return the bottom layout.</operation>
-              <return_description>Pointer to layout of the bottom GUI for this new element.</return_description>
-              <type>QLayout*</type>
-            </data>
-          </function>
-          <variable>
-            <data>
-              <description>Pointer to the scan thread object for this dialog.</description>
-              <initializer></initializer>
-              <name>_scanner</name>
-              <type>ScanThread*</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>Pointer to the progress bar widget for this dialog.</description>
-              <initializer></initializer>
-              <name>_bar</name>
-              <type>QProgressBar*</type>
-            </data>
-          </variable>
-        </access>
-      </class>
     </namespace>
     <namespace>
       <data>
@@ -4721,8 +4594,7 @@ This class provides protected helper methods for getting the values of its data 
               <operation>Make sure this basic block has been initialized.</operation>
               <operation>Create the return data element.</operation>
               <operation>Iterate through all data fields of this basic block.</operation>
-              <operation>Based off the data field type write out its data as child elements appended to the data element to be returned, marking if an unknown field type is found.</operation>
-              <operation>Make sure no unknown field type was encountered.</operation>
+              <operation>Based off the data field type write out its data as child elements appended to the data element to be returned, marking sure the field type is recognized.</operation>
               <operation>Return the complete data element that stores this basic block's field data.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
@@ -14534,7 +14406,11 @@ Because this function parser is responsible for the special main function it mus
     </class>
     <class>
       <data>
-        <description>This implements the qt thread class and is used to scan and parse an entire directory of source files with the given file filters and parser factory. This executes the scanning of files on the separate thread started by the qt thread class. Signals are emitted for the progress of the scanning and when it is complete. Because execution of parsing is done on a separate thread if an exception is thrown within that thread it is caught and saved within the class. This exception can be viewed from the main thread.</description>
+        <description>This implements the qt thread class and is used to scan and parse an entire directory of source files with the given file filters and mapping of scanner objects. This executes the scanning of files on the separate thread started by the qt thread class. Signals are emitted for the progress of the scanning and if an exception is thrown from within the thread.
+
+Because execution of parsing is done on a separate thread if an exception is thrown within that thread it is caught and emitted as a signal that can be used on the main GUI thread.
+
+The mapping of scanner objects are used to determine which scanner object to use on any matched files found. The key of the mapping is used as the file name to be matched. This thread takes ownership of all scanner objects passed to it in the given map and is destroyed when this thread object is destroyed.</description>
         <name>ScanThread</name>
         <qtobject/>
       </data>
@@ -14550,7 +14426,7 @@ Because this function parser is responsible for the special main function it mus
         </data>
         <function>
           <data>
-            <description>This constructs a new scan thread with the given parser factory, directory to scan, file filters, and possible parent.</description>
+            <description>Constructs a new scan thread with the given mapping of scanner objects, directory to scan, file filters, and possible parent.</description>
             <explicit/>
             <name>^</name>
             <operation>Set this object as the given factory's parent and build the list of files to parse.</operation>
@@ -14561,7 +14437,7 @@ Because this function parser is responsible for the special main function it mus
             <data>
               <description>The mapping of scanner objects this scan thread uses for parsing all source files it finds.</description>
               <initializer></initializer>
-              <name>scanList</name>
+              <name>scanMap</name>
               <type>const QMap&lt;QString,Scanner*>&amp;</type>
             </data>
           </variable>
@@ -14590,6 +14466,17 @@ Because this function parser is responsible for the special main function it mus
             </data>
           </variable>
         </function>
+        <function>
+          <data>
+            <description>Destroys all scanner objects in the mapping given to this scan thread.</description>
+            <final/>
+            <name>~^</name>
+            <override/>
+            <return_description></return_description>
+            <type></type>
+            <virtual/>
+          </data>
+        </function>
       </access>
       <access>
         <data>
@@ -14613,14 +14500,14 @@ Because this function parser is responsible for the special main function it mus
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Signals that an exception was thrown and caught in this thread, prematurely ending the scanning of source files in this thread.</description>
             <name>exceptionThrown</name>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The exception that was thrown and caught in this thread.</description>
               <initializer></initializer>
               <name>e</name>
               <type>const Exception&amp;</type>
@@ -14637,10 +14524,13 @@ Because this function parser is responsible for the special main function it mus
             <description>Implements _QThread_ interface. This iterates through all files to be parsed and parses them, constantly checking for any requested interruption.</description>
             <final/>
             <name>run</name>
-            <operation>Iterate through this object's list of files to be parsed.</operation>
+            <operation>Initialize the percent complete to zero and create the list of files to be matched with scanners.</operation>
+            <operation>Iterate through the list of files to possibly be scanned.</operation>
             <operation>Check to see if interruption of this thread is requested.</operation>
-            <operation>Signal progress has occurred.</operation>
-            <operation>Make a parser object for the current file using this object's parser factory and run it if it is not null.</operation>
+            <operation>TODO; scanner goes here.</operation>
+            <operation>Calculate percent complete and check to see if it has changed since last time.</operation>
+            <operation>Update the percent complete and emit the progress changed signal.</operation>
+            <operation>Catch any exception thrown within this thread and emit it as a signal.</operation>
             <override/>
             <return_description></return_description>
             <type>void</type>
@@ -14691,7 +14581,7 @@ Because this function parser is responsible for the special main function it mus
           <data>
             <description>The mapping of scanner objects this scan thread uses for parsing all source files it finds.</description>
             <initializer></initializer>
-            <name>_scanList</name>
+            <name>_scanMap</name>
             <type>const QMap&lt;QString,Scanner*></type>
           </data>
         </variable>
@@ -15126,24 +15016,14 @@ Because this function parser is responsible for the special main function it mus
         <function>
           <data>
             <const/>
-            <description>Implements _AbstractProjectFactory_ interface.</description>
+            <description>Implements _Abstract::ProjectFactory_ interface.</description>
             <final/>
-            <name>makeParserFactory</name>
-            <operation>Create a new parser factory for the given project type using the given block root.</operation>
-            <operation>This project type is not recognized so throw an exception.</operation>
+            <name>createScannerMap</name>
             <override/>
             <return_description>See interface docs.</return_description>
-            <type>Soc::Ut::QPtr&lt;AbstractParserFactory></type>
+            <type>QMap&lt;QString,Scanner*></type>
             <virtual/>
           </data>
-          <variable>
-            <data>
-              <description>See interface docs.</description>
-              <initializer></initializer>
-              <name>type</name>
-              <type>int</type>
-            </data>
-          </variable>
           <variable>
             <data>
               <description>See interface docs.</description>
@@ -15284,11 +15164,10 @@ Because this function parser is responsible for the special main function it mus
         <function>
           <data>
             <const/>
-            <description>Makes and returns a pointer to a new scan thread that can be used for scanning and parsing matched source files in the scan directory of this project.</description>
-            <name>makeScanner</name>
-            <operation>Create a new scan thread with a newly created parser factory and this project's scan directory and filters, returning its pointer.</operation>
-            <return_description>Pointer to new scan thread object.</return_description>
-            <type>Soc::Ut::QPtr&lt;ScanThread></type>
+            <description>Creates and returns a mapping of scanner objects that can be used to parse any source files that belong to this project.</description>
+            <name>createScannerMap</name>
+            <return_description>Mapping of scanner objects that can be used to parse any source files that belong to this project.</return_description>
+            <type>const QMap&lt;QString,Scanner*></type>
           </data>
         </function>
         <function>

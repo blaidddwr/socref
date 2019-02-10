@@ -178,24 +178,14 @@ const Abstract::BlockFactory& ProjectFactory::blockFactory(int type) const
 
 
 /*!
- * Implements _AbstractProjectFactory_ interface. 
- *
- * @param type See interface docs. 
+ * Implements _Abstract::ProjectFactory_ interface. 
  *
  * @param root See interface docs. 
  *
  * @return See interface docs. 
  */
-Soc::Ut::QPtr<AbstractParserFactory> ProjectFactory::makeParserFactory(int type, const Abstract::Block* root) const
+QMap<QString,Scanner*> ProjectFactory::createScannerMap(const Abstract::Block* root) const
 {
-   // Create a new parser factory for the given project type using the given block 
-   // root. 
-   switch (type)
-   {
-   //case CppQtType: return Soc::Ut::QPtr<AbstractParserFactory>(new CppQt::Parse::Factory(root));
-   //case GLSLType: return Soc::Ut::QPtr<AbstractParserFactory>(new GLSL::Parse::Factory(root));
-   default:
-      // This project type is not recognized so throw an exception. 
-      Q_ASSERT(false);
-   }
+   Q_UNUSED(root);
+   return QMap<QString,Scanner*>();
 }

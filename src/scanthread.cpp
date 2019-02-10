@@ -1,8 +1,7 @@
 #include "scanthread.h"
 #include <QDebug>
 #include <QDir>
-#include "abstractparserfactory.h"
-#include "abstractparser.h"
+#include "exception.h"
 
 
 
@@ -14,31 +13,27 @@
 
 
 /*!
- * This constructs a new scan thread with the given parser factory, directory to 
- * scan, file filters, and possible parent. 
+ * Constructs a new scan thread with the given mapping of scanner objects, 
+ * directory to scan, file filters, and possible parent. 
  *
- * @param factory The parser factory that this scan thread will use to make all 
- *                parser objects for each matched source file. This scan thread 
- *                takes ownership of the factory. 
+ * @param scanMap The mapping of scanner objects this scan thread uses for parsing 
+ *                all source files it finds. 
  *
  * @param scanDirectory The directory that this scan thread will scan for source 
  *                      files. 
  *
  * @param filters The file filters this scan thread will use for filtering the 
  *                files in the given scan directory. Only files that match any of 
- *                these filters will be parsed. 
+ *                these filters will be scanned. 
  *
  * @param parent The parent of this object if any. 
  */
-ScanThread::ScanThread(Soc::Ut::QPtr<AbstractParserFactory>&& factory, const QString& scanDirectory, const QStringList& filters, QObject* parent):
+ScanThread::ScanThread(const QMap<QString,Scanner*>& scanMap, const QString& scanDirectory, const QStringList& filters, QObject* parent):
    QThread(parent),
-   _factory(factory.get())
-{
-   // Set this object as the given factory's parent and build the list of files to 
-   // parse. 
-   factory.release(this);
-   buildList(scanDirectory,filters);
-}
+   _scanMap(scanMap),
+   _scanDirectory(scanDirectory),
+   _filters(filters)
+{}
 
 
 
@@ -46,13 +41,11 @@ ScanThread::ScanThread(Soc::Ut::QPtr<AbstractParserFactory>&& factory, const QSt
 
 
 /*!
- * Returns the total number of files that were matched for parsing. 
- *
- * @return Total number of files matched for parsing. 
+ * Destroys all scanner objects in the mapping given to this scan thread. 
  */
-int ScanThread::size() const
+ScanThread::~ScanThread()
 {
-   return _list.size();
+   qDeleteAll(_scanMap);
 }
 
 
@@ -66,23 +59,39 @@ int ScanThread::size() const
  */
 void ScanThread::run()
 {
-   // Iterate through this object's list of files to be parsed. 
-   for (int i = 0; i < _list.size() ;++i)
+   try
    {
-      // Check to see if interruption of this thread is requested. 
-      if ( isInterruptionRequested() ) return;
+      // Initialize the percent complete to zero and create the list of files to be 
+      // matched with scanners. 
+      int percentComplete {0};
+      QFileInfoList list {createList(_scanDirectory,_filters)};
 
-      // Signal progress has occurred. 
-      emit progressChanged(i);
-
-      // Make a parser object for the current file using this object's parser factory 
-      // and run it if it is not null. 
-      const QFileInfo info {_list.at(i)};
-      Soc::Ut::QPtr<AbstractParser> parser
+      // Iterate through the list of files to possibly be scanned. 
+      for (int i = 0; i < list.size() ;++i)
       {
-         _factory->make(info.completeBaseName().toLower(),info.suffix().toLower())
-      };
-      if ( parser ) parse(parser.get(),info);
+         // Check to see if interruption of this thread is requested. 
+         if ( isInterruptionRequested() ) return;
+
+         // TODO; scanner goes here. 
+         const QFileInfo info {list.at(i)};
+         qDebug() << info.completeBaseName();
+
+         // Calculate percent complete and check to see if it has changed since last time. 
+         int newPercentComplete {i*100/list.size()};
+         if ( newPercentComplete != percentComplete )
+         {
+            // Update the percent complete and emit the progress changed signal. 
+            percentComplete = newPercentComplete;
+            emit progressChanged(percentComplete);
+         }
+      }
+      msleep(100);
+   }
+
+   // Catch any exception thrown within this thread and emit it as a signal. 
+   catch (Exception e)
+   {
+      emit exceptionThrown(e);
    }
 }
 
@@ -92,46 +101,29 @@ void ScanThread::run()
 
 
 /*!
- * Parses the given file using the given parser. If the file fails to open an 
- * exception is thrown. 
- *
- * @param parser Pointer to the abstract parser that is used for parsing the given 
- *               file. 
- *
- * @param info Info for the file that is parsed with the given parser. 
- */
-void ScanThread::parse(AbstractParser* parser, const QFileInfo& info)
-{
-   // Open the given file and make sure it did not fail. 
-   QFile file(info.canonicalFilePath());
-   bool ok {file.open(QFile::ReadWrite|QIODevice::Text)};
-   Q_ASSERT(ok);
-
-   // parse the opened file with the given parser. 
-   parser->execute(&file);
-}
-
-
-
-
-
-
-/*!
- * Builds this scan thread's list of matched files that will be parsed from the 
- * given scan directory and file filters. A file must match only one file filter to 
- * be added to the list of matched files. 
+ * creates and returns a list of files that match the given given scan directory 
+ * and file filters. A file must match only one file filter to be added to the list 
+ * of matched files. 
  *
  * @param scanDirectory The directory where files will be matched and added to the 
- *                      list. 
+ *                      returned list. 
  *
- * @param filters The filters that will be used to match files. Each string in this 
+ * @param filters The filters that are used to match files. Each string in this 
  *                list must be a single filter. 
+ *
+ * @return List of files that match the given scan directory and filters. 
  */
-void ScanThread::buildList(const QString& scanDirectory, const QStringList& filters)
+QFileInfoList ScanThread::createList(const QString& scanDirectory, const QStringList& filters)
 {
+   // Initialize the return list. 
+   QFileInfoList ret;
+
    // Get the scan directory from the given path and make sure it exists. 
    QDir dir(scanDirectory);
-   Q_ASSERT(dir.exists());
+   if ( !dir.exists() )
+   {
+      throw Exception(tr("Scan directory %1 does not exist.").arg(scanDirectory));
+   }
 
    // Make a list of files in the scan directory with the given filters and iterate 
    // through them all. 
@@ -140,7 +132,10 @@ void ScanThread::buildList(const QString& scanDirectory, const QStringList& filt
    {
       // If the file is a directory then recursively call this method on that directory 
       // else add the file to this object's list of files to be parsed. 
-      if ( item.isDir() ) buildList(item.canonicalFilePath(),filters);
-      else _list << item;
+      if ( item.isDir() ) ret << createList(item.canonicalFilePath(),filters);
+      else ret << item;
    }
+
+   // Return the list of matched files. 
+   return ret;
 }

@@ -36,7 +36,7 @@ public:
    QString name() const;
    QString scanDirectory() const;
    QString scanFilters() const;
-   Soc::Ut::QPtr<ScanThread> makeScanner() const;
+   const QMap<QString,Scanner*> createScannerMap() const;
    BlockModel* model();
    DictionaryModel* dictionary();
    void setName(const QString& value);
