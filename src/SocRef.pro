@@ -21,27 +21,29 @@ DEFINES += QT_DEPRECATED_WARNINGS \
     REVISION=$${REVISION}
 
 SOURCES += \
-    main.cpp \
     exception.cpp \
-    project.cpp \
-    projectfactory.cpp \
     application.cpp \
-    blockmodel.cpp \
     abstractparser.cpp \
+    blockmodel.cpp \
+    scanner.cpp \
     scanthread.cpp \
-    dictionarymodel.cpp
+    dictionarymodel.cpp \
+    projectfactory.cpp \
+    project.cpp \
+    main.cpp
 
 HEADERS += \
     global.h \
     exception.h \
-    project.h \
-    projectfactory.h \
     application.h \
-    blockmodel.h \
     abstractparser.h \
     abstractparserfactory.h \
+    blockmodel.h \
+    scanner.h \
     scanthread.h \
-    dictionarymodel.h
+    dictionarymodel.h \
+    projectfactory.h \
+    project.h
 
 include(Abstract.pri)
 include(Gui.pri)

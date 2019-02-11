@@ -10,4 +10,5 @@ namespace Abstract
    class BlockEdit;
    class BlockFactory;
    class ProjectFactory;
+   class Parser;
 }

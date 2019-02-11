@@ -298,11 +298,12 @@ void MainWindow::scanTriggered()
       _scanThread = new ScanThread(_project->createScannerMap(),_project->scanDirectory(),_project->scanFilters().split(' ',QString::SkipEmptyParts),this);
       QProgressBar* progressBar {new QProgressBar};
 
-      // Connect all required signals for this window's new scan thread. 
-      connect(_scanThread,&ScanThread::progressChanged,progressBar,&QProgressBar::setValue);
-      connect(_scanThread,&ScanThread::finished,this,&MainWindow::scanFinished);
-      connect(_scanThread,&ScanThread::finished,progressBar,&QProgressBar::deleteLater);
-      connect(_scanThread,&ScanThread::exceptionThrown,this,&MainWindow::scanExceptionThrown);
+      // Connect all required signals for this window's new scan thread, using a queued 
+      // connection since all signals will be emitted on its own thread. 
+      connect(_scanThread,&ScanThread::progressChanged,progressBar,&QProgressBar::setValue,Qt::QueuedConnection);
+      connect(_scanThread,&ScanThread::finished,this,&MainWindow::scanFinished,Qt::QueuedConnection);
+      connect(_scanThread,&ScanThread::finished,progressBar,&QProgressBar::deleteLater,Qt::QueuedConnection);
+      connect(_scanThread,&ScanThread::exceptionThrown,this,&MainWindow::scanExceptionThrown,Qt::QueuedConnection);
 
       // Initialize the progress bar and add it to this window's status bar. 
       progressBar->setRange(0,100);

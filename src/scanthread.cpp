@@ -2,6 +2,7 @@
 #include <QDebug>
 #include <QDir>
 #include "exception.h"
+#include "scanner.h"
 
 
 
@@ -33,19 +34,9 @@ ScanThread::ScanThread(const QMap<QString,Scanner*>& scanMap, const QString& sca
    _scanMap(scanMap),
    _scanDirectory(scanDirectory),
    _filters(filters)
-{}
-
-
-
-
-
-
-/*!
- * Destroys all scanner objects in the mapping given to this scan thread. 
- */
-ScanThread::~ScanThread()
 {
-   qDeleteAll(_scanMap);
+   // Set the parent of all scanner objects in the given map to this object. 
+   for (auto scanner: _scanMap) scanner->setParent(this);
 }
 
 
@@ -72,9 +63,13 @@ void ScanThread::run()
          // Check to see if interruption of this thread is requested. 
          if ( isInterruptionRequested() ) return;
 
-         // TODO; scanner goes here. 
-         const QFileInfo info {list.at(i)};
-         qDebug() << info.completeBaseName();
+         // Attempt to find a scanner object on this thread's mapping that matches the file 
+         // name. 
+         QFileInfo info {list.at(i)};
+         auto j {_scanMap.find(info.fileName())};
+
+         // If a scanner object was found then scan the current file with it. 
+         if ( j != _scanMap.end() ) (*j)->parse(info.absoluteFilePath());
 
          // Calculate percent complete and check to see if it has changed since last time. 
          int newPercentComplete {i*100/list.size()};

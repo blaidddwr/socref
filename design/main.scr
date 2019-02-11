@@ -1403,6 +1403,83 @@ An implementation of this class must construct the form portion of this dialog g
           </function>
         </access>
       </class>
+      <class>
+        <data>
+          <description>This represents parser elements that are used in a scanner to parse a source file. A parser element can read the input of the source file based off a header that must be matched. A parser element also provides output lines that are used to write output to the scanner source file along with all other parser elements part of a scanner.
+
+A scanner queries all of its parser elements that take input for a regular expression header that is matched with each input line read from the source file. If the regular expression matches the line then each following line, including the header line matched, is provided to the element parser until it is finished.</description>
+          <name>Parser</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>QObject</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <abstract/>
+              <const/>
+              <description>This interface returns the output lines for this parser element used by its parent scanner to write output to its source file.</description>
+              <name>output</name>
+              <return_description>Output lines for this parser element.</return_description>
+              <type>QStringList</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This interface returns true if this parser element requires input from the source file of its parent scanner. This can be updated to false if this no longer needs input but cannot be changed from false to true. The default implementation returns false.</description>
+              <name>hasInput</name>
+              <return_description>True if this parser element requires input from its parent scanner source file or false otherwise.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>This interface returns a regular expression that its parent scanner uses to match input lines of its source file. Once this object's parent scanner finds a match with the returned regular expression it is fed input lines until this object is finished. The default implementation returns an empty string.</description>
+              <name>headerExpression</name>
+              <return_description>Regular expression that its parent scanner uses to match input lines of its source file.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>This interface reads in one line of input given from its parent scanner, returning true if this parser element wants to read the next line after the one given. The default implementation returns false.</description>
+              <name>input</name>
+              <return_description>True to signal this parser will continue reading input lines or false to signal it is finished.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>One line of input given from this parser element's parent scanner.</description>
+                <initializer></initializer>
+                <name>line</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>This interface clears any saved information this parser element contains and resets it to its initial state. The default implementation does nothing.</description>
+              <name>reset</name>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+      </class>
     </namespace>
     <namespace>
       <data>
@@ -3623,7 +3700,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <name>scanTriggered</name>
               <operation>Make sure this window has a project and does not have a currently running scan thread.</operation>
               <operation>Create a new scan thread and progress bar for this window.</operation>
-              <operation>Connect all required signals for this window's new scan thread.</operation>
+              <operation>Connect all required signals for this window's new scan thread, using a queued connection since all signals will be emitted on its own thread.</operation>
               <operation>Initialize the progress bar and add it to this window's status bar.</operation>
               <operation>Start the new scan thread.</operation>
               <return_description></return_description>
@@ -14373,7 +14450,7 @@ Because this function parser is responsible for the special main function it mus
     </class>
     <class>
       <data>
-        <description></description>
+        <description>This is a scanner that is responsible for parsing an entire source file using a list of parser elements added to it. The parser elements must be added before parsing a source file. A scanner can parse as many times as needed but it should only be used once on the specific file it is meant to be parsing.</description>
         <name>Scanner</name>
         <qtobject/>
       </data>
@@ -14389,20 +14466,122 @@ Because this function parser is responsible for the special main function it mus
         </data>
         <function>
           <data>
-            <description></description>
-            <name>process</name>
+            <description>Parses the source file with the given path using this scanner's parser elements, overwriting any contents the file may contain if it is different from the output of the parser elements. If this scanner has no parser elements then this does nothing.</description>
+            <name>parse</name>
+            <operation>Make sure this scanner has parser elements.</operation>
+            <operation>Open the source file with the given path and make sure it works.</operation>
+            <operation>Read the entire contents of the opened source file and make sure it worked.</operation>
+            <operation>Parse the input for any input parser elements and then create the output using all parser elements.</operation>
+            <operation>Check to see if the output is different from the original contents of the open source file.</operation>
+            <operation>Truncate the open source file to zero and make sure it worked.</operation>
+            <operation>Write the output to the open source file and make sure all bytes were written.</operation>
+            <operation>Reset all parser elements of this scanner in case this parses another source file.</operation>
+            <operation>Catch any exception thrown to reset all parser elements of this scanner in case it is used again and throw the exception again.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>Path of the source file that is parsed and possibly overwritten.</description>
               <initializer></initializer>
               <name>path</name>
               <type>const QString&amp;</type>
             </data>
           </variable>
         </function>
+        <function>
+          <data>
+            <description>Adds a new parser element to this scanner, taking ownership of it. Parser element output is added in the same order the parser element's are added using this method.</description>
+            <name>addParser</name>
+            <operation>Take ownership of the given parser and add it to this scanner's list.</operation>
+            <operation>If the given parser requires input then add it to this scanner's list for input.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>Parser element added to this scanner which also takes ownership of it.</description>
+              <initializer></initializer>
+              <name>parser</name>
+              <type>Soc::Ut::QPtr&lt;Abstract::Parser>&amp;&amp;</type>
+            </data>
+          </variable>
+        </function>
+      </access>
+      <access>
+        <data>
+          <type>private:</type>
+        </data>
+        <function>
+          <data>
+            <description>Parses the input of the original contents of the source file this scanner is parsing, finding any input parser that still requires input by matching its given header expression.</description>
+            <name>parseInput</name>
+            <operation>Make sure this scanner has parser elements requiring input.</operation>
+            <operation>Initialize the current parser pointer taking input to null and create the input lines for parsing from the source file being parsed.</operation>
+            <operation>Iterate through all input lines.</operation>
+            <operation>Check to see if there is an active parser element parsing the input lines.</operation>
+            <operation>Parse the line with the current parser element taking input, resetting the active parser pointer to null if it returns false.</operation>
+            <operation>Else there is no active parser element taking input.</operation>
+            <operation>Try to find a parser element of this scanner whose header expression matches the line.</operation>
+            <operation>Provide the matched header expression line as the first line of input to the parser element that was found.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+        </function>
+        <function>
+          <data>
+            <description>Creates and returns the output for the source file this scanner is parsing.</description>
+            <name>createOutput</name>
+            <operation>Construct all lines of output using this scanner's list of parser elements, adding them in order that the parser elements were added.</operation>
+            <operation>Combine and return all output lines of output.</operation>
+            <return_description>The output for the source file this scanner is parsing.</return_description>
+            <type>QString</type>
+          </data>
+        </function>
+        <function>
+          <data>
+            <description>Attempts to find an parser element of this scanner that requires input and whose header expression matches the given line, returning its pointer if one is found.</description>
+            <name>findParser</name>
+            <operation>Iterate through all parser elements of this scanner requiring input.</operation>
+            <operation>Make sure the parser still requires input.</operation>
+            <operation>If the parser element's header expression matches the given line then return its pointer.</operation>
+            <operation>No match was found to return null.</operation>
+            <return_description>Pointer to matched parser element requiring input or null if no match is found.</return_description>
+            <type>Abstract::Parser*</type>
+          </data>
+          <variable>
+            <data>
+              <description>The line used to find a match with any parser element's header expression that still requires input.</description>
+              <initializer></initializer>
+              <name>line</name>
+              <type>const QString&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <variable>
+          <data>
+            <description>List of parser elements this scanner uses for parsing any source file it is given to parse.</description>
+            <initializer></initializer>
+            <name>_parsers</name>
+            <type>QList&lt;Abstract::Parser*></type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>List of parser elements that require reading input lines this scanner uses for parsing any source file it is given to parse.</description>
+            <initializer></initializer>
+            <name>_inputParsers</name>
+            <type>QList&lt;Abstract::Parser*></type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>Contains the entire contents of the source file this scanner is parsing before it is overwritten. This is used to process any input lines required by parser elements that need input.</description>
+            <initializer></initializer>
+            <name>_input</name>
+            <type>QString</type>
+          </data>
+        </variable>
       </access>
     </class>
     <class>
@@ -14430,7 +14609,7 @@ The mapping of scanner objects are used to determine which scanner object to use
             <description>Constructs a new scan thread with the given mapping of scanner objects, directory to scan, file filters, and possible parent.</description>
             <explicit/>
             <name>^</name>
-            <operation>Set this object as the given factory's parent and build the list of files to parse.</operation>
+            <operation>Set the parent of all scanner objects in the given map to this object.</operation>
             <return_description></return_description>
             <type></type>
           </data>
@@ -14466,17 +14645,6 @@ The mapping of scanner objects are used to determine which scanner object to use
               <type>QObject*</type>
             </data>
           </variable>
-        </function>
-        <function>
-          <data>
-            <description>Destroys all scanner objects in the mapping given to this scan thread.</description>
-            <final/>
-            <name>~^</name>
-            <override/>
-            <return_description></return_description>
-            <type></type>
-            <virtual/>
-          </data>
         </function>
       </access>
       <access>
@@ -14528,7 +14696,8 @@ The mapping of scanner objects are used to determine which scanner object to use
             <operation>Initialize the percent complete to zero and create the list of files to be matched with scanners.</operation>
             <operation>Iterate through the list of files to possibly be scanned.</operation>
             <operation>Check to see if interruption of this thread is requested.</operation>
-            <operation>TODO; scanner goes here.</operation>
+            <operation>Attempt to find a scanner object on this thread's mapping that matches the file name.</operation>
+            <operation>If a scanner object was found then scan the current file with it.</operation>
             <operation>Calculate percent complete and check to see if it has changed since last time.</operation>
             <operation>Update the percent complete and emit the progress changed signal.</operation>
             <operation>Catch any exception thrown within this thread and emit it as a signal.</operation>

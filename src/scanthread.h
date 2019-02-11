@@ -29,7 +29,6 @@ class ScanThread : public QThread
    Q_OBJECT
 public:
    explicit ScanThread(const QMap<QString,Scanner*>& scanMap, const QString& scanDirectory, const QStringList& filters, QObject* parent = nullptr);
-   virtual ~ScanThread() override final;
 signals:
    /*!
     * Signals that the progress of this scan thread has changed to the percentage 
