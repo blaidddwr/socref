@@ -10,7 +10,7 @@ namespace Basic
    class BlockEdit;
    class BlockFactory;
    class LineParser;
+   class CustomParser;
    class CommentParser;
    class FunctionParser;
-   class customParser;
 }

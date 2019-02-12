@@ -103,6 +103,7 @@ namespace Abstract
        * root block that will be used for scanning all source files that match any of the 
        * mapped scanner objects returned. The key for the returned mapping are file names 
        * that are matched with any source files found in the scanning directory. 
+       * Ownership of all returned scanner objects are released once returned. 
        *
        * @param root Root block of existing project that will be parsed with the returned 
        *             mapping of scanner objects. 

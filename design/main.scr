@@ -1386,7 +1386,7 @@ An implementation of this class must construct the form portion of this dialog g
             <data>
               <abstract/>
               <const/>
-              <description>This interface creates and returns a mapping of scanner objects for the given root block that will be used for scanning all source files that match any of the mapped scanner objects returned. The key for the returned mapping are file names that are matched with any source files found in the scanning directory.</description>
+              <description>This interface creates and returns a mapping of scanner objects for the given root block that will be used for scanning all source files that match any of the mapped scanner objects returned. The key for the returned mapping are file names that are matched with any source files found in the scanning directory. Ownership of all returned scanner objects are released once returned.</description>
               <name>createScannerMap</name>
               <return_description>Mapping of scanner objects used for scanning source files of the given root block's project.</return_description>
               <type>QMap&lt;QString,Scanner*></type>
@@ -5015,7 +5015,7 @@ This class provides protected helper methods for getting the values of its data 
       </class>
       <class>
         <data>
-          <description>This is the basic block view that displays an associated basic block. Like the basic block it views this class reads in its configuration from an XML element supplied to it from its basic block. The XML definition provides all information about the layout of display elements this view displays. This class can be implemented by another more specialized class and is necessary to do so if the custom viewing element is used.</description>
+          <description>This implements the abstract basic block view that displays an associated basic block. Like the basic block it views, this class reads in its configuration from an XML element supplied to it from its basic block. The XML definition provides all information about the layout of display elements this view displays. This class can be implemented by another more specialized class and is necessary to do so if the custom viewing element is used.</description>
           <name>BlockView</name>
           <qtobject/>
         </data>
@@ -6243,6 +6243,56 @@ A new interface is also provided for creating implementation classes of the basi
           </data>
           <function>
             <data>
+              <default/>
+              <description>Constructs a new line parser.</description>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Constructs a new line parser initializes with the given number of blank lines.</description>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The number of blank lines added to this new parser.</description>
+                <initializer></initializer>
+                <name>count</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Constructs a new line parser initialized with the given indent and single line.</description>
+              <name>^</name>
+              <operation>Set this parser element's indent and its first line to the ones given.</operation>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The indent spacing of this new parser.</description>
+                <initializer></initializer>
+                <name>indent</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The first line added to this new parser.</description>
+                <initializer></initializer>
+                <name>line</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
               <description>Sets the indent, in spaces, that is prepended to each line when this line parser generates its output for its parent scanner.</description>
               <name>setIndent</name>
               <operation>Make sure the given indent is not negative.</operation>
@@ -6334,7 +6384,16 @@ A new interface is also provided for creating implementation classes of the basi
       </class>
       <class>
         <data>
-          <description>This implements the abstract parser class. This provides lines representing a comment block for source code. This does not require any input as it only outputs the comments it is provided at initialization. This will wrap comments provided to it to be a given maximum number of columns per line. A header can also be given that is kept to the left of the provided comment. Lastly empty lines can be added that will have the basic comment token provided. Begin and end lines can also be provided that is used to begin and close a comment block when provided to a comment parser element's parent scanner.</description>
+          <description></description>
+          <name>CustomParser</name>
+          <qtobject/>
+        </data>
+      </class>
+      <class>
+        <data>
+          <description>This implements the abstract parser class. This provides lines representing a comment block for source code. This does not require any input as it only outputs the comments it is provided at initialization. This will wrap comments provided to it to be a given maximum number of columns per line. A header can also be given that is kept to the left of the provided comment. Lastly empty lines can be added that will have the basic comment token provided. Begin and end lines can also be provided that is used to begin and close a comment block when provided to a comment parser element's parent scanner.
+
+This parser also provides setting an indentation of spaces before each comment line of its comment block. This indent is not counted towards the maximum number of columns per line.</description>
           <name>CommentParser</name>
           <qtobject/>
         </data>
@@ -6354,11 +6413,11 @@ A new interface is also provided for creating implementation classes of the basi
               <description>Implements _Abstract::Parser_ interface.</description>
               <final/>
               <name>output</name>
-              <operation>Create the return list of lines, appending the begin line if it is not empty.</operation>
-              <operation>Add empty comment lines equal to this parser element's header lines.</operation>
+              <operation>Create the return list of comment lines, appending the begin line with indent spaces if it is not empty.</operation>
+              <operation>Add empty comment lines with indent spaces equal to this parser element's header lines.</operation>
               <operation>Iterate through all comment blocks of this parser element.</operation>
-              <operation>Add the comment block and then its number of blank footer comment lines proceeding it.</operation>
-              <operation>Add the end line if it is not empty and then return the generated comment block lines.</operation>
+              <operation>Add the comment block and then its number of blank footer comment lines all with indent spaces.</operation>
+              <operation>Add the end line with indent spaces if it is not empty and then return the generated comment block lines.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
               <type>QStringList</type>
@@ -6406,6 +6465,24 @@ A new interface is also provided for creating implementation classes of the basi
                 <description>The maximum number of columns per comment line provided by this parser element.</description>
                 <initializer></initializer>
                 <name>maxColumns</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Sets the indent, in spaces, that is prepended to each line of the comment block this parser provides for its parent scanner.</description>
+              <name>setIndent</name>
+              <operation>Make sure the given indent is not negative.</operation>
+              <operation>Set the this object's indent to the new value.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The new indent value in spaces.</description>
+                <initializer></initializer>
+                <name>indent</name>
                 <type>int</type>
               </data>
             </variable>
@@ -6495,7 +6572,7 @@ A new interface is also provided for creating implementation classes of the basi
               <operation>Split the given text into paragraphs using double newline characters as the separator and then iterate through all paragraphs.</operation>
               <operation>Split the paragraph into its separate words.</operation>
               <operation>Continue until the word list is empty.</operation>
-              <operation>Initialize the total columns taken and new comment line to be added with the middle token followed by a space.</operation>
+              <operation>Initialize the total columns taken and new comment line to be added with the indent spacing, middle token, and then another space.</operation>
               <operation>Check to see if this is the first comment line.</operation>
               <operation>Add the header to the total columns taken and the comment line, updating the first indicator to false.</operation>
               <operation>Else this is not the first comment line.</operation>
@@ -6526,6 +6603,14 @@ A new interface is also provided for creating implementation classes of the basi
               </data>
             </variable>
           </function>
+          <variable>
+            <data>
+              <description>The number of space characters prepended to each line of comment block output when this parser generates it for its parent scanner.</description>
+              <initializer>0</initializer>
+              <name>_indent</name>
+              <type>int</type>
+            </data>
+          </variable>
           <variable>
             <data>
               <description>The beginning line that is provided as the first line for this comment parser element.</description>
@@ -6580,13 +6665,6 @@ A new interface is also provided for creating implementation classes of the basi
         <data>
           <description></description>
           <name>FunctionParser</name>
-          <qtobject/>
-        </data>
-      </class>
-      <class>
-        <data>
-          <description></description>
-          <name>customParser</name>
           <qtobject/>
         </data>
       </class>

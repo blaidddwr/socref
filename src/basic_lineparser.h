@@ -18,6 +18,12 @@ namespace Basic
    public:
       virtual QStringList output() const override final;
    public:
+      /*!
+       * Constructs a new line parser. 
+       */
+      LineParser() = default;
+      LineParser(int count);
+      LineParser(int indent, const QString& line);
       void setIndent(int indent);
       void add(const QString& line);
       void add(const QStringList& lines);

@@ -18,25 +18,27 @@ using namespace Basic;
  */
 QStringList CommentParser::output() const
 {
-   // Create the return list of lines, appending the begin line if it is not empty. 
+   // Create the return list of comment lines, appending the begin line with indent 
+   // spaces if it is not empty. 
    QStringList ret;
-   if ( !_begin.isEmpty() ) ret << _begin;
+   if ( !_begin.isEmpty() ) ret << QString(_indent,' ') + _begin;
 
-   // Add empty comment lines equal to this parser element's header lines. 
-   for (int i = 0; i < _headerLines ;++i) ret << _middle;
+   // Add empty comment lines with indent spaces equal to this parser element's 
+   // header lines. 
+   for (int i = 0; i < _headerLines ;++i) ret << QString(_indent,' ') + _middle;
 
    // Iterate through all comment blocks of this parser element. 
    for (auto comment: _comments)
    {
-      // Add the comment block and then its number of blank footer comment lines 
-      // proceeding it. 
+      // Add the comment block and then its number of blank footer comment lines all 
+      // with indent spaces. 
       ret << createComment(comment.header,comment.text);
-      for (int i = 0; i < comment.footerLines ;++i) ret << QString();
+      for (int i = 0; i < comment.footerLines ;++i) ret << QString(_indent,' ') + _middle;
    }
 
-   // Add the end line if it is not empty and then return the generated comment block 
-   // lines. 
-   if ( _end.isEmpty() ) ret << _end;
+   // Add the end line with indent spaces if it is not empty and then return the 
+   // generated comment block lines. 
+   if ( _end.isEmpty() ) ret << QString(_indent,' ') + _end;
    return ret;
 }
 
@@ -67,6 +69,26 @@ CommentParser::CommentParser(const QString& begin, const QString& middle, const 
    _end(end),
    _maxColumns(maxColumns)
 {}
+
+
+
+
+
+
+/*!
+ * Sets the indent, in spaces, that is prepended to each line of the comment block 
+ * this parser provides for its parent scanner. 
+ *
+ * @param indent The new indent value in spaces. 
+ */
+void CommentParser::setIndent(int indent)
+{
+   // Make sure the given indent is not negative. 
+   Q_ASSERT(indent >= 0);
+
+   // Set the this object's indent to the new value. 
+   _indent = indent;
+}
 
 
 
@@ -182,9 +204,9 @@ QStringList CommentParser::createComment(QString header, const QString& text) co
       while ( !words.isEmpty() )
       {
          // Initialize the total columns taken and new comment line to be added with the 
-         // middle token followed by a space. 
+         // indent spacing, middle token, and then another space. 
          int total {_middle.size() + 1};
-         QString line {_middle + QStringLiteral(" ")};
+         QString line {QString(_indent,' ') + _middle + QStringLiteral(" ")};
 
          // Check to see if this is the first comment line. 
          if ( first )

@@ -16,6 +16,10 @@ namespace Basic
     * lines can be added that will have the basic comment token provided. Begin and 
     * end lines can also be provided that is used to begin and close a comment block 
     * when provided to a comment parser element's parent scanner. 
+    * 
+    * This parser also provides setting an indentation of spaces before each comment 
+    * line of its comment block. This indent is not counted towards the maximum number 
+    * of columns per line. 
     */
    class CommentParser : public Abstract::Parser
    {
@@ -24,6 +28,7 @@ namespace Basic
       virtual QStringList output() const override final;
    public:
       CommentParser(const QString& begin, const QString& middle, const QString& end, int maxColumns);
+      void setIndent(int indent);
       void add(const QString& text);
       void add(const QString& header, const QString& text);
       void add(int count);
@@ -31,6 +36,11 @@ namespace Basic
       struct Node { QString header; QString text; int footerLines {0}; };
    private:
       QStringList createComment(QString header, const QString& text) const;
+      /*!
+       * The number of space characters prepended to each line of comment block output 
+       * when this parser generates it for its parent scanner. 
+       */
+      int _indent {0};
       /*!
        * The beginning line that is provided as the first line for this comment parser 
        * element. 

@@ -42,6 +42,40 @@ QStringList LineParser::output() const
 
 
 /*!
+ * Constructs a new line parser initializes with the given number of blank lines. 
+ *
+ * @param count The number of blank lines added to this new parser. 
+ */
+LineParser::LineParser(int count)
+{
+   add(count);
+}
+
+
+
+
+
+
+/*!
+ * Constructs a new line parser initialized with the given indent and single line. 
+ *
+ * @param indent The indent spacing of this new parser. 
+ *
+ * @param line The first line added to this new parser. 
+ */
+LineParser::LineParser(int indent, const QString& line)
+{
+   // Set this parser element's indent and its first line to the ones given. 
+   setIndent(indent);
+   add(line);
+}
+
+
+
+
+
+
+/*!
  * Sets the indent, in spaces, that is prepended to each line when this line parser 
  * generates its output for its parent scanner. 
  *

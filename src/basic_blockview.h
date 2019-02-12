@@ -13,12 +13,12 @@ class QDomElement;
 namespace Basic
 {
    /*!
-    * This is the basic block view that displays an associated basic block. Like the 
-    * basic block it views this class reads in its configuration from an XML element 
-    * supplied to it from its basic block. The XML definition provides all information 
-    * about the layout of display elements this view displays. This class can be 
-    * implemented by another more specialized class and is necessary to do so if the 
-    * custom viewing element is used. 
+    * This implements the abstract basic block view that displays an associated basic 
+    * block. Like the basic block it views, this class reads in its configuration from 
+    * an XML element supplied to it from its basic block. The XML definition provides 
+    * all information about the layout of display elements this view displays. This 
+    * class can be implemented by another more specialized class and is necessary to 
+    * do so if the custom viewing element is used. 
     */
    class BlockView : public Abstract::BlockView
    {
