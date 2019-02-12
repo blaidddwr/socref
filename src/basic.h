@@ -9,4 +9,8 @@ namespace Basic
    class BlockView;
    class BlockEdit;
    class BlockFactory;
+   class LineParser;
+   class CommentParser;
+   class FunctionParser;
+   class customParser;
 }

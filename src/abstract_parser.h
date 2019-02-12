@@ -19,6 +19,15 @@ namespace Abstract
     * file. If the regular expression matches the line then each following line, 
     * including the header line matched, is provided to the element parser until it is 
     * finished. 
+    * 
+    * It is important to minimize the work in creating and initializing a parser 
+    * element and maximizing the work done in all interface methods. This is because 
+    * the GUI thread is blocked while creating and initializing parser elements. 
+    * However all interface methods are called within a scanning thread. WARNING: 
+    * Because of this any execution code within those interface methods should not 
+    * access anything from the GUI thread. It is only safe for the interface methods 
+    * to access its own parser object because they are moved to the scan thread after 
+    * creation and initialization. 
     */
    class Parser : public QObject
    {

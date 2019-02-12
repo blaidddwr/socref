@@ -1407,7 +1407,9 @@ An implementation of this class must construct the form portion of this dialog g
         <data>
           <description>This represents parser elements that are used in a scanner to parse a source file. A parser element can read the input of the source file based off a header that must be matched. A parser element also provides output lines that are used to write output to the scanner source file along with all other parser elements part of a scanner.
 
-A scanner queries all of its parser elements that take input for a regular expression header that is matched with each input line read from the source file. If the regular expression matches the line then each following line, including the header line matched, is provided to the element parser until it is finished.</description>
+A scanner queries all of its parser elements that take input for a regular expression header that is matched with each input line read from the source file. If the regular expression matches the line then each following line, including the header line matched, is provided to the element parser until it is finished.
+
+It is important to minimize the work in creating and initializing a parser element and maximizing the work done in all interface methods. This is because the GUI thread is blocked while creating and initializing parser elements. However all interface methods are called within a scanning thread. WARNING: Because of this any execution code within those interface methods should not access anything from the GUI thread. It is only safe for the interface methods to access its own parser object because they are moved to the scan thread after creation and initialization.</description>
           <name>Parser</name>
           <qtobject/>
         </data>
@@ -6200,6 +6202,393 @@ A new interface is also provided for creating implementation classes of the basi
             </data>
           </variable>
         </access>
+      </class>
+      <class>
+        <data>
+          <description>This implements the abstract parser class. This is a very simple parser that requires no input and simply provides the lines of text given to it along with an indent of spaces prepended to each line provided to its parent scanner.</description>
+          <name>LineParser</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Abstract::Parser</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>output</name>
+              <operation>Create a returned list of lines.</operation>
+              <operation>Iterate through all lines of this object's line of lines.</operation>
+              <operation>Make a copy of the line, prepending indent spaces to the copy if it is not an empty line.</operation>
+              <operation>Add the copy to the returned list of lines.</operation>
+              <operation>Return the list of lines with prepended indent spaces.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QStringList</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Sets the indent, in spaces, that is prepended to each line when this line parser generates its output for its parent scanner.</description>
+              <name>setIndent</name>
+              <operation>Make sure the given indent is not negative.</operation>
+              <operation>Set the this object's indent to the new value.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The new indent value in spaces.</description>
+                <initializer></initializer>
+                <name>indent</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Adds the given line as a new line that this line parser will provide as output for its parent scanner, appending it to the end of any existing lines to be used.</description>
+              <name>add</name>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The line that is appended to the lines of this line parser.</description>
+                <initializer></initializer>
+                <name>line</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Adds the given list of lines as a new lines that this line parser will provide as output for its parent scanner, appending it to the end of any existing lines to be used.</description>
+              <name>add</name>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>Lines that are appended to the lines of this line parser.</description>
+                <initializer></initializer>
+                <name>lines</name>
+                <type>const QStringList&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Adds a given number of blank lines that this line parser will provide as output for its parent scanner, appending it to the end of any existing lines to be used.</description>
+              <name>add</name>
+              <operation>Make sure the given count is not negative.</operation>
+              <operation>Add the given number of blank lines to this object's list of lines.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The number of blank lines added to the lines of this line parser.</description>
+                <initializer></initializer>
+                <name>count</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <variable>
+            <data>
+              <description>The lines used to generate the static output of this line parser to its parent scanner when parsing a source file.</description>
+              <initializer></initializer>
+              <name>_lines</name>
+              <type>QStringList</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The number of space characters prepended to each line of output when this parser generates it for its parent scanner.</description>
+              <initializer>0</initializer>
+              <name>_indent</name>
+              <type>int</type>
+            </data>
+          </variable>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This implements the abstract parser class. This provides lines representing a comment block for source code. This does not require any input as it only outputs the comments it is provided at initialization. This will wrap comments provided to it to be a given maximum number of columns per line. A header can also be given that is kept to the left of the provided comment. Lastly empty lines can be added that will have the basic comment token provided. Begin and end lines can also be provided that is used to begin and close a comment block when provided to a comment parser element's parent scanner.</description>
+          <name>CommentParser</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Abstract::Parser</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>output</name>
+              <operation>Create the return list of lines, appending the begin line if it is not empty.</operation>
+              <operation>Add empty comment lines equal to this parser element's header lines.</operation>
+              <operation>Iterate through all comment blocks of this parser element.</operation>
+              <operation>Add the comment block and then its number of blank footer comment lines proceeding it.</operation>
+              <operation>Add the end line if it is not empty and then return the generated comment block lines.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QStringList</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new comment parser with the given begin line, middle token, end line, and maximum number of columns per line.</description>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The begin line that is the first line provided by this comment parser element or empty if no beginning line is required.</description>
+                <initializer></initializer>
+                <name>begin</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The middle token prepended to every comment line provided by this comment parser element except for the special begin and end lines.</description>
+                <initializer></initializer>
+                <name>middle</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The end line that is the last line provided by this comment parser element or empty if no ending line is required.</description>
+                <initializer></initializer>
+                <name>end</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The maximum number of columns per comment line provided by this parser element.</description>
+                <initializer></initializer>
+                <name>maxColumns</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Adds the given comment used to generate and provide comment lines to this parser element's parent scanner. The given comment is wrapped into multiple lines to not exceed the maximum columns allowed per line.</description>
+              <name>add</name>
+              <operation>Add a new comment block to the end of this parser element's list, setting its text to the given text.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The commented added to this parser element's list of comments as a new block.</description>
+                <initializer></initializer>
+                <name>text</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Adds the given comment with a header used to generate and provide comment lines to this parser element's parent scanner. The header is added at the beginning of the first line, and each successive line is adjusted to start where the header ended. The given comment is wrapped into multiple lines to not exceed the maximum columns allowed per line.</description>
+              <name>add</name>
+              <operation>Add a new comment block to the end of this parser element's list, setting its header and text to the given header and text.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The special header text added to the beginning of the new comment.</description>
+                <initializer></initializer>
+                <name>header</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The main body text comment added to this parser element's list of comments as a new block.</description>
+                <initializer></initializer>
+                <name>text</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Adds a given number of blank comment lines that this parser will provide as output for its parent scanner, adding it to the number of blank lines for the last commend added or header lines if no comments have yet to be added.</description>
+              <name>add</name>
+              <operation>If there are no comment blocks yet then add the given count to this parser element's header lines, else add the given count to the footer lines of its last comment block.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The number of blank lines added to the lines of this line parser.</description>
+                <initializer></initializer>
+                <name>count</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <declaration>
+            <data>
+              <line>struct Node { QString header; QString text; int footerLines {0}; }</line>
+            </data>
+          </declaration>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Creates and returns a block of comment lines generated from the given header and text. The header can be empty, in that case it is ignored and the text is not justified. If a header is given the text will be justified to the right of the header after the first line. If the text is empty this returns an empty list.</description>
+              <name>createComment</name>
+              <operation>Make sure the given text is not empty.</operation>
+              <operation>If the given header is not empty then append a single space to the end as a border between it and the comment text.</operation>
+              <operation>Initialize the justified length, returned comment line list, and first line indicator.</operation>
+              <operation>Split the given text into paragraphs using double newline characters as the separator and then iterate through all paragraphs.</operation>
+              <operation>Split the paragraph into its separate words.</operation>
+              <operation>Continue until the word list is empty.</operation>
+              <operation>Initialize the total columns taken and new comment line to be added with the middle token followed by a space.</operation>
+              <operation>Check to see if this is the first comment line.</operation>
+              <operation>Add the header to the total columns taken and the comment line, updating the first indicator to false.</operation>
+              <operation>Else this is not the first comment line.</operation>
+              <operation>Justify the words to be added to the right of the header on the first line.</operation>
+              <operation>Add the first word to to the total columns taken and the comment line.</operation>
+              <operation>Continue until there are no more words to add or the maximum column size for the comment line has been reached.</operation>
+              <operation>Add the next word to the comment line, updating the total columns taken.</operation>
+              <operation>Add the generated comment line to the line list.</operation>
+              <operation>If this is not the last sentence then add an empty comment line to the line list.</operation>
+              <operation>Return the generated comment block lines.</operation>
+              <return_description>Block of comment lines generated from the given header and text.</return_description>
+              <type>QStringList</type>
+            </data>
+            <variable>
+              <data>
+                <description>The optional header that the comment text if justified to the right after the first comment line generated.</description>
+                <initializer></initializer>
+                <name>header</name>
+                <type>QString</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The main body text used to generate the returned comment block lines, wrapped to not exceed the maximum number of columns per line.</description>
+                <initializer></initializer>
+                <name>text</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <variable>
+            <data>
+              <description>The beginning line that is provided as the first line for this comment parser element.</description>
+              <initializer></initializer>
+              <name>_begin</name>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The middle token that is prepended to each comment line provided by this comment parser element.</description>
+              <initializer></initializer>
+              <name>_middle</name>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The ending line that is provided as the last line for this comment parser element.</description>
+              <initializer></initializer>
+              <name>_end</name>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The maximum number of columns per comment line provided by this comment parser element.</description>
+              <initializer></initializer>
+              <name>_maxColumns</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The number of blank lines provided before the first comment block by this comment parser element.</description>
+              <initializer>0</initializer>
+              <name>_headerLines</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>List of comment blocks that are used for generating the provided lines in between the optional begin and end lines by this comment parser element.</description>
+              <initializer></initializer>
+              <name>_comments</name>
+              <type>QList&lt;Node></type>
+            </data>
+          </variable>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description></description>
+          <name>FunctionParser</name>
+          <qtobject/>
+        </data>
+      </class>
+      <class>
+        <data>
+          <description></description>
+          <name>customParser</name>
+          <qtobject/>
+        </data>
       </class>
     </namespace>
     <namespace>
