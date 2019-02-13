@@ -5,7 +5,9 @@ SOURCES += \
     basic_blockview.cpp \
     basic_blockfactory.cpp \
     basic_lineparser.cpp \
-    basic_commentparser.cpp
+    basic_inputparser.cpp \
+    basic_commentparser.cpp \
+    basic_functionparser.cpp
 
 HEADERS += \
     basic.h \
@@ -14,4 +16,6 @@ HEADERS += \
     basic_blockview.h \
     basic_blockfactory.h \
     basic_lineparser.h \
-    basic_commentparser.h
+    basic_inputparser.h \
+    basic_commentparser.h \
+    basic_functionparser.h

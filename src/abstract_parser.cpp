@@ -19,7 +19,7 @@ using namespace Abstract;
  * @return True if this parser element requires input from its parent scanner 
  *         source file or false otherwise. 
  */
-bool Parser::hasInput() const
+bool Parser::needsInput() const
 {
    return false;
 }

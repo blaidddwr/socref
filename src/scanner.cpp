@@ -102,7 +102,7 @@ void Scanner::addParser(Soc::Ut::QPtr<Abstract::Parser>&& parser)
 
    // If the given parser requires input then add it to this scanner's list for 
    // input. 
-   if ( parserPtr->hasInput() ) _inputParsers << parserPtr;
+   if ( parserPtr->needsInput() ) _inputParsers << parserPtr;
 }
 
 
@@ -193,7 +193,7 @@ Abstract::Parser* Scanner::findParser(const QString& line)
    for (auto parser: _inputParsers)
    {
       // Make sure the parser still requires input. 
-      if ( parser->hasInput() )
+      if ( parser->needsInput() )
       {
          // If the parser element's header expression matches the given line then return 
          // its pointer. 

@@ -1,5 +1,6 @@
 #include "basic_commentparser.h"
 #include <QRegularExpression>
+#include "basic_lineparser.h"
 
 
 
@@ -18,28 +19,26 @@ using namespace Basic;
  */
 QStringList CommentParser::output() const
 {
-   // Create the return list of comment lines, appending the begin line with indent 
-   // spaces if it is not empty. 
+   // Create the return list of comment lines, appending the begin line if it is not 
+   // empty. 
    QStringList ret;
-   if ( !_begin.isEmpty() ) ret << QString(_indent,' ') + _begin;
+   if ( !_begin.isEmpty() ) ret << _begin;
 
-   // Add empty comment lines with indent spaces equal to this parser element's 
-   // header lines. 
-   for (int i = 0; i < _headerLines ;++i) ret << QString(_indent,' ') + _middle;
+   // Add empty comment lines equal to this parser element's header lines. 
+   for (int i = 0; i < _headerLines ;++i) ret << _middle;
 
    // Iterate through all comment blocks of this parser element. 
    for (auto comment: _comments)
    {
-      // Add the comment block and then its number of blank footer comment lines all 
-      // with indent spaces. 
+      // Add the comment block and then its number of blank footer comment lines. 
       ret << createComment(comment.header,comment.text);
-      for (int i = 0; i < comment.footerLines ;++i) ret << QString(_indent,' ') + _middle;
+      for (int i = 0; i < comment.footerLines ;++i) ret << _middle;
    }
 
-   // Add the end line with indent spaces if it is not empty and then return the 
-   // generated comment block lines. 
-   if ( _end.isEmpty() ) ret << QString(_indent,' ') + _end;
-   return ret;
+   // Add the end line if it is not empty and then return the generated comment block 
+   // lines prepended with indent spaces. 
+   if ( _end.isEmpty() ) ret << _end;
+   return LineParser::prependIndent(_indent,ret);
 }
 
 
@@ -79,15 +78,15 @@ CommentParser::CommentParser(const QString& begin, const QString& middle, const 
  * Sets the indent, in spaces, that is prepended to each line of the comment block 
  * this parser provides for its parent scanner. 
  *
- * @param indent The new indent value in spaces. 
+ * @param value The new indent value in spaces. 
  */
-void CommentParser::setIndent(int indent)
+void CommentParser::setIndent(int value)
 {
    // Make sure the given indent is not negative. 
-   Q_ASSERT(indent >= 0);
+   Q_ASSERT(value >= 0);
 
    // Set the this object's indent to the new value. 
-   _indent = indent;
+   _indent = value;
 }
 
 

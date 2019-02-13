@@ -23,6 +23,7 @@
     <word>JSON</word>
     <word>OpenGL</word>
     <word>PHP</word>
+    <word>Prepends</word>
     <word>ProjectFactory</word>
     <word>QAbstractItemModel</word>
     <word>QAbstractItemView</word>
@@ -1438,7 +1439,7 @@ It is important to minimize the work in creating and initializing a parser eleme
             <data>
               <const/>
               <description>This interface returns true if this parser element requires input from the source file of its parent scanner. This can be updated to false if this no longer needs input but cannot be changed from false to true. The default implementation returns false.</description>
-              <name>hasInput</name>
+              <name>needsInput</name>
               <return_description>True if this parser element requires input from its parent scanner source file or false otherwise.</return_description>
               <type>bool</type>
               <virtual/>
@@ -6221,15 +6222,45 @@ A new interface is also provided for creating implementation classes of the basi
           </data>
           <function>
             <data>
-              <const/>
-              <description>Implements _Abstract::Parser_ interface.</description>
-              <final/>
-              <name>output</name>
+              <description>Prepends the given number of indent spaces to each line of the given list of lines, returning the prepended list of lines.</description>
+              <name>prependIndent</name>
               <operation>Create a returned list of lines.</operation>
               <operation>Iterate through all lines of this object's line of lines.</operation>
               <operation>Make a copy of the line, prepending indent spaces to the copy if it is not an empty line.</operation>
               <operation>Add the copy to the returned list of lines.</operation>
               <operation>Return the list of lines with prepended indent spaces.</operation>
+              <return_description>List of lines prepended with the given number of indent spaces for each line.</return_description>
+              <static/>
+              <type>QStringList</type>
+            </data>
+            <variable>
+              <data>
+                <description>The number of spaces prepended to each line in the given line list.</description>
+                <initializer></initializer>
+                <name>indent</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The list of lines used to create and return a new list of lines prepended with indent spaces for each line.</description>
+                <initializer></initializer>
+                <name>lines</name>
+                <type>const QStringList&amp;</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>output</name>
               <override/>
               <return_description>See interface docs.</return_description>
               <type>QStringList</type>
@@ -6245,6 +6276,7 @@ A new interface is also provided for creating implementation classes of the basi
             <data>
               <default/>
               <description>Constructs a new line parser.</description>
+              <explicit/>
               <name>^</name>
               <return_description></return_description>
               <type></type>
@@ -6253,6 +6285,7 @@ A new interface is also provided for creating implementation classes of the basi
           <function>
             <data>
               <description>Constructs a new line parser initializes with the given number of blank lines.</description>
+              <explicit/>
               <name>^</name>
               <return_description></return_description>
               <type></type>
@@ -6269,6 +6302,7 @@ A new interface is also provided for creating implementation classes of the basi
           <function>
             <data>
               <description>Constructs a new line parser initialized with the given indent and single line.</description>
+              <explicit/>
               <name>^</name>
               <operation>Set this parser element's indent and its first line to the ones given.</operation>
               <return_description></return_description>
@@ -6293,10 +6327,10 @@ A new interface is also provided for creating implementation classes of the basi
           </function>
           <function>
             <data>
-              <description>Sets the indent, in spaces, that is prepended to each line when this line parser generates its output for its parent scanner.</description>
+              <description>Sets the indent in spaces that is prepended to each line when this line parser provides its output lines to its parent scanner.</description>
               <name>setIndent</name>
               <operation>Make sure the given indent is not negative.</operation>
-              <operation>Set the this object's indent to the new value.</operation>
+              <operation>Set this object's indent to the new value.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -6304,21 +6338,21 @@ A new interface is also provided for creating implementation classes of the basi
               <data>
                 <description>The new indent value in spaces.</description>
                 <initializer></initializer>
-                <name>indent</name>
+                <name>value</name>
                 <type>int</type>
               </data>
             </variable>
           </function>
           <function>
             <data>
-              <description>Adds the given line as a new line that this line parser will provide as output for its parent scanner, appending it to the end of any existing lines to be used.</description>
+              <description>Appends the given line to this parser element's output lines.</description>
               <name>add</name>
               <return_description></return_description>
               <type>void</type>
             </data>
             <variable>
               <data>
-                <description>The line that is appended to the lines of this line parser.</description>
+                <description>The line that is appended to the output lines of this parser.</description>
                 <initializer></initializer>
                 <name>line</name>
                 <type>const QString&amp;</type>
@@ -6327,14 +6361,14 @@ A new interface is also provided for creating implementation classes of the basi
           </function>
           <function>
             <data>
-              <description>Adds the given list of lines as a new lines that this line parser will provide as output for its parent scanner, appending it to the end of any existing lines to be used.</description>
+              <description>Appends the given list of lines to this parser element's output lines.</description>
               <name>add</name>
               <return_description></return_description>
               <type>void</type>
             </data>
             <variable>
               <data>
-                <description>Lines that are appended to the lines of this line parser.</description>
+                <description>Lines that are appended to the output lines of this parser.</description>
                 <initializer></initializer>
                 <name>lines</name>
                 <type>const QStringList&amp;</type>
@@ -6343,7 +6377,7 @@ A new interface is also provided for creating implementation classes of the basi
           </function>
           <function>
             <data>
-              <description>Adds a given number of blank lines that this line parser will provide as output for its parent scanner, appending it to the end of any existing lines to be used.</description>
+              <description>Appends a given number of blank lines to this parser element's output lines.</description>
               <name>add</name>
               <operation>Make sure the given count is not negative.</operation>
               <operation>Add the given number of blank lines to this object's list of lines.</operation>
@@ -6352,7 +6386,7 @@ A new interface is also provided for creating implementation classes of the basi
             </data>
             <variable>
               <data>
-                <description>The number of blank lines added to the lines of this line parser.</description>
+                <description>The number of blank lines appended to the output lines of this parser.</description>
                 <initializer></initializer>
                 <name>count</name>
                 <type>int</type>
@@ -6384,10 +6418,159 @@ A new interface is also provided for creating implementation classes of the basi
       </class>
       <class>
         <data>
-          <description></description>
-          <name>CustomParser</name>
+          <description>This implements the abstract parser class. This is a basic input parser that grabs input from its parent scanner's source file based off a begin begin expression and end expression. Each line in the source file that matches the begin regular expression is added to this parser element's output lines and stops once it encounters a line that matches the end regular expression. The begin and end lines matched are not added as output lines.</description>
+          <name>InputParser</name>
           <qtobject/>
         </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Abstract::Parser</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>output</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QStringList</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>needsInput</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>headerExpression</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>input</name>
+              <operation>Check to see if this is the first line of input therefore the matched beginning line.</operation>
+              <operation>Set this object's first indicator to false and return true so the beginning line is not added.</operation>
+              <operation>Make sure this is not a matching end line.</operation>
+              <operation>Add the given line to this object's output lines and return true for more input.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>line</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>reset</name>
+              <operation>Clear any output lines added from input and set this object's first line indicator to true.</operation>
+              <override/>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new input parser with the given beginning line expression and ending line expression.</description>
+              <explicit/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The regular expression used to match the beginning line that causes this parser to start reading input.</description>
+                <initializer></initializer>
+                <name>beginExp</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The regular expression used to match the ending line that causes this parser to end taking input.</description>
+                <initializer></initializer>
+                <name>endExp</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <variable>
+            <data>
+              <description>The regular expression used to match the beginning line that causes this parser to start taking input from its parent scanner's source file.</description>
+              <initializer></initializer>
+              <name>_beginExp</name>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The regular expression used to match the ending line that causes this parser to end taking input from its parent scanner's source file.</description>
+              <initializer></initializer>
+              <name>_endExp</name>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The output lines of this parser grabbed from input between matching beginning and ending lines.</description>
+              <initializer></initializer>
+              <name>_lines</name>
+              <type>QStringList</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>True if the first beginning line has been given as input or false otherwise.</description>
+              <initializer>true</initializer>
+              <name>_first</name>
+              <type>bool</type>
+            </data>
+          </variable>
+        </access>
       </class>
       <class>
         <data>
@@ -6413,11 +6596,11 @@ This parser also provides setting an indentation of spaces before each comment l
               <description>Implements _Abstract::Parser_ interface.</description>
               <final/>
               <name>output</name>
-              <operation>Create the return list of comment lines, appending the begin line with indent spaces if it is not empty.</operation>
-              <operation>Add empty comment lines with indent spaces equal to this parser element's header lines.</operation>
+              <operation>Create the return list of comment lines, appending the begin line if it is not empty.</operation>
+              <operation>Add empty comment lines equal to this parser element's header lines.</operation>
               <operation>Iterate through all comment blocks of this parser element.</operation>
-              <operation>Add the comment block and then its number of blank footer comment lines all with indent spaces.</operation>
-              <operation>Add the end line with indent spaces if it is not empty and then return the generated comment block lines.</operation>
+              <operation>Add the comment block and then its number of blank footer comment lines.</operation>
+              <operation>Add the end line if it is not empty and then return the generated comment block lines prepended with indent spaces.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
               <type>QStringList</type>
@@ -6432,6 +6615,7 @@ This parser also provides setting an indentation of spaces before each comment l
           <function>
             <data>
               <description>Constructs a new comment parser with the given begin line, middle token, end line, and maximum number of columns per line.</description>
+              <explicit/>
               <name>^</name>
               <return_description></return_description>
               <type></type>
@@ -6482,7 +6666,7 @@ This parser also provides setting an indentation of spaces before each comment l
               <data>
                 <description>The new indent value in spaces.</description>
                 <initializer></initializer>
-                <name>indent</name>
+                <name>value</name>
                 <type>int</type>
               </data>
             </variable>
@@ -6663,10 +6847,368 @@ This parser also provides setting an indentation of spaces before each comment l
       </class>
       <class>
         <data>
-          <description></description>
+          <description>This implements the abstract parser class. This provides lines representing a single function with this parser element's parent scanner's source file. This will grab input from the source file if the matching function is found, taking all lines of that function. These input lines are then parsed, cutting off any additional indent spacing and adding inline comments as needed. Steps of operation are provided for filling in the inline comments.
+
+The function is matched in the source file based off a header regular expression that is built with provided methods of this class. Once matched lines will be read as input until the last out token is found signaling the end of the function. The first header line defining the function and last line with the final out token will be included in input.
+
+Additional parsing is done with the input lines by looking for marker lines of inline comments. The provided comment begin string is matched with the beginning of the string, excluding any preceding white space. Each consecutive lines of inline comment matches will be treated as a single inline comment and filled in with the specific operation in the provided steps of operation. The order of inline comments will be matched with the order provided in the steps of operation.</description>
           <name>FunctionParser</name>
           <qtobject/>
         </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Abstract::Parser</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>output</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QStringList</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>needsInput</name>
+              <operation>Make sure the output lines are not empty and a header regular expression is defined.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>headerExpression</name>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>QString</type>
+              <virtual/>
+            </data>
+          </function>
+          <function>
+            <data>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>input</name>
+              <operation>Create the cut off variable used to determine the number of spaces to cut off from the beginning of the given line.</operation>
+              <operation>Check to see if this is the first input line parsed by this object.</operation>
+              <operation>Determine the cut off and set it to the instance wide cut off value, setting the first line indicator to false.</operation>
+              <operation>Else this is not the first line so determine the cut off for this line.</operation>
+              <operation>Check to see if the given line is an inline comment line.</operation>
+              <operation>Check to see if this is the first line of an inline comment block.</operation>
+              <operation>Mark the comment block edge past indicator to true and process this inline comment block.</operation>
+              <operation>Else the given line is not an inline comment.</operation>
+              <operation>Mark the edge past indicator to false for the next possible inline comment block and add the given line to this object's output lines, cutting off the extra initial white space.</operation>
+              <operation>Determine the depth of execution block this given line ends with.</operation>
+              <operation>If this input line is the end of this function in this parent scanner's source file then return false to end getting input else return true to get more.</operation>
+              <override/>
+              <return_description>See interface docs.</return_description>
+              <type>bool</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>line</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>reset</name>
+              <operation>Resets all instance variables used for processing input lines to their default state.</operation>
+              <operation>Clear any generated output lines parsed from previous input lines.</operation>
+              <override/>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Constructs a new function parser with the given in token, out token, comment begin string, maximum columns per inline comment, and steps of operation.</description>
+              <explicit/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+            <variable>
+              <data>
+                <description>The character used by this parent scanner's source file to begin a block of execution.</description>
+                <initializer></initializer>
+                <name>inToken</name>
+                <type>QChar</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The character used by this parent scanner's source file to end a block of execution.</description>
+                <initializer></initializer>
+                <name>outToken</name>
+                <type>QChar</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The characters used by this parent scanner's source file to begin an inline comment line.</description>
+                <initializer></initializer>
+                <name>commentBegin</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The maximum number of columns per line this parser will generate for inline comment blocks.</description>
+                <initializer></initializer>
+                <name>maxColumns</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>A list of operation step descriptions this function parser uses to generate inline comment block lines.</description>
+                <initializer></initializer>
+                <name>operations</name>
+                <type>const QStringList&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Sets the indent in spaces that is prepended to each output line of this function parser.</description>
+              <name>setIndent</name>
+              <operation>Make sure the given indent is not negative.</operation>
+              <operation>Set this object's indent to the new value.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The new indent value in spaces.</description>
+                <initializer></initializer>
+                <name>value</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Appends the given text to the header regular expression of this function parser, escaping all characters to be taken literally by the regular expression interpreter.</description>
+              <name>add</name>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>Text that is escaped and then appended to the header expression of this function parser.</description>
+                <initializer></initializer>
+                <name>text</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Appends the given expression to the header regular expression of this function parser. The given expression is not escaped and appended without modification to the header.</description>
+              <name>addExp</name>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>Expression that is appended to the header expression of this function parser.</description>
+                <initializer></initializer>
+                <name>expression</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <function>
+            <data>
+              <description>Processes the given inline comment line, adding the next step of operations of this function parser as an inline comment to this object's output lines or a blank inline comment if there are no more steps of operation to use.</description>
+              <name>processInlineComment</name>
+              <operation>Calculate the number of spaces that should be used for this inline comment grouping.</operation>
+              <operation>If the next operation iterator of this object is not past the end of this object's steps of operation then insert an inline comment with the next operation.</operation>
+              <operation>Else there are no more steps of operation to add as inline comments so add a blank inline comment to this object's output lines.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The inline comment given as an input line from the input interface.</description>
+                <initializer></initializer>
+                <name>line</name>
+                <type>const QString&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Inserts new inline comment lines to this object's output lines with the given steps of operation index and spacing.</description>
+              <name>insertInlineComment</name>
+              <operation>Split operation from this object's steps of operation with the given index into a list of words.</operation>
+              <operation>Keep going until the list of words is empty.</operation>
+              <operation>Create a total columns used variable with the first word's size plus one space.</operation>
+              <operation>Create a new line string, adding spaces then comment characters then the first word from the list.</operation>
+              <operation>Keep going until the word list is empty or the line has reached the maximum number of columns.</operation>
+              <operation>Take and add the next word from the list, adding the number of columns the addition used.</operation>
+              <operation>Add the inline comment line to this parser element's output list.</operation>
+              <return_description></return_description>
+              <type>void</type>
+            </data>
+            <variable>
+              <data>
+                <description>The index of the operation in this object's steps of operation used to generate the inline comment.</description>
+                <initializer></initializer>
+                <name>index</name>
+                <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The number of spaces added before every inline comment line generated.</description>
+                <initializer></initializer>
+                <name>spacing</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <variable>
+            <data>
+              <description>The character used to denote the beginning of a block of execution. This is used to determine the end of a function with this parser element's parent scanner's source file.</description>
+              <initializer></initializer>
+              <name>_inToken</name>
+              <type>const QChar</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The character used to denote the end of a block of execution. This is used to determine the end of a function with this parser element's parent scanner's source file.</description>
+              <initializer></initializer>
+              <name>_outToken</name>
+              <type>const QChar</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The string used at the beginning of an input line, excluding any preceding white space, to denote that input line is an inline comment.</description>
+              <initializer></initializer>
+              <name>_commentBegin</name>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The maximum number of columns allowed for a single line of an inline comment.</description>
+              <initializer></initializer>
+              <name>_maxColumns</name>
+              <type>const int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>Steps of operation for this function. This is used as inline comments, following the same order as inline comments are found when parsing the input lines.</description>
+              <initializer></initializer>
+              <name>_operations</name>
+              <type>const QStringList</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The regular expression used to match the first input line of this parser element's function within its parent scanner's source file.</description>
+              <initializer></initializer>
+              <name>_headerExp</name>
+              <type>QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The number of indent spaces prepended to each output line of this function parser element.</description>
+              <initializer>0</initializer>
+              <name>_indent</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>True if the first line has not been read or false otherwise. This is used to determine the number of spaces on the first line.</description>
+              <initializer>true</initializer>
+              <name>_first</name>
+              <type>bool</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The maximum number of spaces that are cut off from the beginning of each input line for this function parser. Only white space is cut off the beginning of input lines.</description>
+              <initializer>0</initializer>
+              <name>_cutOff</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The current execution block depth as this function parser is reading in input lines. This is used to determine when the function ends in this parent scanner's source file.</description>
+              <initializer>0</initializer>
+              <name>_depth</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>True when the first input line of a single inline comment block has been read or false otherwise. This is used to add only one step of operation per block of inline comment input lines.</description>
+              <initializer>false</initializer>
+              <name>_edgePast</name>
+              <type>bool</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>Index to the next step of operation to be used to generate an inline comment for this function parser.</description>
+              <initializer>0</initializer>
+              <name>_nextOperation</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The lines of output for this function parser generated by reading the input lines if found in its parent scanner's source file and used to provide its output lines with indent spaces prepended to each line.</description>
+              <initializer></initializer>
+              <name>_lines</name>
+              <type>QStringList</type>
+            </data>
+          </variable>
+        </access>
       </class>
     </namespace>
     <namespace>

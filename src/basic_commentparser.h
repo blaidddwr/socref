@@ -27,8 +27,8 @@ namespace Basic
    public:
       virtual QStringList output() const override final;
    public:
-      CommentParser(const QString& begin, const QString& middle, const QString& end, int maxColumns);
-      void setIndent(int indent);
+      explicit CommentParser(const QString& begin, const QString& middle, const QString& end, int maxColumns);
+      void setIndent(int value);
       void add(const QString& text);
       void add(const QString& header, const QString& text);
       void add(int count);

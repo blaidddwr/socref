@@ -40,7 +40,7 @@ namespace Abstract
        * @return Output lines for this parser element. 
        */
       virtual QStringList output() const = 0;
-      virtual bool hasInput() const;
+      virtual bool needsInput() const;
       virtual QString headerExpression() const;
       virtual bool input(const QString& line);
       virtual void reset();

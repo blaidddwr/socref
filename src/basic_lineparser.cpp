@@ -11,22 +11,30 @@ using namespace Basic;
 
 
 /*!
- * Implements _Abstract::Parser_ interface. 
+ * Prepends the given number of indent spaces to each line of the given list of 
+ * lines, returning the prepended list of lines. 
  *
- * @return See interface docs. 
+ * @param indent The number of spaces prepended to each line in the given line 
+ *               list. 
+ *
+ * @param lines The list of lines used to create and return a new list of lines 
+ *              prepended with indent spaces for each line. 
+ *
+ * @return List of lines prepended with the given number of indent spaces for each 
+ *         line. 
  */
-QStringList LineParser::output() const
+QStringList LineParser::prependIndent(int indent, const QStringList& lines)
 {
    // Create a returned list of lines. 
    QStringList ret;
 
    // Iterate through all lines of this object's line of lines. 
-   for (auto line: _lines)
+   for (auto line: lines)
    {
       // Make a copy of the line, prepending indent spaces to the copy if it is not an 
       // empty line. 
       QString temp {line};
-      if ( !temp.isEmpty() ) temp.prepend(QString(_indent,' '));
+      if ( !temp.isEmpty() ) temp.prepend(QString(indent,' '));
 
       // Add the copy to the returned list of lines. 
       ret << temp;
@@ -34,6 +42,21 @@ QStringList LineParser::output() const
 
    // Return the list of lines with prepended indent spaces. 
    return ret;
+}
+
+
+
+
+
+
+/*!
+ * Implements _Abstract::Parser_ interface. 
+ *
+ * @return See interface docs. 
+ */
+QStringList LineParser::output() const
+{
+   return prependIndent(_indent,_lines);
 }
 
 
@@ -76,18 +99,18 @@ LineParser::LineParser(int indent, const QString& line)
 
 
 /*!
- * Sets the indent, in spaces, that is prepended to each line when this line parser 
- * generates its output for its parent scanner. 
+ * Sets the indent in spaces that is prepended to each line when this line parser 
+ * provides its output lines to its parent scanner. 
  *
- * @param indent The new indent value in spaces. 
+ * @param value The new indent value in spaces. 
  */
-void LineParser::setIndent(int indent)
+void LineParser::setIndent(int value)
 {
    // Make sure the given indent is not negative. 
-   Q_ASSERT(indent >= 0);
+   Q_ASSERT(value >= 0);
 
-   // Set the this object's indent to the new value. 
-   _indent = indent;
+   // Set this object's indent to the new value. 
+   _indent = value;
 }
 
 
@@ -96,11 +119,9 @@ void LineParser::setIndent(int indent)
 
 
 /*!
- * Adds the given line as a new line that this line parser will provide as output 
- * for its parent scanner, appending it to the end of any existing lines to be 
- * used. 
+ * Appends the given line to this parser element's output lines. 
  *
- * @param line The line that is appended to the lines of this line parser. 
+ * @param line The line that is appended to the output lines of this parser. 
  */
 void LineParser::add(const QString& line)
 {
@@ -113,11 +134,9 @@ void LineParser::add(const QString& line)
 
 
 /*!
- * Adds the given list of lines as a new lines that this line parser will provide 
- * as output for its parent scanner, appending it to the end of any existing lines 
- * to be used. 
+ * Appends the given list of lines to this parser element's output lines. 
  *
- * @param lines Lines that are appended to the lines of this line parser. 
+ * @param lines Lines that are appended to the output lines of this parser. 
  */
 void LineParser::add(const QStringList& lines)
 {
@@ -130,11 +149,10 @@ void LineParser::add(const QStringList& lines)
 
 
 /*!
- * Adds a given number of blank lines that this line parser will provide as output 
- * for its parent scanner, appending it to the end of any existing lines to be 
- * used. 
+ * Appends a given number of blank lines to this parser element's output lines. 
  *
- * @param count The number of blank lines added to the lines of this line parser. 
+ * @param count The number of blank lines appended to the output lines of this 
+ *              parser. 
  */
 void LineParser::add(int count)
 {
