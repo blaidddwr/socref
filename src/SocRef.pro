@@ -1,5 +1,9 @@
 lessThan(QT_MAJOR_VERSION,5): error("Requires Qt 5")
-lessThan(QT_MINOR_VERSION,7): error("Requires Qt 5.7")
+greaterThan(QT_MAJOR_VERSION,5): error("Requires Qt 5")
+equals(QT_MAJOR_VERSION,5)
+{
+    lessThan(QT_MINOR_VERSION,7): error("Requires Qt 5.7 or greater")
+}
 
 MAJOR_VERSION = 0
 MINOR_VERSION = 0
@@ -22,28 +26,25 @@ DEFINES += QT_DEPRECATED_WARNINGS \
 
 SOURCES += \
     exception.cpp \
-    application.cpp \
-    abstractparser.cpp \
     blockmodel.cpp \
     scanner.cpp \
     scanthread.cpp \
     dictionarymodel.cpp \
     projectfactory.cpp \
     project.cpp \
+    application.cpp \
     main.cpp
 
 HEADERS += \
     global.h \
     exception.h \
-    application.h \
-    abstractparser.h \
-    abstractparserfactory.h \
     blockmodel.h \
     scanner.h \
     scanthread.h \
     dictionarymodel.h \
     projectfactory.h \
-    project.h
+    project.h \
+    application.h
 
 include(Abstract.pri)
 include(Gui.pri)
