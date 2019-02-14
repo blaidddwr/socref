@@ -34,9 +34,8 @@ QStringList FunctionParser::output() const
  */
 bool FunctionParser::needsInput() const
 {
-   // Make sure the output lines are not empty and a header regular expression is 
-   // defined. 
-   return _lines.isEmpty() && !_headerExp.isEmpty();
+   // Make sure input has not been read and a header regular expression is defined. 
+   return _first && !_headerExp.isEmpty();
 }
 
 
@@ -68,21 +67,20 @@ QString FunctionParser::headerExpression() const
  */
 bool FunctionParser::input(const QString& line)
 {
-   // Create the cut off variable used to determine the number of spaces to cut off 
-   // from the beginning of the given line. 
-   int cutOff;
-
    // Check to see if this is the first input line parsed by this object. 
    if ( _first )
    {
-      // Determine the cut off and set it to the instance wide cut off value, setting 
-      // the first line indicator to false. 
-      cutOff = _cutOff = line.indexOf(QRegularExpression("\\S"));
+      // Determine the cut off and set it to the instance wide cut off value. 
+      _cutOff = line.indexOf(QRegularExpression("\\S"));
+
+      // Set the first line indicator to false and return true to get more input. 
       _first = false;
+      return true;
    }
 
-   // Else this is not the first line so determine the cut off for this line. 
-   else cutOff = qMin(line.indexOf(QRegularExpression("\\S")),_cutOff);
+   // Determine the cut off for this line based off the minimum of this lines spaces 
+   // or the instance wide cutoff. 
+   int cutOff {qMin(line.indexOf(QRegularExpression("\\S")),_cutOff)};
 
    // Check to see if the given line is an inline comment line. 
    if ( QRegularExpression(QStringLiteral("\\A\\s*") + QRegularExpression::escape(_commentBegin)).match(line).hasMatch() )
@@ -137,6 +135,7 @@ void FunctionParser::reset()
 
    // Clear any generated output lines parsed from previous input lines. 
    _lines.clear();
+   _lines << _header;
 }
 
 
@@ -160,15 +159,20 @@ void FunctionParser::reset()
  * @param maxColumns The maximum number of columns per line this parser will 
  *                   generate for inline comment blocks. 
  *
+ * @param header The header or full name of this function that will be used as the 
+ *               first line of output for this function parser. 
+ *
  * @param operations A list of operation step descriptions this function parser 
  *                   uses to generate inline comment block lines. 
  */
-FunctionParser::FunctionParser(QChar inToken, QChar outToken, const QString& commentBegin, int maxColumns, const QStringList& operations):
+FunctionParser::FunctionParser(QChar inToken, QChar outToken, const QString& commentBegin, int maxColumns, const QString& header, const QStringList& operations):
    _inToken(inToken),
    _outToken(outToken),
    _commentBegin(commentBegin),
    _maxColumns(maxColumns),
-   _operations(operations)
+   _header(header),
+   _operations(operations),
+   _lines(header)
 {}
 
 

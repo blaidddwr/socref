@@ -40,7 +40,7 @@ namespace Basic
       virtual bool input(const QString& line) override final;
       virtual void reset() override final;
    public:
-      explicit FunctionParser(QChar inToken, QChar outToken, const QString& commentBegin, int maxColumns, const QStringList& operations);
+      explicit FunctionParser(QChar inToken, QChar outToken, const QString& commentBegin, int maxColumns, const QString& header, const QStringList& operations);
       void setIndent(int value);
       void add(const QString& text);
       void addExp(const QString& expression);
@@ -68,6 +68,11 @@ namespace Basic
        * The maximum number of columns allowed for a single line of an inline comment. 
        */
       const int _maxColumns;
+      /*!
+       * The header or full name of this function that will be used as the first line of 
+       * output for this function parser. 
+       */
+      const QString _header;
       /*!
        * Steps of operation for this function. This is used as inline comments, following 
        * the same order as inline comments are found when parsing the input lines. 

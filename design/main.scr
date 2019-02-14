@@ -6883,7 +6883,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <description>Implements _Abstract::Parser_ interface.</description>
               <final/>
               <name>needsInput</name>
-              <operation>Make sure the output lines are not empty and a header regular expression is defined.</operation>
+              <operation>Make sure input has not been read and a header regular expression is defined.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
               <type>bool</type>
@@ -6907,10 +6907,10 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <description>Implements _Abstract::Parser_ interface.</description>
               <final/>
               <name>input</name>
-              <operation>Create the cut off variable used to determine the number of spaces to cut off from the beginning of the given line.</operation>
               <operation>Check to see if this is the first input line parsed by this object.</operation>
-              <operation>Determine the cut off and set it to the instance wide cut off value, setting the first line indicator to false.</operation>
-              <operation>Else this is not the first line so determine the cut off for this line.</operation>
+              <operation>Determine the cut off and set it to the instance wide cut off value.</operation>
+              <operation>Set the first line indicator to false and return true to get more input.</operation>
+              <operation>Determine the cut off for this line based off the minimum of this lines spaces or the instance wide cutoff.</operation>
               <operation>Check to see if the given line is an inline comment line.</operation>
               <operation>Check to see if this is the first line of an inline comment block.</operation>
               <operation>Mark the comment block edge past indicator to true and process this inline comment block.</operation>
@@ -6988,6 +6988,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
                 <initializer></initializer>
                 <name>maxColumns</name>
                 <type>int</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The header or full name of this function that will be used as the first line of output for this function parser.</description>
+                <initializer></initializer>
+                <name>header</name>
+                <type>const QString&amp;</type>
               </data>
             </variable>
             <variable>
@@ -7134,6 +7142,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer></initializer>
               <name>_maxColumns</name>
               <type>const int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The header or full name of this function that will be used as the first line of output for this function parser.</description>
+              <initializer></initializer>
+              <name>_header</name>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -7328,6 +7344,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               </data>
               <variable>
                 <data>
+                  <description>The header or full name of this function that will be used as the first line of output for this function parser.</description>
+                  <initializer></initializer>
+                  <name>header</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
                   <description>A list of operation step descriptions this function parser uses to generate inline comment block lines.</description>
                   <initializer></initializer>
                   <name>operations</name>
@@ -7468,6 +7492,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
+              <name>change</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
               <name>scope</name>
               <type>const QList&lt;const Namespace*>&amp;</type>
             </data>
@@ -7494,6 +7526,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer></initializer>
               <name>indent</name>
               <type>int*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>change</name>
+              <type>int</type>
             </data>
           </variable>
         </function>
@@ -7596,24 +7636,32 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <function>
           <data>
             <description></description>
-            <name>addFunctionDeclaration</name>
+            <name>createFunctionDeclaration</name>
             <return_description></return_description>
-            <type>void</type>
+            <type>QString</type>
           </data>
-          <variable>
-            <data>
-              <description></description>
-              <initializer></initializer>
-              <name>parser</name>
-              <type>Basic::LineParser*</type>
-            </data>
-          </variable>
           <variable>
             <data>
               <description></description>
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>createVariableDeclaration</name>
+            <return_description></return_description>
+            <type>QString</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>variable</name>
+              <type>const CppQt::Variable&amp;</type>
             </data>
           </variable>
         </function>
@@ -7636,8 +7684,48 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>func</name>
+              <name>function</name>
               <type>const CppQt::Function&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>indent</name>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>addFunctionComments</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>function</name>
+              <type>const CppQt::Function&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>indent</name>
+              <type>int</type>
             </data>
           </variable>
         </function>
@@ -7660,9 +7748,9 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <function>
           <data>
             <description></description>
-            <name>createTemplate</name>
+            <name>createTemplateList</name>
             <return_description></return_description>
-            <type>QString</type>
+            <type>QList&lt;QList&lt;const Template*>></type>
           </data>
           <variable>
             <data>

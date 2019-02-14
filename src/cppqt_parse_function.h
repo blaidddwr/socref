@@ -15,7 +15,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Function(const QStringList& operations);
+         explicit Function(const QString& header, const QStringList& operations);
       };
    }
 }

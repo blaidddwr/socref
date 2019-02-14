@@ -2,6 +2,7 @@
 #include "cppqt_parse_header.h"
 #include "cppqt_parse_comment.h"
 #include "cppqt_parse_function.h"
+#include "cppqt_settings.h"
 #include "cppqt_factory.h"
 #include "cppqt_namespace.h"
 #include "cppqt_enumeration.h"
@@ -53,6 +54,10 @@ void Parse::addHeader(QMap<QString,Scanner*>* map, const Namespace* root)
    Q_CHECK_PTR(root);
    Q_CHECK_PTR(map);
 
+   const int headerLines {Settings::instance().headerLines()};
+   const int functionLines {Settings::instance().functionLines()};
+   const int indentSpaces {Settings::instance().indentSpaces()};
+
    QString baseName;
    if ( root->parent() ) baseName = root->baseName();
    else baseName = QStringLiteral("global");
@@ -74,20 +79,20 @@ void Parse::addHeader(QMap<QString,Scanner*>* map, const Namespace* root)
    };
    if ( !enumerations.isEmpty() )
    {
-      scanner->addParser(new LineParser(3));
-      addScope(scanner,&indent,scope);
+      scanner->addParser(new LineParser(headerLines));
+      addScope(scanner,&indent,indentSpaces,scope);
       for (auto enumBlock: enumerations) addEnumeration(scanner,*enumBlock,indent);
-      endScope(scanner,&indent);
+      endScope(scanner,&indent,indentSpaces);
    }
 
    // .
    QList<const Class*> classes {root->createListOfType<const Class>(Factory::ClassType)};
    if ( !classes.isEmpty() )
    {
-      scanner->addParser(new LineParser(3));
-      addScope(scanner,&indent,scope);
+      scanner->addParser(new LineParser(headerLines));
+      addScope(scanner,&indent,indentSpaces,scope);
       addForwardClasses(scanner,classes,indent);
-      endScope(scanner,&indent);
+      endScope(scanner,&indent,indentSpaces);
    }
 
    //. function headers
@@ -97,26 +102,50 @@ void Parse::addHeader(QMap<QString,Scanner*>* map, const Namespace* root)
    };
    if ( !functions.isEmpty() )
    {
-      scanner->addParser(new LineParser(3));
-      addScope(scanner,&indent,scope);
+      scanner->addParser(new LineParser(headerLines));
+      addScope(scanner,&indent,indentSpaces,scope);
       LineParser* line {new LineParser};
       line->setIndent(indent);
-      for (auto function: functions) addFunctionDeclaration(line,*function);
+      for (auto function: functions)
+      {
+         line->add(createFunctionDeclaration(*function) + QStringLiteral(";"));
+      }
       scanner->addParser(line);
-      endScope(scanner,&indent);
+      endScope(scanner,&indent,indentSpaces);
+   }
+
+   //. variables
+   QList<const Variable*> variables
+   {
+      root->createListOfType<const Variable>(Factory::VariableType)
+   };
+   if ( !variables.isEmpty() )
+   {
+      scanner->addParser(new LineParser(headerLines));
+      addScope(scanner,&indent,indentSpaces,scope);
+      LineParser* line {new LineParser};
+      line->setIndent(indent);
+      for (auto variable: variables)
+      {
+         line->add(QStringLiteral("extern ")
+                   + createVariableDeclaration(*variable)
+                   + QStringLiteral(";"));
+      }
+      scanner->addParser(line);
+      endScope(scanner,&indent,indentSpaces);
    }
 
    //. function definitions
    if ( !functions.isEmpty() )
    {
-      for (auto func: functions)
+      for (auto function: functions)
       {
-         if ( func->hasAnyTemplates() && !func->isPrivateMethod() )
+         if ( function->hasAnyTemplates() && !function->isPrivateMethod() )
          {
-            scanner->addParser(new LineParser(6));
-            addScope(scanner,&indent,scope);
-            addFunctionDefinition(scanner,*func);
-            endScope(scanner,&indent);
+            scanner->addParser(new LineParser(functionLines));
+            addScope(scanner,&indent,indentSpaces,scope);
+            addFunctionDefinition(scanner,*function,indent);
+            endScope(scanner,&indent,indentSpaces);
          }
       }
    }
@@ -132,6 +161,8 @@ void Parse::addHeader(QMap<QString,Scanner*>* map, const Namespace* root)
    map->insert(fileName,scanner);
 
    //. recursive iterate child namespaces
+   QList<const Namespace*> spaces {root->createListOfType<const Namespace>(Factory::NamespaceType)};
+   for(auto space: spaces) addHeader(map,space);
 
    //. iterate child classes
 }
@@ -217,9 +248,11 @@ QList<const Namespace*> Parse::createScope(const Abstract::Block* block)
  *
  * @param indent  
  *
+ * @param change  
+ *
  * @param scope  
  */
-void Parse::addScope(Scanner* scanner, int* indent, const QList<const Namespace*>& scope)
+void Parse::addScope(Scanner* scanner, int* indent, int change, const QList<const Namespace*>& scope)
 {
    Q_CHECK_PTR(scanner);
    Q_CHECK_PTR(indent);
@@ -232,7 +265,7 @@ void Parse::addScope(Scanner* scanner, int* indent, const QList<const Namespace*
       };
       line->add(QStringLiteral("{"));
       scanner->addParser(line);
-      *indent += 3;
+      *indent += change;
    }
 }
 
@@ -246,15 +279,17 @@ void Parse::addScope(Scanner* scanner, int* indent, const QList<const Namespace*
  * @param scanner  
  *
  * @param indent  
+ *
+ * @param change  
  */
-void Parse::endScope(Scanner* scanner, int* indent)
+void Parse::endScope(Scanner* scanner, int* indent, int change)
 {
    Q_CHECK_PTR(scanner);
    Q_CHECK_PTR(indent);
    using LineParser = Basic::LineParser;
    while ( *indent > 0 )
    {
-      *indent -= 3;
+      *indent -= change;
       scanner->addParser(new LineParser(*indent,QStringLiteral("}")));
    }
 }
@@ -288,7 +323,7 @@ void Parse::addEnumeration(Scanner* scanner, const Enumeration& enumeration, int
    line->add(header);
    line->add(QStringLiteral("{"));
    scanner->addParser(line);
-   addEnumValues(scanner,enumeration,indent + 3);
+   addEnumValues(scanner,enumeration,indent + Settings::instance().indentSpaces());
    line = new LineParser;
    line->setIndent(indent);
    line->add(QStringLiteral("}"));
@@ -353,9 +388,12 @@ void Parse::addForwardClasses(Scanner* scanner, QList<const Class*>& classes, in
    using LineParser = Basic::LineParser;
    LineParser* line = {new LineParser};
    line->setIndent(indent);
-   for (auto name: classes)
+   for (auto object: classes)
    {
-      line->add(QStringLiteral("class ") + name->baseName() + QStringLiteral(";"));
+      if ( !object->hasTemplates() )
+      {
+         line->add(QStringLiteral("class ") + object->baseName() + QStringLiteral(";"));
+      }
    }
    scanner->addParser(line);
 }
@@ -367,14 +405,11 @@ void Parse::addForwardClasses(Scanner* scanner, QList<const Class*>& classes, in
 
 /*!
  *
- * @param parser  
- *
  * @param function  
  */
-void Parse::addFunctionDeclaration(Basic::LineParser* parser, const CppQt::Function& function)
+QString Parse::createFunctionDeclaration(const CppQt::Function& function)
 {
-   Q_CHECK_PTR(parser);
-   QString declaration
+   QString ret
    {
       createTemplates(&function)
       + function.returnType()
@@ -386,11 +421,25 @@ void Parse::addFunctionDeclaration(Basic::LineParser* parser, const CppQt::Funct
    for (auto argument: function.arguments())
    {
       if ( first ) first = false;
-      else declaration += QStringLiteral(", ");
-      declaration += argument->variableType() + QStringLiteral(" ") + argument->baseName();
+      else ret += QStringLiteral(", ");
+      ret += argument->variableType() + QStringLiteral(" ") + argument->baseName();
    }
-   declaration += QStringLiteral(");");
-   parser->add(declaration);
+   ret += QStringLiteral(")");
+   return ret;
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param variable  
+ */
+QString Parse::createVariableDeclaration(const CppQt::Variable& variable)
+{
+   return variable.variableType() + QStringLiteral(" ") + variable.baseName();
 }
 
 
@@ -402,27 +451,75 @@ void Parse::addFunctionDeclaration(Basic::LineParser* parser, const CppQt::Funct
  *
  * @param scanner  
  *
- * @param func  
+ * @param function  
+ *
+ * @param indent  
  */
-void Parse::addFunctionDefinition(Scanner* scanner, const CppQt::Function& func)
+void Parse::addFunctionDefinition(Scanner* scanner, const CppQt::Function& function, int indent)
 {
    Q_CHECK_PTR(scanner);
-   Function* function {new Function(func.operations())};
-   function->add(func.baseName() + QStringLiteral("("));
-   bool first {true};
-   for (auto argument: func.arguments())
+   addFunctionComments(scanner,function,indent);
+   Function* functionParser
    {
-      function->addExp(QStringLiteral("\\s*"));
+      new Function(createFunctionDeclaration(function),function.operations())
+   };
+   functionParser->setIndent(indent);
+   functionParser->add(function.baseName() + QStringLiteral("("));
+   bool first {true};
+   for (auto argument: function.arguments())
+   {
+      functionParser->addExp(QStringLiteral("\\s*"));
       if ( first ) first = false;
-      else function->addExp(QStringLiteral(","));
-      function->addExp(argument->variableType());
-      function->addExp(QStringLiteral("\\s+[a-zA-Z_]+[a-zA-Z_0-9]*\\s*"));
+      else functionParser->addExp(QStringLiteral(","));
+      functionParser->addExp(argument->variableType());
+      functionParser->addExp(QStringLiteral("\\s+[a-zA-Z_]+[a-zA-Z_0-9]*\\s*"));
    }
-   function->add(QStringLiteral(")"));
-   if ( func.isConst() ) function->addExp(QStringLiteral("\\s+const"));
-   if ( func.isNoExcept() ) function->addExp(QStringLiteral("\\s+noexcept"));
-   function->addExp(QStringLiteral("\\s*:?\\s*\\z"));
-   scanner->addParser(function);
+   functionParser->add(QStringLiteral(")"));
+   if ( function.isConst() ) functionParser->addExp(QStringLiteral("\\s+const"));
+   if ( function.isNoExcept() ) functionParser->addExp(QStringLiteral("\\s+noexcept"));
+   functionParser->addExp(QStringLiteral("\\s*:?\\s*\\z"));
+   scanner->addParser(functionParser);
+}
+
+
+
+
+
+
+/*!
+ *
+ * @param scanner  
+ *
+ * @param function  
+ *
+ * @param indent  
+ */
+void Parse::addFunctionComments(Scanner* scanner, const CppQt::Function& function, int indent)
+{
+   Q_CHECK_PTR(scanner);
+   Comment* comment {new Comment};
+   comment->setIndent(indent);
+   comment->add(function.description());
+   for (auto temp: function.templates())
+   {
+      comment->add(1);
+      comment->add(QStringLiteral("@tparam ") + temp->baseName(),temp->description());
+   }
+   for (auto argument: function.arguments())
+   {
+      comment->add(1);
+      comment->add(QStringLiteral("@param ") + argument->baseName(),argument->description());
+   }
+   if ( !function.isVoidReturn() )
+   {
+      QString description {function.returnDescription()};
+      if ( !description.isEmpty() )
+      {
+         comment->add(1);
+         comment->add(QStringLiteral("@return"),description);
+      }
+   }
+   scanner->addParser(comment);
 }
 
 
@@ -438,19 +535,18 @@ QString Parse::createTemplates(const Abstract::Block* block)
 {
    Q_CHECK_PTR(block);
    QString ret;
-   const Abstract::Block* up {block};
-   while ( up )
+   QList<QList<const Template*>> superList {createTemplateList(block)};
+   for (auto list: superList)
    {
-      if ( const CppQt::Function* valid = up->cast<CppQt::Function>(Factory::FunctionType) )
+      ret += QStringLiteral("template<");
+      bool first {true};
+      for (auto temp: list)
       {
-         ret.prepend(createTemplate(valid));
+         if ( first ) first = false;
+         else ret += QStringLiteral(", ");
+         ret += temp->templateType() + QStringLiteral(" ") + temp->baseName();
       }
-      else if ( const Class* valid = up->cast<Class>(Factory::ClassType) )
-      {
-         ret.prepend(createTemplate(valid));
-      }
-      else if ( up->cast<Namespace>(Factory::NamespaceType) ) return ret;
-      up = up->parent();
+      ret += QStringLiteral("> ");
    }
    return ret;
 }
@@ -464,21 +560,23 @@ QString Parse::createTemplates(const Abstract::Block* block)
  *
  * @param block  
  */
-QString Parse::createTemplate(const Abstract::Block* block)
+QList<QList<const Template*>> Parse::createTemplateList(const Abstract::Block* block)
 {
-   QString ret;
-   QList<const Template*> list {block->createListOfType<const Template>(Factory::TemplateType)};
-   if ( !list.isEmpty() )
+   Q_CHECK_PTR(block);
+   QList<QList<const Template*>> ret;
+   const Abstract::Block* up {block};
+   while ( up )
    {
-      ret += QStringLiteral("template<");
-      bool first {true};
-      for (auto temp: list)
+      if ( up->type() == Factory::FunctionType || up->type() == Factory::ClassType )
       {
-         if ( first ) first = false;
-         else ret += QStringLiteral(", ");
-         ret += temp->templateType() + QStringLiteral(" ") + temp->baseName();
+         QList<const Template*> list
+         {
+            up->createListOfType<const Template>(Factory::TemplateType)
+         };
+         if ( !list.isEmpty() ) ret.prepend(list);
       }
-      ret += QStringLiteral("> ");
+      else if ( up->cast<Namespace>(Factory::NamespaceType) ) return ret;
+      up = up->parent();
    }
    return ret;
 }
