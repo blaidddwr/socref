@@ -37,7 +37,7 @@ QStringList CommentParser::output() const
 
    // Add the end line if it is not empty and then return the generated comment block 
    // lines prepended with indent spaces. 
-   if ( _end.isEmpty() ) ret << _end;
+   if ( !_end.isEmpty() ) ret << _end;
    return LineParser::prependIndent(_indent,ret);
 }
 
@@ -202,10 +202,10 @@ QStringList CommentParser::createComment(QString header, const QString& text) co
       // Continue until the word list is empty. 
       while ( !words.isEmpty() )
       {
-         // Initialize the total columns taken and new comment line to be added with the 
-         // indent spacing, middle token, and then another space. 
+         // Initialize the total columns taken and new comment line to be added, middle 
+         // token, and then another space. 
          int total {_middle.size() + 1};
-         QString line {QString(_indent,' ') + _middle + QStringLiteral(" ")};
+         QString line {_middle + QStringLiteral(" ")};
 
          // Check to see if this is the first comment line. 
          if ( first )

@@ -1,7 +1,9 @@
 #include "projectfactory.h"
 #include <QObject>
+#include "abstract_block.h"
 #include "cppqt_factory.h"
 #include "cppqt_settingsdialog.h"
+#include "cppqt_parse_common.h"
 #include "glsl_factory.h"
 #include "glsl_settingsdialog.h"
 
@@ -186,6 +188,13 @@ const Abstract::BlockFactory& ProjectFactory::blockFactory(int type) const
  */
 QMap<QString,Scanner*> ProjectFactory::createScannerMap(const Abstract::Block* root) const
 {
-   Q_UNUSED(root);
-   return QMap<QString,Scanner*>();
+   // Figure out the project type of the given root block and then create and return 
+   // a mapping of scanner objects, making sure the project type is recognized. 
+   switch (root->factory().type())
+   {
+   case CppQtType: return CppQt::Parse::createScannerMap(root);
+   //case GLSLType: return GLSL::Factory::instance();
+   default:
+      Q_ASSERT(false);
+   }
 }

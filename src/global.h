@@ -1,7 +1,5 @@
 
 class Exception;
-class AbstractParser;
-class AbstractParserFactory;
 class BlockModel;
 class Scanner;
 class ScanThread;

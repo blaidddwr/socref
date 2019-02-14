@@ -8,7 +8,6 @@
 #include "abstract_block.h"
 #include "abstract_blockfactory.h"
 #include "abstract_projectfactory.h"
-#include "abstractparserfactory.h"
 #include "exception.h"
 #include "blockmodel.h"
 #include "scanthread.h"

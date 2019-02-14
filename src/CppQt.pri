@@ -42,4 +42,4 @@ HEADERS += \
     cppqt_parent.h \
     cppqt_declaration.h
 
-#include(CppQt_Parse.pri)
+include(CppQt_Parse.pri)
