@@ -19,7 +19,13 @@ using namespace Basic;
  */
 QStringList FunctionParser::output() const
 {
-   return LineParser::prependIndent(_indent,_lines);
+   // Copy this object's list of output lines, adding in and out token lines if it 
+   // only contains a single header line. 
+   QStringList ret {_lines};
+   if ( _lines.size() == 1 ) ret << _inToken << _outToken;
+
+   // Return the output lines prepended with this object's indent spacing. 
+   return LineParser::prependIndent(_indent,ret);
 }
 
 

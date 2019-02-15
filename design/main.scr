@@ -6871,6 +6871,8 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <description>Implements _Abstract::Parser_ interface.</description>
               <final/>
               <name>output</name>
+              <operation>Copy this object's list of output lines, adding in and out token lines if it only contains a single header line.</operation>
+              <operation>Return the output lines prepended with this object's indent spacing.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
               <type>QStringList</type>
@@ -7404,6 +7406,30 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <function>
           <data>
             <description></description>
+            <name>addSource</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>map</name>
+              <type>QMap&lt;QString,Scanner*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>root</name>
+              <type>const Namespace*</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
             <name>addHeader</name>
             <return_description></return_description>
             <type>void</type>
@@ -7424,12 +7450,28 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <type>const QList&lt;const Namespace*>&amp;</type>
             </data>
           </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>addSourceHeader</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
           <variable>
             <data>
               <description></description>
               <initializer></initializer>
-              <name>baseName</name>
-              <type>const QString&amp;</type>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scope</name>
+              <type>const QList&lt;const Namespace*>&amp;</type>
             </data>
           </variable>
         </function>
@@ -7446,6 +7488,46 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>insertScanner</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>map</name>
+              <type>QMap&lt;QString,Scanner*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scope</name>
+              <type>const QList&lt;const Namespace*>&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>ending</name>
+              <type>const QString&amp;</type>
             </data>
           </variable>
         </function>
@@ -7492,16 +7574,16 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>change</name>
-              <type>int</type>
+              <name>scope</name>
+              <type>const QList&lt;const Namespace*>&amp;</type>
             </data>
           </variable>
           <variable>
             <data>
               <description></description>
-              <initializer></initializer>
-              <name>scope</name>
-              <type>const QList&lt;const Namespace*>&amp;</type>
+              <initializer>false</initializer>
+              <name>flat</name>
+              <type>bool</type>
             </data>
           </variable>
         </function>
@@ -7531,9 +7613,9 @@ Additional parsing is done with the input lines by looking for marker lines of i
           <variable>
             <data>
               <description></description>
-              <initializer></initializer>
-              <name>change</name>
-              <type>int</type>
+              <initializer>false</initializer>
+              <name>flat</name>
+              <type>bool</type>
             </data>
           </variable>
         </function>
@@ -7694,6 +7776,30 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer></initializer>
               <name>indent</name>
               <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>addVariableDefinition</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>variable</name>
+              <type>const CppQt::Variable&amp;</type>
             </data>
           </variable>
         </function>

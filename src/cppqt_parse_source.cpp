@@ -13,5 +13,5 @@ using namespace CppQt::Parse;
 /*!
  */
 Source::Source():
-   Basic::InputParser("\\A#include\\s+\"[a-zA-Z_]+\\.h\\z","\\A\\z")
+   Basic::InputParser("\\A#include\\s+\"[a-z_]+\\.h\"\\z","\\A\\z")
 {}
