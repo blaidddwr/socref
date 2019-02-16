@@ -1406,7 +1406,7 @@ An implementation of this class must construct the form portion of this dialog g
       </class>
       <class>
         <data>
-          <description>This represents parser elements that are used in a scanner to parse a source file. A parser element can read the input of the source file based off a header that must be matched. A parser element also provides output lines that are used to write output to the scanner source file along with all other parser elements part of a scanner.
+          <description>This represents parser elements that are used in a scanner to parse a source file. A parser element can read the input of the source file based off a header that must be matched. A parser element also provides output lines that are used to write output to the scanner source file along with all other parser elements part of a scanner. An indent can also be provided for prepending a certain number of spaces to each output line. This provided indent is optional for an implementation and can be ignored.
 
 A scanner queries all of its parser elements that take input for a regular expression header that is matched with each input line read from the source file. If the regular expression matches the line then each following line, including the header line matched, is provided to the element parser until it is finished.
 
@@ -1454,6 +1454,23 @@ It is important to minimize the work in creating and initializing a parser eleme
               <type>QString</type>
               <virtual/>
             </data>
+          </function>
+          <function>
+            <data>
+              <description>This interface sets the indent, in spaces, that is prepended to each line of the parser element's output to its parent scanner. The default implementation does nothing.</description>
+              <name>setIndent</name>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>The new indent value in spaces.</description>
+                <initializer></initializer>
+                <name>value</name>
+                <type>int</type>
+              </data>
+            </variable>
           </function>
           <function>
             <data>
@@ -6267,6 +6284,27 @@ A new interface is also provided for creating implementation classes of the basi
               <virtual/>
             </data>
           </function>
+          <function>
+            <data>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>setIndent</name>
+              <operation>Make sure the given indent is not negative.</operation>
+              <operation>Set this object's indent to the new value.</operation>
+              <override/>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>value</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
         </access>
         <access>
           <data>
@@ -6322,24 +6360,6 @@ A new interface is also provided for creating implementation classes of the basi
                 <initializer></initializer>
                 <name>line</name>
                 <type>const QString&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function>
-            <data>
-              <description>Sets the indent in spaces that is prepended to each line when this line parser provides its output lines to its parent scanner.</description>
-              <name>setIndent</name>
-              <operation>Make sure the given indent is not negative.</operation>
-              <operation>Set this object's indent to the new value.</operation>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-            <variable>
-              <data>
-                <description>The new indent value in spaces.</description>
-                <initializer></initializer>
-                <name>value</name>
-                <type>int</type>
               </data>
             </variable>
           </function>
@@ -6607,6 +6627,27 @@ This parser also provides setting an indentation of spaces before each comment l
               <virtual/>
             </data>
           </function>
+          <function>
+            <data>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
+              <name>setIndent</name>
+              <operation>Make sure the given indent is not negative.</operation>
+              <operation>Set the this object's indent to the new value.</operation>
+              <override/>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>value</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
         </access>
         <access>
           <data>
@@ -6649,24 +6690,6 @@ This parser also provides setting an indentation of spaces before each comment l
                 <description>The maximum number of columns per comment line provided by this parser element.</description>
                 <initializer></initializer>
                 <name>maxColumns</name>
-                <type>int</type>
-              </data>
-            </variable>
-          </function>
-          <function>
-            <data>
-              <description>Sets the indent, in spaces, that is prepended to each line of the comment block this parser provides for its parent scanner.</description>
-              <name>setIndent</name>
-              <operation>Make sure the given indent is not negative.</operation>
-              <operation>Set the this object's indent to the new value.</operation>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-            <variable>
-              <data>
-                <description>The new indent value in spaces.</description>
-                <initializer></initializer>
-                <name>value</name>
                 <type>int</type>
               </data>
             </variable>
@@ -6908,6 +6931,27 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description>Implements _Abstract::Parser_ interface.</description>
               <final/>
+              <name>setIndent</name>
+              <operation>Make sure the given indent is not negative.</operation>
+              <operation>Set this object's indent to the new value.</operation>
+              <override/>
+              <return_description></return_description>
+              <type>void</type>
+              <virtual/>
+            </data>
+            <variable>
+              <data>
+                <description>See interface docs.</description>
+                <initializer></initializer>
+                <name>value</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
+              <description>Implements _Abstract::Parser_ interface.</description>
+              <final/>
               <name>input</name>
               <operation>Check to see if this is the first input line parsed by this object.</operation>
               <operation>Determine the cut off and set it to the instance wide cut off value.</operation>
@@ -7006,24 +7050,6 @@ Additional parsing is done with the input lines by looking for marker lines of i
                 <initializer></initializer>
                 <name>operations</name>
                 <type>const QStringList&amp;</type>
-              </data>
-            </variable>
-          </function>
-          <function>
-            <data>
-              <description>Sets the indent in spaces that is prepended to each output line of this function parser.</description>
-              <name>setIndent</name>
-              <operation>Make sure the given indent is not negative.</operation>
-              <operation>Set this object's indent to the new value.</operation>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-            <variable>
-              <data>
-                <description>The new indent value in spaces.</description>
-                <initializer></initializer>
-                <name>value</name>
-                <type>int</type>
               </data>
             </variable>
           </function>
@@ -7239,6 +7265,158 @@ Additional parsing is done with the input lines by looking for marker lines of i
           <description></description>
           <name>Parse</name>
         </data>
+        <function>
+          <data>
+            <description></description>
+            <name>hasDefinition</name>
+            <return_description></return_description>
+            <type>bool</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>variable</name>
+              <type>const Variable&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>isHeader</name>
+              <type>bool</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>hasDefinition</name>
+            <return_description></return_description>
+            <type>bool</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>function</name>
+              <type>const CppQt::Function&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>isHeader</name>
+              <type>bool</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>createParsers</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>declarations</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>variables</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>functions</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>const Abstract::Block&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>indent</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>isHeader</name>
+              <type>bool</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>addParsers</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>declarations</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>variables</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>functions</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer>nullptr</initializer>
+              <name>scope</name>
+              <type>QList&lt;const Namespace*>*</type>
+            </data>
+          </variable>
+        </function>
         <class>
           <data>
             <description></description>
@@ -7399,7 +7577,31 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <description></description>
               <initializer></initializer>
               <name>root</name>
-              <type>const Namespace*</type>
+              <type>const Namespace&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>addHeader</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>map</name>
+              <type>QMap&lt;QString,Scanner*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>root</name>
+              <type>const Class&amp;</type>
             </data>
           </variable>
         </function>
@@ -7423,7 +7625,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <description></description>
               <initializer></initializer>
               <name>root</name>
-              <type>const Namespace*</type>
+              <type>const Namespace&amp;</type>
             </data>
           </variable>
         </function>
@@ -7448,6 +7650,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer></initializer>
               <name>scope</name>
               <type>const QList&lt;const Namespace*>&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer>nullptr</initializer>
+              <name>name</name>
+              <type>const Class*</type>
             </data>
           </variable>
         </function>
@@ -7530,6 +7740,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <type>const QString&amp;</type>
             </data>
           </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer>nullptr</initializer>
+              <name>name</name>
+              <type>const Class*</type>
+            </data>
+          </variable>
         </function>
         <function>
           <data>
@@ -7543,7 +7761,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <description></description>
               <initializer></initializer>
               <name>block</name>
-              <type>const Abstract::Block*</type>
+              <type>const Abstract::Block&amp;</type>
             </data>
           </variable>
         </function>
@@ -7586,6 +7804,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <type>bool</type>
             </data>
           </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer>false</initializer>
+              <name>describe</name>
+              <type>bool</type>
+            </data>
+          </variable>
         </function>
         <function>
           <data>
@@ -7622,6 +7848,62 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <function>
           <data>
             <description></description>
+            <name>createClassParsers</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>declarations</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>variables</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>functions</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>root</name>
+              <type>const Class&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>indent</name>
+              <type>int</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>isHeader</name>
+              <type>bool</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
             <name>addEnumeration</name>
             <return_description></return_description>
             <type>void</type>
@@ -7630,8 +7912,8 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>scanner</name>
-              <type>Scanner*</type>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
             </data>
           </variable>
           <variable>
@@ -7662,8 +7944,8 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>scanner</name>
-              <type>Scanner*</type>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
             </data>
           </variable>
           <variable>
@@ -7686,7 +7968,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <function>
           <data>
             <description></description>
-            <name>addForwardClasses</name>
+            <name>addVariableDeclaration</name>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -7694,16 +7976,16 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>scanner</name>
-              <type>Scanner*</type>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
             </data>
           </variable>
           <variable>
             <data>
               <description></description>
               <initializer></initializer>
-              <name>classes</name>
-              <type>QList&lt;const Class*>&amp;</type>
+              <name>variable</name>
+              <type>const Variable&amp;</type>
             </data>
           </variable>
           <variable>
@@ -7734,7 +8016,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <function>
           <data>
             <description></description>
-            <name>createVariableDeclaration</name>
+            <name>createBaseFunctionDeclaration</name>
             <return_description></return_description>
             <type>QString</type>
           </data>
@@ -7742,8 +8024,16 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>variable</name>
-              <type>const CppQt::Variable&amp;</type>
+              <name>function</name>
+              <type>const CppQt::Function&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer>QString()</initializer>
+              <name>classScope</name>
+              <type>const QString&amp;</type>
             </data>
           </variable>
         </function>
@@ -7758,8 +8048,8 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>scanner</name>
-              <type>Scanner*</type>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
             </data>
           </variable>
           <variable>
@@ -7768,14 +8058,6 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description></description>
-              <initializer></initializer>
-              <name>indent</name>
-              <type>int</type>
             </data>
           </variable>
         </function>
@@ -7790,8 +8072,8 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>scanner</name>
-              <type>Scanner*</type>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
             </data>
           </variable>
           <variable>
@@ -7814,8 +8096,8 @@ Additional parsing is done with the input lines by looking for marker lines of i
             <data>
               <description></description>
               <initializer></initializer>
-              <name>scanner</name>
-              <type>Scanner*</type>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
             </data>
           </variable>
           <variable>
@@ -7826,12 +8108,20 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <type>const CppQt::Function&amp;</type>
             </data>
           </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>createClassScope</name>
+            <return_description></return_description>
+            <type>QString</type>
+          </data>
           <variable>
             <data>
               <description></description>
               <initializer></initializer>
-              <name>indent</name>
-              <type>int</type>
+              <name>block</name>
+              <type>const Abstract::Block*</type>
             </data>
           </variable>
         </function>
@@ -7854,9 +8144,25 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <function>
           <data>
             <description></description>
+            <name>createTemplate</name>
+            <return_description></return_description>
+            <type>QString</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>const Abstract::Block*</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
             <name>createTemplateList</name>
             <return_description></return_description>
-            <type>QList&lt;QList&lt;const Template*>></type>
+            <type>QList&lt;const Abstract::Block*></type>
           </data>
           <variable>
             <data>
@@ -8837,6 +9143,17 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <operation>Get this block's parent block pointer and make sure it is not null.</operation>
               <operation>Test if this variable is an argument by seeing if its parent block is an access type.</operation>
               <return_description>True if this variable is a class member or false otherwise.</return_description>
+              <type>bool</type>
+            </data>
+          </function>
+          <function>
+            <data>
+              <const/>
+              <description>Tests if any class this variable block inherits from has any templates, returning true if so.</description>
+              <name>hasAnyTemplates</name>
+              <operation>If this variable block is a member then call on its class to determine if it or any parent classes contain templates.</operation>
+              <operation>If this is reached then there are no templates so return false.</operation>
+              <return_description>True if any inherited classes contain templates or false otherwise.</return_description>
               <type>bool</type>
             </data>
           </function>

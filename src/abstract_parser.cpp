@@ -49,6 +49,23 @@ QString Parser::headerExpression() const
 
 
 /*!
+ * This interface sets the indent, in spaces, that is prepended to each line of the 
+ * parser element's output to its parent scanner. The default implementation does 
+ * nothing. 
+ *
+ * @param value The new indent value in spaces. 
+ */
+void Parser::setIndent(int value)
+{
+   Q_UNUSED(value);
+}
+
+
+
+
+
+
+/*!
  * This interface reads in one line of input given from its parent scanner, 
  * returning true if this parser element wants to read the next line after the one 
  * given. The default implementation returns false. 

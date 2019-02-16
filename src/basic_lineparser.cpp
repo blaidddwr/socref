@@ -65,6 +65,25 @@ QStringList LineParser::output() const
 
 
 /*!
+ * Implements _Abstract::Parser_ interface. 
+ *
+ * @param value See interface docs. 
+ */
+void LineParser::setIndent(int value)
+{
+   // Make sure the given indent is not negative. 
+   Q_ASSERT(value >= 0);
+
+   // Set this object's indent to the new value. 
+   _indent = value;
+}
+
+
+
+
+
+
+/*!
  * Constructs a new line parser initializes with the given number of blank lines. 
  *
  * @param count The number of blank lines added to this new parser. 
@@ -91,26 +110,6 @@ LineParser::LineParser(int indent, const QString& line)
    // Set this parser element's indent and its first line to the ones given. 
    setIndent(indent);
    add(line);
-}
-
-
-
-
-
-
-/*!
- * Sets the indent in spaces that is prepended to each line when this line parser 
- * provides its output lines to its parent scanner. 
- *
- * @param value The new indent value in spaces. 
- */
-void LineParser::setIndent(int value)
-{
-   // Make sure the given indent is not negative. 
-   Q_ASSERT(value >= 0);
-
-   // Set this object's indent to the new value. 
-   _indent = value;
 }
 
 

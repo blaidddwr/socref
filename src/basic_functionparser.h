@@ -37,11 +37,11 @@ namespace Basic
       virtual QStringList output() const override final;
       virtual bool needsInput() const override final;
       virtual QString headerExpression() const override final;
+      virtual void setIndent(int value) override final;
       virtual bool input(const QString& line) override final;
       virtual void reset() override final;
    public:
       explicit FunctionParser(QChar inToken, QChar outToken, const QString& commentBegin, int maxColumns, const QString& header, const QStringList& operations);
-      void setIndent(int value);
       void add(const QString& text);
       void addExp(const QString& expression);
    private:

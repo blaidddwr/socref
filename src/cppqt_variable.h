@@ -32,6 +32,7 @@ namespace CppQt
       bool hasInitializer() const;
       QString initializer() const;
       bool isMember() const;
+      bool hasAnyTemplates() const;
       bool isArgument() const;
    protected:
       virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const override final;

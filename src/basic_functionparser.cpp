@@ -67,6 +67,25 @@ QString FunctionParser::headerExpression() const
 /*!
  * Implements _Abstract::Parser_ interface. 
  *
+ * @param value See interface docs. 
+ */
+void FunctionParser::setIndent(int value)
+{
+   // Make sure the given indent is not negative. 
+   Q_ASSERT(value >= 0);
+
+   // Set this object's indent to the new value. 
+   _indent = value;
+}
+
+
+
+
+
+
+/*!
+ * Implements _Abstract::Parser_ interface. 
+ *
  * @param line See interface docs. 
  *
  * @return See interface docs. 
@@ -180,26 +199,6 @@ FunctionParser::FunctionParser(QChar inToken, QChar outToken, const QString& com
    _operations(operations),
    _lines(header)
 {}
-
-
-
-
-
-
-/*!
- * Sets the indent in spaces that is prepended to each output line of this function 
- * parser. 
- *
- * @param value The new indent value in spaces. 
- */
-void FunctionParser::setIndent(int value)
-{
-   // Make sure the given indent is not negative. 
-   Q_ASSERT(value >= 0);
-
-   // Set this object's indent to the new value. 
-   _indent = value;
-}
 
 
 

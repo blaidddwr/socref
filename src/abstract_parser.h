@@ -12,7 +12,9 @@ namespace Abstract
     * file. A parser element can read the input of the source file based off a header 
     * that must be matched. A parser element also provides output lines that are used 
     * to write output to the scanner source file along with all other parser elements 
-    * part of a scanner. 
+    * part of a scanner. An indent can also be provided for prepending a certain 
+    * number of spaces to each output line. This provided indent is optional for an 
+    * implementation and can be ignored. 
     * 
     * A scanner queries all of its parser elements that take input for a regular 
     * expression header that is matched with each input line read from the source 
@@ -42,6 +44,7 @@ namespace Abstract
       virtual QStringList output() const = 0;
       virtual bool needsInput() const;
       virtual QString headerExpression() const;
+      virtual void setIndent(int value);
       virtual bool input(const QString& line);
       virtual void reset();
    };

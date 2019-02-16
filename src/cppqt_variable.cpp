@@ -2,6 +2,7 @@
 #include <QIcon>
 #include "cppqt_variableview.h"
 #include "cppqt_factory.h"
+#include "cppqt_class.h"
 #include "cppqt_function.h"
 
 
@@ -189,6 +190,30 @@ bool Variable::isMember() const
    // Test if this variable is an argument by seeing if its parent block is an access 
    // type. 
    return up->type() == Factory::AccessType;
+}
+
+
+
+
+
+
+/*!
+ * Tests if any class this variable block inherits from has any templates, 
+ * returning true if so. 
+ *
+ * @return True if any inherited classes contain templates or false otherwise. 
+ */
+bool Variable::hasAnyTemplates() const
+{
+   // If this variable block is a member then call on its class to determine if it or 
+   // any parent classes contain templates. 
+   if ( isMember() )
+   {
+      return parent()->parent()->cast<Class>(Factory::ClassType)->hasAnyTemplates();
+   }
+
+   // If this is reached then there are no templates so return false. 
+   return false;
 }
 
 

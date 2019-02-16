@@ -19,6 +19,7 @@ namespace Basic
       static QStringList prependIndent(int indent, const QStringList& lines);
    public:
       virtual QStringList output() const override final;
+      virtual void setIndent(int value) override final;
    public:
       /*!
        * Constructs a new line parser. 
@@ -26,7 +27,6 @@ namespace Basic
       explicit LineParser() = default;
       explicit LineParser(int count);
       explicit LineParser(int indent, const QString& line);
-      void setIndent(int value);
       void add(const QString& line);
       void add(const QStringList& lines);
       void add(int count);

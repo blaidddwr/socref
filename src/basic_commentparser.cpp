@@ -47,6 +47,25 @@ QStringList CommentParser::output() const
 
 
 /*!
+ * Implements _Abstract::Parser_ interface. 
+ *
+ * @param value See interface docs. 
+ */
+void CommentParser::setIndent(int value)
+{
+   // Make sure the given indent is not negative. 
+   Q_ASSERT(value >= 0);
+
+   // Set the this object's indent to the new value. 
+   _indent = value;
+}
+
+
+
+
+
+
+/*!
  * Constructs a new comment parser with the given begin line, middle token, end 
  * line, and maximum number of columns per line. 
  *
@@ -68,26 +87,6 @@ CommentParser::CommentParser(const QString& begin, const QString& middle, const 
    _end(end),
    _maxColumns(maxColumns)
 {}
-
-
-
-
-
-
-/*!
- * Sets the indent, in spaces, that is prepended to each line of the comment block 
- * this parser provides for its parent scanner. 
- *
- * @param value The new indent value in spaces. 
- */
-void CommentParser::setIndent(int value)
-{
-   // Make sure the given indent is not negative. 
-   Q_ASSERT(value >= 0);
-
-   // Set the this object's indent to the new value. 
-   _indent = value;
-}
 
 
 
