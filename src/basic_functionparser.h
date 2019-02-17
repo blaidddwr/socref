@@ -44,7 +44,7 @@ namespace Basic
       virtual bool input(const QString& line) override final;
       virtual void reset() override final;
    public:
-      explicit FunctionParser(QChar inToken, QChar outToken, const QString& commentBegin, int maxColumns, const QString& header, const QStringList& operations);
+      explicit FunctionParser(QChar inToken, QChar outToken, const QString& escapeTokens, const QString& commentBegin, int maxColumns, const QString& header, const QStringList& operations);
       void add(const QString& text);
       void addExp(const QString& expression);
    private:
@@ -62,6 +62,13 @@ namespace Basic
        * source file.
        */
       const QChar _outToken;
+      /*!
+       * The characters that are used to escape any recognition of an in or out token.
+       * These are typically characters used in a language to designate a literal
+       * string or character. This parser uses this to make sure it does not falsely
+       * count an in or out token in a literal string or character.
+       */
+      const QString _escapeTokens;
       /*!
        * The string used at the beginning of an input line, excluding any preceding
        * white space, to denote that input line is an inline comment.

@@ -470,7 +470,7 @@ void addScope(Scanner* scanner, int* indent, const QList<const Namespace*>& scop
       {
          new LineParser(flat? 0 : *indent,QStringLiteral("namespace ") + name->baseName())
       };
-      line->add(QStringLiteral("{"));//}
+      line->add(QStringLiteral("{"));
       scanner->addParser(line);
       *indent += Settings::instance().indentSpaces();
    }
@@ -494,7 +494,7 @@ void endScope(Scanner* scanner, int* indent, bool flat)
    while ( *indent > 0 )
    {
       *indent -= Settings::instance().indentSpaces();
-      scanner->addParser(new LineParser(flat? 0 : *indent,QStringLiteral("}")));//{
+      scanner->addParser(new LineParser(flat? 0 : *indent,QStringLiteral("}")));
    }
 }
 

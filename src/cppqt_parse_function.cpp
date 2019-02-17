@@ -23,7 +23,7 @@ namespace Parse
  */
 Function::Function(const QString& header, const QStringList& operations)
    :
-   Basic::FunctionParser('{','}',"// ",Settings::instance().maxColumns(),header,operations)
+   Basic::FunctionParser('{','}',"\"'","// ",Settings::instance().maxColumns(),header,operations)
 {
 }
 

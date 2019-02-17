@@ -7000,7 +7000,10 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <operation>Mark the comment block edge past indicator to true and process this inline comment block.</operation>
               <operation>Else the given line is not an inline comment.</operation>
               <operation>Mark the edge past indicator to false for the next possible inline comment block and add the given line to this object's output lines, cutting off the extra initial white space.</operation>
-              <operation>Determine the depth of execution block this given line ends with.</operation>
+              <operation>Determine the depth of execution block this given line ends with by iterating through all characters.</operation>
+              <operation>If the character is a special escape token then switch the escape indicator.</operation>
+              <operation>Else if the character is not a special escape token and the characters are not currently escaped tally a change to depth if it matches the in or out token.</operation>
+              <operation>Update the depth based off the calculated change.</operation>
               <operation>If this input line is the end of this function in this parent scanner's source file then return false to end getting input else return true to get more.</operation>
               <override/>
               <return_description>See interface docs.</return_description>
@@ -7036,7 +7039,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </data>
           <function>
             <data>
-              <description>Constructs a new function parser with the given in token, out token, comment begin string, maximum columns per inline comment, and steps of operation.</description>
+              <description>Constructs a new function parser with the given in token, out token, escape tokens, comment begin string, maximum columns per inline comment, and steps of operation.</description>
               <explicit/>
               <name>^</name>
               <return_description></return_description>
@@ -7056,6 +7059,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
                 <initializer></initializer>
                 <name>outToken</name>
                 <type>QChar</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The characters that are used to escape any recognition of an in or out token by this parser when processing input.</description>
+                <initializer></initializer>
+                <name>escapeTokens</name>
+                <type>const QString&amp;</type>
               </data>
             </variable>
             <variable>
@@ -7192,6 +7203,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer></initializer>
               <name>_outToken</name>
               <type>const QChar</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The characters that are used to escape any recognition of an in or out token. These are typically characters used in a language to designate a literal string or character. This parser uses this to make sure it does not falsely count an in or out token in a literal string or character.</description>
+              <initializer></initializer>
+              <name>_escapeTokens</name>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>

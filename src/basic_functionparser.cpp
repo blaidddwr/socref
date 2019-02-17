@@ -130,8 +130,25 @@ bool FunctionParser::input(const QString& line)
       _lines += line.mid(cutOff);
    }
 
-   // Determine the depth of execution block this given line ends with.
-   int change {line.count(_inToken) - line.count(_outToken)};
+   // Determine the depth of execution block this given line ends with by iterating
+   // through all characters.
+   int change {0};
+   bool escape {false};
+   for (auto ch: line)
+   {
+      // If the character is a special escape token then switch the escape indicator.
+      if ( _escapeTokens.contains(ch) ) escape = !escape;
+
+      // Else if the character is not a special escape token and the characters are not
+      // currently escaped tally a change to depth if it matches the in or out token.
+      else if ( !escape )
+      {
+         if ( ch == _inToken ) ++change;
+         else if ( ch == _outToken ) --change;
+      }
+   }
+
+   // Update the depth based off the calculated change.
    _depth += change;
 
    // If this input line is the end of this function in this parent scanner's source
@@ -169,14 +186,18 @@ void FunctionParser::reset()
 
 
 /*!
- * Constructs a new function parser with the given in token, out token, comment
- * begin string, maximum columns per inline comment, and steps of operation.
+ * Constructs a new function parser with the given in token, out token, escape
+ * tokens, comment begin string, maximum columns per inline comment, and steps
+ * of operation.
  *
  * @param inToken The character used by this parent scanner's source file to
  *                begin a block of execution.
  *
  * @param outToken The character used by this parent scanner's source file to
  *                 end a block of execution.
+ *
+ * @param escapeTokens The characters that are used to escape any recognition of
+ *                     an in or out token by this parser when processing input.
  *
  * @param commentBegin The characters used by this parent scanner's source file
  *                     to begin an inline comment line.
@@ -190,10 +211,11 @@ void FunctionParser::reset()
  * @param operations A list of operation step descriptions this function parser
  *                   uses to generate inline comment block lines.
  */
-FunctionParser::FunctionParser(QChar inToken, QChar outToken, const QString& commentBegin, int maxColumns, const QString& header, const QStringList& operations)
+FunctionParser::FunctionParser(QChar inToken, QChar outToken, const QString& escapeTokens, const QString& commentBegin, int maxColumns, const QString& header, const QStringList& operations)
    :
    _inToken(inToken),
    _outToken(outToken),
+   _escapeTokens(escapeTokens),
    _commentBegin(commentBegin),
    _maxColumns(maxColumns),
    _header(header),
