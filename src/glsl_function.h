@@ -2,15 +2,17 @@
 #define GLSL_FUNCTION_H
 #include "glsl_base.h"
 #include "glsl.h"
-//
 
 
 
+/*!
+ * Contains the GLSL project type.
+ */
 namespace GLSL
 {
    /*!
-    * This is the function block. This represents any subroutine functions that can be 
-    * defined in a GLSL shader program. 
+    * This is the function block. This represents any subroutine functions that can
+    * be defined in a GLSL shader program.
     */
    class Function : public Base
    {
@@ -19,7 +21,7 @@ namespace GLSL
       virtual QString name() const override final;
    public:
       /*!
-       * Constructs a new function block. 
+       * Constructs a new function block.
        */
       Q_INVOKABLE explicit Function() = default;
       QString returnType() const;
@@ -33,7 +35,5 @@ namespace GLSL
       virtual bool childRemoved(Abstract::Block* child) override final;
    };
 }
-
-
 
 #endif

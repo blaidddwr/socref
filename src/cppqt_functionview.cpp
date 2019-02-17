@@ -5,8 +5,8 @@
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
 
 
 
@@ -14,13 +14,15 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new view object with the given function block. 
+ * Constructs a new view object with the given function block.
  *
- * @param block Function block this new view displays. 
+ * @param block Function block this new view displays.
  */
-FunctionView::FunctionView(const Function* block):
+FunctionView::FunctionView(const Function* block)
+   :
    Basic::BlockView(block)
-{}
+{
+}
 
 
 
@@ -28,35 +30,35 @@ FunctionView::FunctionView(const Function* block):
 
 
 /*!
- * Returns rich text that displays any arguments this view's function block 
- * contains. If this view's function block has no arguments then this returns an 
- * empty string. 
+ * Returns rich text that displays any arguments this view's function block
+ * contains. If this view's function block has no arguments then this returns an
+ * empty string.
  *
- * @return Rich text that displays any arguments this view's function block 
- *         contains or an empty string if there are no arguments. 
+ * @return Rich text that displays any arguments this view's function block
+ *         contains or an empty string if there are no arguments.
  */
 QString FunctionView::displayArguments()
 {
-   // Create an empty return string. 
+   // Create an empty return string.
    QString ret;
 
-   // Make a pointer list of all children variables of this view's function block and 
-   // make sure it is not empty. 
+   // Make a pointer list of all children variables of this view's function block and
+   // make sure it is not empty.
    const QList<CppQt::Variable*> list {block<Function>().arguments()};
    if ( list.isEmpty() ) return ret;
 
-   // Append a title. 
+   // Append a title.
    ret += QStringLiteral("<h3>") + tr("Arguments") + QStringLiteral("</h3>");
 
-   // Iterate through all child variable blocks. 
+   // Iterate through all child variable blocks.
    for (auto variable : list)
    {
-      // If the child block has an initial value then add its rich text. 
+      // If the child block has an initial value then add its rich text.
       QString initializer;
       if ( variable->hasInitializer() ) initializer = QString(" = ").append(variable->initializer());
 
-      // Append the child variable information as rich text including the possible 
-      // initial value. 
+      // Append the child variable information as rich text including the possible
+      // initial value.
       ret += QStringLiteral("<p><u>")
            + variable->variableType().replace("<","&lt;")
            + QStringLiteral("</u> <b>")
@@ -68,7 +70,7 @@ QString FunctionView::displayArguments()
            + QStringLiteral("</p>");
    }
 
-   // Return the arguments rich text. 
+   // Return the arguments rich text.
    return ret;
 }
 
@@ -78,10 +80,10 @@ QString FunctionView::displayArguments()
 
 
 /*!
- * Wrapper method that calls the static method in _CppQt::Template_ of the same 
- * name. 
+ * Wrapper method that calls the static method in _CppQt::Template_ of the same
+ * name.
  *
- * @return See wrapped method docs. 
+ * @return See wrapped method docs.
  */
 QString FunctionView::displayTemplates()
 {
@@ -94,17 +96,17 @@ QString FunctionView::displayTemplates()
 
 
 /*!
- * Returns rich text that displays any properties this view's function block has 
- * set. If this view's function block has no properties set then this returns an 
- * empty string. 
+ * Returns rich text that displays any properties this view's function block has
+ * set. If this view's function block has no properties set then this returns an
+ * empty string.
  *
- * @return Rich text that displays any properties this view's function block has 
- *         set or an empty string if no properties are set. 
+ * @return Rich text that displays any properties this view's function block has
+ *         set or an empty string if no properties are set.
  */
 QString FunctionView::displayProperties()
 {
-   // Create an empty string list, appending any properties this view's function 
-   // block has set. 
+   // Create an empty string list, appending any properties this view's function
+   // block has set.
    QStringList list;
    if ( block<Function>().isDefault() ) list << tr("Default");
    if ( block<Function>().isDeleted() ) list << tr("Deleted");
@@ -119,11 +121,11 @@ QString FunctionView::displayProperties()
    if ( block<Function>().isFinal() ) list << tr("Final");
    if ( block<Function>().isAbstract() ) list << tr("Abstract(=0)");
 
-   // If the string list is empty then return an empty string. 
+   // If the string list is empty then return an empty string.
    if ( list.isEmpty() ) return QString();
 
-   // Else this view's block has set properties so return rich text displaying those 
-   // set properties. 
+   // Else this view's block has set properties so return rich text displaying those
+   // set properties.
    else
    {
       return QStringLiteral("<h3>")
@@ -140,22 +142,22 @@ QString FunctionView::displayProperties()
 
 
 /*!
- * Returns rich text that displays the return type field for this view's function 
- * block. 
+ * Returns rich text that displays the return type field for this view's
+ * function block.
  *
- * @return Rich text that displays the return type field of this view's function 
- *         block. 
+ * @return Rich text that displays the return type field of this view's function
+ *         block.
  */
 QString FunctionView::displayReturn()
 {
-   // Get the return type of this view's function block. 
+   // Get the return type of this view's function block.
    QString returnType {block<Function>().returnType()};
 
-   // If the return type is empty or is equal to "void" then return an empty string. 
+   // If the return type is empty or is equal to "void" then return an empty string.
    if ( returnType.isEmpty() || returnType == QString("void") ) return QString();
 
-   // Else this view's function block has a return type so return rich text 
-   // displaying that return type and its description. 
+   // Else this view's function block has a return type so return rich text
+   // displaying that return type and its description.
    else
    {
       return QStringLiteral("<h3>")
@@ -174,14 +176,16 @@ QString FunctionView::displayReturn()
 
 
 /*!
- * Returns rich text that displays the number of operations of this view's function 
- * block. 
+ * Returns rich text that displays the number of operations of this view's
+ * function block.
  *
- * @return Rich text that displays the number of operations of this view's function 
- *         block. 
+ * @return Rich text that displays the number of operations of this view's
+ *         function block.
  */
 QString FunctionView::displayOperations()
 {
-   // Return rich text displaying the number of operations. 
+   // Return rich text displaying the number of operations.
    return tr("<i>%n operation(s)</i>",nullptr,block<Function>().operations().size());
+}
+
 }

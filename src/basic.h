@@ -1,7 +1,11 @@
+#ifndef BASIC_H
+#define BASIC_H
+
+
 
 /*!
- * This contains all classes that implement the block and parsing system with a 
- * basic foundation that can be used by specific project types. 
+ * This contains all classes that implement the block and parsing system with a
+ * basic foundation that can be used by specific project types.
  */
 namespace Basic
 {
@@ -14,3 +18,5 @@ namespace Basic
    class CommentParser;
    class FunctionParser;
 }
+
+#endif

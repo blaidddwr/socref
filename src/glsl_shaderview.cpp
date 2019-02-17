@@ -3,8 +3,8 @@
 
 
 
-using namespace GLSL;
-//
+namespace GLSL
+{
 
 
 
@@ -12,13 +12,15 @@ using namespace GLSL;
 
 
 /*!
- * Constructs a new view with the given shader block. 
+ * Constructs a new view with the given shader block.
  *
- * @param block The shader block that this new view displays. 
+ * @param block The shader block that this new view displays.
  */
-ShaderView::ShaderView(const Shader* block):
+ShaderView::ShaderView(const Shader* block)
+   :
    Basic::BlockView(block)
-{}
+{
+}
 
 
 
@@ -26,13 +28,15 @@ ShaderView::ShaderView(const Shader* block):
 
 
 /*!
- * Returns rich text that displays the number of operations for this view's 
- * function block. 
+ * Returns rich text that displays the number of operations for this view's
+ * function block.
  *
- * @return Rich text that displays the number of operations for this view's 
- *         function block. 
+ * @return Rich text that displays the number of operations for this view's
+ *         function block.
  */
 QString ShaderView::displayOperations()
 {
    return tr("<i>%n operation(s)</i>",nullptr,block<Shader>().operations().size());
+}
+
 }

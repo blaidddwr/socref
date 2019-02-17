@@ -3,8 +3,8 @@
 
 
 
-using namespace Abstract;
-//
+namespace Abstract
+{
 
 
 
@@ -12,14 +12,15 @@ using namespace Abstract;
 
 
 /*!
- * Constructs a new block view with the given block. 
+ * Constructs a new block view with the given block.
  *
- * @param block The block that this view displays. 
+ * @param block The block that this view displays.
  */
-BlockView::BlockView(const Block* block):
+BlockView::BlockView(const Block* block)
+   :
    _block(block)
 {
-   // Make sure the block pointer is valid and connect the updated signal. 
+   // Make sure the block pointer is valid and connect the updated signal.
    Q_CHECK_PTR(block);
    connect(block,&Block::updated,this,&BlockView::blockUpdated);
 }
@@ -30,12 +31,14 @@ BlockView::BlockView(const Block* block):
 
 
 /*!
- * Called when this view's block's data has changed. This clears this view's text 
- * and calls the interface to render it again with the updated block. 
+ * Called when this view's block's data has changed. This clears this view's
+ * text and calls the interface to render it again with the updated block.
  */
 void BlockView::blockUpdated()
 {
-   // Clear this view's text and render it again. 
+   // Clear this view's text and render it again.
    clear();
    renderText();
+}
+
 }

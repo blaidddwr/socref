@@ -1,17 +1,19 @@
 #ifndef CPPQT_VARIABLE_H
 #define CPPQT_VARIABLE_H
 #include "cppqt_base.h"
-//
 
 
 
+/*!
+ * Contains the C++/Qt project type.
+ */
 namespace CppQt
 {
    /*!
-    * This is the variable block. This represents any global, class member, or 
-    * function argument variable. This supports the constant expression, static, 
-    * mutable, and thread local properties. This also supports having an initial 
-    * value. 
+    * This is the variable block. This represents any global, class member, or
+    * function argument variable. This supports the constant expression, static,
+    * mutable, and thread local properties. This also supports having an initial
+    * value.
     */
    class Variable : public Base
    {
@@ -21,7 +23,7 @@ namespace CppQt
       virtual QIcon icon() const override;
    public:
       /*!
-       * Constructs a new variable block. 
+       * Constructs a new variable block.
        */
       Q_INVOKABLE explicit Variable() = default;
       bool isConstExpr() const;
@@ -40,7 +42,5 @@ namespace CppQt
       QString attributes() const;
    };
 }
-
-
 
 #endif

@@ -7,49 +7,49 @@
 
 
 
-using namespace Basic;
-//
+namespace Basic
+{
 
 
 
 /*!
- * The boolean tag name of elements that define a boolean data field. 
+ * The boolean tag name of elements that define a boolean data field.
  */
 const char* Block::_boolTag {"bool"};
 /*!
- * The string tag name of elements that define a string data field. 
+ * The string tag name of elements that define a string data field.
  */
 const char* Block::_stringTag {"string"};
 /*!
- * The string list tag name of elements that define a string list data field. 
+ * The string list tag name of elements that define a string list data field.
  */
 const char* Block::_stringListTag {"stringlist"};
 /*!
- * The tag name of the element used to define the name option that specifies which 
- * string field is used for this block's name. 
+ * The tag name of the element used to define the name option that specifies
+ * which string field is used for this block's name.
  */
 const char* Block::_nameTag {"name"};
 /*!
- * The tag name of the element used to define the path for this basic block type's 
- * icon. 
+ * The tag name of the element used to define the path for this basic block
+ * type's icon.
  */
 const char* Block::_iconTag {"icon"};
 /*!
- * The tag name of the element that hold the configuration for this basic block 
- * type's edit class. 
+ * The tag name of the element that hold the configuration for this basic block
+ * type's edit class.
  */
 const char* Block::_editTag {"edit"};
 /*!
- * The tag name of the element that hold the configuration for this basic block 
- * type's view class. 
+ * The tag name of the element that hold the configuration for this basic block
+ * type's view class.
  */
 const char* Block::_viewTag {"view"};
 /*!
- * The attribute name for the id of data field element definitions. 
+ * The attribute name for the id of data field element definitions.
  */
 const char* Block::_idKey {"id"};
 /*!
- * The attribute name for default values of data field element definitions. 
+ * The attribute name for default values of data field element definitions.
  */
 const char* Block::_defaultKey {"default"};
 
@@ -59,16 +59,16 @@ const char* Block::_defaultKey {"default"};
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 int Block::type() const
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Return the block type of this basic block. 
+   // Return the block type of this basic block.
    return _type;
 }
 
@@ -78,16 +78,16 @@ int Block::type() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 const Abstract::BlockFactory& Block::factory() const
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Return a reference to this basic block's factory. 
+   // Return a reference to this basic block's factory.
    return *_factory;
 }
 
@@ -97,24 +97,24 @@ const Abstract::BlockFactory& Block::factory() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString Block::name() const
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Make sure this basic block's name field id is not empty. 
+   // Make sure this basic block's name field id is not empty.
    if ( _nameFieldId.isEmpty() ) return QString();
 
-   // Get this basic block's field with its name field id, making it exists and is 
-   // the correct field type. 
+   // Get this basic block's field with its name field id, making it exists and is
+   // the correct field type.
    const QVariant field {_fields.value(_nameFieldId)};
    Q_ASSERT(field.type() == QVariant::String);
 
-   // Return the found string field. 
+   // Return the found string field.
    return field.toString();
 }
 
@@ -124,16 +124,16 @@ QString Block::name() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QIcon Block::icon() const
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Return this basic block type's icon. 
+   // Return this basic block type's icon.
    return QIcon(_iconPath);
 }
 
@@ -143,16 +143,16 @@ QIcon Block::icon() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QList<int> Block::buildList() const
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Return this basic block type's build list. 
+   // Return this basic block type's build list.
    return _buildList;
 }
 
@@ -162,9 +162,9 @@ QList<int> Block::buildList() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 Soc::Ut::QPtr<Abstract::BlockView> Block::createView() const
 {
@@ -179,9 +179,9 @@ Soc::Ut::QPtr<Abstract::BlockView> Block::createView() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 Soc::Ut::QPtr<Abstract::BlockEdit> Block::createEdit()
 {
@@ -194,52 +194,53 @@ Soc::Ut::QPtr<Abstract::BlockEdit> Block::createEdit()
 
 
 /*!
- * Initializes this basic block to the given type. This must be called before this 
- * basic block can be used and cannot be called again. 
+ * Initializes this basic block to the given type. This must be called before
+ * this basic block can be used and cannot be called again.
  *
- * @param type The block type of this new basic block. 
+ * @param type The block type of this new basic block.
  *
- * @param factory The basic block factory that made this new basic block. 
+ * @param factory The basic block factory that made this new basic block.
  *
- * @param element The XML element that defines all data fields and options of the 
- *                basic block type this new basic block is being initialized to. 
+ * @param element The XML element that defines all data fields and options of
+ *                the basic block type this new basic block is being initialized
+ *                to.
  *
- * @param buildList The build list of the basic block type this new basic block is 
- *                  being initialized to. 
+ * @param buildList The build list of the basic block type this new basic block
+ *                  is being initialized to.
  *
- * @param isDefault True if the data fields should be set to default values or 
- *                  false to set them to their null values. 
+ * @param isDefault True if the data fields should be set to default values or
+ *                  false to set them to their null values.
  */
 void Block::initialize(int type, const Abstract::BlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault)
 {
-   // Make sure this basic block has NOT been initialized. 
+   // Make sure this basic block has NOT been initialized.
    Q_ASSERT(_type == -1);
 
-   // Set the type, factory, and build list for this new basic block. 
+   // Set the type, factory, and build list for this new basic block.
    _type = type;
    _factory = factory;
    _buildList = buildList;
 
-   // Save the XML element definition for making copies of this basic block. 
+   // Save the XML element definition for making copies of this basic block.
    _definition = element;
 
-   // Prepare an enumeration and string list that stores all possible element tag 
-   // names that are recognized. 
+   // Prepare an enumeration and string list that stores all possible element tag
+   // names that are recognized.
    enum {Bool,String,StringList,Name,Icon,Edit,View};
    static const QStringList tags
    {
       _boolTag,_stringTag,_stringListTag,_nameTag,_iconTag,_editTag,_viewTag
    };
 
-   // Iterate through all node children of the given XML definition element. 
+   // Iterate through all node children of the given XML definition element.
    QDomNode node {element.firstChild()};
    while ( !node.isNull() )
    {
-      // Check to see if the node is an element. 
+      // Check to see if the node is an element.
       if ( node.isElement() )
       {
-         // Determine if the tag name of this element is recognized as a configuration 
-         // option, adding the field or setting the option if it is. 
+         // Determine if the tag name of this element is recognized as a configuration
+         // option, adding the field or setting the option if it is.
          QDomElement child {node.toElement()};
          switch (tags.indexOf(child.tagName()))
          {
@@ -267,7 +268,7 @@ void Block::initialize(int type, const Abstract::BlockFactory* factory, const QD
          }
       }
 
-      // Move to the next sibling node. 
+      // Move to the next sibling node.
       node = node.nextSibling();
    }
 }
@@ -278,11 +279,12 @@ void Block::initialize(int type, const Abstract::BlockFactory* factory, const QD
 
 
 /*!
- * This interface returns a new basic block view implementation for this basic 
- * block. The default interface returns a generic basic block view. This should be 
- * used for basic block views that use the custom view element in its definition. 
+ * This interface returns a new basic block view implementation for this basic
+ * block. The default interface returns a generic basic block view. This should
+ * be used for basic block views that use the custom view element in its
+ * definition.
  *
- * @return New basic block view implementation for this basic block. 
+ * @return New basic block view implementation for this basic block.
  */
 Soc::Ut::QPtr<Basic::BlockView> Block::makeBasicView() const
 {
@@ -295,30 +297,30 @@ Soc::Ut::QPtr<Basic::BlockView> Block::makeBasicView() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @param element See interface docs. 
+ * @param element See interface docs.
  */
 void Block::readData(const QDomElement& element)
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Iterate through all node children of the given data element. 
+   // Iterate through all node children of the given data element.
    QDomNode node {element.firstChild()};
    while ( !node.isNull() )
    {
-      // Check to see if the node is an element. 
+      // Check to see if the node is an element.
       if ( node.isElement() )
       {
-         // Find the data field with the id that matches the element's tag name, making 
-         // sure it exists. 
+         // Find the data field with the id that matches the element's tag name, making
+         // sure it exists.
          QDomElement child {node.toElement()};
          auto i {_fields.find(child.tagName())};
          if ( i != _fields.end() )
          {
-            // Set the data field based off what type it is, throwing an exception if it is an 
-            // unknown type. 
+            // Set the data field based off what type it is, throwing an exception if it is an
+            // unknown type.
             switch ( i->type() )
             {
             case QVariant::Bool:
@@ -339,7 +341,7 @@ void Block::readData(const QDomElement& element)
          }
       }
 
-      // Move to the next sibling node. 
+      // Move to the next sibling node.
       node = node.nextSibling();
    }
 }
@@ -350,25 +352,25 @@ void Block::readData(const QDomElement& element)
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @param document See interface docs. 
+ * @param document See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QDomElement Block::writeData(QDomDocument& document) const
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Create the return data element. 
+   // Create the return data element.
    QDomElement ret {document.createElement("na")};
 
-   // Iterate through all data fields of this basic block. 
+   // Iterate through all data fields of this basic block.
    for (auto i = _fields.cbegin(); i != _fields.cend() ;++i)
    {
-      // Based off the data field type write out its data as child elements appended to 
-      // the data element to be returned, marking sure the field type is recognized. 
+      // Based off the data field type write out its data as child elements appended to
+      // the data element to be returned, marking sure the field type is recognized.
       switch (i->type())
       {
       case QVariant::Bool:
@@ -397,7 +399,7 @@ QDomElement Block::writeData(QDomDocument& document) const
       }
    }
 
-   // Return the complete data element that stores this basic block's field data. 
+   // Return the complete data element that stores this basic block's field data.
    return ret;
 }
 
@@ -407,23 +409,23 @@ QDomElement Block::writeData(QDomDocument& document) const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 Soc::Ut::QPtr<Abstract::Block> Block::createBlank() const
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Create a new uninitialized basic block, making sure it worked. 
+   // Create a new uninitialized basic block, making sure it worked.
    Soc::Ut::QPtr<Block> ret {qobject_cast<Block*>(metaObject()->newInstance())};
    Q_CHECK_PTR(ret.get());
 
-   // Initialize the new basic block to this basic block's type. 
+   // Initialize the new basic block to this basic block's type.
    ret->initialize(_type,_factory,_definition,_buildList,false);
 
-   // Return the initialized basic block. 
+   // Return the initialized basic block.
    return ret;
 }
 
@@ -433,30 +435,30 @@ Soc::Ut::QPtr<Abstract::Block> Block::createBlank() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @param other See interface docs. 
+ * @param other See interface docs.
  */
 void Block::copyDataFrom(const Abstract::Block* other)
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Cast the given abstract block to a basic block, making sure it worked. 
+   // Cast the given abstract block to a basic block, making sure it worked.
    const Block* basic {qobject_cast<const Block*>(other)};
    Q_CHECK_PTR(basic);
 
-   // Iterate through all the fields of the given basic block. 
+   // Iterate through all the fields of the given basic block.
    for (auto i = basic->_fields.cbegin(); i != basic->_fields.cend() ;++i)
    {
-      // Find the corresponding field of this basic block, making sure it was found. 
+      // Find the corresponding field of this basic block, making sure it was found.
       auto j {_fields.find(i.key())};
       Q_ASSERT(j != _fields.end());
 
-      // Make sure the field types matched between this and the other basic block. 
+      // Make sure the field types matched between this and the other basic block.
       Q_ASSERT(i->type() == j->type());
 
-      // Copy the value of the given basic block field to this basic block. 
+      // Copy the value of the given basic block field to this basic block.
       *j = *i;
    }
 }
@@ -467,21 +469,21 @@ void Block::copyDataFrom(const Abstract::Block* other)
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given id 
- * does not exist or is not a boolean then an exception is thrown. 
+ * Returns the value of this basic block's field with the given id. If the given
+ * id does not exist or is not a boolean then an exception is thrown.
  *
- * @param id The id of this basic block's field whose value is returned. 
+ * @param id The id of this basic block's field whose value is returned.
  *
- * @return Value of this basic block's field with the given id. 
+ * @return Value of this basic block's field with the given id.
  */
 bool Block::getBool(const QString& id) const
 {
-   // Get the data field of this basic block with the given id, making sure it is the 
-   // correct type. 
+   // Get the data field of this basic block with the given id, making sure it is the
+   // correct type.
    const QVariant field {get(id)};
    Q_ASSERT(field.type() == QVariant::Bool);
 
-   // Return the value of the data field. 
+   // Return the value of the data field.
    return field.toBool();
 }
 
@@ -491,21 +493,21 @@ bool Block::getBool(const QString& id) const
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given id 
- * does not exist or is not a string then an exception is thrown. 
+ * Returns the value of this basic block's field with the given id. If the given
+ * id does not exist or is not a string then an exception is thrown.
  *
- * @param id The id of this basic block's field whose value is returned. 
+ * @param id The id of this basic block's field whose value is returned.
  *
- * @return Value of this basic block's field with the given id. 
+ * @return Value of this basic block's field with the given id.
  */
 QString Block::getString(const QString& id) const
 {
-   // Get the data field of this basic block with the given id, making sure it is the 
-   // correct type. 
+   // Get the data field of this basic block with the given id, making sure it is the
+   // correct type.
    const QVariant field {get(id)};
    Q_ASSERT(field.type() == QVariant::String);
 
-   // Return the value of the data field. 
+   // Return the value of the data field.
    return field.toString();
 }
 
@@ -515,21 +517,21 @@ QString Block::getString(const QString& id) const
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given id 
- * does not exist or is not a string list then an exception is thrown. 
+ * Returns the value of this basic block's field with the given id. If the given
+ * id does not exist or is not a string list then an exception is thrown.
  *
- * @param id The id of this basic block's field whose value is returned. 
+ * @param id The id of this basic block's field whose value is returned.
  *
- * @return Value of this basic block's field with the given id. 
+ * @return Value of this basic block's field with the given id.
  */
 QStringList Block::getStringList(const QString& id) const
 {
-   // Get the data field of this basic block with the given id, making sure it is the 
-   // correct type. 
+   // Get the data field of this basic block with the given id, making sure it is the
+   // correct type.
    const QVariant field {get(id)};
    Q_ASSERT(field.type() == QVariant::StringList);
 
-   // Return the value of the data field. 
+   // Return the value of the data field.
    return field.toStringList();
 }
 
@@ -539,30 +541,30 @@ QStringList Block::getStringList(const QString& id) const
 
 
 /*!
- * Appends a new data field to this basic block. This is only used when 
- * initializing a basic block to its type and adding the data field definitions. 
+ * Appends a new data field to this basic block. This is only used when
+ * initializing a basic block to its type and adding the data field definitions.
  *
- * @param type The type of the data field that is appended to this basic block. 
+ * @param type The type of the data field that is appended to this basic block.
  *
- * @param element The data field element defining the data field that is added to 
- *                this basic block. 
+ * @param element The data field element defining the data field that is added
+ *                to this basic block.
  *
- * @param isDefault True if the newly appended data field should be set to its 
- *                  default value or false if it is set to its null value. 
+ * @param isDefault True if the newly appended data field should be set to its
+ *                  default value or false if it is set to its null value.
  */
 void Block::addField(Field type, const QDomElement& element, bool isDefault)
 {
-   // Get the id the new data field of this basic block will use, making sure the id 
-   // attribute exists in the given element. 
+   // Get the id the new data field of this basic block will use, making sure the id
+   // attribute exists in the given element.
    const QString key {element.attribute(_idKey)};
    Q_ASSERT(!key.isEmpty());
 
-   // Make sure this basic block does not already have a field with the given id. 
+   // Make sure this basic block does not already have a field with the given id.
    Q_ASSERT(!_fields.contains(key));
 
-   // Add the new field of the given type, setting its default value if the given 
-   // state indicates to do so or leaving it to its null value if not. Note for 
-   // string list types there is no default value possible. 
+   // Add the new field of the given type, setting its default value if the given
+   // state indicates to do so or leaving it to its null value if not. Note for
+   // string list types there is no default value possible.
    switch (type)
    {
    case Field::Bool:
@@ -588,22 +590,24 @@ void Block::addField(Field type, const QDomElement& element, bool isDefault)
 
 
 /*!
- * Return the data field of this basic block with the given id. If no field exists 
- * with the given id then an exception is thrown. 
+ * Return the data field of this basic block with the given id. If no field
+ * exists with the given id then an exception is thrown.
  *
- * @param id The id of this basic block's data field which is returned. 
+ * @param id The id of this basic block's data field which is returned.
  *
- * @return Data field of this data block with the given id. 
+ * @return Data field of this data block with the given id.
  */
 QVariant Block::get(const QString& id) const
 {
-   // Make sure this basic block has been initialized. 
+   // Make sure this basic block has been initialized.
    Q_ASSERT(_type != -1);
 
-   // Find this basic block's data field with the given id, making sure it exists. 
+   // Find this basic block's data field with the given id, making sure it exists.
    auto i {qAsConst(_fields).find(id)};
    Q_ASSERT(i != _fields.cend());
 
-   // Return the found data field. 
+   // Return the found data field.
    return *i;
+}
+
 }

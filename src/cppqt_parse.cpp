@@ -1,4 +1,4 @@
-#include "cppqt_parse_common.h"
+#include "cppqt_parse.h"
 #include "cppqt_parse_header.h"
 #include "cppqt_parse_source.h"
 #include "cppqt_parse_comment.h"
@@ -20,8 +20,10 @@
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
+namespace Parse
+{
 
 
 
@@ -30,9 +32,8 @@ using namespace CppQt;
 
 /*!
  *
- * @param root  
  */
-QMap<QString,Scanner*> Parse::createScannerMap(const Abstract::Block* root)
+QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root)
 {
    Q_CHECK_PTR(root);
    QMap<QString,Scanner*> ret;
@@ -51,11 +52,9 @@ QMap<QString,Scanner*> Parse::createScannerMap(const Abstract::Block* root)
 
 /*!
  *
- * @param map  
  *
- * @param root  
  */
-void Parse::addMain(QMap<QString,Scanner*>* map, const Namespace& root)
+void addMain(QMap<QString,Scanner*>* map, const Namespace& root)
 {
    Q_CHECK_PTR(map);
    if ( map->contains(QStringLiteral("main.cpp")) ) return;
@@ -85,11 +84,9 @@ void Parse::addMain(QMap<QString,Scanner*>* map, const Namespace& root)
 
 /*!
  *
- * @param map  
  *
- * @param root  
  */
-void Parse::addHeader(QMap<QString,Scanner*>* map, const Namespace& root)
+void addHeader(QMap<QString,Scanner*>* map, const Namespace& root)
 {
    Q_CHECK_PTR(map);
 
@@ -129,11 +126,9 @@ void Parse::addHeader(QMap<QString,Scanner*>* map, const Namespace& root)
 
 /*!
  *
- * @param map  
  *
- * @param root  
  */
-void Parse::addHeader(QMap<QString,Scanner*>* map, const Class& root)
+void addHeader(QMap<QString,Scanner*>* map, const Class& root)
 {
    Q_CHECK_PTR(map);
 
@@ -165,11 +160,9 @@ void Parse::addHeader(QMap<QString,Scanner*>* map, const Class& root)
 
 /*!
  *
- * @param map  
  *
- * @param root  
  */
-void Parse::addSource(QMap<QString,Scanner*>* map, const Namespace& root)
+void addSource(QMap<QString,Scanner*>* map, const Namespace& root)
 {
    Q_CHECK_PTR(map);
 
@@ -213,11 +206,9 @@ void Parse::addSource(QMap<QString,Scanner*>* map, const Namespace& root)
 
 /*!
  *
- * @param map  
  *
- * @param root  
  */
-void Parse::addSource(QMap<QString,Scanner*>* map, const Class& root)
+void addSource(QMap<QString,Scanner*>* map, const Class& root)
 {
    Q_CHECK_PTR(map);
 
@@ -239,6 +230,7 @@ void Parse::addSource(QMap<QString,Scanner*>* map, const Class& root)
    createClassParsers(nullptr,&variables,&functions,root,0,false);
    addParsers(scanner,nullptr,&variables,&functions);
 
+   scanner->addParser(new LineParser(1));
    endScope(scanner,&indent,true);
    scanner->addParser(new LineParser(1));
 
@@ -252,17 +244,12 @@ void Parse::addSource(QMap<QString,Scanner*>* map, const Class& root)
 
 /*!
  *
- * @param scanner  
  *
- * @param declarations  
  *
- * @param variables  
  *
- * @param functions  
  *
- * @param scope  
  */
-void Parse::addParsers(Scanner* scanner, QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, QList<const Namespace*>* scope)
+void addParsers(Scanner* scanner, QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, QList<const Namespace*>* scope)
 {
    Q_CHECK_PTR(scanner);
    const int headerLines {Settings::instance().headerLines()};
@@ -310,13 +297,10 @@ void Parse::addParsers(Scanner* scanner, QList<Abstract::Parser*>* declarations,
 
 /*!
  *
- * @param scanner  
  *
- * @param scope  
  *
- * @param name  
  */
-void Parse::addHeader(Scanner* scanner, const QList<const Namespace*>& scope, const Class* name)
+void addHeader(Scanner* scanner, const QList<const Namespace*>& scope, const Class* name)
 {
    Q_CHECK_PTR(scanner);
    using LineParser = Basic::LineParser;
@@ -348,13 +332,10 @@ void Parse::addHeader(Scanner* scanner, const QList<const Namespace*>& scope, co
 
 /*!
  *
- * @param scanner  
  *
- * @param scope  
  *
- * @param name  
  */
-void Parse::addSourceHeader(Scanner* scanner, const QList<const Namespace*>& scope, const Class* name)
+void addSourceHeader(Scanner* scanner, const QList<const Namespace*>& scope, const Class* name)
 {
    Q_CHECK_PTR(scanner);
    using LineParser = Basic::LineParser;
@@ -387,9 +368,8 @@ void Parse::addSourceHeader(Scanner* scanner, const QList<const Namespace*>& sco
 
 /*!
  *
- * @param scanner  
  */
-void Parse::addFooter(Scanner* scanner)
+void addFooter(Scanner* scanner)
 {
    using LineParser = Basic::LineParser;
    LineParser* line {new LineParser};
@@ -406,17 +386,12 @@ void Parse::addFooter(Scanner* scanner)
 
 /*!
  *
- * @param map  
  *
- * @param scanner  
  *
- * @param scope  
  *
- * @param ending  
  *
- * @param name  
  */
-void Parse::insertScanner(QMap<QString,Scanner*>* map, Scanner* scanner, const QList<const Namespace*>& scope, const QString& ending, const Class* name)
+void insertScanner(QMap<QString,Scanner*>* map, Scanner* scanner, const QList<const Namespace*>& scope, const QString& ending, const Class* name)
 {
    QString fileName;
    bool first {true};
@@ -449,9 +424,8 @@ void Parse::insertScanner(QMap<QString,Scanner*>* map, Scanner* scanner, const Q
 
 /*!
  *
- * @param block  
  */
-QList<const Namespace*> Parse::createScope(const Abstract::Block& block)
+QList<const Namespace*> createScope(const Abstract::Block& block)
 {
    QList<const Namespace*> ret;
    const Abstract::Block* up {&block};
@@ -473,17 +447,12 @@ QList<const Namespace*> Parse::createScope(const Abstract::Block& block)
 
 /*!
  *
- * @param scanner  
  *
- * @param indent  
  *
- * @param scope  
  *
- * @param flat  
  *
- * @param describe  
  */
-void Parse::addScope(Scanner* scanner, int* indent, const QList<const Namespace*>& scope, bool flat, bool describe)
+void addScope(Scanner* scanner, int* indent, const QList<const Namespace*>& scope, bool flat, bool describe)
 {
    Q_CHECK_PTR(scanner);
    Q_CHECK_PTR(indent);
@@ -501,7 +470,7 @@ void Parse::addScope(Scanner* scanner, int* indent, const QList<const Namespace*
       {
          new LineParser(flat? 0 : *indent,QStringLiteral("namespace ") + name->baseName())
       };
-      line->add(QStringLiteral("{"));
+      line->add(QStringLiteral("{"));//}
       scanner->addParser(line);
       *indent += Settings::instance().indentSpaces();
    }
@@ -514,13 +483,10 @@ void Parse::addScope(Scanner* scanner, int* indent, const QList<const Namespace*
 
 /*!
  *
- * @param scanner  
  *
- * @param indent  
  *
- * @param flat  
  */
-void Parse::endScope(Scanner* scanner, int* indent, bool flat)
+void endScope(Scanner* scanner, int* indent, bool flat)
 {
    Q_CHECK_PTR(scanner);
    Q_CHECK_PTR(indent);
@@ -528,7 +494,7 @@ void Parse::endScope(Scanner* scanner, int* indent, bool flat)
    while ( *indent > 0 )
    {
       *indent -= Settings::instance().indentSpaces();
-      scanner->addParser(new LineParser(flat? 0 : *indent,QStringLiteral("}")));
+      scanner->addParser(new LineParser(flat? 0 : *indent,QStringLiteral("}")));//{
    }
 }
 
@@ -539,19 +505,13 @@ void Parse::endScope(Scanner* scanner, int* indent, bool flat)
 
 /*!
  *
- * @param declarations  
  *
- * @param variables  
  *
- * @param functions  
  *
- * @param block  
  *
- * @param indent  
  *
- * @param isHeader  
  */
-void Parse::createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Abstract::Block& block, int indent, bool isHeader)
+void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Abstract::Block& block, int indent, bool isHeader)
 {
    using LineParser = Basic::LineParser;
    const int functionLines {Settings::instance().functionLines()};
@@ -606,19 +566,13 @@ void Parse::createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract
 
 /*!
  *
- * @param declarations  
  *
- * @param variables  
  *
- * @param functions  
  *
- * @param root  
  *
- * @param indent  
  *
- * @param isHeader  
  */
-void Parse::createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Class& root, int indent, bool isHeader)
+void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Class& root, int indent, bool isHeader)
 {
    using LineParser = Basic::LineParser;
    const int indentSpaces {Settings::instance().indentSpaces()};
@@ -672,13 +626,10 @@ void Parse::createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abs
 
 /*!
  *
- * @param list  
  *
- * @param enumeration  
  *
- * @param indent  
  */
-void Parse::add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent)
+void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent)
 {
    Q_CHECK_PTR(list);
    using LineParser = Basic::LineParser;
@@ -705,13 +656,10 @@ void Parse::add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, 
 
 /*!
  *
- * @param list  
  *
- * @param enumeration  
  *
- * @param indent  
  */
-void Parse::addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent)
+void addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent)
 {
    Q_CHECK_PTR(list);
    using LineParser = Basic::LineParser;
@@ -744,11 +692,9 @@ void Parse::addValues(QList<Abstract::Parser*>* list, const Enumeration& enumera
 
 /*!
  *
- * @param function  
  *
- * @param isHeader  
  */
-bool Parse::hasDefinition(const CppQt::Function& function, bool isHeader)
+bool hasDefinition(const CppQt::Function& function, bool isHeader)
 {
    return ( isHeader && function.hasAnyTemplates() && !function.isPrivateMethod() )
           || ( !isHeader
@@ -767,9 +713,10 @@ bool Parse::hasDefinition(const CppQt::Function& function, bool isHeader)
 
 /*!
  *
- * @param function  
+ *
+ *
  */
-void Parse::addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent)
+void addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent)
 {
    Q_CHECK_PTR(list);
    using LineParser = Basic::LineParser;
@@ -805,11 +752,10 @@ void Parse::addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function
 
 /*!
  *
- * @param function  
  *
- * @param classScope  
+ *
  */
-QString Parse::createBaseDeclaration(const CppQt::Function& function, const QString& classScope, bool initializers)
+QString createBaseDeclaration(const CppQt::Function& function, const QString& classScope, bool initializers)
 {
    QString ret {function.returnType()};
    if ( !ret.isEmpty() ) ret += QStringLiteral(" ");
@@ -836,11 +782,9 @@ QString Parse::createBaseDeclaration(const CppQt::Function& function, const QStr
 
 /*!
  *
- * @param list  
  *
- * @param function  
  */
-void Parse::addDefinition(QList<Abstract::Parser*>* list, const CppQt::Function& function)
+void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Function& function)
 {
    Q_CHECK_PTR(list);
    addComments(list,function);
@@ -878,11 +822,10 @@ void Parse::addDefinition(QList<Abstract::Parser*>* list, const CppQt::Function&
 
 /*!
  *
- * @param list  
  *
- * @param function  
+ *
  */
-void Parse::addComments(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent)
+void addComments(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent)
 {
    Q_CHECK_PTR(list);
    Comment* comment {new Comment};
@@ -917,11 +860,9 @@ void Parse::addComments(QList<Abstract::Parser*>* list, const CppQt::Function& f
 
 /*!
  *
- * @param variable  
  *
- * @param isHeader  
  */
-bool Parse::hasDefinition(const Variable& variable, bool isHeader)
+bool hasDefinition(const Variable& variable, bool isHeader)
 {
    return ( isHeader
             && variable.isStatic()
@@ -941,13 +882,10 @@ bool Parse::hasDefinition(const Variable& variable, bool isHeader)
 
 /*!
  *
- * @param list  
  *
- * @param variable  
  *
- * @param indent  
  */
-void Parse::addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, int indent)
+void addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, int indent)
 {
    Q_CHECK_PTR(list);
    using LineParser = Basic::LineParser;
@@ -979,11 +917,9 @@ void Parse::addDeclaration(QList<Abstract::Parser*>* list, const Variable& varia
 
 /*!
  *
- * @param list  
  *
- * @param variable  
  */
-void Parse::addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& variable)
+void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& variable)
 {
    using LineParser = Basic::LineParser;
    Comment* comment {new Comment};
@@ -1010,9 +946,8 @@ void Parse::addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable&
 
 /*!
  *
- * @param block  
  */
-QString Parse::createClassScope(const Abstract::Block* block)
+QString createClassScope(const Abstract::Block* block)
 {
    Q_CHECK_PTR(block);
    QString ret;
@@ -1036,9 +971,8 @@ QString Parse::createClassScope(const Abstract::Block* block)
 
 /*!
  *
- * @param block  
  */
-QString Parse::createTemplates(const Abstract::Block* block)
+QString createTemplates(const Abstract::Block* block)
 {
    Q_CHECK_PTR(block);
    QString ret;
@@ -1054,9 +988,8 @@ QString Parse::createTemplates(const Abstract::Block* block)
 
 /*!
  *
- * @param block  
  */
-QString Parse::createTemplate(const Abstract::Block* block)
+QString createTemplate(const Abstract::Block* block)
 {
    Q_CHECK_PTR(block);
    QString ret;
@@ -1083,9 +1016,8 @@ QString Parse::createTemplate(const Abstract::Block* block)
 
 /*!
  *
- * @param block  
  */
-QList<const Abstract::Block*> Parse::createTemplateList(const Abstract::Block* block)
+QList<const Abstract::Block*> createTemplateList(const Abstract::Block* block)
 {
    Q_CHECK_PTR(block);
    QList<const Abstract::Block*> ret;
@@ -1097,4 +1029,7 @@ QList<const Abstract::Block*> Parse::createTemplateList(const Abstract::Block* b
       up = up->parent();
    }
    return ret;
+}
+
+}
 }

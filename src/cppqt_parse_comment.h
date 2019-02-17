@@ -5,8 +5,13 @@
 
 
 
+/*!
+ * Contains the C++/Qt project type.
+ */
 namespace CppQt
 {
+   /*!
+    */
    namespace Parse
    {
       /*!
@@ -19,7 +24,5 @@ namespace CppQt
       };
    }
 }
-
-
 
 #endif

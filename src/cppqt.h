@@ -1,6 +1,10 @@
+#ifndef CPPQT_H
+#define CPPQT_H
+
+
 
 /*!
- * Contains the C++/Qt project type. 
+ * Contains the C++/Qt project type.
  */
 namespace CppQt
 {
@@ -24,3 +28,5 @@ namespace CppQt
    class Parent;
    class Declaration;
 }
+
+#endif

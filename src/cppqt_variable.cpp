@@ -7,8 +7,8 @@
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
 
 
 
@@ -16,28 +16,28 @@ using namespace CppQt;
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString Variable::name() const
 {
-   // Create a string and set it to this variable's base name. 
+   // Create a string and set it to this variable's base name.
    QString ret {getString("name")};
 
-   // Check to see if this variable has an initial vallue. 
+   // Check to see if this variable has an initial vallue.
    if ( hasInitializer() )
    {
-      // Append the initial value indicator appropriate for the context of this 
-      // variable. 
+      // Append the initial value indicator appropriate for the context of this
+      // variable.
       if ( isArgument() ) ret.append(" =");
       else ret.append(" {}");
    }
 
-   // Append this variable's property markers. 
+   // Append this variable's property markers.
    ret.append(attributes());
 
-   // Return this variable's display name. 
+   // Return this variable's display name.
    return ret;
 }
 
@@ -47,17 +47,17 @@ QString Variable::name() const
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QIcon Variable::icon() const
 {
-   // Initialize the static icons for this block type. 
+   // Initialize the static icons for this block type.
    static QIcon regularIcon(":/icons/variable.svg");
    static QIcon staticIcon(":/icons/svariable.svg");
 
-   // Return the correct icon based off this variable's properties. 
+   // Return the correct icon based off this variable's properties.
    if ( isStatic() ) return staticIcon;
    else return regularIcon;
 }
@@ -68,10 +68,10 @@ QIcon Variable::icon() const
 
 
 /*!
- * Tests if this variable block's constant expression property is set. 
+ * Tests if this variable block's constant expression property is set.
  *
- * @return True if this block's constant expression property is set or false 
- *         otherwise. 
+ * @return True if this block's constant expression property is set or false
+ *         otherwise.
  */
 bool Variable::isConstExpr() const
 {
@@ -84,9 +84,9 @@ bool Variable::isConstExpr() const
 
 
 /*!
- * Tests if this variable block's static property is set. 
+ * Tests if this variable block's static property is set.
  *
- * @return True if this block's static property is set or false otherwise. 
+ * @return True if this block's static property is set or false otherwise.
  */
 bool Variable::isStatic() const
 {
@@ -99,9 +99,9 @@ bool Variable::isStatic() const
 
 
 /*!
- * Tests if this variable block's mutable property is set. 
+ * Tests if this variable block's mutable property is set.
  *
- * @return True if this block's mutable property is set or false otherwise. 
+ * @return True if this block's mutable property is set or false otherwise.
  */
 bool Variable::isMutable() const
 {
@@ -114,9 +114,9 @@ bool Variable::isMutable() const
 
 
 /*!
- * Tests if this variable block's thread local property is set. 
+ * Tests if this variable block's thread local property is set.
  *
- * @return True if this block's thread local property is set or false otherwise. 
+ * @return True if this block's thread local property is set or false otherwise.
  */
 bool Variable::isThreadLocal() const
 {
@@ -129,9 +129,9 @@ bool Variable::isThreadLocal() const
 
 
 /*!
- * Returns this variable block's type field value. 
+ * Returns this variable block's type field value.
  *
- * @return This variable's C++ type. 
+ * @return This variable's C++ type.
  */
 QString Variable::variableType() const
 {
@@ -144,14 +144,14 @@ QString Variable::variableType() const
 
 
 /*!
- * Tests if this variable block has an initial value. 
+ * Tests if this variable block has an initial value.
  *
- * @return True if this variable has an initial value or false otherwise. 
+ * @return True if this variable has an initial value or false otherwise.
  */
 bool Variable::hasInitializer() const
 {
-   // Test if this variable's initial value string is empty to determine if it has 
-   // one. 
+   // Test if this variable's initial value string is empty to determine if it has
+   // one.
    return !initializer().isEmpty();
 }
 
@@ -161,9 +161,10 @@ bool Variable::hasInitializer() const
 
 
 /*!
- * Returns this variable block's initial value or an empty string if none is set. 
+ * Returns this variable block's initial value or an empty string if none is
+ * set.
  *
- * @return This variable's initial value or an empty string is none is set. 
+ * @return This variable's initial value or an empty string is none is set.
  */
 QString Variable::initializer() const
 {
@@ -176,19 +177,19 @@ QString Variable::initializer() const
 
 
 /*!
- * Tests if this variable block is a member of a C++ class, returning true if it is 
- * a member. 
+ * Tests if this variable block is a member of a C++ class, returning true if it
+ * is a member.
  *
- * @return True if this variable is a class member or false otherwise. 
+ * @return True if this variable is a class member or false otherwise.
  */
 bool Variable::isMember() const
 {
-   // Get this block's parent block pointer and make sure it is not null. 
+   // Get this block's parent block pointer and make sure it is not null.
    Abstract::Block* up {parent()};
    if ( !up ) return false;
 
-   // Test if this variable is an argument by seeing if its parent block is an access 
-   // type. 
+   // Test if this variable is an argument by seeing if its parent block is an access
+   // type.
    return up->type() == Factory::AccessType;
 }
 
@@ -198,21 +199,21 @@ bool Variable::isMember() const
 
 
 /*!
- * Tests if any class this variable block inherits from has any templates, 
- * returning true if so. 
+ * Tests if any class this variable block inherits from has any templates,
+ * returning true if so.
  *
- * @return True if any inherited classes contain templates or false otherwise. 
+ * @return True if any inherited classes contain templates or false otherwise.
  */
 bool Variable::hasAnyTemplates() const
 {
-   // If this variable block is a member then call on its class to determine if it or 
-   // any parent classes contain templates. 
+   // If this variable block is a member then call on its class to determine if it or
+   // any parent classes contain templates.
    if ( isMember() )
    {
       return parent()->parent()->cast<Class>(Factory::ClassType)->hasAnyTemplates();
    }
 
-   // If this is reached then there are no templates so return false. 
+   // If this is reached then there are no templates so return false.
    return false;
 }
 
@@ -222,15 +223,15 @@ bool Variable::hasAnyTemplates() const
 
 
 /*!
- * Tests if this variable block is an argument of a C++ function, returning true if 
- * it is an argument. 
+ * Tests if this variable block is an argument of a C++ function, returning true
+ * if it is an argument.
  *
- * @return True if this is a function argument or false otherwise. 
+ * @return True if this is a function argument or false otherwise.
  */
 bool Variable::isArgument() const
 {
-   // Test if this variable is an argument by seeing if its parent is a function 
-   // block type. 
+   // Test if this variable is an argument by seeing if its parent is a function
+   // block type.
    return qobject_cast<Function*>(parent());
 }
 
@@ -240,9 +241,9 @@ bool Variable::isArgument() const
 
 
 /*!
- * Implements _Basic::Block_ interface. 
+ * Implements _Basic::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 Soc::Ut::QPtr<Basic::BlockView> Variable::makeBasicView() const
 {
@@ -255,24 +256,26 @@ Soc::Ut::QPtr<Basic::BlockView> Variable::makeBasicView() const
 
 
 /*!
- * Returns a string displaying any properties this variable block has set. If no 
- * properties are set then this returns an empty string. 
+ * Returns a string displaying any properties this variable block has set. If no
+ * properties are set then this returns an empty string.
  *
- * @return String displaying any properties this variable block has set. 
+ * @return String displaying any properties this variable block has set.
  */
 QString Variable::attributes() const
 {
-   // Create a string, appending any properties this variable has using single 
-   // capital letters. 
+   // Create a string, appending any properties this variable has using single
+   // capital letters.
    QString ret;
    if ( isConstExpr() ) ret.append("X");
    if ( isStatic() ) ret.append("S");
    if ( isMutable() ) ret.append("M");
    if ( isThreadLocal() ) ret.append("L");
 
-   // If the string is not empty then enclose it with brackets and a space. 
+   // If the string is not empty then enclose it with brackets and a space.
    if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
 
-   // Return the attributes string. 
+   // Return the attributes string.
    return ret;
+}
+
 }

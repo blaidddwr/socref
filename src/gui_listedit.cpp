@@ -6,8 +6,8 @@
 
 
 
-using namespace Gui;
-//
+namespace Gui
+{
 
 
 
@@ -15,18 +15,19 @@ using namespace Gui;
 
 
 /*!
- * Constructs a new list edit widget with the given optional parent. 
+ * Constructs a new list edit widget with the given optional parent.
  *
- * @param block Pointer to the block that is contextually being used in text dialog 
- *              objects this widget opens. 
+ * @param block Pointer to the block that is contextually being used in text
+ *              dialog objects this widget opens.
  *
- * @param parent Optional parent for this new list edit widget. 
+ * @param parent Optional parent for this new list edit widget.
  */
-ListEdit::ListEdit(Abstract::Block* block, QWidget* parent):
+ListEdit::ListEdit(Abstract::Block* block, QWidget* parent)
+   :
    QTableView(parent),
    _block(block)
 {
-   // Setup this new object's view and actions. 
+   // Setup this new object's view and actions.
    setupView();
    setupActions();
 }
@@ -37,23 +38,24 @@ ListEdit::ListEdit(Abstract::Block* block, QWidget* parent):
 
 
 /*!
- * Constructs a new list edit widget with the given list item title and optional 
- * parent. 
+ * Constructs a new list edit widget with the given list item title and optional
+ * parent.
  *
- * @param block Pointer to the block that is contextually being used in text dialog 
- *              objects this widget opens. 
+ * @param block Pointer to the block that is contextually being used in text
+ *              dialog objects this widget opens.
  *
- * @param listItemTitle The list item title this new list edit widget will use as 
- *                      the title for each string row in its list. 
+ * @param listItemTitle The list item title this new list edit widget will use
+ *                      as the title for each string row in its list.
  *
- * @param parent Optional parent for this new list edit widget. 
+ * @param parent Optional parent for this new list edit widget.
  */
-ListEdit::ListEdit(Abstract::Block* block, const QString& listItemTitle, QWidget* parent):
+ListEdit::ListEdit(Abstract::Block* block, const QString& listItemTitle, QWidget* parent)
+   :
    QTableView(parent),
    _listItemTitle(listItemTitle),
    _block(block)
 {
-   // Setup this new object's view and actions. 
+   // Setup this new object's view and actions.
    setupView();
    setupActions();
 }
@@ -64,9 +66,9 @@ ListEdit::ListEdit(Abstract::Block* block, const QString& listItemTitle, QWidget
 
 
 /*!
- * Returns the current string list for this widget. 
+ * Returns the current string list for this widget.
  *
- * @return Current string list for this widget. 
+ * @return Current string list for this widget.
  */
 QStringList ListEdit::value() const
 {
@@ -79,17 +81,17 @@ QStringList ListEdit::value() const
 
 
 /*!
- * Sets the string list for this edit widget to the given list. 
+ * Sets the string list for this edit widget to the given list.
  *
- * @param list New string list that this edit widget is set to by copying it. 
+ * @param list New string list that this edit widget is set to by copying it.
  */
 void ListEdit::setValue(const QStringList& list)
 {
-   // Set the new value of this object's model. 
+   // Set the new value of this object's model.
    _model->setStringList(list);
 
-   // Auto fit all new rows of text and reset this object's current model index to 
-   // invalid. 
+   // Auto fit all new rows of text and reset this object's current model index to
+   // invalid.
    autoFitText();
    _current = QModelIndex();
 }
@@ -100,14 +102,14 @@ void ListEdit::setValue(const QStringList& list)
 
 
 /*!
- * Implements _QWidget_ interface. This implementation simply auto fits all its 
- * text after calling its parent's resize event interface. 
+ * Implements _QWidget_ interface. This implementation simply auto fits all its
+ * text after calling its parent's resize event interface.
  *
- * @param event See Qt docs. 
+ * @param event See Qt docs.
  */
 void ListEdit::resizeEvent(QResizeEvent* event)
 {
-   // Call parent interface and then auto fit all text rows. 
+   // Call parent interface and then auto fit all text rows.
    QTableView::resizeEvent(event);
    autoFitText();
 }
@@ -118,18 +120,18 @@ void ListEdit::resizeEvent(QResizeEvent* event)
 
 
 /*!
- * Called when the add action is triggered, adding a new string to this edit widget 
- * after the current index. 
+ * Called when the add action is triggered, adding a new string to this edit
+ * widget after the current index.
  */
 void ListEdit::addTriggered()
 {
-   // If the current index is valid then add a new string after it. 
+   // If the current index is valid then add a new string after it.
    if ( _current.isValid() ) _model->insertRow(_current.row() + 1);
 
-   // Else add a new string at the beginning of the model. 
+   // Else add a new string at the beginning of the model.
    else _model->insertRow(0);
 
-   // Auto fit the text of all rows. 
+   // Auto fit the text of all rows.
    autoFitText();
 }
 
@@ -139,15 +141,15 @@ void ListEdit::addTriggered()
 
 
 /*!
- * Called when the remove action is triggered, removing this object's current model 
- * index if it is valid. 
+ * Called when the remove action is triggered, removing this object's current
+ * model index if it is valid.
  */
 void ListEdit::removeTriggered()
 {
-   // Make sure this object's current model index is valid. 
+   // Make sure this object's current model index is valid.
    if ( _current.isValid() )
    {
-      // Remove the current model index from the model. 
+      // Remove the current model index from the model.
       _model->removeRow(_current.row());
    }
 }
@@ -158,12 +160,12 @@ void ListEdit::removeTriggered()
 
 
 /*!
- * Called when the move up action is triggered, moving this object's current model 
- * index up by one if it is valid. 
+ * Called when the move up action is triggered, moving this object's current
+ * model index up by one if it is valid.
  */
 void ListEdit::moveUpTriggered()
 {
-   // Make sure this object's current model index is valid and not at the beginning. 
+   // Make sure this object's current model index is valid and not at the beginning.
    if ( _current.isValid() && _current.row() > 0 ) move(-1);
 }
 
@@ -173,12 +175,12 @@ void ListEdit::moveUpTriggered()
 
 
 /*!
- * Called when the move down action is triggered, moving this object's current 
- * model index down by one if it is valid. 
+ * Called when the move down action is triggered, moving this object's current
+ * model index down by one if it is valid.
  */
 void ListEdit::moveDownTriggered()
 {
-   // Make sure this object's current model index is valid and not at the end. 
+   // Make sure this object's current model index is valid and not at the end.
    if ( _current.isValid() && (_current.row() + 1) < _model->rowCount() ) move(1);
 }
 
@@ -188,31 +190,30 @@ void ListEdit::moveDownTriggered()
 
 
 /*!
- * Called when a cell in this qt table view has been double clicked by the mouse. 
- * This opens a text dialog for the string of the given model index double clicked 
- * if it is valid and within range. 
+ * Called when a cell in this qt table view has been double clicked by the
+ * mouse. This opens a text dialog for the string of the given model index
+ * double clicked if it is valid and within range.
  *
- * @param index  
  */
 void ListEdit::doubleClicked(const QModelIndex& index)
 {
-   // Make sure the given index is valid and is within range of this object's string 
-   // list. 
+   // Make sure the given index is valid and is within range of this object's string
+   // list.
    if ( !index.isValid() || index.row() < 0 || index.row() >= _model->rowCount() ) return;
 
-   // Create a new text dialog, setting its title to the item title and its text to 
-   // the string with the given model index. 
+   // Create a new text dialog, setting its title to the item title and its text to
+   // the string with the given model index.
    TextDialog dialog(_block);
    dialog.setWindowTitle(QString(_listItemTitle)
                          .append(" #")
                          .append(QString::number(index.row() + 1)));
    dialog.setText(_model->data(index,Qt::EditRole).toString());
 
-   // Execute the text dialog and make sure it returned with accept. 
+   // Execute the text dialog and make sure it returned with accept.
    if ( dialog.exec() )
    {
-      // Set the value of the string with the given index to the text of the text dialog 
-      // and auto fit the new text at the given row. 
+      // Set the value of the string with the given index to the text of the text dialog
+      // and auto fit the new text at the given row.
       _model->setData(index,dialog.text(),Qt::EditRole);
       autoFitText(index.row());
    }
@@ -224,20 +225,20 @@ void ListEdit::doubleClicked(const QModelIndex& index)
 
 
 /*!
- * Implements _QAbstractItemView_ interface. 
+ * Implements _QAbstractItemView_ interface.
  *
- * @param selected See Qt docs. 
+ * @param selected See Qt docs.
  *
- * @param deselected See Qt docs. 
+ * @param deselected See Qt docs.
  */
 void ListEdit::selectionChanged(const QItemSelection& selected, const QItemSelection& deselected)
 {
-   // This does not care what was deselected. 
+   // This does not care what was deselected.
    Q_UNUSED(deselected)
 
-   // If the given list of selected indexes is empty then set this object's current 
-   // model index to invalid, else set it to the first model index in the given list 
-   // of selected indexes. 
+   // If the given list of selected indexes is empty then set this object's current
+   // model index to invalid, else set it to the first model index in the given list
+   // of selected indexes.
    if ( selected.isEmpty() ) _current = QModelIndex();
    else _current = selected.indexes().first();
 }
@@ -248,31 +249,31 @@ void ListEdit::selectionChanged(const QItemSelection& selected, const QItemSelec
 
 
 /*!
- * Moves this object's current index within this object's model by the amount 
- * given. This assumes this object's current index is valid and the given move 
- * amount does not remove it off the list itself. 
+ * Moves this object's current index within this object's model by the amount
+ * given. This assumes this object's current index is valid and the given move
+ * amount does not remove it off the list itself.
  *
- * @param amount The amount this object's current index is moved, negative being up 
- *               and positive being down. 
+ * @param amount The amount this object's current index is moved, negative being
+ *               up and positive being down.
  */
 void ListEdit::move(int amount)
 {
-   // Make sure the current index is valid. 
+   // Make sure the current index is valid.
    Q_ASSERT(_current.isValid());
 
-   // Get the row and data of the current index. 
+   // Get the row and data of the current index.
    int row {_current.row()};
    QString data {_model->data(_current).toString()};
 
-   // Remove the current row and then insert a new one, moved by the amount given. 
+   // Remove the current row and then insert a new one, moved by the amount given.
    _model->removeRow(row);
    _model->insertRow(row + amount);
 
-   // Update the current index to the moved data and set its data. 
+   // Update the current index to the moved data and set its data.
    _current = _model->index(row + amount);
    _model->setData(_current,data);
 
-   // Update the selection to the moved index and then auto fit the text of all rows. 
+   // Update the selection to the moved index and then auto fit the text of all rows.
    selectionModel()->clearSelection();
    selectionModel()->setCurrentIndex(_current,QItemSelectionModel::Select);
    autoFitText();
@@ -284,24 +285,24 @@ void ListEdit::move(int amount)
 
 
 /*!
- * Initializes the table view along with creating its model for this new list edit 
- * widget. 
+ * Initializes the table view along with creating its model for this new list
+ * edit widget.
  */
 void ListEdit::setupView()
 {
-   // Create this object's model set it to this table view. 
+   // Create this object's model set it to this table view.
    _model = new QStringListModel(this);
    setModel(_model);
 
-   // Configure this new table view. 
+   // Configure this new table view.
    setWordWrap(true);
    setEditTriggers(NoEditTriggers);
 
-   // Configure this table view's horizontal header. 
+   // Configure this table view's horizontal header.
    horizontalHeader()->setStretchLastSection(true);
    horizontalHeader()->setHidden(true);
 
-   // Connect the double clicked signal of this table view. 
+   // Connect the double clicked signal of this table view.
    connect(this,&QTableView::doubleClicked,this,&ListEdit::doubleClicked);
 }
 
@@ -311,39 +312,40 @@ void ListEdit::setupView()
 
 
 /*!
- * Constructs and initializes all shortcut actions for this new list edit widget. 
+ * Constructs and initializes all shortcut actions for this new list edit
+ * widget.
  */
 void ListEdit::setupActions()
 {
-   // Create and initialize this object's add action, connecting its triggered 
-   // signal. 
+   // Create and initialize this object's add action, connecting its triggered
+   // signal.
    QAction* add {new QAction(this)};
    add->setShortcutContext(Qt::WidgetShortcut);
    add->setShortcut(Qt::CTRL + Qt::Key_A);
    connect(add,&QAction::triggered,this,&ListEdit::addTriggered);
 
-   // Create and initialize this object's remove action, connecting its triggered 
-   // signal. 
+   // Create and initialize this object's remove action, connecting its triggered
+   // signal.
    QAction* remove {new QAction(this)};
    remove->setShortcutContext(Qt::WidgetShortcut);
    remove->setShortcut(Qt::CTRL + Qt::Key_Delete);
    connect(remove,&QAction::triggered,this,&ListEdit::removeTriggered);
 
-   // Create and initialize this object's move up action, connecting its triggered 
-   // signal. 
+   // Create and initialize this object's move up action, connecting its triggered
+   // signal.
    QAction* moveUp {new QAction(this)};
    moveUp->setShortcutContext(Qt::WidgetShortcut);
    moveUp->setShortcut(Qt::CTRL + Qt::Key_Up);
    connect(moveUp,&QAction::triggered,this,&ListEdit::moveUpTriggered);
 
-   // Create and initialize this object's move down action, connecting its triggered 
-   // signal. 
+   // Create and initialize this object's move down action, connecting its triggered
+   // signal.
    QAction* moveDown {new QAction(this)};
    moveDown->setShortcutContext(Qt::WidgetShortcut);
    moveDown->setShortcut(Qt::CTRL + Qt::Key_Down);
    connect(moveDown,&QAction::triggered,this,&ListEdit::moveDownTriggered);
 
-   // Add all shortcut actions to this new list edit widget. 
+   // Add all shortcut actions to this new list edit widget.
    addAction(add);
    addAction(remove);
    addAction(moveUp);
@@ -356,12 +358,12 @@ void ListEdit::setupActions()
 
 
 /*!
- * Updates the row height of all text cells for this list edit widget so all the 
- * text fits within the current width of this widget. 
+ * Updates the row height of all text cells for this list edit widget so all the
+ * text fits within the current width of this widget.
  */
 void ListEdit::autoFitText()
 {
-   // Iterate through all text rows and update their height to fit their text. 
+   // Iterate through all text rows and update their height to fit their text.
    for (int i = 0; i < _model->rowCount() ;++i) autoFitText(i);
 }
 
@@ -371,57 +373,59 @@ void ListEdit::autoFitText()
 
 
 /*!
- * Updates the height of a given row of this list edit widget so all the text fits 
- * within the current width of its cell. 
+ * Updates the height of a given row of this list edit widget so all the text
+ * fits within the current width of its cell.
  *
- * @param row The row whose height is updated so all text fits with the current 
- *            width of this list edit widget. 
+ * @param row The row whose height is updated so all text fits with the current
+ *            width of this list edit widget.
  */
 void ListEdit::autoFitText(int row)
 {
-   // Initialize wiggle and bias used to help determine the row height at the end. 
+   // Initialize wiggle and bias used to help determine the row height at the end.
    static qreal wiggle {1.1};
    static qreal bias {0.5};
 
-   // Create font metrics, get the cell width, and get the text of the string at the 
-   // given row. 
+   // Create font metrics, get the cell width, and get the text of the string at the
+   // given row.
    QFontMetricsF metrics {fontMetrics()};
    qreal width {static_cast<qreal>(columnWidth(0))};
    const QString text {_model->data(_model->index(row)).toString()};
 
-   // Create and initialize all variables used for determining the number of lines 
-   // required to fit the given row's text. 
+   // Create and initialize all variables used for determining the number of lines
+   // required to fit the given row's text.
    int lines {1};
    int start {0};
    int lastSpace {0};
 
-   // Iterate through all characters of the given row's text. 
+   // Iterate through all characters of the given row's text.
    for (int end = 0; end < text.size() ;++end)
    {
-      // Check to see if this is a new line character. 
+      // Check to see if this is a new line character.
       if ( text.at(end) == QChar('\n') )
       {
-         // Add a line and reset the start and last space markers to the next character. 
+         // Add a line and reset the start and last space markers to the next character.
          ++lines;
          start = lastSpace = end + 1;
       }
 
-      // Else if this character is a space then update the last space marker. 
+      // Else if this character is a space then update the last space marker.
       else if ( text.at(end).isSpace() ) lastSpace = end;
 
-      // Else check to see if the current line is too long for the limiting width 
-      // factor. 
+      // Else check to see if the current line is too long for the limiting width
+      // factor.
       else if ( metrics.width(text.mid(start,end - start + 1)) > width )
       {
-         // Add a line and reset the start marker to the character after the last space 
-         // marker. 
+         // Add a line and reset the start marker to the character after the last space
+         // marker.
          ++lines;
          start = lastSpace + 1;
       }
    }
 
-   // Set the row height of the cell at the given row based off the calculated lines 
-   // needed along with the wiggle and bias to fit within the cell's width. 
+   // Set the row height of the cell at the given row based off the calculated lines
+   // needed along with the wiggle and bias to fit within the cell's width.
    setRowHeight(row
                 ,static_cast<int>(metrics.lineSpacing()*wiggle*(static_cast<qreal>(lines) + bias)));
+}
+
 }

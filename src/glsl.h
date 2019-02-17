@@ -1,6 +1,10 @@
+#ifndef GLSL_H
+#define GLSL_H
+
+
 
 /*!
- * Contains the GLSL project type. 
+ * Contains the GLSL project type.
  */
 namespace GLSL
 {
@@ -17,3 +21,5 @@ namespace GLSL
    class Function;
    class FunctionView;
 }
+
+#endif

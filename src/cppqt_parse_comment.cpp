@@ -3,8 +3,10 @@
 
 
 
-using namespace CppQt::Parse;
-//
+namespace CppQt
+{
+namespace Parse
+{
 
 
 
@@ -13,6 +15,11 @@ using namespace CppQt::Parse;
 
 /*!
  */
-Comment::Comment():
+Comment::Comment()
+   :
    Basic::CommentParser("/*!"," *"," */",Settings::instance().maxColumns())
-{}
+{
+}
+
+}
+}

@@ -3,8 +3,8 @@
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
 
 
 
@@ -12,13 +12,15 @@ using namespace CppQt;
 
 
 /*!
- * Constructs a new view object with the given enumeration value block. 
+ * Constructs a new view object with the given enumeration value block.
  *
- * @param block Enumeration value block this new view displays. 
+ * @param block Enumeration value block this new view displays.
  */
-EnumValueView::EnumValueView(const EnumValue* block):
+EnumValueView::EnumValueView(const EnumValue* block)
+   :
    Basic::BlockView(block)
-{}
+{
+}
 
 
 
@@ -26,20 +28,22 @@ EnumValueView::EnumValueView(const EnumValue* block):
 
 
 /*!
- * Returns rich text that displays the value field for this view's enumeration 
- * value block. If there is no value then this returns an empty string. 
+ * Returns rich text that displays the value field for this view's enumeration
+ * value block. If there is no value then this returns an empty string.
  *
- * @return Rich text that displays the value field for this view's enumeration 
- *         value block or an empty string if there is no value. 
+ * @return Rich text that displays the value field for this view's enumeration
+ *         value block or an empty string if there is no value.
  */
 QString EnumValueView::displayValue()
 {
-   // Get this view's enumeration value block's value field and make sure it is not 
-   // empty. 
+   // Get this view's enumeration value block's value field and make sure it is not
+   // empty.
    QString value {block<EnumValue>().value()};
    if ( value.isEmpty() ) return QString();
 
-   // Return the rich text that displays this view's enumeration value block's value 
-   // field along with a title. 
+   // Return the rich text that displays this view's enumeration value block's value
+   // field along with a title.
    return tr("<h3>Value</h3><p>%1</p>").arg(value);
+}
+
 }

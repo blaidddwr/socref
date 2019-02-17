@@ -2,8 +2,8 @@
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
 
 
 
@@ -11,9 +11,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements _Abstract::Block_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString Declaration::name() const
 {
@@ -26,11 +26,13 @@ QString Declaration::name() const
 
 
 /*!
- * Returns the declaration line string of this declaration block. 
+ * Returns the declaration line string of this declaration block.
  *
- * @return Declaration line string of this declaration block. 
+ * @return Declaration line string of this declaration block.
  */
 QString Declaration::line() const
 {
    return getString("line");
+}
+
 }

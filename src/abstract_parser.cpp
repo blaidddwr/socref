@@ -2,8 +2,8 @@
 
 
 
-using namespace Abstract;
-//
+namespace Abstract
+{
 
 
 
@@ -11,13 +11,13 @@ using namespace Abstract;
 
 
 /*!
- * This interface returns true if this parser element requires input from the 
- * source file of its parent scanner. This can be updated to false if this no 
- * longer needs input but cannot be changed from false to true. The default 
- * implementation returns false. 
+ * This interface returns true if this parser element requires input from the
+ * source file of its parent scanner. This can be updated to false if this no
+ * longer needs input but cannot be changed from false to true. The default
+ * implementation returns false.
  *
- * @return True if this parser element requires input from its parent scanner 
- *         source file or false otherwise. 
+ * @return True if this parser element requires input from its parent scanner
+ *         source file or false otherwise.
  */
 bool Parser::needsInput() const
 {
@@ -30,13 +30,13 @@ bool Parser::needsInput() const
 
 
 /*!
- * This interface returns a regular expression that its parent scanner uses to 
- * match input lines of its source file. Once this object's parent scanner finds a 
- * match with the returned regular expression it is fed input lines until this 
- * object is finished. The default implementation returns an empty string. 
+ * This interface returns a regular expression that its parent scanner uses to
+ * match input lines of its source file. Once this object's parent scanner finds
+ * a match with the returned regular expression it is fed input lines until this
+ * object is finished. The default implementation returns an empty string.
  *
- * @return Regular expression that its parent scanner uses to match input lines of 
- *         its source file. 
+ * @return Regular expression that its parent scanner uses to match input lines
+ *         of its source file.
  */
 QString Parser::headerExpression() const
 {
@@ -49,11 +49,11 @@ QString Parser::headerExpression() const
 
 
 /*!
- * This interface sets the indent, in spaces, that is prepended to each line of the 
- * parser element's output to its parent scanner. The default implementation does 
- * nothing. 
+ * This interface sets the indent, in spaces, that is prepended to each line of
+ * the parser element's output to its parent scanner. The default implementation
+ * does nothing.
  *
- * @param value The new indent value in spaces. 
+ * @param value The new indent value in spaces.
  */
 void Parser::setIndent(int value)
 {
@@ -66,14 +66,15 @@ void Parser::setIndent(int value)
 
 
 /*!
- * This interface reads in one line of input given from its parent scanner, 
- * returning true if this parser element wants to read the next line after the one 
- * given. The default implementation returns false. 
+ * This interface reads in one line of input given from its parent scanner,
+ * returning true if this parser element wants to read the next line after the
+ * one given. The default implementation returns false.
  *
- * @param line One line of input given from this parser element's parent scanner. 
+ * @param line One line of input given from this parser element's parent
+ *             scanner.
  *
- * @return True to signal this parser will continue reading input lines or false to 
- *         signal it is finished. 
+ * @return True to signal this parser will continue reading input lines or false
+ *         to signal it is finished.
  */
 bool Parser::input(const QString& line)
 {
@@ -87,8 +88,11 @@ bool Parser::input(const QString& line)
 
 
 /*!
- * This interface clears any saved information this parser element contains and 
- * resets it to its initial state. The default implementation does nothing. 
+ * This interface clears any saved information this parser element contains and
+ * resets it to its initial state. The default implementation does nothing.
  */
 void Parser::reset()
-{}
+{
+}
+
+}

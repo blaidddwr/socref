@@ -8,8 +8,8 @@
 
 
 
-using namespace GLSL;
-//
+namespace GLSL
+{
 
 
 
@@ -17,9 +17,9 @@ using namespace GLSL;
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _AbstractBlockFactory_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 int Factory::type() const
 {
@@ -32,16 +32,16 @@ int Factory::type() const
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _AbstractBlockFactory_ interface.
  *
- * @param type See interface docs. 
+ * @param type See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString Factory::elementName(int type) const
 {
-   // Based off the given block type return its element name, throwing an exception 
-   // if the given type is unknown. 
+   // Based off the given block type return its element name, throwing an exception
+   // if the given type is unknown.
    switch (type)
    {
    case NamespaceType: return QStringLiteral("namespace");
@@ -60,11 +60,13 @@ QString Factory::elementName(int type) const
 
 
 /*!
- * Constructs a new GLSL block factory. 
+ * Constructs a new GLSL block factory.
  */
-Factory::Factory():
+Factory::Factory()
+   :
    Basic::BlockFactory(":/glsl/defs.xml")
-{}
+{
+}
 
 
 
@@ -72,16 +74,16 @@ Factory::Factory():
 
 
 /*!
- * Implements _Basic::BlockFactory_ interface. 
+ * Implements _Basic::BlockFactory_ interface.
  *
- * @param type See interface docs. 
+ * @param type See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 Soc::Ut::QPtr<Basic::Block> Factory::createBasicBlock(int type) const
 {
-   // Based off the given block type return a new instance of that type or a null 
-   // pointer if that type does not have an implementation. 
+   // Based off the given block type return a new instance of that type or a null
+   // pointer if that type does not have an implementation.
    switch (type)
    {
    case NamespaceType: return Soc::Ut::QPtr<Basic::Block>(new Namespace);
@@ -91,4 +93,6 @@ Soc::Ut::QPtr<Basic::Block> Factory::createBasicBlock(int type) const
    case FunctionType: return Soc::Ut::QPtr<Basic::Block>(new Function);
    default: return nullptr;
    }
+}
+
 }

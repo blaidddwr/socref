@@ -2,8 +2,10 @@
 
 
 
-using namespace CppQt::Parse;
-//
+namespace CppQt
+{
+namespace Parse
+{
 
 
 
@@ -12,6 +14,11 @@ using namespace CppQt::Parse;
 
 /*!
  */
-Header::Header():
+Header::Header()
+   :
    Basic::InputParser("\\A#define\\s+[a-zA-Z_]*_H\\z","\\A\\z")
-{}
+{
+}
+
+}
+}

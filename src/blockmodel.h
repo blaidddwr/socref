@@ -3,17 +3,16 @@
 #include <QtCore>
 #include <socutil/soc_ut_qptr.h>
 #include "abstract.h"
-//
 
 
 
 /*!
- * This is the abstract item model for the entire block tree of a project, using 
- * the Qt abstract item model class. It only implements the interfaces necessary 
- * for read only functionality through Qt view classes. However the writable 
- * functionality exists with custom functions outside the Qt framework. The custom 
- * write operations supported are inserting blocks, moving blocks up and down, 
- * removing blocks, copying blocks, and cutting blocks. 
+ * This is the abstract item model for the entire block tree of a project, using
+ * the Qt abstract item model class. It only implements the interfaces necessary
+ * for read only functionality through Qt view classes. However the writable
+ * functionality exists with custom functions outside the Qt framework. The
+ * custom write operations supported are inserting blocks, moving blocks up and
+ * down, removing blocks, copying blocks, and cutting blocks.
  */
 class BlockModel : public QAbstractItemModel
 {
@@ -39,17 +38,15 @@ private slots:
    void blockUpdated(Abstract::Block* block);
 private:
    /*!
-    * A pointer to the root block for this model's data. If this model is empty then 
-    * this is null. 
+    * A pointer to the root block for this model's data. If this model is empty
+    * then this is null.
     */
    Abstract::Block* _root {nullptr};
    /*!
-    * A read only pointer to this model block type's block factory. If this model is 
-    * empty then this is null. 
+    * A read only pointer to this model block type's block factory. If this model
+    * is empty then this is null.
     */
    const Abstract::BlockFactory* _factory {nullptr};
 };
-
-
 
 #endif

@@ -2,16 +2,18 @@
 #define CPPQT_ACCESSVIEW_H
 #include "basic_blockview.h"
 #include "cppqt.h"
-//
 
 
 
+/*!
+ * Contains the C++/Qt project type.
+ */
 namespace CppQt
 {
    /*!
-    * This is the view class for the access block. This provides a custom display that 
-    * shows a tally count of different block types this view's access block contains 
-    * as children blocks. 
+    * This is the view class for the access block. This provides a custom display
+    * that shows a tally count of different block types this view's access block
+    * contains as children blocks.
     */
    class AccessView : public Basic::BlockView
    {
@@ -22,7 +24,5 @@ namespace CppQt
       QString displayInfo();
    };
 }
-
-
 
 #endif

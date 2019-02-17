@@ -1,32 +1,31 @@
 #ifndef PROJECTFACTORY_H
 #define PROJECTFACTORY_H
 #include "abstract_projectfactory.h"
-//
 
 
 
 /*!
- * This is the global project factory for this application, providing all factories 
- * and information needed for each project type. 
+ * This is the global project factory for this application, providing all
+ * factories and information needed for each project type.
  */
 class ProjectFactory : public Abstract::ProjectFactory
 {
 public:
    /*!
-    * Defines all project types ending with the total size of all project types. 
+    * Defines all project types ending with the total size of all project types.
     */
-   enum 
+   enum
    {
       /*!
-       * Defines the C++/Qt project type. 
+       * Defines the C++/Qt project type.
        */
       CppQtType
       /*!
-       * Defines the GLSL project type. 
+       * Defines the GLSL project type.
        */
       ,GLSLType
       /*!
-       * Defines the total number of all project types. 
+       * Defines the total number of all project types.
        */
       ,Total
    };
@@ -40,7 +39,5 @@ public:
    virtual const Abstract::BlockFactory& blockFactory(int type) const override final;
    virtual QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root) const override final;
 };
-
-
 
 #endif

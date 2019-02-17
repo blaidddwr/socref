@@ -1,19 +1,21 @@
 #ifndef CPPQT_ACCESS_H
 #define CPPQT_ACCESS_H
 #include "basic_block.h"
-//
 
 
 
+/*!
+ * Contains the C++/Qt project type.
+ */
 namespace CppQt
 {
    /*!
-    * This is the access block. This represents access types for C++ classes such as 
-    * public or private. This also defines Qt access types for slots and signals. 
-    * Almost all block types used with classes must be attached to an access block 
-    * instead of direct attachment because of how C++ works. All supported types are 
-    * public, protected, private, signals, public slots, protected slots, and private 
-    * slots. 
+    * This is the access block. This represents access types for C++ classes such
+    * as public or private. This also defines Qt access types for slots and
+    * signals. Almost all block types used with classes must be attached to an
+    * access block instead of direct attachment because of how C++ works. All
+    * supported types are public, protected, private, signals, public slots,
+    * protected slots, and private slots.
     */
    class Access : public Basic::Block
    {
@@ -23,7 +25,7 @@ namespace CppQt
       virtual QIcon icon() const override final;
    public:
       /*!
-       * Constructs a new access block. 
+       * Constructs a new access block.
        */
       Q_INVOKABLE explicit Access() = default;
       bool isPrivate() const;
@@ -39,48 +41,46 @@ namespace CppQt
       virtual bool childRemoved(Abstract::Block* child) override final;
    private:
       /*!
-       * Defines all possible access types. 
+       * Defines all possible access types.
        */
       enum Type
       {
          /*!
-          * Defines the public type. 
+          * Defines the public type.
           */
          Public
          /*!
-          * Defines the protected type. 
+          * Defines the protected type.
           */
          ,Protected
          /*!
-          * Defines the private type. 
+          * Defines the private type.
           */
          ,Private
          /*!
-          * Defines the signals type. 
+          * Defines the signals type.
           */
          ,Signals
          /*!
-          * Defines the public slots type. 
+          * Defines the public slots type.
           */
          ,PublicSlots
          /*!
-          * Defines the protected slots type. 
+          * Defines the protected slots type.
           */
          ,ProtectedSlots
          /*!
-          * Defines the private slots type. 
+          * Defines the private slots type.
           */
          ,PrivateSlots
       };
    private:
       /*!
-       * List of access type names that follow the same order as this block's enumeration 
-       * of possible types. 
+       * List of access type names that follow the same order as this block's
+       * enumeration of possible types.
        */
       static const QStringList _typeNames;
    };
 }
-
-
 
 #endif

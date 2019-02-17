@@ -2,16 +2,18 @@
 #define CPPQT_VARIABLEVIEW_H
 #include "basic_blockview.h"
 #include "cppqt.h"
-//
 
 
 
+/*!
+ * Contains the C++/Qt project type.
+ */
 namespace CppQt
 {
    /*!
-    * This is the view class for the variable block. This provides custom displays 
-    * that show the properties and initializer of this view's variable, if any for 
-    * either one. 
+    * This is the view class for the variable block. This provides custom displays
+    * that show the properties and initializer of this view's variable, if any for
+    * either one.
     */
    class VariableView : public Basic::BlockView
    {
@@ -23,7 +25,5 @@ namespace CppQt
       QString displayInitializer();
    };
 }
-
-
 
 #endif

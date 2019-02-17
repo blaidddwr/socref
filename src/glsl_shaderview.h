@@ -2,15 +2,17 @@
 #define GLSL_SHADERVIEW_H
 #include "basic_blockview.h"
 #include "glsl.h"
-//
 
 
 
+/*!
+ * Contains the GLSL project type.
+ */
 namespace GLSL
 {
    /*!
-    * This is the view class for the shader block. This provides a custom display 
-    * showing the number of operations for the shader function. 
+    * This is the view class for the shader block. This provides a custom display
+    * showing the number of operations for the shader function.
     */
    class ShaderView : public Basic::BlockView
    {
@@ -21,7 +23,5 @@ namespace GLSL
       QString displayOperations();
    };
 }
-
-
 
 #endif

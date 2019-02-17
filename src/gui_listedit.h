@@ -2,28 +2,27 @@
 #define GUI_LISTEDIT_H
 #include <QTableView>
 #include "abstract.h"
-
-
-
 class QStringListModel;
-//
 
 
 
+/*!
+ * Contains all GUI elements for this application.
+ */
 namespace Gui
 {
    /*!
-    * This is a list edit widget that allows the user to edit a list of strings. 
-    * Keyboard shortcuts for adding, removing, and moving items within the list are 
-    * provided to the user. This widget displays each string in its list as a table 
-    * with a single column. A title for each string is also displayed and given a 
-    * number, the first string being number 1 and incremented from there. The height 
-    * of each row is auto adjusted to make it so all the text fits within the 
-    * horizontal limits of this widget. 
-    * 
-    * Because this widget uses the text dialog class for editing individual list items 
-    * a pointer to the contextual block must be given that is used for custom spell 
-    * checking within the text dialog objects opened. 
+    * This is a list edit widget that allows the user to edit a list of strings.
+    * Keyboard shortcuts for adding, removing, and moving items within the list are
+    * provided to the user. This widget displays each string in its list as a table
+    * with a single column. A title for each string is also displayed and given a
+    * number, the first string being number 1 and incremented from there. The
+    * height of each row is auto adjusted to make it so all the text fits within
+    * the horizontal limits of this widget.
+    *
+    * Because this widget uses the text dialog class for editing individual list
+    * items a pointer to the contextual block must be given that is used for custom
+    * spell checking within the text dialog objects opened.
     */
    class ListEdit : public QTableView
    {
@@ -49,26 +48,24 @@ namespace Gui
       void autoFitText();
       void autoFitText(int row);
       /*!
-       * The title text used for the title of each text row in this list edit widget. 
-       * This title is appended with the row number. 
+       * The title text used for the title of each text row in this list edit widget.
+       * This title is appended with the row number.
        */
       QString _listItemTitle {"Step"};
       /*!
-       * Pointer to the string list model for this list edit widget. 
+       * Pointer to the string list model for this list edit widget.
        */
       QStringListModel* _model;
       /*!
-       * The currently selected model index for this list edit widget. 
+       * The currently selected model index for this list edit widget.
        */
       QModelIndex _current;
       /*!
-       * Pointer to the block that is contextually being used in text dialog objects this 
-       * widget opens. 
+       * Pointer to the block that is contextually being used in text dialog objects
+       * this widget opens.
        */
       Abstract::Block* _block;
    };
 }
-
-
 
 #endif

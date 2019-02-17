@@ -1,7 +1,11 @@
+#ifndef ABSTRACT_H
+#define ABSTRACT_H
+
+
 
 /*!
- * Contains all abstract interface classes that define the meta structure of this 
- * application. 
+ * Contains all abstract interface classes that define the meta structure of
+ * this application.
  */
 namespace Abstract
 {
@@ -12,3 +16,5 @@ namespace Abstract
    class ProjectFactory;
    class Parser;
 }
+
+#endif

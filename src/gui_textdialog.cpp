@@ -8,8 +8,8 @@
 
 
 
-using namespace Gui;
-//
+namespace Gui
+{
 
 
 
@@ -17,18 +17,19 @@ using namespace Gui;
 
 
 /*!
- * Constructs a new text dialog with the given block and an optional parent. 
+ * Constructs a new text dialog with the given block and an optional parent.
  *
- * @param block Pointer to the block that is contextually being used. This is used 
- *              to get the custom dictionary model of the block's project. 
+ * @param block Pointer to the block that is contextually being used. This is
+ *              used to get the custom dictionary model of the block's project.
  *
- * @param parent Optional parent for this new text dialog. 
+ * @param parent Optional parent for this new text dialog.
  */
-TextDialog::TextDialog(Abstract::Block* block, QWidget* parent):
+TextDialog::TextDialog(Abstract::Block* block, QWidget* parent)
+   :
    PersistentDialog("gui.textdialog.geometry",parent),
    _edit(new TextEdit(block,this))
 {
-   // Create and initialize the GUI of this dialog. 
+   // Create and initialize the GUI of this dialog.
    setupGui();
 }
 
@@ -38,19 +39,20 @@ TextDialog::TextDialog(Abstract::Block* block, QWidget* parent):
 
 
 /*!
- * Constructs a new text dialog with the given custom dictionary and an optional 
- * parent. 
+ * Constructs a new text dialog with the given custom dictionary and an optional
+ * parent.
  *
- * @param dictionary The custom dictionary model this new text dialog uses to check 
- *                   for custom spell checking words. 
+ * @param dictionary The custom dictionary model this new text dialog uses to
+ *                   check for custom spell checking words.
  *
- * @param parent Optional parent for this new text dialog. 
+ * @param parent Optional parent for this new text dialog.
  */
-TextDialog::TextDialog(DictionaryModel* dictionary, QWidget* parent):
+TextDialog::TextDialog(DictionaryModel* dictionary, QWidget* parent)
+   :
    PersistentDialog("gui.textdialog.geometry",parent),
    _edit(new TextEdit(dictionary,this))
 {
-   // Create and initialize the GUI of this dialog. 
+   // Create and initialize the GUI of this dialog.
    setupGui();
 }
 
@@ -60,13 +62,13 @@ TextDialog::TextDialog(DictionaryModel* dictionary, QWidget* parent):
 
 
 /*!
- * Returns the plain text from the text edit widget of this dialog. 
+ * Returns the plain text from the text edit widget of this dialog.
  *
- * @return Text from the text edit widget of this dialog. 
+ * @return Text from the text edit widget of this dialog.
  */
 QString TextDialog::text() const
 {
-   // Return the plain test this object's text edit widget contains. 
+   // Return the plain test this object's text edit widget contains.
    return _edit->toPlainText();
 }
 
@@ -76,14 +78,14 @@ QString TextDialog::text() const
 
 
 /*!
- * Sets the plain text of the text edit widget of this dialog to the given text, 
- * overwriting any text the widget may contain. 
+ * Sets the plain text of the text edit widget of this dialog to the given text,
+ * overwriting any text the widget may contain.
  *
- * @param text New text that the text edit widget of this dialog is set to. 
+ * @param text New text that the text edit widget of this dialog is set to.
  */
 void TextDialog::setText(const QString& text)
 {
-   // Set the plain text of this object's text edit widget. 
+   // Set the plain text of this object's text edit widget.
    _edit->setPlainText(text);
 }
 
@@ -93,20 +95,20 @@ void TextDialog::setText(const QString& text)
 
 
 /*!
- * Constructs and initializes all GUI elements for this new text dialog. 
+ * Constructs and initializes all GUI elements for this new text dialog.
  */
 void TextDialog::setupGui()
 {
-   // Disable this object's text edit object's popup dialog shortcut. 
+   // Disable this object's text edit object's popup dialog shortcut.
    _edit->setDialogPopupEnabled(false);
 
-   // Create a new vertical layout, adding the text edit widget for this dialog and 
-   // then the buttons. 
+   // Create a new vertical layout, adding the text edit widget for this dialog and
+   // then the buttons.
    QVBoxLayout* layout {new QVBoxLayout};
    layout->addWidget(_edit);
    layout->addLayout(setupButtons());
 
-   // Set the layout for this dialog. 
+   // Set the layout for this dialog.
    setLayout(layout);
 }
 
@@ -116,28 +118,30 @@ void TextDialog::setupGui()
 
 
 /*!
- * Constructs and initializes the OK and cancel buttons for this new text dialog, 
- * returning the horizontal layout containing them. 
+ * Constructs and initializes the OK and cancel buttons for this new text
+ * dialog, returning the horizontal layout containing them.
  *
- * @return Horizontal layout containing the OK and cancel buttons for this new 
- *         dialog. 
+ * @return Horizontal layout containing the OK and cancel buttons for this new
+ *         dialog.
  */
 QLayout* TextDialog::setupButtons()
 {
-   // Create the OK button for this dialog and connect its clicked signals. 
+   // Create the OK button for this dialog and connect its clicked signals.
    QPushButton* ok {new QPushButton(tr("Ok"))};
    connect(ok,&QPushButton::clicked,[this]{ done(QDialog::Accepted); });
 
-   // Create the cancel button for this dialog and connect its clicked signals. 
+   // Create the cancel button for this dialog and connect its clicked signals.
    QPushButton* cancel {new QPushButton(tr("Cancel"))};
    connect(cancel,&QPushButton::clicked,[this]{ done(QDialog::Rejected); });
 
-   // Create a new horizontal layout, adding the OK button and then the cancel 
-   // button. 
+   // Create a new horizontal layout, adding the OK button and then the cancel
+   // button.
    QHBoxLayout* ret {new QHBoxLayout};
    ret->addWidget(ok);
    ret->addWidget(cancel);
 
-   // Return the buttons layout. 
+   // Return the buttons layout.
    return ret;
+}
+
 }

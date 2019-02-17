@@ -4584,7 +4584,7 @@ This class provides protected helper methods for getting the values of its data 
               <invokable/>
               <name>^</name>
               <return_description></return_description>
-              <type>void</type>
+              <type></type>
             </data>
           </function>
           <function>
@@ -6766,11 +6766,41 @@ This parser also provides setting an indentation of spaces before each comment l
           <data>
             <type>private:</type>
           </data>
-          <declaration>
+          <class>
             <data>
-              <line>struct Node { QString header; QString text; int footerLines {0}; }</line>
+              <description></description>
+              <name>Node</name>
             </data>
-          </declaration>
+            <access>
+              <data>
+                <type>public:</type>
+              </data>
+              <variable>
+                <data>
+                  <description></description>
+                  <initializer></initializer>
+                  <name>header</name>
+                  <type>QString</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description></description>
+                  <initializer></initializer>
+                  <name>text</name>
+                  <type>QString</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description></description>
+                  <initializer>0</initializer>
+                  <name>footerLines</name>
+                  <type>int</type>
+                </data>
+              </variable>
+            </access>
+          </class>
         </access>
         <access>
           <data>
@@ -8016,16 +8046,32 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <function>
           <data>
             <description></description>
-            <name>createDeclaration</name>
+            <name>addDeclaration</name>
             <return_description></return_description>
-            <type>QString</type>
+            <type>void</type>
           </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
           <variable>
             <data>
               <description></description>
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>indent</name>
+              <type>int</type>
             </data>
           </variable>
         </function>
@@ -8050,6 +8096,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer>QString()</initializer>
               <name>classScope</name>
               <type>const QString&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer>true</initializer>
+              <name>initializers</name>
+              <type>bool</type>
             </data>
           </variable>
         </function>
@@ -8098,6 +8152,14 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer>0</initializer>
+              <name>indent</name>
+              <type>int</type>
             </data>
           </variable>
         </function>
@@ -8922,7 +8984,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
               <invokable/>
               <name>^</name>
               <return_description></return_description>
-              <type>void</type>
+              <type></type>
             </data>
           </function>
           <function>
@@ -12799,7 +12861,7 @@ The mapping of scanner objects are used to determine which scanner object to use
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The word that is searched for in this dictionary model.</description>
               <initializer></initializer>
               <name>word</name>
               <type>const QString&amp;</type>

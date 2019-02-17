@@ -13,8 +13,8 @@
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
 
 
 
@@ -22,9 +22,9 @@ using namespace CppQt;
 
 
 /*!
- * Implements _Abstract::BlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 int Factory::type() const
 {
@@ -37,16 +37,16 @@ int Factory::type() const
 
 
 /*!
- * Implements _Abstract::BlockFactory_ interface. 
+ * Implements _Abstract::BlockFactory_ interface.
  *
- * @param type See interface docs. 
+ * @param type See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString Factory::elementName(int type) const
 {
-   // Based off the given block type return its element name, throwing an exception 
-   // if the given type is unknown. 
+   // Based off the given block type return its element name, throwing an exception
+   // if the given type is unknown.
    switch (type)
    {
    case NamespaceType: return QStringLiteral("namespace");
@@ -70,11 +70,13 @@ QString Factory::elementName(int type) const
 
 
 /*!
- * Constructs a new C++/Qt block factory. 
+ * Constructs a new C++/Qt block factory.
  */
-Factory::Factory():
+Factory::Factory()
+   :
    Basic::BlockFactory(QStringLiteral(":/cppqt/defs.xml"))
-{}
+{
+}
 
 
 
@@ -82,16 +84,16 @@ Factory::Factory():
 
 
 /*!
- * Implements _Basic::BlockFactory_ interface. 
+ * Implements _Basic::BlockFactory_ interface.
  *
- * @param type See interface docs. 
+ * @param type See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 Soc::Ut::QPtr<Basic::Block> Factory::createBasicBlock(int type) const
 {
-   // Based off the given block type return a new instance of that type or a null 
-   // pointer if that type does not have an implementation. 
+   // Based off the given block type return a new instance of that type or a null
+   // pointer if that type does not have an implementation.
    switch (type)
    {
    case NamespaceType: return Soc::Ut::QPtr<Basic::Block>(new Namespace);
@@ -106,4 +108,6 @@ Soc::Ut::QPtr<Basic::Block> Factory::createBasicBlock(int type) const
    case DeclarationType: return Soc::Ut::QPtr<Basic::Block>(new Declaration);
    default: return nullptr;
    }
+}
+
 }

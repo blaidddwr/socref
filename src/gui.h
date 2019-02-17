@@ -1,6 +1,10 @@
+#ifndef GUI_H
+#define GUI_H
+
+
 
 /*!
- * Contains all GUI elements for this application. 
+ * Contains all GUI elements for this application.
  */
 namespace Gui
 {
@@ -15,3 +19,5 @@ namespace Gui
    class ProjectDialog;
    class DictionaryDialog;
 }
+
+#endif
