@@ -16,5 +16,5 @@ using namespace CppQt::Parse;
  *              input or false to set it to ignore the first line. 
  */
 Source::Source(bool first):
-   Basic::InputParser("\\A#include\\s+\"[a-z_]+\\.h\"\\z","\\A\\z",first)
+   Basic::InputParser("\\A#include\\s+[\"<][a-zA-Z_\\.]+[\">]\\z","\\A\\z",first)
 {}

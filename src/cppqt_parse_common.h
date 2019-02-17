@@ -32,10 +32,10 @@ namespace CppQt
       void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent);
       void addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent);
       bool hasDefinition(const CppQt::Function& function, bool isHeader);
-      QString createDeclaration(const CppQt::Function& function);
+      void addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent);
       QString createBaseDeclaration(const CppQt::Function& function, const QString& classScope = QString());
       void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Function& function);
-      void addComments(QList<Abstract::Parser*>* list, const CppQt::Function& function);
+      void addComments(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent = 0);
       bool hasDefinition(const Variable& variable, bool isHeader);
       void addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, int indent);
       void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& variable);
