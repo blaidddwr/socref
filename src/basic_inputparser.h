@@ -25,7 +25,7 @@ namespace Basic
       virtual bool input(const QString& line) override final;
       virtual void reset() override final;
    public:
-      explicit InputParser(const QString& beginExp, const QString& endExp);
+      explicit InputParser(const QString& beginExp, const QString& endExp, bool first = false);
    private:
       /*!
        * The regular expression used to match the beginning line that causes this parser 
@@ -43,7 +43,9 @@ namespace Basic
        */
       QStringList _lines;
       /*!
-       * True if the first beginning line has been given as input or false otherwise. 
+       * True if the first line input has not been given by this parent's scanner. False 
+       * if the first line has been read or this line parser is set to read the first 
+       * line of input. 
        */
       bool _first {true};
    };

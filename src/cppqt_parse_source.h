@@ -15,7 +15,7 @@ namespace CppQt
       {
          Q_OBJECT
       public:
-         explicit Source();
+         explicit Source(bool first = false);
       };
    }
 }

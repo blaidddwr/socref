@@ -107,16 +107,20 @@ void InputParser::reset()
 
 
 /*!
- * Constructs a new input parser with the given beginning line expression and 
- * ending line expression. 
+ * Constructs a new input parser with the given beginning line expression, ending 
+ * line expression, and first line setting. 
  *
  * @param beginExp The regular expression used to match the beginning line that 
  *                 causes this parser to start reading input. 
  *
  * @param endExp The regular expression used to match the ending line that causes 
  *               this parser to end taking input. 
+ *
+ * @param first True to set this new input parser to read in the first line of 
+ *              input or false to set it to ignore the first line. 
  */
-InputParser::InputParser(const QString& beginExp, const QString& endExp):
+InputParser::InputParser(const QString& beginExp, const QString& endExp, bool first):
    _beginExp(beginExp),
-   _endExp(endExp)
+   _endExp(endExp),
+   _first(!first)
 {}
