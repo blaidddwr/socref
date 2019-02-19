@@ -797,29 +797,67 @@ void endScope(Scanner* scanner, int* indent, bool flat)
 
 
 /*!
+ * Creates all parser elements from the given block for the optionally given
+ * declarations, variable definitions, and function definitions. If a parser
+ * list is null then that type of parser element is ignored and never created.
+ * If the given block is a class then all child classes have their parser
+ * elements recursively added to the declarations if it is not null with the
+ * correct indent added to them all. The indent is NOT set for variable and
+ * function definitions. The header flag is used to determine what variable and
+ * function blocks are added as definitions if those lists are provided.
  *
+ * This is one of two primary functions that can be considered the core or
+ * engine of this project type's parsing functions. This, along with the other
+ * class function, creates all parser elements for files.
  *
+ * @param declarations Declarations list that all declaration parser elements
+ *                     are added to if this is not null. If this is null then
+ *                     all declarations are ignored.
  *
+ * @param variables Variable definitions list that all variable definition
+ *                  parser elements are added to if this is not null. If this is
+ *                  null then all variable definitions are ignored.
  *
+ * @param functions Function definitions list that all function definition
+ *                  parser elements are added to if this is not null. If this is
+ *                  null then all function definitions are ignored.
  *
+ * @param block The block used to generate all parser elements of the provided
+ *              list types.
  *
+ * @param indent The indent in spaces to start with for declaration parser
+ *               elements. This is ignored for definition lists.
+ *
+ * @param isHeader True if the given lists are meant for a header file or false
+ *                 if they are meant for a source file.
  */
 void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Abstract::Block& block, int indent, bool isHeader)
 {
-   using LineParser = Basic::LineParser;
+   // Grab relevant global settings.
    const int functionLines {Settings::instance().functionLines()};
+
+   // Iterate through all children of the given block.
    for (auto child: block.list())
    {
+      // If the child block is an enumeration and a declarations list is given then add
+      // its declaration parser elements to the list.
       if ( const Enumeration* valid = child->cast<const Enumeration>(Factory::EnumerationType) )
       {
          if ( declarations ) add(declarations,*valid,indent);
       }
+
+      // Else check if the child block is a class.
       else if ( const Class* valid = child->cast<const Class>(Factory::ClassType) )
       {
+         // If the child class is part of a parent class then create all of its parser
+         // elements with the provided lists.
          if ( block.type() == Factory::AccessType )
          {
             createClassParsers(declarations,variables,functions,*valid,indent,isHeader);
          }
+
+         // Else if this is a root class part of a namespace, a declarations list is
+         // provided, and it has no templates then add its forward declaration to the list.
          else if ( declarations && !valid->hasAnyTemplates() )
          {
             *declarations << new LineParser(indent
@@ -828,23 +866,43 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
                                              + QStringLiteral(";"));
          }
       }
+
+      // Else check if the child block is a variable.
       else if ( const Variable* valid = child->cast<const Variable>(Factory::VariableType) )
       {
+         // If a declaration list is provided then add the child variable declaration to
+         // the list.
          if ( declarations ) addDeclaration(declarations,*valid,indent);
+
+         // If a variable definition list is provided and the child variable block has a
+         // definition for this file type then add its definition to the list.
          if ( variables && hasDefinition(*valid,isHeader) ) addDefinition(variables,*valid);
       }
+
+      // Else check if the child block is a function.
       else if ( const CppQt::Function* valid = child->cast<const CppQt::Function>(Factory::FunctionType) )
       {
+         // If a declaration list is provided then add the child function's declaration to
+         // the list.
          if ( declarations )
          {
             addDeclaration(declarations,*valid,indent);
          }
+
+         // Check if a function definition list is provided and the child function has a
+         // definition for this type type.
          if ( functions && hasDefinition(*valid,isHeader) )
          {
+            // Add the child function's definition to the list, adding a function lines number
+            // of blank lines to the list beforehand if this is not the first definition to be
+            // added.
             if ( !functions->isEmpty() ) *functions << new LineParser(functionLines);
             addDefinition(functions,*valid);
          }
       }
+
+      // Else If the child block is a declaration and a declaration list is provided
+      // then add its line to the list.
       else if ( const Declaration* valid = child->cast<const Declaration>(Factory::DeclarationType) )
       {
          if ( declarations )
@@ -861,34 +919,76 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
 
 
 /*!
+ * Creates all parser elements from the given class block for the optionally
+ * provided declarations, variable definitions, and function definitions. If a
+ * parser list is null then that type of parser element is ignored and never
+ * created. The given indent is only added to declaration parser elements and
+ * ignored otherwise. The header flag is used to determine what variable and
+ * function blocks are added as definitions is those lists are provided.
  *
+ * This is one of two primary functions that can be considered the core or
+ * engine of this project type's parsing functions. This, along with the other
+ * base function, creates all parser elements for files.
  *
+ * @param declarations Declarations list that all declaration parser elements
+ *                     are added to if this is not null. If this is null then
+ *                     all declarations are ignored.
  *
+ * @param variables Variable definitions list that all variable definition
+ *                  parser elements are added to if this is not null. If this is
+ *                  null then all variable definitions are ignored.
  *
+ * @param functions Function definitions list that all function definition
+ *                  parser elements are added to if this is not null. If this is
+ *                  null then all function definitions are ignored.
  *
+ * @param root The class block used to generate all parser elements of the
+ *             provided list types.
  *
+ * @param indent The indent in spaces to start with for declaration parser
+ *               elements. This is ignored for definition lists.
+ *
+ * @param isHeader True if the given lists are meant for a header file or false
+ *                 if they are meant for a source file.
  */
 void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Class& root, int indent, bool isHeader)
 {
-   using LineParser = Basic::LineParser;
+   // Grab relevant global settings.
    const int indentSpaces {Settings::instance().indentSpaces()};
 
+   // Check if a declarations list is provided.
    if ( declarations )
    {
+      // Create a new comment for the given class, adding its description to it and
+      // setting its indent to the one given.
       Comment* comment {new Comment};
       comment->setIndent(indent);
       comment->add(root.description());
+
+      // Iterate through all templates arguments for the given class, adding a comment
+      // description for each template separated by one blank comment line.
       for (auto temp: root.templates())
       {
          comment->add(1);
          comment->add(QStringLiteral("@tparam ") + temp->baseName(),temp->description());
       }
+
+      // Add the completed comment parser element to the given declaration list.
       *declarations << comment;
+
+      // Create the header string initialized with the class name declaration.
       QString header {QStringLiteral("class ") + root.baseName()};
+
+      // Get the given class block's list of parent blocks and make sure it is not
+      // empty.
       QList<const Parent*> parents {root.createListOfType<const Parent>(Factory::ParentType)};
       if ( !parents.isEmpty() )
       {
+         // Append the beginning of parents declaration to the header.
          header += QStringLiteral(" : ");
+
+         // Iterate through all parent blocks, adding each one's declaration to the header
+         // separated by commas and a space.
          bool first {true};
          for (auto name: parents)
          {
@@ -897,21 +997,36 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
             header += name->accessString() + QStringLiteral(" ") + name->className();
          }
       }
+
+      // Create a new line parser with the given indent and completed header string,
+      // followed by an opening bracket line, and then add it to the given declaration
+      // list.
       LineParser* line {new LineParser(indent,header)};
       line->add(QStringLiteral("{"));
       *declarations << line;
+
+      // If the given class is a qt object then add the appropriate macro line parser to
+      // the given declaration list.
       if ( root.isQtObject() )
       {
          *declarations << new LineParser(indent + indentSpaces,QStringLiteral("Q_OBJECT"));
       }
    }
 
+   // Iterate through all access block children of the given class block.
    for (auto access: root.createListOfType<const Access>(Factory::AccessType))
    {
+      // If a declaration list is provided then add the access declaration line parser
+      // to the list.
       if ( declarations ) *declarations << new LineParser(indent,access->accessString());
+
+      // Create all parser elements for the provided lists from the access block, adding
+      // an indent spaces number of spaces to the indent.
       createParsers(declarations,variables,functions,*access,indent + indentSpaces,isHeader);
    }
 
+   // If a declaration list is provided then add the closing class bracket line
+   // parser to it.
    if ( declarations ) *declarations << new LineParser(indent,QStringLiteral("};"));
 }
 
@@ -921,18 +1036,33 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
 
 
 /*!
+ * Adds declaration parser elements for the given enumeration to the given
+ * declaration list using the given indent.
  *
+ * @param list The declaration list that has the created parser elements of the
+ *             given enumeration added to it.
  *
+ * @param enumeration The enumeration block used to generate the declaration
+ *                    parser elements.
  *
+ * @param indent The indent in spaces added to all declaration parser elements
+ *               created.
  */
 void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent)
 {
+   // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
-   using LineParser = Basic::LineParser;
+
+   // Create a comment parser with the given enumeration's description, setting its
+   // indent to the one given and adding it to he given list.
    Comment* comment {new Comment};
    comment->setIndent(indent);
    comment->add(enumeration.description());
    *list << comment;
+
+   // Create the opening enumeration declaration line parser for the given
+   // enumeration block, setting its indent to the one given and adding it to the
+   // given list.
    LineParser* line {new LineParser};
    line->setIndent(indent);
    QString header {QStringLiteral("enum")};
@@ -941,7 +1071,12 @@ void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int ind
    line->add(header);
    line->add(QStringLiteral("{"));
    *list << line;
+
+   // Add all enumeration values parser elements to the given list, passing an
+   // incremented indent by the indent spaces global setting.
    addValues(list,enumeration,indent + Settings::instance().indentSpaces());
+
+   // Add a closing bracket line parser to the given list.
    *list << new LineParser(indent,QStringLiteral("};"));
 }
 
@@ -951,33 +1086,47 @@ void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int ind
 
 
 /*!
+ * Adds declaration parser elements for the enumeration values of the given
+ * enumeration to the given declaration list using the given indent.
  *
+ * @param list The declaration list that has the created parser elements of
+ *             enumeration values for the given enumeration added to it.
  *
+ * @param enumeration The enumeration whose enumeration value children are used
+ *                    to generate parser elements.
  *
+ * @param indent The indent in spaces added to all declaration parser elements
+ *               created.
  */
 void addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent)
 {
+   // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
-   using LineParser = Basic::LineParser;
+
+   // Iterate through all enumeration value children blocks of the given enumeration.
    bool first {true};
-   for (auto child: enumeration.list())
+   for (auto enumVal: enumeration.createListOfType<const EnumValue>(Factory::EnumValueType) )
    {
-      if ( const EnumValue* enumVal = child->cast<EnumValue>(Factory::EnumValueType) )
-      {
-         Comment* comment {new Comment};
-         comment->setIndent(indent);
-         comment->add(enumVal->description());
-         *list << comment;
-         QString definition;
-         if ( first ) first = false;
-         else definition += QStringLiteral(",");
-         definition += enumVal->baseName();
-         if ( enumVal->hasValue() )
-         {
-            definition += QStringLiteral(" = ") + enumVal->value();
-         }
-         *list << new LineParser(indent,definition);
-      }
+      // Add the comment block description of the enumeration value, setting its indent
+      // to the one given and adding it to the given list.
+      Comment* comment {new Comment};
+      comment->setIndent(indent);
+      comment->add(enumVal->description());
+      *list << comment;
+
+      // Create the declaration string of the enumeration value, adding a comma first if
+      // this is not the first enumeration value.
+      QString declaration;
+      if ( first ) first = false;
+      else declaration += QStringLiteral(",");
+      declaration += enumVal->baseName();
+
+      // If the enumeration value has a value then add that to its declaration string.
+      if ( enumVal->hasValue() ) declaration += QStringLiteral(" = ") + enumVal->value();
+
+      // Create a new line parser of the declaration string, setting its indent to the
+      // one given and adding it to the given list.
+      *list << new LineParser(indent,declaration);
    }
 }
 
@@ -987,8 +1136,16 @@ void addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, i
 
 
 /*!
+ * Determines if the given function block should be added as a definition based
+ * off the given header flag, returning true if it should be added.
  *
+ * @param function The function block which is evaluated.
  *
+ * @param isHeader True if this is for a header file or false if it is for a
+ *                 source file.
+ *
+ * @return True if the given function should have its definition added or false
+ *         if not.
  */
 bool hasDefinition(const CppQt::Function& function, bool isHeader)
 {
@@ -1008,14 +1165,23 @@ bool hasDefinition(const CppQt::Function& function, bool isHeader)
 
 
 /*!
+ * Adds declaration parser elements for the given function block to the given
+ * declaration list adding the given indent to each parser.
  *
+ * @param list The list which has the created parser elements added to it.
  *
+ * @param function The function block used to generate the declaration parser
+ *                 elements.
  *
+ * @param indent The indent in spaces added to each parser element created.
  */
 void addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent)
 {
+   // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
-   using LineParser = Basic::LineParser;
+
+   // If the given function is a signal, abstract, default, or deleted than add its
+   // comments to the given declaration list.
    if ( function.isSignal()
         || function.isAbstract()
         || function.isDefault()
@@ -1023,13 +1189,23 @@ void addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function& funct
    {
       addComments(list,function,indent);
    }
+
+   // Create the declaration string, initializing it with any templates arguments.
    QString declaration {createTemplate(&function)};
+
+   // Add any function attributes that come before the function name in its
+   // declaration.
    if ( function.isQtInvokable() ) declaration += QStringLiteral("Q_INVOKABLE ");
    if ( function.isExplicit() ) declaration += QStringLiteral("explicit ");
    if ( function.isVirtual() ) declaration += QStringLiteral("virtual ");
    if ( function.isConstExpr() ) declaration += QStringLiteral("constexpr ");
    if ( function.isStatic() ) declaration += QStringLiteral("static ");
+
+   // Add the base function name and arguments to its declaration.
    declaration += createBaseDeclaration(function);
+
+   // Add any function attributes that come after the function name to its
+   // declaration.
    if ( function.isConst() ) declaration += QStringLiteral(" const");
    if ( function.isNoExcept() ) declaration += QStringLiteral(" noexcept");
    if ( function.isOverride() ) declaration += QStringLiteral(" override");
@@ -1037,6 +1213,9 @@ void addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function& funct
    if ( function.isAbstract() ) declaration += QStringLiteral(" = 0");
    if ( function.isDefault() ) declaration += QStringLiteral(" = default");
    if ( function.isDeleted() ) declaration += QStringLiteral(" = delete");
+
+   // Add the closing semicolon and then add the completed declaration line parser to
+   // the given list.
    declaration += QStringLiteral(";");
    *list << new LineParser(indent,declaration);
 }
@@ -1047,26 +1226,55 @@ void addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function& funct
 
 
 /*!
+ * Creates and returns the return type, base name, and arguments of the given
+ * function block. Additional optional arguments can also be provided to add the
+ * class scope of the function and add any initializer values of function
+ * arguments.
  *
+ * @param function The function block used to create and return the base name
+ *                 declaration.
  *
+ * @param classScope The optional class scope prepended before the base name of
+ *                   the returned declaration.
  *
+ * @param initializers True to add any initializer values of arguments to the
+ *                     declaration or false to ignore them.
+ *
+ * @return Base declaration string of the given function composed of at least
+ *         the base name and arguments. Can also include the class scope and
+ *         argument initializer values.
  */
 QString createBaseDeclaration(const CppQt::Function& function, const QString& classScope, bool initializers)
 {
+   // Create the return string, initializing it with the given function's return type
+   // and then appending a space if it is not empty.
    QString ret {function.returnType()};
    if ( !ret.isEmpty() ) ret += QStringLiteral(" ");
+
+   // Append the optional class scope, base name, and opening parenthesis to the
+   // return string.
    ret += classScope + function.baseName() + QStringLiteral("(");
+
+   // Iterate through all arguments of the given function block.
    bool first {true};
    for (auto argument: function.arguments())
    {
+      // If this is not the first argument append a comma and space to the return
+      // string.
       if ( first ) first = false;
       else ret += QStringLiteral(", ");
+
+      // Add the argument declaration to the return string, adding any initializer if
+      // the initializer flag is set to true.
       ret += argument->variableType() + QStringLiteral(" ") + argument->baseName();
       if ( initializers && argument->hasInitializer() )
       {
          ret += QStringLiteral(" = ") + argument->initializer();
       }
    }
+
+   // Add the closing parenthesis to the now completed base declaration and return
+   // it.
    ret += QStringLiteral(")");
    return ret;
 }
@@ -1077,37 +1285,71 @@ QString createBaseDeclaration(const CppQt::Function& function, const QString& cl
 
 
 /*!
+ * Adds definition parser elements for the given function block to the given
+ * definition list.
  *
+ * @param list The definition list which has the created parser elements added
+ *             to it.
  *
+ * @param function The function block used to generate the definition parser
+ *                 elements.
  */
 void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Function& function)
 {
+   // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
+
+   // Add the comment parser elements of the given function to the given list.
    addComments(list,function);
+
+   // Create the class scope of the given function.
    QString classScope {createClassScope(&function)};
+
+   // Create the header, initialized with any template arguments and the base
+   // declaration of the given function.
    QString header
    {
       createTemplates(&function) + createBaseDeclaration(function,classScope,false)
    };
+
+   // Add any flags required at the end of the header.
    if ( function.isConst() ) header += QStringLiteral(" const");
    if ( function.isNoExcept() ) header += QStringLiteral(" noexcept");
+
+   // Create a new function parser with the completed header string and steps of
+   // operation of the given function block.
    Function* functionParser
    {
       new Function(header,function.operations())
    };
+
+   // Add the scope, base name, and opening parenthesis to the expression header of
+   // the function parser.
    functionParser->add(classScope + function.baseName() + QStringLiteral("("));
+
+   // Iterate through all arguments of the given function.
    bool first {true};
    for (auto argument: function.arguments())
    {
+      // If this is not the first argument then add regular expression matching the
+      // expected comma.
       if ( first ) first = false;
       else functionParser->addExp(QStringLiteral(",\\s*"));
+
+      // Add regular expression matching the argument.
       functionParser->add(argument->variableType());
       functionParser->addExp(QStringLiteral("\\s+[a-zA-Z_]+[a-zA-Z_0-9]*\\s*"));
    }
+
+   // Add the closing parenthesis to the expression header.
    functionParser->add(QStringLiteral(")"));
+
+   // Add any required flags to the expression matrix followed by the closing.
    if ( function.isConst() ) functionParser->addExp(QStringLiteral("\\s+const"));
    if ( function.isNoExcept() ) functionParser->addExp(QStringLiteral("\\s+noexcept"));
    functionParser->addExp(QStringLiteral("\\s*:?\\s*\\z"));
+
+   // Add the completed function parser to the given list.
    *list << functionParser;
 }
 
@@ -1117,26 +1359,46 @@ void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Function& functi
 
 
 /*!
+ * Adds the comment parser element created from the given function block to the
+ * given list. The created comment parser can be set to an optionally given
+ * indent value.
  *
+ * @param list The list which has the created comment parser added to it.
  *
+ * @param function The function block used to create the comment parser.
  *
+ * @param indent Optional indent in spaces added to the comment parser created.
  */
 void addComments(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent)
 {
+   // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
+
+   // Create a new comment parser, setting its indent to the one possibly given and
+   // adding the given function block's description.
    Comment* comment {new Comment};
    comment->setIndent(indent);
    comment->add(function.description());
+
+   // Add all comment descriptions of any templates the given function block contains
+   // as children, separated by a single blank comment line.
    for (auto temp: function.templates())
    {
       comment->add(1);
       comment->add(QStringLiteral("@tparam ") + temp->baseName(),temp->description());
    }
+
+   // Add all comment descriptions of any arguments the given function block contains
+   // as children, separated by a single blank comment line.
    for (auto argument: function.arguments())
    {
       comment->add(1);
       comment->add(QStringLiteral("@param ") + argument->baseName(),argument->description());
    }
+
+   // If the given function block's return value is not void and its return
+   // description is not empty then add a return value comment description separated
+   // by a single blank comment line.
    if ( !function.isVoidReturn() )
    {
       QString description {function.returnDescription()};
@@ -1146,6 +1408,8 @@ void addComments(QList<Abstract::Parser*>* list, const CppQt::Function& function
          comment->add(QStringLiteral("@return"),description);
       }
    }
+
+   // Add the completed comment parser to the given list.
    *list << comment;
 }
 
@@ -1155,8 +1419,17 @@ void addComments(QList<Abstract::Parser*>* list, const CppQt::Function& function
 
 
 /*!
+ * Determines if the given variable block should be added as a variable
+ * definition based off the given header flag, returning true if it should be
+ * added.
  *
+ * @param variable The variable block which is evaluated.
  *
+ * @param isHeader True if this is for a header file or false if it is a source
+ *                 file.
+ *
+ * @return True if the given variable should have its definition added or false
+ *         if not.
  */
 bool hasDefinition(const Variable& variable, bool isHeader)
 {
@@ -1177,31 +1450,51 @@ bool hasDefinition(const Variable& variable, bool isHeader)
 
 
 /*!
+ * Adds declaration parser elements for the given variable block to the given
+ * declaration list with the given indent.
  *
+ * @param list The declaration list which has the created declaration parser
+ *             elements added to it.
  *
+ * @param variable The variable block used to create the parser elements.
  *
+ * @param indent The indent in spaces added to each parser element created.
  */
 void addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, int indent)
 {
+   // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
-   using LineParser = Basic::LineParser;
+
+   // Create and add a new comment parser to the given list, setting its indent and
+   // adding the given variable's description.
    Comment* comment {new Comment};
    comment->setIndent(indent);
    comment->add(variable.description());
    *list << comment;
+
+   // Create a declaration string, adding any variable flags that come before the
+   // anything else.
    QString declaration;
    if ( variable.isConstExpr() ) declaration += QStringLiteral("constexpr ");
    if ( variable.isStatic() ) declaration += QStringLiteral("static ");
    if ( variable.isMutable() ) declaration += QStringLiteral("mutable ");
    if ( variable.isThreadLocal() ) declaration += QStringLiteral("thread_local ");
    if ( !variable.isMember() ) declaration += (QStringLiteral("extern "));
+
+   // Add the variable type and base name to the declaration.
    declaration += variable.variableType() + QStringLiteral(" ") + variable.baseName();
+
+   // If the given variable is a class member, is not static or is a constant
+   // expression, and has an initializer then add the initializer to the declaration.
    if ( variable.isMember()
         && ( !variable.isStatic() || variable.isConstExpr() )
         && variable.hasInitializer() )
    {
       declaration += QStringLiteral(" {") + variable.initializer() + QStringLiteral("}");
    }
+
+   // Finish the declaration with the ending semicolon and add it as a line parser to
+   // the given list, setting its indent to the one given.
    declaration += QStringLiteral(";");
    *list << new LineParser(indent,declaration);
 }
@@ -1212,25 +1505,43 @@ void addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, in
 
 
 /*!
+ * Adds definition parser elements for the given variable block to the given
+ * definition list.
  *
+ * @param list The definition list which has the created parser elements added
+ *             to it.
  *
+ * @param variable The variable block used to generate the definition parser
+ *                 elements.
  */
 void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& variable)
 {
-   using LineParser = Basic::LineParser;
+   // Create a comment parser and add the given variable's description, adding it to
+   // the given list.
    Comment* comment {new Comment};
    comment->add(variable.description());
    *list << comment;
+
+   // Create a definition string, adding thread local if that is set in the given
+   // variable.
    QString definition;
    if ( variable.isThreadLocal() ) definition += QStringLiteral("thread_local ");
+
+   // Add the type, class scope, and base name of the given variable to the
+   // definition string.
    definition += variable.variableType()
                  + QStringLiteral(" ")
                  + createClassScope(&variable)
                  + variable.baseName();
+
+   // If the given variable has an initializer then add it to the definition string.
    if ( variable.hasInitializer() )
    {
       definition += QStringLiteral(" {") + variable.initializer() + QStringLiteral("}");
    }
+
+   // Finish the definition string with a semicolon and add it as a line parser to
+   // the given list.
    definition += QStringLiteral(";");
    *list << new LineParser(0,definition);
 }
@@ -1241,22 +1552,43 @@ void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& variab
 
 
 /*!
+ * Create and returns the class scope string for the given block. The string
+ * includes the scope of any class the given block is a child of along with any
+ * template arguments for each class added.
  *
+ * @param block The block whose parent classes are used to generate the
+ *              appropriate class scope.
+ *
+ * @return Class scope for the given block with any class templates included.
  */
 QString createClassScope(const Abstract::Block* block)
 {
+   // Make sure the given block pointer is valid.
    Q_CHECK_PTR(block);
+
+   // Create the return string.
    QString ret;
+
+   // Move up the parents of the given block starting with the given one.
    const Abstract::Block* up {block};
    while ( up )
    {
+      // If the parent block is a class then prepend its scope to the return string,
+      // including any template arguments of the class and the ending double colons.
       if ( const Class* valid = up->cast<const Class>(Factory::ClassType) )
       {
-         ret.prepend(valid->baseName() + QStringLiteral("::"));
+         ret.prepend(valid->baseName() + createTemplate(valid,false) + QStringLiteral("::"));
       }
+
+      // Else if the parent block is a namespace then return the finished scope string.
       else if ( up->cast<Namespace>(Factory::NamespaceType) ) return ret;
+
+      // Move up to the next block parent.
       up = up->parent();
    }
+
+   // Control should never be reached here but if it is return the finished scope
+   // string.
    return ret;
 }
 
@@ -1266,11 +1598,21 @@ QString createClassScope(const Abstract::Block* block)
 
 
 /*!
+ * Creates and returns the template declaration string for the given block. This
+ * includes the block itself and any parent class blocks that contain templates.
+ * Each block found with templates will have its separate template declaration
+ * added to the return string.
  *
+ * @param block The block used to create and return the template declaration.
+ *
+ * @return Template declaration string for the given block.
  */
 QString createTemplates(const Abstract::Block* block)
 {
+   // Make sure the given block pointer is valid.
    Q_CHECK_PTR(block);
+
+   // Create and return the list of template declarations for the given block.
    QString ret;
    QList<const Abstract::Block*> list {createTemplateList(block)};
    for (auto block: list) ret += createTemplate(block);
@@ -1283,25 +1625,62 @@ QString createTemplates(const Abstract::Block* block)
 
 
 /*!
+ * Creates and returns a single template declaration for the given block. An
+ * optional argument is also given for formatting the returned string as a full
+ * declaration for a list of templates arguments.
  *
+ * @param block The block used to generate the single template declaration or
+ *              argument list.
+ *
+ * @param declaration True to generate a full declaration or false to only
+ *                    generate an argument list.
+ *
+ * @return Single template declaration for the given block or template arguments
+ *         if optional declaration setting is disabled.
  */
-QString createTemplate(const Abstract::Block* block)
+QString createTemplate(const Abstract::Block* block, bool declaration)
 {
+   // Make sure the given block pointer is valid.
    Q_CHECK_PTR(block);
+
+   // Create the return string.
    QString ret;
+
+   // Get the list of templates for the given block and make sure it is not empty.
    QList<const Template*> list {block->createListOfType<const Template>(Factory::TemplateType)};
    if ( !list.isEmpty() )
    {
-      ret += QStringLiteral("template<");
+      // If this is a declaration add the template tag.
+      if ( declaration ) ret += QStringLiteral("template");
+
+      // Add the beginning template argument token.
+      ret += QStringLiteral("<");
+
+      // Iterate through the given block's list of templates.
       bool first {true};
       for (auto temp: list)
       {
+         // Check to see if this is the first template or not.
          if ( first ) first = false;
-         else ret += QStringLiteral(", ");
-         ret += temp->templateType() + QStringLiteral(" ") + temp->baseName();
+         else
+         {
+            // Add a comma, followed by a space if this s a declaration.
+            ret += QStringLiteral(",");
+            if ( declaration ) ret += QStringLiteral(" ");
+         }
+
+         // If this is a declaration add the template type and a space.
+         if ( declaration ) ret += temp->templateType() + QStringLiteral(" ");
+
+         // Add the template's base name.
+         ret += temp->baseName();
       }
+
+      // Add the closing template argument token.
       ret += QStringLiteral("> ");
    }
+
+   // Return the finished single template declaration or argument list.
    return ret;
 }
 
@@ -1311,19 +1690,46 @@ QString createTemplate(const Abstract::Block* block)
 
 
 /*!
+ * Create and returns a list of all parent blocks of the given block that
+ * contain templates. This list includes the given block if it contains
+ * templates. The order of the returned list is from the farthest parent block
+ * to the nearest.
  *
+ * @param block The block used to create the list of parent blocks containing
+ *              templates, including itself if it has templates.
+ *
+ * @return List of all parent blocks of the given block that contain templates,
+ *         including the given block if it contains templates.
  */
 QList<const Abstract::Block*> createTemplateList(const Abstract::Block* block)
 {
+   // Make sure the given block pointer is not null.
    Q_CHECK_PTR(block);
+
+   // Create the return list of block pointers.
    QList<const Abstract::Block*> ret;
+
+   // Move up the parents of the given block starting with the one given.
    const Abstract::Block* up {block};
    while ( up )
    {
-      if ( up->type() == Factory::FunctionType || up->type() == Factory::ClassType ) ret << up;
+      // If the parent block is a function or class, and it contains templates, then add
+      // it to the returned list.
+      if ( ( up->type() == Factory::FunctionType || up->type() == Factory::ClassType )
+           && up->containsType(Factory::TemplateType) )
+      {
+         ret << up;
+      }
+
+      // Else if the parent block is a namespace then return the completed list.
       else if ( up->cast<Namespace>(Factory::NamespaceType) ) return ret;
+
+      // Move up to the next parent block.
       up = up->parent();
    }
+
+   // Control should never be reached here but if it is return the finished list of
+   // template containing parent blocks.
    return ret;
 }
 

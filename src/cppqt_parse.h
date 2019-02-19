@@ -51,7 +51,7 @@ namespace CppQt
       void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& variable);
       QString createClassScope(const Abstract::Block* block);
       QString createTemplates(const Abstract::Block* block);
-      QString createTemplate(const Abstract::Block* block);
+      QString createTemplate(const Abstract::Block* block, bool declaration = true);
       QList<const Abstract::Block*> createTemplateList(const Abstract::Block* block);
    }
 }

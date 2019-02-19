@@ -23,6 +23,7 @@
     <word>JSON</word>
     <word>OpenGL</word>
     <word>PHP</word>
+    <word>Prepend</word>
     <word>Prepends</word>
     <word>ProjectFactory</word>
     <word>QAbstractItemModel</word>
@@ -7963,14 +7964,30 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Creates all parser elements from the given block for the optionally given declarations, variable definitions, and function definitions. If a parser list is null then that type of parser element is ignored and never created. If the given block is a class then all child classes have their parser elements recursively added to the declarations if it is not null with the correct indent added to them all. The indent is NOT set for variable and function definitions. The header flag is used to determine what variable and function blocks are added as definitions if those lists are provided.
+
+This is one of two primary functions that can be considered the core or engine of this project type's parsing functions. This, along with the other class function, creates all parser elements for files.</description>
             <name>createParsers</name>
+            <operation>Grab relevant global settings.</operation>
+            <operation>Iterate through all children of the given block.</operation>
+            <operation>If the child block is an enumeration and a declarations list is given then add its declaration parser elements to the list.</operation>
+            <operation>Else check if the child block is a class.</operation>
+            <operation>If the child class is part of a parent class then create all of its parser elements with the provided lists.</operation>
+            <operation>Else if this is a root class part of a namespace, a declarations list is provided, and it has no templates then add its forward declaration to the list.</operation>
+            <operation>Else check if the child block is a variable.</operation>
+            <operation>If a declaration list is provided then add the child variable declaration to the list.</operation>
+            <operation>If a variable definition list is provided and the child variable block has a definition for this file type then add its definition to the list.</operation>
+            <operation>Else check if the child block is a function.</operation>
+            <operation>If a declaration list is provided then add the child function's declaration to the list.</operation>
+            <operation>Check if a function definition list is provided and the child function has a definition for this type type.</operation>
+            <operation>Add the child function's definition to the list, adding a function lines number of blank lines to the list beforehand if this is not the first definition to be added.</operation>
+            <operation>Else If the child block is a declaration and a declaration list is provided then add its line to the list.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>Declarations list that all declaration parser elements are added to if this is not null. If this is null then all declarations are ignored.</description>
               <initializer></initializer>
               <name>declarations</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -7978,7 +7995,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Variable definitions list that all variable definition parser elements are added to if this is not null. If this is null then all variable definitions are ignored.</description>
               <initializer></initializer>
               <name>variables</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -7986,7 +8003,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Function definitions list that all function definition parser elements are added to if this is not null. If this is null then all function definitions are ignored.</description>
               <initializer></initializer>
               <name>functions</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -7994,7 +8011,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The block used to generate all parser elements of the provided list types.</description>
               <initializer></initializer>
               <name>block</name>
               <type>const Abstract::Block&amp;</type>
@@ -8002,7 +8019,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The indent in spaces to start with for declaration parser elements. This is ignored for definition lists.</description>
               <initializer></initializer>
               <name>indent</name>
               <type>int</type>
@@ -8010,7 +8027,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>True if the given lists are meant for a header file or false if they are meant for a source file.</description>
               <initializer></initializer>
               <name>isHeader</name>
               <type>bool</type>
@@ -8019,14 +8036,31 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Creates all parser elements from the given class block for the optionally provided declarations, variable definitions, and function definitions. If a parser list is null then that type of parser element is ignored and never created. The given indent is only added to declaration parser elements and ignored otherwise. The header flag is used to determine what variable and function blocks are added as definitions is those lists are provided.
+
+This is one of two primary functions that can be considered the core or engine of this project type's parsing functions. This, along with the other base function, creates all parser elements for files.</description>
             <name>createClassParsers</name>
+            <operation>Grab relevant global settings.</operation>
+            <operation>Check if a declarations list is provided.</operation>
+            <operation>Create a new comment for the given class, adding its description to it and setting its indent to the one given.</operation>
+            <operation>Iterate through all templates arguments for the given class, adding a comment description for each template separated by one blank comment line.</operation>
+            <operation>Add the completed comment parser element to the given declaration list.</operation>
+            <operation>Create the header string initialized with the class name declaration.</operation>
+            <operation>Get the given class block's list of parent blocks and make sure it is not empty.</operation>
+            <operation>Append the beginning of parents declaration to the header.</operation>
+            <operation>Iterate through all parent blocks, adding each one's declaration to the header separated by commas and a space.</operation>
+            <operation>Create a new line parser with the given indent and completed header string, followed by an opening bracket line, and then add it to the given declaration list.</operation>
+            <operation>If the given class is a qt object then add the appropriate macro line parser to the given declaration list.</operation>
+            <operation>Iterate through all access block children of the given class block.</operation>
+            <operation>If a declaration list is provided then add the access declaration line parser to the list.</operation>
+            <operation>Create all parser elements for the provided lists from the access block, adding an indent spaces number of spaces to the indent.</operation>
+            <operation>If a declaration list is provided then add the closing class bracket line parser to it.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>Declarations list that all declaration parser elements are added to if this is not null. If this is null then all declarations are ignored.</description>
               <initializer></initializer>
               <name>declarations</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8034,7 +8068,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Variable definitions list that all variable definition parser elements are added to if this is not null. If this is null then all variable definitions are ignored.</description>
               <initializer></initializer>
               <name>variables</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8042,7 +8076,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Function definitions list that all function definition parser elements are added to if this is not null. If this is null then all function definitions are ignored.</description>
               <initializer></initializer>
               <name>functions</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8050,7 +8084,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The class block used to generate all parser elements of the provided list types.</description>
               <initializer></initializer>
               <name>root</name>
               <type>const Class&amp;</type>
@@ -8058,7 +8092,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The indent in spaces to start with for declaration parser elements. This is ignored for definition lists.</description>
               <initializer></initializer>
               <name>indent</name>
               <type>int</type>
@@ -8066,7 +8100,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>True if the given lists are meant for a header file or false if they are meant for a source file.</description>
               <initializer></initializer>
               <name>isHeader</name>
               <type>bool</type>
@@ -8075,14 +8109,19 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds declaration parser elements for the given enumeration to the given declaration list using the given indent.</description>
             <name>add</name>
+            <operation>Make sure the given list pointer is valid.</operation>
+            <operation>Create a comment parser with the given enumeration's description, setting its indent to the one given and adding it to he given list.</operation>
+            <operation>Create the opening enumeration declaration line parser for the given enumeration block, setting its indent to the one given and adding it to the given list.</operation>
+            <operation>Add all enumeration values parser elements to the given list, passing an incremented indent by the indent spaces global setting.</operation>
+            <operation>Add a closing bracket line parser to the given list.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The declaration list that has the created parser elements of the given enumeration added to it.</description>
               <initializer></initializer>
               <name>list</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8090,7 +8129,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The enumeration block used to generate the declaration parser elements.</description>
               <initializer></initializer>
               <name>enumeration</name>
               <type>const Enumeration&amp;</type>
@@ -8098,7 +8137,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The indent in spaces added to all declaration parser elements created.</description>
               <initializer></initializer>
               <name>indent</name>
               <type>int</type>
@@ -8107,14 +8146,20 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds declaration parser elements for the enumeration values of the given enumeration to the given declaration list using the given indent.</description>
             <name>addValues</name>
+            <operation>Make sure the given list pointer is valid.</operation>
+            <operation>Iterate through all enumeration value children blocks of the given enumeration.</operation>
+            <operation>Add the comment block description of the enumeration value, setting its indent to the one given and adding it to the given list.</operation>
+            <operation>Create the declaration string of the enumeration value, adding a comma first if this is not the first enumeration value.</operation>
+            <operation>If the enumeration value has a value then add that to its declaration string.</operation>
+            <operation>Create a new line parser of the declaration string, setting its indent to the one given and adding it to the given list.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The declaration list that has the created parser elements of enumeration values for the given enumeration added to it.</description>
               <initializer></initializer>
               <name>list</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8122,7 +8167,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The enumeration whose enumeration value children are used to generate parser elements.</description>
               <initializer></initializer>
               <name>enumeration</name>
               <type>const Enumeration&amp;</type>
@@ -8130,7 +8175,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The indent in spaces added to all declaration parser elements created.</description>
               <initializer></initializer>
               <name>indent</name>
               <type>int</type>
@@ -8139,14 +8184,14 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Determines if the given function block should be added as a definition based off the given header flag, returning true if it should be added.</description>
             <name>hasDefinition</name>
-            <return_description></return_description>
+            <return_description>True if the given function should have its definition added or false if not.</return_description>
             <type>bool</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The function block which is evaluated.</description>
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
@@ -8154,7 +8199,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>True if this is for a header file or false if it is for a source file.</description>
               <initializer></initializer>
               <name>isHeader</name>
               <type>bool</type>
@@ -8163,14 +8208,21 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds declaration parser elements for the given function block to the given declaration list adding the given indent to each parser.</description>
             <name>addDeclaration</name>
+            <operation>Make sure the given list pointer is valid.</operation>
+            <operation>If the given function is a signal, abstract, default, or deleted than add its comments to the given declaration list.</operation>
+            <operation>Create the declaration string, initializing it with any templates arguments.</operation>
+            <operation>Add any function attributes that come before the function name in its declaration.</operation>
+            <operation>Add the base function name and arguments to its declaration.</operation>
+            <operation>Add any function attributes that come after the function name to its declaration.</operation>
+            <operation>Add the closing semicolon and then add the completed declaration line parser to the given list.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The list which has the created parser elements added to it.</description>
               <initializer></initializer>
               <name>list</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8178,7 +8230,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The function block used to generate the declaration parser elements.</description>
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
@@ -8186,7 +8238,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The indent in spaces added to each parser element created.</description>
               <initializer></initializer>
               <name>indent</name>
               <type>int</type>
@@ -8195,14 +8247,20 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Creates and returns the return type, base name, and arguments of the given function block. Additional optional arguments can also be provided to add the class scope of the function and add any initializer values of function arguments.</description>
             <name>createBaseDeclaration</name>
-            <return_description></return_description>
+            <operation>Create the return string, initializing it with the given function's return type and then appending a space if it is not empty.</operation>
+            <operation>Append the optional class scope, base name, and opening parenthesis to the return string.</operation>
+            <operation>Iterate through all arguments of the given function block.</operation>
+            <operation>If this is not the first argument append a comma and space to the return string.</operation>
+            <operation>Add the argument declaration to the return string, adding any initializer if the initializer flag is set to true.</operation>
+            <operation>Add the closing parenthesis to the now completed base declaration and return it.</operation>
+            <return_description>Base declaration string of the given function composed of at least the base name and arguments. Can also include the class scope and argument initializer values.</return_description>
             <type>QString</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The function block used to create and return the base name declaration.</description>
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
@@ -8210,7 +8268,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The optional class scope prepended before the base name of the returned declaration.</description>
               <initializer>QString()</initializer>
               <name>classScope</name>
               <type>const QString&amp;</type>
@@ -8218,7 +8276,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>True to add any initializer values of arguments to the declaration or false to ignore them.</description>
               <initializer>true</initializer>
               <name>initializers</name>
               <type>bool</type>
@@ -8227,14 +8285,27 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds definition parser elements for the given function block to the given definition list.</description>
             <name>addDefinition</name>
+            <operation>Make sure the given list pointer is valid.</operation>
+            <operation>Add the comment parser elements of the given function to the given list.</operation>
+            <operation>Create the class scope of the given function.</operation>
+            <operation>Create the header, initialized with any template arguments and the base declaration of the given function.</operation>
+            <operation>Add any flags required at the end of the header.</operation>
+            <operation>Create a new function parser with the completed header string and steps of operation of the given function block.</operation>
+            <operation>Add the scope, base name, and opening parenthesis to the expression header of the function parser.</operation>
+            <operation>Iterate through all arguments of the given function.</operation>
+            <operation>If this is not the first argument then add regular expression matching the expected comma.</operation>
+            <operation>Add regular expression matching the argument.</operation>
+            <operation>Add the closing parenthesis to the expression header.</operation>
+            <operation>Add any required flags to the expression matrix followed by the closing.</operation>
+            <operation>Add the completed function parser to the given list.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The definition list which has the created parser elements added to it.</description>
               <initializer></initializer>
               <name>list</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8242,7 +8313,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The function block used to generate the definition parser elements.</description>
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
@@ -8251,14 +8322,20 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds the comment parser element created from the given function block to the given list. The created comment parser can be set to an optionally given indent value.</description>
             <name>addComments</name>
+            <operation>Make sure the given list pointer is valid.</operation>
+            <operation>Create a new comment parser, setting its indent to the one possibly given and adding the given function block's description.</operation>
+            <operation>Add all comment descriptions of any templates the given function block contains as children, separated by a single blank comment line.</operation>
+            <operation>Add all comment descriptions of any arguments the given function block contains as children, separated by a single blank comment line.</operation>
+            <operation>If the given function block's return value is not void and its return description is not empty then add a return value comment description separated by a single blank comment line.</operation>
+            <operation>Add the completed comment parser to the given list.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The list which has the created comment parser added to it.</description>
               <initializer></initializer>
               <name>list</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8266,7 +8343,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The function block used to create the comment parser.</description>
               <initializer></initializer>
               <name>function</name>
               <type>const CppQt::Function&amp;</type>
@@ -8274,7 +8351,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Optional indent in spaces added to the comment parser created.</description>
               <initializer>0</initializer>
               <name>indent</name>
               <type>int</type>
@@ -8283,14 +8360,14 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Determines if the given variable block should be added as a variable definition based off the given header flag, returning true if it should be added.</description>
             <name>hasDefinition</name>
-            <return_description></return_description>
+            <return_description>True if the given variable should have its definition added or false if not.</return_description>
             <type>bool</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The variable block which is evaluated.</description>
               <initializer></initializer>
               <name>variable</name>
               <type>const Variable&amp;</type>
@@ -8298,7 +8375,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>True if this is for a header file or false if it is a source file.</description>
               <initializer></initializer>
               <name>isHeader</name>
               <type>bool</type>
@@ -8307,14 +8384,20 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds declaration parser elements for the given variable block to the given declaration list with the given indent.</description>
             <name>addDeclaration</name>
+            <operation>Make sure the given list pointer is valid.</operation>
+            <operation>Create and add a new comment parser to the given list, setting its indent and adding the given variable's description.</operation>
+            <operation>Create a declaration string, adding any variable flags that come before the anything else.</operation>
+            <operation>Add the variable type and base name to the declaration.</operation>
+            <operation>If the given variable is a class member, is not static or is a constant expression, and has an initializer then add the initializer to the declaration.</operation>
+            <operation>Finish the declaration with the ending semicolon and add it as a line parser to the given list, setting its indent to the one given.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The declaration list which has the created declaration parser elements added to it.</description>
               <initializer></initializer>
               <name>list</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8322,7 +8405,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The variable block used to create the parser elements.</description>
               <initializer></initializer>
               <name>variable</name>
               <type>const Variable&amp;</type>
@@ -8330,7 +8413,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The indent in spaces added to each parser element created.</description>
               <initializer></initializer>
               <name>indent</name>
               <type>int</type>
@@ -8339,14 +8422,19 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds definition parser elements for the given variable block to the given definition list.</description>
             <name>addDefinition</name>
+            <operation>Create a comment parser and add the given variable's description, adding it to the given list.</operation>
+            <operation>Create a definition string, adding thread local if that is set in the given variable.</operation>
+            <operation>Add the type, class scope, and base name of the given variable to the definition string.</operation>
+            <operation>If the given variable has an initializer then add it to the definition string.</operation>
+            <operation>Finish the definition string with a semicolon and add it as a line parser to the given list.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The definition list which has the created parser elements added to it.</description>
               <initializer></initializer>
               <name>list</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -8354,7 +8442,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The variable block used to generate the definition parser elements.</description>
               <initializer></initializer>
               <name>variable</name>
               <type>const CppQt::Variable&amp;</type>
@@ -8363,14 +8451,21 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Create and returns the class scope string for the given block. The string includes the scope of any class the given block is a child of along with any template arguments for each class added.</description>
             <name>createClassScope</name>
-            <return_description></return_description>
+            <operation>Make sure the given block pointer is valid.</operation>
+            <operation>Create the return string.</operation>
+            <operation>Move up the parents of the given block starting with the given one.</operation>
+            <operation>If the parent block is a class then prepend its scope to the return string, including any template arguments of the class and the ending double colons.</operation>
+            <operation>Else if the parent block is a namespace then return the finished scope string.</operation>
+            <operation>Move up to the next block parent.</operation>
+            <operation>Control should never be reached here but if it is return the finished scope string.</operation>
+            <return_description>Class scope for the given block with any class templates included.</return_description>
             <type>QString</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The block whose parent classes are used to generate the appropriate class scope.</description>
               <initializer></initializer>
               <name>block</name>
               <type>const Abstract::Block*</type>
@@ -8379,14 +8474,16 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Creates and returns the template declaration string for the given block. This includes the block itself and any parent class blocks that contain templates. Each block found with templates will have its separate template declaration added to the return string.</description>
             <name>createTemplates</name>
-            <return_description></return_description>
+            <operation>Make sure the given block pointer is valid.</operation>
+            <operation>Create and return the list of template declarations for the given block.</operation>
+            <return_description>Template declaration string for the given block.</return_description>
             <type>QString</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The block used to create and return the template declaration.</description>
               <initializer></initializer>
               <name>block</name>
               <type>const Abstract::Block*</type>
@@ -8395,30 +8492,57 @@ The parsing of a project is done through this function alone. The four basic typ
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Creates and returns a single template declaration for the given block. An optional argument is also given for formatting the returned string as a full declaration for a list of templates arguments.</description>
             <name>createTemplate</name>
-            <return_description></return_description>
+            <operation>Make sure the given block pointer is valid.</operation>
+            <operation>Create the return string.</operation>
+            <operation>Get the list of templates for the given block and make sure it is not empty.</operation>
+            <operation>If this is a declaration add the template tag.</operation>
+            <operation>Add the beginning template argument token.</operation>
+            <operation>Iterate through the given block's list of templates.</operation>
+            <operation>Check to see if this is the first template or not.</operation>
+            <operation>Add a comma, followed by a space if this s a declaration.</operation>
+            <operation>If this is a declaration add the template type and a space.</operation>
+            <operation>Add the template's base name.</operation>
+            <operation>Add the closing template argument token.</operation>
+            <operation>Return the finished single template declaration or argument list.</operation>
+            <return_description>Single template declaration for the given block or template arguments if optional declaration setting is disabled.</return_description>
             <type>QString</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The block used to generate the single template declaration or argument list.</description>
               <initializer></initializer>
               <name>block</name>
               <type>const Abstract::Block*</type>
             </data>
           </variable>
+          <variable>
+            <data>
+              <description>True to generate a full declaration or false to only generate an argument list.</description>
+              <initializer>true</initializer>
+              <name>declaration</name>
+              <type>bool</type>
+            </data>
+          </variable>
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Create and returns a list of all parent blocks of the given block that contain templates. This list includes the given block if it contains templates. The order of the returned list is from the farthest parent block to the nearest.</description>
             <name>createTemplateList</name>
-            <return_description></return_description>
+            <operation>Make sure the given block pointer is not null.</operation>
+            <operation>Create the return list of block pointers.</operation>
+            <operation>Move up the parents of the given block starting with the one given.</operation>
+            <operation>If the parent block is a function or class, and it contains templates, then add it to the returned list.</operation>
+            <operation>Else if the parent block is a namespace then return the completed list.</operation>
+            <operation>Move up to the next parent block.</operation>
+            <operation>Control should never be reached here but if it is return the finished list of template containing parent blocks.</operation>
+            <return_description>List of all parent blocks of the given block that contain templates, including the given block if it contains templates.</return_description>
             <type>QList&lt;const Abstract::Block*></type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The block used to create the list of parent blocks containing templates, including itself if it has templates.</description>
               <initializer></initializer>
               <name>block</name>
               <type>const Abstract::Block*</type>
