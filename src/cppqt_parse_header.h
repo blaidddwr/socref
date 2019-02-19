@@ -11,10 +11,15 @@
 namespace CppQt
 {
    /*!
+    * Contains all custom parser elements and parsing functions for the C++/Qt
+    * project type.
     */
    namespace Parse
    {
       /*!
+       * This specializes the basic input parser class. This will grab all custom
+       * lines of code in a C++ header file so they are saved and given back as output
+       * lines.
        */
       class Header : public Basic::InputParser
       {

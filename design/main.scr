@@ -37,6 +37,7 @@
     <word>initializer</word>
     <word>invokable</word>
     <word>namespace</word>
+    <word>prepend</word>
     <word>prepended</word>
     <word>prepending</word>
     <word>preprocessor</word>
@@ -6768,7 +6769,7 @@ This parser also provides setting an indentation of spaces before each comment l
           </data>
           <class>
             <data>
-              <description></description>
+              <description>This contains a single comment block that contains its header and text used to generated the output lines for it. This also contains the number of blank footer comment lines that are added to output after the comment block text.</description>
               <name>Node</name>
             </data>
             <access>
@@ -6777,7 +6778,7 @@ This parser also provides setting an indentation of spaces before each comment l
               </data>
               <variable>
                 <data>
-                  <description></description>
+                  <description>The header text of this comment block.</description>
                   <initializer></initializer>
                   <name>header</name>
                   <type>QString</type>
@@ -6785,7 +6786,7 @@ This parser also provides setting an indentation of spaces before each comment l
               </variable>
               <variable>
                 <data>
-                  <description></description>
+                  <description>The main body text of  this comment block.</description>
                   <initializer></initializer>
                   <name>text</name>
                   <type>QString</type>
@@ -6793,7 +6794,7 @@ This parser also provides setting an indentation of spaces before each comment l
               </variable>
               <variable>
                 <data>
-                  <description></description>
+                  <description>The number of blank footer comment lines appended to the end of this comment block.</description>
                   <initializer>0</initializer>
                   <name>footerLines</name>
                   <type>int</type>
@@ -7319,12 +7320,12 @@ Additional parsing is done with the input lines by looking for marker lines of i
       </data>
       <namespace>
         <data>
-          <description></description>
+          <description>Contains all custom parser elements and parsing functions for the C++/Qt project type.</description>
           <name>Parse</name>
         </data>
         <class>
           <data>
-            <description></description>
+            <description>This specializes the basic input parser class. This will grab all custom lines of code in a C++ header file so they are saved and given back as output lines.</description>
             <name>Header</name>
             <qtobject/>
           </data>
@@ -7340,7 +7341,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
             </data>
             <function>
               <data>
-                <description></description>
+                <description>Constructs a new header parser element.</description>
                 <explicit/>
                 <name>^</name>
                 <return_description></return_description>
@@ -7351,7 +7352,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </class>
         <class>
           <data>
-            <description></description>
+            <description>This specializes the basic input parser class. This will grab all custom lines of code in a C++ source file so they are saved and given back as output lines. Because of the special main source file this can include the very first line of the source file.</description>
             <name>Source</name>
             <qtobject/>
           </data>
@@ -7367,7 +7368,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
             </data>
             <function>
               <data>
-                <description></description>
+                <description>Constructs a new source parser with the optional setting of including the first line or not. The first line should only be included for the special main source file.</description>
                 <explicit/>
                 <name>^</name>
                 <return_description></return_description>
@@ -7386,7 +7387,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </class>
         <class>
           <data>
-            <description></description>
+            <description>This specializes the basic comment parser class. This provides the begin, middle, and ending strings for C++ code to its basic class. This also provides the max columns C++/Qt project setting to the base class.</description>
             <name>Comment</name>
             <qtobject/>
           </data>
@@ -7402,7 +7403,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
             </data>
             <function>
               <data>
-                <description></description>
+                <description>Constructs a new comment parser element.</description>
                 <explicit/>
                 <name>^</name>
                 <return_description></return_description>
@@ -7413,7 +7414,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </class>
         <class>
           <data>
-            <description></description>
+            <description>This specializes the basic function parser class. This provides the in token, out token, escape tokens, begin inline comment string, and maximum columns C++/Qt project setting to its base class. The header and operations are passed along as arguments since they are unique to each function.</description>
             <name>Function</name>
             <qtobject/>
           </data>
@@ -7429,7 +7430,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
             </data>
             <function>
               <data>
-                <description></description>
+                <description>Constructs a new function parser with the given header and steps of operation.</description>
                 <explicit/>
                 <name>^</name>
                 <return_description></return_description>
@@ -7456,9 +7457,17 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </class>
         <function>
           <data>
-            <description></description>
+            <description>Creates and returns a complete mapping of all scanner objects for the given root block of a C++/Qt project.
+
+The parsing of a project is done through this function alone. The four basic types of source files generated for this project type are namespace headers, class headers, namespace sources, and class sources. A fifth special and unique source file is also created for the special main function of a C++ application.</description>
             <name>createScannerMap</name>
-            <return_description></return_description>
+            <operation>Make sure the given root pointer is valid.</operation>
+            <operation>Create the mapping that is returned.</operation>
+            <operation>Cast the given root pointer to a namespace block and make sure it worked.</operation>
+            <operation>Add the special main source file scanner.</operation>
+            <operation>Recursively add all header and source file scanner objects from the given root namespace.</operation>
+            <operation>Return the fully populated mapping of scanner objects.</operation>
+            <return_description>Mapping of all scanner objects for the given root block.</return_description>
             <type>QMap&lt;QString,Scanner*></type>
           </data>
           <variable>
@@ -7472,14 +7481,23 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds the special main source file scanner object to the given mapping, searching for a main function in the given namespace root. If the special main key already exists or no main function block is found then this does nothing.</description>
             <name>addMain</name>
+            <operation>Make sure the given mapping pointer is valid and it does not already contain the special main source file key.</operation>
+            <operation>Grab the global function lines setting.</operation>
+            <operation>Iterate through all function block children of the given namespace block.</operation>
+            <operation>Check to see if the function's base name is main.</operation>
+            <operation>Create a new scanner object that is the main source file.</operation>
+            <operation>Add the source parser and then a number of blank lines equal to the function lines setting.</operation>
+            <operation>Add the function definition parser elements to the scanner.</operation>
+            <operation>Add a final blank line to the scanner.</operation>
+            <operation>Insert the special main source file scanner object to the given mapping and return because the unique function was found.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The mapping that possibly has the special main source file scanner object added to it.</description>
               <initializer></initializer>
               <name>map</name>
               <type>QMap&lt;QString,Scanner*>*</type>
@@ -7487,7 +7505,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The root namespace whose list of functions is searched for the special main function.</description>
               <initializer></initializer>
               <name>root</name>
               <type>const Namespace&amp;</type>
@@ -7496,14 +7514,24 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds a namespace header file scanner object to the given mapping using the given namespace block, recursively adding all other children namespace and class block's header file scanner objects.</description>
             <name>addHeader</name>
+            <operation>Make sure the given mapping pointer is valid.</operation>
+            <operation>Grab relevant global settings, create the scanner object to be added, and get the namespace scope of the given namespace block.</operation>
+            <operation>Add the header parser elements to the scanner.</operation>
+            <operation>Create the list of declaration, variable definition, and function definition parser elements.</operation>
+            <operation>Add all declaration, variable definition, and function definition parser elements to the scanner.</operation>
+            <operation>Add the footer parser elements to the scanner.</operation>
+            <operation>Insert the generated scanner object into the given mapping using the header file extension.</operation>
+            <operation>Iterate through all children blocks of the given namespace block.</operation>
+            <operation>If the child is a namespace then recursively call this function on the child to add its scanner object.</operation>
+            <operation>Else if the child is a class then add its scanner object to the given mapping.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The mapping that has all header file scanner objects added to it using the given namespace block and all its children.</description>
               <initializer></initializer>
               <name>map</name>
               <type>QMap&lt;QString,Scanner*>*</type>
@@ -7511,7 +7539,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The namespace block used to generate the scanner object and recursively add all children's scanners.</description>
               <initializer></initializer>
               <name>root</name>
               <type>const Namespace&amp;</type>
@@ -7520,14 +7548,21 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds a class header file scanner object to the given mapping using the given class block.</description>
             <name>addHeader</name>
+            <operation>Make sure the given mapping pointer is valid.</operation>
+            <operation>Grab the relevant global settings, create the scanner object to be added, and get the namespace scope of the given class block.</operation>
+            <operation>Add the header parser elements to the scanner.</operation>
+            <operation>Create the list of declaration, variable definition, and function definition parser elements.</operation>
+            <operation>Add all declaration, variable definition, and function definition parser elements to the scanner.</operation>
+            <operation>Add the footer parser elements to the scanner.</operation>
+            <operation>Insert the generated scanner object into the given mapping using the header file extension.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The mapping that has the header file scanner object added to it.</description>
               <initializer></initializer>
               <name>map</name>
               <type>QMap&lt;QString,Scanner*>*</type>
@@ -7535,7 +7570,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The class block used to generate the added scanner object.</description>
               <initializer></initializer>
               <name>root</name>
               <type>const Class&amp;</type>
@@ -7544,14 +7579,25 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds a namespace source file scanner object to the given mapping using the given namespace block, recursively adding all other children namespace and class block's source file scanner objects.</description>
             <name>addSource</name>
+            <operation>Make sure the given mapping pointer is valid.</operation>
+            <operation>Grab relevant global settings, create the scanner that is added, and create the namespace scope of the given namespace.</operation>
+            <operation>Add the header parser elements to the scanner.</operation>
+            <operation>If the scope is not empty add a header lines number of blank spaces and then the scope without adding to the indent.</operation>
+            <operation>Create the list of variable and function definition parser elements.</operation>
+            <operation>Add all variable and function definition parser elements to the scanner.</operation>
+            <operation>Add the footer parser elements to the scanner.</operation>
+            <operation>Insert the generated scanner object into the given mapping using the source extension.</operation>
+            <operation>Iterate through all children blocks of the given namespace.</operation>
+            <operation>If the child is a namespace then recursively call this function to add its scanner object and all its children's scanners.</operation>
+            <operation>If the child is a class then add its source file scanner object to the given mapping.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The mapping that has all header file scanner objects added to it using the given namespace block and all its children.</description>
               <initializer></initializer>
               <name>map</name>
               <type>QMap&lt;QString,Scanner*>*</type>
@@ -7559,7 +7605,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The namespace block used to generate the scanner and recursively add all children's scanners.</description>
               <initializer></initializer>
               <name>root</name>
               <type>const Namespace&amp;</type>
@@ -7568,14 +7614,22 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds a source file scanner object to the given mapping using the given class block.</description>
             <name>addSource</name>
+            <operation>Make sure the given mapping pointer is valid.</operation>
+            <operation>Grab the relevant global settings, create the scanner to be added, and create the namespace scope of the given class block.</operation>
+            <operation>Add the header parser elements to the scanner.</operation>
+            <operation>If the scope is not empty then add a header lines number of blank lines and then the scope without adding to the indent.</operation>
+            <operation>Create the list of variable and function definition parser elements.</operation>
+            <operation>Add all variable and function definition parser elements to the scanner.</operation>
+            <operation>Add the footer parser elements to the scanner.</operation>
+            <operation>Insert the generated scanner object into the given mapping using the source extension.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The mapping that has the source file scanner object added to it.</description>
               <initializer></initializer>
               <name>map</name>
               <type>QMap&lt;QString,Scanner*>*</type>
@@ -7583,7 +7637,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The class block used to generate the added scanner object.</description>
               <initializer></initializer>
               <name>root</name>
               <type>const Class&amp;</type>
@@ -7592,14 +7646,25 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds the given declaration, variable definition, and function definition lists of parser elements to the given scanner. Any given list pointer argument can be null, in which case that list type is ignored. An optional namespace scope list pointer can also be given, in which case each parser list will be enclosed with opening and closing scope parser elements.</description>
             <name>addParsers</name>
+            <operation>Make sure the given scanner pointer is valid.</operation>
+            <operation>Grab any relevant global settings.</operation>
+            <operation>Check to see if there is a declaration list and it is not empty.</operation>
+            <operation>Add a header lines number of blank lines to the given scanner.</operation>
+            <operation>Add all declaration lines to given the scanner, enclosing them with opening and closing scope parser elements if a scope is given.</operation>
+            <operation>Check to see if there is a variable definition list and it is not empty.</operation>
+            <operation>Add a header lines number of blank lines to the given scanner.</operation>
+            <operation>Add all variable definition lines to the given scanner, enclosing them with opening and closing scope parser elements and setting the correct indent if a scope is given.</operation>
+            <operation>Check to see if there is a function definition list and it is not empty.</operation>
+            <operation>Add a function lines number of blank lines to the given scanner.</operation>
+            <operation>Add all function definition lines to the given scanner, enclosing them with opening and closing scope parser elements and setting the correct indent if a scope is given.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner that has all given parser element lists added to it.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -7607,7 +7672,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Optional list of declaration parser elements. These are added to the given scanner before any other list. Set to null to ignore this list.</description>
               <initializer></initializer>
               <name>declarations</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -7615,7 +7680,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Optional list of variable definition parser elements. These are added to the given scanner before the function definition list and after the declaration list. Set to null to ignore this list.</description>
               <initializer></initializer>
               <name>variables</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -7623,7 +7688,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Optional list of function definition parser elements. These are added to the given scanner after any other list. Set to null to ignore this list.</description>
               <initializer></initializer>
               <name>functions</name>
               <type>QList&lt;Abstract::Parser*>*</type>
@@ -7631,7 +7696,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Optional pointer to the namespace scope that each parser element list is enclosed by opening and closing scope parser elements.</description>
               <initializer>nullptr</initializer>
               <name>scope</name>
               <type>QList&lt;const Namespace*>*</type>
@@ -7640,14 +7705,21 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds parser elements to the given scanner that constitute the header of a header file for a namespace or class if one is given, using the given scope for the file header.</description>
             <name>addHeader</name>
+            <operation>Make sure the given scanner pointer is valid.</operation>
+            <operation>Create the header scope string used for the generation of the macro header guard.</operation>
+            <operation>Append each namespace name in the given scope to the header scope, making them all uppercase and separated by underscores.</operation>
+            <operation>If a class is provided then append its all uppercase name to the header scope.</operation>
+            <operation>If the header scope is still empty then this is the root namespace so append the special global name.</operation>
+            <operation>Add the two header guard macro lines to the given scanner.</operation>
+            <operation>Add a new header parser to the given scanner.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner which has header parser elements added to it.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -7655,7 +7727,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The namespace scope of the header file.</description>
               <initializer></initializer>
               <name>scope</name>
               <type>const QList&lt;const Namespace*>&amp;</type>
@@ -7663,7 +7735,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The class of the header file if it is for a class or null if it is for a namespace.</description>
               <initializer>nullptr</initializer>
               <name>name</name>
               <type>const Class*</type>
@@ -7672,14 +7744,20 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds parser elements to the given scanner that constitute the header of a source file for a namespace or class if one is given, using the given scope for the file header.</description>
             <name>addSourceHeader</name>
+            <operation>Make sure the given scanner pointer is valid.</operation>
+            <operation>Create the header scope string used for the generation of the special include macro.</operation>
+            <operation>Append each namespace name in the given scope to the header scope, making them all lowercase and separated by underscores.</operation>
+            <operation>If a class is provided then append its all lowercase name to the header scope.</operation>
+            <operation>If the header scope is still empty then this is the root namespace so append the special global name.</operation>
+            <operation>Add the special macro include line and then a new source parser to the given scanner.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner which has header parser elements added to it.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -7687,7 +7765,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The namespace scope of the source file.</description>
               <initializer></initializer>
               <name>scope</name>
               <type>const QList&lt;const Namespace*>&amp;</type>
@@ -7695,7 +7773,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The class of the source file if it is for a class or null if it is for a namespace.</description>
               <initializer>nullptr</initializer>
               <name>name</name>
               <type>const Class*</type>
@@ -7704,14 +7782,15 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds parser elements to the given scanner that constitute the footer of a header file.</description>
             <name>addFooter</name>
+            <operation>Add the footer end of the macro header guard of a header file to the given scanner.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner that has footer parser elements added to it.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -7720,14 +7799,21 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Inserts the given scanner into the given mapping. The given namespace scope, ending, and optional class are used to determine the filename key used for insertion. The filename is generated with the namespace scope, then the optional class name if it is given, and then the ending string.</description>
             <name>insertScanner</name>
+            <operation>Create the file name string.</operation>
+            <operation>Append each namespace name of the given scope to the file name, making them all lowercase and separated by underscores.</operation>
+            <operation>If a class is provided then append its all lowercase name to the file name.</operation>
+            <operation>If the file name is still empty then this is the root namespace so append the special global name.</operation>
+            <operation>Append the given ending to the file name.</operation>
+            <operation>Make sure the given mapping does not already contain a scanner object with the given file name key, deleting the given scanner object and warning the user if it does.</operation>
+            <operation>Insert the given scanner object into the given mapping with the generated file name.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The mapping that has the given scanner inserted into it.</description>
               <initializer></initializer>
               <name>map</name>
               <type>QMap&lt;QString,Scanner*>*</type>
@@ -7735,7 +7821,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner object that is inserted into the given mapping.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -7743,7 +7829,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The namespace scope used to generate the insertion's filename key.</description>
               <initializer></initializer>
               <name>scope</name>
               <type>const QList&lt;const Namespace*>&amp;</type>
@@ -7751,7 +7837,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The ending string used to generate the insertion's filename key.</description>
               <initializer></initializer>
               <name>ending</name>
               <type>const QString&amp;</type>
@@ -7759,7 +7845,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The optional class block scope used to generate the insertion's filename key.</description>
               <initializer>nullptr</initializer>
               <name>name</name>
               <type>const Class*</type>
@@ -7768,14 +7854,19 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Creates and returns a list of namespace pointers that is the scope of the given block. This includes the block itself if it is a namespace.</description>
             <name>createScope</name>
-            <return_description></return_description>
+            <operation>Create the namespace pointer list that will be the scope list returned.</operation>
+            <operation>Iterate up the list of parent blocks starting at the given block until the root namespace is reached.</operation>
+            <operation>If the block is a namespace then prepend its pointer to the scope list.</operation>
+            <operation>Move up to the next block parent.</operation>
+            <operation>Return the generated namespace scope list.</operation>
+            <return_description>List of namespace pointers that is the scope of the given block.</return_description>
             <type>QList&lt;const Namespace*></type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The block whose namespace scope list is created and returned.</description>
               <initializer></initializer>
               <name>block</name>
               <type>const Abstract::Block&amp;</type>
@@ -7784,14 +7875,19 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds line parser elements to the given scanner that is the opening namespace scope of the given scope, adding to the given indent for each namespace scoped. Additional optional arguments are given for keeping the lines flat and not adding indent spaces and describing each namespace opened.</description>
             <name>addScope</name>
+            <operation>Make sure the given scanner and indent pointers are valid.</operation>
+            <operation>Iterate through every namespace pointer of the given scope list.</operation>
+            <operation>If describe is enabled then add a comment parser for the namespace to the given scanner, setting its indent if flat is disabled.</operation>
+            <operation>Add the opening bracket line parser for the namespace to the given scanner, setting its indent if flat is disabled.</operation>
+            <operation>Increment the given indent value by the global indent spaces setting.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner that has line parser elements added to it that is the opening namespace scope of the one given.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -7799,7 +7895,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>Pointer to the indent that is incremented for each namespace in the scope given. It is incremented by the global indent spaces value for each namespace in the given scope.</description>
               <initializer></initializer>
               <name>indent</name>
               <type>int*</type>
@@ -7807,7 +7903,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The namespace scope used to generate the opening scope lien parser elements.</description>
               <initializer></initializer>
               <name>scope</name>
               <type>const QList&lt;const Namespace*>&amp;</type>
@@ -7815,7 +7911,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>True to not add any indent spaces for each consecutive namespace in the provided scope or false to add indent spaces. This does NOT effect the provided indent integer which is incremented regardless.</description>
               <initializer>false</initializer>
               <name>flat</name>
               <type>bool</type>
@@ -7823,7 +7919,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>True to add comments for each opening namespace added or false to not add any comments.</description>
               <initializer>false</initializer>
               <name>describe</name>
               <type>bool</type>
@@ -7832,14 +7928,17 @@ Additional parsing is done with the input lines by looking for marker lines of i
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Adds closing bracket line parser elements to the given scanner, using the given indent to determine how many closing brackets are added. An optional option is provided for not adding indent spaces to each line parser.</description>
             <name>endScope</name>
+            <operation>Make sure the given scanner and indent pointers are valid.</operation>
+            <operation>Continue while the indent value is greater than zero.</operation>
+            <operation>Decrement the indent value by the global indent spaces setting and then add a closing bracket line parser, setting its indent by the indent value if flat is disabled.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner that has closing bracket line parser elements added to it.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -7847,7 +7946,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The indent value that determines how many closing brackets are generated. For each closing bracket this value is decremented by the global indent spaces setting until it is zero or less.</description>
               <initializer></initializer>
               <name>indent</name>
               <type>int*</type>
@@ -7855,7 +7954,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>True to not add any indent spaces for each consecutive closing bracket or false to add indent spaces.</description>
               <initializer>false</initializer>
               <name>flat</name>
               <type>bool</type>

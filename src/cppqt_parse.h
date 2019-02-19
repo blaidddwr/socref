@@ -14,6 +14,8 @@
 namespace CppQt
 {
    /*!
+    * Contains all custom parser elements and parsing functions for the C++/Qt
+    * project type.
     */
    namespace Parse
    {

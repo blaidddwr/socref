@@ -14,6 +14,7 @@ namespace Parse
 
 
 /*!
+ * Constructs a new comment parser element.
  */
 Comment::Comment()
    :

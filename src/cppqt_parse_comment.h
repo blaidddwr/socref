@@ -11,10 +11,15 @@
 namespace CppQt
 {
    /*!
+    * Contains all custom parser elements and parsing functions for the C++/Qt
+    * project type.
     */
    namespace Parse
    {
       /*!
+       * This specializes the basic comment parser class. This provides the begin,
+       * middle, and ending strings for C++ code to its basic class. This also
+       * provides the max columns C++/Qt project setting to the base class.
        */
       class Comment : public Basic::CommentParser
       {

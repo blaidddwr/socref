@@ -38,17 +38,24 @@ namespace Basic
       void add(int count);
    private:
       /*!
+       * This contains a single comment block that contains its header and text used
+       * to generated the output lines for it. This also contains the number of blank
+       * footer comment lines that are added to output after the comment block text.
        */
       class Node
       {
       public:
          /*!
+          * The header text of this comment block.
           */
          QString header;
          /*!
+          * The main body text of this comment block.
           */
          QString text;
          /*!
+          * The number of blank footer comment lines appended to the end of this comment
+          * block.
           */
          int footerLines {0};
       };

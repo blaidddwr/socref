@@ -14,6 +14,8 @@ namespace Parse
 
 
 /*!
+ * Constructs a new function parser with the given header and steps of
+ * operation.
  *
  * @param header The header or full name of this function that will be used as
  *               the first line of output for this function parser.

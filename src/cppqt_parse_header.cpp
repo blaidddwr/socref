@@ -13,6 +13,7 @@ namespace Parse
 
 
 /*!
+ * Constructs a new header parser element.
  */
 Header::Header()
    :
