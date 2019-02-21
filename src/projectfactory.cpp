@@ -6,6 +6,7 @@
 #include "cppqt_parse.h"
 #include "glsl_factory.h"
 #include "glsl_settingsdialog.h"
+#include "glsl_parse.h"
 
 
 
@@ -189,7 +190,7 @@ QMap<QString,Scanner*> ProjectFactory::createScannerMap(const Abstract::Block* r
    switch (root->factory().type())
    {
    case CppQtType: return CppQt::Parse::createScannerMap(root);
-   //case GLSLType: return GLSL::Factory::instance();
+   case GLSLType: return GLSL::Parse::createScannerMap(root);
    default:
       Q_ASSERT(false);
    }

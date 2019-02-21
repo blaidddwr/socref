@@ -185,6 +185,7 @@ void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
    }
 
    // Add the special main function definition to the scanner.
+   scanner->addParser(new LineParser(functionLines));
    addMain(scanner,shader);
 
    // Add one final blank line to the end of the scanner and then insert it into the
