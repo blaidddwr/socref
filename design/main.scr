@@ -5187,7 +5187,7 @@ This class provides protected helper methods for getting the values of its data 
               <name>addParagraphs</name>
               <operation>Make sure the given display element has the id attribute.</operation>
               <operation>Get the basic block field that the given display element references and make sure it is a string.</operation>
-              <operation>Split the basic block field into a string list of paragraphs based off double newline characters being the separator, parsing each string for bold underline markers.</operation>
+              <operation>Split the basic block field into a string list of paragraphs based off double newline characters being the separator, escaping any HTML characters and parsing each string for bold underline markers.</operation>
               <operation>Make sure the list of paragraphs is not empty.</operation>
               <operation>Add the string list to the given rich text as paragraphs.</operation>
               <return_description></return_description>

@@ -197,11 +197,11 @@ void BlockView::addParagraphs(QString* text, const QDomElement& element)
    Q_ASSERT(field.type() == QVariant::String);
 
    // Split the basic block field into a string list of paragraphs based off double
-   // newline characters being the separator, parsing each string for bold underline
-   // markers.
+   // newline characters being the separator, escaping any HTML characters and
+   // parsing each string for bold underline markers.
    QStringList paragraphs
    {
-      parseBoldMarkers(field.toString().split("\n\n",QString::SkipEmptyParts))
+      parseBoldMarkers(field.toString().toHtmlEscaped().split("\n\n",QString::SkipEmptyParts))
    };
 
    // Make sure the list of paragraphs is not empty.

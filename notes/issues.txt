@@ -1,15 +1,1 @@
 
-* Fix debugging to follow Qt standard, so get rid of almost all exceptions. Only keep exceptions for opening and savings files because those errors a normal user could read. Make a custom exception class for opening and saving.
-
-* Rework the modified signals for abstract blocks to be more coherent.
-
-* Fix the spaghetti code that is C++/Qt parsing.
-
-* Add support for struct blocks in C++/Qt and nested template functions within template classes.
-
-* Fix nested template classes to be included correctly within the main class.
-
-* Expand classes nested in classes needlessly.
-
-* Completely redo parsing to a more sane model.
-
