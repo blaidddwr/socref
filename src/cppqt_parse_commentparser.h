@@ -1,5 +1,5 @@
-#ifndef CPPQT_PARSE_COMMENT_H
-#define CPPQT_PARSE_COMMENT_H
+#ifndef CPPQT_PARSE_COMMENTPARSER_H
+#define CPPQT_PARSE_COMMENTPARSER_H
 #include "basic_commentparser.h"
 //
 
@@ -21,11 +21,11 @@ namespace CppQt
        * middle, and ending strings for C++ code to its basic class. This also
        * provides the max columns C++/Qt project setting to the base class.
        */
-      class Comment : public Basic::CommentParser
+      class CommentParser : public Basic::CommentParser
       {
          Q_OBJECT
       public:
-         explicit Comment();
+         explicit CommentParser();
       };
    }
 }

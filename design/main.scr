@@ -7327,7 +7327,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <class>
           <data>
             <description>This specializes the basic input parser class. This will grab all custom lines of code in a C++ header file so they are saved and given back as output lines.</description>
-            <name>Header</name>
+            <name>HeadParser</name>
             <qtobject/>
           </data>
           <parent>
@@ -7354,7 +7354,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <class>
           <data>
             <description>This specializes the basic input parser class. This will grab all custom lines of code in a C++ source file so they are saved and given back as output lines. Because of the special main source file this can include the very first line of the source file.</description>
-            <name>Source</name>
+            <name>SourceParser</name>
             <qtobject/>
           </data>
           <parent>
@@ -7389,7 +7389,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <class>
           <data>
             <description>This specializes the basic comment parser class. This provides the begin, middle, and ending strings for C++ code to its basic class. This also provides the max columns C++/Qt project setting to the base class.</description>
-            <name>Comment</name>
+            <name>CommentParser</name>
             <qtobject/>
           </data>
           <parent>
@@ -7416,7 +7416,7 @@ Additional parsing is done with the input lines by looking for marker lines of i
         <class>
           <data>
             <description>This specializes the basic function parser class. This provides the in token, out token, escape tokens, begin inline comment string, and maximum columns C++/Qt project setting to its base class. The header and operations are passed along as arguments since they are unique to each function.</description>
-            <name>Function</name>
+            <name>FunctionParser</name>
             <qtobject/>
           </data>
           <parent>
@@ -7473,7 +7473,7 @@ The parsing of a project is done through this function alone. The four basic typ
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The root block of a C++/Qt project used to generate all scanner objects and insert them into the given mapping to parse all possible files.</description>
               <initializer></initializer>
               <name>root</name>
               <type>const Abstract::Block*</type>
@@ -7970,18 +7970,21 @@ This is one of two primary functions that can be considered the core or engine o
             <name>createParsers</name>
             <operation>Grab relevant global settings.</operation>
             <operation>Iterate through all children of the given block.</operation>
-            <operation>If the child block is an enumeration and a declarations list is given then add its declaration parser elements to the list.</operation>
-            <operation>Else check if the child block is a class.</operation>
-            <operation>If the child class is part of a parent class then create all of its parser elements with the provided lists.</operation>
-            <operation>Else if this is a root class part of a namespace, a declarations list is provided, and it has no templates then add its forward declaration to the list.</operation>
-            <operation>Else check if the child block is a variable.</operation>
+            <operation>Figure out the block type of the child.</operation>
+            <operation>Cast the child as an enumeration and make sure it worked.</operation>
+            <operation>If a declarations list is given then add its declaration parser elements to the list.</operation>
+            <operation>Cast the child as a variable and make sure it worked.</operation>
             <operation>If a declaration list is provided then add the child variable declaration to the list.</operation>
             <operation>If a variable definition list is provided and the child variable block has a definition for this file type then add its definition to the list.</operation>
-            <operation>Else check if the child block is a function.</operation>
+            <operation>Cast the child as a function and make sure it worked.</operation>
             <operation>If a declaration list is provided then add the child function's declaration to the list.</operation>
             <operation>Check if a function definition list is provided and the child function has a definition for this type type.</operation>
             <operation>Add the child function's definition to the list, adding a function lines number of blank lines to the list beforehand if this is not the first definition to be added.</operation>
-            <operation>Else If the child block is a declaration and a declaration list is provided then add its line to the list.</operation>
+            <operation>Cast the child as a class and make sure it worked.</operation>
+            <operation>If the child class is part of a parent class then create all of its parser elements with the provided lists.</operation>
+            <operation>Else if this is a root class part of a namespace, a declarations list is provided, and it has no templates then add its forward declaration to the list.</operation>
+            <operation>Cast the child as a declaration and make sure it worked.</operation>
+            <operation>If a declaration list is provided then add the child declaration's line to the list.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -8194,7 +8197,7 @@ This is one of two primary functions that can be considered the core or engine o
               <description>The function block which is evaluated.</description>
               <initializer></initializer>
               <name>function</name>
-              <type>const CppQt::Function&amp;</type>
+              <type>const Function&amp;</type>
             </data>
           </variable>
           <variable>
@@ -8233,7 +8236,7 @@ This is one of two primary functions that can be considered the core or engine o
               <description>The function block used to generate the declaration parser elements.</description>
               <initializer></initializer>
               <name>function</name>
-              <type>const CppQt::Function&amp;</type>
+              <type>const Function&amp;</type>
             </data>
           </variable>
           <variable>
@@ -8263,7 +8266,7 @@ This is one of two primary functions that can be considered the core or engine o
               <description>The function block used to create and return the base name declaration.</description>
               <initializer></initializer>
               <name>function</name>
-              <type>const CppQt::Function&amp;</type>
+              <type>const Function&amp;</type>
             </data>
           </variable>
           <variable>
@@ -8316,7 +8319,7 @@ This is one of two primary functions that can be considered the core or engine o
               <description>The function block used to generate the definition parser elements.</description>
               <initializer></initializer>
               <name>function</name>
-              <type>const CppQt::Function&amp;</type>
+              <type>const Function&amp;</type>
             </data>
           </variable>
         </function>
@@ -8346,7 +8349,7 @@ This is one of two primary functions that can be considered the core or engine o
               <description>The function block used to create the comment parser.</description>
               <initializer></initializer>
               <name>function</name>
-              <type>const CppQt::Function&amp;</type>
+              <type>const Function&amp;</type>
             </data>
           </variable>
           <variable>
@@ -11030,6 +11033,205 @@ This is one of two primary functions that can be considered the core or engine o
         <description>Contains the GLSL project type.</description>
         <name>GLSL</name>
       </data>
+      <namespace>
+        <data>
+          <description></description>
+          <name>Parse</name>
+        </data>
+        <class>
+          <data>
+            <description>This specializes the basic input parser class. This will grab all custom lines of code in a GLSL shader source file so they are saved and given back as output lines. The first line is also grabbed and saved because there is no default header for source files.</description>
+            <name>Source</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>Basic::InputParser</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Constructs a new source parser.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+            </function>
+          </access>
+        </class>
+        <function>
+          <data>
+            <description>Creates and returns a complete mapping of all scanner objects for the given root block of a GLSL project.
+
+The parsing of a project is done through this function alone. Only one type of source file is generated, however different sub extensions are made based off the shader type of the source file. Fake namespace scope is also prepended to each file name to allow for better organization of GLSL code.</description>
+            <name>createScannerMap</name>
+            <operation>Make sure the given root pointer is valid.</operation>
+            <operation>Create the mapping that is returned.</operation>
+            <operation>Cast the given root pointer to a namespace block and make sure it worked.</operation>
+            <operation>Recursively add all source file scanner objects from the given root namespace.</operation>
+            <operation>Return the fully populated mapping of scanner objects.</operation>
+            <return_description>Mapping of all scanner objects for the given root block.</return_description>
+            <type>QMap&lt;QString,Scanner*></type>
+          </data>
+          <variable>
+            <data>
+              <description>The root block of a GLSL project used to generate all scanner objects and insert them into the given mapping to parse all possible files.</description>
+              <initializer></initializer>
+              <name>root</name>
+              <type>const Abstract::Block*</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Recursively adds all scanner objects to the given mapping from all children shader objects of any depth from the given namespace. The given scope must be the scope of the given namespace, not including itself, separated by underscores and all lowercase. The scope is used to create the file name key of inserted scanner objects.</description>
+            <name>addSource</name>
+            <operation>Make sure the given mapping pointer is valid.</operation>
+            <operation>Iterate through all children of the given namespace block.</operation>
+            <operation>If the child block is a namespace then recursively call this function on it, adding the scope name of the given namespace.</operation>
+            <operation>If the child block is a shader then add its scanner object, adding the scope name of the given namespace.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>The mapping that has all scanner objects of all child shader objects added to it.</description>
+              <initializer></initializer>
+              <name>map</name>
+              <type>QMap&lt;QString,Scanner*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The root namespace that is searched for any child namespace and shader blocks. This function is recursively called on namespace children to find all shader children of any depth.</description>
+              <initializer></initializer>
+              <name>root</name>
+              <type>const Namespace&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The scope of the given namespace, not including itself, all lowercase and separated by spaces.</description>
+              <initializer></initializer>
+              <name>scope</name>
+              <type>QString</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Adds a namespace source file scanner object to the given mapping using the given namespace block, recursively adding all other children namespace and class block's source file scanner objects.</description>
+            <name>addSource</name>
+            <operation>Make sure the given mapping pointer is valid.</operation>
+            <operation>Grab relevant global settings, create the scanner that is added, and create the namespace scope of the given namespace.</operation>
+            <operation>Add the header parser elements to the scanner.</operation>
+            <operation>If the scope is not empty add a header lines number of blank spaces and then the scope without adding to the indent.</operation>
+            <operation>Create the list of variable and function definition parser elements.</operation>
+            <operation>Add all variable and function definition parser elements to the scanner.</operation>
+            <operation>Add the footer parser elements to the scanner.</operation>
+            <operation>Insert the generated scanner object into the given mapping using the source extension.</operation>
+            <operation>Iterate through all children blocks of the given namespace.</operation>
+            <operation>If the child is a namespace then recursively call this function to add its scanner object and all its children's scanners.</operation>
+            <operation>If the child is a class then add its source file scanner object to the given mapping.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>map</name>
+              <type>QMap&lt;QString,Scanner*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>shader</name>
+              <type>const Shader&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer>QString()</initializer>
+              <name>scope</name>
+              <type>QString</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>insert</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>map</name>
+              <type>QMap&lt;QString,Scanner*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>shader</name>
+              <type>const Shader&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scope</name>
+              <type>QString</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description></description>
+            <name>addMain</name>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description></description>
+              <initializer></initializer>
+              <name>shader</name>
+              <type>const Shader&amp;</type>
+            </data>
+          </variable>
+        </function>
+      </namespace>
       <class>
         <data>
           <description>This is the singleton settings class that holds all global settings for GLSL projects. This class uses qt settings behind the scenes to make its setting persistent. As mentioned, it is also a single global class since it holds global settings.</description>

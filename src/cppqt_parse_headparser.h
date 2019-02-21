@@ -1,5 +1,5 @@
-#ifndef CPPQT_PARSE_SOURCE_H
-#define CPPQT_PARSE_SOURCE_H
+#ifndef CPPQT_PARSE_HEADPARSER_H
+#define CPPQT_PARSE_HEADPARSER_H
 #include "basic_inputparser.h"
 //
 
@@ -18,15 +18,14 @@ namespace CppQt
    {
       /*!
        * This specializes the basic input parser class. This will grab all custom
-       * lines of code in a C++ source file so they are saved and given back as output
-       * lines. Because of the special main source file this can include the very
-       * first line of the source file.
+       * lines of code in a C++ header file so they are saved and given back as output
+       * lines.
        */
-      class Source : public Basic::InputParser
+      class HeadParser : public Basic::InputParser
       {
          Q_OBJECT
       public:
-         explicit Source(bool first = false);
+         explicit HeadParser();
       };
    }
 }

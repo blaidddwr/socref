@@ -1,14 +1,14 @@
 
 SOURCES += \
     cppqt_parse.cpp \
-    cppqt_parse_header.cpp \
-    cppqt_parse_source.cpp \
-    cppqt_parse_comment.cpp \
-    cppqt_parse_function.cpp
+    cppqt_parse_headparser.cpp \
+    cppqt_parse_sourceparser.cpp \
+    cppqt_parse_commentparser.cpp \
+    cppqt_parse_functionparser.cpp
 
 HEADERS += \
     cppqt_parse.h \
-    cppqt_parse_header.h \
-    cppqt_parse_source.h \
-    cppqt_parse_comment.h \
-    cppqt_parse_function.h
+    cppqt_parse_headparser.h \
+    cppqt_parse_sourceparser.h \
+    cppqt_parse_commentparser.h \
+    cppqt_parse_functionparser.h

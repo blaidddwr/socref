@@ -1,5 +1,5 @@
-#ifndef CPPQT_PARSE_FUNCTION_H
-#define CPPQT_PARSE_FUNCTION_H
+#ifndef CPPQT_PARSE_FUNCTIONPARSER_H
+#define CPPQT_PARSE_FUNCTIONPARSER_H
 #include "basic_functionparser.h"
 //
 
@@ -22,11 +22,11 @@ namespace CppQt
        * C++/Qt project setting to its base class. The header and operations are
        * passed along as arguments since they are unique to each function.
        */
-      class Function : public Basic::FunctionParser
+      class FunctionParser : public Basic::FunctionParser
       {
          Q_OBJECT
       public:
-         explicit Function(const QString& header, const QStringList& operations);
+         explicit FunctionParser(const QString& header, const QStringList& operations);
       };
    }
 }

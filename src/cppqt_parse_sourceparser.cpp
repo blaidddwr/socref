@@ -1,4 +1,4 @@
-#include "cppqt_parse_source.h"
+#include "cppqt_parse_sourceparser.h"
 
 
 
@@ -20,7 +20,7 @@ namespace Parse
  * @param first True to set this new source parser to read in the first line of
  *              input or false to set it to ignore the first line.
  */
-Source::Source(bool first)
+SourceParser::SourceParser(bool first)
    :
    Basic::InputParser("\\A#include\\s+[\"<][a-zA-Z_\\.]+[\">]\\z","\\A\\z",first)
 {

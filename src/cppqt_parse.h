@@ -19,10 +19,10 @@ namespace CppQt
     */
    namespace Parse
    {
-      class Header;
-      class Source;
-      class Comment;
-      class Function;
+      class HeadParser;
+      class SourceParser;
+      class CommentParser;
+      class FunctionParser;
       QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root);
       void addMain(QMap<QString,Scanner*>* map, const Namespace& root);
       void addHeader(QMap<QString,Scanner*>* map, const Namespace& root);
@@ -41,11 +41,11 @@ namespace CppQt
       void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Class& root, int indent, bool isHeader);
       void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent);
       void addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent);
-      bool hasDefinition(const CppQt::Function& function, bool isHeader);
-      void addDeclaration(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent);
-      QString createBaseDeclaration(const CppQt::Function& function, const QString& classScope = QString(), bool initializers = true);
-      void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Function& function);
-      void addComments(QList<Abstract::Parser*>* list, const CppQt::Function& function, int indent = 0);
+      bool hasDefinition(const Function& function, bool isHeader);
+      void addDeclaration(QList<Abstract::Parser*>* list, const Function& function, int indent);
+      QString createBaseDeclaration(const Function& function, const QString& classScope = QString(), bool initializers = true);
+      void addDefinition(QList<Abstract::Parser*>* list, const Function& function);
+      void addComments(QList<Abstract::Parser*>* list, const Function& function, int indent = 0);
       bool hasDefinition(const Variable& variable, bool isHeader);
       void addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, int indent);
       void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& variable);
