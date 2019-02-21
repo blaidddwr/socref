@@ -1067,13 +1067,13 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
  * @param list The declaration list that has the created parser elements of the
  *             given enumeration added to it.
  *
- * @param enumeration The enumeration block used to generate the declaration
- *                    parser elements.
+ * @param block The enumeration block used to generate the declaration parser
+ *              elements.
  *
  * @param indent The indent in spaces added to all declaration parser elements
  *               created.
  */
-void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent)
+void add(QList<Abstract::Parser*>* list, const Enumeration& block, int indent)
 {
    // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
@@ -1082,7 +1082,7 @@ void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int ind
    // indent to the one given and adding it to he given list.
    CommentParser* comment {new CommentParser};
    comment->setIndent(indent);
-   comment->add(enumeration.description());
+   comment->add(block.description());
    *list << comment;
 
    // Create the opening enumeration declaration line parser for the given
@@ -1091,15 +1091,15 @@ void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int ind
    LineParser* line {new LineParser};
    line->setIndent(indent);
    QString header {QStringLiteral("enum")};
-   if ( enumeration.isClass() ) header += QStringLiteral(" class");
-   if ( !enumeration.baseName().isEmpty() ) header += QStringLiteral(" ") + enumeration.baseName();
+   if ( block.isClass() ) header += QStringLiteral(" class");
+   if ( !block.baseName().isEmpty() ) header += QStringLiteral(" ") + block.baseName();
    line->add(header);
    line->add(QStringLiteral("{"));
    *list << line;
 
    // Add all enumeration values parser elements to the given list, passing an
    // incremented indent by the indent spaces global setting.
-   addValues(list,enumeration,indent + Settings::instance().indentSpaces());
+   addValues(list,block,indent + Settings::instance().indentSpaces());
 
    // Add a closing bracket line parser to the given list.
    *list << new LineParser(indent,QStringLiteral("};"));
@@ -1117,20 +1117,20 @@ void add(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int ind
  * @param list The declaration list that has the created parser elements of
  *             enumeration values for the given enumeration added to it.
  *
- * @param enumeration The enumeration whose enumeration value children are used
- *                    to generate parser elements.
+ * @param block The enumeration whose enumeration value children are used to
+ *              generate parser elements.
  *
  * @param indent The indent in spaces added to all declaration parser elements
  *               created.
  */
-void addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, int indent)
+void addValues(QList<Abstract::Parser*>* list, const Enumeration& block, int indent)
 {
    // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
 
    // Iterate through all enumeration value children blocks of the given enumeration.
    bool first {true};
-   for (auto enumVal: enumeration.createListOfType<const EnumValue>(Factory::EnumValueType) )
+   for (auto enumVal: block.createListOfType<const EnumValue>(Factory::EnumValueType) )
    {
       // Add the comment block description of the enumeration value, setting its indent
       // to the one given and adding it to the given list.
@@ -1164,7 +1164,7 @@ void addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, i
  * Determines if the given function block should be added as a definition based
  * off the given header flag, returning true if it should be added.
  *
- * @param function The function block which is evaluated.
+ * @param block The function block which is evaluated.
  *
  * @param isHeader True if this is for a header file or false if it is for a
  *                 source file.
@@ -1172,16 +1172,16 @@ void addValues(QList<Abstract::Parser*>* list, const Enumeration& enumeration, i
  * @return True if the given function should have its definition added or false
  *         if not.
  */
-bool hasDefinition(const Function& function, bool isHeader)
+bool hasDefinition(const Function& block, bool isHeader)
 {
-   return ( isHeader && function.hasAnyTemplates() && !function.isPrivateMethod() )
+   return ( isHeader && block.hasAnyTemplates() && !block.isPrivateMethod() )
           || ( !isHeader
-               && !function.isAbstract()
-               && !function.isSignal()
-               && !function.isDefault()
-               && !function.isDeleted()
-               && function.baseName() != QStringLiteral("main")
-               && ( !function.hasAnyTemplates() || function.isPrivateMethod() ) );
+               && !block.isAbstract()
+               && !block.isSignal()
+               && !block.isDefault()
+               && !block.isDeleted()
+               && block.baseName() != QStringLiteral("main")
+               && ( !block.hasAnyTemplates() || block.isPrivateMethod() ) );
 }
 
 
@@ -1195,49 +1195,49 @@ bool hasDefinition(const Function& function, bool isHeader)
  *
  * @param list The list which has the created parser elements added to it.
  *
- * @param function The function block used to generate the declaration parser
- *                 elements.
+ * @param block The function block used to generate the declaration parser
+ *              elements.
  *
  * @param indent The indent in spaces added to each parser element created.
  */
-void addDeclaration(QList<Abstract::Parser*>* list, const Function& function, int indent)
+void addDeclaration(QList<Abstract::Parser*>* list, const Function& block, int indent)
 {
    // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
 
    // If the given function is a signal, abstract, default, or deleted than add its
    // comments to the given declaration list.
-   if ( function.isSignal()
-        || function.isAbstract()
-        || function.isDefault()
-        || function.isDeleted() )
+   if ( block.isSignal()
+        || block.isAbstract()
+        || block.isDefault()
+        || block.isDeleted() )
    {
-      addComments(list,function,indent);
+      addComments(list,block,indent);
    }
 
    // Create the declaration string, initializing it with any templates arguments.
-   QString declaration {createTemplate(&function)};
+   QString declaration {createTemplate(&block)};
 
    // Add any function attributes that come before the function name in its
    // declaration.
-   if ( function.isQtInvokable() ) declaration += QStringLiteral("Q_INVOKABLE ");
-   if ( function.isExplicit() ) declaration += QStringLiteral("explicit ");
-   if ( function.isVirtual() ) declaration += QStringLiteral("virtual ");
-   if ( function.isConstExpr() ) declaration += QStringLiteral("constexpr ");
-   if ( function.isStatic() ) declaration += QStringLiteral("static ");
+   if ( block.isQtInvokable() ) declaration += QStringLiteral("Q_INVOKABLE ");
+   if ( block.isExplicit() ) declaration += QStringLiteral("explicit ");
+   if ( block.isVirtual() ) declaration += QStringLiteral("virtual ");
+   if ( block.isConstExpr() ) declaration += QStringLiteral("constexpr ");
+   if ( block.isStatic() ) declaration += QStringLiteral("static ");
 
    // Add the base function name and arguments to its declaration.
-   declaration += createBaseDeclaration(function);
+   declaration += createBaseDeclaration(block);
 
    // Add any function attributes that come after the function name to its
    // declaration.
-   if ( function.isConst() ) declaration += QStringLiteral(" const");
-   if ( function.isNoExcept() ) declaration += QStringLiteral(" noexcept");
-   if ( function.isOverride() ) declaration += QStringLiteral(" override");
-   if ( function.isFinal() ) declaration += QStringLiteral(" final");
-   if ( function.isAbstract() ) declaration += QStringLiteral(" = 0");
-   if ( function.isDefault() ) declaration += QStringLiteral(" = default");
-   if ( function.isDeleted() ) declaration += QStringLiteral(" = delete");
+   if ( block.isConst() ) declaration += QStringLiteral(" const");
+   if ( block.isNoExcept() ) declaration += QStringLiteral(" noexcept");
+   if ( block.isOverride() ) declaration += QStringLiteral(" override");
+   if ( block.isFinal() ) declaration += QStringLiteral(" final");
+   if ( block.isAbstract() ) declaration += QStringLiteral(" = 0");
+   if ( block.isDefault() ) declaration += QStringLiteral(" = default");
+   if ( block.isDeleted() ) declaration += QStringLiteral(" = delete");
 
    // Add the closing semicolon and then add the completed declaration line parser to
    // the given list.
@@ -1256,8 +1256,8 @@ void addDeclaration(QList<Abstract::Parser*>* list, const Function& function, in
  * class scope of the function and add any initializer values of function
  * arguments.
  *
- * @param function The function block used to create and return the base name
- *                 declaration.
+ * @param block The function block used to create and return the base name
+ *              declaration.
  *
  * @param classScope The optional class scope prepended before the base name of
  *                   the returned declaration.
@@ -1269,20 +1269,20 @@ void addDeclaration(QList<Abstract::Parser*>* list, const Function& function, in
  *         the base name and arguments. Can also include the class scope and
  *         argument initializer values.
  */
-QString createBaseDeclaration(const Function& function, const QString& classScope, bool initializers)
+QString createBaseDeclaration(const Function& block, const QString& classScope, bool initializers)
 {
    // Create the return string, initializing it with the given function's return type
    // and then appending a space if it is not empty.
-   QString ret {function.returnType()};
+   QString ret {block.returnType()};
    if ( !ret.isEmpty() ) ret += QStringLiteral(" ");
 
    // Append the optional class scope, base name, and opening parenthesis to the
    // return string.
-   ret += classScope + function.baseName() + QStringLiteral("(");
+   ret += classScope + block.baseName() + QStringLiteral("(");
 
    // Iterate through all arguments of the given function block.
    bool first {true};
-   for (auto argument: function.arguments())
+   for (auto argument: block.arguments())
    {
       // If this is not the first argument append a comma and space to the return
       // string.
@@ -1316,66 +1316,63 @@ QString createBaseDeclaration(const Function& function, const QString& classScop
  * @param list The definition list which has the created parser elements added
  *             to it.
  *
- * @param function The function block used to generate the definition parser
- *                 elements.
+ * @param block The function block used to generate the definition parser
+ *              elements.
  */
-void addDefinition(QList<Abstract::Parser*>* list, const Function& function)
+void addDefinition(QList<Abstract::Parser*>* list, const Function& block)
 {
    // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
 
    // Add the comment parser elements of the given function to the given list.
-   addComments(list,function);
+   addComments(list,block);
 
    // Create the class scope of the given function.
-   QString classScope {createClassScope(&function)};
+   QString classScope {createClassScope(&block)};
 
    // Create the header, initialized with any template arguments and the base
    // declaration of the given function.
    QString header
    {
-      createTemplates(&function) + createBaseDeclaration(function,classScope,false)
+      createTemplates(&block) + createBaseDeclaration(block,classScope,false)
    };
 
    // Add any flags required at the end of the header.
-   if ( function.isConst() ) header += QStringLiteral(" const");
-   if ( function.isNoExcept() ) header += QStringLiteral(" noexcept");
+   if ( block.isConst() ) header += QStringLiteral(" const");
+   if ( block.isNoExcept() ) header += QStringLiteral(" noexcept");
 
    // Create a new function parser with the completed header string and steps of
    // operation of the given function block.
-   FunctionParser* functionParser
-   {
-      new FunctionParser(header,function.operations())
-   };
+   FunctionParser* function {new FunctionParser(header,block.operations())};
 
    // Add the scope, base name, and opening parenthesis to the expression header of
    // the function parser.
-   functionParser->add(classScope + function.baseName() + QStringLiteral("("));
+   function->add(classScope + block.baseName() + QStringLiteral("("));
 
    // Iterate through all arguments of the given function.
    bool first {true};
-   for (auto argument: function.arguments())
+   for (auto argument: block.arguments())
    {
       // If this is not the first argument then add regular expression matching the
       // expected comma.
       if ( first ) first = false;
-      else functionParser->addExp(QStringLiteral(",\\s*"));
+      else function->addExp(QStringLiteral(",\\s*"));
 
       // Add regular expression matching the argument.
-      functionParser->add(argument->variableType());
-      functionParser->addExp(QStringLiteral("\\s+[a-zA-Z_]+[a-zA-Z_0-9]*\\s*"));
+      function->add(argument->variableType());
+      function->addExp(QStringLiteral("\\s+[a-zA-Z_]+[a-zA-Z_0-9]*\\s*"));
    }
 
    // Add the closing parenthesis to the expression header.
-   functionParser->add(QStringLiteral(")"));
+   function->add(QStringLiteral(")"));
 
    // Add any required flags to the expression matrix followed by the closing.
-   if ( function.isConst() ) functionParser->addExp(QStringLiteral("\\s+const"));
-   if ( function.isNoExcept() ) functionParser->addExp(QStringLiteral("\\s+noexcept"));
-   functionParser->addExp(QStringLiteral("\\s*:?\\s*\\z"));
+   if ( block.isConst() ) function->addExp(QStringLiteral("\\s+const"));
+   if ( block.isNoExcept() ) function->addExp(QStringLiteral("\\s+noexcept"));
+   function->addExp(QStringLiteral("\\s*:?\\s*\\z"));
 
    // Add the completed function parser to the given list.
-   *list << functionParser;
+   *list << function;
 }
 
 
@@ -1390,11 +1387,11 @@ void addDefinition(QList<Abstract::Parser*>* list, const Function& function)
  *
  * @param list The list which has the created comment parser added to it.
  *
- * @param function The function block used to create the comment parser.
+ * @param block The function block used to create the comment parser.
  *
  * @param indent Optional indent in spaces added to the comment parser created.
  */
-void addComments(QList<Abstract::Parser*>* list, const Function& function, int indent)
+void addComments(QList<Abstract::Parser*>* list, const Function& block, int indent)
 {
    // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
@@ -1403,11 +1400,11 @@ void addComments(QList<Abstract::Parser*>* list, const Function& function, int i
    // adding the given function block's description.
    CommentParser* comment {new CommentParser};
    comment->setIndent(indent);
-   comment->add(function.description());
+   comment->add(block.description());
 
    // Add all comment descriptions of any templates the given function block contains
    // as children, separated by a single blank comment line.
-   for (auto temp: function.templates())
+   for (auto temp: block.templates())
    {
       comment->add(1);
       comment->add(QStringLiteral("@tparam ") + temp->baseName(),temp->description());
@@ -1415,7 +1412,7 @@ void addComments(QList<Abstract::Parser*>* list, const Function& function, int i
 
    // Add all comment descriptions of any arguments the given function block contains
    // as children, separated by a single blank comment line.
-   for (auto argument: function.arguments())
+   for (auto argument: block.arguments())
    {
       comment->add(1);
       comment->add(QStringLiteral("@param ") + argument->baseName(),argument->description());
@@ -1424,9 +1421,9 @@ void addComments(QList<Abstract::Parser*>* list, const Function& function, int i
    // If the given function block's return value is not void and its return
    // description is not empty then add a return value comment description separated
    // by a single blank comment line.
-   if ( !function.isVoidReturn() )
+   if ( !block.isVoidReturn() )
    {
-      QString description {function.returnDescription()};
+      QString description {block.returnDescription()};
       if ( !description.isEmpty() )
       {
          comment->add(1);
@@ -1448,7 +1445,7 @@ void addComments(QList<Abstract::Parser*>* list, const Function& function, int i
  * definition based off the given header flag, returning true if it should be
  * added.
  *
- * @param variable The variable block which is evaluated.
+ * @param block The variable block which is evaluated.
  *
  * @param isHeader True if this is for a header file or false if it is a source
  *                 file.
@@ -1456,17 +1453,17 @@ void addComments(QList<Abstract::Parser*>* list, const Function& function, int i
  * @return True if the given variable should have its definition added or false
  *         if not.
  */
-bool hasDefinition(const Variable& variable, bool isHeader)
+bool hasDefinition(const Variable& block, bool isHeader)
 {
    return ( isHeader
-            && variable.isStatic()
-            && !variable.isConstExpr()
-            && variable.hasAnyTemplates() )
+            && block.isStatic()
+            && !block.isConstExpr()
+            && block.hasAnyTemplates() )
           || ( !isHeader
-               && ( !variable.isMember()
-                    || ( variable.isStatic()
-                         && !variable.isConstExpr()
-                         && !variable.hasAnyTemplates() ) ) );
+               && ( !block.isMember()
+                    || ( block.isStatic()
+                         && !block.isConstExpr()
+                         && !block.hasAnyTemplates() ) ) );
 }
 
 
@@ -1481,11 +1478,11 @@ bool hasDefinition(const Variable& variable, bool isHeader)
  * @param list The declaration list which has the created declaration parser
  *             elements added to it.
  *
- * @param variable The variable block used to create the parser elements.
+ * @param block The variable block used to create the parser elements.
  *
  * @param indent The indent in spaces added to each parser element created.
  */
-void addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, int indent)
+void addDeclaration(QList<Abstract::Parser*>* list, const Variable& block, int indent)
 {
    // Make sure the given list pointer is valid.
    Q_CHECK_PTR(list);
@@ -1494,28 +1491,28 @@ void addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, in
    // adding the given variable's description.
    CommentParser* comment {new CommentParser};
    comment->setIndent(indent);
-   comment->add(variable.description());
+   comment->add(block.description());
    *list << comment;
 
    // Create a declaration string, adding any variable flags that come before the
    // anything else.
    QString declaration;
-   if ( variable.isConstExpr() ) declaration += QStringLiteral("constexpr ");
-   if ( variable.isStatic() ) declaration += QStringLiteral("static ");
-   if ( variable.isMutable() ) declaration += QStringLiteral("mutable ");
-   if ( variable.isThreadLocal() ) declaration += QStringLiteral("thread_local ");
-   if ( !variable.isMember() ) declaration += (QStringLiteral("extern "));
+   if ( block.isConstExpr() ) declaration += QStringLiteral("constexpr ");
+   if ( block.isStatic() ) declaration += QStringLiteral("static ");
+   if ( block.isMutable() ) declaration += QStringLiteral("mutable ");
+   if ( block.isThreadLocal() ) declaration += QStringLiteral("thread_local ");
+   if ( !block.isMember() ) declaration += (QStringLiteral("extern "));
 
    // Add the variable type and base name to the declaration.
-   declaration += variable.variableType() + QStringLiteral(" ") + variable.baseName();
+   declaration += block.variableType() + QStringLiteral(" ") + block.baseName();
 
    // If the given variable is a class member, is not static or is a constant
    // expression, and has an initializer then add the initializer to the declaration.
-   if ( variable.isMember()
-        && ( !variable.isStatic() || variable.isConstExpr() )
-        && variable.hasInitializer() )
+   if ( block.isMember()
+        && ( !block.isStatic() || block.isConstExpr() )
+        && block.hasInitializer() )
    {
-      declaration += QStringLiteral(" {") + variable.initializer() + QStringLiteral("}");
+      declaration += QStringLiteral(" {") + block.initializer() + QStringLiteral("}");
    }
 
    // Finish the declaration with the ending semicolon and add it as a line parser to
@@ -1536,33 +1533,33 @@ void addDeclaration(QList<Abstract::Parser*>* list, const Variable& variable, in
  * @param list The definition list which has the created parser elements added
  *             to it.
  *
- * @param variable The variable block used to generate the definition parser
- *                 elements.
+ * @param block The variable block used to generate the definition parser
+ *              elements.
  */
-void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& variable)
+void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& block)
 {
    // Create a comment parser and add the given variable's description, adding it to
    // the given list.
    CommentParser* comment {new CommentParser};
-   comment->add(variable.description());
+   comment->add(block.description());
    *list << comment;
 
    // Create a definition string, adding thread local if that is set in the given
    // variable.
    QString definition;
-   if ( variable.isThreadLocal() ) definition += QStringLiteral("thread_local ");
+   if ( block.isThreadLocal() ) definition += QStringLiteral("thread_local ");
 
    // Add the type, class scope, and base name of the given variable to the
    // definition string.
-   definition += variable.variableType()
+   definition += block.variableType()
                  + QStringLiteral(" ")
-                 + createClassScope(&variable)
-                 + variable.baseName();
+                 + createClassScope(&block)
+                 + block.baseName();
 
    // If the given variable has an initializer then add it to the definition string.
-   if ( variable.hasInitializer() )
+   if ( block.hasInitializer() )
    {
-      definition += QStringLiteral(" {") + variable.initializer() + QStringLiteral("}");
+      definition += QStringLiteral(" {") + block.initializer() + QStringLiteral("}");
    }
 
    // Finish the definition string with a semicolon and add it as a line parser to
