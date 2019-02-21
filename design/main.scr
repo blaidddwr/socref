@@ -8048,7 +8048,7 @@ This is one of two primary functions that can be considered the core or engine o
             <operation>Create a new comment for the given class, adding its description to it and setting its indent to the one given.</operation>
             <operation>Iterate through all templates arguments for the given class, adding a comment description for each template separated by one blank comment line.</operation>
             <operation>Add the completed comment parser element to the given declaration list.</operation>
-            <operation>Create the header string initialized with the class name declaration.</operation>
+            <operation>Create the header string initialized with the class name declaration, including its template declaration if the given class is not nested aka its parent is a namespace.</operation>
             <operation>Get the given class block's list of parent blocks and make sure it is not empty.</operation>
             <operation>Append the beginning of parents declaration to the header.</operation>
             <operation>Iterate through all parent blocks, adding each one's declaration to the header separated by commas and a space.</operation>
@@ -8508,6 +8508,7 @@ This is one of two primary functions that can be considered the core or engine o
             <operation>If this is a declaration add the template type and a space.</operation>
             <operation>Add the template's base name.</operation>
             <operation>Add the closing template argument token.</operation>
+            <operation>If this is a declaration then add a single space at the end.</operation>
             <operation>Return the finished single template declaration or argument list.</operation>
             <return_description>Single template declaration for the given block or template arguments if optional declaration setting is disabled.</return_description>
             <type>QString</type>
@@ -8536,7 +8537,7 @@ This is one of two primary functions that can be considered the core or engine o
             <operation>Make sure the given block pointer is not null.</operation>
             <operation>Create the return list of block pointers.</operation>
             <operation>Move up the parents of the given block starting with the one given.</operation>
-            <operation>If the parent block is a function or class, and it contains templates, then add it to the returned list.</operation>
+            <operation>If the parent block is a function or class, and it contains templates, then prepend it to the returned list.</operation>
             <operation>Else if the parent block is a namespace then return the completed list.</operation>
             <operation>Move up to the next parent block.</operation>
             <operation>Control should never be reached here but if it is return the finished list of template containing parent blocks.</operation>

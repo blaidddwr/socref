@@ -1001,8 +1001,12 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
       // Add the completed comment parser element to the given declaration list.
       *declarations << comment;
 
-      // Create the header string initialized with the class name declaration.
-      QString header {QStringLiteral("class ") + root.baseName()};
+      // Create the header string initialized with the class name declaration, including
+      // its template declaration if the given class is not nested aka its parent is a
+      // namespace.
+      QString header;
+      if ( root.parent()->type() == Factory::NamespaceType ) header += createTemplates(&root);
+      header += QStringLiteral("class ") + root.baseName();
 
       // Get the given class block's list of parent blocks and make sure it is not
       // empty.
@@ -1546,7 +1550,7 @@ void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& block)
 
    // Create a definition string, adding thread local if that is set in the given
    // variable.
-   QString definition;
+   QString definition {createTemplates(&block)};
    if ( block.isThreadLocal() ) definition += QStringLiteral("thread_local ");
 
    // Add the type, class scope, and base name of the given variable to the
@@ -1699,7 +1703,10 @@ QString createTemplate(const Abstract::Block* block, bool declaration)
       }
 
       // Add the closing template argument token.
-      ret += QStringLiteral("> ");
+      ret += QStringLiteral(">");
+
+      // If this is a declaration then add a single space at the end.
+      if ( declaration ) ret += QStringLiteral(" ");
    }
 
    // Return the finished single template declaration or argument list.
@@ -1735,12 +1742,12 @@ QList<const Abstract::Block*> createTemplateList(const Abstract::Block* block)
    const Abstract::Block* up {block};
    while ( up )
    {
-      // If the parent block is a function or class, and it contains templates, then add
-      // it to the returned list.
+      // If the parent block is a function or class, and it contains templates, then
+      // prepend it to the returned list.
       if ( ( up->type() == Factory::FunctionType || up->type() == Factory::ClassType )
            && up->containsType(Factory::TemplateType) )
       {
-         ret << up;
+         ret.prepend(up);
       }
 
       // Else if the parent block is a namespace then return the completed list.
