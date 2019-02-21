@@ -8134,7 +8134,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The enumeration block used to generate the declaration parser elements.</description>
               <initializer></initializer>
-              <name>enumeration</name>
+              <name>block</name>
               <type>const Enumeration&amp;</type>
             </data>
           </variable>
@@ -8172,7 +8172,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The enumeration whose enumeration value children are used to generate parser elements.</description>
               <initializer></initializer>
-              <name>enumeration</name>
+              <name>block</name>
               <type>const Enumeration&amp;</type>
             </data>
           </variable>
@@ -8196,7 +8196,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The function block which is evaluated.</description>
               <initializer></initializer>
-              <name>function</name>
+              <name>block</name>
               <type>const Function&amp;</type>
             </data>
           </variable>
@@ -8235,7 +8235,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The function block used to generate the declaration parser elements.</description>
               <initializer></initializer>
-              <name>function</name>
+              <name>block</name>
               <type>const Function&amp;</type>
             </data>
           </variable>
@@ -8265,7 +8265,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The function block used to create and return the base name declaration.</description>
               <initializer></initializer>
-              <name>function</name>
+              <name>block</name>
               <type>const Function&amp;</type>
             </data>
           </variable>
@@ -8318,7 +8318,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The function block used to generate the definition parser elements.</description>
               <initializer></initializer>
-              <name>function</name>
+              <name>block</name>
               <type>const Function&amp;</type>
             </data>
           </variable>
@@ -8348,7 +8348,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The function block used to create the comment parser.</description>
               <initializer></initializer>
-              <name>function</name>
+              <name>block</name>
               <type>const Function&amp;</type>
             </data>
           </variable>
@@ -8372,7 +8372,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The variable block which is evaluated.</description>
               <initializer></initializer>
-              <name>variable</name>
+              <name>block</name>
               <type>const Variable&amp;</type>
             </data>
           </variable>
@@ -8410,7 +8410,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The variable block used to create the parser elements.</description>
               <initializer></initializer>
-              <name>variable</name>
+              <name>block</name>
               <type>const Variable&amp;</type>
             </data>
           </variable>
@@ -8447,7 +8447,7 @@ This is one of two primary functions that can be considered the core or engine o
             <data>
               <description>The variable block used to generate the definition parser elements.</description>
               <initializer></initializer>
-              <name>variable</name>
+              <name>block</name>
               <type>const CppQt::Variable&amp;</type>
             </data>
           </variable>
@@ -11041,7 +11041,7 @@ This is one of two primary functions that can be considered the core or engine o
         <class>
           <data>
             <description>This specializes the basic input parser class. This will grab all custom lines of code in a GLSL shader source file so they are saved and given back as output lines. The first line is also grabbed and saved because there is no default header for source files.</description>
-            <name>Source</name>
+            <name>SourceParser</name>
             <qtobject/>
           </data>
           <parent>
@@ -11062,6 +11062,76 @@ This is one of two primary functions that can be considered the core or engine o
                 <return_description></return_description>
                 <type></type>
               </data>
+            </function>
+          </access>
+        </class>
+        <class>
+          <data>
+            <description>This specializes the basic comment parser class. This provides the begin, middle, and ending strings for GLSL code to its basic class. This also provides the max columns GLSL project setting to the base class.</description>
+            <name>CommentParser</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>Basic::CommentParser</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Constructs a new comment parser element.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+            </function>
+          </access>
+        </class>
+        <class>
+          <data>
+            <description>This specializes the basic function parser class. This provides the in token, out token, escape tokens, begin inline comment string, and maximum columns GLSL project setting to its base class. The header and operations are passed along as arguments since they are unique to each function. For GLSL there are no escape tokens so that argument is an empty string to its base class.</description>
+            <name>FunctionParser</name>
+            <qtobject/>
+          </data>
+          <parent>
+            <data>
+              <access>public</access>
+              <class>Basic::FunctionParser</class>
+            </data>
+          </parent>
+          <access>
+            <data>
+              <type>public:</type>
+            </data>
+            <function>
+              <data>
+                <description>Constructs a new function parser with the given header and steps of operation.</description>
+                <explicit/>
+                <name>^</name>
+                <return_description></return_description>
+                <type></type>
+              </data>
+              <variable>
+                <data>
+                  <description>The header or full name of this function that will be used as the first line of output for this function parser.</description>
+                  <initializer></initializer>
+                  <name>header</name>
+                  <type>const QString&amp;</type>
+                </data>
+              </variable>
+              <variable>
+                <data>
+                  <description>A list of operation step descriptions this function parser uses to generate inline comment block lines.</description>
+                  <initializer></initializer>
+                  <name>operations</name>
+                  <type>const QStringList&amp;</type>
+                </data>
+              </variable>
             </function>
           </access>
         </class>
@@ -11126,25 +11196,27 @@ The parsing of a project is done through this function alone. Only one type of s
         </function>
         <function>
           <data>
-            <description>Adds a namespace source file scanner object to the given mapping using the given namespace block, recursively adding all other children namespace and class block's source file scanner objects.</description>
+            <description>Creates and adds the scanner object to the given mapping from the given shader object, using the given scope to generate the file name key for insertion.</description>
             <name>addSource</name>
             <operation>Make sure the given mapping pointer is valid.</operation>
-            <operation>Grab relevant global settings, create the scanner that is added, and create the namespace scope of the given namespace.</operation>
-            <operation>Add the header parser elements to the scanner.</operation>
-            <operation>If the scope is not empty add a header lines number of blank spaces and then the scope without adding to the indent.</operation>
-            <operation>Create the list of variable and function definition parser elements.</operation>
-            <operation>Add all variable and function definition parser elements to the scanner.</operation>
-            <operation>Add the footer parser elements to the scanner.</operation>
-            <operation>Insert the generated scanner object into the given mapping using the source extension.</operation>
-            <operation>Iterate through all children blocks of the given namespace.</operation>
-            <operation>If the child is a namespace then recursively call this function to add its scanner object and all its children's scanners.</operation>
-            <operation>If the child is a class then add its source file scanner object to the given mapping.</operation>
+            <operation>Grab all relevant global settings.</operation>
+            <operation>Create the scanner and add the source parser to it.</operation>
+            <operation>Iterate through all children of the given shader block.</operation>
+            <operation>Figure out the block type of the child.</operation>
+            <operation>Cast the child as a variable and make sure it worked.</operation>
+            <operation>Add a variable lines number of blank lines to the scanner and then add the variable child's definition to it.</operation>
+            <operation>Cast the child as a struct and make sure it worked.</operation>
+            <operation>Add a struct lines number of blank lines to the scanner and then add the struct child's definition to it.</operation>
+            <operation>Cast the child as a function and make sure it worked.</operation>
+            <operation>Add a function number of blank lines to the scanner and then add the function child's definition to it.</operation>
+            <operation>Add the special main function definition to the scanner.</operation>
+            <operation>Add one final blank line to the end of the scanner and then insert it into the given mapping.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The mapping which has the created scanner object added to it.</description>
               <initializer></initializer>
               <name>map</name>
               <type>QMap&lt;QString,Scanner*>*</type>
@@ -11152,7 +11224,7 @@ The parsing of a project is done through this function alone. Only one type of s
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The shader object used to create the scanner object that is added.</description>
               <initializer></initializer>
               <name>shader</name>
               <type>const Shader&amp;</type>
@@ -11160,8 +11232,8 @@ The parsing of a project is done through this function alone. Only one type of s
           </variable>
           <variable>
             <data>
-              <description></description>
-              <initializer>QString()</initializer>
+              <description>The namespace scope of the given shader object, used to generate the file name key where the created scanner object is inserted.</description>
+              <initializer></initializer>
               <name>scope</name>
               <type>QString</type>
             </data>
@@ -11169,14 +11241,20 @@ The parsing of a project is done through this function alone. Only one type of s
         </function>
         <function>
           <data>
-            <description></description>
+            <description>Inserts the given scanner object into the given mapping using the given shader object and namespace scope to generate the file name key for insertion.</description>
             <name>insert</name>
+            <operation>Make sure the given pointers are valid.</operation>
+            <operation>Create the file name key, initializing it to the given scope and shader block's base name separated by an underscore if the scope is not empty.</operation>
+            <operation>Append the appropriate sub extension to the file name based off the given shader block's type.</operation>
+            <operation>Add the GLSL extension to the end of the now complete file name key.</operation>
+            <operation>Make sure the given mapping does not already contain a scanner object with the file name key.</operation>
+            <operation>Insert the given scanner object into the given mapping with the file name key generated.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The mapping which has the given scanner added to it.</description>
               <initializer></initializer>
               <name>map</name>
               <type>QMap&lt;QString,Scanner*>*</type>
@@ -11184,7 +11262,7 @@ The parsing of a project is done through this function alone. Only one type of s
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner object that is added to the given mapping.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -11192,7 +11270,7 @@ The parsing of a project is done through this function alone. Only one type of s
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The shader object used to generate the file name key for insertion.</description>
               <initializer></initializer>
               <name>shader</name>
               <type>const Shader&amp;</type>
@@ -11200,7 +11278,7 @@ The parsing of a project is done through this function alone. Only one type of s
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The namespace scope of the given shader object used to generate the file name key for insertion.</description>
               <initializer></initializer>
               <name>scope</name>
               <type>QString</type>
@@ -11209,14 +11287,19 @@ The parsing of a project is done through this function alone. Only one type of s
         </function>
         <function>
           <data>
-            <description></description>
-            <name>addMain</name>
+            <description>Adds parser elements for the given variable block to the given scanner, adding the given indent to each parser element created.</description>
+            <name>add</name>
+            <operation>Make sure the given scanner pointer is valid.</operation>
+            <operation>Create and add a comment parser to the given scanner, setting its indent to the one given and adding the given variable's description.</operation>
+            <operation>Create the definition string, initializing it with any layout the given variable may contain and its type.</operation>
+            <operation>Add the given variable's name to the definition, separated by a space if it is not empty.</operation>
+            <operation>Create and add the definition line parser to the given scanner, setting its indent to the one given.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
           <variable>
             <data>
-              <description></description>
+              <description>The scanner which has the created parser elements added to it.</description>
               <initializer></initializer>
               <name>scanner</name>
               <type>Scanner*</type>
@@ -11224,7 +11307,130 @@ The parsing of a project is done through this function alone. Only one type of s
           </variable>
           <variable>
             <data>
-              <description></description>
+              <description>The variable block used to create the parser elements defining it.</description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>const Variable&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The indent in spaces added to each parser element created.</description>
+              <initializer></initializer>
+              <name>indent</name>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Adds parser elements for the given struct block to the given scanner. This includes all children variables contained within the struct block, indented with the appropriate global setting.</description>
+            <name>add</name>
+            <operation>Make sure the given scanner pointer is valid.</operation>
+            <operation>Create and add the description comment block to the given scanner.</operation>
+            <operation>Create and add the opening definition line parser to the given scanner.</operation>
+            <operation>Iterate through all variable children of the given struct block, adding their parser element definition to the given scanner indented withe the appropriate global setting.</operation>
+            <operation>Create and add the closing definition line parser to the given scanner.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>The scanner which has the created parser elements added to it.</description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The struct block used to create the parser elements for itself and all its children variable blocks.</description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>const Struct&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Creates and returns the layout qualifiers for the given variable block.</description>
+            <name>createLayout</name>
+            <operation>Create a new string that will be returned as the created layout.</operation>
+            <operation>If there are no qualifiers then return an empty string.</operation>
+            <operation>Add the beginning of the layout definition.</operation>
+            <operation>Iterate through all qualifiers and add them to the layout definition.</operation>
+            <operation>Add the now complete end of the layout definition and then return it.</operation>
+            <return_description>Layout qualifiers for the given variable block.</return_description>
+            <type>QString</type>
+          </data>
+          <variable>
+            <data>
+              <description>The variable block used to create the layout string.</description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>const Variable&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Adds parser elements for the given function block to the given scanner.</description>
+            <name>add</name>
+            <operation>Make sure the given scanner pointer is valid.</operation>
+            <operation>Create a comment parser and add the given function's description to it.</operation>
+            <operation>Create the header string and initialize it with the given function's return type, base name, and opening parenthesis.</operation>
+            <operation>Iterate through all arguments of the given function.</operation>
+            <operation>If this is not the first argument then add a comma and space to the header.</operation>
+            <operation>Add the argument's definition to the header string.</operation>
+            <operation>Add the argument's comment block to the comment parser.</operation>
+            <operation>Add the comment parser to the given scanner and then finish the header string with a closing parenthesis.</operation>
+            <operation>Create a function parser with the completed header and the given function's steps of operation.</operation>
+            <operation>Add the given function's base name and open parenthesis to the header expression.</operation>
+            <operation>Iterate through all arguments of the given function again.</operation>
+            <operation>If this is not the first argument then add the comma separated expression.</operation>
+            <operation>Add the argument's expression for matching.</operation>
+            <operation>Add the closing parenthesis to the header expression and then add the function parser to the given scanner.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>The scanner which has the created parser elements added to it.</description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The function block used to create the parser elements defining it.</description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>const Function&amp;</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Adds parser elements for the special main function of the given shader object to the given scanner.</description>
+            <name>addMain</name>
+            <operation>Make sure the given scanner pointer is valid.</operation>
+            <operation>Create and add the comment block for the special main function to the given scanner, using the given shader block for the description.</operation>
+            <operation>Create and add the function parser for the special main function to the given scanner, using the given shader block for the steps of operation.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>The scanner which has parser elements added to it.</description>
+              <initializer></initializer>
+              <name>scanner</name>
+              <type>Scanner*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The shader object used to create the parser elements for the special main function.</description>
               <initializer></initializer>
               <name>shader</name>
               <type>const Shader&amp;</type>

@@ -26,4 +26,4 @@ HEADERS += \
     glsl_function.h \
     glsl_functionview.h
 
-#include(GLSL_Parse.pri)
+include(GLSL_Parse.pri)
