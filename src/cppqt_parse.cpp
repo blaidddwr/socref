@@ -1178,14 +1178,14 @@ void addValues(QList<Abstract::Parser*>* list, const Enumeration& block, int ind
  */
 bool hasDefinition(const Function& block, bool isHeader)
 {
-   return ( isHeader && block.hasAnyTemplates() && !block.isPrivateMethod() )
+   return ( isHeader && block.hasAnyTemplates() )
           || ( !isHeader
                && !block.isAbstract()
                && !block.isSignal()
                && !block.isDefault()
                && !block.isDeleted()
                && block.baseName() != QStringLiteral("main")
-               && ( !block.hasAnyTemplates() || block.isPrivateMethod() ) );
+               && !block.hasAnyTemplates() );
 }
 
 
