@@ -12,6 +12,8 @@
         <enumeration/>
         <variable/>
         <function/>
+        <struct/>
+        <union/>
         <class/>
     </buildlist>
     <edit>
@@ -194,6 +196,50 @@
 
 
 
+<struct display="Structure">
+    <icon>:/icons/struct.svg</icon>
+    <string id="name" default="structure"/>
+    <string id="description"/>
+    <buildlist>
+        <variable/>
+    </buildlist>
+    <name>name</name>
+    <edit>
+        <form>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+        </form>
+    </edit>
+    <view>
+        <h3>Description</h3>
+        <ps id="description"/>
+    </view>
+</struct>
+
+
+
+<union display="Union">
+    <icon>:/icons/union.svg</icon>
+    <string id="name" default="union"/>
+    <string id="description"/>
+    <buildlist>
+        <variable/>
+    </buildlist>
+    <name>name</name>
+    <edit>
+        <form>
+            <line id="name" display="Name:"/>
+            <text id="description" display="Description:"/>
+        </form>
+    </edit>
+    <view>
+        <h3>Description</h3>
+        <ps id="description"/>
+    </view>
+</union>
+
+
+
 <class display="Class">
     <string id="name" default="object"/>
     <string id="description"/>
@@ -229,6 +275,8 @@
         <enumeration/>
         <variable/>
         <function/>
+        <struct/>
+        <union/>
         <class/>
         <declaration/>
     </buildlist>

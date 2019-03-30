@@ -6,6 +6,8 @@
 #include "cppqt_settings.h"
 #include "cppqt_factory.h"
 #include "cppqt_namespace.h"
+#include "cppqt_struct.h"
+#include "cppqt_union.h"
 #include "cppqt_enumeration.h"
 #include "cppqt_enumvalue.h"
 #include "cppqt_variable.h"
@@ -845,6 +847,28 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
       // Figure out the block type of the child.
       switch (child->type())
       {
+      case Factory::StructType:
+         {
+            // Cast the child as a structure and make sure it worked.
+            const Struct* valid {child->cast<const Struct>(Factory::StructType)};
+            Q_CHECK_PTR(valid);
+
+            // If a declarations list is given then add its declaration parser elements to the
+            // list.
+            if ( declarations ) add(declarations,*valid,indent);
+            break;
+         }
+      case Factory::UnionType:
+         {
+            // Cast the child as a union and make sure it worked.
+            const Union* valid {child->cast<const Union>(Factory::UnionType)};
+            Q_CHECK_PTR(valid);
+
+            // If a declarations list is given then add its declaration parser elements to the
+            // list.
+            if ( declarations ) add(declarations,*valid,indent);
+            break;
+         }
       case Factory::EnumerationType:
          {
             // Cast the child as an enumeration and make sure it worked.
@@ -1057,6 +1081,106 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
    // If a declaration list is provided then add the closing class bracket line
    // parser to it.
    if ( declarations ) *declarations << new LineParser(indent,QStringLiteral("};"));
+}
+
+
+
+
+
+
+/*!
+ * Adds declaration parser elements for the given struct to the given
+ * declaration list using the given indent.
+ *
+ * @param list The declaration list that has the created parser elements of the
+ *             given enumeration added to it.
+ *
+ * @param block The union block used to generate the declaration parser
+ *              elements.
+ *
+ * @param indent The indent in spaces added to all declaration parser elements
+ *               created.
+ */
+void add(QList<Abstract::Parser*>* list, const Struct& block, int indent)
+{
+   // Make sure the given list pointer is valid.
+   Q_CHECK_PTR(list);
+
+   // Create a comment parser with the given structure's description, setting its
+   // indent to the one given and adding it to he given list.
+   CommentParser* comment {new CommentParser};
+   comment->setIndent(indent);
+   comment->add(block.description());
+   *list << comment;
+
+   // Create the opening structure declaration line parser for the given structure
+   // block, setting its indent to the one given and adding it to the given list.
+   LineParser* line {new LineParser};
+   line->setIndent(indent);
+   line->add(QStringLiteral("struct")+ QStringLiteral(" ") + block.baseName());
+   line->add(QStringLiteral("{"));
+   *list << line;
+
+   // Iterate through all children variable blocks of the given structure block and
+   // add their declaration parser elements to the given parser list, indenting all
+   // variable line parser elements.
+   for (auto variable: block.createListOfType<const Variable>(Factory::VariableType))
+   {
+      addDeclaration(list,*variable,indent + Settings::instance().indentSpaces());
+   }
+
+   // Add a closing bracket line parser to the given list.
+   *list << new LineParser(indent,QStringLiteral("};"));
+}
+
+
+
+
+
+
+/*!
+ * Adds declaration parser elements for the given union to the given declaration
+ * list using the given indent.
+ *
+ * @param list The declaration list that has the created parser elements of the
+ *             given enumeration added to it.
+ *
+ * @param block The union block used to generate the declaration parser
+ *              elements.
+ *
+ * @param indent The indent in spaces added to all declaration parser elements
+ *               created.
+ */
+void add(QList<Abstract::Parser*>* list, const Union& block, int indent)
+{
+   // Make sure the given list pointer is valid.
+   Q_CHECK_PTR(list);
+
+   // Create a comment parser with the given union's description, setting its indent
+   // to the one given and adding it to he given list.
+   CommentParser* comment {new CommentParser};
+   comment->setIndent(indent);
+   comment->add(block.description());
+   *list << comment;
+
+   // Create the opening union declaration line parser for the given union block,
+   // setting its indent to the one given and adding it to the given list.
+   LineParser* line {new LineParser};
+   line->setIndent(indent);
+   line->add(QStringLiteral("union")+ QStringLiteral(" ") + block.baseName());
+   line->add(QStringLiteral("{"));
+   *list << line;
+
+   // Iterate through all children variable blocks of the given union block and add
+   // their declaration parser elements to the given parser list, indenting all
+   // variable line parser elements.
+   for (auto variable: block.createListOfType<const Variable>(Factory::VariableType))
+   {
+      addDeclaration(list,*variable,indent + Settings::instance().indentSpaces());
+   }
+
+   // Add a closing bracket line parser to the given list.
+   *list << new LineParser(indent,QStringLiteral("};"));
 }
 
 

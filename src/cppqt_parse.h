@@ -39,6 +39,8 @@ namespace CppQt
       void endScope(Scanner* scanner, int* indent, bool flat = false);
       void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Abstract::Block& block, int indent, bool isHeader);
       void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, const Class& root, int indent, bool isHeader);
+      void add(QList<Abstract::Parser*>* list, const Struct& block, int indent);
+      void add(QList<Abstract::Parser*>* list, const Union& block, int indent);
       void add(QList<Abstract::Parser*>* list, const Enumeration& block, int indent);
       void addValues(QList<Abstract::Parser*>* list, const Enumeration& block, int indent);
       bool hasDefinition(const Function& block, bool isHeader);

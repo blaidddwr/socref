@@ -51,6 +51,14 @@ namespace CppQt
           */
          ,FunctionType
          /*!
+          * Defines the structure block.
+          */
+         ,StructType
+         /*!
+          * Defines the union block.
+          */
+         ,UnionType
+         /*!
           * Defines the class block.
           */
          ,ClassType

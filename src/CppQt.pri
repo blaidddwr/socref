@@ -35,6 +35,8 @@ HEADERS += \
     cppqt_template.h \
     cppqt_function.h \
     cppqt_functionview.h \
+    cppqt_struct.h \
+    cppqt_union.h \
     cppqt_class.h \
     cppqt_classview.h \
     cppqt_access.h \

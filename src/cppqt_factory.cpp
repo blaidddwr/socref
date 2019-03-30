@@ -6,6 +6,8 @@
 #include "cppqt_variable.h"
 #include "cppqt_template.h"
 #include "cppqt_function.h"
+#include "cppqt_struct.h"
+#include "cppqt_union.h"
 #include "cppqt_class.h"
 #include "cppqt_access.h"
 #include "cppqt_parent.h"
@@ -55,6 +57,8 @@ QString Factory::elementName(int type) const
    case VariableType: return QStringLiteral("variable");
    case FunctionType: return QStringLiteral("function");
    case TemplateType: return QStringLiteral("template");
+   case StructType: return QStringLiteral("struct");
+   case UnionType: return QStringLiteral("union");
    case ClassType: return QStringLiteral("class");
    case AccessType: return QStringLiteral("access");
    case ParentType: return QStringLiteral("parent");
@@ -102,6 +106,8 @@ Soc::Ut::QPtr<Basic::Block> Factory::createBasicBlock(int type) const
    case VariableType: return Soc::Ut::QPtr<Basic::Block>(new Variable);
    case TemplateType: return Soc::Ut::QPtr<Basic::Block>(new Template);
    case FunctionType: return Soc::Ut::QPtr<Basic::Block>(new Function);
+   case StructType: return Soc::Ut::QPtr<Basic::Block>(new Struct);
+   case UnionType: return Soc::Ut::QPtr<Basic::Block>(new Union);
    case ClassType: return Soc::Ut::QPtr<Basic::Block>(new Class);
    case AccessType: return Soc::Ut::QPtr<Basic::Block>(new Access);
    case ParentType: return Soc::Ut::QPtr<Basic::Block>(new Parent);

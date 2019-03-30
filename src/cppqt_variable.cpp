@@ -177,10 +177,10 @@ QString Variable::initializer() const
 
 
 /*!
- * Tests if this variable block is a member of a C++ class, returning true if it
- * is a member.
+ * Tests if this variable block is a member of a C++ class, structure, or union.
+ * This returns true if it is a member.
  *
- * @return True if this variable is a class member or false otherwise.
+ * @return True if this variable is a member or false otherwise.
  */
 bool Variable::isMember() const
 {
@@ -188,9 +188,11 @@ bool Variable::isMember() const
    Abstract::Block* up {parent()};
    if ( !up ) return false;
 
-   // Test if this variable is an argument by seeing if its parent block is an access
-   // type.
-   return up->type() == Factory::AccessType;
+   // Test if this variable is an argument by seeing if its parent block is an
+   // access, struct, or union type.
+   return ( up->type() == Factory::AccessType
+            || up->type() == Factory::StructType
+            || up->type() == Factory::UnionType );
 }
 
 

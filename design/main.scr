@@ -7971,6 +7971,10 @@ This is one of two primary functions that can be considered the core or engine o
             <operation>Grab relevant global settings.</operation>
             <operation>Iterate through all children of the given block.</operation>
             <operation>Figure out the block type of the child.</operation>
+            <operation>Cast the child as a structure and make sure it worked.</operation>
+            <operation>If a declarations list is given then add its declaration parser elements to the list.</operation>
+            <operation>Cast the child as a union and make sure it worked.</operation>
+            <operation>If a declarations list is given then add its declaration parser elements to the list.</operation>
             <operation>Cast the child as an enumeration and make sure it worked.</operation>
             <operation>If a declarations list is given then add its declaration parser elements to the list.</operation>
             <operation>Cast the child as a variable and make sure it worked.</operation>
@@ -8107,6 +8111,80 @@ This is one of two primary functions that can be considered the core or engine o
               <initializer></initializer>
               <name>isHeader</name>
               <type>bool</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Adds declaration parser elements for the given struct to the given declaration list using the given indent.</description>
+            <name>add</name>
+            <operation>Make sure the given list pointer is valid.</operation>
+            <operation>Create a comment parser with the given structure's description, setting its indent to the one given and adding it to he given list.</operation>
+            <operation>Create the opening structure declaration line parser for the given structure block, setting its indent to the one given and adding it to the given list.</operation>
+            <operation>Iterate through all children variable blocks of the given structure block and add their declaration parser elements to the given parser list, indenting all variable line parser elements.</operation>
+            <operation>Add a closing bracket line parser to the given list.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>The declaration list that has the created parser elements of the given enumeration added to it.</description>
+              <initializer></initializer>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The union block used to generate the declaration parser elements.</description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>const Struct&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The indent in spaces added to all declaration parser elements created.</description>
+              <initializer></initializer>
+              <name>indent</name>
+              <type>int</type>
+            </data>
+          </variable>
+        </function>
+        <function>
+          <data>
+            <description>Adds declaration parser elements for the given union to the given declaration list using the given indent.</description>
+            <name>add</name>
+            <operation>Make sure the given list pointer is valid.</operation>
+            <operation>Create a comment parser with the given union's description, setting its indent to the one given and adding it to he given list.</operation>
+            <operation>Create the opening union declaration line parser for the given union block, setting its indent to the one given and adding it to the given list.</operation>
+            <operation>Iterate through all children variable blocks of the given union block and add their declaration parser elements to the given parser list, indenting all variable line parser elements.</operation>
+            <operation>Add a closing bracket line parser to the given list.</operation>
+            <return_description></return_description>
+            <type>void</type>
+          </data>
+          <variable>
+            <data>
+              <description>The declaration list that has the created parser elements of the given enumeration added to it.</description>
+              <initializer></initializer>
+              <name>list</name>
+              <type>QList&lt;Abstract::Parser*>*</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The union block used to generate the declaration parser elements.</description>
+              <initializer></initializer>
+              <name>block</name>
+              <type>const Union&amp;</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The indent in spaces added to all declaration parser elements created.</description>
+              <initializer></initializer>
+              <name>indent</name>
+              <type>int</type>
             </data>
           </variable>
         </function>
@@ -8987,6 +9065,20 @@ This is one of two primary functions that can be considered the core or engine o
             </enumvalue>
             <enumvalue>
               <data>
+                <description>Defines the structure block.</description>
+                <name>StructType</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
+                <description>Defines the union block.</description>
+                <name>UnionType</name>
+                <value></value>
+              </data>
+            </enumvalue>
+            <enumvalue>
+              <data>
                 <description>Defines the class block.</description>
                 <name>ClassType</name>
                 <value></value>
@@ -9518,11 +9610,11 @@ This is one of two primary functions that can be considered the core or engine o
           <function>
             <data>
               <const/>
-              <description>Tests if this variable block is a member of a C++ class, returning true if it is a member.</description>
+              <description>Tests if this variable block is a member of a C++ class, structure, or union. This returns true if it is a member.</description>
               <name>isMember</name>
               <operation>Get this block's parent block pointer and make sure it is not null.</operation>
-              <operation>Test if this variable is an argument by seeing if its parent block is an access type.</operation>
-              <return_description>True if this variable is a class member or false otherwise.</return_description>
+              <operation>Test if this variable is an argument by seeing if its parent block is an access, struct, or union type.</operation>
+              <return_description>True if this variable is a member or false otherwise.</return_description>
               <type>bool</type>
             </data>
           </function>
@@ -10219,6 +10311,64 @@ This is one of two primary functions that can be considered the core or engine o
               <operation>Return rich text displaying the number of operations.</operation>
               <return_description>Rich text that displays the number of operations of this view's function block.</return_description>
               <type>QString</type>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the struct block. This represents a structure definition for C++ and can only hold variables.</description>
+          <name>Struct</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Base</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Constructs a new struct block.</description>
+              <explicit/>
+              <invokable/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
+            </data>
+          </function>
+        </access>
+      </class>
+      <class>
+        <data>
+          <description>This is the union block. This represents a union definition for C++ and can only hold variables.</description>
+          <name>Union</name>
+          <qtobject/>
+        </data>
+        <parent>
+          <data>
+            <access>public</access>
+            <class>Base</class>
+          </data>
+        </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Constructs a new union block.</description>
+              <explicit/>
+              <invokable/>
+              <name>^</name>
+              <return_description></return_description>
+              <type></type>
             </data>
           </function>
         </access>

@@ -21,6 +21,8 @@ namespace CppQt
    class Template;
    class Function;
    class FunctionView;
+   class Struct;
+   class Union;
    class Class;
    class ClassView;
    class Access;

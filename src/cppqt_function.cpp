@@ -147,7 +147,7 @@ bool Function::isDestructor() const
  */
 bool Function::isOperator() const
 {
-   return QRegularExpression("\\Aoperator*\\z").match(baseName()).hasMatch();
+   return QRegularExpression("\\Aoperator.*\\z").match(baseName()).hasMatch();
 }
 
 
