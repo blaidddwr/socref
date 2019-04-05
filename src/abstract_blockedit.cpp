@@ -28,7 +28,7 @@ BlockEdit::BlockEdit(Block* block, QWidget* parent)
    Gui::PersistentDialog(parent),
    _block(block)
 {
-   Q_CHECK_PTR(block);
+   Q_ASSERT(block);
 }
 
 

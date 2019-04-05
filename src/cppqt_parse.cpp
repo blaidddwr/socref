@@ -52,14 +52,14 @@ namespace Parse
 QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root)
 {
    // Make sure the given root pointer is valid.
-   Q_CHECK_PTR(root);
+   Q_ASSERT(root);
 
    // Create the mapping that is returned.
    QMap<QString,Scanner*> ret;
 
    // Cast the given root pointer to a namespace block and make sure it worked.
    const Namespace* namespaceRoot {root->cast<const Namespace>(Factory::NamespaceType)};
-   Q_CHECK_PTR(namespaceRoot);
+   Q_ASSERT(namespaceRoot);
 
    // Add the special main source file scanner.
    addMain(&ret,*namespaceRoot);
@@ -94,7 +94,7 @@ void addMain(QMap<QString,Scanner*>* map, const Namespace& root)
 {
    // Make sure the given mapping pointer is valid and it does not already contain
    // the special main source file key.
-   Q_CHECK_PTR(map);
+   Q_ASSERT(map);
    if ( map->contains(QStringLiteral("main.cpp")) ) return;
 
    // Grab the global function lines setting.
@@ -149,7 +149,7 @@ void addMain(QMap<QString,Scanner*>* map, const Namespace& root)
 void addHeader(QMap<QString,Scanner*>* map, const Namespace& root)
 {
    // Make sure the given mapping pointer is valid.
-   Q_CHECK_PTR(map);
+   Q_ASSERT(map);
 
    // Grab relevant global settings, create the scanner object to be added, and get
    // the namespace scope of the given namespace block.
@@ -212,7 +212,7 @@ void addHeader(QMap<QString,Scanner*>* map, const Namespace& root)
 void addHeader(QMap<QString,Scanner*>* map, const Class& root)
 {
    // Make sure the given mapping pointer is valid.
-   Q_CHECK_PTR(map);
+   Q_ASSERT(map);
 
    // Grab the relevant global settings, create the scanner object to be added, and
    // get the namespace scope of the given class block.
@@ -261,7 +261,7 @@ void addHeader(QMap<QString,Scanner*>* map, const Class& root)
 void addSource(QMap<QString,Scanner*>* map, const Namespace& root)
 {
    // Make sure the given mapping pointer is valid.
-   Q_CHECK_PTR(map);
+   Q_ASSERT(map);
 
    // Grab relevant global settings, create the scanner that is added, and create the
    // namespace scope of the given namespace.
@@ -330,7 +330,7 @@ void addSource(QMap<QString,Scanner*>* map, const Namespace& root)
 void addSource(QMap<QString,Scanner*>* map, const Class& root)
 {
    // Make sure the given mapping pointer is valid.
-   Q_CHECK_PTR(map);
+   Q_ASSERT(map);
 
    // Grab the relevant global settings, create the scanner to be added, and create
    // the namespace scope of the given class block.
@@ -399,7 +399,7 @@ void addSource(QMap<QString,Scanner*>* map, const Class& root)
 void addParsers(Scanner* scanner, QList<Abstract::Parser*>* declarations, QList<Abstract::Parser*>* variables, QList<Abstract::Parser*>* functions, QList<const Namespace*>* scope)
 {
    // Make sure the given scanner pointer is valid.
-   Q_CHECK_PTR(scanner);
+   Q_ASSERT(scanner);
 
    // Grab any relevant global settings.
    const int headerLines {Settings::instance().headerLines()};
@@ -476,7 +476,7 @@ void addParsers(Scanner* scanner, QList<Abstract::Parser*>* declarations, QList<
 void addHeader(Scanner* scanner, const QList<const Namespace*>& scope, const Class* name)
 {
    // Make sure the given scanner pointer is valid.
-   Q_CHECK_PTR(scanner);
+   Q_ASSERT(scanner);
 
    // Create the header scope string used for the generation of the macro header
    // guard.
@@ -533,7 +533,7 @@ void addHeader(Scanner* scanner, const QList<const Namespace*>& scope, const Cla
 void addSourceHeader(Scanner* scanner, const QList<const Namespace*>& scope, const Class* name)
 {
    // Make sure the given scanner pointer is valid.
-   Q_CHECK_PTR(scanner);
+   Q_ASSERT(scanner);
 
    // Create the header scope string used for the generation of the special include
    // macro.
@@ -728,8 +728,8 @@ QList<const Namespace*> createScope(const Abstract::Block& block)
 void addScope(Scanner* scanner, int* indent, const QList<const Namespace*>& scope, bool flat, bool describe)
 {
    // Make sure the given scanner and indent pointers are valid.
-   Q_CHECK_PTR(scanner);
-   Q_CHECK_PTR(indent);
+   Q_ASSERT(scanner);
+   Q_ASSERT(indent);
 
    // Iterate through every namespace pointer of the given scope list.
    for (auto name: scope)
@@ -782,8 +782,8 @@ void addScope(Scanner* scanner, int* indent, const QList<const Namespace*>& scop
 void endScope(Scanner* scanner, int* indent, bool flat)
 {
    // Make sure the given scanner and indent pointers are valid.
-   Q_CHECK_PTR(scanner);
-   Q_CHECK_PTR(indent);
+   Q_ASSERT(scanner);
+   Q_ASSERT(indent);
 
    // Continue while the indent value is greater than zero.
    while ( *indent > 0 )
@@ -851,7 +851,7 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
          {
             // Cast the child as a structure and make sure it worked.
             const Struct* valid {child->cast<const Struct>(Factory::StructType)};
-            Q_CHECK_PTR(valid);
+            Q_ASSERT(valid);
 
             // If a declarations list is given then add its declaration parser elements to the
             // list.
@@ -862,7 +862,7 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
          {
             // Cast the child as a union and make sure it worked.
             const Union* valid {child->cast<const Union>(Factory::UnionType)};
-            Q_CHECK_PTR(valid);
+            Q_ASSERT(valid);
 
             // If a declarations list is given then add its declaration parser elements to the
             // list.
@@ -873,7 +873,7 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
          {
             // Cast the child as an enumeration and make sure it worked.
             const Enumeration* valid {child->cast<const Enumeration>(Factory::EnumerationType)};
-            Q_CHECK_PTR(valid);
+            Q_ASSERT(valid);
 
             // If a declarations list is given then add its declaration parser elements to the
             // list.
@@ -884,7 +884,7 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
          {
             // Cast the child as a variable and make sure it worked.
             const Variable* valid {child->cast<const Variable>(Factory::VariableType)};
-            Q_CHECK_PTR(valid);
+            Q_ASSERT(valid);
 
             // If a declaration list is provided then add the child variable declaration to
             // the list.
@@ -899,7 +899,7 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
          {
             // Cast the child as a function and make sure it worked.
             const Function* valid {child->cast<const Function>(Factory::FunctionType)};
-            Q_CHECK_PTR(valid);
+            Q_ASSERT(valid);
 
             // If a declaration list is provided then add the child function's declaration to
             // the list.
@@ -924,7 +924,7 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
          {
             // Cast the child as a class and make sure it worked.
             const Class* valid {child->cast<const Class>(Factory::ClassType)};
-            Q_CHECK_PTR(valid);
+            Q_ASSERT(valid);
 
             // If the child class is part of a parent class then create all of its parser
             // elements with the provided lists.
@@ -948,7 +948,7 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
          {
             // Cast the child as a declaration and make sure it worked.
             const Declaration* valid {child->cast<const Declaration>(Factory::DeclarationType)};
-            Q_CHECK_PTR(valid);
+            Q_ASSERT(valid);
 
             // If a declaration list is provided then add the child declaration's line to the
             // list.
@@ -1111,7 +1111,7 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
 void add(QList<Abstract::Parser*>* list, const Struct& block, int indent)
 {
    // Make sure the given list pointer is valid.
-   Q_CHECK_PTR(list);
+   Q_ASSERT(list);
 
    // Create a comment parser with the given structure's description, setting its
    // indent to the one given and adding it to he given list.
@@ -1161,7 +1161,7 @@ void add(QList<Abstract::Parser*>* list, const Struct& block, int indent)
 void add(QList<Abstract::Parser*>* list, const Union& block, int indent)
 {
    // Make sure the given list pointer is valid.
-   Q_CHECK_PTR(list);
+   Q_ASSERT(list);
 
    // Create a comment parser with the given union's description, setting its indent
    // to the one given and adding it to he given list.
@@ -1211,7 +1211,7 @@ void add(QList<Abstract::Parser*>* list, const Union& block, int indent)
 void add(QList<Abstract::Parser*>* list, const Enumeration& block, int indent)
 {
    // Make sure the given list pointer is valid.
-   Q_CHECK_PTR(list);
+   Q_ASSERT(list);
 
    // Create a comment parser with the given enumeration's description, setting its
    // indent to the one given and adding it to he given list.
@@ -1261,7 +1261,7 @@ void add(QList<Abstract::Parser*>* list, const Enumeration& block, int indent)
 void addValues(QList<Abstract::Parser*>* list, const Enumeration& block, int indent)
 {
    // Make sure the given list pointer is valid.
-   Q_CHECK_PTR(list);
+   Q_ASSERT(list);
 
    // Iterate through all enumeration value children blocks of the given enumeration.
    bool first {true};
@@ -1338,7 +1338,7 @@ bool hasDefinition(const Function& block, bool isHeader)
 void addDeclaration(QList<Abstract::Parser*>* list, const Function& block, int indent)
 {
    // Make sure the given list pointer is valid.
-   Q_CHECK_PTR(list);
+   Q_ASSERT(list);
 
    // If the given function is a signal, abstract, default, or deleted than add its
    // comments to the given declaration list.
@@ -1457,7 +1457,7 @@ QString createBaseDeclaration(const Function& block, const QString& classScope, 
 void addDefinition(QList<Abstract::Parser*>* list, const Function& block)
 {
    // Make sure the given list pointer is valid.
-   Q_CHECK_PTR(list);
+   Q_ASSERT(list);
 
    // Add the comment parser elements of the given function to the given list.
    addComments(list,block);
@@ -1529,7 +1529,7 @@ void addDefinition(QList<Abstract::Parser*>* list, const Function& block)
 void addComments(QList<Abstract::Parser*>* list, const Function& block, int indent)
 {
    // Make sure the given list pointer is valid.
-   Q_CHECK_PTR(list);
+   Q_ASSERT(list);
 
    // Create a new comment parser, setting its indent to the one possibly given and
    // adding the given function block's description.
@@ -1620,7 +1620,7 @@ bool hasDefinition(const Variable& block, bool isHeader)
 void addDeclaration(QList<Abstract::Parser*>* list, const Variable& block, int indent)
 {
    // Make sure the given list pointer is valid.
-   Q_CHECK_PTR(list);
+   Q_ASSERT(list);
 
    // Create and add a new comment parser to the given list, setting its indent and
    // adding the given variable's description.
@@ -1721,7 +1721,7 @@ void addDefinition(QList<Abstract::Parser*>* list, const CppQt::Variable& block)
 QString createClassScope(const Abstract::Block* block)
 {
    // Make sure the given block pointer is valid.
-   Q_CHECK_PTR(block);
+   Q_ASSERT(block);
 
    // Create the return string.
    QString ret;
@@ -1767,7 +1767,7 @@ QString createClassScope(const Abstract::Block* block)
 QString createTemplates(const Abstract::Block* block)
 {
    // Make sure the given block pointer is valid.
-   Q_CHECK_PTR(block);
+   Q_ASSERT(block);
 
    // Create and return the list of template declarations for the given block.
    QString ret;
@@ -1798,7 +1798,7 @@ QString createTemplates(const Abstract::Block* block)
 QString createTemplate(const Abstract::Block* block, bool declaration)
 {
    // Make sure the given block pointer is valid.
-   Q_CHECK_PTR(block);
+   Q_ASSERT(block);
 
    // Create the return string.
    QString ret;
@@ -1864,7 +1864,7 @@ QString createTemplate(const Abstract::Block* block, bool declaration)
 QList<const Abstract::Block*> createTemplateList(const Abstract::Block* block)
 {
    // Make sure the given block pointer is not null.
-   Q_CHECK_PTR(block);
+   Q_ASSERT(block);
 
    // Create the return list of block pointers.
    QList<const Abstract::Block*> ret;

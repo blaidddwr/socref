@@ -21,7 +21,7 @@ BlockView::BlockView(const Block* block)
    _block(block)
 {
    // Make sure the block pointer is valid and connect the updated signal.
-   Q_CHECK_PTR(block);
+   Q_ASSERT(block);
    connect(block,&Block::updated,this,&BlockView::blockUpdated);
 }
 

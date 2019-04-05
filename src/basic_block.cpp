@@ -420,7 +420,7 @@ Soc::Ut::QPtr<Abstract::Block> Block::createBlank() const
 
    // Create a new uninitialized basic block, making sure it worked.
    Soc::Ut::QPtr<Block> ret {qobject_cast<Block*>(metaObject()->newInstance())};
-   Q_CHECK_PTR(ret.get());
+   Q_ASSERT(ret.get());
 
    // Initialize the new basic block to this basic block's type.
    ret->initialize(_type,_factory,_definition,_buildList,false);
@@ -446,7 +446,7 @@ void Block::copyDataFrom(const Abstract::Block* other)
 
    // Cast the given abstract block to a basic block, making sure it worked.
    const Block* basic {qobject_cast<const Block*>(other)};
-   Q_CHECK_PTR(basic);
+   Q_ASSERT(basic);
 
    // Iterate through all the fields of the given basic block.
    for (auto i = basic->_fields.cbegin(); i != basic->_fields.cend() ;++i)

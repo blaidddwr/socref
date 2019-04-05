@@ -27,7 +27,7 @@ DictionaryDialog::DictionaryDialog(Project* project)
    PersistentDialog("gui.dictionarydialog.geometry")
 {
    // Make sure the given project pointer is not null.
-   Q_CHECK_PTR(project);
+   Q_ASSERT(project);
 
    // Get the dictionary model of the given project.
    _model = project->dictionary();

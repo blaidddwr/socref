@@ -328,7 +328,7 @@ void MainWindow::scanTriggered()
 void MainWindow::scanFinished()
 {
    // Make sure this window's scan thread pointer is valid.
-   Q_CHECK_PTR(_scanThread);
+   Q_ASSERT(_scanThread);
 
    // Delete this window's scan thread and reset its pointer to null.
    delete _scanThread;
@@ -384,7 +384,7 @@ void MainWindow::settingTriggered(int type)
    // Make a new setting dialog using the given project type and make sure it is not
    // null.
    Soc::Ut::QPtr<QDialog> settings {Abstract::ProjectFactory::instance().makeSettings(type)};
-   Q_CHECK_PTR(settings.get());
+   Q_ASSERT(settings.get());
 
    // Execute the settings dialog.
    settings->exec();

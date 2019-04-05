@@ -449,7 +449,7 @@ void BlockView::updateView()
 
    // Make a new view from the block pointer and make sure it is not null.
    _view = block->createView().release(this);
-   Q_CHECK_PTR(_view);
+   Q_ASSERT(_view);
 
    // Set this object's detailed view and updating it and its title.
    _area->setWidget(_view);

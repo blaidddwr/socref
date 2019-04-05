@@ -711,7 +711,7 @@ void Project::makeRoot()
 
    // Create a new root block for this project and make sure it is not null.
    _root = factory.blockFactory(_type).createRootBlock().release(this);
-   Q_CHECK_PTR(_root);
+   Q_ASSERT(_root);
 
    // Connect its modified signal and set it to this project's block model root
    // block.

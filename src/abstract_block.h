@@ -253,7 +253,7 @@ namespace Abstract
 
       // Cast this block to the given type and make sure it works.
       const T* ret = qobject_cast<const T*>(this);
-      Q_CHECK_PTR(ret);
+      Q_ASSERT(ret);
 
       // Return the type casted pointer.
       return ret;
@@ -286,7 +286,7 @@ namespace Abstract
 
       // Cast this block to the given type and make sure it works.
       T* ret = qobject_cast<T*>(this);
-      Q_CHECK_PTR(ret);
+      Q_ASSERT(ret);
 
       // Return the type casted pointer.
       return ret;

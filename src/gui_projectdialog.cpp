@@ -37,7 +37,7 @@ ProjectDialog::ProjectDialog(Project* project, QWidget* parent)
    _project(project)
 {
    // Make sure the given project pointer is not null.
-   Q_CHECK_PTR(project);
+   Q_ASSERT(project);
 
    // Create the GUI of this new dialog and set its window title.
    setupGui();

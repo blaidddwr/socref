@@ -102,7 +102,7 @@ namespace Abstract
    {
       // Type cast this object's block to the given block type and make sure it worked.
       T* ret {qobject_cast<T*>(_block)};
-      Q_CHECK_PTR(ret);
+      Q_ASSERT(ret);
 
       // Return a reference to this object's type casted block.
       return *ret;

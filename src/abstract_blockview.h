@@ -61,7 +61,7 @@ namespace Abstract
    {
       // Type cast this view's block to the given block type and make sure it worked.
       const T* ret {qobject_cast<const T*>(_block)};
-      Q_CHECK_PTR(ret);
+      Q_ASSERT(ret);
 
       // Return a reference to this view's type casted block.
       return *ret;

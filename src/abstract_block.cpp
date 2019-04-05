@@ -358,7 +358,7 @@ void Block::moveDown(int index)
 void Block::insert(int index, Soc::Ut::QPtr<Block>&& child)
 {
    // Make sure the given pointer is not null.
-   Q_CHECK_PTR(child.get());
+   Q_ASSERT(child.get());
    Q_ASSERT(buildList().contains(child->type()));
 
    // Make sure the given block's type can be a child of this block.
@@ -646,7 +646,7 @@ void Block::readChild(const QDomElement& element)
 
    // Create a new block with the read in type and make sure it worked.
    Soc::Ut::QPtr<Block> child {factory().createBlock(type,false)};
-   Q_CHECK_PTR(child.get());
+   Q_ASSERT(child.get());
 
    // Take ownership of the new child block and append it to this block's child list.
    Block* back {child.release(this)};

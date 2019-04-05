@@ -39,11 +39,11 @@ TextEdit::TextEdit(Abstract::Block* block, QWidget* parent)
    QPlainTextEdit(parent)
 {
    // Make sure the given block pointer is not null.
-   Q_CHECK_PTR(block);
+   Q_ASSERT(block);
 
    // Get the project pointer from the given block making sure it is not null.
    Project* project {qobject_cast<Project*>(block->root()->QObject::parent())};
-   Q_CHECK_PTR(project);
+   Q_ASSERT(project);
 
    // Set the custom dictionary to the project's dictionary.
    _dictionary = project->dictionary();
@@ -73,7 +73,7 @@ TextEdit::TextEdit(DictionaryModel* dictionary, QWidget* parent)
    _dictionary(dictionary)
 {
    // Make sure the given custom dictionary pointer is not null.
-   Q_CHECK_PTR(dictionary);
+   Q_ASSERT(dictionary);
 
    // Create this text editor's highlighter and setup its shortcut actions.
    _spellHighlighter = new SpellerHighlighter(_dictionary,_defaultLang,document());

@@ -43,14 +43,14 @@ namespace Parse
 QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root)
 {
    // Make sure the given root pointer is valid.
-   Q_CHECK_PTR(root);
+   Q_ASSERT(root);
 
    // Create the mapping that is returned.
    QMap<QString,Scanner*> ret;
 
    // Cast the given root pointer to a namespace block and make sure it worked.
    const Namespace* namespaceRoot {root->cast<const Namespace>(Factory::NamespaceType)};
-   Q_CHECK_PTR(namespaceRoot);
+   Q_ASSERT(namespaceRoot);
 
    // Recursively add all source file scanner objects from the given root namespace.
    addSource(&ret,*namespaceRoot,QString());
@@ -84,7 +84,7 @@ QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root)
 void addSource(QMap<QString,Scanner*>* map, const Namespace& root, QString scope)
 {
    // Make sure the given mapping pointer is valid.
-   Q_CHECK_PTR(map);
+   Q_ASSERT(map);
 
    // Iterate through all children of the given namespace block.
    for (auto child: root.list())
@@ -128,7 +128,7 @@ void addSource(QMap<QString,Scanner*>* map, const Namespace& root, QString scope
 void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
 {
    // Make sure the given mapping pointer is valid.
-   Q_CHECK_PTR(map);
+   Q_ASSERT(map);
 
    // Grab all relevant global settings.
    const int variableLines {Settings::instance().variableLines()};
@@ -149,7 +149,7 @@ void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
          {
             // Cast the child as a variable and make sure it worked.
             const Variable* variable {child->cast<const Variable>(Factory::VariableType)};
-            Q_CHECK_PTR(variable);
+            Q_ASSERT(variable);
 
             // Add a variable lines number of blank lines to the scanner and then add the
             // variable child's definition to it.
@@ -161,7 +161,7 @@ void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
          {
             // Cast the child as a struct and make sure it worked.
             const Struct* variable {child->cast<const Struct>(Factory::StructType)};
-            Q_CHECK_PTR(variable);
+            Q_ASSERT(variable);
 
             // Add a struct lines number of blank lines to the scanner and then add the struct
             // child's definition to it.
@@ -173,7 +173,7 @@ void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
          {
             // Cast the child as a function and make sure it worked.
             const Function* variable {child->cast<const Function>(Factory::FunctionType)};
-            Q_CHECK_PTR(variable);
+            Q_ASSERT(variable);
 
             // Add a function number of blank lines to the scanner and then add the function
             // child's definition to it.
@@ -217,8 +217,8 @@ void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
 void insert(QMap<QString,Scanner*>* map, Scanner* scanner, const Shader& shader, QString scope)
 {
    // Make sure the given pointers are valid.
-   Q_CHECK_PTR(map);
-   Q_CHECK_PTR(scanner);
+   Q_ASSERT(map);
+   Q_ASSERT(scanner);
 
    // Create the file name key, initializing it to the given scope and shader block's
    // base name separated by an underscore if the scope is not empty.
@@ -285,7 +285,7 @@ void insert(QMap<QString,Scanner*>* map, Scanner* scanner, const Shader& shader,
 void add(Scanner* scanner, const Variable& block, int indent)
 {
    // Make sure the given scanner pointer is valid.
-   Q_CHECK_PTR(scanner);
+   Q_ASSERT(scanner);
 
    // Create and add a comment parser to the given scanner, setting its indent to the
    // one given and adding the given variable's description.
@@ -327,7 +327,7 @@ void add(Scanner* scanner, const Variable& block, int indent)
 void add(Scanner* scanner, const Struct& block)
 {
    // Make sure the given scanner pointer is valid.
-   Q_CHECK_PTR(scanner);
+   Q_ASSERT(scanner);
 
    // Create and add the description comment block to the given scanner.
    CommentParser* comment {new CommentParser};
@@ -407,7 +407,7 @@ QString createLayout(const Variable& block)
 void add(Scanner* scanner, const Function& block)
 {
    // Make sure the given scanner pointer is valid.
-   Q_CHECK_PTR(scanner);
+   Q_ASSERT(scanner);
 
    // Create a comment parser and add the given function's description to it.
    CommentParser* comment {new CommentParser};
@@ -485,7 +485,7 @@ void add(Scanner* scanner, const Function& block)
 void addMain(Scanner* scanner, const Shader& shader)
 {
    // Make sure the given scanner pointer is valid.
-   Q_CHECK_PTR(scanner);
+   Q_ASSERT(scanner);
 
    // Create and add the comment block for the special main function to the given
    // scanner, using the given shader block for the description.

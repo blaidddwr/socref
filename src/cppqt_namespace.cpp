@@ -20,7 +20,7 @@ const Namespace* Namespace::root() const
    // Get the root pointer for this block, casting it as a namespace block and making
    // sure it worked.
    const Namespace* ret {qobject_cast<const Namespace*>(Abstract::Block::root())};
-   Q_CHECK_PTR(ret);
+   Q_ASSERT(ret);
 
    // Return the root namespace pointer.
    return ret;
@@ -41,7 +41,7 @@ Namespace* Namespace::root()
    // Get the root pointer for this block, casting it as a namespace block and making
    // sure it worked.
    Namespace* ret {qobject_cast<Namespace*>(Abstract::Block::root())};
-   Q_CHECK_PTR(ret);
+   Q_ASSERT(ret);
 
    // Return the root namespace pointer.
    return ret;

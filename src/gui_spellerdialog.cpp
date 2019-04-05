@@ -52,9 +52,9 @@ SpellerDialog::SpellerDialog(DictionaryModel* dictionary, const char* language, 
    _dictionary(dictionary)
 {
    // Make sure the given dictionary, language, and document pointers are valid.
-   Q_CHECK_PTR(dictionary);
-   Q_CHECK_PTR(language);
-   Q_CHECK_PTR(document);
+   Q_ASSERT(dictionary);
+   Q_ASSERT(language);
+   Q_ASSERT(document);
 
    // Setup the speller, GUI, and window title for this new dialog.
    setupSpeller(language);
