@@ -8058,6 +8058,7 @@ This is one of two primary functions that can be considered the core or engine o
             <operation>Iterate through all parent blocks, adding each one's declaration to the header separated by commas and a space.</operation>
             <operation>Create a new line parser with the given indent and completed header string, followed by an opening bracket line, and then add it to the given declaration list.</operation>
             <operation>If the given class is a qt object then add the appropriate macro line parser to the given declaration list.</operation>
+            <operation>Iterate through all declaration children of the given class and add their declarations as line parser elements to the given declaration list.</operation>
             <operation>Iterate through all access block children of the given class block.</operation>
             <operation>If a declaration list is provided then add the access declaration line parser to the list.</operation>
             <operation>Create all parser elements for the provided lists from the access block, adding an indent spaces number of spaces to the indent.</operation>

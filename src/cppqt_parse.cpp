@@ -1064,6 +1064,13 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
       {
          *declarations << new LineParser(indent + indentSpaces,QStringLiteral("Q_OBJECT"));
       }
+
+      // Iterate through all declaration children of the given class and add their
+      // declarations as line parser elements to the given declaration list.
+      for (auto declaration: root.createListOfType<const Declaration>(Factory::DeclarationType))
+      {
+         *declarations << new LineParser(indent + indentSpaces,declaration->line());
+      }
    }
 
    // Iterate through all access block children of the given class block.
@@ -1302,7 +1309,7 @@ void addValues(QList<Abstract::Parser*>* list, const Enumeration& block, int ind
  */
 bool hasDefinition(const Function& block, bool isHeader)
 {
-   return ( isHeader && block.hasAnyTemplates() )
+   return ( isHeader && block.hasAnyTemplates() && !block.isDefault() )
           || ( !isHeader
                && !block.isAbstract()
                && !block.isSignal()

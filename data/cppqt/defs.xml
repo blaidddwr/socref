@@ -248,6 +248,7 @@
         <template/>
         <access/>
         <parent/>
+        <declaration/>
     </buildlist>
     <edit>
         <form>
