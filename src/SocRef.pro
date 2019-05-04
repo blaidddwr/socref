@@ -1,5 +1,9 @@
 lessThan(QT_MAJOR_VERSION,5): error("Requires Qt 5")
-lessThan(QT_MINOR_VERSION,7): error("Requires Qt 5.7")
+greaterThan(QT_MAJOR_VERSION,5): error("Requires Qt 5")
+equals(QT_MAJOR_VERSION,5)
+{
+    lessThan(QT_MINOR_VERSION,7): error("Requires Qt 5.7 or greater")
+}
 
 MAJOR_VERSION = 0
 MINOR_VERSION = 6
@@ -21,40 +25,30 @@ DEFINES += QT_DEPRECATED_WARNINGS \
     REVISION=$${REVISION}
 
 SOURCES += \
-    main.cpp \
-    project.cpp \
-    abstractblock.cpp \
-    gui_mainwindow.cpp \
-    projectfactory.cpp \
-    application.cpp \
+    exception.cpp \
     blockmodel.cpp \
-    abstractparser.cpp \
+    scanner.cpp \
     scanthread.cpp \
-    basicblockfactory.cpp \
-    basicblock.cpp \
-    basicblock_edit.cpp \
-    basicblock_view.cpp \
-    dictionarymodel.cpp
+    dictionarymodel.cpp \
+    projectfactory.cpp \
+    project.cpp \
+    application.cpp \
+    main.cpp
 
 HEADERS += \
     global.h \
-    abstractprojectfactory.h \
-    project.h \
-    abstractblockfactory.h \
-    abstractblock.h \
-    projectfactory.h \
-    application.h \
+    exception.h \
     blockmodel.h \
-    abstractparser.h \
-    abstractparserfactory.h \
+    scanner.h \
     scanthread.h \
     dictionarymodel.h \
-    basicblockfactory.h \
-    basicblock.h \
-    basicblock_edit.h \
-    basicblock_view.h
+    projectfactory.h \
+    project.h \
+    application.h
 
+include(Abstract.pri)
 include(Gui.pri)
+include(Basic.pri)
 include(CppQt.pri)
 include(GLSL.pri)
 

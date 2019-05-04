@@ -1,14 +1,16 @@
+#ifndef GLOBAL_H
+#define GLOBAL_H
 
-class AbstractBlock;
-class AbstractBlockFactory;
-class AbstractParser;
-class AbstractParserFactory;
-class AbstractProjectFactory;
-class ProjectFactory;
+
+
+class Exception;
 class BlockModel;
-class BasicBlock;
-class BasicBlockFactory;
+class Scanner;
 class ScanThread;
 class DictionaryModel;
+class ProjectFactory;
 class Project;
 class Application;
+int main(int argc, char** argv);
+
+#endif

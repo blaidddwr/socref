@@ -1,6 +1,6 @@
 #include "cppqt_function.h"
 #include <QRegularExpression>
-#include "cppqt_function_view.h"
+#include "cppqt_functionview.h"
 #include "cppqt_variable.h"
 #include "cppqt_factory.h"
 #include "cppqt_template.h"
@@ -9,8 +9,8 @@
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
 
 
 
@@ -18,30 +18,30 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString Function::name() const
 {
-   // Create an empty return string. 
+   // Create an empty return string.
    QString ret;
 
-   // If this block has templates then append a template indicator. 
+   // If this block has templates then append a template indicator.
    if ( hasTemplates() ) ret += QStringLiteral("<> ");
 
-   // If this block is not a constructor, destructor, and its has void return 
-   // indicator is not true then append a return indicator. 
+   // If this block is not a constructor, destructor, and its has void return
+   // indicator is not true then append a return indicator.
    if ( !isConstructor() && !isDestructor() && !isVoidReturn() ) ret += QStringLiteral("... ");
 
-   // Append the function name and then the number of arguments. 
+   // Append the function name and then the number of arguments.
    const QList<Variable*> list {arguments()};
    ret += QString("%1(%2)").arg(baseName()).arg(list.size());
 
-   // Append the attributes display string. 
+   // Append the attributes display string.
    ret += attributes();
 
-   // Return the full display name string. 
+   // Return the full display name string.
    return ret;
 }
 
@@ -51,13 +51,13 @@ QString Function::name() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QIcon Function::icon() const
 {
-   // Initialize the static icons for this block type. 
+   // Initialize the static icons for this block type.
    static QIcon constructorIcon(":/icons/constructor.svg");
    static QIcon regularDestructorIcon(":/icons/destructor.svg");
    static QIcon virtualDestructorIcon(":/icons/vdestructor.svg");
@@ -74,8 +74,8 @@ QIcon Function::icon() const
    static QIcon abstractIcon(":/icons/abstract.svg");
    static QIcon staticIcon(":/icons/static.svg");
 
-   // Return the appropriate icon for this function block based off its function type 
-   // and certain properties. 
+   // Return the appropriate icon for this function block based off its function type
+   // and certain properties.
    if ( isConstructor() ) return constructorIcon;
    else if ( isDestructor() )
    {
@@ -111,9 +111,9 @@ QIcon Function::icon() const
 
 
 /*!
- * Tests if this function block is a constructor, returning true if it is. 
+ * Tests if this function block is a constructor, returning true if it is.
  *
- * @return True if this function block is a constructor or false otherwise. 
+ * @return True if this function block is a constructor or false otherwise.
  */
 bool Function::isConstructor() const
 {
@@ -126,9 +126,9 @@ bool Function::isConstructor() const
 
 
 /*!
- * Tests if this function block is a destructor, returning true if it is. 
+ * Tests if this function block is a destructor, returning true if it is.
  *
- * @return True if this function block is a destructor or false otherwise. 
+ * @return True if this function block is a destructor or false otherwise.
  */
 bool Function::isDestructor() const
 {
@@ -141,13 +141,13 @@ bool Function::isDestructor() const
 
 
 /*!
- * Tests if this function block is an operator, returning true if it is. 
+ * Tests if this function block is an operator, returning true if it is.
  *
- * @return True if this function block is an operator or false otherwise. 
+ * @return True if this function block is an operator or false otherwise.
  */
 bool Function::isOperator() const
 {
-   return QRegularExpression("\\Aoperator*\\z").match(baseName()).hasMatch();
+   return QRegularExpression("\\Aoperator.*\\z").match(baseName()).hasMatch();
 }
 
 
@@ -156,9 +156,9 @@ bool Function::isOperator() const
 
 
 /*!
- * Tests if this function block is a Qt signal, returning true if it is. 
+ * Tests if this function block is a Qt signal, returning true if it is.
  *
- * @return True if this function block is a Qt signal or false otherwise. 
+ * @return True if this function block is a Qt signal or false otherwise.
  */
 bool Function::isSignal() const
 {
@@ -172,9 +172,9 @@ bool Function::isSignal() const
 
 
 /*!
- * Tests if this function block is a Qt slot, returning true if it is. 
+ * Tests if this function block is a Qt slot, returning true if it is.
  *
- * @return True if this function block is a Qt slot or false otherwise. 
+ * @return True if this function block is a Qt slot or false otherwise.
  */
 bool Function::isSlot() const
 {
@@ -188,9 +188,10 @@ bool Function::isSlot() const
 
 
 /*!
- * Tests if this function block's default property is set, returning true if it is. 
+ * Tests if this function block's default property is set, returning true if it
+ * is.
  *
- * @return True if this block's default property is set or false otherwise. 
+ * @return True if this block's default property is set or false otherwise.
  */
 bool Function::isDefault() const
 {
@@ -203,9 +204,10 @@ bool Function::isDefault() const
 
 
 /*!
- * Tests if this function block's deleted property is set, returning true if it is. 
+ * Tests if this function block's deleted property is set, returning true if it
+ * is.
  *
- * @return True if this block's deleted property is set or false otherwise. 
+ * @return True if this block's deleted property is set or false otherwise.
  */
 bool Function::isDeleted() const
 {
@@ -218,10 +220,10 @@ bool Function::isDeleted() const
 
 
 /*!
- * Tests if this function block's qt invokable property is set, returning true if 
- * it is. 
+ * Tests if this function block's qt invokable property is set, returning true
+ * if it is.
  *
- * @return True if this block's qt invokable property is set or false otherwise. 
+ * @return True if this block's qt invokable property is set or false otherwise.
  */
 bool Function::isQtInvokable() const
 {
@@ -234,10 +236,10 @@ bool Function::isQtInvokable() const
 
 
 /*!
- * Tests if this function block's explicit property is set, returning true if it 
- * is. 
+ * Tests if this function block's explicit property is set, returning true if it
+ * is.
  *
- * @return True if this block's explicit property is set or false otherwise. 
+ * @return True if this block's explicit property is set or false otherwise.
  */
 bool Function::isExplicit() const
 {
@@ -250,9 +252,10 @@ bool Function::isExplicit() const
 
 
 /*!
- * Tests if this function block's virtual property is set, returning true if it is. 
+ * Tests if this function block's virtual property is set, returning true if it
+ * is.
  *
- * @return True if this block's virtual property is set or false otherwise. 
+ * @return True if this block's virtual property is set or false otherwise.
  */
 bool Function::isVirtual() const
 {
@@ -265,10 +268,10 @@ bool Function::isVirtual() const
 
 
 /*!
- * Tests if this function block's constant property is set, returning true if it 
- * is. 
+ * Tests if this function block's constant property is set, returning true if it
+ * is.
  *
- * @return True if this block's constant property is set or false otherwise. 
+ * @return True if this block's constant property is set or false otherwise.
  */
 bool Function::isConst() const
 {
@@ -281,11 +284,11 @@ bool Function::isConst() const
 
 
 /*!
- * Tests if this function block's constant expression property is set, returning 
- * true if it is. 
+ * Tests if this function block's constant expression property is set, returning
+ * true if it is.
  *
- * @return True if this block's constant expression property is set or false 
- *         otherwise. 
+ * @return True if this block's constant expression property is set or false
+ *         otherwise.
  */
 bool Function::isConstExpr() const
 {
@@ -298,9 +301,10 @@ bool Function::isConstExpr() const
 
 
 /*!
- * Tests if this function block's static property is set, returning true if it is. 
+ * Tests if this function block's static property is set, returning true if it
+ * is.
  *
- * @return True if this block's static property is set or false otherwise. 
+ * @return True if this block's static property is set or false otherwise.
  */
 bool Function::isStatic() const
 {
@@ -313,10 +317,10 @@ bool Function::isStatic() const
 
 
 /*!
- * Tests if this function block's no exception property is set, returning true if 
- * it is. 
+ * Tests if this function block's no exception property is set, returning true
+ * if it is.
  *
- * @return True if this block's no exception property is set or false otherwise. 
+ * @return True if this block's no exception property is set or false otherwise.
  */
 bool Function::isNoExcept() const
 {
@@ -329,10 +333,10 @@ bool Function::isNoExcept() const
 
 
 /*!
- * Tests if this function block's override property is set, returning true if it 
- * is. 
+ * Tests if this function block's override property is set, returning true if it
+ * is.
  *
- * @return True if this block's override property is set or false otherwise. 
+ * @return True if this block's override property is set or false otherwise.
  */
 bool Function::isOverride() const
 {
@@ -345,9 +349,10 @@ bool Function::isOverride() const
 
 
 /*!
- * Tests if this function block's final property is set, returning true if it is. 
+ * Tests if this function block's final property is set, returning true if it
+ * is.
  *
- * @return True if this block's final property is set or false otherwise. 
+ * @return True if this block's final property is set or false otherwise.
  */
 bool Function::isFinal() const
 {
@@ -360,10 +365,10 @@ bool Function::isFinal() const
 
 
 /*!
- * Tests if this function block's abstract property is set, returning true if it 
- * is. 
+ * Tests if this function block's abstract property is set, returning true if it
+ * is.
  *
- * @return True if this block's abstract property is set or false otherwise. 
+ * @return True if this block's abstract property is set or false otherwise.
  */
 bool Function::isAbstract() const
 {
@@ -376,21 +381,21 @@ bool Function::isAbstract() const
 
 
 /*!
- * Returns the base name for this function block. This overrides the method from 
- * the base class because of constructors and destructors. 
+ * Returns the base name for this function block. This overrides the method from
+ * the base class because of constructors and destructors.
  *
- * @return Base name for this function block. 
+ * @return Base name for this function block.
  */
 QString Function::baseName() const
 {
-   // Create a new return string with the regular base name of this function. 
+   // Create a new return string with the regular base name of this function.
    QString ret {Base::baseName()};
 
-   // If this function is not a method then return the regular base name. 
+   // If this function is not a method then return the regular base name.
    if ( !isMethod() ) return ret;
 
-   // If this function is a constructor or destructor then change its base name to 
-   // the name of its class, prepending a ~ if it is a destructor. 
+   // If this function is a constructor or destructor then change its base name to
+   // the name of its class, prepending a ~ if it is a destructor.
    if ( ret == QStringLiteral("^") )
    {
       ret = parent()->parent()->cast<Class>(Factory::ClassType)->baseName();
@@ -400,7 +405,7 @@ QString Function::baseName() const
       ret = QStringLiteral("~") + parent()->parent()->cast<Class>(Factory::ClassType)->baseName();
    }
 
-   // Return the base name. 
+   // Return the base name.
    return ret;
 }
 
@@ -410,9 +415,9 @@ QString Function::baseName() const
 
 
 /*!
- * Returns the return type for this function block.  
+ * Returns the return type for this function block. 
  *
- * @return The return type for this function block. 
+ * @return The return type for this function block.
  */
 QString Function::returnType() const
 {
@@ -425,9 +430,9 @@ QString Function::returnType() const
 
 
 /*!
- * Returns the description for the return type of this function block. 
+ * Returns the description for the return type of this function block.
  *
- * @return The description for the return type of this function block. 
+ * @return The description for the return type of this function block.
  */
 QString Function::returnDescription() const
 {
@@ -440,14 +445,14 @@ QString Function::returnDescription() const
 
 
 /*!
- * Tests if this function block's return block is void and therefore has no return, 
- * returning true if it is. 
+ * Tests if this function block's return block is void and therefore has no
+ * return, returning true if it is.
  *
- * @return True if this function block's return type is void or false otherwise. 
+ * @return True if this function block's return type is void or false otherwise.
  */
 bool Function::isVoidReturn() const
 {
-   // Test to see if this function block's return type is void. 
+   // Test to see if this function block's return type is void.
    return returnType() == QStringLiteral("void");
 }
 
@@ -457,10 +462,10 @@ bool Function::isVoidReturn() const
 
 
 /*!
- * Returns the steps of operations for this function block, whose list of strings 
- * is used for inline comments. 
+ * Returns the steps of operations for this function block, whose list of
+ * strings is used for inline comments.
  *
- * @return The steps of operations for this function block. 
+ * @return The steps of operations for this function block.
  */
 QStringList Function::operations() const
 {
@@ -473,18 +478,19 @@ QStringList Function::operations() const
 
 
 /*!
- * Tests if this function block is a method of a class, returning true if it is. 
+ * Tests if this function block is a method of a class, returning true if it is.
  *
- * @return True if this function block is a method of a class or false otherwise. 
+ * @return True if this function block is a method of a class or false
+ *         otherwise.
  */
 bool Function::isMethod() const
 {
-   // Get this block's parent pointer and make sure it is not null. 
-   AbstractBlock* up {parent()};
+   // Get this block's parent pointer and make sure it is not null.
+   Abstract::Block* up {parent()};
    if ( !up ) return false;
 
-   // Determine if this function block is a method by seeing if its parent is an 
-   // access block. 
+   // Determine if this function block is a method by seeing if its parent is an
+   // access block.
    return up->type() == Factory::AccessType;
 }
 
@@ -494,19 +500,19 @@ bool Function::isMethod() const
 
 
 /*!
- * Tests if this function block is a private method of a class, returning true if 
- * it is. 
+ * Tests if this function block is a private method of a class, returning true
+ * if it is.
  *
- * @return True if this function block is a private method of a class or false 
- *         otherwise. 
+ * @return True if this function block is a private method of a class or false
+ *         otherwise.
  */
 bool Function::isPrivateMethod() const
 {
-   // Make sure this function block is a method. 
+   // Make sure this function block is a method.
    if ( !isMethod() ) return false;
 
-   // Determine if this function block is a private method by seeing if its parent 
-   // access block's type is private. 
+   // Determine if this function block is a private method by seeing if its parent
+   // access block's type is private.
    return parent()->cast<Access>(Factory::AccessType)->isPrivate();
 }
 
@@ -516,25 +522,25 @@ bool Function::isPrivateMethod() const
 
 
 /*!
- * Tests if this function block or any class it inherits from has any templates, 
- * returning true if so. 
+ * Tests if this function block or any class it inherits from has any templates,
+ * returning true if so.
  *
- * @return True if this function block or any of its inherited classes contain 
- *         templates or false otherwise. 
+ * @return True if this function block or any of its inherited classes contain
+ *         templates or false otherwise.
  */
 bool Function::hasAnyTemplates() const
 {
-   // Check to see if this function block has any templates. 
+   // Check to see if this function block has any templates.
    if ( hasTemplates() ) return true;
 
-   // If this function block is a method then call on its class to determine if it or 
-   // any parent classes contain templates. 
+   // If this function block is a method then call on its class to determine if it or
+   // any parent classes contain templates.
    if ( isMethod() )
    {
       return parent()->parent()->cast<Class>(Factory::ClassType)->hasAnyTemplates();
    }
 
-   // If this is reached then there are no templates so return false. 
+   // If this is reached then there are no templates so return false.
    return false;
 }
 
@@ -544,14 +550,15 @@ bool Function::hasAnyTemplates() const
 
 
 /*!
- * Tests if this function block has templates arguments, returning true if it does. 
- * This does not test if any parent classes contain templates. 
+ * Tests if this function block has templates arguments, returning true if it
+ * does. This does not test if any parent classes contain templates.
  *
- * @return True if this function block has template arguments or false otherwise. 
+ * @return True if this function block has template arguments or false
+ *         otherwise.
  */
 bool Function::hasTemplates() const
 {
-   // See if any direct children blocks of this block are templates. 
+   // See if any direct children blocks of this block are templates.
    return containsType(Factory::TemplateType);
 }
 
@@ -561,13 +568,14 @@ bool Function::hasTemplates() const
 
 
 /*!
- * Returns a pointer list of all template children blocks of this function block. 
+ * Returns a pointer list of all template children blocks of this function
+ * block.
  *
- * @return Pointer list of all template children blocks of this function block. 
+ * @return Pointer list of all template children blocks of this function block.
  */
 QList<Template*> Function::templates() const
 {
-   return makeListOfType<Template>(Factory::TemplateType);
+   return createListOfType<Template>(Factory::TemplateType);
 }
 
 
@@ -576,13 +584,14 @@ QList<Template*> Function::templates() const
 
 
 /*!
- * Returns a pointer list of all variable children blocks of this function block. 
+ * Returns a pointer list of all variable children blocks of this function
+ * block.
  *
- * @return Pointer list of all variable children blocks of this function block. 
+ * @return Pointer list of all variable children blocks of this function block.
  */
 QList<Variable*> Function::arguments() const
 {
-   return makeListOfType<Variable>(Factory::VariableType);
+   return createListOfType<Variable>(Factory::VariableType);
 }
 
 
@@ -591,12 +600,12 @@ QList<Variable*> Function::arguments() const
 
 
 /*!
- * Called when this function's class block has changed its name. This in turn 
- * notifies this block's name has changed if it is a constructor or destructor. 
+ * Called when this function's class block has changed its name. This in turn
+ * notifies this block's name has changed if it is a constructor or destructor.
  */
 void Function::classNameChanged()
 {
-   if ( isConstructor() || isDestructor() ) notifyNameModified();
+   if ( isConstructor() || isDestructor() ) update();
 }
 
 
@@ -605,13 +614,13 @@ void Function::classNameChanged()
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
-Sut::QPtr<BasicBlock::View> Function::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Function::makeBasicView() const
 {
-   return new View(this);
+   return new FunctionView(this);
 }
 
 
@@ -620,21 +629,19 @@ Sut::QPtr<BasicBlock::View> Function::makeBasicView() const
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @param child See interface docs. 
+ * @param child See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
-bool Function::childAdded(AbstractBlock* child)
+bool Function::childAdded(Abstract::Block* child)
 {
-   Q_UNUSED(child)
+   // Notify this block requires updating.
+   Q_UNUSED(child);
+   update();
 
-   // Notify the name and body of this block has changed. 
-   notifyNameModified();
-   notifyBodyModified();
-
-   // Return false to end propagation. 
+   // Return false to end propagation.
    return false;
 }
 
@@ -644,21 +651,19 @@ bool Function::childAdded(AbstractBlock* child)
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @param child See interface docs. 
+ * @param child See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
-bool Function::childRemoved(AbstractBlock* child)
+bool Function::childRemoved(Abstract::Block* child)
 {
-   Q_UNUSED(child)
+   // Notify this block requires updating.
+   Q_UNUSED(child);
+   update();
 
-   // Notify the name and body of this block has changed.  
-   notifyNameModified();
-   notifyBodyModified();
-
-   // Return false to end propagation. 
+   // Return false to end propagation.
    return false;
 }
 
@@ -668,15 +673,15 @@ bool Function::childRemoved(AbstractBlock* child)
 
 
 /*!
- * Returns a display string showing all set properties for this function block 
- * using capital letter flags. 
+ * Returns a display string showing all set properties for this function block
+ * using capital letter flags.
  *
- * @return Display string showing all set properties for this function block. 
+ * @return Display string showing all set properties for this function block.
  */
 QString Function::attributes() const
 {
-   // Create an empty string, appending all set properties of this function block as 
-   // capital letter flags. 
+   // Create an empty string, appending all set properties of this function block as
+   // capital letter flags.
    QString ret;
    if ( isDefault() ) ret += QStringLiteral("D");
    if ( isDeleted() ) ret += QStringLiteral("R");
@@ -691,9 +696,11 @@ QString Function::attributes() const
    if ( isFinal() ) ret += QStringLiteral("F");
    if ( isAbstract() ) ret += QStringLiteral("A");
 
-   // If the flag string is not empty then surround it with brackets and a space. 
+   // If the flag string is not empty then surround it with brackets and a space.
    if ( !ret.isEmpty() ) ret.prepend(" [").append("]");
 
-   // Return the attributes display string. 
+   // Return the attributes display string.
    return ret;
+}
+
 }

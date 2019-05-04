@@ -1,10 +1,10 @@
 #include "cppqt_enumvalue.h"
-#include "cppqt_enumvalue_view.h"
+#include "cppqt_enumvalueview.h"
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
 
 
 
@@ -12,19 +12,19 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString EnumValue::name() const
 {
-   // Create a string setting it to this block's base name. 
+   // Create a string setting it to this block's base name.
    QString ret {getString("name")};
 
-   // If this enumeration value has a set value then append that info to the string. 
+   // If this enumeration value has a set value then append that info to the string.
    if ( !getString("value").isEmpty() ) ret.append(" =");
 
-   // Return the name string. 
+   // Return the name string.
    return ret;
 }
 
@@ -34,14 +34,15 @@ QString EnumValue::name() const
 
 
 /*!
- * Tests if this enumeration value block has a set value or not, returning true if 
- * it does. 
+ * Tests if this enumeration value block has a set value or not, returning true
+ * if it does.
  *
- * @return True of this enumeration value block has a set value or false otherwise. 
+ * @return True of this enumeration value block has a set value or false
+ *         otherwise.
  */
 bool EnumValue::hasValue() const
 {
-   // Test if this block's set value is not empty to determine if it has a value. 
+   // Test if this block's set value is not empty to determine if it has a value.
    return !getString("value").isEmpty();
 }
 
@@ -51,11 +52,11 @@ bool EnumValue::hasValue() const
 
 
 /*!
- * Returns the set value for this enumeration value block. If this block has no set 
- * value an empty string is returned. 
+ * Returns the set value for this enumeration value block. If this block has no
+ * set value an empty string is returned.
  *
- * @return The set value for this enumeration value block or an empty string if it 
- *         has none. 
+ * @return The set value for this enumeration value block or an empty string if
+ *         it has none.
  */
 QString EnumValue::value() const
 {
@@ -68,11 +69,13 @@ QString EnumValue::value() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
-Sut::QPtr<BasicBlock::View> EnumValue::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> EnumValue::makeBasicView() const
 {
-   return new View(this);
+   return new EnumValueView(this);
+}
+
 }

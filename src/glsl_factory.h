@@ -1,53 +1,55 @@
 #ifndef GLSL_FACTORY_H
 #define GLSL_FACTORY_H
-#include "basicblockfactory.h"
-#include <socutil/sut_singleton.h>
-//
+#include "basic_blockfactory.h"
+#include <socutil/soc_ut_singleton.h>
 
 
 
+/*!
+ * Contains the GLSL project type.
+ */
 namespace GLSL
 {
    /*!
-    * This is the block factory for the GLSL project type. This class defines an 
-    * enumeration representing all possible block types for its project type. This is 
-    * a singleton class and has only one single global instance. This also inherits 
-    * from the basic block factory class to allow for XML definitions of block type 
-    * data. 
+    * This is the block factory for the GLSL project type. This class defines an
+    * enumeration representing all possible block types for its project type. This
+    * is a singleton class and has only one single global instance. This also
+    * inherits from the basic block factory class to allow for XML definitions of
+    * block type data.
     */
-   class Factory : public BasicBlockFactory, public Sut::Singleton<Factory>
+   class Factory : public Basic::BlockFactory, public Soc::Ut::Singleton<Factory>
    {
    public:
       /*!
-       * Defines all possible block types for the GLSL project type. 
+       * Defines all possible block types for the GLSL project type.
        */
-      enum 
+      enum
       {
          /*!
-          * Defines the namespace block. 
+          * Defines the namespace block.
           */
          NamespaceType
          /*!
-          * Defines the shader block. This is for an entire shader program and defines the 
-          * main function defined in a shader program file. 
+          * Defines the shader block. This is for an entire shader program and defines
+          * the main function defined in a shader program file.
           */
          ,ShaderType
          /*!
-          * Defines the variable block. 
+          * Defines the variable block.
           */
          ,VariableType
          /*!
-          * Defines the struct block. This is used for structures that can be defined in 
-          * shader programs. 
+          * Defines the struct block. This is used for structures that can be defined in
+          * shader programs.
           */
          ,StructType
          /*!
-          * Defines the function block. This is used to subroutine functions that can be 
-          * defined in shader programs. 
+          * Defines the function block. This is used to subroutine functions that can be
+          * defined in shader programs.
           */
          ,FunctionType
          /*!
-          * Defines the total number of unique blocks the GLSL project type contains. 
+          * Defines the total number of unique blocks the GLSL project type contains.
           */
          ,Total
       };
@@ -57,10 +59,8 @@ namespace GLSL
    public:
       Factory();
    protected:
-      virtual Sut::QPtr<BasicBlock> makeBasicBlock(int type) const;
+      virtual Soc::Ut::QPtr<Basic::Block> createBasicBlock(int type) const override final;
    };
 }
-
-
 
 #endif

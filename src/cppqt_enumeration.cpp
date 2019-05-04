@@ -4,8 +4,8 @@
 
 
 
-using namespace CppQt;
-//
+namespace CppQt
+{
 
 
 
@@ -13,19 +13,19 @@ using namespace CppQt;
 
 
 /*!
- * Implements _AbstractBlock_ interface. 
+ * Implements _Abstract::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString Enumeration::name() const
 {
-   // Create a new string setting it to this block's base name. 
+   // Create a new string setting it to this block's base name.
    QString ret {getString("name")};
 
-   // If this enumeration is a class append that info to the string. 
+   // If this enumeration is a class append that info to the string.
    if ( getBool("class") ) ret.append(" [C]");
 
-   // Return the name string. 
+   // Return the name string.
    return ret;
 }
 
@@ -35,9 +35,9 @@ QString Enumeration::name() const
 
 
 /*!
- * Tests of this enumeration is a class, returning true if it is. 
+ * Tests of this enumeration is a class, returning true if it is.
  *
- * @return True if this enumeration is a class or false otherwise. 
+ * @return True if this enumeration is a class or false otherwise.
  */
 bool Enumeration::isClass() const
 {
@@ -50,14 +50,17 @@ bool Enumeration::isClass() const
 
 
 /*!
- * Returns a pointer list of all enumeration value blocks this enumeration block 
- * contains. 
+ * Returns a pointer list of all enumeration value blocks this enumeration block
+ * contains.
  *
- * @return Pointer list of all enumeration value blocks this enumeration contains. 
+ * @return Pointer list of all enumeration value blocks this enumeration
+ *         contains.
  */
 QList<EnumValue*> Enumeration::values() const
 {
-   // Make a pointer list of all of this block's enumeration value child blocks and 
-   // return it. 
-   return makeListOfType<EnumValue>(Factory::EnumValueType);
+   // Make a pointer list of all of this block's enumeration value child blocks and
+   // return it.
+   return createListOfType<EnumValue>(Factory::EnumValueType);
+}
+
 }

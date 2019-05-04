@@ -1,5 +1,4 @@
 #include "glsl_factory.h"
-#include <socutil/sut_exceptions.h>
 #include "projectfactory.h"
 #include "glsl_namespace.h"
 #include "glsl_shader.h"
@@ -9,9 +8,8 @@
 
 
 
-using namespace Sut;
-using namespace GLSL;
-//
+namespace GLSL
+{
 
 
 
@@ -19,9 +17,9 @@ using namespace GLSL;
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _AbstractBlockFactory_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 int Factory::type() const
 {
@@ -34,16 +32,16 @@ int Factory::type() const
 
 
 /*!
- * Implements _AbstractBlockFactory_ interface. 
+ * Implements _AbstractBlockFactory_ interface.
  *
- * @param type See interface docs. 
+ * @param type See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
 QString Factory::elementName(int type) const
 {
-   // Based off the given block type return its element name, throwing an exception 
-   // if the given type is unknown. 
+   // Based off the given block type return its element name, throwing an exception
+   // if the given type is unknown.
    switch (type)
    {
    case NamespaceType: return QStringLiteral("namespace");
@@ -52,12 +50,7 @@ QString Factory::elementName(int type) const
    case StructType: return QStringLiteral("struct");
    case FunctionType: return QStringLiteral("function");
    default:
-      {
-         Exception::InvalidArgument e;
-         SUT_MARK_EXCEPTION(e);
-         e.setDetails(QObject::tr("Unknown GLSL Block type %1.").arg(type));
-         throw e;
-      }
+      Q_ASSERT(false);
    }
 }
 
@@ -67,11 +60,13 @@ QString Factory::elementName(int type) const
 
 
 /*!
- * Constructs a new GLSL block factory. 
+ * Constructs a new GLSL block factory.
  */
-Factory::Factory():
-   BasicBlockFactory(":/glsl/defs.xml")
-{}
+Factory::Factory()
+   :
+   Basic::BlockFactory(":/glsl/defs.xml")
+{
+}
 
 
 
@@ -79,23 +74,25 @@ Factory::Factory():
 
 
 /*!
- * Implements _BasicBlockFactory_ interface. 
+ * Implements _Basic::BlockFactory_ interface.
  *
- * @param type See interface docs. 
+ * @param type See interface docs.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
-Sut::QPtr<BasicBlock> Factory::makeBasicBlock(int type) const
+Soc::Ut::QPtr<Basic::Block> Factory::createBasicBlock(int type) const
 {
-   // Based off the given block type return a new instance of that type or a null 
-   // pointer if that type does not have an implementation. 
+   // Based off the given block type return a new instance of that type or a null
+   // pointer if that type does not have an implementation.
    switch (type)
    {
-   case NamespaceType: return QPtr<BasicBlock>(new Namespace);
-   case ShaderType: return QPtr<BasicBlock>(new Shader);
-   case VariableType: return QPtr<BasicBlock>(new Variable);
-   case StructType: return QPtr<BasicBlock>(new Struct);
-   case FunctionType: return QPtr<BasicBlock>(new Function);
+   case NamespaceType: return Soc::Ut::QPtr<Basic::Block>(new Namespace);
+   case ShaderType: return Soc::Ut::QPtr<Basic::Block>(new Shader);
+   case VariableType: return Soc::Ut::QPtr<Basic::Block>(new Variable);
+   case StructType: return Soc::Ut::QPtr<Basic::Block>(new Struct);
+   case FunctionType: return Soc::Ut::QPtr<Basic::Block>(new Function);
    default: return nullptr;
    }
+}
+
 }

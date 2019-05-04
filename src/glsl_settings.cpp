@@ -3,29 +3,29 @@
 
 
 
-using namespace GLSL;
-//
+namespace GLSL
+{
 
 
 
 /*!
- * The settings key used to save the variable lines setting. 
+ * The settings key used to save the variable lines setting.
  */
 const char* Settings::_variableLinesKey {"glsl.settings.variable.lines"};
 /*!
- * The settings key used to save the structure lines setting. 
+ * The settings key used to save the structure lines setting.
  */
 const char* Settings::_structLinesKey {"glsl.settings.struct.lines"};
 /*!
- * The settings key used to save the function lines setting. 
+ * The settings key used to save the function lines setting.
  */
 const char* Settings::_functionLinesKey {"glsl.settings.function.lines"};
 /*!
- * The settings key used to save the indent spaces setting. 
+ * The settings key used to save the indent spaces setting.
  */
 const char* Settings::_indentSpacesKey {"glsl.indent.spaces"};
 /*!
- * The settings key used to save the max columns setting. 
+ * The settings key used to save the max columns setting.
  */
 const char* Settings::_maxColumnsKey {"glsl.columns.max"};
 
@@ -35,13 +35,13 @@ const char* Settings::_maxColumnsKey {"glsl.columns.max"};
 
 
 /*!
- * Constructs a new settings global instance, retrieving all persistent settings 
- * from qt settings. 
+ * Constructs a new settings global instance, retrieving all persistent settings
+ * from qt settings.
  */
 Settings::Settings()
 {
-   // Create a qt settings object and restore all global settings to their persistent 
-   // values. 
+   // Create a qt settings object and restore all global settings to their persistent
+   // values.
    QSettings settings;
    _variableLines = settings.value(_variableLinesKey).toInt();
    _structLines = settings.value(_structLinesKey).toInt();
@@ -56,9 +56,9 @@ Settings::Settings()
 
 
 /*!
- * Returns the variable lines setting. 
+ * Returns the variable lines setting.
  *
- * @return Variable lines setting. 
+ * @return Variable lines setting.
  */
 int Settings::variableLines() const
 {
@@ -71,9 +71,9 @@ int Settings::variableLines() const
 
 
 /*!
- * Returns the structure lines setting. 
+ * Returns the structure lines setting.
  *
- * @return Structure lines setting. 
+ * @return Structure lines setting.
  */
 int Settings::structLines() const
 {
@@ -86,9 +86,9 @@ int Settings::structLines() const
 
 
 /*!
- * Returns the function lines setting. 
+ * Returns the function lines setting.
  *
- * @return Function lines setting. 
+ * @return Function lines setting.
  */
 int Settings::functionLines() const
 {
@@ -101,9 +101,9 @@ int Settings::functionLines() const
 
 
 /*!
- * Returns the indent spaces setting. 
+ * Returns the indent spaces setting.
  *
- * @return Indent spaces setting. 
+ * @return Indent spaces setting.
  */
 int Settings::indentSpaces() const
 {
@@ -116,9 +116,9 @@ int Settings::indentSpaces() const
 
 
 /*!
- * Returns the max columns setting. 
+ * Returns the max columns setting.
  *
- * @return Max columns setting. 
+ * @return Max columns setting.
  */
 int Settings::maxColumns() const
 {
@@ -131,16 +131,16 @@ int Settings::maxColumns() const
 
 
 /*!
- * Sets the variable lines setting to the given value. 
+ * Sets the variable lines setting to the given value.
  *
- * @param value The new value for the setting. 
+ * @param value The new value for the setting.
  */
 void Settings::setVariableLines(int value)
 {
-   // Update the setting to the new value given. 
+   // Update the setting to the new value given.
    _variableLines = value;
 
-   // Update the setting in qt settings for persistence. 
+   // Update the setting in qt settings for persistence.
    updateSetting(_variableLinesKey,_variableLines);
 }
 
@@ -150,16 +150,16 @@ void Settings::setVariableLines(int value)
 
 
 /*!
- * Sets the structure lines setting to the given value. 
+ * Sets the structure lines setting to the given value.
  *
- * @param value The new value for the setting. 
+ * @param value The new value for the setting.
  */
 void Settings::setStructLines(int value)
 {
-   // Update the setting to the new value given. 
+   // Update the setting to the new value given.
    _structLines = value;
 
-   // Update the setting in qt settings for persistence. 
+   // Update the setting in qt settings for persistence.
    updateSetting(_structLinesKey,_structLines);
 }
 
@@ -169,16 +169,16 @@ void Settings::setStructLines(int value)
 
 
 /*!
- * Sets the function lines setting to the given value. 
+ * Sets the function lines setting to the given value.
  *
- * @param value The new value for the setting. 
+ * @param value The new value for the setting.
  */
 void Settings::setFunctionLines(int value)
 {
-   // Update the setting to the new value given. 
+   // Update the setting to the new value given.
    _functionLines = value;
 
-   // Update the setting in qt settings for persistence. 
+   // Update the setting in qt settings for persistence.
    updateSetting(_functionLinesKey,_functionLines);
 }
 
@@ -188,16 +188,16 @@ void Settings::setFunctionLines(int value)
 
 
 /*!
- * Sets the indent spaces setting to the given value. 
+ * Sets the indent spaces setting to the given value.
  *
- * @param value The new value for the setting. 
+ * @param value The new value for the setting.
  */
 void Settings::setIndentSpaces(int value)
 {
-   // Update the setting to the new value given. 
+   // Update the setting to the new value given.
    _indentSpaces = value;
 
-   // Update the setting in qt settings for persistence. 
+   // Update the setting in qt settings for persistence.
    updateSetting(_indentSpacesKey,_indentSpaces);
 }
 
@@ -207,16 +207,16 @@ void Settings::setIndentSpaces(int value)
 
 
 /*!
- * Sets the max columns setting to the given value. 
+ * Sets the max columns setting to the given value.
  *
- * @param value The new value for the setting. 
+ * @param value The new value for the setting.
  */
 void Settings::setMaxColumns(int value)
 {
-   // Update the setting to the new value given. 
+   // Update the setting to the new value given.
    _maxColumns = value;
 
-   // Update the setting in qt settings for persistence. 
+   // Update the setting in qt settings for persistence.
    updateSetting(_maxColumnsKey,_maxColumns);
 }
 
@@ -226,16 +226,18 @@ void Settings::setMaxColumns(int value)
 
 
 /*!
- * Updates the given setting to the given value using qt settings so it is 
- * persistent. 
+ * Updates the given setting to the given value using qt settings so it is
+ * persistent.
  *
- * @param key The key where the given value is saved. 
+ * @param key The key where the given value is saved.
  *
- * @param value The value that is saved to the given key. 
+ * @param value The value that is saved to the given key.
  */
 void Settings::updateSetting(const QString& key, int value)
 {
-   // Create a qt settings object and save the given value to the given key. 
+   // Create a qt settings object and save the given value to the given key.
    QSettings settings;
    settings.setValue(key,value);
+}
+
 }

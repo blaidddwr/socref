@@ -1,10 +1,10 @@
 #include "glsl_variable.h"
-#include "glsl_variable_view.h"
+#include "glsl_variableview.h"
 
 
 
-using namespace GLSL;
-//
+namespace GLSL
+{
 
 
 
@@ -12,9 +12,9 @@ using namespace GLSL;
 
 
 /*!
- * Returns this variable block's type string. 
+ * Returns this variable block's type string.
  *
- * @return This variable block's type string. 
+ * @return This variable block's type string.
  */
 QString Variable::typeString() const
 {
@@ -27,9 +27,9 @@ QString Variable::typeString() const
 
 
 /*!
- * Returns this variable block's list of layout qualifiers. 
+ * Returns this variable block's list of layout qualifiers.
  *
- * @return This variable block's list of layout qualifiers. 
+ * @return This variable block's list of layout qualifiers.
  */
 QStringList Variable::layout() const
 {
@@ -42,11 +42,13 @@ QStringList Variable::layout() const
 
 
 /*!
- * Implements _BasicBlock_ interface. 
+ * Implements _Basic::Block_ interface.
  *
- * @return See interface docs. 
+ * @return See interface docs.
  */
-Sut::QPtr<BasicBlock::View> Variable::makeBasicView() const
+Soc::Ut::QPtr<Basic::BlockView> Variable::makeBasicView() const
 {
-   return new View(this);
+   return new VariableView(this);
+}
+
 }

@@ -1,18 +1,23 @@
+#ifndef GUI_H
+#define GUI_H
+
+
 
 /*!
- * Contains all basic GUI elements. 
+ * Contains all GUI elements for this application.
  */
 namespace Gui
 {
-   class AbstractEdit;
    class PersistentDialog;
-   class TextDialog;
+   class SpellerHighlighter;
+   class SpellerDialog;
    class TextEdit;
+   class TextDialog;
    class ListEdit;
-   class TypeSelection;
    class BlockView;
    class MainWindow;
    class ProjectDialog;
    class DictionaryDialog;
-   class ScanDialog;
 }
+
+#endif

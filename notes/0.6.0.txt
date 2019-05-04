@@ -5,3 +5,4 @@
     * The display for various block types has been changed.
     * Slots, signals, constructors, and desctructors have all been merged into a single function block type.
 * Added new GLSL project type for commenting OpenGL shader code.
+
