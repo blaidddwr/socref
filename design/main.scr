@@ -13255,6 +13255,19 @@ The parsing of a project is done through this function alone. Only one type of s
         </data>
         <function>
           <data>
+            <description>Deletes the header expression if it exists.</description>
+            <name>~^</name>
+            <return_description></return_description>
+            <type></type>
+          </data>
+        </function>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
+        <function>
+          <data>
             <description>Parses the source file with the given path using this scanner's parser elements, overwriting any contents the file may contain if it is different from the output of the parser elements. If this scanner has no parser elements then this does nothing.</description>
             <name>parse</name>
             <operation>Make sure this scanner has parser elements.</operation>
@@ -13331,9 +13344,12 @@ The parsing of a project is done through this function alone. Only one type of s
           <data>
             <description>Attempts to find an parser element of this scanner that requires input and whose header expression matches the given line, returning its pointer if one is found.</description>
             <name>findParser</name>
-            <operation>Iterate through all parser elements of this scanner requiring input.</operation>
-            <operation>Make sure the parser still requires input.</operation>
-            <operation>If the parser element's header expression matches the given line then return its pointer.</operation>
+            <operation>Check to see if the header expression is not initialized.</operation>
+            <operation>Construct the header expression consisting of all this scanner's input parser's header expressions separated into groupings of the main header expression.</operation>
+            <operation>Create a new regular expression and set its pointer to this scanner's header expression.</operation>
+            <operation>Check to see if there is an input parser match for the given line.</operation>
+            <operation>Get the index of the input parser that was matched, making sure it is valid.</operation>
+            <operation>Return a pointer to the input parser that was matched.</operation>
             <operation>No match was found to return null.</operation>
             <return_description>Pointer to matched parser element requiring input or null if no match is found.</return_description>
             <type>Abstract::Parser*</type>
@@ -13347,6 +13363,11 @@ The parsing of a project is done through this function alone. Only one type of s
             </data>
           </variable>
         </function>
+      </access>
+      <access>
+        <data>
+          <type>private:</type>
+        </data>
         <variable>
           <data>
             <description>List of parser elements this scanner uses for parsing any source file it is given to parse.</description>
@@ -13361,6 +13382,14 @@ The parsing of a project is done through this function alone. Only one type of s
             <initializer></initializer>
             <name>_inputParsers</name>
             <type>QList&lt;Abstract::Parser*></type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>Pointer to the regular expression that contains all header expressions for all input parsers of this scanner separated into groups. This is used to find a matching input parser to input lines. This is null until the first search is done and initializes it.</description>
+            <initializer>nullptr</initializer>
+            <name>_headerExpr</name>
+            <type>QRegularExpression*</type>
           </data>
         </variable>
         <variable>

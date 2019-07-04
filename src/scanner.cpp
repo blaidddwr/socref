@@ -10,6 +10,19 @@
 
 
 /*!
+ * Deletes the header expression if it exists.
+ */
+Scanner::~Scanner()
+{
+   delete _headerExpr;
+}
+
+
+
+
+
+
+/*!
  * Parses the source file with the given path using this scanner's parser
  * elements, overwriting any contents the file may contain if it is different
  * from the output of the parser elements. If this scanner has no parser
@@ -186,17 +199,36 @@ QString Scanner::createOutput()
  */
 Abstract::Parser* Scanner::findParser(const QString& line)
 {
-   // Iterate through all parser elements of this scanner requiring input.
-   for (auto parser: _inputParsers)
+   // Check to see if the header expression is not initialized.
+   if ( !_headerExpr )
    {
-      // Make sure the parser still requires input.
-      if ( parser->needsInput() )
+      // Construct the header expression consisting of all this scanner's input parser's
+      // header expressions separated into groupings of the main header expression.
+      QString expression;
+      bool first {true};
+      for (auto parser: _inputParsers)
       {
-         // If the parser element's header expression matches the given line then return
-         // its pointer.
-         QRegularExpression regexp(parser->headerExpression());
-         if ( regexp.match(line).hasMatch() ) return parser;
+         if ( first ) first = false;
+         else expression += QStringLiteral("|");
+         expression += QStringLiteral("(") + parser->headerExpression() + QStringLiteral(")");
       }
+
+      // Create a new regular expression and set its pointer to this scanner's header
+      // expression.
+      _headerExpr = new QRegularExpression(expression);
+   }
+
+   // Check to see if there is an input parser match for the given line.
+   auto match {_headerExpr->match(line)};
+   if ( match.hasMatch() )
+   {
+      // Get the index of the input parser that was matched, making sure it is valid.
+      int index {match.lastCapturedIndex() - 1};
+      Q_ASSERT(index >= 0);
+      Q_ASSERT(index < _inputParsers.size());
+
+      // Return a pointer to the input parser that was matched.
+      return _inputParsers.at(index);
    }
 
    // No match was found to return null.
