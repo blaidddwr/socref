@@ -12,15 +12,15 @@ namespace Basic
 /*!
  * The name of the display attribute for XML basic block definitions.
  */
-const char* BlockFactory::_displayTag {"display"};
+const QString BlockFactory::_displayTag {"display"};
 /*!
  * The name of the root attribute for XML basic block definitions.
  */
-const char* BlockFactory::_rootTag {"root"};
+const QString BlockFactory::_rootTag {"root"};
 /*!
  * The tag name of the build list element for XML basic block definitions.
  */
-const char* BlockFactory::_buildTag {"buildlist"};
+const QString BlockFactory::_buildTag {"buildlist"};
 
 
 
@@ -118,7 +118,7 @@ Soc::Ut::QPtr<Abstract::Block> BlockFactory::createBlock(int type, bool isDefaul
    ret->initialize(type,this,_typeDefinitions.at(type),_buildLists.at(type),isDefault);
 
    // Return the new basic block.
-   return ret;
+   return std::move(ret);
 }
 
 
@@ -344,7 +344,9 @@ QList<int> BlockFactory::buildList(const QDomElement& element)
 /*!
  * Makes sure this factory's list of basic block definitions match with this
  * factory's implementation's element name interface. If a mismatch is detected
- * then an exception is thrown.
+ * then false is returned.
+ *
+ * @return True is no mismatch is detected or false if a mismatch is detected.
  */
 bool BlockFactory::check() const
 {

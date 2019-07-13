@@ -29,32 +29,38 @@ namespace Basic
       virtual void renderText() override final;
    private:
       static QStringList parseBoldMarkers(const QStringList& list);
+   private:
       /*!
        * The tag name for a header 1 display element, 1 being the largest.
        */
-      static const char* _header1Tag;
+      static const QString _header1Tag;
       /*!
        * The tag name for a header 2 display element, 1 being the largest.
        */
-      static const char* _header2Tag;
+      static const QString _header2Tag;
       /*!
        * The tag name for a header 3 display element, 1 being the largest.
        */
-      static const char* _header3Tag;
+      static const QString _header3Tag;
       /*!
        * The tag name for a paragraphs display element that displays a basic block
        * field as multiple paragraphs separated by double newline characters.
        */
-      static const char* _paragraphsTag;
+      static const QString _paragraphsTag;
       /*!
        * The tag name for a custom display element specifying a custom method to call
        * that returned a custom string.
        */
-      static const char* _customTag;
+      static const QString _customTag;
       /*!
        * The attribute name for the custom method name of a custom display element.
        */
-      static const char* _nameKey;
+      static const QString _nameKey;
+      /*!
+       * The attribute name for the option to enable or disable bold underline marking
+       * with paragraph elements.
+       */
+      static const QString _boldUnderlineKey;
    private:
       void addParagraphs(QString* text, const QDomElement& element);
       void addCustom(QString* text, const QDomElement& element);

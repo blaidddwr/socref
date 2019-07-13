@@ -46,21 +46,22 @@ namespace Basic
       /*!
        * The name of the display attribute for XML basic block definitions.
        */
-      static const char* _displayTag;
+      static const QString _displayTag;
       /*!
        * The name of the root attribute for XML basic block definitions.
        */
-      static const char* _rootTag;
+      static const QString _rootTag;
       /*!
        * The tag name of the build list element for XML basic block definitions.
        */
-      static const char* _buildTag;
+      static const QString _buildTag;
    private:
       void read(const QString& path);
       void readDefinition(const QDomElement& element);
       void buildLists();
       QList<int> buildList(const QDomElement& element);
       bool check() const;
+   private:
       /*!
        * List of display names for this factory's basic block type definitions.
        */

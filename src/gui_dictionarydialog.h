@@ -27,6 +27,7 @@ namespace Gui
    private:
       void setupGui();
       QLayout* setupButtons();
+   private:
       /*!
        * The List view widget of this dictionary dialog that displays the list of
        * custom dictionary words.

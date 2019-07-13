@@ -13,8 +13,10 @@ class Application : public QApplication
 {
    Q_OBJECT
 public:
-   static QString versionString();
    explicit Application(int& argc, char** argv);
+public:
+   static QString versionString();
+public:
    /*!
     * Major version of this program.
     */
@@ -30,11 +32,11 @@ public:
    /*!
     * The organization key used to access this program's qt settings.
     */
-   static const char* _organizationKey;
+   static const QString _organizationKey;
    /*!
     * The application key used to access this program's qt settings.
     */
-   static const char* _applicationKey;
+   static const QString _applicationKey;
 };
 
 #endif

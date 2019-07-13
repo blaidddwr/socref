@@ -11,19 +11,19 @@ namespace CppQt
 /*!
  * The settings key used to save the indent spaces setting.
  */
-const char* Settings::_indentSpacesKey {"settings.cppqt.indent.spaces"};
+const QString Settings::_indentSpacesKey {"settings.cppqt.indent.spaces"};
 /*!
  * The settings key used to save the header lines setting.
  */
-const char* Settings::_headerLinesKey {"settings.cppqt.header.lines"};
+const QString Settings::_headerLinesKey {"settings.cppqt.header.lines"};
 /*!
  * The settings key used to save the function lines setting.
  */
-const char* Settings::_functionLinesKey {"settings.cppqt.header.functionlines"};
+const QString Settings::_functionLinesKey {"settings.cppqt.header.functionlines"};
 /*!
  * The settings key used to save the max columns setting.
  */
-const char* Settings::_maxColumnsKey {"settings.cppqt.header.maxcolumns"};
+const QString Settings::_maxColumnsKey {"settings.cppqt.header.maxcolumns"};
 
 
 

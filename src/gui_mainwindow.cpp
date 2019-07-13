@@ -32,16 +32,16 @@ namespace Gui
  * The key used to save/restore the geometry of the main window using Qt
  * settings.
  */
-const char* MainWindow::_geometryKey {"gui.mainwindow.geometry"};
+const QString MainWindow::_geometryKey {"gui.mainwindow.geometry"};
 /*!
  * The key used to save/restore the state of the main window using Qt settings.
  */
-const char* MainWindow::_stateKey {"gui.mainwindow.state"};
+const QString MainWindow::_stateKey {"gui.mainwindow.state"};
 /*!
  * The key used to save/restore the state of the block view contained in the
  * main window using Qt settings.
  */
-const char* MainWindow::_viewStateKey {"gui.mainwindow.view.state"};
+const QString MainWindow::_viewStateKey {"gui.mainwindow.view.state"};
 
 
 

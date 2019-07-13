@@ -31,6 +31,7 @@ namespace Basic
       explicit LineParser() = default;
       explicit LineParser(int count);
       explicit LineParser(int indent, const QString& line);
+   public:
       void add(const QString& line);
       void add(const QStringList& lines);
       void add(int count);

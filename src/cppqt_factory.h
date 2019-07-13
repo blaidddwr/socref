@@ -23,59 +23,59 @@ namespace CppQt
       /*!
        * Defines all possible block types for the C++/Qt project type.
        */
-      enum
+      enum Type
       {
          /*!
           * Defines the namespace block.
           */
-         NamespaceType
+         Namespace
          /*!
           * Defines the enumeration block. This is for C++ enumerations of all types.
           */
-         ,EnumerationType
+         ,Enumeration
          /*!
           * Defines the enumeration value block. This is for specific enumeration values.
           */
-         ,EnumValueType
+         ,EnumValue
          /*!
           * Defines the variable block.
           */
-         ,VariableType
+         ,Variable
          /*!
           * Defines the template block. This is used for template arguments in classes
           * and functions.
           */
-         ,TemplateType
+         ,Template
          /*!
           * Defines the function block.
           */
-         ,FunctionType
+         ,Function
          /*!
           * Defines the structure block.
           */
-         ,StructType
+         ,Struct
          /*!
           * Defines the union block.
           */
-         ,UnionType
+         ,Union
          /*!
           * Defines the class block.
           */
-         ,ClassType
+         ,Class
          /*!
           * Defines the access block. This is used for the different access types in
           * classes such as public, private, signals, or slots.
           */
-         ,AccessType
+         ,Access
          /*!
           * Defines the parent block. This is for adding parents to a class's
           * inheritance.
           */
-         ,ParentType
+         ,Parent
          /*!
           * Defines the declaration block. This is for declarations within classes.
           */
-         ,DeclarationType
+         ,Declaration
          /*!
           * Defines the total number of unique blocks the C++/Qt project type contains.
           */

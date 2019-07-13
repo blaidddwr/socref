@@ -177,18 +177,19 @@ namespace Abstract
    private:
       void copyChildren(const Block* parent);
       void readChild(const QDomElement& element);
+   private:
       /*!
        * The name for version attributes.
        */
-      static const char* _versionTag;
+      static const QString _versionTag;
       /*!
        * The tag name for data elements.
        */
-      static const char* _dataTag;
+      static const QString _dataTag;
       /*!
        * The name for type attributes.
        */
-      static const char* _typeTag;
+      static const QString _typeTag;
       /*!
        * Pointer list of this block's children.
        */

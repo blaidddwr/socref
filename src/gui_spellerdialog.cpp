@@ -23,7 +23,29 @@ namespace Gui
  * The text added before and after a snippet view representing dots to
  * communicate there is more text on either side.
  */
-const char* SpellerDialog::_snippetDots {"..."};
+const QString SpellerDialog::_snippetDots {"..."};
+
+
+
+
+
+
+/*!
+ * Begins spell checking on the parent text editor of this dialog by finding the
+ * first misspelled word. If no misspelled word are found this returns.
+ *
+ * @return Always returns Qt dialog accept.
+ */
+int SpellerDialog::exec()
+{
+   // Show this dialog so it is not invisible.
+   show();
+
+   // Find the first misspelled word, executing this dialog if one is found or
+   // returning right away if no misspelled word is found.
+   if ( findNextWord() ) return QDialog::exec();
+   else return QDialog::Accepted;
+}
 
 
 
@@ -75,28 +97,6 @@ SpellerDialog::~SpellerDialog()
    // Free the speller resources of this dialog.
    delete_aspell_speller(_spell);
    delete_aspell_config(_spellConfig);
-}
-
-
-
-
-
-
-/*!
- * Begins spell checking on the parent text editor of this dialog by finding the
- * first misspelled word. If no misspelled word are found this returns.
- *
- * @return Always returns Qt dialog accept.
- */
-int SpellerDialog::exec()
-{
-   // Show this dialog so it is not invisible.
-   show();
-
-   // Find the first misspelled word, executing this dialog if one is found or
-   // returning right away if no misspelled word is found.
-   if ( findNextWord() ) return QDialog::exec();
-   else return QDialog::Accepted;
 }
 
 

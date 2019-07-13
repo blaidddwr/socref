@@ -20,6 +20,7 @@ namespace GLSL
       /*!
        */
       Q_INVOKABLE explicit Variable() = default;
+   public:
       QString typeString() const;
       QStringList layout() const;
    protected:

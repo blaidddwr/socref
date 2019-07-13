@@ -33,6 +33,7 @@ namespace Basic
       virtual void setIndent(int value) override final;
    public:
       explicit CommentParser(const QString& begin, const QString& middle, const QString& end, int maxColumns);
+   public:
       void add(const QString& text);
       void add(const QString& header, const QString& text);
       void add(int count);
@@ -42,9 +43,8 @@ namespace Basic
        * to generated the output lines for it. This also contains the number of blank
        * footer comment lines that are added to output after the comment block text.
        */
-      class Node
+      struct Node
       {
-      public:
          /*!
           * The header text of this comment block.
           */
@@ -61,6 +61,7 @@ namespace Basic
       };
    private:
       QStringList createComment(QString header, const QString& text) const;
+   private:
       /*!
        * The number of space characters prepended to each line of comment block output
        * when this parser generates it for its parent scanner.

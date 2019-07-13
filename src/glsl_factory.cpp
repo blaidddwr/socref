@@ -23,7 +23,7 @@ namespace GLSL
  */
 int Factory::type() const
 {
-   return ProjectFactory::GLSLType;
+   return ProjectFactory::GLSL;
 }
 
 
@@ -44,11 +44,11 @@ QString Factory::elementName(int type) const
    // if the given type is unknown.
    switch (type)
    {
-   case NamespaceType: return QStringLiteral("namespace");
-   case ShaderType: return QStringLiteral("shader");
-   case VariableType: return QStringLiteral("variable");
-   case StructType: return QStringLiteral("struct");
-   case FunctionType: return QStringLiteral("function");
+   case Type::Namespace: return QStringLiteral("namespace");
+   case Type::Shader: return QStringLiteral("shader");
+   case Type::Variable: return QStringLiteral("variable");
+   case Type::Struct: return QStringLiteral("struct");
+   case Type::Function: return QStringLiteral("function");
    default:
       Q_ASSERT(false);
    }
@@ -86,11 +86,11 @@ Soc::Ut::QPtr<Basic::Block> Factory::createBasicBlock(int type) const
    // pointer if that type does not have an implementation.
    switch (type)
    {
-   case NamespaceType: return Soc::Ut::QPtr<Basic::Block>(new Namespace);
-   case ShaderType: return Soc::Ut::QPtr<Basic::Block>(new Shader);
-   case VariableType: return Soc::Ut::QPtr<Basic::Block>(new Variable);
-   case StructType: return Soc::Ut::QPtr<Basic::Block>(new Struct);
-   case FunctionType: return Soc::Ut::QPtr<Basic::Block>(new Function);
+   case Type::Namespace: return Soc::Ut::QPtr<Basic::Block>(new GLSL::Namespace);
+   case Type::Shader: return Soc::Ut::QPtr<Basic::Block>(new GLSL::Shader);
+   case Type::Variable: return Soc::Ut::QPtr<Basic::Block>(new GLSL::Variable);
+   case Type::Struct: return Soc::Ut::QPtr<Basic::Block>(new GLSL::Struct);
+   case Type::Function: return Soc::Ut::QPtr<Basic::Block>(new GLSL::Function);
    default: return nullptr;
    }
 }

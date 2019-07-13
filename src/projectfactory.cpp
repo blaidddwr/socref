@@ -40,8 +40,8 @@ QString ProjectFactory::name(int type) const
    // Return the display name of the given project type.
    switch (type)
    {
-   case CppQtType: return QObject::tr("C++/Qt");
-   case GLSLType: return QObject::tr("GLSL");
+   case Type::CppQt: return QObject::tr("C++/Qt");
+   case Type::GLSL: return QObject::tr("GLSL");
    default:
       // This project type is not recognized so throw an exception.
       Q_ASSERT(false);
@@ -88,8 +88,8 @@ QString ProjectFactory::elementName(int type) const
    // Return the element name of the given project type.
    switch (type)
    {
-   case CppQtType: return QStringLiteral("cppqt");
-   case GLSLType: return QStringLiteral("glsl");
+   case Type::CppQt: return QStringLiteral("cppqt");
+   case Type::GLSL: return QStringLiteral("glsl");
    default:
       // This project type is not recognized so throw an exception.
       Q_ASSERT(false);
@@ -113,8 +113,8 @@ QString ProjectFactory::defaultFilters(int type) const
    // Return default file filters for the given project type.
    switch (type)
    {
-   case CppQtType: return QStringLiteral("*.cpp *.h");
-   case GLSLType: return QStringLiteral("*.glsl");
+   case Type::CppQt: return QStringLiteral("*.cpp *.h");
+   case Type::GLSL: return QStringLiteral("*.glsl");
    default:
       // This project type is not recognized so throw an exception.
       Q_ASSERT(false);
@@ -138,8 +138,8 @@ Soc::Ut::QPtr<QDialog> ProjectFactory::makeSettings(int type) const
    // Return a new settings dialog for the given project type.
    switch (type)
    {
-   case CppQtType: return Soc::Ut::QPtr<QDialog>(new CppQt::SettingsDialog);
-   case GLSLType: return Soc::Ut::QPtr<QDialog>(new GLSL::SettingsDialog);
+   case Type::CppQt: return Soc::Ut::QPtr<QDialog>(new CppQt::SettingsDialog);
+   case Type::GLSL: return Soc::Ut::QPtr<QDialog>(new GLSL::SettingsDialog);
    default:
       // This project type is not recognized so throw an exception.
       Q_ASSERT(false);
@@ -163,8 +163,8 @@ const Abstract::BlockFactory& ProjectFactory::blockFactory(int type) const
    // Return a reference to the block factory of the given project type.
    switch (type)
    {
-   case CppQtType: return CppQt::Factory::instance();
-   case GLSLType: return GLSL::Factory::instance();
+   case Type::CppQt: return CppQt::Factory::instance();
+   case Type::GLSL: return GLSL::Factory::instance();
    default:
       // This project type is not recognized so throw an exception.
       Q_ASSERT(false);
@@ -189,8 +189,8 @@ QMap<QString,Scanner*> ProjectFactory::createScannerMap(const Abstract::Block* r
    // a mapping of scanner objects, making sure the project type is recognized.
    switch (root->factory().type())
    {
-   case CppQtType: return CppQt::Parse::createScannerMap(root);
-   case GLSLType: return GLSL::Parse::createScannerMap(root);
+   case Type::CppQt: return CppQt::Parse::createScannerMap(root);
+   case Type::GLSL: return GLSL::Parse::createScannerMap(root);
    default:
       Q_ASSERT(false);
    }

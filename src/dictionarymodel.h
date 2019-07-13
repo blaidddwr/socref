@@ -20,6 +20,7 @@ public:
    virtual QVariant data(const QModelIndex& index, int role) const override final;
 public:
    explicit DictionaryModel(QObject* parent = nullptr);
+public:
    bool hasWord(const QString& word) const;
    QDomElement write(QDomDocument& document) const;
    bool addWord(const QString& word);

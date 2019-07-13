@@ -15,15 +15,15 @@ namespace Abstract
 /*!
  * The name for version attributes.
  */
-const char* Block::_versionTag {"version"};
+const QString Block::_versionTag {"version"};
 /*!
  * The tag name for data elements.
  */
-const char* Block::_dataTag {"data"};
+const QString Block::_dataTag {"data"};
 /*!
  * The name for type attributes.
  */
-const char* Block::_typeTag {"type"};
+const QString Block::_typeTag {"type"};
 
 
 

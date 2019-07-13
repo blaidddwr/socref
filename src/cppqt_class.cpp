@@ -33,7 +33,7 @@ QString Class::name() const
    ret += baseName();
 
    // If this class inherits from any other classes append an indicator.
-   if ( containsType(Factory::ParentType) ) ret += QStringLiteral(" :");
+   if ( containsType(Factory::Parent) ) ret += QStringLiteral(" :");
 
    // Return the display name string.
    return ret;
@@ -91,7 +91,7 @@ bool Class::isVirtual() const
 {
    // Iterate through all access block children of this class block, returning true
    // if any of them has any virtual functions.
-   for (auto access : createListOfType<Access>(Factory::AccessType))
+   for (auto access : createListOfType<Access>(Factory::Access))
    {
       if ( access->hasVirtual() ) return true;
    }
@@ -114,7 +114,7 @@ bool Class::isAbstract() const
 {
    // Iterate through all access block children of this class block, returning true
    // if any of them has any abstract functions.
-   for (auto access : createListOfType<Access>(Factory::AccessType))
+   for (auto access : createListOfType<Access>(Factory::Access))
    {
       if ( access->hasAbstract() ) return true;
    }
@@ -135,7 +135,7 @@ bool Class::isAbstract() const
  */
 bool Class::hasTemplates() const
 {
-   return containsType(Factory::TemplateType);
+   return containsType(Factory::Template);
 }
 
 
@@ -157,10 +157,10 @@ bool Class::hasAnyTemplates() const
    // Iterate up the chain of block parents starting with this block's parent until a
    // namespace or null pointer is reached.
    Abstract::Block* back {parent()};
-   while ( back && back->type() != Factory::NamespaceType )
+   while ( back && back->type() != Factory::Namespace )
    {
       // If this parent is a class and it has template arguments then return true.
-      if ( Class* valid = back->cast<Class>(Factory::ClassType) )
+      if ( Class* valid = back->cast<Class>(Factory::Class) )
       {
          if ( valid->hasTemplates() ) return true;
       }
@@ -186,7 +186,7 @@ bool Class::hasAnyTemplates() const
  */
 QList<Template*> Class::templates() const
 {
-   return createListOfType<Template>(Factory::TemplateType);
+   return createListOfType<Template>(Factory::Template);
 }
 
 
@@ -202,7 +202,7 @@ QList<Template*> Class::templates() const
  */
 QList<Parent*> Class::parents() const
 {
-   return createListOfType<Parent>(Factory::ParentType);
+   return createListOfType<Parent>(Factory::Parent);
 }
 
 
@@ -262,7 +262,7 @@ bool Class::childAdded(Abstract::Block* child)
 
    // Else if the child added is a function then connect this object's name changed
    // signal to the function and notify this block requires updating.
-   else if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
+   else if ( Function* valid = child->cast<Function>(Factory::Function) )
    {
       connect(this,&Class::nameChanged,valid,&Function::classNameChanged);
       update();
@@ -292,7 +292,7 @@ bool Class::childRemoved(Abstract::Block* child)
 
    // Else if the child added is a function then connect this object's name changed
    // signal to the function and notify this block requires updating.
-   else if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
+   else if ( Function* valid = child->cast<Function>(Factory::Function) )
    {
       disconnect(valid);
       update();

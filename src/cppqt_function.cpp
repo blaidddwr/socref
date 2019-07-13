@@ -163,7 +163,7 @@ bool Function::isOperator() const
 bool Function::isSignal() const
 {
    if ( !isMethod() ) return false;
-   return parent()->cast<Access>(Factory::AccessType)->isSignal();
+   return parent()->cast<Access>(Factory::Access)->isSignal();
 }
 
 
@@ -179,7 +179,7 @@ bool Function::isSignal() const
 bool Function::isSlot() const
 {
    if ( !isMethod() ) return false;
-   return parent()->cast<Access>(Factory::AccessType)->isSlot();
+   return parent()->cast<Access>(Factory::Access)->isSlot();
 }
 
 
@@ -398,11 +398,11 @@ QString Function::baseName() const
    // the name of its class, prepending a ~ if it is a destructor.
    if ( ret == QStringLiteral("^") )
    {
-      ret = parent()->parent()->cast<Class>(Factory::ClassType)->baseName();
+      ret = parent()->parent()->cast<Class>(Factory::Class)->baseName();
    }
    else if ( ret == QStringLiteral("~^") )
    {
-      ret = QStringLiteral("~") + parent()->parent()->cast<Class>(Factory::ClassType)->baseName();
+      ret = QStringLiteral("~") + parent()->parent()->cast<Class>(Factory::Class)->baseName();
    }
 
    // Return the base name.
@@ -491,7 +491,7 @@ bool Function::isMethod() const
 
    // Determine if this function block is a method by seeing if its parent is an
    // access block.
-   return up->type() == Factory::AccessType;
+   return up->type() == Factory::Access;
 }
 
 
@@ -513,7 +513,7 @@ bool Function::isPrivateMethod() const
 
    // Determine if this function block is a private method by seeing if its parent
    // access block's type is private.
-   return parent()->cast<Access>(Factory::AccessType)->isPrivate();
+   return parent()->cast<Access>(Factory::Access)->isPrivate();
 }
 
 
@@ -537,7 +537,7 @@ bool Function::hasAnyTemplates() const
    // any parent classes contain templates.
    if ( isMethod() )
    {
-      return parent()->parent()->cast<Class>(Factory::ClassType)->hasAnyTemplates();
+      return parent()->parent()->cast<Class>(Factory::Class)->hasAnyTemplates();
    }
 
    // If this is reached then there are no templates so return false.
@@ -559,7 +559,7 @@ bool Function::hasAnyTemplates() const
 bool Function::hasTemplates() const
 {
    // See if any direct children blocks of this block are templates.
-   return containsType(Factory::TemplateType);
+   return containsType(Factory::Template);
 }
 
 
@@ -575,7 +575,7 @@ bool Function::hasTemplates() const
  */
 QList<Template*> Function::templates() const
 {
-   return createListOfType<Template>(Factory::TemplateType);
+   return createListOfType<Template>(Factory::Template);
 }
 
 
@@ -591,7 +591,7 @@ QList<Template*> Function::templates() const
  */
 QList<Variable*> Function::arguments() const
 {
-   return createListOfType<Variable>(Factory::VariableType);
+   return createListOfType<Variable>(Factory::Variable);
 }
 
 

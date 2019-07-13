@@ -32,9 +32,10 @@ namespace Gui
    {
       Q_OBJECT
    public:
+      virtual int exec() override final;
+   public:
       explicit SpellerDialog(DictionaryModel* dictionary, const char* language, QTextDocument* document, QWidget* parent);
       virtual ~SpellerDialog() override final;
-      virtual int exec() override final;
    private slots:
       void changeClicked();
       void ignoreOnceClicked();
@@ -51,7 +52,7 @@ namespace Gui
        * The text added before and after a snippet view representing dots to
        * communicate there is more text on either side.
        */
-      static const char* _snippetDots;
+      static const QString _snippetDots;
    private:
       bool findNextWord();
       bool isCorrectWord(const QString& word);
@@ -64,6 +65,7 @@ namespace Gui
       QLayout* setupWordEdit();
       QLayout* setupButtons();
       void setupSpeller(const char* language);
+   private:
       /*!
        * The qt text document this dialog is spell checking.
        */

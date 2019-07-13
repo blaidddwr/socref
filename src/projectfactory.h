@@ -14,16 +14,16 @@ public:
    /*!
     * Defines all project types ending with the total size of all project types.
     */
-   enum
+   enum Type
    {
       /*!
        * Defines the C++/Qt project type.
        */
-      CppQtType
+      CppQt
       /*!
        * Defines the GLSL project type.
        */
-      ,GLSLType
+      ,GLSL
       /*!
        * Defines the total number of all project types.
        */

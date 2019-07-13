@@ -28,11 +28,13 @@ namespace Gui
    public:
       explicit TextDialog(Abstract::Block* block, QWidget* parent = nullptr);
       explicit TextDialog(DictionaryModel* dictionary, QWidget* parent = nullptr);
+   public:
       QString text() const;
       void setText(const QString& text);
    private:
       void setupGui();
       QLayout* setupButtons();
+   private:
       /*!
        * Pointer to the text edit widget of this dialog.
        */

@@ -26,6 +26,7 @@ namespace CppQt
        * Constructs a new variable block.
        */
       Q_INVOKABLE explicit Variable() = default;
+   public:
       bool isConstExpr() const;
       bool isStatic() const;
       bool isMutable() const;

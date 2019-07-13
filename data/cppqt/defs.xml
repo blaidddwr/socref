@@ -336,7 +336,7 @@
     </edit>
     <view>
         <h3>Line</h3>
-        <ps id="line"/>
+        <ps id="line" boldunderline="no"/>
     </view>
 </declaration>
 

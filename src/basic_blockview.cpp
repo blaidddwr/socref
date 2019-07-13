@@ -13,29 +13,34 @@ namespace Basic
 /*!
  * The tag name for a header 1 display element, 1 being the largest.
  */
-const char* BlockView::_header1Tag {"h1"};
+const QString BlockView::_header1Tag {"h1"};
 /*!
  * The tag name for a header 2 display element, 1 being the largest.
  */
-const char* BlockView::_header2Tag {"h2"};
+const QString BlockView::_header2Tag {"h2"};
 /*!
  * The tag name for a header 3 display element, 1 being the largest.
  */
-const char* BlockView::_header3Tag {"h3"};
+const QString BlockView::_header3Tag {"h3"};
 /*!
  * The tag name for a paragraphs display element that displays a basic block
  * field as multiple paragraphs separated by double newline characters.
  */
-const char* BlockView::_paragraphsTag {"ps"};
+const QString BlockView::_paragraphsTag {"ps"};
 /*!
  * The tag name for a custom display element specifying a custom method to call
  * that returned a custom string.
  */
-const char* BlockView::_customTag {"custom"};
+const QString BlockView::_customTag {"custom"};
 /*!
  * The attribute name for the custom method name of a custom display element.
  */
-const char* BlockView::_nameKey {"name"};
+const QString BlockView::_nameKey {"name"};
+/*!
+ * The attribute name for the option to enable or disable bold underline marking
+ * with paragraph elements.
+ */
+const QString BlockView::_boldUnderlineKey {"boldunderline"};
 
 
 
@@ -196,13 +201,17 @@ void BlockView::addParagraphs(QString* text, const QDomElement& element)
    const QVariant field {block<Block>().get(element.attribute(Block::_idKey))};
    Q_ASSERT(field.type() == QVariant::String);
 
+   // Set the bold underline argument to true by default or false if the given
+   // element has the bold underline attribute set to no.
+   bool bold {true};
+   if ( element.attribute(_boldUnderlineKey) == QStringLiteral("no") ) bold = false;
+
    // Split the basic block field into a string list of paragraphs based off double
-   // newline characters being the separator, escaping any HTML characters and
-   // parsing each string for bold underline markers.
-   QStringList paragraphs
-   {
-      parseBoldMarkers(field.toString().toHtmlEscaped().split("\n\n",QString::SkipEmptyParts))
-   };
+   // newline characters being the separator, escaping any HTML characters.
+   QStringList paragraphs {field.toString().toHtmlEscaped().split("\n\n",QString::SkipEmptyParts)};
+
+   // If bold underline is true then parse all paragraphs for bold underline markers.
+   if ( bold ) paragraphs = parseBoldMarkers(paragraphs);
 
    // Make sure the list of paragraphs is not empty.
    if ( !paragraphs.isEmpty() )

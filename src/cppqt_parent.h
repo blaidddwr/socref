@@ -25,6 +25,7 @@ namespace CppQt
        * the given flag.
        */
       Q_INVOKABLE explicit Parent() = default;
+   public:
       QString accessString() const;
       QString className() const;
    private:

@@ -49,7 +49,7 @@ QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root)
    QMap<QString,Scanner*> ret;
 
    // Cast the given root pointer to a namespace block and make sure it worked.
-   const Namespace* namespaceRoot {root->cast<const Namespace>(Factory::NamespaceType)};
+   const Namespace* namespaceRoot {root->cast<const Namespace>(Factory::Namespace)};
    Q_ASSERT(namespaceRoot);
 
    // Recursively add all source file scanner objects from the given root namespace.
@@ -91,7 +91,7 @@ void addSource(QMap<QString,Scanner*>* map, const Namespace& root, QString scope
    {
       // If the child block is a namespace then recursively call this function on it,
       // adding the scope name of the given namespace.
-      if ( const Namespace* valid = child->cast<const Namespace>(Factory::NamespaceType) )
+      if ( const Namespace* valid = child->cast<const Namespace>(Factory::Namespace) )
       {
          if ( !scope.isEmpty() ) scope += QStringLiteral("_");
          addSource(map,*valid,scope + root.baseName().toLower());
@@ -99,7 +99,7 @@ void addSource(QMap<QString,Scanner*>* map, const Namespace& root, QString scope
 
       // If the child block is a shader then add its scanner object, adding the scope
       // name of the given namespace.
-      else if ( const Shader* valid = child->cast<const Shader>(Factory::ShaderType) )
+      else if ( const Shader* valid = child->cast<const Shader>(Factory::Shader) )
       {
          if ( !scope.isEmpty() ) scope += QStringLiteral("_");
          addSource(map,*valid,scope + root.baseName().toLower());
@@ -145,10 +145,10 @@ void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
       // Figure out the block type of the child.
       switch (child->type())
       {
-      case Factory::VariableType:
+      case Factory::Variable:
          {
             // Cast the child as a variable and make sure it worked.
-            const Variable* variable {child->cast<const Variable>(Factory::VariableType)};
+            const Variable* variable {child->cast<const Variable>(Factory::Variable)};
             Q_ASSERT(variable);
 
             // Add a variable lines number of blank lines to the scanner and then add the
@@ -157,10 +157,10 @@ void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
             add(scanner,*variable,0);
             break;
          }
-      case Factory::StructType:
+      case Factory::Struct:
          {
             // Cast the child as a struct and make sure it worked.
-            const Struct* variable {child->cast<const Struct>(Factory::StructType)};
+            const Struct* variable {child->cast<const Struct>(Factory::Struct)};
             Q_ASSERT(variable);
 
             // Add a struct lines number of blank lines to the scanner and then add the struct
@@ -169,10 +169,10 @@ void addSource(QMap<QString,Scanner*>* map, const Shader& shader, QString scope)
             add(scanner,*variable);
             break;
          }
-      case Factory::FunctionType:
+      case Factory::Function:
          {
             // Cast the child as a function and make sure it worked.
-            const Function* variable {child->cast<const Function>(Factory::FunctionType)};
+            const Function* variable {child->cast<const Function>(Factory::Function)};
             Q_ASSERT(variable);
 
             // Add a function number of blank lines to the scanner and then add the function
@@ -342,7 +342,7 @@ void add(Scanner* scanner, const Struct& block)
    // Iterate through all variable children of the given struct block, adding their
    // parser element definition to the given scanner indented withe the appropriate
    // global setting.
-   for (auto variable: block.createListOfType<const Variable>(Factory::VariableType))
+   for (auto variable: block.createListOfType<const Variable>(Factory::Variable))
    {
       add(scanner,*variable,Settings::instance().indentSpaces());
    }

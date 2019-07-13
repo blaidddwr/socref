@@ -21,31 +21,31 @@ using Soc::Ut::WriteError;
 /*!
  * The tag name for the name element.
  */
-const char* Project::_nameTag {"name"};
+const QString Project::_nameTag {"name"};
 /*!
  * The tag name for the type element.
  */
-const char* Project::_typeTag {"type"};
+const QString Project::_typeTag {"type"};
 /*!
  * The tag name for the scan directory element.
  */
-const char* Project::_scanDirectoryTag {"scandir"};
+const QString Project::_scanDirectoryTag {"scandir"};
 /*!
  * The tag name for the scanning file filters element.
  */
-const char* Project::_scanFiltersTag {"filters"};
+const QString Project::_scanFiltersTag {"filters"};
 /*!
  * The tag name for the root block element.
  */
-const char* Project::_rootTag {"root"};
+const QString Project::_rootTag {"root"};
 /*!
  * The tag name for the custom dictionary element.
  */
-const char* Project::_dictionaryTag {"dictionary"};
+const QString Project::_dictionaryTag {"dictionary"};
 /*!
  * The name of the id attribute.
  */
-const char* Project::_idTag {"id"};
+const QString Project::_idTag {"id"};
 
 
 

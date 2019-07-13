@@ -45,11 +45,13 @@ namespace Basic
       virtual void reset() override final;
    public:
       explicit FunctionParser(QChar inToken, QChar outToken, const QString& escapeTokens, const QString& commentBegin, int maxColumns, const QString& header, const QStringList& operations);
+   public:
       void add(const QString& text);
       void addExp(const QString& expression);
    private:
       void processInlineComment(const QString& line);
       void insertInlineComment(int index, int spacing);
+   private:
       /*!
        * The character used to denote the beginning of a block of execution. This is
        * used to determine the end of a function with this parser element's parent

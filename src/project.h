@@ -62,6 +62,35 @@ private slots:
    void projectModified();
    void fileChanged();
 private:
+   /*!
+    * The tag name for the name element.
+    */
+   static const QString _nameTag;
+   /*!
+    * The tag name for the type element.
+    */
+   static const QString _typeTag;
+   /*!
+    * The tag name for the scan directory element.
+    */
+   static const QString _scanDirectoryTag;
+   /*!
+    * The tag name for the scanning file filters element.
+    */
+   static const QString _scanFiltersTag;
+   /*!
+    * The tag name for the root block element.
+    */
+   static const QString _rootTag;
+   /*!
+    * The tag name for the custom dictionary element.
+    */
+   static const QString _dictionaryTag;
+   /*!
+    * The name of the id attribute.
+    */
+   static const QString _idTag;
+private:
    void signalModified();
    QByteArray read();
    void convertScanDirectory(const QString& path);
@@ -69,34 +98,7 @@ private:
    void write(const QByteArray& data);
    void setFileHash(const QByteArray& bytes);
    void makeRoot();
-   /*!
-    * The tag name for the name element.
-    */
-   static const char* _nameTag;
-   /*!
-    * The tag name for the type element.
-    */
-   static const char* _typeTag;
-   /*!
-    * The tag name for the scan directory element.
-    */
-   static const char* _scanDirectoryTag;
-   /*!
-    * The tag name for the scanning file filters element.
-    */
-   static const char* _scanFiltersTag;
-   /*!
-    * The tag name for the root block element.
-    */
-   static const char* _rootTag;
-   /*!
-    * The tag name for the custom dictionary element.
-    */
-   static const char* _dictionaryTag;
-   /*!
-    * The name of the id attribute.
-    */
-   static const char* _idTag;
+private:
    /*!
     * The modification state of this project. True if this project has unsaved
     * modifications or false otherwise.

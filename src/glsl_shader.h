@@ -56,6 +56,7 @@ namespace GLSL
        * Constructs a new shader bock.
        */
       Q_INVOKABLE explicit Shader() = default;
+   public:
       Shader::Type shaderType() const;
       QString shaderTypeString() const;
       QStringList operations() const;

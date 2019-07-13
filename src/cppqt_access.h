@@ -28,6 +28,7 @@ namespace CppQt
        * Constructs a new access block.
        */
       Q_INVOKABLE explicit Access() = default;
+   public:
       bool isPrivate() const;
       bool isSignal() const;
       bool isSlot() const;

@@ -26,6 +26,7 @@ namespace GLSL
       void setupGui();
       QLayout* setupForm();
       QLayout* setupButtons();
+   private:
       /*!
        * The edit widget for the variable lines setting.
        */

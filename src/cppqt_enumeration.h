@@ -25,6 +25,7 @@ namespace CppQt
        * Constructs a new enumeration block.
        */
       Q_INVOKABLE explicit Enumeration() = default;
+   public:
       bool isClass() const;
       QList<EnumValue*> values() const;
    };

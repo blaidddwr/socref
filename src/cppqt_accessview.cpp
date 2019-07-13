@@ -54,26 +54,26 @@ QString AccessView::displayInfo()
       // Increment the appropriate counter based off the child block's type.
       switch (child->type())
       {
-      case Factory::EnumerationType:
+      case Factory::Enumeration:
          enumerationAmt++;
          break;
-      case Factory::VariableType:
+      case Factory::Variable:
          variableAmt++;
          break;
-      case Factory::FunctionType:
+      case Factory::Function:
          {
             // Figure out if this function block is abstract, virtual, or regular,
             // incrementing the correct counter based off that information.
-            Function* valid {child->cast<Function>(Factory::FunctionType)};
+            Function* valid {child->cast<Function>(Factory::Function)};
             if ( valid->isAbstract() ) abstractAmt++;
             else if ( valid->isVirtual() ) virtualAmt++;
             else functionAmt++;
             break;
          }
-      case Factory::ClassType:
+      case Factory::Class:
          classAmt++;
          break;
-      case Factory::DeclarationType:
+      case Factory::Declaration:
          declareAmt++;
          break;
       }

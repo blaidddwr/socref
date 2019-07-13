@@ -26,6 +26,7 @@ namespace CppQt
       void setupGui();
       QLayout* setupForm();
       QLayout* setupButtons();
+   private:
       /*!
        * The edit widget for the indent spaces setting.
        */

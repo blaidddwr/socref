@@ -41,6 +41,7 @@ namespace Abstract
       Q_OBJECT
    public:
       explicit BlockEdit(Block* block, QWidget* parent = nullptr);
+   public:
       void initialize();
    protected:
       /*!
@@ -67,6 +68,7 @@ namespace Abstract
    private:
       bool tryApply();
       QLayout* setupButtons();
+   private:
       /*!
        * Pointer to this object's OK button.
        */

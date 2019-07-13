@@ -34,6 +34,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit MainWindow(QWidget* parent = nullptr);
+   public:
       void setProject(Soc::Ut::QPtr<Project>&& project);
    protected:
       virtual void closeEvent(QCloseEvent* event) override final;
@@ -56,6 +57,21 @@ namespace Gui
       void projectSaved();
       void projectFileChanged();
    private:
+      /*!
+       * The key used to save/restore the geometry of the main window using Qt
+       * settings.
+       */
+      static const QString _geometryKey;
+      /*!
+       * The key used to save/restore the state of the main window using Qt settings.
+       */
+      static const QString _stateKey;
+      /*!
+       * The key used to save/restore the state of the block view contained in the
+       * main window using Qt settings.
+       */
+      static const QString _viewStateKey;
+   private:
       QString exceptionRichText(const Soc::Ut::IOError& exception);
       void updateTitle();
       void updateActions();
@@ -70,20 +86,7 @@ namespace Gui
       void setupSettingActions();
       void setupMenus();
       void setupFileMenu();
-      /*!
-       * The key used to save/restore the geometry of the main window using Qt
-       * settings.
-       */
-      static const char* _geometryKey;
-      /*!
-       * The key used to save/restore the state of the main window using Qt settings.
-       */
-      static const char* _stateKey;
-      /*!
-       * The key used to save/restore the state of the block view contained in the
-       * main window using Qt settings.
-       */
-      static const char* _viewStateKey;
+   private:
       /*!
        * Pointer to this window's block view.
        */

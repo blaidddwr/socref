@@ -31,6 +31,7 @@ namespace CppQt
        * Constructs a new function block.
        */
       Q_INVOKABLE explicit Function() = default;
+   public:
       bool isConstructor() const;
       bool isDestructor() const;
       bool isOperator() const;
