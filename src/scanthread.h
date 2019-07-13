@@ -3,6 +3,7 @@
 #include <QThread>
 #include <QMap>
 #include <QFileInfoList>
+#include <socutil/Global>
 #include "global.h"
 
 
@@ -37,12 +38,12 @@ signals:
     */
    void progressChanged(int index);
    /*!
-    * Signals that an exception was thrown and caught in this thread, prematurely
-    * ending the scanning of source files in this thread.
+    * Signals that an IO error exception was thrown and caught in this thread,
+    * prematurely ending the scanning of source files in this thread.
     *
-    * @param e The exception that was thrown and caught in this thread.
+    * @param exception The exception that was thrown and caught in this thread.
     */
-   void exceptionThrown(const Exception& e);
+   void exceptionThrown(const Soc::Ut::IOError& exception);
 protected:
    virtual void run() override final;
 private:

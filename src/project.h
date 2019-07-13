@@ -24,6 +24,7 @@ class Project : public QFileSystemWatcher
 public:
    explicit Project(int type);
    explicit Project(const QString& path);
+public:
    bool isNew() const;
    bool isModified() const;
    int type() const;

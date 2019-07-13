@@ -3,7 +3,6 @@
 
 
 
-class Exception;
 class BlockModel;
 class Scanner;
 class ScanThread;

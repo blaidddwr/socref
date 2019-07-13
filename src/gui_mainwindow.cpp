@@ -7,15 +7,19 @@
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QSettings>
+#include <socutil/ReadError>
+#include <socutil/WriteError>
 #include "gui_projectdialog.h"
 #include "gui_dictionarydialog.h"
 #include "gui_blockview.h"
 #include "abstract_block.h"
 #include "abstract_projectfactory.h"
-#include "exception.h"
 #include "project.h"
 #include "scanthread.h"
 #include "application.h"
+using Soc::Ut::IOError;
+using Soc::Ut::ReadError;
+using Soc::Ut::WriteError;
 
 
 
@@ -206,10 +210,10 @@ void MainWindow::openTriggered()
       }
    }
 
-   // If an exception was thrown then report it to the user.
-   catch (Exception e)
+   // If an IO error exception was thrown then report it to the user.
+   catch (const ReadError& exception)
    {
-      QMessageBox::warning(this,tr("Failed Opening Project"),e.message());
+      QMessageBox::warning(this,tr("Failed Opening Project"),exceptionRichText(exception));
    }
 }
 
@@ -342,15 +346,15 @@ void MainWindow::scanFinished()
 
 /*!
  * Called when an active scan of this window's project's source files fails and
- * throws an exception within its thread, opening a warning message box
+ * throws an IO error exception within its thread, opening a warning message box
  * informing the user of what went wrong.
  *
- * @param e The exception that was thrown within the scan thread that caused it
- *          to fail.
+ * @param exception The exception that was thrown within the scan thread that
+ *                  caused it to fail.
  */
-void MainWindow::scanExceptionThrown(const Exception& e)
+void MainWindow::scanExceptionThrown(const Soc::Ut::IOError& exception)
 {
-   QMessageBox::warning(this,tr("Scanning Failed"),e.message());
+   QMessageBox::warning(this,tr("Scanning Failed"),exceptionRichText(exception));
 }
 
 
@@ -507,6 +511,37 @@ void MainWindow::projectFileChanged()
 
 
 /*!
+ * Returns formatted rich text of the given IO error message that displays its
+ * what description and system message if any.
+ *
+ * @param exception The exception that was thrown within the scan thread that
+ *                  caused it to fail.
+ *
+ * @return Formatted rich text displaying the given IO error exception.
+ */
+QString MainWindow::exceptionRichText(const Soc::Ut::IOError& exception)
+{
+   // Create the returned rich text with the HTML escaped what description of the
+   // given exception.
+   QString ret(QString(exception.what()).toHtmlEscaped());
+
+   // If the given exception has a system message then append it to the returned rich
+   // text with any HTML escaped.
+   if ( !exception.system().isEmpty() )
+   {
+      ret += QStringLiteral("<br><br>") + QString(exception.system()).toHtmlEscaped();
+   }
+
+   // Return the rich text displaying the given exception.
+   return ret;
+}
+
+
+
+
+
+
+/*!
  * Updates this window's title, including the project name if it has one.
  */
 void MainWindow::updateTitle()
@@ -631,10 +666,11 @@ bool MainWindow::saveAs()
       return true;
    }
 
-   // If an exception was thrown then report it to the user and return false.
-   catch (Exception e)
+   // If a read error exception was thrown then report it to the user and return
+   // false.
+   catch (const WriteError& exception)
    {
-      QMessageBox::warning(this,tr("Failed Saving Project"),e.message());
+      QMessageBox::warning(this,tr("Failed Saving Project"),exceptionRichText(exception));
       return false;
    }
 }
@@ -665,9 +701,9 @@ bool MainWindow::save()
    }
 
    // If an exception was thrown then report it to the user and return false.
-   catch (Exception e)
+   catch (const WriteError& exception)
    {
-      QMessageBox::warning(this,tr("Failed Saving Project"),e.message());
+      QMessageBox::warning(this,tr("Failed Saving Project"),exceptionRichText(exception));
       return false;
    }
 }

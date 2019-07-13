@@ -5,13 +5,16 @@
 #include <QFileSystemWatcher>
 #include <QCryptographicHash>
 #include <QDomDocument>
+#include <socutil/ReadError>
+#include <socutil/WriteError>
 #include "abstract_block.h"
 #include "abstract_blockfactory.h"
 #include "abstract_projectfactory.h"
-#include "exception.h"
 #include "blockmodel.h"
 #include "scanthread.h"
 #include "dictionarymodel.h"
+using Soc::Ut::ReadError;
+using Soc::Ut::WriteError;
 
 
 
@@ -102,11 +105,15 @@ Project::Project(const QString& path)
    // Initialize this project's file watcher signal.
    connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
 
-   // Read in the entire contents of the file located at the given path and then load
-   // it into a qt XML document.
+   // Read in the entire contents of the file located at the given path.
    QByteArray xmlBytes {read()};
    QDomDocument document;
-   document.setContent(xmlBytes);
+
+   // Load the read in file contents as an XML document and make sure it worked.
+   if (!document.setContent(xmlBytes))
+   {
+      throw ReadError(qUtf8Printable(tr("Failed opening %1 as XML.").arg(path)),"");
+   }
 
    // Iterate through all child nodes of the root XML document element.
    QDomNode node {document.documentElement().firstChild()};
@@ -147,6 +154,16 @@ Project::Project(const QString& path)
 
       // Move to the next node sibling.
       node = node.nextSibling();
+   }
+
+   // Make sure the required elements were found in the XML document.
+   if ( _type == -1 )
+   {
+      throw ReadError(qUtf8Printable(tr("Type element not found in %1.").arg(path)),"");
+   }
+   if ( _scanDirectory.isEmpty() )
+   {
+      throw ReadError(qUtf8Printable(tr("Scan directory element not found in %1.").arg(path)),"");
    }
 
    // Add this project's file path to its file watcher.
@@ -567,14 +584,16 @@ QByteArray Project::read()
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
-      throw Exception(tr("Failed opening %1: %2").arg(_path).arg(file.errorString()));
+      throw ReadError(qUtf8Printable(tr("Failed opening %1").arg(_path))
+                      ,qUtf8Printable(file.errorString()));
    }
 
    // Read in the entire contents of this project's file and make sure it worked.
    QByteArray ret = file.readAll();
    if ( file.error() != QFileDevice::NoError )
    {
-      throw Exception(tr("Failed reading %1: %2").arg(_path).arg(file.errorString()));
+      throw ReadError(qUtf8Printable(tr("Failed reading %1").arg(_path))
+                      ,qUtf8Printable(file.errorString()));
    }
 
    // Set this project's file hash with the read in byte array and return it.
@@ -602,7 +621,10 @@ void Project::convertScanDirectory(const QString& path)
    QDir directory {QFileInfo(_path).dir()};
    if ( !directory.cd(path) )
    {
-      throw Exception(tr("The scanning directory %1 in %2 does not exist.").arg(path).arg(_path));
+      throw ReadError(qUtf8Printable(tr("The scanning directory %1 in %2 does not exist.")
+                                     .arg(path)
+                                     .arg(_path))
+                      ,"");
    }
 
    // Set this project's scan directory to the path given in its canonical form.
@@ -631,10 +653,11 @@ void Project::readTypeElement(const QDomElement& element)
    // Make sure the element name was recognized and a known type returned.
    if ( _type < 0 )
    {
-      throw Exception(tr("Unknown project type '%1' in %2:%3.")
-                      .arg(element.text())
-                      .arg(_path)
-                      .arg(element.lineNumber()));
+      throw ReadError(qUtf8Printable(tr("Unknown project type '%1' in %2:%3.")
+                                     .arg(element.text())
+                                     .arg(_path)
+                                     .arg(element.lineNumber()))
+                      ,"");
    }
 }
 
@@ -656,13 +679,15 @@ void Project::write(const QByteArray& data)
    QFile file(_path);
    if ( !file.open(QIODevice::WriteOnly|QIODevice::Truncate) )
    {
-      throw Exception(tr("Failed opening %1: %2").arg(_path).arg(file.errorString()));
+      throw WriteError(qUtf8Printable(tr("Failed opening %1").arg(_path))
+                       ,qUtf8Printable(file.errorString()));
    }
 
    // Write out the given byte array to the opened file and make sure it worked.
    if ( file.write(data) != data.size() )
    {
-      throw Exception(tr("Failed writing to %1: %2").arg(_path).arg(file.errorString()));
+      throw WriteError(qUtf8Printable(tr("Failed writing to %1").arg(_path))
+                       ,qUtf8Printable(file.errorString()));
    }
 
    // Set this project's file hash with the given byte array.

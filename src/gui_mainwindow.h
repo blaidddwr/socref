@@ -1,7 +1,8 @@
 #ifndef GUI_MAINWINDOW_H
 #define GUI_MAINWINDOW_H
 #include <QMainWindow>
-#include <socutil/soc_ut_qptr.h>
+#include <socutil/QPtr>
+#include <socutil/Global>
 #include "global.h"
 #include "gui.h"
 
@@ -45,7 +46,7 @@ namespace Gui
       void propertiesTriggered();
       void scanTriggered();
       void scanFinished();
-      void scanExceptionThrown(const Exception& e);
+      void scanExceptionThrown(const Soc::Ut::IOError& exception);
       void closeTriggered();
       void settingTriggered(int type);
       void aboutTriggered();
@@ -55,6 +56,7 @@ namespace Gui
       void projectSaved();
       void projectFileChanged();
    private:
+      QString exceptionRichText(const Soc::Ut::IOError& exception);
       void updateTitle();
       void updateActions();
       bool isOkToClose();

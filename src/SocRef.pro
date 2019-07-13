@@ -25,7 +25,6 @@ DEFINES += QT_DEPRECATED_WARNINGS \
     REVISION=$${REVISION}
 
 SOURCES += \
-    exception.cpp \
     blockmodel.cpp \
     scanner.cpp \
     scanthread.cpp \
@@ -37,7 +36,6 @@ SOURCES += \
 
 HEADERS += \
     global.h \
-    exception.h \
     blockmodel.h \
     scanner.h \
     scanthread.h \

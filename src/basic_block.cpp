@@ -1,9 +1,10 @@
 #include "basic_block.h"
 #include <QIcon>
 #include <QJsonObject>
+#include <socutil/ReadError>
 #include "basic_blockedit.h"
 #include "basic_blockview.h"
-#include "exception.h"
+using Soc::Ut::ReadError;
 
 
 
@@ -170,7 +171,7 @@ Soc::Ut::QPtr<Abstract::BlockView> Block::createView() const
 {
    Soc::Ut::QPtr<Basic::BlockView> ret(makeBasicView());
    ret->update();
-   return ret;
+   return std::move(ret);
 }
 
 
@@ -333,10 +334,11 @@ void Block::readData(const QDomElement& element)
                *i = i->toStringList() << child.text();
                break;
             default:
-               throw Exception(tr("Unknown data element '%1' on line %2 within block element on line %3.")
-                               .arg(child.tagName())
-                               .arg(child.lineNumber())
-                               .arg(element.lineNumber()));
+               throw ReadError(qUtf8Printable(tr("Unknown data element '%1' on line %2 within block element on line %3.")
+                                              .arg(child.tagName())
+                                              .arg(child.lineNumber())
+                                              .arg(element.lineNumber()))
+                               ,"");
             }
          }
       }
@@ -426,7 +428,7 @@ Soc::Ut::QPtr<Abstract::Block> Block::createBlank() const
    ret->initialize(_type,_factory,_definition,_buildList,false);
 
    // Return the initialized basic block.
-   return ret;
+   return std::move(ret);
 }
 
 

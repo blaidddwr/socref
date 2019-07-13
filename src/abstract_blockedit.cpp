@@ -2,7 +2,6 @@
 #include <QVBoxLayout>
 #include <QPushButton>
 #include <QMessageBox>
-#include "exception.h"
 
 
 
@@ -125,11 +124,12 @@ bool BlockEdit::tryApply()
       return true;
    }
 
-   // Catch any exception thrown from the apply interface, returning false on
-   // failure.
-   catch (Exception e)
+   // Catch any invalid argument exception thrown from the apply interface.
+   catch (const std::invalid_argument& exception)
    {
-      QMessageBox::warning(this,tr("Failed Applying Changes"),e.message());
+      // Display a message box informing the user of the thrown exception's details and
+      // then return false on failure.
+      QMessageBox::warning(this,tr("Error"),exception.what());
       return false;
    }
 }

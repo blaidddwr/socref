@@ -1,8 +1,10 @@
 #include "scanthread.h"
 #include <QDebug>
 #include <QDir>
-#include "exception.h"
+#include <socutil/ReadError>
 #include "scanner.h"
+using Soc::Ut::IOError;
+using Soc::Ut::ReadError;
 
 
 
@@ -80,9 +82,9 @@ void ScanThread::run()
    }
 
    // Catch any exception thrown within this thread and emit it as a signal.
-   catch (Exception e)
+   catch (const IOError& exception)
    {
-      emit exceptionThrown(e);
+      emit exceptionThrown(exception);
    }
 }
 
@@ -113,7 +115,8 @@ QFileInfoList ScanThread::createList(const QString& scanDirectory, const QString
    QDir dir(scanDirectory);
    if ( !dir.exists() )
    {
-      throw Exception(tr("Scan directory %1 does not exist.").arg(scanDirectory));
+      throw ReadError(qUtf8Printable(tr("Scan directory %1 does not exist.").arg(scanDirectory))
+                      ,"");
    }
 
    // Make a list of files in the scan directory with the given filters and iterate

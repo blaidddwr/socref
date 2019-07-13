@@ -1,8 +1,9 @@
 #include "abstract_block.h"
-#include <socutil/soc_ut_qptr.h>
+#include <socutil/QPtr>
+#include <socutil/ReadError>
 #include "abstract_blockfactory.h"
-#include "exception.h"
-using namespace Soc::Ut;
+using Soc::Ut::QPtr;
+using Soc::Ut::ReadError;
 
 
 
@@ -471,10 +472,11 @@ void Block::read(const QDomElement& element)
    {
       if ( !buildList().contains(child->type()) )
       {
-         throw Exception(tr("Illegal child block type '%1' contained in block type '%2' on line %3.")
-                         .arg(factory().name(type()))
-                         .arg(factory().name(child->type()))
-                         .arg(element.lineNumber()));
+         throw ReadError(qUtf8Printable(tr("Illegal child block type '%1' contained in block type '%2' on line %3.")
+                                        .arg(factory().name(type()))
+                                        .arg(factory().name(child->type()))
+                                        .arg(element.lineNumber()))
+                         ,"");
       }
    }
 }
@@ -636,9 +638,10 @@ void Block::readChild(const QDomElement& element)
    // Make sure reading in the type did not fail.
    if ( type < 0 )
    {
-      throw Exception(tr("Unknown block type '%1' on line %2.")
-                      .arg(element.tagName())
-                      .arg(element.lineNumber()));
+      throw ReadError(qUtf8Printable(tr("Unknown block type '%1' on line %2.")
+                                     .arg(element.tagName())
+                                     .arg(element.lineNumber()))
+                      ,"");
    }
 
    // Make sure the read in type is within range of this block's factory.

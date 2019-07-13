@@ -1,1 +1,5 @@
+Fix issue where the display of declarations use _ as a bold marker when is should not.
 
+Remove file watching on open files because it doesn't really work.
+
+MAKE scan directory path relative to project path in ALL cases.

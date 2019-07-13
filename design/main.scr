@@ -1053,7 +1053,8 @@ An implementation of this class must construct the form portion of this dialog g
               <description>Calls this object's apply interface, returning true if it was successful or false if it caught an exception.</description>
               <name>tryApply</name>
               <operation>Call this object's apply interface and return true on success.</operation>
-              <operation>Catch any exception thrown from the apply interface, returning false on failure.</operation>
+              <operation>Catch any invalid argument exception thrown from the apply interface.</operation>
+              <operation>Display a message box informing the user of the thrown exception's details and then return false on failure.</operation>
               <return_description>True is the implementation applied changes successfully or false if an exception was thrown.</return_description>
               <type>bool</type>
             </data>
@@ -3675,7 +3676,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>If this window has no project that set it to the opened project.</operation>
               <operation>Else this window already has a project.</operation>
               <operation>Create a new window, setting its project to the opened project, and then show it.</operation>
-              <operation>If an exception was thrown then report it to the user.</operation>
+              <operation>If an IO error exception was thrown then report it to the user.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -3741,7 +3742,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </function>
           <function>
             <data>
-              <description>Called when an active scan of this window's project's source files fails and throws an exception within its thread, opening a warning message box informing the user of what went wrong.</description>
+              <description>Called when an active scan of this window's project's source files fails and throws an IO error exception within its thread, opening a warning message box informing the user of what went wrong.</description>
               <name>scanExceptionThrown</name>
               <return_description></return_description>
               <type>void</type>
@@ -3750,8 +3751,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <data>
                 <description>The exception that was thrown within the scan thread that caused it to fail.</description>
                 <initializer></initializer>
-                <name>e</name>
-                <type>const Exception&amp;</type>
+                <name>exception</name>
+                <type>const Soc::Ut::IOError&amp;</type>
               </data>
             </variable>
           </function>
@@ -3844,6 +3845,25 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </data>
           <function>
             <data>
+              <description>Returns formatted rich text of the given IO error message that displays its what description and system message if any.</description>
+              <name>exceptionRichText</name>
+              <operation>Create the returned rich text with the HTML escaped what description of the given exception.</operation>
+              <operation>If the given exception has a system message then append it to the returned rich text with any HTML escaped.</operation>
+              <operation>Return the rich text displaying the given exception.</operation>
+              <return_description>Formatted rich text displaying the given IO error exception.</return_description>
+              <type>QString</type>
+            </data>
+            <variable>
+              <data>
+                <description>The exception that was thrown within the scan thread that caused it to fail.</description>
+                <initializer></initializer>
+                <name>exception</name>
+                <type>const Soc::Ut::IOError&amp;</type>
+              </data>
+            </variable>
+          </function>
+          <function>
+            <data>
               <description>Updates this window's title, including the project name if it has one.</description>
               <name>updateTitle</name>
               <operation>If this window has a project then set the window title with the project name else just set it to the application's name.</operation>
@@ -3884,7 +3904,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Get the first file path from the file dialog chosen by the user.</operation>
               <operation>Attempt to save this window's project to the file path.</operation>
               <operation>Update this window's actions and return success.</operation>
-              <operation>If an exception was thrown then report it to the user and return false.</operation>
+              <operation>If a read error exception was thrown then report it to the user and return false.</operation>
               <return_description>True if this window's project was successfully saved to a new location or false otherwise.</return_description>
               <type>bool</type>
             </data>
@@ -12792,55 +12812,6 @@ The parsing of a project is done through this function alone. Only one type of s
     </namespace>
     <class>
       <data>
-        <description>This contains a simple message that can be used for throwing messages as an exception to communicate why something failed.</description>
-        <name>Exception</name>
-      </data>
-      <access>
-        <data>
-          <type>public:</type>
-        </data>
-        <function>
-          <data>
-            <description>Constructs a new exception with the given error message.</description>
-            <name>^</name>
-            <return_description></return_description>
-            <type></type>
-          </data>
-          <variable>
-            <data>
-              <description>Error message explaining what occurred to cause this new exception.</description>
-              <initializer></initializer>
-              <name>message</name>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Returns the message of this exception explaining the error that occurred.</description>
-            <name>message</name>
-            <return_description>The message of this exception.</return_description>
-            <type>QString</type>
-          </data>
-        </function>
-      </access>
-      <access>
-        <data>
-          <type>private:</type>
-        </data>
-        <variable>
-          <data>
-            <description>The message for this exception explaining what occurred.</description>
-            <initializer></initializer>
-            <name>_message</name>
-            <type>const QString</type>
-          </data>
-        </variable>
-      </access>
-    </class>
-    <class>
-      <data>
         <description>This is the abstract item model for the entire block tree of a project, using the Qt abstract item model class. It only implements the interfaces necessary for read only functionality through Qt view classes. However the writable functionality exists with custom functions outside the Qt framework. The custom write operations supported are inserting blocks, moving blocks up and down, removing blocks, copying blocks, and cutting blocks.</description>
         <name>BlockModel</name>
         <qtobject/>
@@ -13487,7 +13458,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Signals that an exception was thrown and caught in this thread, prematurely ending the scanning of source files in this thread.</description>
+            <description>Signals that an IO error exception was thrown and caught in this thread, prematurely ending the scanning of source files in this thread.</description>
             <name>exceptionThrown</name>
             <return_description></return_description>
             <type>void</type>
@@ -13496,8 +13467,8 @@ The mapping of scanner objects are used to determine which scanner object to use
             <data>
               <description>The exception that was thrown and caught in this thread.</description>
               <initializer></initializer>
-              <name>e</name>
-              <type>const Exception&amp;</type>
+              <name>exception</name>
+              <type>const Soc::Ut::IOError&amp;</type>
             </data>
           </variable>
         </function>
@@ -14067,12 +14038,14 @@ The mapping of scanner objects are used to determine which scanner object to use
             <operation>Connect this project's custom dictionary modified signal.</operation>
             <operation>Initialize the enumeration and static string list used for identifying different elements to read in based off their tag names.</operation>
             <operation>Initialize this project's file watcher signal.</operation>
-            <operation>Read in the entire contents of the file located at the given path and then load it into a qt XML document.</operation>
+            <operation>Read in the entire contents of the file located at the given path.</operation>
+            <operation>Load the read in file contents as an XML document and make sure it worked.</operation>
             <operation>Iterate through all child nodes of the root XML document element.</operation>
             <operation>Check to see if this node is an element.</operation>
             <operation>Figure out what element this is based off its tag name and set the appropriate data for this project.</operation>
             <operation>First make a blank root block for this project and then read in the root block element.</operation>
             <operation>Move to the next node sibling.</operation>
+            <operation>Make sure the required elements were found in the XML document.</operation>
             <operation>Add this project's file path to its file watcher.</operation>
             <return_description></return_description>
             <type></type>
@@ -14086,6 +14059,11 @@ The mapping of scanner objects are used to determine which scanner object to use
             </data>
           </variable>
         </function>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
         <function>
           <data>
             <const/>
