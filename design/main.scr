@@ -1124,16 +1124,6 @@ An implementation of this class must construct the form portion of this dialog g
           </data>
           <function>
             <data>
-              <default/>
-              <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
-              <name>~^</name>
-              <return_description></return_description>
-              <type></type>
-              <virtual/>
-            </data>
-          </function>
-          <function>
-            <data>
               <abstract/>
               <const/>
               <description>This interface returns the project type of this block factory.</description>
@@ -1246,6 +1236,21 @@ An implementation of this class must construct the form portion of this dialog g
               <name>createRootBlock</name>
               <return_description>New root block for this project type.</return_description>
               <type>Soc::Ut::QPtr&lt;Abstract::Block></type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
+              <name>~^</name>
+              <return_description></return_description>
+              <type></type>
               <virtual/>
             </data>
           </function>
@@ -5313,9 +5318,9 @@ This class provides protected helper methods for getting the values of its data 
           </variable>
           <variable>
             <data>
-              <description>The attribute name for the option to enable or disable bold underline marking with paragraph elements.</description>
-              <initializer>"boldunderline"</initializer>
-              <name>_boldUnderlineKey</name>
+              <description>The attribute name for the underline option for paragraph elements to make text bold between underlines or ignore them.</description>
+              <initializer>"underline"</initializer>
+              <name>_underlineKey</name>
               <static/>
               <type>const QString</type>
             </data>
@@ -5327,11 +5332,12 @@ This class provides protected helper methods for getting the values of its data 
           </data>
           <function>
             <data>
-              <description>Adds paragraphs to the given rich text based off the given XML display element definition. If the basic block field referenced by the given display element then nothing will be added. The basic block field referenced must be a string or an exception is thrown.</description>
+              <description>Adds paragraphs to the given rich text based off the given XML paragraph display element definition. The basic block field referenced must exist and be a string.</description>
               <name>addParagraphs</name>
               <operation>Make sure the given display element has the id attribute.</operation>
               <operation>Get the basic block field that the given display element references and make sure it is a string.</operation>
-              <operation>Set the bold underline argument to true by default or false if the given element has the bold underline attribute set to no.</operation>
+              <operation>Get the value of the underline attribute of the given display element.</operation>
+              <operation>Determine if text between underlines should be made bold or ignored from the given element's underline attribute, making sure the attribute has a valid setting or no setting at all.</operation>
               <operation>Split the basic block field into a string list of paragraphs based off double newline characters being the separator, escaping any HTML characters.</operation>
               <operation>If bold underline is true then parse all paragraphs for bold underline markers.</operation>
               <operation>Make sure the list of paragraphs is not empty.</operation>
@@ -5358,7 +5364,7 @@ This class provides protected helper methods for getting the values of its data 
           </function>
           <function>
             <data>
-              <description>Adds custom content to the given rich text based off the given XML custom display element. If the provided method name does not exist for this object then an exception is thrown.</description>
+              <description>Adds custom content to the given rich text based off the given XML custom display element. The provided method name must exist for this object.</description>
               <name>addCustom</name>
               <operation>Lookup the custom method referenced by the name attribute of the given custom display element definition, making sure the method exists.</operation>
               <operation>Invoke the custom method of this object and add the content it returns to the given rich text.</operation>

@@ -37,10 +37,10 @@ const QString BlockView::_customTag {"custom"};
  */
 const QString BlockView::_nameKey {"name"};
 /*!
- * The attribute name for the option to enable or disable bold underline marking
- * with paragraph elements.
+ * The attribute name for the underline option for paragraph elements to make
+ * text bold between underlines or ignore them.
  */
-const QString BlockView::_boldUnderlineKey {"boldunderline"};
+const QString BlockView::_underlineKey {"underline"};
 
 
 
@@ -180,10 +180,9 @@ QStringList BlockView::parseBoldMarkers(const QStringList& list)
 
 
 /*!
- * Adds paragraphs to the given rich text based off the given XML display
- * element definition. If the basic block field referenced by the given display
- * element then nothing will be added. The basic block field referenced must be
- * a string or an exception is thrown.
+ * Adds paragraphs to the given rich text based off the given XML paragraph
+ * display element definition. The basic block field referenced must exist and
+ * be a string.
  *
  * @param text Pointer to the rich text that paragraphs are added to if the
  *             given display element's basic block field is not empty.
@@ -201,10 +200,20 @@ void BlockView::addParagraphs(QString* text, const QDomElement& element)
    const QVariant field {block<Block>().get(element.attribute(Block::_idKey))};
    Q_ASSERT(field.type() == QVariant::String);
 
-   // Set the bold underline argument to true by default or false if the given
-   // element has the bold underline attribute set to no.
-   bool bold {true};
-   if ( element.attribute(_boldUnderlineKey) == QStringLiteral("no") ) bold = false;
+   // Get the value of the underline attribute of the given display element.
+   QString boldUnderline {element.attribute(_underlineKey,QStringLiteral("bold"))};
+
+   // Determine if text between underlines should be made bold or ignored from the
+   // given element's underline attribute, making sure the attribute has a valid
+   // setting or no setting at all.
+   bool bold;
+   if ( boldUnderline == QStringLiteral("bold") ) bold = true;
+   else if ( boldUnderline == QStringLiteral("ignore") ) bold = false;
+   else
+   {
+      Q_ASSERT(false);
+      std::exit(-1);
+   }
 
    // Split the basic block field into a string list of paragraphs based off double
    // newline characters being the separator, escaping any HTML characters.
@@ -228,8 +237,7 @@ void BlockView::addParagraphs(QString* text, const QDomElement& element)
 
 /*!
  * Adds custom content to the given rich text based off the given XML custom
- * display element. If the provided method name does not exist for this object
- * then an exception is thrown.
+ * display element. The provided method name must exist for this object.
  *
  * @param text The rich text that custom content is added to.
  *

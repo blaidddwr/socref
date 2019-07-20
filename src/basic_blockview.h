@@ -57,10 +57,10 @@ namespace Basic
        */
       static const QString _nameKey;
       /*!
-       * The attribute name for the option to enable or disable bold underline marking
-       * with paragraph elements.
+       * The attribute name for the underline option for paragraph elements to make
+       * text bold between underlines or ignore them.
        */
-      static const QString _boldUnderlineKey;
+      static const QString _underlineKey;
    private:
       void addParagraphs(QString* text, const QDomElement& element);
       void addCustom(QString* text, const QDomElement& element);
