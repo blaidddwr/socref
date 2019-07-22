@@ -1,4 +1,0 @@
-
-* Fixed bug where project would not become modified when blocks are moved.
-* Fixed C++/Qt parser bug where constructor, destructor, or operators would match any function causing undefined behavior in matching code to function blocks.
-

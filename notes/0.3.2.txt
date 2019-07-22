@@ -1,6 +1,0 @@
- 
-* Fixed C++/Qt parser bugs:
-  * Function defintions were not being matched thereby discarding all code within the function.
-  * Signal comments were not writing out argument comments.
-* Added ability to write out inheritance for C++/Qt classes when parsing code.
-

@@ -1,8 +1,0 @@
-
-* Moved settings->project action to file->properties.
-* Added support for tree view editing of programming blocks.
-* Programming blocks are saved/open to/from project files.
-* Added support for C++/Qt using the new tree view editor.
-* C++/Qt support includes: namespaces, classes, enumerations, functions, variables, operator overloading, and signals/slots.
-* Other various minor GUI changes to make the interface better and easier to use.
-

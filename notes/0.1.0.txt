@@ -1,4 +1,0 @@
-
-* Basic GUI window that can hold a basic project.
-* Basic project contains name, type, scan directory and filters.
-
