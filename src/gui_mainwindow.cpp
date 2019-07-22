@@ -101,7 +101,6 @@ void MainWindow::setProject(Soc::Ut::QPtr<Project>&& project)
    connect(_project,&Project::nameChanged,this,&MainWindow::projectNameChanged);
    connect(_project,&Project::modified,this,&MainWindow::projectModified);
    connect(_project,&Project::saved,this,&MainWindow::projectSaved);
-   connect(_project,&Project::saveFileChanged,this,&MainWindow::projectFileChanged);
 }
 
 
@@ -473,36 +472,6 @@ void MainWindow::projectModified()
 void MainWindow::projectSaved()
 {
    setWindowModified(false);
-}
-
-
-
-
-
-
-/*!
- * Called when this window's project file has been modified by an outside
- * source. This executes a dialog informing the user of this fact and reloads
- * the project if the user chooses to do so.
- */
-void MainWindow::projectFileChanged()
-{
-   // Create a new message box that informs the user the project file has changed and
-   // asks the user if they want to reload the project or ignore it.
-   QMessageBox notice;
-   notice.setWindowTitle(tr("Project File Changed"));
-   notice.setText(tr("The currently open project's file has been modified."));
-   notice.setIcon(QMessageBox::Warning);
-   notice.addButton(tr("Reload"),QMessageBox::AcceptRole);
-   notice.addButton(tr("Ignore"),QMessageBox::RejectRole);
-
-   // Execute the message box and check to see if they chose to reload the project.
-   int answer = notice.exec();
-   if ( answer != QMessageBox::AcceptRole ) return;
-
-   // Reload the project by creating a new project with the same file path and
-   // setting this window's project to the reloaded one.
-   setProject(Soc::Ut::QPtr<Project>(new Project(_project->path())));
 }
 
 

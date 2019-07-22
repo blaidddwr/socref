@@ -55,7 +55,6 @@ namespace Gui
       void projectNameChanged();
       void projectModified();
       void projectSaved();
-      void projectFileChanged();
    private:
       /*!
        * The key used to save/restore the geometry of the main window using Qt

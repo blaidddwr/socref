@@ -9,16 +9,16 @@ class QDomElement;
 
 
 /*!
- * This is a single open project which contains everything for that project,
- * watching the file it was opened or saved with for changes made by any outside
- * source. If the file this project is associated with is changed by an outside
- * source a signal is emitted. This class also provides all generic information
- * of a project along with being able to edit it. This generic information
- * includes the name, scan directory, and scan filters. The block model for this
- * project's block tree data and the ability to create a scan thread object for
- * scanning and parsing is also provided.
+ * This is a single open project which contains everything for that project.
+ * This class provides all generic information of a project along with being
+ * able to edit it. This generic information includes the name, scan directory,
+ * and scan filters. The block model for this project's block tree data and the
+ * ability to create a scan thread object for scanning and parsing is provided.
+ * When constructed this class creates either a new project of the given type or
+ * loads an existing project from the given path. If loading fails then an IO
+ * error exception is thrown from the constructor.
  */
-class Project : public QFileSystemWatcher
+class Project : public QObject
 {
    Q_OBJECT
 public:
@@ -53,14 +53,8 @@ signals:
     * Signals that this project has been saved and no longer has unsaved changes.
     */
    void saved();
-   /*!
-    * Signals that this project's file has been changed by an outside source and no
-    * longer contains the last save of this project.
-    */
-   void saveFileChanged();
 private slots:
    void projectModified();
-   void fileChanged();
 private:
    /*!
     * The tag name for the name element.
@@ -93,10 +87,9 @@ private:
 private:
    void signalModified();
    QByteArray read();
-   void convertScanDirectory(const QString& path);
+   void initScanDirectory(const QString& path);
    void readTypeElement(const QDomElement& element);
    void write(const QByteArray& data);
-   void setFileHash(const QByteArray& bytes);
    void makeRoot();
 private:
    /*!
@@ -137,11 +130,6 @@ private:
     * spell checking words.
     */
    DictionaryModel* _dictionary;
-   /*!
-    * The hash value of this project's save file used to determine if an outside
-    * source wrote to said save file.
-    */
-   QByteArray _hash;
 };
 
 #endif

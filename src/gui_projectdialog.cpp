@@ -101,8 +101,11 @@ void ProjectDialog::browseClicked()
    QFileInfo info(directories.constFirst());
 
    // If the path exists and it is a directory then set the text of this object's
-   // scan directory edit widget to it's value.
-   if ( info.exists() && info.isDir() ) _scanDirectoryEdit->setText(info.filePath());
+   // scan directory edit widget to its path relative to the project's path.
+   if ( info.exists() && info.isDir() )
+   {
+      _scanDirectoryEdit->setText(QFileInfo(_project->path()).dir().relativeFilePath(info.path()));
+   }
 }
 
 

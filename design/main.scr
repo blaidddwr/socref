@@ -985,7 +985,7 @@ An implementation of this class must construct the form portion of this dialog g
           <function>
             <data>
               <abstract/>
-              <description>This interface is called when the user has clicked the apply or OK button and is expected to update the block it is editing with the editor dialog values. If an exception is thrown from this interface then the user is informed and the dialog is not closed.</description>
+              <description>This interface is called when the user has clicked the apply or OK button and is expected to update the block it is editing with the editor dialog values. If a std invalid argument exception is thrown from this interface then the user is informed and the dialog is not closed.</description>
               <name>apply</name>
               <return_description></return_description>
               <type>void</type>
@@ -3912,17 +3912,6 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <type>void</type>
             </data>
           </function>
-          <function>
-            <data>
-              <description>Called when this window's project file has been modified by an outside source. This executes a dialog informing the user of this fact and reloads the project if the user chooses to do so.</description>
-              <name>projectFileChanged</name>
-              <operation>Create a new message box that informs the user the project file has changed and asks the user if they want to reload the project or ignore it.</operation>
-              <operation>Execute the message box and check to see if they chose to reload the project.</operation>
-              <operation>Reload the project by creating a new project with the same file path and setting this window's project to the reloaded one.</operation>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-          </function>
         </access>
         <access>
           <data>
@@ -4334,7 +4323,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Create a new file dialog to query the user for a new scan directory location.</operation>
               <operation>Execute the file dialog and make sure it returned accepted.</operation>
               <operation>Get the first directory path the user selected from the file dialog.</operation>
-              <operation>If the path exists and it is a directory then set the text of this object's scan directory edit widget to it's value.</operation>
+              <operation>If the path exists and it is a directory then set the text of this object's scan directory edit widget to its path relative to the project's path.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -14264,14 +14253,14 @@ The mapping of scanner objects are used to determine which scanner object to use
     </class>
     <class>
       <data>
-        <description>This is a single open project which contains everything for that project, watching the file it was opened or saved with for changes made by any outside source. If the file this project is associated with is changed by an outside source a signal is emitted. This class also provides all generic information of a project along with being able to edit it. This generic information includes the name, scan directory, and scan filters. The block model for this project's block tree data and the ability to create a scan thread object for scanning and parsing is also provided.</description>
+        <description>This is a single open project which contains everything for that project. This class provides all generic information of a project along with being able to edit it. This generic information includes the name, scan directory, and scan filters. The block model for this project's block tree data and the ability to create a scan thread object for scanning and parsing is provided. When constructed this class creates either a new project of the given type or loads an existing project from the given path. If loading fails then an IO error exception is thrown from the constructor.</description>
         <name>Project</name>
         <qtobject/>
       </data>
       <parent>
         <data>
           <access>public</access>
-          <class>QFileSystemWatcher</class>
+          <class>QObject</class>
         </data>
       </parent>
       <access>
@@ -14284,7 +14273,7 @@ The mapping of scanner objects are used to determine which scanner object to use
             <explicit/>
             <name>^</name>
             <operation>Connect this project's custom dictionary modified signal.</operation>
-            <operation>Initialize this new project's root block, file watcher signal, and default scan filters.</operation>
+            <operation>Initialize this new project's root block and default scan filters.</operation>
             <return_description></return_description>
             <type></type>
           </data>
@@ -14304,7 +14293,6 @@ The mapping of scanner objects are used to determine which scanner object to use
             <name>^</name>
             <operation>Connect this project's custom dictionary modified signal.</operation>
             <operation>Initialize the enumeration and static string list used for identifying different elements to read in based off their tag names.</operation>
-            <operation>Initialize this project's file watcher signal.</operation>
             <operation>Read in the entire contents of the file located at the given path.</operation>
             <operation>Load the read in file contents as an XML document and make sure it worked.</operation>
             <operation>Iterate through all child nodes of the root XML document element.</operation>
@@ -14313,7 +14301,6 @@ The mapping of scanner objects are used to determine which scanner object to use
             <operation>First make a blank root block for this project and then read in the root block element.</operation>
             <operation>Move to the next node sibling.</operation>
             <operation>Make sure the required elements were found in the XML document.</operation>
-            <operation>Add this project's file path to its file watcher.</operation>
             <return_description></return_description>
             <type></type>
           </data>
@@ -14440,12 +14427,12 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Sets a new scan directory path for this project to the given path. The given path can be relative to this program's present working directory. If the given path is not a valid directory then an exception is thrown.</description>
+            <description>Sets a new scan directory path for this project to the given path. The given path can be relative to this program's present working directory. The given path must be a valid directory.</description>
             <name>setScanDirectory</name>
             <operation>Get file info for this project's current scan directory and the new path given.</operation>
             <operation>Make sure the new path is different from the current path.</operation>
             <operation>Make sure the new path is a valid directory.</operation>
-            <operation>Set this project's scan directory to the new path given in its canonical form and signal modification.</operation>
+            <operation>Set this project's scan directory to the new path given relative to the project's path.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14502,7 +14489,6 @@ The mapping of scanner objects are used to determine which scanner object to use
             <operation>Remember this project's old path and then set it to the new path given.</operation>
             <operation>Attempt to save this project with the new path.</operation>
             <operation>If any exception is thrown while saving then revert this project's path back to the old one.</operation>
-            <operation>Remove the old path from this project's file watcher if is exists and add the new path.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14544,14 +14530,6 @@ The mapping of scanner objects are used to determine which scanner object to use
             <type>void</type>
           </data>
         </function>
-        <function>
-          <data>
-            <description>Signals that this project's file has been changed by an outside source and no longer contains the last save of this project.</description>
-            <name>saveFileChanged</name>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
       </access>
       <access>
         <data>
@@ -14561,17 +14539,6 @@ The mapping of scanner objects are used to determine which scanner object to use
           <data>
             <description>Called when a block contained within this project or its custom dictionary has been modified. This in turn causes this project to change its state to modified.</description>
             <name>projectModified</name>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
-        <function>
-          <data>
-            <description>Called when this project's file has changed. This is called even if the project itself is saved to the file, so this also checks to see it that is the case or not.</description>
-            <name>fileChanged</name>
-            <operation>Open this project's file and make sure it worked.</operation>
-            <operation>Read in the entire contents of the file and make sure it worked.</operation>
-            <operation>Generate the hash of the read in file's contents and if the hash is different from this project's saved hash then signal the save file has changed.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14665,17 +14632,17 @@ The mapping of scanner objects are used to determine which scanner object to use
             <name>read</name>
             <operation>Open this project's file and make sure it worked.</operation>
             <operation>Read in the entire contents of this project's file and make sure it worked.</operation>
-            <operation>Set this project's file hash with the read in byte array and return it.</operation>
+            <operation>Return the read in byte array.</operation>
             <return_description>Contents of this project's file as a byte array.</return_description>
             <type>QByteArray</type>
           </data>
         </function>
         <function>
           <data>
-            <description>Converts the given scan directory path into its absolute canonical form and saves that form to this project's scan directory path. If the given path is not a valid directory than an exception is thrown.</description>
-            <name>convertScanDirectory</name>
+            <description>Initializes this new project's scan directory to the given path. If the given path is not a valid directory than an IO error exception is thrown.</description>
+            <name>initScanDirectory</name>
             <operation>Make sure the given path is a valid directory relative to the directory this project's file is located.</operation>
-            <operation>Set this project's scan directory to the path given in its canonical form.</operation>
+            <operation>Set this project's scan directory to the path given.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14712,7 +14679,6 @@ The mapping of scanner objects are used to determine which scanner object to use
             <name>write</name>
             <operation>Open this project's file for truncated writing and make sure it worked.</operation>
             <operation>Write out the given byte array to the opened file and make sure it worked.</operation>
-            <operation>Set this project's file hash with the given byte array.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14721,23 +14687,6 @@ The mapping of scanner objects are used to determine which scanner object to use
               <description>The byte array that is written to this project's file.</description>
               <initializer></initializer>
               <name>data</name>
-              <type>const QByteArray&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Sets this project's file hash with the hash of the given byte array. This is used for this project to watch for changes to its file.</description>
-            <name>setFileHash</name>
-            <operation>Get the hash value of the given byte array using md5 and set it to this project's file hash.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>The byte array whose hash is set as this project's file hash value.</description>
-              <initializer></initializer>
-              <name>bytes</name>
               <type>const QByteArray&amp;</type>
             </data>
           </variable>
@@ -14828,14 +14777,6 @@ The mapping of scanner objects are used to determine which scanner object to use
             <initializer></initializer>
             <name>_dictionary</name>
             <type>DictionaryModel*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The hash value of this project's save file used to determine if an outside source wrote to said save file.</description>
-            <initializer></initializer>
-            <name>_hash</name>
-            <type>QByteArray</type>
           </data>
         </variable>
       </access>
