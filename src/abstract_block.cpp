@@ -154,8 +154,8 @@ int Block::indexOf(Block* pointer) const
 
 
 /*!
- * This returns a pointer to this block's child with the given index. If the
- * index is out of range an exception is thrown.
+ * This returns a pointer to this block's child with the given index. The given
+ * index must be valid.
  *
  * @param index Index of the child whose pointer is returned.
  *
@@ -349,8 +349,8 @@ void Block::moveDown(int index)
  * Inserts a new child block into this block's list of children at the given
  * index. If the given index is less than 0 it is prepended to this block's
  * list, else if the given index is greater than this block's list size then it
- * is appended. If the given pointer to the new block is null or it is a type
- * this block cannot contain then an exception is thrown.
+ * is appended. The given pointer to the new block must be valid and its type
+ * must be able to be contained in this block.
  *
  * @param index The index where the new block is inserted.
  *
@@ -380,8 +380,7 @@ void Block::insert(int index, Soc::Ut::QPtr<Block>&& child)
 
 /*!
  * Takes the child block at the given index this block contains. The child block
- * returned no longer has a parent. If the index is out of range then an
- * exception is thrown.
+ * returned no longer has a parent. The given index must be valid.
  *
  * @param index The index of the child that is taken.
  *
@@ -416,7 +415,7 @@ Soc::Ut::QPtr<Abstract::Block> Block::take(int index)
 
 /*!
  * Removes the child block at the given index, deleting it and any children it
- * may contain. If the given index is out of range then an exception is thrown.
+ * may contain. The given index must be valid.
  *
  * @param index The index of the child that is removed and deleted.
  */

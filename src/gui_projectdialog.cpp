@@ -24,7 +24,7 @@ namespace Gui
 
 /*!
  * Constructs a new project dialog with the given project and optional parent.
- * If the given project pointer is null then an exception is thrown.
+ * The given project pointer must be valid.
  *
  * @param project Pointer to the project that this new dialog presents to the
  *                user for viewing and editing.

@@ -471,8 +471,8 @@ void Block::copyDataFrom(const Abstract::Block* other)
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given
- * id does not exist or is not a boolean then an exception is thrown.
+ * Returns the value of this basic block's field with the given id. The given id
+ * must exist and it must be a boolean.
  *
  * @param id The id of this basic block's field whose value is returned.
  *
@@ -495,8 +495,8 @@ bool Block::getBool(const QString& id) const
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given
- * id does not exist or is not a string then an exception is thrown.
+ * Returns the value of this basic block's field with the given id. The given id
+ * must exist and it must be a string.
  *
  * @param id The id of this basic block's field whose value is returned.
  *
@@ -519,8 +519,8 @@ QString Block::getString(const QString& id) const
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given
- * id does not exist or is not a string list then an exception is thrown.
+ * Returns the value of this basic block's field with the given id. The given id
+ * must exist and it must be a string list.
  *
  * @param id The id of this basic block's field whose value is returned.
  *
@@ -592,8 +592,8 @@ void Block::addField(Field type, const QDomElement& element, bool isDefault)
 
 
 /*!
- * Return the data field of this basic block with the given id. If no field
- * exists with the given id then an exception is thrown.
+ * Return the data field of this basic block with the given id. A field with the
+ * given id must exist.
  *
  * @param id The id of this basic block's data field which is returned.
  *

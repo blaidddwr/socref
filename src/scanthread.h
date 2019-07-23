@@ -13,7 +13,9 @@
  * directory of source files with the given file filters and mapping of scanner
  * objects. This executes the scanning of files on the separate thread started
  * by the qt thread class. Signals are emitted for the progress of the scanning
- * and if an exception is thrown from within the thread.
+ * and if an IO error exception is thrown from within the thread. Any exception
+ * thrown within the thread that is not an IO error will cause the application
+ * to terminate.
  *
  * Because execution of parsing is done on a separate thread if an exception is
  * thrown within that thread it is caught and emitted as a signal that can be

@@ -31,6 +31,7 @@
     <word>QCoreApplication</word>
     <word>QThread</word>
     <word>Struct</word>
+    <word>boolean</word>
     <word>casted</word>
     <word>decrement</word>
     <word>destructor</word>
@@ -237,7 +238,7 @@ This class itself handles all copying using another specialized interface for co
           <function>
             <data>
               <const/>
-              <description>This returns a pointer to this block's child with the given index. If the index is out of range an exception is thrown.</description>
+              <description>This returns a pointer to this block's child with the given index. The given index must be valid.</description>
               <name>get</name>
               <operation>Make sure the given index is within range.</operation>
               <operation>Return a pointer to this block's child with the given index.</operation>
@@ -322,7 +323,7 @@ This class itself handles all copying using another specialized interface for co
           <function>
             <data>
               <const/>
-              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
+              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. This object must be able to cast to the given type.</description>
               <name>cast</name>
               <operation>Make sure the given type matches this block's type.</operation>
               <operation>Cast this block to the given type and make sure it works.</operation>
@@ -380,7 +381,7 @@ This class itself handles all copying using another specialized interface for co
           </function>
           <function>
             <data>
-              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
+              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. This object must be able to cast to the given type.</description>
               <name>cast</name>
               <operation>Make sure the given type matches this block's type.</operation>
               <operation>Cast this block to the given type and make sure it works.</operation>
@@ -444,7 +445,7 @@ This class itself handles all copying using another specialized interface for co
           </function>
           <function>
             <data>
-              <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
+              <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. The given pointer to the new block must be valid and its type must be able to be contained in this block.</description>
               <name>insert</name>
               <operation>Make sure the given pointer is not null.</operation>
               <operation>Make sure the given block's type can be a child of this block.</operation>
@@ -472,7 +473,7 @@ This class itself handles all copying using another specialized interface for co
           </function>
           <function>
             <data>
-              <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. If the index is out of range then an exception is thrown.</description>
+              <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. The given index must be valid.</description>
               <name>take</name>
               <operation>Make sure the given index is within range.</operation>
               <operation>Remove the child from this block's child list at the given index, saving the pointer and notifying of modification.</operation>
@@ -492,7 +493,7 @@ This class itself handles all copying using another specialized interface for co
           </function>
           <function>
             <data>
-              <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
+              <description>Removes the child block at the given index, deleting it and any children it may contain. The given index must be valid.</description>
               <name>remove</name>
               <operation>Take this block's child from the given index and delete it.</operation>
               <return_description></return_description>
@@ -1650,7 +1651,7 @@ It is important to minimize the work in creating and initializing a parser eleme
           </data>
           <function>
             <data>
-              <description>Sets the geometry key for this persistent dialog and then restores the geometry of this dialog using the given geometry key. If the geometry key for this dialog has already been set then an exception is thrown.</description>
+              <description>Sets the geometry key for this persistent dialog and then restores the geometry of this dialog using the given geometry key. The geometry key for this dialog cannot already be set.</description>
               <name>saveSettings</name>
               <operation>Make sure the given geometry key is not empty.</operation>
               <operation>Make sure the geometry key for this dialog is not already set.</operation>
@@ -4268,7 +4269,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </data>
           <function>
             <data>
-              <description>Constructs a new project dialog with the given project and optional parent. If the given project pointer is null then an exception is thrown.</description>
+              <description>Constructs a new project dialog with the given project and optional parent. The given project pointer must be valid.</description>
               <explicit/>
               <name>^</name>
               <operation>Make sure the given project pointer is not null.</operation>
@@ -4878,7 +4879,7 @@ This class provides protected helper methods for getting the values of its data 
           <function>
             <data>
               <const/>
-              <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a boolean then an exception is thrown.</description>
+              <description>Returns the value of this basic block's field with the given id. The given id must exist and it must be a boolean.</description>
               <name>getBool</name>
               <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
               <operation>Return the value of the data field.</operation>
@@ -4897,7 +4898,7 @@ This class provides protected helper methods for getting the values of its data 
           <function>
             <data>
               <const/>
-              <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a string then an exception is thrown.</description>
+              <description>Returns the value of this basic block's field with the given id. The given id must exist and it must be a string.</description>
               <name>getString</name>
               <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
               <operation>Return the value of the data field.</operation>
@@ -4916,7 +4917,7 @@ This class provides protected helper methods for getting the values of its data 
           <function>
             <data>
               <const/>
-              <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a string list then an exception is thrown.</description>
+              <description>Returns the value of this basic block's field with the given id. The given id must exist and it must be a string list.</description>
               <name>getStringList</name>
               <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
               <operation>Return the value of the data field.</operation>
@@ -5061,7 +5062,7 @@ This class provides protected helper methods for getting the values of its data 
           <function>
             <data>
               <const/>
-              <description>Return the data field of this basic block with the given id. If no field exists with the given id then an exception is thrown.</description>
+              <description>Return the data field of this basic block with the given id. A field with the given id must exist.</description>
               <name>get</name>
               <operation>Make sure this basic block has been initialized.</operation>
               <operation>Find this basic block's data field with the given id, making sure it exists.</operation>
@@ -5483,7 +5484,7 @@ The layout of this editor is defined by the XML element between different layout
           </data>
           <function>
             <data>
-              <description>Returns the value of the id attribute from the given XML element. If the id attribute does not exist or is empty then an exception is thrown.</description>
+              <description>Returns the value of the id attribute from the given XML element. The id attribute must exist and not be empty.</description>
               <name>extractId</name>
               <operation>Get the id attribute value from the given XML element and make sure it is not empty or not set.</operation>
               <operation>Return the id attribute value.</operation>
@@ -13626,7 +13627,7 @@ The parsing of a project is done through this function alone. Only one type of s
     </class>
     <class>
       <data>
-        <description>This implements the qt thread class and is used to scan and parse an entire directory of source files with the given file filters and mapping of scanner objects. This executes the scanning of files on the separate thread started by the qt thread class. Signals are emitted for the progress of the scanning and if an exception is thrown from within the thread.
+        <description>This implements the qt thread class and is used to scan and parse an entire directory of source files with the given file filters and mapping of scanner objects. This executes the scanning of files on the separate thread started by the qt thread class. Signals are emitted for the progress of the scanning and if an IO error exception is thrown from within the thread. Any exception thrown within the thread that is not an IO error will cause the application to terminate.
 
 Because execution of parsing is done on a separate thread if an exception is thrown within that thread it is caught and emitted as a signal that can be used on the main GUI thread.
 
@@ -14288,7 +14289,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>This constructs a project loaded from the file from the given path. If any error occurs from loading the project file an exception is thrown.</description>
+            <description>This constructs a project loaded from the file from the given path. If any error occurs from loading the project file an IO read error exception is thrown.</description>
             <explicit/>
             <name>^</name>
             <operation>Connect this project's custom dictionary modified signal.</operation>
@@ -14465,7 +14466,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Saves this project to its associated file. If this is a new project that has never been saved then an exception is thrown. If any writing error occurs while saving an exception is thrown.</description>
+            <description>Saves this project to its associated file. This cannot be a new project that has never been saved. If any writing error occurs while saving an IO write error exception is thrown.</description>
             <name>save</name>
             <operation>Make sure this is not a new project and has a file path.</operation>
             <operation>Create a new XML document, appending its XML processing instructions.</operation>
@@ -14484,7 +14485,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Saves this project to a new file with the given path. If any writing error occurs while saving an exception is thrown.</description>
+            <description>Saves this project to a new file with the given path. If any writing error occurs while saving an IO write error exception is thrown.</description>
             <name>saveAs</name>
             <operation>Remember this project's old path and then set it to the new path given.</operation>
             <operation>Attempt to save this project with the new path.</operation>
@@ -14628,7 +14629,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Reads in this project's file and returns its entire contents as a byte array. If opening or reading this project's file fails then an exception is thrown.</description>
+            <description>Reads in this project's file and returns its entire contents as a byte array. If opening or reading this project's file fails then an IO read error exception is thrown.</description>
             <name>read</name>
             <operation>Open this project's file and make sure it worked.</operation>
             <operation>Read in the entire contents of this project's file and make sure it worked.</operation>
@@ -14639,7 +14640,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Initializes this new project's scan directory to the given path. If the given path is not a valid directory than an IO error exception is thrown.</description>
+            <description>Initializes this new project's scan directory to the given path. If the given path is not a valid directory than an IO read error exception is thrown.</description>
             <name>initScanDirectory</name>
             <operation>Make sure the given path is a valid directory relative to the directory this project's file is located.</operation>
             <operation>Set this project's scan directory to the path given.</operation>
@@ -14657,7 +14658,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Reads the given element as the XML type element for this project, setting this project's type. If the given XML element is not a valid type element then an exception is thrown.</description>
+            <description>Reads the given element as the XML type element for this project, setting this project's type. If the given XML element is not a valid type element then an IO read error exception is thrown.</description>
             <name>readTypeElement</name>
             <operation>Look up the project type with the element name supplied by the given XML element.</operation>
             <operation>Make sure the element name was recognized and a known type returned.</operation>
@@ -14675,7 +14676,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Writes the given byte array to this project's file, overwriting anything the file contains beforehand. If opening or writing this project's file fails then an exception is thrown.</description>
+            <description>Writes the given byte array to this project's file, overwriting anything the file contains beforehand. If opening or writing this project's file fails then an IO write error exception is thrown.</description>
             <name>write</name>
             <operation>Open this project's file for truncated writing and make sure it worked.</operation>
             <operation>Write out the given byte array to the opened file and make sure it worked.</operation>

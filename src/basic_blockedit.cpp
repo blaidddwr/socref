@@ -249,8 +249,8 @@ void BlockEdit::closeEvent(QCloseEvent* event)
 
 
 /*!
- * Returns the value of the id attribute from the given XML element. If the id
- * attribute does not exist or is empty then an exception is thrown.
+ * Returns the value of the id attribute from the given XML element. The id
+ * attribute must exist and not be empty.
  *
  * @param element XML element whose id attribute value is extracted and return.
  *

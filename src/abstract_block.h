@@ -234,8 +234,8 @@ namespace Abstract
 
    /*!
     * This casts this block to a specific block type. If the given type does not
-    * match this block's type then a null pointer is returned. If this object fails
-    * to cast as the requested type an exception is thrown.
+    * match this block's type then a null pointer is returned. This object must be
+    * able to cast to the given type.
     *
     * @tparam T The class type that is cast.
     *
@@ -267,8 +267,8 @@ namespace Abstract
 
    /*!
     * This casts this block to a specific block type. If the given type does not
-    * match this block's type then a null pointer is returned. If this object fails
-    * to cast as the requested type an exception is thrown.
+    * match this block's type then a null pointer is returned. This object must be
+    * able to cast to the given type.
     *
     * @tparam T The class type that is cast.
     *

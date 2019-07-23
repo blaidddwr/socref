@@ -79,7 +79,8 @@ Project::Project(int type)
 
 /*!
  * This constructs a project loaded from the file from the given path. If any
- * error occurs from loading the project file an exception is thrown.
+ * error occurs from loading the project file an IO read error exception is
+ * thrown.
  *
  * @param path The path of the file that this project is loaded from.
  */
@@ -400,9 +401,9 @@ void Project::setScanFilters(const QString& value)
 
 
 /*!
- * Saves this project to its associated file. If this is a new project that has
- * never been saved then an exception is thrown. If any writing error occurs
- * while saving an exception is thrown.
+ * Saves this project to its associated file. This cannot be a new project that
+ * has never been saved. If any writing error occurs while saving an IO write
+ * error exception is thrown.
  */
 void Project::save()
 {
@@ -468,7 +469,7 @@ void Project::save()
 
 /*!
  * Saves this project to a new file with the given path. If any writing error
- * occurs while saving an exception is thrown.
+ * occurs while saving an IO write error exception is thrown.
  *
  * @param path The path to the new file this project is saved to.
  */
@@ -534,7 +535,8 @@ void Project::signalModified()
 
 /*!
  * Reads in this project's file and returns its entire contents as a byte array.
- * If opening or reading this project's file fails then an exception is thrown.
+ * If opening or reading this project's file fails then an IO read error
+ * exception is thrown.
  *
  * @return Contents of this project's file as a byte array.
  */
@@ -567,7 +569,7 @@ QByteArray Project::read()
 
 /*!
  * Initializes this new project's scan directory to the given path. If the given
- * path is not a valid directory than an IO error exception is thrown.
+ * path is not a valid directory than an IO read error exception is thrown.
  *
  * @param path The given path to that is converted to its canonical form and
  *             saved as this project's scan directory.
@@ -596,7 +598,7 @@ void Project::initScanDirectory(const QString& path)
 /*!
  * Reads the given element as the XML type element for this project, setting
  * this project's type. If the given XML element is not a valid type element
- * then an exception is thrown.
+ * then an IO read error exception is thrown.
  *
  * @param element The XML element that is read in as this project's type
  *                element.
@@ -626,7 +628,7 @@ void Project::readTypeElement(const QDomElement& element)
 /*!
  * Writes the given byte array to this project's file, overwriting anything the
  * file contains beforehand. If opening or writing this project's file fails
- * then an exception is thrown.
+ * then an IO write error exception is thrown.
  *
  * @param data The byte array that is written to this project's file.
  */
