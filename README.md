@@ -1,7 +1,11 @@
 
 # Socrates Reference
 
-This program acts as a reference tool for programming projects. This holds a reference to all source code objects. Each object in turn has comments added to them. This program is then capable of parsing the actual source code and adding the reference objects along with their comments to the source code. Any actual code within the methods being written are preserved that allows for editing of the source code as it is parsed.
+This application provides a description reference to source code of a programming project. This application also provides the ability to parse the actual source code and add all descriptions it contains as comments in the code itself while preserving any code actually written.
+
+By providing these set of tools it allows programmers to easily document their code with descriptive comments. The descriptions held in this application are spell checked and all formatting is done automatically when source code is parsed. This allows keeping all code fully commented very easy and encourages descriptive robustness of a project's comments.
+
+References are maintained in this application based off objects associated with the programming language. For example in C++ there are objects for classes, functions, and variables. These objects are arranged within a tree like list within this program, usually following how the scoping of the language it is referencing works. For example in C++ objects are nested by namespaces and classes.
 
 ## Supported Languages
 
@@ -12,7 +16,7 @@ The following languages are supported:
 
 ## Dependencies
 
-This requires the Socrates Utilities library.
+This requires the Socrates Utility library.
 
 ## Installation
 
