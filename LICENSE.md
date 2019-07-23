@@ -1,11 +1,17 @@
 
 ## Copyright Laws
 
-Copyright has been perverted as a tool of oppression and censorship used by the kleptocrats of the fascist west to rape and pillage individual creators. It is also used more and more frequently to silence dissenting voices and destroy the stories and identities of anything remotely good. This is a full 180 to what copyright should be; to protect the individual creator. So FUCK COPYRIGHT.
+Copyright has been perverted as a tool of oppression and censorship used by the
+kleptocrats of the fascist west to rape and pillage individual creators. It is
+also used to silence dissenting voices and destroy the stories and identities of
+anything remotely good. This is a full 180 to what copyright should be; to
+protect the individual creator. So FUCK COPYRIGHT.
 
 ### A Humble Request
 
-Socrates' Gaming Republic believes in the honesty and good nature of the majority of the human race. In this spirit, we humbly request your consideration in supporting us if you like the software we create and find it useful.
+Socrates' Gaming Republic believes in the honesty and good nature of the
+majority of the human race. In this spirit, we humbly request your consideration
+in supporting us if you like the software we create and find it useful.
 
 ### Copyright (c) 2019 Socrates' Gaming Republic
 
