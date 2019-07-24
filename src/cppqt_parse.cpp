@@ -950,11 +950,17 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
             const Declaration* valid {child->cast<const Declaration>(Factory::Declaration)};
             Q_ASSERT(valid);
 
-            // If a declaration list is provided then add the child declaration's line to the
-            // list.
+            // Check to see if a declaration list is provided.
             if ( declarations )
             {
-               *declarations << new LineParser(indent,valid->line() + QStringLiteral(";"));
+               // If the declaration is not a preprocessor line then add a new line parser to the
+               // given declarations list with the given indent and an added semicolon to the
+               // end, else if it is then add the raw line with no indent.
+               if ( valid->line().at(0) != QChar('#') )
+               {
+                  *declarations << new LineParser(indent,valid->line() + QStringLiteral(";"));
+               }
+               else *declarations << new LineParser(0,valid->line());
             }
             break;
          }

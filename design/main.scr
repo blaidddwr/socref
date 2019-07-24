@@ -8165,7 +8165,8 @@ This is one of two primary functions that can be considered the core or engine o
             <operation>If the child class is part of a parent class then create all of its parser elements with the provided lists.</operation>
             <operation>Else if this is a root class part of a namespace, a declarations list is provided, and it has no templates then add its forward declaration to the list.</operation>
             <operation>Cast the child as a declaration and make sure it worked.</operation>
-            <operation>If a declaration list is provided then add the child declaration's line to the list.</operation>
+            <operation>Check to see if a declaration list is provided.</operation>
+            <operation>If the declaration is not a preprocessor line then add a new line parser to the given declarations list with the given indent and an added semicolon to the end, else if it is then add the raw line with no indent.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
