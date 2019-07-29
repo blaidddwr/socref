@@ -44,16 +44,14 @@ void Scanner::parse(const QString& path)
       QFile file(path);
       if ( !file.open(QFile::ReadWrite) )
       {
-         throw ReadError(qUtf8Printable(tr("Failed opening source file %1").arg(path))
-                         ,qUtf8Printable(file.errorString()));
+         throw ReadError(tr("Failed opening source file %1").arg(path),file.errorString());
       }
 
       // Read the entire contents of the opened source file and make sure it worked.
       _input = file.readAll();
       if ( file.error() != QFile::NoError )
       {
-         throw ReadError(qUtf8Printable(tr("Failed reading source file %1").arg(path))
-                         ,qUtf8Printable(file.errorString()));
+         throw ReadError(tr("Failed reading source file %1").arg(path),file.errorString());
       }
 
       // Parse the input for any input parser elements and then create the output using
@@ -68,16 +66,14 @@ void Scanner::parse(const QString& path)
          // Truncate the open source file to zero and make sure it worked.
          if ( !file.resize(0) )
          {
-            throw WriteError(qUtf8Printable(tr("Failed truncating source file %1").arg(path))
-                             ,qUtf8Printable(file.errorString()));
+            throw WriteError(tr("Failed truncating source file %1").arg(path),file.errorString());
          }
 
          // Write the output to the open source file and make sure all bytes were written.
          QByteArray bytes {output.toLocal8Bit()};
          if ( file.write(bytes) != bytes.size() )
          {
-            throw WriteError(qUtf8Printable(tr("Failed writing source file %1").arg(path))
-                             ,qUtf8Printable(file.errorString()));
+            throw WriteError(tr("Failed writing source file %1").arg(path),file.errorString());
          }
       }
 

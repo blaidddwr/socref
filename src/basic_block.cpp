@@ -334,10 +334,10 @@ void Block::readData(const QDomElement& element)
                *i = i->toStringList() << child.text();
                break;
             default:
-               throw ReadError(qUtf8Printable(tr("Unknown data element '%1' on line %2 within block element on line %3.")
-                                              .arg(child.tagName())
-                                              .arg(child.lineNumber())
-                                              .arg(element.lineNumber()))
+               throw ReadError(tr("Unknown data element '%1' on line %2 within block element on line %3.")
+                               .arg(child.tagName())
+                               .arg(child.lineNumber())
+                               .arg(element.lineNumber())
                                ,"");
             }
          }

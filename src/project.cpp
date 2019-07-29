@@ -108,7 +108,7 @@ Project::Project(const QString& path)
    // Load the read in file contents as an XML document and make sure it worked.
    if (!document.setContent(xmlBytes))
    {
-      throw ReadError(qUtf8Printable(tr("Failed opening %1 as XML.").arg(path)),"");
+      throw ReadError(tr("Failed opening %1 as XML.").arg(path),"");
    }
 
    // Iterate through all child nodes of the root XML document element.
@@ -155,11 +155,11 @@ Project::Project(const QString& path)
    // Make sure the required elements were found in the XML document.
    if ( _type == -1 )
    {
-      throw ReadError(qUtf8Printable(tr("Type element not found in %1.").arg(path)),"");
+      throw ReadError(tr("Type element not found in %1.").arg(path),"");
    }
    if ( _scanDirectory.isEmpty() )
    {
-      throw ReadError(qUtf8Printable(tr("Scan directory element not found in %1.").arg(path)),"");
+      throw ReadError(tr("Scan directory element not found in %1.").arg(path),"");
    }
 }
 
@@ -546,16 +546,14 @@ QByteArray Project::read()
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
-      throw ReadError(qUtf8Printable(tr("Failed opening %1").arg(_path))
-                      ,qUtf8Printable(file.errorString()));
+      throw ReadError(tr("Failed opening %1").arg(_path),file.errorString());
    }
 
    // Read in the entire contents of this project's file and make sure it worked.
    QByteArray ret = file.readAll();
    if ( file.error() != QFileDevice::NoError )
    {
-      throw ReadError(qUtf8Printable(tr("Failed reading %1").arg(_path))
-                      ,qUtf8Printable(file.errorString()));
+      throw ReadError(tr("Failed reading %1").arg(_path),file.errorString());
    }
 
    // Return the read in byte array.
@@ -580,9 +578,9 @@ void Project::initScanDirectory(const QString& path)
    // project's file is located.
    if ( !QFileInfo(_path).dir().cd(path) )
    {
-      throw ReadError(qUtf8Printable(tr("The scanning directory %1 in %2 does not exist.")
-                                     .arg(path)
-                                     .arg(_path))
+      throw ReadError(tr("The scanning directory %1 in %2 does not exist.")
+                      .arg(path)
+                      .arg(_path)
                       ,"");
    }
 
@@ -612,10 +610,10 @@ void Project::readTypeElement(const QDomElement& element)
    // Make sure the element name was recognized and a known type returned.
    if ( _type < 0 )
    {
-      throw ReadError(qUtf8Printable(tr("Unknown project type '%1' in %2:%3.")
-                                     .arg(element.text())
-                                     .arg(_path)
-                                     .arg(element.lineNumber()))
+      throw ReadError(tr("Unknown project type '%1' in %2:%3.")
+                      .arg(element.text())
+                      .arg(_path)
+                      .arg(element.lineNumber())
                       ,"");
    }
 }
@@ -638,15 +636,13 @@ void Project::write(const QByteArray& data)
    QFile file(_path);
    if ( !file.open(QIODevice::WriteOnly|QIODevice::Truncate) )
    {
-      throw WriteError(qUtf8Printable(tr("Failed opening %1").arg(_path))
-                       ,qUtf8Printable(file.errorString()));
+      throw WriteError(tr("Failed opening %1").arg(_path),file.errorString());
    }
 
    // Write out the given byte array to the opened file and make sure it worked.
    if ( file.write(data) != data.size() )
    {
-      throw WriteError(qUtf8Printable(tr("Failed writing to %1").arg(_path))
-                       ,qUtf8Printable(file.errorString()));
+      throw WriteError(tr("Failed writing to %1").arg(_path),file.errorString());
    }
 }
 

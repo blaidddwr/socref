@@ -115,8 +115,7 @@ QFileInfoList ScanThread::createList(const QString& scanDirectory, const QString
    QDir dir(scanDirectory);
    if ( !dir.exists() )
    {
-      throw ReadError(qUtf8Printable(tr("Scan directory %1 does not exist.").arg(scanDirectory))
-                      ,"");
+      throw ReadError(tr("Scan directory %1 does not exist.").arg(scanDirectory),"");
    }
 
    // Make a list of files in the scan directory with the given filters and iterate
