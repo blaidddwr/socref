@@ -7,7 +7,7 @@ equals(QT_MAJOR_VERSION,5)
 
 MAJOR_VERSION = 0
 MINOR_VERSION = 7
-REVISION = 0
+REVISION = 1
 
 QT += core gui widgets xml
 
