@@ -3,6 +3,23 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.7.1
+
+* Optimized scanner for all project types. Source files are scanned much faster
+  now.
+* Added better error handling when opening corrupt or invalid XML files.
+* Fixed C++/Qt declaration block:
+    * Underlines are now ignored and treated as normal underlines instead of
+      bold markers.
+    * A semicolon is only added to the end of a declaration parser line if it is
+      not a preprocessor command. Preprocessor commands are also given no indent
+      spaces.
+* Removed file watching for open project because it was always buggy and never
+  worked right.
+* Improved about dialog.
+* Moved everything from notes folder to markdown in root folder. Added license
+  and read me markdown.
+
 ## Version 0.7.0
 
 * Completely revamped debugging in internal code to follow Qt standards instead
@@ -30,7 +47,7 @@ Description of all releases with most recent on the top.
         * Type lists have been removed. Types are now manually entered as a
           string for any relevant block type.
         * The display for various block types has been changed.
-        * Slots, signals, constructors, and desctructors have all been merged
+        * Slots, signals, constructors, and destructors have all been merged
           into a single function block type.
 * Added new GLSL project type for commenting OpenGL shader code.
 
