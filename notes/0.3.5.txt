@@ -1,5 +1,0 @@
-
-* Added multiple checks to C++/Qt for templates, virtual functions, and Qt Objects such that they are mutually exclusive.
-* Changed appearance of C++/Qt blocks to be more compact and clear, primarily changing variables and functions.
-* Added ability in C++/Qt parsing to write variable initializers with very long lists on multiple lines.
-

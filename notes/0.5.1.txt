@@ -1,5 +1,0 @@
-
-* C++/Qt types can now contain "..." for variadic template arguments.
-* Added the thread local property for C++/Qt variables.
-* Fixed the absence of parsing output for using and friend declarations in C++/Qt.
-

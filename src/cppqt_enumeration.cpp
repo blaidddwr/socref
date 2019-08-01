@@ -60,7 +60,7 @@ QList<EnumValue*> Enumeration::values() const
 {
    // Make a pointer list of all of this block's enumeration value child blocks and
    // return it.
-   return createListOfType<EnumValue>(Factory::EnumValueType);
+   return createListOfType<EnumValue>(Factory::EnumValue);
 }
 
 }

@@ -23,6 +23,7 @@ namespace CppQt
        * Constructs a new template block.
        */
       Q_INVOKABLE explicit Template() = default;
+   public:
       QString templateType() const;
    };
 }

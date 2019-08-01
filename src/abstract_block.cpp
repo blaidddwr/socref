@@ -1,8 +1,9 @@
 #include "abstract_block.h"
-#include <socutil/soc_ut_qptr.h>
+#include <socutil/QPtr>
+#include <socutil/ReadError>
 #include "abstract_blockfactory.h"
-#include "exception.h"
-using namespace Soc::Ut;
+using Soc::Ut::QPtr;
+using Soc::Ut::ReadError;
 
 
 
@@ -14,15 +15,15 @@ namespace Abstract
 /*!
  * The name for version attributes.
  */
-const char* Block::_versionTag {"version"};
+const QString Block::_versionTag {"version"};
 /*!
  * The tag name for data elements.
  */
-const char* Block::_dataTag {"data"};
+const QString Block::_dataTag {"data"};
 /*!
  * The name for type attributes.
  */
-const char* Block::_typeTag {"type"};
+const QString Block::_typeTag {"type"};
 
 
 
@@ -153,8 +154,8 @@ int Block::indexOf(Block* pointer) const
 
 
 /*!
- * This returns a pointer to this block's child with the given index. If the
- * index is out of range an exception is thrown.
+ * This returns a pointer to this block's child with the given index. The given
+ * index must be valid.
  *
  * @param index Index of the child whose pointer is returned.
  *
@@ -348,8 +349,8 @@ void Block::moveDown(int index)
  * Inserts a new child block into this block's list of children at the given
  * index. If the given index is less than 0 it is prepended to this block's
  * list, else if the given index is greater than this block's list size then it
- * is appended. If the given pointer to the new block is null or it is a type
- * this block cannot contain then an exception is thrown.
+ * is appended. The given pointer to the new block must be valid and its type
+ * must be able to be contained in this block.
  *
  * @param index The index where the new block is inserted.
  *
@@ -379,8 +380,7 @@ void Block::insert(int index, Soc::Ut::QPtr<Block>&& child)
 
 /*!
  * Takes the child block at the given index this block contains. The child block
- * returned no longer has a parent. If the index is out of range then an
- * exception is thrown.
+ * returned no longer has a parent. The given index must be valid.
  *
  * @param index The index of the child that is taken.
  *
@@ -415,7 +415,7 @@ Soc::Ut::QPtr<Abstract::Block> Block::take(int index)
 
 /*!
  * Removes the child block at the given index, deleting it and any children it
- * may contain. If the given index is out of range then an exception is thrown.
+ * may contain. The given index must be valid.
  *
  * @param index The index of the child that is removed and deleted.
  */
@@ -471,10 +471,11 @@ void Block::read(const QDomElement& element)
    {
       if ( !buildList().contains(child->type()) )
       {
-         throw Exception(tr("Illegal child block type '%1' contained in block type '%2' on line %3.")
+         throw ReadError(tr("Illegal child block type '%1' contained in block type '%2' on line %3.")
                          .arg(factory().name(type()))
                          .arg(factory().name(child->type()))
-                         .arg(element.lineNumber()));
+                         .arg(element.lineNumber())
+                         ,"");
       }
    }
 }
@@ -636,9 +637,10 @@ void Block::readChild(const QDomElement& element)
    // Make sure reading in the type did not fail.
    if ( type < 0 )
    {
-      throw Exception(tr("Unknown block type '%1' on line %2.")
+      throw ReadError(tr("Unknown block type '%1' on line %2.")
                       .arg(element.tagName())
-                      .arg(element.lineNumber()));
+                      .arg(element.lineNumber())
+                      ,"");
    }
 
    // Make sure the read in type is within range of this block's factory.

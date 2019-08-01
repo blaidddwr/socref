@@ -132,7 +132,7 @@ bool Access::hasVirtual() const
    for (auto child : list())
    {
       // If the child block is a function and that function is virtual then return true.
-      if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
+      if ( Function* valid = child->cast<Function>(Factory::Function) )
       {
          if ( valid->isVirtual() ) return true;
       }
@@ -160,7 +160,7 @@ bool Access::hasAbstract() const
    {
       // If the child block is a function and that function is abstract then return
       // true.
-      if ( Function* valid = child->cast<Function>(Factory::FunctionType) )
+      if ( Function* valid = child->cast<Function>(Factory::Function) )
       {
          if ( valid->isAbstract() ) return true;
       }

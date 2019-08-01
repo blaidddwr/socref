@@ -1,7 +1,0 @@
-
-* Views now update themselves if their edit dialog has their apply button clicked.
-* All C++/Qt function properties are now displayed the same way in the tree view; as single letter flags enclosed by square brackets.
-* Fixed C++/Qt viewing bugs.
-  * Enumerations and their values now display their descriptions.
-  * Function views no longer displays an empty return type on constructors/desctructors.
-

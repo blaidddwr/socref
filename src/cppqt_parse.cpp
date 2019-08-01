@@ -58,7 +58,7 @@ QMap<QString,Scanner*> createScannerMap(const Abstract::Block* root)
    QMap<QString,Scanner*> ret;
 
    // Cast the given root pointer to a namespace block and make sure it worked.
-   const Namespace* namespaceRoot {root->cast<const Namespace>(Factory::NamespaceType)};
+   const Namespace* namespaceRoot {root->cast<const Namespace>(Factory::Namespace)};
    Q_ASSERT(namespaceRoot);
 
    // Add the special main source file scanner.
@@ -101,7 +101,7 @@ void addMain(QMap<QString,Scanner*>* map, const Namespace& root)
    const int functionLines {Settings::instance().functionLines()};
 
    // Iterate through all function block children of the given namespace block.
-   for (auto function: root.createListOfType<const Function>(Factory::FunctionType))
+   for (auto function: root.createListOfType<const Function>(Factory::Function))
    {
       // Check to see if the function's base name is main.
       if ( function->baseName() == QStringLiteral("main") )
@@ -183,13 +183,13 @@ void addHeader(QMap<QString,Scanner*>* map, const Namespace& root)
    {
       // If the child is a namespace then recursively call this function on the child to
       // add its scanner object.
-      if ( const Namespace* valid = child->cast<const Namespace>(Factory::NamespaceType) )
+      if ( const Namespace* valid = child->cast<const Namespace>(Factory::Namespace) )
       {
          addHeader(map,*valid);
       }
 
       // Else if the child is a class then add its scanner object to the given mapping.
-      else if ( const Class* valid = child->cast<const Class>(Factory::ClassType) )
+      else if ( const Class* valid = child->cast<const Class>(Factory::Class) )
       {
          addHeader(map,*valid);
       }
@@ -300,14 +300,14 @@ void addSource(QMap<QString,Scanner*>* map, const Namespace& root)
    {
       // If the child is a namespace then recursively call this function to add its
       // scanner object and all its children's scanners.
-      if ( const Namespace* valid = child->cast<const Namespace>(Factory::NamespaceType) )
+      if ( const Namespace* valid = child->cast<const Namespace>(Factory::Namespace) )
       {
          addSource(map,*valid);
       }
 
       // If the child is a class then add its source file scanner object to the given
       // mapping.
-      else if ( const Class* valid = child->cast<const Class>(Factory::ClassType) )
+      else if ( const Class* valid = child->cast<const Class>(Factory::Class) )
       {
          addSource(map,*valid);
       }
@@ -683,7 +683,7 @@ QList<const Namespace*> createScope(const Abstract::Block& block)
    while ( up->parent() )
    {
       // If the block is a namespace then prepend its pointer to the scope list.
-      if ( const Namespace* valid = up->cast<Namespace>(Factory::NamespaceType) )
+      if ( const Namespace* valid = up->cast<Namespace>(Factory::Namespace) )
       {
          ret.prepend(valid);
       }
@@ -847,10 +847,10 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
       // Figure out the block type of the child.
       switch (child->type())
       {
-      case Factory::StructType:
+      case Factory::Struct:
          {
             // Cast the child as a structure and make sure it worked.
-            const Struct* valid {child->cast<const Struct>(Factory::StructType)};
+            const Struct* valid {child->cast<const Struct>(Factory::Struct)};
             Q_ASSERT(valid);
 
             // If a declarations list is given then add its declaration parser elements to the
@@ -858,10 +858,10 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
             if ( declarations ) add(declarations,*valid,indent);
             break;
          }
-      case Factory::UnionType:
+      case Factory::Union:
          {
             // Cast the child as a union and make sure it worked.
-            const Union* valid {child->cast<const Union>(Factory::UnionType)};
+            const Union* valid {child->cast<const Union>(Factory::Union)};
             Q_ASSERT(valid);
 
             // If a declarations list is given then add its declaration parser elements to the
@@ -869,10 +869,10 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
             if ( declarations ) add(declarations,*valid,indent);
             break;
          }
-      case Factory::EnumerationType:
+      case Factory::Enumeration:
          {
             // Cast the child as an enumeration and make sure it worked.
-            const Enumeration* valid {child->cast<const Enumeration>(Factory::EnumerationType)};
+            const Enumeration* valid {child->cast<const Enumeration>(Factory::Enumeration)};
             Q_ASSERT(valid);
 
             // If a declarations list is given then add its declaration parser elements to the
@@ -880,10 +880,10 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
             if ( declarations ) add(declarations,*valid,indent);
             break;
          }
-      case Factory::VariableType:
+      case Factory::Variable:
          {
             // Cast the child as a variable and make sure it worked.
-            const Variable* valid {child->cast<const Variable>(Factory::VariableType)};
+            const Variable* valid {child->cast<const Variable>(Factory::Variable)};
             Q_ASSERT(valid);
 
             // If a declaration list is provided then add the child variable declaration to
@@ -895,10 +895,10 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
             if ( variables && hasDefinition(*valid,isHeader) ) addDefinition(variables,*valid);
             break;
          }
-      case Factory::FunctionType:
+      case Factory::Function:
          {
             // Cast the child as a function and make sure it worked.
-            const Function* valid {child->cast<const Function>(Factory::FunctionType)};
+            const Function* valid {child->cast<const Function>(Factory::Function)};
             Q_ASSERT(valid);
 
             // If a declaration list is provided then add the child function's declaration to
@@ -920,15 +920,15 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
             }
             break;
          }
-      case Factory::ClassType:
+      case Factory::Class:
          {
             // Cast the child as a class and make sure it worked.
-            const Class* valid {child->cast<const Class>(Factory::ClassType)};
+            const Class* valid {child->cast<const Class>(Factory::Class)};
             Q_ASSERT(valid);
 
             // If the child class is part of a parent class then create all of its parser
             // elements with the provided lists.
-            if ( block.type() == Factory::AccessType )
+            if ( block.type() == Factory::Access )
             {
                createClassParsers(declarations,variables,functions,*valid,indent,isHeader);
             }
@@ -944,17 +944,23 @@ void createParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::Parse
             }
             break;
          }
-      case Factory::DeclarationType:
+      case Factory::Declaration:
          {
             // Cast the child as a declaration and make sure it worked.
-            const Declaration* valid {child->cast<const Declaration>(Factory::DeclarationType)};
+            const Declaration* valid {child->cast<const Declaration>(Factory::Declaration)};
             Q_ASSERT(valid);
 
-            // If a declaration list is provided then add the child declaration's line to the
-            // list.
+            // Check to see if a declaration list is provided.
             if ( declarations )
             {
-               *declarations << new LineParser(indent,valid->line() + QStringLiteral(";"));
+               // If the declaration is not a preprocessor line then add a new line parser to the
+               // given declarations list with the given indent and an added semicolon to the
+               // end, else if it is then add the raw line with no indent.
+               if ( valid->line().at(0) != QChar('#') )
+               {
+                  *declarations << new LineParser(indent,valid->line() + QStringLiteral(";"));
+               }
+               else *declarations << new LineParser(0,valid->line());
             }
             break;
          }
@@ -1029,12 +1035,12 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
       // its template declaration if the given class is not nested aka its parent is a
       // namespace.
       QString header;
-      if ( root.parent()->type() == Factory::NamespaceType ) header += createTemplates(&root);
+      if ( root.parent()->type() == Factory::Namespace ) header += createTemplates(&root);
       header += QStringLiteral("class ") + root.baseName();
 
       // Get the given class block's list of parent blocks and make sure it is not
       // empty.
-      QList<const Parent*> parents {root.createListOfType<const Parent>(Factory::ParentType)};
+      QList<const Parent*> parents {root.createListOfType<const Parent>(Factory::Parent)};
       if ( !parents.isEmpty() )
       {
          // Append the beginning of parents declaration to the header.
@@ -1067,14 +1073,14 @@ void createClassParsers(QList<Abstract::Parser*>* declarations, QList<Abstract::
 
       // Iterate through all declaration children of the given class and add their
       // declarations as line parser elements to the given declaration list.
-      for (auto declaration: root.createListOfType<const Declaration>(Factory::DeclarationType))
+      for (auto declaration: root.createListOfType<const Declaration>(Factory::Declaration))
       {
          *declarations << new LineParser(indent + indentSpaces,declaration->line());
       }
    }
 
    // Iterate through all access block children of the given class block.
-   for (auto access: root.createListOfType<const Access>(Factory::AccessType))
+   for (auto access: root.createListOfType<const Access>(Factory::Access))
    {
       // If a declaration list is provided then add the access declaration line parser
       // to the list.
@@ -1131,7 +1137,7 @@ void add(QList<Abstract::Parser*>* list, const Struct& block, int indent)
    // Iterate through all children variable blocks of the given structure block and
    // add their declaration parser elements to the given parser list, indenting all
    // variable line parser elements.
-   for (auto variable: block.createListOfType<const Variable>(Factory::VariableType))
+   for (auto variable: block.createListOfType<const Variable>(Factory::Variable))
    {
       addDeclaration(list,*variable,indent + Settings::instance().indentSpaces());
    }
@@ -1181,7 +1187,7 @@ void add(QList<Abstract::Parser*>* list, const Union& block, int indent)
    // Iterate through all children variable blocks of the given union block and add
    // their declaration parser elements to the given parser list, indenting all
    // variable line parser elements.
-   for (auto variable: block.createListOfType<const Variable>(Factory::VariableType))
+   for (auto variable: block.createListOfType<const Variable>(Factory::Variable))
    {
       addDeclaration(list,*variable,indent + Settings::instance().indentSpaces());
    }
@@ -1265,7 +1271,7 @@ void addValues(QList<Abstract::Parser*>* list, const Enumeration& block, int ind
 
    // Iterate through all enumeration value children blocks of the given enumeration.
    bool first {true};
-   for (auto enumVal: block.createListOfType<const EnumValue>(Factory::EnumValueType) )
+   for (auto enumVal: block.createListOfType<const EnumValue>(Factory::EnumValue) )
    {
       // Add the comment block description of the enumeration value, setting its indent
       // to the one given and adding it to the given list.
@@ -1732,13 +1738,13 @@ QString createClassScope(const Abstract::Block* block)
    {
       // If the parent block is a class then prepend its scope to the return string,
       // including any template arguments of the class and the ending double colons.
-      if ( const Class* valid = up->cast<const Class>(Factory::ClassType) )
+      if ( const Class* valid = up->cast<const Class>(Factory::Class) )
       {
          ret.prepend(valid->baseName() + createTemplate(valid,false) + QStringLiteral("::"));
       }
 
       // Else if the parent block is a namespace then return the finished scope string.
-      else if ( up->cast<Namespace>(Factory::NamespaceType) ) return ret;
+      else if ( up->cast<Namespace>(Factory::Namespace) ) return ret;
 
       // Move up to the next block parent.
       up = up->parent();
@@ -1804,7 +1810,7 @@ QString createTemplate(const Abstract::Block* block, bool declaration)
    QString ret;
 
    // Get the list of templates for the given block and make sure it is not empty.
-   QList<const Template*> list {block->createListOfType<const Template>(Factory::TemplateType)};
+   QList<const Template*> list {block->createListOfType<const Template>(Factory::Template)};
    if ( !list.isEmpty() )
    {
       // If this is a declaration add the template tag.
@@ -1875,14 +1881,14 @@ QList<const Abstract::Block*> createTemplateList(const Abstract::Block* block)
    {
       // If the parent block is a function or class, and it contains templates, then
       // prepend it to the returned list.
-      if ( ( up->type() == Factory::FunctionType || up->type() == Factory::ClassType )
-           && up->containsType(Factory::TemplateType) )
+      if ( ( up->type() == Factory::Function || up->type() == Factory::Class )
+           && up->containsType(Factory::Template) )
       {
          ret.prepend(up);
       }
 
       // Else if the parent block is a namespace then return the completed list.
-      else if ( up->cast<Namespace>(Factory::NamespaceType) ) return ret;
+      else if ( up->cast<Namespace>(Factory::Namespace) ) return ret;
 
       // Move up to the next parent block.
       up = up->parent();

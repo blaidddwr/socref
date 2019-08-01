@@ -22,6 +22,7 @@ namespace CppQt
        * Constructs a new namespace block.
        */
       Q_INVOKABLE explicit Namespace() = default;
+   public:
       const Namespace* root() const;
       Namespace* root();
    };

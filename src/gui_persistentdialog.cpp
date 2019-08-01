@@ -96,8 +96,8 @@ void PersistentDialog::closeEvent(QCloseEvent* event)
 
 /*!
  * Sets the geometry key for this persistent dialog and then restores the
- * geometry of this dialog using the given geometry key. If the geometry key for
- * this dialog has already been set then an exception is thrown.
+ * geometry of this dialog using the given geometry key. The geometry key for
+ * this dialog cannot already be set.
  *
  */
 void PersistentDialog::saveSettings(const QString& geometryKey)

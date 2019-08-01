@@ -27,6 +27,7 @@ namespace Gui
       virtual void highlightBlock(const QString& text) override final;
    private:
       void setupSpeller(const char* language);
+   private:
       /*!
        * The text format used by this highlighter for any misspelled words in its
        * parent editor.

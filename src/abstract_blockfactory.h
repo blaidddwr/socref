@@ -24,11 +24,6 @@ namespace Abstract
    {
    public:
       /*!
-       * Virtual destructor so implemented classes have their destructor called
-       * correctly.
-       */
-      virtual ~BlockFactory() = default;
-      /*!
        * This interface returns the project type of this block factory.
        *
        * @return Project type.
@@ -91,6 +86,12 @@ namespace Abstract
        * @return New root block for this project type.
        */
       virtual Soc::Ut::QPtr<Abstract::Block> createRootBlock() const = 0;
+   public:
+      /*!
+       * Virtual destructor so implemented classes have their destructor called
+       * correctly.
+       */
+      virtual ~BlockFactory() = default;
    };
 }
 

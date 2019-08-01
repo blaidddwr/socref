@@ -27,6 +27,7 @@ namespace CppQt
        * Constructs a new class block.
        */
       Q_INVOKABLE explicit Class() = default;
+   public:
       bool isQtObject() const;
       bool isVirtual() const;
       bool isAbstract() const;

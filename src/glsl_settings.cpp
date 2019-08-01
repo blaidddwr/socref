@@ -11,23 +11,23 @@ namespace GLSL
 /*!
  * The settings key used to save the variable lines setting.
  */
-const char* Settings::_variableLinesKey {"glsl.settings.variable.lines"};
+const QString Settings::_variableLinesKey {"glsl.settings.variable.lines"};
 /*!
  * The settings key used to save the structure lines setting.
  */
-const char* Settings::_structLinesKey {"glsl.settings.struct.lines"};
+const QString Settings::_structLinesKey {"glsl.settings.struct.lines"};
 /*!
  * The settings key used to save the function lines setting.
  */
-const char* Settings::_functionLinesKey {"glsl.settings.function.lines"};
+const QString Settings::_functionLinesKey {"glsl.settings.function.lines"};
 /*!
  * The settings key used to save the indent spaces setting.
  */
-const char* Settings::_indentSpacesKey {"glsl.indent.spaces"};
+const QString Settings::_indentSpacesKey {"glsl.indent.spaces"};
 /*!
  * The settings key used to save the max columns setting.
  */
-const char* Settings::_maxColumnsKey {"glsl.columns.max"};
+const QString Settings::_maxColumnsKey {"glsl.columns.max"};
 
 
 

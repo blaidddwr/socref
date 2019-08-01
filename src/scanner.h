@@ -16,12 +16,15 @@ class Scanner : public QObject
 {
    Q_OBJECT
 public:
+   ~Scanner();
+public:
    void parse(const QString& path);
    void addParser(Soc::Ut::QPtr<Abstract::Parser>&& parser);
 private:
    void parseInput();
    QString createOutput();
    Abstract::Parser* findParser(const QString& line);
+private:
    /*!
     * List of parser elements this scanner uses for parsing any source file it is
     * given to parse.
@@ -32,6 +35,13 @@ private:
     * for parsing any source file it is given to parse.
     */
    QList<Abstract::Parser*> _inputParsers;
+   /*!
+    * Pointer to the regular expression that contains all header expressions for
+    * all input parsers of this scanner separated into groups. This is used to find
+    * a matching input parser to input lines. This is null until the first search
+    * is done and initializes it.
+    */
+   QRegularExpression* _headerExpr {nullptr};
    /*!
     * Contains the entire contents of the source file this scanner is parsing
     * before it is overwritten. This is used to process any input lines required by

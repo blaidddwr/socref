@@ -3,6 +3,7 @@
 #include <QThread>
 #include <QMap>
 #include <QFileInfoList>
+#include <socutil/Global>
 #include "global.h"
 
 
@@ -12,7 +13,9 @@
  * directory of source files with the given file filters and mapping of scanner
  * objects. This executes the scanning of files on the separate thread started
  * by the qt thread class. Signals are emitted for the progress of the scanning
- * and if an exception is thrown from within the thread.
+ * and if an IO error exception is thrown from within the thread. Any exception
+ * thrown within the thread that is not an IO error will cause the application
+ * to terminate.
  *
  * Because execution of parsing is done on a separate thread if an exception is
  * thrown within that thread it is caught and emitted as a signal that can be
@@ -37,12 +40,12 @@ signals:
     */
    void progressChanged(int index);
    /*!
-    * Signals that an exception was thrown and caught in this thread, prematurely
-    * ending the scanning of source files in this thread.
+    * Signals that an IO error exception was thrown and caught in this thread,
+    * prematurely ending the scanning of source files in this thread.
     *
-    * @param e The exception that was thrown and caught in this thread.
+    * @param exception The exception that was thrown and caught in this thread.
     */
-   void exceptionThrown(const Exception& e);
+   void exceptionThrown(const Soc::Ut::IOError& exception);
 protected:
    virtual void run() override final;
 private:

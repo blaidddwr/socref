@@ -29,11 +29,6 @@ namespace Abstract
    {
    public:
       /*!
-       * Virtual destructor so implemented classes have their destructor called
-       * correctly.
-       */
-      virtual ~ProjectFactory() = default;
-      /*!
        * This interface returns the number of project types that exist. Project types
        * must be defined for all integers from 0 to one less than the number of
        * project types returned by this interface.
@@ -113,6 +108,12 @@ namespace Abstract
        *         given root block's project.
        */
       virtual QMap<QString,Scanner*> createScannerMap(const Block* root) const = 0;
+   public:
+      /*!
+       * Virtual destructor so implemented classes have their destructor called
+       * correctly.
+       */
+      virtual ~ProjectFactory() = default;
    };
 }
 

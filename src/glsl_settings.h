@@ -20,6 +20,7 @@ namespace GLSL
    {
    public:
       Settings();
+   public:
       int variableLines() const;
       int structLines() const;
       int functionLines() const;
@@ -34,25 +35,26 @@ namespace GLSL
       /*!
        * The settings key used to save the variable lines setting.
        */
-      static const char* _variableLinesKey;
+      static const QString _variableLinesKey;
       /*!
        * The settings key used to save the structure lines setting.
        */
-      static const char* _structLinesKey;
+      static const QString _structLinesKey;
       /*!
        * The settings key used to save the function lines setting.
        */
-      static const char* _functionLinesKey;
+      static const QString _functionLinesKey;
       /*!
        * The settings key used to save the indent spaces setting.
        */
-      static const char* _indentSpacesKey;
+      static const QString _indentSpacesKey;
       /*!
        * The settings key used to save the max columns setting.
        */
-      static const char* _maxColumnsKey;
+      static const QString _maxColumnsKey;
    private:
       void updateSetting(const QString& key, int value);
+   private:
       /*!
        * The number of blank lines preceding variables in parsed code.
        */

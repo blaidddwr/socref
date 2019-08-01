@@ -24,6 +24,7 @@ namespace GLSL
        * Constructs a new function block.
        */
       Q_INVOKABLE explicit Function() = default;
+   public:
       QString returnType() const;
       QString returnDescription() const;
       QStringList operations() const;

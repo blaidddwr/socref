@@ -24,6 +24,7 @@ namespace CppQt
        * Constructs a new using block.
        */
       Q_INVOKABLE explicit Declaration() = default;
+   public:
       QString line() const;
    };
 }

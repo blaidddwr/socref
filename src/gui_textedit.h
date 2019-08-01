@@ -33,6 +33,7 @@ namespace Gui
    public:
       explicit TextEdit(Abstract::Block* block, QWidget* parent = nullptr);
       explicit TextEdit(DictionaryModel* dictionary, QWidget* parent = nullptr);
+   public:
       bool isSpellCheckEnabled() const;
       bool isDialogPopupEnabled() const;
       void setSpellCheckEnabled(bool enabled);
@@ -47,6 +48,7 @@ namespace Gui
       static const char* _defaultLang;
    private:
       void setupActions();
+   private:
       /*!
        * True if spell checking is enabled for this editor or false otherwise.
        */

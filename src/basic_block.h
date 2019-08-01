@@ -72,6 +72,7 @@ namespace Basic
        * Constructs a new basic block.
        */
       Q_INVOKABLE explicit Block() = default;
+   public:
       void initialize(int type, const Abstract::BlockFactory* factory, const QDomElement& element, const QList<int>& buildList, bool isDefault);
    protected:
       virtual Soc::Ut::QPtr<Basic::BlockView> makeBasicView() const;
@@ -87,46 +88,47 @@ namespace Basic
       /*!
        * The boolean tag name of elements that define a boolean data field.
        */
-      static const char* _boolTag;
+      static const QString _boolTag;
       /*!
        * The string tag name of elements that define a string data field.
        */
-      static const char* _stringTag;
+      static const QString _stringTag;
       /*!
        * The string list tag name of elements that define a string list data field.
        */
-      static const char* _stringListTag;
+      static const QString _stringListTag;
       /*!
        * The tag name of the element used to define the name option that specifies
        * which string field is used for this block's name.
        */
-      static const char* _nameTag;
+      static const QString _nameTag;
       /*!
        * The tag name of the element used to define the path for this basic block
        * type's icon.
        */
-      static const char* _iconTag;
+      static const QString _iconTag;
       /*!
        * The tag name of the element that hold the configuration for this basic block
        * type's edit class.
        */
-      static const char* _editTag;
+      static const QString _editTag;
       /*!
        * The tag name of the element that hold the configuration for this basic block
        * type's view class.
        */
-      static const char* _viewTag;
+      static const QString _viewTag;
       /*!
        * The attribute name for the id of data field element definitions.
        */
-      static const char* _idKey;
+      static const QString _idKey;
       /*!
        * The attribute name for default values of data field element definitions.
        */
-      static const char* _defaultKey;
+      static const QString _defaultKey;
    private:
       void addField(Field type, const QDomElement& element, bool isDefault);
       QVariant get(const QString& id) const;
+   private:
       /*!
        * XML element that defines this basic block type. Used to make copies of this
        * basic block.

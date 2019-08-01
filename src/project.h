@@ -9,21 +9,22 @@ class QDomElement;
 
 
 /*!
- * This is a single open project which contains everything for that project,
- * watching the file it was opened or saved with for changes made by any outside
- * source. If the file this project is associated with is changed by an outside
- * source a signal is emitted. This class also provides all generic information
- * of a project along with being able to edit it. This generic information
- * includes the name, scan directory, and scan filters. The block model for this
- * project's block tree data and the ability to create a scan thread object for
- * scanning and parsing is also provided.
+ * This is a single open project which contains everything for that project.
+ * This class provides all generic information of a project along with being
+ * able to edit it. This generic information includes the name, scan directory,
+ * and scan filters. The block model for this project's block tree data and the
+ * ability to create a scan thread object for scanning and parsing is provided.
+ * When constructed this class creates either a new project of the given type or
+ * loads an existing project from the given path. If loading fails then an IO
+ * error exception is thrown from the constructor.
  */
-class Project : public QFileSystemWatcher
+class Project : public QObject
 {
    Q_OBJECT
 public:
    explicit Project(int type);
    explicit Project(const QString& path);
+public:
    bool isNew() const;
    bool isModified() const;
    int type() const;
@@ -52,50 +53,45 @@ signals:
     * Signals that this project has been saved and no longer has unsaved changes.
     */
    void saved();
-   /*!
-    * Signals that this project's file has been changed by an outside source and no
-    * longer contains the last save of this project.
-    */
-   void saveFileChanged();
 private slots:
    void projectModified();
-   void fileChanged();
 private:
-   void signalModified();
-   QByteArray read();
-   void convertScanDirectory(const QString& path);
-   void readTypeElement(const QDomElement& element);
-   void write(const QByteArray& data);
-   void setFileHash(const QByteArray& bytes);
-   void makeRoot();
    /*!
     * The tag name for the name element.
     */
-   static const char* _nameTag;
+   static const QString _nameTag;
    /*!
     * The tag name for the type element.
     */
-   static const char* _typeTag;
+   static const QString _typeTag;
    /*!
     * The tag name for the scan directory element.
     */
-   static const char* _scanDirectoryTag;
+   static const QString _scanDirectoryTag;
    /*!
     * The tag name for the scanning file filters element.
     */
-   static const char* _scanFiltersTag;
+   static const QString _scanFiltersTag;
    /*!
     * The tag name for the root block element.
     */
-   static const char* _rootTag;
+   static const QString _rootTag;
    /*!
     * The tag name for the custom dictionary element.
     */
-   static const char* _dictionaryTag;
+   static const QString _dictionaryTag;
    /*!
     * The name of the id attribute.
     */
-   static const char* _idTag;
+   static const QString _idTag;
+private:
+   void signalModified();
+   QByteArray read();
+   void initScanDirectory(const QString& path);
+   void readTypeElement(const QDomElement& element);
+   void write(const QByteArray& data);
+   void makeRoot();
+private:
    /*!
     * The modification state of this project. True if this project has unsaved
     * modifications or false otherwise.
@@ -134,11 +130,6 @@ private:
     * spell checking words.
     */
    DictionaryModel* _dictionary;
-   /*!
-    * The hash value of this project's save file used to determine if an outside
-    * source wrote to said save file.
-    */
-   QByteArray _hash;
 };
 
 #endif

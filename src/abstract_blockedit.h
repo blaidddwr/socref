@@ -41,6 +41,7 @@ namespace Abstract
       Q_OBJECT
    public:
       explicit BlockEdit(Block* block, QWidget* parent = nullptr);
+   public:
       void initialize();
    protected:
       /*!
@@ -54,8 +55,8 @@ namespace Abstract
       /*!
        * This interface is called when the user has clicked the apply or OK button and
        * is expected to update the block it is editing with the editor dialog values.
-       * If an exception is thrown from this interface then the user is informed and
-       * the dialog is not closed.
+       * If a std invalid argument exception is thrown from this interface then the
+       * user is informed and the dialog is not closed.
        */
       virtual void apply() = 0;
    protected:
@@ -67,6 +68,7 @@ namespace Abstract
    private:
       bool tryApply();
       QLayout* setupButtons();
+   private:
       /*!
        * Pointer to this object's OK button.
        */

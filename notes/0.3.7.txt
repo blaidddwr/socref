@@ -1,5 +1,0 @@
-
-* Fixed C++/Qt parser bugs:
-  * Fixed bug where additional #endif was added to the header of common files each time it was scanned.
-  * Fixed bug of omission where nested classes would not have their forward declaration written to the header of their parent class.
-

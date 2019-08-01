@@ -25,6 +25,7 @@ public:
    virtual QVariant data(const QModelIndex& index, int role) const override final;
 public:
    explicit BlockModel(QObject* parent = nullptr);
+public:
    Abstract::Block* pointer(const QModelIndex& index) const;
    bool insert(const QModelIndex& index, Soc::Ut::QPtr<Abstract::Block>&& block);
    QModelIndex moveUp(const QModelIndex& index);

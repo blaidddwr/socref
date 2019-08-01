@@ -1,7 +1,0 @@
-
-* Fixed C++/Qt parsing bug that did not properly recognize closing brackets with a semicolon.
-* Added additional formatting to C++/Qt fields.
-  * Added multiple paragraph support to description fields.
-  * Added bold markers to function steps of operations field.
-* Changed C++/Qt type system to allow lists within lists, along with changing the GUI which edit types to work like a menu instead of a combo box allowing for lists within lists.
-

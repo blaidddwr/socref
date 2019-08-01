@@ -30,7 +30,7 @@ QString Template::displayTemplates(const Base& block)
 
    // Create a pointer list of all template blocks this view's block contains as
    // direct children, making sure that list is not empty.
-   const QList<Template*> list {block.createListOfType<Template>(Factory::TemplateType)};
+   const QList<Template*> list {block.createListOfType<Template>(Factory::Template)};
    if ( list.isEmpty() ) return ret;
 
    // Append the rich text title for templates.

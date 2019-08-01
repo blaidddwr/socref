@@ -30,6 +30,7 @@ namespace Gui
    public:
       explicit ListEdit(Abstract::Block* block, QWidget* parent = nullptr);
       explicit ListEdit(Abstract::Block* block, const QString& listItemTitle, QWidget* parent = nullptr);
+   public:
       QStringList value() const;
       void setValue(const QStringList& list);
    protected:
@@ -47,6 +48,7 @@ namespace Gui
       void setupActions();
       void autoFitText();
       void autoFitText(int row);
+   private:
       /*!
        * The title text used for the title of each text row in this list edit widget.
        * This title is appended with the row number.

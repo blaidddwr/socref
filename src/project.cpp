@@ -5,44 +5,47 @@
 #include <QFileSystemWatcher>
 #include <QCryptographicHash>
 #include <QDomDocument>
+#include <socutil/ReadError>
+#include <socutil/WriteError>
 #include "abstract_block.h"
 #include "abstract_blockfactory.h"
 #include "abstract_projectfactory.h"
-#include "exception.h"
 #include "blockmodel.h"
 #include "scanthread.h"
 #include "dictionarymodel.h"
+using Soc::Ut::ReadError;
+using Soc::Ut::WriteError;
 
 
 
 /*!
  * The tag name for the name element.
  */
-const char* Project::_nameTag {"name"};
+const QString Project::_nameTag {"name"};
 /*!
  * The tag name for the type element.
  */
-const char* Project::_typeTag {"type"};
+const QString Project::_typeTag {"type"};
 /*!
  * The tag name for the scan directory element.
  */
-const char* Project::_scanDirectoryTag {"scandir"};
+const QString Project::_scanDirectoryTag {"scandir"};
 /*!
  * The tag name for the scanning file filters element.
  */
-const char* Project::_scanFiltersTag {"filters"};
+const QString Project::_scanFiltersTag {"filters"};
 /*!
  * The tag name for the root block element.
  */
-const char* Project::_rootTag {"root"};
+const QString Project::_rootTag {"root"};
 /*!
  * The tag name for the custom dictionary element.
  */
-const char* Project::_dictionaryTag {"dictionary"};
+const QString Project::_dictionaryTag {"dictionary"};
 /*!
  * The name of the id attribute.
  */
-const char* Project::_idTag {"id"};
+const QString Project::_idTag {"id"};
 
 
 
@@ -64,10 +67,8 @@ Project::Project(int type)
    // Connect this project's custom dictionary modified signal.
    connect(_dictionary,&DictionaryModel::modified,this,&Project::projectModified);
 
-   // Initialize this new project's root block, file watcher signal, and default scan
-   // filters.
+   // Initialize this new project's root block and default scan filters.
    makeRoot();
-   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
    _scanFilters = Abstract::ProjectFactory::instance().defaultFilters(_type);
 }
 
@@ -78,7 +79,8 @@ Project::Project(int type)
 
 /*!
  * This constructs a project loaded from the file from the given path. If any
- * error occurs from loading the project file an exception is thrown.
+ * error occurs from loading the project file an IO read error exception is
+ * thrown.
  *
  * @param path The path of the file that this project is loaded from.
  */
@@ -99,14 +101,15 @@ Project::Project(const QString& path)
       _nameTag,_typeTag,_scanDirectoryTag,_scanFiltersTag,_dictionaryTag,_rootTag
    };
 
-   // Initialize this project's file watcher signal.
-   connect(this,&QFileSystemWatcher::fileChanged,this,&Project::fileChanged);
-
-   // Read in the entire contents of the file located at the given path and then load
-   // it into a qt XML document.
+   // Read in the entire contents of the file located at the given path.
    QByteArray xmlBytes {read()};
    QDomDocument document;
-   document.setContent(xmlBytes);
+
+   // Load the read in file contents as an XML document and make sure it worked.
+   if (!document.setContent(xmlBytes))
+   {
+      throw ReadError(tr("Failed opening %1 as XML.").arg(path),"");
+   }
 
    // Iterate through all child nodes of the root XML document element.
    QDomNode node {document.documentElement().firstChild()};
@@ -127,7 +130,7 @@ Project::Project(const QString& path)
             readTypeElement(element);
             break;
          case ScanDir:
-            convertScanDirectory(element.text());
+            initScanDirectory(element.text());
             break;
          case ScanFilters:
             _scanFilters = element.text();
@@ -149,8 +152,15 @@ Project::Project(const QString& path)
       node = node.nextSibling();
    }
 
-   // Add this project's file path to its file watcher.
-   addPath(_path);
+   // Make sure the required elements were found in the XML document.
+   if ( _type == -1 )
+   {
+      throw ReadError(tr("Type element not found in %1.").arg(path),"");
+   }
+   if ( _scanDirectory.isEmpty() )
+   {
+      throw ReadError(tr("Scan directory element not found in %1.").arg(path),"");
+   }
 }
 
 
@@ -339,8 +349,8 @@ void Project::setName(const QString& value)
 
 /*!
  * Sets a new scan directory path for this project to the given path. The given
- * path can be relative to this program's present working directory. If the
- * given path is not a valid directory then an exception is thrown.
+ * path can be relative to this program's present working directory. The given
+ * path must be a valid directory.
  *
  * @param path Path that this project's scan directory is set to.
  */
@@ -351,14 +361,14 @@ void Project::setScanDirectory(const QString& path)
    QFileInfo info(path);
 
    // Make sure the new path is different from the current path.
-   if ( current.canonicalFilePath() == info.canonicalFilePath() ) return;
+   if ( current == info ) return;
 
    // Make sure the new path is a valid directory.
    Q_ASSERT(info.isDir());
 
-   // Set this project's scan directory to the new path given in its canonical form
-   // and signal modification.
-   _scanDirectory = info.canonicalFilePath();
+   // Set this project's scan directory to the new path given relative to the
+   // project's path.
+   _scanDirectory = QFileInfo(_path).dir().relativeFilePath(info.path());
    signalModified();
 }
 
@@ -391,9 +401,9 @@ void Project::setScanFilters(const QString& value)
 
 
 /*!
- * Saves this project to its associated file. If this is a new project that has
- * never been saved then an exception is thrown. If any writing error occurs
- * while saving an exception is thrown.
+ * Saves this project to its associated file. This cannot be a new project that
+ * has never been saved. If any writing error occurs while saving an IO write
+ * error exception is thrown.
  */
 void Project::save()
 {
@@ -412,7 +422,7 @@ void Project::save()
    // Create the scan directory element saving this project's scan directory as the
    // path relative to the file path of this project.
    QDomElement scandir {document.createElement(_scanDirectoryTag)};
-   scandir.appendChild(document.createTextNode(QFileInfo(_path).dir().relativeFilePath(_scanDirectory)));
+   scandir.appendChild(document.createTextNode(_scanDirectory));
 
    // Create the filters element saving this project's scan filters.
    QDomElement filters {document.createElement(_scanFiltersTag)};
@@ -459,7 +469,7 @@ void Project::save()
 
 /*!
  * Saves this project to a new file with the given path. If any writing error
- * occurs while saving an exception is thrown.
+ * occurs while saving an IO write error exception is thrown.
  *
  * @param path The path to the new file this project is saved to.
  */
@@ -481,11 +491,6 @@ void Project::saveAs(const QString& path)
       _path = oldPath;
       throw;
    }
-
-   // Remove the old path from this project's file watcher if is exists and add the
-   // new path.
-   if ( !oldPath.isEmpty() ) removePath(oldPath);
-   addPath(_path);
 }
 
 
@@ -501,33 +506,6 @@ void Project::saveAs(const QString& path)
 void Project::projectModified()
 {
    signalModified();
-}
-
-
-
-
-
-
-/*!
- * Called when this project's file has changed. This is called even if the
- * project itself is saved to the file, so this also checks to see it that is
- * the case or not.
- */
-void Project::fileChanged()
-{
-   // Open this project's file and make sure it worked.
-   QFile file(_path);
-   if ( !file.open(QIODevice::ReadOnly) ) return;
-
-   // Read in the entire contents of the file and make sure it worked.
-   QByteArray data = file.readAll();
-   if ( file.error() != QFileDevice::NoError ) return;
-
-   // Generate the hash of the read in file's contents and if the hash is different
-   // from this project's saved hash then signal the save file has changed.
-   QCryptographicHash hash(QCryptographicHash::Md5);
-   hash.addData(data);
-   if ( hash.result() != _hash ) emit saveFileChanged();
 }
 
 
@@ -557,7 +535,8 @@ void Project::signalModified()
 
 /*!
  * Reads in this project's file and returns its entire contents as a byte array.
- * If opening or reading this project's file fails then an exception is thrown.
+ * If opening or reading this project's file fails then an IO read error
+ * exception is thrown.
  *
  * @return Contents of this project's file as a byte array.
  */
@@ -567,18 +546,17 @@ QByteArray Project::read()
    QFile file(_path);
    if ( !file.open(QIODevice::ReadOnly) )
    {
-      throw Exception(tr("Failed opening %1: %2").arg(_path).arg(file.errorString()));
+      throw ReadError(tr("Failed opening %1").arg(_path),file.errorString());
    }
 
    // Read in the entire contents of this project's file and make sure it worked.
    QByteArray ret = file.readAll();
    if ( file.error() != QFileDevice::NoError )
    {
-      throw Exception(tr("Failed reading %1: %2").arg(_path).arg(file.errorString()));
+      throw ReadError(tr("Failed reading %1").arg(_path),file.errorString());
    }
 
-   // Set this project's file hash with the read in byte array and return it.
-   setFileHash(ret);
+   // Return the read in byte array.
    return ret;
 }
 
@@ -588,25 +566,26 @@ QByteArray Project::read()
 
 
 /*!
- * Converts the given scan directory path into its absolute canonical form and
- * saves that form to this project's scan directory path. If the given path is
- * not a valid directory than an exception is thrown.
+ * Initializes this new project's scan directory to the given path. If the given
+ * path is not a valid directory than an IO read error exception is thrown.
  *
  * @param path The given path to that is converted to its canonical form and
  *             saved as this project's scan directory.
  */
-void Project::convertScanDirectory(const QString& path)
+void Project::initScanDirectory(const QString& path)
 {
    // Make sure the given path is a valid directory relative to the directory this
    // project's file is located.
-   QDir directory {QFileInfo(_path).dir()};
-   if ( !directory.cd(path) )
+   if ( !QFileInfo(_path).dir().cd(path) )
    {
-      throw Exception(tr("The scanning directory %1 in %2 does not exist.").arg(path).arg(_path));
+      throw ReadError(tr("The scanning directory %1 in %2 does not exist.")
+                      .arg(path)
+                      .arg(_path)
+                      ,"");
    }
 
-   // Set this project's scan directory to the path given in its canonical form.
-   _scanDirectory = directory.canonicalPath();
+   // Set this project's scan directory to the path given.
+   _scanDirectory = path;
 }
 
 
@@ -617,7 +596,7 @@ void Project::convertScanDirectory(const QString& path)
 /*!
  * Reads the given element as the XML type element for this project, setting
  * this project's type. If the given XML element is not a valid type element
- * then an exception is thrown.
+ * then an IO read error exception is thrown.
  *
  * @param element The XML element that is read in as this project's type
  *                element.
@@ -631,10 +610,11 @@ void Project::readTypeElement(const QDomElement& element)
    // Make sure the element name was recognized and a known type returned.
    if ( _type < 0 )
    {
-      throw Exception(tr("Unknown project type '%1' in %2:%3.")
+      throw ReadError(tr("Unknown project type '%1' in %2:%3.")
                       .arg(element.text())
                       .arg(_path)
-                      .arg(element.lineNumber()));
+                      .arg(element.lineNumber())
+                      ,"");
    }
 }
 
@@ -646,7 +626,7 @@ void Project::readTypeElement(const QDomElement& element)
 /*!
  * Writes the given byte array to this project's file, overwriting anything the
  * file contains beforehand. If opening or writing this project's file fails
- * then an exception is thrown.
+ * then an IO write error exception is thrown.
  *
  * @param data The byte array that is written to this project's file.
  */
@@ -656,38 +636,14 @@ void Project::write(const QByteArray& data)
    QFile file(_path);
    if ( !file.open(QIODevice::WriteOnly|QIODevice::Truncate) )
    {
-      throw Exception(tr("Failed opening %1: %2").arg(_path).arg(file.errorString()));
+      throw WriteError(tr("Failed opening %1").arg(_path),file.errorString());
    }
 
    // Write out the given byte array to the opened file and make sure it worked.
    if ( file.write(data) != data.size() )
    {
-      throw Exception(tr("Failed writing to %1: %2").arg(_path).arg(file.errorString()));
+      throw WriteError(tr("Failed writing to %1").arg(_path),file.errorString());
    }
-
-   // Set this project's file hash with the given byte array.
-   setFileHash(data);
-}
-
-
-
-
-
-
-/*!
- * Sets this project's file hash with the hash of the given byte array. This is
- * used for this project to watch for changes to its file.
- *
- * @param bytes The byte array whose hash is set as this project's file hash
- *              value.
- */
-void Project::setFileHash(const QByteArray& bytes)
-{
-   // Get the hash value of the given byte array using md5 and set it to this
-   // project's file hash.
-   QCryptographicHash hash(QCryptographicHash::Md5);
-   hash.addData(bytes);
-   _hash = hash.result();
 }
 
 

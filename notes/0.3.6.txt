@@ -1,5 +1,0 @@
- 
-* Fixed C++/Qt bugs:
-  * Fixed bug where the inherited classes in a class declaration would not output their template arguments when parsing headers.
-  * Fixed a type bug you the user was prevented from making types if the scope contained template arguments.
-

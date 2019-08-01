@@ -23,31 +23,31 @@ namespace GLSL
       /*!
        * Defines all possible block types for the GLSL project type.
        */
-      enum
+      enum Type
       {
          /*!
           * Defines the namespace block.
           */
-         NamespaceType
+         Namespace
          /*!
           * Defines the shader block. This is for an entire shader program and defines
           * the main function defined in a shader program file.
           */
-         ,ShaderType
+         ,Shader
          /*!
           * Defines the variable block.
           */
-         ,VariableType
+         ,Variable
          /*!
           * Defines the struct block. This is used for structures that can be defined in
           * shader programs.
           */
-         ,StructType
+         ,Struct
          /*!
           * Defines the function block. This is used to subroutine functions that can be
           * defined in shader programs.
           */
-         ,FunctionType
+         ,Function
          /*!
           * Defines the total number of unique blocks the GLSL project type contains.
           */

@@ -190,9 +190,9 @@ bool Variable::isMember() const
 
    // Test if this variable is an argument by seeing if its parent block is an
    // access, struct, or union type.
-   return ( up->type() == Factory::AccessType
-            || up->type() == Factory::StructType
-            || up->type() == Factory::UnionType );
+   return up->type() == Factory::Access
+          || up->type() == Factory::Struct
+          || up->type() == Factory::Union;
 }
 
 
@@ -212,7 +212,7 @@ bool Variable::hasAnyTemplates() const
    // any parent classes contain templates.
    if ( isMember() )
    {
-      return parent()->parent()->cast<Class>(Factory::ClassType)->hasAnyTemplates();
+      return parent()->parent()->cast<Class>(Factory::Class)->hasAnyTemplates();
    }
 
    // If this is reached then there are no templates so return false.

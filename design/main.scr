@@ -31,6 +31,7 @@
     <word>QCoreApplication</word>
     <word>QThread</word>
     <word>Struct</word>
+    <word>boolean</word>
     <word>casted</word>
     <word>decrement</word>
     <word>destructor</word>
@@ -237,7 +238,7 @@ This class itself handles all copying using another specialized interface for co
           <function>
             <data>
               <const/>
-              <description>This returns a pointer to this block's child with the given index. If the index is out of range an exception is thrown.</description>
+              <description>This returns a pointer to this block's child with the given index. The given index must be valid.</description>
               <name>get</name>
               <operation>Make sure the given index is within range.</operation>
               <operation>Return a pointer to this block's child with the given index.</operation>
@@ -322,7 +323,7 @@ This class itself handles all copying using another specialized interface for co
           <function>
             <data>
               <const/>
-              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
+              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. This object must be able to cast to the given type.</description>
               <name>cast</name>
               <operation>Make sure the given type matches this block's type.</operation>
               <operation>Cast this block to the given type and make sure it works.</operation>
@@ -380,7 +381,7 @@ This class itself handles all copying using another specialized interface for co
           </function>
           <function>
             <data>
-              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. If this object fails to cast as the requested type an exception is thrown.</description>
+              <description>This casts this block to a specific block type. If the given type does not match this block's type then a null pointer is returned. This object must be able to cast to the given type.</description>
               <name>cast</name>
               <operation>Make sure the given type matches this block's type.</operation>
               <operation>Cast this block to the given type and make sure it works.</operation>
@@ -444,7 +445,7 @@ This class itself handles all copying using another specialized interface for co
           </function>
           <function>
             <data>
-              <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. If the given pointer to the new block is null or it is a type this block cannot contain then an exception is thrown.</description>
+              <description>Inserts a new child block into this block's list of children at the given index. If the given index is less than 0 it is prepended to this block's list, else if the given index is greater than this block's list size then it is appended. The given pointer to the new block must be valid and its type must be able to be contained in this block.</description>
               <name>insert</name>
               <operation>Make sure the given pointer is not null.</operation>
               <operation>Make sure the given block's type can be a child of this block.</operation>
@@ -472,7 +473,7 @@ This class itself handles all copying using another specialized interface for co
           </function>
           <function>
             <data>
-              <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. If the index is out of range then an exception is thrown.</description>
+              <description>Takes the child block at the given index this block contains. The child block returned no longer has a parent. The given index must be valid.</description>
               <name>take</name>
               <operation>Make sure the given index is within range.</operation>
               <operation>Remove the child from this block's child list at the given index, saving the pointer and notifying of modification.</operation>
@@ -492,7 +493,7 @@ This class itself handles all copying using another specialized interface for co
           </function>
           <function>
             <data>
-              <description>Removes the child block at the given index, deleting it and any children it may contain. If the given index is out of range then an exception is thrown.</description>
+              <description>Removes the child block at the given index, deleting it and any children it may contain. The given index must be valid.</description>
               <name>remove</name>
               <operation>Take this block's child from the given index and delete it.</operation>
               <return_description></return_description>
@@ -763,13 +764,18 @@ This class itself handles all copying using another specialized interface for co
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The name for version attributes.</description>
               <initializer>"version"</initializer>
               <name>_versionTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -778,7 +784,7 @@ This class itself handles all copying using another specialized interface for co
               <initializer>"data"</initializer>
               <name>_dataTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -787,7 +793,7 @@ This class itself handles all copying using another specialized interface for co
               <initializer>"type"</initializer>
               <name>_typeTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -946,6 +952,11 @@ An implementation of this class must construct the form portion of this dialog g
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <description>Constructs and initializes the GUI for this abstract edit dialog, making it ready to be used as a GUI dialog window.</description>
@@ -975,7 +986,7 @@ An implementation of this class must construct the form portion of this dialog g
           <function>
             <data>
               <abstract/>
-              <description>This interface is called when the user has clicked the apply or OK button and is expected to update the block it is editing with the editor dialog values. If an exception is thrown from this interface then the user is informed and the dialog is not closed.</description>
+              <description>This interface is called when the user has clicked the apply or OK button and is expected to update the block it is editing with the editor dialog values. If a std invalid argument exception is thrown from this interface then the user is informed and the dialog is not closed.</description>
               <name>apply</name>
               <return_description></return_description>
               <type>void</type>
@@ -1053,7 +1064,8 @@ An implementation of this class must construct the form portion of this dialog g
               <description>Calls this object's apply interface, returning true if it was successful or false if it caught an exception.</description>
               <name>tryApply</name>
               <operation>Call this object's apply interface and return true on success.</operation>
-              <operation>Catch any exception thrown from the apply interface, returning false on failure.</operation>
+              <operation>Catch any invalid argument exception thrown from the apply interface.</operation>
+              <operation>Display a message box informing the user of the thrown exception's details and then return false on failure.</operation>
               <return_description>True is the implementation applied changes successfully or false if an exception was thrown.</return_description>
               <type>bool</type>
             </data>
@@ -1071,6 +1083,11 @@ An implementation of this class must construct the form portion of this dialog g
               <type>QLayout*</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>Pointer to this object's OK button.</description>
@@ -1106,16 +1123,6 @@ An implementation of this class must construct the form portion of this dialog g
           <data>
             <type>public:</type>
           </data>
-          <function>
-            <data>
-              <default/>
-              <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
-              <name>~^</name>
-              <return_description></return_description>
-              <type></type>
-              <virtual/>
-            </data>
-          </function>
           <function>
             <data>
               <abstract/>
@@ -1234,6 +1241,21 @@ An implementation of this class must construct the form portion of this dialog g
             </data>
           </function>
         </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
+              <name>~^</name>
+              <return_description></return_description>
+              <type></type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
       </class>
       <class>
         <data>
@@ -1250,16 +1272,6 @@ An implementation of this class must construct the form portion of this dialog g
           <data>
             <type>public:</type>
           </data>
-          <function>
-            <data>
-              <default/>
-              <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
-              <name>~^</name>
-              <return_description></return_description>
-              <type></type>
-              <virtual/>
-            </data>
-          </function>
           <function>
             <data>
               <abstract/>
@@ -1403,6 +1415,21 @@ An implementation of this class must construct the form portion of this dialog g
                 <type>const Block*</type>
               </data>
             </variable>
+          </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <default/>
+              <description>Virtual destructor so implemented classes have their destructor called correctly.</description>
+              <name>~^</name>
+              <return_description></return_description>
+              <type></type>
+              <virtual/>
+            </data>
           </function>
         </access>
       </class>
@@ -1624,7 +1651,7 @@ It is important to minimize the work in creating and initializing a parser eleme
           </data>
           <function>
             <data>
-              <description>Sets the geometry key for this persistent dialog and then restores the geometry of this dialog using the given geometry key. If the geometry key for this dialog has already been set then an exception is thrown.</description>
+              <description>Sets the geometry key for this persistent dialog and then restores the geometry of this dialog using the given geometry key. The geometry key for this dialog cannot already be set.</description>
               <name>saveSettings</name>
               <operation>Make sure the given geometry key is not empty.</operation>
               <operation>Make sure the geometry key for this dialog is not already set.</operation>
@@ -1773,6 +1800,11 @@ It is important to minimize the work in creating and initializing a parser eleme
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The text format used by this highlighter for any misspelled words in its parent editor.</description>
@@ -1821,6 +1853,24 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
             <class>PersistentDialog</class>
           </data>
         </parent>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
+          <function>
+            <data>
+              <description>Begins spell checking on the parent text editor of this dialog by finding the first misspelled word. If no misspelled word are found this returns.</description>
+              <final/>
+              <name>exec</name>
+              <operation>Show this dialog so it is not invisible.</operation>
+              <operation>Find the first misspelled word, executing this dialog if one is found or returning right away if no misspelled word is found.</operation>
+              <override/>
+              <return_description>Always returns Qt dialog accept.</return_description>
+              <type>int</type>
+              <virtual/>
+            </data>
+          </function>
+        </access>
         <access>
           <data>
             <type>public:</type>
@@ -1877,19 +1927,6 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <override/>
               <return_description></return_description>
               <type></type>
-              <virtual/>
-            </data>
-          </function>
-          <function>
-            <data>
-              <description>Begins spell checking on the parent text editor of this dialog by finding the first misspelled word. If no misspelled word are found this returns.</description>
-              <final/>
-              <name>exec</name>
-              <operation>Show this dialog so it is not invisible.</operation>
-              <operation>Find the first misspelled word, executing this dialog if one is found or returning right away if no misspelled word is found.</operation>
-              <override/>
-              <return_description>Always returns Qt dialog accept.</return_description>
-              <type>int</type>
               <virtual/>
             </data>
           </function>
@@ -1973,7 +2010,7 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               <initializer>"..."</initializer>
               <name>_snippetDots</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
         </access>
@@ -2158,6 +2195,11 @@ Once the entire text of the parent editor of this dialog has been scanned, it wi
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The qt text document this dialog is spell checking.</description>
@@ -2330,6 +2372,11 @@ Custom spell checking words is also required for this class to add the ability t
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -2442,6 +2489,11 @@ Custom spell checking words is also required for this class to add the ability t
               <type>void</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>True if spell checking is enabled for this editor or false otherwise.</description>
@@ -2544,6 +2596,11 @@ Custom spell checking words is also required for this class to add the ability t
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -2599,6 +2656,11 @@ Custom spell checking words is also required for this class to add the ability t
               <type>QLayout*</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>Pointer to the text edit widget of this dialog.</description>
@@ -2687,6 +2749,11 @@ Because this widget uses the text dialog class for editing individual list items
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -2918,6 +2985,11 @@ Because this widget uses the text dialog class for editing individual list items
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The title text used for the title of each text row in this list edit widget. This title is appended with the row number.</description>
@@ -2986,6 +3058,11 @@ Because this widget uses the text dialog class for editing individual list items
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -3397,6 +3474,11 @@ Because this widget uses the text dialog class for editing individual list items
               <type>void</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>Pointer to this object's scroll area used to contain its detailed view widget.</description>
@@ -3590,6 +3672,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <description>Sets the given project as this main window's new project, deleting any previous project this window may contain. This window takes ownership of any new project given to it. A null pointer can be given which means this window will have no project.</description>
@@ -3675,7 +3762,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>If this window has no project that set it to the opened project.</operation>
               <operation>Else this window already has a project.</operation>
               <operation>Create a new window, setting its project to the opened project, and then show it.</operation>
-              <operation>If an exception was thrown then report it to the user.</operation>
+              <operation>If an IO error exception was thrown then report it to the user.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -3741,7 +3828,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </function>
           <function>
             <data>
-              <description>Called when an active scan of this window's project's source files fails and throws an exception within its thread, opening a warning message box informing the user of what went wrong.</description>
+              <description>Called when an active scan of this window's project's source files fails and throws an IO error exception within its thread, opening a warning message box informing the user of what went wrong.</description>
               <name>scanExceptionThrown</name>
               <return_description></return_description>
               <type>void</type>
@@ -3750,8 +3837,8 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <data>
                 <description>The exception that was thrown within the scan thread that caused it to fail.</description>
                 <initializer></initializer>
-                <name>e</name>
-                <type>const Exception&amp;</type>
+                <name>exception</name>
+                <type>const Soc::Ut::IOError&amp;</type>
               </data>
             </variable>
           </function>
@@ -3826,22 +3913,62 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <type>void</type>
             </data>
           </function>
-          <function>
-            <data>
-              <description>Called when this window's project file has been modified by an outside source. This executes a dialog informing the user of this fact and reloads the project if the user chooses to do so.</description>
-              <name>projectFileChanged</name>
-              <operation>Create a new message box that informs the user the project file has changed and asks the user if they want to reload the project or ignore it.</operation>
-              <operation>Execute the message box and check to see if they chose to reload the project.</operation>
-              <operation>Reload the project by creating a new project with the same file path and setting this window's project to the reloaded one.</operation>
-              <return_description></return_description>
-              <type>void</type>
-            </data>
-          </function>
         </access>
         <access>
           <data>
             <type>private:</type>
           </data>
+          <variable>
+            <data>
+              <description>The key used to save/restore the geometry of the main window using Qt settings.</description>
+              <initializer>"gui.mainwindow.geometry"</initializer>
+              <name>_geometryKey</name>
+              <static/>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The key used to save/restore the state of the main window using Qt settings.</description>
+              <initializer>"gui.mainwindow.state"</initializer>
+              <name>_stateKey</name>
+              <static/>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The key used to save/restore the state of the block view contained in the main window using Qt settings.</description>
+              <initializer>"gui.mainwindow.view.state"</initializer>
+              <name>_viewStateKey</name>
+              <static/>
+              <type>const QString</type>
+            </data>
+          </variable>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
+          <function>
+            <data>
+              <description>Returns formatted rich text of the given IO error message that displays its what description and system message if any.</description>
+              <name>exceptionRichText</name>
+              <operation>Create the returned rich text with the HTML escaped what description of the given exception.</operation>
+              <operation>If the given exception has a system message then append it to the returned rich text with any HTML escaped.</operation>
+              <operation>Return the rich text displaying the given exception.</operation>
+              <return_description>Formatted rich text displaying the given IO error exception.</return_description>
+              <type>QString</type>
+            </data>
+            <variable>
+              <data>
+                <description>The exception that was thrown within the scan thread that caused it to fail.</description>
+                <initializer></initializer>
+                <name>exception</name>
+                <type>const Soc::Ut::IOError&amp;</type>
+              </data>
+            </variable>
+          </function>
           <function>
             <data>
               <description>Updates this window's title, including the project name if it has one.</description>
@@ -3884,7 +4011,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Get the first file path from the file dialog chosen by the user.</operation>
               <operation>Attempt to save this window's project to the file path.</operation>
               <operation>Update this window's actions and return success.</operation>
-              <operation>If an exception was thrown then report it to the user and return false.</operation>
+              <operation>If a read error exception was thrown then report it to the user and return false.</operation>
               <return_description>True if this window's project was successfully saved to a new location or false otherwise.</return_description>
               <type>bool</type>
             </data>
@@ -3997,33 +4124,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <type>void</type>
             </data>
           </function>
-          <variable>
-            <data>
-              <description>The key used to save/restore the geometry of the main window using Qt settings.</description>
-              <initializer>"gui.mainwindow.geometry"</initializer>
-              <name>_geometryKey</name>
-              <static/>
-              <type>const char*</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>The key used to save/restore the state of the main window using Qt settings.</description>
-              <initializer>"gui.mainwindow.state"</initializer>
-              <name>_stateKey</name>
-              <static/>
-              <type>const char*</type>
-            </data>
-          </variable>
-          <variable>
-            <data>
-              <description>The key used to save/restore the state of the block view contained in the main window using Qt settings.</description>
-              <initializer>"gui.mainwindow.view.state"</initializer>
-              <name>_viewStateKey</name>
-              <static/>
-              <type>const char*</type>
-            </data>
-          </variable>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>Pointer to this window's block view.</description>
@@ -4164,7 +4269,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
           </data>
           <function>
             <data>
-              <description>Constructs a new project dialog with the given project and optional parent. If the given project pointer is null then an exception is thrown.</description>
+              <description>Constructs a new project dialog with the given project and optional parent. The given project pointer must be valid.</description>
               <explicit/>
               <name>^</name>
               <operation>Make sure the given project pointer is not null.</operation>
@@ -4219,7 +4324,7 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <operation>Create a new file dialog to query the user for a new scan directory location.</operation>
               <operation>Execute the file dialog and make sure it returned accepted.</operation>
               <operation>Get the first directory path the user selected from the file dialog.</operation>
-              <operation>If the path exists and it is a directory then set the text of this object's scan directory edit widget to it's value.</operation>
+              <operation>If the path exists and it is a directory then set the text of this object's scan directory edit widget to its path relative to the project's path.</operation>
               <return_description></return_description>
               <type>void</type>
             </data>
@@ -4276,6 +4381,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <type>QLayout*</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>Pointer to the project this properties dialog is presenting to the user.</description>
@@ -4389,6 +4499,11 @@ The edit menu is the context menu of the block view class. The settings menu is 
               <type>QLayout*</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The List view widget of this dictionary dialog that displays the list of custom dictionary words.</description>
@@ -4589,6 +4704,11 @@ This class provides protected helper methods for getting the values of its data 
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <description>Initializes this basic block to the given type. This must be called before this basic block can be used and cannot be called again.</description>
@@ -4759,7 +4879,7 @@ This class provides protected helper methods for getting the values of its data 
           <function>
             <data>
               <const/>
-              <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a boolean then an exception is thrown.</description>
+              <description>Returns the value of this basic block's field with the given id. The given id must exist and it must be a boolean.</description>
               <name>getBool</name>
               <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
               <operation>Return the value of the data field.</operation>
@@ -4778,7 +4898,7 @@ This class provides protected helper methods for getting the values of its data 
           <function>
             <data>
               <const/>
-              <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a string then an exception is thrown.</description>
+              <description>Returns the value of this basic block's field with the given id. The given id must exist and it must be a string.</description>
               <name>getString</name>
               <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
               <operation>Return the value of the data field.</operation>
@@ -4797,7 +4917,7 @@ This class provides protected helper methods for getting the values of its data 
           <function>
             <data>
               <const/>
-              <description>Returns the value of this basic block's field with the given id. If the given id does not exist or is not a string list then an exception is thrown.</description>
+              <description>Returns the value of this basic block's field with the given id. The given id must exist and it must be a string list.</description>
               <name>getStringList</name>
               <operation>Get the data field of this basic block with the given id, making sure it is the correct type.</operation>
               <operation>Return the value of the data field.</operation>
@@ -4824,7 +4944,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"bool"</initializer>
               <name>_boolTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -4833,7 +4953,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"string"</initializer>
               <name>_stringTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -4842,7 +4962,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"stringlist"</initializer>
               <name>_stringListTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -4851,7 +4971,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"name"</initializer>
               <name>_nameTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -4860,7 +4980,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"icon"</initializer>
               <name>_iconTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -4869,7 +4989,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"edit"</initializer>
               <name>_editTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -4878,7 +4998,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"view"</initializer>
               <name>_viewTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -4887,7 +5007,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"id"</initializer>
               <name>_idKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -4896,7 +5016,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"default"</initializer>
               <name>_defaultKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
         </access>
@@ -4942,7 +5062,7 @@ This class provides protected helper methods for getting the values of its data 
           <function>
             <data>
               <const/>
-              <description>Return the data field of this basic block with the given id. If no field exists with the given id then an exception is thrown.</description>
+              <description>Return the data field of this basic block with the given id. A field with the given id must exist.</description>
               <name>get</name>
               <operation>Make sure this basic block has been initialized.</operation>
               <operation>Find this basic block's data field with the given id, making sure it exists.</operation>
@@ -4959,6 +5079,11 @@ This class provides protected helper methods for getting the values of its data 
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>XML element that defines this basic block type. Used to make copies of this basic block.</description>
@@ -5122,13 +5247,18 @@ This class provides protected helper methods for getting the values of its data 
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The tag name for a header 1 display element, 1 being the largest.</description>
               <initializer>"h1"</initializer>
               <name>_header1Tag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5137,7 +5267,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"h2"</initializer>
               <name>_header2Tag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5146,7 +5276,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"h3"</initializer>
               <name>_header3Tag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5155,7 +5285,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"ps"</initializer>
               <name>_paragraphsTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5164,7 +5294,7 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"custom"</initializer>
               <name>_customTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5173,7 +5303,16 @@ This class provides protected helper methods for getting the values of its data 
               <initializer>"name"</initializer>
               <name>_nameKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
+            </data>
+          </variable>
+          <variable>
+            <data>
+              <description>The attribute name for the underline option for paragraph elements to make text bold between underlines or ignore them.</description>
+              <initializer>"underline"</initializer>
+              <name>_underlineKey</name>
+              <static/>
+              <type>const QString</type>
             </data>
           </variable>
         </access>
@@ -5183,11 +5322,14 @@ This class provides protected helper methods for getting the values of its data 
           </data>
           <function>
             <data>
-              <description>Adds paragraphs to the given rich text based off the given XML display element definition. If the basic block field referenced by the given display element then nothing will be added. The basic block field referenced must be a string or an exception is thrown.</description>
+              <description>Adds paragraphs to the given rich text based off the given XML paragraph display element definition. The basic block field referenced must exist and be a string.</description>
               <name>addParagraphs</name>
               <operation>Make sure the given display element has the id attribute.</operation>
               <operation>Get the basic block field that the given display element references and make sure it is a string.</operation>
-              <operation>Split the basic block field into a string list of paragraphs based off double newline characters being the separator, escaping any HTML characters and parsing each string for bold underline markers.</operation>
+              <operation>Get the value of the underline attribute of the given display element.</operation>
+              <operation>Determine if text between underlines should be made bold or ignored from the given element's underline attribute, making sure the attribute has a valid setting or no setting at all.</operation>
+              <operation>Split the basic block field into a string list of paragraphs based off double newline characters being the separator, escaping any HTML characters.</operation>
+              <operation>If bold underline is true then parse all paragraphs for bold underline markers.</operation>
               <operation>Make sure the list of paragraphs is not empty.</operation>
               <operation>Add the string list to the given rich text as paragraphs.</operation>
               <return_description></return_description>
@@ -5212,7 +5354,7 @@ This class provides protected helper methods for getting the values of its data 
           </function>
           <function>
             <data>
-              <description>Adds custom content to the given rich text based off the given XML custom display element. If the provided method name does not exist for this object then an exception is thrown.</description>
+              <description>Adds custom content to the given rich text based off the given XML custom display element. The provided method name must exist for this object.</description>
               <name>addCustom</name>
               <operation>Lookup the custom method referenced by the name attribute of the given custom display element definition, making sure the method exists.</operation>
               <operation>Invoke the custom method of this object and add the content it returns to the given rich text.</operation>
@@ -5342,7 +5484,7 @@ The layout of this editor is defined by the XML element between different layout
           </data>
           <function>
             <data>
-              <description>Returns the value of the id attribute from the given XML element. If the id attribute does not exist or is empty then an exception is thrown.</description>
+              <description>Returns the value of the id attribute from the given XML element. The id attribute must exist and not be empty.</description>
               <name>extractId</name>
               <operation>Get the id attribute value from the given XML element and make sure it is not empty or not set.</operation>
               <operation>Return the id attribute value.</operation>
@@ -5359,13 +5501,18 @@ The layout of this editor is defined by the XML element between different layout
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The tag name for a form element used to define a column of this editor using a form layout.</description>
               <initializer>"form"</initializer>
               <name>_formTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5374,7 +5521,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"layout"</initializer>
               <name>_layoutTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5383,7 +5530,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"display"</initializer>
               <name>_displayKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5392,7 +5539,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"checkboxes"</initializer>
               <name>_checkboxesTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5401,7 +5548,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"checkbox"</initializer>
               <name>_checkboxTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5410,7 +5557,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"combo"</initializer>
               <name>_comboTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5419,7 +5566,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"option"</initializer>
               <name>_optionTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5428,7 +5575,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"line"</initializer>
               <name>_lineTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5437,7 +5584,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"text"</initializer>
               <name>_textTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5446,7 +5593,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"list"</initializer>
               <name>_listTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5455,7 +5602,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"rowsize"</initializer>
               <name>_rowSizeKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5464,7 +5611,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"value"</initializer>
               <name>_valueKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5473,7 +5620,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"spell"</initializer>
               <name>_spellKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -5482,7 +5629,7 @@ The layout of this editor is defined by the XML element between different layout
               <initializer>"dialog"</initializer>
               <name>_dialogKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
         </access>
@@ -5846,6 +5993,11 @@ The layout of this editor is defined by the XML element between different layout
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The qt splitter of this edit dialog that splits each single layout column between one another.</description>
@@ -6054,7 +6206,7 @@ A new interface is also provided for creating implementation classes of the basi
               <initializer>"display"</initializer>
               <name>_displayTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -6063,7 +6215,7 @@ A new interface is also provided for creating implementation classes of the basi
               <initializer>"root"</initializer>
               <name>_rootTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -6072,7 +6224,7 @@ A new interface is also provided for creating implementation classes of the basi
               <initializer>"buildlist"</initializer>
               <name>_buildTag</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
         </access>
@@ -6162,16 +6314,21 @@ A new interface is also provided for creating implementation classes of the basi
           <function>
             <data>
               <const/>
-              <description>Makes sure this factory's list of basic block definitions match with this factory's implementation's element name interface. If a mismatch is detected then an exception is thrown.</description>
+              <description>Makes sure this factory's list of basic block definitions match with this factory's implementation's element name interface. If a mismatch is detected then false is returned.</description>
               <name>check</name>
               <operation>If consistency has already been checked then return true immediately.</operation>
               <operation>Iterate through all basic block type definitions of this factory.</operation>
               <operation>Make sure the element name matches between this factory's list and the element name interface, returning false if there is a mismatch.</operation>
               <operation>Mark this factory as having its consistency checked and return true.</operation>
-              <return_description></return_description>
+              <return_description>True is no mismatch is detected or false if a mismatch is detected.</return_description>
               <type>bool</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>List of display names for this factory's basic block type definitions.</description>
@@ -6365,6 +6522,11 @@ A new interface is also provided for creating implementation classes of the basi
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <description>Appends the given line to this parser element's output lines.</description>
@@ -6704,6 +6866,11 @@ This parser also provides setting an indentation of spaces before each comment l
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <description>Adds the given comment used to generate and provide comment lines to this parser element's parent scanner. The given comment is wrapped into multiple lines to not exceed the maximum columns allowed per line.</description>
@@ -6768,41 +6935,36 @@ This parser also provides setting an indentation of spaces before each comment l
           <data>
             <type>private:</type>
           </data>
-          <class>
+          <struct>
             <data>
               <description>This contains a single comment block that contains its header and text used to generated the output lines for it. This also contains the number of blank footer comment lines that are added to output after the comment block text.</description>
               <name>Node</name>
             </data>
-            <access>
+            <variable>
               <data>
-                <type>public:</type>
+                <description>The header text of this comment block.</description>
+                <initializer></initializer>
+                <name>header</name>
+                <type>QString</type>
               </data>
-              <variable>
-                <data>
-                  <description>The header text of this comment block.</description>
-                  <initializer></initializer>
-                  <name>header</name>
-                  <type>QString</type>
-                </data>
-              </variable>
-              <variable>
-                <data>
-                  <description>The main body text of  this comment block.</description>
-                  <initializer></initializer>
-                  <name>text</name>
-                  <type>QString</type>
-                </data>
-              </variable>
-              <variable>
-                <data>
-                  <description>The number of blank footer comment lines appended to the end of this comment block.</description>
-                  <initializer>0</initializer>
-                  <name>footerLines</name>
-                  <type>int</type>
-                </data>
-              </variable>
-            </access>
-          </class>
+            </variable>
+            <variable>
+              <data>
+                <description>The main body text of  this comment block.</description>
+                <initializer></initializer>
+                <name>text</name>
+                <type>QString</type>
+              </data>
+            </variable>
+            <variable>
+              <data>
+                <description>The number of blank footer comment lines appended to the end of this comment block.</description>
+                <initializer>0</initializer>
+                <name>footerLines</name>
+                <type>int</type>
+              </data>
+            </variable>
+          </struct>
         </access>
         <access>
           <data>
@@ -6850,6 +7012,11 @@ This parser also provides setting an indentation of spaces before each comment l
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The number of space characters prepended to each line of comment block output when this parser generates it for its parent scanner.</description>
@@ -7104,6 +7271,11 @@ Additional parsing is done with the input lines by looking for marker lines of i
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <description>Appends the given text to the header regular expression of this function parser, escaping all characters to be taken literally by the regular expression interpreter.</description>
@@ -7191,6 +7363,11 @@ Additional parsing is done with the input lines by looking for marker lines of i
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The character used to denote the beginning of a block of execution. This is used to determine the end of a function with this parser element's parent scanner's source file.</description>
@@ -7988,7 +8165,8 @@ This is one of two primary functions that can be considered the core or engine o
             <operation>If the child class is part of a parent class then create all of its parser elements with the provided lists.</operation>
             <operation>Else if this is a root class part of a namespace, a declarations list is provided, and it has no templates then add its forward declaration to the list.</operation>
             <operation>Cast the child as a declaration and make sure it worked.</operation>
-            <operation>If a declaration list is provided then add the child declaration's line to the list.</operation>
+            <operation>Check to see if a declaration list is provided.</operation>
+            <operation>If the declaration is not a preprocessor line then add a new line parser to the given declarations list with the given indent and an added semicolon to the end, else if it is then add the raw line with no indent.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -8776,7 +8954,7 @@ This is one of two primary functions that can be considered the core or engine o
               <initializer>"settings.cppqt.indent.spaces"</initializer>
               <name>_indentSpacesKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -8785,7 +8963,7 @@ This is one of two primary functions that can be considered the core or engine o
               <initializer>"settings.cppqt.header.lines"</initializer>
               <name>_headerLinesKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -8794,7 +8972,7 @@ This is one of two primary functions that can be considered the core or engine o
               <initializer>"settings.cppqt.header.functionlines"</initializer>
               <name>_functionLinesKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -8803,7 +8981,7 @@ This is one of two primary functions that can be considered the core or engine o
               <initializer>"settings.cppqt.header.maxcolumns"</initializer>
               <name>_maxColumnsKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
         </access>
@@ -8836,6 +9014,11 @@ This is one of two primary functions that can be considered the core or engine o
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The number of spaces used per indent in parsed code.</description>
@@ -8962,6 +9145,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type>QLayout*</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The edit widget for the indent spaces setting.</description>
@@ -9020,89 +9208,89 @@ This is one of two primary functions that can be considered the core or engine o
           <enumeration>
             <data>
               <description>Defines all possible block types for the C++/Qt project type.</description>
-              <name></name>
+              <name>Type</name>
             </data>
             <enumvalue>
               <data>
                 <description>Defines the namespace block.</description>
-                <name>NamespaceType</name>
+                <name>Namespace</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the enumeration block. This is for C++ enumerations of all types.</description>
-                <name>EnumerationType</name>
+                <name>Enumeration</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the enumeration value block. This is for specific enumeration values.</description>
-                <name>EnumValueType</name>
+                <name>EnumValue</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the variable block.</description>
-                <name>VariableType</name>
+                <name>Variable</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the template block. This is used for template arguments in classes and functions.</description>
-                <name>TemplateType</name>
+                <name>Template</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the function block.</description>
-                <name>FunctionType</name>
+                <name>Function</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the structure block.</description>
-                <name>StructType</name>
+                <name>Struct</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the union block.</description>
-                <name>UnionType</name>
+                <name>Union</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the class block.</description>
-                <name>ClassType</name>
+                <name>Class</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the access block. This is used for the different access types in classes such as public, private, signals, or slots.</description>
-                <name>AccessType</name>
+                <name>Access</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the parent block. This is for adding parents to a class's inheritance.</description>
-                <name>ParentType</name>
+                <name>Parent</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the declaration block. This is for declarations within classes.</description>
-                <name>DeclarationType</name>
+                <name>Declaration</name>
                 <value></value>
               </data>
             </enumvalue>
@@ -9256,6 +9444,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -9326,6 +9519,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -9394,6 +9592,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -9544,6 +9747,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -9793,6 +10001,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -9866,6 +10079,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -10437,6 +10655,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -10735,6 +10958,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -11056,6 +11284,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -11168,6 +11401,11 @@ This is one of two primary functions that can be considered the core or engine o
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -11614,6 +11852,11 @@ The parsing of a project is done through this function alone. Only one type of s
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -11760,7 +12003,7 @@ The parsing of a project is done through this function alone. Only one type of s
               <initializer>"glsl.settings.variable.lines"</initializer>
               <name>_variableLinesKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -11769,7 +12012,7 @@ The parsing of a project is done through this function alone. Only one type of s
               <initializer>"glsl.settings.struct.lines"</initializer>
               <name>_structLinesKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -11778,7 +12021,7 @@ The parsing of a project is done through this function alone. Only one type of s
               <initializer>"glsl.settings.function.lines"</initializer>
               <name>_functionLinesKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -11787,7 +12030,7 @@ The parsing of a project is done through this function alone. Only one type of s
               <initializer>"glsl.indent.spaces"</initializer>
               <name>_indentSpacesKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
           <variable>
@@ -11796,7 +12039,7 @@ The parsing of a project is done through this function alone. Only one type of s
               <initializer>"glsl.columns.max"</initializer>
               <name>_maxColumnsKey</name>
               <static/>
-              <type>const char*</type>
+              <type>const QString</type>
             </data>
           </variable>
         </access>
@@ -11829,6 +12072,11 @@ The parsing of a project is done through this function alone. Only one type of s
               </data>
             </variable>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The number of blank lines preceding variables in parsed code.</description>
@@ -11964,6 +12212,11 @@ The parsing of a project is done through this function alone. Only one type of s
               <type>QLayout*</type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>private:</type>
+          </data>
           <variable>
             <data>
               <description>The edit widget for the variable lines setting.</description>
@@ -12030,40 +12283,40 @@ The parsing of a project is done through this function alone. Only one type of s
           <enumeration>
             <data>
               <description>Defines all possible block types for the GLSL project type.</description>
-              <name></name>
+              <name>Type</name>
             </data>
             <enumvalue>
               <data>
                 <description>Defines the namespace block.</description>
-                <name>NamespaceType</name>
+                <name>Namespace</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the shader block. This is for an entire shader program and defines the main function defined in a shader program file.</description>
-                <name>ShaderType</name>
+                <name>Shader</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the variable block.</description>
-                <name>VariableType</name>
+                <name>Variable</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the struct block. This is used for structures that can be defined in shader programs.</description>
-                <name>StructType</name>
+                <name>Struct</name>
                 <value></value>
               </data>
             </enumvalue>
             <enumvalue>
               <data>
                 <description>Defines the function block. This is used to subroutine functions that can be defined in shader programs.</description>
-                <name>FunctionType</name>
+                <name>Function</name>
                 <value></value>
               </data>
             </enumvalue>
@@ -12319,6 +12572,11 @@ The parsing of a project is done through this function alone. Only one type of s
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -12442,6 +12700,11 @@ The parsing of a project is done through this function alone. Only one type of s
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -12610,6 +12873,11 @@ The parsing of a project is done through this function alone. Only one type of s
               <type></type>
             </data>
           </function>
+        </access>
+        <access>
+          <data>
+            <type>public:</type>
+          </data>
           <function>
             <data>
               <const/>
@@ -12792,55 +13060,6 @@ The parsing of a project is done through this function alone. Only one type of s
     </namespace>
     <class>
       <data>
-        <description>This contains a simple message that can be used for throwing messages as an exception to communicate why something failed.</description>
-        <name>Exception</name>
-      </data>
-      <access>
-        <data>
-          <type>public:</type>
-        </data>
-        <function>
-          <data>
-            <description>Constructs a new exception with the given error message.</description>
-            <name>^</name>
-            <return_description></return_description>
-            <type></type>
-          </data>
-          <variable>
-            <data>
-              <description>Error message explaining what occurred to cause this new exception.</description>
-              <initializer></initializer>
-              <name>message</name>
-              <type>const QString&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <const/>
-            <description>Returns the message of this exception explaining the error that occurred.</description>
-            <name>message</name>
-            <return_description>The message of this exception.</return_description>
-            <type>QString</type>
-          </data>
-        </function>
-      </access>
-      <access>
-        <data>
-          <type>private:</type>
-        </data>
-        <variable>
-          <data>
-            <description>The message for this exception explaining what occurred.</description>
-            <initializer></initializer>
-            <name>_message</name>
-            <type>const QString</type>
-          </data>
-        </variable>
-      </access>
-    </class>
-    <class>
-      <data>
         <description>This is the abstract item model for the entire block tree of a project, using the Qt abstract item model class. It only implements the interfaces necessary for read only functionality through Qt view classes. However the writable functionality exists with custom functions outside the Qt framework. The custom write operations supported are inserting blocks, moving blocks up and down, removing blocks, copying blocks, and cutting blocks.</description>
         <name>BlockModel</name>
         <qtobject/>
@@ -13012,6 +13231,11 @@ The parsing of a project is done through this function alone. Only one type of s
             </data>
           </variable>
         </function>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
         <function>
           <data>
             <const/>
@@ -13255,6 +13479,19 @@ The parsing of a project is done through this function alone. Only one type of s
         </data>
         <function>
           <data>
+            <description>Deletes the header expression if it exists.</description>
+            <name>~^</name>
+            <return_description></return_description>
+            <type></type>
+          </data>
+        </function>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
+        <function>
+          <data>
             <description>Parses the source file with the given path using this scanner's parser elements, overwriting any contents the file may contain if it is different from the output of the parser elements. If this scanner has no parser elements then this does nothing.</description>
             <name>parse</name>
             <operation>Make sure this scanner has parser elements.</operation>
@@ -13331,9 +13568,12 @@ The parsing of a project is done through this function alone. Only one type of s
           <data>
             <description>Attempts to find an parser element of this scanner that requires input and whose header expression matches the given line, returning its pointer if one is found.</description>
             <name>findParser</name>
-            <operation>Iterate through all parser elements of this scanner requiring input.</operation>
-            <operation>Make sure the parser still requires input.</operation>
-            <operation>If the parser element's header expression matches the given line then return its pointer.</operation>
+            <operation>Check to see if the header expression is not initialized.</operation>
+            <operation>Construct the header expression consisting of all this scanner's input parser's header expressions separated into groupings of the main header expression.</operation>
+            <operation>Create a new regular expression and set its pointer to this scanner's header expression.</operation>
+            <operation>Check to see if there is an input parser match for the given line.</operation>
+            <operation>Get the index of the input parser that was matched, making sure it is valid.</operation>
+            <operation>Return a pointer to the input parser that was matched.</operation>
             <operation>No match was found to return null.</operation>
             <return_description>Pointer to matched parser element requiring input or null if no match is found.</return_description>
             <type>Abstract::Parser*</type>
@@ -13347,6 +13587,11 @@ The parsing of a project is done through this function alone. Only one type of s
             </data>
           </variable>
         </function>
+      </access>
+      <access>
+        <data>
+          <type>private:</type>
+        </data>
         <variable>
           <data>
             <description>List of parser elements this scanner uses for parsing any source file it is given to parse.</description>
@@ -13365,6 +13610,14 @@ The parsing of a project is done through this function alone. Only one type of s
         </variable>
         <variable>
           <data>
+            <description>Pointer to the regular expression that contains all header expressions for all input parsers of this scanner separated into groups. This is used to find a matching input parser to input lines. This is null until the first search is done and initializes it.</description>
+            <initializer>nullptr</initializer>
+            <name>_headerExpr</name>
+            <type>QRegularExpression*</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
             <description>Contains the entire contents of the source file this scanner is parsing before it is overwritten. This is used to process any input lines required by parser elements that need input.</description>
             <initializer></initializer>
             <name>_input</name>
@@ -13375,7 +13628,7 @@ The parsing of a project is done through this function alone. Only one type of s
     </class>
     <class>
       <data>
-        <description>This implements the qt thread class and is used to scan and parse an entire directory of source files with the given file filters and mapping of scanner objects. This executes the scanning of files on the separate thread started by the qt thread class. Signals are emitted for the progress of the scanning and if an exception is thrown from within the thread.
+        <description>This implements the qt thread class and is used to scan and parse an entire directory of source files with the given file filters and mapping of scanner objects. This executes the scanning of files on the separate thread started by the qt thread class. Signals are emitted for the progress of the scanning and if an IO error exception is thrown from within the thread. Any exception thrown within the thread that is not an IO error will cause the application to terminate.
 
 Because execution of parsing is done on a separate thread if an exception is thrown within that thread it is caught and emitted as a signal that can be used on the main GUI thread.
 
@@ -13458,7 +13711,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Signals that an exception was thrown and caught in this thread, prematurely ending the scanning of source files in this thread.</description>
+            <description>Signals that an IO error exception was thrown and caught in this thread, prematurely ending the scanning of source files in this thread.</description>
             <name>exceptionThrown</name>
             <return_description></return_description>
             <type>void</type>
@@ -13467,8 +13720,8 @@ The mapping of scanner objects are used to determine which scanner object to use
             <data>
               <description>The exception that was thrown and caught in this thread.</description>
               <initializer></initializer>
-              <name>e</name>
-              <type>const Exception&amp;</type>
+              <name>exception</name>
+              <type>const Soc::Ut::IOError&amp;</type>
             </data>
           </variable>
         </function>
@@ -13652,6 +13905,11 @@ The mapping of scanner objects are used to determine which scanner object to use
             </data>
           </variable>
         </function>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
         <function>
           <data>
             <const/>
@@ -13799,19 +14057,19 @@ The mapping of scanner objects are used to determine which scanner object to use
         <enumeration>
           <data>
             <description>Defines all project types ending with the total size of all project types.</description>
-            <name></name>
+            <name>Type</name>
           </data>
           <enumvalue>
             <data>
               <description>Defines the C++/Qt project type.</description>
-              <name>CppQtType</name>
+              <name>CppQt</name>
               <value></value>
             </data>
           </enumvalue>
           <enumvalue>
             <data>
               <description>Defines the GLSL project type.</description>
-              <name>GLSLType</name>
+              <name>GLSL</name>
               <value></value>
             </data>
           </enumvalue>
@@ -13997,14 +14255,14 @@ The mapping of scanner objects are used to determine which scanner object to use
     </class>
     <class>
       <data>
-        <description>This is a single open project which contains everything for that project, watching the file it was opened or saved with for changes made by any outside source. If the file this project is associated with is changed by an outside source a signal is emitted. This class also provides all generic information of a project along with being able to edit it. This generic information includes the name, scan directory, and scan filters. The block model for this project's block tree data and the ability to create a scan thread object for scanning and parsing is also provided.</description>
+        <description>This is a single open project which contains everything for that project. This class provides all generic information of a project along with being able to edit it. This generic information includes the name, scan directory, and scan filters. The block model for this project's block tree data and the ability to create a scan thread object for scanning and parsing is provided. When constructed this class creates either a new project of the given type or loads an existing project from the given path. If loading fails then an IO error exception is thrown from the constructor.</description>
         <name>Project</name>
         <qtobject/>
       </data>
       <parent>
         <data>
           <access>public</access>
-          <class>QFileSystemWatcher</class>
+          <class>QObject</class>
         </data>
       </parent>
       <access>
@@ -14017,7 +14275,7 @@ The mapping of scanner objects are used to determine which scanner object to use
             <explicit/>
             <name>^</name>
             <operation>Connect this project's custom dictionary modified signal.</operation>
-            <operation>Initialize this new project's root block, file watcher signal, and default scan filters.</operation>
+            <operation>Initialize this new project's root block and default scan filters.</operation>
             <return_description></return_description>
             <type></type>
           </data>
@@ -14032,19 +14290,19 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>This constructs a project loaded from the file from the given path. If any error occurs from loading the project file an exception is thrown.</description>
+            <description>This constructs a project loaded from the file from the given path. If any error occurs from loading the project file an IO read error exception is thrown.</description>
             <explicit/>
             <name>^</name>
             <operation>Connect this project's custom dictionary modified signal.</operation>
             <operation>Initialize the enumeration and static string list used for identifying different elements to read in based off their tag names.</operation>
-            <operation>Initialize this project's file watcher signal.</operation>
-            <operation>Read in the entire contents of the file located at the given path and then load it into a qt XML document.</operation>
+            <operation>Read in the entire contents of the file located at the given path.</operation>
+            <operation>Load the read in file contents as an XML document and make sure it worked.</operation>
             <operation>Iterate through all child nodes of the root XML document element.</operation>
             <operation>Check to see if this node is an element.</operation>
             <operation>Figure out what element this is based off its tag name and set the appropriate data for this project.</operation>
             <operation>First make a blank root block for this project and then read in the root block element.</operation>
             <operation>Move to the next node sibling.</operation>
-            <operation>Add this project's file path to its file watcher.</operation>
+            <operation>Make sure the required elements were found in the XML document.</operation>
             <return_description></return_description>
             <type></type>
           </data>
@@ -14057,6 +14315,11 @@ The mapping of scanner objects are used to determine which scanner object to use
             </data>
           </variable>
         </function>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
         <function>
           <data>
             <const/>
@@ -14166,12 +14429,12 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Sets a new scan directory path for this project to the given path. The given path can be relative to this program's present working directory. If the given path is not a valid directory then an exception is thrown.</description>
+            <description>Sets a new scan directory path for this project to the given path. The given path can be relative to this program's present working directory. The given path must be a valid directory.</description>
             <name>setScanDirectory</name>
             <operation>Get file info for this project's current scan directory and the new path given.</operation>
             <operation>Make sure the new path is different from the current path.</operation>
             <operation>Make sure the new path is a valid directory.</operation>
-            <operation>Set this project's scan directory to the new path given in its canonical form and signal modification.</operation>
+            <operation>Set this project's scan directory to the new path given relative to the project's path.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14204,7 +14467,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Saves this project to its associated file. If this is a new project that has never been saved then an exception is thrown. If any writing error occurs while saving an exception is thrown.</description>
+            <description>Saves this project to its associated file. This cannot be a new project that has never been saved. If any writing error occurs while saving an IO write error exception is thrown.</description>
             <name>save</name>
             <operation>Make sure this is not a new project and has a file path.</operation>
             <operation>Create a new XML document, appending its XML processing instructions.</operation>
@@ -14223,12 +14486,11 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Saves this project to a new file with the given path. If any writing error occurs while saving an exception is thrown.</description>
+            <description>Saves this project to a new file with the given path. If any writing error occurs while saving an IO write error exception is thrown.</description>
             <name>saveAs</name>
             <operation>Remember this project's old path and then set it to the new path given.</operation>
             <operation>Attempt to save this project with the new path.</operation>
             <operation>If any exception is thrown while saving then revert this project's path back to the old one.</operation>
-            <operation>Remove the old path from this project's file watcher if is exists and add the new path.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14270,14 +14532,6 @@ The mapping of scanner objects are used to determine which scanner object to use
             <type>void</type>
           </data>
         </function>
-        <function>
-          <data>
-            <description>Signals that this project's file has been changed by an outside source and no longer contains the last save of this project.</description>
-            <name>saveFileChanged</name>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-        </function>
       </access>
       <access>
         <data>
@@ -14291,17 +14545,74 @@ The mapping of scanner objects are used to determine which scanner object to use
             <type>void</type>
           </data>
         </function>
-        <function>
+      </access>
+      <access>
+        <data>
+          <type>private:</type>
+        </data>
+        <variable>
           <data>
-            <description>Called when this project's file has changed. This is called even if the project itself is saved to the file, so this also checks to see it that is the case or not.</description>
-            <name>fileChanged</name>
-            <operation>Open this project's file and make sure it worked.</operation>
-            <operation>Read in the entire contents of the file and make sure it worked.</operation>
-            <operation>Generate the hash of the read in file's contents and if the hash is different from this project's saved hash then signal the save file has changed.</operation>
-            <return_description></return_description>
-            <type>void</type>
+            <description>The tag name for the name element.</description>
+            <initializer>"name"</initializer>
+            <name>_nameTag</name>
+            <static/>
+            <type>const QString</type>
           </data>
-        </function>
+        </variable>
+        <variable>
+          <data>
+            <description>The tag name for the type element.</description>
+            <initializer>"type"</initializer>
+            <name>_typeTag</name>
+            <static/>
+            <type>const QString</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>The tag name for the scan directory element.</description>
+            <initializer>"scandir"</initializer>
+            <name>_scanDirectoryTag</name>
+            <static/>
+            <type>const QString</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>The tag name for the scanning file filters element.</description>
+            <initializer>"filters"</initializer>
+            <name>_scanFiltersTag</name>
+            <static/>
+            <type>const QString</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>The tag name for the root block element.</description>
+            <initializer>"root"</initializer>
+            <name>_rootTag</name>
+            <static/>
+            <type>const QString</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>The tag name for the custom dictionary element.</description>
+            <initializer>"dictionary"</initializer>
+            <name>_dictionaryTag</name>
+            <static/>
+            <type>const QString</type>
+          </data>
+        </variable>
+        <variable>
+          <data>
+            <description>The name of the id attribute.</description>
+            <initializer>"id"</initializer>
+            <name>_idTag</name>
+            <static/>
+            <type>const QString</type>
+          </data>
+        </variable>
       </access>
       <access>
         <data>
@@ -14319,21 +14630,21 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Reads in this project's file and returns its entire contents as a byte array. If opening or reading this project's file fails then an exception is thrown.</description>
+            <description>Reads in this project's file and returns its entire contents as a byte array. If opening or reading this project's file fails then an IO read error exception is thrown.</description>
             <name>read</name>
             <operation>Open this project's file and make sure it worked.</operation>
             <operation>Read in the entire contents of this project's file and make sure it worked.</operation>
-            <operation>Set this project's file hash with the read in byte array and return it.</operation>
+            <operation>Return the read in byte array.</operation>
             <return_description>Contents of this project's file as a byte array.</return_description>
             <type>QByteArray</type>
           </data>
         </function>
         <function>
           <data>
-            <description>Converts the given scan directory path into its absolute canonical form and saves that form to this project's scan directory path. If the given path is not a valid directory than an exception is thrown.</description>
-            <name>convertScanDirectory</name>
+            <description>Initializes this new project's scan directory to the given path. If the given path is not a valid directory than an IO read error exception is thrown.</description>
+            <name>initScanDirectory</name>
             <operation>Make sure the given path is a valid directory relative to the directory this project's file is located.</operation>
-            <operation>Set this project's scan directory to the path given in its canonical form.</operation>
+            <operation>Set this project's scan directory to the path given.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14348,7 +14659,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Reads the given element as the XML type element for this project, setting this project's type. If the given XML element is not a valid type element then an exception is thrown.</description>
+            <description>Reads the given element as the XML type element for this project, setting this project's type. If the given XML element is not a valid type element then an IO read error exception is thrown.</description>
             <name>readTypeElement</name>
             <operation>Look up the project type with the element name supplied by the given XML element.</operation>
             <operation>Make sure the element name was recognized and a known type returned.</operation>
@@ -14366,11 +14677,10 @@ The mapping of scanner objects are used to determine which scanner object to use
         </function>
         <function>
           <data>
-            <description>Writes the given byte array to this project's file, overwriting anything the file contains beforehand. If opening or writing this project's file fails then an exception is thrown.</description>
+            <description>Writes the given byte array to this project's file, overwriting anything the file contains beforehand. If opening or writing this project's file fails then an IO write error exception is thrown.</description>
             <name>write</name>
             <operation>Open this project's file for truncated writing and make sure it worked.</operation>
             <operation>Write out the given byte array to the opened file and make sure it worked.</operation>
-            <operation>Set this project's file hash with the given byte array.</operation>
             <return_description></return_description>
             <type>void</type>
           </data>
@@ -14379,23 +14689,6 @@ The mapping of scanner objects are used to determine which scanner object to use
               <description>The byte array that is written to this project's file.</description>
               <initializer></initializer>
               <name>data</name>
-              <type>const QByteArray&amp;</type>
-            </data>
-          </variable>
-        </function>
-        <function>
-          <data>
-            <description>Sets this project's file hash with the hash of the given byte array. This is used for this project to watch for changes to its file.</description>
-            <name>setFileHash</name>
-            <operation>Get the hash value of the given byte array using md5 and set it to this project's file hash.</operation>
-            <return_description></return_description>
-            <type>void</type>
-          </data>
-          <variable>
-            <data>
-              <description>The byte array whose hash is set as this project's file hash value.</description>
-              <initializer></initializer>
-              <name>bytes</name>
               <type>const QByteArray&amp;</type>
             </data>
           </variable>
@@ -14411,69 +14704,11 @@ The mapping of scanner objects are used to determine which scanner object to use
             <type>void</type>
           </data>
         </function>
-        <variable>
-          <data>
-            <description>The tag name for the name element.</description>
-            <initializer>"name"</initializer>
-            <name>_nameTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The tag name for the type element.</description>
-            <initializer>"type"</initializer>
-            <name>_typeTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The tag name for the scan directory element.</description>
-            <initializer>"scandir"</initializer>
-            <name>_scanDirectoryTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The tag name for the scanning file filters element.</description>
-            <initializer>"filters"</initializer>
-            <name>_scanFiltersTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The tag name for the root block element.</description>
-            <initializer>"root"</initializer>
-            <name>_rootTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The tag name for the custom dictionary element.</description>
-            <initializer>"dictionary"</initializer>
-            <name>_dictionaryTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
-        <variable>
-          <data>
-            <description>The name of the id attribute.</description>
-            <initializer>"id"</initializer>
-            <name>_idTag</name>
-            <static/>
-            <type>const char*</type>
-          </data>
-        </variable>
+      </access>
+      <access>
+        <data>
+          <type>private:</type>
+        </data>
         <variable>
           <data>
             <description>The modification state of this project. True if this project has unsaved modifications or false otherwise.</description>
@@ -14546,14 +14781,6 @@ The mapping of scanner objects are used to determine which scanner object to use
             <type>DictionaryModel*</type>
           </data>
         </variable>
-        <variable>
-          <data>
-            <description>The hash value of this project's save file used to determine if an outside source wrote to said save file.</description>
-            <initializer></initializer>
-            <name>_hash</name>
-            <type>QByteArray</type>
-          </data>
-        </variable>
       </access>
     </class>
     <class>
@@ -14572,15 +14799,6 @@ The mapping of scanner objects are used to determine which scanner object to use
         <data>
           <type>public:</type>
         </data>
-        <function>
-          <data>
-            <description>Returns this programs version as a string.</description>
-            <name>versionString</name>
-            <return_description>This programs version as a string.</return_description>
-            <static/>
-            <type>QString</type>
-          </data>
-        </function>
         <function>
           <data>
             <description>Constructs a new application instance.</description>
@@ -14607,6 +14825,25 @@ The mapping of scanner objects are used to determine which scanner object to use
             </data>
           </variable>
         </function>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
+        <function>
+          <data>
+            <description>Returns this programs version as a string.</description>
+            <name>versionString</name>
+            <return_description>This programs version as a string.</return_description>
+            <static/>
+            <type>QString</type>
+          </data>
+        </function>
+      </access>
+      <access>
+        <data>
+          <type>public:</type>
+        </data>
         <variable>
           <data>
             <constexpr/>
@@ -14643,7 +14880,7 @@ The mapping of scanner objects are used to determine which scanner object to use
             <initializer>"blaidddwr"</initializer>
             <name>_organizationKey</name>
             <static/>
-            <type>const char*</type>
+            <type>const QString</type>
           </data>
         </variable>
         <variable>
@@ -14652,7 +14889,7 @@ The mapping of scanner objects are used to determine which scanner object to use
             <initializer>"socref"</initializer>
             <name>_applicationKey</name>
             <static/>
-            <type>const char*</type>
+            <type>const QString</type>
           </data>
         </variable>
       </access>

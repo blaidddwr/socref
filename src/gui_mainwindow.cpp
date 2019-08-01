@@ -7,15 +7,19 @@
 #include <QFileDialog>
 #include <QCloseEvent>
 #include <QSettings>
+#include <socutil/ReadError>
+#include <socutil/WriteError>
 #include "gui_projectdialog.h"
 #include "gui_dictionarydialog.h"
 #include "gui_blockview.h"
 #include "abstract_block.h"
 #include "abstract_projectfactory.h"
-#include "exception.h"
 #include "project.h"
 #include "scanthread.h"
 #include "application.h"
+using Soc::Ut::IOError;
+using Soc::Ut::ReadError;
+using Soc::Ut::WriteError;
 
 
 
@@ -28,16 +32,16 @@ namespace Gui
  * The key used to save/restore the geometry of the main window using Qt
  * settings.
  */
-const char* MainWindow::_geometryKey {"gui.mainwindow.geometry"};
+const QString MainWindow::_geometryKey {"gui.mainwindow.geometry"};
 /*!
  * The key used to save/restore the state of the main window using Qt settings.
  */
-const char* MainWindow::_stateKey {"gui.mainwindow.state"};
+const QString MainWindow::_stateKey {"gui.mainwindow.state"};
 /*!
  * The key used to save/restore the state of the block view contained in the
  * main window using Qt settings.
  */
-const char* MainWindow::_viewStateKey {"gui.mainwindow.view.state"};
+const QString MainWindow::_viewStateKey {"gui.mainwindow.view.state"};
 
 
 
@@ -97,7 +101,6 @@ void MainWindow::setProject(Soc::Ut::QPtr<Project>&& project)
    connect(_project,&Project::nameChanged,this,&MainWindow::projectNameChanged);
    connect(_project,&Project::modified,this,&MainWindow::projectModified);
    connect(_project,&Project::saved,this,&MainWindow::projectSaved);
-   connect(_project,&Project::saveFileChanged,this,&MainWindow::projectFileChanged);
 }
 
 
@@ -206,10 +209,10 @@ void MainWindow::openTriggered()
       }
    }
 
-   // If an exception was thrown then report it to the user.
-   catch (Exception e)
+   // If an IO error exception was thrown then report it to the user.
+   catch (const ReadError& exception)
    {
-      QMessageBox::warning(this,tr("Failed Opening Project"),e.message());
+      QMessageBox::warning(this,tr("Failed Opening Project"),exceptionRichText(exception));
    }
 }
 
@@ -342,15 +345,15 @@ void MainWindow::scanFinished()
 
 /*!
  * Called when an active scan of this window's project's source files fails and
- * throws an exception within its thread, opening a warning message box
+ * throws an IO error exception within its thread, opening a warning message box
  * informing the user of what went wrong.
  *
- * @param e The exception that was thrown within the scan thread that caused it
- *          to fail.
+ * @param exception The exception that was thrown within the scan thread that
+ *                  caused it to fail.
  */
-void MainWindow::scanExceptionThrown(const Exception& e)
+void MainWindow::scanExceptionThrown(const Soc::Ut::IOError& exception)
 {
-   QMessageBox::warning(this,tr("Scanning Failed"),e.message());
+   QMessageBox::warning(this,tr("Scanning Failed"),exceptionRichText(exception));
 }
 
 
@@ -477,28 +480,29 @@ void MainWindow::projectSaved()
 
 
 /*!
- * Called when this window's project file has been modified by an outside
- * source. This executes a dialog informing the user of this fact and reloads
- * the project if the user chooses to do so.
+ * Returns formatted rich text of the given IO error message that displays its
+ * what description and system message if any.
+ *
+ * @param exception The exception that was thrown within the scan thread that
+ *                  caused it to fail.
+ *
+ * @return Formatted rich text displaying the given IO error exception.
  */
-void MainWindow::projectFileChanged()
+QString MainWindow::exceptionRichText(const Soc::Ut::IOError& exception)
 {
-   // Create a new message box that informs the user the project file has changed and
-   // asks the user if they want to reload the project or ignore it.
-   QMessageBox notice;
-   notice.setWindowTitle(tr("Project File Changed"));
-   notice.setText(tr("The currently open project's file has been modified."));
-   notice.setIcon(QMessageBox::Warning);
-   notice.addButton(tr("Reload"),QMessageBox::AcceptRole);
-   notice.addButton(tr("Ignore"),QMessageBox::RejectRole);
+   // Create the returned rich text with the HTML escaped what description of the
+   // given exception.
+   QString ret(QString(exception.what()).toHtmlEscaped());
 
-   // Execute the message box and check to see if they chose to reload the project.
-   int answer = notice.exec();
-   if ( answer != QMessageBox::AcceptRole ) return;
+   // If the given exception has a system message then append it to the returned rich
+   // text with any HTML escaped.
+   if ( !exception.system().isEmpty() )
+   {
+      ret += QStringLiteral("<br><br>") + QString(exception.system()).toHtmlEscaped();
+   }
 
-   // Reload the project by creating a new project with the same file path and
-   // setting this window's project to the reloaded one.
-   setProject(Soc::Ut::QPtr<Project>(new Project(_project->path())));
+   // Return the rich text displaying the given exception.
+   return ret;
 }
 
 
@@ -631,10 +635,11 @@ bool MainWindow::saveAs()
       return true;
    }
 
-   // If an exception was thrown then report it to the user and return false.
-   catch (Exception e)
+   // If a read error exception was thrown then report it to the user and return
+   // false.
+   catch (const WriteError& exception)
    {
-      QMessageBox::warning(this,tr("Failed Saving Project"),e.message());
+      QMessageBox::warning(this,tr("Failed Saving Project"),exceptionRichText(exception));
       return false;
    }
 }
@@ -665,9 +670,9 @@ bool MainWindow::save()
    }
 
    // If an exception was thrown then report it to the user and return false.
-   catch (Exception e)
+   catch (const WriteError& exception)
    {
-      QMessageBox::warning(this,tr("Failed Saving Project"),e.message());
+      QMessageBox::warning(this,tr("Failed Saving Project"),exceptionRichText(exception));
       return false;
    }
 }

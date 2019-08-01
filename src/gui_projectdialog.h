@@ -33,6 +33,7 @@ namespace Gui
       QLayout* setupForm();
       QLayout* setupDirectory();
       QLayout* setupButtons();
+   private:
       /*!
        * Pointer to the project this properties dialog is presenting to the user.
        */

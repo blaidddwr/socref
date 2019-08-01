@@ -26,67 +26,67 @@ namespace Basic
  * The tag name for a form element used to define a column of this editor using
  * a form layout.
  */
-const char* BlockEdit::_formTag {"form"};
+const QString BlockEdit::_formTag {"form"};
 /*!
  * The tag name for a layout element used to define a column of this editor
  * using a vertical layout.
  */
-const char* BlockEdit::_layoutTag {"layout"};
+const QString BlockEdit::_layoutTag {"layout"};
 /*!
  * The attribute name for the display string used as the title of an edit
  * element.
  */
-const char* BlockEdit::_displayKey {"display"};
+const QString BlockEdit::_displayKey {"display"};
 /*!
  * The tag name for a check boxes element used to define a check boxes edit
  * widget.
  */
-const char* BlockEdit::_checkboxesTag {"checkboxes"};
+const QString BlockEdit::_checkboxesTag {"checkboxes"};
 /*!
  * The tag name for a checkbox element used to define a single checkbox within a
  * check boxes element.
  */
-const char* BlockEdit::_checkboxTag {"checkbox"};
+const QString BlockEdit::_checkboxTag {"checkbox"};
 /*!
  * The tag name for a combo box element used to define a combo box widget.
  */
-const char* BlockEdit::_comboTag {"combo"};
+const QString BlockEdit::_comboTag {"combo"};
 /*!
  * The tag name for an option element nested within combo elements used to
  * define a value of a combo box widget.
  */
-const char* BlockEdit::_optionTag {"option"};
+const QString BlockEdit::_optionTag {"option"};
 /*!
  * The tag name for a line edit element used to define a line edit widget.
  */
-const char* BlockEdit::_lineTag {"line"};
+const QString BlockEdit::_lineTag {"line"};
 /*!
  * The tag name for a text edit element used to define a text edit widget.
  */
-const char* BlockEdit::_textTag {"text"};
+const QString BlockEdit::_textTag {"text"};
 /*!
  * The tag name of a list edit element used to define a list edit widget.
  */
-const char* BlockEdit::_listTag {"list"};
+const QString BlockEdit::_listTag {"list"};
 /*!
  * The attribute name for the row size of a check boxes edit element.
  */
-const char* BlockEdit::_rowSizeKey {"rowsize"};
+const QString BlockEdit::_rowSizeKey {"rowsize"};
 /*!
  * The attribute name for the value of an option element nested within a combo
  * element.
  */
-const char* BlockEdit::_valueKey {"value"};
+const QString BlockEdit::_valueKey {"value"};
 /*!
  * The attribute name for the option of disabling spell checking on a text edit
  * widget if the attribute is set to no.
  */
-const char* BlockEdit::_spellKey {"spell"};
+const QString BlockEdit::_spellKey {"spell"};
 /*!
  * The attribute name for the option of disabling the popup dialog on a text
  * edit widget if the attribute is set to no.
  */
-const char* BlockEdit::_dialogKey {"dialog"};
+const QString BlockEdit::_dialogKey {"dialog"};
 
 
 
@@ -249,8 +249,8 @@ void BlockEdit::closeEvent(QCloseEvent* event)
 
 
 /*!
- * Returns the value of the id attribute from the given XML element. If the id
- * attribute does not exist or is empty then an exception is thrown.
+ * Returns the value of the id attribute from the given XML element. The id
+ * attribute must exist and not be empty.
  *
  * @param element XML element whose id attribute value is extracted and return.
  *

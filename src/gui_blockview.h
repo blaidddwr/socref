@@ -32,6 +32,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit BlockView(QWidget* parent = nullptr);
+   public:
       QMenu* contextMenu() const;
       bool canPaste() const;
       void setModel(BlockModel* model);
@@ -77,6 +78,7 @@ namespace Gui
       QLayout* setupTitleBar();
       void setupActions();
       void setupMenu();
+   private:
       /*!
        * Pointer to this object's scroll area used to contain its detailed view
        * widget.

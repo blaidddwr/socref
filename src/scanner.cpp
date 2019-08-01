@@ -1,8 +1,24 @@
 #include "scanner.h"
 #include <QFile>
 #include <QRegularExpression>
-#include "exception.h"
+#include <socutil/ReadError>
+#include <socutil/WriteError>
 #include "abstract_parser.h"
+using Soc::Ut::ReadError;
+using Soc::Ut::WriteError;
+
+
+
+
+
+
+/*!
+ * Deletes the header expression if it exists.
+ */
+Scanner::~Scanner()
+{
+   delete _headerExpr;
+}
 
 
 
@@ -28,14 +44,14 @@ void Scanner::parse(const QString& path)
       QFile file(path);
       if ( !file.open(QFile::ReadWrite) )
       {
-         throw Exception(tr("Failed opening source file %1: %2").arg(path).arg(file.errorString()));
+         throw ReadError(tr("Failed opening source file %1").arg(path),file.errorString());
       }
 
       // Read the entire contents of the opened source file and make sure it worked.
       _input = file.readAll();
       if ( file.error() != QFile::NoError )
       {
-         throw Exception(tr("Failed reading source file %1: %2").arg(path).arg(file.errorString()));
+         throw ReadError(tr("Failed reading source file %1").arg(path),file.errorString());
       }
 
       // Parse the input for any input parser elements and then create the output using
@@ -50,16 +66,14 @@ void Scanner::parse(const QString& path)
          // Truncate the open source file to zero and make sure it worked.
          if ( !file.resize(0) )
          {
-            throw Exception(tr("Failed truncating source file %1: %2")
-                            .arg(path)
-                            .arg(file.errorString()));
+            throw WriteError(tr("Failed truncating source file %1").arg(path),file.errorString());
          }
 
          // Write the output to the open source file and make sure all bytes were written.
          QByteArray bytes {output.toLocal8Bit()};
          if ( file.write(bytes) != bytes.size() )
          {
-            throw Exception(tr("Failed writing source file %1: %2").arg(path).arg(file.errorString()));
+            throw WriteError(tr("Failed writing source file %1").arg(path),file.errorString());
          }
       }
 
@@ -186,17 +200,36 @@ QString Scanner::createOutput()
  */
 Abstract::Parser* Scanner::findParser(const QString& line)
 {
-   // Iterate through all parser elements of this scanner requiring input.
-   for (auto parser: _inputParsers)
+   // Check to see if the header expression is not initialized.
+   if ( !_headerExpr )
    {
-      // Make sure the parser still requires input.
-      if ( parser->needsInput() )
+      // Construct the header expression consisting of all this scanner's input parser's
+      // header expressions separated into groupings of the main header expression.
+      QString expression;
+      bool first {true};
+      for (auto parser: _inputParsers)
       {
-         // If the parser element's header expression matches the given line then return
-         // its pointer.
-         QRegularExpression regexp(parser->headerExpression());
-         if ( regexp.match(line).hasMatch() ) return parser;
+         if ( first ) first = false;
+         else expression += QStringLiteral("|");
+         expression += QStringLiteral("(") + parser->headerExpression() + QStringLiteral(")");
       }
+
+      // Create a new regular expression and set its pointer to this scanner's header
+      // expression.
+      _headerExpr = new QRegularExpression(expression);
+   }
+
+   // Check to see if there is an input parser match for the given line.
+   auto match {_headerExpr->match(line)};
+   if ( match.hasMatch() )
+   {
+      // Get the index of the input parser that was matched, making sure it is valid.
+      int index {match.lastCapturedIndex() - 1};
+      Q_ASSERT(index >= 0);
+      Q_ASSERT(index < _inputParsers.size());
+
+      // Return a pointer to the input parser that was matched.
+      return _inputParsers.at(index);
    }
 
    // No match was found to return null.

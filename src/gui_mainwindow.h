@@ -1,7 +1,8 @@
 #ifndef GUI_MAINWINDOW_H
 #define GUI_MAINWINDOW_H
 #include <QMainWindow>
-#include <socutil/soc_ut_qptr.h>
+#include <socutil/QPtr>
+#include <socutil/Global>
 #include "global.h"
 #include "gui.h"
 
@@ -33,6 +34,7 @@ namespace Gui
       Q_OBJECT
    public:
       explicit MainWindow(QWidget* parent = nullptr);
+   public:
       void setProject(Soc::Ut::QPtr<Project>&& project);
    protected:
       virtual void closeEvent(QCloseEvent* event) override final;
@@ -45,7 +47,7 @@ namespace Gui
       void propertiesTriggered();
       void scanTriggered();
       void scanFinished();
-      void scanExceptionThrown(const Exception& e);
+      void scanExceptionThrown(const Soc::Ut::IOError& exception);
       void closeTriggered();
       void settingTriggered(int type);
       void aboutTriggered();
@@ -53,8 +55,23 @@ namespace Gui
       void projectNameChanged();
       void projectModified();
       void projectSaved();
-      void projectFileChanged();
    private:
+      /*!
+       * The key used to save/restore the geometry of the main window using Qt
+       * settings.
+       */
+      static const QString _geometryKey;
+      /*!
+       * The key used to save/restore the state of the main window using Qt settings.
+       */
+      static const QString _stateKey;
+      /*!
+       * The key used to save/restore the state of the block view contained in the
+       * main window using Qt settings.
+       */
+      static const QString _viewStateKey;
+   private:
+      QString exceptionRichText(const Soc::Ut::IOError& exception);
       void updateTitle();
       void updateActions();
       bool isOkToClose();
@@ -68,20 +85,7 @@ namespace Gui
       void setupSettingActions();
       void setupMenus();
       void setupFileMenu();
-      /*!
-       * The key used to save/restore the geometry of the main window using Qt
-       * settings.
-       */
-      static const char* _geometryKey;
-      /*!
-       * The key used to save/restore the state of the main window using Qt settings.
-       */
-      static const char* _stateKey;
-      /*!
-       * The key used to save/restore the state of the block view contained in the
-       * main window using Qt settings.
-       */
-      static const char* _viewStateKey;
+   private:
       /*!
        * Pointer to this window's block view.
        */

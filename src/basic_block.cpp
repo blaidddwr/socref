@@ -1,9 +1,10 @@
 #include "basic_block.h"
 #include <QIcon>
 #include <QJsonObject>
+#include <socutil/ReadError>
 #include "basic_blockedit.h"
 #include "basic_blockview.h"
-#include "exception.h"
+using Soc::Ut::ReadError;
 
 
 
@@ -15,43 +16,43 @@ namespace Basic
 /*!
  * The boolean tag name of elements that define a boolean data field.
  */
-const char* Block::_boolTag {"bool"};
+const QString Block::_boolTag {"bool"};
 /*!
  * The string tag name of elements that define a string data field.
  */
-const char* Block::_stringTag {"string"};
+const QString Block::_stringTag {"string"};
 /*!
  * The string list tag name of elements that define a string list data field.
  */
-const char* Block::_stringListTag {"stringlist"};
+const QString Block::_stringListTag {"stringlist"};
 /*!
  * The tag name of the element used to define the name option that specifies
  * which string field is used for this block's name.
  */
-const char* Block::_nameTag {"name"};
+const QString Block::_nameTag {"name"};
 /*!
  * The tag name of the element used to define the path for this basic block
  * type's icon.
  */
-const char* Block::_iconTag {"icon"};
+const QString Block::_iconTag {"icon"};
 /*!
  * The tag name of the element that hold the configuration for this basic block
  * type's edit class.
  */
-const char* Block::_editTag {"edit"};
+const QString Block::_editTag {"edit"};
 /*!
  * The tag name of the element that hold the configuration for this basic block
  * type's view class.
  */
-const char* Block::_viewTag {"view"};
+const QString Block::_viewTag {"view"};
 /*!
  * The attribute name for the id of data field element definitions.
  */
-const char* Block::_idKey {"id"};
+const QString Block::_idKey {"id"};
 /*!
  * The attribute name for default values of data field element definitions.
  */
-const char* Block::_defaultKey {"default"};
+const QString Block::_defaultKey {"default"};
 
 
 
@@ -170,7 +171,7 @@ Soc::Ut::QPtr<Abstract::BlockView> Block::createView() const
 {
    Soc::Ut::QPtr<Basic::BlockView> ret(makeBasicView());
    ret->update();
-   return ret;
+   return std::move(ret);
 }
 
 
@@ -333,10 +334,11 @@ void Block::readData(const QDomElement& element)
                *i = i->toStringList() << child.text();
                break;
             default:
-               throw Exception(tr("Unknown data element '%1' on line %2 within block element on line %3.")
+               throw ReadError(tr("Unknown data element '%1' on line %2 within block element on line %3.")
                                .arg(child.tagName())
                                .arg(child.lineNumber())
-                               .arg(element.lineNumber()));
+                               .arg(element.lineNumber())
+                               ,"");
             }
          }
       }
@@ -426,7 +428,7 @@ Soc::Ut::QPtr<Abstract::Block> Block::createBlank() const
    ret->initialize(_type,_factory,_definition,_buildList,false);
 
    // Return the initialized basic block.
-   return ret;
+   return std::move(ret);
 }
 
 
@@ -469,8 +471,8 @@ void Block::copyDataFrom(const Abstract::Block* other)
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given
- * id does not exist or is not a boolean then an exception is thrown.
+ * Returns the value of this basic block's field with the given id. The given id
+ * must exist and it must be a boolean.
  *
  * @param id The id of this basic block's field whose value is returned.
  *
@@ -493,8 +495,8 @@ bool Block::getBool(const QString& id) const
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given
- * id does not exist or is not a string then an exception is thrown.
+ * Returns the value of this basic block's field with the given id. The given id
+ * must exist and it must be a string.
  *
  * @param id The id of this basic block's field whose value is returned.
  *
@@ -517,8 +519,8 @@ QString Block::getString(const QString& id) const
 
 
 /*!
- * Returns the value of this basic block's field with the given id. If the given
- * id does not exist or is not a string list then an exception is thrown.
+ * Returns the value of this basic block's field with the given id. The given id
+ * must exist and it must be a string list.
  *
  * @param id The id of this basic block's field whose value is returned.
  *
@@ -590,8 +592,8 @@ void Block::addField(Field type, const QDomElement& element, bool isDefault)
 
 
 /*!
- * Return the data field of this basic block with the given id. If no field
- * exists with the given id then an exception is thrown.
+ * Return the data field of this basic block with the given id. A field with the
+ * given id must exist.
  *
  * @param id The id of this basic block's data field which is returned.
  *

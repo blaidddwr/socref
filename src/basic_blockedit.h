@@ -39,71 +39,72 @@ namespace Basic
       virtual void closeEvent(QCloseEvent* event) override final;
    private:
       static QString extractId(const QDomElement& element);
+   private:
       /*!
        * The tag name for a form element used to define a column of this editor using
        * a form layout.
        */
-      static const char* _formTag;
+      static const QString _formTag;
       /*!
        * The tag name for a layout element used to define a column of this editor
        * using a vertical layout.
        */
-      static const char* _layoutTag;
+      static const QString _layoutTag;
       /*!
        * The attribute name for the display string used as the title of an edit
        * element.
        */
-      static const char* _displayKey;
+      static const QString _displayKey;
       /*!
        * The tag name for a check boxes element used to define a check boxes edit
        * widget.
        */
-      static const char* _checkboxesTag;
+      static const QString _checkboxesTag;
       /*!
        * The tag name for a checkbox element used to define a single checkbox within a
        * check boxes element.
        */
-      static const char* _checkboxTag;
+      static const QString _checkboxTag;
       /*!
        * The tag name for a combo box element used to define a combo box widget.
        */
-      static const char* _comboTag;
+      static const QString _comboTag;
       /*!
        * The tag name for an option element nested within combo elements used to
        * define a value of a combo box widget.
        */
-      static const char* _optionTag;
+      static const QString _optionTag;
       /*!
        * The tag name for a line edit element used to define a line edit widget.
        */
-      static const char* _lineTag;
+      static const QString _lineTag;
       /*!
        * The tag name for a text edit element used to define a text edit widget.
        */
-      static const char* _textTag;
+      static const QString _textTag;
       /*!
        * The tag name of a list edit element used to define a list edit widget.
        */
-      static const char* _listTag;
+      static const QString _listTag;
       /*!
        * The attribute name for the row size of a check boxes edit element.
        */
-      static const char* _rowSizeKey;
+      static const QString _rowSizeKey;
       /*!
        * The attribute name for the value of an option element nested within a combo
        * element.
        */
-      static const char* _valueKey;
+      static const QString _valueKey;
       /*!
        * The attribute name for the option of disabling spell checking on a text edit
        * widget if the attribute is set to no.
        */
-      static const char* _spellKey;
+      static const QString _spellKey;
       /*!
        * The attribute name for the option of disabling the popup dialog on a text
        * edit widget if the attribute is set to no.
        */
-      static const char* _dialogKey;
+      static const QString _dialogKey;
    private:
       void saveSettings(const QString& baseKey);
       QWidget* setupForm(const QDomElement& element);
@@ -118,6 +119,7 @@ namespace Basic
       void add(QLayout* layout, const QDomElement& element, QWidget* item);
       void add(QLayout* layout, const QDomElement& element, QLayout* item);
       QVariant fieldValue(const QString& id, quint32 type);
+   private:
       /*!
        * The qt splitter of this edit dialog that splits each single layout column
        * between one another.
