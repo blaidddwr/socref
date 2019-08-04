@@ -368,7 +368,7 @@ void Project::setScanDirectory(const QString& path)
 
    // Set this project's scan directory to the new path given relative to the
    // project's path.
-   _scanDirectory = QFileInfo(_path).dir().relativeFilePath(info.path());
+   _scanDirectory = QFileInfo(_path).dir().relativeFilePath(info.filePath());
    signalModified();
 }
 
