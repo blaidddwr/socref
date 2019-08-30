@@ -3,6 +3,12 @@
 
 Description of all releases with most recent on the top.
 
+## Version 0.7.2
+
+* Fixed project relative path bugs.
+* Fixed C++/Qt parser bug.
+* Trimmed notes.
+
 ## Version 0.7.1
 
 * Optimized scanner for all project types.
