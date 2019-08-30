@@ -215,14 +215,16 @@ int Project::type() const
 
 
 /*!
- * Returns the path of the file associated with this open project. If this is a
- * new project that has not been saved yet this returns an empty string.
+ * Returns the path of the file associated with this open project, not including
+ * the file name. If this is a new project that has not been saved yet this
+ * returns an empty string.
  *
  * @return Path to file associated with this project or an empty string.
  */
 QString Project::path() const
 {
-   return _path;
+   if ( _path.isEmpty() ) return _path;
+   else return QFileInfo(_path).path();
 }
 
 
@@ -358,7 +360,7 @@ void Project::setScanDirectory(const QString& path)
 {
    // Get file info for this project's current scan directory and the new path given.
    QFileInfo current(_scanDirectory);
-   QFileInfo info(path);
+   QFileInfo info(Project::path() + path);
 
    // Make sure the new path is different from the current path.
    if ( current == info ) return;
@@ -368,7 +370,7 @@ void Project::setScanDirectory(const QString& path)
 
    // Set this project's scan directory to the new path given relative to the
    // project's path.
-   _scanDirectory = QFileInfo(_path).dir().relativeFilePath(info.path());
+   _scanDirectory = QFileInfo(_path).dir().relativeFilePath(info.filePath());
    signalModified();
 }
 

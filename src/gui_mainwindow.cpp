@@ -299,7 +299,10 @@ void MainWindow::scanTriggered()
    if ( _project && !_scanThread )
    {
       // Create a new scan thread and progress bar for this window.
-      _scanThread = new ScanThread(_project->createScannerMap(),_project->scanDirectory(),_project->scanFilters().split(' ',QString::SkipEmptyParts),this);
+      _scanThread = new ScanThread(_project->createScannerMap()
+                                   ,_project->path() + QStringLiteral("/") + _project->scanDirectory()
+                                   ,_project->scanFilters().split(' ',QString::SkipEmptyParts)
+                                   ,this);
       QProgressBar* progressBar {new QProgressBar};
 
       // Connect all required signals for this window's new scan thread, using a queued

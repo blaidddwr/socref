@@ -14351,7 +14351,7 @@ The mapping of scanner objects are used to determine which scanner object to use
         <function>
           <data>
             <const/>
-            <description>Returns the path of the file associated with this open project. If this is a new project that has not been saved yet this returns an empty string.</description>
+            <description>Returns the path of the file associated with this open project, not including the file name. If this is a new project that has not been saved yet this returns an empty string.</description>
             <name>path</name>
             <return_description>Path to file associated with this project or an empty string.</return_description>
             <type>QString</type>

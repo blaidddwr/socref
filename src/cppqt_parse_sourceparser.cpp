@@ -22,7 +22,7 @@ namespace Parse
  */
 SourceParser::SourceParser(bool first)
    :
-   Basic::InputParser("\\A#include\\s+[\"<][a-zA-Z_\\.]+[\">]\\z","\\A\\z",first)
+   Basic::InputParser("\\A#include\\s+[\"<][a-zA-Z_\\.]+[a-zA-Z0-9_]*[\">]\\z","\\A\\z",first)
 {
 }
 

@@ -17,7 +17,7 @@ namespace Parse
  */
 HeadParser::HeadParser()
    :
-   Basic::InputParser("\\A#define\\s+[a-zA-Z_]*_H\\z","\\A\\z")
+   Basic::InputParser("\\A#define\\s+[a-zA-Z_]+[a-zA-Z0-9_]*_H\\z","\\A\\z")
 {
 }
 
