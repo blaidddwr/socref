@@ -1,12 +1,28 @@
-from .block_factory import Block_Factory
-from .project_model import Project_Model
+"""
+todo
+"""
+import sys
+import os
+from PySide2.QtWidgets import QApplication
+from .main_window import Main_Window
+
+from .block_factory import Block_Factory # TEMP
+
+
 
 
 def main():
-    try:
-        Block_Factory().load("Python","socref_python")
-    except ModuleNotFoundError:
-        print("oops!")
+    print(os.getpid())
+    Block_Factory().load("Python","socref_python")
+    application = QApplication(sys.argv)
+    main_window = Main_Window()
+    main_window.show()
+    sys.exit(application.exec_())
+
+
+
+
+
 
 if __name__ == "__main__":
     main()
