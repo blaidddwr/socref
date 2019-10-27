@@ -13,8 +13,19 @@ class Package(Abstract_Block):
 
 
     def name(self):
-        return ""
+        return self.__props["name"]
 
 
     def build_list(self):
         return ("Package",)
+
+
+    def set_default_properties(self):
+        self.__props["name"] = "package"
+
+
+    def __init__(self):
+        Abstract_Block.__init__(self)
+        #
+        self.__props = {"name":""}
+        #:

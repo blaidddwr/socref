@@ -28,16 +28,21 @@ class Abstract_Block(ABC):
 
 
     @abstractmethod
-    def build_list():
+    def build_list(self):
+        pass
+
+
+    @abstractmethod
+    def set_default_properties(self):
         pass
 
 
     def __init__(self):
         ABC.__init__(self)
-        # 
-        __children = []
-        # 
-        __parent = None
+        #
+        self.__children = []
+        #
+        self.__parent = None
         #:
 
 
@@ -63,13 +68,21 @@ class Abstract_Block(ABC):
         return self.__children[index]
 
 
+    def __delitem__(self,index):
+        del self.__children[index]
+
+
+    def parent(self):
+        return self.__parent
+
+
     def index(self):
         if self.__parent is None: raise LogicError("Cannot get index of block with no parent.")
         return self.__parent.__children.index(self)
 
 
     def insert(self,index,block):
-        if block.parent() is not None:
+        if block.__parent is not None:
             raise LogicError("Block is already a child of another block.")
         self.__children.insert(index,block)
         block.__parent = self
