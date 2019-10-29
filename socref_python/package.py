@@ -20,12 +20,16 @@ class Package(Abstract_Block):
         return ("Package",)
 
 
+    def properties(self):
+        return self.__props
+
+
     def set_default_properties(self):
         self.__props["name"] = "package"
 
 
     def __init__(self):
-        Abstract_Block.__init__(self)
+        Abstract_Block.__init__(self,self._LANG_,self._BLOCKNAME_)
         #
         self.__props = {"name":""}
         #:

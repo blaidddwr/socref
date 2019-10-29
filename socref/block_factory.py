@@ -55,6 +55,8 @@ class Block_Factory():
         self.__langs = {}
         #
         self.__importing_lang = None
+        #
+        self.__importing_lang_name = None
         #:
 
 
@@ -63,6 +65,7 @@ class Block_Factory():
             raise LoadError("Language already loaded with the same name")
         self.__langs[lang_name] = {}
         self.__importing_lang = self.__langs[lang_name]
+        self.__importing_lang_name = lang_name
         try:
             module = import_module(import_name)
             if not self.__importing_lang:
@@ -72,12 +75,15 @@ class Block_Factory():
             raise
         finally:
             self.__importing_lang = None
+            self.__importing_lang_name = None
 
 
     def register_block(self,class_,name):
         if name == self.__ROOT:
             raise RegisterError(f"Block class cannot register with reserved name {self.__ROOT}.")
         self.__register_block_(class_,name)
+        class_._LANG_ = self.__importing_lang_name
+        class_._BLOCKNAME_ = name
 
 
     def register_root_block(self,class_):

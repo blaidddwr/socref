@@ -33,12 +33,21 @@ class Abstract_Block(ABC):
 
 
     @abstractmethod
+    def properties(self):
+        pass
+
+
+    @abstractmethod
     def set_default_properties(self):
         pass
 
 
-    def __init__(self):
+    def __init__(self,lang_name,block_name):
         ABC.__init__(self)
+        #
+        self.__lang_name = lang_name
+        #
+        self.__block_name = block_name
         #
         self.__children = []
         #
@@ -72,6 +81,31 @@ class Abstract_Block(ABC):
         del self.__children[index]
 
 
+    def to_xml(self,stream):
+        stream.writeStartElement(self.__block_name)
+        props = self.properties()
+        for key in props:
+            prop = props[key]
+            if prop: stream.writeTextElement("_" + key,prop)
+        for child in self: child.to_xml(stream)
+        stream.writeEndElement()
+
+
+    def set_from_xml(self,stream):
+        self.clear_properties()
+        self.__children = []
+        while not stream.atEnd():
+            stream.readNext()
+            if stream.isStartElement():
+                name = stream.name();
+                if name.startswith("_"):
+                    self.properties()[name[1:]] = stream.readElementText()
+                else:
+                    child = BlockFactory().create(self.__lang_name,name)
+                    child.set_from_xml(stream)
+                    self.append(child)
+
+
     def parent(self):
         return self.__parent
 
@@ -86,6 +120,10 @@ class Abstract_Block(ABC):
             raise LogicError("Block is already a child of another block.")
         self.__children.insert(index,block)
         block.__parent = self
+
+
+    def append(self,block):
+        self.insert(len(self),block)
 
 
     def pop(self,index):
