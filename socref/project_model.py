@@ -12,7 +12,10 @@ from .block_factory import Block_Factory
 class Project_Model(QAbstractItemModel):
 
 
-    def __init__(self,parent):
+    BUILD_LIST_ROLE = Qt.UserRole + 0
+
+
+    def __init__(self,parent=None):
         QAbstractItemModel.__init__(self,parent)
         #
         self.__root = None
@@ -62,6 +65,7 @@ class Project_Model(QAbstractItemModel):
         block = self.__block_(index)
         if block is not None:
             if role == Qt.DisplayRole: return block.name()
+            elif role == self.BUILD_LIST_ROLE: return block.build_list()
             else: return None
         else: return None
 

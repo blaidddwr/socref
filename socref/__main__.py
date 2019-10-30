@@ -27,8 +27,7 @@ def main():
     stream.writeEndDocument()
     print(str(ba,"utf-8"))
     application = QApplication(sys.argv)
-    main_window = Main_Window()
-    main_window.show()
+    Main_Window().show()
     sys.exit(application.exec_())
 
 
