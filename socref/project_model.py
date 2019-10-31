@@ -1,7 +1,12 @@
 """
 todo
 """
-from PySide2.QtCore import Qt,QAbstractItemModel,QModelIndex
+from PySide2.QtCore import (Qt
+                            ,QByteArray
+                            ,QXmlStreamReader
+                            ,QXmlStreamWriter
+                            ,QAbstractItemModel
+                            ,QModelIndex)
 from .block_factory import Block_Factory
 
 
@@ -20,13 +25,13 @@ class Project_Model(QAbstractItemModel):
         #
         self.__root = None
         #
-        self.__lang = None
+        self.__lang_name = None
         #:
 
 
     def headerData(self,section,orientation,role):
         if orientation == Qt.Horizontal and section == 0 and role == Qt.DisplayRole:
-            return self.__lang
+            return self.__lang_name
         else: return QAbstractItemModel.headerData(self,section,orientation,role)
 
 
@@ -64,7 +69,7 @@ class Project_Model(QAbstractItemModel):
     def data(self,index,role):
         block = self.__block_(index)
         if block is not None:
-            if role == Qt.DisplayRole: return block.name()
+            if role == Qt.DisplayRole: return block.display_name()
             elif role == self.BUILD_LIST_ROLE: return block.build_list()
             else: return None
         else: return None
@@ -72,15 +77,13 @@ class Project_Model(QAbstractItemModel):
 
     def insertRows(self,row,block_names,parent):
         parent_block = self.__block_(parent)
-        if parent_block is None or row < 0 or row > len(parent_block): return False
-        self.beginInsertRows(parent,row,row + len(block_names) - 1)
+        if parent_block is None: return False
+        blocks = []
         for block_name in block_names:
-            new_block = Block_Factory().create(self.__lang,block_name)
-            new_block.set_default_properties()
-            parent_block.insert(row,new_block)
-            row += 1
-        self.endInsertRows()
-        return True
+            block = Block_Factory().create(self.__lang_name,block_name)
+            block.set_default_properties()
+            blocks.append(block)
+        return self.__insert_rows_(row,blocks,parent,parent_block)
 
 
     def removeRows(self,row,count,parent):
@@ -99,22 +102,90 @@ class Project_Model(QAbstractItemModel):
         return self.insertRows(row,(block_name,),parent)
 
 
+    def move_row(self,change,index):
+        if not index.isValid(): return False
+        block = self.__block_(index.parent())
+        from_row = index.row()
+        to_row = from_row + change
+        if to_row < 0 or to_row > len(block): return False
+        self.beginMoveRows(index.parent(),from_row,from_row,index.parent(),to_row)
+        if to_row > from_row: to_row += -1
+        block.insert(to_row,block.pop(from_row))
+        self.endMoveRows()
+
+
     def new(self,lang_name):
         self.beginResetModel()
         try:
-            self.__lang = lang_name
-            self.__root = Block_Factory().create_root(self.__lang)
+            self.__lang_name = lang_name
+            self.__root = Block_Factory().create_root(self.__lang_name)
         except:
-            self.__lang = None
+            self.__lang_name = None
             self.__root = None
             raise
         finally:
             self.endResetModel()
 
 
+    def copy_to_xml(self,indexes):
+        block_names = set()
+        ba = QByteArray()
+        stream = QXmlStreamWriter(ba)
+        stream.setAutoFormatting(True)
+        stream.writeStartDocument()
+        stream.writeStartElement(self.__COPY_TAG)
+        stream.writeTextElement(self.__LANG_TAG,self.__lang_name)
+        for index in indexes:
+            block = self.__block_(index)
+            if block is not None:
+                block.to_xml(stream)
+                block_names.add(block.type_name())
+        stream.writeEndElement()
+        stream.writeEndDocument()
+        return str(ba,"utf-8"),block_names
+
+
+    def insert_rows_from_xml(self,row,xml,parent):
+        parent_block = self.__block_(parent)
+        if parent_block is None: return 0
+        stream = QXmlStreamReader(xml.encode("utf-8"))
+        stream.readNextStartElement()
+        if not stream.isStartElement() or stream.name() != self.__COPY_TAG: return 0
+        stream.readNextStartElement()
+        if stream.name() != self.__LANG_TAG: return 0
+        lang_name = stream.readElementText()
+        if lang_name != self.__lang_name: return 0
+        blocks = []
+        while not stream.atEnd():
+            stream.readNext()
+            if stream.isStartElement():
+                name = stream.name()
+                if name in parent_block.build_list():
+                    block = Block_Factory().create(lang_name,name)
+                    block.set_from_xml(stream)
+                    blocks.append(block)
+        if self.__insert_rows_(row,blocks,parent,parent_block): return len(blocks)
+        else: return 0
+
+
+    def __insert_rows_(self,row,blocks,parent,parent_block):
+        if row < 0 or row > len(parent_block): return False
+        self.beginInsertRows(parent,row,row + len(blocks) - 1)
+        for block in blocks:
+            parent_block.insert(row,block)
+            row += 1
+        self.endInsertRows()
+        return True
+
+
     def __block_(self,index):
-        #.
         if index.isValid():
             return index.internalPointer()
         else:
             return self.__root
+
+
+    #
+    __COPY_TAG = "pysoref_copy"
+    #
+    __LANG_TAG = "language"

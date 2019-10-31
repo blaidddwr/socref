@@ -12,7 +12,7 @@ from socref.block_factory import register_block
 class Package(Abstract_Block):
 
 
-    def name(self):
+    def display_name(self):
         return self.__props["name"]
 
 
@@ -26,6 +26,10 @@ class Package(Abstract_Block):
 
     def set_default_properties(self):
         self.__props["name"] = "package"
+
+
+    def clear_properties(self):
+        self.__props["name"] = ""
 
 
     def __init__(self):

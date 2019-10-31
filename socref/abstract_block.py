@@ -2,6 +2,7 @@
 todo
 """
 from abc import ABC,abstractmethod
+from . import block_factory
 
 
 
@@ -23,7 +24,7 @@ class Abstract_Block(ABC):
 
 
     @abstractmethod
-    def name(self):
+    def display_name(self):
         pass
 
 
@@ -42,12 +43,17 @@ class Abstract_Block(ABC):
         pass
 
 
-    def __init__(self,lang_name,block_name):
+    @abstractmethod
+    def clear_properties(self):
+        pass
+
+
+    def __init__(self,lang_name,type_name):
         ABC.__init__(self)
         #
         self.__lang_name = lang_name
         #
-        self.__block_name = block_name
+        self.__type_name = type_name
         #
         self.__children = []
         #
@@ -81,8 +87,12 @@ class Abstract_Block(ABC):
         del self.__children[index]
 
 
+    def type_name(self):
+        return self.__type_name
+
+
     def to_xml(self,stream):
-        stream.writeStartElement(self.__block_name)
+        stream.writeStartElement(self.__type_name)
         props = self.properties()
         for key in props:
             prop = props[key]
@@ -101,9 +111,10 @@ class Abstract_Block(ABC):
                 if name.startswith("_"):
                     self.properties()[name[1:]] = stream.readElementText()
                 else:
-                    child = BlockFactory().create(self.__lang_name,name)
+                    child = block_factory.Block_Factory().create(self.__lang_name,name)
                     child.set_from_xml(stream)
                     self.append(child)
+            elif stream.isEndElement() and stream.name() == self.__type_name: break
 
 
     def parent(self):

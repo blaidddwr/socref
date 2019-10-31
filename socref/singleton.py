@@ -7,10 +7,20 @@ todo
 
 
 
-def singleton(class_):
-    instances = {}
-    def wrapper():
-        if class_ not in instances.keys():
-            instances[class_] = class_();
-        return instances[class_]
-    return wrapper
+class Singleton():
+
+
+    def __init__(self,class_):
+        #
+        self.__class = class_
+        #
+        self.__instance = class_()
+        #:
+
+
+    def __call__(self):
+        return self.__instance
+
+
+    def class_(self):
+        return self.__class

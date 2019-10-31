@@ -2,7 +2,7 @@
 todo
 """
 from importlib import import_module
-from .singleton import singleton
+from .singleton import Singleton
 from .abstract_block import Abstract_Block
 
 
@@ -44,7 +44,7 @@ class RegisterError(Exception):
 
 
 
-@singleton
+@Singleton
 class Block_Factory():
 
 

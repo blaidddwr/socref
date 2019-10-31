@@ -20,6 +20,8 @@ class Project_View(QTreeView):
     def __init__(self,parent=None):
         QTreeView.__init__(self,parent)
         #
+        self.__model = None
+        #
         self.__remove_action = None
         #
         self.__cut_action = None
@@ -59,6 +61,7 @@ class Project_View(QTreeView):
         model.destroyed.connect(self.__model_destroyed_)
         model.dataChanged.connect(self.__model_data_changed_)
         self.selectionModel().currentChanged.connect(self.__current_changed_)
+        self.__model = model
         self.__update_context_menu_()
 
 
@@ -74,6 +77,7 @@ class Project_View(QTreeView):
 
     @QtSlot()
     def __model_destroyed_(self):
+        self.__model = None
         self.__update_context_menu_()
 
 
@@ -88,42 +92,68 @@ class Project_View(QTreeView):
 
     @QtSlot()
     def __remove_(self):
-        print("remove")
+        while self.selectionModel().hasSelection():
+            index = self.selectionModel().selectedIndexes()[0]
+            parent = self.__model.parent(index)
+            self.__model.removeRow(index.row(),parent)
 
 
     @QtSlot()
     def __cut_(self):
-        print("cut")
+        self.__copy_()
+        self.__remove_()
 
 
     @QtSlot()
     def __copy_(self):
-        print("copy")
+        indexes = self.selectionModel().selectedIndexes()
+        if not indexes: return
+        (Project_View.__xml_blocks
+         ,Project_View.__block_names_set) = self.__model.copy_to_xml(indexes)
 
 
     @QtSlot()
     def __paste_before_(self):
-        print("paste before")
+        self.__paste_(self.__PASTE_BEFORE)
 
 
     @QtSlot()
     def __paste_into_(self):
-        print("paste into")
+        self.__paste_(self.__PASTE_INTO)
 
 
     @QtSlot()
     def __paste_after_(self):
-        print("paste after")
+        self.__paste_(self.__PASTE_AFTER)
 
 
     @QtSlot()
     def __move_up_(self):
-        print("move up")
+        self.__model.move_row(-1,self.selectionModel().currentIndex())
 
 
     @QtSlot()
     def __move_down_(self):
-        print("move down")
+        self.__model.move_row(2,self.selectionModel().currentIndex())
+
+
+    def __paste_(self,type_):
+        index = self.selectionModel().currentIndex()
+        if not index.isValid(): return
+        if Project_View.__xml_blocks is None: return
+        parent = None
+        row = 1
+        if type_ == self.__PASTE_INTO:
+            parent = index
+            row = 0
+        elif type_ == self.__PASTE_BEFORE:
+            parent = self.__model.parent(index)
+            row = index.row()
+        elif type_ == self.__PASTE_AFTER:
+            parent = self.__model.parent(index)
+            row = index.row() + 1
+        else: raise RuntimeError("Invalid type given.")
+        self.__model.insert_rows_from_xml(row,Project_View.__xml_blocks,parent)
 
 
     def __update_context_menu_(self):
@@ -197,3 +227,15 @@ class Project_View(QTreeView):
         menu.addAction(self.__move_up_action)
         menu.addAction(self.__move_down_action)
         self.__update_context_menu_()
+
+
+    #
+    __xml_blocks = None
+    #
+    __block_names_set = None
+    #
+    __PASTE_BEFORE = 0
+    #
+    __PASTE_INTO = 1
+    #
+    __PASTE_AFTER = 2
