@@ -9,43 +9,7 @@ from . import block_factory
 
 
 
-class LogicError(Exception):
-
-
-    def __init__(self,*args):
-        Exception.__init__(self,*args)
-
-
-
-
-
-
 class Abstract_Block(ABC):
-
-
-    @abstractmethod
-    def display_name(self):
-        pass
-
-
-    @abstractmethod
-    def build_list(self):
-        pass
-
-
-    @abstractmethod
-    def properties(self):
-        pass
-
-
-    @abstractmethod
-    def set_default_properties(self):
-        pass
-
-
-    @abstractmethod
-    def clear_properties(self):
-        pass
 
 
     def __init__(self,lang_name,type_name):
@@ -87,6 +51,31 @@ class Abstract_Block(ABC):
         del self.__children[index]
 
 
+    @abstractmethod
+    def display_name(self):
+        pass
+
+
+    @abstractmethod
+    def build_list(self):
+        pass
+
+
+    @abstractmethod
+    def properties(self):
+        pass
+
+
+    @abstractmethod
+    def set_default_properties(self):
+        pass
+
+
+    @abstractmethod
+    def clear_properties(self):
+        pass
+
+
     def type_name(self):
         return self.__type_name
 
@@ -122,13 +111,13 @@ class Abstract_Block(ABC):
 
 
     def index(self):
-        if self.__parent is None: raise LogicError("Cannot get index of block with no parent.")
+        if self.__parent is None: raise RuntimeError("Cannot get index of block with no parent.")
         return self.__parent.__children.index(self)
 
 
     def insert(self,index,block):
         if block.__parent is not None:
-            raise LogicError("Block is already a child of another block.")
+            raise RuntimeError("Block is already a child of another block.")
         self.__children.insert(index,block)
         block.__parent = self
 

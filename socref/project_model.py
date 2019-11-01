@@ -2,12 +2,15 @@
 todo
 """
 from PySide2.QtCore import (Qt
+                            ,Slot as QtSlot
                             ,QByteArray
                             ,QXmlStreamReader
                             ,QXmlStreamWriter
                             ,QAbstractItemModel
                             ,QModelIndex)
+from PySide2.QtWidgets import QUndoStack
 from .block_factory import Block_Factory
+from .project_commands import *
 
 
 
@@ -26,7 +29,27 @@ class Project_Model(QAbstractItemModel):
         self.__root = None
         #
         self.__lang_name = None
+        #
+        self.__undo_stack = QUndoStack(self)
         #:
+
+
+    @QtSlot()
+    def undo(self):
+        self.__undo_stack.undo()
+
+
+    @QtSlot()
+    def redo(self):
+        self.__undo_stack.redo()
+
+
+    def can_undo(self):
+        return self.__undo_stack.canUndo()
+
+
+    def can_redo(self):
+        return self.__undo_stack.canUndo()
 
 
     def headerData(self,section,orientation,role):
@@ -77,24 +100,21 @@ class Project_Model(QAbstractItemModel):
 
     def insertRows(self,row,block_names,parent):
         parent_block = self.__block_(parent)
-        if parent_block is None: return False
+        if parent_block is None or row < 0 or row > len(parent_block): return False
         blocks = []
         for block_name in block_names:
             block = Block_Factory().create(self.__lang_name,block_name)
             block.set_default_properties()
             blocks.append(block)
-        return self.__insert_rows_(row,blocks,parent,parent_block)
+        self.__undo_stack.push(Insert(row,blocks,parent,self))
+        return True
 
 
     def removeRows(self,row,count,parent):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block):
             return False
-        self.beginRemoveRows(parent,row,row + count - 1)
-        while count:
-            del parent_block[row]
-            count -= 1
-        self.endRemoveRows()
+        self.__undo_stack.push(Remove(row,count,parent,self))
         return True
 
 
@@ -103,15 +123,13 @@ class Project_Model(QAbstractItemModel):
 
 
     def move_row(self,change,index):
-        if not index.isValid(): return False
+        if not change or not index.isValid(): return False
         block = self.__block_(index.parent())
-        from_row = index.row()
-        to_row = from_row + change
-        if to_row < 0 or to_row > len(block): return False
-        self.beginMoveRows(index.parent(),from_row,from_row,index.parent(),to_row)
-        if to_row > from_row: to_row += -1
-        block.insert(to_row,block.pop(from_row))
-        self.endMoveRows()
+        if block is None: return False
+        to_row = index.row() + change
+        if to_row < 0 or to_row >= len(block): return False
+        self.__undo_stack.push(Move(change,index,self))
+        return True
 
 
     def new(self,lang_name):
@@ -147,7 +165,7 @@ class Project_Model(QAbstractItemModel):
 
     def insert_rows_from_xml(self,row,xml,parent):
         parent_block = self.__block_(parent)
-        if parent_block is None: return 0
+        if parent_block is None or row < 0 or row > len(parent_block): return 0
         stream = QXmlStreamReader(xml.encode("utf-8"))
         stream.readNextStartElement()
         if not stream.isStartElement() or stream.name() != self.__COPY_TAG: return 0
@@ -164,12 +182,38 @@ class Project_Model(QAbstractItemModel):
                     block = Block_Factory().create(lang_name,name)
                     block.set_from_xml(stream)
                     blocks.append(block)
-        if self.__insert_rows_(row,blocks,parent,parent_block): return len(blocks)
-        else: return 0
+        self.__undo_stack.push(Insert(row,blocks,parent,self))
+        return len(blocks)
 
 
-    def __insert_rows_(self,row,blocks,parent,parent_block):
-        if row < 0 or row > len(parent_block): return False
+    def _remove_rows_(self,row,count,parent):
+        parent_block = self.__block_(parent)
+        if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block):
+            raise RuntimeError("Parent index is not a valid block.")
+        blocks = []
+        self.beginRemoveRows(parent,row,row + count - 1)
+        while count:
+            blocks.append(parent_block.pop(row))
+            count -= 1
+        self.endRemoveRows()
+        return blocks
+
+
+    def _move_row_(self,from_row,to_row,parent):
+        parent_block = self.__block_(parent)
+        if parent_block is None: raise RuntimeError("Parent index is not a valid block.")
+        self.beginMoveRows(parent
+                           ,from_row,from_row
+                           ,parent
+                           ,to_row + 1 if to_row > from_row else to_row)
+        parent_block.insert(to_row,parent_block.pop(from_row))
+        self.endMoveRows()
+
+
+    def _insert_rows_(self,row,blocks,parent):
+        parent_block = self.__block_(parent)
+        if parent_block is None or row < 0 or row > len(parent_block):
+            raise RuntimeError("Parent index is not a valid block.")
         self.beginInsertRows(parent,row,row + len(blocks) - 1)
         for block in blocks:
             parent_block.insert(row,block)

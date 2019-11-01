@@ -80,7 +80,7 @@ class Block_Factory():
 
     def register_block(self,class_,name):
         if name == self.__ROOT:
-            raise RegisterError(f"Block class cannot register with reserved name {self.__ROOT}.")
+            raise RegisterError("Block class cannot register with reserved name.")
         self.__register_block_(class_,name)
         class_._LANG_ = self.__importing_lang_name
         class_._BLOCKNAME_ = name

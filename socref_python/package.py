@@ -12,6 +12,13 @@ from socref.block_factory import register_block
 class Package(Abstract_Block):
 
 
+    def __init__(self):
+        Abstract_Block.__init__(self,self._LANG_,self._BLOCKNAME_)
+        #
+        self.__props = {"name":""}
+        #:
+
+
     def display_name(self):
         return self.__props["name"]
 
@@ -30,10 +37,3 @@ class Package(Abstract_Block):
 
     def clear_properties(self):
         self.__props["name"] = ""
-
-
-    def __init__(self):
-        Abstract_Block.__init__(self,self._LANG_,self._BLOCKNAME_)
-        #
-        self.__props = {"name":""}
-        #:
