@@ -8,7 +8,6 @@ from PySide2.QtCore import (Qt
                             ,QXmlStreamWriter
                             ,QAbstractItemModel
                             ,QModelIndex)
-from PySide2.QtWidgets import QUndoStack
 from .block_factory import Block_Factory
 from .project_commands import *
 
@@ -30,26 +29,32 @@ class Project_Model(QAbstractItemModel):
         #
         self.__lang_name = None
         #
-        self.__undo_stack = QUndoStack(self)
+        self.__undo_stack = []
+        #
+        self.__undo_stack_index = 0
         #:
 
 
     @QtSlot()
     def undo(self):
-        self.__undo_stack.undo()
+        if self.can_undo():
+            self.__undo_stack_index -= 1
+            self.__undo_stack[self.__undo_stack_index].undo()
 
 
     @QtSlot()
     def redo(self):
-        self.__undo_stack.redo()
+        if self.can_redo():
+            self.__undo_stack[self.__undo_stack_index].redo()
+            self.__undo_stack_index += 1
 
 
     def can_undo(self):
-        return self.__undo_stack.canUndo()
+        return self.__undo_stack_index > 0
 
 
     def can_redo(self):
-        return self.__undo_stack.canUndo()
+        return self.__undo_stack_index < len(self.__undo_stack)
 
 
     def headerData(self,section,orientation,role):
@@ -106,7 +111,7 @@ class Project_Model(QAbstractItemModel):
             block = Block_Factory().create(self.__lang_name,block_name)
             block.set_default_properties()
             blocks.append(block)
-        self.__undo_stack.push(Insert(row,blocks,parent,self))
+        self.__push_(Insert(row,blocks,parent,self))
         return True
 
 
@@ -114,7 +119,7 @@ class Project_Model(QAbstractItemModel):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block):
             return False
-        self.__undo_stack.push(Remove(row,count,parent,self))
+        self.__push_(Remove(row,count,parent,self))
         return True
 
 
@@ -128,7 +133,7 @@ class Project_Model(QAbstractItemModel):
         if block is None: return False
         to_row = index.row() + change
         if to_row < 0 or to_row >= len(block): return False
-        self.__undo_stack.push(Move(change,index,self))
+        self.__push_(Move(change,index,self))
         return True
 
 
@@ -182,7 +187,7 @@ class Project_Model(QAbstractItemModel):
                     block = Block_Factory().create(lang_name,name)
                     block.set_from_xml(stream)
                     blocks.append(block)
-        self.__undo_stack.push(Insert(row,blocks,parent,self))
+        self.__push_(Insert(row,blocks,parent,self))
         return len(blocks)
 
 
@@ -220,6 +225,13 @@ class Project_Model(QAbstractItemModel):
             row += 1
         self.endInsertRows()
         return True
+
+
+    def __push_(self,command):
+        self.__undo_stack = self.__undo_stack[:self.__undo_stack_index]
+        self.__undo_stack.append(command)
+        self.__undo_stack_index += 1
+        command.redo()
 
 
     def __block_(self,index):

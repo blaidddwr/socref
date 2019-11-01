@@ -2,18 +2,16 @@
 todo
 """
 from PySide2.QtCore import QModelIndex
-from PySide2.QtWidgets import QUndoCommand
 
 
 
 
 
 
-class Command(QUndoCommand):
+class Command():
 
 
     def __init__(self,model):
-        QUndoCommand.__init__(self)
         #
         self.__model = model
         #:
