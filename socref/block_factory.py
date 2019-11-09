@@ -10,7 +10,7 @@ from .abstract_block import Abstract_Block
 
 
 
-def register_block(name,root=False):
+def register_block(name, root=False):
     def wrapper(class_):
         Block_Factory().register_block(class_,name)
         if root: Block_Factory().register_root_block(class_)
@@ -60,8 +60,8 @@ class Block_Factory():
         #:
 
 
-    def load(self,lang_name,import_name):
-        if lang_name in self.__langs.keys():
+    def load(self, lang_name, import_name):
+        if lang_name in self.__langs.keys() :
             raise LoadError("Language already loaded with the same name")
         self.__langs[lang_name] = {}
         self.__importing_lang = self.__langs[lang_name]
@@ -78,15 +78,15 @@ class Block_Factory():
             self.__importing_lang_name = None
 
 
-    def register_block(self,class_,name):
-        if name == self.__ROOT:
+    def register_block(self, class_, name):
+        if name == self.__ROOT :
             raise RegisterError("Block class cannot register with reserved name.")
         self.__register_block_(class_,name)
         class_._LANG_ = self.__importing_lang_name
         class_._BLOCKNAME_ = name
 
 
-    def register_root_block(self,class_):
+    def register_root_block(self, class_):
         self.__register_block_(class_,self.__ROOT)
 
 
@@ -94,26 +94,26 @@ class Block_Factory():
         return self.__langs.keys()
 
 
-    def blocks(self,lang_name):
+    def blocks(self, lang_name):
         return self.__langs[lang_name].keys()
 
 
-    def create(self,lang_name,block_name):
+    def create(self, lang_name, block_name):
         return self.__langs[lang_name][block_name]()
 
 
-    def create_root(self,lang_name):
+    def create_root(self, lang_name):
         return self.__langs[lang_name][self.__ROOT]()
 
 
-    def __register_block_(self,class_,name):
-        if self.__importing_lang is None:
+    def __register_block_(self, class_, name):
+        if self.__importing_lang is None :
             raise RegisterError("Cannot register block class when no language is being imported.")
-        if name.startswith("_"):
+        if name.startswith("_") :
             raise RegisterError("Block name cannot start with an underscore.")
-        if name in self.__importing_lang.keys():
+        if name in self.__importing_lang.keys() :
             raise RegisterError("Block class is already registered with the same name.")
-        if not issubclass(class_,Abstract_Block):
+        if not issubclass(class_,Abstract_Block) :
             print(class_)
             raise RegisterError("Block class is not an Abstract Block.")
         self.__importing_lang[name] = class_;

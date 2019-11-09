@@ -17,17 +17,17 @@ class Command():
         #:
 
 
-    def _get_index_(self,rows):
+    def _get_index_(self, rows):
         index = QModelIndex()
-        for row in rows:
+        for row in rows :
             index = self.__model.index(row,0,index)
-            if not index.isValid(): raise RuntimeError("Move command rows are invalid.")
+            if not index.isValid() : raise RuntimeError("Move command rows are invalid.")
         return index
 
 
-    def _build_rows_(self,index):
+    def _build_rows_(self, index):
         rows = []
-        while index.isValid():
+        while index.isValid() :
             rows.append(index.row())
             index = index.parent()
         rows.reverse()
@@ -41,7 +41,7 @@ class Command():
 class Remove(Command):
 
 
-    def __init__(self,row,count,parent,model):
+    def __init__(self, row, count, parent, model):
         Command.__init__(self,model)
         #
         self._blocks = None
@@ -57,7 +57,7 @@ class Remove(Command):
 
 
     def undo(self):
-        if self._blocks is not None:
+        if self._blocks is not None :
             self.__model._insert_rows_(self.__row
                                        ,self._blocks
                                        ,self._get_index_(self.__parent_rows))
@@ -65,7 +65,7 @@ class Remove(Command):
 
 
     def redo(self):
-        if self._blocks is None:
+        if self._blocks is None :
             self._blocks = self.__model._remove_rows_(self.__row
                                                       ,self.__count
                                                       ,self._get_index_(self.__parent_rows))
@@ -78,7 +78,7 @@ class Remove(Command):
 class Insert(Remove):
 
 
-    def __init__(self,row,blocks,parent,model):
+    def __init__(self, row, blocks, parent, model):
         Remove.__init__(self,row,len(blocks),parent,model)
         #
         self._blocks = blocks
@@ -100,7 +100,7 @@ class Insert(Remove):
 class Move(Command):
 
 
-    def __init__(self,change,index,model):
+    def __init__(self, change, index, model):
         Command.__init__(self,model)
         #
         self.__model = model

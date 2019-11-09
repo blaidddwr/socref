@@ -10,7 +10,7 @@ todo
 class Singleton():
 
 
-    def __init__(self,class_):
+    def __init__(self, class_):
         #
         self.__class = class_
         #

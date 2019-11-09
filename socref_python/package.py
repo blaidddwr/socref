@@ -23,12 +23,24 @@ class Package(Abstract_Block):
         return self.__props["name"]
 
 
+    def display_view(self):
+        return "Place detailed description here."
+
+
     def build_list(self):
         return ("Package",)
 
 
+    def edit_definitions(self):
+        return [{"type":"line", "label":"Name:", "key":"name"}]
+
+
     def properties(self):
         return self.__props
+
+
+    def set_properties(self, props):
+        self.__props = props
 
 
     def set_default_properties(self):
