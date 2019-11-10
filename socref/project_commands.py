@@ -13,14 +13,14 @@ class Command():
 
     def __init__(self,model):
         #
-        self.__model = model
+        self._model = model
         #:
 
 
     def _get_index_(self, rows):
         index = QModelIndex()
         for row in rows :
-            index = self.__model.index(row,0,index)
+            index = self._model.index(row,0,index)
             if not index.isValid() : raise RuntimeError("Move command rows are invalid.")
         return index
 
@@ -38,6 +38,31 @@ class Command():
 
 
 
+class Set(Command):
+
+
+    def __init__(self, from_props, to_props, index, model):
+        Command.__init__(self,model)
+        #
+        self.__rows = self._build_rows_(index)
+        #
+        self.__from_props = from_props
+        #
+        self.__to_props = to_props
+
+
+    def undo(self):
+        self._model._set_props_(self._get_index_(self.__rows),self.__from_props)
+
+
+    def redo(self):
+        self._model._set_props_(self._get_index_(self.__rows),self.__to_props)
+
+
+
+
+
+
 class Remove(Command):
 
 
@@ -45,8 +70,6 @@ class Remove(Command):
         Command.__init__(self,model)
         #
         self._blocks = None
-        #
-        self.__model = model
         #
         self.__parent_rows = self._build_rows_(parent)
         #
@@ -58,17 +81,17 @@ class Remove(Command):
 
     def undo(self):
         if self._blocks is not None :
-            self.__model._insert_rows_(self.__row
-                                       ,self._blocks
-                                       ,self._get_index_(self.__parent_rows))
+            self._model._insert_rows_(self.__row
+                                      ,self._blocks
+                                      ,self._get_index_(self.__parent_rows))
             self._blocks = None
 
 
     def redo(self):
         if self._blocks is None :
-            self._blocks = self.__model._remove_rows_(self.__row
-                                                      ,self.__count
-                                                      ,self._get_index_(self.__parent_rows))
+            self._blocks = self._model._remove_rows_(self.__row
+                                                     ,self.__count
+                                                     ,self._get_index_(self.__parent_rows))
 
 
 
@@ -103,8 +126,6 @@ class Move(Command):
     def __init__(self, change, index, model):
         Command.__init__(self,model)
         #
-        self.__model = model
-        #
         self.__parent_rows = self._build_rows_(index.parent())
         #
         self.__from_row = index.row()
@@ -116,12 +137,12 @@ class Move(Command):
 
 
     def undo(self):
-        self.__model._move_row_(self.__to_row
-                                ,self.__from_row
-                                ,self._get_index_(self.__parent_rows))
+        self._model._move_row_(self.__to_row
+                               ,self.__from_row
+                               ,self._get_index_(self.__parent_rows))
 
 
     def redo(self):
-        self.__model._move_row_(self.__from_row
-                                ,self.__to_row
-                                ,self._get_index_(self.__parent_rows))
+        self._model._move_row_(self.__from_row
+                               ,self.__to_row
+                               ,self._get_index_(self.__parent_rows))

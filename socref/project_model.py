@@ -17,6 +17,17 @@ from .project_commands import *
 
 
 
+class LoadError(Exception):
+
+
+    def __init__(self,*args):
+        Exception.__init__(self,*args)
+
+
+
+
+
+
 class Project_Model(QAbstractItemModel):
 
 
@@ -49,6 +60,51 @@ class Project_Model(QAbstractItemModel):
 
     def __len__(self):
         return 0 if self.__root is None else 1
+
+
+    def load(self, path):
+        xml = None
+        with open(path,"br") as ifile:
+            xml = ifile.read()
+        stream = QXmlStreamReader(xml)
+        stream.readNextStartElement()
+        if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG :
+            raise LoadError("Invalid XML project tag.")
+        stream.readNextStartElement()
+        if stream.name() != self.__LANG_TAG :
+            raise LoadError("Invalid/missing XML language tag.")
+        lang_name = stream.readElementText()
+        stream.readNextStartElement()
+        if stream.name() != self.__NAME_TAG :
+            raise LoadError("Invalid/missing XML name tag.")
+        name = stream.readElementText()
+        self.new(lang_name)
+        self.__name = name
+        try:
+            stream.readNextStartElement()
+            if stream.name() != self.__root.type_name() :
+                raise LoadError("Invalid/missing XML root block tag.")
+            self.__root.set_from_xml(stream)
+        except:
+            self.close()
+            raise
+
+
+    def save(self, path):
+        if self.__root is not None:
+            xml = QByteArray()
+            stream = QXmlStreamWriter(xml)
+            stream.setAutoFormatting(True)
+            stream.writeStartDocument()
+            stream.writeStartElement(self.__PROJECT_TAG)
+            stream.writeTextElement(self.__LANG_TAG,self.__lang_name)
+            stream.writeTextElement(self.__NAME_TAG,self.__name)
+            self.__root.to_xml(stream)
+            stream.writeEndElement()
+            stream.writeEndDocument()
+            with open(path,"bw") as ofile:
+                ofile.write(xml.data())
+            self.__modified = False
 
 
     def lang_name(self):
@@ -130,8 +186,7 @@ class Project_Model(QAbstractItemModel):
     def setData(self, index, value, role):
         block = self.__block_(index)
         if block is not None and role == self.PROPERTIES_ROLE :
-            block.set_properties(value)
-            self.dataChanged.emit(index,index)
+            self.__push_(Set(block.properties(),value,index,self))
             return True
         else :
             return False
@@ -191,13 +246,15 @@ class Project_Model(QAbstractItemModel):
         self.__lang_name = None
         self.__root = None
         self.__modified = False
+        self.__undo_stack.clear()
+        self.__undo_stack_index = 0
         self.endResetModel()
 
 
     def copy_to_xml(self, indexes):
         block_names = set()
-        ba = QByteArray()
-        stream = QXmlStreamWriter(ba)
+        xml = QByteArray()
+        stream = QXmlStreamWriter(xml)
         stream.setAutoFormatting(True)
         stream.writeStartDocument()
         stream.writeStartElement(self.__COPY_TAG)
@@ -209,13 +266,13 @@ class Project_Model(QAbstractItemModel):
                 block_names.add(block.type_name())
         stream.writeEndElement()
         stream.writeEndDocument()
-        return str(ba,"utf-8"),block_names
+        return xml,block_names
 
 
     def insert_rows_from_xml(self, row, xml, parent):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or row > len(parent_block) : return 0
-        stream = QXmlStreamReader(xml.encode("utf-8"))
+        stream = QXmlStreamReader(xml)
         stream.readNextStartElement()
         if not stream.isStartElement() or stream.name() != self.__COPY_TAG : return 0
         stream.readNextStartElement()
@@ -266,6 +323,7 @@ class Project_Model(QAbstractItemModel):
             count -= 1
         self.endRemoveRows()
         self.__modified_()
+        return blocks
 
 
     def _move_row_(self, from_row, to_row, parent):
@@ -292,6 +350,14 @@ class Project_Model(QAbstractItemModel):
         self.__modified_()
 
 
+    def _set_props_(self, index, props):
+        block = self.__block_(index)
+        if block is None: raise RuntimeError("Index is not a valid block.")
+        block.set_properties(props)
+        self.dataChanged.emit(index,index)
+        self.__modified_()
+
+
     def __modified_(self):
         if not self.__modified :
             self.__modified = True
@@ -312,6 +378,10 @@ class Project_Model(QAbstractItemModel):
             return self.__root
 
 
+    #
+    __PROJECT_TAG = "scp_project"
+    #
+    __NAME_TAG = "name"
     #
     __COPY_TAG = "pysoref_copy"
     #

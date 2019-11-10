@@ -2,7 +2,7 @@
 todo
 """
 from PySide2.QtCore import Qt, Slot as QtSlot, QModelIndex
-from PySide2.QtGui import QKeySequence
+from PySide2.QtGui import QKeySequence, QIcon
 from PySide2.QtWidgets import QMainWindow, QAction, QMessageBox, QFileDialog
 from .project_model import Project_Model
 from .project_view import Project_View
@@ -55,6 +55,19 @@ class Main_Window(QMainWindow):
         self.__setup_menus_()
         self.__update_title_()
         self.__update_actions_()
+        toolbar = self.addToolBar("File")
+        toolbar.addAction(self.__open_action)
+        toolbar.addAction(self.__save_action)
+        toolbar.addAction(self.__save_as_action)
+        toolbar = self.addToolBar("Edit")
+        toolbar.addAction(self.__view.undo_action())
+        toolbar.addAction(self.__view.redo_action())
+        toolbar.addAction(self.__view.remove_action())
+        toolbar.addAction(self.__view.cut_action())
+        toolbar.addAction(self.__view.copy_action())
+        toolbar.addAction(self.__view.paste_action())
+        toolbar.addAction(self.__view.move_up_action())
+        toolbar.addAction(self.__view.move_down_action())
 
 
     def closeEvent(self, event):
@@ -105,18 +118,21 @@ class Main_Window(QMainWindow):
     def __setup_file_actions_(self):
         #
         action = self.__open_action
+        action.setIcon(QIcon.fromTheme("document-open"))
         action.setStatusTip("Open an existing project.")
         action.setShortcut(QKeySequence(QKeySequence.Open))
         action.triggered.connect(self.__open_)
         self.addAction(action)
         #
         action = self.__save_action
+        action.setIcon(QIcon.fromTheme("document-save"))
         action.setStatusTip("Save the current project.")
         action.setShortcut(QKeySequence(QKeySequence.Save))
         action.triggered.connect(self.__save_)
         self.addAction(action)
         #
         action = self.__save_as_action
+        action.setIcon(QIcon.fromTheme("document-save-as"))
         action.setStatusTip("Save the current project to a provided file path.")
         action.setShortcut(QKeySequence(QKeySequence.SaveAs))
         action.triggered.connect(self.__save_as_)
@@ -129,6 +145,7 @@ class Main_Window(QMainWindow):
         self.addAction(action)
         #
         action = self.__exit_action
+        action.setIcon(QIcon.fromTheme("application-exit"))
         action.setStatusTip("Exit this window.")
         action.setShortcut(QKeySequence(QKeySequence.Quit))
         action.triggered.connect(self.close)
@@ -169,7 +186,7 @@ class Main_Window(QMainWindow):
 
     @QtSlot()
     def __open_(self):
-        self.__path,type_ = QFileDialog.getOpenFileName(self,"Open Project","","Socrates' Project File (*.spr)")
+        self.__path,type_ = QFileDialog.getOpenFileName(self,"Open Project","","Socrates' Project File (*.scp)")
         if not self.__path :
             self.__path = None
             return
@@ -197,7 +214,7 @@ class Main_Window(QMainWindow):
 
     @QtSlot()
     def __save_as_(self):
-        self.__path,type_ = QFileDialog.getSaveFileName(self,"Save Project","","Socrates' Project File (*.spr)")
+        self.__path,type_ = QFileDialog.getSaveFileName(self,"Save Project","","Socrates' Project File (*.scp)")
         if not self.__path :
             self.__path = None
             return

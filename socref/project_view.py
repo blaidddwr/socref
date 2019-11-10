@@ -2,7 +2,7 @@
 todo
 """
 from PySide2.QtCore import Qt, Signal as QtSignal, Slot as QtSlot, QModelIndex, QItemSelectionModel
-from PySide2.QtGui import QKeySequence
+from PySide2.QtGui import QKeySequence, QIcon
 from PySide2.QtWidgets import QAction, QMenu, QAbstractItemView, QTreeView
 from .project_model import Project_Model
 
@@ -62,6 +62,38 @@ class Project_View(QTreeView):
 
     def context_menu(self):
         return self.__context_menu
+
+
+    def undo_action(self):
+        return self.__undo_action
+
+
+    def redo_action(self):
+        return self.__redo_action
+
+
+    def remove_action(self):
+        return self.__remove_action
+
+
+    def cut_action(self):
+        return self.__cut_action
+
+
+    def copy_action(self):
+        return self.__copy_action
+
+
+    def paste_action(self):
+        return self.__paste_action
+
+
+    def move_up_action(self):
+        return self.__move_up_action
+
+
+    def move_down_action(self):
+        return self.__move_down_action
 
 
     def setModel(self, model):
@@ -263,36 +295,42 @@ class Project_View(QTreeView):
     def __setup_actions_(self):
         #
         action = self.__undo_action
+        action.setIcon(QIcon.fromTheme("edit-undo"))
         action.setStatusTip("Undo the previous action.")
         action.setShortcut(QKeySequence(QKeySequence.Undo))
         action.triggered.connect(self.__undo_)
         self.addAction(action)
         #
         action = self.__redo_action
+        action.setIcon(QIcon.fromTheme("edit-redo"))
         action.setStatusTip("Redo the previous undone action.")
         action.setShortcut(QKeySequence(QKeySequence.Redo))
         action.triggered.connect(self.__redo_)
         self.addAction(action)
         #
         action = self.__remove_action
+        action.setIcon(QIcon.fromTheme("list-remove"))
         action.setStatusTip("Remove selected block(s).")
         action.setShortcut(QKeySequence(QKeySequence.Delete))
         action.triggered.connect(self.__remove_)
         self.addAction(action)
         #
         action = self.__cut_action
+        action.setIcon(QIcon.fromTheme("edit-cut"))
         action.setStatusTip("Cut selected block(s).")
         action.setShortcut(QKeySequence(QKeySequence.Cut))
         action.triggered.connect(self.__cut_)
         self.addAction(action)
         #
         action = self.__copy_action
+        action.setIcon(QIcon.fromTheme("edit-copy"))
         action.setStatusTip("Copy selected block(s).")
         action.setShortcut(QKeySequence(QKeySequence.Copy))
         action.triggered.connect(self.__copy_)
         self.addAction(action)
         #
         action = self.__paste_action
+        action.setIcon(QIcon.fromTheme("edit-paste"))
         action.setStatusTip("Paste before/into/after the current block, depending on the addition menu selection.")
         action.setShortcut(QKeySequence(QKeySequence.Paste))
         action.triggered.connect(self.__paste_)
@@ -317,12 +355,14 @@ class Project_View(QTreeView):
         action.triggered.connect(self.__insert_after_)
         #
         action = self.__move_up_action
+        action.setIcon(QIcon.fromTheme("go-up"))
         action.setStatusTip("Move current block up by one.")
         action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Up))
         action.triggered.connect(self.__move_up_)
         self.addAction(action)
         #
         action = self.__move_down_action
+        action.setIcon(QIcon.fromTheme("go-down"))
         action.setStatusTip("Move current block down by one.")
         action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Down))
         action.triggered.connect(self.__move_down_)

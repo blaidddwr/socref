@@ -9,7 +9,7 @@ from socref.block_factory import register_block
 
 
 @register_block("Package",root=True)
-class Package(Abstract_Block):
+class Block(Abstract_Block):
 
 
     def __init__(self):
@@ -24,7 +24,7 @@ class Package(Abstract_Block):
 
 
     def display_view(self):
-        return "Place detailed description here."
+        return "<h1>Description</h1><p>Place detailed description here.</p>"
 
 
     def build_list(self):

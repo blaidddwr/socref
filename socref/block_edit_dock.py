@@ -20,6 +20,7 @@ class Block_Edit_Dock(QDockWidget):
         #
         self.__edits = []
         #:
+        self.setWindowTitle("(Edit)")
 
 
     def set_view(self, view):
@@ -30,10 +31,10 @@ class Block_Edit_Dock(QDockWidget):
     @QtSlot(QModelIndex)
     def __current_changed_(self, index):
         if index.isValid() :
-            self.setWindowTitle(self.__view.model().data(index,Qt.DisplayRole))
+            self.setWindowTitle(f"{self.__view.model().data(index,Qt.DisplayRole)} (Edit)")
             self.setWidget(self.__build_form_widget(index))
         else :
-            self.setWindowTitle("")
+            self.setWindowTitle("(Edit)")
             self.__edits.clear()
             self.setWidget(None)
 

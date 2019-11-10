@@ -18,6 +18,7 @@ class Block_View_Dock(QDockWidget):
         #
         self.__view = None
         #:
+        self.setWindowTitle("(View)")
 
 
     def set_view(self, view):
@@ -29,7 +30,7 @@ class Block_View_Dock(QDockWidget):
     def __current_changed_(self, index):
         if index.isValid() :
             model = self.__view.model()
-            self.setWindowTitle(model.data(index,Qt.DisplayRole))
+            self.setWindowTitle(f"{model.data(index,Qt.DisplayRole)} (View)")
             label = QLabel(self)
             label.setAlignment(Qt.AlignTop)
             label.setWordWrap(True)
@@ -38,6 +39,6 @@ class Block_View_Dock(QDockWidget):
             label.setText(model.data(index,Project_Model.VIEW_ROLE))
             self.setWidget(label)
         else :
-            self.setWindowTitle("")
+            self.setWindowTitle("(View)")
             self.setWidget(None)
 
