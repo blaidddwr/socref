@@ -31,7 +31,10 @@ class Block_Edit_Dock(qtw.QDockWidget):
     @qtc.Slot(qtc.QModelIndex)
     def __current_changed_(self, index):
         if index.isValid() :
-            self.setWindowTitle(f"{self.__view.model().data(index,qtc.Qt.DisplayRole)} (Edit)")
+            model = self.__view.model()
+            self.setWindowTitle("[%s] %s (Edit)" %
+                                (model.data(index,pm.Project_Model.BLOCK_TYPE_ROLE)
+                                 ,model.data(index,qtc.Qt.DisplayRole)))
             self.setWidget(self.__build_form_widget(index))
         else :
             self.setWindowTitle("(Edit)")
@@ -43,7 +46,9 @@ class Block_Edit_Dock(qtw.QDockWidget):
     def __apply_(self):
         index = self.__view.selectionModel().currentIndex()
         if index.isValid() :
-            props = {edit._key:edit._value_() for edit in self.__edits}
+            props = dict()
+            for edit in self.__edits :
+                props[edit._key] = edit._value_()
             self.__view.model().setData(index,props,pm.Project_Model.PROPERTIES_ROLE)
 
 

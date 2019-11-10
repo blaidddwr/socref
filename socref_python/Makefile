@@ -1,2 +1,2 @@
-resources.py: resources.qrc icons/package.svg
-	pyrcc5 resources.qrc -o resources.py
+resources.py: icons/*
+	pyrcc5 icons/resources.qrc -o resources.py

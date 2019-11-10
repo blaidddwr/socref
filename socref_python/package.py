@@ -1,6 +1,7 @@
 """
 todo
 """
+import html
 from PySide2 import QtGui as qtg
 from socref import abstract_block as ab
 from socref import block_factory as bf
@@ -17,45 +18,68 @@ class Block(ab.Abstract_Block):
     def __init__(self):
         ab.Abstract_Block.__init__(self,self._LANG_,self._BLOCKNAME_)
         #
-        self.__props = {"name":""
-                        ,"description":""}
+        self._props = dict()
         #:
 
 
+    def name(self, escape=False):
+        ret = self._props["name"]
+        if escape : ret = html.escape(ret)
+        return ret
+
+
+    def description(self, escape=False):
+        ret = self._props["description"]
+        if escape : ret = html.escape(ret)
+        return ret
+
+
     def icon(self):
-        return qtg.QIcon(":/icons/package.svg")
+        return qtg.QIcon(":/python/package.svg")
 
 
     def display_name(self):
-        return self.__props["name"]
+        return self._props["name"]
 
 
     def display_view(self):
-        return f"<h1>Description</h1><p>{self.__props['description']}</p>"
+        description = self.description(escape=True)
+        if description : description = "<h1>Description</h1><p>%s</p>" % description
+        return description
 
 
     def build_list(self):
-        return ("Package",)
+        return ("Package","Module")
 
 
     def edit_definitions(self):
-        return [{"type":"line", "label":"Name:", "key":"name"}
-                ,{"type":"text", "label":"Description:", "key":"description"}]
+        ret = []
+        element = dict()
+        element["type"] = "line"
+        element["label"] = "Name:"
+        element["key"] = "name"
+        ret.append(element)
+        element = dict()
+        element["type"] = "text"
+        element["label"] = "Description:"
+        element["key"] = "description"
+        ret.append(element)
+        return ret
 
 
     def properties(self):
-        return self.__props
+        return self._props
 
 
     def set_properties(self, props):
-        self.__props = props
+        self._props = props
 
 
     def set_default_properties(self):
-        self.__props["name"] = "package"
-        self.__props["description"] = "Detailed description."
+        self._props["name"] = "package"
+        self._props["description"] = "Detailed description."
 
 
     def clear_properties(self):
-        self.__props["name"] = ""
-        self.__props["description"] = ""
+        self._props["name"] = ""
+        self._props["description"] = ""

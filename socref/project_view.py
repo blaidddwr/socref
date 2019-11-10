@@ -258,7 +258,8 @@ class Project_View(qtw.QTreeView):
     def __update_add_actions_(self):
         while self.__add_actions : self.__add_actions.pop().deleteLater()
         if self.__model is None : return
-        index = self.selectionModel().currentIndex()
+        (row,index) = self.__get_addition_values()
+        if index is None : return
         build_list = self.__model.data(index,pm.Project_Model.BUILD_LIST_ROLE)
         if build_list is not None :
             for block_name in build_list :

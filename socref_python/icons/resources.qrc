@@ -1,0 +1,8 @@
+<RCC>
+    <qresource prefix="/python">
+        <file>package.svg</file>
+        <file>module.svg</file>
+        <file>object.svg</file>
+        <file>function.svg</file>
+    </qresource>
+</RCC>

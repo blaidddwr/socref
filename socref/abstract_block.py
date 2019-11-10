@@ -51,6 +51,14 @@ class Abstract_Block(abc.ABC):
         del self.__children[index]
 
 
+    def is_volatile_above(self):
+        return False
+
+
+    def is_volatile_below(self):
+        return False
+
+
     @abc.abstractmethod
     def icon(self):
         pass

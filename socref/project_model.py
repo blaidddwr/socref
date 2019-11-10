@@ -32,6 +32,8 @@ class Project_Model(qtc.QAbstractItemModel):
     EDIT_DEFS_ROLE = qtc.Qt.UserRole + 2
     #
     PROPERTIES_ROLE = qtc.Qt.UserRole + 3
+    #
+    BLOCK_TYPE_ROLE = qtc.Qt.UserRole + 4
 
 
     def __init__(self, parent=None):
@@ -173,6 +175,7 @@ class Project_Model(qtc.QAbstractItemModel):
             elif role == self.VIEW_ROLE : return block.display_view()
             elif role == self.EDIT_DEFS_ROLE : return block.edit_definitions()
             elif role == self.PROPERTIES_ROLE : return block.properties()
+            elif role == self.BLOCK_TYPE_ROLE : return block.type_name()
             else : return None
         else : return None
 
@@ -310,12 +313,15 @@ class Project_Model(qtc.QAbstractItemModel):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block) :
             raise RuntimeError("Parent index is not a valid block.")
+        volatile = False
         blocks = []
         self.beginRemoveRows(parent,row,row + count - 1)
         while count :
             blocks.append(parent_block.pop(row))
+            if blocks[-1].is_volatile_above() : volatile = True
             count -= 1
         self.endRemoveRows()
+        self.__push_volatile_above_(parent)
         self.__modified_()
         return blocks
 
@@ -323,12 +329,16 @@ class Project_Model(qtc.QAbstractItemModel):
     def _move_row_(self, from_row, to_row, parent):
         parent_block = self.__block_(parent)
         if parent_block is None : raise RuntimeError("Parent index is not a valid block.")
+        volatile = False
         self.beginMoveRows(parent
                            ,from_row,from_row
                            ,parent
                            ,to_row + 1 if to_row > from_row else to_row)
-        parent_block.insert(to_row,parent_block.pop(from_row))
+        block = parent_block.pop(from_row)
+        if block.is_volatile_above() : volatile = True
+        parent_block.insert(to_row,block)
         self.endMoveRows()
+        self.__push_volatile_above_(parent)
         self.__modified_()
 
 
@@ -336,11 +346,14 @@ class Project_Model(qtc.QAbstractItemModel):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or row > len(parent_block) :
             raise RuntimeError("Parent index is not a valid block.")
+        volatile = False
         self.beginInsertRows(parent,row,row + len(blocks) - 1)
         for block in blocks :
             parent_block.insert(row,block)
+            if block.is_volatile_above() : volatile = True
             row += 1
         self.endInsertRows()
+        if volatile : self.__push_volatile_above_(parent)
         self.__modified_()
 
 
@@ -349,6 +362,8 @@ class Project_Model(qtc.QAbstractItemModel):
         if block is None: raise RuntimeError("Index is not a valid block.")
         block.set_properties(props)
         self.dataChanged.emit(index,index)
+        if block.is_volatile_above() : self.__push_volatile_above_(index.parent())
+        if block.is_volatile_below() : self.__push_volatile_below_(index)
         self.__modified_()
 
 
@@ -363,6 +378,22 @@ class Project_Model(qtc.QAbstractItemModel):
         self.__undo_stack.append(command)
         self.__undo_stack_index += 1
         command.redo()
+
+
+    def __push_volatile_above_(self, index):
+        if index.isValid() :
+            self.dataChanged.emit(index,index)
+            block = self.__block_(index)
+            if block is not None and block.is_volatile_above() :
+                self.__push_volatile_above_(index.parent())
+
+
+    def __push_volatile_below_(self, parent):
+        for row in range(self.rowCount(parent)) :
+            index = self.index(row,0,parent)
+            self.dataChanged.emit(index,index)
+            block = self.__block_(index)
+            if block.is_volatile_below() : self.__push_volatile_below_(index)
 
 
     def __block_(self, index):
