@@ -1,16 +1,9 @@
 """
 todo
 """
-from PySide2.QtCore import (Qt
-                            ,Signal as QtSignal
-                            ,Slot as QtSlot
-                            ,QByteArray
-                            ,QXmlStreamReader
-                            ,QXmlStreamWriter
-                            ,QAbstractItemModel
-                            ,QModelIndex)
-from .block_factory import Block_Factory
-from .project_commands import *
+from PySide2 import QtCore as qtc
+from . import block_factory as bf
+from . import project_commands as pc
 
 
 
@@ -28,21 +21,21 @@ class LoadError(Exception):
 
 
 
-class Project_Model(QAbstractItemModel):
+class Project_Model(qtc.QAbstractItemModel):
 
 
     #
-    BUILD_LIST_ROLE = Qt.UserRole + 0
+    BUILD_LIST_ROLE = qtc.Qt.UserRole + 0
     #
-    VIEW_ROLE = Qt.UserRole + 1
+    VIEW_ROLE = qtc.Qt.UserRole + 1
     #
-    EDIT_DEFS_ROLE = Qt.UserRole + 2
+    EDIT_DEFS_ROLE = qtc.Qt.UserRole + 2
     #
-    PROPERTIES_ROLE = Qt.UserRole + 3
+    PROPERTIES_ROLE = qtc.Qt.UserRole + 3
 
 
     def __init__(self, parent=None):
-        QAbstractItemModel.__init__(self,parent)
+        qtc.QAbstractItemModel.__init__(self,parent)
         #
         self.__name = None
         #
@@ -66,7 +59,7 @@ class Project_Model(QAbstractItemModel):
         xml = None
         with open(path,"br") as ifile:
             xml = ifile.read()
-        stream = QXmlStreamReader(xml)
+        stream = qtc.QXmlStreamReader(xml)
         stream.readNextStartElement()
         if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG :
             raise LoadError("Invalid XML project tag.")
@@ -92,8 +85,8 @@ class Project_Model(QAbstractItemModel):
 
     def save(self, path):
         if self.__root is not None:
-            xml = QByteArray()
-            stream = QXmlStreamWriter(xml)
+            xml = qtc.QByteArray()
+            stream = qtc.QXmlStreamWriter(xml)
             stream.setAutoFormatting(True)
             stream.writeStartDocument()
             stream.writeStartElement(self.__PROJECT_TAG)
@@ -135,29 +128,29 @@ class Project_Model(QAbstractItemModel):
 
 
     def headerData(self, section, orientation, role):
-        if orientation == Qt.Horizontal and section == 0 and role == Qt.DisplayRole :
+        if orientation == qtc.Qt.Horizontal and section == 0 and role == qtc.Qt.DisplayRole :
             return self.__lang_name
-        else : return QAbstractItemModel.headerData(self,section,orientation,role)
+        else : return qtc.QAbstractItemModel.headerData(self,section,orientation,role)
 
 
     def flags(self, index):
-        flags = QAbstractItemModel.flags(self,index)
-        if index.isValid() : return Qt.ItemIsDragEnabled|Qt.ItemIsDropEnabled|flags
-        else : return Qt.ItemIsDropEnabled|flags
+        flags = qtc.QAbstractItemModel.flags(self,index)
+        if index.isValid() : return qtc.Qt.ItemIsDragEnabled | qtc.Qt.ItemIsDropEnabled | flags
+        else : return qtc.Qt.ItemIsDropEnabled | flags
 
 
     def index(self, row, column, parent):
-        if row < 0 or column != 0 : return QModelIndex()
+        if row < 0 or column != 0 : return qtc.QModelIndex()
         parent_block = self.__block_(parent)
-        if parent_block is None or row >= len(parent_block) : return QModelIndex()
+        if parent_block is None or row >= len(parent_block) : return qtc.QModelIndex()
         return self.createIndex(row,column,parent_block[row])
 
 
     def parent(self, child):
         child_block = self.__block_(child)
-        if child_block is None : return QModelIndex()
+        if child_block is None : return qtc.QModelIndex()
         parent_block = child_block.parent()
-        if parent_block is None or parent_block.parent() is None : return QModelIndex()
+        if parent_block is None or parent_block.parent() is None : return qtc.QModelIndex()
         return self.createIndex(parent_block.index(),0,parent_block)
 
 
@@ -174,7 +167,8 @@ class Project_Model(QAbstractItemModel):
     def data(self, index, role):
         block = self.__block_(index)
         if block is not None :
-            if role == Qt.DisplayRole : return block.display_name()
+            if role == qtc.Qt.DisplayRole : return block.display_name()
+            elif role == qtc.Qt.DecorationRole : return block.icon()
             elif role == self.BUILD_LIST_ROLE : return block.build_list()
             elif role == self.VIEW_ROLE : return block.display_view()
             elif role == self.EDIT_DEFS_ROLE : return block.edit_definitions()
@@ -186,7 +180,7 @@ class Project_Model(QAbstractItemModel):
     def setData(self, index, value, role):
         block = self.__block_(index)
         if block is not None and role == self.PROPERTIES_ROLE :
-            self.__push_(Set(block.properties(),value,index,self))
+            self.__push_(pc.Set(block.properties(),value,index,self))
             return True
         else :
             return False
@@ -197,10 +191,10 @@ class Project_Model(QAbstractItemModel):
         if parent_block is None or row < 0 or row > len(parent_block) : return False
         blocks = []
         for block_name in block_names :
-            block = Block_Factory().create(self.__lang_name,block_name)
+            block = bf.Block_Factory().create(self.__lang_name,block_name)
             block.set_default_properties()
             blocks.append(block)
-        self.__push_(Insert(row,blocks,parent,self))
+        self.__push_(pc.Insert(row,blocks,parent,self))
         return True
 
 
@@ -208,7 +202,7 @@ class Project_Model(QAbstractItemModel):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block) :
             return False
-        self.__push_(Remove(row,count,parent,self))
+        self.__push_(pc.Remove(row,count,parent,self))
         return True
 
 
@@ -222,7 +216,7 @@ class Project_Model(QAbstractItemModel):
         if block is None : return False
         to_row = index.row() + change
         if to_row < 0 or to_row >= len(block) : return False
-        self.__push_(Move(change,index,self))
+        self.__push_(pc.Move(change,index,self))
         return True
 
 
@@ -231,7 +225,7 @@ class Project_Model(QAbstractItemModel):
         self.beginResetModel()
         try:
             self.__lang_name = lang_name
-            self.__root = Block_Factory().create_root(self.__lang_name)
+            self.__root = bf.Block_Factory().create_root(self.__lang_name)
         except:
             self.__lang_name = None
             self.__root = None
@@ -253,8 +247,8 @@ class Project_Model(QAbstractItemModel):
 
     def copy_to_xml(self, indexes):
         block_names = set()
-        xml = QByteArray()
-        stream = QXmlStreamWriter(xml)
+        xml = qtc.QByteArray()
+        stream = qtc.QXmlStreamWriter(xml)
         stream.setAutoFormatting(True)
         stream.writeStartDocument()
         stream.writeStartElement(self.__COPY_TAG)
@@ -272,7 +266,7 @@ class Project_Model(QAbstractItemModel):
     def insert_rows_from_xml(self, row, xml, parent):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or row > len(parent_block) : return 0
-        stream = QXmlStreamReader(xml)
+        stream = qtc.QXmlStreamReader(xml)
         stream.readNextStartElement()
         if not stream.isStartElement() or stream.name() != self.__COPY_TAG : return 0
         stream.readNextStartElement()
@@ -285,27 +279,27 @@ class Project_Model(QAbstractItemModel):
             if stream.isStartElement() :
                 name = stream.name()
                 if name in parent_block.build_list() :
-                    block = Block_Factory().create(lang_name,name)
+                    block = bf.Block_Factory().create(lang_name,name)
                     block.set_from_xml(stream)
                     blocks.append(block)
-        self.__push_(Insert(row,blocks,parent,self))
+        self.__push_(pc.Insert(row,blocks,parent,self))
         return len(blocks)
 
 
-    modified = QtSignal()
+    modified = qtc.Signal()
 
 
-    name_changed = QtSignal(str)
+    name_changed = qtc.Signal(str)
 
 
-    @QtSlot()
+    @qtc.Slot()
     def undo(self):
         if self.can_undo() :
             self.__undo_stack_index -= 1
             self.__undo_stack[self.__undo_stack_index].undo()
 
 
-    @QtSlot()
+    @qtc.Slot()
     def redo(self):
         if self.can_redo() :
             self.__undo_stack[self.__undo_stack_index].redo()

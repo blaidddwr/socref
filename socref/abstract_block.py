@@ -1,19 +1,19 @@
 """
 todo
 """
-from abc import ABC, abstractmethod
-from . import block_factory
+import abc
+from . import block_factory as bf
 
 
 
 
 
 
-class Abstract_Block(ABC):
+class Abstract_Block(abc.ABC):
 
 
     def __init__(self, lang_name, type_name):
-        ABC.__init__(self)
+        abc.ABC.__init__(self)
         #
         self.__lang_name = lang_name
         #
@@ -51,42 +51,47 @@ class Abstract_Block(ABC):
         del self.__children[index]
 
 
-    @abstractmethod
+    @abc.abstractmethod
+    def icon(self):
+        pass
+
+
+    @abc.abstractmethod
     def display_name(self):
         pass
 
 
-    @abstractmethod
+    @abc.abstractmethod
     def display_view(self):
         pass
 
 
-    @abstractmethod
+    @abc.abstractmethod
     def build_list(self):
         pass
 
 
-    @abstractmethod
+    @abc.abstractmethod
     def edit_definitions(self):
         pass
 
 
-    @abstractmethod
+    @abc.abstractmethod
     def properties(self):
         pass
 
 
-    @abstractmethod
+    @abc.abstractmethod
     def set_properties(self, props):
         pass
 
 
-    @abstractmethod
+    @abc.abstractmethod
     def set_default_properties(self):
         pass
 
 
-    @abstractmethod
+    @abc.abstractmethod
     def clear_properties(self):
         pass
 
@@ -115,7 +120,7 @@ class Abstract_Block(ABC):
                 if name.startswith("_"):
                     self.properties()[name[1:]] = stream.readElementText()
                 else :
-                    child = block_factory.Block_Factory().create(self.__lang_name,name)
+                    child = bf.Block_Factory().create(self.__lang_name,name)
                     child.set_from_xml(stream)
                     self.append(child)
             elif stream.isEndElement() and stream.name() == self.__type_name : break

@@ -1,7 +1,7 @@
 """
 todo
 """
-from PySide2.QtCore import QModelIndex
+from PySide2 import QtCore as qtc
 
 
 
@@ -18,7 +18,7 @@ class Command():
 
 
     def _get_index_(self, rows):
-        index = QModelIndex()
+        index = qtc.QModelIndex()
         for row in rows :
             index = self._model.index(row,0,index)
             if not index.isValid() : raise RuntimeError("Move command rows are invalid.")

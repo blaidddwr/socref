@@ -3,10 +3,10 @@ todo
 """
 import sys
 import os
-from PySide2.QtWidgets import QApplication
-from .main_window import Main_Window
+from PySide2 import QtWidgets as qtw
+from . import main_window as mw
 
-from .block_factory import Block_Factory # TEMP
+from . import block_factory as bf # TEMP
 
 
 
@@ -15,9 +15,9 @@ from .block_factory import Block_Factory # TEMP
 
 def main():
     print(os.getpid())
-    Block_Factory().load("Python","socref_python")
-    application = QApplication(sys.argv)
-    Main_Window().show()
+    bf.Block_Factory().load("Python","socref_python")
+    application = qtw.QApplication(sys.argv)
+    mw.Main_Window().show()
     sys.exit(application.exec_())
 
 

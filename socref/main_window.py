@@ -1,43 +1,43 @@
 """
 todo
 """
-from PySide2.QtCore import Qt, Slot as QtSlot, QModelIndex
-from PySide2.QtGui import QKeySequence, QIcon
-from PySide2.QtWidgets import QMainWindow, QAction, QMessageBox, QFileDialog
-from .project_model import Project_Model
-from .project_view import Project_View
-from .block_view_dock import Block_View_Dock
-from .block_edit_dock import Block_Edit_Dock
-from .block_factory import Block_Factory
+from PySide2 import QtCore as qtc
+from PySide2 import QtGui as qtg
+from PySide2 import QtWidgets as qtw
+from . import project_model as pm
+from . import project_view as pv
+from . import block_view_dock as bvd
+from . import block_edit_dock as bed
+from . import block_factory as bf
 
 
 
 
 
 
-class Main_Window(QMainWindow):
+class Main_Window(qtw.QMainWindow):
 
 
     def __init__(self):
-        QMainWindow.__init__(self)
+        qtw.QMainWindow.__init__(self)
         #
-        self.__model = Project_Model(self)
+        self.__model = pm.Project_Model(self)
         #
-        self.__view = Project_View(self)
+        self.__view = pv.Project_View(self)
         #
-        self.__block_view_dock = Block_View_Dock(self)
+        self.__block_view_dock = bvd.Block_View_Dock(self)
         #
-        self.__block_edit_dock = Block_Edit_Dock(self)
+        self.__block_edit_dock = bed.Block_Edit_Dock(self)
         #
-        self.__open_action = QAction("Open",self)
+        self.__open_action = qtw.QAction("Open",self)
         #
-        self.__save_action = QAction("Save",self)
+        self.__save_action = qtw.QAction("Save",self)
         #
-        self.__save_as_action = QAction("Save As",self)
+        self.__save_as_action = qtw.QAction("Save As",self)
         #
-        self.__close_action = QAction("Close",self)
+        self.__close_action = qtw.QAction("Close",self)
         #
-        self.__exit_action = QAction("Exit",self)
+        self.__exit_action = qtw.QAction("Exit",self)
         #
         self.__new_actions = []
         #
@@ -49,8 +49,8 @@ class Main_Window(QMainWindow):
         self.__block_view_dock.set_view(self.__view)
         self.__block_edit_dock.set_view(self.__view)
         self.setCentralWidget(self.__view)
-        self.addDockWidget(Qt.RightDockWidgetArea,self.__block_view_dock)
-        self.addDockWidget(Qt.RightDockWidgetArea,self.__block_edit_dock)
+        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__block_view_dock)
+        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__block_edit_dock)
         self.__setup_actions_()
         self.__setup_menus_()
         self.__update_title_()
@@ -83,16 +83,16 @@ class Main_Window(QMainWindow):
 
     def __is_ok_to_close_(self):
         if not self.__model or not self.__model.is_modified() : return True
-        box = QMessageBox()
+        box = qtw.QMessageBox()
         box.setWindowTitle("Unsaved Project Changes")
         box.setText("The currently open project has unsaved changes. Closing the project will cause all unsaved changes to be lost!")
-        box.setIcon(QMessageBox.Question)
-        box.setStandardButtons(QMessageBox.Save | QMessageBox.Cancel | QMessageBox.Discard)
+        box.setIcon(qtw.QMessageBox.Question)
+        box.setStandardButtons(qtw.QMessageBox.Save | qtw.QMessageBox.Cancel | qtw.QMessageBox.Discard)
         result = box.exec_()
-        if result == QMessageBox.Save :
+        if result == qtw.QMessageBox.Save :
             if self.__path is None : return self.__save_as_()
             else : return self.__save_()
-        elif result == QMessageBox.Cancel : return False
+        elif result == qtw.QMessageBox.Cancel : return False
         else : return True
 
 
@@ -109,8 +109,8 @@ class Main_Window(QMainWindow):
 
 
     def __setup_new_actions_(self):
-        for lang in Block_Factory().langs() :
-            self.__new_actions.append(QAction(lang,self))
+        for lang in bf.Block_Factory().langs() :
+            self.__new_actions.append(qtw.QAction(lang,self))
             self.__new_actions[-1].triggered.connect(lambda checked=False,name=lang : self.__new_(name))
             self.addAction(self.__new_actions[-1])
 
@@ -118,36 +118,36 @@ class Main_Window(QMainWindow):
     def __setup_file_actions_(self):
         #
         action = self.__open_action
-        action.setIcon(QIcon.fromTheme("document-open"))
+        action.setIcon(qtg.QIcon.fromTheme("document-open"))
         action.setStatusTip("Open an existing project.")
-        action.setShortcut(QKeySequence(QKeySequence.Open))
+        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Open))
         action.triggered.connect(self.__open_)
         self.addAction(action)
         #
         action = self.__save_action
-        action.setIcon(QIcon.fromTheme("document-save"))
+        action.setIcon(qtg.QIcon.fromTheme("document-save"))
         action.setStatusTip("Save the current project.")
-        action.setShortcut(QKeySequence(QKeySequence.Save))
+        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Save))
         action.triggered.connect(self.__save_)
         self.addAction(action)
         #
         action = self.__save_as_action
-        action.setIcon(QIcon.fromTheme("document-save-as"))
+        action.setIcon(qtg.QIcon.fromTheme("document-save-as"))
         action.setStatusTip("Save the current project to a provided file path.")
-        action.setShortcut(QKeySequence(QKeySequence.SaveAs))
+        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.SaveAs))
         action.triggered.connect(self.__save_as_)
         self.addAction(action)
         #
         action = self.__close_action
         action.setStatusTip("Close the current project.")
-        action.setShortcut(QKeySequence(QKeySequence.Close))
+        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Close))
         action.triggered.connect(self.__close_)
         self.addAction(action)
         #
         action = self.__exit_action
-        action.setIcon(QIcon.fromTheme("application-exit"))
+        action.setIcon(qtg.QIcon.fromTheme("application-exit"))
         action.setStatusTip("Exit this window.")
-        action.setShortcut(QKeySequence(QKeySequence.Quit))
+        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Quit))
         action.triggered.connect(self.close)
         self.addAction(action)
 
@@ -173,7 +173,7 @@ class Main_Window(QMainWindow):
         self.menuBar().addMenu(self.__view.context_menu())
 
 
-    @QtSlot(str)
+    @qtc.Slot(str)
     def __new_(self, lang_name):
         window = self
         if self.__model : window = Main_Window()
@@ -184,9 +184,9 @@ class Main_Window(QMainWindow):
         window.show()
 
 
-    @QtSlot()
+    @qtc.Slot()
     def __open_(self):
-        self.__path,type_ = QFileDialog.getOpenFileName(self,"Open Project","","Socrates' Project File (*.scp)")
+        self.__path,type_ = qtw.QFileDialog.getOpenFileName(self,"Open Project","","Socrates' Project File (*.scp)")
         if not self.__path :
             self.__path = None
             return
@@ -204,7 +204,7 @@ class Main_Window(QMainWindow):
         window.show()
 
 
-    @QtSlot()
+    @qtc.Slot()
     def __save_(self):
         if self.__path is None : self.__save_as_()
         else :
@@ -212,9 +212,9 @@ class Main_Window(QMainWindow):
             self.setWindowModified(False)
 
 
-    @QtSlot()
+    @qtc.Slot()
     def __save_as_(self):
-        self.__path,type_ = QFileDialog.getSaveFileName(self,"Save Project","","Socrates' Project File (*.scp)")
+        self.__path,type_ = qtw.QFileDialog.getSaveFileName(self,"Save Project","","Socrates' Project File (*.scp)")
         if not self.__path :
             self.__path = None
             return
@@ -227,7 +227,7 @@ class Main_Window(QMainWindow):
         self.__update_actions_()
 
 
-    @QtSlot()
+    @qtc.Slot()
     def __close_(self):
         if self.__is_ok_to_close_() :
             self.__model.close()
@@ -236,12 +236,12 @@ class Main_Window(QMainWindow):
             self.__update_actions_()
 
 
-    @QtSlot(str)
+    @qtc.Slot(str)
     def __name_changed_(self, name):
         self.__update_title_()
 
 
-    @QtSlot()
+    @qtc.Slot()
     def __modified_(self):
         self.setWindowModified(True)
 

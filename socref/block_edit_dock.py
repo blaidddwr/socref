@@ -1,20 +1,20 @@
 """
 todo
 """
-from PySide2.QtCore import Qt, Slot as QtSlot, QModelIndex
-from PySide2.QtWidgets import QDockWidget, QWidget, QFormLayout, QHBoxLayout, QLineEdit, QPushButton
-from .project_model import Project_Model
+from PySide2 import QtCore as qtc
+from PySide2 import QtWidgets as qtw
+from . import project_model as pm
 
 
 
 
 
 
-class Block_Edit_Dock(QDockWidget):
+class Block_Edit_Dock(qtw.QDockWidget):
 
 
     def __init__(self, parent=None):
-        QDockWidget.__init__(self,parent)
+        qtw.QDockWidget.__init__(self,parent)
         #
         self.__view = None
         #
@@ -28,10 +28,10 @@ class Block_Edit_Dock(QDockWidget):
         self.__view.current_changed.connect(self.__current_changed_)
 
 
-    @QtSlot(QModelIndex)
+    @qtc.Slot(qtc.QModelIndex)
     def __current_changed_(self, index):
         if index.isValid() :
-            self.setWindowTitle(f"{self.__view.model().data(index,Qt.DisplayRole)} (Edit)")
+            self.setWindowTitle(f"{self.__view.model().data(index,qtc.Qt.DisplayRole)} (Edit)")
             self.setWidget(self.__build_form_widget(index))
         else :
             self.setWindowTitle("(Edit)")
@@ -39,31 +39,35 @@ class Block_Edit_Dock(QDockWidget):
             self.setWidget(None)
 
 
-    @QtSlot()
+    @qtc.Slot()
     def __apply_(self):
         index = self.__view.selectionModel().currentIndex()
         if index.isValid() :
             props = {edit._key:edit._value_() for edit in self.__edits}
-            self.__view.model().setData(index,props,Project_Model.PROPERTIES_ROLE)
+            self.__view.model().setData(index,props,pm.Project_Model.PROPERTIES_ROLE)
 
 
     def __build_form_widget(self, index):
         self.__edits.clear()
         try:
-            props = self.__view.model().data(index,Project_Model.PROPERTIES_ROLE)
-            defs = self.__view.model().data(index,Project_Model.EDIT_DEFS_ROLE)
-            layout = QFormLayout()
+            props = self.__view.model().data(index,pm.Project_Model.PROPERTIES_ROLE)
+            defs = self.__view.model().data(index,pm.Project_Model.EDIT_DEFS_ROLE)
+            layout = qtw.QFormLayout()
             for def_ in defs :
                 edit = None
                 if def_["type"] == "line" :
-                    edit = QLineEdit(props[def_["key"]])
-                    edit._value_ = lambda : edit.text()
+                    edit = qtw.QLineEdit(props[def_["key"]],self)
+                    edit._value_ = lambda e=edit : e.text()
+                    edit._key = def_["key"]
+                elif def_["type"] == "text" :
+                    edit = qtw.QPlainTextEdit(props[def_["key"]],self)
+                    edit._value_ = lambda e=edit : e.toPlainText()
                     edit._key = def_["key"]
                 else : raise RuntimeError("Unknown edit definition.")
                 layout.addRow(def_["label"],edit)
                 self.__edits.append(edit)
             layout.addRow(self.__build_apply_())
-            ret = QWidget()
+            ret = qtw.QWidget()
             ret.setContentsMargins(0,16,0,4)
             ret.setLayout(layout)
             return ret
@@ -73,9 +77,9 @@ class Block_Edit_Dock(QDockWidget):
 
 
     def __build_apply_(self):
-        button = QPushButton("Apply")
+        button = qtw.QPushButton("Apply")
         button.clicked.connect(self.__apply_)
-        ret = QHBoxLayout()
+        ret = qtw.QHBoxLayout()
         ret.addWidget(button)
         ret.addStretch()
         return ret

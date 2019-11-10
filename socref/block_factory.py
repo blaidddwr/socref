@@ -1,9 +1,9 @@
 """
 todo
 """
-from importlib import import_module
-from .singleton import Singleton
-from .abstract_block import Abstract_Block
+import importlib
+from . import singleton as si
+from . import abstract_block as ab
 
 
 
@@ -44,7 +44,7 @@ class RegisterError(Exception):
 
 
 
-@Singleton
+@si.Singleton
 class Block_Factory():
 
 
@@ -67,7 +67,7 @@ class Block_Factory():
         self.__importing_lang = self.__langs[lang_name]
         self.__importing_lang_name = lang_name
         try:
-            module = import_module(import_name)
+            module = importlib.import_module(import_name)
             if not self.__importing_lang:
                 raise LoadError("Language did not register any blocks.")
         except:
@@ -113,7 +113,7 @@ class Block_Factory():
             raise RegisterError("Block name cannot start with an underscore.")
         if name in self.__importing_lang.keys() :
             raise RegisterError("Block class is already registered with the same name.")
-        if not issubclass(class_,Abstract_Block) :
+        if not issubclass(class_,ab.Abstract_Block) :
             print(class_)
             raise RegisterError("Block class is not an Abstract Block.")
         self.__importing_lang[name] = class_;

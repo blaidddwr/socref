@@ -1,22 +1,29 @@
 """
 todo
 """
-from socref.abstract_block import Abstract_Block
-from socref.block_factory import register_block
+from PySide2 import QtGui as qtg
+from socref import abstract_block as ab
+from socref import block_factory as bf
 
 
 
 
 
-@register_block("Package",root=True)
-class Block(Abstract_Block):
+
+@bf.register_block("Package",root=True)
+class Block(ab.Abstract_Block):
 
 
     def __init__(self):
-        Abstract_Block.__init__(self,self._LANG_,self._BLOCKNAME_)
+        ab.Abstract_Block.__init__(self,self._LANG_,self._BLOCKNAME_)
         #
-        self.__props = {"name":""}
+        self.__props = {"name":""
+                        ,"description":""}
         #:
+
+
+    def icon(self):
+        return qtg.QIcon(":/icons/package.svg")
 
 
     def display_name(self):
@@ -24,7 +31,7 @@ class Block(Abstract_Block):
 
 
     def display_view(self):
-        return "<h1>Description</h1><p>Place detailed description here.</p>"
+        return f"<h1>Description</h1><p>{self.__props['description']}</p>"
 
 
     def build_list(self):
@@ -32,7 +39,8 @@ class Block(Abstract_Block):
 
 
     def edit_definitions(self):
-        return [{"type":"line", "label":"Name:", "key":"name"}]
+        return [{"type":"line", "label":"Name:", "key":"name"}
+                ,{"type":"text", "label":"Description:", "key":"description"}]
 
 
     def properties(self):
@@ -45,7 +53,9 @@ class Block(Abstract_Block):
 
     def set_default_properties(self):
         self.__props["name"] = "package"
+        self.__props["description"] = "Detailed description."
 
 
     def clear_properties(self):
         self.__props["name"] = ""
+        self.__props["description"] = ""
