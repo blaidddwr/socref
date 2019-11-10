@@ -42,9 +42,7 @@ class Block_Edit_Dock(QDockWidget):
     def __apply_(self):
         index = self.__view.selectionModel().currentIndex()
         if index.isValid() :
-            props = {}
-            for edit in self.__edits :
-                props[edit._key] = edit._value_()
+            props = {edit._key:edit._value_() for edit in self.__edits}
             self.__view.model().setData(index,props,Project_Model.PROPERTIES_ROLE)
 
 

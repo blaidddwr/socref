@@ -2,6 +2,7 @@
 todo
 """
 from PySide2.QtCore import (Qt
+                            ,Signal as QtSignal
                             ,Slot as QtSlot
                             ,QByteArray
                             ,QXmlStreamReader
@@ -32,6 +33,8 @@ class Project_Model(QAbstractItemModel):
     def __init__(self, parent=None):
         QAbstractItemModel.__init__(self,parent)
         #
+        self.__name = None
+        #
         self.__root = None
         #
         self.__lang_name = None
@@ -39,21 +42,32 @@ class Project_Model(QAbstractItemModel):
         self.__undo_stack = []
         #
         self.__undo_stack_index = 0
+        #
+        self.__modified = False
         #:
 
 
-    @QtSlot()
-    def undo(self):
-        if self.can_undo() :
-            self.__undo_stack_index -= 1
-            self.__undo_stack[self.__undo_stack_index].undo()
+    def __len__(self):
+        return 0 if self.__root is None else 1
 
 
-    @QtSlot()
-    def redo(self):
-        if self.can_redo() :
-            self.__undo_stack[self.__undo_stack_index].redo()
-            self.__undo_stack_index += 1
+    def lang_name(self):
+        return self.__lang_name
+
+
+    def name(self):
+        return self.__name
+
+
+    def set_name(self, name):
+        if name != self.__name :
+            self.__name = name
+            self.__modified_()
+            self.name_changed.emit(name)
+
+
+    def is_modified(self):
+        return self.__modified
 
 
     def can_undo(self):
@@ -158,6 +172,7 @@ class Project_Model(QAbstractItemModel):
 
 
     def new(self, lang_name):
+        if self.__root is not None : self.close()
         self.beginResetModel()
         try:
             self.__lang_name = lang_name
@@ -168,6 +183,15 @@ class Project_Model(QAbstractItemModel):
             raise
         finally:
             self.endResetModel()
+
+
+    def close(self):
+        self.beginResetModel()
+        self.__name = None
+        self.__lang_name = None
+        self.__root = None
+        self.__modified = False
+        self.endResetModel()
 
 
     def copy_to_xml(self, indexes):
@@ -211,6 +235,26 @@ class Project_Model(QAbstractItemModel):
         return len(blocks)
 
 
+    modified = QtSignal()
+
+
+    name_changed = QtSignal(str)
+
+
+    @QtSlot()
+    def undo(self):
+        if self.can_undo() :
+            self.__undo_stack_index -= 1
+            self.__undo_stack[self.__undo_stack_index].undo()
+
+
+    @QtSlot()
+    def redo(self):
+        if self.can_redo() :
+            self.__undo_stack[self.__undo_stack_index].redo()
+            self.__undo_stack_index += 1
+
+
     def _remove_rows_(self, row, count, parent):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block) :
@@ -221,7 +265,7 @@ class Project_Model(QAbstractItemModel):
             blocks.append(parent_block.pop(row))
             count -= 1
         self.endRemoveRows()
-        return blocks
+        self.__modified_()
 
 
     def _move_row_(self, from_row, to_row, parent):
@@ -233,6 +277,7 @@ class Project_Model(QAbstractItemModel):
                            ,to_row + 1 if to_row > from_row else to_row)
         parent_block.insert(to_row,parent_block.pop(from_row))
         self.endMoveRows()
+        self.__modified_()
 
 
     def _insert_rows_(self, row, blocks, parent):
@@ -244,7 +289,13 @@ class Project_Model(QAbstractItemModel):
             parent_block.insert(row,block)
             row += 1
         self.endInsertRows()
-        return True
+        self.__modified_()
+
+
+    def __modified_(self):
+        if not self.__modified :
+            self.__modified = True
+            self.modified.emit()
 
 
     def __push_(self, command):

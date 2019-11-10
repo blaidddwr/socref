@@ -1,7 +1,7 @@
 """
 todo
 """
-from PySide2.QtCore import Qt, Signal as QtSignal, Slot as QtSlot, QModelIndex
+from PySide2.QtCore import Qt, Signal as QtSignal, Slot as QtSlot, QModelIndex, QItemSelectionModel
 from PySide2.QtGui import QKeySequence
 from PySide2.QtWidgets import QAction, QMenu, QAbstractItemView, QTreeView
 from .project_model import Project_Model
@@ -25,27 +25,31 @@ class Project_View(QTreeView):
         #
         self.__add_actions = []
         #
-        self.__remove_action = None
+        self.__undo_action = QAction("Undo",self)
         #
-        self.__cut_action = None
+        self.__redo_action = QAction("Redo",self)
         #
-        self.__copy_action = None
+        self.__remove_action = QAction("Remove",self)
         #
-        self.__paste_action = None
+        self.__cut_action = QAction("Cut",self)
         #
-        self.__move_up_action = None
+        self.__copy_action = QAction("Copy",self)
         #
-        self.__move_down_action = None
+        self.__paste_action = QAction("Paste",self)
         #
-        self.__insert_before_action = None
+        self.__insert_before_action = QAction("Before",self)
         #
-        self.__insert_into_action = None
+        self.__insert_into_action = QAction("Into",self)
         #
-        self.__insert_after_action = None
+        self.__insert_after_action = QAction("After",self)
         #
-        self.__context_menu = None
+        self.__move_up_action = QAction("Move Up",self)
         #
-        self.__add_menu = None
+        self.__move_down_action = QAction("Move Down",self)
+        #
+        self.__context_menu = QMenu("Edit",self)
+        #
+        self.__add_menu = QMenu("Add")
         #
         self.__insert = self.__INTO
         #:
@@ -57,7 +61,7 @@ class Project_View(QTreeView):
 
 
     def context_menu(self):
-        return __context_menu
+        return self.__context_menu
 
 
     def setModel(self, model):
@@ -120,6 +124,9 @@ class Project_View(QTreeView):
         (row,parent) = self.__get_addition_values()
         if row is None : return
         self.__model.insertRows(row,(block_name,),parent)
+        if not self.selectionModel().currentIndex().isValid() :
+            self.selectionModel().setCurrentIndex(self.__model.index(0,0,QModelIndex())
+                                                  ,QItemSelectionModel.Current)
 
 
     @QtSlot()
@@ -255,67 +262,67 @@ class Project_View(QTreeView):
 
     def __setup_actions_(self):
         #
-        action = self.__undo_action = QAction("Undo",self)
+        action = self.__undo_action
         action.setStatusTip("Undo the previous action.")
         action.setShortcut(QKeySequence(QKeySequence.Undo))
         action.triggered.connect(self.__undo_)
         self.addAction(action)
         #
-        action = self.__redo_action = QAction("Redo",self)
+        action = self.__redo_action
         action.setStatusTip("Redo the previous undone action.")
         action.setShortcut(QKeySequence(QKeySequence.Redo))
         action.triggered.connect(self.__redo_)
         self.addAction(action)
         #
-        action = self.__remove_action = QAction("Remove",self)
+        action = self.__remove_action
         action.setStatusTip("Remove selected block(s).")
         action.setShortcut(QKeySequence(QKeySequence.Delete))
         action.triggered.connect(self.__remove_)
         self.addAction(action)
         #
-        action = self.__cut_action = QAction("Cut",self)
+        action = self.__cut_action
         action.setStatusTip("Cut selected block(s).")
         action.setShortcut(QKeySequence(QKeySequence.Cut))
         action.triggered.connect(self.__cut_)
         self.addAction(action)
         #
-        action = self.__copy_action = QAction("Copy",self)
+        action = self.__copy_action
         action.setStatusTip("Copy selected block(s).")
         action.setShortcut(QKeySequence(QKeySequence.Copy))
         action.triggered.connect(self.__copy_)
         self.addAction(action)
         #
-        action = self.__paste_action = QAction("Paste",self)
+        action = self.__paste_action
         action.setStatusTip("Paste before/into/after the current block, depending on the addition menu selection.")
         action.setShortcut(QKeySequence(QKeySequence.Paste))
         action.triggered.connect(self.__paste_)
         self.addAction(action)
         #
-        action = self.__insert_before_action = QAction("Before",self)
+        action = self.__insert_before_action
         action.setStatusTip("Add or paste blocks before the current block.")
         action.setCheckable(True)
         action.setChecked(self.__insert == self.__BEFORE)
         action.triggered.connect(self.__insert_before_)
         #
-        action = self.__insert_into_action = QAction("Into",self)
+        action = self.__insert_into_action
         action.setStatusTip("Add or paste blocks into the current block.")
         action.setCheckable(True)
         action.setChecked(self.__insert == self.__INTO)
         action.triggered.connect(self.__insert_into_)
         #
-        action = self.__insert_after_action = QAction("After",self)
+        action = self.__insert_after_action
         action.setStatusTip("Add or paste blocks after the current block.")
         action.setCheckable(True)
         action.setChecked(self.__insert == self.__AFTER)
         action.triggered.connect(self.__insert_after_)
         #
-        action = self.__move_up_action = QAction("Move Up",self)
+        action = self.__move_up_action
         action.setStatusTip("Move current block up by one.")
         action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Up))
         action.triggered.connect(self.__move_up_)
         self.addAction(action)
         #
-        action = self.__move_down_action = QAction("Move Down",self)
+        action = self.__move_down_action
         action.setStatusTip("Move current block down by one.")
         action.setShortcut(QKeySequence(Qt.CTRL + Qt.Key_Down))
         action.triggered.connect(self.__move_down_)
@@ -323,11 +330,11 @@ class Project_View(QTreeView):
 
 
     def __setup_context_menu_(self):
-        menu = self.__context_menu = QMenu("Edit",self)
+        menu = self.__context_menu
         menu.addAction(self.__undo_action)
         menu.addAction(self.__redo_action)
         menu.addSeparator()
-        self.__add_menu = menu.addMenu("Add")
+        menu.addMenu(self.__add_menu)
         menu.addAction(self.__remove_action)
         menu.addSeparator()
         menu.addAction(self.__cut_action)
