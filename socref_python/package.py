@@ -18,20 +18,10 @@ class Block(ab.Abstract_Block):
     def __init__(self):
         ab.Abstract_Block.__init__(self,self._LANG_,self._BLOCKNAME_)
         #
-        self._props = dict()
+        self._p_name = ""
+        #
+        self._p_description = ""
         #:
-
-
-    def name(self, escape=False):
-        ret = self._props["name"]
-        if escape : ret = html.escape(ret)
-        return ret
-
-
-    def description(self, escape=False):
-        ret = self._props["description"]
-        if escape : ret = html.escape(ret)
-        return ret
 
 
     def icon(self):
@@ -39,11 +29,11 @@ class Block(ab.Abstract_Block):
 
 
     def display_name(self):
-        return self._props["name"]
+        return self._p_name
 
 
     def display_view(self):
-        description = self.description(escape=True)
+        description = html.escape(self._p_description)
         if description : description = "<h1>Description</h1><p>%s</p>" % description
         return description
 
@@ -54,32 +44,16 @@ class Block(ab.Abstract_Block):
 
     def edit_definitions(self):
         ret = []
-        element = dict()
-        element["type"] = "line"
-        element["label"] = "Name:"
-        element["key"] = "name"
-        ret.append(element)
-        element = dict()
-        element["type"] = "text"
-        element["label"] = "Description:"
-        element["key"] = "description"
-        ret.append(element)
+        ret.append(self._get_line_edit_("Name:","_p_name"))
+        ret.append(self._get_text_edit_("Description:","_p_description"))
         return ret
 
 
-    def properties(self):
-        return self._props
-
-
-    def set_properties(self, props):
-        self._props = props
-
-
     def set_default_properties(self):
-        self._props["name"] = "package"
-        self._props["description"] = "Detailed description."
+        self._p_name = "package"
+        self._p_description = "Detailed description."
 
 
     def clear_properties(self):
-        self._props["name"] = ""
-        self._props["description"] = ""
+        self._p_name = ""
+        self._p_description = ""

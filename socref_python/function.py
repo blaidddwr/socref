@@ -17,43 +17,43 @@ class Block(package.Block):
 
     def __init__(self):
         package.Block.__init__(self)
+        #
+        self._p_descriptors = ""
+        #
+        self._p_return_description = ""
+        #
+        self._p_static = "0"
         #:
 
 
-    def descriptors(self, escape=True):
-        ret = self._props["descriptors"]
-        if escape : ret = html.escape(ret)
-        return ret
-
-
-    def return_description(self, escape=True):
-        ret = self._props["return_description"]
-        if escape : ret = html.escape(ret)
-        return ret
+    def is_static(self):
+        return bool(int(self._p_static))
 
 
     def icon(self):
-        return qtg.QIcon(":/python/function.svg")
+        if not self.is_static() : return qtg.QIcon(":/python/function.svg")
+        else : return qtg.QIcon(":/python/static_function.svg")
 
 
     def display_name(self):
         ret = ""
-        if self.return_description() : ret += "... "
-        ret += "%s(%i)" % (self._props["name"],len(self))
-        if self.descriptors() : ret += " " + "@" * (self.descriptors().count("\n") + 1)
+        if self._p_return_description : ret += "... "
+        ret += "%s(%i)" % (self._p_name,len(self))
+        if self._p_descriptors : ret += " " + "@" * (self._p_descriptors.count("\n") + 1)
         return ret
 
 
     def display_view(self):
-        return_description = self.return_description(escape=True)
+        return_description = html.escape(self._p_return_description)
         if return_description : return_description = "<h2>Return</h2><p>%s</p>" % return_description
-        descriptors = self.descriptors(escape=True).replace("\n","<br/>@")
+        static = "<h3>Static</h3>" if self.is_static() else ""
+        descriptors = html.escape(self._p_descriptors).replace("\n","<br/>@")
         if descriptors : descriptors = "<h2>Descriptors</h2><p>@%s</p>" % descriptors
         return (package.Block.display_view(self)
                 + self._display_arguments_()
                 + return_description
+                + static
                 + descriptors)
-
 
 
     def build_list(self):
@@ -62,37 +62,32 @@ class Block(package.Block):
 
     def edit_definitions(self):
         ret = package.Block.edit_definitions(self)
-        element = dict()
-        element["type"] = "text"
-        element["label"] = "Return:"
-        element["key"] = "return_description"
-        ret.append(element)
-        element = dict()
-        element["type"] = "text"
-        element["label"] = "Descriptor(s):"
-        element["key"] = "descriptors"
-        ret.append(element)
+        ret.append(self._get_text_edit_("Return:","_p_return_description"))
+        ret.append(self._get_checkbox_edit_("Static","_p_static"))
+        ret.append(self._get_text_edit_("Descriptor(s):","_p_descriptors"))
         return ret
 
 
     def set_default_properties(self):
-        self._props["name"] = "function"
-        self._props["description"] = "Detailed description."
-        self._props["descriptors"] = ""
-        self._props["return_description"] = ""
+        self._p_name = "function"
+        self._p_description = "Detailed description."
+        self._p_descriptors = ""
+        self._p_return_description = ""
+        self._p_static = "0"
 
 
     def clear_properties(self):
-        self._props["name"] = ""
-        self._props["description"] = ""
-        self._props["descriptors"] = ""
-        self._props["return_description"] = ""
+        self._p_name = ""
+        self._p_description = ""
+        self._p_descriptors = ""
+        self._p_return_description = ""
+        self._p_static = "0"
 
 
     def _display_arguments_(self):
         ret = ""
         for argument in self :
-            ret += "<p><b>%s</b> : %s</p>" % (html.escape(argument.name())
-                                              ,html.escape(argument.description()))
+            ret += "<p><b>%s</b> : %s</p>" % (html.escape(argument._p_name)
+                                              ,html.escape(argument._p_description))
         if ret : ret = "<h2>Arguments</h2>" + ret
         return ret

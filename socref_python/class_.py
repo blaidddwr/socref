@@ -1,6 +1,7 @@
 """
 todo
 """
+import html
 from PySide2 import QtGui as qtg
 from socref import block_factory as bf
 from . import package
@@ -10,7 +11,7 @@ from . import package
 
 
 
-@bf.register_block("Module")
+@bf.register_block("Class")
 class Block(package.Block):
 
 
@@ -20,13 +21,13 @@ class Block(package.Block):
 
 
     def icon(self):
-        return qtg.QIcon(":/python/module.svg")
+        return qtg.QIcon(":/python/class.svg")
 
 
     def build_list(self):
-        return ("Object","Function","Class")
+        return ()
 
 
     def set_default_properties(self):
-        self._p_name = "module"
+        self._p_name = "class"
         self._p_description = "Detailed description."

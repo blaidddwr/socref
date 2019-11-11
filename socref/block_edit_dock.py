@@ -35,7 +35,7 @@ class Block_Edit_Dock(qtw.QDockWidget):
             self.setWindowTitle("[%s] %s (Edit)" %
                                 (model.data(index,pm.Project_Model.BLOCK_TYPE_ROLE)
                                  ,model.data(index,qtc.Qt.DisplayRole)))
-            self.setWidget(self.__build_form_widget(index))
+            self.setWidget(self.__build_form_widget_(index))
         else :
             self.setWindowTitle("(Edit)")
             self.__edits.clear()
@@ -52,7 +52,7 @@ class Block_Edit_Dock(qtw.QDockWidget):
             self.__view.model().setData(index,props,pm.Project_Model.PROPERTIES_ROLE)
 
 
-    def __build_form_widget(self, index):
+    def __build_form_widget_(self, index):
         self.__edits.clear()
         try:
             props = self.__view.model().data(index,pm.Project_Model.PROPERTIES_ROLE)
@@ -60,16 +60,35 @@ class Block_Edit_Dock(qtw.QDockWidget):
             layout = qtw.QFormLayout()
             for def_ in defs :
                 edit = None
+                label = ""
                 if def_["type"] == "line" :
                     edit = qtw.QLineEdit(props[def_["key"]],self)
                     edit._value_ = lambda e=edit : e.text()
                     edit._key = def_["key"]
+                    label = def_["label"]
                 elif def_["type"] == "text" :
                     edit = qtw.QPlainTextEdit(props[def_["key"]],self)
                     edit._value_ = lambda e=edit : e.toPlainText()
                     edit._key = def_["key"]
-                else : raise RuntimeError("Unknown edit definition.")
-                layout.addRow(def_["label"],edit)
+                    label = def_["label"]
+                elif def_["type"] == "checkbox" :
+                    edit = qtw.QCheckBox(def_["label"],self)
+                    edit.setCheckState(qtc.Qt.Checked if int(props[def_["key"]]) else qtc.Qt.Unchecked)
+                    edit._value_ = lambda e=edit : int(e.checkState() == qtc.Qt.Checked)
+                    edit._key = def_["key"]
+                elif def_["type"] == "combobox" :
+                    edit = qtw.QComboBox(self)
+                    for selection in def_["selections"] :
+                        if "icon" in selection : edit.addItem(selection["icon"],selection["text"])
+                        else : edit.addItem(selection["text"])
+                    edit.setCurrentText(props[def_["key"]])
+                    edit._value_ = lambda e=edit : e.currentText()
+                    edit._key = def_["key"]
+                    label = def_["label"]
+                else :
+                    print(def_)
+                    raise RuntimeError("Unknown edit definition.")
+                layout.addRow(label,edit)
                 self.__edits.append(edit)
             layout.addRow(self.__build_apply_())
             ret = qtw.QWidget()

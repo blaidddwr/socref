@@ -22,6 +22,8 @@ class Abstract_Block(abc.ABC):
         self.__children = []
         #
         self.__parent = None
+        #
+        self.__properties = dict()
         #:
 
 
@@ -49,6 +51,16 @@ class Abstract_Block(abc.ABC):
 
     def __delitem__(self, index):
         del self.__children[index]
+
+
+    def __getattr__(self, key):
+        if key.startswith("_p_") : return self.__properties[key]
+        else : return object.__getattribute__(self,key)
+
+
+    def __setattr__(self, key, item):
+        if key.startswith("_p_") : self.__properties[key] = item
+        else : object.__setattr__(self,key,item)
 
 
     def is_volatile_above(self):
@@ -84,14 +96,12 @@ class Abstract_Block(abc.ABC):
         pass
 
 
-    @abc.abstractmethod
     def properties(self):
-        pass
+        return self.__properties
 
 
-    @abc.abstractmethod
     def set_properties(self, props):
-        pass
+        self.__properties = props
 
 
     @abc.abstractmethod
@@ -154,7 +164,27 @@ class Abstract_Block(abc.ABC):
         self.insert(len(self),block)
 
 
-    def pop(self,index):
+    def pop(self, index):
         orphan = self.__children.pop(index)
         orphan.__parent = None
         return orphan
+
+
+    def _get_line_edit_(self, label, key):
+        return self.__get_edit_("line",label,key)
+
+
+    def _get_text_edit_(self, label, key):
+        return self.__get_edit_("text",label,key)
+
+
+    def _get_checkbox_edit_(self, label, key):
+        return self.__get_edit_("checkbox",label,key)
+
+
+    def __get_edit_(self, type_, label, key):
+        ret = dict()
+        ret["type"] = type_
+        ret["label"] = label
+        ret["key"] = key
+        return ret
