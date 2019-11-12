@@ -182,6 +182,19 @@ class Abstract_Block(abc.ABC):
         return self.__get_edit_("checkbox",label,key)
 
 
+    def _get_combobox_edit_(self, label, key):
+        ret = self.__get_edit_("combobox",label,key)
+        ret["selections"] = []
+        return ret
+
+
+    def _add_combo_select_(self, combo_edit, text, icon=None):
+        edit = dict()
+        edit["text"] = text
+        if icon is not None : edit["icon"] = icon
+        combo_edit["selections"].append(edit)
+
+
     def __get_edit_(self, type_, label, key):
         ret = dict()
         ret["type"] = type_

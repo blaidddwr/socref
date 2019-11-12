@@ -7,3 +7,4 @@ from . import module
 from . import object_
 from . import function
 from . import class_
+from . import access

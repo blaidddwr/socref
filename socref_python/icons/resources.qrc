@@ -3,10 +3,12 @@
         <file>package.svg</file>
         <file>module.svg</file>
         <file>object.svg</file>
-        <file>function.svg</file>
-        <file>class.svg</file>
         <file>static_object.svg</file>
+        <file>function.svg</file>
         <file>static_function.svg</file>
+        <file>abstract_function.svg</file>
+        <file>class.svg</file>
+        <file>abstract_class.svg</file>
         <file>operator.svg</file>
         <file>public.svg</file>
         <file>protected.svg</file>

@@ -20,12 +20,19 @@ class Block(package.Block):
         #:
 
 
+    def is_abstract(self):
+        for access in self :
+            if access.has_abstract() : return True
+        return False
+
+
     def icon(self):
-        return qtg.QIcon(":/python/class.svg")
+        if self.is_abstract() : return qtg.QIcon(":/python/abstract_class.svg")
+        else : return qtg.QIcon(":/python/class.svg")
 
 
     def build_list(self):
-        return ()
+        return ("Access",)
 
 
     def set_default_properties(self):

@@ -15,24 +15,36 @@ from . import package
 class Block(package.Block):
 
 
-    def __init__(self):
-        package.Block.__init__(self)
+    def ___instance___(self):
         #
         self._p_descriptors = ""
         #
         self._p_return_description = ""
         #
         self._p_static = "0"
+        #
+        self._p_abstract = "0"
+
+
+    def __init__(self):
+        package.Block.__init__(self)
         #:
+        self.___instance___()
 
 
     def is_static(self):
         return bool(int(self._p_static))
 
 
+    def is_abstract(self):
+        return bool(int(self._p_abstract))
+
+
     def icon(self):
-        if not self.is_static() : return qtg.QIcon(":/python/function.svg")
-        else : return qtg.QIcon(":/python/static_function.svg")
+        if self._p_name.startswith("__") and self._p_name.endswith("__") : return qtg.QIcon(":/python/operator.svg")
+        elif self.is_static() : return qtg.QIcon(":/python/static_function.svg")
+        elif self.is_abstract() : return qtg.QIcon(":/python/abstract_function.svg")
+        else : return qtg.QIcon(":/python/function.svg")
 
 
     def display_name(self):
@@ -46,13 +58,16 @@ class Block(package.Block):
     def display_view(self):
         return_description = html.escape(self._p_return_description)
         if return_description : return_description = "<h2>Return</h2><p>%s</p>" % return_description
-        static = "<h3>Static</h3>" if self.is_static() else ""
+        flags = ""
+        if self.is_static() : flags += "<li>Static</li>"
+        if self.is_abstract() : flags += "<li>Abstract</li>"
+        if flags : flags = "<h3>Flags</h3><ul>%s</ul>" % flags
         descriptors = html.escape(self._p_descriptors).replace("\n","<br/>@")
         if descriptors : descriptors = "<h2>Descriptors</h2><p>@%s</p>" % descriptors
         return (package.Block.display_view(self)
                 + self._display_arguments_()
                 + return_description
-                + static
+                + flags
                 + descriptors)
 
 
@@ -64,6 +79,7 @@ class Block(package.Block):
         ret = package.Block.edit_definitions(self)
         ret.append(self._get_text_edit_("Return:","_p_return_description"))
         ret.append(self._get_checkbox_edit_("Static","_p_static"))
+        ret.append(self._get_checkbox_edit_("Abstract","_p_abstract"))
         ret.append(self._get_text_edit_("Descriptor(s):","_p_descriptors"))
         return ret
 
@@ -74,6 +90,7 @@ class Block(package.Block):
         self._p_descriptors = ""
         self._p_return_description = ""
         self._p_static = "0"
+        self._p_abstract = "0"
 
 
     def clear_properties(self):
@@ -82,6 +99,7 @@ class Block(package.Block):
         self._p_descriptors = ""
         self._p_return_description = ""
         self._p_static = "0"
+        self._p_abstract = "0"
 
 
     def _display_arguments_(self):
