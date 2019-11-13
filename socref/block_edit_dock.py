@@ -74,7 +74,7 @@ class Block_Edit_Dock(qtw.QDockWidget):
                 elif def_["type"] == "checkbox" :
                     edit = qtw.QCheckBox(def_["label"],self)
                     edit.setCheckState(qtc.Qt.Checked if int(props[def_["key"]]) else qtc.Qt.Unchecked)
-                    edit._value_ = lambda e=edit : int(e.checkState() == qtc.Qt.Checked)
+                    edit._value_ = lambda e=edit : str(int(e.checkState() == qtc.Qt.Checked))
                     edit._key = def_["key"]
                 elif def_["type"] == "combobox" :
                     edit = qtw.QComboBox(self)

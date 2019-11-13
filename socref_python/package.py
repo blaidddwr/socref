@@ -44,8 +44,8 @@ class Block(ab.Abstract_Block):
 
     def edit_definitions(self):
         ret = []
-        ret.append(self._get_line_edit_("Name:","_p_name"))
-        ret.append(self._get_text_edit_("Description:","_p_description"))
+        ret.append(self._line_edit_("Name:","_p_name"))
+        ret.append(self._text_edit_("Description:","_p_description"))
         return ret
 
 

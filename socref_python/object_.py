@@ -6,6 +6,7 @@ from PySide2 import QtGui as qtg
 from socref import block_factory as bf
 from . import package
 from . import function
+from . import access
 
 
 
@@ -37,6 +38,10 @@ class Block(package.Block):
         return bool(int(self._p_static))
 
 
+    def in_class(self):
+        return isinstance(self.parent(),access.Block)
+
+
     def icon(self):
         if not self.is_static() : return qtg.QIcon(":/python/object.svg")
         else : return qtg.QIcon(":/python/static_object.svg")
@@ -54,6 +59,7 @@ class Block(package.Block):
 
 
     def display_view(self):
+        self.__check_flags_()
         assignment = html.escape(self._p_assignment)
         if assignment : assignment = "<h2>Assignment</h2><p>%s</p>" % assignment
         static = "<h3>Static</h3>" if self.is_static() else ""
@@ -62,8 +68,8 @@ class Block(package.Block):
 
     def edit_definitions(self):
         ret = package.Block.edit_definitions(self)
-        ret.append(self._get_line_edit_("Assignment:","_p_assignment"))
-        ret.append(self._get_checkbox_edit_("Static","_p_static"))
+        ret.append(self._line_edit_("Assignment:","_p_assignment"))
+        if self.in_class() : ret.append(self._checkbox_edit_("Static","_p_static"))
         return ret
 
 
@@ -79,3 +85,7 @@ class Block(package.Block):
         self._p_description = ""
         self._p_assignment = ""
         self._p_static = "0"
+
+
+    def __check_flags_(self):
+        if not self.in_class() : self._p_static = "0"

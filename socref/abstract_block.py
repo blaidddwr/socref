@@ -170,20 +170,20 @@ class Abstract_Block(abc.ABC):
         return orphan
 
 
-    def _get_line_edit_(self, label, key):
-        return self.__get_edit_("line",label,key)
+    def _line_edit_(self, label, key):
+        return self.__edit_("line",label,key)
 
 
-    def _get_text_edit_(self, label, key):
-        return self.__get_edit_("text",label,key)
+    def _text_edit_(self, label, key):
+        return self.__edit_("text",label,key)
 
 
-    def _get_checkbox_edit_(self, label, key):
-        return self.__get_edit_("checkbox",label,key)
+    def _checkbox_edit_(self, label, key):
+        return self.__edit_("checkbox",label,key)
 
 
-    def _get_combobox_edit_(self, label, key):
-        ret = self.__get_edit_("combobox",label,key)
+    def _combobox_edit_(self, label, key):
+        ret = self.__edit_("combobox",label,key)
         ret["selections"] = []
         return ret
 
@@ -195,7 +195,7 @@ class Abstract_Block(abc.ABC):
         combo_edit["selections"].append(edit)
 
 
-    def __get_edit_(self, type_, label, key):
+    def __edit_(self, type_, label, key):
         ret = dict()
         ret["type"] = type_
         ret["label"] = label

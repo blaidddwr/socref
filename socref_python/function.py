@@ -5,6 +5,7 @@ import html
 from PySide2 import QtGui as qtg
 from socref import block_factory as bf
 from . import package
+from . import access
 
 
 
@@ -15,21 +16,12 @@ from . import package
 class Block(package.Block):
 
 
-    def ___instance___(self):
-        #
-        self._p_descriptors = ""
-        #
-        self._p_return_description = ""
-        #
-        self._p_static = "0"
-        #
-        self._p_abstract = "0"
-
-
     def __init__(self):
         package.Block.__init__(self)
-        #:
-        self.___instance___()
+        self._p_descriptors = ""
+        self._p_return_description = ""
+        self._p_static = "0"
+        self._p_abstract = "0"
 
 
     def is_static(self):
@@ -38,6 +30,10 @@ class Block(package.Block):
 
     def is_abstract(self):
         return bool(int(self._p_abstract))
+
+
+    def is_method(self):
+        return isinstance(self.parent(),access.Block)
 
 
     def icon(self):
@@ -56,6 +52,7 @@ class Block(package.Block):
 
 
     def display_view(self):
+        self.__check_flags_()
         return_description = html.escape(self._p_return_description)
         if return_description : return_description = "<h2>Return</h2><p>%s</p>" % return_description
         flags = ""
@@ -77,10 +74,11 @@ class Block(package.Block):
 
     def edit_definitions(self):
         ret = package.Block.edit_definitions(self)
-        ret.append(self._get_text_edit_("Return:","_p_return_description"))
-        ret.append(self._get_checkbox_edit_("Static","_p_static"))
-        ret.append(self._get_checkbox_edit_("Abstract","_p_abstract"))
-        ret.append(self._get_text_edit_("Descriptor(s):","_p_descriptors"))
+        ret.append(self._text_edit_("Return:","_p_return_description"))
+        if self.is_method() :
+            ret.append(self._checkbox_edit_("Static","_p_static"))
+            ret.append(self._checkbox_edit_("Abstract","_p_abstract"))
+        ret.append(self._text_edit_("Descriptor(s):","_p_descriptors"))
         return ret
 
 
@@ -109,3 +107,9 @@ class Block(package.Block):
                                               ,html.escape(argument._p_description))
         if ret : ret = "<h2>Arguments</h2>" + ret
         return ret
+
+
+    def __check_flags_(self):
+        if not self.is_method() :
+            self._p_static = "0"
+            self._p_abstract = "0"

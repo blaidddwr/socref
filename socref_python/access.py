@@ -58,8 +58,8 @@ class Block(ab.Abstract_Block):
 
     def edit_definitions(self):
         ret = []
-        ret.append(self._get_line_edit_("Name:","_p_name"))
-        combo = self._get_combobox_edit_("Type:","_p_type")
+        ret.append(self._line_edit_("Name:","_p_name"))
+        combo = self._combobox_edit_("Type:","_p_type")
         self._add_combo_select_(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
         self._add_combo_select_(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
         self._add_combo_select_(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
