@@ -44,7 +44,7 @@ class Block(package.Block):
 
     def icon(self):
         if not self.is_static() : return qtg.QIcon(":/python/object.svg")
-        else : return qtg.QIcon(":/python/static_object.svg")
+        else: return qtg.QIcon(":/python/static_object.svg")
 
 
     def display_name(self):

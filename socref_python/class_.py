@@ -28,7 +28,7 @@ class Block(package.Block):
 
     def icon(self):
         if self.is_abstract() : return qtg.QIcon(":/python/abstract_class.svg")
-        else : return qtg.QIcon(":/python/class.svg")
+        else: return qtg.QIcon(":/python/class.svg")
 
 
     def build_list(self):

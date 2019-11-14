@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scp_project>
+    <language>Python</language>
+    <name></name>
+    <Package>
+        <Package>
+            <__p_name>socref</__p_name>
+            <__p_description>Detailed description.</__p_description>
+            <Module>
+                <__p_name>__main__</__p_name>
+                <__p_description>Detailed description.</__p_description>
+            </Module>
+        </Package>
+    </Package>
+</scp_project>

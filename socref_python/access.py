@@ -39,7 +39,7 @@ class Block(ab.Abstract_Block):
     def icon(self):
         if self._p_type == "Public" : return qtg.QIcon(":/python/public.svg")
         elif  self._p_type == "Protected" : return qtg.QIcon(":/python/protected.svg")
-        else :  return qtg.QIcon(":/python/private.svg")
+        else:  return qtg.QIcon(":/python/private.svg")
 
 
     def display_name(self):

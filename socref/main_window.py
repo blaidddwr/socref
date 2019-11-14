@@ -52,7 +52,7 @@ class Main_Window(qtw.QMainWindow):
 
     def closeEvent(self, event):
         if self.__is_ok_to_close_() : event.accept()
-        else : event.ignore()
+        else: event.ignore()
 
 
     def __update_actions_(self):
@@ -71,16 +71,16 @@ class Main_Window(qtw.QMainWindow):
         result = box.exec_()
         if result == qtw.QMessageBox.Save :
             if self.__path is None : return self.__save_as_()
-            else : return self.__save_()
+            else: return self.__save_()
         elif result == qtw.QMessageBox.Cancel : return False
-        else : return True
+        else: return True
 
 
     def __update_title_(self):
         if self.__model :
             self.setWindowTitle("%s[*] (%s) - Socrates' Reference"
                                 % (self.__model.name(),self.__model.lang_name()))
-        else :
+        else:
             self.setWindowTitle("Socrates' Reference")
 
 
@@ -219,7 +219,7 @@ class Main_Window(qtw.QMainWindow):
     @qtc.Slot()
     def __save_(self):
         if self.__path is None : self.__save_as_()
-        else :
+        else:
             self.__model.save(self.__path)
             self.setWindowModified(False)
 

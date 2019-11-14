@@ -54,7 +54,7 @@ class Abstract_Parser(abc.ABC):
                                  " blocks generating an identical file name. Perhaps check for"
                                  " blocks with the same display name and parent block.")
         for path in self.__paths :
-            self._scan_(path)
+            if os.path.isfile(path) : self._scan_(path)
         for path,block in zip(self.__paths,self.__blocks) :
             self.__build_(block,path)
 
@@ -75,5 +75,5 @@ class Abstract_Parser(abc.ABC):
         if os.path.exists(path):
             old = open(path,"r").read()
             new = self._build_(block,path)
-            if old != new : open(path,"w").write(new)
-        else : open(path,"w").write(self._build_(block,path))
+            #if old != new : open(path,"w").write(new)
+        #else: open(path,"w").write(self._build_(block,path))

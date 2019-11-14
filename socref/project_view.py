@@ -293,7 +293,7 @@ class Project_View(qtw.QTreeView):
             if not index.isValid(): return (None,None)
             parent = index.parent()
             row = index.row() + 1
-        else : raise RuntimeError("Invalid addition given.")
+        else: raise RuntimeError("Invalid addition given.")
         return (row,parent)
 
 

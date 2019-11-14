@@ -40,7 +40,7 @@ class Block(package.Block):
         if self._p_name.startswith("__") and self._p_name.endswith("__") : return qtg.QIcon(":/python/operator.svg")
         elif self.is_static() : return qtg.QIcon(":/python/static_function.svg")
         elif self.is_abstract() : return qtg.QIcon(":/python/abstract_function.svg")
-        else : return qtg.QIcon(":/python/function.svg")
+        else: return qtg.QIcon(":/python/function.svg")
 
 
     def display_name(self):

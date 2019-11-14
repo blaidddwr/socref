@@ -59,7 +59,7 @@ class Project_Model(qtc.QAbstractItemModel):
 
     def load(self, path):
         xml = None
-        with open(path,"br") as ifile:
+        with open(path,"br") as ifile :
             xml = ifile.read()
         stream = qtc.QXmlStreamReader(xml)
         stream.readNextStartElement()
@@ -97,7 +97,7 @@ class Project_Model(qtc.QAbstractItemModel):
             self.__root.to_xml(stream)
             stream.writeEndElement()
             stream.writeEndDocument()
-            with open(path,"bw") as ofile:
+            with open(path,"bw") as ofile :
                 ofile.write(xml.data())
             self.__modified = False
 
@@ -132,13 +132,13 @@ class Project_Model(qtc.QAbstractItemModel):
     def headerData(self, section, orientation, role):
         if orientation == qtc.Qt.Horizontal and section == 0 and role == qtc.Qt.DisplayRole :
             return self.__lang_name
-        else : return qtc.QAbstractItemModel.headerData(self,section,orientation,role)
+        else: return qtc.QAbstractItemModel.headerData(self,section,orientation,role)
 
 
     def flags(self, index):
         flags = qtc.QAbstractItemModel.flags(self,index)
         if index.isValid() : return qtc.Qt.ItemIsDragEnabled | qtc.Qt.ItemIsDropEnabled | flags
-        else : return qtc.Qt.ItemIsDropEnabled | flags
+        else: return qtc.Qt.ItemIsDropEnabled | flags
 
 
     def index(self, row, column, parent):
@@ -159,7 +159,7 @@ class Project_Model(qtc.QAbstractItemModel):
     def rowCount(self, index):
         block = self.__block_(index)
         if block is None : return 0
-        else : return len(block)
+        else: return len(block)
 
 
     def columnCount(self, index):
@@ -188,7 +188,7 @@ class Project_Model(qtc.QAbstractItemModel):
         if block is not None and role == self.PROPERTIES_ROLE :
             self.__push_(pc.Set(block.properties(),value,index,self))
             return True
-        else :
+        else:
             return False
 
 
@@ -402,7 +402,7 @@ class Project_Model(qtc.QAbstractItemModel):
     def __block_(self, index):
         if index.isValid() :
             return index.internalPointer()
-        else :
+        else:
             return self.__root
 
 

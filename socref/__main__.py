@@ -7,7 +7,6 @@ from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
 from . import main_window as mw
 from . import parser_model as pm
-
 from . import block_factory as bf # TEMP
 
 
@@ -27,11 +26,3 @@ def main():
     parser_thread.quit()
     parser_thread.wait()
     sys.exit(ret)
-
-
-
-
-
-
-if __name__ == "__main__":
-    main()

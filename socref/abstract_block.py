@@ -23,7 +23,7 @@ class Abstract_Block(abc.ABC):
         #
         self.__parent = None
         #
-        self.__properties = dict()
+        self.__properties = {}
         #:
 
 
@@ -55,12 +55,12 @@ class Abstract_Block(abc.ABC):
 
     def __getattr__(self, key):
         if key.startswith("_p_") : return self.__properties[key]
-        else : return object.__getattribute__(self,key)
+        else: return object.__getattribute__(self,key)
 
 
     def __setattr__(self, key, item):
         if key.startswith("_p_") : self.__properties[key] = item
-        else : object.__setattr__(self,key,item)
+        else: object.__setattr__(self,key,item)
 
 
     def dir_name(self):
@@ -149,7 +149,7 @@ class Abstract_Block(abc.ABC):
                 name = stream.name();
                 if name.startswith("_"):
                     self.properties()[name[1:]] = stream.readElementText()
-                else :
+                else:
                     child = bf.Block_Factory().create(self.__lang_name,name)
                     child.set_from_xml(stream)
                     self.append(child)
@@ -201,15 +201,12 @@ class Abstract_Block(abc.ABC):
 
 
     def _add_combo_select_(self, combo_edit, text, icon=None):
-        edit = dict()
-        edit["text"] = text
+        edit = {"text": text}
         if icon is not None : edit["icon"] = icon
         combo_edit["selections"].append(edit)
 
 
     def __edit_(self, type_, label, key):
-        ret = dict()
-        ret["type"] = type_
-        ret["label"] = label
-        ret["key"] = key
-        return ret
+        return {"type": type_
+                ,"label": label
+                ,"key": key}

@@ -15,11 +15,8 @@ class Block_Edit_Dock(qtw.QDockWidget):
 
     def __init__(self, parent=None):
         qtw.QDockWidget.__init__(self,parent)
-        #
         self.__view = None
-        #
         self.__edits = []
-        #:
         self.setWindowTitle("(Edit)")
 
 
@@ -36,7 +33,7 @@ class Block_Edit_Dock(qtw.QDockWidget):
                                 (model.data(index,pm.Project_Model.BLOCK_TYPE_ROLE)
                                  ,model.data(index,qtc.Qt.DisplayRole)))
             self.setWidget(self.__build_form_widget_(index))
-        else :
+        else:
             self.setWindowTitle("(Edit)")
             self.__edits.clear()
             self.setWidget(None)
@@ -46,10 +43,9 @@ class Block_Edit_Dock(qtw.QDockWidget):
     def __apply_(self):
         index = self.__view.selectionModel().currentIndex()
         if index.isValid() :
-            props = dict()
-            for edit in self.__edits :
-                props[edit._key] = edit._value_()
-            self.__view.model().setData(index,props,pm.Project_Model.PROPERTIES_ROLE)
+            self.__view.model().setData(index
+                                        ,{edit._key: edit._value_() for edit in self.__edits}
+                                        ,pm.Project_Model.PROPERTIES_ROLE)
 
 
     def __build_form_widget_(self, index):
@@ -80,12 +76,12 @@ class Block_Edit_Dock(qtw.QDockWidget):
                     edit = qtw.QComboBox(self)
                     for selection in def_["selections"] :
                         if "icon" in selection : edit.addItem(selection["icon"],selection["text"])
-                        else : edit.addItem(selection["text"])
+                        else: edit.addItem(selection["text"])
                     edit.setCurrentText(props[def_["key"]])
                     edit._value_ = lambda e=edit : e.currentText()
                     edit._key = def_["key"]
                     label = def_["label"]
-                else :
+                else:
                     print(def_)
                     raise RuntimeError("Unknown edit definition.")
                 layout.addRow(label,edit)

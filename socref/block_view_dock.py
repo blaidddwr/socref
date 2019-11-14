@@ -40,6 +40,6 @@ class Block_View_Dock(qtw.QDockWidget):
             label.setContentsMargins(4,16,4,4)
             label.setText(model.data(index,pm.Project_Model.VIEW_ROLE))
             self.setWidget(label)
-        else :
+        else:
             self.setWindowTitle("(View)")
             self.setWidget(None)
