@@ -63,12 +63,24 @@ class Abstract_Block(abc.ABC):
         else : object.__setattr__(self,key,item)
 
 
+    def dir_name(self):
+        return False
+
+
+    def file_name(self):
+        return None
+
+
     def is_volatile_above(self):
         return False
 
 
     def is_volatile_below(self):
         return False
+
+
+    def parser(self):
+        pass
 
 
     @abc.abstractmethod

@@ -19,6 +19,10 @@ class Block(package.Block):
         #:
 
 
+    def file_name(self):
+        return self._p_name + ".py"
+
+
     def icon(self):
         return qtg.QIcon(":/python/module.svg")
 

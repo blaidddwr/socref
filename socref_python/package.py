@@ -5,6 +5,7 @@ import html
 from PySide2 import QtGui as qtg
 from socref import abstract_block as ab
 from socref import block_factory as bf
+from . import parser
 
 
 
@@ -22,6 +23,14 @@ class Block(ab.Abstract_Block):
         #
         self._p_description = ""
         #:
+
+
+    def parser(self):
+        return parser.Parser(self)
+
+
+    def dir_name(self):
+        if self._BLOCKNAME_ == "Package" : return self._p_name
 
 
     def icon(self):

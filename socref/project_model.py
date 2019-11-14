@@ -176,8 +176,11 @@ class Project_Model(qtc.QAbstractItemModel):
             elif role == self.EDIT_DEFS_ROLE : return block.edit_definitions()
             elif role == self.PROPERTIES_ROLE : return block.properties()
             elif role == self.BLOCK_TYPE_ROLE : return block.type_name()
-            else : return None
-        else : return None
+
+
+    def parser(self):
+        if self.__root is not None :
+            return self.__root.parser()
 
 
     def setData(self, index, value, role):
