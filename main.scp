@@ -32,8 +32,145 @@ Exit the application with the return code provided by the Qt application.</__p_i
                 </Function>
             </Module>
             <Module>
-                <__p_name>singleton</__p_name>
-                <__p_description>Holds the singleton class, this will change.</__p_description>
+                <__p_name>util</__p_name>
+                <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the program.</__p_description>
+                <Function>
+                    <__p_name>wrap_text</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_return_description>Yes</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>text</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>begin</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_assignment>&quot;&quot;</__p_assignment>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>after</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_assignment>&quot;&quot;</__p_assignment>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>columns</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_assignment>80</__p_assignment>
+                        <__p_static>0</__p_static>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>line_edit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_return_description>Yes</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>text_edit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_return_description>Yes</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>checkbox_edit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_return_description>Yes</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>combobox_edit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_return_description>Yes</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>add_combo_select</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>combo_edit</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>text</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>icon</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_assignment>None</__p_assignment>
+                        <__p_static>0</__p_static>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>hidden_edit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_return_description>Yes</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>value</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                </Function>
                 <Class>
                     <__p_name>Singleton</__p_name>
                     <__p_description>This is a descriptor class that will turn a class used by it to a singleton. The singleton is called by calling its class object which is replaced by this and the same instance is called every time.</__p_description>
@@ -66,7 +203,7 @@ Exit the application with the return code provided by the Qt application.</__p_i
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Public Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>class_</__p_name>
@@ -74,6 +211,79 @@ Exit the application with the return code provided by the Qt application.</__p_i
                             <__p_return_description>The class object that this singleton instance manages.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Function>
+                    <__p_name>__edit</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_return_description>Yes</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>type_</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>Detailed description.</__p_description>
+                        <__p_static>0</__p_static>
+                    </Object>
+                </Function>
+            </Module>
+            <Module>
+                <__p_name>model</__p_name>
+                <__p_description>Contains all model objects used by this application. This includes the project and parser model classes.</__p_description>
+                <Class>
+                    <__p_name>Command</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <Access>
+                        <__p_name>Initializer</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>model</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_static>0</__p_static>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_get_index_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>rows</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_static>0</__p_static>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>_build_rows_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_static>0</__p_static>
+                            </Object>
                         </Function>
                     </Access>
                 </Class>

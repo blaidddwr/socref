@@ -61,6 +61,14 @@ class Block(package.Block):
         return ()
 
 
+    def argument_view(self):
+        ret = "<p><b>%s " % html.escape(self._p_name)
+        if self._p_assignment : ret += " =</b> " + html.escape(self._p_assignment) + " : "
+        else: ret += "</b> : "
+        ret += html.escape(self._p_description) + "</p>"
+        return ret
+
+
     def display_view(self):
         self.__check_flags_()
         assignment = html.escape(self._p_assignment)

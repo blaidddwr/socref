@@ -4,14 +4,14 @@ todo
 import traceback
 from PySide2 import QtCore as qtc
 from . import abstract_parser as ap
-from . import singleton as si
+from . import util
 
 
 
 
 
 
-@si.Singleton
+@util.Singleton
 class Parser_Model(qtc.QObject):
 
 

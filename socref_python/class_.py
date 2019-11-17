@@ -59,7 +59,7 @@ class Builder(Block):
 
     def build(self, def_, begin=""):
         if self._BLOCKNAME_ != "Class" : return
-        def_ = def_["classes"][self._p_name]
+        def_ = def_["classes"].get(self._p_name,{"functions":{}})
         ret = "%sclass %s():\n" % (begin,self._p_name)
         ret += begin + " "*settings.INDENT + '"""\n'
         ret += util.wrap_text(self._p_description
@@ -70,4 +70,5 @@ class Builder(Block):
         for block in self :
             ret += block.space(previous,self)
             ret += block.build(def_,begin=begin + " "*settings.INDENT)
+            previous = block
         return ret

@@ -82,14 +82,14 @@ class Parser(ap.Abstract_Parser):
                 line = line[:-1]
                 match = re.match('^class +([a-zA-Z_]+\w*)\([\w\._]*\):',line)
                 if match : uniq_insert(def_["classes"],match.group(1),self.__scan_class_(ifile))
-                match = re.match('^def +([a-zA-Z_]+\w*)\([\w,=$ ]*\):',line)
+                match = re.match('^def +([a-zA-Z_]+\w*)\(.*\):',line)
                 if match :
                     uniq_insert(def_["functions"],match.group(1),self.__scan_function_(ifile))
             self.__defs[path] = def_
 
 
     def _build_(self, block, path):
-        return block.build(self.__defs[path])
+        return block.build(self.__defs.get(path,{"header": [], "functions": {}, "classes": {}}))
 
 
     def __build_paths_(self, parent, path):
@@ -104,7 +104,12 @@ class Parser(ap.Abstract_Parser):
     def __scan_header_(self, ifile):
         self.__skip_doc_string_(ifile)
         ret = []
+        last = ifile.tell()
+        line = ifile.readline()
+        ifile.seek(last)
+        if not re.match('(from|import).*',line) : return ret
         while True :
+            last = ifile.tell()
             line = ifile.readline()
             if not line or line == '\n' : break
             ret.append(line[:-1])
@@ -118,7 +123,7 @@ class Parser(ap.Abstract_Parser):
         while True :
             line = scan.readline()
             if line is None : break
-            match = re.match(' *def +([a-zA-Z_]+\w*)\([\w,=$ ]*\):',line)
+            match = re.match(' *def +([a-zA-Z_]+\w*)\(.*\):',line)
             if match :
                 uniq_insert(ret["functions"],match.group(1),self.__scan_function_(ifile))
         return ret

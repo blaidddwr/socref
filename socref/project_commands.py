@@ -21,7 +21,7 @@ class Command():
         index = qtc.QModelIndex()
         for row in rows :
             index = self._model.index(row,0,index)
-            if not index.isValid() : raise RuntimeError("Move command rows are invalid.")
+            if not index.isValid() : raise RuntimeError("Rows are invalid.")
         return index
 
 
