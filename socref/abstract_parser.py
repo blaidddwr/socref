@@ -75,5 +75,5 @@ class Abstract_Parser(abc.ABC):
         if os.path.exists(path):
             old = open(path,"r").read()
             new = self._build_(block,path)
-            #if old != new : open(path,"w").write(new)
-        #else: open(path,"w").write(self._build_(block,path))
+            if old != new : open(path,"w").write(new)
+        else: open(path,"w").write(self._build_(block,path))

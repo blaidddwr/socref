@@ -58,6 +58,7 @@ class Main_Window(qtw.QMainWindow):
     def __update_actions_(self):
         self.__save_action.setDisabled(self.__path is None)
         self.__save_as_action.setDisabled(not self.__model)
+        self.__parse_action.setDisabled(self.__path is None)
         self.__close_action.setDisabled(not self.__model)
 
 
@@ -252,6 +253,7 @@ class Main_Window(qtw.QMainWindow):
     def __close_(self):
         if self.__is_ok_to_close_() :
             self.__model.close()
+            self.__path = None
             self.__update_title_()
             self.setWindowModified(False)
             self.__update_actions_()

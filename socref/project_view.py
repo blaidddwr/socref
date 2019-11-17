@@ -59,7 +59,6 @@ class Project_View(qtw.QTreeView):
         self.__setup_context_menu_()
         self.setContextMenuPolicy(qtc.Qt.CustomContextMenu)
         self.customContextMenuRequested.connect(self.__context_menu_requested)
-        self.setIconSize(qtc.QSize(24,24))
 
 
     def context_menu(self):

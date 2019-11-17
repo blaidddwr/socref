@@ -1,0 +1,9 @@
+"""
+todo
+"""
+
+
+COLUMNS = 100
+INDENT = 4
+H1LINES = 6
+H2LINES = 2

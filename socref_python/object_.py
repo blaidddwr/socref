@@ -49,7 +49,7 @@ class Block(package.Block):
 
     def display_name(self):
         ret = self._p_name
-        if self.is_argument() and self.assignment() :
+        if self.is_argument() and self._p_assignment :
             ret += " ="
         return ret
 
@@ -85,6 +85,16 @@ class Block(package.Block):
         self._p_description = ""
         self._p_assignment = ""
         self._p_static = "0"
+
+
+    def argument(self):
+        ret = self._p_name
+        if self._p_assignment : ret += "=" + self._p_assignment
+        return ret
+
+
+    def comment(self, begin):
+        return begin + "YOLO\n"
 
 
     def __check_flags_(self):

@@ -57,23 +57,24 @@ class Block_Edit_Dock(qtw.QDockWidget):
             for def_ in defs :
                 edit = None
                 label = ""
+                hidden = False
                 if def_["type"] == "line" :
-                    edit = qtw.QLineEdit(props[def_["key"]],self)
+                    edit = qtw.QLineEdit(props[def_["key"]])
                     edit._value_ = lambda e=edit : e.text()
                     edit._key = def_["key"]
                     label = def_["label"]
                 elif def_["type"] == "text" :
-                    edit = qtw.QPlainTextEdit(props[def_["key"]],self)
+                    edit = qtw.QPlainTextEdit(props[def_["key"]])
                     edit._value_ = lambda e=edit : e.toPlainText()
                     edit._key = def_["key"]
                     label = def_["label"]
                 elif def_["type"] == "checkbox" :
-                    edit = qtw.QCheckBox(def_["label"],self)
+                    edit = qtw.QCheckBox(def_["label"])
                     edit.setCheckState(qtc.Qt.Checked if int(props[def_["key"]]) else qtc.Qt.Unchecked)
                     edit._value_ = lambda e=edit : str(int(e.checkState() == qtc.Qt.Checked))
                     edit._key = def_["key"]
                 elif def_["type"] == "combobox" :
-                    edit = qtw.QComboBox(self)
+                    edit = qtw.QComboBox()
                     for selection in def_["selections"] :
                         if "icon" in selection : edit.addItem(selection["icon"],selection["text"])
                         else: edit.addItem(selection["text"])
@@ -81,10 +82,15 @@ class Block_Edit_Dock(qtw.QDockWidget):
                     edit._value_ = lambda e=edit : e.currentText()
                     edit._key = def_["key"]
                     label = def_["label"]
+                elif def_["type"] == "hidden" :
+                    edit = qtw.QWidget()
+                    edit._value_ = lambda val=def_["value"] : val
+                    edit._key = def_["key"]
+                    hidden = True
                 else:
                     print(def_)
                     raise RuntimeError("Unknown edit definition.")
-                layout.addRow(label,edit)
+                if not hidden : layout.addRow(label,edit)
                 self.__edits.append(edit)
             layout.addRow(self.__build_apply_())
             ret = qtw.QWidget()

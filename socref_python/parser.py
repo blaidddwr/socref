@@ -41,12 +41,10 @@ class Parser(ap.Abstract_Parser):
                             key = key[:-1] + str(count)
                     def_["functions"][key] = self.__scan_function_(ifile)
             self.__defs[path] = def_
-            print(def_)
 
 
     def _build_(self, block, path):
-        print(block,path,sep="\n")
-        return ""
+        return block.build(self.__defs[path])
 
 
     def __build_paths_(self, parent, path):
@@ -59,12 +57,8 @@ class Parser(ap.Abstract_Parser):
 
 
     def __scan_header_(self, ifile):
+        self.__skip_doc_string_(ifile)
         ret = []
-        count = 0
-        while count < 2 :
-            line = ifile.readline()
-            if not line : break
-            if line == '"""\n' : count += 1
         while True :
             line = ifile.readline()
             if not line or line == '\n' : break
@@ -73,8 +67,10 @@ class Parser(ap.Abstract_Parser):
 
 
     def __scan_function_(self, ifile):
+        self.__skip_doc_string_(ifile)
         ret = []
         indent = None
+        latch = True
         while True :
             last = ifile.tell()
             line = ifile.readline()
@@ -86,5 +82,20 @@ class Parser(ap.Abstract_Parser):
                 elif current < indent :
                     ifile.seek(last)
                     break
-                ret.append(line[indent:])
+                match = re.match('( *#).*',line)
+                if match :
+                    if latch :
+                        ret.append(match.group(0)[indent:])
+                        latch = False
+                else :
+                    ret.append(line[indent:])
+                    latch = True
         return ret
+
+
+    def __skip_doc_string_(self, ifile):
+        count = 0
+        while count < 2 :
+            line = ifile.readline()
+            if not line : break
+            if re.match(' *"""',line) : count += 1

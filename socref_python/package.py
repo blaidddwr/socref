@@ -6,6 +6,7 @@ from PySide2 import QtGui as qtg
 from socref import abstract_block as ab
 from socref import block_factory as bf
 from . import parser
+from . import settings
 
 
 
@@ -66,3 +67,11 @@ class Block(ab.Abstract_Block):
     def clear_properties(self):
         self._p_name = ""
         self._p_description = ""
+
+
+    def build(self, def_):
+        if self._BLOCKNAME_ != "Package" : return
+        ret = '"""\n'
+        ret += self._wrap_text_(self._p_description,columns=settings.COLUMNS)
+        ret += '"""\n'
+        return ret

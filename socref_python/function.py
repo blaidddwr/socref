@@ -6,6 +6,7 @@ from PySide2 import QtGui as qtg
 from socref import block_factory as bf
 from . import package
 from . import access
+from . import settings
 
 
 
@@ -20,6 +21,7 @@ class Block(package.Block):
         package.Block.__init__(self)
         self._p_descriptors = ""
         self._p_return_description = ""
+        self._p_inlines = ""
         self._p_static = "0"
         self._p_abstract = "0"
 
@@ -78,6 +80,10 @@ class Block(package.Block):
         if self.is_method() :
             ret.append(self._checkbox_edit_("Static","_p_static"))
             ret.append(self._checkbox_edit_("Abstract","_p_abstract"))
+        else :
+            ret.append(self._hidden_("_p_static","0"))
+            ret.append(self._hidden_("_p_abstract","0"))
+        ret.append(self._text_edit_("Inline Comments:","_p_inlines"))
         ret.append(self._text_edit_("Descriptor(s):","_p_descriptors"))
         return ret
 
@@ -85,8 +91,9 @@ class Block(package.Block):
     def set_default_properties(self):
         self._p_name = "function"
         self._p_description = "Detailed description."
-        self._p_descriptors = ""
         self._p_return_description = ""
+        self._p_inlines = ""
+        self._p_descriptors = ""
         self._p_static = "0"
         self._p_abstract = "0"
 
@@ -94,10 +101,43 @@ class Block(package.Block):
     def clear_properties(self):
         self._p_name = ""
         self._p_description = ""
-        self._p_descriptors = ""
         self._p_return_description = ""
+        self._p_inlines = ""
+        self._p_descriptors = ""
         self._p_static = "0"
         self._p_abstract = "0"
+
+
+    def space(self, previous, above):
+        return "\n"*settings.H1LINES
+
+
+    def build(self, def_, begin=""):
+        if self._BLOCKNAME_ != "Function" : return
+        inlines = self._p_inlines.split("\n\n") if self._p_inlines else []
+        lines = def_["functions"].get(self._p_name,[])
+        ret = "%sdef %s(%s):\n" % (begin,self._p_name,", ".join((arg.argument() for arg in self)))
+        ret += '%s%s"""\n' % (begin," "*settings.INDENT)
+        ret += self._wrap_text_(self._p_description
+                                ,lead=begin + " "*settings.INDENT
+                                ,columns=settings.COLUMNS)
+        for arg in self : ret += "\n" + arg.comment(begin + " "*settings.INDENT)
+        if self._p_return_description :
+            ret += "\n" + self._wrap_text_(self._p_return_description
+                                           ,lead=begin + " "*settings.INDENT
+                                           ,columns=settings.COLUMNS)
+        ret += '%s%s"""\n' % (begin," "*settings.INDENT)
+        for line in lines :
+            if line.endswith("#") :
+                if inlines :
+                    ret += "%s%s\n" % (" "*settings.INDENT,line)
+                    ret += self._wrap_text_(inlines.pop(0)
+                                            ,lead="%s%s " % (" "*settings.INDENT,line)
+                                            ,columns=settings.COLUMNS)
+                    ret += "%s%s\n" % (" "*settings.INDENT,line)
+                else : ret += "%s%s\n" % (" "*settings.INDENT,line)
+            else : ret += "%s%s%s\n" % (begin," "*settings.INDENT,line)
+        return ret
 
 
     def _display_arguments_(self):

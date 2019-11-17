@@ -5,10 +5,31 @@
     <Package>
         <Package>
             <__p_name>socref</__p_name>
-            <__p_description>Detailed description.</__p_description>
+            <__p_description>Contains the core application for Socrates' Reference. This includes everything except any language definitions.</__p_description>
             <Module>
                 <__p_name>__main__</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains the main function where execution begins.</__p_description>
+                <Function>
+                    <__p_name>main</__p_name>
+                    <__p_description>Begin execution of the program.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <__p_inlines>print the PID so the application can be killed. Qt likes to catch all exceptions without exiting.
+
+Load the python language.
+
+Create a new Qt application.
+
+Create the parser thread, move the parser model to it, and then start its event loop.
+
+Create and show an initial main window.
+
+Start the GUI event loop, saving its exit code when it returns.
+
+Request the parser thread quit and wait for it to stop.
+
+Exit the application with the return code provided by the Qt application.</__p_inlines>
+                </Function>
             </Module>
         </Package>
     </Package>
