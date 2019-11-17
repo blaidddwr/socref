@@ -12,8 +12,6 @@
                 <Function>
                     <__p_name>main</__p_name>
                     <__p_description>Begin execution of the program.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
                     <__p_inlines>print the PID so the application can be killed. Qt likes to catch all exceptions without exiting.
 
 Load the python language.
@@ -29,7 +27,56 @@ Start the GUI event loop, saving its exit code when it returns.
 Request the parser thread quit and wait for it to stop.
 
 Exit the application with the return code provided by the Qt application.</__p_inlines>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
                 </Function>
+            </Module>
+            <Module>
+                <__p_name>singleton</__p_name>
+                <__p_description>Holds the singleton class, this will change.</__p_description>
+                <Class>
+                    <__p_name>Singleton</__p_name>
+                    <__p_description>This is a descriptor class that will turn a class used by it to a singleton. The singleton is called by calling its class object which is replaced by this and the same instance is called every time.</__p_description>
+                    <Access>
+                        <__p_name>Initializer</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new singleton descriptor with the given class.</__p_description>
+                            <__p_inlines>Initialize the given class and then the singleton instance of it.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>class_</__p_name>
+                                <__p_description>Class object that is made into a singleton class.</__p_description>
+                                <__p_static>0</__p_static>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Operators</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__call__</__p_name>
+                            <__p_description>Returns the singleton instance that this singleton instance manages.</__p_description>
+                            <__p_return_description>The singleton instance of the class that this singleton manages.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Public Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>class_</__p_name>
+                            <__p_description>Returns the class object that this singleton instance manages.</__p_description>
+                            <__p_return_description>The class object that this singleton instance manages.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
             </Module>
         </Package>
     </Package>

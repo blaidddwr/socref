@@ -3,6 +3,7 @@ todo
 """
 from PySide2 import QtGui as qtg
 from socref import block_factory as bf
+from socref import util
 from . import package
 from . import settings
 
@@ -11,7 +12,8 @@ from . import settings
 
 
 
-@bf.register_block("Module")
+
+
 class Block(package.Block):
 
 
@@ -37,10 +39,20 @@ class Block(package.Block):
         self._p_description = "Detailed description."
 
 
+
+
+
+
+
+
+@bf.register_block("Module")
+class Builder(Block):
+
+
     def build(self, def_, lead=""):
         if self._BLOCKNAME_ != "Module" : return
         ret = '"""\n'
-        ret += self._wrap_text_(self._p_description,columns=settings.COLUMNS)
+        ret += util.wrap_text(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'
         ret += "\n".join(def_["header"] + [""])
         previous = None

@@ -4,16 +4,19 @@ todo
 import html
 from PySide2 import QtGui as qtg
 from socref import block_factory as bf
+from socref import util
 from . import package
 from . import function
 from . import access
+from . import settings
 
 
 
 
 
 
-@bf.register_block("Object")
+
+
 class Block(package.Block):
 
 
@@ -68,8 +71,9 @@ class Block(package.Block):
 
     def edit_definitions(self):
         ret = package.Block.edit_definitions(self)
-        ret.append(self._line_edit_("Assignment:","_p_assignment"))
-        if self.in_class() : ret.append(self._checkbox_edit_("Static","_p_static"))
+        ret.append(util.line_edit("Assignment:","_p_assignment"))
+        if self.in_class() : ret.append(util.checkbox_edit("Static","_p_static"))
+        else: ret.append(util.hidden_edit("_p_static","0"))
         return ret
 
 
@@ -87,6 +91,20 @@ class Block(package.Block):
         self._p_static = "0"
 
 
+    def __check_flags_(self):
+        if not self.in_class() : self._p_static = "0"
+
+
+
+
+
+
+
+
+@bf.register_block("Object")
+class Builder(Block):
+
+
     def argument(self):
         ret = self._p_name
         if self._p_assignment : ret += "=" + self._p_assignment
@@ -94,8 +112,8 @@ class Block(package.Block):
 
 
     def comment(self, begin):
-        return begin + "YOLO\n"
-
-
-    def __check_flags_(self):
-        if not self.in_class() : self._p_static = "0"
+        initial = self._p_name + " : "
+        return util.wrap_text(initial + self._p_description
+                              ,begin=begin
+                              ,after=" "*len(initial)
+                              ,columns=settings.COLUMNS)

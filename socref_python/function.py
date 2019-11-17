@@ -4,6 +4,7 @@ todo
 import html
 from PySide2 import QtGui as qtg
 from socref import block_factory as bf
+from socref import util
 from . import package
 from . import access
 from . import settings
@@ -13,7 +14,8 @@ from . import settings
 
 
 
-@bf.register_block("Function")
+
+
 class Block(package.Block):
 
 
@@ -76,15 +78,15 @@ class Block(package.Block):
 
     def edit_definitions(self):
         ret = package.Block.edit_definitions(self)
-        ret.append(self._text_edit_("Return:","_p_return_description"))
+        ret.append(util.text_edit("Return:","_p_return_description"))
         if self.is_method() :
-            ret.append(self._checkbox_edit_("Static","_p_static"))
-            ret.append(self._checkbox_edit_("Abstract","_p_abstract"))
-        else :
-            ret.append(self._hidden_("_p_static","0"))
-            ret.append(self._hidden_("_p_abstract","0"))
-        ret.append(self._text_edit_("Inline Comments:","_p_inlines"))
-        ret.append(self._text_edit_("Descriptor(s):","_p_descriptors"))
+            ret.append(util.checkbox_edit("Static","_p_static"))
+            ret.append(util.checkbox_edit("Abstract","_p_abstract"))
+        else:
+            ret.append(util.hidden_edit("_p_static","0"))
+            ret.append(util.hidden_edit("_p_abstract","0"))
+        ret.append(util.text_edit("Inline Comments:","_p_inlines"))
+        ret.append(util.text_edit("Descriptor(s):","_p_descriptors"))
         return ret
 
 
@@ -108,38 +110,6 @@ class Block(package.Block):
         self._p_abstract = "0"
 
 
-    def space(self, previous, above):
-        return "\n"*settings.H1LINES
-
-
-    def build(self, def_, begin=""):
-        if self._BLOCKNAME_ != "Function" : return
-        inlines = self._p_inlines.split("\n\n") if self._p_inlines else []
-        lines = def_["functions"].get(self._p_name,[])
-        ret = "%sdef %s(%s):\n" % (begin,self._p_name,", ".join((arg.argument() for arg in self)))
-        ret += '%s%s"""\n' % (begin," "*settings.INDENT)
-        ret += self._wrap_text_(self._p_description
-                                ,lead=begin + " "*settings.INDENT
-                                ,columns=settings.COLUMNS)
-        for arg in self : ret += "\n" + arg.comment(begin + " "*settings.INDENT)
-        if self._p_return_description :
-            ret += "\n" + self._wrap_text_(self._p_return_description
-                                           ,lead=begin + " "*settings.INDENT
-                                           ,columns=settings.COLUMNS)
-        ret += '%s%s"""\n' % (begin," "*settings.INDENT)
-        for line in lines :
-            if line.endswith("#") :
-                if inlines :
-                    ret += "%s%s\n" % (" "*settings.INDENT,line)
-                    ret += self._wrap_text_(inlines.pop(0)
-                                            ,lead="%s%s " % (" "*settings.INDENT,line)
-                                            ,columns=settings.COLUMNS)
-                    ret += "%s%s\n" % (" "*settings.INDENT,line)
-                else : ret += "%s%s\n" % (" "*settings.INDENT,line)
-            else : ret += "%s%s%s\n" % (begin," "*settings.INDENT,line)
-        return ret
-
-
     def _display_arguments_(self):
         ret = ""
         for argument in self :
@@ -153,3 +123,49 @@ class Block(package.Block):
         if not self.is_method() :
             self._p_static = "0"
             self._p_abstract = "0"
+
+
+
+
+
+
+
+
+@bf.register_block("Function")
+class Builder(Block):
+
+
+    def space(self, previous, above):
+        if above._BLOCKNAME_ == "Module" : return "\n"*settings.H2LINES
+        elif above._BLOCKNAME_ == "Access" : return "\n"*settings.H3LINES
+        else: raise RuntimeError("Unkonwn block type.")
+
+
+    def build(self, def_, begin=""):
+        if self._BLOCKNAME_ != "Function" : return
+        inlines = self._p_inlines.split("\n\n") if self._p_inlines else []
+        lines = def_["functions"].get(self._p_name,[])
+        arguments = [arg.argument() for arg in self]
+        if self.is_method() and not self.is_static() : arguments.insert(0,"self")
+        ret = "%sdef %s(%s):\n" % (begin,self._p_name,", ".join(arguments))
+        ret += begin + " "*settings.INDENT + '"""\n'
+        ret += util.wrap_text(self._p_description
+                              ,begin=begin + " "*settings.INDENT
+                              ,columns=settings.COLUMNS)
+        for arg in self : ret += "\n" + arg.comment(begin + " "*settings.INDENT)
+        if self._p_return_description :
+            ret += "\n" + util.wrap_text(self._p_return_description
+                                         ,begin=begin + " "*settings.INDENT
+                                         ,columns=settings.COLUMNS)
+        ret += '%s%s"""\n' % (begin," "*settings.INDENT)
+        for line in lines :
+            if line.endswith("#") :
+                if inlines :
+                    ret += begin + " "*settings.INDENT + line + "\n"
+                    ret += util.wrap_text(inlines.pop(0)
+                                          ,begin=begin + " "*settings.INDENT + line + " "
+                                          ,columns=settings.COLUMNS)
+                    ret += begin + " "*settings.INDENT + line + "\n"
+                else: ret += begin + " "*settings.INDENT + line + "\n"
+            else: ret += begin + " "*settings.INDENT + line + "\n"
+        return ret

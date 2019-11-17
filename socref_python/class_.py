@@ -4,14 +4,17 @@ todo
 import html
 from PySide2 import QtGui as qtg
 from socref import block_factory as bf
+from socref import util
 from . import package
+from . import settings
 
 
 
 
 
 
-@bf.register_block("Class")
+
+
 class Block(package.Block):
 
 
@@ -38,3 +41,33 @@ class Block(package.Block):
     def set_default_properties(self):
         self._p_name = "class"
         self._p_description = "Detailed description."
+
+
+
+
+
+
+
+
+@bf.register_block("Class")
+class Builder(Block):
+
+
+    def space(self, previous, above):
+        return "\n"*settings.H1LINES
+
+
+    def build(self, def_, begin=""):
+        if self._BLOCKNAME_ != "Class" : return
+        def_ = def_["classes"][self._p_name]
+        ret = "%sclass %s():\n" % (begin,self._p_name)
+        ret += begin + " "*settings.INDENT + '"""\n'
+        ret += util.wrap_text(self._p_description
+                              ,begin=begin + " "*settings.INDENT
+                              ,columns=settings.COLUMNS)
+        ret += begin + " "*settings.INDENT + '"""\n'
+        previous = None
+        for block in self :
+            ret += block.space(previous,self)
+            ret += block.build(def_,begin=begin + " "*settings.INDENT)
+        return ret

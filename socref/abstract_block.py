@@ -9,6 +9,8 @@ from . import block_factory as bf
 
 
 
+
+
 class Abstract_Block(abc.ABC):
 
 
@@ -181,49 +183,3 @@ class Abstract_Block(abc.ABC):
         orphan.__parent = None
         return orphan
 
-
-    def _wrap_text_(self,text,lead="",columns=80):
-        ret = ""
-        words = text.split()
-        while words :
-            line = lead + words.pop(0)
-            while words and (len(line) + len(words[0]) + 1) <= columns :
-                line += " " + words.pop(0)
-            ret += line + "\n"
-        return ret
-
-
-    def _line_edit_(self, label, key):
-        return self.__edit_("line",label,key)
-
-
-    def _text_edit_(self, label, key):
-        return self.__edit_("text",label,key)
-
-
-    def _checkbox_edit_(self, label, key):
-        return self.__edit_("checkbox",label,key)
-
-
-    def _combobox_edit_(self, label, key):
-        ret = self.__edit_("combobox",label,key)
-        ret["selections"] = []
-        return ret
-
-
-    def _add_combo_select_(self, combo_edit, text, icon=None):
-        edit = {"text": text}
-        if icon is not None : edit["icon"] = icon
-        combo_edit["selections"].append(edit)
-
-
-    def _hidden_(self, key, value):
-        return {"type": "hidden"
-                ,"key": key
-                ,"value": value}
-
-
-    def __edit_(self, type_, label, key):
-        return {"type": type_
-                ,"label": label
-                ,"key": key}

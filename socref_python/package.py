@@ -5,6 +5,7 @@ import html
 from PySide2 import QtGui as qtg
 from socref import abstract_block as ab
 from socref import block_factory as bf
+from socref import util
 from . import parser
 from . import settings
 
@@ -13,7 +14,8 @@ from . import settings
 
 
 
-@bf.register_block("Package",root=True)
+
+
 class Block(ab.Abstract_Block):
 
 
@@ -54,8 +56,8 @@ class Block(ab.Abstract_Block):
 
     def edit_definitions(self):
         ret = []
-        ret.append(self._line_edit_("Name:","_p_name"))
-        ret.append(self._text_edit_("Description:","_p_description"))
+        ret.append(util.line_edit("Name:","_p_name"))
+        ret.append(util.text_edit("Description:","_p_description"))
         return ret
 
 
@@ -69,9 +71,19 @@ class Block(ab.Abstract_Block):
         self._p_description = ""
 
 
+
+
+
+
+
+
+@bf.register_block("Package",root=True)
+class Builder(Block):
+
+
     def build(self, def_):
         if self._BLOCKNAME_ != "Package" : return
         ret = '"""\n'
-        ret += self._wrap_text_(self._p_description,columns=settings.COLUMNS)
+        ret += util.wrap_text(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'
         return ret

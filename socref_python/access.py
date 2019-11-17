@@ -5,14 +5,17 @@ import html
 from PySide2 import QtGui as qtg
 from socref import abstract_block as ab
 from socref import block_factory as bf
+from socref import util
 from . import function
+from . import settings
 
 
 
 
 
 
-@bf.register_block("Access")
+
+
 class Block(ab.Abstract_Block):
 
 
@@ -58,11 +61,11 @@ class Block(ab.Abstract_Block):
 
     def edit_definitions(self):
         ret = []
-        ret.append(self._line_edit_("Name:","_p_name"))
-        combo = self._combobox_edit_("Type:","_p_type")
-        self._add_combo_select_(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
-        self._add_combo_select_(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
-        self._add_combo_select_(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
+        ret.append(util.line_edit("Name:","_p_name"))
+        combo = util.combobox_edit("Type:","_p_type")
+        util.add_combo_select(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
+        util.add_combo_select(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
+        util.add_combo_select(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
         ret.append(combo)
         return ret
 
@@ -75,3 +78,30 @@ class Block(ab.Abstract_Block):
     def clear_properties(self):
         self._p_name = ""
         self._p_type = "Public"
+
+
+
+
+
+
+
+
+@bf.register_block("Access")
+class Builder(Block):
+
+
+    def space(self, previous, above):
+        return "\n"*settings.H3LINES
+
+
+    def build(self, def_, begin=""):
+        if self._BLOCKNAME_ != "Access" : return
+        line = "# %s - %s #" % (self._p_type.upper(),self._p_name)
+        ret = begin + "#"*len(line) + "\n"
+        ret += begin + line + "\n"
+        ret += begin + "#"*len(line) + "\n"
+        previous = None
+        for block in self :
+            ret += block.space(previous,self)
+            ret += block.build(def_,begin=begin)
+        return ret

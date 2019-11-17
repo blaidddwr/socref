@@ -12,8 +12,6 @@ from . import block_factory as bf
 
 
 
-
-
 def main():
     """
     Begin execution of the program.
