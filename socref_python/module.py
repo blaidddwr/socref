@@ -2,8 +2,8 @@
 todo
 """
 from PySide2 import QtGui as qtg
-from socref import block_factory as bf
 from socref import util
+from socref import abstract
 from . import package
 from . import settings
 
@@ -45,7 +45,7 @@ class Block(package.Block):
 
 
 
-@bf.register_block("Module")
+@abstract.register_block("Module")
 class Builder(Block):
 
 

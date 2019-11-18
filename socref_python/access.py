@@ -3,9 +3,8 @@ todo
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import abstract_block as ab
-from socref import block_factory as bf
 from socref import util
+from socref import abstract
 from . import function
 from . import settings
 
@@ -16,11 +15,11 @@ from . import settings
 
 
 
-class Block(ab.Abstract_Block):
+class Block(abstract.Block):
 
 
     def __init__(self):
-        ab.Abstract_Block.__init__(self,self._LANG_,self._BLOCKNAME_)
+        abstract.Block.__init__(self)
         #
         self._p_name = ""
         #
@@ -86,7 +85,7 @@ class Block(ab.Abstract_Block):
 
 
 
-@bf.register_block("Access")
+@abstract.register_block("Access")
 class Builder(Block):
 
 

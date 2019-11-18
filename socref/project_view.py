@@ -5,7 +5,7 @@ from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
 from . import model
-from . import block_factory as bf
+from . import abstract
 
 
 
@@ -193,7 +193,7 @@ class Project_View(qtw.QTreeView):
         if Project_View.__xml_blocks is None : return
         (row,parent) = self.__get_addition_values()
         if row is None : return
-        self.__model.insert_rows_from_xml(row,Project_View.__xml_blocks,parent)
+        self.__model.insert_from_xml(row,Project_View.__xml_blocks,parent)
 
 
     @qtc.Slot()
@@ -263,7 +263,7 @@ class Project_View(qtw.QTreeView):
         if build_list is not None :
             for block_name in build_list :
                 action = qtw.QAction(block_name,self)
-                action.setIcon(bf.Block_Factory().create(self.__model.lang_name(),block_name).icon())
+                action.setIcon(abstract.Factory().create(self.__model.lang_name(),block_name).icon())
                 action.triggered.connect(lambda checked=False, name=block_name : self.__add_(name))
                 self.__add_actions.append(action)
 

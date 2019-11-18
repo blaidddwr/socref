@@ -5,9 +5,8 @@ exceptions and roles.
 import traceback
 import enum
 from PySide2 import QtCore as qtc
-from . import abstract_parser as ap
 from . import util
-from . import block_factory as bf
+from . import abstract
 from .command import *
 
 
@@ -106,7 +105,7 @@ class Parser(qtc.QObject):
     ##################
 
 
-    @qtc.Slot(ap.Abstract_Parser)
+    @qtc.Slot(abstract.Parser)
     def start(self, parser):
         """
         Detailed description.
@@ -187,7 +186,7 @@ class Project(qtc.QAbstractItemModel):
         self.beginResetModel()
         try:
             self.__lang_name = lang_name
-            self.__root = bf.Block_Factory().create_root(self.__lang_name)
+            self.__root = abstract.Factory().create_root(self.__lang_name)
         except:
             self.__lang_name = None
             self.__root = None
@@ -453,7 +452,7 @@ class Project(qtc.QAbstractItemModel):
         if parent_block is None or row < 0 or row > len(parent_block) : return False
         blocks = []
         for block_name in block_names :
-            block = bf.Block_Factory().create(self.__lang_name,block_name)
+            block = abstract.Factory().create(self.__lang_name,block_name)
             block.set_default_properties()
             blocks.append(block)
         self.__push_(Insert(row,blocks,parent,self))
@@ -565,7 +564,7 @@ class Project(qtc.QAbstractItemModel):
             if stream.isStartElement() :
                 name = stream.name()
                 if name in parent_block.build_list() :
-                    block = bf.Block_Factory().create(lang_name,name)
+                    block = abstract.Factory().create(lang_name,name)
                     block.set_from_xml(stream)
                     blocks.append(block)
         self.__push_(Insert(row,blocks,parent,self))

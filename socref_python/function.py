@@ -3,8 +3,8 @@ todo
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import block_factory as bf
 from socref import util
+from socref import abstract
 from . import package
 from . import access
 from . import settings
@@ -130,7 +130,7 @@ class Block(package.Block):
 
 
 
-@bf.register_block("Function")
+@abstract.register_block("Function")
 class Builder(Block):
 
 
@@ -154,6 +154,7 @@ class Builder(Block):
     def __build_header_(self, begin):
         ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
         if ret : ret += "\n"
+        if self.is_abstract() : ret += begin + "@abc.abstractmethod\n"
         arguments = [arg.argument() for arg in self]
         if self.is_method() and not self.is_static() : arguments.insert(0,"self")
         ret += "%sdef %s(%s):\n" % (begin,self._p_name,", ".join(arguments))

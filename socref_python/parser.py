@@ -3,7 +3,7 @@ todo
 """
 import os
 import re
-from socref import abstract_parser as ap
+from socref import abstract
 
 
 
@@ -59,11 +59,11 @@ class Scan():
 
 
 
-class Parser(ap.Abstract_Parser):
+class Parser(abstract.Parser):
 
 
     def __init__(self, root):
-        ap.Abstract_Parser.__init__(self,root)
+        abstract.Parser.__init__(self,root)
         self.__defs = {}
 
 

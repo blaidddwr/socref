@@ -8,9 +8,8 @@ from PySide2 import QtWidgets as qtw
 from . import project_view as pv
 from . import block_view_dock as bvd
 from . import block_edit_dock as bed
-from . import block_factory as bf
+from . import abstract
 from . import model
-from . import abstract_parser as ap
 
 
 
@@ -46,7 +45,7 @@ class Main_Window(qtw.QMainWindow):
         self.parse_requested.connect(model.Parser().start)
 
 
-    parse_requested = qtc.Signal(ap.Abstract_Parser)
+    parse_requested = qtc.Signal(abstract.Parser)
 
 
     def closeEvent(self, event):
@@ -90,7 +89,7 @@ class Main_Window(qtw.QMainWindow):
 
 
     def __setup_new_actions_(self):
-        for lang in bf.Block_Factory().langs() :
+        for lang in abstract.Factory().langs() :
             self.__new_actions.append(qtw.QAction(lang,self))
             self.__new_actions[-1].triggered.connect(lambda checked=False,name=lang : self.__new_(name))
             self.addAction(self.__new_actions[-1])

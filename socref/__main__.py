@@ -6,8 +6,8 @@ import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
 from . import main_window as mw
+from . import abstract
 from . import model
-from . import block_factory as bf
 
 
 
@@ -24,7 +24,7 @@ def main():
     #
     # Load the python language.
     #
-    bf.Block_Factory().load("Python","socref_python")
+    abstract.Factory().load("Python","socref_python")
     #
     # Create a new Qt application.
     #
