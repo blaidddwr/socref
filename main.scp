@@ -43,25 +43,21 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <Object>
                         <__p_name>text</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>begin</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_assignment>&quot;&quot;</__p_assignment>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>after</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_assignment>&quot;&quot;</__p_assignment>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>columns</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_assignment>80</__p_assignment>
-                        <__p_static>0</__p_static>
                     </Object>
                 </Function>
                 <Function>
@@ -73,12 +69,10 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <Object>
                         <__p_name>label</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                 </Function>
                 <Function>
@@ -90,12 +84,10 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <Object>
                         <__p_name>label</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                 </Function>
                 <Function>
@@ -107,12 +99,10 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <Object>
                         <__p_name>label</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                 </Function>
                 <Function>
@@ -124,12 +114,10 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <Object>
                         <__p_name>label</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                 </Function>
                 <Function>
@@ -140,18 +128,15 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <Object>
                         <__p_name>combo_edit</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>text</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>icon</__p_name>
                         <__p_description>Detailed description.</__p_description>
                         <__p_assignment>None</__p_assignment>
-                        <__p_static>0</__p_static>
                     </Object>
                 </Function>
                 <Function>
@@ -163,12 +148,10 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <Object>
                         <__p_name>key</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>value</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                 </Function>
                 <Class>
@@ -187,7 +170,6 @@ Exit the application with the return code provided by the Qt application.</__p_i
                             <Object>
                                 <__p_name>class_</__p_name>
                                 <__p_description>Class object that is made into a singleton class.</__p_description>
-                                <__p_static>0</__p_static>
                             </Object>
                         </Function>
                     </Access>
@@ -223,28 +205,25 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <Object>
                         <__p_name>type_</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>label</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
                         <__p_description>Detailed description.</__p_description>
-                        <__p_static>0</__p_static>
                     </Object>
                 </Function>
             </Module>
             <Module>
-                <__p_name>model</__p_name>
-                <__p_description>Contains all model objects used by this application. This includes the project and parser model classes.</__p_description>
+                <__p_name>command</__p_name>
+                <__p_description>Contains all classes that represent a single command or action that can be done to a project model. Each command has an undo and redo method that allows project models undo and redo actions given to it by the user.</__p_description>
                 <Class>
                     <__p_name>Command</__p_name>
                     <__p_description>Detailed description.</__p_description>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Init/Delete</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
@@ -254,7 +233,6 @@ Exit the application with the return code provided by the Qt application.</__p_i
                             <Object>
                                 <__p_name>model</__p_name>
                                 <__p_description>Detailed description.</__p_description>
-                                <__p_static>0</__p_static>
                             </Object>
                         </Function>
                     </Access>
@@ -270,7 +248,6 @@ Exit the application with the return code provided by the Qt application.</__p_i
                             <Object>
                                 <__p_name>rows</__p_name>
                                 <__p_description>Detailed description.</__p_description>
-                                <__p_static>0</__p_static>
                             </Object>
                         </Function>
                         <Function>
@@ -282,9 +259,790 @@ Exit the application with the return code provided by the Qt application.</__p_i
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>Detailed description.</__p_description>
-                                <__p_static>0</__p_static>
                             </Object>
                         </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Set</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>Command</__p_parents>
+                    <Access>
+                        <__p_name>Init/Delete</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>from_props</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>to_props</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>model</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>undo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>redo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Remove</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>Command</__p_parents>
+                    <Access>
+                        <__p_name>Init/Delete</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>count</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>model</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>undo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>redo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Insert</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>Command</__p_parents>
+                    <Access>
+                        <__p_name>Init/Delete</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>blocks</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>model</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>undo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>redo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Move</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>Command</__p_parents>
+                    <Access>
+                        <__p_name>Init/Delete</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>change</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>model</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>undo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>redo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>model</__p_name>
+                <__p_description>Contains all model classes used by this application. This includes related classes such as exceptions and roles.</__p_description>
+                <Class>
+                    <__p_name>LoadError</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>Exception</__p_parents>
+                    <Access>
+                        <__p_name>Initializer</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>*args</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Role</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>enum.Enum</__p_parents>
+                    <Access>
+                        <__p_name>Enumerations</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Object>
+                            <__p_name>BUILD_LIST</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 0</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>VIEW</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 1</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>EDIT_DEFS</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 2</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>PROPERTIES</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 3</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>BLOCK_TYPE</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 4</__p_assignment>
+                        </Object>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Parser</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>qtc.QObject</__p_parents>
+                    <__p_descriptors>util.Singleton</__p_descriptors>
+                    <Access>
+                        <__p_name>Init/Delete</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>start</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot(ap.Abstract_Parser)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parser</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Project</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>qtc.QAbstractItemModel</__p_parents>
+                    <Access>
+                        <__p_name>Init/Delete</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Operators</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__len__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>new</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>lang_name</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>load</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>save</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>close</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>lang_name</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>name</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_name</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>is_modified</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>can_undo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>can_redo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>headerData</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>section</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>orientation</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>role</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>index</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>column</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>child</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>rowCount</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>columnCount</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>data</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>role</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>setData</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>value</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>role</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>insertRows</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>block_names</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>removeRows</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>count</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>insertRow</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>block_name</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>move_row</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>change</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>copy_to_xml</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>indexes</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>insert_from_xml</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>xml</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>parser</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Signals</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Object>
+                            <__p_name>modified</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Signal()</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>name_changed</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Signal(str)</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>undo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>redo</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_insert_rows_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>blocks</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>_remove_rows_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>count</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>_move_row_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>from_row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>to_row</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>_set_props_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>props</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__modified_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__push_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>command</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__push_volatile_above_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__push_volatile_below_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__block_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__PROJECT_TAG</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>&quot;scp_project&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__NAME_TAG</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>&quot;name&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__COPY_TAG</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__LANG_TAG</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>&quot;language&quot;</__p_assignment>
+                        </Object>
                     </Access>
                 </Class>
             </Module>

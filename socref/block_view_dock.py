@@ -3,7 +3,7 @@ todo
 """
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
-from . import project_model as pm
+from . import model as m
 
 
 
@@ -31,14 +31,14 @@ class Block_View_Dock(qtw.QDockWidget):
         if index.isValid() :
             model = self.__view.model()
             self.setWindowTitle("[%s] %s (View)" %
-                                (model.data(index,pm.Project_Model.BLOCK_TYPE_ROLE)
+                                (model.data(index,m.Role.BLOCK_TYPE)
                                  ,model.data(index,qtc.Qt.DisplayRole)))
             label = qtw.QLabel(self)
             label.setAlignment(qtc.Qt.AlignTop)
             label.setWordWrap(True)
             label.setTextFormat(qtc.Qt.RichText)
             label.setContentsMargins(4,16,4,4)
-            label.setText(model.data(index,pm.Project_Model.VIEW_ROLE))
+            label.setText(model.data(index,m.Role.VIEW))
             self.setWidget(label)
         else:
             self.setWindowTitle("(View)")

@@ -3,7 +3,6 @@
         <file>package.svg</file>
         <file>module.svg</file>
         <file>object.svg</file>
-        <file>static_object.svg</file>
         <file>function.svg</file>
         <file>static_function.svg</file>
         <file>abstract_function.svg</file>

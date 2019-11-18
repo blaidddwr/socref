@@ -104,4 +104,5 @@ class Builder(Block):
         for block in self :
             ret += block.space(previous,self)
             ret += block.build(def_,begin=begin)
+            previous = block
         return ret

@@ -6,7 +6,7 @@ import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
 from . import main_window as mw
-from . import parser_model as pm
+from . import model
 from . import block_factory as bf
 
 
@@ -33,7 +33,7 @@ def main():
     # Create the parser thread, move the parser model to it, and then start its event loop.
     #
     parser_thread = qtc.QThread()
-    pm.Parser_Model().moveToThread(parser_thread)
+    model.Parser().moveToThread(parser_thread)
     parser_thread.start()
     #
     # Create and show an initial main window.

@@ -4,7 +4,7 @@ todo
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import project_model as pm
+from . import model
 from . import block_factory as bf
 
 
@@ -259,7 +259,7 @@ class Project_View(qtw.QTreeView):
         if self.__model is None : return
         (row,index) = self.__get_addition_values()
         if index is None : return
-        build_list = self.__model.data(index,pm.Project_Model.BUILD_LIST_ROLE)
+        build_list = self.__model.data(index,model.Role.BUILD_LIST)
         if build_list is not None :
             for block_name in build_list :
                 action = qtw.QAction(block_name,self)
@@ -272,7 +272,7 @@ class Project_View(qtw.QTreeView):
         if self.__model is None or Project_View.__xml_blocks is None : return False
         (row,parent) = self.__get_addition_values()
         if parent is None : return False
-        if not Project_View.__block_names_set & set(self.__model.data(parent,pm.Project_Model.BUILD_LIST_ROLE)) :
+        if not Project_View.__block_names_set & set(self.__model.data(parent,model.Role.BUILD_LIST)) :
             return False
         return True
 

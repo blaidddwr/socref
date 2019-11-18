@@ -51,7 +51,8 @@ class Block(package.Block):
         ret = ""
         if self._p_return_description : ret += "... "
         ret += "%s(%i)" % (self._p_name,len(self))
-        if self._p_descriptors : ret += " " + "@" * (self._p_descriptors.count("\n") + 1)
+        if self._p_descriptors :
+            ret += " " + "@" * len(['' for line in self._p_descriptors.split("\n") if line])
         return ret
 
 
@@ -62,9 +63,9 @@ class Block(package.Block):
         flags = ""
         if self.is_static() : flags += "<li>Static</li>"
         if self.is_abstract() : flags += "<li>Abstract</li>"
-        if flags : flags = "<h3>Flags</h3><ul>%s</ul>" % flags
-        descriptors = html.escape(self._p_descriptors).replace("\n","<br/>@")
-        if descriptors : descriptors = "<h2>Descriptors</h2><p>@%s</p>" % descriptors
+        if flags : flags = "<h2>Flags</h2><ul>%s</ul>" % flags
+        descriptors = "<br/>".join(("@" + html.escape(line) for line in self._p_descriptors.split("\n") if line))
+        if descriptors : descriptors = "<h2>Descriptors</h2><p>%s</p>" % descriptors
         return (package.Block.display_view(self)
                 + self._display_arguments_()
                 + return_description
@@ -151,9 +152,12 @@ class Builder(Block):
 
 
     def __build_header_(self, begin):
+        ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
+        if ret : ret += "\n"
         arguments = [arg.argument() for arg in self]
         if self.is_method() and not self.is_static() : arguments.insert(0,"self")
-        return "%sdef %s(%s):\n" % (begin,self._p_name,", ".join(arguments))
+        ret += "%sdef %s(%s):\n" % (begin,self._p_name,", ".join(arguments))
+        return ret
 
 
     def __build_doc_string_(self, begin):
@@ -173,16 +177,17 @@ class Builder(Block):
 
 
     def __build_lines_(self, lines, begin):
+        if not lines : return begin + " " * settings.INDENT + "pass\n"
         ret = ""
-        inlines = self._p_inlines.split("\n\n") if self._p_inlines else []
+        inlines = [line for line in self._p_inlines.split("\n\n") if line]
         for line in lines :
             if line.endswith("#") :
                 if inlines :
-                    ret += begin + " "*settings.INDENT + line + "\n"
+                    ret += begin + " " * settings.INDENT + line + "\n"
                     ret += util.wrap_text(inlines.pop(0)
-                                          ,begin=begin + " "*settings.INDENT + line + " "
+                                          ,begin=begin + " " * settings.INDENT + line + " "
                                           ,columns=settings.COLUMNS)
-                    ret += begin + " "*settings.INDENT + line + "\n"
-                else: ret += begin + " "*settings.INDENT + line + "\n"
-            else: ret += begin + " "*settings.INDENT + line + "\n"
+                    ret += begin + " " * settings.INDENT + line + "\n"
+                else: ret += begin + " " * settings.INDENT + line + "\n"
+            else: ret += begin + " " * settings.INDENT + line + "\n"
         return ret

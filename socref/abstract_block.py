@@ -143,14 +143,17 @@ class Abstract_Block(abc.ABC):
 
 
     def set_from_xml(self, stream):
+        self.__properties = {}
         self.clear_properties()
         self.__children = []
         while not stream.atEnd() :
             stream.readNext()
             if stream.isStartElement():
                 name = stream.name();
-                if name.startswith("_"):
-                    self.properties()[name[1:]] = stream.readElementText()
+                if name.startswith("_") :
+                    key = name[1:]
+                    if key in self.__properties :
+                        self.properties()[key] = stream.readElementText()
                 else:
                     child = bf.Block_Factory().create(self.__lang_name,name)
                     child.set_from_xml(stream)

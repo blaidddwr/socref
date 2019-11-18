@@ -22,11 +22,7 @@ class Block(package.Block):
 
     def __init__(self):
         package.Block.__init__(self)
-        #
         self._p_assignment = ""
-        #
-        self._p_static = "0"
-        #:
 
 
     def is_argument(self):
@@ -37,17 +33,12 @@ class Block(package.Block):
         return self.is_argument()
 
 
-    def is_static(self):
-        return bool(int(self._p_static))
-
-
     def in_class(self):
         return isinstance(self.parent(),access.Block)
 
 
     def icon(self):
-        if not self.is_static() : return qtg.QIcon(":/python/object.svg")
-        else: return qtg.QIcon(":/python/static_object.svg")
+        return qtg.QIcon(":/python/object.svg")
 
 
     def display_name(self):
@@ -70,18 +61,14 @@ class Block(package.Block):
 
 
     def display_view(self):
-        self.__check_flags_()
         assignment = html.escape(self._p_assignment)
         if assignment : assignment = "<h2>Assignment</h2><p>%s</p>" % assignment
-        static = "<h3>Static</h3>" if self.is_static() else ""
-        return package.Block.display_view(self) + assignment + static
+        return package.Block.display_view(self) + assignment
 
 
     def edit_definitions(self):
         ret = package.Block.edit_definitions(self)
         ret.append(util.line_edit("Assignment:","_p_assignment"))
-        if self.in_class() : ret.append(util.checkbox_edit("Static","_p_static"))
-        else: ret.append(util.hidden_edit("_p_static","0"))
         return ret
 
 
@@ -89,18 +76,12 @@ class Block(package.Block):
         self._p_name = "object"
         self._p_description = "Detailed description."
         self._p_assignment = ""
-        self._p_static = "0"
 
 
     def clear_properties(self):
         self._p_name = ""
         self._p_description = ""
         self._p_assignment = ""
-        self._p_static = "0"
-
-
-    def __check_flags_(self):
-        if not self.in_class() : self._p_static = "0"
 
 
 
@@ -125,3 +106,31 @@ class Builder(Block):
                               ,begin=begin
                               ,after=" "*len(initial)
                               ,columns=settings.COLUMNS)
+
+
+    def space(self, previous, above):
+        if above._BLOCKNAME_ == "Module" :
+            if previous is None : return "\n"*settings.H3LINES
+            elif previous._BLOCKNAME_ == "Function" :
+                return "\n"*settings.H2LINES
+            elif previous._BLOCKNAME_ == "Class" :
+                return "\n"*settings.H1LINES
+            else: return ""
+        elif above._BLOCKNAME_ == "Access" :
+            if previous is None :
+                return "\n"*settings.H3LINES
+            elif previous._BLOCKNAME_ == "Function" :
+                return "\n"*settings.H2LINES
+            else:
+                return ""
+        else: raise RuntimeError("Unkonwn block type.")
+
+
+    def build(self, def_, begin=""):
+        ret = begin + "#\n"
+        ret += util.wrap_text(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
+        ret += begin + "#\n"
+        ret += begin + self._p_name
+        if self._p_assignment : ret += " = " + self._p_assignment
+        ret += "\n"
+        return ret

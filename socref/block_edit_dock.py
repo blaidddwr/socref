@@ -3,7 +3,7 @@ todo
 """
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
-from . import project_model as pm
+from . import model as m
 
 
 
@@ -30,7 +30,7 @@ class Block_Edit_Dock(qtw.QDockWidget):
         if index.isValid() :
             model = self.__view.model()
             self.setWindowTitle("[%s] %s (Edit)" %
-                                (model.data(index,pm.Project_Model.BLOCK_TYPE_ROLE)
+                                (model.data(index,m.Role.BLOCK_TYPE)
                                  ,model.data(index,qtc.Qt.DisplayRole)))
             self.setWidget(self.__build_form_widget_(index))
         else:
@@ -45,14 +45,14 @@ class Block_Edit_Dock(qtw.QDockWidget):
         if index.isValid() :
             self.__view.model().setData(index
                                         ,{edit._key: edit._value_() for edit in self.__edits}
-                                        ,pm.Project_Model.PROPERTIES_ROLE)
+                                        ,m.Role.PROPERTIES)
 
 
     def __build_form_widget_(self, index):
         self.__edits.clear()
         try:
-            props = self.__view.model().data(index,pm.Project_Model.PROPERTIES_ROLE)
-            defs = self.__view.model().data(index,pm.Project_Model.EDIT_DEFS_ROLE)
+            props = self.__view.model().data(index,m.Role.PROPERTIES)
+            defs = self.__view.model().data(index,m.Role.EDIT_DEFS)
             layout = qtw.QFormLayout()
             for def_ in defs :
                 edit = None

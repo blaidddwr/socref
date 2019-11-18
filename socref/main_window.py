@@ -5,12 +5,11 @@ import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import project_model as pm
 from . import project_view as pv
 from . import block_view_dock as bvd
 from . import block_edit_dock as bed
 from . import block_factory as bf
-from . import parser_model as pam
+from . import model
 from . import abstract_parser as ap
 
 
@@ -23,7 +22,7 @@ class Main_Window(qtw.QMainWindow):
 
     def __init__(self):
         qtw.QMainWindow.__init__(self)
-        self.__model = pm.Project_Model(self)
+        self.__model = model.Project(self)
         self.__view = pv.Project_View(self)
         self.__block_view_dock = bvd.Block_View_Dock(self)
         self.__block_edit_dock = bed.Block_Edit_Dock(self)
@@ -44,7 +43,7 @@ class Main_Window(qtw.QMainWindow):
         self.__setup_toolbars_()
         self.__update_title_()
         self.__update_actions_()
-        self.parse_requested.connect(pam.Parser_Model().start)
+        self.parse_requested.connect(model.Parser().start)
 
 
     parse_requested = qtc.Signal(ap.Abstract_Parser)
