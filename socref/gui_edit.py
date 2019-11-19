@@ -1,58 +1,70 @@
 """
-todo
+Detailed description.
 """
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
-from . import model as m
+from . import model
 
 
 
 
 
 
-class Block_Edit_Dock(qtw.QDockWidget):
+
+
+class Block(qtw.QDockWidget):
+    """
+    Detailed description.
+    """
+
+
+    ########################
+    # PUBLIC - Initializer #
+    ########################
 
 
     def __init__(self, parent=None):
+        """
+        Detailed description.
+
+        parent : Detailed description.
+        """
         qtw.QDockWidget.__init__(self,parent)
         self.__view = None
         self.__edits = []
         self.setWindowTitle("(Edit)")
 
 
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
     def set_view(self, view):
+        """
+        Detailed description.
+
+        view : Detailed description.
+        """
         self.__view = view
         self.__view.current_changed.connect(self.__current_changed_)
 
 
-    @qtc.Slot(qtc.QModelIndex)
-    def __current_changed_(self, index):
-        if index.isValid() :
-            model = self.__view.model()
-            self.setWindowTitle("[%s] %s (Edit)" %
-                                (model.data(index,m.Role.BLOCK_TYPE)
-                                 ,model.data(index,qtc.Qt.DisplayRole)))
-            self.setWidget(self.__build_form_widget_(index))
-        else:
-            self.setWindowTitle("(Edit)")
-            self.__edits.clear()
-            self.setWidget(None)
-
-
-    @qtc.Slot()
-    def __apply_(self):
-        index = self.__view.selectionModel().currentIndex()
-        if index.isValid() :
-            self.__view.model().setData(index
-                                        ,{edit._key: edit._value_() for edit in self.__edits}
-                                        ,m.Role.PROPERTIES)
+    #####################
+    # PRIVATE - Methods #
+    #####################
 
 
     def __build_form_widget_(self, index):
+        """
+        Detailed description.
+
+        index : Detailed description.
+        """
         self.__edits.clear()
         try:
-            props = self.__view.model().data(index,m.Role.PROPERTIES)
-            defs = self.__view.model().data(index,m.Role.EDIT_DEFS)
+            props = self.__view.model().data(index,model.Role.PROPERTIES)
+            defs = self.__view.model().data(index,model.Role.EDIT_DEFS)
             layout = qtw.QFormLayout()
             for def_ in defs :
                 edit = None
@@ -103,9 +115,50 @@ class Block_Edit_Dock(qtw.QDockWidget):
 
 
     def __build_apply_(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         button = qtw.QPushButton("Apply")
         button.clicked.connect(self.__apply_)
         ret = qtw.QHBoxLayout()
         ret.addWidget(button)
         ret.addStretch()
         return ret
+
+
+    ###################
+    # PRIVATE - Slots #
+    ###################
+
+
+    @qtc.Slot(qtc.QModelIndex)
+    def __current_changed_(self, index):
+        """
+        Detailed description.
+
+        index : Detailed description.
+        """
+        if index.isValid() :
+            m = self.__view.model()
+            self.setWindowTitle("[%s] %s (Edit)" %
+                                (m.data(index,model.Role.BLOCK_TYPE)
+                                 ,m.data(index,qtc.Qt.DisplayRole)))
+            self.setWidget(self.__build_form_widget_(index))
+        else:
+            self.setWindowTitle("(Edit)")
+            self.__edits.clear()
+            self.setWidget(None)
+
+
+    @qtc.Slot()
+    def __apply_(self):
+        """
+        Detailed description.
+        """
+        index = self.__view.selectionModel().currentIndex()
+        if index.isValid() :
+            self.__view.model().setData(index
+                                        ,{edit._key: edit._value_() for edit in self.__edits}
+                                        ,model.Role.PROPERTIES)

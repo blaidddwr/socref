@@ -5,9 +5,9 @@ import sys
 import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
-from . import main_window as mw
 from . import abstract
 from . import model
+from . import gui_window
 
 
 
@@ -38,7 +38,7 @@ def main():
     #
     # Create and show an initial main window.
     #
-    mw.Main_Window().show()
+    gui_window.Main().show()
     #
     # Start the GUI event loop, saving its exit code when it returns.
     #

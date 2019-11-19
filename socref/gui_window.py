@@ -1,29 +1,42 @@
 """
-todo
+Detailed description.
 """
 import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import block_edit_dock as bed
 from . import abstract
 from . import model
 from . import gui_view
+from . import gui_edit
 
 
 
 
 
 
-class Main_Window(qtw.QMainWindow):
+
+
+class Main(qtw.QMainWindow):
+    """
+    Detailed description.
+    """
+
+
+    ########################
+    # PUBLIC - Initializer #
+    ########################
 
 
     def __init__(self):
+        """
+        Detailed description.
+        """
         qtw.QMainWindow.__init__(self)
         self.__model = model.Project(self)
         self.__view = gui_view.Project(self)
         self.__block_view_dock = gui_view.Block(self)
-        self.__block_edit_dock = bed.Block_Edit_Dock(self)
+        self.__block_edit_dock = gui_edit.Block(self)
         self.__open_action = qtw.QAction("Open",self)
         self.__save_action = qtw.QAction("Save",self)
         self.__save_as_action = qtw.QAction("Save As",self)
@@ -44,15 +57,41 @@ class Main_Window(qtw.QMainWindow):
         self.parse_requested.connect(model.Parser().start)
 
 
+    ####################
+    # PUBLIC - Signals #
+    ####################
+
+
+    #
+    # Detailed description.
+    #
     parse_requested = qtc.Signal(abstract.Parser)
 
 
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
     def closeEvent(self, event):
+        """
+        Detailed description.
+
+        event : Detailed description.
+        """
         if self.__is_ok_to_close_() : event.accept()
         else: event.ignore()
 
 
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
     def __update_actions_(self):
+        """
+        Detailed description.
+        """
         self.__save_action.setDisabled(self.__path is None)
         self.__save_as_action.setDisabled(not self.__model)
         self.__parse_action.setDisabled(self.__path is None)
@@ -60,6 +99,11 @@ class Main_Window(qtw.QMainWindow):
 
 
     def __is_ok_to_close_(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         if not self.__model or not self.__model.is_modified() : return True
         box = qtw.QMessageBox()
         box.setWindowTitle("Unsaved Project Changes")
@@ -75,6 +119,9 @@ class Main_Window(qtw.QMainWindow):
 
 
     def __update_title_(self):
+        """
+        Detailed description.
+        """
         if self.__model :
             self.setWindowTitle("%s[*] (%s) - Socrates' Reference"
                                 % (self.__model.name(),self.__model.lang_name()))
@@ -83,11 +130,17 @@ class Main_Window(qtw.QMainWindow):
 
 
     def __setup_actions_(self):
+        """
+        Detailed description.
+        """
         self.__setup_new_actions_()
         self.__setup_file_actions_()
 
 
     def __setup_new_actions_(self):
+        """
+        Detailed description.
+        """
         for lang in abstract.Factory().langs() :
             self.__new_actions.append(qtw.QAction(lang,self))
             self.__new_actions[-1].triggered.connect(lambda checked=False,name=lang : self.__new_(name))
@@ -95,6 +148,9 @@ class Main_Window(qtw.QMainWindow):
 
 
     def __setup_file_actions_(self):
+        """
+        Detailed description.
+        """
         #
         action = self.__open_action
         action.setIcon(qtg.QIcon.fromTheme("document-open"))
@@ -138,11 +194,17 @@ class Main_Window(qtw.QMainWindow):
 
 
     def __setup_menus_(self):
+        """
+        Detailed description.
+        """
         self.__setup_file_menu_()
         self.__setup_edit_menu_()
 
 
     def __setup_file_menu_(self):
+        """
+        Detailed description.
+        """
         menu = self.menuBar().addMenu("File")
         new = menu.addMenu("New")
         for action in self.__new_actions : new.addAction(action)
@@ -157,10 +219,16 @@ class Main_Window(qtw.QMainWindow):
 
 
     def __setup_edit_menu_(self):
+        """
+        Detailed description.
+        """
         self.menuBar().addMenu(self.__view.context_menu())
 
 
     def __setup_docks_(self):
+        """
+        Detailed description.
+        """
         self.__block_view_dock.set_view(self.__view)
         self.__block_edit_dock.set_view(self.__view)
         self.setCentralWidget(self.__view)
@@ -169,6 +237,9 @@ class Main_Window(qtw.QMainWindow):
 
 
     def __setup_toolbars_(self):
+        """
+        Detailed description.
+        """
         toolbar = self.addToolBar("File")
         toolbar.addAction(self.__open_action)
         toolbar.addAction(self.__save_action)
@@ -184,8 +255,36 @@ class Main_Window(qtw.QMainWindow):
         toolbar.addAction(self.__view.move_down_action())
 
 
+    ###################
+    # PRIVATE - Slots #
+    ###################
+
+
+    @qtc.Slot()
+    def __modified_(self):
+        """
+        Detailed description.
+        """
+        self.setWindowModified(True)
+
+
+    @qtc.Slot(str)
+    def __name_changed_(self, name):
+        """
+        Detailed description.
+
+        name : Detailed description.
+        """
+        self.__update_title_()
+
+
     @qtc.Slot(str)
     def __new_(self, lang_name):
+        """
+        Detailed description.
+
+        lang_name : Detailed description.
+        """
         window = self
         if self.__model : window = Main_Window()
         window.__model.new(lang_name)
@@ -197,6 +296,9 @@ class Main_Window(qtw.QMainWindow):
 
     @qtc.Slot()
     def __open_(self):
+        """
+        Detailed description.
+        """
         path,type_ = qtw.QFileDialog.getOpenFileName(self,"Open Project","","Socrates' Project File (*.scp)")
         if not path : return
         path = os.path.abspath(path)
@@ -216,6 +318,9 @@ class Main_Window(qtw.QMainWindow):
 
     @qtc.Slot()
     def __save_(self):
+        """
+        Detailed description.
+        """
         if self.__path is None : self.__save_as_()
         else:
             self.__model.save(self.__path)
@@ -224,6 +329,9 @@ class Main_Window(qtw.QMainWindow):
 
     @qtc.Slot()
     def __save_as_(self):
+        """
+        Detailed description.
+        """
         self.__path,type_ = qtw.QFileDialog.getSaveFileName(self,"Save Project","","Socrates' Project File (*.scp)")
         if not self.__path :
             self.__path = None
@@ -240,6 +348,9 @@ class Main_Window(qtw.QMainWindow):
 
     @qtc.Slot()
     def __parse_(self):
+        """
+        Detailed description.
+        """
         if self.__path is not None :
             parser = self.__model.parser()
             parser.set_root_path(os.path.dirname(self.__path))
@@ -248,6 +359,9 @@ class Main_Window(qtw.QMainWindow):
 
     @qtc.Slot()
     def __close_(self):
+        """
+        Detailed description.
+        """
         if self.__is_ok_to_close_() :
             self.__model.close()
             self.__path = None
@@ -256,15 +370,12 @@ class Main_Window(qtw.QMainWindow):
             self.__update_actions_()
 
 
-    @qtc.Slot(str)
-    def __name_changed_(self, name):
-        self.__update_title_()
+    ############################
+    # PRIVATE - Static Objects #
+    ############################
 
 
-    @qtc.Slot()
-    def __modified_(self):
-        self.setWindowModified(True)
-
-
+    #
+    # Detailed description.
     #
     __instances = []

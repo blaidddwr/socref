@@ -239,201 +239,6 @@ class Project(qtw.QTreeView):
     current_changed = qtc.Signal(qtc.QModelIndex)
 
 
-    ###################
-    # PRIVATE - Slots #
-    ###################
-
-
-    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)
-    def __current_changed_(self, current, previous):
-        """
-        Detailed description.
-
-        current : Detailed description.
-
-        previous : Detailed description.
-        """
-        self.__update_context_menu_()
-        self.current_changed.emit(current)
-
-
-    @qtc.Slot()
-    def __model_reset_(self):
-        """
-        Detailed description.
-        """
-        self.__update_context_menu_()
-        self.current_changed.emit(qtc.QModelIndex())
-
-
-    @qtc.Slot()
-    def __model_destroyed_(self):
-        """
-        Detailed description.
-        """
-        self.__model = None
-        self.__update_context_menu_()
-        self.current_changed.emit(qtc.QModelIndex())
-
-
-    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)
-    def __model_data_changed_(self, top_left, bottom_right, roles):
-        """
-        Detailed description.
-
-        top_left : Detailed description.
-
-        bottom_right : Detailed description.
-
-        roles : Detailed description.
-        """
-        if top_left == self.selectionModel().currentIndex() :
-            self.current_changed.emit(top_left)
-            self.__update_context_menu_()
-
-
-    @qtc.Slot(qtc.QPoint)
-    def __context_menu_requested_(self, position):
-        """
-        Detailed description.
-
-        position : Detailed description.
-        """
-        self.__context_menu.exec_(self.mapToGlobal(position))
-
-
-    @qtc.Slot()
-    def __undo_(self):
-        """
-        Detailed description.
-        """
-        if self.__model is not None :
-            self.__model.undo()
-            self.__update_context_menu_()
-
-
-    @qtc.Slot()
-    def __redo_(self):
-        """
-        Detailed description.
-        """
-        if self.__model is not None :
-            self.__model.redo()
-            self.__update_context_menu_()
-
-
-    @qtc.Slot()
-    def __add_(self):
-        """
-        Detailed description.
-        """
-        (row,parent) = self.__addition_values_()
-        if row is None : return
-        self.__model.insertRows(row,(block_name,),parent)
-        if not self.selectionModel().currentIndex().isValid() :
-            self.selectionModel().setCurrentIndex(self.__model.index(0,0,qtc.QModelIndex())
-                                                  ,qtc.QItemSelectionModel.Current)
-
-
-    @qtc.Slot()
-    def __remove_(self):
-        """
-        Detailed description.
-        """
-        if self.__model is not None :
-            while self.selectionModel().hasSelection() :
-                index = self.selectionModel().selectedIndexes()[0]
-                parent = index.parent()
-                self.__model.removeRow(index.row(),parent)
-
-
-    @qtc.Slot()
-    def __cut_(self):
-        """
-        Detailed description.
-        """
-        if self.__model is not None :
-            self.__copy_()
-            self.__remove_()
-
-
-    @qtc.Slot()
-    def __copy_(self):
-        """
-        Detailed description.
-        """
-        if self.__model is not None :
-            indexes = self.selectionModel().selectedIndexes()
-            if not indexes : return
-            (Project.__xml_blocks,Project.__block_names_set) = self.__model.copy_to_xml(indexes)
-            self.__update_actions_()
-
-
-    @qtc.Slot()
-    def __paste_(self):
-        """
-        Detailed description.
-        """
-        if Project.__xml_blocks is None : return
-        (row,parent) = self.__addition_values_()
-        if row is None : return
-        self.__model.insert_from_xml(row,Project.__xml_blocks,parent)
-
-
-    @qtc.Slot()
-    def __move_up_(self):
-        """
-        Detailed description.
-        """
-        if self.__model is not None :
-            self.__model.move_row(-1,self.selectionModel().currentIndex())
-
-
-    @qtc.Slot()
-    def __move_down_(self):
-        """
-        Detailed description.
-        """
-        if self.__model is not None :
-            self.__model.move_row(1,self.selectionModel().currentIndex())
-
-
-    @qtc.Slot()
-    def __insert_before_(self):
-        """
-        Detailed description.
-        """
-        self.__insert_before_action.setChecked(True)
-        self.__insert_into_action.setChecked(False)
-        self.__insert_after_action.setChecked(False)
-        self.__insert = self.__BEFORE
-        self.__update_context_menu_()
-
-
-    @qtc.Slot()
-    def __insert_into_(self):
-        """
-        Detailed description.
-        """
-        self.__insert_before_action.setChecked(False)
-        self.__insert_into_action.setChecked(True)
-        self.__insert_after_action.setChecked(False)
-        self.__insert = self.__INTO
-        self.__update_context_menu_()
-
-
-    @qtc.Slot()
-    def __insert_after_(self):
-        """
-        Detailed description.
-        """
-        self.__insert_before_action.setChecked(False)
-        self.__insert_into_action.setChecked(False)
-        self.__insert_after_action.setChecked(True)
-        self.__insert = self.__AFTER
-        self.__update_context_menu_()
-
-
     #####################
     # PRIVATE - Methods #
     #####################
@@ -617,6 +422,203 @@ class Project(qtw.QTreeView):
         additionMenu.addAction(self.__insert_before_action)
         additionMenu.addAction(self.__insert_into_action)
         additionMenu.addAction(self.__insert_after_action)
+        self.__update_context_menu_()
+
+
+    ###################
+    # PRIVATE - Slots #
+    ###################
+
+
+    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)
+    def __current_changed_(self, current, previous):
+        """
+        Detailed description.
+
+        current : Detailed description.
+
+        previous : Detailed description.
+        """
+        self.__update_context_menu_()
+        self.current_changed.emit(current)
+
+
+    @qtc.Slot()
+    def __model_reset_(self):
+        """
+        Detailed description.
+        """
+        self.__update_context_menu_()
+        self.current_changed.emit(qtc.QModelIndex())
+
+
+    @qtc.Slot()
+    def __model_destroyed_(self):
+        """
+        Detailed description.
+        """
+        self.__model = None
+        self.__update_context_menu_()
+        self.current_changed.emit(qtc.QModelIndex())
+
+
+    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)
+    def __model_data_changed_(self, top_left, bottom_right, roles):
+        """
+        Detailed description.
+
+        top_left : Detailed description.
+
+        bottom_right : Detailed description.
+
+        roles : Detailed description.
+        """
+        if top_left == self.selectionModel().currentIndex() :
+            self.current_changed.emit(top_left)
+            self.__update_context_menu_()
+
+
+    @qtc.Slot(qtc.QPoint)
+    def __context_menu_requested_(self, position):
+        """
+        Detailed description.
+
+        position : Detailed description.
+        """
+        self.__context_menu.exec_(self.mapToGlobal(position))
+
+
+    @qtc.Slot()
+    def __undo_(self):
+        """
+        Detailed description.
+        """
+        if self.__model is not None :
+            self.__model.undo()
+            self.__update_context_menu_()
+
+
+    @qtc.Slot()
+    def __redo_(self):
+        """
+        Detailed description.
+        """
+        if self.__model is not None :
+            self.__model.redo()
+            self.__update_context_menu_()
+
+
+    @qtc.Slot(str)
+    def __add_(self, block_name):
+        """
+        Detailed description.
+
+        block_name : Detailed description.
+        """
+        (row,parent) = self.__addition_values_()
+        if row is None : return
+        self.__model.insertRows(row,(block_name,),parent)
+        if not self.selectionModel().currentIndex().isValid() :
+            self.selectionModel().setCurrentIndex(self.__model.index(0,0,qtc.QModelIndex())
+                                                  ,qtc.QItemSelectionModel.Current)
+
+
+    @qtc.Slot()
+    def __remove_(self):
+        """
+        Detailed description.
+        """
+        if self.__model is not None :
+            while self.selectionModel().hasSelection() :
+                index = self.selectionModel().selectedIndexes()[0]
+                parent = index.parent()
+                self.__model.removeRow(index.row(),parent)
+
+
+    @qtc.Slot()
+    def __cut_(self):
+        """
+        Detailed description.
+        """
+        if self.__model is not None :
+            self.__copy_()
+            self.__remove_()
+
+
+    @qtc.Slot()
+    def __copy_(self):
+        """
+        Detailed description.
+        """
+        if self.__model is not None :
+            indexes = self.selectionModel().selectedIndexes()
+            if not indexes : return
+            (Project.__xml_blocks,Project.__block_names_set) = self.__model.copy_to_xml(indexes)
+            self.__update_actions_()
+
+
+    @qtc.Slot()
+    def __paste_(self):
+        """
+        Detailed description.
+        """
+        if Project.__xml_blocks is None : return
+        (row,parent) = self.__addition_values_()
+        if row is None : return
+        self.__model.insert_from_xml(row,Project.__xml_blocks,parent)
+
+
+    @qtc.Slot()
+    def __move_up_(self):
+        """
+        Detailed description.
+        """
+        if self.__model is not None :
+            self.__model.move_row(-1,self.selectionModel().currentIndex())
+
+
+    @qtc.Slot()
+    def __move_down_(self):
+        """
+        Detailed description.
+        """
+        if self.__model is not None :
+            self.__model.move_row(1,self.selectionModel().currentIndex())
+
+
+    @qtc.Slot()
+    def __insert_before_(self):
+        """
+        Detailed description.
+        """
+        self.__insert_before_action.setChecked(True)
+        self.__insert_into_action.setChecked(False)
+        self.__insert_after_action.setChecked(False)
+        self.__insert = self.__BEFORE
+        self.__update_context_menu_()
+
+
+    @qtc.Slot()
+    def __insert_into_(self):
+        """
+        Detailed description.
+        """
+        self.__insert_before_action.setChecked(False)
+        self.__insert_into_action.setChecked(True)
+        self.__insert_after_action.setChecked(False)
+        self.__insert = self.__INTO
+        self.__update_context_menu_()
+
+
+    @qtc.Slot()
+    def __insert_after_(self):
+        """
+        Detailed description.
+        """
+        self.__insert_before_action.setChecked(False)
+        self.__insert_into_action.setChecked(False)
+        self.__insert_after_action.setChecked(True)
+        self.__insert = self.__AFTER
         self.__update_context_menu_()
 
 
