@@ -7,31 +7,6 @@
             <__p_name>socref</__p_name>
             <__p_description>Contains the core application for Socrates' Reference. This includes everything except any language definitions.</__p_description>
             <Module>
-                <__p_name>__main__</__p_name>
-                <__p_description>Contains the main function where execution begins.</__p_description>
-                <Function>
-                    <__p_name>main</__p_name>
-                    <__p_description>Begin execution of the program.</__p_description>
-                    <__p_inlines>print the PID so the application can be killed. Qt likes to catch all exceptions without exiting.
-
-Load the python language.
-
-Create a new Qt application.
-
-Create the parser thread, move the parser model to it, and then start its event loop.
-
-Create and show an initial main window.
-
-Start the GUI event loop, saving its exit code when it returns.
-
-Request the parser thread quit and wait for it to stop.
-
-Exit the application with the return code provided by the Qt application.</__p_inlines>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                </Function>
-            </Module>
-            <Module>
                 <__p_name>util</__p_name>
                 <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the program.</__p_description>
                 <Function>
@@ -1115,9 +1090,9 @@ Exit the application with the return code provided by the Qt application.</__p_i
                         <Function>
                             <__p_name>start</__p_name>
                             <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot(abstract.Parser)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(abstract.Parser)</__p_descriptors>
                             <Object>
                                 <__p_name>parser</__p_name>
                                 <__p_description>Detailed description.</__p_description>
@@ -1635,6 +1610,424 @@ Exit the application with the return code provided by the Qt application.</__p_i
                         </Object>
                     </Access>
                 </Class>
+            </Module>
+            <Module>
+                <__p_name>gui_view</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>qtw.QDockWidget</__p_parents>
+                    <Access>
+                        <__p_name>Initializer</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>set_view</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>view</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__current_changed_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Project</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>qtw.QTreeView</__p_parents>
+                    <Access>
+                        <__p_name>Initializer</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>context_menu</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>undo_action</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>redo_action</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>remove_action</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>cut_action</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>copy_action</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>paste_action</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>move_up_action</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>move_down_action</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setModel</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>model</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Signals</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Object>
+                            <__p_name>current_changed</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Signal(qtc.QModelIndex)</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__current_changed_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>current</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>previous</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__model_reset_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__model_destroyed_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__model_data_changed_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>top_left</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>bottom_right</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>roles</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__context_menu_requested_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QPoint)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>position</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__undo_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__redo_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__add_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__remove_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__cut_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__copy_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__paste_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__move_up_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__move_down_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__insert_before_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__insert_into_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__insert_after_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__update_context_menu_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__update_actions_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__update_add_actions_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__can_paste_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__addition_values_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_actions_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_context_menu_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Static Objects</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__xml_blocks</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>None</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__block_names_set</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>None</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__BEFORE</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>0</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__INTO</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>1</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__AFTER</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>2</__p_assignment>
+                        </Object>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>gui_edit</__p_name>
+                <__p_description>Detailed description.</__p_description>
+            </Module>
+            <Module>
+                <__p_name>gui_window</__p_name>
+                <__p_description>Detailed description.</__p_description>
+            </Module>
+            <Module>
+                <__p_name>__main__</__p_name>
+                <__p_description>Contains the main function where execution begins.</__p_description>
+                <Function>
+                    <__p_name>main</__p_name>
+                    <__p_description>Begin execution of the program.</__p_description>
+                    <__p_inlines>print the PID so the application can be killed. Qt likes to catch all exceptions without exiting.
+
+Load the python language.
+
+Create a new Qt application.
+
+Create the parser thread, move the parser model to it, and then start its event loop.
+
+Create and show an initial main window.
+
+Start the GUI event loop, saving its exit code when it returns.
+
+Request the parser thread quit and wait for it to stop.
+
+Exit the application with the return code provided by the Qt application.</__p_inlines>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                </Function>
             </Module>
         </Package>
     </Package>

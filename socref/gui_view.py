@@ -1,103 +1,224 @@
 """
-todo
+Detailed description.
 """
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import model
 from . import abstract
+from . import model
 
 
 
 
 
 
-class Project_View(qtw.QTreeView):
 
 
-    #
-    current_changed = qtc.Signal(qtc.QModelIndex)
+class Block(qtw.QDockWidget):
+    """
+    Detailed description.
+    """
 
 
-    def __init__(self,parent=None):
+    ########################
+    # PUBLIC - Initializer #
+    ########################
+
+
+    def __init__(self, parent=None):
+        """
+        Detailed description.
+
+        parent : Detailed description.
+        """
+        qtw.QDockWidget.__init__(self,parent)
+        self.__view = None
+        self.setWindowTitle("(View)")
+
+
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
+    def set_view(self, view):
+        """
+        Detailed description.
+
+        view : Detailed description.
+        """
+        self.__view = view
+        self.__view.current_changed.connect(self.__current_changed_)
+
+
+    ###################
+    # PRIVATE - Slots #
+    ###################
+
+
+    @qtc.Slot(qtc.QModelIndex)
+    def __current_changed_(self, index):
+        """
+        Detailed description.
+
+        index : Detailed description.
+        """
+        if index.isValid() :
+            m = self.__view.model()
+            self.setWindowTitle("[%s] %s (View)" %
+                                (m.data(index,model.Role.BLOCK_TYPE)
+                                 ,m.data(index,qtc.Qt.DisplayRole)))
+            label = qtw.QLabel(self)
+            label.setAlignment(qtc.Qt.AlignTop)
+            label.setWordWrap(True)
+            label.setTextFormat(qtc.Qt.RichText)
+            label.setContentsMargins(4,16,4,4)
+            label.setText(m.data(index,model.Role.VIEW))
+            self.setWidget(label)
+        else:
+            self.setWindowTitle("(View)")
+            self.setWidget(None)
+
+
+
+
+
+
+
+
+class Project(qtw.QTreeView):
+    """
+    Detailed description.
+    """
+
+
+    ########################
+    # PUBLIC - Initializer #
+    ########################
+
+
+    def __init__(self, parent=None):
+        """
+        Detailed description.
+
+        parent : Detailed description.
+        """
         qtw.QTreeView.__init__(self, parent)
-        #
         self.__model = None
-        #
         self.__add_actions = []
-        #
         self.__undo_action = qtw.QAction("Undo",self)
-        #
         self.__redo_action = qtw.QAction("Redo",self)
-        #
         self.__remove_action = qtw.QAction("Remove",self)
-        #
         self.__cut_action = qtw.QAction("Cut",self)
-        #
         self.__copy_action = qtw.QAction("Copy",self)
-        #
         self.__paste_action = qtw.QAction("Paste",self)
-        #
         self.__insert_before_action = qtw.QAction("Before",self)
-        #
         self.__insert_into_action = qtw.QAction("Into",self)
-        #
         self.__insert_after_action = qtw.QAction("After",self)
-        #
         self.__move_up_action = qtw.QAction("Move Up",self)
-        #
         self.__move_down_action = qtw.QAction("Move Down",self)
-        #
         self.__context_menu = qtw.QMenu("Edit",self)
-        #
         self.__add_menu = qtw.QMenu("Add")
-        #
         self.__insert = self.__INTO
-        #:
         self.setSelectionMode(qtw.QAbstractItemView.ExtendedSelection)
         self.__setup_actions_()
         self.__setup_context_menu_()
         self.setContextMenuPolicy(qtc.Qt.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.__context_menu_requested)
+        self.customContextMenuRequested.connect(self.__context_menu_requested_)
+
+
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def context_menu(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__context_menu
 
 
     def undo_action(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__undo_action
 
 
     def redo_action(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__redo_action
 
 
     def remove_action(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__remove_action
 
 
     def cut_action(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__cut_action
 
 
     def copy_action(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__copy_action
 
 
     def paste_action(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__paste_action
 
 
     def move_up_action(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__move_up_action
 
 
     def move_down_action(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return self.__move_down_action
 
 
     def setModel(self, model):
+        """
+        Detailed description.
+
+        model : Detailed description.
+        """
         qtw.QTreeView.setModel(self,model)
         model.modelReset.connect(self.__model_reset_)
         model.destroyed.connect(self.__model_destroyed_)
@@ -107,39 +228,85 @@ class Project_View(qtw.QTreeView):
         self.__update_context_menu_()
 
 
-    @qtc.Slot()
-    def __current_changed_(self,current,previous):
+    ####################
+    # PUBLIC - Signals #
+    ####################
+
+
+    #
+    # Detailed description.
+    #
+    current_changed = qtc.Signal(qtc.QModelIndex)
+
+
+    ###################
+    # PRIVATE - Slots #
+    ###################
+
+
+    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)
+    def __current_changed_(self, current, previous):
+        """
+        Detailed description.
+
+        current : Detailed description.
+
+        previous : Detailed description.
+        """
         self.__update_context_menu_()
         self.current_changed.emit(current)
 
 
     @qtc.Slot()
     def __model_reset_(self):
+        """
+        Detailed description.
+        """
         self.__update_context_menu_()
         self.current_changed.emit(qtc.QModelIndex())
 
 
     @qtc.Slot()
     def __model_destroyed_(self):
+        """
+        Detailed description.
+        """
         self.__model = None
         self.__update_context_menu_()
         self.current_changed.emit(qtc.QModelIndex())
 
 
-    @qtc.Slot(qtc.QModelIndex, qtc.QModelIndex, list)
+    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)
     def __model_data_changed_(self, top_left, bottom_right, roles):
+        """
+        Detailed description.
+
+        top_left : Detailed description.
+
+        bottom_right : Detailed description.
+
+        roles : Detailed description.
+        """
         if top_left == self.selectionModel().currentIndex() :
             self.current_changed.emit(top_left)
             self.__update_context_menu_()
 
 
-    @qtc.Slot()
-    def __context_menu_requested(self, position):
+    @qtc.Slot(qtc.QPoint)
+    def __context_menu_requested_(self, position):
+        """
+        Detailed description.
+
+        position : Detailed description.
+        """
         self.__context_menu.exec_(self.mapToGlobal(position))
 
 
     @qtc.Slot()
     def __undo_(self):
+        """
+        Detailed description.
+        """
         if self.__model is not None :
             self.__model.undo()
             self.__update_context_menu_()
@@ -147,14 +314,20 @@ class Project_View(qtw.QTreeView):
 
     @qtc.Slot()
     def __redo_(self):
+        """
+        Detailed description.
+        """
         if self.__model is not None :
             self.__model.redo()
             self.__update_context_menu_()
 
 
-    @qtc.Slot(str)
-    def __add_(self, block_name):
-        (row,parent) = self.__get_addition_values()
+    @qtc.Slot()
+    def __add_(self):
+        """
+        Detailed description.
+        """
+        (row,parent) = self.__addition_values_()
         if row is None : return
         self.__model.insertRows(row,(block_name,),parent)
         if not self.selectionModel().currentIndex().isValid() :
@@ -164,6 +337,9 @@ class Project_View(qtw.QTreeView):
 
     @qtc.Slot()
     def __remove_(self):
+        """
+        Detailed description.
+        """
         if self.__model is not None :
             while self.selectionModel().hasSelection() :
                 index = self.selectionModel().selectedIndexes()[0]
@@ -173,6 +349,9 @@ class Project_View(qtw.QTreeView):
 
     @qtc.Slot()
     def __cut_(self):
+        """
+        Detailed description.
+        """
         if self.__model is not None :
             self.__copy_()
             self.__remove_()
@@ -180,36 +359,50 @@ class Project_View(qtw.QTreeView):
 
     @qtc.Slot()
     def __copy_(self):
+        """
+        Detailed description.
+        """
         if self.__model is not None :
             indexes = self.selectionModel().selectedIndexes()
             if not indexes : return
-            (Project_View.__xml_blocks
-            ,Project_View.__block_names_set) = self.__model.copy_to_xml(indexes)
+            (Project.__xml_blocks,Project.__block_names_set) = self.__model.copy_to_xml(indexes)
             self.__update_actions_()
 
 
     @qtc.Slot()
     def __paste_(self):
-        if Project_View.__xml_blocks is None : return
-        (row,parent) = self.__get_addition_values()
+        """
+        Detailed description.
+        """
+        if Project.__xml_blocks is None : return
+        (row,parent) = self.__addition_values_()
         if row is None : return
-        self.__model.insert_from_xml(row,Project_View.__xml_blocks,parent)
+        self.__model.insert_from_xml(row,Project.__xml_blocks,parent)
 
 
     @qtc.Slot()
     def __move_up_(self):
+        """
+        Detailed description.
+        """
         if self.__model is not None :
             self.__model.move_row(-1,self.selectionModel().currentIndex())
 
 
     @qtc.Slot()
     def __move_down_(self):
+        """
+        Detailed description.
+        """
         if self.__model is not None :
             self.__model.move_row(1,self.selectionModel().currentIndex())
 
 
     @qtc.Slot()
     def __insert_before_(self):
+        """
+        Detailed description.
+        """
         self.__insert_before_action.setChecked(True)
         self.__insert_into_action.setChecked(False)
         self.__insert_after_action.setChecked(False)
@@ -219,6 +412,9 @@ class Project_View(qtw.QTreeView):
 
     @qtc.Slot()
     def __insert_into_(self):
+        """
+        Detailed description.
+        """
         self.__insert_before_action.setChecked(False)
         self.__insert_into_action.setChecked(True)
         self.__insert_after_action.setChecked(False)
@@ -228,6 +424,9 @@ class Project_View(qtw.QTreeView):
 
     @qtc.Slot()
     def __insert_after_(self):
+        """
+        Detailed description.
+        """
         self.__insert_before_action.setChecked(False)
         self.__insert_into_action.setChecked(False)
         self.__insert_after_action.setChecked(True)
@@ -235,7 +434,15 @@ class Project_View(qtw.QTreeView):
         self.__update_context_menu_()
 
 
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
     def __update_context_menu_(self):
+        """
+        Detailed description.
+        """
         self.__update_actions_()
         self.__add_menu.clear()
         for action in self.__add_actions : self.__add_menu.addAction(action)
@@ -243,21 +450,27 @@ class Project_View(qtw.QTreeView):
 
 
     def __update_actions_(self):
+        """
+        Detailed description.
+        """
         self.__update_add_actions_()
         selection_model = self.selectionModel()
         selected = False if selection_model is None else selection_model.currentIndex().isValid()
         self.__remove_action.setDisabled(not selected)
         self.__cut_action.setDisabled(not selected)
         self.__copy_action.setDisabled(not selected)
-        self.__paste_action.setDisabled(not self.__can_paste())
+        self.__paste_action.setDisabled(not self.__can_paste_())
         self.__move_up_action.setDisabled(not selected)
         self.__move_down_action.setDisabled(not selected)
 
 
     def __update_add_actions_(self):
+        """
+        Detailed description.
+        """
         while self.__add_actions : self.__add_actions.pop().deleteLater()
         if self.__model is None : return
-        (row,index) = self.__get_addition_values()
+        (row,index) = self.__addition_values_()
         if index is None : return
         build_list = self.__model.data(index,model.Role.BUILD_LIST)
         if build_list is not None :
@@ -268,16 +481,22 @@ class Project_View(qtw.QTreeView):
                 self.__add_actions.append(action)
 
 
-    def __can_paste(self):
-        if self.__model is None or Project_View.__xml_blocks is None : return False
-        (row,parent) = self.__get_addition_values()
+    def __can_paste_(self):
+        """
+        Detailed description.
+        """
+        if self.__model is None or Project.__xml_blocks is None : return False
+        (row,parent) = self.__addition_values_()
         if parent is None : return False
-        if not Project_View.__block_names_set & set(self.__model.data(parent,model.Role.BUILD_LIST)) :
+        if not Project.__block_names_set & set(self.__model.data(parent,model.Role.BUILD_LIST)) :
             return False
         return True
 
 
-    def __get_addition_values(self):
+    def __addition_values_(self):
+        """
+        Detailed description.
+        """
         index = self.selectionModel().currentIndex()
         parent = None
         row = 1
@@ -297,6 +516,9 @@ class Project_View(qtw.QTreeView):
 
 
     def __setup_actions_(self):
+        """
+        Detailed description.
+        """
         #
         action = self.__undo_action
         action.setIcon(qtg.QIcon.fromTheme("edit-undo"))
@@ -374,6 +596,9 @@ class Project_View(qtw.QTreeView):
 
 
     def __setup_context_menu_(self):
+        """
+        Detailed description.
+        """
         menu = self.__context_menu
         menu.addAction(self.__undo_action)
         menu.addAction(self.__redo_action)
@@ -395,13 +620,35 @@ class Project_View(qtw.QTreeView):
         self.__update_context_menu_()
 
 
+    ############################
+    # PRIVATE - Static Objects #
+    ############################
+
+
+    #
+    # Detailed description.
     #
     __xml_blocks = None
     #
+    # Detailed description.
+    #
     __block_names_set = None
+
+
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # Detailed description.
     #
     __BEFORE = 0
     #
+    # Detailed description.
+    #
     __INTO = 1
+    #
+    # Detailed description.
     #
     __AFTER = 2

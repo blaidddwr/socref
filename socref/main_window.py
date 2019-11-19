@@ -5,11 +5,10 @@ import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import project_view as pv
-from . import block_view_dock as bvd
 from . import block_edit_dock as bed
 from . import abstract
 from . import model
+from . import gui_view
 
 
 
@@ -22,8 +21,8 @@ class Main_Window(qtw.QMainWindow):
     def __init__(self):
         qtw.QMainWindow.__init__(self)
         self.__model = model.Project(self)
-        self.__view = pv.Project_View(self)
-        self.__block_view_dock = bvd.Block_View_Dock(self)
+        self.__view = gui_view.Project(self)
+        self.__block_view_dock = gui_view.Block(self)
         self.__block_edit_dock = bed.Block_Edit_Dock(self)
         self.__open_action = qtw.QAction("Open",self)
         self.__save_action = qtw.QAction("Save",self)
