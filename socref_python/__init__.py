@@ -1,5 +1,5 @@
 """
-todo
+Detailed description.
 """
 from . import resources
 from . import package

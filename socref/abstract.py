@@ -559,6 +559,8 @@ class Parser(abc.ABC):
         block : Detailed description.
 
         path : Detailed description.
+
+        return : Yes
         """
         pass
 

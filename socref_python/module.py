@@ -1,5 +1,5 @@
 """
-todo
+Detailed description.
 """
 from PySide2 import QtGui as qtg
 from socref import util
@@ -15,28 +15,62 @@ from . import settings
 
 
 class Block(package.Block):
+    """
+    Detailed description.
+    """
+
+
+    ########################
+    # PUBLIC - Initializer #
+    ########################
 
 
     def __init__(self):
+        """
+        Detailed description.
+        """
         package.Block.__init__(self)
-        #:
+        #
+
+
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def file_name(self):
-        return self._p_name + ".py"
+        """
+        Detailed description.
+
+        return : Yes
+        """
+        if self._BLOCKNAME_ == "Module" : return self._p_name + ".py"
 
 
     def icon(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return qtg.QIcon(":/python/module.svg")
 
 
     def build_list(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return ("Object","Function","Class")
 
 
     def set_default_properties(self):
+        """
+        Detailed description.
+        """
+        package.Block.set_default_properties(self)
         self._p_name = "module"
-        self._p_description = "Detailed description."
 
 
 
@@ -47,9 +81,24 @@ class Block(package.Block):
 
 @abstract.register_block("Module")
 class Builder(Block):
+    """
+    Detailed description.
+    """
 
 
-    def build(self, def_, lead=""):
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
+    def build(self, def_):
+        """
+        Detailed description.
+
+        def_ : Detailed description.
+
+        return : Yes
+        """
         if self._BLOCKNAME_ != "Module" : return
         ret = '"""\n'
         ret += util.wrap_text(self._p_description,columns=settings.COLUMNS)

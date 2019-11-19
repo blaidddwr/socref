@@ -1,5 +1,5 @@
 """
-todo
+Detailed description.
 """
 import html
 from PySide2 import QtGui as qtg
@@ -17,9 +17,20 @@ from . import settings
 
 
 class Block(package.Block):
+    """
+    Detailed description.
+    """
+
+
+    ########################
+    # PUBLIC - Initializer #
+    ########################
 
 
     def __init__(self):
+        """
+        Detailed description.
+        """
         package.Block.__init__(self)
         self._p_descriptors = ""
         self._p_return_description = ""
@@ -28,19 +39,44 @@ class Block(package.Block):
         self._p_abstract = "0"
 
 
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
     def is_static(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return bool(int(self._p_static))
 
 
     def is_abstract(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return bool(int(self._p_abstract))
 
 
     def is_method(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return isinstance(self.parent(),access.Block)
 
 
     def icon(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         if self._p_name.startswith("__") and self._p_name.endswith("__") : return qtg.QIcon(":/python/operator.svg")
         elif self.is_static() : return qtg.QIcon(":/python/static_function.svg")
         elif self.is_abstract() : return qtg.QIcon(":/python/abstract_function.svg")
@@ -48,6 +84,11 @@ class Block(package.Block):
 
 
     def display_name(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         ret = ""
         if self._p_return_description : ret += "... "
         ret += "%s(%i)" % (self._p_name,len(self))
@@ -57,6 +98,11 @@ class Block(package.Block):
 
 
     def display_view(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         self.__check_flags_()
         return_description = html.escape(self._p_return_description)
         if return_description : return_description = "<h2>Return</h2><p>%s</p>" % return_description
@@ -74,10 +120,20 @@ class Block(package.Block):
 
 
     def build_list(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         return ("Object",)
 
 
     def edit_definitions(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         ret = package.Block.edit_definitions(self)
         ret.append(util.text_edit("Return:","_p_return_description"))
         if self.is_method() :
@@ -92,8 +148,11 @@ class Block(package.Block):
 
 
     def set_default_properties(self):
+        """
+        Detailed description.
+        """
+        package.Block.set_default_properties(self)
         self._p_name = "function"
-        self._p_description = "Detailed description."
         self._p_return_description = ""
         self._p_inlines = ""
         self._p_descriptors = ""
@@ -102,8 +161,10 @@ class Block(package.Block):
 
 
     def clear_properties(self):
-        self._p_name = ""
-        self._p_description = ""
+        """
+        Detailed description.
+        """
+        package.Block.clear_properties(self)
         self._p_return_description = ""
         self._p_inlines = ""
         self._p_descriptors = ""
@@ -111,14 +172,32 @@ class Block(package.Block):
         self._p_abstract = "0"
 
 
+    #######################
+    # PROTECTED - Methods #
+    #######################
+
+
     def _display_arguments_(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
         ret = ""
         for arg in self : ret += arg.argument_view()
         if ret : ret = "<h2>Arguments</h2>" + ret
         return ret
 
 
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
     def __check_flags_(self):
+        """
+        Detailed description.
+        """
         if not self.is_method() :
             self._p_static = "0"
             self._p_abstract = "0"
@@ -132,9 +211,26 @@ class Block(package.Block):
 
 @abstract.register_block("Function")
 class Builder(Block):
+    """
+    Detailed description.
+    """
+
+
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def space(self, previous, above):
+        """
+        Detailed description.
+
+        previous : Detailed description.
+
+        above : Detailed description.
+
+        return : Yes
+        """
         if above._BLOCKNAME_ == "Module" :
             if previous is not None and previous._BLOCKNAME_ == "Class" :
                 return "\n"*settings.H1LINES
@@ -144,6 +240,15 @@ class Builder(Block):
 
 
     def build(self, def_, begin=""):
+        """
+        Detailed description.
+
+        def_ : Detailed description.
+
+        begin : Detailed description.
+
+        return : Yes
+        """
         if self._BLOCKNAME_ != "Function" : return
         ret = self.__build_header_(begin)
         ret += self.__build_doc_string_(begin)
@@ -151,7 +256,19 @@ class Builder(Block):
         return ret
 
 
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
     def __build_header_(self, begin):
+        """
+        Detailed description.
+
+        begin : Detailed description.
+
+        return : Yes
+        """
         ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
         if ret : ret += "\n"
         if self.is_abstract() : ret += begin + "@abc.abstractmethod\n"
@@ -162,6 +279,13 @@ class Builder(Block):
 
 
     def __build_doc_string_(self, begin):
+        """
+        Detailed description.
+
+        begin : Detailed description.
+
+        return : Yes
+        """
         ret = begin + " "*settings.INDENT + '"""\n'
         ret += util.wrap_text(self._p_description
                               ,begin=begin + " "*settings.INDENT
@@ -178,6 +302,15 @@ class Builder(Block):
 
 
     def __build_lines_(self, lines, begin):
+        """
+        Detailed description.
+
+        lines : Detailed description.
+
+        begin : Detailed description.
+
+        return : Yes
+        """
         if not lines : return begin + " " * settings.INDENT + "pass\n"
         ret = ""
         inlines = [line for line in self._p_inlines.split("\n\n") if line]
