@@ -14,7 +14,7 @@ from . import model
 
 
 
-class Block(qtw.QDockWidget):
+class Block_Dock(qtw.QDockWidget):
     """
     Detailed description.
     """

@@ -6,6 +6,7 @@ from PySide2 import QtWidgets as qtw
 from . import settings
 from . import model
 from . import gui_util
+from . import gui_dialog
 
 
 
@@ -25,19 +26,24 @@ class Plain_Text(qtw.QPlainTextEdit):
     #######################
 
 
-    def __init__(self, text="", speller=False, parent=None):
+    def __init__(self, text="", parent=None, speller=False, popup=False):
         """
         Detailed description.
 
         text : Detailed description.
 
+        parent : Detailed description.
+
         speller : Detailed description.
 
-        parent : Detailed description.
+        popup : Detailed description.
         """
         qtw.QPlainTextEdit.__init__(self,text,parent)
+        self.__speller = speller
+        self.__popup = popup
         self.__highlighter = None
         if speller : self.set_speller_enabled(True)
+        self.__setup_actions_()
 
 
     ####################
@@ -56,6 +62,40 @@ class Plain_Text(qtw.QPlainTextEdit):
             self.__highlighter = None
         elif self.__highlighter is None :
             self.__highlighter = gui_util.Spell_Highlighter(settings.DICTIONARY,self.document())
+        self.__speller = enabled
+
+
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
+    def __setup_actions_(self):
+        """
+        Detailed description.
+        """
+        dialog = qtw.QAction(self)
+        dialog.setShortcutContext(qtc.Qt.WidgetShortcut)
+        dialog.setShortcut(qtc.Qt.CTRL + qtc.Qt.Key_E)
+        dialog.triggered.connect(self.__dialog_)
+        self.addAction(dialog)
+
+
+    ###################
+    # PRIVATE - Slots #
+    ###################
+
+
+    @qtc.Slot()
+    def __dialog_(self):
+        """
+        Detailed description.
+        """
+        if self.__popup :
+            dialog = gui_dialog.Text(self.toPlainText(),self,speller=self.__speller)
+            dialog.setWindowTitle("Text Editor - Socrates' Reference")
+            if dialog.exec_() :
+                self.setPlainText(dialog.text())
 
 
 
@@ -64,7 +104,7 @@ class Plain_Text(qtw.QPlainTextEdit):
 
 
 
-class Block(qtw.QDockWidget):
+class Block_Dock(qtw.QDockWidget):
     """
     Detailed description.
     """
@@ -128,7 +168,9 @@ class Block(qtw.QDockWidget):
                     edit._key = def_["key"]
                     label = def_["label"]
                 elif def_["type"] == "text" :
-                    edit = Plain_Text(props[def_["key"]],def_.get("speller",False))
+                    edit = Plain_Text(props[def_["key"]]
+                                      ,speller=def_.get("speller",False)
+                                      ,popup=True)
                     edit._value_ = lambda e=edit : e.toPlainText()
                     edit._key = def_["key"]
                     label = def_["label"]

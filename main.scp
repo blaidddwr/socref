@@ -10,6 +10,11 @@
                 <__p_name>settings</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Object>
+                    <__p_name>HUNSPELL_ROOT</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_assignment>&quot;/usr/share/hunspell&quot;</__p_assignment>
+                </Object>
+                <Object>
                     <__p_name>DICTIONARY</__p_name>
                     <__p_description>Detailed description.</__p_description>
                     <__p_assignment>&quot;en_US&quot;</__p_assignment>
@@ -1630,6 +1635,132 @@
                 <__p_name>gui_util</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Class>
+                    <__p_name>Spell_Checker</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>qtw.QGroupBox</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>title</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>dictionary</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Signals</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Object>
+                            <__p_name>finished</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Signal()</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>cursor_changed</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_assignment>qtc.Signal(qtg.QTextCursor)</__p_assignment>
+                        </Object>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>start</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtg.QTextCursor)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>cursor</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__find_next_word_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_gui_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_top_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_bottom_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__add_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__suggest_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__replace_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__ignore_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__stop_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
                     <__p_name>Spell_Highlighter</__p_name>
                     <__p_description>Detailed description.</__p_description>
                     <__p_parents>qtg.QSyntaxHighlighter</__p_parents>
@@ -1680,7 +1811,7 @@
                 <__p_name>gui_view</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Class>
-                    <__p_name>Block</__p_name>
+                    <__p_name>Block_Dock</__p_name>
                     <__p_description>Detailed description.</__p_description>
                     <__p_parents>qtw.QDockWidget</__p_parents>
                     <Access>
@@ -2086,14 +2217,19 @@
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                             <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                            <Object>
                                 <__p_name>speller</__p_name>
                                 <__p_description>Detailed description.</__p_description>
                                 <__p_assignment>False</__p_assignment>
                             </Object>
                             <Object>
-                                <__p_name>parent</__p_name>
+                                <__p_name>popup</__p_name>
                                 <__p_description>Detailed description.</__p_description>
-                                <__p_assignment>None</__p_assignment>
+                                <__p_assignment>False</__p_assignment>
                             </Object>
                         </Function>
                     </Access>
@@ -2111,9 +2247,30 @@
                             </Object>
                         </Function>
                     </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__setup_actions_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__dialog_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
                 </Class>
                 <Class>
-                    <__p_name>Block</__p_name>
+                    <__p_name>Block_Dock</__p_name>
                     <__p_description>Detailed description.</__p_description>
                     <__p_parents>qtw.QDockWidget</__p_parents>
                     <Access>
@@ -2191,6 +2348,93 @@
                 </Class>
             </Module>
             <Module>
+                <__p_name>gui_dialog</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>Text</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>qtw.QDialog</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>text</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                            <Object>
+                                <__p_name>speller</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                                <__p_assignment>False</__p_assignment>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>text</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__setup_gui_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_spell_checker_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_buttons_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__spell_check_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__spell_check_fnished_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
                 <__p_name>gui_window</__p_name>
                 <__p_description>Detailed description.</__p_description>
                 <Class>
@@ -2198,7 +2442,7 @@
                     <__p_description>Detailed description.</__p_description>
                     <__p_parents>qtw.QMainWindow</__p_parents>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>

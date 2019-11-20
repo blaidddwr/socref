@@ -5,6 +5,7 @@ import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
+from . import util
 from . import abstract
 from . import model
 from . import gui_view
@@ -23,9 +24,9 @@ class Main(qtw.QMainWindow):
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
     def __init__(self):
@@ -35,8 +36,8 @@ class Main(qtw.QMainWindow):
         qtw.QMainWindow.__init__(self)
         self.__model = model.Project(self)
         self.__view = gui_view.Project(self)
-        self.__block_view_dock = gui_view.Block(self)
-        self.__block_edit_dock = gui_edit.Block(self)
+        self.__block_view_dock = gui_view.Block_Dock(self)
+        self.__block_edit_dock = gui_edit.Block_Dock(self)
         self.__open_action = qtw.QAction("Open",self)
         self.__save_action = qtw.QAction("Save",self)
         self.__save_as_action = qtw.QAction("Save As",self)
