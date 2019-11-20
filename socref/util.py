@@ -50,7 +50,7 @@ def line_edit(label, key):
 
 
 
-def text_edit(label, key):
+def text_edit(label, key, speller=False):
     """
     Detailed description.
 
@@ -58,9 +58,13 @@ def text_edit(label, key):
 
     key : Detailed description.
 
+    speller : Detailed description.
+
     return : Yes
     """
-    return __edit("text",label,key)
+    ret = __edit("text",label,key)
+    ret["speller"] = speller
+    return ret
 
 
 

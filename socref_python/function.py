@@ -135,7 +135,7 @@ class Block(package.Block):
         return : Yes
         """
         ret = package.Block.edit_definitions(self)
-        ret.append(util.text_edit("Return:","_p_return_description"))
+        ret.append(util.text_edit("Return:","_p_return_description",speller=True))
         if self.is_method() :
             ret.append(util.checkbox_edit("Static","_p_static"))
             ret.append(util.checkbox_edit("Abstract","_p_abstract"))

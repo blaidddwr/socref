@@ -107,7 +107,7 @@ class Block(abstract.Block):
         """
         ret = []
         ret.append(util.line_edit("Name:","_p_name"))
-        ret.append(util.text_edit("Description:","_p_description"))
+        ret.append(util.text_edit("Description:","_p_description",speller=True))
         return ret
 
 

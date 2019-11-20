@@ -3,7 +3,59 @@ Detailed description.
 """
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
+from . import settings
 from . import model
+from . import gui_util
+
+
+
+
+
+
+
+
+class Plain_Text(qtw.QPlainTextEdit):
+    """
+    Detailed description.
+    """
+
+
+    #######################
+    # PUBLIC - Initialize #
+    #######################
+
+
+    def __init__(self, text="", speller=False, parent=None):
+        """
+        Detailed description.
+
+        text : Detailed description.
+
+        speller : Detailed description.
+
+        parent : Detailed description.
+        """
+        qtw.QPlainTextEdit.__init__(self,text,parent)
+        self.__highlighter = None
+        if speller : self.set_speller_enabled(True)
+
+
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
+    def set_speller_enabled(self, enabled):
+        """
+        Detailed description.
+
+        enabled : Detailed description.
+        """
+        if not enabled :
+            self.__highlighter.deleteLater()
+            self.__highlighter = None
+        elif self.__highlighter is None :
+            self.__highlighter = gui_util.Spell_Highlighter(settings.DICTIONARY,self.document())
 
 
 
@@ -18,9 +70,9 @@ class Block(qtw.QDockWidget):
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
     def __init__(self, parent=None):
@@ -76,7 +128,7 @@ class Block(qtw.QDockWidget):
                     edit._key = def_["key"]
                     label = def_["label"]
                 elif def_["type"] == "text" :
-                    edit = qtw.QPlainTextEdit(props[def_["key"]])
+                    edit = Plain_Text(props[def_["key"]],def_.get("speller",False))
                     edit._value_ = lambda e=edit : e.toPlainText()
                     edit._key = def_["key"]
                     label = def_["label"]
