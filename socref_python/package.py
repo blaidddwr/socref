@@ -85,8 +85,8 @@ class Block(abstract.Block):
 
         return : Yes
         """
-        description = html.escape(self._p_description)
-        if description : description = "<h1>Description</h1><p>%s</p>" % description
+        description = "</P><P>".join((html.escape(block) for block in self._p_description.split("\n\n") if block))
+        if description : description = "<H1>Description</H1><P>%s</P>" % description
         return description
 
 
@@ -155,7 +155,7 @@ class Builder(Block):
         """
         if self._BLOCKNAME_ != "Package" : return
         ret = '"""\n'
-        ret += util.wrap_text(self._p_description,columns=settings.COLUMNS)
+        ret += util.wrap_blocks(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'
         ret += "\n".join(def_["header"] + [""])
         return ret

@@ -142,7 +142,7 @@ class Block(package.Block):
         else:
             ret.append(util.hidden_edit("_p_static","0"))
             ret.append(util.hidden_edit("_p_abstract","0"))
-        ret.append(util.text_edit("Inline Comments:","_p_inlines"))
+        ret.append(util.text_edit("Inline Comments:","_p_inlines",speller=True))
         ret.append(util.text_edit("Descriptor(s):","_p_descriptors"))
         return ret
 
@@ -287,9 +287,9 @@ class Builder(Block):
         return : Yes
         """
         ret = begin + " "*settings.INDENT + '"""\n'
-        ret += util.wrap_text(self._p_description
-                              ,begin=begin + " "*settings.INDENT
-                              ,columns=settings.COLUMNS)
+        ret += util.wrap_blocks(self._p_description
+                                ,begin=begin + " "*settings.INDENT
+                                ,columns=settings.COLUMNS)
         for arg in self : ret += "\n" + arg.comment(begin + " "*settings.INDENT)
         if self._p_return_description :
             initial = "return : "

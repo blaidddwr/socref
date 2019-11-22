@@ -232,7 +232,7 @@ class Builder(Block):
         return : Yes
         """
         ret = begin + "#\n"
-        ret += util.wrap_text(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
+        ret += util.wrap_blocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
         ret += begin + "#\n"
         ret += begin + self._p_name
         if self._p_assignment : ret += " = " + self._p_assignment

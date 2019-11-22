@@ -1,35 +1,84 @@
 """
-Contains all utility functions and classes that provide basic utilities to the rest of the program.
+Contains all utility functions and classes that provide basic utilities to the rest of the
+application and language modules that use it.
 """
+
+
+
+
+def wrap_blocks(text, begin="", separator="", columns=80):
+    """
+    Wraps the given text into separate blocks that are in turn wrapped into multiple lines with the
+    given begin string appended to each one and limited by the given number of columns per line. The
+    delimiter for each given block is double new lines. The output of each block is separated by a
+    line with the given separator string.
+
+    text : A string of text that is wrapped into multiple lines and separated into blocks.
+
+    begin : A string that is appended to every line of wrapped text generated.
+
+    separator : A string of text that is used to separate each block of text.
+
+    columns : The maximum column length for each line of wrapped text.
+
+    return : Wrapped lines of text separated into multiple blocks of text using a given separator
+             string.
+    """
+    return "\n".join((wrap_text(block,begin=begin,columns=columns) for block in text.split("\n\n") if block))
 
 
 
 
 def wrap_text(text, begin="", after="", columns=80):
     """
-    Detailed description.
+    Wraps given text into multiple lines that are limited by the given number of columns per line.
+    Every line is appended with an optional begin string and every line after the first is also
+    appended with an optional after line.
 
-    text : Detailed description.
+    text : A string of text that is wrapped into multiple lines.
 
-    begin : Detailed description.
+    begin : A string that is appended to every line of wrapped text generated.
 
-    after : Detailed description.
+    after : A string of text that is appended to every wrapped line of text after the begin string.
 
-    columns : Detailed description.
+    columns : The maximum column length for each line of wrapped text.
 
-    return : Yes
+    return : New line separated string of wrapped text generated from the given input text.
     """
+    #
+    # Initialize the return string, separate the given strings words into a list of word strings,
+    # and set the first line indicator to true.
+    #
     ret = ""
     words = text.split()
     first = True
+    #
+    # Continue while there are still words to wrap.
+    #
     while words :
+        #
+        # If this is the first line then append with only the given begin string.
+        #
         if first :
             line = begin + words.pop(0)
             first = False
+        #
+        # Else append the line with the given begin and then the given after strings.
+        #
         else: line = begin + after + words.pop(0)
+        #
+        # While adding the next word does not make the current line become larger than the maximum
+        # column length keep adding words.
+        #
         while words and (len(line) + len(words[0]) + 1) <= columns :
             line += " " + words.pop(0)
+        #
+        # Add the next line to the wrapped text.
+        #
         ret += line + "\n"
+    #
+    # Return the wrapped text.
+    #
     return ret
 
 
@@ -37,13 +86,14 @@ def wrap_text(text, begin="", after="", columns=80):
 
 def line_edit(label, key):
     """
-    Detailed description.
+    Returns an edit definition dictionary for a line edit. This is used with the abstract block's
+    edit definitions interface.
 
-    label : Detailed description.
+    label : The label string for the edit definition.
 
-    key : Detailed description.
+    key : The key string for the edit definition.
 
-    return : Yes
+    return : Edit definition dictionary for a line edit.
     """
     return __edit("line",label,key)
 
@@ -52,15 +102,16 @@ def line_edit(label, key):
 
 def text_edit(label, key, speller=False):
     """
-    Detailed description.
+    Returns an edit definition dictionary for a text edit. This is used with the abstract block's
+    edit definitions interface.
 
-    label : Detailed description.
+    label : The label string for the edit definition.
 
-    key : Detailed description.
+    key : The key string for the edit definition.
 
-    speller : Detailed description.
+    speller : Optional speller Boolean for the edit definition.
 
-    return : Yes
+    return : Edit definition dictionary for a text edit.
     """
     ret = __edit("text",label,key)
     ret["speller"] = speller
@@ -71,13 +122,14 @@ def text_edit(label, key, speller=False):
 
 def checkbox_edit(label, key):
     """
-    Detailed description.
+    Returns an edit definition dictionary for a checkbox edit. This is used with the abstract
+    block's edit definitions interface.
 
-    label : Detailed description.
+    label : The label string for the edit definition.
 
-    key : Detailed description.
+    key : The key string for the edit definition.
 
-    return : Yes
+    return : Edit definition dictionary for a checkbox edit.
     """
     return __edit("checkbox",label,key)
 
@@ -86,13 +138,14 @@ def checkbox_edit(label, key):
 
 def combobox_edit(label, key):
     """
-    Detailed description.
+    Returns an edit definition dictionary for a combo box edit with no selection values. This is
+    used with the abstract block's edit definitions interface.
 
-    label : Detailed description.
+    label : The label string for the edit definition.
 
-    key : Detailed description.
+    key : The key string for the edit definition.
 
-    return : Yes
+    return : Edit definition dictionary for a combo box edit.
     """
     ret = __edit("combobox",label,key)
     ret["selections"] = []
@@ -103,13 +156,14 @@ def combobox_edit(label, key):
 
 def add_combo_select(combo_edit, text, icon=None):
     """
-    Detailed description.
+    Adds a selection value to the given combo box edit definition with the given text and optional
+    icon.
 
-    combo_edit : Detailed description.
+    combo_edit : A combo box edit definition dictionary that has a new selection value added to it.
 
-    text : Detailed description.
+    text : The text of the new selection value.
 
-    icon : Detailed description.
+    icon : The optional qt icon of the new selection value.
     """
     edit = {"text": text}
     if icon is not None : edit["icon"] = icon
@@ -120,13 +174,14 @@ def add_combo_select(combo_edit, text, icon=None):
 
 def hidden_edit(key, value):
     """
-    Detailed description.
+    Returns an edit definition dictionary for a hidden edit. This is used with the abstract block's
+    edit definitions interface.
 
-    key : Detailed description.
+    key : The key string for the edit definition.
 
-    value : Detailed description.
+    value : The value string for the edit definition.
 
-    return : Yes
+    return : Edit definition dictionary for a hidden edit.
     """
     return {"type": "hidden"
             ,"key": key
@@ -141,15 +196,14 @@ def hidden_edit(key, value):
 
 class Singleton():
     """
-    This is a descriptor class that will turn a class used by it to a singleton. The singleton is
-    called by calling its class object which is replaced by this and the same instance is called
-    every time.
+    This is a descriptor class that will turn a class used by it to a singleton. It also provides a
+    class method that returns the class object of the singleton instance.
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
     def __init__(self, class_):
@@ -169,9 +223,9 @@ class Singleton():
 
     def __call__(self):
         """
-        Returns the singleton instance that this singleton instance manages.
+        Returns the singleton instance that this descriptor instance manages.
 
-        return : The singleton instance of the class that this singleton manages.
+        return : The singleton instance of this descriptor's class.
         """
         return self.__instance
 
@@ -183,9 +237,9 @@ class Singleton():
 
     def class_(self):
         """
-        Returns the class object that this singleton instance manages.
+        Returns the class object that this descriptor instance manages.
 
-        return : The class object that this singleton instance manages.
+        return : The class object of this descriptor.
         """
         return self.__class
 
@@ -198,15 +252,15 @@ class Singleton():
 
 def __edit(type_, label, key):
     """
-    Detailed description.
+    Returns a generic edit definition dictionary with the given type, label, and key.
 
-    type_ : Detailed description.
+    type_ : The type of the generic edit definition.
 
-    label : Detailed description.
+    label : The label of the generic edit definition.
 
-    key : Detailed description.
+    key : The key of the generic edit definition.
 
-    return : Yes
+    return : Generic edit definition dictionary.
     """
     return {"type": type_
             ,"label": label

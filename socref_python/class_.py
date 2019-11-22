@@ -161,9 +161,9 @@ class Builder(Block):
         if ret : ret += "\n"
         ret += "%sclass %s(%s):\n" % (begin,self._p_name,self.__build_parents_())
         ret += begin + " "*settings.INDENT + '"""\n'
-        ret += util.wrap_text(self._p_description
-                              ,begin=begin + " "*settings.INDENT
-                              ,columns=settings.COLUMNS)
+        ret += util.wrap_blocks(self._p_description
+                                ,begin=begin + " "*settings.INDENT
+                                ,columns=settings.COLUMNS)
         ret += begin + " "*settings.INDENT + '"""\n'
         previous = None
         for block in self :

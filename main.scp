@@ -5,160 +5,197 @@
     <Package>
         <Package>
             <__p_name>socref</__p_name>
-            <__p_description>Contains the core application for Socrates' Reference. This includes everything except any language definitions.</__p_description>
+            <__p_description>Contains the core application for Socrates' Reference.</__p_description>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all global settings for the core application.</__p_description>
                 <Object>
                     <__p_name>HUNSPELL_ROOT</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The root directory where Hunspell dictionaries are located.</__p_description>
                     <__p_assignment>&quot;/usr/share/hunspell&quot;</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>DICTIONARY</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The Hunspell dictionary used for spell checking.</__p_description>
                     <__p_assignment>&quot;en_US&quot;</__p_assignment>
                 </Object>
             </Module>
             <Module>
                 <__p_name>util</__p_name>
-                <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the program.</__p_description>
+                <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the application and language modules that use it.</__p_description>
                 <Function>
-                    <__p_name>wrap_text</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_return_description>Yes</__p_return_description>
+                    <__p_name>wrap_blocks</__p_name>
+                    <__p_description>Wraps the given text into separate blocks that are in turn wrapped into multiple lines with the given begin string appended to each one and limited by the given number of columns per line. The delimiter for each given block is double new lines. The output of each block is separated by a line with the given separator string.</__p_description>
+                    <__p_return_description>Wrapped lines of text separated into multiple blocks of text using a given separator string.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>text</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>A string of text that is wrapped into multiple lines and separated into blocks.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>begin</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>A string that is appended to every line of wrapped text generated.</__p_description>
                         <__p_assignment>&quot;&quot;</__p_assignment>
                     </Object>
                     <Object>
-                        <__p_name>after</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_name>separator</__p_name>
+                        <__p_description>A string of text that is used to separate each block of text.</__p_description>
                         <__p_assignment>&quot;&quot;</__p_assignment>
                     </Object>
                     <Object>
                         <__p_name>columns</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The maximum column length for each line of wrapped text.</__p_description>
+                        <__p_assignment>80</__p_assignment>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>wrap_text</__p_name>
+                    <__p_description>Wraps given text into multiple lines that are limited by the given number of columns per line. Every line is appended with an optional begin string and every line after the first is also appended with an optional after line.</__p_description>
+                    <__p_return_description>New line separated string of wrapped text generated from the given input text.</__p_return_description>
+                    <__p_inlines>Initialize the return string, separate the given strings words into a list of word strings, and set the first line indicator to true.
+
+Continue while there are still words to wrap.
+
+If this is the first line then append with only the given begin string.
+
+Else append the line with the given begin and then the given after strings.
+
+While adding the next word does not make the current line become larger than the maximum column length keep adding words.
+
+Add the next line to the wrapped text.
+
+Return the wrapped text.</__p_inlines>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>text</__p_name>
+                        <__p_description>A string of text that is wrapped into multiple lines.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>begin</__p_name>
+                        <__p_description>A string that is appended to every line of wrapped text generated.</__p_description>
+                        <__p_assignment>&quot;&quot;</__p_assignment>
+                    </Object>
+                    <Object>
+                        <__p_name>after</__p_name>
+                        <__p_description>A string of text that is appended to every wrapped line of text after the begin string.</__p_description>
+                        <__p_assignment>&quot;&quot;</__p_assignment>
+                    </Object>
+                    <Object>
+                        <__p_name>columns</__p_name>
+                        <__p_description>The maximum column length for each line of wrapped text.</__p_description>
                         <__p_assignment>80</__p_assignment>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>line_edit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_return_description>Yes</__p_return_description>
+                    <__p_description>Returns an edit definition dictionary for a line edit. This is used with the abstract block's edit definitions interface.</__p_description>
+                    <__p_return_description>Edit definition dictionary for a line edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The label string for the edit definition.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The key string for the edit definition.</__p_description>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>text_edit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_return_description>Yes</__p_return_description>
+                    <__p_description>Returns an edit definition dictionary for a text edit. This is used with the abstract block's edit definitions interface.</__p_description>
+                    <__p_return_description>Edit definition dictionary for a text edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The label string for the edit definition.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The key string for the edit definition.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>speller</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Optional speller Boolean for the edit definition.</__p_description>
                         <__p_assignment>False</__p_assignment>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>checkbox_edit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_return_description>Yes</__p_return_description>
+                    <__p_description>Returns an edit definition dictionary for a checkbox edit. This is used with the abstract block's edit definitions interface.</__p_description>
+                    <__p_return_description>Edit definition dictionary for a checkbox edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The label string for the edit definition.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The key string for the edit definition.</__p_description>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>combobox_edit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_return_description>Yes</__p_return_description>
+                    <__p_description>Returns an edit definition dictionary for a combo box edit with no selection values. This is used with the abstract block's edit definitions interface.</__p_description>
+                    <__p_return_description>Edit definition dictionary for a combo box edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The label string for the edit definition.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The key string for the edit definition.</__p_description>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>add_combo_select</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Adds a selection value to the given combo box edit definition with the given text and optional icon.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>combo_edit</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>A combo box edit definition dictionary that has a new selection value added to it.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>text</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The text of the new selection value.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>icon</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The optional qt icon of the new selection value.</__p_description>
                         <__p_assignment>None</__p_assignment>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>hidden_edit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_return_description>Yes</__p_return_description>
+                    <__p_description>Returns an edit definition dictionary for a hidden edit. This is used with the abstract block's edit definitions interface.</__p_description>
+                    <__p_return_description>Edit definition dictionary for a hidden edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The key string for the edit definition.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>value</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The value string for the edit definition.</__p_description>
                     </Object>
                 </Function>
                 <Class>
                     <__p_name>Singleton</__p_name>
-                    <__p_description>This is a descriptor class that will turn a class used by it to a singleton. The singleton is called by calling its class object which is replaced by this and the same instance is called every time.</__p_description>
+                    <__p_description>This is a descriptor class that will turn a class used by it to a singleton. It also provides a class method that returns the class object of the singleton instance.</__p_description>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new singleton descriptor with the given class.</__p_description>
-                            <__p_inlines>Initialize the given class and then the singleton instance of it.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -172,8 +209,8 @@
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__call__</__p_name>
-                            <__p_description>Returns the singleton instance that this singleton instance manages.</__p_description>
-                            <__p_return_description>The singleton instance of the class that this singleton manages.</__p_return_description>
+                            <__p_description>Returns the singleton instance that this descriptor instance manages.</__p_description>
+                            <__p_return_description>The singleton instance of this descriptor's class.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -183,8 +220,8 @@
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>class_</__p_name>
-                            <__p_description>Returns the class object that this singleton instance manages.</__p_description>
-                            <__p_return_description>The class object that this singleton instance manages.</__p_return_description>
+                            <__p_description>Returns the class object that this descriptor instance manages.</__p_description>
+                            <__p_return_description>The class object of this descriptor.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -192,21 +229,21 @@
                 </Class>
                 <Function>
                     <__p_name>__edit</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_return_description>Yes</__p_return_description>
+                    <__p_description>Returns a generic edit definition dictionary with the given type, label, and key.</__p_description>
+                    <__p_return_description>Generic edit definition dictionary.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>type_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The type of the generic edit definition.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>label</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The label of the generic edit definition.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The key of the generic edit definition.</__p_description>
                     </Object>
                 </Function>
             </Module>
@@ -215,82 +252,114 @@
                 <__p_description>Contains all abstract and interface options used by the core application and any language implementation to communicate with one another.</__p_description>
                 <Function>
                     <__p_name>register_block</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Registers the wrapped class object as a block with the given name for the language currently being loaded. This must be called when a language is being loaded.</__p_description>
+                    <__p_inlines>Define the wrapper descriptor function that actually takes the class object.
+
+Register the given class object as a new block type. If this is the root block register it as such also.
+
+Return the class object.
+
+Return the wrapper function.</__p_inlines>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>name</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The block's type name that is being registered. This must be unique among all block names of any one language.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>root</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>Optional root Boolean that indicates the registered block is the root block of the language if set to true. Only one block type can be the root of a language.</__p_description>
                         <__p_assignment>False</__p_assignment>
                     </Object>
                 </Function>
                 <Class>
                     <__p_name>LoadError</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the load error exception. This indicates an error occurred while loading a language's module.</__p_description>
                     <__p_parents>Exception</__p_parents>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>*args</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
                             </Object>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>RegisterError</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the register error exception. This indicates an error occurred attempting to register a block while loading a language's module.</__p_description>
                     <__p_parents>Exception</__p_parents>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>*args</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
                             </Object>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
-                    <__p_name>DuplicateError</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_name>ScanError</__p_name>
+                    <__p_description>This is the scan error exception. This indicates an error occurred while scanning source files while parsing a project.</__p_description>
                     <__p_parents>Exception</__p_parents>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>*args</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
                             </Object>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the abstract block class. Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. Blocks are structured to form a tree like structure to represent a single project. Properties are the basic concept used to save all data of a specific block implementation. Interface methods are organized into basic, property, and parsing categories. Edit definitions provided as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it. Iteration and indexing of children blocks are supported through operators and methods. Saving a block to XML or loading it from XML is supported.
+
+Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. A block should represent an atomic element of a programming language, such as a variable or function. In turn these blocks can form tree like relationships, such as variables being children of a function that makes them the function's arguments.
+
+Blocks are structured to form a tree like structure to represent a single project. Blocks can have any number of children and only one parent. There is a root block for every project. A specific block type is designated as the root block of a language and used to create a new project.
+
+Properties are the basic concept used to save all data of a specific block implementation. Properties are stored in a block as a dictionary as key value pairs. Operator overloading for attributes is implemented so any attribute that begins with &quot;_p_&quot; is intercepted and treated as a property. In this fashion all properties must be attributes that start with &quot;_p_&quot;.
+
+Interface methods are organized into basic, property, and parsing categories. The basic category provides basic information about the block that is used to display it in different views, a build list to tell the core application what block types can be a block's child, and is volatile checks to inform the application's model if a block can effect the view of blocks above or below it. ...
+
+Edit definitions provided as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it.
+
+Iteration and indexing of children blocks are supported through operators and methods.
+
+Saving a block to XML or loading it from XML is supported.
+</__p_description>
                     <__p_parents>abc.ABC</__p_parents>
                     <Access>
-                        <__p_name>Interfaces</__p_name>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Interfaces</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
@@ -321,6 +390,24 @@
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>is_volatile_above</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_volatile_below</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>Yes</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Interfaces</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Detailed description.</__p_description>
                             <__p_return_description>Yes</__p_return_description>
@@ -341,6 +428,10 @@
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Parsing Interfaces</__p_name>
+                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>dir_name</__p_name>
                             <__p_description>Detailed description.</__p_description>
@@ -356,20 +447,6 @@
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>is_volatile_below</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>parser</__p_name>
                             <__p_description>Detailed description.</__p_description>
                             <__p_return_description>Yes</__p_return_description>
@@ -378,17 +455,7 @@
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Initializer</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Oprators</__p_name>
+                        <__p_name>Operators</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__eq__</__p_name>
@@ -576,7 +643,7 @@
                     <__p_description>Detailed description.</__p_description>
                     <__p_parents>abc.ABC</__p_parents>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
@@ -686,7 +753,7 @@
                     <__p_description>Detailed description.</__p_description>
                     <__p_descriptors>util.Singleton</__p_descriptors>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
@@ -2427,9 +2494,9 @@
                         <Function>
                             <__p_name>__spell_check_fnished_</__p_name>
                             <__p_description>Detailed description.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>

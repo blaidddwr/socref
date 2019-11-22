@@ -101,7 +101,7 @@ class Builder(Block):
         """
         if self._BLOCKNAME_ != "Module" : return
         ret = '"""\n'
-        ret += util.wrap_text(self._p_description,columns=settings.COLUMNS)
+        ret += util.wrap_blocks(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'
         ret += "\n".join(def_["header"] + [""])
         previous = None

@@ -12,16 +12,32 @@ from . import util
 
 def register_block(name, root=False):
     """
-    Detailed description.
+    Registers the wrapped class object as a block with the given name for the language currently
+    being loaded. This must be called when a language is being loaded.
 
-    name : Detailed description.
+    name : The block's type name that is being registered. This must be unique among all block names
+           of any one language.
 
-    root : Detailed description.
+    root : Optional root Boolean that indicates the registered block is the root block of the
+           language if set to true. Only one block type can be the root of a language.
     """
+    #
+    # Define the wrapper descriptor function that actually takes the class object.
+    #
     def wrapper(class_):
+        #
+        # Register the given class object as a new block type. If this is the root block register it
+        # as such also.
+        #
         Factory().register_block(class_,name)
         if root: Factory().register_root_block(class_)
+        #
+        # Return the class object.
+        #
         return class_
+    #
+    # Return the wrapper function.
+    #
     return wrapper
 
 
@@ -33,20 +49,21 @@ def register_block(name, root=False):
 
 class LoadError(Exception):
     """
-    Detailed description.
+    This is the load error exception. This indicates an error occurred while loading a language's
+    module.
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
     def __init__(self, *args):
         """
-        Detailed description.
+        Initialize a new load error exception with any number of given positional arguments.
 
-        *args : Detailed description.
+        *args : Positional arguments passed on to the super exception class.
         """
         Exception.__init__(self,*args)
 
@@ -59,20 +76,21 @@ class LoadError(Exception):
 
 class RegisterError(Exception):
     """
-    Detailed description.
+    This is the register error exception. This indicates an error occurred attempting to register a
+    block while loading a language's module.
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
     def __init__(self, *args):
         """
-        Detailed description.
+        Initialize a new load error exception with any number of given positional arguments.
 
-        *args : Detailed description.
+        *args : Positional arguments passed on to the super exception class.
         """
         Exception.__init__(self,*args)
 
@@ -83,22 +101,23 @@ class RegisterError(Exception):
 
 
 
-class DuplicateError(Exception):
+class ScanError(Exception):
     """
-    Detailed description.
+    This is the scan error exception. This indicates an error occurred while scanning source files
+    while parsing a project.
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
     def __init__(self, *args):
         """
-        Detailed description.
+        Initialize a new load error exception with any number of given positional arguments.
 
-        *args : Detailed description.
+        *args : Positional arguments passed on to the super exception class.
         """
         Exception.__init__(self,*args)
 
@@ -111,13 +130,63 @@ class DuplicateError(Exception):
 
 class Block(abc.ABC):
     """
-    Detailed description.
+    This is the abstract block class. Blocks are the basic interface designed for languages to
+    implement themselves and communicate with the core application. Blocks are structured to form a
+    tree like structure to represent a single project. Properties are the basic concept used to save
+    all data of a specific block implementation. Interface methods are organized into basic,
+    property, and parsing categories. Edit definitions provided as a list of dictionaries through a
+    block's appropriate interface are used by the core application to provide an edit GUI for it.
+    Iteration and indexing of children blocks are supported through operators and methods. Saving a
+    block to XML or loading it from XML is supported.
+
+    Blocks are the basic interface designed for languages to implement themselves and communicate
+    with the core application. A block should represent an atomic element of a programming language,
+    such as a variable or function. In turn these blocks can form tree like relationships, such as
+    variables being children of a function that makes them the function's arguments.
+
+    Blocks are structured to form a tree like structure to represent a single project. Blocks can
+    have any number of children and only one parent. There is a root block for every project. A
+    specific block type is designated as the root block of a language and used to create a new
+    project.
+
+    Properties are the basic concept used to save all data of a specific block implementation.
+    Properties are stored in a block as a dictionary as key value pairs. Operator overloading for
+    attributes is implemented so any attribute that begins with "_p_" is intercepted and treated as
+    a property. In this fashion all properties must be attributes that start with "_p_".
+
+    Interface methods are organized into basic, property, and parsing categories. The basic category
+    provides basic information about the block that is used to display it in different views, a
+    build list to tell the core application what block types can be a block's child, and is volatile
+    checks to inform the application's model if a block can effect the view of blocks above or below
+    it. ...
+
+    Edit definitions provided as a list of dictionaries through a block's appropriate interface are
+    used by the core application to provide an edit GUI for it.
+
+    Iteration and indexing of children blocks are supported through operators and methods.
+
+    Saving a block to XML or loading it from XML is supported.
     """
 
 
     #######################
-    # PUBLIC - Interfaces #
+    # PUBLIC - Initialize #
     #######################
+
+
+    def __init__(self):
+        """
+        Detailed description.
+        """
+        abc.ABC.__init__(self)
+        self.__children = []
+        self.__parent = None
+        self.__properties = {}
+
+
+    #############################
+    # PUBLIC - Basic Interfaces #
+    #############################
 
 
     @abc.abstractmethod
@@ -160,6 +229,29 @@ class Block(abc.ABC):
         pass
 
 
+    def is_volatile_above(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
+        return False
+
+
+    def is_volatile_below(self):
+        """
+        Detailed description.
+
+        return : Yes
+        """
+        return False
+
+
+    ################################
+    # PUBLIC - Property Interfaces #
+    ################################
+
+
     @abc.abstractmethod
     def edit_definitions(self):
         """
@@ -190,6 +282,11 @@ class Block(abc.ABC):
         pass
 
 
+    ###############################
+    # PUBLIC - Parsing Interfaces #
+    ###############################
+
+
     def dir_name(self):
         """
         Detailed description.
@@ -208,24 +305,6 @@ class Block(abc.ABC):
         return None
 
 
-    def is_volatile_above(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        return False
-
-
-    def is_volatile_below(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        return False
-
-
     def parser(self):
         """
         Detailed description.
@@ -235,24 +314,9 @@ class Block(abc.ABC):
         pass
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
-    def __init__(self):
-        """
-        Detailed description.
-        """
-        abc.ABC.__init__(self)
-        self.__children = []
-        self.__parent = None
-        self.__properties = {}
-
-
-    #####################
-    # PUBLIC - Oprators #
-    #####################
+    ######################
+    # PUBLIC - Operators #
+    ######################
 
 
     def __eq__(self, other):
@@ -479,9 +543,9 @@ class Parser(abc.ABC):
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
     def __init__(self, root_block):
@@ -519,9 +583,9 @@ class Parser(abc.ABC):
         if self.__root_path == "" : raise RuntimeError("Root path is not set.")
         self._build_path_list_()
         if len(set(self.__paths)) != len(self.__paths) :
-            raise DuplicateError("Duplicate file names generated for parsing. This is caused by two"
-                                 " blocks generating an identical file name. Perhaps check for"
-                                 " blocks with the same display name and parent block.")
+            raise ScanError("Duplicate file names generated for parsing. This is caused by two"
+                            " blocks generating an identical file name. Perhaps check for blocks"
+                            " with the same display name and parent block.")
         for path in self.__paths :
             if os.path.isfile(path) : self._scan_(path)
         for path,block in zip(self.__paths,self.__blocks) :
@@ -617,9 +681,9 @@ class Factory():
     """
 
 
-    ########################
-    # PUBLIC - Initializer #
-    ########################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
     def __init__(self):
