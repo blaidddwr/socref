@@ -231,11 +231,11 @@ class Builder(Block):
 
         return : Yes
         """
-        if above._BLOCKNAME_ == "Module" :
-            if previous is not None and previous._BLOCKNAME_ == "Class" :
+        if above._TYPE_ == "Module" :
+            if previous is not None and previous._TYPE_ == "Class" :
                 return "\n"*settings.H1LINES
             else: return "\n"*settings.H2LINES
-        elif above._BLOCKNAME_ == "Access" : return "\n"*settings.H3LINES
+        elif above._TYPE_ == "Access" : return "\n"*settings.H3LINES
         else: raise RuntimeError("Unkonwn block type.")
 
 
@@ -249,7 +249,7 @@ class Builder(Block):
 
         return : Yes
         """
-        if self._BLOCKNAME_ != "Function" : return
+        if self._TYPE_ != "Function" : return
         ret = self.__build_header_(begin)
         ret += self.__build_doc_string_(begin)
         ret += self.__build_lines_(def_["functions"].get(self._p_name,[]),begin)

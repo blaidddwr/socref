@@ -58,7 +58,7 @@ class Block(abstract.Block):
 
         return : Yes
         """
-        if self._BLOCKNAME_ == "Package" : return self._p_name
+        if self._TYPE_ == "Package" : return self._p_name
 
 
     def icon(self):
@@ -153,7 +153,7 @@ class Builder(Block):
 
         return : Yes
         """
-        if self._BLOCKNAME_ != "Package" : return
+        if self._TYPE_ != "Package" : return
         ret = '"""\n'
         ret += util.wrap_blocks(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'

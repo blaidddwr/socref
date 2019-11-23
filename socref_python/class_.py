@@ -155,7 +155,7 @@ class Builder(Block):
 
         return : Yes
         """
-        if self._BLOCKNAME_ != "Class" : return
+        if self._TYPE_ != "Class" : return
         def_ = def_["classes"].get(self._p_name,{"functions":{}})
         ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
         if ret : ret += "\n"

@@ -204,17 +204,17 @@ class Builder(Block):
 
         return : Yes
         """
-        if above._BLOCKNAME_ == "Module" :
+        if above._TYPE_ == "Module" :
             if previous is None : return "\n"*settings.H3LINES
-            elif previous._BLOCKNAME_ == "Function" :
+            elif previous._TYPE_ == "Function" :
                 return "\n"*settings.H2LINES
-            elif previous._BLOCKNAME_ == "Class" :
+            elif previous._TYPE_ == "Class" :
                 return "\n"*settings.H1LINES
             else: return ""
-        elif above._BLOCKNAME_ == "Access" :
+        elif above._TYPE_ == "Access" :
             if previous is None :
                 return "\n"*settings.H3LINES
-            elif previous._BLOCKNAME_ == "Function" :
+            elif previous._TYPE_ == "Function" :
                 return "\n"*settings.H2LINES
             else:
                 return ""

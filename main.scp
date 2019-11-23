@@ -22,7 +22,7 @@
             </Module>
             <Module>
                 <__p_name>util</__p_name>
-                <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the application and language modules that use it.</__p_description>
+                <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the core application and language implementations.</__p_description>
                 <Function>
                     <__p_name>wrap_blocks</__p_name>
                     <__p_description>Wraps the given text into separate blocks that are in turn wrapped into multiple lines with the given begin string appended to each one and limited by the given number of columns per line. The delimiter for each given block is double new lines. The output of each block is separated by a line with the given separator string.</__p_description>
@@ -189,7 +189,7 @@ Return the wrapped text.</__p_inlines>
                 </Function>
                 <Class>
                     <__p_name>Singleton</__p_name>
-                    <__p_description>This is a descriptor class that will turn a class used by it to a singleton. It also provides a class method that returns the class object of the singleton instance.</__p_description>
+                    <__p_description>This is the descriptor class that turns a class used by it to a singleton. It provides a class method that returns the class object of the singleton instance.</__p_description>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -249,7 +249,7 @@ Return the wrapped text.</__p_inlines>
             </Module>
             <Module>
                 <__p_name>abstract</__p_name>
-                <__p_description>Contains all abstract and interface options used by the core application and any language implementation to communicate with one another.</__p_description>
+                <__p_description>Contains all abstract classes, factories, and interface functions used by the core application and any language implementation to communicate with one another.</__p_description>
                 <Function>
                     <__p_name>register_block</__p_name>
                     <__p_description>Registers the wrapped class object as a block with the given name for the language currently being loaded. This must be called when a language is being loaded.</__p_description>
@@ -331,7 +331,7 @@ Return the wrapper function.</__p_inlines>
                 </Class>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the abstract block class. Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. Blocks are structured to form a tree like structure to represent a single project. Properties are the basic concept used to save all data of a specific block implementation. Interface methods are organized into basic, property, and parsing categories. Edit definitions provided as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it. Iteration and indexing of children blocks are supported through operators and methods. Saving a block to XML or loading it from XML is supported.
+                    <__p_description>This is the abstract block class. Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. Blocks are structured to form a tree like structure to represent a single project. Properties are the basic concept used to save all data of a specific block implementation. Interface methods are organized into basic, property, and parsing categories. Edit definitions provide as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it. Iteration and indexing of children blocks are supported through operators and methods. Saving a block to XML or loading it from XML is supported.
 
 Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. A block should represent an atomic element of a programming language, such as a variable or function. In turn these blocks can form tree like relationships, such as variables being children of a function that makes them the function's arguments.
 
@@ -339,13 +339,13 @@ Blocks are structured to form a tree like structure to represent a single projec
 
 Properties are the basic concept used to save all data of a specific block implementation. Properties are stored in a block as a dictionary as key value pairs. Operator overloading for attributes is implemented so any attribute that begins with &quot;_p_&quot; is intercepted and treated as a property. In this fashion all properties must be attributes that start with &quot;_p_&quot;.
 
-Interface methods are organized into basic, property, and parsing categories. The basic category provides basic information about the block that is used to display it in different views, a build list to tell the core application what block types can be a block's child, and is volatile checks to inform the application's model if a block can effect the view of blocks above or below it. ...
+Interface methods are organized into basic, property, and parsing categories. The basic category provides basic information about the block that is used to display it in different views, a build list to tell the core application what block types can be a block's child, and &quot;is volatile&quot; checks to inform the application's model if a block can effect the view of blocks above or below it. The property category provides edit definitions that allow the core application to build a form widget for editing all of a block's properties, setting default properties, and clearing all properties. The parsing category provides a factory for abstract parser implementations and two helper interfaces for determining if a block is the root of a source code file or directory.
 
-Edit definitions provided as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it.
+Edit definitions provide as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it. Helper functions are provided in the utility module for producing edit definition dictionaries. The possible definition types are line edit, text edit, checkbox edit, combo box edit, and hidden edit. A line edit provides a single line to edit a property. A text edit provides a multi-line editor to edit a property, along with a popup text editor and optional spell checking. A checkbox edit provides a true or false checkbox to edit a property to &quot;1&quot; for true or &quot;0&quot; for false. A combo box edit provides a list of provided text values to edit a property.
 
-Iteration and indexing of children blocks are supported through operators and methods.
+Iteration and indexing of children blocks are supported through operators and methods. Iteration of child blocks is provided through the common python operators. Indexing is also supported through the common python operators. Other common list methods are also implemented such as insert and pop for manipulating a block's children. Index is also provided for determining the index of a block in its parent's list of children.
 
-Saving a block to XML or loading it from XML is supported.
+Saving a block to XML or loading it from XML is supported. A qt XML stream writer or reader is used for saving or loading to or from XML, respectively.
 </__p_description>
                     <__p_parents>abc.ABC</__p_parents>
                     <Access>
@@ -353,9 +353,10 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new abstract block.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initial an empty list of children, no parent, and an empty property dictionary.</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -363,43 +364,43 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns a qt icon used to represent this block.</__p_description>
+                            <__p_return_description>Qt icon that represents this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns a string that is the name of this block.</__p_description>
+                            <__p_return_description>String that is the name of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns a string in qt rich text format that gives a detailed description of this block.</__p_description>
+                            <__p_return_description>Qt rich text string that is a detailed description of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns a list of block types that can be children of this block.</__p_description>
+                            <__p_return_description>List of block types that can be children of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>is_volatile_above</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns a Boolean indicating if a change in its properties can effect the blocks above it. Above in this context is going up a block's parent. The default implementation returns false.</__p_description>
+                            <__p_return_description>True if this block can effect the blocks above it or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>is_volatile_below</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns a Boolean indicating if a change in its properties can effect the blocks below it. Below in this context is going down a block's children. The default implementation returns false.</__p_description>
+                            <__p_return_description>True if this block can effect the blocks below it or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -409,22 +410,20 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns a list of edit definition dictionaries informing the core application how to build  the edit GUI for this block.</__p_description>
+                            <__p_return_description>List of edit definition dictionaries.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface sets all of this block's properties to their default state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>clear_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface clears all of this block's properties to their null state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
@@ -434,22 +433,22 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>dir_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns the directory name this block represents in the source code structure of its respective project, if any. If this block does not represent a directory then this returns none. The default implementation returns none.</__p_description>
+                            <__p_return_description>The directory name this block represents in the source code or none if it does not represent a directory.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>file_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns the file name this block represents in the source code of its respective project, if any. If this block does not represent a file then this returns none. The default implementation returns none.</__p_description>
+                            <__p_return_description>The file name this block represents in the source code or none if it does not represent a file.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>parser</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface returns an abstract parser implementation used to parse the source code of a project if this is the root block. If this is not the root block it returns none. The default implementation returns none.</__p_description>
+                            <__p_return_description>An abstract parser implementation used to parse this root block's project or none if this is not a root block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -459,84 +458,84 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__eq__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the equality operator. This only returns true if the other object is this instance itself.</__p_description>
+                            <__p_return_description>True if the other object is this instance or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>other</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>Another block that is evaluated for equality with this one.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__len__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the length operator. Returns the total number of children of this block.</__p_description>
+                            <__p_return_description>Total number of children of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__contains__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the contain operator. Returns true if the given block is a child of this block.</__p_description>
+                            <__p_return_description>True if the given block is a child of this block or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>block</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>Another block that is evaluated.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__iter__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the iterator operator. Returns the iterator of this block's list of children.</__p_description>
+                            <__p_return_description>Iterator of this block's list of children.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__getitem__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the get item operator. Returns this block's child block with the given integer index.</__p_description>
+                            <__p_return_description>This block's child block with the given index.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The integer index of this block's child block that is returned.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__delitem__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the delete item operator. Deletes this block's child block with the given integer index.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The integer index of this block's child block that is deleted.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__getattr__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the get attribute operator. Intercepts and returns the value of any property attribute that begins with &quot;_p_&quot;, else returns the default get attribute operator.</__p_description>
+                            <__p_return_description>The property attribute that begins with &quot;_p_&quot; or the default get attribute operator return value otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>key</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The key of the attribute whose value is returned.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__setattr__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the set attribute operator. Intercepts and sets the value of any property attribute that begins with &quot;_p_&quot; to the given item, else calls the default set attribute operator to the given item.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>key</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The key of the attribute whose value is set to the given item.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>item</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>An item used to set the attribute with the given key.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -544,112 +543,152 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>type_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Returns the parent block of this block or none if this block has no parent.</__p_description>
+                            <__p_return_description>The parent block of this block or none if this block has no parent.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>index</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Returns the integer index of this block within its parent block's list of children. This block must have a parent.</__p_description>
+                            <__p_return_description>Integer index of this block within its parent block's list of children.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>insert</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Inserts the given block as a new child into this block's list of children at the given index. The given block cannot already have a parent.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure the given block does not have a parent.
+
+Insert the given block into this block's list of children at the given index and set its parent to this block.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The index where the given block is inserted into this block's list of children.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>block</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A block that is inserted as a new child to this block.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>append</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Appends the given block as a new child into this block's list of children. The given block cannot already have a parent.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>block</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A block that is appended as a new child to this block.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>pop</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Removes a child block of this block with the given index and returns it.</__p_description>
+                            <__p_return_description>Removed child block of this block with the given index.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Pop the child block from this block's list of children and then set its parent to none.
+
+Return the removed child block.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The index of the removed and returned child block.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>to_xml</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Saves this block's properties and all of its children block's properties to XML using the given qt XML writer stream.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Write a start XML element for this block.
+
+Iterate through all properties of this block.
+
+If the property is not an empty string then write it as a XML text element, using the key with an underscore appended to it as the tag.
+
+Iterate through all children of this block and call their to XML method.
+
+Write an end XML element.
+</__p_inlines>
                             <Object>
                                 <__p_name>stream</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A qt writer stream used to save all block's properties and children.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>set_from_xml</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Loads this block's properties and all children block's properties from XML using the given qt reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Clear all of this block's properties and children.
+
+Continue while the given stream is not at the end.
+
+Read the next XML element.
+
+Check to see if it is a start element.
+
+Get its tag name and check to see if it begins with an underscore and is therefore a property.
+
+Get the property key and set this block's property with the text enclosed in the XML tag if the key is a valid property.
+
+Else this is the start tag of a child block.
+
+Create a new child block with the type encoded within the tag name, call its set to XML method using the given stream, and then append it to this block as a new child.
+
+Else if this is the end element for this block then break out of the reading loop.
+</__p_inlines>
                             <Object>
                                 <__p_name>stream</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A qt reader stream used to load all block's properties and children.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Returns this block's properties dictionary.</__p_description>
+                            <__p_return_description>Properties dictionary of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>set_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Sets this block's properties dictionary to the given dictionary.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>props</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A dictionary that is set as this block's new properties dictionary.</__p_description>
                             </Object>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Parser</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the abstract parser class. A parser is the interface implemented by a language to parse its source code from a project. The parsing process is separated into building a path list, scanning, and building.
+
+A parser is the interface implemented by a language to parse its source code from a project. When the core application parses the source code of a project it creates a new abstract parser from the root block of the project that is to be parsed. The abstract parser in turn handles parsing all source code files using the root block of the project. A root path is also set that is used as the root location for all source code directories and/or files.
+
+The parsing process is separated into building a path list, scanning, and building. The building a path list step builds a list of paths and associated blocks where source file codes should exist within the root path. The scanning step reads and scans every source code file for each path generated from the previous step. The build step generates new contents for each source code file generated from the first step, using the associated block from the first step and any scanned input from the previous step. If a file does not exist for a given path it is ignored in the scan step. Before parsing can begin the root path must be set.
+</__p_description>
                     <__p_parents>abc.ABC</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new abstract parser with the given root block.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the root block and an empty root path.
+
+Initialize the empty paths and blocks lists.
+
+Initialize the building paths indicator.
+</__p_inlines>
                             <Object>
                                 <__p_name>root_block</__p_name>
                                 <__p_description>Detailed description.</__p_description>
@@ -661,19 +700,31 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>set_root_path</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Sets the root path of this parser. This can only be called once when this parser's root path is empty.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The root path of this parser.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>parse</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Parses the source code of the project of this parser's root block. The root path of this parser must be set.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this parser's root path is set.
+
+Call this parser's build path list interface.
+
+Make sure there are no duplicates paths in the generated path list.
+
+Iterate through the path list, scanning the source code file if it exists.
+
+Iterate through the path and block lists as a tuple, building each source code file with the associated path and block.
+
+Clear the path and block lists.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -681,33 +732,33 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Protected</__p_type>
                         <Function>
                             <__p_name>_build_path_list_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>This interface builds the path list.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>_scan_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>This interface scans the source code file at the given path. The given path exists and is a regular file.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The path of the source code file that is scanned.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_build_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface builds and returns the new contents of the source code file at the given path with the associated block as a string.</__p_description>
+                            <__p_return_description>New contents of the source code file at the given path.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                             <Object>
                                 <__p_name>block</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The block associated with the given source code file path.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The path of the source code file whose contents are returned.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -715,17 +766,28 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_add_path_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>root_block</__p_name>
+                            <__p_description>Returns the root block of this parser.</__p_description>
+                            <__p_return_description>Root block of this parser.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>_add_path_</__p_name>
+                            <__p_description>Adds the given source code file path and associated block to the list of paths and associated blocks to be scanned and built. This must be called within the build path list interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this parser's root path has been set and it is currently building paths.
+
+Append the given source code file path and associated block to their respective lists.
+</__p_inlines>
                             <Object>
                                 <__p_name>block</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The block associated with the source code file path.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The source code file path.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -734,32 +796,49 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__build_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Builds new contents for the source code at the given file path with the associated file. The file is overwritten with the new contents only if they are different from the current contents or the file does not exist.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If the directory of the given path does not exist then create it, including any sub directories that also do not exist.
+
+Check to see if the file exists.
+
+Read in the old contents of the file, generate the new contents of the file, and overwrite the file only if the new contents differ from the old.
+
+Else the file does not exist so create a new file with the generated contents.
+</__p_inlines>
                             <Object>
                                 <__p_name>block</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The block associated with the source code file path.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The path to the source code file that is built.</__p_description>
                             </Object>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Factory</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the singleton block factory class. It loads new languages by importing their module and registering their block types during the load process. It provides a list of languages and block types per language. It creates new blocks.
+
+It creates new blocks. Blocks can be created by language and type or the root type of a language.
+</__p_description>
                     <__p_descriptors>util.Singleton</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new factory.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the root block keyword string.
+
+Initialize the empty loaded languages dictionary.
+
+Initialize the importing language reference and name to none.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -767,84 +846,100 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>load</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Loads a new language into this factory. The given language name must be unique.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure the given language name has not already been loaded.
+
+Initialize a new empty language dictionary to this factory's dictionary of languages and set its reference and name to the new language.
+
+Import the module of the new language, making sure at least the root block was registered.
+
+If any exception occurs while loading delete the new language from this factory's dictionary of languages and raise the exception again.
+
+Set this factory's importing language reference and name back to none.
+</__p_inlines>
                             <Object>
                                 <__p_name>lang_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The language name that is loaded.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>import_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The module name of the language that is loaded.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>register_block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Registers the given block class with the given type name to the language currently being loaded by this factory. A language must be currently loading by this factory. The given type name must be unique within its language and cannot be the reserved name &quot;##ROOT##&quot;.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure the given type name is not the special block root key.
+
+Register the given class with the given type name.
+
+Set special static strings to the registered class so it can reference its language name and type name.
+</__p_inlines>
                             <Object>
                                 <__p_name>class_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A class object that is registered as a block type of the currently loading language.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The type name of the block that is registered.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>register_root_block</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Registers the given block class as the root block type of the language currently being loaded by this factory. Only one class object can be the root block of a language so this can only be called once per language load.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>class_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A class object that is registered as the root block type of the currently loading language.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>langs</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Returns a sorted list of language names this factory has loaded.</__p_description>
+                            <__p_return_description>Sorted list of languages names this factory has loaded.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>blocks</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Returns a list of registered block type names for a language with the given name that this factory has loaded. The given language name must exist in this factory.</__p_description>
+                            <__p_return_description>List of registered block type names for the given language.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>lang_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The language name whose list of registered block types are returned.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>create</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Returns a new block of the given type and from the given language. The given language name and block type name must exist in this factory.</__p_description>
+                            <__p_return_description>New block of the given type from the given language.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>lang_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The name of the language of the created block.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>block_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_name>type_name</__p_name>
+                                <__p_description>The type name of the created block.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>create_root</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Returns a new root block from the given language. The given language must exist in this factory.</__p_description>
+                            <__p_return_description>New root block from the given language.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>lang_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The name of the language of the created root block.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -853,16 +948,16 @@ Saving a block to XML or loading it from XML is supported.
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__register_block_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Registers the given block class with the given key to the language currently being loaded by this factory.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>class_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A class object that is registered as a block type of the currently loading language.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_name>key</__p_name>
+                                <__p_description>The key used to add the class object to the language dictionary currently being loaded by this factory.</__p_description>
                             </Object>
                         </Function>
                     </Access>

@@ -1,6 +1,6 @@
 """
-Contains all utility functions and classes that provide basic utilities to the rest of the
-application and language modules that use it.
+Contains all utility functions and classes that provide basic utilities to the rest of the core
+application and language implementations.
 """
 
 
@@ -196,8 +196,8 @@ def hidden_edit(key, value):
 
 class Singleton():
     """
-    This is a descriptor class that will turn a class used by it to a singleton. It also provides a
-    class method that returns the class object of the singleton instance.
+    This is the descriptor class that turns a class used by it to a singleton. It provides a class
+    method that returns the class object of the singleton instance.
     """
 
 

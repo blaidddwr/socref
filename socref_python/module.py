@@ -44,7 +44,7 @@ class Block(package.Block):
 
         return : Yes
         """
-        if self._BLOCKNAME_ == "Module" : return self._p_name + ".py"
+        if self._TYPE_ == "Module" : return self._p_name + ".py"
 
 
     def icon(self):
@@ -99,7 +99,7 @@ class Builder(Block):
 
         return : Yes
         """
-        if self._BLOCKNAME_ != "Module" : return
+        if self._TYPE_ != "Module" : return
         ret = '"""\n'
         ret += util.wrap_blocks(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'

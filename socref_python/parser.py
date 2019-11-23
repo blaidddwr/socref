@@ -126,7 +126,7 @@ class Parser(abstract.Parser):
         """
         Detailed description.
         """
-        self.__build_paths_(self._root_block,"")
+        self.__build_paths_(self._root_block_(),"")
 
 
     def _scan_(self, path):

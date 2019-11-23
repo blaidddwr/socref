@@ -78,7 +78,7 @@ class Block(abstract.Block):
 
         return : Yes
         """
-        return self._p_name
+        return self._p_name + " (%i)" % len(self)
 
 
     def display_view(self):
@@ -174,7 +174,7 @@ class Builder(Block):
 
         return : Yes
         """
-        if self._BLOCKNAME_ != "Access" : return
+        if self._TYPE_ != "Access" : return
         line = "# %s - %s #" % (self._p_type.upper(),self._p_name)
         ret = begin + "#"*len(line) + "\n"
         ret += begin + line + "\n"

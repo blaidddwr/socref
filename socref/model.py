@@ -220,7 +220,7 @@ class Project(qtc.QAbstractItemModel):
         self.__name = name
         try:
             stream.readNextStartElement()
-            if stream.name() != self.__root.type_name() :
+            if stream.name() != self.__root._TYPE_ :
                 raise LoadError("Invalid/missing XML root block tag.")
             self.__root.set_from_xml(stream)
         except:
@@ -413,7 +413,7 @@ class Project(qtc.QAbstractItemModel):
             elif role == Role.VIEW : return block.display_view()
             elif role == Role.EDIT_DEFS : return block.edit_definitions()
             elif role == Role.PROPERTIES : return block.properties()
-            elif role == Role.BLOCK_TYPE : return block.type_name()
+            elif role == Role.BLOCK_TYPE : return block._TYPE_
 
 
     def setData(self, index, value, role):
@@ -531,7 +531,7 @@ class Project(qtc.QAbstractItemModel):
             block = self.__block_(index)
             if block is not None :
                 block.to_xml(stream)
-                block_names.add(block.type_name())
+                block_names.add(block._TYPE_)
         stream.writeEndElement()
         stream.writeEndDocument()
         return xml,block_names
@@ -578,7 +578,10 @@ class Project(qtc.QAbstractItemModel):
         return : Yes
         """
         if self.__root is not None :
-            return self.__root.parser()
+            ret = self.__root.parser()
+            if not isinstance(ret,abstract.Parser) :
+                raise RuntimeError("Generated parser is not an abstract parser.")
+            return ret
 
 
     ####################
