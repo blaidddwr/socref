@@ -5,6 +5,7 @@ any language implementation to communicate with one another.
 import abc
 import os
 import importlib
+from . import exception
 from . import util
 
 
@@ -39,87 +40,6 @@ def register_block(name, root=False):
     # Return the wrapper function.
     #
     return wrapper
-
-
-
-
-
-
-
-
-class LoadError(Exception):
-    """
-    This is the load error exception. This indicates an error occurred while loading a language's
-    module.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self, *args):
-        """
-        Initialize a new load error exception with any number of given positional arguments.
-
-        *args : Positional arguments passed on to the super exception class.
-        """
-        Exception.__init__(self,*args)
-
-
-
-
-
-
-
-
-class RegisterError(Exception):
-    """
-    This is the register error exception. This indicates an error occurred attempting to register a
-    block while loading a language's module.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self, *args):
-        """
-        Initialize a new load error exception with any number of given positional arguments.
-
-        *args : Positional arguments passed on to the super exception class.
-        """
-        Exception.__init__(self,*args)
-
-
-
-
-
-
-
-
-class ScanError(Exception):
-    """
-    This is the scan error exception. This indicates an error occurred while scanning source files
-    while parsing a project.
-    """
-
-
-    #######################
-    # PUBLIC - Initialize #
-    #######################
-
-
-    def __init__(self, *args):
-        """
-        Initialize a new load error exception with any number of given positional arguments.
-
-        *args : Positional arguments passed on to the super exception class.
-        """
-        Exception.__init__(self,*args)
 
 
 
@@ -210,9 +130,9 @@ class Block(abc.ABC):
     @abc.abstractmethod
     def icon(self):
         """
-        This interface returns a qt icon used to represent this block.
+        This interface is a getter method.
 
-        return : Qt icon that represents this block.
+        return : A qt icon that represents this block.
         """
         pass
 
@@ -220,9 +140,9 @@ class Block(abc.ABC):
     @abc.abstractmethod
     def display_name(self):
         """
-        This interface returns a string that is the name of this block.
+        This interface is a getter method.
 
-        return : String that is the name of this block.
+        return : A string that is the display name of this block.
         """
         pass
 
@@ -230,10 +150,9 @@ class Block(abc.ABC):
     @abc.abstractmethod
     def display_view(self):
         """
-        This interface returns a string in qt rich text format that gives a detailed description of
-        this block.
+        This interface is a getter method.
 
-        return : Qt rich text string that is a detailed description of this block.
+        return : A string in qt rich text format that gives a detailed description of this block.
         """
         pass
 
@@ -241,31 +160,31 @@ class Block(abc.ABC):
     @abc.abstractmethod
     def build_list(self):
         """
-        This interface returns a list of block types that can be children of this block.
+        This interface is a getter method.
 
-        return : List of block types that can be children of this block.
+        return : A list of block types that can be children of this block.
         """
         pass
 
 
     def is_volatile_above(self):
         """
-        This interface returns a Boolean indicating if a change in its properties can effect the
-        blocks above it. Above in this context is going up a block's parent. The default
-        implementation returns false.
+        This interface is a getter method. The default implementation returns false.
 
-        return : True if this block can effect the blocks above it or false otherwise.
+        return : A Boolean indicating if a change in this block's properties can effect the blocks
+                 above it. Above in this context is going up a block's parent. True if this block
+                 can effect the blocks above it or false otherwise.
         """
         return False
 
 
     def is_volatile_below(self):
         """
-        This interface returns a Boolean indicating if a change in its properties can effect the
-        blocks below it. Below in this context is going down a block's children. The default
-        implementation returns false.
+        This interface is a getter method. The default implementation returns false.
 
-        return : True if this block can effect the blocks below it or false otherwise.
+        return : A Boolean indicating if a change in this block's properties can effect the blocks
+                 below it. Below in this context is going down a block's children. True if this
+                 block can effect the blocks below it or false otherwise.
         """
         return False
 
@@ -278,10 +197,10 @@ class Block(abc.ABC):
     @abc.abstractmethod
     def edit_definitions(self):
         """
-        This interface returns a list of edit definition dictionaries informing the core application
-        how to build the edit GUI for this block.
+        This interface is a getter method.
 
-        return : List of edit definition dictionaries.
+        return : A list of edit definition dictionaries informing the core application how to build
+                 the edit GUI for this block.
         """
         pass
 
@@ -309,36 +228,31 @@ class Block(abc.ABC):
 
     def dir_name(self):
         """
-        This interface returns the directory name this block represents in the source code structure
-        of its respective project, if any. If this block does not represent a directory then this
-        returns none. The default implementation returns none.
+        This interface is a getter method. The default implementation returns none.
 
-        return : The directory name this block represents in the source code or none if it does not
-                 represent a directory.
+        return : A directory name this block represents in the source code structure of its
+                 respective project, if any. If this block does not represent a directory then none
+                 is returned.
         """
         pass
 
 
     def file_name(self):
         """
-        This interface returns the file name this block represents in the source code of its
-        respective project, if any. If this block does not represent a file then this returns none.
-        The default implementation returns none.
+        This interface is a getter method. The default implementation returns none.
 
-        return : The file name this block represents in the source code or none if it does not
-                 represent a file.
+        return : A file name this block represents in the source code of its respective project, if
+                 any. If this block does not represent a file then none is returned.
         """
         pass
 
 
     def parser(self):
         """
-        This interface returns an abstract parser implementation used to parse the source code of a
-        project if this is the root block. If this is not the root block it returns none. The
-        default implementation returns none.
+        This interface is a getter method. The default implementation returns none.
 
-        return : An abstract parser implementation used to parse this root block's project or none
-                 if this is not a root block.
+        return : An abstract parser implementation used to parse the source code of a project if
+                 this is the root block, else none if this is not the root block.
         """
         pass
 
@@ -350,8 +264,7 @@ class Block(abc.ABC):
 
     def __eq__(self, other):
         """
-        Implements the equality operator. This only returns true if the other object is this
-        instance itself.
+        Implements the equality operator.
 
         other : Another block that is evaluated for equality with this one.
 
@@ -362,7 +275,7 @@ class Block(abc.ABC):
 
     def __len__(self):
         """
-        Implements the length operator. Returns the total number of children of this block.
+        Implements the length operator.
 
         return : Total number of children of this block.
         """
@@ -371,7 +284,7 @@ class Block(abc.ABC):
 
     def __contains__(self, block):
         """
-        Implements the contain operator. Returns true if the given block is a child of this block.
+        Implements the contain operator.
 
         block : Another block that is evaluated.
 
@@ -382,7 +295,7 @@ class Block(abc.ABC):
 
     def __iter__(self):
         """
-        Implements the iterator operator. Returns the iterator of this block's list of children.
+        Implements the iterator operator.
 
         return : Iterator of this block's list of children.
         """
@@ -391,8 +304,7 @@ class Block(abc.ABC):
 
     def __getitem__(self, index):
         """
-        Implements the get item operator. Returns this block's child block with the given integer
-        index.
+        Implements the get item operator.
 
         index : The integer index of this block's child block that is returned.
 
@@ -413,8 +325,7 @@ class Block(abc.ABC):
 
     def __getattr__(self, key):
         """
-        Implements the get attribute operator. Intercepts and returns the value of any property
-        attribute that begins with "_p_", else returns the default get attribute operator.
+        Implements the get attribute operator. Intercepts the value of any property attribute.
 
         key : The key of the attribute whose value is returned.
 
@@ -446,7 +357,7 @@ class Block(abc.ABC):
 
     def parent(self):
         """
-        Returns the parent block of this block or none if this block has no parent.
+        Getter method.
 
         return : The parent block of this block or none if this block has no parent.
         """
@@ -455,10 +366,9 @@ class Block(abc.ABC):
 
     def index(self):
         """
-        Returns the integer index of this block within its parent block's list of children. This
-        block must have a parent.
+        Getter method. This block must have a parent.
 
-        return : Integer index of this block within its parent block's list of children.
+        return : The integer index of this block within its parent block's list of children.
         """
         if self.__parent is None : raise RuntimeError("Cannot get index of block with no parent.")
         return self.__parent.__children.index(self)
@@ -498,7 +408,7 @@ class Block(abc.ABC):
 
     def pop(self, index):
         """
-        Removes a child block of this block with the given index and returns it.
+        Removes a child block of this block with the given index.
 
         index : The index of the removed and returned child block.
 
@@ -606,7 +516,7 @@ class Block(abc.ABC):
 
     def properties(self):
         """
-        Returns this block's properties dictionary.
+        Getter method.
 
         return : Properties dictionary of this block.
         """
@@ -713,9 +623,10 @@ class Parser(abc.ABC):
         # Make sure there are no duplicates paths in the generated path list.
         #
         if len(set(self.__paths)) != len(self.__paths) :
-            raise ScanError("Duplicate file names generated for parsing. This is caused by two"
-                            " blocks generating an identical file name. Perhaps check for blocks"
-                            " with the same display name and parent block.")
+            raise exception.ScanError("Duplicate file names generated for parsing. This is caused"
+                                      " by two blocks generating an identical file name. Perhaps"
+                                      " check for blocks with the same display name and parent"
+                                      " block.")
         #
         # Iterate through the path list, scanning the source code file if it exists.
         #
@@ -761,14 +672,14 @@ class Parser(abc.ABC):
     @abc.abstractmethod
     def _build_(self, block, path):
         """
-        This interface builds and returns the new contents of the source code file at the given path
-        with the associated block as a string.
+        This interface is a builder method.
 
         block : The block associated with the given source code file path.
 
         path : The path of the source code file whose contents are returned.
 
-        return : New contents of the source code file at the given path.
+        return : The new string contents of the source code file at the given path and associated
+                 block.
         """
         pass
 
@@ -778,9 +689,9 @@ class Parser(abc.ABC):
     #######################
 
 
-    def root_block(self):
+    def _root_block_(self):
         """
-        Returns the root block of this parser.
+        Getter method.
 
         return : Root block of this parser.
         """
@@ -902,7 +813,7 @@ class Factory():
         # Make sure the given language name has not already been loaded.
         #
         if lang_name in self.__langs.keys() :
-            raise LoadError("Language already loaded with the same name")
+            raise exception.LangError("Language already loaded with the same name")
         #
         # Initialize a new empty language dictionary to this factory's dictionary of languages and
         # set its reference and name to the new language.
@@ -917,7 +828,7 @@ class Factory():
             #
             module = importlib.import_module(import_name)
             if self.__ROOT not in self.__importing_lang:
-                raise LoadError("Language did not register a root block.")
+                raise exception.LangError("Language did not register a root block.")
         except:
             #
             # If any exception occurs while loading delete the new language from this factory's
@@ -948,7 +859,7 @@ class Factory():
         # Make sure the given type name is not the special block root key.
         #
         if name == self.__ROOT :
-            raise RegisterError("Block class cannot register with reserved name.")
+            raise exception.RegisterError("Block class cannot register with reserved name.")
         #
         # Register the given class with the given type name.
         #
@@ -975,9 +886,9 @@ class Factory():
 
     def langs(self):
         """
-        Returns a sorted list of language names this factory has loaded.
+        Getter method.
 
-        return : Sorted list of languages names this factory has loaded.
+        return : A sorted list of languages names this factory has loaded.
         """
         ret = list(self.__langs.keys())
         ret.sort()
@@ -986,38 +897,36 @@ class Factory():
 
     def blocks(self, lang_name):
         """
-        Returns a list of registered block type names for a language with the given name that this
-        factory has loaded. The given language name must exist in this factory.
+        Getter method. The given language name must exist in this factory.
 
         lang_name : The language name whose list of registered block types are returned.
 
-        return : List of registered block type names for the given language.
+        return : A list of registered block type names for a language with the given name that this
+                 factory has loaded.
         """
         return self.__langs[lang_name].keys()
 
 
     def create(self, lang_name, type_name):
         """
-        Returns a new block of the given type and from the given language. The given language name
-        and block type name must exist in this factory.
+        Builder method. The given language name and block type name must exist in this factory.
 
         lang_name : The name of the language of the created block.
 
         type_name : The type name of the created block.
 
-        return : New block of the given type from the given language.
+        return : A new block of the given type from the given language.
         """
         return self.__langs[lang_name][type_name]()
 
 
     def create_root(self, lang_name):
         """
-        Returns a new root block from the given language. The given language must exist in this
-        factory.
+        Builder method. The given language must exist in this factory.
 
         lang_name : The name of the language of the created root block.
 
-        return : New root block from the given language.
+        return : A new root block from the given language.
         """
         return self.__langs[lang_name][self.__ROOT]()
 
@@ -1038,13 +947,23 @@ class Factory():
         key : The key used to add the class object to the language dictionary currently being loaded
               by this factory.
         """
+        #
+        # Make sure this factory is loading a project, the given block type key does not begin with
+        # an underscore, a block class is not already registered with the given key, and the given
+        # block class is an abstract block instance.
+        #
         if self.__importing_lang is None :
-            raise RegisterError("Cannot register block class when no language is being imported.")
+            raise exception.RegisterError("Cannot register block class when no language is being"
+                                          " imported.")
         if key.startswith("_") :
-            raise RegisterError("Block name cannot start with an underscore.")
+            raise exception.RegisterError("Block type name cannot start with an underscore.")
         if key in self.__importing_lang.keys() :
-            raise RegisterError("Block class is already registered with the same name.")
+            raise exception.RegisterError("Block class is already registered with the same name.")
         if not issubclass(class_,Block) :
             print(class_)
-            raise RegisterError("Block class is not an Abstract Block.")
+            raise exception.RegisterError("Block class is not an Abstract Block.")
+        #
+        # Register the given block class to the given key of the currently loading language
+        # dictionary.
+        #
         self.__importing_lang[key] = class_;

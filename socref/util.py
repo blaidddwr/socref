@@ -223,7 +223,7 @@ class Singleton():
 
     def __call__(self):
         """
-        Returns the singleton instance that this descriptor instance manages.
+        Implements the call operator.
 
         return : The singleton instance of this descriptor's class.
         """
@@ -237,7 +237,7 @@ class Singleton():
 
     def class_(self):
         """
-        Returns the class object that this descriptor instance manages.
+        Getter method.
 
         return : The class object of this descriptor.
         """

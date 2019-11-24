@@ -7,6 +7,86 @@
             <__p_name>socref</__p_name>
             <__p_description>Contains the core application for Socrates' Reference.</__p_description>
             <Module>
+                <__p_name>exception</__p_name>
+                <__p_description>Contains all custom exception classes that this core application can raise.</__p_description>
+                <Class>
+                    <__p_name>LangError</__p_name>
+                    <__p_description>This is the import error exception class. It indicates an error occurred while loading a language's module.</__p_description>
+                    <__p_parents>Exception</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>*args</__p_name>
+                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>RegisterError</__p_name>
+                    <__p_description>This is the register error exception class. It indicates an error occurred attempting to register a block while loading a language's module.</__p_description>
+                    <__p_parents>Exception</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>*args</__p_name>
+                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>LoadError</__p_name>
+                    <__p_description>This is the load error exception class. It indicates an error occurred attempting to load a project from its saved file.</__p_description>
+                    <__p_parents>Exception</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>*args</__p_name>
+                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>ScanError</__p_name>
+                    <__p_description>This is the scan error exception class. It indicates an error occurred while scanning source files while parsing a project.</__p_description>
+                    <__p_parents>Exception</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>*args</__p_name>
+                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for the core application.</__p_description>
                 <Object>
@@ -209,7 +289,7 @@ Return the wrapped text.</__p_inlines>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__call__</__p_name>
-                            <__p_description>Returns the singleton instance that this descriptor instance manages.</__p_description>
+                            <__p_description>Implements the call operator.</__p_description>
                             <__p_return_description>The singleton instance of this descriptor's class.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -220,7 +300,7 @@ Return the wrapped text.</__p_inlines>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>class_</__p_name>
-                            <__p_description>Returns the class object that this descriptor instance manages.</__p_description>
+                            <__p_description>Getter method.</__p_description>
                             <__p_return_description>The class object of this descriptor.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -273,63 +353,6 @@ Return the wrapper function.</__p_inlines>
                     </Object>
                 </Function>
                 <Class>
-                    <__p_name>LoadError</__p_name>
-                    <__p_description>This is the load error exception. This indicates an error occurred while loading a language's module.</__p_description>
-                    <__p_parents>Exception</__p_parents>
-                    <Access>
-                        <__p_name>Initialize</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>*args</__p_name>
-                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                </Class>
-                <Class>
-                    <__p_name>RegisterError</__p_name>
-                    <__p_description>This is the register error exception. This indicates an error occurred attempting to register a block while loading a language's module.</__p_description>
-                    <__p_parents>Exception</__p_parents>
-                    <Access>
-                        <__p_name>Initialize</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>*args</__p_name>
-                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                </Class>
-                <Class>
-                    <__p_name>ScanError</__p_name>
-                    <__p_description>This is the scan error exception. This indicates an error occurred while scanning source files while parsing a project.</__p_description>
-                    <__p_parents>Exception</__p_parents>
-                    <Access>
-                        <__p_name>Initialize</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initialize a new load error exception with any number of given positional arguments.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>*args</__p_name>
-                                <__p_description>Positional arguments passed on to the super exception class.</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                </Class>
-                <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the abstract block class. Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. Blocks are structured to form a tree like structure to represent a single project. Properties are the basic concept used to save all data of a specific block implementation. Interface methods are organized into basic, property, and parsing categories. Edit definitions provide as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it. Iteration and indexing of children blocks are supported through operators and methods. Saving a block to XML or loading it from XML is supported.
 
@@ -354,9 +377,9 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new abstract block.</__p_description>
+                            <__p_inlines>Initial an empty list of children, no parent, and an empty property dictionary.</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_inlines>Initial an empty list of children, no parent, and an empty property dictionary.</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -364,43 +387,43 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
-                            <__p_description>This interface returns a qt icon used to represent this block.</__p_description>
-                            <__p_return_description>Qt icon that represents this block.</__p_return_description>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A qt icon that represents this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_name</__p_name>
-                            <__p_description>This interface returns a string that is the name of this block.</__p_description>
-                            <__p_return_description>String that is the name of this block.</__p_return_description>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A string that is the display name of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
-                            <__p_description>This interface returns a string in qt rich text format that gives a detailed description of this block.</__p_description>
-                            <__p_return_description>Qt rich text string that is a detailed description of this block.</__p_return_description>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A string in qt rich text format that gives a detailed description of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
-                            <__p_description>This interface returns a list of block types that can be children of this block.</__p_description>
-                            <__p_return_description>List of block types that can be children of this block.</__p_return_description>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A list of block types that can be children of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>is_volatile_above</__p_name>
-                            <__p_description>This interface returns a Boolean indicating if a change in its properties can effect the blocks above it. Above in this context is going up a block's parent. The default implementation returns false.</__p_description>
-                            <__p_return_description>True if this block can effect the blocks above it or false otherwise.</__p_return_description>
+                            <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
+                            <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks above it. Above in this context is going up a block's parent. True if this block can effect the blocks above it or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>is_volatile_below</__p_name>
-                            <__p_description>This interface returns a Boolean indicating if a change in its properties can effect the blocks below it. Below in this context is going down a block's children. The default implementation returns false.</__p_description>
-                            <__p_return_description>True if this block can effect the blocks below it or false otherwise.</__p_return_description>
+                            <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
+                            <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks below it. Below in this context is going down a block's children. True if this block can effect the blocks below it or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -410,8 +433,8 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
-                            <__p_description>This interface returns a list of edit definition dictionaries informing the core application how to build  the edit GUI for this block.</__p_description>
-                            <__p_return_description>List of edit definition dictionaries.</__p_return_description>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A list of edit definition dictionaries informing the core application how to build  the edit GUI for this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
@@ -433,22 +456,22 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>dir_name</__p_name>
-                            <__p_description>This interface returns the directory name this block represents in the source code structure of its respective project, if any. If this block does not represent a directory then this returns none. The default implementation returns none.</__p_description>
-                            <__p_return_description>The directory name this block represents in the source code or none if it does not represent a directory.</__p_return_description>
+                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
+                            <__p_return_description>A directory name this block represents in the source code structure of its respective project, if any. If this block does not represent a directory then none is returned.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>file_name</__p_name>
-                            <__p_description>This interface returns the file name this block represents in the source code of its respective project, if any. If this block does not represent a file then this returns none. The default implementation returns none.</__p_description>
-                            <__p_return_description>The file name this block represents in the source code or none if it does not represent a file.</__p_return_description>
+                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
+                            <__p_return_description>A file name this block represents in the source code of its respective project, if any. If this block does not represent a file then none is returned.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>parser</__p_name>
-                            <__p_description>This interface returns an abstract parser implementation used to parse the source code of a project if this is the root block. If this is not the root block it returns none. The default implementation returns none.</__p_description>
-                            <__p_return_description>An abstract parser implementation used to parse this root block's project or none if this is not a root block.</__p_return_description>
+                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
+                            <__p_return_description>An abstract parser implementation used to parse the source code of a project if this is the root block, else none if this is not the root block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -458,7 +481,7 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__eq__</__p_name>
-                            <__p_description>Implements the equality operator. This only returns true if the other object is this instance itself.</__p_description>
+                            <__p_description>Implements the equality operator.</__p_description>
                             <__p_return_description>True if the other object is this instance or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -469,14 +492,14 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         </Function>
                         <Function>
                             <__p_name>__len__</__p_name>
-                            <__p_description>Implements the length operator. Returns the total number of children of this block.</__p_description>
+                            <__p_description>Implements the length operator.</__p_description>
                             <__p_return_description>Total number of children of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__contains__</__p_name>
-                            <__p_description>Implements the contain operator. Returns true if the given block is a child of this block.</__p_description>
+                            <__p_description>Implements the contain operator.</__p_description>
                             <__p_return_description>True if the given block is a child of this block or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -487,14 +510,14 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         </Function>
                         <Function>
                             <__p_name>__iter__</__p_name>
-                            <__p_description>Implements the iterator operator. Returns the iterator of this block's list of children.</__p_description>
+                            <__p_description>Implements the iterator operator.</__p_description>
                             <__p_return_description>Iterator of this block's list of children.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__getitem__</__p_name>
-                            <__p_description>Implements the get item operator. Returns this block's child block with the given integer index.</__p_description>
+                            <__p_description>Implements the get item operator.</__p_description>
                             <__p_return_description>This block's child block with the given index.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -515,7 +538,7 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         </Function>
                         <Function>
                             <__p_name>__getattr__</__p_name>
-                            <__p_description>Implements the get attribute operator. Intercepts and returns the value of any property attribute that begins with &quot;_p_&quot;, else returns the default get attribute operator.</__p_description>
+                            <__p_description>Implements the get attribute operator. Intercepts the value of any property attribute.</__p_description>
                             <__p_return_description>The property attribute that begins with &quot;_p_&quot; or the default get attribute operator return value otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -544,27 +567,27 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>parent</__p_name>
-                            <__p_description>Returns the parent block of this block or none if this block has no parent.</__p_description>
+                            <__p_description>Getter method.</__p_description>
                             <__p_return_description>The parent block of this block or none if this block has no parent.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>index</__p_name>
-                            <__p_description>Returns the integer index of this block within its parent block's list of children. This block must have a parent.</__p_description>
-                            <__p_return_description>Integer index of this block within its parent block's list of children.</__p_return_description>
+                            <__p_description>Getter method. This block must have a parent.</__p_description>
+                            <__p_return_description>The integer index of this block within its parent block's list of children.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>insert</__p_name>
                             <__p_description>Inserts the given block as a new child into this block's list of children at the given index. The given block cannot already have a parent.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure the given block does not have a parent.
 
 Insert the given block into this block's list of children at the given index and set its parent to this block.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index where the given block is inserted into this block's list of children.</__p_description>
@@ -586,7 +609,7 @@ Insert the given block into this block's list of children at the given index and
                         </Function>
                         <Function>
                             <__p_name>pop</__p_name>
-                            <__p_description>Removes a child block of this block with the given index and returns it.</__p_description>
+                            <__p_description>Removes a child block of this block with the given index.</__p_description>
                             <__p_return_description>Removed child block of this block with the given index.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -602,8 +625,6 @@ Return the removed child block.
                         <Function>
                             <__p_name>to_xml</__p_name>
                             <__p_description>Saves this block's properties and all of its children block's properties to XML using the given qt XML writer stream.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Write a start XML element for this block.
 
 Iterate through all properties of this block.
@@ -614,6 +635,8 @@ Iterate through all children of this block and call their to XML method.
 
 Write an end XML element.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>stream</__p_name>
                                 <__p_description>A qt writer stream used to save all block's properties and children.</__p_description>
@@ -622,8 +645,6 @@ Write an end XML element.
                         <Function>
                             <__p_name>set_from_xml</__p_name>
                             <__p_description>Loads this block's properties and all children block's properties from XML using the given qt reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Clear all of this block's properties and children.
 
 Continue while the given stream is not at the end.
@@ -642,6 +663,8 @@ Create a new child block with the type encoded within the tag name, call its set
 
 Else if this is the end element for this block then break out of the reading loop.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>stream</__p_name>
                                 <__p_description>A qt reader stream used to load all block's properties and children.</__p_description>
@@ -649,7 +672,7 @@ Else if this is the end element for this block then break out of the reading loo
                         </Function>
                         <Function>
                             <__p_name>properties</__p_name>
-                            <__p_description>Returns this block's properties dictionary.</__p_description>
+                            <__p_description>Getter method.</__p_description>
                             <__p_return_description>Properties dictionary of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -681,14 +704,14 @@ The parsing process is separated into building a path list, scanning, and buildi
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new abstract parser with the given root block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the root block and an empty root path.
 
 Initialize the empty paths and blocks lists.
 
 Initialize the building paths indicator.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>root_block</__p_name>
                                 <__p_description>Detailed description.</__p_description>
@@ -711,8 +734,6 @@ Initialize the building paths indicator.
                         <Function>
                             <__p_name>parse</__p_name>
                             <__p_description>Parses the source code of the project of this parser's root block. The root path of this parser must be set.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this parser's root path is set.
 
 Call this parser's build path list interface.
@@ -725,6 +746,8 @@ Iterate through the path and block lists as a tuple, building each source code f
 
 Clear the path and block lists.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -748,8 +771,8 @@ Clear the path and block lists.
                         </Function>
                         <Function>
                             <__p_name>_build_</__p_name>
-                            <__p_description>This interface builds and returns the new contents of the source code file at the given path with the associated block as a string.</__p_description>
-                            <__p_return_description>New contents of the source code file at the given path.</__p_return_description>
+                            <__p_description>This interface is a builder method.</__p_description>
+                            <__p_return_description>The new string contents of the source code file at the given path and associated block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                             <Object>
@@ -766,8 +789,8 @@ Clear the path and block lists.
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>root_block</__p_name>
-                            <__p_description>Returns the root block of this parser.</__p_description>
+                            <__p_name>_root_block_</__p_name>
+                            <__p_description>Getter method.</__p_description>
                             <__p_return_description>Root block of this parser.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -775,12 +798,12 @@ Clear the path and block lists.
                         <Function>
                             <__p_name>_add_path_</__p_name>
                             <__p_description>Adds the given source code file path and associated block to the list of paths and associated blocks to be scanned and built. This must be called within the build path list interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this parser's root path has been set and it is currently building paths.
 
 Append the given source code file path and associated block to their respective lists.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>block</__p_name>
                                 <__p_description>The block associated with the source code file path.</__p_description>
@@ -797,8 +820,6 @@ Append the given source code file path and associated block to their respective 
                         <Function>
                             <__p_name>__build_</__p_name>
                             <__p_description>Builds new contents for the source code at the given file path with the associated file. The file is overwritten with the new contents only if they are different from the current contents or the file does not exist.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If the directory of the given path does not exist then create it, including any sub directories that also do not exist.
 
 Check to see if the file exists.
@@ -807,6 +828,8 @@ Read in the old contents of the file, generate the new contents of the file, and
 
 Else the file does not exist so create a new file with the generated contents.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>block</__p_name>
                                 <__p_description>The block associated with the source code file path.</__p_description>
@@ -831,14 +854,14 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new factory.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the root block keyword string.
 
 Initialize the empty loaded languages dictionary.
 
 Initialize the importing language reference and name to none.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -847,8 +870,6 @@ Initialize the importing language reference and name to none.
                         <Function>
                             <__p_name>load</__p_name>
                             <__p_description>Loads a new language into this factory. The given language name must be unique.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure the given language name has not already been loaded.
 
 Initialize a new empty language dictionary to this factory's dictionary of languages and set its reference and name to the new language.
@@ -859,6 +880,8 @@ If any exception occurs while loading delete the new language from this factory'
 
 Set this factory's importing language reference and name back to none.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>lang_name</__p_name>
                                 <__p_description>The language name that is loaded.</__p_description>
@@ -871,14 +894,14 @@ Set this factory's importing language reference and name back to none.
                         <Function>
                             <__p_name>register_block</__p_name>
                             <__p_description>Registers the given block class with the given type name to the language currently being loaded by this factory. A language must be currently loading by this factory. The given type name must be unique within its language and cannot be the reserved name &quot;##ROOT##&quot;.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure the given type name is not the special block root key.
 
 Register the given class with the given type name.
 
 Set special static strings to the registered class so it can reference its language name and type name.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>class_</__p_name>
                                 <__p_description>A class object that is registered as a block type of the currently loading language.</__p_description>
@@ -900,15 +923,15 @@ Set special static strings to the registered class so it can reference its langu
                         </Function>
                         <Function>
                             <__p_name>langs</__p_name>
-                            <__p_description>Returns a sorted list of language names this factory has loaded.</__p_description>
-                            <__p_return_description>Sorted list of languages names this factory has loaded.</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A sorted list of languages names this factory has loaded.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>blocks</__p_name>
-                            <__p_description>Returns a list of registered block type names for a language with the given name that this factory has loaded. The given language name must exist in this factory.</__p_description>
-                            <__p_return_description>List of registered block type names for the given language.</__p_return_description>
+                            <__p_description>Getter method. The given language name must exist in this factory.</__p_description>
+                            <__p_return_description>A list of registered block type names for a language with the given name that this factory has loaded.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -918,8 +941,8 @@ Set special static strings to the registered class so it can reference its langu
                         </Function>
                         <Function>
                             <__p_name>create</__p_name>
-                            <__p_description>Returns a new block of the given type and from the given language. The given language name and block type name must exist in this factory.</__p_description>
-                            <__p_return_description>New block of the given type from the given language.</__p_return_description>
+                            <__p_description>Builder method. The given language name and block type name must exist in this factory.</__p_description>
+                            <__p_return_description>A new block of the given type from the given language.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -933,8 +956,8 @@ Set special static strings to the registered class so it can reference its langu
                         </Function>
                         <Function>
                             <__p_name>create_root</__p_name>
-                            <__p_description>Returns a new root block from the given language. The given language must exist in this factory.</__p_description>
-                            <__p_return_description>New root block from the given language.</__p_return_description>
+                            <__p_description>Builder method. The given language must exist in this factory.</__p_description>
+                            <__p_return_description>A new root block from the given language.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -951,6 +974,10 @@ Set special static strings to the registered class so it can reference its langu
                             <__p_description>Registers the given block class with the given key to the language currently being loaded by this factory.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this factory is loading a project, the given block type key does not begin with an underscore, a block class is not already registered with the given key, and the given block class is an abstract block instance.
+
+Register the given block class to the given key of the currently loading language dictionary.
+</__p_inlines>
                             <Object>
                                 <__p_name>class_</__p_name>
                                 <__p_description>A class object that is registered as a block type of the currently loading language.</__p_description>
@@ -965,22 +992,44 @@ Set special static strings to the registered class so it can reference its langu
             </Module>
             <Module>
                 <__p_name>command</__p_name>
-                <__p_description>Contains all classes that represent a single command or action that can be done to a project model. Each command has an undo and redo method that allows project models undo and redo actions given to it by the user.</__p_description>
+                <__p_description>Contains all classes that represent a single command or action that can be done to a project model.</__p_description>
                 <Class>
                     <__p_name>Command</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the abstract command class. A command is an abstract interface designed to do a single action upon a project model. It provides helper methods for converting a qt model index into a list of rows and rows back to an index.
+
+A command is an abstract interface designed to do a single action upon a project model. It provides interfaces for undoing or redoing a specific command on the model. The model itself is provided as a protected object to use when implementing undo and redo actions.
+
+It provides helper methods for converting a qt model index into a list of rows and rows back to an index. Because qt model indexes can become invalid when the model changes, the list of rows for each command must be saved instead. These rows are converted back to a valid index upon execution of the undo or redo action. The rows in the list start from the root down one level into the model tree for each row. An empty list represents the root index.
+</__p_description>
+                    <__p_parents>abc.ABC</__p_parents>
                     <Access>
-                        <__p_name>Init/Delete</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initialize a new command with the given project model.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>model</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The project model that this new command acts upon.</__p_description>
                             </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Interfaces</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>undo</__p_name>
+                            <__p_description>This interface acts on this command's project model to undo its command.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>1</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>redo</__p_name>
+                            <__p_description>This interface acts on this command's project model to redo its command.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>1</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -988,55 +1037,75 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Protected</__p_type>
                         <Function>
                             <__p_name>_get_index_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A valid qt model index created from this command's project model with the given list of rows. In this context valid can also be an invalid null index that represents the root.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Create the return index starting as the special invalid root index.
+
+Iterate through the given list of rows.
+
+Set a new index that is a child of the previous at the row.
+
+Return the qt model index.
+</__p_inlines>
                             <Object>
                                 <__p_name>rows</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A list of rows that represent a valid qt model index of this command's project model.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_build_rows_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Builder method.</__p_description>
+                            <__p_return_description>A list of rows that represent the given qt model index of this command's project model. An empty list is the root index.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize an empty return list of rows.
+
+Continue while the index is still valid.
+
+Append the index row to the return list of rows and then get its parent index.
+
+Reverse the order of rows in the list so it starts with the top level root and return it.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A qt model index of this command's project model that is returns as a list of rows.</__p_description>
                             </Object>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Set</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the set command class. It implements the abstract command class. This command sets the properties of a given qt model index in the given project model.</__p_description>
                     <__p_parents>Command</__p_parents>
                     <Access>
-                        <__p_name>Init/Delete</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new set command with the given from properties, to properties, index, and model.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the list of rows that represent the given index.
+
+Initialize the from and to properties.
+</__p_inlines>
                             <Object>
                                 <__p_name>from_props</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A block properties dictionary that is the current properties of the given index.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>to_props</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A block properties dictionary that is the properties the given index is set to.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The qt model index whose properties are changed.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>model</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The project model whose given index block properties are changed.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -1045,13 +1114,13 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>undo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>redo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -1059,31 +1128,37 @@ Set special static strings to the registered class so it can reference its langu
                 </Class>
                 <Class>
                     <__p_name>Remove</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the remove command class. It implements the abstract command class. This command removes the given count of indexes starting at the given row from the given parent index in the given project model. This class saves the list of removed blocks and exposes it as a protected function so the inverse command of insertion can reuse this class.</__p_description>
                     <__p_parents>Command</__p_parents>
                     <Access>
-                        <__p_name>Init/Delete</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new remove command with the given row, count, parent index, and project model.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the empty list of removed blocks.
+
+Initialize the list of rows for the given parent index.
+
+Initialize the row and count.
+</__p_inlines>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The row of the first removed child of the given parent index.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>count</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The number of children that are removed.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent index whose child indexes are removed.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>model</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The project model whose given indexes are removed.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -1092,45 +1167,56 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>undo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this command has a list of removed blocks to insert back into its project model.
+
+Move and insert this command's list of removed blocks back into its project model at the saved row and parent.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>redo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this command does not already have a list of removed blocks.
+
+Remove indexed blocks from this command's project model from the saved row, count, and parent, saving the removed list of blocks to this command.
+
+</__p_inlines>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Insert</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>Command</__p_parents>
+                    <__p_description>This is the insert command class. It implements the abstract command class.  It inherits from the remove class because the insert command is simply the inverse of the remove command and therefore only needs to reverse the undo and redo commands.</__p_description>
+                    <__p_parents>Remove</__p_parents>
                     <Access>
-                        <__p_name>Init/Delete</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new insert command with the given row, blocks to insert, parent index, and project model.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Set the list of removed blocks to the given block list because this is the inverse of remove.
+</__p_inlines>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The row where the given blocks are inserted.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>blocks</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>List of blocks that are inserted into the given project model.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent index where the given blocks are inserted as children.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>model</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The project model where the given blocks are inserted.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -1139,13 +1225,13 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>undo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>redo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -1153,27 +1239,31 @@ Set special static strings to the registered class so it can reference its langu
                 </Class>
                 <Class>
                     <__p_name>Move</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the move command class. It implements the abstract command class. This command moves the given from row to the given to row in the given parent index and project model.</__p_description>
                     <__p_parents>Command</__p_parents>
                     <Access>
-                        <__p_name>Init/Delete</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new move command with the given change, index, and project model.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the list of rows for the parent index of the index that is moved.
+
+Initialize the from and to rows.
+</__p_inlines>
                             <Object>
                                 <__p_name>change</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The change from the old row to the new row of the moved index. A negative change is up and positive down by the number given.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The index in the given project model that is moved.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>model</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The project model whose given index is moved.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -1182,13 +1272,13 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>undo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>redo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -1197,71 +1287,52 @@ Set special static strings to the registered class so it can reference its langu
             </Module>
             <Module>
                 <__p_name>model</__p_name>
-                <__p_description>Contains all model classes used by this application. This includes related classes such as exceptions and roles.</__p_description>
-                <Class>
-                    <__p_name>LoadError</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>Exception</__p_parents>
-                    <Access>
-                        <__p_name>Initializer</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>*args</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                </Class>
+                <__p_description>Contains all model classes used by this core application.</__p_description>
                 <Class>
                     <__p_name>Role</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the role enumeration class. It defines all custom data roles the project model implements.</__p_description>
                     <__p_parents>enum.Enum</__p_parents>
                     <Access>
                         <__p_name>Enumerations</__p_name>
                         <__p_type>Public</__p_type>
                         <Object>
-                            <__p_name>BUILD_LIST</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>BLOCK_TYPE</__p_name>
+                            <__p_description>Defines the block type role which represents a block's type name.</__p_description>
                             <__p_assignment>qtc.Qt.UserRole + 0</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>VIEW</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
                             <__p_assignment>qtc.Qt.UserRole + 1</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>EDIT_DEFS</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>BUILD_LIST</__p_name>
+                            <__p_description>Defines the build list role which represents a block's build list.</__p_description>
                             <__p_assignment>qtc.Qt.UserRole + 2</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>PROPERTIES</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Defines the properties role which represents a block's properties.</__p_description>
                             <__p_assignment>qtc.Qt.UserRole + 3</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>BLOCK_TYPE</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>EDIT_DEFS</__p_name>
+                            <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
                             <__p_assignment>qtc.Qt.UserRole + 4</__p_assignment>
                         </Object>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Parser</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the singleton parser model class. It starts execution of an abstract parser until completion. It is designed to work on its own thread separate of the main GUI thread.</__p_description>
                     <__p_parents>qtc.QObject</__p_parents>
                     <__p_descriptors>util.Singleton</__p_descriptors>
                     <Access>
-                        <__p_name>Init/Delete</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new parser.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -1271,32 +1342,49 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>start</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot(abstract.Parser)</__p_descriptors>
+                            <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Execute the given parser by calling its parse method.
+
+If any exception occurs then catch it and report it to standard error because qt threads ignore python exceptions.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot(abstract.Parser)</__p_descriptors>
                             <Object>
                                 <__p_name>parser</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The abstract parser that is executed.</__p_description>
                             </Object>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Project</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the project model class. It implements the qt abstract item model class. It provides additional methods above and beyond the basic model methods for added functionality. It has built in support for undo and redo of any modification done to it.
+
+It implements the qt abstract item model class. The header data, index, parent, row count, column count, data, set data, insert rows, remove rows, and insert row interfaces are implemented from the abstract class. The header data provides a single horizontal title that is the language name of the model's project if any. The column count always returns 1 since a project model only has only column for a block's display name. Custom roles are implemented using the roles defined in the role enumeration class. The only role supported for set data is the property role. The model is structures like a tree, returning the number of children an indexes block has for the row count interface.
+
+It provides additional methods and signals above and beyond the basic model methods for added functionality. Methods are provided for making a new project, loading a project, saving the current project, and closing the current project. A method and signal is provided to indicate if the model has unsaved changes. Methods and a signal are provided for a project name property of the current model's project. A read only method is also provided to query the language of the currently loaded project, if any. A move row method is provided to move the row of a given index. Methods are provided to copy any number of indexes to XML or insert copied XML blocks back into the model. A parser method is provided to build a new abstract parser for the model's current project, if any.
+
+It has built in support for undo and redo of any modification done to it. Methods are provided to test if an undo or redo can be done on the model. Slots are provided to undo or redo a modification to the project model.
+</__p_description>
                     <__p_parents>qtc.QAbstractItemModel</__p_parents>
                     <Access>
-                        <__p_name>Init/Delete</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new project model with the given optional parent.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the currently loaded project's name, root block, and language name to none.
+
+Initialize the empty undo stack and its current index.
+
+Initialize the currently loaded project's modification state to false.
+</__p_inlines>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>Optional qt object parent of this new model.</__p_description>
                                 <__p_assignment>None</__p_assignment>
                             </Object>
                         </Function>
@@ -1306,8 +1394,8 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__len__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the length operator.</__p_description>
+                            <__p_return_description>1 if this model has a project or 0 if it does not have a project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -1317,298 +1405,450 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>new</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Creates a new project for this model with the given language name, closing any currently loaded project. The given language name must be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If this model has a project loaded then close it.
+
+Signal this model is being reset.
+
+Set the new default project name, language name, and newly created root block.
+
+If any exception occurs while creating the new project then reset this model to being empty and raise it again.
+
+Finish this model reset.
+</__p_inlines>
                             <Object>
                                 <__p_name>lang_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The name of the language used to create a new project.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>load</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Loads a project to this model from the given file path, closing any currently loaded project.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Read in the XML from the file with the given path.
+
+Create a new qt XML stream reader from the loaded XML.
+
+Read to the next start element and make sure it is the correct project tag.
+
+Read to the next start element and read in the language name, making sure it is the correct language tag.
+
+Read to the next start element and read in the project name, making sure it is the correct name tag.
+
+Create a new project for this model using the read in language name and then set the project name to the read in name.
+
+Read to the next start element and make sure it is the correct bock type tag.
+
+Read in all block data from the root block XML element.
+
+If any exception occurs then close the partially loaded project and raise it again.
+</__p_inlines>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The file path of the project that is loaded into this model.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>save</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Saves this model's currently loaded project to the file with the given path. If this model has no project then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this model has a project.
+
+Create a new qt byte array the XML will be written to.
+
+Create a new qt XML writer stream attached to the byte array.
+
+Initialize the stream.
+
+Write the start document and start project tag.
+
+Write the language name and project name text elements.
+
+Write the block data element.
+
+Write the end project tag and end document.
+
+Open the output file at the given path and save the XML document, setting this model's modified state to false.
+</__p_inlines>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The path to the save file of this model's project.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>close</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Closes any currently loaded project of this model. If this model has no loaded project then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this model has a project.
+
+Signal this model is being reset.
+
+Set the project name, language name, and root block to none.
+
+Set this model's modified state to false.
+
+Reset this model's undo stack and stack index.
+
+Finish this model reset.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>lang_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The language name of this model's currently loaded project or none if it has no project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The name of this model's currently loaded project or none if it has no project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>set_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Sets the name of this model's currently loaded project to the one given. This model must have a loaded project.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this model has a project.
+
+Make sure the given name is different from the current one.
+
+Update the name, signal the project is modified and the name is modified.
+</__p_inlines>
                             <Object>
                                 <__p_name>name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The new name for this model's project.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>is_modified</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model's currently loaded project has unsaved changes or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>can_undo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model has a modification that can be undone or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>can_redo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model has a modification that can be redone or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>headerData</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If the given orientation is horizontal, the section is 0, and the role is display then return the model's language name.
+
+Else return the default header data.
+</__p_inlines>
                             <Object>
                                 <__p_name>section</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>orientation</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>role</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>index</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure the given row and column are valid.
+
+Get the parent block, making sure it worked and the row is valid.
+
+Return a new index with its internal pointer set to the child block of the given parent at the given row.
+</__p_inlines>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>column</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>parent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the child block and make sure it worked.
+
+Get the parent block, making sure it works and it also has a parent block.
+
+Return the given index's parent using its index method to get its row.
+</__p_inlines>
                             <Object>
                                 <__p_name>child</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>rowCount</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the block of the given index, making sure it worked.
+
+Return the block's total number of children.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>columnCount</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>data</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the block of the given index, making sure it worked.
+
+Return the appropriate data based off the given role.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>role</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>setData</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the block of the given index, making sure it worked and the given role is properties.
+
+Push a new set command to this model's undo stack and then return true.
+
+Else return false.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>value</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>role</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>insertRows</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the parent block of the given parent index, making sure it worked and the given row is valid for it.
+
+Build a list of new blocks from the list of block types, setting their default properties.
+
+Push a new insert command to this model's undo stack with the list of new blocks and then return true.
+</__p_inlines>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>block_names</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_name>block_types</__p_name>
+                                <__p_description>A list of block types, where each one represents a new block that is created and inserted with the given type name.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>removeRows</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>List of blocks that were successfully removed from this model.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the parent block of the given parent index, making sure it worked and the given row and count are both valid.
+
+Push a new remove command to this model's undo stack and then return true.
+</__p_inlines>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>count</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>insertRow</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>block_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_name>block_type</__p_name>
+                                <__p_description>The block type that is created and inserted into this model.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>move_row</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Moves the given index's row by the amount given.</__p_description>
+                            <__p_return_description>True if the move was successful or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure the given change and index are both valid.
+
+Get the block of the given index, making sure it worked.
+
+Figure out the new row for the given index and make sure it is valid.
+
+Push a new move command to this model's undo stack and then return true.
+</__p_inlines>
                             <Object>
                                 <__p_name>change</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The row change for the index that is moved. Negative is up and positive is down.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The qt model index that is moved.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>copy_to_xml</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Copies the given indexes to XML.</__p_description>
+                            <__p_return_description>A tuple of two items. The first item is copied blocks at the given indexes in the form of XML. The XML format is copy with each index an element in the root XML copy tag. The second item is a set of all block types that were copied.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the block types set and XML byte array.
+
+Create a new qt XML writer stream attached to the byte array.
+
+Write the start document and start copy element.
+
+Write the language name text element.
+
+Iterate through all given indexes.
+
+Get the block of the index, writing its XML element and adding its type name to the set if it is valid.
+
+Write the end copy element and end document.
+
+Return the XML byte array and block types set.
+</__p_inlines>
                             <Object>
                                 <__p_name>indexes</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>List of qt model indexes whose blocks are copied to XML.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>insert_from_xml</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Inserts blocks into this model at the given parent index and row loaded from the given XML.</__p_description>
+                            <__p_return_description>Total number of blocks that were inserted into this model.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the parent block of the given parent index, making sure it worked and the given row is valid.
+
+Create a new qt XML reader stream attached to the given XML byte array.
+
+Read the next start element and make sure it is the copy tag.
+
+Read the next start element, making sure it is the language tag and the language is the same as this model's currently loaded project's language.
+
+Initialize an empty list of loaded blocks and continue reading the XML stream until the end.
+
+Get the next XML node and check to see if it is a start element.
+
+Load the block from its XML tag.
+
+If the given parent block can have the loaded block as a child then append it to the loaded block list.
+
+Push a new insert command to this model's undo stack using the loaded block list and then return the number of blocks inserted.
+</__p_inlines>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The row in the given parent index where loaded blocks are inserted.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>xml</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>XML byte array containing the loaded blocks. This must conform to the XML copy standard produced by the copy to XML method of this class.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent index where the loaded blocks are inserted.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>parser</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Builds a new abstract parser that can be used to parse the source code of this model's project. If this model has no project that this does nothing.</__p_description>
+                            <__p_return_description>The newly built abstract parser or none if this model has no project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this model has a project.
+
+Create a new abstract parser from this model's project's root block, making sure it is a valid abstract parser.
+
+Return the created parser.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -1616,12 +1856,12 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Object>
                             <__p_name>modified</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Signals this model's project has been modified with unsaved changes.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>name_changed</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Signals this model's project name has changed.</__p_description>
                             <__p_assignment>qtc.Signal(str)</__p_assignment>
                         </Object>
                     </Access>
@@ -1630,17 +1870,25 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>undo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to undo the last modification that was done to this model. If this model cannot undo then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this model can undo a modification.
+
+Undo the last command done on this model's stack and decrement its undo stack index.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>redo</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to redo the last undone modification of this model. If this model cannot redo then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this model can redo a modification.
+
+Redo the last command undone on this model's stack and increment its undo stack index.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                     <Access>
@@ -1648,71 +1896,117 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Protected</__p_type>
                         <Function>
                             <__p_name>_insert_rows_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Inserts the given blocks into the given parent index at the given row. The given parent index and row must be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the parent block of the given parent index, making sure it works and the given row is valid.
+
+Initialize the volatile above indicator and signal this model is inserting new rows.
+
+Insert the entire list of given blocks into the parent block starting at the given row, setting the volatile above indicator to true if any one of the inserted blocks are volatile above.
+
+Finish the row insertion.
+
+If any of the blocks were volatile above then push updates accordingly.
+
+Signal this model has been modified.
+</__p_inlines>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The row where the given blocks are inserted into the given parent.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>blocks</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>List of blocks that are inserted into this model.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent index where the given blocks are inserted into as children.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_remove_rows_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Removes the given count of blocks starting at the given row in the given parent index. The given parent index, row, and count must all be valid.</__p_description>
+                            <__p_return_description>List of removed blocks.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the parent block of the given parent index, making sure it works and the given row and count are both valid.
+
+Initialize the volatile above indicator, the empty list of removed blocks, and then signal this model is removing rows.
+
+Remove the given count number of blocks starting at the given row in the given parent, adding them to the removed block list and setting the volatile above indicator to true if any removed block is volatile above.
+
+Finish the row removal.
+
+If any of the blocks were volatile above then push updates accordingly.
+
+Signal this model has been modified and return the list of removed blocks.
+</__p_inlines>
                             <Object>
                                 <__p_name>row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The starting row where blocks are removed.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>count</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The total number of blocks that are removed.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent index where child blocks are removed.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_move_row_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Moves the block at the given from row to the given to row in the given parent index. The given rows and parent index must all be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the parent block of the given parent index, making sure it worked.
+
+Initialize the volatile above indicator and signal this model is moving rows.
+
+Move the block at the given from row to the given to row, setting the volatile above indicator to true if it is volatile above.
+
+Finish the move rows.
+
+If the moved block was volatile above then push updates accordingly.
+
+Signal this model has been modified.
+</__p_inlines>
                             <Object>
                                 <__p_name>from_row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The row of the block that is moved.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>to_row</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The new row of the moved block.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent index where a child block is moved.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_set_props_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Sets the properties of the block at the given index in this model. The given index must be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the block at the given index, making sure it worked.
+
+Set the block's properties to the new one given.
+
+Signal that this model's data has changed.
+
+If the block is volatile above or below then push updates above or below accordingly.
+
+Signal that this model has been modified.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The qt model index of the updated block.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>props</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The new properties dictionary of the block at the given index.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -1721,49 +2015,65 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__modified_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Marks this model as modified, emitting a signal if it was not modified before calling this method.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__push_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Pushes the given command to this model, immediately calling its redo interface and then adding it to this model's undo stack.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Erase any commands on this model's undo stack that have been undone.
+
+Add the given command to the undo stack and call its redo interface.
+</__p_inlines>
                             <Object>
                                 <__p_name>command</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The command that is immediately executed and added to this model's undo stack. Any commands that have been undone on the stack are erased.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__push_volatile_above_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Signals the given index of this model has changed its data if it is valid, recursively calling itself on the given index's parent index if its block is also volatile above.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure the given index is valid.
+
+Signal this model's data has changed.
+
+If the block at the given index is also volatile above then recursively call this method on its parent index.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The index of this model whose data has changed due to volatile children.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__push_volatile_below_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Signals the given parent index of this model has changed its children's data if it is valid, recursively calling itself on any child that is also volatile below.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Iterate through every row of the given parent index.
+
+Get the index of the child and signal this model's data has changed.
+
+If the child is also volatile below then recursively call this method on the child index.
+</__p_inlines>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent index of this model whose children's data has changed due to the volatile below parent.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__block_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The block of the given index. If the given index is invalid the root block is returned, which is none if this model has no project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The index whose block is returned.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -1772,22 +2082,22 @@ Set special static strings to the registered class so it can reference its langu
                         <__p_type>Private</__p_type>
                         <Object>
                             <__p_name>__PROJECT_TAG</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>The root tag used for XML project files.</__p_description>
                             <__p_assignment>&quot;scp_project&quot;</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>__NAME_TAG</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>The name tag used for the project name text element of XML project files.</__p_description>
                             <__p_assignment>&quot;name&quot;</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>__COPY_TAG</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>The root copy tag used for internal copy XML byte arrays.</__p_description>
                             <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>__LANG_TAG</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>The language tag used for the language name text element of XML project files.</__p_description>
                             <__p_assignment>&quot;language&quot;</__p_assignment>
                         </Object>
                     </Access>
@@ -1796,6 +2106,43 @@ Set special static strings to the registered class so it can reference its langu
             <Module>
                 <__p_name>gui_util</__p_name>
                 <__p_description>Detailed description.</__p_description>
+                <Class>
+                    <__p_name>Spell_Highlighter</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_parents>qtg.QSyntaxHighlighter</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>dictionary</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>highlightBlock</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>text</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
                 <Class>
                     <__p_name>Spell_Checker</__p_name>
                     <__p_description>Detailed description.</__p_description>
@@ -1920,52 +2267,6 @@ Set special static strings to the registered class so it can reference its langu
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                </Class>
-                <Class>
-                    <__p_name>Spell_Highlighter</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>qtg.QSyntaxHighlighter</__p_parents>
-                    <Access>
-                        <__p_name>Initialize</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>dictionary</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Methods</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>highlightBlock</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>text</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Static Objects</__p_name>
-                        <__p_type>Private</__p_type>
-                        <Object>
-                            <__p_name>__HUN_ROOT</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_assignment>&quot;/usr/share/hunspell&quot;</__p_assignment>
-                        </Object>
                     </Access>
                 </Class>
             </Module>
