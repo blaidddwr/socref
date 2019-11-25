@@ -8,7 +8,7 @@
             <__p_description>Contains the core application for Socrates' Reference.</__p_description>
             <Module>
                 <__p_name>exception</__p_name>
-                <__p_description>Contains all custom exception classes that this core application can raise.</__p_description>
+                <__p_description>Contains all custom exception classes that the core application can raise.</__p_description>
                 <Class>
                     <__p_name>LangError</__p_name>
                     <__p_description>This is the import error exception class. It indicates an error occurred while loading a language's module.</__p_description>
@@ -611,12 +611,12 @@ Insert the given block into this block's list of children at the given index and
                             <__p_name>pop</__p_name>
                             <__p_description>Removes a child block of this block with the given index.</__p_description>
                             <__p_return_description>Removed child block of this block with the given index.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Pop the child block from this block's list of children and then set its parent to none.
 
 Return the removed child block.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the removed and returned child block.</__p_description>
@@ -972,12 +972,12 @@ Set special static strings to the registered class so it can reference its langu
                         <Function>
                             <__p_name>__register_block_</__p_name>
                             <__p_description>Registers the given block class with the given key to the language currently being loaded by this factory.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this factory is loading a project, the given block type key does not begin with an underscore, a block class is not already registered with the given key, and the given block class is an abstract block instance.
 
 Register the given block class to the given key of the currently loading language dictionary.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>class_</__p_name>
                                 <__p_description>A class object that is registered as a block type of the currently loading language.</__p_description>
@@ -1039,8 +1039,6 @@ It provides helper methods for converting a qt model index into a list of rows a
                             <__p_name>_get_index_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A valid qt model index created from this command's project model with the given list of rows. In this context valid can also be an invalid null index that represents the root.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Create the return index starting as the special invalid root index.
 
 Iterate through the given list of rows.
@@ -1049,6 +1047,8 @@ Set a new index that is a child of the previous at the row.
 
 Return the qt model index.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>rows</__p_name>
                                 <__p_description>A list of rows that represent a valid qt model index of this command's project model.</__p_description>
@@ -1058,8 +1058,6 @@ Return the qt model index.
                             <__p_name>_build_rows_</__p_name>
                             <__p_description>Builder method.</__p_description>
                             <__p_return_description>A list of rows that represent the given qt model index of this command's project model. An empty list is the root index.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize an empty return list of rows.
 
 Continue while the index is still valid.
@@ -1068,6 +1066,8 @@ Append the index row to the return list of rows and then get its parent index.
 
 Reverse the order of rows in the list so it starts with the top level root and return it.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>A qt model index of this command's project model that is returns as a list of rows.</__p_description>
@@ -1085,12 +1085,12 @@ Reverse the order of rows in the list so it starts with the top level root and r
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new set command with the given from properties, to properties, index, and model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the list of rows that represent the given index.
 
 Initialize the from and to properties.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>from_props</__p_name>
                                 <__p_description>A block properties dictionary that is the current properties of the given index.</__p_description>
@@ -1136,14 +1136,14 @@ Initialize the from and to properties.
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new remove command with the given row, count, parent index, and project model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the empty list of removed blocks.
 
 Initialize the list of rows for the given parent index.
 
 Initialize the row and count.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>The row of the first removed child of the given parent index.</__p_description>
@@ -1168,23 +1168,23 @@ Initialize the row and count.
                         <Function>
                             <__p_name>undo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this command has a list of removed blocks to insert back into its project model.
 
 Move and insert this command's list of removed blocks back into its project model at the saved row and parent.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>redo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this command does not already have a list of removed blocks.
 
 Remove indexed blocks from this command's project model from the saved row, count, and parent, saving the removed list of blocks to this command.
 
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                 </Class>
@@ -1198,10 +1198,10 @@ Remove indexed blocks from this command's project model from the saved row, coun
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new insert command with the given row, blocks to insert, parent index, and project model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Set the list of removed blocks to the given block list because this is the inverse of remove.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>The row where the given blocks are inserted.</__p_description>
@@ -1247,12 +1247,12 @@ Remove indexed blocks from this command's project model from the saved row, coun
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new move command with the given change, index, and project model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the list of rows for the parent index of the index that is moved.
 
 Initialize the from and to rows.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>change</__p_name>
                                 <__p_description>The change from the old row to the new row of the moved index. A negative change is up and positive down by the number given.</__p_description>
@@ -1287,7 +1287,7 @@ Initialize the from and to rows.
             </Module>
             <Module>
                 <__p_name>model</__p_name>
-                <__p_description>Contains all model classes used by this core application.</__p_description>
+                <__p_description>Contains all model classes used by the core application.</__p_description>
                 <Class>
                     <__p_name>Role</__p_name>
                     <__p_description>This is the role enumeration class. It defines all custom data roles the project model implements.</__p_description>
@@ -1343,13 +1343,13 @@ Initialize the from and to rows.
                         <Function>
                             <__p_name>start</__p_name>
                             <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Execute the given parser by calling its parse method.
 
 If any exception occurs then catch it and report it to standard error because qt threads ignore python exceptions.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot(abstract.Parser)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parser</__p_name>
                                 <__p_description>The abstract parser that is executed.</__p_description>
@@ -1374,14 +1374,14 @@ It has built in support for undo and redo of any modification done to it. Method
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new project model with the given optional parent.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the currently loaded project's name, root block, and language name to none.
 
 Initialize the empty undo stack and its current index.
 
 Initialize the currently loaded project's modification state to false.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>Optional qt object parent of this new model.</__p_description>
@@ -1406,8 +1406,6 @@ Initialize the currently loaded project's modification state to false.
                         <Function>
                             <__p_name>new</__p_name>
                             <__p_description>Creates a new project for this model with the given language name, closing any currently loaded project. The given language name must be valid.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If this model has a project loaded then close it.
 
 Signal this model is being reset.
@@ -1418,6 +1416,8 @@ If any exception occurs while creating the new project then reset this model to 
 
 Finish this model reset.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>lang_name</__p_name>
                                 <__p_description>The name of the language used to create a new project.</__p_description>
@@ -1426,8 +1426,6 @@ Finish this model reset.
                         <Function>
                             <__p_name>load</__p_name>
                             <__p_description>Loads a project to this model from the given file path, closing any currently loaded project.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Read in the XML from the file with the given path.
 
 Create a new qt XML stream reader from the loaded XML.
@@ -1446,6 +1444,8 @@ Read in all block data from the root block XML element.
 
 If any exception occurs then close the partially loaded project and raise it again.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>path</__p_name>
                                 <__p_description>The file path of the project that is loaded into this model.</__p_description>
@@ -1454,8 +1454,6 @@ If any exception occurs then close the partially loaded project and raise it aga
                         <Function>
                             <__p_name>save</__p_name>
                             <__p_description>Saves this model's currently loaded project to the file with the given path. If this model has no project then this does nothing.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this model has a project.
 
 Create a new qt byte array the XML will be written to.
@@ -1474,6 +1472,8 @@ Write the end project tag and end document.
 
 Open the output file at the given path and save the XML document, setting this model's modified state to false.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>path</__p_name>
                                 <__p_description>The path to the save file of this model's project.</__p_description>
@@ -1482,8 +1482,6 @@ Open the output file at the given path and save the XML document, setting this m
                         <Function>
                             <__p_name>close</__p_name>
                             <__p_description>Closes any currently loaded project of this model. If this model has no loaded project then this does nothing.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this model has a project.
 
 Signal this model is being reset.
@@ -1496,6 +1494,8 @@ Reset this model's undo stack and stack index.
 
 Finish this model reset.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>lang_name</__p_name>
@@ -1514,14 +1514,14 @@ Finish this model reset.
                         <Function>
                             <__p_name>set_name</__p_name>
                             <__p_description>Sets the name of this model's currently loaded project to the one given. This model must have a loaded project.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this model has a project.
 
 Make sure the given name is different from the current one.
 
 Update the name, signal the project is modified and the name is modified.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>name</__p_name>
                                 <__p_description>The new name for this model's project.</__p_description>
@@ -1552,12 +1552,12 @@ Update the name, signal the project is modified and the name is modified.
                             <__p_name>headerData</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If the given orientation is horizontal, the section is 0, and the role is display then return the model's language name.
 
 Else return the default header data.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>section</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -1575,14 +1575,14 @@ Else return the default header data.
                             <__p_name>index</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure the given row and column are valid.
 
 Get the parent block, making sure it worked and the row is valid.
 
 Return a new index with its internal pointer set to the child block of the given parent at the given row.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -1600,14 +1600,14 @@ Return a new index with its internal pointer set to the child block of the given
                             <__p_name>parent</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the child block and make sure it worked.
 
 Get the parent block, making sure it works and it also has a parent block.
 
 Return the given index's parent using its index method to get its row.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>child</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -1617,12 +1617,12 @@ Return the given index's parent using its index method to get its row.
                             <__p_name>rowCount</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the block of the given index, making sure it worked.
 
 Return the block's total number of children.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -1643,12 +1643,12 @@ Return the block's total number of children.
                             <__p_name>data</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the block of the given index, making sure it worked.
 
 Return the appropriate data based off the given role.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -1662,14 +1662,14 @@ Return the appropriate data based off the given role.
                             <__p_name>setData</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the block of the given index, making sure it worked and the given role is properties.
 
 Push a new set command to this model's undo stack and then return true.
 
 Else return false.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -1687,14 +1687,14 @@ Else return false.
                             <__p_name>insertRows</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the parent block of the given parent index, making sure it worked and the given row is valid for it.
 
 Build a list of new blocks from the list of block types, setting their default properties.
 
 Push a new insert command to this model's undo stack with the list of new blocks and then return true.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -1712,12 +1712,12 @@ Push a new insert command to this model's undo stack with the list of new blocks
                             <__p_name>removeRows</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>List of blocks that were successfully removed from this model.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the parent block of the given parent index, making sure it worked and the given row and count are both valid.
 
 Push a new remove command to this model's undo stack and then return true.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -1754,8 +1754,6 @@ Push a new remove command to this model's undo stack and then return true.
                             <__p_name>move_row</__p_name>
                             <__p_description>Moves the given index's row by the amount given.</__p_description>
                             <__p_return_description>True if the move was successful or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure the given change and index are both valid.
 
 Get the block of the given index, making sure it worked.
@@ -1764,6 +1762,8 @@ Figure out the new row for the given index and make sure it is valid.
 
 Push a new move command to this model's undo stack and then return true.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>change</__p_name>
                                 <__p_description>The row change for the index that is moved. Negative is up and positive is down.</__p_description>
@@ -1777,8 +1777,6 @@ Push a new move command to this model's undo stack and then return true.
                             <__p_name>copy_to_xml</__p_name>
                             <__p_description>Copies the given indexes to XML.</__p_description>
                             <__p_return_description>A tuple of two items. The first item is copied blocks at the given indexes in the form of XML. The XML format is copy with each index an element in the root XML copy tag. The second item is a set of all block types that were copied.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the block types set and XML byte array.
 
 Create a new qt XML writer stream attached to the byte array.
@@ -1795,6 +1793,8 @@ Write the end copy element and end document.
 
 Return the XML byte array and block types set.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>indexes</__p_name>
                                 <__p_description>List of qt model indexes whose blocks are copied to XML.</__p_description>
@@ -1804,8 +1804,6 @@ Return the XML byte array and block types set.
                             <__p_name>insert_from_xml</__p_name>
                             <__p_description>Inserts blocks into this model at the given parent index and row loaded from the given XML.</__p_description>
                             <__p_return_description>Total number of blocks that were inserted into this model.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the parent block of the given parent index, making sure it worked and the given row is valid.
 
 Create a new qt XML reader stream attached to the given XML byte array.
@@ -1824,6 +1822,8 @@ If the given parent block can have the loaded block as a child then append it to
 
 Push a new insert command to this model's undo stack using the loaded block list and then return the number of blocks inserted.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>The row in the given parent index where loaded blocks are inserted.</__p_description>
@@ -1841,14 +1841,14 @@ Push a new insert command to this model's undo stack using the loaded block list
                             <__p_name>parser</__p_name>
                             <__p_description>Builds a new abstract parser that can be used to parse the source code of this model's project. If this model has no project that this does nothing.</__p_description>
                             <__p_return_description>The newly built abstract parser or none if this model has no project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this model has a project.
 
 Create a new abstract parser from this model's project's root block, making sure it is a valid abstract parser.
 
 Return the created parser.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -1871,24 +1871,24 @@ Return the created parser.
                         <Function>
                             <__p_name>undo</__p_name>
                             <__p_description>Called to undo the last modification that was done to this model. If this model cannot undo then this does nothing.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this model can undo a modification.
 
 Undo the last command done on this model's stack and decrement its undo stack index.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>redo</__p_name>
                             <__p_description>Called to redo the last undone modification of this model. If this model cannot redo then this does nothing.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this model can redo a modification.
 
 Redo the last command undone on this model's stack and increment its undo stack index.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -1897,8 +1897,6 @@ Redo the last command undone on this model's stack and increment its undo stack 
                         <Function>
                             <__p_name>_insert_rows_</__p_name>
                             <__p_description>Inserts the given blocks into the given parent index at the given row. The given parent index and row must be valid.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the parent block of the given parent index, making sure it works and the given row is valid.
 
 Initialize the volatile above indicator and signal this model is inserting new rows.
@@ -1911,6 +1909,8 @@ If any of the blocks were volatile above then push updates accordingly.
 
 Signal this model has been modified.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>The row where the given blocks are inserted into the given parent.</__p_description>
@@ -1928,8 +1928,6 @@ Signal this model has been modified.
                             <__p_name>_remove_rows_</__p_name>
                             <__p_description>Removes the given count of blocks starting at the given row in the given parent index. The given parent index, row, and count must all be valid.</__p_description>
                             <__p_return_description>List of removed blocks.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the parent block of the given parent index, making sure it works and the given row and count are both valid.
 
 Initialize the volatile above indicator, the empty list of removed blocks, and then signal this model is removing rows.
@@ -1942,6 +1940,8 @@ If any of the blocks were volatile above then push updates accordingly.
 
 Signal this model has been modified and return the list of removed blocks.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>row</__p_name>
                                 <__p_description>The starting row where blocks are removed.</__p_description>
@@ -1958,8 +1958,6 @@ Signal this model has been modified and return the list of removed blocks.
                         <Function>
                             <__p_name>_move_row_</__p_name>
                             <__p_description>Moves the block at the given from row to the given to row in the given parent index. The given rows and parent index must all be valid.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the parent block of the given parent index, making sure it worked.
 
 Initialize the volatile above indicator and signal this model is moving rows.
@@ -1972,6 +1970,8 @@ If the moved block was volatile above then push updates accordingly.
 
 Signal this model has been modified.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>from_row</__p_name>
                                 <__p_description>The row of the block that is moved.</__p_description>
@@ -1988,8 +1988,6 @@ Signal this model has been modified.
                         <Function>
                             <__p_name>_set_props_</__p_name>
                             <__p_description>Sets the properties of the block at the given index in this model. The given index must be valid.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the block at the given index, making sure it worked.
 
 Set the block's properties to the new one given.
@@ -2000,6 +1998,8 @@ If the block is volatile above or below then push updates above or below accordi
 
 Signal that this model has been modified.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The qt model index of the updated block.</__p_description>
@@ -2022,12 +2022,12 @@ Signal that this model has been modified.
                         <Function>
                             <__p_name>__push_</__p_name>
                             <__p_description>Pushes the given command to this model, immediately calling its redo interface and then adding it to this model's undo stack.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Erase any commands on this model's undo stack that have been undone.
 
 Add the given command to the undo stack and call its redo interface.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>command</__p_name>
                                 <__p_description>The command that is immediately executed and added to this model's undo stack. Any commands that have been undone on the stack are erased.</__p_description>
@@ -2036,14 +2036,14 @@ Add the given command to the undo stack and call its redo interface.
                         <Function>
                             <__p_name>__push_volatile_above_</__p_name>
                             <__p_description>Signals the given index of this model has changed its data if it is valid, recursively calling itself on the given index's parent index if its block is also volatile above.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure the given index is valid.
 
 Signal this model's data has changed.
 
 If the block at the given index is also volatile above then recursively call this method on its parent index.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of this model whose data has changed due to volatile children.</__p_description>
@@ -2052,14 +2052,14 @@ If the block at the given index is also volatile above then recursively call thi
                         <Function>
                             <__p_name>__push_volatile_below_</__p_name>
                             <__p_description>Signals the given parent index of this model has changed its children's data if it is valid, recursively calling itself on any child that is also volatile below.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Iterate through every row of the given parent index.
 
 Get the index of the child and signal this model's data has changed.
 
 If the child is also volatile below then recursively call this method on the child index.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The parent index of this model whose children's data has changed due to the volatile below parent.</__p_description>
@@ -2105,26 +2105,30 @@ If the child is also volatile below then recursively call this method on the chi
             </Module>
             <Module>
                 <__p_name>gui_util</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all GUI utility classes used by other GUI elements of the core application.</__p_description>
                 <Class>
                     <__p_name>Spell_Highlighter</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the spell highlighter class. It implements the qt syntax highlighter class. It provides highlighting of misspelled words in the document the highlighter is given on initialization. It uses the Hunspell library for all speller functions.</__p_description>
                     <__p_parents>qtg.QSyntaxHighlighter</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new spell highlighter with the given dictionary and parent.</__p_description>
+                            <__p_inlines>Initialize the Hunspell object with the given dictionary, appending the root path and appropriate extensions.
+
+Initialize the format style used for underlining misspelled words.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>dictionary</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The Hunspell dictionary used for spell checking. This does not include the directory or file extensions, for example &quot;en_US&quot;.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent document that takes ownership of this highlighter and has its misspelled words highlighted.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -2133,39 +2137,60 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>highlightBlock</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the qtg.QSyntaxHighlighter interface.</__p_description>
+                            <__p_inlines>Initialize the search start and regular expression.
+
+Continue while there are still words to check.
+
+Attempt to get the next word matched, breaking out if there are no more words left.
+
+Check the words spelling, settings its format as misspelled if it is as such.
+
+Update the search start to the end of the last word matched.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>text</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Spell_Checker</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the spell checker class. It inherits the qt group box widget. It provides a spell checking and correction interface. It uses the Hunspell library for all speller functions.
+
+It provides a spell checking and correction interface. It begins spell checking with its start slot, providing it a qt text cursor that is uses to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to dictionary. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.
+</__p_description>
                     <__p_parents>qtw.QGroupBox</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new speller checker with the given title, dictionary, and optional parent.</__p_description>
+                            <__p_inlines>Initialize the Hunspell object with the given dictionary, appending the root path and appropriate extensions.
+
+Initialize the word label and edit widgets used for each misspelled word found.
+
+Initialize the cursor to none and list of suggested words to an empty list.
+
+Setup this new widget's GUI.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>title</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The title of this new spell checker's qt group box.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>dictionary</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The Hunspell dictionary used for spell checking. This does not include the directory or file extensions, for example &quot;en_US&quot;.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>An optional qt object parent for this new spell checker.</__p_description>
                                 <__p_assignment>None</__p_assignment>
                             </Object>
                         </Function>
@@ -2175,12 +2200,12 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Public</__p_type>
                         <Object>
                             <__p_name>finished</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Signals this spell checker has finished checking and correcting for misspelled words.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>cursor_changed</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Signals this spell checker has changed the cursor given to it.</__p_description>
                             <__p_assignment>qtc.Signal(qtg.QTextCursor)</__p_assignment>
                         </Object>
                     </Access>
@@ -2189,13 +2214,19 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>start</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Called to have this spell checker begin checking for misspelled words in the document of the given qt text cursor. The entire document is checked for misspelled words. If this spell checker is already checking a document then this does nothing.</__p_description>
+                            <__p_inlines>Make sure this spell checker is not currently checking a document.
+
+Set this spell checker's cursor to the one given and move it to the beginning of the document.
+
+Find the next misspelled word.
+</__p_inlines>
                             <__p_descriptors>qtc.Slot(qtg.QTextCursor)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>cursor</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A qt text cursor whose document is checked for misspelled words.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -2204,27 +2235,51 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__find_next_word_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Finds the next misspelled word in the current document this spell checker is checking. If no misspelled word is found once the end of the document is reached then it stops this spell checker.</__p_description>
+                            <__p_inlines>Get this spell checker's cursor and compile the regular expression for matching words.
+
+Continue until a misspelled word is found or the cursor reaches the end of the document.
+
+Select the word under the cursor and make sure it is a word.
+
+Get the speller and selected word.
+
+If the word is misspelled then signal the cursor has changed, update the word label and edit widgets with the misspelled word, and update the list of suggestions for the new misspelled word.
+
+Move to the next word in the cursor's document, stopping this spell checker if the end of the document is reached.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_gui_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes the GUI of this new spell checker.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_top_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Initializes the top GUI of this new spell checker.</__p_description>
+                            <__p_return_description>Initialized top qt layout.</__p_return_description>
+                            <__p_inlines>Initialize the add to dictionary button.
+
+Create a horizontal box layout. Add this spell checker's word label, a stretch, and then the add to dictionary button.
+
+Return the box layout.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_bottom_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Initializes the bottom GUI of this new spell checker.</__p_description>
+                            <__p_return_description>Initialized bottom qt layout.</__p_return_description>
+                            <__p_inlines>Initialize the suggest, replace, ignore, and stop buttons.
+
+Create a horizontal box layout. Add this spell checker's word edit, a stretch, suggest button, replace button, ignore button, and then stop button.
+
+Return the box layout.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2234,38 +2289,60 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__add_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to add the currently selected misspelled word to the run time dictionary. This is currently defunct so TO BE DONE.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__suggest_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this spell checker is active.
+
+Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
+
+Update the word edit widget with the next suggested word.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__replace_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to replace the selected misspelled word with the text of this spell checker's word edit widget. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this spell checker is active.
+
+Replace the cursor's selected word with this spell checker's word edit value.
+
+Move the cursor to the next word, continuing or finishing if there is a word or not, respectively.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__ignore_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to ignore the selected misspelled word, simply skipping it and moving the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this spell checker is active.
+
+Move the cursor to the next word, continuing or finishing if there is a word or not, respectively.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__stop_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to stop this spell checker, finishing its spell checking of the current document. If this spell checker is not actively checking a document then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this spell checker is active.
+
+Reset this spell checker's cursor to none and its list of suggested words to empty.
+
+Signal that this spell checker has finished.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
@@ -2661,37 +2738,46 @@ If the child is also volatile below then recursively call this method on the chi
             </Module>
             <Module>
                 <__p_name>gui_edit</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all GUI edit widgets that provide the user the ability to edit some form of data.</__p_description>
                 <Class>
                     <__p_name>Plain_Text</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the plain text class. It inherits the qt plain text edit class. It provides additional functionality to its inherit class.
+
+It provides additional functionality to its inherit class. Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog that has additional spell checking functionality. Misspelled word highlighting and the editor dialog popup features can be enabled or disabled.
+</__p_description>
                     <__p_parents>qtw.QPlainTextEdit</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new plain text editor with the given optional text and parent. Spelling and dialog popup can also be enabled or disabled.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the speller and popup indicators.
+
+Initialize the speller if it is enabled, else keep this editor's highlighter as none.
+
+Setup this editor's shortcut actions.
+</__p_inlines>
                             <Object>
                                 <__p_name>text</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The optional edited text of this new plain text editor.</__p_description>
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The optional qt object parent of this new plain text editor.</__p_description>
                                 <__p_assignment>None</__p_assignment>
                             </Object>
                             <Object>
                                 <__p_name>speller</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>True to enable misspelled word highlighting or false to disable it.</__p_description>
                                 <__p_assignment>False</__p_assignment>
                             </Object>
                             <Object>
                                 <__p_name>popup</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>True to enable the popup edit dialog shortcut or false to disable it.</__p_description>
                                 <__p_assignment>False</__p_assignment>
                             </Object>
                         </Function>
@@ -2701,12 +2787,18 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>set_speller_enabled</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Sets the state of this editor's spelling highlighter to enabled or disabled.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If highlighting is disabled then delete any existing speller highlighter of this editor.
+
+Else if it is enabled and there is no highlighter then create one for this editor.
+
+Update the speller state.
+</__p_inlines>
                             <Object>
                                 <__p_name>enabled</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>True to enable this editor's spelling highlighter or false to disable it.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -2715,9 +2807,11 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__setup_actions_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initialize the qt action shortcuts of this new text editor.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Setup the popup text editor dialog action shortcut.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -2725,28 +2819,43 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__dialog_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to open a model dialog text editor to edit this editor's text.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this editor's popup feature is enabled.
+
+Initialize a new text editor dialog.
+
+Modally execute the dialog, setting this editor's text to the dialog's text if it returns with accepted value.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
                 <Class>
                     <__p_name>Block_Dock</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the block edit dock class. It inherits the qt dock widget. It attaches itself to a project view. It provides a GUI edit form to the user for modifying a block's properties.
+
+It attaches itself to a project view. It connects the appropriate signals to listen for the current index of the view to change. When the index does change, it updates itself to reflect the new block that can be edited by the user.
+
+It provides a GUI edit form to the user for modifying a block's properties. The specific edit elements in the form is built based off the block's edit definitions, adding them all in the form in the same order as the edit definitions list. An apply button is also added to the end of the form to update the block's properties to the current values of all the edit widgets. Currently when the current index is changed this blindly wipes out any changes not applied to the block, this needs to be fixed.
+</__p_description>
                     <__p_parents>qtw.QDockWidget</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initialize a new block dock with the given optional parent.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this dock's view to none and edit widgets to empty.
+
+Initialize this dock's window title.
+</__p_inlines>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The optional qt object parent of this new block dock.</__p_description>
                                 <__p_assignment>None</__p_assignment>
                             </Object>
                         </Function>
@@ -2756,12 +2865,16 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>set_view</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Sets this dock's view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If this dock already has a view then disconnect its signal.
+
+Update this docks view to the one given.
+</__p_inlines>
                             <Object>
                                 <__p_name>view</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The new attached view of this dock.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -2770,20 +2883,61 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__build_form_widget_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Builds and initializes all edit widgets for all properties of the block at the given index based off its edit definitions, adding them to this dock's list of edit widgets. This clears any previous edit widgets from the last index that was built by this method.</__p_description>
+                            <__p_return_description>The form layout containing all built edit widgets and the apply button at the end.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Clear any existing edit widgets of this dock.
+
+Get the properties and edit definitions of the block at the given index.
+
+Initialize the qt form layout.
+
+Iterate through all edit definitions.
+
+Initialize the edit widget, label, and hidden names.
+
+If this is a line edit definition then initialize its edit widget and label.
+
+Else if this is a text edit definition then initialize its edit widget and label.
+
+Else if this is a check box edit definition then initialize its edit widget and leave the label blank.
+
+Else if this is a combo box edit definition then initialize its edit widget and label.
+
+Else if this is a hidden edit definition then initialize its dummy edit widget and set it as hidden.
+
+Else this is an invalid edit definition so throw an exception.
+
+If the new edit widget is not hidden then add it to the form layout.
+
+Append the edit widget to this dock's list.
+
+Add a new apply button to the end of the form layout.
+
+Initialize a new widget, setting its layout to the form layout.
+
+Return the new widget.
+
+If any exception occurs during the build process then clear this dock's list of edit widgets and raise it again.
+</__p_inlines>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The index of the block whose property edit widgets are built.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__build_apply_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Builder method.</__p_description>
+                            <__p_return_description>A qt layout containing a new apply button initialized to work this this dock' slot.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize a new apply button for this dock.
+
+Initialize a qt horizontal box layout. Add the new apply button and the and then a stretch.
+
+Return the box layout.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -2791,53 +2945,70 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__current_changed_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
+                            <__p_description>Called to update the block this dock is editing to the new one at the given index. if the given index is invalid then this dock returns to a null state with no form.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If the given index is valid then update this dock's window title and build a new form of edit widgets based off the given index.
+
+Else the given index is invalid so clear this dock's window title and edit widgets.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <Object>
                                 <__p_name>index</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The index of the new block whose properties are edited by this dock.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__apply_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to set this dock's view's currently indexed block's properties to the current values of its edit widgets. If the current index is not valid then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get this dock's view's current index and make sure it is valid.
+
+Set the properties of the current index to the values of this dock's edit widgets.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
             </Module>
             <Module>
                 <__p_name>gui_dialog</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all GUI dialog windows used by the core application.</__p_description>
                 <Class>
                     <__p_name>Text</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the text dialog class. It inherits the qt dialog class. It is a plain text editor with optional spell checking and correction.
+
+It is a plain text editor with optional spell checking and correction. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.
+</__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new text dialog with the given optional text and parent. Spelling features can also be enabled or disabled.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the speller indicator.
+
+Initialize this dialog's text edit widget, speller group box, and spell checking button.
+
+Setup the GUI of this dialog.
+</__p_inlines>
                             <Object>
                                 <__p_name>text</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The optional text of this new text dialog.</__p_description>
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The optional qt object parent of this new text dialog.</__p_description>
                                 <__p_assignment>None</__p_assignment>
                             </Object>
                             <Object>
                                 <__p_name>speller</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>True to enable misspelled word highlighting and spell checking or false to disable it all.</__p_description>
                                 <__p_assignment>False</__p_assignment>
                             </Object>
                         </Function>
@@ -2847,8 +3018,8 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>text</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The current text of this text dialog.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2858,23 +3029,39 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__setup_gui_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes the GUI of this new text dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Create a vertical box layout. Add this dialog's text edit widget, spell checker box, and then its buttons.
+
+Set this dialog's layout.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__setup_spell_checker_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Initializes the spell checker box of this new text dialog.</__p_description>
+                            <__p_return_description>The initialized spell checker box widget.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this dialog's spell checker box.
+
+Return the spell checker box.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__setup_buttons_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Initializes the buttons of this new text dialog.</__p_description>
+                            <__p_return_description>A box layout of initialized buttons.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this dialog's set and cancel buttons.
+
+Initialize this dialog's spell check button, settings is enabled state if spelling features are on.
+
+Create a horizontal box layout. Add the set button, cancel button, a stretch, and then the spell check button.
+
+Return the box layout.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -2882,17 +3069,17 @@ If the child is also volatile below then recursively call this method on the chi
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__spell_check_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to begin spell checking this text dialog's document. This shows its spell checker box and tells it to start checking.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
-                            <__p_name>__spell_check_fnished_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_name>__spell_check_finished_</__p_name>
+                            <__p_description>Called to inform this text dialog that spell checking has finished. This hides its spell checker box and clears any selection from its document's cursor.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>

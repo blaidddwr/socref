@@ -1,5 +1,5 @@
 """
-Contains all custom exception classes that this core application can raise.
+Contains all custom exception classes that the core application can raise.
 """
 
 

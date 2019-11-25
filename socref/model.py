@@ -1,5 +1,5 @@
 """
-Contains all model classes used by this core application.
+Contains all model classes used by the core application.
 """
 import traceback
 import enum
