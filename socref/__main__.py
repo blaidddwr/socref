@@ -14,7 +14,7 @@ from . import gui_window
 
 def main():
     """
-    Begin execution of the program.
+    Begins execution of the program.
     """
     #
     # print the PID so the application can be killed. Qt likes to catch all exceptions without

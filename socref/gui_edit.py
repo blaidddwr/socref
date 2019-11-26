@@ -46,10 +46,19 @@ class Plain_Text(qtw.QPlainTextEdit):
         popup : True to enable the popup edit dialog shortcut or false to disable it.
         """
         qtw.QPlainTextEdit.__init__(self,text,parent)
+        #
+        # Initialize the speller and popup indicators.
+        #
         self.__speller = speller
         self.__popup = popup
+        #
+        # Initialize the speller if it is enabled, else keep this editor's highlighter as none.
+        #
         self.__highlighter = None
         if speller : self.set_speller_enabled(True)
+        #
+        # Setup this editor's shortcut actions.
+        #
         self.__setup_actions_()
 
 

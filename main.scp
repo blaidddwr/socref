@@ -2361,10 +2361,10 @@ Signal that this spell checker has finished.
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new block view dock with the given optional parent.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this dock's view to none and window title.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The optional qt object parent of this new block view dock.</__p_description>
@@ -2396,8 +2396,6 @@ Update this docks view to the one given.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to update this dock's detailed view to the new block at the given index. If the given index is invalid then this dock returns its view to a null state.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Check to see if the given index is valid.
 
 Get this dock's view's model and update its window title.
@@ -2409,6 +2407,8 @@ Set this dock's widget to the new qt label.
 Else the given index is invalid so update this dock's window title and set its widget to nothing.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the new block whose detailed view is displayed by this dock.</__p_description>
@@ -2431,8 +2431,6 @@ Actions are provided for all basic editing actions done upon a view's model. The
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new project view with the given optional parent.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this project's model to none.
 
 Initialize this project's empty list of add actions.
@@ -2447,6 +2445,8 @@ Setup the actions and menus of this project.
 
 Initialize the inherited qt tree view of this project.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The optional qt object parent of this new project.</__p_description>
@@ -2523,8 +2523,6 @@ Initialize the inherited qt tree view of this project.
                         <Function>
                             <__p_name>setModel</__p_name>
                             <__p_description>Sets this project's model to the one given.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Set this project's inherited qt tree view model to the one given.
 
 Connect all relevant signals to this project.
@@ -2535,6 +2533,8 @@ Set this project's model to the one given.
 
 Update this project's context menu.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>model</__p_name>
                                 <__p_description>The new model this project view displays and edits.</__p_description>
@@ -2556,12 +2556,12 @@ Update this project's context menu.
                         <Function>
                             <__p_name>__update_insert_</__p_name>
                             <__p_description>Updates this project's insert option to the one given, setting all insert actions checked states appropriately.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Set the checked states of all three insert option actions to the new option state of this project.
 
 Set this project's insert option to the new value and then update its context menu.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>option</__p_name>
                                 <__p_description>The new insert option set for this project.</__p_description>
@@ -2570,20 +2570,18 @@ Set this project's insert option to the new value and then update its context me
                         <Function>
                             <__p_name>__update_context_menu_</__p_name>
                             <__p_description>Updates this project's context menu with the new selection state of its model. Updating includes enabling or disabling appropriate actions and rebuilding the add block menu.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Update this project's actions.
 
 Clear this project's add menu and populate it with the new add actions list.
 
 Disable this project's add menu if it is empty.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__update_actions_</__p_name>
                             <__p_description>Updates this project's actions. Updating includes rebuilding its add block actions and enabling or disabling appropriate actions based off its selection model state.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Update this project's add actions list.
 
 Determine if one or more indexes are selected by this project's selection model.
@@ -2592,12 +2590,12 @@ Disable this project's remove, cut, copy, move up, and move down actions if no i
 
 Disable this project's paste action if it cannot paste any of its copied blocks.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__update_add_actions_</__p_name>
                             <__p_description>Update this project's add actions list. Updating involves clearing the current list and building it again based off this project's selection model's current index.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Clear this project's add actions list, deleting each action it contained.
 
 If this project has no model this is finished.
@@ -2610,13 +2608,13 @@ Iterate through all block types of the build list.
 
 Create a new add action for the block type, fetching its icon and setting it to the action, and then appending it to this project's add action list.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__can_paste_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if any of this project's global copied blocks can be pasted into its model at the current index with the current insertion type. False if no copied block can be pasted.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If this project has no model or no global copied blocks then return false.
 
 Get the insert values for pasting blocks, returning false if the returned index does not exist.
@@ -2625,13 +2623,13 @@ If there is not a single global copied block type that is in the build list of t
 
 All tests have passed so return true.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__insert_values_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A tuple containing the row and parent index where blocks must be inserted into this project's model by either adding new ones or pasting copied ones. If there is no valid target for insertion the tuple returned is none and none.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the current index of this project's selection model.
 
 Initialize the returned row and parent names to none.
@@ -2644,12 +2642,12 @@ Else this project's insert is invalid so raise an exception.
 
 Return the determined row and parent for insertion.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_actions_</__p_name>
                             <__p_description>Initialize the qt actions of this new project view.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this project's undo action.
 
 Initialize this project's redo action.
@@ -2672,12 +2670,12 @@ Initialize this project's insert into action.
 
 Initialize this project's insert after action.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_context_menu_</__p_name>
                             <__p_description>Initializes the context menu of this new project view.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get this project's uninitialized context menu.
 
 Add the undo and then redo actions followed by a separator.
@@ -2692,6 +2690,8 @@ Add a new insert sub menu. Add the insert before, insert into, and then insert a
 
 Update this project's initialized context menu.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -2700,13 +2700,13 @@ Update this project's initialized context menu.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to inform this project that its selection model's current index has changed to the one given from the previous one given.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Update this project's context menu.
 
 Signal this project's current index has changed.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>current</__p_name>
                                 <__p_description>The new current index of this project's selection model.</__p_description>
@@ -2719,33 +2719,33 @@ Signal this project's current index has changed.
                         <Function>
                             <__p_name>__model_reset_</__p_name>
                             <__p_description>Called to inform this project that its model has reset itself.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Update this project's context menu.
 
 Signal this project's current index has changed to nothing.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__model_destroyed_</__p_name>
                             <__p_description>Called to inform this project that its model has been destroyed.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Clear this project's model reference and then update its context menu.
 
 Signal this project's current index has changed to nothing.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__model_data_changed_</__p_name>
                             <__p_description>Called to inform this project that data has changed for the range of indexes from the given top left to the given bottom right with the given roles.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If the given top left index is this project's selection model's current index then signal that it has changed and update this project's context menu.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>top_left</__p_name>
                                 <__p_description>The top left index in the range of indexes that has changed.</__p_description>
@@ -2762,9 +2762,9 @@ Signal this project's current index has changed to nothing.
                         <Function>
                             <__p_name>__context_menu_requested_</__p_name>
                             <__p_description>Called to inform this project that its context menu has been requested by the GUI at the given relative point.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QPoint)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(qtc.QPoint)</__p_descriptors>
                             <Object>
                                 <__p_name>position</__p_name>
                                 <__p_description>The point where the context menu is requested relative to this project's widget.</__p_description>
@@ -2773,30 +2773,28 @@ Signal this project's current index has changed to nothing.
                         <Function>
                             <__p_name>__undo_</__p_name>
                             <__p_description>Called to undo the last action done to this project's model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Check if this project's model can undo an action.
 
 Undo the last action and then update this project's context menu.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__redo_</__p_name>
                             <__p_description>Called to redo the last undone action on this project's model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Check if this project's model can redo an action.
 
 Redo the last action undone and then update this project's context menu.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__add_</__p_name>
                             <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the row and parent index where the new block should be inserted, making sure it is valid.
 
 Insert a new block with the given type to this project's model at the insertion row and parent.
@@ -2804,6 +2802,8 @@ Insert a new block with the given type to this project's model at the insertion 
 If the this project's selection model's current index is not valid then update it to the newly created index. This is to fix a strange PySide2 bug.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>block_type</__p_name>
                                 <__p_description>The block type that is created and added to this project's model.</__p_description>
@@ -2812,8 +2812,6 @@ If the this project's selection model's current index is not valid then update i
                         <Function>
                             <__p_name>__remove_</__p_name>
                             <__p_description>Called to remove all selected indexes from this project's model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this project has a model.
 
 Continue while this project's selection model has one or more indexes selected.
@@ -2821,23 +2819,23 @@ Continue while this project's selection model has one or more indexes selected.
 Get the first index that is selected and remove it from the model.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__cut_</__p_name>
                             <__p_description>Called to cut all selected indexes from this project's model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this project has a model.
 
 Copy all selected indexes and then remove them.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__copy_</__p_name>
                             <__p_description>Called to copy all selected indexes from this project's model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this project has a model.
 
 Get this project's selection model's list of selected indexes, making sure it is not empty.
@@ -2847,12 +2845,12 @@ Copy the entire list of indexes to this project's global XML block copy and save
 Update this project's actions.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__paste_</__p_name>
                             <__p_description>Called to paste any globally copied blocks into this project's model at the current index using its selected insert option.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this project has a model and global has copied block XML data.
 
 Get the row and parent index where the blocks should be pasted, making sure it is valid.
@@ -2860,41 +2858,43 @@ Get the row and parent index where the blocks should be pasted, making sure it i
 Paste the globally copied blocks into this project's model at the insertion row and parent. The model will not insert any block whose type is not part of the parent's build list.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__move_up_</__p_name>
                             <__p_description>Called to move the current index of this project's selection model up by one in its model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__move_down_</__p_name>
                             <__p_description>Called to move the current index of this project's selection model down by one in its model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__insert_before_</__p_name>
                             <__p_description>Called to set this project's insert option to &quot;before&quot;.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__insert_into_</__p_name>
                             <__p_description>Called to set this project's insert option to &quot;into&quot;.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__insert_after_</__p_name>
                             <__p_description>Called to set this project's insert option to &quot;after&quot;.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                     <Access>
@@ -3043,12 +3043,12 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initialize a new block edit dock with the given optional parent.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this dock's view to none and edit widgets to empty.
 
 Initialize this dock's window title.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The optional qt object parent of this new block edit dock.</__p_description>
@@ -3142,13 +3142,13 @@ Return the box layout.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If the given index is valid then update this dock's window title and build a new form of edit widgets based off the given index.
 
 Else the given index is invalid so clear this dock's window title and edit widgets.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the new block whose properties are edited by this dock.</__p_description>
@@ -3285,16 +3285,43 @@ Return the box layout.
                 <__p_description>Detailed description.</__p_description>
                 <Class>
                     <__p_name>Main</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the main window class. It inherits the qt main window class. It is designed as a multiple window application. It is the main window of the core application.
+
+It is designed as a multiple window application. Any number of these windows can be open, the application itself will close when the last main window closes. Each main window can edit its own project independent of all other main windows. A reference does not need to be saved for main windows because it keeps its own list of global instances within its class object.
+
+It is the main window of the core application. It provides a view, docks, menus, and a toolbar that allows a user to work on any project in the application. The project view actually displays the tree of blocks of an open project. The view dock provides a detailed view of the current block in the project view. The edit dock provides an edit form for modifying the current block's properties. The menus and toolbars provide shortcuts for actions that can be done in the project view. They also provide basic actions that a main window handles itself such as opening or saving projects.
+</__p_description>
                     <__p_parents>qtw.QMainWindow</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new main window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this window's project model.
+
+Initialize this window's project view.
+
+Initialize this window's view/edit block docks.
+
+Initialize this window's actions.
+
+Initialize this window's empty list of new project actions.
+
+Initialize this window's project save path to none.
+
+Append this new window instance to the global list so it is not deleted due to lack of references.
+
+Setup this window's project model and view.
+
+Setup this window's docks, actions, menus, and toolbars.
+
+Connect this window's parse requested signal to the singleton parser model.
+
+Update this window's title and actions.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -3302,7 +3329,7 @@ Return the box layout.
                         <__p_type>Public</__p_type>
                         <Object>
                             <__p_name>parse_requested</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Signals this window has started parsing its current project with the given abstract parser.</__p_description>
                             <__p_assignment>qtc.Signal(abstract.Parser)</__p_assignment>
                         </Object>
                     </Access>
@@ -3311,12 +3338,20 @@ Return the box layout.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>closeEvent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the PySide2.QtWidgets.QWidget interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Check if it is OK to close this window.
+
+Remove this instance from the list of global main windows and delete it later.
+
+Accept the given event.
+
+Else it is not OK so ignore the given event.
+</__p_inlines>
                             <Object>
                                 <__p_name>event</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -3325,70 +3360,126 @@ Return the box layout.
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__update_actions_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Updates this window's actions.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Disable this window's save and parse actions if its path is nothing.
+
+Disable this window's save as and close actions if it has no model.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__is_ok_to_close_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if it is OK to close this window or false otherwise. It is OK to close this window if the user saves any unsaved changes to this window's project, chooses to discard unsaved changes, or there are no unsaved changes to worry about.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If this window has no project or its project is not modified then return true.
+
+Initialize a message box informing the user there are unsaved changes.
+
+Modally execute the message box, saving the user's response.
+
+Check if the user response was to save the changes.
+
+If this is a new project that has never been saved call this window's save as slot, else call its save slot. Either way return the return value of the called slot.
+
+Else if the user response was to cancel closing then return false.
+
+Else the user response was to discard so return true.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__update_title_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Updates this window's title.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>It this window has a project then set its title to the project's name and application name.
+
+Else this window has no project so set its title to the application name.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__setup_actions_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes all qt actions of this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_new_actions_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Populates this window's list of new actions with all available languages.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Iterate through all available languages.
+
+Initialize and add a new action to this window's list for the language.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__setup_file_actions_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes the qt actions of this new window's file menu.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this window's open action.
+
+Initialize this window's save action.
+
+Initialize this window's save as action.
+
+Initialize this window's parse action.
+
+Initialize this window's close action.
+
+Initialize this window's exit action.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__setup_menus_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes all menus of this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_file_menu_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes the file menu for this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Add the new file menu to this window's menu bar.
+
+Add the new sub menu. Iterate through all add actions and add the to the sub menu.
+
+Add the open, save, save as, and close actions to the file menu followed by a separator.
+
+Add the parse action to the file menu followed by a separator.
+
+Add the exit action to the file menu.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__setup_edit_menu_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Adds this new window's project view's context menu as the window's edit menu.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_docks_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes the edit/view block dock widgets of this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Set both dock's views to this window's project view.
+
+Add both docks to this window.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>__setup_toolbars_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes all toolbars of this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Add the file toolbar to this window. Add the open, save and save as actions to the toolbar.
+
+Add the edit toolbar to this window. Add this window's project view's undo, redo, remove, cut, copy, paste, move up, and move down actions to the toolbar.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -3396,17 +3487,17 @@ Return the box layout.
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__modified_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to inform this window that its project has been modified.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__name_changed_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <__p_description>Called to inform this window that its project's name has been changed. This updates the window's title.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <Object>
                                 <__p_name>name</__p_name>
                                 <__p_description>Detailed description.</__p_description>
@@ -3414,49 +3505,107 @@ Return the box layout.
                         </Function>
                         <Function>
                             <__p_name>__new_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <__p_description>Called to create a new project of the given language for this window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize a name to this window or a new window if this one already has a project.
+
+Create a new project of the given language.
+
+Update the windows title and actions.
+
+Make sure the window is shown.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <Object>
                                 <__p_name>lang_name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The name of the language used to create a new project.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__open_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to open a project file for this window if it does not have a project or a new window otherwise.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the path to the project file, making sure the user choose a valid file path.
+
+Get the absolute path of the file.
+
+Initialize a name to this window or a new window if this one already has a project.
+
+Load the project file at the user provided path.
+
+If any exception happens while loading then delete the window if it is not this window. Raise the exception again.
+
+Set the window's project save path.
+
+Update the window's title, state, and actions.
+
+Make sure the window is shown.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__save_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to save this window's project. If this window has no project or its save path is none then this does nothing.</__p_description>
+                            <__p_return_description>True if the project was saved successfully or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this window has a project and save file path.
+
+Save this window's project, changing its modified status to false.
+
+Return success.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__save_as_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to save this window's project to a new save file path selected by the user. If this window has no project then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this window has a project.
+
+Get the new save file path, making sure the user choose a valid path.
+
+Set this window's save file path to the new one in its absolute form, saving the old path.
+
+Save this window's model.
+
+If any exception occurred while saving to set this window's save file path back to the previous value and raise the exception again.
+
+Update this window's modified state and actions.
+
+Return success.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__parse_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to parse the source code of this window's project. If this window does not have a project save path then this does nothing.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this window has a project save path.
+
+Create a new parser from this window's model and set its root path to the directory path of its project save path.
+
+Signal the parsing is requested with the new parser.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__close_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_description>Called to close this window's current project. If this window has no project then this does nothing. If the current project has unsaved changes the user is queried about what to do.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this window has a project and it is OK to close.
+
+Close this window's model's project.
+
+Set this window's save path to nothing.
+
+Update this window's title, state, and actions.</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                     <Access>
@@ -3464,7 +3613,7 @@ Return the box layout.
                         <__p_type>Private</__p_type>
                         <Object>
                             <__p_name>__instances</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>List of all active main window instances. Used to make sure they are not prematurely deleted.</__p_description>
                             <__p_assignment>[]</__p_assignment>
                         </Object>
                     </Access>
@@ -3475,7 +3624,9 @@ Return the box layout.
                 <__p_description>Contains the main function where execution begins.</__p_description>
                 <Function>
                     <__p_name>main</__p_name>
-                    <__p_description>Begin execution of the program.</__p_description>
+                    <__p_description>Begins execution of the program.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
                     <__p_inlines>print the PID so the application can be killed. Qt likes to catch all exceptions without exiting.
 
 Load the python language.
@@ -3491,8 +3642,6 @@ Start the GUI event loop, saving its exit code when it returns.
 Request the parser thread quit and wait for it to stop.
 
 Exit the application with the return code provided by the Qt application.</__p_inlines>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
                 </Function>
             </Module>
         </Package>

@@ -796,7 +796,7 @@ class Project(qtw.QTreeView):
         # Insert a new block with the given type to this project's model at the insertion row and
         # parent.
         #
-        self.__model.insertRows(row,(block_name,),parent)
+        self.__model.insertRows(row,(block_type,),parent)
         #
         # If the this project's selection model's current index is not valid then update it to the
         # newly created index. This is to fix a strange PySide2 bug.
