@@ -138,7 +138,7 @@ class Block_Dock(qtw.QDockWidget):
     This is the block edit dock class. It inherits the qt dock widget. It attaches itself to a
     project view. It provides a GUI edit form to the user for modifying a block's properties.
 
-    It attaches itself to a project view. It connects the appropriate signals to listen for the
+    It attaches itself to a project view. It connects the appropriate signal to listen for the
     current index of the view to change. When the index does change, it updates itself to reflect
     the new block that can be edited by the user.
 
@@ -158,9 +158,9 @@ class Block_Dock(qtw.QDockWidget):
 
     def __init__(self, parent=None):
         """
-        Initialize a new block dock with the given optional parent.
+        Initialize a new block edit dock with the given optional parent.
 
-        parent : The optional qt object parent of this new block dock.
+        parent : The optional qt object parent of this new block edit dock.
         """
         qtw.QDockWidget.__init__(self,parent)
         #
@@ -352,7 +352,7 @@ class Block_Dock(qtw.QDockWidget):
     @qtc.Slot(qtc.QModelIndex)
     def __current_changed_(self, index):
         """
-        Called to update the block this dock is editing to the new one at the given index. if the
+        Called to update the block this dock is editing to the new one at the given index. If the
         given index is invalid then this dock returns to a null state with no form.
 
         index : The index of the new block whose properties are edited by this dock.
