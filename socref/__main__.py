@@ -52,3 +52,12 @@ def main():
     # Exit the application with the return code provided by the Qt application.
     #
     sys.exit(ret)
+
+
+
+
+
+
+
+
+if __name__ == "__main__" : main()

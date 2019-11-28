@@ -182,264 +182,9 @@ class Project(qtc.QAbstractItemModel):
         return 0 if self.__root is None else 1
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def new(self, lang_name):
-        """
-        Creates a new project for this model with the given language name, closing any currently
-        loaded project. The given language name must be valid.
-
-        lang_name : The name of the language used to create a new project.
-        """
-        #
-        # If this model has a project loaded then close it.
-        #
-        if self.__root is not None : self.close()
-        #
-        # Signal this model is being reset.
-        #
-        self.beginResetModel()
-        try:
-            #
-            # Set the new default project name, language name, and newly created root block.
-            #
-            self.__name = "New Project"
-            self.__lang_name = lang_name
-            self.__root = abstract.Factory().create_root(self.__lang_name)
-        except:
-            #
-            # If any exception occurs while creating the new project then reset this model to being
-            # empty and raise it again.
-            #
-            self.__name = None
-            self.__lang_name = None
-            self.__root = None
-            raise
-        finally:
-            #
-            # Finish this model reset.
-            #
-            self.endResetModel()
-
-
-    def load(self, path):
-        """
-        Loads a project to this model from the given file path, closing any currently loaded
-        project.
-
-        path : The file path of the project that is loaded into this model.
-        """
-        #
-        # Read in the XML from the file with the given path.
-        #
-        xml = None
-        with open(path,"br") as ifile : xml = ifile.read()
-        #
-        # Create a new qt XML stream reader from the loaded XML.
-        #
-        stream = qtc.QXmlStreamReader(xml)
-        #
-        # Read to the next start element and make sure it is the correct project tag.
-        #
-        stream.readNextStartElement()
-        if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG :
-            raise exception.LoadError("Invalid XML project tag.")
-        #
-        # Read to the next start element and read in the language name, making sure it is the
-        # correct language tag.
-        #
-        stream.readNextStartElement()
-        if stream.name() != self.__LANG_TAG :
-            raise exception.LoadError("Invalid/missing XML language tag.")
-        lang_name = stream.readElementText()
-        #
-        # Read to the next start element and read in the project name, making sure it is the correct
-        # name tag.
-        #
-        stream.readNextStartElement()
-        if stream.name() != self.__NAME_TAG :
-            raise exception.LoadError("Invalid/missing XML name tag.")
-        name = stream.readElementText()
-        #
-        # Create a new project for this model using the read in language name and then set the
-        # project name to the read in name.
-        #
-        self.new(lang_name)
-        self.__name = name
-        try:
-            #
-            # Read to the next start element and make sure it is the correct bock type tag.
-            #
-            stream.readNextStartElement()
-            if stream.name() != self.__root._TYPE_ :
-                raise exception.LoadError("Invalid/missing XML root block tag.")
-            #
-            # Read in all block data from the root block XML element.
-            #
-            self.__root.set_from_xml(stream)
-        except:
-            #
-            # If any exception occurs then close the partially loaded project and raise it again.
-            #
-            self.close()
-            raise
-
-
-    def save(self, path):
-        """
-        Saves this model's currently loaded project to the file with the given path. If this model
-        has no project then this does nothing.
-
-        path : The path to the save file of this model's project.
-        """
-        #
-        # Make sure this model has a project.
-        #
-        if self.__root is not None:
-            #
-            # Create a new qt byte array the XML will be written to.
-            #
-            xml = qtc.QByteArray()
-            #
-            # Create a new qt XML writer stream attached to the byte array.
-            #
-            stream = qtc.QXmlStreamWriter(xml)
-            #
-            # Initialize the stream.
-            #
-            stream.setAutoFormatting(True)
-            #
-            # Write the start document and start project tag.
-            #
-            stream.writeStartDocument()
-            stream.writeStartElement(self.__PROJECT_TAG)
-            #
-            # Write the language name and project name text elements.
-            #
-            stream.writeTextElement(self.__LANG_TAG,self.__lang_name)
-            stream.writeTextElement(self.__NAME_TAG,self.__name)
-            #
-            # Write the block data element.
-            #
-            self.__root.to_xml(stream)
-            #
-            # Write the end project tag and end document.
-            #
-            stream.writeEndElement()
-            stream.writeEndDocument()
-            #
-            # Open the output file at the given path and save the XML document, setting this model's
-            # modified state to false.
-            #
-            with open(path,"bw") as ofile : ofile.write(xml.data())
-            self.__modified = False
-
-
-    def close(self):
-        """
-        Closes any currently loaded project of this model. If this model has no loaded project then
-        this does nothing.
-        """
-        #
-        # Make sure this model has a project.
-        #
-        if self.__root is not None:
-            #
-            # Signal this model is being reset.
-            #
-            self.beginResetModel()
-            #
-            # Set the project name, language name, and root block to none.
-            #
-            self.__name = None
-            self.__lang_name = None
-            self.__root = None
-            #
-            # Set this model's modified state to false.
-            #
-            self.__modified = False
-            #
-            # Reset this model's undo stack and stack index.
-            #
-            self.__undo_stack.clear()
-            self.__undo_stack_index = 0
-            #
-            # Finish this model reset.
-            #
-            self.endResetModel()
-
-
-    def lang_name(self):
-        """
-        Getter method.
-
-        return : The language name of this model's currently loaded project or none if it has no
-                 project.
-        """
-        return self.__lang_name
-
-
-    def name(self):
-        """
-        Getter method.
-
-        return : The name of this model's currently loaded project or none if it has no project.
-        """
-        return self.__name
-
-
-    def set_name(self, name):
-        """
-        Sets the name of this model's currently loaded project to the one given. This model must
-        have a loaded project.
-
-        name : The new name for this model's project.
-        """
-        #
-        # Make sure this model has a project.
-        #
-        if self.__root is None : raise RuntimeError("Cannot set name of no project.")
-        #
-        # Make sure the given name is different from the current one.
-        #
-        if name != self.__name :
-            #
-            # Update the name, signal the project is modified and the name is modified.
-            #
-            self.__name = name
-            self.__modified_()
-            self.name_changed.emit(name)
-
-
-    def is_modified(self):
-        """
-        Getter method.
-
-        return : True if this model's currently loaded project has unsaved changes or false
-                 otherwise.
-        """
-        return self.__modified
-
-
-    def can_undo(self):
-        """
-        Getter method.
-
-        return : True if this model has a modification that can be undone or false otherwise.
-        """
-        return self.__undo_stack_index > 0
-
-
-    def can_redo(self):
-        """
-        Getter method.
-
-        return : True if this model has a modification that can be redone or false otherwise.
-        """
-        return self.__undo_stack_index < len(self.__undo_stack)
+    #############################
+    # PUBLIC - Qt Model Methods #
+    #############################
 
 
     def headerData(self, section, orientation, role):
@@ -679,6 +424,290 @@ class Project(qtc.QAbstractItemModel):
         return self.insertRows(row,(block_type,),parent)
 
 
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
+    def name(self):
+        """
+        Getter method.
+
+        return : The name of this model's currently loaded project or none if it has no project.
+        """
+        return self.__name
+
+
+    def lang_name(self):
+        """
+        Getter method.
+
+        return : The language name of this model's currently loaded project or none if it has no
+                 project.
+        """
+        return self.__lang_name
+
+
+    def is_modified(self):
+        """
+        Getter method.
+
+        return : True if this model's currently loaded project has unsaved changes or false
+                 otherwise.
+        """
+        return self.__modified
+
+
+    def can_undo(self):
+        """
+        Getter method.
+
+        return : True if this model has a modification that can be undone or false otherwise.
+        """
+        return self.__undo_stack_index > 0
+
+
+    def can_redo(self):
+        """
+        Getter method.
+
+        return : True if this model has a modification that can be redone or false otherwise.
+        """
+        return self.__undo_stack_index < len(self.__undo_stack)
+
+
+    def parser(self):
+        """
+        Builds a new abstract parser that can be used to parse the source code of this model's
+        project. If this model has no project that this does nothing.
+
+        return : The newly built abstract parser or none if this model has no project.
+        """
+        #
+        # Make sure this model has a project.
+        #
+        if self.__root is not None :
+            #
+            # Create a new abstract parser from this model's project's root block, making sure it is
+            # a valid abstract parser.
+            #
+            ret = self.__root.parser()
+            if not isinstance(ret,abstract.Parser) :
+                raise RuntimeError("Generated parser is not an abstract parser.")
+            #
+            # Return the created parser.
+            #
+            return ret
+
+
+    def new(self, lang_name):
+        """
+        Creates a new project for this model with the given language name, closing any currently
+        loaded project. The given language name must be valid.
+
+        lang_name : The name of the language used to create a new project.
+        """
+        #
+        # If this model has a project loaded then close it.
+        #
+        if self.__root is not None : self.close()
+        #
+        # Signal this model is being reset.
+        #
+        self.beginResetModel()
+        try:
+            #
+            # Set the new default project name, language name, and newly created root block.
+            #
+            self.__name = "New Project"
+            self.__lang_name = lang_name
+            self.__root = abstract.Factory().create_root(self.__lang_name)
+        except:
+            #
+            # If any exception occurs while creating the new project then reset this model to being
+            # empty and raise it again.
+            #
+            self.__name = None
+            self.__lang_name = None
+            self.__root = None
+            raise
+        finally:
+            #
+            # Finish this model reset.
+            #
+            self.endResetModel()
+
+
+    def load(self, path):
+        """
+        Loads a project to this model from the given file path, closing any currently loaded
+        project.
+
+        path : The file path of the project that is loaded into this model.
+        """
+        #
+        # Read in the XML from the file with the given path.
+        #
+        xml = None
+        with open(path,"br") as ifile : xml = ifile.read()
+        #
+        # Create a new qt XML stream reader from the loaded XML.
+        #
+        stream = qtc.QXmlStreamReader(xml)
+        #
+        # Read to the next start element and make sure it is the correct project tag.
+        #
+        stream.readNextStartElement()
+        if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG :
+            raise exception.LoadError("Invalid XML project tag.")
+        #
+        # Read to the next start element and read in the language name, making sure it is the
+        # correct language tag.
+        #
+        stream.readNextStartElement()
+        if stream.name() != self.__LANG_TAG :
+            raise exception.LoadError("Invalid/missing XML language tag.")
+        lang_name = stream.readElementText()
+        #
+        # Read to the next start element and read in the project name, making sure it is the correct
+        # name tag.
+        #
+        stream.readNextStartElement()
+        if stream.name() != self.__NAME_TAG :
+            raise exception.LoadError("Invalid/missing XML name tag.")
+        name = stream.readElementText()
+        #
+        # Create a new project for this model using the read in language name and then set the
+        # project name to the read in name.
+        #
+        self.new(lang_name)
+        self.__name = name
+        try:
+            #
+            # Read to the next start element and make sure it is the correct bock type tag.
+            #
+            stream.readNextStartElement()
+            if stream.name() != self.__root._TYPE_ :
+                raise exception.LoadError("Invalid/missing XML root block tag.")
+            #
+            # Read in all block data from the root block XML element.
+            #
+            self.__root.set_from_xml(stream)
+        except:
+            #
+            # If any exception occurs then close the partially loaded project and raise it again.
+            #
+            self.close()
+            raise
+
+
+    def save(self, path):
+        """
+        Saves this model's currently loaded project to the file with the given path. If this model
+        has no project then this does nothing.
+
+        path : The path to the save file of this model's project.
+        """
+        #
+        # Make sure this model has a project.
+        #
+        if self.__root is not None:
+            #
+            # Create a new qt byte array the XML will be written to.
+            #
+            xml = qtc.QByteArray()
+            #
+            # Create a new qt XML writer stream attached to the byte array.
+            #
+            stream = qtc.QXmlStreamWriter(xml)
+            #
+            # Initialize the stream.
+            #
+            stream.setAutoFormatting(True)
+            #
+            # Write the start document and start project tag.
+            #
+            stream.writeStartDocument()
+            stream.writeStartElement(self.__PROJECT_TAG)
+            #
+            # Write the language name and project name text elements.
+            #
+            stream.writeTextElement(self.__LANG_TAG,self.__lang_name)
+            stream.writeTextElement(self.__NAME_TAG,self.__name)
+            #
+            # Write the block data element.
+            #
+            self.__root.to_xml(stream)
+            #
+            # Write the end project tag and end document.
+            #
+            stream.writeEndElement()
+            stream.writeEndDocument()
+            #
+            # Open the output file at the given path and save the XML document, setting this model's
+            # modified state to false.
+            #
+            with open(path,"bw") as ofile : ofile.write(xml.data())
+            self.__modified = False
+
+
+    def close(self):
+        """
+        Closes any currently loaded project of this model. If this model has no loaded project then
+        this does nothing.
+        """
+        #
+        # Make sure this model has a project.
+        #
+        if self.__root is not None:
+            #
+            # Signal this model is being reset.
+            #
+            self.beginResetModel()
+            #
+            # Set the project name, language name, and root block to none.
+            #
+            self.__name = None
+            self.__lang_name = None
+            self.__root = None
+            #
+            # Set this model's modified state to false.
+            #
+            self.__modified = False
+            #
+            # Reset this model's undo stack and stack index.
+            #
+            self.__undo_stack.clear()
+            self.__undo_stack_index = 0
+            #
+            # Finish this model reset.
+            #
+            self.endResetModel()
+
+
+    def set_name(self, name):
+        """
+        Sets the name of this model's currently loaded project to the one given. This model must
+        have a loaded project.
+
+        name : The new name for this model's project.
+        """
+        #
+        # Make sure this model has a project.
+        #
+        if self.__root is None : raise RuntimeError("Cannot set name of no project.")
+        #
+        # Make sure the given name is different from the current one.
+        #
+        if name != self.__name :
+            #
+            # Update the name, signal the project is modified and the name is modified.
+            #
+            self.__name = name
+            self.__modified_()
+            self.name_changed.emit(name)
+
+
     def move_row(self, change, index):
         """
         Moves the given index's row by the amount given.
@@ -827,30 +856,6 @@ class Project(qtc.QAbstractItemModel):
         #
         self.__push_(Insert(row,blocks,parent,self))
         return len(blocks)
-
-
-    def parser(self):
-        """
-        Builds a new abstract parser that can be used to parse the source code of this model's
-        project. If this model has no project that this does nothing.
-
-        return : The newly built abstract parser or none if this model has no project.
-        """
-        #
-        # Make sure this model has a project.
-        #
-        if self.__root is not None :
-            #
-            # Create a new abstract parser from this model's project's root block, making sure it is
-            # a valid abstract parser.
-            #
-            ret = self.__root.parser()
-            if not isinstance(ret,abstract.Parser) :
-                raise RuntimeError("Generated parser is not an abstract parser.")
-            #
-            # Return the created parser.
-            #
-            return ret
 
 
     ####################

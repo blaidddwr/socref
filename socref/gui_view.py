@@ -1,5 +1,5 @@
 """
-Detailed description.
+Contains all GUI view widgets that display projects and their blocks.
 """
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg

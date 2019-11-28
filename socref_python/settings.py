@@ -1,25 +1,25 @@
 """
-Detailed description.
+Contains all global settings for the core application.
 """
 
 
 #
-# Detailed description.
+# The maximum number of columns for any one line of code.
 #
 COLUMNS = 100
 #
-# Detailed description.
+# The number of spaces used for each indent.
 #
 INDENT = 4
 #
-# Detailed description.
+# The number of lines for a first order header.
 #
 H1LINES = 8
 #
-# Detailed description.
+# The number of lines for a second order header.
 #
 H2LINES = 4
 #
-# Detailed description.
+# The number of lines for a third order header.
 #
 H3LINES = 2

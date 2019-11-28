@@ -1,5 +1,5 @@
 """
-Detailed description.
+Contains all GUI windows for the core application.
 """
 import os
 from PySide2 import QtCore as qtc

@@ -114,6 +114,10 @@ class Parser(abstract.Parser):
         root : Detailed description.
         """
         abstract.Parser.__init__(self,root)
+        self.class_pattern = re.compile('^class +([a-zA-Z_]+\w*)\([\w\._]*\):')
+        self.function_pattern = re.compile('^def +([a-zA-Z_]+\w*)\(.*\):')
+        self.comment_pattern = re.compile('( *#).*')
+        self.method_pattern = re.compile(' *def +([a-zA-Z_]+\w*)\(.*\):')
         self.__defs = {}
 
 
@@ -143,9 +147,9 @@ class Parser(abstract.Parser):
                 line = ifile.readline()
                 if not line : break
                 line = line[:-1]
-                match = re.match('^class +([a-zA-Z_]+\w*)\([\w\._]*\):',line)
+                match = self.class_pattern.match(line)
                 if match : uniq_insert(def_["classes"],match.group(1),self.__scan_class_(ifile))
-                match = re.match('^def +([a-zA-Z_]+\w*)\(.*\):',line)
+                match = self.function_pattern.match(line)
                 if match :
                     uniq_insert(def_["functions"],match.group(1),self.__scan_function_(ifile))
             self.__defs[path] = def_
@@ -222,7 +226,7 @@ class Parser(abstract.Parser):
         while True :
             line = scan.readline()
             if line is None : break
-            match = re.match('( *#).*',line)
+            match = self.comment_pattern.match(line)
             if match :
                 if latch :
                     ret.append(match.group(1)[scan.indent():])
@@ -247,7 +251,7 @@ class Parser(abstract.Parser):
         while True :
             line = scan.readline()
             if line is None : break
-            match = re.match(' *def +([a-zA-Z_]+\w*)\(.*\):',line)
+            match = self.method_pattern.match(line)
             if match :
                 uniq_insert(ret["functions"],match.group(1),self.__scan_function_(ifile))
         return ret

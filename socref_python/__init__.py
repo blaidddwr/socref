@@ -1,5 +1,5 @@
 """
-Detailed description.
+Contains the python language definition for Socrates' Reference.
 """
 from . import resources
 from . import package

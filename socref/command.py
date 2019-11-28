@@ -100,7 +100,7 @@ class Command(abc.ABC):
 
     def _build_rows_(self, index):
         """
-        Builder method.
+        Getter method.
 
         index : A qt model index of this command's project model that is returns as a list of rows.
 

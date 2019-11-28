@@ -909,7 +909,7 @@ class Factory():
 
     def create(self, lang_name, type_name):
         """
-        Builder method. The given language name and block type name must exist in this factory.
+        Getter method. The given language name and block type name must exist in this factory.
 
         lang_name : The name of the language of the created block.
 
@@ -922,7 +922,7 @@ class Factory():
 
     def create_root(self, lang_name):
         """
-        Builder method. The given language must exist in this factory.
+        Getter method. The given language must exist in this factory.
 
         lang_name : The name of the language of the created root block.
 

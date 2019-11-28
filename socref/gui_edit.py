@@ -331,7 +331,7 @@ class Block_Dock(qtw.QDockWidget):
 
     def __build_apply_(self):
         """
-        Builder method.
+        Getter method.
 
         return : A qt layout containing a new apply button initialized to work this this dock' slot.
         """

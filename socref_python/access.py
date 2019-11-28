@@ -1,136 +1,13 @@
 """
-Detailed description.
+Contains the access block definition.
 """
 import html
 from PySide2 import QtGui as qtg
 from socref import util
 from socref import abstract
-from . import function
 from . import settings
-
-
-
-
-
-
-
-
-class Block(abstract.Block):
-    """
-    Detailed description.
-    """
-
-
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
-    def __init__(self):
-        """
-        Detailed description.
-        """
-        abstract.Block.__init__(self)
-        self._p_name = ""
-        self._p_type = "Public"
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def has_abstract(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        for block in self :
-            if isinstance(block,function.Block) :
-                if block.is_abstract() : return True
-        return False
-
-
-    def is_volatile_above(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        return True
-
-
-    def icon(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        if self._p_type == "Public" : return qtg.QIcon(":/python/public.svg")
-        elif  self._p_type == "Protected" : return qtg.QIcon(":/python/protected.svg")
-        else:  return qtg.QIcon(":/python/private.svg")
-
-
-    def display_name(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        return self._p_name + " (%i)" % len(self)
-
-
-    def display_view(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        type_ = html.escape(self._p_type.upper())
-        name = html.escape(self._p_name)
-        return "<h1>%s</h1><p>%s</p>" % (type_,name)
-
-
-    def build_list(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        return ("Object","Function")
-
-
-    def edit_definitions(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        ret = []
-        ret.append(util.line_edit("Name:","_p_name"))
-        combo = util.combobox_edit("Type:","_p_type")
-        util.add_combo_select(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
-        util.add_combo_select(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
-        util.add_combo_select(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
-        ret.append(combo)
-        return ret
-
-
-    def set_default_properties(self):
-        """
-        Detailed description.
-        """
-        self._p_name = "access"
-        self._p_type = "Public"
-
-
-    def clear_properties(self):
-        """
-        Detailed description.
-        """
-        self._p_name = ""
-        self._p_type = "Public"
+from . import package
+from . import function
 
 
 
@@ -140,48 +17,198 @@ class Block(abstract.Block):
 
 
 @abstract.register_block("Access")
-class Builder(Block):
+class Block(package.Block):
     """
-    Detailed description.
+    This is the access block class. It implements the Socrates' Reference abstract block class. It
+    represents a fictitious access declaration for python classes.
+
+    It represents a fictitious access declaration for python classes. Since python does not actually
+    have any kind of access control, this is simply displayed as a comment inside of the class
+    source code. It is mostly helpful in the reference application's project tree view for
+    organizing different parts of a class.
     """
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
-    def space(self, previous, above):
+    def __init__(self):
         """
-        Detailed description.
+        Initializes a new access block.
+        """
+        abstract.Block.__init__(self)
+        #
+        # Initialize this block's properties.
+        #
+        self._p_name = ""
+        self._p_type = "Public"
 
-        previous : Detailed description.
 
-        above : Detailed description.
+    ##########################
+    # PUBLIC - Basic Methods #
+    ##########################
 
-        return : Yes
+
+    def has_abstract(self):
+        """
+        Getter method.
+
+        return : True if this access block contains abstract methods or false otherwise.
+        """
+        #
+        # Iterate through all children of this access block, returning true if any of the methods
+        # are abstract.
+        #
+        for block in self :
+            if isinstance(block,function.Block) :
+                if block.is_abstract() : return True
+        #
+        # No child abstract method was found so return false.
+        #
+        return False
+
+
+    def icon(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        #
+        # Return the appropriate icon based off this block's properties.
+        #
+        if self._p_type == "Public" : return qtg.QIcon(":/python/public.svg")
+        elif  self._p_type == "Protected" : return qtg.QIcon(":/python/protected.svg")
+        else:  return qtg.QIcon(":/python/private.svg")
+
+
+    def display_name(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        return self._p_name + " (%i)" % len(self)
+
+
+    def display_view(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        #
+        # Return simple rich text that displays this access blocks type and name.
+        #
+        type_ = html.escape(self._p_type.upper())
+        name = html.escape(self._p_name)
+        return "<h1>%s</h1><p>%s</p>" % (type_,name)
+
+
+    def build_list(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        return ("Object","Function")
+
+
+    def is_volatile_above(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        return True
+
+
+    #############################
+    # PUBLIC - Property Methods #
+    #############################
+
+
+    def edit_definitions(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        #
+        # Initialize an empty list. Add the name and then the type edit definitions.
+        #
+        ret = []
+        ret.append(util.line_edit("Name:","_p_name"))
+        combo = util.combobox_edit("Type:","_p_type")
+        util.add_combo_select(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
+        util.add_combo_select(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
+        util.add_combo_select(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
+        ret.append(combo)
+        #
+        # Return the list.
+        #
+        return ret
+
+
+    def set_default_properties(self):
+        """
+        Implements the socref.abstract.Block interface.
+        """
+        self._p_name = "access"
+        self._p_type = "Public"
+
+
+    def clear_properties(self):
+        """
+        Implements the socref.abstract.Block interface.
+        """
+        self._p_name = ""
+        self._p_type = "Public"
+
+
+    ############################
+    # PUBLIC - Parsing Methods #
+    ############################
+
+
+    def space(self, previous):
+        """
+        Implements the .package.Block interface.
+
+        previous : See interface docs.
+
+        return : See interface docs.
         """
         return "\n"*settings.H3LINES
 
 
     def build(self, def_, begin=""):
         """
-        Detailed description.
+        Implements the .package.Block interface.
 
-        def_ : Detailed description.
+        def_ : See interface docs.
 
-        begin : Detailed description.
+        begin : See interface docs.
 
-        return : Yes
+        return : See interface docs.
         """
-        if self._TYPE_ != "Access" : return
+        #
+        # Initialize the line of code that displays this access block's type and name.
+        #
         line = "# %s - %s #" % (self._p_type.upper(),self._p_name)
+        #
+        # Add the comment header of this access block to the source code.
+        #
         ret = begin + "#"*len(line) + "\n"
         ret += begin + line + "\n"
         ret += begin + "#"*len(line) + "\n"
-        previous = None
-        for block in self :
-            ret += block.space(previous,self)
-            ret += block.build(def_,begin=begin)
-            previous = block
+        #
+        # Add the source code of all this block's children to the returned source code.
+        #
+        ret += self._build_children_(def_,begin)
+        #
+        # Return the source code.
+        #
         return ret

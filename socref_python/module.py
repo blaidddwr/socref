@@ -1,76 +1,11 @@
 """
-Detailed description.
+Contains the module block definition.
 """
 from PySide2 import QtGui as qtg
 from socref import util
 from socref import abstract
-from . import package
 from . import settings
-
-
-
-
-
-
-
-
-class Block(package.Block):
-    """
-    Detailed description.
-    """
-
-
-    ########################
-    # PUBLIC - Initializer #
-    ########################
-
-
-    def __init__(self):
-        """
-        Detailed description.
-        """
-        package.Block.__init__(self)
-        #
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def file_name(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        if self._TYPE_ == "Module" : return self._p_name + ".py"
-
-
-    def icon(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        return qtg.QIcon(":/python/module.svg")
-
-
-    def build_list(self):
-        """
-        Detailed description.
-
-        return : Yes
-        """
-        return ("Object","Function","Class")
-
-
-    def set_default_properties(self):
-        """
-        Detailed description.
-        """
-        package.Block.set_default_properties(self)
-        self._p_name = "module"
+from . import package
 
 
 
@@ -80,33 +15,102 @@ class Block(package.Block):
 
 
 @abstract.register_block("Module")
-class Builder(Block):
+class Block(package.Block):
     """
-    Detailed description.
+    This is the module block class. It implements the Socrates' Reference abstract block class. It
+    represents a python module.
     """
 
 
-    ####################
-    # PUBLIC - Methods #
-    ####################
+    #######################
+    # PUBLIC - Initialize #
+    #######################
 
 
-    def build(self, def_):
+    def __init__(self):
         """
-        Detailed description.
-
-        def_ : Detailed description.
-
-        return : Yes
+        Initializes a new module block.
         """
-        if self._TYPE_ != "Module" : return
-        ret = '"""\n'
-        ret += util.wrap_blocks(self._p_description,columns=settings.COLUMNS)
-        ret += '"""\n'
-        ret += "\n".join(def_["header"] + [""])
-        previous = None
-        for block in self :
-            ret += block.space(previous,self)
-            ret += block.build(def_)
-            previous = block
+        package.Block.__init__(self)
+
+
+    ##########################
+    # PUBLIC - Basic Methods #
+    ##########################
+
+
+    def icon(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        return qtg.QIcon(":/python/module.svg")
+
+
+    def build_list(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        return ("Object","Function","Class")
+
+
+    #############################
+    # PUBLIC - Property Methods #
+    #############################
+
+
+    def set_default_properties(self):
+        """
+        Implements the socref.abstract.Block interface.
+        """
+        package.Block.set_default_properties(self)
+        self._p_name = "module"
+
+
+    ############################
+    # PUBLIC - Parsing Methods #
+    ############################
+
+
+    def file_name(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        #
+        # Make sure this is a module block before returning its file name.
+        #
+        if self._TYPE_ == "Module" : return self._p_name + ".py"
+
+
+    def build(self, def_, begin=""):
+        """
+        Implements the .package.Block interface.
+
+        def_ : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
+        """
+        #
+        # Initialize the source code with the package block's generated source code.
+        #
+        ret = package.Block.build(self,def_,begin)
+        #
+        # Add the source code of all this block's children to the returned source code.
+        #
+        ret += self._build_children_(def_,begin)
+        #
+        # If this is the special main module then add the special main line to the source code.
+        #
+        if self._p_name == "__main__" :
+            ret += "\n"*settings.H1LINES + 'if __name__ == "__main__" : main()\n'
+        #
+        # Return the source code.
+        #
         return ret

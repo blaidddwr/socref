@@ -941,7 +941,7 @@ Set special static strings to the registered class so it can reference its langu
                         </Function>
                         <Function>
                             <__p_name>create</__p_name>
-                            <__p_description>Builder method. The given language name and block type name must exist in this factory.</__p_description>
+                            <__p_description>Getter method. The given language name and block type name must exist in this factory.</__p_description>
                             <__p_return_description>A new block of the given type from the given language.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -956,7 +956,7 @@ Set special static strings to the registered class so it can reference its langu
                         </Function>
                         <Function>
                             <__p_name>create_root</__p_name>
-                            <__p_description>Builder method. The given language must exist in this factory.</__p_description>
+                            <__p_description>Getter method. The given language must exist in this factory.</__p_description>
                             <__p_return_description>A new root block from the given language.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1056,7 +1056,7 @@ Return the qt model index.
                         </Function>
                         <Function>
                             <__p_name>_build_rows_</__p_name>
-                            <__p_description>Builder method.</__p_description>
+                            <__p_description>Getter method.</__p_description>
                             <__p_return_description>A list of rows that represent the given qt model index of this command's project model. An empty list is the root index.</__p_return_description>
                             <__p_inlines>Initialize an empty return list of rows.
 
@@ -1401,153 +1401,8 @@ Initialize the currently loaded project's modification state to false.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Qt Model Methods</__p_name>
                         <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>new</__p_name>
-                            <__p_description>Creates a new project for this model with the given language name, closing any currently loaded project. The given language name must be valid.</__p_description>
-                            <__p_inlines>If this model has a project loaded then close it.
-
-Signal this model is being reset.
-
-Set the new default project name, language name, and newly created root block.
-
-If any exception occurs while creating the new project then reset this model to being empty and raise it again.
-
-Finish this model reset.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>lang_name</__p_name>
-                                <__p_description>The name of the language used to create a new project.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>load</__p_name>
-                            <__p_description>Loads a project to this model from the given file path, closing any currently loaded project.</__p_description>
-                            <__p_inlines>Read in the XML from the file with the given path.
-
-Create a new qt XML stream reader from the loaded XML.
-
-Read to the next start element and make sure it is the correct project tag.
-
-Read to the next start element and read in the language name, making sure it is the correct language tag.
-
-Read to the next start element and read in the project name, making sure it is the correct name tag.
-
-Create a new project for this model using the read in language name and then set the project name to the read in name.
-
-Read to the next start element and make sure it is the correct bock type tag.
-
-Read in all block data from the root block XML element.
-
-If any exception occurs then close the partially loaded project and raise it again.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>The file path of the project that is loaded into this model.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>save</__p_name>
-                            <__p_description>Saves this model's currently loaded project to the file with the given path. If this model has no project then this does nothing.</__p_description>
-                            <__p_inlines>Make sure this model has a project.
-
-Create a new qt byte array the XML will be written to.
-
-Create a new qt XML writer stream attached to the byte array.
-
-Initialize the stream.
-
-Write the start document and start project tag.
-
-Write the language name and project name text elements.
-
-Write the block data element.
-
-Write the end project tag and end document.
-
-Open the output file at the given path and save the XML document, setting this model's modified state to false.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>The path to the save file of this model's project.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>close</__p_name>
-                            <__p_description>Closes any currently loaded project of this model. If this model has no loaded project then this does nothing.</__p_description>
-                            <__p_inlines>Make sure this model has a project.
-
-Signal this model is being reset.
-
-Set the project name, language name, and root block to none.
-
-Set this model's modified state to false.
-
-Reset this model's undo stack and stack index.
-
-Finish this model reset.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>lang_name</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The language name of this model's currently loaded project or none if it has no project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>name</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The name of this model's currently loaded project or none if it has no project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>set_name</__p_name>
-                            <__p_description>Sets the name of this model's currently loaded project to the one given. This model must have a loaded project.</__p_description>
-                            <__p_inlines>Make sure this model has a project.
-
-Make sure the given name is different from the current one.
-
-Update the name, signal the project is modified and the name is modified.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>name</__p_name>
-                                <__p_description>The new name for this model's project.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>is_modified</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this model's currently loaded project has unsaved changes or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>can_undo</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this model has a modification that can be undone or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>can_redo</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this model has a modification that can be redone or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
                         <Function>
                             <__p_name>headerData</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
@@ -1750,6 +1605,168 @@ Push a new remove command to this model's undo stack and then return true.
                                 <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>name</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The name of this model's currently loaded project or none if it has no project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>lang_name</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The language name of this model's currently loaded project or none if it has no project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_modified</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model's currently loaded project has unsaved changes or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>can_undo</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model has a modification that can be undone or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>can_redo</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model has a modification that can be redone or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>parser</__p_name>
+                            <__p_description>Builds a new abstract parser that can be used to parse the source code of this model's project. If this model has no project that this does nothing.</__p_description>
+                            <__p_return_description>The newly built abstract parser or none if this model has no project.</__p_return_description>
+                            <__p_inlines>Make sure this model has a project.
+
+Create a new abstract parser from this model's project's root block, making sure it is a valid abstract parser.
+
+Return the created parser.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>new</__p_name>
+                            <__p_description>Creates a new project for this model with the given language name, closing any currently loaded project. The given language name must be valid.</__p_description>
+                            <__p_inlines>If this model has a project loaded then close it.
+
+Signal this model is being reset.
+
+Set the new default project name, language name, and newly created root block.
+
+If any exception occurs while creating the new project then reset this model to being empty and raise it again.
+
+Finish this model reset.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>lang_name</__p_name>
+                                <__p_description>The name of the language used to create a new project.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>load</__p_name>
+                            <__p_description>Loads a project to this model from the given file path, closing any currently loaded project.</__p_description>
+                            <__p_inlines>Read in the XML from the file with the given path.
+
+Create a new qt XML stream reader from the loaded XML.
+
+Read to the next start element and make sure it is the correct project tag.
+
+Read to the next start element and read in the language name, making sure it is the correct language tag.
+
+Read to the next start element and read in the project name, making sure it is the correct name tag.
+
+Create a new project for this model using the read in language name and then set the project name to the read in name.
+
+Read to the next start element and make sure it is the correct bock type tag.
+
+Read in all block data from the root block XML element.
+
+If any exception occurs then close the partially loaded project and raise it again.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>The file path of the project that is loaded into this model.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>save</__p_name>
+                            <__p_description>Saves this model's currently loaded project to the file with the given path. If this model has no project then this does nothing.</__p_description>
+                            <__p_inlines>Make sure this model has a project.
+
+Create a new qt byte array the XML will be written to.
+
+Create a new qt XML writer stream attached to the byte array.
+
+Initialize the stream.
+
+Write the start document and start project tag.
+
+Write the language name and project name text elements.
+
+Write the block data element.
+
+Write the end project tag and end document.
+
+Open the output file at the given path and save the XML document, setting this model's modified state to false.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>The path to the save file of this model's project.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>close</__p_name>
+                            <__p_description>Closes any currently loaded project of this model. If this model has no loaded project then this does nothing.</__p_description>
+                            <__p_inlines>Make sure this model has a project.
+
+Signal this model is being reset.
+
+Set the project name, language name, and root block to none.
+
+Set this model's modified state to false.
+
+Reset this model's undo stack and stack index.
+
+Finish this model reset.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_name</__p_name>
+                            <__p_description>Sets the name of this model's currently loaded project to the one given. This model must have a loaded project.</__p_description>
+                            <__p_inlines>Make sure this model has a project.
+
+Make sure the given name is different from the current one.
+
+Update the name, signal the project is modified and the name is modified.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>The new name for this model's project.</__p_description>
+                            </Object>
+                        </Function>
                         <Function>
                             <__p_name>move_row</__p_name>
                             <__p_description>Moves the given index's row by the amount given.</__p_description>
@@ -1836,19 +1853,6 @@ Push a new insert command to this model's undo stack using the loaded block list
                                 <__p_name>parent</__p_name>
                                 <__p_description>The parent index where the loaded blocks are inserted.</__p_description>
                             </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>parser</__p_name>
-                            <__p_description>Builds a new abstract parser that can be used to parse the source code of this model's project. If this model has no project that this does nothing.</__p_description>
-                            <__p_return_description>The newly built abstract parser or none if this model has no project.</__p_return_description>
-                            <__p_inlines>Make sure this model has a project.
-
-Create a new abstract parser from this model's project's root block, making sure it is a valid abstract parser.
-
-Return the created parser.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -2349,7 +2353,7 @@ Signal that this spell checker has finished.
             </Module>
             <Module>
                 <__p_name>gui_view</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all GUI view widgets that display projects and their blocks.</__p_description>
                 <Class>
                     <__p_name>Block_Dock</__p_name>
                     <__p_description>This is the block view dock class. It inherits the qt dock widget. It attaches itself to a project view, providing a detailed view of the currently indexed block. It connects the appropriate signal to listen for the current index of the view to change. The detailed view is presented in a qt label as rich text.
@@ -3124,7 +3128,7 @@ If any exception occurs during the build process then clear this dock's list of 
                         </Function>
                         <Function>
                             <__p_name>__build_apply_</__p_name>
-                            <__p_description>Builder method.</__p_description>
+                            <__p_description>Getter method.</__p_description>
                             <__p_return_description>A qt layout containing a new apply button initialized to work this this dock' slot.</__p_return_description>
                             <__p_inlines>Initialize a new apply button for this dock.
 
@@ -3282,7 +3286,7 @@ Return the box layout.
             </Module>
             <Module>
                 <__p_name>gui_window</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all GUI windows for the core application.</__p_description>
                 <Class>
                     <__p_name>Main</__p_name>
                     <__p_description>This is the main window class. It inherits the qt main window class. It is designed as a multiple window application. It is the main window of the core application.
@@ -3298,8 +3302,6 @@ It is the main window of the core application. It provides a view, docks, menus,
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new main window.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this window's project model.
 
 Initialize this window's project view.
@@ -3322,6 +3324,8 @@ Connect this window's parse requested signal to the singleton parser model.
 
 Update this window's title and actions.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -3339,8 +3343,6 @@ Update this window's title and actions.
                         <Function>
                             <__p_name>closeEvent</__p_name>
                             <__p_description>Implements the PySide2.QtWidgets.QWidget interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Check if it is OK to close this window.
 
 Remove this instance from the list of global main windows and delete it later.
@@ -3349,6 +3351,8 @@ Accept the given event.
 
 Else it is not OK so ignore the given event.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>event</__p_name>
                                 <__p_description>See qt docs.</__p_description>
@@ -3361,19 +3365,17 @@ Else it is not OK so ignore the given event.
                         <Function>
                             <__p_name>__update_actions_</__p_name>
                             <__p_description>Updates this window's actions.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Disable this window's save and parse actions if its path is nothing.
 
 Disable this window's save as and close actions if it has no model.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__is_ok_to_close_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if it is OK to close this window or false otherwise. It is OK to close this window if the user saves any unsaved changes to this window's project, chooses to discard unsaved changes, or there are no unsaved changes to worry about.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If this window has no project or its project is not modified then return true.
 
 Initialize a message box informing the user there are unsaved changes.
@@ -3388,16 +3390,18 @@ Else if the user response was to cancel closing then return false.
 
 Else the user response was to discard so return true.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__update_title_</__p_name>
                             <__p_description>Updates this window's title.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>It this window has a project then set its title to the project's name and application name.
 
 Else this window has no project so set its title to the application name.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_actions_</__p_name>
@@ -3408,18 +3412,16 @@ Else this window has no project so set its title to the application name.
                         <Function>
                             <__p_name>__setup_new_actions_</__p_name>
                             <__p_description>Populates this window's list of new actions with all available languages.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Iterate through all available languages.
 
 Initialize and add a new action to this window's list for the language.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_file_actions_</__p_name>
                             <__p_description>Initializes the qt actions of this new window's file menu.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this window's open action.
 
 Initialize this window's save action.
@@ -3432,6 +3434,8 @@ Initialize this window's close action.
 
 Initialize this window's exit action.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_menus_</__p_name>
@@ -3442,8 +3446,6 @@ Initialize this window's exit action.
                         <Function>
                             <__p_name>__setup_file_menu_</__p_name>
                             <__p_description>Initializes the file menu for this new window.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Add the new file menu to this window's menu bar.
 
 Add the new sub menu. Iterate through all add actions and add the to the sub menu.
@@ -3454,6 +3456,8 @@ Add the parse action to the file menu followed by a separator.
 
 Add the exit action to the file menu.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_edit_menu_</__p_name>
@@ -3464,22 +3468,22 @@ Add the exit action to the file menu.
                         <Function>
                             <__p_name>__setup_docks_</__p_name>
                             <__p_description>Initializes the edit/view block dock widgets of this new window.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Set both dock's views to this window's project view.
 
 Add both docks to this window.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_toolbars_</__p_name>
                             <__p_description>Initializes all toolbars of this new window.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Add the file toolbar to this window. Add the open, save and save as actions to the toolbar.
 
 Add the edit toolbar to this window. Add this window's project view's undo, redo, remove, cut, copy, paste, move up, and move down actions to the toolbar.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -3488,16 +3492,16 @@ Add the edit toolbar to this window. Add this window's project view's undo, redo
                         <Function>
                             <__p_name>__modified_</__p_name>
                             <__p_description>Called to inform this window that its project has been modified.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__name_changed_</__p_name>
                             <__p_description>Called to inform this window that its project's name has been changed. This updates the window's title.</__p_description>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <Object>
                                 <__p_name>name</__p_name>
                                 <__p_description>Detailed description.</__p_description>
@@ -3506,8 +3510,6 @@ Add the edit toolbar to this window. Add this window's project view's undo, redo
                         <Function>
                             <__p_name>__new_</__p_name>
                             <__p_description>Called to create a new project of the given language for this window.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize a name to this window or a new window if this one already has a project.
 
 Create a new project of the given language.
@@ -3517,6 +3519,8 @@ Update the windows title and actions.
 Make sure the window is shown.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>lang_name</__p_name>
                                 <__p_description>The name of the language used to create a new project.</__p_description>
@@ -3525,8 +3529,6 @@ Make sure the window is shown.
                         <Function>
                             <__p_name>__open_</__p_name>
                             <__p_description>Called to open a project file for this window if it does not have a project or a new window otherwise.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the path to the project file, making sure the user choose a valid file path.
 
 Get the absolute path of the file.
@@ -3544,13 +3546,13 @@ Update the window's title, state, and actions.
 Make sure the window is shown.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__save_</__p_name>
                             <__p_description>Called to save this window's project. If this window has no project or its save path is none then this does nothing.</__p_description>
                             <__p_return_description>True if the project was saved successfully or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this window has a project and save file path.
 
 Save this window's project, changing its modified status to false.
@@ -3558,12 +3560,12 @@ Save this window's project, changing its modified status to false.
 Return success.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__save_as_</__p_name>
                             <__p_description>Called to save this window's project to a new save file path selected by the user. If this window has no project then this does nothing.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this window has a project.
 
 Get the new save file path, making sure the user choose a valid path.
@@ -3579,12 +3581,12 @@ Update this window's modified state and actions.
 Return success.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__parse_</__p_name>
                             <__p_description>Called to parse the source code of this window's project. If this window does not have a project save path then this does nothing.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this window has a project save path.
 
 Create a new parser from this window's model and set its root path to the directory path of its project save path.
@@ -3592,12 +3594,12 @@ Create a new parser from this window's model and set its root path to the direct
 Signal the parsing is requested with the new parser.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__close_</__p_name>
                             <__p_description>Called to close this window's current project. If this window has no project then this does nothing. If the current project has unsaved changes the user is queried about what to do.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this window has a project and it is OK to close.
 
 Close this window's model's project.
@@ -3606,6 +3608,8 @@ Set this window's save path to nothing.
 
 Update this window's title, state, and actions.</__p_inlines>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -3625,8 +3629,6 @@ Update this window's title, state, and actions.</__p_inlines>
                 <Function>
                     <__p_name>main</__p_name>
                     <__p_description>Begins execution of the program.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
                     <__p_inlines>print the PID so the application can be killed. Qt likes to catch all exceptions without exiting.
 
 Load the python language.
@@ -3642,141 +3644,206 @@ Start the GUI event loop, saving its exit code when it returns.
 Request the parser thread quit and wait for it to stop.
 
 Exit the application with the return code provided by the Qt application.</__p_inlines>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
                 </Function>
             </Module>
         </Package>
         <Package>
             <__p_name>socref_python</__p_name>
-            <__p_description>Detailed description.</__p_description>
+            <__p_description>Contains the python language definition for Socrates' Reference.</__p_description>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all global settings for the core application.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The maximum number of columns for any one line of code.</__p_description>
                     <__p_assignment>100</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>INDENT</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The number of spaces used for each indent.</__p_description>
                     <__p_assignment>4</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The number of lines for a first order header.</__p_description>
                     <__p_assignment>8</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H2LINES</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The number of lines for a second order header.</__p_description>
                     <__p_assignment>4</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H3LINES</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The number of lines for a third order header.</__p_description>
                     <__p_assignment>2</__p_assignment>
                 </Object>
             </Module>
             <Module>
                 <__p_name>package</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains the package block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
                     <__p_parents>abstract.Block</__p_parents>
+                    <__p_descriptors>abstract.register_block(&quot;Package&quot;,root=True)</__p_descriptors>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new package block.</__p_description>
+                            <__p_inlines>Initializes this block's properties.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Basic Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>parser</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>dir_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>icon</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Generate the rich text description of this block.
+
+Return the description.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Initialize an empty list. Add the name and then the description edit definitions.
+
+Return the list.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>clear_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
-                </Class>
-                <Class>
-                    <__p_name>Builder</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>Block</__p_parents>
-                    <__p_descriptors>abstract.register_block(&quot;Package&quot;,root=True)</__p_descriptors>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Parsing Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
+                            <__p_name>dir_name</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Make sure this is a package block before returning its directory name.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>parser</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>space</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>The number of blank lines that separates this block's source code output from the given previous block's output. The default implementation returns an empty string.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>previous</__p_name>
+                                <__p_description>The block whose source code output is previous to this one.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>build</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A string of source code lines that is the build output of this block and represents it in the source code. The given scanned definitions and optional begin string are used to generate the lines.</__p_return_description>
+                            <__p_inlines>Add the description doc string to the source code.
+
+Add scanned headers into the source code.
+
+Return the source code.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>def_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>Scanned definitions that contains any lines of code scanned from the old source code files.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>An optional string that is appended to every line of the returned source code.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_build_children_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the combined source code of all this block's children's build interface, separated using their space interface.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the source code to an empty string and the previous block reference to none.
+
+Iterate through all children of this block.
+
+Add the child block's spaces separator and then its source code to the returned code.
+
+Update the previous block reference.
+
+Return the source code.
+</__p_inlines>
+                            <Object>
+                                <__p_name>def_</__p_name>
+                                <__p_description>Scanned definitions from the old source code files.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>An optional string that is appended to every line of the returned source code.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                         </Function>
                     </Access>
@@ -3784,70 +3851,84 @@ Exit the application with the return code provided by the Qt application.</__p_i
             </Module>
             <Module>
                 <__p_name>module</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains the module block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
                     <__p_parents>package.Block</__p_parents>
+                    <__p_descriptors>abstract.register_block(&quot;Module&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new module block.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Basic Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>file_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>icon</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>set_default_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
-                </Class>
-                <Class>
-                    <__p_name>Builder</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>Block</__p_parents>
-                    <__p_descriptors>abstract.register_block(&quot;Module&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Property Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Parsing Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>file_name</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Make sure this is a module block before returning its file name.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the source code with the package block's generated source code.
+
+Add the source code of all this block's children to the returned source code.
+
+If this is the special main module then add the special main line to the source code.
+
+Return the source code.
+</__p_inlines>
                             <Object>
                                 <__p_name>def_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                         </Function>
                     </Access>
@@ -3855,155 +3936,180 @@ Exit the application with the return code provided by the Qt application.</__p_i
             </Module>
             <Module>
                 <__p_name>object_</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains the object block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the object block class. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
                     <__p_parents>package.Block</__p_parents>
+                    <__p_descriptors>abstract.register_block(&quot;Object&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new object block.</__p_description>
+                            <__p_inlines>Initialize this block's properties.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Basic Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>is_argument</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>is_volatile_above</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>in_class</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this object is part of a class or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_argument</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this object is an argument of a function or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>icon</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Initialize the return string to this block's raw name.
+
+If this object is an argument and has an assignment then add an indicator to the return string.
+
+Return the display name.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Generate the rich text assignment view of this block.
+
+Return the description and assignment view.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>argument_view</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text paragraph that describes this object as an argument of a function.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>is_volatile_above</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
                             <__p_name>edit_definitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Initialize a list with the inherited package block's edit definitions.
+
+Add the assignment edit definition.
+
+Return the list.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>clear_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
-                </Class>
-                <Class>
-                    <__p_name>Builder</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>Block</__p_parents>
-                    <__p_descriptors>abstract.register_block(&quot;Object&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Parsing Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>argument</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the source code for this object as a function argument.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>comment</__p_name>
                             <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_return_description>A string that is the source code doc string fragment for this object as a function argument.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The indent or begin string that is appended to every line of returned source code.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>space</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Initialize the empty string of blank lines.
+
+Set the appropriate number of blank lines based off the given previous block and if this object is in a class.
+
+Return the determined number of blank lines, if any.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>previous</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>above</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>build</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Add the description comment to the source code.
+
+Add the object name to the source code, adding its assignment if there is one.
+
+Return the source code.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>def_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                         </Function>
@@ -4012,91 +4118,170 @@ Exit the application with the return code provided by the Qt application.</__p_i
             </Module>
             <Module>
                 <__p_name>function</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains the function block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
                     <__p_parents>package.Block</__p_parents>
+                    <__p_descriptors>abstract.register_block(&quot;Function&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new function block.</__p_description>
+                            <__p_inlines>Initialize this block's properties.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Basic Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>is_static</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is static or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>is_abstract</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is abstract or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>is_method</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is a method of a class or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>icon</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Return the appropriate icon based off this function's properties.</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Initialize the empty name.
+
+If this function has a return value then append a return indicator.
+
+Append this function's name and number of arguments.
+
+If this function has descriptors append a marker for each descriptor.
+
+Return the display name.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Check this block's flag properties.
+
+Generate the rich text return description of this block.
+
+Generate the rich text flags view of this block.
+
+Generate the rich text descriptors view of this block.
+
+Return the description, arguments view, return description, flags view, and descriptors view.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Initialize a list with the inherited package block's edit definitions.
+
+Add the return description edit definition.
+
+If this function is a method then add the flag edit definitions, else add hidden definitions for the flag properties.
+
+Add the inline comments edit definition and then the descriptors edit definition.
+
+Return the list.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>clear_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Parsing Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>space</__p_name>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Initialize the empty string of blank lines.
+
+Set the appropriate number of blank lines based off the given previous block and if this is a method.
+
+Return the determined number of blank lines.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>previous</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Add the header, doc string, and then lines of this function to the returned source code.
+
+Return the source code.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>def_</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
                         </Function>
                     </Access>
                     <Access>
@@ -4104,8 +4289,8 @@ Exit the application with the return code provided by the Qt application.</__p_i
                         <__p_type>Protected</__p_type>
                         <Function>
                             <__p_name>_display_arguments_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text view of all this function's arguments. If this function has no arguments then this returns an empty string.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4115,90 +4300,83 @@ Exit the application with the return code provided by the Qt application.</__p_i
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__check_flags_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Sets this function's flags to legal values if it is not a method.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                </Class>
-                <Class>
-                    <__p_name>Builder</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>Block</__p_parents>
-                    <__p_descriptors>abstract.register_block(&quot;Function&quot;)</__p_descriptors>
-                    <Access>
-                        <__p_name>Methods</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>space</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>previous</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>above</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>def_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Methods</__p_name>
-                        <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__build_header_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the source code of this function's header. The header includes any descriptors and the define line.</__p_return_description>
+                            <__p_inlines>Add this function's list of descriptors to the source code.
+
+Add the special abstract descriptor to the source code if this function is an abstract method.
+
+Build the list of argument source code fragments of this function.
+
+Add the define line of this function to the source code.
+
+Return this function's header source code.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__build_doc_string_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the source code doc string of this function.</__p_return_description>
+                            <__p_inlines>Add the begin doc string tag to the source code.
+
+Add this function's description to the doc string.
+
+Add all argument doc string fragments of this function.
+
+If this function has a return description then add it to the doc string.
+
+Add the end doc string tag to the source code.
+
+Return the source code doc string.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__build_lines_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the source code lines generated from the given list of code lines and this function's inline comments.</__p_return_description>
+                            <__p_inlines>If the given lines of code is empty then return a simple pass line.
+
+Initialize the empty source code and inline comments list generated from this function.
+
+Iterate through the given code lines.
+
+Check if this code line is an inline comment marker.
+
+If there are still inline comments to add then add the next one in the list to the source code.
+
+Else there are no more inline comments so add the marker itself to the source code.
+
+Else this is a regular code line so add it to the source code.
+
+Return the source code lines.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>lines</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A list of code lines used to generate the returned source code lines.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -4206,109 +4384,132 @@ Exit the application with the return code provided by the Qt application.</__p_i
             </Module>
             <Module>
                 <__p_name>class_</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains the class block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
                     <__p_parents>package.Block</__p_parents>
+                    <__p_descriptors>abstract.register_block(&quot;Class&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new class block.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this block's properties.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Basic Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>is_abstract</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this class contains any abstract functions for false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>icon</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Return the appropriate icon based off this block's properties.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Generate the rich text parents view of this block.
+
+Generate the rich text descriptors view of this block.
+
+Return the description, parents view, and descriptors view.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize a list with the inherited package block's edit definitions.
+
+Add the parents edit definition and then the descriptors edit definition.
+
+Return the list.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>clear_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
-                </Class>
-                <Class>
-                    <__p_name>Builder</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>Block</__p_parents>
-                    <__p_descriptors>abstract.register_block(&quot;Class&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Parsing Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>space</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>previous</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>above</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>build</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Get the scanned dictionary definition of this class, setting it to a blank definition if there is none.
+
+Add this block's descriptors to the source code.
+
+Add the class line of this block to the source code.
+
+Add the doc string of this class block to the source code.
+
+Add the source code of all this block's children to the returned source code.
+
+Return the source code.
+</__p_inlines>
                             <Object>
                                 <__p_name>def_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                         </Function>
@@ -4318,8 +4519,8 @@ Exit the application with the return code provided by the Qt application.</__p_i
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__build_parents_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the source code fragment of this class block's parents used in its source code header line.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4328,123 +4529,141 @@ Exit the application with the return code provided by the Qt application.</__p_i
             </Module>
             <Module>
                 <__p_name>access</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains the access block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>abstract.Block</__p_parents>
+                    <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes.
+
+It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.
+</__p_description>
+                    <__p_parents>package.Block</__p_parents>
+                    <__p_descriptors>abstract.register_block(&quot;Access&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Initializer</__p_name>
+                        <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new access block.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this block's properties.</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Basic Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>has_abstract</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this access block contains abstract methods or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>is_volatile_above</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Iterate through all children of this access block, returning true if any of the methods are abstract.
+
+No child abstract method was found so return false.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>icon</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Return the appropriate icon based off this block's properties.</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>display_name</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Return simple rich text that displays this access blocks type and name.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_name>is_volatile_above</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>edit_definitions</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize an empty list. Add the name and then the type edit definitions.
+
+Return the list.
+</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>clear_properties</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
-                </Class>
-                <Class>
-                    <__p_name>Builder</__p_name>
-                    <__p_description>Detailed description.</__p_description>
-                    <__p_parents>Block</__p_parents>
-                    <__p_descriptors>abstract.register_block(&quot;Access&quot;)</__p_descriptors>
                     <Access>
-                        <__p_name>Methods</__p_name>
+                        <__p_name>Parsing Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>space</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>previous</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>above</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>build</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the .package.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the line of code that displays this access block's type and name.
+
+Add the comment header of this access block to the source code.
+
+Add the source code of all this block's children to the returned source code.
+
+Return the source code.
+</__p_inlines>
                             <Object>
                                 <__p_name>def_</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                         </Function>
