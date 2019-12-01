@@ -3,6 +3,7 @@ Contains all abstract classes, factories, and interface functions used by the co
 any language implementation to communicate with one another.
 """
 import abc
+import weakref
 import os
 import importlib
 from . import exception
@@ -361,7 +362,7 @@ class Block(abc.ABC):
 
         return : The parent block of this block or none if this block has no parent.
         """
-        return self.__parent
+        return self.__parent if self.__parent is None else self.__parent()
 
 
     def index(self):
@@ -370,8 +371,8 @@ class Block(abc.ABC):
 
         return : The integer index of this block within its parent block's list of children.
         """
-        if self.__parent is None : raise RuntimeError("Cannot get index of block with no parent.")
-        return self.__parent.__children.index(self)
+        if self.parent() is None : raise RuntimeError("Cannot get index of block with no parent.")
+        return self.parent().__children.index(self)
 
 
     def insert(self, index, block):
@@ -386,14 +387,14 @@ class Block(abc.ABC):
         #
         # Make sure the given block does not have a parent.
         #
-        if block.__parent is not None :
+        if block.parent() is not None :
             raise RuntimeError("Block is already a child of another block.")
         #
         # Insert the given block into this block's list of children at the given index and set its
         # parent to this block.
         #
         self.__children.insert(index,block)
-        block.__parent = self
+        block.__parent = weakref.ref(self)
 
 
     def append(self, block):

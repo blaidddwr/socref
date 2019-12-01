@@ -2400,19 +2400,19 @@ Update this docks view to the one given.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to update this dock's detailed view to the new block at the given index. If the given index is invalid then this dock returns its view to a null state.</__p_description>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Check to see if the given index is valid.
 
 Get this dock's view's model and update its window title.
 
 Create and initialize a new qt label with its rich text set to the detailed view of the new block.
 
-Set this dock's widget to the new qt label.
+Set this dock's widget to the new qt label, deleting any previous label.
 
 Else the given index is invalid so update this dock's window title and set its widget to nothing.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the new block whose detailed view is displayed by this dock.</__p_description>
@@ -2619,8 +2619,6 @@ Create a new add action for the block type, fetching its icon and setting it to 
                             <__p_name>__can_paste_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if any of this project's global copied blocks can be pasted into its model at the current index with the current insertion type. False if no copied block can be pasted.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If this project view has no model, its model has no project, or it has no global copied blocks then return false.
 
 Get the insert values for pasting blocks, returning false if the returned index does not exist.
@@ -2629,6 +2627,8 @@ If there is not a single global copied block type that is in the build list of t
 
 All tests have passed so return true.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__insert_values_</__p_name>
@@ -3144,13 +3144,19 @@ Return the box layout.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
-                            <__p_inlines>If the given index is valid then update this dock's window title and build a new form of edit widgets based off the given index.
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Force python garbage collection because rebuilding this dock's GUI causes large memory leaks otherwise.
+
+Check if the given index is valid.
+
+Get this dock's model and update its window title.
+
+Build a new form widget of edit widgets, deleting any previous form widget.
 
 Else the given index is invalid so clear this dock's window title and edit widgets.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the new block whose properties are edited by this dock.</__p_description>
@@ -4858,8 +4864,6 @@ Initialize the definitions dictionary used to save all scanned lines of code for
                         <Function>
                             <__p_name>_scan_</__p_name>
                             <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Open the file at the given path as read only.
 
 Initialize a path scanning definition.
@@ -4874,6 +4878,8 @@ Match the line to see if it is a class or function header, scanning its source c
 
 Insert the scanned path definition into this parser's dictionary of scanned paths.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>path</__p_name>
                                 <__p_description>See interface docs.</__p_description>
@@ -4901,8 +4907,6 @@ Insert the scanned path definition into this parser's dictionary of scanned path
                         <Function>
                             <__p_name>__build_paths_</__p_name>
                             <__p_description>Recursively adds source code paths to be scanned using the given parent block and path.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Iterate through all children blocks of the given parent.
 
 Check if the child block has a directory name.
@@ -4911,6 +4915,8 @@ Add the package block's init python script path and then recursively call this m
 
 Else if this child block has a file name and therefore is a module then add its python script path.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The parent block whose children are scanned for potential source code paths.</__p_description>
@@ -4924,8 +4930,6 @@ Else if this child block has a file name and therefore is a module then add its 
                             <__p_name>__scan_header_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A list of import code lines scanned from the header of the given python script file. It is assumed all import lines occur at the beginning of the file right after any initial doc string. It is also assumed the import lines end with at least one blank line.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Skip any initial doc string of the script.
 
 Initialize the empty list of returned import lines.
@@ -4938,6 +4942,8 @@ Read the next line, breaking if it is a new line or adding it to the list of ret
 
 Return the scanned list of import lines.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
                                 <__p_description>The python script file whose import lines of code are scanned.</__p_description>
@@ -4947,8 +4953,6 @@ Return the scanned list of import lines.
                             <__p_name>__scan_class_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Scanned class definition containing any found and scanned method's lines of code from the class definition in the given python script file at its current seek position.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Skip any initial doc string of the class.
 
 Initialize the empty class scan definition that is returned.
@@ -4963,6 +4967,8 @@ If the line is a function header then scan it and insert its scanned function de
 
 Return the scanned class definition.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
                                 <__p_description>The python script file whose class at the current seek position is scanned.</__p_description>
@@ -4972,8 +4978,6 @@ Return the scanned class definition.
                             <__p_name>__scan_function_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Scanned function definition containing all lines of scanned code along with inline comment markers from the function definition in the given python script file at its current seek position.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Skip any initial doc string of the function.
 
 Initial a special Boolean latch that is used to read in only the first line of any continuous block of comment lines.
@@ -4992,6 +4996,8 @@ Else this is a regular line of code so add it with its function indent stripped 
 
 Return the scanned lines of code and inline comment markers.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
                                 <__p_description>The python script file whose function at the current seek position is scanned.</__p_description>
@@ -5000,8 +5006,6 @@ Return the scanned lines of code and inline comment markers.
                         <Function>
                             <__p_name>__skip_doc_string_</__p_name>
                             <__p_description>Seeks past any initial doc string starting at the current seek index of the given python script file. Blank lines also skipped and ignored.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the doc line count to 0.
 
 Continue until both the beginning and ending doc string lines have been read or no doc string was found.
@@ -5014,6 +5018,8 @@ If this is a doc string line then increment the doc line count.
 
 Else if this is not a blank line and the doc line count is 0 then return.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
                                 <__p_description>The python script file whose doc string, if any, is skipped.</__p_description>

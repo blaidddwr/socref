@@ -100,8 +100,9 @@ class Block_Dock(qtw.QDockWidget):
             label.setContentsMargins(4,16,4,4)
             label.setText(m.data(index,model.Role.VIEW))
             #
-            # Set this dock's widget to the new qt label.
+            # Set this dock's widget to the new qt label, deleting any previous label.
             #
+            if self.widget() : self.widget().deleteLater()
             self.setWidget(label)
         #
         # Else the given index is invalid so update this dock's window title and set its widget to

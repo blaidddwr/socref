@@ -1,6 +1,7 @@
 """
 Contains all GUI edit widgets that provide the user the ability to edit some form of data.
 """
+import gc
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
 from . import settings
@@ -364,14 +365,25 @@ class Block_Dock(qtw.QDockWidget):
         index : The index of the new block whose properties are edited by this dock.
         """
         #
-        # If the given index is valid then update this dock's window title and build a new form of
-        # edit widgets based off the given index.
+        # Force python garbage collection because rebuilding this dock's GUI causes large memory
+        # leaks otherwise.
+        #
+        gc.collect()
+        #
+        # Check if the given index is valid.
         #
         if index.isValid() :
+            #
+            # Get this dock's model and update its window title.
+            #
             m = self.__view.model()
             self.setWindowTitle("[%s] %s (Edit)" %
                                 (m.data(index,model.Role.BLOCK_TYPE)
                                  ,m.data(index,qtc.Qt.DisplayRole)))
+            #
+            # Build a new form widget of edit widgets, deleting any previous form widget.
+            #
+            if self.widget() : self.widget().deleteLater()
             self.setWidget(self.__build_form_widget_(index))
         #
         # Else the given index is invalid so clear this dock's window title and edit widgets.
