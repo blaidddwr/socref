@@ -23,3 +23,7 @@ H2LINES = 4
 # The number of lines for a third order header.
 #
 H3LINES = 2
+#
+# The descriptor, without the leading ampersand, used to make a class's method abstract.
+#
+ABSTRACT_DESCRIPTOR = "abc.abstractmethod"

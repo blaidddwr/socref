@@ -766,9 +766,9 @@ class Parser(abc.ABC):
 @util.Singleton
 class Factory():
     """
-    This is the singleton block factory class. It loads new languages by importing their module and
-    registering their block types during the load process. It provides a list of languages and block
-    types per language. It creates new blocks.
+    This is the singleton block factory class. It creates new blocks. It loads new languages by
+    importing their module and registering their block types during the load process. It provides a
+    list of languages and block types per language.
 
     It creates new blocks. Blocks can be created by language and type or the root type of a
     language.

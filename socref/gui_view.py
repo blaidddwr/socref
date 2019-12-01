@@ -443,9 +443,10 @@ class Project(qtw.QTreeView):
                  pasted.
         """
         #
-        # If this project has no model or no global copied blocks then return false.
+        # If this project view has no model, its model has no project, or it has no global copied
+        # blocks then return false.
         #
-        if self.__model is None or Project.__xml_blocks is None : return False
+        if self.__model is None or not self.__model or Project.__xml_blocks is None : return False
         #
         # Get the insert values for pasting blocks, returning false if the returned index does not
         # exist.

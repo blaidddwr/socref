@@ -18,12 +18,9 @@ from . import gui_dialog
 class Plain_Text(qtw.QPlainTextEdit):
     """
     This is the plain text class. It inherits the qt plain text edit class. It provides additional
-    functionality to its inherit class.
-
-    It provides additional functionality to its inherit class. Misspelled words are highlighted. A
-    shortcut is provided to open a larger text editor dialog that has additional spell checking
-    functionality. Misspelled word highlighting and the editor dialog popup features can be enabled
-    or disabled.
+    functionality to its inherit class. Misspelled words are highlighted. A shortcut is provided to
+    open a larger text editor dialog that has additional spell checking functionality. Misspelled
+    word highlighting and the editor dialog popup features can be enabled or disabled.
     """
 
 

@@ -843,7 +843,7 @@ Else the file does not exist so create a new file with the generated contents.
                 </Class>
                 <Class>
                     <__p_name>Factory</__p_name>
-                    <__p_description>This is the singleton block factory class. It loads new languages by importing their module and registering their block types during the load process. It provides a list of languages and block types per language. It creates new blocks.
+                    <__p_description>This is the singleton block factory class. It creates new blocks. It loads new languages by importing their module and registering their block types during the load process. It provides a list of languages and block types per language.
 
 It creates new blocks. Blocks can be created by language and type or the root type of a language.
 </__p_description>
@@ -1325,8 +1325,8 @@ Initialize the from and to rows.
                 <Class>
                     <__p_name>Parser</__p_name>
                     <__p_description>This is the singleton parser model class. It starts execution of an abstract parser until completion. It is designed to work on its own thread separate of the main GUI thread.</__p_description>
-                    <__p_parents>qtc.QObject</__p_parents>
                     <__p_descriptors>util.Singleton</__p_descriptors>
+                    <__p_parents>qtc.QObject</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -1343,11 +1343,11 @@ Initialize the from and to rows.
                         <Function>
                             <__p_name>start</__p_name>
                             <__p_description>Called to start execution of the given abstract parser, returning when execution is complete.</__p_description>
+                            <__p_descriptors>qtc.Slot(abstract.Parser)</__p_descriptors>
                             <__p_inlines>Execute the given parser by calling its parse method.
 
 If any exception occurs then catch it and report it to standard error because qt threads ignore python exceptions.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(abstract.Parser)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -1875,22 +1875,22 @@ Push a new insert command to this model's undo stack using the loaded block list
                         <Function>
                             <__p_name>undo</__p_name>
                             <__p_description>Called to undo the last modification that was done to this model. If this model cannot undo then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this model can undo a modification.
 
 Undo the last command done on this model's stack and decrement its undo stack index.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>redo</__p_name>
                             <__p_description>Called to redo the last undone modification of this model. If this model cannot redo then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this model can redo a modification.
 
 Redo the last command undone on this model's stack and increment its undo stack index.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2219,13 +2219,13 @@ Setup this new widget's GUI.
                         <Function>
                             <__p_name>start</__p_name>
                             <__p_description>Called to have this spell checker begin checking for misspelled words in the document of the given qt text cursor. The entire document is checked for misspelled words. If this spell checker is already checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtg.QTextCursor)</__p_descriptors>
                             <__p_inlines>Make sure this spell checker is not currently checking a document.
 
 Set this spell checker's cursor to the one given and move it to the beginning of the document.
 
 Find the next misspelled word.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(qtg.QTextCursor)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -2301,50 +2301,50 @@ Return the box layout.
                         <Function>
                             <__p_name>__suggest_</__p_name>
                             <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this spell checker is active.
 
 Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
 
 Update the word edit widget with the next suggested word.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__replace_</__p_name>
                             <__p_description>Called to replace the selected misspelled word with the text of this spell checker's word edit widget. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this spell checker is active.
 
 Replace the cursor's selected word with this spell checker's word edit value.
 
 Move the cursor to the next word, continuing or finishing if there is a word or not, respectively.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__ignore_</__p_name>
                             <__p_description>Called to ignore the selected misspelled word, simply skipping it and moving the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this spell checker is active.
 
 Move the cursor to the next word, continuing or finishing if there is a word or not, respectively.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__stop_</__p_name>
                             <__p_description>Called to stop this spell checker, finishing its spell checking of the current document. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this spell checker is active.
 
 Reset this spell checker's cursor to none and its list of suggested words to empty.
 
 Signal that this spell checker has finished.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2400,6 +2400,7 @@ Update this docks view to the one given.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to update this dock's detailed view to the new block at the given index. If the given index is invalid then this dock returns its view to a null state.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_inlines>Check to see if the given index is valid.
 
 Get this dock's view's model and update its window title.
@@ -2410,7 +2411,6 @@ Set this dock's widget to the new qt label.
 
 Else the given index is invalid so update this dock's window title and set its widget to nothing.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -2619,7 +2619,9 @@ Create a new add action for the block type, fetching its icon and setting it to 
                             <__p_name>__can_paste_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if any of this project's global copied blocks can be pasted into its model at the current index with the current insertion type. False if no copied block can be pasted.</__p_return_description>
-                            <__p_inlines>If this project has no model or no global copied blocks then return false.
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If this project view has no model, its model has no project, or it has no global copied blocks then return false.
 
 Get the insert values for pasting blocks, returning false if the returned index does not exist.
 
@@ -2627,8 +2629,6 @@ If there is not a single global copied block type that is in the build list of t
 
 All tests have passed so return true.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__insert_values_</__p_name>
@@ -2704,11 +2704,11 @@ Update this project's initialized context menu.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to inform this project that its selection model's current index has changed to the one given from the previous one given.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)</__p_descriptors>
                             <__p_inlines>Update this project's context menu.
 
 Signal this project's current index has changed.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -2723,31 +2723,31 @@ Signal this project's current index has changed.
                         <Function>
                             <__p_name>__model_reset_</__p_name>
                             <__p_description>Called to inform this project that its model has reset itself.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Update this project's context menu.
 
 Signal this project's current index has changed to nothing.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__model_destroyed_</__p_name>
                             <__p_description>Called to inform this project that its model has been destroyed.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Clear this project's model reference and then update its context menu.
 
 Signal this project's current index has changed to nothing.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__model_data_changed_</__p_name>
                             <__p_description>Called to inform this project that data has changed for the range of indexes from the given top left to the given bottom right with the given roles.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)</__p_descriptors>
                             <__p_inlines>If the given top left index is this project's selection model's current index then signal that it has changed and update this project's context menu.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -2777,35 +2777,35 @@ Signal this project's current index has changed to nothing.
                         <Function>
                             <__p_name>__undo_</__p_name>
                             <__p_description>Called to undo the last action done to this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Check if this project's model can undo an action.
 
 Undo the last action and then update this project's context menu.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__redo_</__p_name>
                             <__p_description>Called to redo the last undone action on this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Check if this project's model can redo an action.
 
 Redo the last action undone and then update this project's context menu.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__add_</__p_name>
                             <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.</__p_description>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_inlines>Get the row and parent index where the new block should be inserted, making sure it is valid.
 
 Insert a new block with the given type to this project's model at the insertion row and parent.
 
 If the this project's selection model's current index is not valid then update it to the newly created index. This is to fix a strange PySide2 bug.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -2816,30 +2816,31 @@ If the this project's selection model's current index is not valid then update i
                         <Function>
                             <__p_name>__remove_</__p_name>
                             <__p_description>Called to remove all selected indexes from this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this project has a model.
 
 Continue while this project's selection model has one or more indexes selected.
 
 Get the first index that is selected and remove it from the model.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__cut_</__p_name>
                             <__p_description>Called to cut all selected indexes from this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this project has a model.
 
 Copy all selected indexes and then remove them.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__copy_</__p_name>
                             <__p_description>Called to copy all selected indexes from this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this project has a model.
 
 Get this project's selection model's list of selected indexes, making sure it is not empty.
@@ -2848,20 +2849,19 @@ Copy the entire list of indexes to this project's global XML block copy and save
 
 Update this project's actions.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__paste_</__p_name>
                             <__p_description>Called to paste any globally copied blocks into this project's model at the current index using its selected insert option.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this project has a model and global has copied block XML data.
 
 Get the row and parent index where the blocks should be pasted, making sure it is valid.
 
 Paste the globally copied blocks into this project's model at the insertion row and parent. The model will not insert any block whose type is not part of the parent's build list.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2941,9 +2941,7 @@ Paste the globally copied blocks into this project's model at the insertion row 
                 <__p_description>Contains all GUI edit widgets that provide the user the ability to edit some form of data.</__p_description>
                 <Class>
                     <__p_name>Plain_Text</__p_name>
-                    <__p_description>This is the plain text class. It inherits the qt plain text edit class. It provides additional functionality to its inherit class.
-
-It provides additional functionality to its inherit class. Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog that has additional spell checking functionality. Misspelled word highlighting and the editor dialog popup features can be enabled or disabled.
+                    <__p_description>This is the plain text class. It inherits the qt plain text edit class. It provides additional functionality to its inherit class. Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog that has additional spell checking functionality. Misspelled word highlighting and the editor dialog popup features can be enabled or disabled.
 </__p_description>
                     <__p_parents>qtw.QPlainTextEdit</__p_parents>
                     <Access>
@@ -3020,13 +3018,13 @@ Update the speller state.
                         <Function>
                             <__p_name>__dialog_</__p_name>
                             <__p_description>Called to open a model dialog text editor to edit this editor's text.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this editor's popup feature is enabled.
 
 Initialize a new text editor dialog.
 
 Modally execute the dialog, setting this editor's text to the dialog's text if it returns with accepted value.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3146,11 +3144,11 @@ Return the box layout.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_inlines>If the given index is valid then update this dock's window title and build a new form of edit widgets based off the given index.
 
 Else the given index is invalid so clear this dock's window title and edit widgets.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -3161,11 +3159,11 @@ Else the given index is invalid so clear this dock's window title and edit widge
                         <Function>
                             <__p_name>__apply_</__p_name>
                             <__p_description>Called to set this dock's view's currently indexed block's properties to the current values of its edit widgets. If the current index is not valid then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Get this dock's view's current index and make sure it is valid.
 
 Set the properties of the current index to the values of this dock's edit widgets.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3177,9 +3175,7 @@ Set the properties of the current index to the values of this dock's edit widget
                 <__p_description>Contains all GUI dialog windows used by the core application.</__p_description>
                 <Class>
                     <__p_name>Text</__p_name>
-                    <__p_description>This is the text dialog class. It inherits the qt dialog class. It is a plain text editor with optional spell checking and correction.
-
-It is a plain text editor with optional spell checking and correction. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.
+                    <__p_description>This is the text dialog class. It inherits the qt dialog class. It is a plain text editor with optional spell checking and correction. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.
 </__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
                     <Access>
@@ -3510,6 +3506,7 @@ Add the edit toolbar to this window. Add this window's project view's undo, redo
                         <Function>
                             <__p_name>__new_</__p_name>
                             <__p_description>Called to create a new project of the given language for this window.</__p_description>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_inlines>Initialize a name to this window or a new window if this one already has a project.
 
 Create a new project of the given language.
@@ -3518,7 +3515,6 @@ Update the windows title and actions.
 
 Make sure the window is shown.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -3529,6 +3525,7 @@ Make sure the window is shown.
                         <Function>
                             <__p_name>__open_</__p_name>
                             <__p_description>Called to open a project file for this window if it does not have a project or a new window otherwise.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Get the path to the project file, making sure the user choose a valid file path.
 
 Get the absolute path of the file.
@@ -3545,13 +3542,13 @@ Update the window's title, state, and actions.
 
 Make sure the window is shown.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__save_</__p_name>
                             <__p_description>Called to save this window's project. If this window has no project or its save path is none then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_return_description>True if the project was saved successfully or false otherwise.</__p_return_description>
                             <__p_inlines>Make sure this window has a project and save file path.
 
@@ -3559,13 +3556,13 @@ Save this window's project, changing its modified status to false.
 
 Return success.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__save_as_</__p_name>
                             <__p_description>Called to save this window's project to a new save file path selected by the user. If this window has no project then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this window has a project.
 
 Get the new save file path, making sure the user choose a valid path.
@@ -3580,26 +3577,26 @@ Update this window's modified state and actions.
 
 Return success.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__parse_</__p_name>
                             <__p_description>Called to parse the source code of this window's project. If this window does not have a project save path then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this window has a project save path.
 
 Create a new parser from this window's model and set its root path to the directory path of its project save path.
 
 Signal the parsing is requested with the new parser.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__close_</__p_name>
                             <__p_description>Called to close this window's current project. If this window has no project then this does nothing. If the current project has unsaved changes the user is queried about what to do.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this window has a project and it is OK to close.
 
 Close this window's model's project.
@@ -3607,7 +3604,6 @@ Close this window's model's project.
 Set this window's save path to nothing.
 
 Update this window's title, state, and actions.</__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3680,6 +3676,11 @@ Exit the application with the return code provided by the Qt application.</__p_i
                     <__p_description>The number of lines for a third order header.</__p_description>
                     <__p_assignment>2</__p_assignment>
                 </Object>
+                <Object>
+                    <__p_name>ABSTRACT_DESCRIPTOR</__p_name>
+                    <__p_description>The descriptor, without the leading ampersand, used to make a class's method abstract.</__p_description>
+                    <__p_assignment>&quot;abc.abstractmethod&quot;</__p_assignment>
+                </Object>
             </Module>
             <Module>
                 <__p_name>package</__p_name>
@@ -3687,8 +3688,8 @@ Exit the application with the return code provided by the Qt application.</__p_i
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
-                    <__p_parents>abstract.Block</__p_parents>
                     <__p_descriptors>abstract.register_block(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <__p_parents>abstract.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3824,8 +3825,6 @@ Return the source code.
                             <__p_name>_build_children_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A string that is the combined source code of all this block's children's build interface, separated using their space interface.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the source code to an empty string and the previous block reference to none.
 
 Iterate through all children of this block.
@@ -3836,6 +3835,8 @@ Update the previous block reference.
 
 Return the source code.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>def_</__p_name>
                                 <__p_description>Scanned definitions from the old source code files.</__p_description>
@@ -3854,9 +3855,9 @@ Return the source code.
                 <__p_description>Contains the module block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
-                    <__p_parents>package.Block</__p_parents>
+                    <__p_description>This is the module block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
                     <__p_descriptors>abstract.register_block(&quot;Module&quot;)</__p_descriptors>
+                    <__p_parents>package.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3911,8 +3912,6 @@ Return the source code.
                             <__p_name>build</__p_name>
                             <__p_description>Implements the .package.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the source code with the package block's generated source code.
 
 Add the source code of all this block's children to the returned source code.
@@ -3921,6 +3920,8 @@ If this is the special main module then add the special main line to the source 
 
 Return the source code.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>def_</__p_name>
                                 <__p_description>See interface docs.</__p_description>
@@ -3939,9 +3940,9 @@ Return the source code.
                 <__p_description>Contains the object block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the object block class. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
-                    <__p_parents>package.Block</__p_parents>
+                    <__p_description>This is the object block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
                     <__p_descriptors>abstract.register_block(&quot;Object&quot;)</__p_descriptors>
+                    <__p_parents>package.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4120,10 +4121,79 @@ Return the source code.
                 <__p_name>function</__p_name>
                 <__p_description>Contains the function block definition.</__p_description>
                 <Class>
-                    <__p_name>Block</__p_name>
-                    <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
+                    <__p_name>Descriptor</__p_name>
+                    <__p_description>This is the python descriptor class. It inherits the python package block. It partially implements the Socrates' Reference abstract block class. This provides a descriptors property along with utility methods for it. This is meant to act as a base class for any block that has descriptors.</__p_description>
                     <__p_parents>package.Block</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new descriptor block.</__p_description>
+                            <__p_inlines>Initialize this block's properties.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clear_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_descriptors_name_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is a decoration for a block's display name providing information about its descriptors. If this block has no descriptors then an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>_descriptors_view_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A rich text string providing detailed information about this block's descriptors. If this block has no descriptors then an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>_descriptors_edit_definition_</__p_name>
+                            <__p_description>Getter Method.</__p_description>
+                            <__p_return_description>The edit definition for this block's descriptors property.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>_build_descriptors_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the source code for this block's descriptors. If this block has no descriptors an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>This is the function block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
                     <__p_descriptors>abstract.register_block(&quot;Function&quot;)</__p_descriptors>
+                    <__p_parents>Descriptor</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4176,9 +4246,7 @@ Return the source code.
 
 If this function has a return value then append a return indicator.
 
-Append this function's name and number of arguments.
-
-If this function has descriptors append a marker for each descriptor.
+Append this function's name, number of arguments, and descriptor decoration.
 
 Return the display name.
 </__p_inlines>
@@ -4194,8 +4262,6 @@ Return the display name.
 Generate the rich text return description of this block.
 
 Generate the rich text flags view of this block.
-
-Generate the rich text descriptors view of this block.
 
 Return the description, arguments view, return description, flags view, and descriptors view.
 </__p_inlines>
@@ -4387,19 +4453,19 @@ Return the source code lines.
                 <__p_description>Contains the class block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
-                    <__p_parents>package.Block</__p_parents>
+                    <__p_description>This is the class block class. It inherits the python descriptor class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
                     <__p_descriptors>abstract.register_block(&quot;Class&quot;)</__p_descriptors>
+                    <__p_parents>function.Descriptor</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new class block.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this block's properties.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -4416,23 +4482,30 @@ Return the source code lines.
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Return the appropriate icon based off this block's properties.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_name</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Return this block's name along with its descriptors decoration.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Generate the rich text parents view of this block.
-
-Generate the rich text descriptors view of this block.
 
 Return the description, parents view, and descriptors view.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
@@ -4449,14 +4522,14 @@ Return the description, parents view, and descriptors view.
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize a list with the inherited package block's edit definitions.
 
 Add the parents edit definition and then the descriptors edit definition.
 
 Return the list.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
@@ -4489,8 +4562,6 @@ Return the list.
                             <__p_name>build</__p_name>
                             <__p_description>Implements the .package.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the scanned dictionary definition of this class, setting it to a blank definition if there is none.
 
 Add this block's descriptors to the source code.
@@ -4503,6 +4574,8 @@ Add the source code of all this block's children to the returned source code.
 
 Return the source code.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>def_</__p_name>
                                 <__p_description>See interface docs.</__p_description>
@@ -4532,21 +4605,21 @@ Return the source code.
                 <__p_description>Contains the access block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes.
+                    <__p_description>This is the access block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes.
 
 It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.
 </__p_description>
-                    <__p_parents>package.Block</__p_parents>
                     <__p_descriptors>abstract.register_block(&quot;Access&quot;)</__p_descriptors>
+                    <__p_parents>package.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new access block.</__p_description>
+                            <__p_inlines>Initialize this block's properties.</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_inlines>Initialize this block's properties.</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
@@ -4556,20 +4629,20 @@ It represents a fictitious access declaration for python classes. Since python d
                             <__p_name>has_abstract</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this access block contains abstract methods or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Iterate through all children of this access block, returning true if any of the methods are abstract.
 
 No child abstract method was found so return false.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Return the appropriate icon based off this block's properties.</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_inlines>Return the appropriate icon based off this block's properties.</__p_inlines>
                         </Function>
                         <Function>
                             <__p_name>display_name</__p_name>
@@ -4582,10 +4655,10 @@ No child abstract method was found so return false.
                             <__p_name>display_view</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Return simple rich text that displays this access blocks type and name.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>build_list</__p_name>
@@ -4609,12 +4682,12 @@ No child abstract method was found so return false.
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize an empty list. Add the name and then the type edit definitions.
 
 Return the list.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
@@ -4647,8 +4720,6 @@ Return the list.
                             <__p_name>build</__p_name>
                             <__p_description>Implements the .package.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize the line of code that displays this access block's type and name.
 
 Add the comment header of this access block to the source code.
@@ -4657,6 +4728,8 @@ Add the source code of all this block's children to the returned source code.
 
 Return the source code.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>def_</__p_name>
                                 <__p_description>See interface docs.</__p_description>
@@ -4672,39 +4745,45 @@ Return the source code.
             </Module>
             <Module>
                 <__p_name>parser</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains the python language parser. It also contains all helper functions and classes used for the parsing process.</__p_description>
                 <Function>
                     <__p_name>uniq_insert</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>Inserts the given item into the given dictionary with the given key. If the given key already exists in the dictionary a number is appended to the key string until a key is found that does not exist in the dictionary.</__p_description>
+                    <__p_inlines>Check to see if the given key already exists in the given dictionary.
+
+Keep appending a number to the key, starting at 0, until an unused key is found.
+
+Insert the given item into the given dictionary with the unused key.
+</__p_inlines>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>dict_</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The dictionary that has an item inserted into it.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>key</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_description>The key used to insert the given item into the given dictionary. If the key already exists this is modified.</__p_description>
                     </Object>
                     <Object>
-                        <__p_name>value</__p_name>
-                        <__p_description>Detailed description.</__p_description>
+                        <__p_name>item</__p_name>
+                        <__p_description>The item that is inserted into the given dictionary.</__p_description>
                     </Object>
                 </Function>
                 <Class>
-                    <__p_name>Scan</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_name>Scanner</__p_name>
+                    <__p_description>This is the parser scanner class. It provides an object oriented scanner for an input file given to it at initialization. This scans python lines of code, skipping blank lines. It keeps track of the block of code it is scanning by the indent, stopping once a smaller indent is encountered.</__p_description>
                     <Access>
                         <__p_name>Initializer</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new scanner with the given input file.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The input file that is scanned.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -4713,15 +4792,33 @@ Return the source code.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>indent</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The indent size in spaces of the code block this scanner is reading. This must be called after the read line method is called at least once.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>readline</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The next line of python source code read in from this scanner's input file. If the end of file is reached or the end of the code block with the determined indent then this returns none. The first time this is called the indent of the block to be read is determined with the first line of code encountered.</__p_return_description>
+                            <__p_inlines>Continue until a line of code is found or an end condition is meant.
+
+Get the seek location of the file and then read in the next line.
+
+If the end of file has been reached then return none.
+
+Check to see if this is not a blank line.
+
+Remove the new line character and determine the line's indent.
+
+If the indent has not yet been set then set it with this line's indent.
+
+Else make sure this line's indent is within the block being read.
+
+Revert the seek location back to the previous because the read in line is not part of block being scanned, and then return none.
+
+Return the read in line that is part of the code block being scanned.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4729,19 +4826,23 @@ Return the source code.
                 </Class>
                 <Class>
                     <__p_name>Parser</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser.</__p_description>
                     <__p_parents>abstract.Parser</__p_parents>
                     <Access>
                         <__p_name>Initializer</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Initializes a new python parser with the given root package block.</__p_description>
+                            <__p_inlines>Initialize all compiled regular expressions used by this parser.
+
+Initialize the definitions dictionary used to save all scanned lines of code for this parser.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>root</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A package block that is the root block of a python project that this new parser will parse.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -4750,33 +4851,47 @@ Return the source code.
                         <__p_type>Protected</__p_type>
                         <Function>
                             <__p_name>_build_path_list_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>_scan_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Open the file at the given path as read only.
+
+Initialize a path scanning definition.
+
+Continue while there are still lines to read.
+
+Read the next line, breaking if it is the end of the file.
+
+Remove the newline character from the end.
+
+Match the line to see if it is a class or function header, scanning its source code and inserting the returned class or function definition into the path definition. Use a unique key for insertion so it does not overwrite anything else scanned.
+
+Insert the scanned path definition into this parser's dictionary of scanned paths.
+</__p_inlines>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>_build_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>block</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -4785,60 +4900,123 @@ Return the source code.
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__build_paths_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Recursively adds source code paths to be scanned using the given parent block and path.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Iterate through all children blocks of the given parent.
+
+Check if the child block has a directory name.
+
+Add the package block's init python script path and then recursively call this method to add all its sub packages and modules.
+
+Else if this child block has a file name and therefore is a module then add its python script path.
+</__p_inlines>
                             <Object>
                                 <__p_name>parent</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The parent block whose children are scanned for potential source code paths.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>path</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The path of the given parent block that is appended to any child block's path added.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__scan_header_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of import code lines scanned from the header of the given python script file. It is assumed all import lines occur at the beginning of the file right after any initial doc string. It is also assumed the import lines end with at least one blank line.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Skip any initial doc string of the script.
+
+Initialize the empty list of returned import lines.
+
+Peek the first code line, making sure it is an import line.
+
+Continue while there are import lines to read.
+
+Read the next line, breaking if it is a new line or adding it to the list of returned import lines otherwise.
+
+Return the scanned list of import lines.
+</__p_inlines>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__scan_function_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>ifile</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The python script file whose import lines of code are scanned.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__scan_class_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Scanned class definition containing any found and scanned method's lines of code from the class definition in the given python script file at its current seek position.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Skip any initial doc string of the class.
+
+Initialize the empty class scan definition that is returned.
+
+Initialize the scanner with the given file.
+
+Continue while there are lines to scan within the current class's block of code.
+
+Read the next line, breaking out if there are no more lines to read for the class.
+
+If the line is a function header then scan it and insert its scanned function definition into the class scan definition, using a unique key so it does not overwrite any other scanned functions.
+
+Return the scanned class definition.
+</__p_inlines>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The python script file whose class at the current seek position is scanned.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__scan_function_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Scanned function definition containing all lines of scanned code along with inline comment markers from the function definition in the given python script file at its current seek position.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Skip any initial doc string of the function.
+
+Initial a special Boolean latch that is used to read in only the first line of any continuous block of comment lines.
+
+Initialize the returned list of lines and a scanner with the given file.
+
+Continue while there are lines to scan within the current function's definition.
+
+Read the next line, breaking out if there are no more lines to read.
+
+Check if the line is a comment.
+
+If this is the first line of a comment block then add its stripped version to the returned list.
+
+Else this is a regular line of code so add it with its function indent stripped and reset the latch.
+
+Return the scanned lines of code and inline comment markers.
+</__p_inlines>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>The python script file whose function at the current seek position is scanned.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>__skip_doc_string_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>Yes</__p_return_description>
+                            <__p_description>Seeks past any initial doc string starting at the current seek index of the given python script file. Blank lines also skipped and ignored.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize the doc line count to 0.
+
+Continue until both the beginning and ending doc string lines have been read or no doc string was found.
+
+Read the next line, keeping track of the last line's seek position.
+
+If the end of file is reached then return.
+
+If this is a doc string line then increment the doc line count.
+
+Else if this is not a blank line and the doc line count is 0 then return.
+</__p_inlines>
                             <Object>
                                 <__p_name>ifile</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The python script file whose doc string, if any, is skipped.</__p_description>
                             </Object>
                         </Function>
                     </Access>

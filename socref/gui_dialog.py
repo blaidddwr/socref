@@ -19,11 +19,9 @@ from . import gui_edit
 class Text(qtw.QDialog):
     """
     This is the text dialog class. It inherits the qt dialog class. It is a plain text editor with
-    optional spell checking and correction.
-
-    It is a plain text editor with optional spell checking and correction. Any misspelled words are
-    highlighted and a button is provided that begins spell checking and correction. All spell
-    checking features can be enabled or disabled at initialization of the dialog.
+    optional spell checking and correction. Any misspelled words are highlighted and a button is
+    provided that begins spell checking and correction. All spell checking features can be enabled
+    or disabled at initialization of the dialog.
     """
 
 

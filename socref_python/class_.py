@@ -7,6 +7,7 @@ from socref import util
 from socref import abstract
 from . import settings
 from . import package
+from . import function
 
 
 
@@ -16,10 +17,10 @@ from . import package
 
 
 @abstract.register_block("Class")
-class Block(package.Block):
+class Block(function.Descriptor):
     """
-    This is the class block class. It implements the Socrates' Reference abstract block class. It
-    represents a python class.
+    This is the class block class. It inherits the python descriptor class. It implements the
+    Socrates' Reference abstract block class. It represents a python class.
     """
 
 
@@ -32,12 +33,11 @@ class Block(package.Block):
         """
         Initializes a new class block.
         """
-        package.Block.__init__(self)
+        function.Descriptor.__init__(self)
         #
         # Initialize this block's properties.
         #
         self._p_parents = ""
-        self._p_descriptors = ""
 
 
     ##########################
@@ -69,6 +69,18 @@ class Block(package.Block):
         else: return qtg.QIcon(":/python/class.svg")
 
 
+    def display_name(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        #
+        # Return this block's name along with its descriptors decoration.
+        #
+        return self._p_name + self._descriptors_name_()
+
+
     def display_view(self):
         """
         Implements the socref.abstract.Block interface.
@@ -81,14 +93,9 @@ class Block(package.Block):
         parents = "</li><li>".join((parent for parent in self._p_parents.split("\n") if parent))
         if parents : parents = "<h2>Parents</h2><ul><li>%s</li></ul>" % parents
         #
-        # Generate the rich text descriptors view of this block.
-        #
-        descriptors = "<br/>".join(["@" + html.escape(line) for line in self._p_descriptors.split("\n") if line])
-        if descriptors : descriptors = "<h2>Descriptors</h2><p>%s</p>" % descriptors
-        #
         # Return the description, parents view, and descriptors view.
         #
-        return package.Block.display_view(self) + parents + descriptors
+        return package.Block.display_view(self) + parents + self._descriptors_view_()
 
 
     def build_list(self):
@@ -119,7 +126,7 @@ class Block(package.Block):
         # Add the parents edit definition and then the descriptors edit definition.
         #
         ret.append(util.text_edit("Parents:","_p_parents"))
-        ret.append(util.text_edit("Descriptor(s):","_p_descriptors"))
+        ret.append(self._descriptors_edit_definition_())
         #
         # Return the list.
         #
@@ -130,19 +137,17 @@ class Block(package.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        package.Block.set_default_properties(self)
+        function.Descriptor.set_default_properties(self)
         self._p_name = "class"
         self._p_parents = ""
-        self._p_descriptors = ""
 
 
     def clear_properties(self):
         """
         Implements the socref.abstract.Block interface.
         """
-        package.Block.clear_properties(self)
+        function.Descriptor.clear_properties(self)
         self._p_parents = ""
-        self._p_descriptors = ""
 
 
     ############################
@@ -179,8 +184,7 @@ class Block(package.Block):
         #
         # Add this block's descriptors to the source code.
         #
-        ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
-        if ret : ret += "\n"
+        ret = self._build_descriptors_(begin)
         #
         # Add the class line of this block to the source code.
         #

@@ -16,11 +16,116 @@ from . import access
 
 
 
-@abstract.register_block("Function")
-class Block(package.Block):
+class Descriptor(package.Block):
     """
-    This is the function block class. It implements the Socrates' Reference abstract block class. It
-    represents a python function.
+    This is the python descriptor class. It inherits the python package block. It partially
+    implements the Socrates' Reference abstract block class. This provides a descriptors property
+    along with utility methods for it. This is meant to act as a base class for any block that has
+    descriptors.
+    """
+
+
+    #######################
+    # PUBLIC - Initialize #
+    #######################
+
+
+    def __init__(self):
+        """
+        Initializes a new descriptor block.
+        """
+        package.Block.__init__(self)
+        #
+        # Initialize this block's properties.
+        #
+        self._p_descriptors = ""
+
+
+    #############################
+    # PUBLIC - Property Methods #
+    #############################
+
+
+    def set_default_properties(self):
+        """
+        Implements the socref.abstract.Block interface.
+        """
+        package.Block.set_default_properties(self)
+        self._p_descriptors = ""
+
+
+    def clear_properties(self):
+        """
+        Implements the socref.abstract.Block interface.
+        """
+        package.Block.clear_properties(self)
+        self._p_descriptors = ""
+
+
+    #######################
+    # PROTECTED - Methods #
+    #######################
+
+
+    def _descriptors_name_(self):
+        """
+        Getter method.
+
+        return : A string that is a decoration for a block's display name providing information
+                 about its descriptors. If this block has no descriptors then an empty string is
+                 returned.
+        """
+        if self._p_descriptors :
+            return " " + "@" * len(['' for line in self._p_descriptors.split("\n") if line])
+        else: return ""
+
+
+    def _descriptors_view_(self):
+        """
+        Getter method.
+
+        return : A rich text string providing detailed information about this block's descriptors.
+                 If this block has no descriptors then an empty string is returned.
+        """
+        ret = "<br/>".join(("@" + html.escape(line) for line in self._p_descriptors.split("\n") if line))
+        if ret : ret = "<h2>Descriptors</h2><p>%s</p>" % ret
+        return ret
+
+
+    def _descriptors_edit_definition_(self):
+        """
+        Getter Method.
+
+        return : The edit definition for this block's descriptors property.
+        """
+        return util.text_edit("Descriptor(s):","_p_descriptors")
+
+
+    def _build_descriptors_(self, begin):
+        """
+        Getter method.
+
+        begin : The indent or begin string that is appended to every line of returned code.
+
+        return : A string that is the source code for this block's descriptors. If this block has no
+                 descriptors an empty string is returned.
+        """
+        ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
+        if ret : ret += "\n"
+        return ret
+
+
+
+
+
+
+
+
+@abstract.register_block("Function")
+class Block(Descriptor):
+    """
+    This is the function block class. It inherits the python package block. It implements the
+    Socrates' Reference abstract block class. It represents a python function.
     """
 
 
@@ -33,11 +138,10 @@ class Block(package.Block):
         """
         Initializes a new function block.
         """
-        package.Block.__init__(self)
+        Descriptor.__init__(self)
         #
         # Initialize this block's properties.
         #
-        self._p_descriptors = ""
         self._p_return_description = ""
         self._p_inlines = ""
         self._p_static = "0"
@@ -106,14 +210,9 @@ class Block(package.Block):
         #
         if self._p_return_description : ret += "... "
         #
-        # Append this function's name and number of arguments.
+        # Append this function's name, number of arguments, and descriptor decoration.
         #
-        ret += "%s(%i)" % (self._p_name,len(self))
-        #
-        # If this function has descriptors append a marker for each descriptor.
-        #
-        if self._p_descriptors :
-            ret += " " + "@" * len(['' for line in self._p_descriptors.split("\n") if line])
+        ret += "%s(%i)%s" % (self._p_name,len(self),self._descriptors_name_())
         #
         # Return the display name.
         #
@@ -143,11 +242,6 @@ class Block(package.Block):
         if self.is_abstract() : flags += "<li>Abstract</li>"
         if flags : flags = "<h2>Flags</h2><ul>%s</ul>" % flags
         #
-        # Generate the rich text descriptors view of this block.
-        #
-        descriptors = "<br/>".join(("@" + html.escape(line) for line in self._p_descriptors.split("\n") if line))
-        if descriptors : descriptors = "<h2>Descriptors</h2><p>%s</p>" % descriptors
-        #
         # Return the description, arguments view, return description, flags view, and descriptors
         # view.
         #
@@ -155,7 +249,7 @@ class Block(package.Block):
                 + self._display_arguments_()
                 + return_description
                 + flags
-                + descriptors)
+                + self._descriptors_view_())
 
 
     def build_list(self):
@@ -200,7 +294,7 @@ class Block(package.Block):
         # Add the inline comments edit definition and then the descriptors edit definition.
         #
         ret.append(util.text_edit("Inline Comments:","_p_inlines",speller=True))
-        ret.append(util.text_edit("Descriptor(s):","_p_descriptors"))
+        ret.append(self._descriptors_edit_definition_())
         #
         # Return the list.
         #
@@ -211,11 +305,10 @@ class Block(package.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        package.Block.set_default_properties(self)
+        Descriptor.set_default_properties(self)
         self._p_name = "function"
         self._p_return_description = ""
         self._p_inlines = ""
-        self._p_descriptors = ""
         self._p_static = "0"
         self._p_abstract = "0"
 
@@ -224,10 +317,9 @@ class Block(package.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        package.Block.clear_properties(self)
+        Descriptor.clear_properties(self)
         self._p_return_description = ""
         self._p_inlines = ""
-        self._p_descriptors = ""
         self._p_static = "0"
         self._p_abstract = "0"
 
@@ -329,13 +421,12 @@ class Block(package.Block):
         #
         # Add this function's list of descriptors to the source code.
         #
-        ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
-        if ret : ret += "\n"
+        ret = self._build_descriptors_(begin)
         #
         # Add the special abstract descriptor to the source code if this function is an abstract
         # method.
         #
-        if self.is_abstract() : ret += begin + "@abc.abstractmethod\n"
+        if self.is_abstract() : ret += begin + "@%s\n" % settings.ABSTRACT_DESCRIPTOR
         #
         # Build the list of argument source code fragments of this function.
         #
