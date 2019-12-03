@@ -171,14 +171,20 @@ class Block_Dock(qtw.QDockWidget):
         """
         qtw.QDockWidget.__init__(self,parent)
         #
-        # Initialize this dock's view to none and edit widgets to empty.
+        # Initialize this dock's qt scroll area and apply button.
         #
+        self.__area = qtw.QScrollArea(widgetResizable=True)
+        self.__apply_button = qtw.QPushButton("Apply")
+        #
+        # Initialize this dock's current index to invalid, view to none, and edit widgets to empty.
+        #
+        self.__index = qtc.QModelIndex()
         self.__view = None
         self.__edits = []
         #
-        # Initialize this dock's window title.
+        # Initialize this dock's GUI.
         #
-        self.setWindowTitle("(Edit)")
+        self.__setup_gui_()
 
 
     ####################
@@ -194,14 +200,20 @@ class Block_Dock(qtw.QDockWidget):
         view : The new attached view of this dock.
         """
         #
-        # If this dock already has a view then disconnect its signal.
+        # If this dock already has a view then disconnect its signals.
         #
-        if self.__view is not None : self.__view.current_changed.disconnect(self.__current_changed_)
+        if self.__view is not None :
+            self.__view.current_changed.disconnect(self.__index_changed_)
+            self.__view.current_changed.disconnect(self.__index_removed_)
         #
-        # Update this docks view to the one given.
+        # Update this dock's view to the one given.
         #
         self.__view = view
-        self.__view.current_changed.connect(self.__current_changed_)
+        #
+        # Connect all index signals of the new view to this dock.
+        #
+        self.__view.index_changed.connect(self.__index_changed_)
+        self.__view.index_removed.connect(self.__index_removed_)
 
 
     #####################
@@ -238,76 +250,28 @@ class Block_Dock(qtw.QDockWidget):
             #
             for def_ in defs :
                 #
-                # Initialize the edit widget, label, and hidden names.
+                # Initialize the edit widget and label.
                 #
                 edit = None
-                label = ""
-                hidden = False
+                label = None
                 #
-                # If this is a line edit definition then initialize its edit widget and label.
+                # Determine the edit definition type, calling the appropriate build method to create
+                # a new edit widget for it. If the type is unknown then throw an exception.
                 #
-                if def_["type"] == "line" :
-                    edit = qtw.QLineEdit(props[def_["key"]])
-                    edit._value_ = lambda e=edit : e.text()
-                    edit._key = def_["key"]
-                    label = def_["label"]
-                #
-                # Else if this is a text edit definition then initialize its edit widget and label.
-                #
-                elif def_["type"] == "text" :
-                    edit = Plain_Text(props[def_["key"]]
-                                      ,speller=def_.get("speller",False)
-                                      ,popup=True)
-                    edit._value_ = lambda e=edit : e.toPlainText()
-                    edit._key = def_["key"]
-                    label = def_["label"]
-                #
-                # Else if this is a check box edit definition then initialize its edit widget and
-                # leave the label blank.
-                #
-                elif def_["type"] == "checkbox" :
-                    edit = qtw.QCheckBox(def_["label"])
-                    edit.setCheckState(qtc.Qt.Checked if int(props[def_["key"]]) else qtc.Qt.Unchecked)
-                    edit._value_ = lambda e=edit : str(int(e.checkState() == qtc.Qt.Checked))
-                    edit._key = def_["key"]
-                #
-                # Else if this is a combo box edit definition then initialize its edit widget and
-                # label.
-                #
-                elif def_["type"] == "combobox" :
-                    edit = qtw.QComboBox()
-                    for selection in def_["selections"] :
-                        if "icon" in selection : edit.addItem(selection["icon"],selection["text"])
-                        else: edit.addItem(selection["text"])
-                    edit.setCurrentText(props[def_["key"]])
-                    edit._value_ = lambda e=edit : e.currentText()
-                    edit._key = def_["key"]
-                    label = def_["label"]
-                #
-                # Else if this is a hidden edit definition then initialize its dummy edit widget and
-                # set it as hidden.
-                #
-                elif def_["type"] == "hidden" :
-                    edit = qtw.QWidget()
-                    edit._value_ = lambda val=def_["value"] : val
-                    edit._key = def_["key"]
-                    hidden = True
-                #
-                # Else this is an invalid edit definition so throw an exception.
-                #
+                if def_["type"] == "line" : (edit,label) = self.__build_line_(def_,props)
+                elif def_["type"] == "text" : (edit,label) = self.__build_text_(def_,props)
+                elif def_["type"] == "checkbox" : (edit,label) = self.__build_checkbox_(def_,props)
+                elif def_["type"] == "combobox" : (edit,label) = self.__build_combobox_(def_,props)
+                elif def_["type"] == "hidden" : edit = self.__build_hidden_(def_)
                 else: raise RuntimeError("Unknown edit definition.")
                 #
                 # If the new edit widget is not hidden then add it to the form layout.
                 #
-                if not hidden : layout.addRow(label,edit)
+                if label is not None : layout.addRow(label,edit)
                 #
                 # Append the edit widget to this dock's list.
                 #
                 self.__edits.append(edit)
-            #
-            # Add a new apply button to the end of the form layout.
-            #
-            layout.addRow(self.__build_apply_())
             #
             # Initialize a new widget, setting its layout to the form layout.
             #
@@ -327,28 +291,147 @@ class Block_Dock(qtw.QDockWidget):
             raise
 
 
-    def __build_apply_(self):
+    def __build_line_(self, definition, properties):
         """
         Getter method.
 
-        return : A qt layout containing a new apply button initialized to work this this dock' slot.
+        definition : The edit definition used to build the returned edit widget.
+
+        properties : The properties of the block used to get the initial value of the returned edit
+                     widget.
+
+        return : A tuple containing 2 items. The first is a new line edit widget configured for the
+                 given definition and properties. The second is a string label for adding it to a
+                 form.
+        """
+        edit = qtw.QLineEdit(properties[definition["key"]])
+        edit.textChanged.connect(lambda : self.__apply_button.setEnabled(True))
+        edit._value_ = lambda e=edit : e.text()
+        edit._key = definition["key"]
+        return (edit,definition["label"])
+
+
+    def __build_text_(self, definition, properties):
+        """
+        Getter method.
+
+        definition : The edit definition used to build the returned edit widget.
+
+        properties : The properties of the block used to get the initial value of the returned edit
+                     widget.
+
+        return : A tuple containing 2 items. The first is a new plain text edit widget configured
+                 for the given definition and properties. The second is a string label for adding it
+                 to a form.
+        """
+        edit = Plain_Text(speller=definition.get("speller",False),popup=True)
+        edit.setPlainText(properties[definition["key"]])
+        edit.textChanged.connect(lambda : self.__apply_button.setEnabled(True))
+        edit._value_ = lambda e=edit : e.toPlainText()
+        edit._key = definition["key"]
+        return (edit,definition["label"])
+
+
+    def __build_checkbox_(self, definition, properties):
+        """
+        Getter method.
+
+        definition : The edit definition used to build the returned edit widget.
+
+        properties : The properties of the block used to get the initial value of the returned edit
+                     widget.
+
+        return : A tuple containing 2 items. The first is a new checkbox widget configured for the
+                 given definition and properties. The second is a string label for adding it to a
+                 form.
+        """
+        edit = qtw.QCheckBox(definition["label"])
+        edit.setCheckState(qtc.Qt.Checked if int(properties[definition["key"]]) else qtc.Qt.Unchecked)
+        edit.stateChanged.connect(lambda : self.__apply_button.setEnabled(True))
+        edit._value_ = lambda e=edit : str(int(e.checkState() == qtc.Qt.Checked))
+        edit._key = definition["key"]
+        return (edit,"")
+
+
+    def __build_combobox_(self, definition, properties):
+        """
+        Getter method.
+
+        definition : The edit definition used to build the returned edit widget.
+
+        properties : The properties of the block used to get the initial value of the returned edit
+                     widget.
+
+        return : A tuple containing 2 items. The first is a new combo box widget configured for the
+                 given definition and properties. The second is a string label for adding it to a
+                 form.
         """
         #
-        # Initialize a new apply button for this dock.
+        # Create a new qt combo box.
         #
-        button = qtw.QPushButton("Apply")
-        button.clicked.connect(self.__apply_)
+        edit = qtw.QComboBox()
         #
-        # Initialize a qt horizontal box layout. Add the new apply button and the and then a
+        # Iterate through all selections defined in the given edit definition, adding each one as an
+        # item to the new combo box with or without an icon.
+        #
+        for selection in definition["selections"] :
+            if "icon" in selection : edit.addItem(selection["icon"],selection["text"])
+            else: edit.addItem(selection["text"])
+        #
+        # Initialize the new qt combo box using the given edit definition.
+        #
+        edit.setCurrentText(properties[definition["key"]])
+        edit.currentTextChanged.connect(lambda : self.__apply_button.setEnabled(True))
+        edit._value_ = lambda e=edit : e.currentText()
+        edit._key = definition["key"]
+        #
+        # Return the combo box and label.
+        #
+        return (edit,definition["label"])
+
+
+    def __build_hidden_(self, definition):
+        """
+        Getter method.
+
+        definition : The edit definition used to build the returned edit widget.
+
+        return : A new hidden edit widget configured for the given definition.
+        """
+        edit = qtw.QWidget()
+        edit._value_ = lambda val=definition["value"] : val
+        edit._key = definition["key"]
+        return edit
+
+
+    def __setup_gui_(self):
+        """
+        Initializes the GUI of this new block edit dock.
+        """
+        #
+        # Configure this dock's apply button.
+        #
+        self.__apply_button.clicked.connect(self.__apply_)
+        self.__apply_button.setEnabled(False)
+        #
+        # Create a new bottom horizontal box layout. Add this dock's apply button and then a
         # stretch.
         #
-        ret = qtw.QHBoxLayout()
-        ret.addWidget(button)
-        ret.addStretch()
+        bottom = qtw.QHBoxLayout()
+        bottom.addWidget(self.__apply_button)
+        bottom.addStretch()
         #
-        # Return the box layout.
+        # Create a new vertical box layout. Add this dock's scroll area and then the bottom layout.
         #
-        return ret
+        layout = qtw.QVBoxLayout()
+        layout.addWidget(self.__area)
+        layout.addLayout(bottom)
+        #
+        # Create a generic widget, setting its layout and then setting it as this dock's widget.
+        #
+        central = qtw.QWidget()
+        central.setLayout(layout)
+        self.setWidget(central)
 
 
     ###################
@@ -357,7 +440,7 @@ class Block_Dock(qtw.QDockWidget):
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __current_changed_(self, index):
+    def __index_changed_(self, index):
         """
         Called to update the block this dock is editing to the new one at the given index. If the
         given index is invalid then this dock returns to a null state with no form.
@@ -365,49 +448,66 @@ class Block_Dock(qtw.QDockWidget):
         index : The index of the new block whose properties are edited by this dock.
         """
         #
-        # Force python garbage collection because rebuilding this dock's GUI causes large memory
+        # Check if this dock's current index has unsaved changes.
+        #
+        if self.__index.isValid() and self.__apply_button.isEnabled() :
+            #
+            # Query the user about the unsaved changes, applying the changes to this dock's
+            # currently indexed block if the user chooses to save the changes.
+            #
+            answer = qtw.QMessageBox.question(self
+                                              ,"Unsaved Changes"
+                                              ,"The current block has unsaved modifications."
+                                               " Discarding will cause modifications to be lost!"
+                                              ,qtw.QMessageBox.Save | qtw.QMessageBox.Discard)
+            if answer == qtw.QMessageBox.Save : self.__apply_()
+        self.__index = index
+        #
+        # If this dock has an old built edit widget form then delete it and force python garbage.
+        # Garbage collection is required because rebuilding this dock's GUI causes large memory
         # leaks otherwise.
         #
-        gc.collect()
+        if self.__area.widget() :
+            self.__area.widget().deleteLater()
+            gc.collect()
         #
-        # Check if the given index is valid.
+        # If the given index is valid then build a new form widget of edit widgets from the given
+        # indexed block and disable the apply button.
         #
         if index.isValid() :
-            #
-            # Get this dock's model and update its window title.
-            #
-            m = self.__view.model()
-            self.setWindowTitle("[%s] %s (Edit)" %
-                                (m.data(index,model.Role.BLOCK_TYPE)
-                                 ,m.data(index,qtc.Qt.DisplayRole)))
-            #
-            # Build a new form widget of edit widgets, deleting any previous form widget.
-            #
-            if self.widget() : self.widget().deleteLater()
-            self.setWidget(self.__build_form_widget_(index))
+            self.__area.setWidget(self.__build_form_widget_(index))
+            self.__apply_button.setEnabled(False)
         #
-        # Else the given index is invalid so clear this dock's window title and edit widgets.
+        # Else the given index is invalid so clear this dock's edit widgets.
         #
         else:
-            self.setWindowTitle("(Edit)")
             self.__edits.clear()
-            self.setWidget(None)
+            self.__area.setWidget(None)
+
+
+    @qtc.Slot()
+    def __index_removed_(self):
+        """
+        Called to remove this dock's current index, setting it to invalid.
+        """
+        self.__index = qtc.QModelIndex()
 
 
     @qtc.Slot()
     def __apply_(self):
         """
-        Called to set this dock's view's currently indexed block's properties to the current values
-        of its edit widgets. If the current index is not valid then this does nothing.
+        Called to set this dock's currently indexed block's properties to the current values of its
+        edit widgets. If the current index is not valid then this does nothing.
         """
         #
-        # Get this dock's view's current index and make sure it is valid.
+        # Make sure this dock's current index is valid.
         #
-        index = self.__view.selectionModel().currentIndex()
-        if index.isValid() :
+        if self.__index.isValid() :
             #
-            # Set the properties of the current index to the values of this dock's edit widgets.
+            # Set the properties of the current index to the values of this dock's edit widgets and
+            # then disable the apply button.
             #
-            self.__view.model().setData(index
+            self.__view.model().setData(self.__index
                                         ,{edit._key: edit._value_() for edit in self.__edits}
                                         ,model.Role.PROPERTIES)
+            self.__apply_button.setEnabled(False)

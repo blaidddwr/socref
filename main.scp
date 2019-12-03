@@ -2365,10 +2365,12 @@ Signal that this spell checker has finished.
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new block view dock with the given optional parent.</__p_description>
-                            <__p_inlines>Initialize this dock's view to none and window title.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this dock's label, and view to none.
+
+Setup the GUI of this dialog.
+</__p_inlines>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The optional qt object parent of this new block view dock.</__p_description>
@@ -2395,23 +2397,27 @@ Update this docks view to the one given.
                         </Function>
                     </Access>
                     <Access>
+                        <__p_name>__setup_gui_</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__setup_gui_</__p_name>
+                            <__p_description>Initialize the GUI of this new block view dock.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Configure this dock's label.
+
+Create a qt scroll area, setting its widget to this dock's label and then setting this dock's widget to the scroll area.
+</__p_inlines>
+                        </Function>
+                    </Access>
+                    <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__current_changed_</__p_name>
+                            <__p_name>__index_changed_</__p_name>
                             <__p_description>Called to update this dock's detailed view to the new block at the given index. If the given index is invalid then this dock returns its view to a null state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_inlines>Check to see if the given index is valid.
-
-Get this dock's view's model and update its window title.
-
-Create and initialize a new qt label with its rich text set to the detailed view of the new block.
-
-Set this dock's widget to the new qt label, deleting any previous label.
-
-Else the given index is invalid so update this dock's window title and set its widget to nothing.
-</__p_inlines>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <Object>
                                 <__p_name>index</__p_name>
@@ -2549,9 +2555,19 @@ Update this project's context menu.
                         <__p_name>Signals</__p_name>
                         <__p_type>Public</__p_type>
                         <Object>
-                            <__p_name>current_changed</__p_name>
-                            <__p_description>Signals that the current index of this project's model's selection model has changed.</__p_description>
+                            <__p_name>index_changed</__p_name>
+                            <__p_description>Signals that the current index of this project has changed.</__p_description>
                             <__p_assignment>qtc.Signal(qtc.QModelIndex)</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>index_data_changed</__p_name>
+                            <__p_description>Signals that the data of this project's current index has changed.</__p_description>
+                            <__p_assignment>qtc.Signal()</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>index_removed</__p_name>
+                            <__p_description>Signals that the this project's current index is about to be removed from its model.</__p_description>
+                            <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                     </Access>
                     <Access>
@@ -2816,15 +2832,17 @@ If the this project's selection model's current index is not valid then update i
                         <Function>
                             <__p_name>__remove_</__p_name>
                             <__p_description>Called to remove all selected indexes from this project's model.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this project has a model.
 
 Continue while this project's selection model has one or more indexes selected.
 
-Get the first index that is selected and remove it from the model.
+Get the first index, signaling that the current index is being removed beforehand if it is the current index.
+
+Remove the first index from the model.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__cut_</__p_name>
@@ -3045,12 +3063,14 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initialize a new block edit dock with the given optional parent.</__p_description>
-                            <__p_inlines>Initialize this dock's view to none and edit widgets to empty.
-
-Initialize this dock's window title.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Initialize this dock's qt scroll area and apply button.
+
+Initialize this dock's current index to invalid, view to none, and edit widgets to empty.
+
+Initialize this dock's GUI.
+</__p_inlines>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The optional qt object parent of this new block edit dock.</__p_description>
@@ -3064,12 +3084,14 @@ Initialize this dock's window title.
                         <Function>
                             <__p_name>set_view</__p_name>
                             <__p_description>Sets this dock's view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
-                            <__p_inlines>If this dock already has a view then disconnect its signal.
-
-Update this docks view to the one given.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>If this dock already has a view then disconnect its signals.
+
+Update this dock's view to the one given.
+
+Connect all index signals of the new view to this dock.
+</__p_inlines>
                             <Object>
                                 <__p_name>view</__p_name>
                                 <__p_description>The new attached view of this dock.</__p_description>
@@ -3083,6 +3105,8 @@ Update this docks view to the one given.
                             <__p_name>__build_form_widget_</__p_name>
                             <__p_description>Builds and initializes all edit widgets for all properties of the block at the given index based off its edit definitions, adding them to this dock's list of edit widgets. This clears any previous edit widgets from the last index that was built by this method.</__p_description>
                             <__p_return_description>The form layout containing all built edit widgets and the apply button at the end.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Clear any existing edit widgets of this dock.
 
 Get the properties and edit definitions of the block at the given index.
@@ -3091,25 +3115,13 @@ Initialize the qt form layout.
 
 Iterate through all edit definitions.
 
-Initialize the edit widget, label, and hidden names.
+Initialize the edit widget and label.
 
-If this is a line edit definition then initialize its edit widget and label.
-
-Else if this is a text edit definition then initialize its edit widget and label.
-
-Else if this is a check box edit definition then initialize its edit widget and leave the label blank.
-
-Else if this is a combo box edit definition then initialize its edit widget and label.
-
-Else if this is a hidden edit definition then initialize its dummy edit widget and set it as hidden.
-
-Else this is an invalid edit definition so throw an exception.
+Determine the edit definition type, calling the appropriate build method to create a new edit widget for it. If the type is unknown then throw an exception.
 
 If the new edit widget is not hidden then add it to the form layout.
 
 Append the edit widget to this dock's list.
-
-Add a new apply button to the end of the form layout.
 
 Initialize a new widget, setting its layout to the form layout.
 
@@ -3117,44 +3129,122 @@ Return the new widget.
 
 If any exception occurs during the build process then clear this dock's list of edit widgets and raise it again.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the block whose property edit widgets are built.</__p_description>
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__build_apply_</__p_name>
+                            <__p_name>__build_line_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A qt layout containing a new apply button initialized to work this this dock' slot.</__p_return_description>
-                            <__p_inlines>Initialize a new apply button for this dock.
-
-Initialize a qt horizontal box layout. Add the new apply button and the and then a stretch.
-
-Return the box layout.
-</__p_inlines>
+                            <__p_return_description>A tuple containing 2 items. The first is a new line edit widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>properties</__p_name>
+                                <__p_description>The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__build_text_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A tuple containing 2 items. The first is a new plain text edit widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>properties</__p_name>
+                                <__p_description>The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__build_checkbox_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A tuple containing 2 items. The first is a new checkbox widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>properties</__p_name>
+                                <__p_description>The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__build_combobox_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A tuple containing 2 items. The first is a new combo box widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Create a new qt combo box.
+
+Iterate through all selections defined in the given edit definition, adding each one as an item to the new combo box with or without an icon.
+
+Initialize the new qt combo box using the given edit definition.
+
+Return the combo box and label.
+</__p_inlines>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>properties</__p_name>
+                                <__p_description>The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__build_hidden_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A new hidden edit widget configured for the given definition.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_gui_</__p_name>
+                            <__p_description>Initializes the GUI of this new block edit dock.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Configure this dock's apply button.
+
+Create a new bottom horizontal box layout. Add this dock's apply button and then a stretch.
+
+Create a new vertical box layout. Add this dock's scroll area and then the bottom layout.
+
+Create a generic widget, setting its layout and then setting it as this dock's widget.
+</__p_inlines>
                         </Function>
                     </Access>
                     <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__current_changed_</__p_name>
+                            <__p_name>__index_changed_</__p_name>
                             <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_inlines>Force python garbage collection because rebuilding this dock's GUI causes large memory leaks otherwise.
+                            <__p_inlines>Check if this dock's current index has unsaved changes.
 
-Check if the given index is valid.
+Query the user about the unsaved changes, applying the changes to this dock's currently indexed block if the user chooses to save the changes.
 
-Get this dock's model and update its window title.
+If this dock has an old built edit widget form then delete it and force python garbage. Garbage collection is required because rebuilding this dock's GUI causes large memory leaks otherwise.
 
-Build a new form widget of edit widgets, deleting any previous form widget.
+If the given index is valid then build a new form widget of edit widgets from the given indexed block and disable the apply button.
 
-Else the given index is invalid so clear this dock's window title and edit widgets.
+Else the given index is invalid so clear this dock's edit widgets.
 </__p_inlines>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <Object>
@@ -3163,15 +3253,22 @@ Else the given index is invalid so clear this dock's window title and edit widge
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__apply_</__p_name>
-                            <__p_description>Called to set this dock's view's currently indexed block's properties to the current values of its edit widgets. If the current index is not valid then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Get this dock's view's current index and make sure it is valid.
-
-Set the properties of the current index to the values of this dock's edit widgets.
-</__p_inlines>
+                            <__p_name>__index_removed_</__p_name>
+                            <__p_description>Called to remove this dock's current index, setting it to invalid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                        </Function>
+                        <Function>
+                            <__p_name>__apply_</__p_name>
+                            <__p_description>Called to set this dock's currently indexed block's properties to the current values of its edit widgets. If the current index is not valid then this does nothing.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this dock's current index is valid.
+
+Set the properties of the current index to the values of this dock's edit widgets and then disable the apply button.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>

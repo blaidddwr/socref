@@ -36,10 +36,14 @@ class Block_Dock(qtw.QDockWidget):
         """
         qtw.QDockWidget.__init__(self,parent)
         #
-        # Initialize this dock's view to none and window title.
+        # Initialize this dock's label, and view to none.
         #
+        self.__label = qtw.QLabel(alignment=qtc.Qt.AlignTop,wordWrap=True,textFormat=qtc.Qt.RichText)
         self.__view = None
-        self.setWindowTitle("(View)")
+        #
+        # Setup the GUI of this dialog.
+        #
+        self.__setup_gui_()
 
 
     ####################
@@ -57,12 +61,35 @@ class Block_Dock(qtw.QDockWidget):
         #
         # If this dock already has a view then disconnect its signal.
         #
-        if self.__view is not None : self.__view.current_changed.disconnect(self.__current_changed_)
+        if self.__view is not None : self.__view.current_changed.disconnect(self.__index_changed_)
         #
         # Update this docks view to the one given.
         #
         self.__view = view
-        self.__view.current_changed.connect(self.__current_changed_)
+        self.__view.index_changed.connect(self.__index_changed_)
+        self.__view.index_data_changed.connect(self.__index_changed_)
+
+
+    ##########################
+    # PRIVATE - __setup_gui_ #
+    ##########################
+
+
+    def __setup_gui_(self):
+        """
+        Initialize the GUI of this new block view dock.
+        """
+        #
+        # Configure this dock's label.
+        #
+        self.__label.setContentsMargins(4,16,4,4)
+        #
+        # Create a qt scroll area, setting its widget to this dock's label and then setting this
+        # dock's widget to the scroll area.
+        #
+        area = qtw.QScrollArea(widgetResizable=True)
+        area.setWidget(self.__label)
+        self.setWidget(area)
 
 
     ###################
@@ -71,46 +98,15 @@ class Block_Dock(qtw.QDockWidget):
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __current_changed_(self, index):
+    def __index_changed_(self, index):
         """
         Called to update this dock's detailed view to the new block at the given index. If the given
         index is invalid then this dock returns its view to a null state.
 
         index : The index of the new block whose detailed view is displayed by this dock.
         """
-        #
-        # Check to see if the given index is valid.
-        #
-        if index.isValid() :
-            #
-            # Get this dock's view's model and update its window title.
-            #
-            m = self.__view.model()
-            self.setWindowTitle("[%s] %s (View)" %
-                                (m.data(index,model.Role.BLOCK_TYPE)
-                                 ,m.data(index,qtc.Qt.DisplayRole)))
-            #
-            # Create and initialize a new qt label with its rich text set to the detailed view of
-            # the new block.
-            #
-            label = qtw.QLabel(self)
-            label.setAlignment(qtc.Qt.AlignTop)
-            label.setWordWrap(True)
-            label.setTextFormat(qtc.Qt.RichText)
-            label.setContentsMargins(4,16,4,4)
-            label.setText(m.data(index,model.Role.VIEW))
-            #
-            # Set this dock's widget to the new qt label, deleting any previous label.
-            #
-            if self.widget() : self.widget().deleteLater()
-            self.setWidget(label)
-        #
-        # Else the given index is invalid so update this dock's window title and set its widget to
-        # nothing.
-        #
-        else:
-            self.setWindowTitle("(View)")
-            self.setWidget(None)
+        if index.isValid() : self.__label.setText(self.__view.model().data(index,model.Role.VIEW))
+        else: self.__label.setText("")
 
 
 
@@ -318,9 +314,17 @@ class Project(qtw.QTreeView):
 
 
     #
-    # Signals that the current index of this project's model's selection model has changed.
+    # Signals that the current index of this project has changed.
     #
-    current_changed = qtc.Signal(qtc.QModelIndex)
+    index_changed = qtc.Signal(qtc.QModelIndex)
+    #
+    # Signals that the data of this project's current index has changed.
+    #
+    index_data_changed = qtc.Signal()
+    #
+    # Signals that the this project's current index is about to be removed from its model.
+    #
+    index_removed = qtc.Signal()
 
 
     #####################
@@ -682,7 +686,7 @@ class Project(qtw.QTreeView):
         #
         # Signal this project's current index has changed.
         #
-        self.current_changed.emit(current)
+        self.index_changed.emit(current)
 
 
     @qtc.Slot()
@@ -697,7 +701,7 @@ class Project(qtw.QTreeView):
         #
         # Signal this project's current index has changed to nothing.
         #
-        self.current_changed.emit(qtc.QModelIndex())
+        self.index_changed.emit(qtc.QModelIndex())
 
 
     @qtc.Slot()
@@ -713,7 +717,7 @@ class Project(qtw.QTreeView):
         #
         # Signal this project's current index has changed to nothing.
         #
-        self.current_changed.emit(qtc.QModelIndex())
+        self.index_changed.emit(qtc.QModelIndex())
 
 
     @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)
@@ -733,7 +737,7 @@ class Project(qtw.QTreeView):
         # that it has changed and update this project's context menu.
         #
         if top_left == self.selectionModel().currentIndex() :
-            self.current_changed.emit(top_left)
+            self.index_data_changed.emit()
             self.__update_context_menu_()
 
 
@@ -822,9 +826,14 @@ class Project(qtw.QTreeView):
             #
             while self.selectionModel().hasSelection() :
                 #
-                # Get the first index that is selected and remove it from the model.
+                # Get the first index, signaling that the current index is being removed beforehand
+                # if it is the current index.
                 #
                 index = self.selectionModel().selectedIndexes()[0]
+                if index == self.selectionModel().currentIndex() : self.index_removed.emit()
+                #
+                # Remove the first index from the model.
+                #
                 parent = index.parent()
                 self.__model.removeRow(index.row(),parent)
 
