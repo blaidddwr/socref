@@ -52,6 +52,7 @@ class Main(qtw.QMainWindow):
         self.__view = gui_view.Project(self)
         self.__block_view_dock = gui_view.Block_Dock(self)
         self.__block_edit_dock = gui_edit.Block_Dock(self)
+        self.__progress_bar = None
         self.__open_action = qtw.QAction("Open",self)
         self.__save_action = qtw.QAction("Save",self)
         self.__save_as_action = qtw.QAction("Save As",self)
@@ -157,11 +158,19 @@ class Main(qtw.QMainWindow):
         self.__setup_menus_()
         self.__setup_toolbars_()
         self.parse_requested.connect(model.Parser().start)
+        model.Parser().started.connect(self.__parse_started_)
+        model.Parser().progressed.connect(self.__parse_progressed_)
+        model.Parser().finished.connect(self.__parse_finished_)
         settings = qtc.QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
         state = settings.value(self.__STATE_KEY)
         if geometry : self.restoreGeometry(geometry)
         if state : self.restoreState(state)
+        #
+        # The status bar is not visible until this method is called so call it here to make it
+        # visible from the start.
+        #
+        self.statusBar()
         self.__update_title_()
         self.__update_actions_()
 
@@ -339,6 +348,39 @@ class Main(qtw.QMainWindow):
         name : Detailed description.
         """
         self.__update_title_()
+
+
+    @qtc.Slot()
+    def __parse_started_(self):
+        """
+        Called to inform this window that the singleton parser model has started parsing.
+        """
+        if self.__progress_bar is None :
+            bar = self.__progress_bar = qtw.QProgressBar()
+            bar.setRange(0,100)
+            bar.setValue(0)
+            self.statusBar().addWidget(bar)
+            bar.show()
+
+
+    @qtc.Slot(int)
+    def __parse_progressed_(self, percent):
+        """
+        Called to inform this window that the singleton parser model has made progress parsing.
+
+        percent : The percentage progress the singleton parser model has made parsing from 0 to 100.
+        """
+        if self.__progress_bar is not None : self.__progress_bar.setValue(percent)
+
+
+    @qtc.Slot()
+    def __parse_finished_(self):
+        """
+        Called to inform this window that the singleton parser model has finished parsing.
+        """
+        if self.__progress_bar is not None :
+            self.__progress_bar.deleteLater()
+            self.__progress_bar = None
 
 
     @qtc.Slot(str)

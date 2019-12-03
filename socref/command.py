@@ -79,22 +79,10 @@ class Command(abc.ABC):
                  list of rows. In this context valid can also be an invalid null index that
                  represents the root.
         """
-        #
-        # Create the return index starting as the special invalid root index.
-        #
         index = qtc.QModelIndex()
-        #
-        # Iterate through the given list of rows.
-        #
         for row in rows :
-            #
-            # Set a new index that is a child of the previous at the row.
-            #
             index = self._model.index(row,0,index)
             if not index.isValid() : raise RuntimeError("Rows are invalid.")
-        #
-        # Return the qt model index.
-        #
         return index
 
 
@@ -107,22 +95,10 @@ class Command(abc.ABC):
         return : A list of rows that represent the given qt model index of this command's project
                  model. An empty list is the root index.
         """
-        #
-        # Initialize an empty return list of rows.
-        #
         rows = []
-        #
-        # Continue while the index is still valid.
-        #
         while index.isValid() :
-            #
-            # Append the index row to the return list of rows and then get its parent index.
-            #
             rows.append(index.row())
             index = index.parent()
-        #
-        # Reverse the order of rows in the list so it starts with the top level root and return it.
-        #
         rows.reverse()
         return rows
 
@@ -160,13 +136,7 @@ class Set(Command):
         model : The project model whose given index block properties are changed.
         """
         Command.__init__(self,model)
-        #
-        # Initialize the list of rows that represent the given index.
-        #
         self.__rows = self._build_rows_(index)
-        #
-        # Initialize the from and to properties.
-        #
         self.__from_props = from_props
         self.__to_props = to_props
 
@@ -180,14 +150,14 @@ class Set(Command):
         """
         Implements the .command.Command interface.
         """
-        self._model._set_props_(self._get_index_(self.__rows),self.__from_props)
+        self._model._set_properties_(self._get_index_(self.__rows),self.__from_props)
 
 
     def redo(self):
         """
         Implements the .command.Command interface.
         """
-        self._model._set_props_(self._get_index_(self.__rows),self.__to_props)
+        self._model._set_properties_(self._get_index_(self.__rows),self.__to_props)
 
 
 
@@ -223,17 +193,8 @@ class Remove(Command):
         model : The project model whose given indexes are removed.
         """
         Command.__init__(self,model)
-        #
-        # Initialize the empty list of removed blocks.
-        #
         self._blocks = None
-        #
-        # Initialize the list of rows for the given parent index.
-        #
         self.__parent_rows = self._build_rows_(parent)
-        #
-        # Initialize the row and count.
-        #
         self.__row = row
         self.__count = count
 
@@ -247,14 +208,7 @@ class Remove(Command):
         """
         Implements the .command.Command interface.
         """
-        #
-        # Make sure this command has a list of removed blocks to insert back into its project model.
-        #
         if self._blocks is not None :
-            #
-            # Move and insert this command's list of removed blocks back into its project model at
-            # the saved row and parent.
-            #
             self._model._insert_rows_(self.__row
                                       ,self._blocks
                                       ,self._get_index_(self.__parent_rows))
@@ -265,14 +219,7 @@ class Remove(Command):
         """
         Implements the .command.Command interface.
         """
-        #
-        # Make sure this command does not already have a list of removed blocks.
-        #
         if self._blocks is None :
-            #
-            # Remove indexed blocks from this command's project model from the saved row, count, and
-            # parent, saving the removed list of blocks to this command.
-            #
             self._blocks = self._model._remove_rows_(self.__row
                                                      ,self.__count
                                                      ,self._get_index_(self.__parent_rows))
@@ -311,10 +258,6 @@ class Insert(Remove):
         model : The project model where the given blocks are inserted.
         """
         Remove.__init__(self,row,len(blocks),parent,model)
-        #
-        # Set the list of removed blocks to the given block list because this is the inverse of
-        # remove.
-        #
         self._blocks = blocks
 
 
@@ -367,13 +310,7 @@ class Move(Command):
         model : The project model whose given index is moved.
         """
         Command.__init__(self,model)
-        #
-        # Initialize the list of rows for the parent index of the index that is moved.
-        #
         self.__parent_rows = self._build_rows_(index.parent())
-        #
-        # Initialize the from and to rows.
-        #
         self.__from_row = index.row()
         self.__to_row = index.row() + change
 

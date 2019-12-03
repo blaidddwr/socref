@@ -15,7 +15,9 @@ from . import util
 def register_block(name, root=False):
     """
     Registers the wrapped class object as a block with the given name for the language currently
-    being loaded. This must be called when a language is being loaded.
+    being loaded. The class object is also assigned special attributes _LANG_ and _TYPE_ that
+    provide the language name and block name, respectively. This must be called when a language is
+    being loaded.
 
     name : The block's type name that is being registered. This must be unique among all block names
            of any one language.
@@ -23,23 +25,10 @@ def register_block(name, root=False):
     root : Optional root Boolean that indicates the registered block is the root block of the
            language if set to true. Only one block type can be the root of a language.
     """
-    #
-    # Define the wrapper descriptor function that actually takes the class object.
-    #
     def wrapper(class_):
-        #
-        # Register the given class object as a new block type. If this is the root block register it
-        # as such also.
-        #
         Factory().register_block(class_,name)
         if root: Factory().register_root_block(class_)
-        #
-        # Return the class object.
-        #
         return class_
-    #
-    # Return the wrapper function.
-    #
     return wrapper
 
 
@@ -115,9 +104,6 @@ class Block(abc.ABC):
         Initializes a new abstract block.
         """
         abc.ABC.__init__(self)
-        #
-        # Initial an empty list of children, no parent, and an empty property dictionary.
-        #
         self.__children = []
         self.__parent = None
         self.__properties = {}
@@ -384,15 +370,8 @@ class Block(abc.ABC):
 
         block : A block that is inserted as a new child to this block.
         """
-        #
-        # Make sure the given block does not have a parent.
-        #
         if block.parent() is not None :
             raise RuntimeError("Block is already a child of another block.")
-        #
-        # Insert the given block into this block's list of children at the given index and set its
-        # parent to this block.
-        #
         self.__children.insert(index,block)
         block.__parent = weakref.ref(self)
 
@@ -415,14 +394,8 @@ class Block(abc.ABC):
 
         return : Removed child block of this block with the given index.
         """
-        #
-        # Pop the child block from this block's list of children and then set its parent to none.
-        #
         orphan = self.__children.pop(index)
         orphan.__parent = None
-        #
-        # Return the removed child block.
-        #
         return orphan
 
 
@@ -433,28 +406,12 @@ class Block(abc.ABC):
 
         stream : A qt writer stream used to save all block's properties and children.
         """
-        #
-        # Write a start XML element for this block.
-        #
         stream.writeStartElement(self._TYPE_)
-        #
-        # Iterate through all properties of this block.
-        #
         props = self.properties()
         for key in props :
-            #
-            # If the property is not an empty string then write it as a XML text element, using the
-            # key with an underscore appended to it as the tag.
-            #
             prop = props[key]
             if prop : stream.writeTextElement("_" + key,prop)
-        #
-        # Iterate through all children of this block and call their to XML method.
-        #
         for child in self : child.to_xml(stream)
-        #
-        # Write an end XML element.
-        #
         stream.writeEndElement()
 
 
@@ -466,52 +423,21 @@ class Block(abc.ABC):
 
         stream : A qt reader stream used to load all block's properties and children.
         """
-        #
-        # Clear all of this block's properties and children.
-        #
         self.__properties = {}
         self.clear_properties()
         self.__children = []
-        #
-        # Continue while the given stream is not at the end.
-        #
         while not stream.atEnd() :
-            #
-            # Read the next XML element.
-            #
             stream.readNext()
-            #
-            # Check to see if it is a start element.
-            #
             if stream.isStartElement():
-                #
-                # Get its tag name and check to see if it begins with an underscore and is therefore
-                # a property.
-                #
                 name = stream.name();
                 if name.startswith("_") :
-                    #
-                    # Get the property key and set this block's property with the text enclosed in
-                    # the XML tag if the key is a valid property.
-                    #
                     key = name[1:]
                     if key in self.__properties :
                         self.__properties[key] = stream.readElementText()
-                #
-                # Else this is the start tag of a child block.
-                #
                 else:
-                    #
-                    # Create a new child block with the type encoded within the tag name, call its
-                    # set to XML method using the given stream, and then append it to this block as
-                    # a new child.
-                    #
                     child = Factory().create(self._LANG_,name)
                     child.set_from_xml(stream)
                     self.append(child)
-            #
-            # Else if this is the end element for this block then break out of the reading loop.
-            #
             elif stream.isEndElement() and stream.name() == self._TYPE_ : break
 
 
@@ -573,19 +499,10 @@ class Parser(abc.ABC):
         root_block : Detailed description.
         """
         abc.ABC.__init__(self)
-        #
-        # Initialize the root block and an empty root path.
-        #
         self.__root_block = root_block
         self.__root_path = ""
-        #
-        # Initialize the empty paths and blocks lists.
-        #
         self.__paths = []
         self.__blocks = []
-        #
-        # Initialize the building paths indicator.
-        #
         self.__building_paths = False
 
 
@@ -605,18 +522,15 @@ class Parser(abc.ABC):
         self.__root_path = path
 
 
-    def parse(self):
+    def parse(self, update):
         """
-        Parses the source code of the project of this parser's root block. The root path of this
-        parser must be set.
+        Parses the source code of the project of this parser's root block, updating its progress
+        with the given callback object. The root path of this parser must be set.
+
+        update : A callable object that is used to update the progress of this scan. It takes one
+                 argument that is the progress as a percentage from 1 to 99.
         """
-        #
-        # Make sure this parser's root path is set.
-        #
         if self.__root_path == "" : raise RuntimeError("Root path is not set.")
-        #
-        # Call this parser's build path list interface.
-        #
         self.__building_paths = True
         self._build_path_list_()
         self.__building_paths = False
@@ -628,20 +542,16 @@ class Parser(abc.ABC):
                                       " by two blocks generating an identical file name. Perhaps"
                                       " check for blocks with the same display name and parent"
                                       " block.")
-        #
-        # Iterate through the path list, scanning the source code file if it exists.
-        #
+        count = 0
         for path in self.__paths :
             if os.path.isfile(path) : self._scan_(path)
-        #
-        # Iterate through the path and block lists as a tuple, building each source code file with
-        # the associated path and block.
-        #
+            count += 1
+            update(count * 50 // len(self.__paths))
+        count = 0
         for path,block in zip(self.__paths,self.__blocks) :
             self.__build_(block,path)
-        #
-        # Clear the path and block lists.
-        #
+            count += 1
+            update(50 + (count * 50 // len(self.__paths)))
         self.__paths = []
         self.__blocks = []
 
@@ -709,14 +619,8 @@ class Parser(abc.ABC):
 
         path : The source code file path.
         """
-        #
-        # Make sure this parser's root path has been set and it is currently building paths.
-        #
         if self.__root_path == "" : raise RuntimeError("Root path is not set.")
         if not self.__building_paths : raise RuntimeError("Calling add path outside of building paths.")
-        #
-        # Append the given source code file path and associated block to their respective lists.
-        #
         self.__paths.append(os.path.join(self.__root_path,path))
         self.__blocks.append(block)
 
@@ -736,25 +640,11 @@ class Parser(abc.ABC):
 
         path : The path to the source code file that is built.
         """
-        #
-        # If the directory of the given path does not exist then create it, including any sub
-        # directories that also do not exist.
-        #
         if not os.path.exists(os.path.dirname(path)) : os.makedirs(os.path.dirname(path))
-        #
-        # Check to see if the file exists.
-        #
         if os.path.exists(path):
-            #
-            # Read in the old contents of the file, generate the new contents of the file, and
-            # overwrite the file only if the new contents differ from the old.
-            #
             old = open(path,"r").read()
             new = self._build_(block,path)
             if old != new : open(path,"w").write(new)
-        #
-        # Else the file does not exist so create a new file with the generated contents.
-        #
         else: open(path,"w").write(self._build_(block,path))
 
 
@@ -786,13 +676,7 @@ class Factory():
         Initializes a new factory.
         """
         self.__ROOT = "##ROOT##"
-        #
-        # Initialize the root block keyword string.
-        #
         self.__langs = {}
-        #
-        # Initialize the empty loaded languages dictionary.
-        #
         self.__importing_lang = None
         self.__importing_lang_name = None
 
@@ -810,37 +694,19 @@ class Factory():
 
         import_name : The module name of the language that is loaded.
         """
-        #
-        # Make sure the given language name has not already been loaded.
-        #
         if lang_name in self.__langs.keys() :
             raise exception.LangError("Language already loaded with the same name")
-        #
-        # Initialize a new empty language dictionary to this factory's dictionary of languages and
-        # set its reference and name to the new language.
-        #
         self.__langs[lang_name] = {}
         self.__importing_lang = self.__langs[lang_name]
         self.__importing_lang_name = lang_name
         try:
-            #
-            # Import the module of the new language, making sure at least the root block was
-            # registered.
-            #
             module = importlib.import_module(import_name)
             if self.__ROOT not in self.__importing_lang:
                 raise exception.LangError("Language did not register a root block.")
         except:
-            #
-            # If any exception occurs while loading delete the new language from this factory's
-            # dictionary of languages and raise the exception again.
-            #
             del(self.__langs[lang_name])
             raise
         finally:
-            #
-            # Set this factory's importing language reference and name back to none.
-            #
             self.__importing_lang = None
             self.__importing_lang_name = None
 
@@ -848,27 +714,18 @@ class Factory():
     def register_block(self, class_, name):
         """
         Registers the given block class with the given type name to the language currently being
-        loaded by this factory. A language must be currently loading by this factory. The given type
-        name must be unique within its language and cannot be the reserved name "##ROOT##".
+        loaded by this factory. The given block class is assigned special attributes _LANG_ and
+        _TYPE_. A language must be currently loading by this factory. The given type name must be
+        unique within its language and cannot be the reserved name "##ROOT##".
 
         class_ : A class object that is registered as a block type of the currently loading
                  language.
 
         name : The type name of the block that is registered.
         """
-        #
-        # Make sure the given type name is not the special block root key.
-        #
         if name == self.__ROOT :
             raise exception.RegisterError("Block class cannot register with reserved name.")
-        #
-        # Register the given class with the given type name.
-        #
         self.__register_block_(class_,name)
-        #
-        # Set special static strings to the registered class so it can reference its language name
-        # and type name.
-        #
         class_._LANG_ = self.__importing_lang_name
         class_._TYPE_ = name
 
@@ -948,11 +805,6 @@ class Factory():
         key : The key used to add the class object to the language dictionary currently being loaded
               by this factory.
         """
-        #
-        # Make sure this factory is loading a project, the given block type key does not begin with
-        # an underscore, a block class is not already registered with the given key, and the given
-        # block class is an abstract block instance.
-        #
         if self.__importing_lang is None :
             raise exception.RegisterError("Cannot register block class when no language is being"
                                           " imported.")
@@ -963,8 +815,4 @@ class Factory():
         if not issubclass(class_,Block) :
             print(class_)
             raise exception.RegisterError("Block class is not an Abstract Block.")
-        #
-        # Register the given block class to the given key of the currently loading language
-        # dictionary.
-        #
         self.__importing_lang[key] = class_;
