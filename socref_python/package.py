@@ -33,9 +33,6 @@ class Block(abstract.Block):
         """
         Initializes a new package block.
         """
-        #
-        # Initializes this block's properties.
-        #
         abstract.Block.__init__(self)
         self._p_name = ""
         self._p_description = ""
@@ -70,14 +67,8 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        #
-        # Generate the rich text description of this block.
-        #
         description = "</P><P>".join((html.escape(block) for block in self._p_description.split("\n\n") if block))
         if description : description = "<H1>Description</H1><P>%s</P>" % description
-        #
-        # Return the description.
-        #
         return description
 
 
@@ -101,15 +92,9 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        #
-        # Initialize an empty list. Add the name and then the description edit definitions.
-        #
         ret = []
         ret.append(util.line_edit("Name:","_p_name"))
         ret.append(util.text_edit("Description:","_p_description",speller=True))
-        #
-        # Return the list.
-        #
         return ret
 
 
@@ -140,9 +125,6 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        #
-        # Make sure this is a package block before returning its directory name.
-        #
         if self._TYPE_ == "Package" : return self._p_name
 
 
@@ -167,12 +149,12 @@ class Block(abstract.Block):
         return ""
 
 
-    def build(self, def_, begin=""):
+    def build(self, definition, begin=""):
         """
         This interface is a getter method.
 
-        def_ : Scanned definitions that contains any lines of code scanned from the old source code
-               files.
+        definition : Scanned definitions that contains any lines of code scanned from the old source
+                     code files.
 
         begin : An optional string that is appended to every line of the returned source code.
 
@@ -180,19 +162,10 @@ class Block(abstract.Block):
                  it in the source code. The given scanned definitions and optional begin string are
                  used to generate the lines.
         """
-        #
-        # Add the description doc string to the source code.
-        #
         ret = '"""\n'
         ret += util.wrap_blocks(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'
-        #
-        # Add scanned headers into the source code.
-        #
-        ret += "\n".join(def_["header"] + [""])
-        #
-        # Return the source code.
-        #
+        ret += "\n".join(definition["header"] + [""])
         return ret
 
 
@@ -201,36 +174,21 @@ class Block(abstract.Block):
     #######################
 
 
-    def _build_children_(self, def_, begin=""):
+    def _build_children_(self, definition, begin=""):
         """
         Getter method.
 
-        def_ : Scanned definitions from the old source code files.
+        definition : Scanned definitions from the old source code files.
 
         begin : An optional string that is appended to every line of the returned source code.
 
         return : A string that is the combined source code of all this block's children's build
                  interface, separated using their space interface.
         """
-        #
-        # Initialize the source code to an empty string and the previous block reference to none.
-        #
         ret = ""
         previous = None
-        #
-        # Iterate through all children of this block.
-        #
         for block in self :
-            #
-            # Add the child block's spaces separator and then its source code to the returned code.
-            #
             ret += block.space(previous)
-            ret += block.build(def_,begin)
-            #
-            # Update the previous block reference.
-            #
+            ret += block.build(definition,begin)
             previous = block
-        #
-        # Return the source code.
-        #
         return ret

@@ -17,40 +17,20 @@ def main():
     Begins execution of the program.
     """
     #
-    # print the PID so the application can be killed. Qt likes to catch all exceptions without
-    # exiting.
+    # Qt likes to catch all exceptions without exiting.
     #
     print(os.getpid())
-    #
-    # Load the python language.
-    #
     abstract.Factory().load("Python","socref_python")
-    #
-    # Create a new Qt application.
-    #
     application = qtw.QApplication(sys.argv)
-    #
-    # Create the parser thread, move the parser model to it, and then start its event loop.
-    #
+    qtc.QCoreApplication.setOrganizationName("Socrates' Gaming Republic")
+    qtc.QCoreApplication.setApplicationName("Socrates' Reference")
     parser_thread = qtc.QThread()
     model.Parser().moveToThread(parser_thread)
     parser_thread.start()
-    #
-    # Create and show an initial main window.
-    #
     gui_window.Main().show()
-    #
-    # Start the GUI event loop, saving its exit code when it returns.
-    #
     ret = application.exec_()
-    #
-    # Request the parser thread quit and wait for it to stop.
-    #
     parser_thread.quit()
     parser_thread.wait()
-    #
-    # Exit the application with the return code provided by the Qt application.
-    #
     sys.exit(ret)
 
 

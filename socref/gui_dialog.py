@@ -43,19 +43,10 @@ class Text(qtw.QDialog):
                   it all.
         """
         qtw.QDialog.__init__(self,parent)
-        #
-        # Initialize the speller indicator.
-        #
         self.__speller = speller
-        #
-        # Initialize this dialog's text edit widget, speller group box, and spell checking button.
-        #
         self.__text_edit = gui_edit.Plain_Text(text,self,speller=speller,popup=False)
         self.__speller_box = gui_util.Spell_Checker("Spell Check",settings.DICTIONARY)
         self.__spell_button = qtw.QPushButton("Spell Check",self)
-        #
-        # Setup the GUI of this dialog.
-        #
         self.__setup_gui_()
 
 
@@ -73,6 +64,22 @@ class Text(qtw.QDialog):
         return self.__text_edit.toPlainText()
 
 
+    #######################
+    # PROTECTED - Methods #
+    #######################
+
+
+    def closeEvent(self, event):
+        """
+        Implements the PySide2.QtWidgets.QWidget interface.
+
+        event : See qt docs.
+        """
+        settings = qtc.QSettings()
+        settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
+        event.accept()
+
+
     #####################
     # PRIVATE - Methods #
     #####################
@@ -82,18 +89,14 @@ class Text(qtw.QDialog):
         """
         Initializes the GUI of this new text dialog.
         """
-        #
-        # Create a vertical box layout. Add this dialog's text edit widget, spell checker box, and
-        # then its buttons.
-        #
         layout = qtw.QVBoxLayout()
         layout.addWidget(self.__text_edit)
         layout.addWidget(self.__setup_spell_checker_())
         layout.addLayout(self.__setup_buttons_())
-        #
-        # Set this dialog's layout.
-        #
         self.setLayout(layout)
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        if geometry : self.restoreGeometry(geometry)
 
 
     def __setup_spell_checker_(self):
@@ -102,15 +105,9 @@ class Text(qtw.QDialog):
 
         return : The initialized spell checker box widget.
         """
-        #
-        # Initialize this dialog's spell checker box.
-        #
         self.__speller_box.hide()
         self.__speller_box.cursor_changed.connect(lambda cursor : self.__text_edit.setTextCursor(cursor))
         self.__speller_box.finished.connect(self.__spell_check_finished_)
-        #
-        # Return the spell checker box.
-        #
         return self.__speller_box
 
 
@@ -120,31 +117,17 @@ class Text(qtw.QDialog):
 
         return : A box layout of initialized buttons.
         """
-        #
-        # Initialize this dialog's set and cancel buttons.
-        #
         set_ = qtw.QPushButton("Set")
         set_.clicked.connect(lambda : self.done(qtw.QDialog.Accepted))
         cancel = qtw.QPushButton("Cancel")
         cancel.clicked.connect(lambda : self.done(qtw.QDialog.Rejected))
-        #
-        # Initialize this dialog's spell check button, settings is enabled state if spelling
-        # features are on.
-        #
         self.__spell_button.clicked.connect(self.__spell_check_)
         self.__spell_button.setDisabled(not self.__speller)
-        #
-        # Create a horizontal box layout. Add the set button, cancel button, a stretch, and then the
-        # spell check button.
-        #
         ret = qtw.QHBoxLayout()
         ret.addWidget(set_)
         ret.addWidget(cancel)
         ret.addStretch()
         ret.addWidget(self.__spell_button)
-        #
-        # Return the box layout.
-        #
         return ret
 
 
@@ -173,3 +156,14 @@ class Text(qtw.QDialog):
         cursor = self.__text_edit.textCursor()
         cursor.clearSelection()
         self.__text_edit.setTextCursor(cursor)
+
+
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.text.geometry"

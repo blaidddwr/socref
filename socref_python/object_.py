@@ -35,9 +35,6 @@ class Block(package.Block):
         Initializes a new object block.
         """
         package.Block.__init__(self)
-        #
-        # Initialize this block's properties.
-        #
         self._p_assignment = ""
 
 
@@ -79,19 +76,9 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        #
-        # Initialize the return string to this block's raw name.
-        #
         ret = self._p_name
-        #
-        # If this object is an argument and has an assignment then add an indicator to the return
-        # string.
-        #
         if self.is_argument() and self._p_assignment :
             ret += " ="
-        #
-        # Return the display name.
-        #
         return ret
 
 
@@ -101,14 +88,8 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        #
-        # Generate the rich text assignment view of this block.
-        #
         assignment = html.escape(self._p_assignment)
         if assignment : assignment = "<h2>Assignment</h2><p>%s</p>" % assignment
-        #
-        # Return the description and assignment view.
-        #
         return package.Block.display_view(self) + assignment
 
 
@@ -154,17 +135,8 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        #
-        # Initialize a list with the inherited package block's edit definitions.
-        #
         ret = package.Block.edit_definitions(self)
-        #
-        # Add the assignment edit definition.
-        #
         ret.append(util.line_edit("Assignment:","_p_assignment"))
-        #
-        # Return the list.
-        #
         return ret
 
 
@@ -225,14 +197,7 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        #
-        # Initialize the empty string of blank lines.
-        #
         ret = ""
-        #
-        # Set the appropriate number of blank lines based off the given previous block and if this
-        # object is in a class.
-        #
         if self.in_class() :
             if previous is None : ret = "\n"*settings.H3LINES
             elif previous._TYPE_ == "Function" : ret = "\n"*settings.H2LINES
@@ -242,35 +207,23 @@ class Block(package.Block):
             elif previous._TYPE_ == "Function" : ret = "\n"*settings.H2LINES
             elif previous._TYPE_ == "Class" : ret = "\n"*settings.H1LINES
             else: ret = ""
-        #
-        # Return the determined number of blank lines, if any.
-        #
         return ret
 
 
-    def build(self, def_, begin=""):
+    def build(self, definition, begin=""):
         """
         Implements the .package.Block interface.
 
-        def_ : See interface docs.
+        definition : See interface docs.
 
         begin : See interface docs.
 
         return : See interface docs.
         """
-        #
-        # Add the description comment to the source code.
-        #
         ret = begin + "#\n"
         ret += util.wrap_blocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
         ret += begin + "#\n"
-        #
-        # Add the object name to the source code, adding its assignment if there is one.
-        #
         ret += begin + self._p_name
         if self._p_assignment : ret += " = " + self._p_assignment
         ret += "\n"
-        #
-        # Return the source code.
-        #
         return ret

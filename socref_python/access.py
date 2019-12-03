@@ -40,9 +40,6 @@ class Block(package.Block):
         Initializes a new access block.
         """
         abstract.Block.__init__(self)
-        #
-        # Initialize this block's properties.
-        #
         self._p_name = ""
         self._p_type = "Public"
 
@@ -58,16 +55,9 @@ class Block(package.Block):
 
         return : True if this access block contains abstract methods or false otherwise.
         """
-        #
-        # Iterate through all children of this access block, returning true if any of the methods
-        # are abstract.
-        #
         for block in self :
             if isinstance(block,function.Block) :
                 if block.is_abstract() : return True
-        #
-        # No child abstract method was found so return false.
-        #
         return False
 
 
@@ -77,9 +67,6 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        #
-        # Return the appropriate icon based off this block's properties.
-        #
         if self._p_type == "Public" : return qtg.QIcon(":/python/public.svg")
         elif  self._p_type == "Protected" : return qtg.QIcon(":/python/protected.svg")
         else:  return qtg.QIcon(":/python/private.svg")
@@ -100,9 +87,6 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        #
-        # Return simple rich text that displays this access blocks type and name.
-        #
         type_ = html.escape(self._p_type.upper())
         name = html.escape(self._p_name)
         return "<h1>%s</h1><p>%s</p>" % (type_,name)
@@ -137,9 +121,6 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        #
-        # Initialize an empty list. Add the name and then the type edit definitions.
-        #
         ret = []
         ret.append(util.line_edit("Name:","_p_name"))
         combo = util.combobox_edit("Type:","_p_type")
@@ -147,9 +128,6 @@ class Block(package.Block):
         util.add_combo_select(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
         util.add_combo_select(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
         ret.append(combo)
-        #
-        # Return the list.
-        #
         return ret
 
 
@@ -185,31 +163,19 @@ class Block(package.Block):
         return "\n"*settings.H3LINES
 
 
-    def build(self, def_, begin=""):
+    def build(self, definition, begin=""):
         """
         Implements the .package.Block interface.
 
-        def_ : See interface docs.
+        definition : See interface docs.
 
         begin : See interface docs.
 
         return : See interface docs.
         """
-        #
-        # Initialize the line of code that displays this access block's type and name.
-        #
         line = "# %s - %s #" % (self._p_type.upper(),self._p_name)
-        #
-        # Add the comment header of this access block to the source code.
-        #
         ret = begin + "#"*len(line) + "\n"
         ret += begin + line + "\n"
         ret += begin + "#"*len(line) + "\n"
-        #
-        # Add the source code of all this block's children to the returned source code.
-        #
-        ret += self._build_children_(def_,begin)
-        #
-        # Return the source code.
-        #
+        ret += self._build_children_(definition,begin)
         return ret

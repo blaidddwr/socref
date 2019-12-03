@@ -81,36 +81,24 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        #
-        # Make sure this is a module block before returning its file name.
-        #
         if self._TYPE_ == "Module" : return self._p_name + ".py"
 
 
-    def build(self, def_, begin=""):
+    def build(self, definition, begin=""):
         """
         Implements the .package.Block interface.
 
-        def_ : See interface docs.
+        definition : See interface docs.
 
         begin : See interface docs.
 
         return : See interface docs.
         """
+        ret = package.Block.build(self,definition,begin)
+        ret += self._build_children_(definition,begin)
         #
-        # Initialize the source code with the package block's generated source code.
-        #
-        ret = package.Block.build(self,def_,begin)
-        #
-        # Add the source code of all this block's children to the returned source code.
-        #
-        ret += self._build_children_(def_,begin)
-        #
-        # If this is the special main module then add the special main line to the source code.
+        # Add the special main function call if this is the special main module of a package.
         #
         if self._p_name == "__main__" :
             ret += "\n"*settings.H1LINES + 'if __name__ == "__main__" : main()\n'
-        #
-        # Return the source code.
-        #
         return ret
