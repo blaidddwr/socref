@@ -79,32 +79,9 @@ class Main(qtw.QMainWindow):
         #
         self.__path = None
         #
-        # Append this new window instance to the global list so it is not deleted due to lack of
-        # references.
+        # Setup the GUI of this window.
         #
-        self.__instances.append(self)
-        #
-        # Setup this window's project model and view.
-        #
-        self.__model.modified.connect(self.__modified_)
-        self.__view.setModel(self.__model)
-        self.setCentralWidget(self.__view)
-        #
-        # Setup this window's docks, actions, menus, and toolbars.
-        #
-        self.__setup_docks_()
-        self.__setup_actions_()
-        self.__setup_menus_()
-        self.__setup_toolbars_()
-        #
-        # Connect this window's parse requested signal to the singleton parser model.
-        #
-        self.parse_requested.connect(model.Parser().start)
-        #
-        # Update this window's title and actions.
-        #
-        self.__update_title_()
-        self.__update_actions_()
+        self.__setup_gui_()
 
 
     ####################
@@ -234,12 +211,104 @@ class Main(qtw.QMainWindow):
             self.setWindowTitle("Socrates' Reference")
 
 
+    def __setup_gui_(self):
+        """
+        Initializes the GUI of this new window.
+        """
+        #
+        # Append this new window instance to the global list so it is not deleted due to lack of
+        # references.
+        #
+        self.__instances.append(self)
+        #
+        # Set this window's application icon.
+        #
+        self.setWindowIcon(qtg.QIcon(":/socref/application.svg"))
+        #
+        # Setup this window's project model and view.
+        #
+        self.__model.modified.connect(self.__modified_)
+        self.__view.setModel(self.__model)
+        self.setCentralWidget(self.__view)
+        #
+        # Setup this window's docks, actions, menus, and toolbars.
+        #
+        self.__setup_docks_()
+        self.__setup_actions_()
+        self.__setup_menus_()
+        self.__setup_toolbars_()
+        #
+        # Connect this window's parse requested signal to the singleton parser model.
+        #
+        self.parse_requested.connect(model.Parser().start)
+        #
+        # Update this window's title and actions.
+        #
+        self.__update_title_()
+        self.__update_actions_()
+
+
     def __setup_actions_(self):
         """
         Initializes all qt actions of this new window.
         """
         self.__setup_new_actions_()
         self.__setup_file_actions_()
+
+
+    def __setup_menus_(self):
+        """
+        Initializes all menus of this new window.
+        """
+        self.__setup_file_menu_()
+        self.__setup_edit_menu_()
+
+
+    def __setup_toolbars_(self):
+        """
+        Initializes all toolbars of this new window.
+        """
+        #
+        # Add the file toolbar to this window. Add the open, save, save as, and parse actions to the
+        # toolbar.
+        #
+        toolbar = self.addToolBar("File")
+        toolbar.addAction(self.__open_action)
+        toolbar.addAction(self.__save_action)
+        toolbar.addAction(self.__save_as_action)
+        toolbar.addAction(self.__parse_action)
+        #
+        # Add the edit toolbar to this window. Add this window's project view's undo, redo, remove,
+        # cut, copy, paste, move up, and move down actions to the toolbar.
+        #
+        toolbar = self.addToolBar("Edit")
+        toolbar.addAction(self.__view.undo_action())
+        toolbar.addAction(self.__view.redo_action())
+        toolbar.addAction(self.__view.remove_action())
+        toolbar.addAction(self.__view.cut_action())
+        toolbar.addAction(self.__view.copy_action())
+        toolbar.addAction(self.__view.paste_action())
+        toolbar.addAction(self.__view.move_up_action())
+        toolbar.addAction(self.__view.move_down_action())
+
+
+    def __setup_docks_(self):
+        """
+        Initializes the edit/view block dock widgets of this new window.
+        """
+        #
+        # Set both dock's views to this window's project view.
+        #
+        self.__block_view_dock.setWindowTitle("View")
+        self.__block_edit_dock.setWindowTitle("Edit")
+        #
+        # Add both docks to this window.
+        #
+        self.__block_view_dock.set_view(self.__view)
+        self.__block_edit_dock.set_view(self.__view)
+        #
+        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__block_view_dock)
+        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__block_edit_dock)
 
 
     def __setup_new_actions_(self):
@@ -293,6 +362,7 @@ class Main(qtw.QMainWindow):
         # Initialize this window's parse action.
         #
         action = self.__parse_action
+        action.setIcon(qtg.QIcon.fromTheme("view-refresh"))
         action.setStatusTip("Parse all source code files with the current project.")
         action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_P))
         action.triggered.connect(self.__parse_)
@@ -314,14 +384,6 @@ class Main(qtw.QMainWindow):
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Quit))
         action.triggered.connect(self.close)
         self.addAction(action)
-
-
-    def __setup_menus_(self):
-        """
-        Initializes all menus of this new window.
-        """
-        self.__setup_file_menu_()
-        self.__setup_edit_menu_()
 
 
     def __setup_file_menu_(self):
@@ -361,49 +423,6 @@ class Main(qtw.QMainWindow):
         Adds this new window's project view's context menu as the window's edit menu.
         """
         self.menuBar().addMenu(self.__view.context_menu())
-
-
-    def __setup_docks_(self):
-        """
-        Initializes the edit/view block dock widgets of this new window.
-        """
-        #
-        # Set both dock's views to this window's project view.
-        #
-        self.__block_view_dock.set_view(self.__view)
-        self.__block_edit_dock.set_view(self.__view)
-        #
-        # Add both docks to this window.
-        #
-        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__block_view_dock)
-        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__block_edit_dock)
-
-
-    def __setup_toolbars_(self):
-        """
-        Initializes all toolbars of this new window.
-        """
-        #
-        # Add the file toolbar to this window. Add the open, save and save as actions to the
-        # toolbar.
-        #
-        toolbar = self.addToolBar("File")
-        toolbar.addAction(self.__open_action)
-        toolbar.addAction(self.__save_action)
-        toolbar.addAction(self.__save_as_action)
-        #
-        # Add the edit toolbar to this window. Add this window's project view's undo, redo, remove,
-        # cut, copy, paste, move up, and move down actions to the toolbar.
-        #
-        toolbar = self.addToolBar("Edit")
-        toolbar.addAction(self.__view.undo_action())
-        toolbar.addAction(self.__view.redo_action())
-        toolbar.addAction(self.__view.remove_action())
-        toolbar.addAction(self.__view.cut_action())
-        toolbar.addAction(self.__view.copy_action())
-        toolbar.addAction(self.__view.paste_action())
-        toolbar.addAction(self.__view.move_up_action())
-        toolbar.addAction(self.__view.move_down_action())
 
 
     ###################

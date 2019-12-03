@@ -98,13 +98,19 @@ class Block_Dock(qtw.QDockWidget):
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __index_changed_(self, index):
+    def __index_changed_(self):
         """
-        Called to update this dock's detailed view to the new block at the given index. If the given
-        index is invalid then this dock returns its view to a null state.
-
-        index : The index of the new block whose detailed view is displayed by this dock.
+        Called to update this dock's detailed view to its view's currently indexed block. If its
+        view's current index is invalid then this dock returns its view to a null state.
         """
+        #
+        # Get this dock's view's current index.
+        #
+        index = self.__view.selectionModel().currentIndex()
+        #
+        # If the index is valid then set this dock's label to its detailed view, else set this
+        # dock's label to an empty string.
+        #
         if index.isValid() : self.__label.setText(self.__view.model().data(index,model.Role.VIEW))
         else: self.__label.setText("")
 

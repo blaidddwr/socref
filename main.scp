@@ -2239,10 +2239,14 @@ Find the next misspelled word.
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__find_next_word_</__p_name>
-                            <__p_description>Finds the next misspelled word in the current document this spell checker is checking. If no misspelled word is found once the end of the document is reached then it stops this spell checker.</__p_description>
+                            <__p_description>Finds the next misspelled word in the current document this spell checker is checking, optionally skipping the word this checker's cursor is currently under. If no misspelled word is found once the end of the document is reached then it stops this spell checker.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get this spell checker's cursor and compile the regular expression for matching words.
 
 Continue until a misspelled word is found or the cursor reaches the end of the document.
+
+Check to make sure this should be checked if it is the first word.
 
 Select the word under the cursor and make sure it is a word.
 
@@ -2250,90 +2254,73 @@ Get the speller and selected word.
 
 If the word is misspelled then signal the cursor has changed, update the word label and edit widgets with the misspelled word, and update the list of suggestions for the new misspelled word.
 
+Else this is the first word so it is skipped, setting the skip argument to false so all other words are not skipped.
+
 Move to the next word in the cursor's document, stopping this spell checker if the end of the document is reached.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>skip</__p_name>
+                                <__p_description>True to skip the word this checker's cursor is currently under or false to check it for spelling.</__p_description>
+                                <__p_assignment>False</__p_assignment>
+                            </Object>
                         </Function>
                         <Function>
                             <__p_name>__setup_gui_</__p_name>
                             <__p_description>Initializes the GUI of this new spell checker.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__setup_top_</__p_name>
-                            <__p_description>Initializes the top GUI of this new spell checker.</__p_description>
-                            <__p_return_description>Initialized top qt layout.</__p_return_description>
-                            <__p_inlines>Initialize the add to dictionary button.
+                            <__p_inlines>Initialize the suggest, replace, ignore, ignore all, and stop buttons.
 
-Create a horizontal box layout. Add this spell checker's word label, a stretch, and then the add to dictionary button.
+Create a horizontal box layout. Add this spell checker's word label, word edit, a stretch, suggest button, replace button, ignore button, ignore all button, and then stop button.
 
-Return the box layout.
+Set this widget's layout.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__setup_bottom_</__p_name>
-                            <__p_description>Initializes the bottom GUI of this new spell checker.</__p_description>
-                            <__p_return_description>Initialized bottom qt layout.</__p_return_description>
-                            <__p_inlines>Initialize the suggest, replace, ignore, and stop buttons.
-
-Create a horizontal box layout. Add this spell checker's word edit, a stretch, suggest button, replace button, ignore button, and then stop button.
-
-Return the box layout.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__add_</__p_name>
-                            <__p_description>Called to add the currently selected misspelled word to the run time dictionary. This is currently defunct so TO BE DONE.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>__suggest_</__p_name>
                             <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Make sure this spell checker is active.
 
 Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
 
 Update the word edit widget with the next suggested word.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__replace_</__p_name>
                             <__p_description>Called to replace the selected misspelled word with the text of this spell checker's word edit widget. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Make sure this spell checker is active.
-
-Replace the cursor's selected word with this spell checker's word edit value.
-
-Move the cursor to the next word, continuing or finishing if there is a word or not, respectively.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this spell checker is active.
+
+Replace the cursor's selected word with this spell checker's word edit value and then find the next misspelled word.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__ignore_</__p_name>
                             <__p_description>Called to ignore the selected misspelled word, simply skipping it and moving the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Make sure this spell checker is active.
-
-Move the cursor to the next word, continuing or finishing if there is a word or not, respectively.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                        </Function>
+                        <Function>
+                            <__p_name>__ignore_all_</__p_name>
+                            <__p_description>Called to ignore all words matching the currently selected misspelled word by adding it to the run time dictionary. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Make sure this spell checker is active.
+
+Add the currently misspelled word to this checker's Hunspell object's run time dictionary and then move to the next word.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__stop_</__p_name>
@@ -2365,12 +2352,12 @@ Signal that this spell checker has finished.
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new block view dock with the given optional parent.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this dock's label, and view to none.
 
 Setup the GUI of this dialog.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The optional qt object parent of this new block view dock.</__p_description>
@@ -2402,12 +2389,12 @@ Update this docks view to the one given.
                         <Function>
                             <__p_name>__setup_gui_</__p_name>
                             <__p_description>Initialize the GUI of this new block view dock.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Configure this dock's label.
 
 Create a qt scroll area, setting its widget to this dock's label and then setting this dock's widget to the scroll area.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -2415,14 +2402,14 @@ Create a qt scroll area, setting its widget to this dock's label and then settin
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__index_changed_</__p_name>
-                            <__p_description>Called to update this dock's detailed view to the new block at the given index. If the given index is invalid then this dock returns its view to a null state.</__p_description>
+                            <__p_description>Called to update this dock's detailed view to its view's currently indexed block. If its view's current index is invalid then this dock returns its view to a null state.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
+                            <__p_inlines>Get this dock's view's current index.
+
+If the index is valid then set this dock's label to its detailed view, else set this dock's label to an empty string.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
-                            <Object>
-                                <__p_name>index</__p_name>
-                                <__p_description>The index of the new block whose detailed view is displayed by this dock.</__p_description>
-                            </Object>
                         </Function>
                     </Access>
                 </Class>
@@ -2832,8 +2819,7 @@ If the this project's selection model's current index is not valid then update i
                         <Function>
                             <__p_name>__remove_</__p_name>
                             <__p_description>Called to remove all selected indexes from this project's model.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this project has a model.
 
 Continue while this project's selection model has one or more indexes selected.
@@ -2842,7 +2828,8 @@ Get the first index, signaling that the current index is being removed beforehan
 
 Remove the first index from the model.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__cut_</__p_name>
@@ -3063,14 +3050,14 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initialize a new block edit dock with the given optional parent.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this dock's qt scroll area and apply button.
 
 Initialize this dock's current index to invalid, view to none, and edit widgets to empty.
 
 Initialize this dock's GUI.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The optional qt object parent of this new block edit dock.</__p_description>
@@ -3084,14 +3071,14 @@ Initialize this dock's GUI.
                         <Function>
                             <__p_name>set_view</__p_name>
                             <__p_description>Sets this dock's view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If this dock already has a view then disconnect its signals.
 
 Update this dock's view to the one given.
 
 Connect all index signals of the new view to this dock.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>view</__p_name>
                                 <__p_description>The new attached view of this dock.</__p_description>
@@ -3105,8 +3092,6 @@ Connect all index signals of the new view to this dock.
                             <__p_name>__build_form_widget_</__p_name>
                             <__p_description>Builds and initializes all edit widgets for all properties of the block at the given index based off its edit definitions, adding them to this dock's list of edit widgets. This clears any previous edit widgets from the last index that was built by this method.</__p_description>
                             <__p_return_description>The form layout containing all built edit widgets and the apply button at the end.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Clear any existing edit widgets of this dock.
 
 Get the properties and edit definitions of the block at the given index.
@@ -3129,6 +3114,8 @@ Return the new widget.
 
 If any exception occurs during the build process then clear this dock's list of edit widgets and raise it again.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the block whose property edit widgets are built.</__p_description>
@@ -3183,8 +3170,6 @@ If any exception occurs during the build process then clear this dock's list of 
                             <__p_name>__build_combobox_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A tuple containing 2 items. The first is a new combo box widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Create a new qt combo box.
 
 Iterate through all selections defined in the given edit definition, adding each one as an item to the new combo box with or without an icon.
@@ -3193,6 +3178,8 @@ Initialize the new qt combo box using the given edit definition.
 
 Return the combo box and label.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>definition</__p_name>
                                 <__p_description>The edit definition used to build the returned edit widget.</__p_description>
@@ -3216,8 +3203,6 @@ Return the combo box and label.
                         <Function>
                             <__p_name>__setup_gui_</__p_name>
                             <__p_description>Initializes the GUI of this new block edit dock.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Configure this dock's apply button.
 
 Create a new bottom horizontal box layout. Add this dock's apply button and then a stretch.
@@ -3226,6 +3211,8 @@ Create a new vertical box layout. Add this dock's scroll area and then the botto
 
 Create a generic widget, setting its layout and then setting it as this dock's widget.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -3234,8 +3221,7 @@ Create a generic widget, setting its layout and then setting it as this dock's w
                         <Function>
                             <__p_name>__index_changed_</__p_name>
                             <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_inlines>Check if this dock's current index has unsaved changes.
 
 Query the user about the unsaved changes, applying the changes to this dock's currently indexed block if the user chooses to save the changes.
@@ -3246,7 +3232,8 @@ If the given index is valid then build a new form widget of edit widgets from th
 
 Else the given index is invalid so clear this dock's edit widgets.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the new block whose properties are edited by this dock.</__p_description>
@@ -3255,20 +3242,20 @@ Else the given index is invalid so clear this dock's edit widgets.
                         <Function>
                             <__p_name>__index_removed_</__p_name>
                             <__p_description>Called to remove this dock's current index, setting it to invalid.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__apply_</__p_name>
                             <__p_description>Called to set this dock's currently indexed block's properties to the current values of its edit widgets. If the current index is not valid then this does nothing.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Make sure this dock's current index is valid.
 
 Set the properties of the current index to the values of this dock's edit widgets and then disable the apply button.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                 </Class>
@@ -3401,6 +3388,8 @@ It is the main window of the core application. It provides a view, docks, menus,
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new main window.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Initialize this window's project model.
 
 Initialize this window's project view.
@@ -3413,18 +3402,8 @@ Initialize this window's empty list of new project actions.
 
 Initialize this window's project save path to none.
 
-Append this new window instance to the global list so it is not deleted due to lack of references.
-
-Setup this window's project model and view.
-
-Setup this window's docks, actions, menus, and toolbars.
-
-Connect this window's parse requested signal to the singleton parser model.
-
-Update this window's title and actions.
+Setup the GUI of this window.
 </__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -3503,8 +3482,52 @@ Else this window has no project so set its title to the application name.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>__setup_gui_</__p_name>
+                            <__p_description>Initializes the GUI of this new window.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Append this new window instance to the global list so it is not deleted due to lack of references.
+
+Set this window's application icon.
+
+Setup this window's project model and view.
+
+Setup this window's docks, actions, menus, and toolbars.
+
+Connect this window's parse requested signal to the singleton parser model.
+
+Update this window's title and actions.
+</__p_inlines>
+                        </Function>
+                        <Function>
                             <__p_name>__setup_actions_</__p_name>
                             <__p_description>Initializes all qt actions of this new window.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_menus_</__p_name>
+                            <__p_description>Initializes all menus of this new window.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_toolbars_</__p_name>
+                            <__p_description>Initializes all toolbars of this new window.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Add the file toolbar to this window. Add the open, save, save as, and parse actions to the toolbar.
+
+Add the edit toolbar to this window. Add this window's project view's undo, redo, remove, cut, copy, paste, move up, and move down actions to the toolbar.
+</__p_inlines>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_docks_</__p_name>
+                            <__p_description>Initializes the edit/view block dock widgets of this new window.</__p_description>
+                            <__p_inlines>Set both dock's views to this window's project view.
+
+Add both docks to this window.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3537,12 +3560,6 @@ Initialize this window's exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_menus_</__p_name>
-                            <__p_description>Initializes all menus of this new window.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>__setup_file_menu_</__p_name>
                             <__p_description>Initializes the file menu for this new window.</__p_description>
                             <__p_inlines>Add the new file menu to this window's menu bar.
@@ -3561,26 +3578,6 @@ Add the exit action to the file menu.
                         <Function>
                             <__p_name>__setup_edit_menu_</__p_name>
                             <__p_description>Adds this new window's project view's context menu as the window's edit menu.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__setup_docks_</__p_name>
-                            <__p_description>Initializes the edit/view block dock widgets of this new window.</__p_description>
-                            <__p_inlines>Set both dock's views to this window's project view.
-
-Add both docks to this window.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__setup_toolbars_</__p_name>
-                            <__p_description>Initializes all toolbars of this new window.</__p_description>
-                            <__p_inlines>Add the file toolbar to this window. Add the open, save and save as actions to the toolbar.
-
-Add the edit toolbar to this window. Add this window's project view's undo, redo, remove, cut, copy, paste, move up, and move down actions to the toolbar.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
