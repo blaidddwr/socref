@@ -134,19 +134,6 @@
                     <__p_name>wrap_text</__p_name>
                     <__p_description>Wraps given text into multiple lines that are limited by the given number of columns per line. Every line is appended with an optional begin string and every line after the first is also appended with an optional after line.</__p_description>
                     <__p_return_description>New line separated string of wrapped text generated from the given input text.</__p_return_description>
-                    <__p_inlines>Initialize the return string, separate the given strings words into a list of word strings, and set the first line indicator to true.
-
-Continue while there are still words to wrap.
-
-If this is the first line then append with only the given begin string.
-
-Else append the line with the given begin and then the given after strings.
-
-While adding the next word does not make the current line become larger than the maximum column length keep adding words.
-
-Add the next line to the wrapped text.
-
-Return the wrapped text.</__p_inlines>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -652,7 +639,7 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
 
 A parser is the interface implemented by a language to parse its source code from a project. When the core application parses the source code of a project it creates a new abstract parser from the root block of the project that is to be parsed. The abstract parser in turn handles parsing all source code files using the root block of the project. A root path is also set that is used as the root location for all source code directories and/or files.
 
-The parsing process is separated into building a path list, scanning, and building. The building a path list step builds a list of paths and associated blocks where source file codes should exist within the root path. The scanning step reads and scans every source code file for each path generated from the previous step. The build step generates new contents for each source code file generated from the first step, using the associated block from the first step and any scanned input from the previous step. If a file does not exist for a given path it is ignored in the scan step. Before parsing can begin the root path must be set.
+The parsing process is separated into building a path list, scanning, building, and returning any unknown code fragments. The building a path list step builds a list of paths and associated blocks where source file codes should exist within the root path. The scanning step reads and scans every source code file for each path generated from the previous step. The build step generates new contents for each source code file generated from the first step, using the associated block from the first step and any scanned input from the previous step. The returning any unknown code fragments step returns any code fragments that were scanned but never used in the build step. If a file does not exist for a given path it is ignored in the scan step. Before parsing can begin the root path must be set.
 </__p_description>
                     <__p_parents>abc.ABC</__p_parents>
                     <Access>
@@ -667,6 +654,17 @@ The parsing process is separated into building a path list, scanning, and buildi
                                 <__p_name>root_block</__p_name>
                                 <__p_description>Detailed description.</__p_description>
                             </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Interfaces</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>unknown</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A flat dictionary of scanned code that was unknown and not used in any built source code.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>1</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -716,7 +714,7 @@ The parsing process is separated into building a path list, scanning, and buildi
                         </Function>
                         <Function>
                             <__p_name>_build_</__p_name>
-                            <__p_description>This interface is a builder method.</__p_description>
+                            <__p_description>This interface is a getter method.</__p_description>
                             <__p_return_description>The new string contents of the source code file at the given path and associated block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
@@ -1190,9 +1188,9 @@ It provides helper methods for converting a qt model index into a list of rows a
                 </Class>
                 <Class>
                     <__p_name>Parser</__p_name>
-                    <__p_description>This is the singleton parser model class. It handles execution of a given abstract parser. A slot is provided for starting a new abstract parser. Signals are provided for informing when parsing begins, makes progress, and finishes. This class is designed to run on its own thread because parsing can be a long process. Because of this the GUI must interface with this class exclusively through its signals and slots.</__p_description>
-                    <__p_descriptors>util.Singleton</__p_descriptors>
+                    <__p_description>This is the singleton parser model class. It handles execution of a given abstract parser. A slot is provided for starting a new abstract parser. Signals are provided for informing when parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class is designed to run on its own thread because parsing can be a long process. Because of this the GUI must interface with this class exclusively through its signals and slots.</__p_description>
                     <__p_parents>qtc.QObject</__p_parents>
+                    <__p_descriptors>util.Singleton</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -1237,6 +1235,11 @@ It provides helper methods for converting a qt model index into a list of rows a
                             <__p_name>finished</__p_name>
                             <__p_description>Signals this parser has finished parsing.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>remained</__p_name>
+                            <__p_description>Signals this parser had remaining unknown code fragments after finishing the last parsing.</__p_description>
+                            <__p_assignment>qtc.Signal(dict)</__p_assignment>
                         </Object>
                     </Access>
                     <Access>
@@ -1818,10 +1821,6 @@ It has built in support for undo and redo of any modification done to it. Method
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new spell highlighter with the given dictionary and parent.</__p_description>
-                            <__p_inlines>Initialize the Hunspell object with the given dictionary, appending the root path and appropriate extensions.
-
-Initialize the format style used for underlining misspelled words.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -1840,16 +1839,6 @@ Initialize the format style used for underlining misspelled words.
                         <Function>
                             <__p_name>highlightBlock</__p_name>
                             <__p_description>Implements the qtg.QSyntaxHighlighter interface.</__p_description>
-                            <__p_inlines>Initialize the search start and regular expression.
-
-Continue while there are still words to check.
-
-Attempt to get the next word matched, breaking out if there are no more words left.
-
-Check the words spelling, settings its format as misspelled if it is as such.
-
-Update the search start to the end of the last word matched.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -1872,14 +1861,6 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new speller checker with the given title, dictionary, and optional parent.</__p_description>
-                            <__p_inlines>Initialize the Hunspell object with the given dictionary, appending the root path and appropriate extensions.
-
-Initialize the word label and edit widgets used for each misspelled word found.
-
-Initialize the cursor to none and list of suggested words to an empty list.
-
-Setup this new widget's GUI.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -1917,15 +1898,9 @@ Setup this new widget's GUI.
                         <Function>
                             <__p_name>start</__p_name>
                             <__p_description>Called to have this spell checker begin checking for misspelled words in the document of the given qt text cursor. The entire document is checked for misspelled words. If this spell checker is already checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot(qtg.QTextCursor)</__p_descriptors>
-                            <__p_inlines>Make sure this spell checker is not currently checking a document.
-
-Set this spell checker's cursor to the one given and move it to the beginning of the document.
-
-Find the next misspelled word.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(qtg.QTextCursor)</__p_descriptors>
                             <Object>
                                 <__p_name>cursor</__p_name>
                                 <__p_description>A qt text cursor whose document is checked for misspelled words.</__p_description>
@@ -1938,22 +1913,6 @@ Find the next misspelled word.
                         <Function>
                             <__p_name>__find_next_word_</__p_name>
                             <__p_description>Finds the next misspelled word in the current document this spell checker is checking, optionally skipping the word this checker's cursor is currently under. If no misspelled word is found once the end of the document is reached then it stops this spell checker.</__p_description>
-                            <__p_inlines>Get this spell checker's cursor and compile the regular expression for matching words.
-
-Continue until a misspelled word is found or the cursor reaches the end of the document.
-
-Check to make sure this should be checked if it is the first word.
-
-Select the word under the cursor and make sure it is a word.
-
-Get the speller and selected word.
-
-If the word is misspelled then signal the cursor has changed, update the word label and edit widgets with the misspelled word, and update the list of suggestions for the new misspelled word.
-
-Else this is the first word so it is skipped, setting the skip argument to false so all other words are not skipped.
-
-Move to the next word in the cursor's document, stopping this spell checker if the end of the document is reached.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -1965,12 +1924,6 @@ Move to the next word in the cursor's document, stopping this spell checker if t
                         <Function>
                             <__p_name>__setup_gui_</__p_name>
                             <__p_description>Initializes the GUI of this new spell checker.</__p_description>
-                            <__p_inlines>Initialize the suggest, replace, ignore, ignore all, and stop buttons.
-
-Create a horizontal box layout. Add this spell checker's word label, word edit, a stretch, suggest button, replace button, ignore button, ignore all button, and then stop button.
-
-Set this widget's layout.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -1981,26 +1934,18 @@ Set this widget's layout.
                         <Function>
                             <__p_name>__suggest_</__p_name>
                             <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Make sure this spell checker is active.
-
-Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
-
-Update the word edit widget with the next suggested word.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
+</__p_inlines>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__replace_</__p_name>
                             <__p_description>Called to replace the selected misspelled word with the text of this spell checker's word edit widget. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Make sure this spell checker is active.
-
-Replace the cursor's selected word with this spell checker's word edit value and then find the next misspelled word.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__ignore_</__p_name>
@@ -2012,26 +1957,16 @@ Replace the cursor's selected word with this spell checker's word edit value and
                         <Function>
                             <__p_name>__ignore_all_</__p_name>
                             <__p_description>Called to ignore all words matching the currently selected misspelled word by adding it to the run time dictionary. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Make sure this spell checker is active.
-
-Add the currently misspelled word to this checker's Hunspell object's run time dictionary and then move to the next word.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__stop_</__p_name>
                             <__p_description>Called to stop this spell checker, finishing its spell checking of the current document. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Make sure this spell checker is active.
-
-Reset this spell checker's cursor to none and its list of suggested words to empty.
-
-Signal that this spell checker has finished.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
@@ -2089,9 +2024,9 @@ Signal that this spell checker has finished.
                         <Function>
                             <__p_name>__index_changed_</__p_name>
                             <__p_description>Called to update this dock's detailed view to its view's currently indexed block. If its view's current index is invalid then this dock returns its view to a null state.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
@@ -2255,10 +2190,10 @@ Actions are provided for all basic editing actions done upon a view's model. The
                             <__p_name>__can_paste_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if any of this project's global copied blocks can be pasted into its model at the current index with the current insertion type. False if no copied block can be pasted.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>If there is not a single global copied block type that is in the build list of the parent index then return false.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__insert_values_</__p_name>
@@ -2270,8 +2205,6 @@ Actions are provided for all basic editing actions done upon a view's model. The
                         <Function>
                             <__p_name>__setup_actions_</__p_name>
                             <__p_description>Initialize the qt actions of this new project view.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Undo action.
 
 Redo action.
@@ -2294,6 +2227,8 @@ Insert into action.
 
 Insert after action.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__setup_context_menu_</__p_name>
@@ -2308,9 +2243,9 @@ Insert after action.
                         <Function>
                             <__p_name>__current_changed_</__p_name>
                             <__p_description>Called to inform this project that its selection model's current index has changed to the one given from the previous one given.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)</__p_descriptors>
                             <Object>
                                 <__p_name>current</__p_name>
                                 <__p_description>The new current index of this project's selection model.</__p_description>
@@ -2323,23 +2258,23 @@ Insert after action.
                         <Function>
                             <__p_name>__model_reset_</__p_name>
                             <__p_description>Called to inform this project that its model has reset itself.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__model_destroyed_</__p_name>
                             <__p_description>Called to inform this project that its model has been destroyed.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__model_data_changed_</__p_name>
                             <__p_description>Called to inform this project that data has changed for the range of indexes from the given top left to the given bottom right with the given roles.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)</__p_descriptors>
                             <Object>
                                 <__p_name>top_left</__p_name>
                                 <__p_description>The top left index in the range of indexes that has changed.</__p_description>
@@ -2367,25 +2302,25 @@ Insert after action.
                         <Function>
                             <__p_name>__undo_</__p_name>
                             <__p_description>Called to undo the last action done to this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__redo_</__p_name>
                             <__p_description>Called to redo the last undone action on this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__add_</__p_name>
                             <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_inlines>This partially fixes a strange PySide2 bug. It happens sometimes after creating a new project and trying to add a new block.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>block_type</__p_name>
                                 <__p_description>The block type that is created and added to this project's model.</__p_description>
@@ -2394,30 +2329,30 @@ Insert after action.
                         <Function>
                             <__p_name>__remove_</__p_name>
                             <__p_description>Called to remove all selected indexes from this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__cut_</__p_name>
                             <__p_description>Called to cut all selected indexes from this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__copy_</__p_name>
                             <__p_description>Called to copy all selected indexes from this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__paste_</__p_name>
                             <__p_description>Called to paste any globally copied blocks into this project's model at the current index using its selected insert option.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__move_up_</__p_name>
@@ -2558,9 +2493,9 @@ Insert after action.
                         <Function>
                             <__p_name>__dialog_</__p_name>
                             <__p_description>Called to open a modal dialog text editor to edit this editor's text.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
@@ -2700,11 +2635,11 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__index_changed_</__p_name>
                             <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_inlines>Garbage collection is required because rebuilding this dock's GUI causes large memory leaks otherwise.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the new block whose properties are edited by this dock.</__p_description>
@@ -2713,19 +2648,9 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__index_moved_</__p_name>
                             <__p_description>Called to update the index of the block this dock is editing. It is assumed the same block is being edited so the edit widget form is not rebuilt.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_inlines>Check if this dock's current index has unsaved changes.
-
-Query the user about the unsaved changes, applying the changes to this dock's currently indexed block if the user chooses to save the changes.
-
-If this dock has an old built edit widget form then delete it and force python garbage. Garbage collection is required because rebuilding this dock's GUI causes large memory leaks otherwise.
-
-If the given index is valid then build a new form widget of edit widgets from the given indexed block and disable the apply button.
-
-Else the given index is invalid so clear this dock's edit widgets.
-</__p_inlines>
-                            <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The new index of the block this dock is editing.</__p_description>
@@ -2742,10 +2667,6 @@ Else the given index is invalid so clear this dock's edit widgets.
                             <__p_name>__apply_</__p_name>
                             <__p_description>Called to set this dock's currently indexed block's properties to the current values of its edit widgets. If the current index is not valid then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Make sure this dock's current index is valid.
-
-Set the properties of the current index to the values of this dock's edit widgets and then disable the apply button.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2833,6 +2754,12 @@ Set the properties of the current index to the values of this dock's edit widget
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>__restore_</__p_name>
+                            <__p_description>Restores the geometry of this dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Slots</__p_name>
@@ -2887,20 +2814,6 @@ Set the properties of the current index to the values of this dock's edit widget
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>done</__p_name>
-                            <__p_description>Implements the PySide2.QtWidgets.QDialog interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>result</__p_name>
-                                <__p_description>See qt docs.</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
                             <__p_name>closeEvent</__p_name>
@@ -2931,6 +2844,12 @@ Set the properties of the current index to the values of this dock's edit widget
                         <Function>
                             <__p_name>__setup_buttons_</__p_name>
                             <__p_description>Initializes the buttons of this new dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__restore_</__p_name>
+                            <__p_description>Restores the geometry of this dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2974,6 +2893,13 @@ Set the properties of the current index to the values of this dock's edit widget
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>__cancel_</__p_name>
+                            <__p_description>Called to cancel this dialog, closing it and not applying any changes made in its edit widgets.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Constants</__p_name>
@@ -2982,6 +2908,115 @@ Set the properties of the current index to the values of this dock's edit widget
                             <__p_name>__GEOMETRY_KEY</__p_name>
                             <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
                             <__p_assignment>&quot;gui.dialog.project.geometry&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Code</__p_name>
+                    <__p_description>This is the code dialog class. It inherits the qt dialog class. It displays any unknown code fragments given to it. The fragments must be organized into a flat dictionary where the key should provide a meaningful identity about the code fragment to the user. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
+                    <__p_parents>qtw.QDialog</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new code dialog with the given code dictionary and optional parent.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>code</__p_name>
+                                <__p_description>The code dictionary that this dialog displays to the user.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>The optional qt object parent of this dialog.</__p_description>
+                                <__p_assignment>None</__p_assignment>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>closeEvent</__p_name>
+                            <__p_description>Implements the PySide2.QtWidgets.QWidget interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>event</__p_name>
+                                <__p_description>See qt docs.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__setup_gui_</__p_name>
+                            <__p_description>Initializes the GUI of this new dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_view_</__p_name>
+                            <__p_description>Initializes the GUI of this new dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setup_buttons_</__p_name>
+                            <__p_description>Initializes the GUI of this new dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__restore_</__p_name>
+                            <__p_description>Restores the geometry of this dialog and the state of this dialog's qt splitter.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Slots</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__item_changed_</__p_name>
+                            <__p_description>Called to inform this dialog's the selected code fragment has changed to the one with the given key.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <Object>
+                                <__p_name>key</__p_name>
+                                <__p_description>The new key of the selected code fragment.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__copy_</__p_name>
+                            <__p_description>Called to copy this dialog's current code fragment to the system clipboard.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                        </Function>
+                        <Function>
+                            <__p_name>__close_</__p_name>
+                            <__p_description>Called to close this dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Constants</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__GEOMETRY_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's geometry using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.code.geometry&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__STATE_KEY</__p_name>
+                            <__p_description>The key used to save this dialog's state using qt settings to make it persistent.</__p_description>
+                            <__p_assignment>&quot;gui.dialog.code.state&quot;</__p_assignment>
                         </Object>
                     </Access>
                 </Class>
@@ -3124,6 +3159,12 @@ Exit action.
                         <Function>
                             <__p_name>__setup_edit_menu_</__p_name>
                             <__p_description>Adds this new window's project view's context menu as the window's edit menu.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__restore_</__p_name>
+                            <__p_description>Restores the geometry and state of this window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4177,14 +4218,8 @@ It represents a fictitious access declaration for python classes. Since python d
                 <__p_name>parser</__p_name>
                 <__p_description>Contains the python language parser. It also contains all helper functions and classes used for the parsing process.</__p_description>
                 <Function>
-                    <__p_name>uniq_insert</__p_name>
+                    <__p_name>unique_insert</__p_name>
                     <__p_description>Inserts the given item into the given dictionary with the given key. If the given key already exists in the dictionary a number is appended to the key string until a key is found that does not exist in the dictionary.</__p_description>
-                    <__p_inlines>Check to see if the given key already exists in the given dictionary.
-
-Keep appending a number to the key, starting at 0, until an unused key is found.
-
-Insert the given item into the given dictionary with the unused key.
-</__p_inlines>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -4231,24 +4266,6 @@ Insert the given item into the given dictionary with the unused key.
                             <__p_name>readline</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The next line of python source code read in from this scanner's input file. If the end of file is reached or the end of the code block with the determined indent then this returns none. The first time this is called the indent of the block to be read is determined with the first line of code encountered.</__p_return_description>
-                            <__p_inlines>Continue until a line of code is found or an end condition is meant.
-
-Get the seek location of the file and then read in the next line.
-
-If the end of file has been reached then return none.
-
-Check to see if this is not a blank line.
-
-Remove the new line character and determine the line's indent.
-
-If the indent has not yet been set then set it with this line's indent.
-
-Else make sure this line's indent is within the block being read.
-
-Revert the seek location back to the previous because the read in line is not part of block being scanned, and then return none.
-
-Return the read in line that is part of the code block being scanned.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4264,16 +4281,23 @@ Return the read in line that is part of the code block being scanned.
                         <Function>
                             <__p_name>__init__</__p_name>
                             <__p_description>Initializes a new python parser with the given root package block.</__p_description>
-                            <__p_inlines>Initialize all compiled regular expressions used by this parser.
-
-Initialize the definitions dictionary used to save all scanned lines of code for this parser.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>root</__p_name>
                                 <__p_description>A package block that is the root block of a python project that this new parser will parse.</__p_description>
                             </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>unknown</__p_name>
+                            <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -4288,20 +4312,6 @@ Initialize the definitions dictionary used to save all scanned lines of code for
                         <Function>
                             <__p_name>_scan_</__p_name>
                             <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
-                            <__p_inlines>Open the file at the given path as read only.
-
-Initialize a path scanning definition.
-
-Continue while there are still lines to read.
-
-Read the next line, breaking if it is the end of the file.
-
-Remove the newline character from the end.
-
-Match the line to see if it is a class or function header, scanning its source code and inserting the returned class or function definition into the path definition. Use a unique key for insertion so it does not overwrite anything else scanned.
-
-Insert the scanned path definition into this parser's dictionary of scanned paths.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -4331,14 +4341,6 @@ Insert the scanned path definition into this parser's dictionary of scanned path
                         <Function>
                             <__p_name>__build_paths_</__p_name>
                             <__p_description>Recursively adds source code paths to be scanned using the given parent block and path.</__p_description>
-                            <__p_inlines>Iterate through all children blocks of the given parent.
-
-Check if the child block has a directory name.
-
-Add the package block's init python script path and then recursively call this method to add all its sub packages and modules.
-
-Else if this child block has a file name and therefore is a module then add its python script path.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -4354,18 +4356,6 @@ Else if this child block has a file name and therefore is a module then add its 
                             <__p_name>__scan_header_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A list of import code lines scanned from the header of the given python script file. It is assumed all import lines occur at the beginning of the file right after any initial doc string. It is also assumed the import lines end with at least one blank line.</__p_return_description>
-                            <__p_inlines>Skip any initial doc string of the script.
-
-Initialize the empty list of returned import lines.
-
-Peek the first code line, making sure it is an import line.
-
-Continue while there are import lines to read.
-
-Read the next line, breaking if it is a new line or adding it to the list of returned import lines otherwise.
-
-Return the scanned list of import lines.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -4377,20 +4367,6 @@ Return the scanned list of import lines.
                             <__p_name>__scan_class_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Scanned class definition containing any found and scanned method's lines of code from the class definition in the given python script file at its current seek position.</__p_return_description>
-                            <__p_inlines>Skip any initial doc string of the class.
-
-Initialize the empty class scan definition that is returned.
-
-Initialize the scanner with the given file.
-
-Continue while there are lines to scan within the current class's block of code.
-
-Read the next line, breaking out if there are no more lines to read for the class.
-
-If the line is a function header then scan it and insert its scanned function definition into the class scan definition, using a unique key so it does not overwrite any other scanned functions.
-
-Return the scanned class definition.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -4402,26 +4378,10 @@ Return the scanned class definition.
                             <__p_name>__scan_function_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Scanned function definition containing all lines of scanned code along with inline comment markers from the function definition in the given python script file at its current seek position.</__p_return_description>
-                            <__p_inlines>Skip any initial doc string of the function.
-
-Initial a special Boolean latch that is used to read in only the first line of any continuous block of comment lines.
-
-Initialize the returned list of lines and a scanner with the given file.
-
-Continue while there are lines to scan within the current function's definition.
-
-Read the next line, breaking out if there are no more lines to read.
-
-Check if the line is a comment.
-
-If this is the first line of a comment block then add its stripped version to the returned list.
-
-Else this is a regular line of code so add it with its function indent stripped and reset the latch.
-
-Return the scanned lines of code and inline comment markers.
-</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <__p_inlines>Latch is used to read in only the first line of any continuous block of comment lines.
+</__p_inlines>
                             <Object>
                                 <__p_name>ifile</__p_name>
                                 <__p_description>The python script file whose function at the current seek position is scanned.</__p_description>
@@ -4447,6 +4407,24 @@ Else if this is not a blank line and the doc line count is 0 then return.
                             <Object>
                                 <__p_name>ifile</__p_name>
                                 <__p_description>The python script file whose doc string, if any, is skipped.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__unknown_functions_</__p_name>
+                            <__p_description>Adds unknown code fragment strings to the given dictionary using the given root key for any remaining function lines in the given definition of functions.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>code</__p_name>
+                                <__p_description>A dictionary of unknown code fragments that has any unused function lines added to it.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>root_key</__p_name>
+                                <__p_description>A string appended with the function name and used as the key for inserting any unused function definition found.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>A functions definition generated from scanning and used by builders.</__p_description>
                             </Object>
                         </Function>
                     </Access>

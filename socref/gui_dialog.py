@@ -94,9 +94,7 @@ class Text(qtw.QDialog):
         layout.addWidget(self.__setup_spell_checker_())
         layout.addLayout(self.__setup_buttons_())
         self.setLayout(layout)
-        settings = qtc.QSettings()
-        geometry = settings.value(self.__GEOMETRY_KEY)
-        if geometry : self.restoreGeometry(geometry)
+        self.__restore_()
 
 
     def __setup_spell_checker_(self):
@@ -129,6 +127,15 @@ class Text(qtw.QDialog):
         ret.addStretch()
         ret.addWidget(self.__spell_button)
         return ret
+
+
+    def __restore_(self):
+        """
+        Restores the geometry of this dialog.
+        """
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        if geometry : self.restoreGeometry(geometry)
 
 
     ###################
@@ -197,27 +204,12 @@ class Project(qtw.QDialog):
         parent : The optional qt object parent of this dialog.
         """
         qtw.QDialog.__init__(self,parent)
-        self.__name_edit = qtw.QLineEdit()
-        self.__parse_path_edit = qtw.QLineEdit()
+        self.__name_edit = qtw.QLineEdit(self)
+        self.__parse_path_edit = qtw.QLineEdit(self)
         self.__model = model
         model.name_changed.connect(self.__name_changed_)
         model.parse_path_changed.connect(self.__parse_path_changed_)
         self.__setup_gui_()
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
-
-
-    def done(self, result):
-        """
-        Implements the PySide2.QtWidgets.QDialog interface.
-
-        result : See qt docs.
-        """
-        qtw.QDialog.done(self,result)
-        self.close()
 
 
     #######################
@@ -250,9 +242,7 @@ class Project(qtw.QDialog):
         layout.addLayout(self.__setup_buttons_())
         self.setLayout(layout)
         self.setWindowTitle("Project Properties")
-        settings = qtc.QSettings()
-        geometry = settings.value(self.__GEOMETRY_KEY)
-        if geometry : self.restoreGeometry(geometry)
+        self.__restore_()
 
 
     def __setup_form_(self):
@@ -276,13 +266,22 @@ class Project(qtw.QDialog):
         apply_ = qtw.QPushButton("Apply")
         apply_.clicked.connect(self.__apply_)
         cancel = qtw.QPushButton("Cancel")
-        cancel.clicked.connect(lambda : self.done(qtw.QDialog.Rejected))
+        cancel.clicked.connect(self.__cancel_)
         ret = qtw.QHBoxLayout()
         ret.addWidget(ok)
         ret.addWidget(apply_)
         ret.addStretch()
         ret.addWidget(cancel)
         return ret
+
+
+    def __restore_(self):
+        """
+        Restores the geometry of this dialog.
+        """
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        if geometry : self.restoreGeometry(geometry)
 
 
     ###################
@@ -317,6 +316,7 @@ class Project(qtw.QDialog):
         """
         self.__apply_()
         self.done(qtw.QDialog.Accepted)
+        self.close()
 
 
     @qtc.Slot()
@@ -328,6 +328,16 @@ class Project(qtw.QDialog):
         self.__model.set_parse_path(self.__parse_path_edit.text())
 
 
+    @qtc.Slot()
+    def __cancel_(self):
+        """
+        Called to cancel this dialog, closing it and not applying any changes made in its edit
+        widgets.
+        """
+        self.done(qtw.QDialog.Rejected)
+        self.close()
+
+
     #######################
     # PRIVATE - Constants #
     #######################
@@ -337,3 +347,159 @@ class Project(qtw.QDialog):
     # The key used to save this dialog's geometry using qt settings to make it persistent.
     #
     __GEOMETRY_KEY = "gui.dialog.project.geometry"
+
+
+
+
+
+
+
+
+class Code(qtw.QDialog):
+    """
+    This is the code dialog class. It inherits the qt dialog class. It displays any unknown code
+    fragments given to it. The fragments must be organized into a flat dictionary where the key
+    should provide a meaningful identity about the code fragment to the user. The user is provided a
+    list and read only text view to navigate the fragments, along with a copy to clipboard button.
+    """
+
+
+    #######################
+    # PUBLIC - Initialize #
+    #######################
+
+
+    def __init__(self, code, parent=None):
+        """
+        Initializes a new code dialog with the given code dictionary and optional parent.
+
+        code : The code dictionary that this dialog displays to the user.
+
+        parent : The optional qt object parent of this dialog.
+        """
+        qtw.QDialog.__init__(self,parent)
+        self.__code = code
+        self.__splitter = qtw.QSplitter(self)
+        self.__view = qtw.QPlainTextEdit(self,readOnly=True)
+        self.__setup_gui_()
+
+
+    #######################
+    # PROTECTED - Methods #
+    #######################
+
+
+    def closeEvent(self, event):
+        """
+        Implements the PySide2.QtWidgets.QWidget interface.
+
+        event : See qt docs.
+        """
+        settings = qtc.QSettings()
+        settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
+        settings.setValue(self.__STATE_KEY,self.__splitter.saveState())
+        event.accept()
+
+
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
+    def __setup_gui_(self):
+        """
+        Initializes the GUI of this new dialog.
+        """
+        layout = qtw.QVBoxLayout()
+        layout.addWidget(self.__setup_view_())
+        layout.addLayout(self.__setup_buttons_())
+        self.setLayout(layout)
+        self.setWindowTitle("Unknown Code Fragments")
+        self.__restore_()
+
+
+    def __setup_view_(self):
+        """
+        Initializes the GUI of this new dialog.
+        """
+        list_ = qtw.QListWidget()
+        list_.currentTextChanged.connect(self.__item_changed_)
+        list_.addItems(list(self.__code.keys()))
+        self.__splitter.addWidget(list_)
+        self.__splitter.addWidget(self.__view)
+        return self.__splitter
+
+
+    def __setup_buttons_(self):
+        """
+        Initializes the GUI of this new dialog.
+        """
+        close = qtw.QPushButton("Close")
+        close.clicked.connect(self.__close_)
+        copy = qtw.QPushButton("Copy to Clipboard")
+        copy.clicked.connect(self.__copy_)
+        ret = qtw.QHBoxLayout()
+        ret.addWidget(close)
+        ret.addStretch()
+        ret.addWidget(copy)
+        return ret
+
+
+    def __restore_(self):
+        """
+        Restores the geometry of this dialog and the state of this dialog's qt splitter.
+        """
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        state = settings.value(self.__STATE_KEY)
+        if geometry : self.restoreGeometry(geometry)
+        if state : self.__splitter.restoreState(state)
+
+
+    ###################
+    # PRIVATE - Slots #
+    ###################
+
+
+    @qtc.Slot(str)
+    def __item_changed_(self, key):
+        """
+        Called to inform this dialog's the selected code fragment has changed to the one with the
+        given key.
+
+        key : The new key of the selected code fragment.
+        """
+        self.__view.setPlainText(self.__code[key])
+
+
+    @qtc.Slot()
+    def __copy_(self):
+        """
+        Called to copy this dialog's current code fragment to the system clipboard.
+        """
+        clipboard = qtg.QClipboard()
+        clipboard.setText(self.__view.toPlainText())
+
+
+    @qtc.Slot()
+    def __close_(self):
+        """
+        Called to close this dialog.
+        """
+        self.done(qtw.QDialog.Accepted)
+        self.close()
+
+
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.code.geometry"
+    #
+    # The key used to save this dialog's state using qt settings to make it persistent.
+    #
+    __STATE_KEY = "gui.dialog.code.state"

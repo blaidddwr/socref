@@ -40,15 +40,9 @@ class Spell_Highlighter(qtg.QSyntaxHighlighter):
                  words highlighted.
         """
         qtg.QSyntaxHighlighter.__init__(self,parent)
-        #
-        # Initialize the Hunspell object with the given dictionary, appending the root path and
-        # appropriate extensions.
-        #
         self.__hunspell = hunspell.HunSpell(os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
-                                            ,os.path.join(settings.HUNSPELL_ROOT,dictionary + ".aff"))
-        #
-        # Initialize the format style used for underlining misspelled words.
-        #
+                                            ,os.path.join(settings.HUNSPELL_ROOT
+                                                          ,dictionary + ".aff"))
         format_ = self.__format = qtg.QTextCharFormat()
         format_.setFontUnderline(True)
         format_.setUnderlineColor(qtc.Qt.red)
@@ -66,28 +60,13 @@ class Spell_Highlighter(qtg.QSyntaxHighlighter):
 
         text : See qt docs.
         """
-        #
-        # Initialize the search start and regular expression.
-        #
         start = 0
         pattern = re.compile('\w+')
-        #
-        # Continue while there are still words to check.
-        #
         while True :
-            #
-            # Attempt to get the next word matched, breaking out if there are no more words left.
-            #
             match = pattern.search(text,start)
             if not match : break
-            #
-            # Check the words spelling, settings its format as misspelled if it is as such.
-            #
             if not self.__hunspell.spell(match.group(0)) :
                 self.setFormat(match.start(),match.end() - match.start(),self.__format)
-            #
-            # Update the search start to the end of the last word matched.
-            #
             start = match.end()
 
 
@@ -128,25 +107,13 @@ class Spell_Checker(qtw.QGroupBox):
         parent : An optional qt object parent for this new spell checker.
         """
         qtw.QGroupBox.__init__(self,title,parent)
-        #
-        # Initialize the Hunspell object with the given dictionary, appending the root path and
-        # appropriate extensions.
-        #
         self.__hunspell = hunspell.HunSpell(os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
-                                            ,os.path.join(settings.HUNSPELL_ROOT,dictionary + ".aff"))
-        #
-        # Initialize the word label and edit widgets used for each misspelled word found.
-        #
+                                            ,os.path.join(settings.HUNSPELL_ROOT
+                                                          ,dictionary + ".aff"))
         self.__word_label = qtw.QLabel(self)
         self.__word_edit = qtw.QLineEdit(self)
-        #
-        # Initialize the cursor to none and list of suggested words to an empty list.
-        #
         self.__cursor = None
         self.__suggested = []
-        #
-        # Setup this new widget's GUI.
-        #
         self.__setup_gui_()
 
 
@@ -179,19 +146,9 @@ class Spell_Checker(qtw.QGroupBox):
 
         cursor : A qt text cursor whose document is checked for misspelled words.
         """
-        #
-        # Make sure this spell checker is not currently checking a document.
-        #
         if self.__cursor is None :
-            #
-            # Set this spell checker's cursor to the one given and move it to the beginning of the
-            # document.
-            #
             self.__cursor = cursor
             cursor.movePosition(qtg.QTextCursor.Start)
-            #
-            # Find the next misspelled word.
-            #
             self.__find_next_word_()
 
 
@@ -209,49 +166,21 @@ class Spell_Checker(qtw.QGroupBox):
         skip : True to skip the word this checker's cursor is currently under or false to check it
                for spelling.
         """
-        #
-        # Get this spell checker's cursor and compile the regular expression for matching words.
-        #
         cursor = self.__cursor
         pattern = re.compile('\w+')
-        #
-        # Continue until a misspelled word is found or the cursor reaches the end of the document.
-        #
         while True :
-            #
-            # Check to make sure this should be checked if it is the first word.
-            #
             if not skip :
-                #
-                # Select the word under the cursor and make sure it is a word.
-                #
                 cursor.select(qtg.QTextCursor.WordUnderCursor)
                 if pattern.fullmatch(cursor.selectedText()) :
-                    #
-                    # Get the speller and selected word.
-                    #
                     hun = self.__hunspell
                     word = cursor.selectedText()
-                    #
-                    # If the word is misspelled then signal the cursor has changed, update the word
-                    # label and edit widgets with the misspelled word, and update the list of
-                    # suggestions for the new misspelled word.
-                    #
                     if not hun.spell(word) :
                         self.cursor_changed.emit(cursor)
                         self.__word_label.setText(word)
                         self.__word_edit.setText(word)
                         self.__suggested = hun.suggest(word)
                         break
-            #
-            # Else this is the first word so it is skipped, setting the skip argument to false so
-            # all other words are not skipped.
-            #
             else : skip = False
-            #
-            # Move to the next word in the cursor's document, stopping this spell checker if the end
-            # of the document is reached.
-            #
             if not cursor.movePosition(qtg.QTextCursor.NextWord) :
                 self.__stop_()
                 break
@@ -261,9 +190,6 @@ class Spell_Checker(qtw.QGroupBox):
         """
         Initializes the GUI of this new spell checker.
         """
-        #
-        # Initialize the suggest, replace, ignore, ignore all, and stop buttons.
-        #
         suggest = qtw.QPushButton("Suggest")
         suggest.clicked.connect(self.__suggest_)
         replace = qtw.QPushButton("Replace")
@@ -274,10 +200,6 @@ class Spell_Checker(qtw.QGroupBox):
         ignore_all.clicked.connect(self.__ignore_all_)
         stop = qtw.QPushButton("Stop")
         stop.clicked.connect(self.__stop_)
-        #
-        # Create a horizontal box layout. Add this spell checker's word label, word edit, a stretch,
-        # suggest button, replace button, ignore button, ignore all button, and then stop button.
-        #
         layout = qtw.QHBoxLayout()
         layout.addWidget(self.__word_label)
         layout.addWidget(self.__word_edit)
@@ -287,9 +209,6 @@ class Spell_Checker(qtw.QGroupBox):
         layout.addWidget(ignore)
         layout.addWidget(ignore_all)
         layout.addWidget(stop)
-        #
-        # Set this widget's layout.
-        #
         self.setLayout(layout)
 
 
@@ -305,9 +224,6 @@ class Spell_Checker(qtw.QGroupBox):
         next word in the list of suggestions. If this spell checker is not actively checking a
         document then this does nothing.
         """
-        #
-        # Make sure this spell checker is active.
-        #
         if self.__cursor is not None and self.__suggested :
             #
             # Find the index to the next word in this spell checker's list of suggestions, wrapping
@@ -319,9 +235,6 @@ class Spell_Checker(qtw.QGroupBox):
             except ValueError:
                 index = 0
             if index >= len(self.__suggested) : index = 0
-            #
-            # Update the word edit widget with the next suggested word.
-            #
             self.__word_edit.setText(self.__suggested[index])
 
 
@@ -332,14 +245,7 @@ class Spell_Checker(qtw.QGroupBox):
         edit widget. This then moves the cursor forward looking for the next misspelled word. If
         this spell checker is not actively checking a document then this does nothing.
         """
-        #
-        # Make sure this spell checker is active.
-        #
         if self.__cursor is not None:
-            #
-            # Replace the cursor's selected word with this spell checker's word edit value and then
-            # find the next misspelled word.
-            #
             self.__cursor.insertText(self.__word_edit.text())
             self.__find_next_word_()
 
@@ -361,14 +267,7 @@ class Spell_Checker(qtw.QGroupBox):
         the run time dictionary. This then moves the cursor forward looking for the next misspelled
         word. If this spell checker is not actively checking a document then this does nothing.
         """
-        #
-        # Make sure this spell checker is active.
-        #
         if self.__cursor is not None:
-            #
-            # Add the currently misspelled word to this checker's Hunspell object's run time
-            # dictionary and then move to the next word.
-            #
             self.__hunspell.add(self.__word_label.text())
             self.__find_next_word_(skip=True)
 
@@ -379,16 +278,7 @@ class Spell_Checker(qtw.QGroupBox):
         Called to stop this spell checker, finishing its spell checking of the current document. If
         this spell checker is not actively checking a document then this does nothing.
         """
-        #
-        # Make sure this spell checker is active.
-        #
         if self.__cursor is not None :
-            #
-            # Reset this spell checker's cursor to none and its list of suggested words to empty.
-            #
             self.__cursor = None
             self.__suggested = []
-            #
-            # Signal that this spell checker has finished.
-            #
             self.finished.emit()

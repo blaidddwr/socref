@@ -477,13 +477,15 @@ class Parser(abc.ABC):
     parsing all source code files using the root block of the project. A root path is also set that
     is used as the root location for all source code directories and/or files.
 
-    The parsing process is separated into building a path list, scanning, and building. The building
-    a path list step builds a list of paths and associated blocks where source file codes should
-    exist within the root path. The scanning step reads and scans every source code file for each
-    path generated from the previous step. The build step generates new contents for each source
-    code file generated from the first step, using the associated block from the first step and any
-    scanned input from the previous step. If a file does not exist for a given path it is ignored in
-    the scan step. Before parsing can begin the root path must be set.
+    The parsing process is separated into building a path list, scanning, building, and returning
+    any unknown code fragments. The building a path list step builds a list of paths and associated
+    blocks where source file codes should exist within the root path. The scanning step reads and
+    scans every source code file for each path generated from the previous step. The build step
+    generates new contents for each source code file generated from the first step, using the
+    associated block from the first step and any scanned input from the previous step. The returning
+    any unknown code fragments step returns any code fragments that were scanned but never used in
+    the build step. If a file does not exist for a given path it is ignored in the scan step. Before
+    parsing can begin the root path must be set.
     """
 
 
@@ -504,6 +506,22 @@ class Parser(abc.ABC):
         self.__paths = []
         self.__blocks = []
         self.__building_paths = False
+
+
+    #######################
+    # PUBLIC - Interfaces #
+    #######################
+
+
+    @abc.abstractmethod
+    def unknown(self):
+        """
+        This interface is a getter method.
+
+        return : A flat dictionary of scanned code that was unknown and not used in any built source
+                 code.
+        """
+        pass
 
 
     ####################
@@ -583,7 +601,7 @@ class Parser(abc.ABC):
     @abc.abstractmethod
     def _build_(self, block, path):
         """
-        This interface is a builder method.
+        This interface is a getter method.
 
         block : The block associated with the given source code file path.
 

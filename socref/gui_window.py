@@ -166,11 +166,7 @@ class Main(qtw.QMainWindow):
         model.Parser().started.connect(self.__parse_started_)
         model.Parser().progressed.connect(self.__parse_progressed_)
         model.Parser().finished.connect(self.__parse_finished_)
-        settings = qtc.QSettings()
-        geometry = settings.value(self.__GEOMETRY_KEY)
-        state = settings.value(self.__STATE_KEY)
-        if geometry : self.restoreGeometry(geometry)
-        if state : self.restoreState(state)
+        self.__restore_()
         #
         # The status bar is not visible until this method is called so call it here to make it
         # visible from the start.
@@ -337,6 +333,17 @@ class Main(qtw.QMainWindow):
         Adds this new window's project view's context menu as the window's edit menu.
         """
         self.menuBar().addMenu(self.__view.context_menu())
+
+
+    def __restore_(self):
+        """
+        Restores the geometry and state of this window.
+        """
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        state = settings.value(self.__STATE_KEY)
+        if geometry : self.restoreGeometry(geometry)
+        if state : self.restoreState(state)
 
 
     ###################

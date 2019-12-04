@@ -61,9 +61,9 @@ class Parser(qtc.QObject):
     """
     This is the singleton parser model class. It handles execution of a given abstract parser. A
     slot is provided for starting a new abstract parser. Signals are provided for informing when
-    parsing begins, makes progress, and finishes. This class is designed to run on its own thread
-    because parsing can be a long process. Because of this the GUI must interface with this class
-    exclusively through its signals and slots.
+    parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class
+    is designed to run on its own thread because parsing can be a long process. Because of this the
+    GUI must interface with this class exclusively through its signals and slots.
     """
 
 
@@ -97,6 +97,8 @@ class Parser(qtc.QObject):
         self.started.emit()
         try:
             parser.parse(self.__update_)
+            unknown = parser.unknown()
+            if unknown : self.remained.emit(unknown)
         except:
             #
             # Qt thread's event loop ignores python exceptions so catch any here and make it
@@ -125,6 +127,10 @@ class Parser(qtc.QObject):
     # Signals this parser has finished parsing.
     #
     finished = qtc.Signal()
+    #
+    # Signals this parser had remaining unknown code fragments after finishing the last parsing.
+    #
+    remained = qtc.Signal(dict)
 
 
     #####################

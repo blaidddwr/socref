@@ -307,7 +307,7 @@ class Block(Descriptor):
         """
         ret = self.__build_header_(begin)
         ret += self.__build_doc_string_(begin)
-        ret += self.__build_lines_(definition["functions"].get(self._p_name,[]),begin)
+        ret += self.__build_lines_(definition["functions"].pop(self._p_name,[]),begin)
         return ret
 
 

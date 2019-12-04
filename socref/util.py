@@ -45,40 +45,17 @@ def wrap_text(text, begin="", after="", columns=80):
 
     return : New line separated string of wrapped text generated from the given input text.
     """
-    #
-    # Initialize the return string, separate the given strings words into a list of word strings,
-    # and set the first line indicator to true.
-    #
     ret = ""
     words = text.split()
     first = True
-    #
-    # Continue while there are still words to wrap.
-    #
     while words :
-        #
-        # If this is the first line then append with only the given begin string.
-        #
         if first :
             line = begin + words.pop(0)
             first = False
-        #
-        # Else append the line with the given begin and then the given after strings.
-        #
         else: line = begin + after + words.pop(0)
-        #
-        # While adding the next word does not make the current line become larger than the maximum
-        # column length keep adding words.
-        #
         while words and (len(line) + len(words[0]) + 1) <= columns :
             line += " " + words.pop(0)
-        #
-        # Add the next line to the wrapped text.
-        #
         ret += line + "\n"
-    #
-    # Return the wrapped text.
-    #
     return ret
 
 

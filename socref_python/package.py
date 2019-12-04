@@ -165,7 +165,7 @@ class Block(abstract.Block):
         ret = '"""\n'
         ret += util.wrap_blocks(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'
-        ret += "\n".join(definition["header"] + [""])
+        ret += "\n".join(definition.pop("header") + [""])
         return ret
 
 
