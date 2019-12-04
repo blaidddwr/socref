@@ -10,6 +10,7 @@ from . import abstract
 from . import model
 from . import gui_view
 from . import gui_edit
+from . import gui_dialog
 
 
 
@@ -56,8 +57,9 @@ class Main(qtw.QMainWindow):
         self.__open_action = qtw.QAction("Open",self)
         self.__save_action = qtw.QAction("Save",self)
         self.__save_as_action = qtw.QAction("Save As",self)
-        self.__parse_action = qtw.QAction("Parse",self)
         self.__close_action = qtw.QAction("Close",self)
+        self.__properties_action = qtw.QAction("Properties",self)
+        self.__parse_action = qtw.QAction("Parse",self)
         self.__exit_action = qtw.QAction("Exit",self)
         self.__new_actions = []
         self.__path = None
@@ -106,9 +108,10 @@ class Main(qtw.QMainWindow):
         Updates this window's actions.
         """
         self.__save_action.setDisabled(self.__path is None)
-        self.__parse_action.setDisabled(self.__path is None)
         self.__save_as_action.setDisabled(not self.__model)
         self.__close_action.setDisabled(not self.__model)
+        self.__properties_action.setDisabled(not self.__model)
+        self.__parse_action.setDisabled(self.__path is None)
 
 
     def __is_ok_to_close_(self):
@@ -120,7 +123,8 @@ class Main(qtw.QMainWindow):
                  discard unsaved changes, or there are no unsaved changes to worry about.
         """
         if not self.__model or not self.__model.is_modified() : return True
-        answer = qtw.QMessageBox.question("Unsaved Project Changes"
+        answer = qtw.QMessageBox.question(self
+                                          ,"Unsaved Project Changes"
                                           ,"The currently open project has unsaved changes. Closing"
                                            " the project will cause all unsaved changes to be lost!"
                                           ,qtw.QMessageBox.Save
@@ -151,6 +155,7 @@ class Main(qtw.QMainWindow):
         self.__instances.append(self)
         self.setWindowIcon(qtg.QIcon(":/socref/application.svg"))
         self.__model.modified.connect(self.__modified_)
+        self.__model.name_changed.connect(self.__update_title_)
         self.__view.setModel(self.__model)
         self.setCentralWidget(self.__view)
         self.__setup_docks_()
@@ -275,6 +280,21 @@ class Main(qtw.QMainWindow):
         action.triggered.connect(self.__save_as_)
         self.addAction(action)
         #
+        # Close action.
+        #
+        action = self.__close_action
+        action.setStatusTip("Close the current project.")
+        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Close))
+        action.triggered.connect(self.__close_)
+        self.addAction(action)
+        #
+        # Properties action.
+        #
+        action = self.__properties_action
+        action.setStatusTip("Open a dialog to edit the basic properties of the current project.")
+        action.triggered.connect(self.__properties_)
+        self.addAction(action)
+        #
         # Parse action.
         #
         action = self.__parse_action
@@ -282,14 +302,6 @@ class Main(qtw.QMainWindow):
         action.setStatusTip("Parse all source code files with the current project.")
         action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_P))
         action.triggered.connect(self.__parse_)
-        self.addAction(action)
-        #
-        # Close action.
-        #
-        action = self.__close_action
-        action.setStatusTip("Close the current project.")
-        action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Close))
-        action.triggered.connect(self.__close_)
         self.addAction(action)
         #
         # Exit action.
@@ -314,6 +326,7 @@ class Main(qtw.QMainWindow):
         menu.addAction(self.__save_as_action)
         menu.addAction(self.__close_action)
         menu.addSeparator()
+        menu.addAction(self.__properties_action)
         menu.addAction(self.__parse_action)
         menu.addSeparator()
         menu.addAction(self.__exit_action)
@@ -464,18 +477,6 @@ class Main(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __parse_(self):
-        """
-        Called to parse the source code of this window's project. If this window does not have a
-        project save path then this does nothing.
-        """
-        if self.__path is not None :
-            parser = self.__model.parser()
-            parser.set_root_path(os.path.dirname(self.__path))
-            self.parse_requested.emit(parser)
-
-
-    @qtc.Slot()
     def __close_(self):
         """
         Called to close this window's current project. If this window has no project then this does
@@ -487,6 +488,26 @@ class Main(qtw.QMainWindow):
             self.__update_title_()
             self.setWindowModified(False)
             self.__update_actions_()
+
+
+    @qtc.Slot()
+    def __parse_(self):
+        """
+        Called to parse the source code of this window's project. If this window does not have a
+        project save path then this does nothing.
+        """
+        if self.__path is not None :
+            parser = self.__model.parser()
+            parser.set_root_path(os.path.abspath(os.path.join(os.path.dirname(self.__path),self.__model.parse_path())))
+            self.parse_requested.emit(parser)
+
+
+    def __properties_(self):
+        """
+        Called to have this window bring up a modal project dialog to edit the basic properties of
+        its current project. If this window has no project then this does nothing.
+        """
+        gui_dialog.Project(self.__model).exec_()
 
 
     ############################

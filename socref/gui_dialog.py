@@ -167,3 +167,173 @@ class Text(qtw.QDialog):
     # The key used to save this dialog's geometry using qt settings to make it persistent.
     #
     __GEOMETRY_KEY = "gui.dialog.text.geometry"
+
+
+
+
+
+
+
+
+class Project(qtw.QDialog):
+    """
+    This is the project dialog class. It inherits the qt dialog class. It is a basic form dialog
+    that allows the user to edit the project name and parse path of the model it is given on
+    initialization. It is a persistent dialog that remembers its geometry.
+    """
+
+
+    #######################
+    # PUBLIC - Initialize #
+    #######################
+
+
+    def __init__(self, model, parent=None):
+        """
+        Initializes a new project dialog with the given model and optional parent.
+
+        model : The project model that this dialog edits with its form.
+
+        parent : The optional qt object parent of this dialog.
+        """
+        qtw.QDialog.__init__(self,parent)
+        self.__name_edit = qtw.QLineEdit()
+        self.__parse_path_edit = qtw.QLineEdit()
+        self.__model = model
+        model.name_changed.connect(self.__name_changed_)
+        model.parse_path_changed.connect(self.__parse_path_changed_)
+        self.__setup_gui_()
+
+
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
+    def done(self, result):
+        """
+        Implements the PySide2.QtWidgets.QDialog interface.
+
+        result : See qt docs.
+        """
+        qtw.QDialog.done(self,result)
+        self.close()
+
+
+    #######################
+    # PROTECTED - Methods #
+    #######################
+
+
+    def closeEvent(self, event):
+        """
+        Implements the PySide2.QtWidgets.QWidget interface.
+
+        event : See qt docs.
+        """
+        settings = qtc.QSettings()
+        settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
+        event.accept()
+
+
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
+    def __setup_gui_(self):
+        """
+        Initializes the GUI of this new dialog.
+        """
+        layout = qtw.QVBoxLayout()
+        layout.addLayout(self.__setup_form_())
+        layout.addLayout(self.__setup_buttons_())
+        self.setLayout(layout)
+        self.setWindowTitle("Project Properties")
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        if geometry : self.restoreGeometry(geometry)
+
+
+    def __setup_form_(self):
+        """
+        Initializes the form of this new dialog.
+        """
+        self.__name_edit.setText(self.__model.name())
+        self.__parse_path_edit.setText(self.__model.parse_path())
+        ret = qtw.QFormLayout()
+        ret.addRow("Project Name:",self.__name_edit)
+        ret.addRow("Parsing Path:",self.__parse_path_edit)
+        return ret
+
+
+    def __setup_buttons_(self):
+        """
+        Initializes the buttons of this new dialog.
+        """
+        ok = qtw.QPushButton("Ok")
+        ok.clicked.connect(self.__ok_)
+        apply_ = qtw.QPushButton("Apply")
+        apply_.clicked.connect(self.__apply_)
+        cancel = qtw.QPushButton("Cancel")
+        cancel.clicked.connect(lambda : self.done(qtw.QDialog.Rejected))
+        ret = qtw.QHBoxLayout()
+        ret.addWidget(ok)
+        ret.addWidget(apply_)
+        ret.addStretch()
+        ret.addWidget(cancel)
+        return ret
+
+
+    ###################
+    # PRIVATE - Slots #
+    ###################
+
+
+    @qtc.Slot(str)
+    def __name_changed_(self, name):
+        """
+        Called to inform this dialog its project model's name has changed.
+
+        name : The new name of this dialog's project model.
+        """
+        self.__name_edit.setText(name)
+
+
+    @qtc.Slot(str)
+    def __parse_path_changed_(self, path):
+        """
+        Called to inform this dialog its project model's parse path has changed.
+
+        path : The new parse path of this dialog's project model.
+        """
+        self.__parse_path_edit.setText(path)
+
+
+    @qtc.Slot()
+    def __ok_(self):
+        """
+        Called to apply this dialog's edit widget values to its project model and then close itself.
+        """
+        self.__apply_()
+        self.done(qtw.QDialog.Accepted)
+
+
+    @qtc.Slot()
+    def __apply_(self):
+        """
+        Called to apply this dialog's edit widget values to its project model.
+        """
+        self.__model.set_name(self.__name_edit.text())
+        self.__model.set_parse_path(self.__parse_path_edit.text())
+
+
+    #######################
+    # PRIVATE - Constants #
+    #######################
+
+
+    #
+    # The key used to save this dialog's geometry using qt settings to make it persistent.
+    #
+    __GEOMETRY_KEY = "gui.dialog.project.geometry"

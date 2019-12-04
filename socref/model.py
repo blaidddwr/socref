@@ -154,8 +154,9 @@ class Parser(qtc.QObject):
 class Project(qtc.QAbstractItemModel):
     """
     This is the project model class. It implements the qt abstract item model class. It provides
-    additional methods above and beyond the basic model methods for added functionality. It has
-    built in support for undo and redo of any modification done to it.
+    additional methods above and beyond the basic model methods for added functionality. It provides
+    basic properties that are universal to a project. It has built in support for undo and redo of
+    any modification done to it.
 
     It implements the qt abstract item model class. The header data, index, parent, row count,
     column count, data, set data, insert rows, remove rows, and insert row interfaces are
@@ -176,6 +177,11 @@ class Project(qtc.QAbstractItemModel):
     back into the model. A parser method is provided to build a new abstract parser for the model's
     current project, if any.
 
+    It provides basic properties that are universal to a project. There is a project name that is
+    purely for the convenience of the user to identify a project. A relative parse path property is
+    provided that informs how a project should be parsed. The parsing path used is the directory
+    path of a project's file with the relative parsing path appended to it.
+
     It has built in support for undo and redo of any modification done to it. Methods are provided
     to test if an undo or redo can be done on the model. Slots are provided to undo or redo a
     modification to the project model.
@@ -195,6 +201,7 @@ class Project(qtc.QAbstractItemModel):
         """
         qtc.QAbstractItemModel.__init__(self,parent)
         self.__name = None
+        self.__parse_path = None
         self.__root = None
         self.__lang_name = None
         self.__undo_stack = []
@@ -406,6 +413,16 @@ class Project(qtc.QAbstractItemModel):
         return self.__name
 
 
+    def parse_path(self):
+        """
+        Getter method.
+
+        return : The relative parsing path of this model's currently loaded project or none if it
+                 has no project.
+        """
+        return self.__parse_path
+
+
     def lang_name(self):
         """
         Getter method.
@@ -469,6 +486,7 @@ class Project(qtc.QAbstractItemModel):
         self.beginResetModel()
         try:
             self.__name = "New Project"
+            self.__parse_path = "."
             self.__lang_name = lang_name
             self.__root = abstract.Factory().create_root(self.__lang_name)
         except:
@@ -501,8 +519,13 @@ class Project(qtc.QAbstractItemModel):
         if stream.name() != self.__NAME_TAG :
             raise exception.LoadError("Invalid/missing XML name tag.")
         name = stream.readElementText()
+        stream.readNextStartElement()
+        if stream.name() != self.__PARSE_PATH_TAG :
+            raise exception.LoadError("Invalid/missing XML parse path tag.")
+        parse_path = stream.readElementText()
         self.new(lang_name)
         self.__name = name
+        self.__parse_path = parse_path
         try:
             stream.readNextStartElement()
             if stream.name() != self.__root._TYPE_ :
@@ -528,6 +551,7 @@ class Project(qtc.QAbstractItemModel):
             stream.writeStartElement(self.__PROJECT_TAG)
             stream.writeTextElement(self.__LANG_TAG,self.__lang_name)
             stream.writeTextElement(self.__NAME_TAG,self.__name)
+            stream.writeTextElement(self.__PARSE_PATH_TAG,self.__parse_path)
             self.__root.to_xml(stream)
             stream.writeEndElement()
             stream.writeEndDocument()
@@ -543,6 +567,7 @@ class Project(qtc.QAbstractItemModel):
         if self.__root is not None:
             self.beginResetModel()
             self.__name = None
+            self.__parse_path = None
             self.__lang_name = None
             self.__root = None
             self.__modified = False
@@ -563,6 +588,20 @@ class Project(qtc.QAbstractItemModel):
             self.__name = name
             self.__modified_()
             self.name_changed.emit(name)
+
+
+    def set_parse_path(self, path):
+        """
+        Sets the relative parsing path of this model's currently loaded project to the path given.
+        This model must have a loaded project.
+
+        path : The new parsing path of this model's project.
+        """
+        if self.__root is None : raise RuntimeError("Cannot set name of no project.")
+        if path != self.__parse_path :
+            self.__parse_path = path
+            self.__modified_()
+            self.parse_path_changed.emit(path)
 
 
     def move_row(self, change, index):
@@ -655,9 +694,13 @@ class Project(qtc.QAbstractItemModel):
     #
     modified = qtc.Signal()
     #
-    # Signals this model's project name has changed.
+    # Signals this model's project name has changed to the value given.
     #
     name_changed = qtc.Signal(str)
+    #
+    # Signals this model's relative parsing path has changed to the value given.
+    #
+    parse_path_changed = qtc.Signal(str)
 
 
     ##################
@@ -876,10 +919,14 @@ class Project(qtc.QAbstractItemModel):
     #
     __NAME_TAG = "name"
     #
-    # The root copy tag used for internal copy XML byte arrays.
+    # The parse path tag used for the parse path text element of XML project files.
     #
-    __COPY_TAG = "pysoref_copy"
+    __PARSE_PATH_TAG = "parse_path"
     #
     # The language tag used for the language name text element of XML project files.
     #
     __LANG_TAG = "language"
+    #
+    # The root copy tag used for internal copy XML byte arrays.
+    #
+    __COPY_TAG = "pysoref_copy"
