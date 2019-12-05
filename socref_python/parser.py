@@ -22,10 +22,10 @@ def unique_insert(dict_, key, item):
 
     item : The item that is inserted into the given dictionary.
     """
-    if key in dict_ :
+    if key in dict_:
         count = 0
         key = key + str(count)
-        while key in dict_ :
+        while key in dict_:
             count += 1
             key = key[:-1] + str(count)
     dict_[key] = item
@@ -73,7 +73,7 @@ class Scanner():
         return : The indent size in spaces of the code block this scanner is reading. This must be
                  called after the read line method is called at least once.
         """
-        if self.__indent is None :
+        if self.__indent is None:
             raise RuntimeError("indent has not been discovered.")
         return self.__indent
 
@@ -87,15 +87,17 @@ class Scanner():
                  this returns none. The first time this is called the indent of the block to be read
                  is determined with the first line of code encountered.
         """
-        while True :
+        while True:
             last = self.__ifile.tell()
             line = self.__ifile.readline()
-            if not line : return None
-            if line != '\n' :
+            if not line:
+                return None
+            if line != '\n':
                 line = line[:-1]
                 indent = len(line) - len(line.lstrip(' '))
-                if self.__indent is None : self.__indent = indent
-                elif indent < self.__indent :
+                if self.__indent is None:
+                    self.__indent = indent
+                elif indent < self.__indent:
                     self.__ifile.seek(last)
                     return None
                 return line
@@ -147,12 +149,12 @@ class Parser(abstract.Parser):
         return : See interface docs.
         """
         ret = {}
-        for key in self.__definitions :
+        for key in self.__definitions:
             definition = self.__definitions[key]
-            if "header" in definition :
+            if "header" in definition:
                 ret[key + ".header"] = "\n".join(definition["header"]) + "\n"
             self.__unknown_functions_(ret,key,definition["functions"])
-            for ckey in definition["classes"] :
+            for ckey in definition["classes"]:
                 class_ = definition["classes"][ckey]
                 self.__unknown_functions_(ret,key + "." + ckey,class_["functions"])
         return ret
@@ -176,20 +178,22 @@ class Parser(abstract.Parser):
 
         path : See interface docs.
         """
-        with open(path,"r") as ifile :
+        with open(path,"r") as ifile:
             def_ = {
                 "header": self.__scan_header_(ifile)
                 ,"functions": {}
                 ,"classes": {}
             }
-            while True :
+            while True:
                 line = ifile.readline()
-                if not line : break
+                if not line:
+                    break
                 line = line[:-1]
                 match = self.__class_pattern.match(line)
-                if match : unique_insert(def_["classes"],match.group(1),self.__scan_class_(ifile))
+                if match:
+                    unique_insert(def_["classes"],match.group(1),self.__scan_class_(ifile))
                 match = self.__function_pattern.match(line)
-                if match :
+                if match:
                     unique_insert(def_["functions"],match.group(1),self.__scan_function_(ifile))
             self.__definitions[path] = def_
 
@@ -222,11 +226,11 @@ class Parser(abstract.Parser):
 
         path : The path of the given parent block that is appended to any child block's path added.
         """
-        for block in parent :
-            if block.dir_name() is not None :
+        for block in parent:
+            if block.dir_name() is not None:
                 self._add_path_(block,os.path.join(path,block.dir_name(),"__init__.py"))
                 self.__build_paths_(block,os.path.join(path,block.dir_name()))
-            elif block.file_name() is not None :
+            elif block.file_name() is not None:
                 self._add_path_(block,os.path.join(path,block.file_name()))
 
 
@@ -246,10 +250,12 @@ class Parser(abstract.Parser):
         last = ifile.tell()
         line = ifile.readline()
         ifile.seek(last)
-        if not self.__import_pattern.match(line) : return ret
-        while True :
+        if not self.__import_pattern.match(line):
+            return ret
+        while True:
             line = ifile.readline()
-            if not line or line == '\n' : break
+            if not line or line == '\n':
+                break
             ret.append(line[:-1])
         return ret
 
@@ -265,13 +271,14 @@ class Parser(abstract.Parser):
                  position.
         """
         self.__skip_doc_string_(ifile)
-        ret = {"functions":{}}
+        ret = {"functions": {}}
         scan = Scanner(ifile)
-        while True :
+        while True:
             line = scan.readline()
-            if line is None : break
+            if line is None:
+                break
             match = self.__method_pattern.match(line)
-            if match :
+            if match:
                 unique_insert(ret["functions"],match.group(1),self.__scan_function_(ifile))
         return ret
 
@@ -293,12 +300,13 @@ class Parser(abstract.Parser):
         latch = True
         ret = []
         scan = Scanner(ifile)
-        while True :
+        while True:
             line = scan.readline()
-            if line is None : break
+            if line is None:
+                break
             match = self.__comment_pattern.match(line)
-            if match :
-                if latch :
+            if match:
+                if latch:
                     ret.append(match.group(1)[scan.indent():])
                     latch = False
             else:
@@ -315,12 +323,14 @@ class Parser(abstract.Parser):
         ifile : The python script file whose doc string, if any, is skipped.
         """
         count = 0
-        while count < 2 :
+        while count < 2:
             last = ifile.tell()
             line = ifile.readline()
-            if not line : break
-            if self.__doc_pattern.match(line) : count += 1
-            elif line != '\n' and count == 0 :
+            if not line:
+                break
+            if self.__doc_pattern.match(line):
+                count += 1
+            elif line != '\n' and count == 0:
                 ifile.seek(last)
                 break
 
@@ -338,6 +348,7 @@ class Parser(abstract.Parser):
 
         definition : A functions definition generated from scanning and used by builders.
         """
-        for key in definition :
+        for key in definition:
             function = definition[key]
-            if function : code[root_key + "." + key] = "\n".join(function) + "\n"
+            if function:
+                code[root_key + "." + key] = "\n".join(function) + "\n"

@@ -80,9 +80,10 @@ class Command(abc.ABC):
                  represents the root.
         """
         index = qtc.QModelIndex()
-        for row in rows :
+        for row in rows:
             index = self._model.index(row,0,index)
-            if not index.isValid() : raise RuntimeError("Rows are invalid.")
+            if not index.isValid():
+                raise RuntimeError("Rows are invalid.")
         return index
 
 
@@ -96,7 +97,7 @@ class Command(abc.ABC):
                  model. An empty list is the root index.
         """
         rows = []
-        while index.isValid() :
+        while index.isValid():
             rows.append(index.row())
             index = index.parent()
         rows.reverse()
@@ -208,7 +209,7 @@ class Remove(Command):
         """
         Implements the .command.Command interface.
         """
-        if self._blocks is not None :
+        if self._blocks is not None:
             self._model._insert_rows_(
                 self.__row
                 ,self._blocks
@@ -221,7 +222,7 @@ class Remove(Command):
         """
         Implements the .command.Command interface.
         """
-        if self._blocks is None :
+        if self._blocks is None:
             self._blocks = self._model._remove_rows_(
                 self.__row
                 ,self.__count

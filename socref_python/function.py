@@ -3,7 +3,7 @@ Contains the function block definition.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import util
+from socref import utility as util
 from socref import abstract
 from . import settings
 from . import package
@@ -72,9 +72,10 @@ class Descriptor(package.Block):
                  about its descriptors. If this block has no descriptors then an empty string is
                  returned.
         """
-        if self._p_descriptors :
+        if self._p_descriptors:
             return " " + "@" * len(['' for line in self._p_descriptors.split("\n") if line])
-        else: return ""
+        else:
+            return ""
 
 
     def _descriptors_view_(self):
@@ -87,7 +88,8 @@ class Descriptor(package.Block):
         ret = "<br/>".join(
             ("@" + html.escape(line) for line in self._p_descriptors.split("\n") if line)
         )
-        if ret : ret = "<h2>Descriptors</h2><p>%s</p>" % ret
+        if ret:
+            ret = "<h2>Descriptors</h2><p>%s</p>" % ret
         return ret
 
 
@@ -110,7 +112,8 @@ class Descriptor(package.Block):
                  descriptors an empty string is returned.
         """
         ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
-        if ret : ret += "\n"
+        if ret:
+            ret += "\n"
         return ret
 
 
@@ -182,11 +185,14 @@ class Block(Descriptor):
 
         return : See interface docs.
         """
-        if self._p_name.startswith("__") and self._p_name.endswith("__") :
+        if self._p_name.startswith("__") and self._p_name.endswith("__"):
             return qtg.QIcon(":/python/operator.svg")
-        elif self.is_static() : return qtg.QIcon(":/python/static_function.svg")
-        elif self.is_abstract() : return qtg.QIcon(":/python/abstract_function.svg")
-        else: return qtg.QIcon(":/python/function.svg")
+        elif self.is_static():
+            return qtg.QIcon(":/python/static_function.svg")
+        elif self.is_abstract():
+            return qtg.QIcon(":/python/abstract_function.svg")
+        else:
+            return qtg.QIcon(":/python/function.svg")
 
 
     def display_name(self):
@@ -196,7 +202,8 @@ class Block(Descriptor):
         return : See interface docs.
         """
         ret = ""
-        if self._p_return_description : ret += "... "
+        if self._p_return_description:
+            ret += "... "
         ret += "%s(%i)%s" % (self._p_name,len(self),self._descriptors_name_())
         return ret
 
@@ -209,11 +216,15 @@ class Block(Descriptor):
         """
         self.__check_flags_()
         return_description = html.escape(self._p_return_description)
-        if return_description : return_description = "<h2>Return</h2><p>%s</p>" % return_description
+        if return_description:
+            return_description = "<h2>Return</h2><p>%s</p>" % return_description
         flags = ""
-        if self.is_static() : flags += "<li>Static</li>"
-        if self.is_abstract() : flags += "<li>Abstract</li>"
-        if flags : flags = "<h2>Flags</h2><ul>%s</ul>" % flags
+        if self.is_static():
+            flags += "<li>Static</li>"
+        if self.is_abstract():
+            flags += "<li>Abstract</li>"
+        if flags:
+            flags = "<h2>Flags</h2><ul>%s</ul>" % flags
         return (
             package.Block.display_view(self)
             + self._display_arguments_()
@@ -245,7 +256,7 @@ class Block(Descriptor):
         """
         ret = package.Block.edit_definitions(self)
         ret.append(util.text_edit("Return:","_p_return_description",speller=True))
-        if self.is_method() :
+        if self.is_method():
             ret.append(util.checkbox_edit("Static","_p_static"))
             ret.append(util.checkbox_edit("Abstract","_p_abstract"))
         else:
@@ -293,10 +304,13 @@ class Block(Descriptor):
         return : See interface docs.
         """
         ret = ""
-        if self.is_method() : ret = "\n"*settings.H3LINES
+        if self.is_method():
+            ret = "\n"*settings.H3LINES
         else:
-            if previous is not None and previous._TYPE_ == "Class" : ret = "\n"*settings.H1LINES
-            else: ret = "\n"*settings.H2LINES
+            if previous is not None and previous._TYPE_ == "Class":
+                ret = "\n"*settings.H1LINES
+            else:
+                ret = "\n"*settings.H2LINES
         return ret
 
 
@@ -329,8 +343,10 @@ class Block(Descriptor):
                  then this returns an empty string.
         """
         ret = ""
-        for arg in self : ret += arg.argument_view()
-        if ret : ret = "<h2>Arguments</h2>" + ret
+        for arg in self:
+            ret += arg.argument_view()
+        if ret:
+            ret = "<h2>Arguments</h2>" + ret
         return ret
 
 
@@ -343,7 +359,7 @@ class Block(Descriptor):
         """
         Sets this function's flags to legal values if it is not a method.
         """
-        if not self.is_method() :
+        if not self.is_method():
             self._p_static = "0"
             self._p_abstract = "0"
 
@@ -358,9 +374,11 @@ class Block(Descriptor):
                  descriptors and the define line.
         """
         ret = self._build_descriptors_(begin)
-        if self.is_abstract() : ret += begin + "@%s\n" % settings.ABSTRACT_DESCRIPTOR
+        if self.is_abstract():
+            ret += begin + "@%s\n" % settings.ABSTRACT_DESCRIPTOR
         arguments = [arg.argument() for arg in self]
-        if self.is_method() and not self.is_static() : arguments.insert(0,"self")
+        if self.is_method() and not self.is_static():
+            arguments.insert(0,"self")
         ret += "%sdef %s(%s):\n" % (begin,self._p_name,", ".join(arguments))
         return ret
 
@@ -379,8 +397,9 @@ class Block(Descriptor):
             ,begin=begin + " "*settings.INDENT
             ,columns=settings.COLUMNS
         )
-        for arg in self : ret += "\n" + arg.comment(begin + " "*settings.INDENT)
-        if self._p_return_description :
+        for arg in self:
+            ret += "\n" + arg.comment(begin + " "*settings.INDENT)
+        if self._p_return_description:
             initial = "return : "
             ret += (
                 "\n"
@@ -406,12 +425,13 @@ class Block(Descriptor):
         return : A string that is the source code lines generated from the given list of code lines
                  and this function's inline comments.
         """
-        if not lines : return begin + " "*settings.INDENT + "pass\n"
+        if not lines:
+            return begin + " "*settings.INDENT + "pass\n"
         ret = ""
         inlines = [line for line in self._p_inlines.split("\n\n") if line]
-        for line in lines :
-            if line.endswith("#") :
-                if inlines :
+        for line in lines:
+            if line.endswith("#"):
+                if inlines:
                     ret += begin + " "*settings.INDENT + line + "\n"
                     ret += util.wrap_text(
                         inlines.pop(0)
@@ -419,6 +439,8 @@ class Block(Descriptor):
                         ,columns=settings.COLUMNS
                     )
                     ret += begin + " "*settings.INDENT + line + "\n"
-                else: ret += begin + " "*settings.INDENT + line + "\n"
-            else: ret += begin + " "*settings.INDENT + line + "\n"
+                else:
+                    ret += begin + " "*settings.INDENT + line + "\n"
+            else:
+                ret += begin + " "*settings.INDENT + line + "\n"
         return ret

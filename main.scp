@@ -102,7 +102,7 @@
                 </Object>
             </Module>
             <Module>
-                <__p_name>util</__p_name>
+                <__p_name>utility</__p_name>
                 <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the core application and language implementations.</__p_description>
                 <Function>
                     <__p_name>wrap_blocks</__p_name>
@@ -778,7 +778,7 @@ The parsing process is separated into building a path list, scanning, building, 
 
 It creates new blocks. Blocks can be created by language and type or the root type of a language.
 </__p_description>
-                    <__p_descriptors>util.Singleton</__p_descriptors>
+                    <__p_descriptors>utility.Singleton</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -1190,7 +1190,7 @@ It provides helper methods for converting a qt model index into a list of rows a
                     <__p_name>Parser</__p_name>
                     <__p_description>This is the singleton parser model class. It handles execution of a given abstract parser. A slot is provided for starting a new abstract parser. Signals are provided for informing when parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class is designed to run on its own thread because parsing can be a long process. Because of this the GUI must interface with this class exclusively through its signals and slots.</__p_description>
                     <__p_parents>qtc.QObject</__p_parents>
-                    <__p_descriptors>util.Singleton</__p_descriptors>
+                    <__p_descriptors>utility.Singleton</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -1898,9 +1898,9 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <Function>
                             <__p_name>start</__p_name>
                             <__p_description>Called to have this spell checker begin checking for misspelled words in the document of the given qt text cursor. The entire document is checked for misspelled words. If this spell checker is already checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtg.QTextCursor)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(qtg.QTextCursor)</__p_descriptors>
                             <Object>
                                 <__p_name>cursor</__p_name>
                                 <__p_description>A qt text cursor whose document is checked for misspelled words.</__p_description>
@@ -1934,18 +1934,18 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <Function>
                             <__p_name>__suggest_</__p_name>
                             <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_inlines>Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
 </__p_inlines>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__replace_</__p_name>
                             <__p_description>Called to replace the selected misspelled word with the text of this spell checker's word edit widget. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__ignore_</__p_name>
@@ -1957,16 +1957,16 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <Function>
                             <__p_name>__ignore_all_</__p_name>
                             <__p_description>Called to ignore all words matching the currently selected misspelled word by adding it to the run time dictionary. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__stop_</__p_name>
                             <__p_description>Called to stop this spell checker, finishing its spell checking of the current document. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                 </Class>
@@ -2896,9 +2896,9 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__cancel_</__p_name>
                             <__p_description>Called to cancel this dialog, closing it and not applying any changes made in its edit widgets.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                     <Access>
@@ -2982,9 +2982,9 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__item_changed_</__p_name>
                             <__p_description>Called to inform this dialog's the selected code fragment has changed to the one with the given key.</__p_description>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <Object>
                                 <__p_name>key</__p_name>
                                 <__p_description>The new key of the selected code fragment.</__p_description>
@@ -2993,16 +2993,16 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__copy_</__p_name>
                             <__p_description>Called to copy this dialog's current code fragment to the system clipboard.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                         <Function>
                             <__p_name>__close_</__p_name>
                             <__p_description>Called to close this dialog.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                         </Function>
                     </Access>
                     <Access>
@@ -4378,10 +4378,10 @@ It represents a fictitious access declaration for python classes. Since python d
                             <__p_name>__scan_function_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Scanned function definition containing all lines of scanned code along with inline comment markers from the function definition in the given python script file at its current seek position.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Latch is used to read in only the first line of any continuous block of comment lines.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>ifile</__p_name>
                                 <__p_description>The python script file whose function at the current seek position is scanned.</__p_description>

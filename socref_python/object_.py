@@ -3,7 +3,7 @@ Contains the object block definition.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import util
+from socref import utility as util
 from socref import abstract
 from . import settings
 from . import package
@@ -77,7 +77,7 @@ class Block(package.Block):
         return : See interface docs.
         """
         ret = self._p_name
-        if self.is_argument() and self._p_assignment :
+        if self.is_argument() and self._p_assignment:
             ret += " ="
         return ret
 
@@ -89,7 +89,8 @@ class Block(package.Block):
         return : See interface docs.
         """
         assignment = html.escape(self._p_assignment)
-        if assignment : assignment = "<h2>Assignment</h2><p>%s</p>" % assignment
+        if assignment:
+            assignment = "<h2>Assignment</h2><p>%s</p>" % assignment
         return package.Block.display_view(self) + assignment
 
 
@@ -100,8 +101,10 @@ class Block(package.Block):
         return : Rich text paragraph that describes this object as an argument of a function.
         """
         ret = "<p><b>%s " % html.escape(self._p_name)
-        if self._p_assignment : ret += " =</b> " + html.escape(self._p_assignment) + " : "
-        else: ret += "</b> : "
+        if self._p_assignment:
+            ret += " =</b> " + html.escape(self._p_assignment) + " : "
+        else:
+            ret += "</b> : "
         ret += html.escape(self._p_description) + "</p>"
         return ret
 
@@ -169,7 +172,8 @@ class Block(package.Block):
         return : A string that is the source code for this object as a function argument.
         """
         ret = self._p_name
-        if self._p_assignment : ret += "=" + self._p_assignment
+        if self._p_assignment:
+            ret += "=" + self._p_assignment
         return ret
 
 
@@ -200,15 +204,22 @@ class Block(package.Block):
         return : See interface docs.
         """
         ret = ""
-        if self.in_class() :
-            if previous is None : ret = "\n"*settings.H3LINES
-            elif previous._TYPE_ == "Function" : ret = "\n"*settings.H2LINES
-            else: ret = ""
+        if self.in_class():
+            if previous is None:
+                ret = "\n"*settings.H3LINES
+            elif previous._TYPE_ == "Function":
+                ret = "\n"*settings.H2LINES
+            else:
+                ret = ""
         else:
-            if previous is None : ret = "\n"*settings.H3LINES
-            elif previous._TYPE_ == "Function" : ret = "\n"*settings.H2LINES
-            elif previous._TYPE_ == "Class" : ret = "\n"*settings.H1LINES
-            else: ret = ""
+            if previous is None:
+                ret = "\n"*settings.H3LINES
+            elif previous._TYPE_ == "Function":
+                ret = "\n"*settings.H2LINES
+            elif previous._TYPE_ == "Class":
+                ret = "\n"*settings.H1LINES
+            else:
+                ret = ""
         return ret
 
 
@@ -226,6 +237,7 @@ class Block(package.Block):
         ret += util.wrap_blocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
         ret += begin + "#\n"
         ret += begin + self._p_name
-        if self._p_assignment : ret += " = " + self._p_assignment
+        if self._p_assignment:
+            ret += " = " + self._p_assignment
         ret += "\n"
         return ret

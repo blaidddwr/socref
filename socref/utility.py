@@ -50,12 +50,13 @@ def wrap_text(text, begin="", after="", columns=80):
     ret = ""
     words = text.split()
     first = True
-    while words :
-        if first :
+    while words:
+        if first:
             line = begin + words.pop(0)
             first = False
-        else: line = begin + after + words.pop(0)
-        while words and (len(line) + len(words[0]) + 1) <= columns :
+        else:
+            line = begin + after + words.pop(0)
+        while words and (len(line) + len(words[0]) + 1) <= columns:
             line += " " + words.pop(0)
         ret += line + "\n"
     return ret
@@ -145,7 +146,8 @@ def add_combo_select(combo_edit, text, icon=None):
     icon : The optional qt icon of the new selection value.
     """
     edit = {"text": text}
-    if icon is not None : edit["icon"] = icon
+    if icon is not None:
+        edit["icon"] = icon
     combo_edit["selections"].append(edit)
 
 

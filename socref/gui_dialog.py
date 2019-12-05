@@ -137,7 +137,8 @@ class Text(qtw.QDialog):
         """
         settings = qtc.QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
-        if geometry : self.restoreGeometry(geometry)
+        if geometry:
+            self.restoreGeometry(geometry)
 
 
     ###################
@@ -283,7 +284,8 @@ class Project(qtw.QDialog):
         """
         settings = qtc.QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
-        if geometry : self.restoreGeometry(geometry)
+        if geometry:
+            self.restoreGeometry(geometry)
 
 
     ###################
@@ -454,8 +456,10 @@ class Code(qtw.QDialog):
         settings = qtc.QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
         state = settings.value(self.__STATE_KEY)
-        if geometry : self.restoreGeometry(geometry)
-        if state : self.__splitter.restoreState(state)
+        if geometry:
+            self.restoreGeometry(geometry)
+        if state:
+            self.__splitter.restoreState(state)
 
 
     ###################

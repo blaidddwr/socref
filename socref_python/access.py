@@ -3,7 +3,7 @@ Contains the access block definition.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import util
+from socref import utility as util
 from socref import abstract
 from . import settings
 from . import package
@@ -55,9 +55,10 @@ class Block(package.Block):
 
         return : True if this access block contains abstract methods or false otherwise.
         """
-        for block in self :
-            if isinstance(block,function.Block) :
-                if block.is_abstract() : return True
+        for block in self:
+            if isinstance(block,function.Block):
+                if block.is_abstract():
+                    return True
         return False
 
 
@@ -67,9 +68,12 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        if self._p_type == "Public" : return qtg.QIcon(":/python/public.svg")
-        elif  self._p_type == "Protected" : return qtg.QIcon(":/python/protected.svg")
-        else:  return qtg.QIcon(":/python/private.svg")
+        if self._p_type == "Public":
+            return qtg.QIcon(":/python/public.svg")
+        elif  self._p_type == "Protected":
+            return qtg.QIcon(":/python/protected.svg")
+        else:
+            return qtg.QIcon(":/python/private.svg")
 
 
     def display_name(self):

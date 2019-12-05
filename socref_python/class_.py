@@ -3,7 +3,7 @@ Contains the class block definition.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import util
+from socref import utility as util
 from socref import abstract
 from . import settings
 from . import package
@@ -48,8 +48,9 @@ class Block(function.Descriptor):
 
         return : True if this class contains any abstract functions for false otherwise.
         """
-        for access in self :
-            if access.has_abstract() : return True
+        for access in self:
+            if access.has_abstract():
+                return True
         return False
 
 
@@ -59,8 +60,10 @@ class Block(function.Descriptor):
 
         return : See interface docs.
         """
-        if self.is_abstract() : return qtg.QIcon(":/python/abstract_class.svg")
-        else: return qtg.QIcon(":/python/class.svg")
+        if self.is_abstract():
+            return qtg.QIcon(":/python/abstract_class.svg")
+        else:
+            return qtg.QIcon(":/python/class.svg")
 
 
     def display_name(self):
@@ -79,7 +82,8 @@ class Block(function.Descriptor):
         return : See interface docs.
         """
         parents = "</li><li>".join((parent for parent in self._p_parents.split("\n") if parent))
-        if parents : parents = "<h2>Parents</h2><ul><li>%s</li></ul>" % parents
+        if parents:
+            parents = "<h2>Parents</h2><ul><li>%s</li></ul>" % parents
         return package.Block.display_view(self) + parents + self._descriptors_view_()
 
 

@@ -3,7 +3,7 @@ Contains the package block definition.
 """
 import html
 from PySide2 import QtGui as qtg
-from socref import util
+from socref import utility as util
 from socref import abstract
 from . import settings
 from . import parser
@@ -70,7 +70,8 @@ class Block(abstract.Block):
         description = "</P><P>".join(
             (html.escape(block) for block in self._p_description.split("\n\n") if block)
         )
-        if description : description = "<H1>Description</H1><P>%s</P>" % description
+        if description:
+            description = "<H1>Description</H1><P>%s</P>" % description
         return description
 
 
@@ -127,7 +128,8 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        if self._TYPE_ == "Package" : return self._p_name
+        if self._TYPE_ == "Package":
+            return self._p_name
 
 
     def parser(self):
@@ -189,7 +191,7 @@ class Block(abstract.Block):
         """
         ret = ""
         previous = None
-        for block in self :
+        for block in self:
             ret += block.space(previous)
             ret += block.build(definition,begin)
             previous = block

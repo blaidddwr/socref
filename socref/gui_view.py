@@ -56,7 +56,8 @@ class Block_Dock(qtw.QDockWidget):
 
         view : The new attached view of this dock.
         """
-        if self.__view is not None : self.__view.current_changed.disconnect(self.__index_changed_)
+        if self.__view is not None:
+            self.__view.current_changed.disconnect(self.__index_changed_)
         self.__view = view
         self.__view.index_changed.connect(self.__index_changed_)
         self.__view.index_data_changed.connect(self.__index_changed_)
@@ -89,8 +90,10 @@ class Block_Dock(qtw.QDockWidget):
         view's current index is invalid then this dock returns its view to a null state.
         """
         index = self.__view.selectionModel().currentIndex()
-        if index.isValid() : self.__label.setText(self.__view.model().data(index,model.Role.VIEW))
-        else: self.__label.setText("")
+        if index.isValid():
+            self.__label.setText(self.__view.model().data(index,model.Role.VIEW))
+        else:
+            self.__label.setText("")
 
 
 
@@ -247,7 +250,7 @@ class Project(qtw.QTreeView):
         model : The new model this project view displays and edits.
         """
         qtw.QTreeView.setModel(self,model)
-        if self.__model :
+        if self.__model:
             self.__model.modelReset.disconnect(self.__model_reset_)
             self.__model.destroyed.disconnect(self.__model_destroyed_)
             self.__model.dataChanged.disconnect(self.__model_data_changed_)
@@ -308,7 +311,8 @@ class Project(qtw.QTreeView):
         """
         self.__update_actions_()
         self.__add_menu.clear()
-        for action in self.__add_actions : self.__add_menu.addAction(action)
+        for action in self.__add_actions:
+            self.__add_menu.addAction(action)
         self.__add_menu.setDisabled(self.__add_menu.isEmpty())
 
 
@@ -333,13 +337,16 @@ class Project(qtw.QTreeView):
         Update this project's add actions list. Updating involves clearing the current list and
         building it again based off this project's selection model's current index.
         """
-        while self.__add_actions : self.__add_actions.pop().deleteLater()
-        if self.__model is None : return
+        while self.__add_actions:
+            self.__add_actions.pop().deleteLater()
+        if self.__model is None:
+            return
         (row,index) = self.__insert_values_()
-        if index is None : return
+        if index is None:
+            return
         build_list = self.__model.data(index,model.Role.BUILD_LIST)
-        if build_list is not None :
-            for block_type in build_list :
+        if build_list is not None:
+            for block_type in build_list:
                 action = qtw.QAction(block_type,self)
                 action.setIcon(
                     abstract.Factory().create(self.__model.lang_name(),block_type).icon()
@@ -356,14 +363,16 @@ class Project(qtw.QTreeView):
                  the current index with the current insertion type. False if no copied block can be
                  pasted.
         """
-        if self.__model is None or not self.__model or Project.__xml_blocks is None : return False
+        if self.__model is None or not self.__model or Project.__xml_blocks is None:
+            return False
         (row,parent) = self.__insert_values_()
-        if parent is None : return False
+        if parent is None:
+            return False
         #
         # If there is not a single global copied block type that is in the build list of the parent
         # index then return false.
         #
-        if not Project.__block_types_set & set(self.__model.data(parent,model.Role.BUILD_LIST)) :
+        if not Project.__block_types_set & set(self.__model.data(parent,model.Role.BUILD_LIST)):
             return False
         return True
 
@@ -379,18 +388,19 @@ class Project(qtw.QTreeView):
         index = self.selectionModel().currentIndex()
         parent = None
         row = None
-        if self.__insert == self.__INTO :
+        if self.__insert == self.__INTO:
             parent = index
             row = 0
-        elif self.__insert == self.__BEFORE :
+        elif self.__insert == self.__BEFORE:
             if not index.isValid(): return (None,None)
             parent = index.parent()
             row = index.row()
-        elif self.__insert == self.__AFTER :
+        elif self.__insert == self.__AFTER:
             if not index.isValid(): return (None,None)
             parent = index.parent()
             row = index.row() + 1
-        else: raise RuntimeError("Invalid addition given.")
+        else:
+            raise RuntimeError("Invalid addition given.")
         return (row,parent)
 
 
@@ -573,7 +583,7 @@ class Project(qtw.QTreeView):
 
         roles : List of qt data roles that have changed in the given indexes.
         """
-        if top_left == self.selectionModel().currentIndex() :
+        if top_left == self.selectionModel().currentIndex():
             self.index_data_changed.emit()
             self.__update_context_menu_()
 
@@ -594,7 +604,7 @@ class Project(qtw.QTreeView):
         """
         Called to undo the last action done to this project's model.
         """
-        if self.__model is not None :
+        if self.__model is not None:
             self.__model.undo()
             self.__update_context_menu_()
 
@@ -604,7 +614,7 @@ class Project(qtw.QTreeView):
         """
         Called to redo the last undone action on this project's model.
         """
-        if self.__model is not None :
+        if self.__model is not None:
             self.__model.redo()
             self.__update_context_menu_()
 
@@ -618,13 +628,14 @@ class Project(qtw.QTreeView):
         block_type : The block type that is created and added to this project's model.
         """
         (row,parent) = self.__insert_values_()
-        if parent is None : return
+        if parent is None:
+            return
         self.__model.insertRows(row,(block_type,),parent)
         #
         # This partially fixes a strange PySide2 bug. It happens sometimes after creating a new
         # project and trying to add a new block.
         #
-        if not self.selectionModel().currentIndex().isValid() :
+        if not self.selectionModel().currentIndex().isValid():
             self.selectionModel().setCurrentIndex(
                 self.__model.index(0,0,qtc.QModelIndex())
                 ,qtc.QItemSelectionModel.Current
@@ -636,10 +647,11 @@ class Project(qtw.QTreeView):
         """
         Called to remove all selected indexes from this project's model.
         """
-        if self.__model is not None :
-            while self.selectionModel().hasSelection() :
+        if self.__model is not None:
+            while self.selectionModel().hasSelection():
                 index = self.selectionModel().selectedIndexes()[0]
-                if index == self.selectionModel().currentIndex() : self.index_removed.emit()
+                if index == self.selectionModel().currentIndex():
+                    self.index_removed.emit()
                 parent = index.parent()
                 self.__model.removeRow(index.row(),parent)
 
@@ -649,7 +661,7 @@ class Project(qtw.QTreeView):
         """
         Called to cut all selected indexes from this project's model.
         """
-        if self.__model is not None :
+        if self.__model is not None:
             self.__copy_()
             self.__remove_()
 
@@ -659,9 +671,10 @@ class Project(qtw.QTreeView):
         """
         Called to copy all selected indexes from this project's model.
         """
-        if self.__model is not None :
+        if self.__model is not None:
             indexes = self.selectionModel().selectedIndexes()
-            if not indexes : return
+            if not indexes:
+                return
             (Project.__xml_blocks,Project.__block_types_set) = self.__model.copy_to_xml(indexes)
             self.__update_actions_()
 
@@ -672,9 +685,11 @@ class Project(qtw.QTreeView):
         Called to paste any globally copied blocks into this project's model at the current index
         using its selected insert option.
         """
-        if self.__model is None or Project.__xml_blocks is None : return
+        if self.__model is None or Project.__xml_blocks is None:
+            return
         (row,parent) = self.__insert_values_()
-        if parent is None : return
+        if parent is None:
+            return
         self.__model.insert_from_xml(row,Project.__xml_blocks,parent)
 
 
@@ -683,7 +698,7 @@ class Project(qtw.QTreeView):
         """
         Called to move the current index of this project's selection model up by one in its model.
         """
-        if self.__model is not None :
+        if self.__model is not None:
             self.__model.move_row(-1,self.selectionModel().currentIndex())
             self.index_moved.emit(self.selectionModel().currentIndex())
 
@@ -693,7 +708,7 @@ class Project(qtw.QTreeView):
         """
         Called to move the current index of this project's selection model down by one in its model.
         """
-        if self.__model is not None :
+        if self.__model is not None:
             self.__model.move_row(1,self.selectionModel().currentIndex())
             self.index_moved.emit(self.selectionModel().currentIndex())
 

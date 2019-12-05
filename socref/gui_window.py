@@ -5,7 +5,6 @@ import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import util
 from . import abstract
 from . import model
 from . import gui_view
@@ -88,14 +87,15 @@ class Main(qtw.QMainWindow):
 
         event : See qt docs.
         """
-        if self.__is_ok_to_close_() :
+        if self.__is_ok_to_close_():
             settings = qtc.QSettings()
             settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
             settings.setValue(self.__STATE_KEY,self.saveState())
             self.__instances.remove(self)
             self.deleteLater()
             event.accept()
-        else: event.ignore()
+        else:
+            event.ignore()
 
 
     #####################
@@ -122,7 +122,8 @@ class Main(qtw.QMainWindow):
                  window if the user saves any unsaved changes to this window's project, chooses to
                  discard unsaved changes, or there are no unsaved changes to worry about.
         """
-        if not self.__model or not self.__model.is_modified() : return True
+        if not self.__model or not self.__model.is_modified():
+            return True
         answer = qtw.QMessageBox.question(
             self
             ,"Unsaved Project Changes"
@@ -130,18 +131,22 @@ class Main(qtw.QMainWindow):
              " unsaved changes to be lost!"
             ,qtw.QMessageBox.Save | qtw.QMessageBox.Cancel | qtw.QMessageBox.Discard
         )
-        if answer == qtw.QMessageBox.Save :
-            if self.__path is None : return self.__save_as_()
-            else: return self.__save_()
-        elif answer == qtw.QMessageBox.Cancel : return False
-        else: return True
+        if answer == qtw.QMessageBox.Save:
+            if self.__path is None:
+                return self.__save_as_()
+            else:
+                return self.__save_()
+        elif answer == qtw.QMessageBox.Cancel:
+            return False
+        else:
+            return True
 
 
     def __update_title_(self):
         """
         Updates this window's title.
         """
-        if self.__model :
+        if self.__model:
             self.setWindowTitle(
                 "%s[*] (%s) - Socrates' Reference" % (self.__model.name(),self.__model.lang_name())
             )
@@ -239,7 +244,7 @@ class Main(qtw.QMainWindow):
         """
         Populates this window's list of new actions with all available languages.
         """
-        for lang in abstract.Factory().langs() :
+        for lang in abstract.Factory().langs():
             self.__new_actions.append(qtw.QAction(lang,self))
             self.__new_actions[-1].triggered.connect(
                 lambda checked=False,name=lang : self.__new_(name)
@@ -319,7 +324,8 @@ class Main(qtw.QMainWindow):
         """
         menu = self.menuBar().addMenu("File")
         new = menu.addMenu("New")
-        for action in self.__new_actions : new.addAction(action)
+        for action in self.__new_actions:
+            new.addAction(action)
         menu.addAction(self.__open_action)
         menu.addAction(self.__save_action)
         menu.addAction(self.__save_as_action)
@@ -345,8 +351,10 @@ class Main(qtw.QMainWindow):
         settings = qtc.QSettings()
         geometry = settings.value(self.__GEOMETRY_KEY)
         state = settings.value(self.__STATE_KEY)
-        if geometry : self.restoreGeometry(geometry)
-        if state : self.restoreState(state)
+        if geometry:
+            self.restoreGeometry(geometry)
+        if state:
+            self.restoreState(state)
 
 
     ###################
@@ -378,7 +386,7 @@ class Main(qtw.QMainWindow):
         """
         Called to inform this window that the singleton parser model has started parsing.
         """
-        if self.__progress_bar is None :
+        if self.__progress_bar is None:
             bar = self.__progress_bar = qtw.QProgressBar()
             bar.setRange(0,100)
             bar.setValue(0)
@@ -393,7 +401,8 @@ class Main(qtw.QMainWindow):
 
         percent : The percentage progress the singleton parser model has made parsing from 0 to 100.
         """
-        if self.__progress_bar is not None : self.__progress_bar.setValue(percent)
+        if self.__progress_bar is not None:
+            self.__progress_bar.setValue(percent)
 
 
     @qtc.Slot()
@@ -401,7 +410,7 @@ class Main(qtw.QMainWindow):
         """
         Called to inform this window that the singleton parser model has finished parsing.
         """
-        if self.__progress_bar is not None :
+        if self.__progress_bar is not None:
             self.__progress_bar.deleteLater()
             self.__progress_bar = None
 
@@ -414,7 +423,8 @@ class Main(qtw.QMainWindow):
         lang_name : The name of the language used to create a new project.
         """
         window = self
-        if self.__model : window = Main()
+        if self.__model:
+            window = Main()
         window.__model.new(lang_name)
         window.__update_title_()
         window.setWindowModified(False)
@@ -434,14 +444,17 @@ class Main(qtw.QMainWindow):
             ,""
             ,"Socrates' Project File (*.scp)"
         )
-        if not path : return
+        if not path:
+            return
         path = os.path.abspath(path)
         window = self
-        if self.__model : window = Main()
+        if self.__model:
+            window = Main()
         try:
             window.__model.load(path)
         except:
-            if window is not self : window.deleteLater()
+            if window is not self:
+                window.deleteLater()
             raise
         window.__path = path
         window.__update_title_()
@@ -458,7 +471,8 @@ class Main(qtw.QMainWindow):
 
         return : True if the project was saved successfully or false otherwise.
         """
-        if not self.__model or self.__path is None : return False
+        if not self.__model or self.__path is None:
+            return False
         self.__model.save(self.__path)
         self.setWindowModified(False)
         return True
@@ -470,14 +484,16 @@ class Main(qtw.QMainWindow):
         Called to save this window's project to a new save file path selected by the user. If this
         window has no project then this does nothing.
         """
-        if not self.__model : return False
+        if not self.__model:
+            return False
         path,type_ = qtw.QFileDialog.getSaveFileName(
             self
             ,"Save Project"
             ,""
             ,"Socrates' Project File (*.scp)"
         )
-        if not path : return False
+        if not path:
+            return False
         oldpath = self.__path
         self.__path = os.path.abspath(path)
         try:
@@ -496,7 +512,7 @@ class Main(qtw.QMainWindow):
         Called to close this window's current project. If this window has no project then this does
         nothing. If the current project has unsaved changes the user is queried about what to do.
         """
-        if self.__model and self.__is_ok_to_close_() :
+        if self.__model and self.__is_ok_to_close_():
             self.__model.close()
             self.__path = None
             self.__update_title_()
@@ -510,7 +526,7 @@ class Main(qtw.QMainWindow):
         Called to parse the source code of this window's project. If this window does not have a
         project save path then this does nothing.
         """
-        if self.__path is not None :
+        if self.__path is not None:
             parser = self.__model.parser()
             parser.set_root_path(
                 os.path.abspath(

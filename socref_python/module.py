@@ -2,7 +2,7 @@
 Contains the module block definition.
 """
 from PySide2 import QtGui as qtg
-from socref import util
+from socref import utility as util
 from socref import abstract
 from . import settings
 from . import package
@@ -81,7 +81,8 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        if self._TYPE_ == "Module" : return self._p_name + ".py"
+        if self._TYPE_ == "Module":
+            return self._p_name + ".py"
 
 
     def build(self, definition, begin=""):
@@ -99,6 +100,6 @@ class Block(package.Block):
         #
         # Add the special main function call if this is the special main module of a package.
         #
-        if self._p_name == "__main__" :
-            ret += "\n"*settings.H1LINES + 'if __name__ == "__main__" : main()\n'
+        if self._p_name == "__main__":
+            ret += "\n"*settings.H1LINES + 'if __name__ == "__main__": main()\n'
         return ret

@@ -5,7 +5,7 @@ import traceback
 import enum
 from PySide2 import QtCore as qtc
 from . import exception
-from . import util
+from . import utility
 from . import abstract
 from .command import *
 
@@ -56,7 +56,7 @@ class Role(enum.Enum):
 
 
 
-@util.Singleton
+@utility.Singleton
 class Parser(qtc.QObject):
     """
     This is the singleton parser model class. It handles execution of a given abstract parser. A
@@ -98,7 +98,8 @@ class Parser(qtc.QObject):
         try:
             parser.parse(self.__update_)
             unknown = parser.unknown()
-            if unknown : self.remained.emit(unknown)
+            if unknown:
+                self.remained.emit(unknown)
         except:
             #
             # Qt thread's event loop ignores python exceptions so catch any here and make it
@@ -146,7 +147,7 @@ class Parser(qtc.QObject):
         percent : The percentage progress made by this parser model's abstract parser ranging from 0
                   to 100.
         """
-        if percent > self.__progress :
+        if percent > self.__progress:
             self.__progress = percent
             self.progressed.emit(percent)
 
@@ -246,9 +247,10 @@ class Project(qtc.QAbstractItemModel):
 
         return : See qt docs.
         """
-        if orientation == qtc.Qt.Horizontal and section == 0 and role == qtc.Qt.DisplayRole :
+        if orientation == qtc.Qt.Horizontal and section == 0 and role == qtc.Qt.DisplayRole:
             return self.__lang_name
-        else: return qtc.QAbstractItemModel.headerData(self,section,orientation,role)
+        else:
+            return qtc.QAbstractItemModel.headerData(self,section,orientation,role)
 
 
     def index(self, row, column, parent):
@@ -263,9 +265,11 @@ class Project(qtc.QAbstractItemModel):
 
         return : See qt docs.
         """
-        if row < 0 or column != 0 : return qtc.QModelIndex()
+        if row < 0 or column != 0:
+            return qtc.QModelIndex()
         parent_block = self.__block_(parent)
-        if parent_block is None or row >= len(parent_block) : return qtc.QModelIndex()
+        if parent_block is None or row >= len(parent_block):
+            return qtc.QModelIndex()
         return self.createIndex(row,column,parent_block[row])
 
 
@@ -278,9 +282,11 @@ class Project(qtc.QAbstractItemModel):
         return : See qt docs.
         """
         child_block = self.__block_(child)
-        if child_block is None : return qtc.QModelIndex()
+        if child_block is None:
+            return qtc.QModelIndex()
         parent_block = child_block.parent()
-        if parent_block is None or parent_block.parent() is None : return qtc.QModelIndex()
+        if parent_block is None or parent_block.parent() is None:
+            return qtc.QModelIndex()
         return self.createIndex(parent_block.index(),0,parent_block)
 
 
@@ -318,14 +324,21 @@ class Project(qtc.QAbstractItemModel):
         return : See qt docs.
         """
         block = self.__block_(index)
-        if block is not None :
-            if role == qtc.Qt.DisplayRole : return block.display_name()
-            elif role == qtc.Qt.DecorationRole : return block.icon()
-            elif role == Role.BUILD_LIST : return block.build_list()
-            elif role == Role.VIEW : return block.display_view()
-            elif role == Role.EDIT_DEFS : return block.edit_definitions()
-            elif role == Role.PROPERTIES : return block.properties()
-            elif role == Role.BLOCK_TYPE : return block._TYPE_
+        if block is not None:
+            if role == qtc.Qt.DisplayRole:
+                return block.display_name()
+            elif role == qtc.Qt.DecorationRole:
+                return block.icon()
+            elif role == Role.BUILD_LIST:
+                return block.build_list()
+            elif role == Role.VIEW:
+                return block.display_view()
+            elif role == Role.EDIT_DEFS:
+                return block.edit_definitions()
+            elif role == Role.PROPERTIES:
+                return block.properties()
+            elif role == Role.BLOCK_TYPE:
+                return block._TYPE_
 
 
     def setData(self, index, value, role):
@@ -341,10 +354,11 @@ class Project(qtc.QAbstractItemModel):
         return : See qt docs.
         """
         block = self.__block_(index)
-        if block is not None and role == Role.PROPERTIES :
+        if block is not None and role == Role.PROPERTIES:
             self.__push_(Set(block.properties(),value,index,self))
             return True
-        else: return False
+        else:
+            return False
 
 
     def insertRows(self, row, block_types, parent):
@@ -361,9 +375,10 @@ class Project(qtc.QAbstractItemModel):
         return : See qt docs.
         """
         parent_block = self.__block_(parent)
-        if parent_block is None or row < 0 or row > len(parent_block) : return False
+        if parent_block is None or row < 0 or row > len(parent_block):
+            return False
         blocks = []
-        for block_type in block_types :
+        for block_type in block_types:
             block = abstract.Factory().create(self.__lang_name,block_type)
             block.set_default_properties()
             blocks.append(block)
@@ -384,7 +399,7 @@ class Project(qtc.QAbstractItemModel):
         return : List of blocks that were successfully removed from this model.
         """
         parent_block = self.__block_(parent)
-        if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block) :
+        if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block):
             return False
         self.__push_(Remove(row,count,parent,self))
         return True
@@ -474,9 +489,9 @@ class Project(qtc.QAbstractItemModel):
 
         return : The newly built abstract parser or none if this model has no project.
         """
-        if self.__root is not None :
+        if self.__root is not None:
             ret = self.__root.parser()
-            if not isinstance(ret,abstract.Parser) :
+            if not isinstance(ret,abstract.Parser):
                 raise RuntimeError("Generated parser is not an abstract parser.")
             return ret
 
@@ -488,7 +503,8 @@ class Project(qtc.QAbstractItemModel):
 
         lang_name : The name of the language used to create a new project.
         """
-        if self.__root is not None : self.close()
+        if self.__root is not None:
+            self.close()
         self.beginResetModel()
         try:
             self.__name = "New Project"
@@ -512,21 +528,22 @@ class Project(qtc.QAbstractItemModel):
         path : The file path of the project that is loaded into this model.
         """
         xml = None
-        with open(path,"br") as ifile : xml = ifile.read()
+        with open(path,"br") as ifile:
+            xml = ifile.read()
         stream = qtc.QXmlStreamReader(xml)
         stream.readNextStartElement()
-        if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG :
+        if not stream.isStartElement() or stream.name() != self.__PROJECT_TAG:
             raise exception.LoadError("Invalid XML project tag.")
         stream.readNextStartElement()
-        if stream.name() != self.__LANG_TAG :
+        if stream.name() != self.__LANG_TAG:
             raise exception.LoadError("Invalid/missing XML language tag.")
         lang_name = stream.readElementText()
         stream.readNextStartElement()
-        if stream.name() != self.__NAME_TAG :
+        if stream.name() != self.__NAME_TAG:
             raise exception.LoadError("Invalid/missing XML name tag.")
         name = stream.readElementText()
         stream.readNextStartElement()
-        if stream.name() != self.__PARSE_PATH_TAG :
+        if stream.name() != self.__PARSE_PATH_TAG:
             raise exception.LoadError("Invalid/missing XML parse path tag.")
         parse_path = stream.readElementText()
         self.new(lang_name)
@@ -534,7 +551,7 @@ class Project(qtc.QAbstractItemModel):
         self.__parse_path = parse_path
         try:
             stream.readNextStartElement()
-            if stream.name() != self.__root._TYPE_ :
+            if stream.name() != self.__root._TYPE_:
                 raise exception.LoadError("Invalid/missing XML root block tag.")
             self.__root.set_from_xml(stream)
         except:
@@ -561,7 +578,8 @@ class Project(qtc.QAbstractItemModel):
             self.__root.to_xml(stream)
             stream.writeEndElement()
             stream.writeEndDocument()
-            with open(path,"bw") as ofile : ofile.write(xml.data())
+            with open(path,"bw") as ofile:
+                ofile.write(xml.data())
             self.__modified = False
 
 
@@ -589,8 +607,9 @@ class Project(qtc.QAbstractItemModel):
 
         name : The new name for this model's project.
         """
-        if self.__root is None : raise RuntimeError("Cannot set name of no project.")
-        if name != self.__name :
+        if self.__root is None:
+            raise RuntimeError("Cannot set name of no project.")
+        if name != self.__name:
             self.__name = name
             self.__modified_()
             self.name_changed.emit(name)
@@ -603,8 +622,9 @@ class Project(qtc.QAbstractItemModel):
 
         path : The new parsing path of this model's project.
         """
-        if self.__root is None : raise RuntimeError("Cannot set name of no project.")
-        if path != self.__parse_path :
+        if self.__root is None:
+            raise RuntimeError("Cannot set name of no project.")
+        if path != self.__parse_path:
             self.__parse_path = path
             self.__modified_()
             self.parse_path_changed.emit(path)
@@ -620,11 +640,14 @@ class Project(qtc.QAbstractItemModel):
 
         return : True if the move was successful or false otherwise.
         """
-        if not change or not index.isValid() : return False
+        if not change or not index.isValid():
+            return False
         block = self.__block_(index.parent())
-        if block is None : return False
+        if block is None:
+            return False
         to_row = index.row() + change
-        if to_row < 0 or to_row >= len(block) : return False
+        if to_row < 0 or to_row >= len(block):
+            return False
         self.__push_(Move(change,index,self))
         return True
 
@@ -646,9 +669,9 @@ class Project(qtc.QAbstractItemModel):
         stream.writeStartDocument()
         stream.writeStartElement(self.__COPY_TAG)
         stream.writeTextElement(self.__LANG_TAG,self.__lang_name)
-        for index in indexes :
+        for index in indexes:
             block = self.__block_(index)
-            if block is not None :
+            if block is not None:
                 block.to_xml(stream)
                 block_types.add(block._TYPE_)
         stream.writeEndElement()
@@ -670,22 +693,27 @@ class Project(qtc.QAbstractItemModel):
         return : Total number of blocks that were inserted into this model.
         """
         parent_block = self.__block_(parent)
-        if parent_block is None or row < 0 or row > len(parent_block) : return 0
+        if parent_block is None or row < 0 or row > len(parent_block):
+            return 0
         stream = qtc.QXmlStreamReader(xml)
         stream.readNextStartElement()
-        if not stream.isStartElement() or stream.name() != self.__COPY_TAG : return 0
+        if not stream.isStartElement() or stream.name() != self.__COPY_TAG:
+            return 0
         stream.readNextStartElement()
-        if stream.name() != self.__LANG_TAG : return 0
+        if stream.name() != self.__LANG_TAG:
+            return 0
         lang_name = stream.readElementText()
-        if lang_name != self.__lang_name : return 0
+        if lang_name != self.__lang_name:
+            return 0
         blocks = []
-        while not stream.atEnd() :
+        while not stream.atEnd():
             stream.readNext()
-            if stream.isStartElement() :
+            if stream.isStartElement():
                 name = stream.name()
                 block = abstract.Factory().create(lang_name,name)
                 block.set_from_xml(stream)
-                if name in parent_block.build_list() : blocks.append(block)
+                if name in parent_block.build_list():
+                    blocks.append(block)
         self.__push_(Insert(row,blocks,parent,self))
         return len(blocks)
 
@@ -720,7 +748,7 @@ class Project(qtc.QAbstractItemModel):
         Called to undo the last modification that was done to this model. If this model cannot undo
         then this does nothing.
         """
-        if self.can_undo() :
+        if self.can_undo():
             self.__undo_stack_index -= 1
             self.__undo_stack[self.__undo_stack_index].undo()
 
@@ -731,7 +759,7 @@ class Project(qtc.QAbstractItemModel):
         Called to redo the last undone modification of this model. If this model cannot redo then
         this does nothing.
         """
-        if self.can_redo() :
+        if self.can_redo():
             self.__undo_stack[self.__undo_stack_index].redo()
             self.__undo_stack_index += 1
 
@@ -753,16 +781,18 @@ class Project(qtc.QAbstractItemModel):
         parent : The parent index where the given blocks are inserted into as children.
         """
         parent_block = self.__block_(parent)
-        if parent_block is None or row < 0 or row > len(parent_block) :
+        if parent_block is None or row < 0 or row > len(parent_block):
             raise RuntimeError("Parent index is not a valid block.")
         volatile = False
         self.beginInsertRows(parent,row,row + len(blocks) - 1)
-        for block in blocks :
+        for block in blocks:
             parent_block.insert(row,block)
-            if block.is_volatile_above() : volatile = True
+            if block.is_volatile_above():
+                volatile = True
             row += 1
         self.endInsertRows()
-        if volatile : self.__push_volatile_above_(parent)
+        if volatile:
+            self.__push_volatile_above_(parent)
         self.__modified_()
 
 
@@ -780,14 +810,15 @@ class Project(qtc.QAbstractItemModel):
         return : List of removed blocks.
         """
         parent_block = self.__block_(parent)
-        if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block) :
+        if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block):
             raise RuntimeError("Parent index is not a valid block.")
         volatile = False
         blocks = []
         self.beginRemoveRows(parent,row,row + count - 1)
-        while count :
+        while count:
             blocks.append(parent_block.pop(row))
-            if blocks[-1].is_volatile_above() : volatile = True
+            if blocks[-1].is_volatile_above():
+                volatile = True
             count -= 1
         self.endRemoveRows()
         self.__push_volatile_above_(parent)
@@ -807,7 +838,8 @@ class Project(qtc.QAbstractItemModel):
         parent : The parent index where a child block is moved.
         """
         parent_block = self.__block_(parent)
-        if parent_block is None : raise RuntimeError("Parent index is not a valid block.")
+        if parent_block is None:
+            raise RuntimeError("Parent index is not a valid block.")
         volatile = False
         self.beginMoveRows(
             parent
@@ -816,7 +848,8 @@ class Project(qtc.QAbstractItemModel):
             ,to_row + 1 if to_row > from_row else to_row
         )
         block = parent_block.pop(from_row)
-        if block.is_volatile_above() : volatile = True
+        if block.is_volatile_above():
+            volatile = True
         parent_block.insert(to_row,block)
         self.endMoveRows()
         self.__push_volatile_above_(parent)
@@ -833,11 +866,14 @@ class Project(qtc.QAbstractItemModel):
         properties : The new properties dictionary of the block at the given index.
         """
         block = self.__block_(index)
-        if block is None: raise RuntimeError("Index is not a valid block.")
+        if block is None:
+            raise RuntimeError("Index is not a valid block.")
         block.set_properties(properties)
         self.dataChanged.emit(index,index)
-        if block.is_volatile_above() : self.__push_volatile_above_(index.parent())
-        if block.is_volatile_below() : self.__push_volatile_below_(index)
+        if block.is_volatile_above():
+            self.__push_volatile_above_(index.parent())
+        if block.is_volatile_below():
+            self.__push_volatile_below_(index)
         self.__modified_()
 
 
@@ -851,7 +887,7 @@ class Project(qtc.QAbstractItemModel):
         Marks this model as modified, emitting a signal if it was not modified before calling this
         method.
         """
-        if not self.__modified :
+        if not self.__modified:
             self.__modified = True
             self.modified.emit()
 
@@ -878,10 +914,10 @@ class Project(qtc.QAbstractItemModel):
 
         index : The index of this model whose data has changed due to volatile children.
         """
-        if index.isValid() :
+        if index.isValid():
             self.dataChanged.emit(index,index)
             block = self.__block_(index)
-            if block is not None and block.is_volatile_above() :
+            if block is not None and block.is_volatile_above():
                 self.__push_volatile_above_(index.parent())
 
 
@@ -893,11 +929,12 @@ class Project(qtc.QAbstractItemModel):
         parent : The parent index of this model whose children's data has changed due to the
                  volatile below parent.
         """
-        for row in range(self.rowCount(parent)) :
+        for row in range(self.rowCount(parent)):
             index = self.index(row,0,parent)
             self.dataChanged.emit(index,index)
             block = self.__block_(index)
-            if block.is_volatile_below() : self.__push_volatile_below_(index)
+            if block.is_volatile_below():
+                self.__push_volatile_below_(index)
 
 
     def __block_(self, index):
@@ -909,7 +946,8 @@ class Project(qtc.QAbstractItemModel):
         return : The block of the given index. If the given index is invalid the root block is
                  returned, which is none if this model has no project.
         """
-        if index.isValid() : return index.internalPointer()
+        if index.isValid():
+            return index.internalPointer()
         else: return self.__root
 
 

@@ -7,7 +7,7 @@ import weakref
 import os
 import importlib
 from . import exception
-from . import util
+from . import utility
 
 
 
@@ -27,7 +27,8 @@ def register_block(name, root=False):
     """
     def wrapper(class_):
         Factory().register_block(class_,name)
-        if root: Factory().register_root_block(class_)
+        if root:
+            Factory().register_root_block(class_)
         return class_
     return wrapper
 
@@ -319,8 +320,10 @@ class Block(abc.ABC):
         return : The property attribute that begins with "_p_" or the default get attribute operator
                  return value otherwise.
         """
-        if key.startswith("_p_") : return self.__properties[key]
-        else: return object.__getattribute__(self,key)
+        if key.startswith("_p_"):
+            return self.__properties[key]
+        else:
+            return object.__getattribute__(self,key)
 
 
     def __setattr__(self, key, item):
@@ -333,8 +336,10 @@ class Block(abc.ABC):
 
         item : An item used to set the attribute with the given key.
         """
-        if key.startswith("_p_") : self.__properties[key] = item
-        else: object.__setattr__(self,key,item)
+        if key.startswith("_p_"):
+            self.__properties[key] = item
+        else:
+            object.__setattr__(self,key,item)
 
 
     ####################
@@ -357,7 +362,8 @@ class Block(abc.ABC):
 
         return : The integer index of this block within its parent block's list of children.
         """
-        if self.parent() is None : raise RuntimeError("Cannot get index of block with no parent.")
+        if self.parent() is None:
+            raise RuntimeError("Cannot get index of block with no parent.")
         return self.parent().__children.index(self)
 
 
@@ -370,7 +376,7 @@ class Block(abc.ABC):
 
         block : A block that is inserted as a new child to this block.
         """
-        if block.parent() is not None :
+        if block.parent() is not None:
             raise RuntimeError("Block is already a child of another block.")
         self.__children.insert(index,block)
         block.__parent = weakref.ref(self)
@@ -408,10 +414,12 @@ class Block(abc.ABC):
         """
         stream.writeStartElement(self._TYPE_)
         props = self.properties()
-        for key in props :
+        for key in props:
             prop = props[key]
-            if prop : stream.writeTextElement("_" + key,prop)
-        for child in self : child.to_xml(stream)
+            if prop:
+                stream.writeTextElement("_" + key,prop)
+        for child in self:
+            child.to_xml(stream)
         stream.writeEndElement()
 
 
@@ -426,19 +434,20 @@ class Block(abc.ABC):
         self.__properties = {}
         self.clear_properties()
         self.__children = []
-        while not stream.atEnd() :
+        while not stream.atEnd():
             stream.readNext()
             if stream.isStartElement():
-                name = stream.name();
-                if name.startswith("_") :
+                name = stream.name()
+                if name.startswith("_"):
                     key = name[1:]
-                    if key in self.__properties :
+                    if key in self.__properties:
                         self.__properties[key] = stream.readElementText()
                 else:
                     child = Factory().create(self._LANG_,name)
                     child.set_from_xml(stream)
                     self.append(child)
-            elif stream.isEndElement() and stream.name() == self._TYPE_ : break
+            elif stream.isEndElement() and stream.name() == self._TYPE_:
+                break
 
 
     def properties(self):
@@ -536,7 +545,8 @@ class Parser(abc.ABC):
 
         path : The root path of this parser.
         """
-        if self.__root_path != "" : raise RuntimeError("Root path already set.")
+        if self.__root_path != "":
+            raise RuntimeError("Root path already set.")
         self.__root_path = path
 
 
@@ -548,25 +558,27 @@ class Parser(abc.ABC):
         update : A callable object that is used to update the progress of this scan. It takes one
                  argument that is the progress as a percentage from 1 to 99.
         """
-        if self.__root_path == "" : raise RuntimeError("Root path is not set.")
+        if self.__root_path == "":
+            raise RuntimeError("Root path is not set.")
         self.__building_paths = True
         self._build_path_list_()
         self.__building_paths = False
         #
         # Make sure there are no duplicates paths in the generated path list.
         #
-        if len(set(self.__paths)) != len(self.__paths) :
+        if len(set(self.__paths)) != len(self.__paths):
             raise exception.ScanError("Duplicate file names generated for parsing. This is caused"
                                       " by two blocks generating an identical file name. Perhaps"
                                       " check for blocks with the same display name and parent"
                                       " block.")
         count = 0
-        for path in self.__paths :
-            if os.path.isfile(path) : self._scan_(path)
+        for path in self.__paths:
+            if os.path.isfile(path):
+                self._scan_(path)
             count += 1
             update(count * 50 // len(self.__paths))
         count = 0
-        for path,block in zip(self.__paths,self.__blocks) :
+        for path,block in zip(self.__paths,self.__blocks):
             self.__build_(block,path)
             count += 1
             update(50 + (count * 50 // len(self.__paths)))
@@ -637,8 +649,10 @@ class Parser(abc.ABC):
 
         path : The source code file path.
         """
-        if self.__root_path == "" : raise RuntimeError("Root path is not set.")
-        if not self.__building_paths : raise RuntimeError("Calling add path outside of building paths.")
+        if self.__root_path == "":
+            raise RuntimeError("Root path is not set.")
+        if not self.__building_paths:
+            raise RuntimeError("Calling add path outside of building paths.")
         self.__paths.append(os.path.join(self.__root_path,path))
         self.__blocks.append(block)
 
@@ -658,12 +672,15 @@ class Parser(abc.ABC):
 
         path : The path to the source code file that is built.
         """
-        if not os.path.exists(os.path.dirname(path)) : os.makedirs(os.path.dirname(path))
+        if not os.path.exists(os.path.dirname(path)):
+            os.makedirs(os.path.dirname(path))
         if os.path.exists(path):
             old = open(path,"r").read()
             new = self._build_(block,path)
-            if old != new : open(path,"w").write(new)
-        else: open(path,"w").write(self._build_(block,path))
+            if old != new:
+                open(path,"w").write(new)
+        else:
+            open(path,"w").write(self._build_(block,path))
 
 
 
@@ -672,7 +689,7 @@ class Parser(abc.ABC):
 
 
 
-@util.Singleton
+@utility.Singleton
 class Factory():
     """
     This is the singleton block factory class. It creates new blocks. It loads new languages by
@@ -712,7 +729,7 @@ class Factory():
 
         import_name : The module name of the language that is loaded.
         """
-        if lang_name in self.__langs.keys() :
+        if lang_name in self.__langs.keys():
             raise exception.LangError("Language already loaded with the same name")
         self.__langs[lang_name] = {}
         self.__importing_lang = self.__langs[lang_name]
@@ -741,7 +758,7 @@ class Factory():
 
         name : The type name of the block that is registered.
         """
-        if name == self.__ROOT :
+        if name == self.__ROOT:
             raise exception.RegisterError("Block class cannot register with reserved name.")
         self.__register_block_(class_,name)
         class_._LANG_ = self.__importing_lang_name
@@ -823,15 +840,14 @@ class Factory():
         key : The key used to add the class object to the language dictionary currently being loaded
               by this factory.
         """
-        if self.__importing_lang is None :
+        if self.__importing_lang is None:
             raise exception.RegisterError(
                 "Cannot register block class when no language is being imported."
             )
-        if key.startswith("_") :
+        if key.startswith("_"):
             raise exception.RegisterError("Block type name cannot start with an underscore.")
-        if key in self.__importing_lang.keys() :
+        if key in self.__importing_lang.keys():
             raise exception.RegisterError("Block class is already registered with the same name.")
-        if not issubclass(class_,Block) :
-            print(class_)
+        if not issubclass(class_,Block):
             raise exception.RegisterError("Block class is not an Abstract Block.")
         self.__importing_lang[key] = class_;

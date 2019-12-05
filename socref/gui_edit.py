@@ -47,7 +47,8 @@ class Plain_Text(qtw.QPlainTextEdit):
         self.__speller = speller
         self.__popup = popup
         self.__highlighter = None
-        if speller : self.set_speller_enabled(True)
+        if speller:
+            self.set_speller_enabled(True)
         self.__setup_actions_()
 
 
@@ -62,11 +63,11 @@ class Plain_Text(qtw.QPlainTextEdit):
 
         enabled : True to enable this editor's spelling highlighter or false to disable it.
         """
-        if not enabled :
-            if self.__highlighter is not None :
+        if not enabled:
+            if self.__highlighter is not None:
                 self.__highlighter.deleteLater()
                 self.__highlighter = None
-        elif self.__highlighter is None :
+        elif self.__highlighter is None:
             self.__highlighter = gui_util.Spell_Highlighter(settings.DICTIONARY,self.document())
         self.__speller = enabled
 
@@ -97,10 +98,11 @@ class Plain_Text(qtw.QPlainTextEdit):
         """
         Called to open a modal dialog text editor to edit this editor's text.
         """
-        if self.__popup :
+        if self.__popup:
             dialog = gui_dialog.Text(self.toPlainText(),self,speller=self.__speller)
             dialog.setWindowTitle("Text Editor - Socrates' Reference")
-            if dialog.exec_() : self.setPlainText(dialog.text())
+            if dialog.exec_():
+                self.setPlainText(dialog.text())
 
 
 
@@ -159,7 +161,7 @@ class Block_Dock(qtw.QDockWidget):
 
         view : The new attached view of this dock.
         """
-        if self.__view is not None :
+        if self.__view is not None:
             self.__view.current_changed.disconnect(self.__index_changed_)
             self.__view.current_changed.disconnect(self.__index_moved_)
             self.__view.current_changed.disconnect(self.__index_removed_)
@@ -189,16 +191,23 @@ class Block_Dock(qtw.QDockWidget):
             props = self.__view.model().data(index,model.Role.PROPERTIES)
             defs = self.__view.model().data(index,model.Role.EDIT_DEFS)
             layout = qtw.QFormLayout()
-            for def_ in defs :
+            for def_ in defs:
                 edit = None
                 label = None
-                if def_["type"] == "line" : (edit,label) = self.__build_line_(def_,props)
-                elif def_["type"] == "text" : (edit,label) = self.__build_text_(def_,props)
-                elif def_["type"] == "checkbox" : (edit,label) = self.__build_checkbox_(def_,props)
-                elif def_["type"] == "combobox" : (edit,label) = self.__build_combobox_(def_,props)
-                elif def_["type"] == "hidden" : edit = self.__build_hidden_(def_)
-                else: raise RuntimeError("Unknown edit definition.")
-                if label is not None : layout.addRow(label,edit)
+                if def_["type"] == "line":
+                    (edit,label) = self.__build_line_(def_,props)
+                elif def_["type"] == "text":
+                    (edit,label) = self.__build_text_(def_,props)
+                elif def_["type"] == "checkbox":
+                    (edit,label) = self.__build_checkbox_(def_,props)
+                elif def_["type"] == "combobox":
+                    (edit,label) = self.__build_combobox_(def_,props)
+                elif def_["type"] == "hidden":
+                    edit = self.__build_hidden_(def_)
+                else:
+                    raise RuntimeError("Unknown edit definition.")
+                if label is not None:
+                    layout.addRow(label,edit)
                 self.__edits.append(edit)
             ret = qtw.QWidget()
             ret.setContentsMargins(0,16,0,4)
@@ -287,9 +296,11 @@ class Block_Dock(qtw.QDockWidget):
                  form.
         """
         edit = qtw.QComboBox()
-        for selection in definition["selections"] :
-            if "icon" in selection : edit.addItem(selection["icon"],selection["text"])
-            else: edit.addItem(selection["text"])
+        for selection in definition["selections"]:
+            if "icon" in selection:
+                edit.addItem(selection["icon"],selection["text"])
+            else:
+                edit.addItem(selection["text"])
         edit.setCurrentText(properties[definition["key"]])
         edit.currentTextChanged.connect(lambda : self.__apply_button.setEnabled(True))
         edit._value_ = lambda e=edit : e.currentText()
@@ -341,7 +352,7 @@ class Block_Dock(qtw.QDockWidget):
 
         index : The index of the new block whose properties are edited by this dock.
         """
-        if self.__index.isValid() and self.__apply_button.isEnabled() :
+        if self.__index.isValid() and self.__apply_button.isEnabled():
             answer = qtw.QMessageBox.question(
                 self
                 ,"Unsaved Changes"
@@ -349,16 +360,17 @@ class Block_Dock(qtw.QDockWidget):
                  " to be lost!"
                 ,qtw.QMessageBox.Save | qtw.QMessageBox.Discard
             )
-            if answer == qtw.QMessageBox.Save : self.__apply_()
+            if answer == qtw.QMessageBox.Save:
+                self.__apply_()
         self.__index = index
-        if self.__area.widget() :
+        if self.__area.widget():
             self.__area.widget().deleteLater()
             #
             # Garbage collection is required because rebuilding this dock's GUI causes large memory
             # leaks otherwise.
             #
             gc.collect()
-        if index.isValid() :
+        if index.isValid():
             self.__area.setWidget(self.__build_form_widget_(index))
             self.__apply_button.setEnabled(False)
         else:
@@ -391,7 +403,7 @@ class Block_Dock(qtw.QDockWidget):
         Called to set this dock's currently indexed block's properties to the current values of its
         edit widgets. If the current index is not valid then this does nothing.
         """
-        if self.__index.isValid() :
+        if self.__index.isValid():
             self.__view.model().setData(
                 self.__index
                 ,{edit._key: edit._value_() for edit in self.__edits}
