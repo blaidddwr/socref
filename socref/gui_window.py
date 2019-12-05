@@ -6,6 +6,7 @@ from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
 from . import abstract
+from . import block
 from . import model
 from . import gui_view
 from . import gui_edit
@@ -244,7 +245,7 @@ class Main(qtw.QMainWindow):
         """
         Populates this window's list of new actions with all available languages.
         """
-        for lang in abstract.Factory().langs():
+        for lang in block.Factory().langs():
             self.__new_actions.append(qtw.QAction(lang,self))
             self.__new_actions[-1].triggered.connect(
                 lambda checked=False,name=lang : self.__new_(name)

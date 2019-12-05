@@ -3,6 +3,7 @@ Contains the class block definition.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import register
 from socref import utility as util
 from socref import abstract
 from . import settings
@@ -16,7 +17,7 @@ from . import function
 
 
 
-@abstract.register_block("Class")
+@register("Class")
 class Block(function.Descriptor):
     """
     This is the class block class. It inherits the python descriptor class. It implements the

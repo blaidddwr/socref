@@ -2,6 +2,7 @@
 Contains the module block definition.
 """
 from PySide2 import QtGui as qtg
+from socref import register
 from socref import utility as util
 from socref import abstract
 from . import settings
@@ -14,7 +15,7 @@ from . import package
 
 
 
-@abstract.register_block("Module")
+@register("Module")
 class Block(package.Block):
     """
     This is the module block class. It inherits the python package block. It implements the

@@ -3,6 +3,7 @@ Contains the access block definition.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import register
 from socref import utility as util
 from socref import abstract
 from . import settings
@@ -16,7 +17,7 @@ from . import function
 
 
 
-@abstract.register_block("Access")
+@register("Access")
 class Block(package.Block):
     """
     This is the access block class. It inherits the python package block. It implements the

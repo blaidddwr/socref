@@ -3,6 +3,7 @@ Contains the function block definition.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import register
 from socref import utility as util
 from socref import abstract
 from . import settings
@@ -123,7 +124,7 @@ class Descriptor(package.Block):
 
 
 
-@abstract.register_block("Function")
+@register("Function")
 class Block(Descriptor):
     """
     This is the function block class. It inherits the python package block. It implements the

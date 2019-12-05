@@ -4,7 +4,7 @@ Contains all GUI view widgets that display projects and their blocks.
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
-from . import abstract
+from . import block
 from . import model
 
 
@@ -349,7 +349,7 @@ class Project(qtw.QTreeView):
             for block_type in build_list:
                 action = qtw.QAction(block_type,self)
                 action.setIcon(
-                    abstract.Factory().create(self.__model.lang_name(),block_type).icon()
+                    block.Factory().create(self.__model.lang_name(),block_type).icon()
                 )
                 action.triggered.connect(lambda checked=False, name=block_type : self.__add_(name))
                 self.__add_actions.append(action)

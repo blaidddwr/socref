@@ -3,6 +3,7 @@ Contains the object block definition.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import register
 from socref import utility as util
 from socref import abstract
 from . import settings
@@ -17,7 +18,7 @@ from . import access
 
 
 
-@abstract.register_block("Object")
+@register("Object")
 class Block(package.Block):
     """
     This is the object block class. It inherits the python package block. It implements the

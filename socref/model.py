@@ -7,6 +7,7 @@ from PySide2 import QtCore as qtc
 from . import exception
 from . import utility
 from . import abstract
+from . import block
 from .command import *
 
 
@@ -379,9 +380,9 @@ class Project(qtc.QAbstractItemModel):
             return False
         blocks = []
         for block_type in block_types:
-            block = abstract.Factory().create(self.__lang_name,block_type)
-            block.set_default_properties()
-            blocks.append(block)
+            block_ = block.Factory().create(self.__lang_name,block_type)
+            block_.set_default_properties()
+            blocks.append(block_)
         self.__push_(Insert(row,blocks,parent,self))
         return True
 
@@ -510,7 +511,7 @@ class Project(qtc.QAbstractItemModel):
             self.__name = "New Project"
             self.__parse_path = "."
             self.__lang_name = lang_name
-            self.__root = abstract.Factory().create_root(self.__lang_name)
+            self.__root = block.Factory().create_root(self.__lang_name)
         except:
             self.__name = None
             self.__lang_name = None
@@ -710,10 +711,10 @@ class Project(qtc.QAbstractItemModel):
             stream.readNext()
             if stream.isStartElement():
                 name = stream.name()
-                block = abstract.Factory().create(lang_name,name)
-                block.set_from_xml(stream)
+                block_ = block.Factory().create(lang_name,name)
+                block_.set_from_xml(stream)
                 if name in parent_block.build_list():
-                    blocks.append(block)
+                    blocks.append(block_)
         self.__push_(Insert(row,blocks,parent,self))
         return len(blocks)
 

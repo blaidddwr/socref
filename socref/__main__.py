@@ -5,7 +5,7 @@ import sys
 import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtWidgets as qtw
-from . import abstract
+from . import block
 from . import model
 from . import gui_dialog
 from . import gui_window
@@ -21,7 +21,7 @@ def main():
     # Qt likes to catch all exceptions without exiting.
     #
     print(os.getpid())
-    abstract.Factory().load("Python","socref_python")
+    block.Factory().load("Python","socref_python")
     application = qtw.QApplication(sys.argv)
     qtc.QCoreApplication.setOrganizationName("Socrates' Gaming Republic")
     qtc.QCoreApplication.setApplicationName("Socrates' Reference")

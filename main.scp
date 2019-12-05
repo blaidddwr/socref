@@ -317,22 +317,7 @@
             </Module>
             <Module>
                 <__p_name>abstract</__p_name>
-                <__p_description>Contains all abstract classes, factories, and interface functions used by the core application and any language implementation to communicate with one another.</__p_description>
-                <Function>
-                    <__p_name>register_block</__p_name>
-                    <__p_description>Registers the wrapped class object as a block with the given name for the language currently being loaded. The class object is also assigned special attributes _LANG_ and _TYPE_ that provide the language name and block name, respectively. This must be called when a language is being loaded.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>name</__p_name>
-                        <__p_description>The block's type name that is being registered. This must be unique among all block names of any one language.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>root</__p_name>
-                        <__p_description>Optional root Boolean that indicates the registered block is the root block of the language if set to true. Only one block type can be the root of a language.</__p_description>
-                        <__p_assignment>False</__p_assignment>
-                    </Object>
-                </Function>
+                <__p_description>Contains all abstract classes used by the core application and any language implementation to communicate with one another.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the abstract block class. Blocks are the basic interface designed for languages to implement themselves and communicate with the core application. Blocks are structured to form a tree like structure to represent a single project. Properties are the basic concept used to save all data of a specific block implementation. Interface methods are organized into basic, property, and parsing categories. Edit definitions provide as a list of dictionaries through a block's appropriate interface are used by the core application to provide an edit GUI for it. Iteration and indexing of children blocks are supported through operators and methods. Saving a block to XML or loading it from XML is supported.
@@ -772,6 +757,25 @@ The parsing process is separated into building a path list, scanning, building, 
                         </Function>
                     </Access>
                 </Class>
+            </Module>
+            <Module>
+                <__p_name>block</__p_name>
+                <__p_description>Contains all classes and functions related to loading languages, listing them, listing their blocks, and creating their blocks.</__p_description>
+                <Function>
+                    <__p_name>register</__p_name>
+                    <__p_description>Registers the wrapped class object as a block with the given name for the language currently being loaded. The class object is also assigned special attributes _LANG_ and _TYPE_ that provide the language name and block name, respectively. This must be called when a language is being loaded.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>name</__p_name>
+                        <__p_description>The block's type name that is being registered. This must be unique among all block names of any one language.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>root</__p_name>
+                        <__p_description>Optional root Boolean that indicates the registered block is the root block of the language if set to true. Only one block type can be the root of a language.</__p_description>
+                        <__p_assignment>False</__p_assignment>
+                    </Object>
+                </Function>
                 <Class>
                     <__p_name>Factory</__p_name>
                     <__p_description>This is the singleton block factory class. It creates new blocks. It loads new languages by importing their module and registering their block types during the load process. It provides a list of languages and block types per language.
@@ -1189,8 +1193,8 @@ It provides helper methods for converting a qt model index into a list of rows a
                 <Class>
                     <__p_name>Parser</__p_name>
                     <__p_description>This is the singleton parser model class. It handles execution of a given abstract parser. A slot is provided for starting a new abstract parser. Signals are provided for informing when parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class is designed to run on its own thread because parsing can be a long process. Because of this the GUI must interface with this class exclusively through its signals and slots.</__p_description>
-                    <__p_parents>qtc.QObject</__p_parents>
                     <__p_descriptors>utility.Singleton</__p_descriptors>
+                    <__p_parents>qtc.QObject</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3350,8 +3354,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
-                    <__p_descriptors>abstract.register_block(&quot;Package&quot;,root=True)</__p_descriptors>
                     <__p_parents>abstract.Block</__p_parents>
+                    <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3490,8 +3494,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the module block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
-                    <__p_descriptors>abstract.register_block(&quot;Module&quot;)</__p_descriptors>
                     <__p_parents>package.Block</__p_parents>
+                    <__p_descriptors>register(&quot;Module&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3567,8 +3571,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the object block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
-                    <__p_descriptors>abstract.register_block(&quot;Object&quot;)</__p_descriptors>
                     <__p_parents>package.Block</__p_parents>
+                    <__p_descriptors>register(&quot;Object&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3786,8 +3790,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the function block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
-                    <__p_descriptors>abstract.register_block(&quot;Function&quot;)</__p_descriptors>
                     <__p_parents>Descriptor</__p_parents>
+                    <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3971,8 +3975,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the class block class. It inherits the python descriptor class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
-                    <__p_descriptors>abstract.register_block(&quot;Class&quot;)</__p_descriptors>
                     <__p_parents>function.Descriptor</__p_parents>
+                    <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4100,8 +4104,8 @@ Exit action.
 
 It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.
 </__p_description>
-                    <__p_descriptors>abstract.register_block(&quot;Access&quot;)</__p_descriptors>
                     <__p_parents>package.Block</__p_parents>
+                    <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>

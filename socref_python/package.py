@@ -3,6 +3,7 @@ Contains the package block definition.
 """
 import html
 from PySide2 import QtGui as qtg
+from socref import register
 from socref import utility as util
 from socref import abstract
 from . import settings
@@ -15,7 +16,7 @@ from . import parser
 
 
 
-@abstract.register_block("Package",root=True)
+@register("Package",root=True)
 class Block(abstract.Block):
     """
     This is the package block class. It implements the Socrates' Reference abstract block class. It
