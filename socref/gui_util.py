@@ -40,9 +40,10 @@ class Spell_Highlighter(qtg.QSyntaxHighlighter):
                  words highlighted.
         """
         qtg.QSyntaxHighlighter.__init__(self,parent)
-        self.__hunspell = hunspell.HunSpell(os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
-                                            ,os.path.join(settings.HUNSPELL_ROOT
-                                                          ,dictionary + ".aff"))
+        self.__hunspell = hunspell.HunSpell(
+            os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
+            ,os.path.join(settings.HUNSPELL_ROOT,dictionary + ".aff")
+        )
         format_ = self.__format = qtg.QTextCharFormat()
         format_.setFontUnderline(True)
         format_.setUnderlineColor(qtc.Qt.red)
@@ -107,9 +108,10 @@ class Spell_Checker(qtw.QGroupBox):
         parent : An optional qt object parent for this new spell checker.
         """
         qtw.QGroupBox.__init__(self,title,parent)
-        self.__hunspell = hunspell.HunSpell(os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
-                                            ,os.path.join(settings.HUNSPELL_ROOT
-                                                          ,dictionary + ".aff"))
+        self.__hunspell = hunspell.HunSpell(
+            os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
+            ,os.path.join(settings.HUNSPELL_ROOT,dictionary + ".aff")
+        )
         self.__word_label = qtw.QLabel(self)
         self.__word_edit = qtw.QLineEdit(self)
         self.__cursor = None

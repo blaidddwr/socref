@@ -809,10 +809,12 @@ class Project(qtc.QAbstractItemModel):
         parent_block = self.__block_(parent)
         if parent_block is None : raise RuntimeError("Parent index is not a valid block.")
         volatile = False
-        self.beginMoveRows(parent
-                           ,from_row,from_row
-                           ,parent
-                           ,to_row + 1 if to_row > from_row else to_row)
+        self.beginMoveRows(
+            parent
+            ,from_row,from_row
+            ,parent
+            ,to_row + 1 if to_row > from_row else to_row
+        )
         block = parent_block.pop(from_row)
         if block.is_volatile_above() : volatile = True
         parent_block.insert(to_row,block)

@@ -824,8 +824,9 @@ class Factory():
               by this factory.
         """
         if self.__importing_lang is None :
-            raise exception.RegisterError("Cannot register block class when no language is being"
-                                          " imported.")
+            raise exception.RegisterError(
+                "Cannot register block class when no language is being imported."
+            )
         if key.startswith("_") :
             raise exception.RegisterError("Block type name cannot start with an underscore.")
         if key in self.__importing_lang.keys() :

@@ -183,10 +183,12 @@ class Block(package.Block):
                  argument.
         """
         initial = self._p_name + " : "
-        return util.wrap_text(initial + self._p_description
-                              ,begin=begin
-                              ,after=" "*len(initial)
-                              ,columns=settings.COLUMNS)
+        return util.wrap_text(
+            initial + self._p_description
+            ,begin=begin
+            ,after=" "*len(initial)
+            ,columns=settings.COLUMNS
+        )
 
 
     def space(self, previous):

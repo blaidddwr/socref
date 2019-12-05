@@ -84,7 +84,9 @@ class Descriptor(package.Block):
         return : A rich text string providing detailed information about this block's descriptors.
                  If this block has no descriptors then an empty string is returned.
         """
-        ret = "<br/>".join(("@" + html.escape(line) for line in self._p_descriptors.split("\n") if line))
+        ret = "<br/>".join(
+            ("@" + html.escape(line) for line in self._p_descriptors.split("\n") if line)
+        )
         if ret : ret = "<h2>Descriptors</h2><p>%s</p>" % ret
         return ret
 
@@ -180,7 +182,8 @@ class Block(Descriptor):
 
         return : See interface docs.
         """
-        if self._p_name.startswith("__") and self._p_name.endswith("__") : return qtg.QIcon(":/python/operator.svg")
+        if self._p_name.startswith("__") and self._p_name.endswith("__") :
+            return qtg.QIcon(":/python/operator.svg")
         elif self.is_static() : return qtg.QIcon(":/python/static_function.svg")
         elif self.is_abstract() : return qtg.QIcon(":/python/abstract_function.svg")
         else: return qtg.QIcon(":/python/function.svg")
@@ -211,11 +214,13 @@ class Block(Descriptor):
         if self.is_static() : flags += "<li>Static</li>"
         if self.is_abstract() : flags += "<li>Abstract</li>"
         if flags : flags = "<h2>Flags</h2><ul>%s</ul>" % flags
-        return (package.Block.display_view(self)
-                + self._display_arguments_()
-                + return_description
-                + flags
-                + self._descriptors_view_())
+        return (
+            package.Block.display_view(self)
+            + self._display_arguments_()
+            + return_description
+            + flags
+            + self._descriptors_view_()
+        )
 
 
     def build_list(self):
@@ -369,16 +374,23 @@ class Block(Descriptor):
         return : A string that is the source code doc string of this function.
         """
         ret = begin + " "*settings.INDENT + '"""\n'
-        ret += util.wrap_blocks(self._p_description
-                                ,begin=begin + " "*settings.INDENT
-                                ,columns=settings.COLUMNS)
+        ret += util.wrap_blocks(
+            self._p_description
+            ,begin=begin + " "*settings.INDENT
+            ,columns=settings.COLUMNS
+        )
         for arg in self : ret += "\n" + arg.comment(begin + " "*settings.INDENT)
         if self._p_return_description :
             initial = "return : "
-            ret += "\n" + util.wrap_text(initial + self._p_return_description
-                                         ,begin=begin + " "*settings.INDENT
-                                         ,after=" "*len(initial)
-                                         ,columns=settings.COLUMNS)
+            ret += (
+                "\n"
+                + util.wrap_text(
+                    initial + self._p_return_description
+                    ,begin=begin + " "*settings.INDENT
+                    ,after=" "*len(initial)
+                    ,columns=settings.COLUMNS
+                )
+            )
         ret += '%s%s"""\n' % (begin," "*settings.INDENT)
         return ret
 
@@ -394,17 +406,19 @@ class Block(Descriptor):
         return : A string that is the source code lines generated from the given list of code lines
                  and this function's inline comments.
         """
-        if not lines : return begin + " " * settings.INDENT + "pass\n"
+        if not lines : return begin + " "*settings.INDENT + "pass\n"
         ret = ""
         inlines = [line for line in self._p_inlines.split("\n\n") if line]
         for line in lines :
             if line.endswith("#") :
                 if inlines :
-                    ret += begin + " " * settings.INDENT + line + "\n"
-                    ret += util.wrap_text(inlines.pop(0)
-                                          ,begin=begin + " " * settings.INDENT + line + " "
-                                          ,columns=settings.COLUMNS)
-                    ret += begin + " " * settings.INDENT + line + "\n"
-                else: ret += begin + " " * settings.INDENT + line + "\n"
-            else: ret += begin + " " * settings.INDENT + line + "\n"
+                    ret += begin + " "*settings.INDENT + line + "\n"
+                    ret += util.wrap_text(
+                        inlines.pop(0)
+                        ,begin=begin + " "*settings.INDENT + line + " "
+                        ,columns=settings.COLUMNS
+                    )
+                    ret += begin + " "*settings.INDENT + line + "\n"
+                else: ret += begin + " "*settings.INDENT + line + "\n"
+            else: ret += begin + " "*settings.INDENT + line + "\n"
         return ret

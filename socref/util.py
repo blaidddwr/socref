@@ -24,7 +24,9 @@ def wrap_blocks(text, begin="", separator="", columns=80):
     return : Wrapped lines of text separated into multiple blocks of text using a given separator
              string.
     """
-    return "\n".join((wrap_text(block,begin=begin,columns=columns) for block in text.split("\n\n") if block))
+    return "\n".join(
+        (wrap_text(block,begin=begin,columns=columns) for block in text.split("\n\n") if block)
+    )
 
 
 

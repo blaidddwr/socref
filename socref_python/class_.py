@@ -158,11 +158,13 @@ class Block(function.Descriptor):
         definition = definition["classes"].get(self._p_name,{"functions":{}})
         ret = self._build_descriptors_(begin)
         ret += "%sclass %s(%s):\n" % (begin,self._p_name,self.__build_parents_())
-        ret += begin + " " * settings.INDENT + '"""\n'
-        ret += util.wrap_blocks(self._p_description
-                                ,begin=begin + " " * settings.INDENT
-                                ,columns=settings.COLUMNS)
-        ret += begin + " " * settings.INDENT + '"""\n'
+        ret += begin + " "*settings.INDENT + '"""\n'
+        ret += util.wrap_blocks(
+            self._p_description
+            ,begin=begin + " "*settings.INDENT
+            ,columns=settings.COLUMNS
+        )
+        ret += begin + " "*settings.INDENT + '"""\n'
         ret += self._build_children_(definition,begin + " " * settings.INDENT)
         return ret
 

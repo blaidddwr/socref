@@ -123,13 +123,13 @@ class Main(qtw.QMainWindow):
                  discard unsaved changes, or there are no unsaved changes to worry about.
         """
         if not self.__model or not self.__model.is_modified() : return True
-        answer = qtw.QMessageBox.question(self
-                                          ,"Unsaved Project Changes"
-                                          ,"The currently open project has unsaved changes. Closing"
-                                           " the project will cause all unsaved changes to be lost!"
-                                          ,qtw.QMessageBox.Save
-                                           | qtw.QMessageBox.Cancel
-                                           | qtw.QMessageBox.Discard)
+        answer = qtw.QMessageBox.question(
+            self
+            ,"Unsaved Project Changes"
+            ,"The currently open project has unsaved changes. Closing the project will cause all"
+             " unsaved changes to be lost!"
+            ,qtw.QMessageBox.Save | qtw.QMessageBox.Cancel | qtw.QMessageBox.Discard
+        )
         if answer == qtw.QMessageBox.Save :
             if self.__path is None : return self.__save_as_()
             else: return self.__save_()
@@ -142,8 +142,9 @@ class Main(qtw.QMainWindow):
         Updates this window's title.
         """
         if self.__model :
-            self.setWindowTitle("%s[*] (%s) - Socrates' Reference"
-                                % (self.__model.name(),self.__model.lang_name()))
+            self.setWindowTitle(
+                "%s[*] (%s) - Socrates' Reference" % (self.__model.name(),self.__model.lang_name())
+            )
         else:
             self.setWindowTitle("Socrates' Reference")
 
@@ -240,7 +241,9 @@ class Main(qtw.QMainWindow):
         """
         for lang in abstract.Factory().langs() :
             self.__new_actions.append(qtw.QAction(lang,self))
-            self.__new_actions[-1].triggered.connect(lambda checked=False,name=lang : self.__new_(name))
+            self.__new_actions[-1].triggered.connect(
+                lambda checked=False,name=lang : self.__new_(name)
+            )
             self.addAction(self.__new_actions[-1])
 
 
@@ -425,10 +428,12 @@ class Main(qtw.QMainWindow):
         Called to open a project file for this window if it does not have a project or a new window
         otherwise.
         """
-        path,type_ = qtw.QFileDialog.getOpenFileName(self
-                                                     ,"Open Project"
-                                                     ,""
-                                                     ,"Socrates' Project File (*.scp)")
+        path,type_ = qtw.QFileDialog.getOpenFileName(
+            self
+            ,"Open Project"
+            ,""
+            ,"Socrates' Project File (*.scp)"
+        )
         if not path : return
         path = os.path.abspath(path)
         window = self
@@ -466,10 +471,12 @@ class Main(qtw.QMainWindow):
         window has no project then this does nothing.
         """
         if not self.__model : return False
-        path,type_ = qtw.QFileDialog.getSaveFileName(self
-                                                     ,"Save Project"
-                                                     ,""
-                                                     ,"Socrates' Project File (*.scp)")
+        path,type_ = qtw.QFileDialog.getSaveFileName(
+            self
+            ,"Save Project"
+            ,""
+            ,"Socrates' Project File (*.scp)"
+        )
         if not path : return False
         oldpath = self.__path
         self.__path = os.path.abspath(path)
@@ -505,7 +512,11 @@ class Main(qtw.QMainWindow):
         """
         if self.__path is not None :
             parser = self.__model.parser()
-            parser.set_root_path(os.path.abspath(os.path.join(os.path.dirname(self.__path),self.__model.parse_path())))
+            parser.set_root_path(
+                os.path.abspath(
+                    os.path.join(os.path.dirname(self.__path),self.__model.parse_path())
+                )
+            )
             self.parse_requested.emit(parser)
 
 

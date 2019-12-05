@@ -209,9 +209,11 @@ class Remove(Command):
         Implements the .command.Command interface.
         """
         if self._blocks is not None :
-            self._model._insert_rows_(self.__row
-                                      ,self._blocks
-                                      ,self._get_index_(self.__parent_rows))
+            self._model._insert_rows_(
+                self.__row
+                ,self._blocks
+                ,self._get_index_(self.__parent_rows)
+            )
             self._blocks = None
 
 
@@ -220,9 +222,11 @@ class Remove(Command):
         Implements the .command.Command interface.
         """
         if self._blocks is None :
-            self._blocks = self._model._remove_rows_(self.__row
-                                                     ,self.__count
-                                                     ,self._get_index_(self.__parent_rows))
+            self._blocks = self._model._remove_rows_(
+                self.__row
+                ,self.__count
+                ,self._get_index_(self.__parent_rows)
+            )
 
 
 
@@ -324,15 +328,19 @@ class Move(Command):
         """
         Implements the .command.Command interface.
         """
-        self._model._move_row_(self.__to_row
-                               ,self.__from_row
-                               ,self._get_index_(self.__parent_rows))
+        self._model._move_row_(
+            self.__to_row
+            ,self.__from_row
+            ,self._get_index_(self.__parent_rows)
+        )
 
 
     def redo(self):
         """
         Implements the .command.Command interface.
         """
-        self._model._move_row_(self.__from_row
-                               ,self.__to_row
-                               ,self._get_index_(self.__parent_rows))
+        self._model._move_row_(
+            self.__from_row
+            ,self.__to_row
+            ,self._get_index_(self.__parent_rows)
+        )

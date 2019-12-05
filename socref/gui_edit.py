@@ -264,7 +264,9 @@ class Block_Dock(qtw.QDockWidget):
                  form.
         """
         edit = qtw.QCheckBox(definition["label"])
-        edit.setCheckState(qtc.Qt.Checked if int(properties[definition["key"]]) else qtc.Qt.Unchecked)
+        edit.setCheckState(
+            qtc.Qt.Checked if int(properties[definition["key"]]) else qtc.Qt.Unchecked
+        )
         edit.stateChanged.connect(lambda : self.__apply_button.setEnabled(True))
         edit._value_ = lambda e=edit : str(int(e.checkState() == qtc.Qt.Checked))
         edit._key = definition["key"]
@@ -340,11 +342,13 @@ class Block_Dock(qtw.QDockWidget):
         index : The index of the new block whose properties are edited by this dock.
         """
         if self.__index.isValid() and self.__apply_button.isEnabled() :
-            answer = qtw.QMessageBox.question(self
-                                              ,"Unsaved Changes"
-                                              ,"The current block has unsaved modifications."
-                                               " Discarding will cause modifications to be lost!"
-                                              ,qtw.QMessageBox.Save | qtw.QMessageBox.Discard)
+            answer = qtw.QMessageBox.question(
+                self
+                ,"Unsaved Changes"
+                ,"The current block has unsaved modifications. Discarding will cause modifications"
+                 " to be lost!"
+                ,qtw.QMessageBox.Save | qtw.QMessageBox.Discard
+            )
             if answer == qtw.QMessageBox.Save : self.__apply_()
         self.__index = index
         if self.__area.widget() :
@@ -388,7 +392,9 @@ class Block_Dock(qtw.QDockWidget):
         edit widgets. If the current index is not valid then this does nothing.
         """
         if self.__index.isValid() :
-            self.__view.model().setData(self.__index
-                                        ,{edit._key: edit._value_() for edit in self.__edits}
-                                        ,model.Role.PROPERTIES)
+            self.__view.model().setData(
+                self.__index
+                ,{edit._key: edit._value_() for edit in self.__edits}
+                ,model.Role.PROPERTIES
+            )
             self.__apply_button.setEnabled(False)

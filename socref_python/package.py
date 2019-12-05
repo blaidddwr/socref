@@ -67,7 +67,9 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        description = "</P><P>".join((html.escape(block) for block in self._p_description.split("\n\n") if block))
+        description = "</P><P>".join(
+            (html.escape(block) for block in self._p_description.split("\n\n") if block)
+        )
         if description : description = "<H1>Description</H1><P>%s</P>" % description
         return description
 

@@ -177,9 +177,11 @@ class Parser(abstract.Parser):
         path : See interface docs.
         """
         with open(path,"r") as ifile :
-            def_ = {"header": self.__scan_header_(ifile)
-                    ,"functions": {}
-                    ,"classes": {}}
+            def_ = {
+                "header": self.__scan_header_(ifile)
+                ,"functions": {}
+                ,"classes": {}
+            }
             while True :
                 line = ifile.readline()
                 if not line : break
@@ -202,8 +204,9 @@ class Parser(abstract.Parser):
 
         return : See interface docs.
         """
-        return block.build(self.__definitions.get(path
-                                                  ,{"header": [], "functions": {}, "classes": {}}))
+        return block.build(
+            self.__definitions.get(path,{"header": [], "functions": {}, "classes": {}})
+        )
 
 
     #####################

@@ -35,7 +35,11 @@ class Block_Dock(qtw.QDockWidget):
         parent : The optional qt object parent of this new block view dock.
         """
         qtw.QDockWidget.__init__(self,parent)
-        self.__label = qtw.QLabel(alignment=qtc.Qt.AlignTop,wordWrap=True,textFormat=qtc.Qt.RichText)
+        self.__label = qtw.QLabel(
+            alignment=qtc.Qt.AlignTop
+            ,wordWrap=True
+            ,textFormat=qtc.Qt.RichText
+        )
         self.__view = None
         self.__setup_gui_()
 
@@ -337,7 +341,9 @@ class Project(qtw.QTreeView):
         if build_list is not None :
             for block_type in build_list :
                 action = qtw.QAction(block_type,self)
-                action.setIcon(abstract.Factory().create(self.__model.lang_name(),block_type).icon())
+                action.setIcon(
+                    abstract.Factory().create(self.__model.lang_name(),block_type).icon()
+                )
                 action.triggered.connect(lambda checked=False, name=block_type : self.__add_(name))
                 self.__add_actions.append(action)
 
@@ -442,7 +448,9 @@ class Project(qtw.QTreeView):
         #
         action = self.__paste_action
         action.setIcon(qtg.QIcon.fromTheme("edit-paste"))
-        action.setStatusTip("Paste before/into/after the current block, depending on the addition menu selection.")
+        action.setStatusTip(
+            "Paste before/into/after the current block, depending on the addition menu selection."
+        )
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Paste))
         action.triggered.connect(self.__paste_)
         self.addAction(action)
@@ -617,8 +625,10 @@ class Project(qtw.QTreeView):
         # project and trying to add a new block.
         #
         if not self.selectionModel().currentIndex().isValid() :
-            self.selectionModel().setCurrentIndex(self.__model.index(0,0,qtc.QModelIndex())
-                                                  ,qtc.QItemSelectionModel.Current)
+            self.selectionModel().setCurrentIndex(
+                self.__model.index(0,0,qtc.QModelIndex())
+                ,qtc.QItemSelectionModel.Current
+            )
 
 
     @qtc.Slot()

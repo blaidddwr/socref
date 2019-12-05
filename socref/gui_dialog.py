@@ -104,7 +104,9 @@ class Text(qtw.QDialog):
         return : The initialized spell checker box widget.
         """
         self.__speller_box.hide()
-        self.__speller_box.cursor_changed.connect(lambda cursor : self.__text_edit.setTextCursor(cursor))
+        self.__speller_box.cursor_changed.connect(
+            lambda cursor : self.__text_edit.setTextCursor(cursor)
+        )
         self.__speller_box.finished.connect(self.__spell_check_finished_)
         return self.__speller_box
 
