@@ -1,10 +1,11 @@
 """
-Contains the template block definition.
+Contains the access block definition.
 """
 import html
 from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
+from socref import abstract
 from . import namespace
 
 
@@ -14,11 +15,11 @@ from . import namespace
 
 
 
-@register("Template")
+@register("Access")
 class Block(namespace.Block):
     """
-    This is the template block class. It implements the Socrates' Reference abstract block class. It
-    represents a C++ template.
+    This is the access block class. It implements the Socrates' Reference abstract block class. It
+    represents an access declaration for C++ class.
     """
 
 
@@ -29,11 +30,12 @@ class Block(namespace.Block):
 
     def __init__(self):
         """
-        Initializes a new namespace block.
+        Initializes a new access block.
         """
         namespace.Block.__init__(self)
-        self._p_type = ""
-        self._p_assignment = ""
+        self._p_name = ""
+        self._p_type = "Public"
+        self._p_enclosure = ""
 
 
     ####################
@@ -41,19 +43,17 @@ class Block(namespace.Block):
     ####################
 
 
-    def argument_view(self):
+    def has_abstract(self):
         """
         Getter method.
 
-        return : Rich text paragraph that describes this template as an argument.
+        return : True if this access block contains abstract methods or false otherwise.
         """
-        ret = "<p><b>%s " % html.escape(self._p_type.replace("@",self._p_name))
-        if self._p_assignment:
-            ret += " =</b> " + html.escape(self._p_assignment) + " : "
-        else:
-            ret += "</b> : "
-        ret += html.escape(self._p_description) + "</p>"
-        return ret
+        for block in self:
+            if block._TYPE_ == "Function":
+                if block.is_abstract():
+                    return True
+        return False
 
 
     ##########################
@@ -67,7 +67,12 @@ class Block(namespace.Block):
 
         return : See interface docs.
         """
-        return qtg.QIcon(":/cpp/template.svg")
+        if self._p_type == "Public":
+            return qtg.QIcon(":/cpp/public.svg")
+        elif  self._p_type == "Protected":
+            return qtg.QIcon(":/cpp/protected.svg")
+        else:
+            return qtg.QIcon(":/cpp/private.svg")
 
 
     def display_name(self):
@@ -76,7 +81,7 @@ class Block(namespace.Block):
 
         return : See interface docs.
         """
-        return self._p_name
+        return self._p_name + " (%i)" % len(self)
 
 
     def display_view(self):
@@ -85,9 +90,10 @@ class Block(namespace.Block):
 
         return : See interface docs.
         """
-        type_ = ut.rich_text(2,"Type",html.escape(self._p_type))
-        assignment = ut.rich_text(2,"Assignment",html.escape(self._p_assignment))
-        return namespace.Block.display_view(self) + type_ + assignment
+        return "<h1>%s</h1><p>%s</p>" % (
+            html.escape(self._p_type.upper())
+            ,html.escape(self._p_name)
+        )
 
 
     def build_list(self):
@@ -96,7 +102,7 @@ class Block(namespace.Block):
 
         return : See interface docs.
         """
-        return ()
+        return ("Variable","Function","Class","Union")
 
 
     def is_volatile_above(self):
@@ -119,9 +125,14 @@ class Block(namespace.Block):
 
         return : See interface docs.
         """
-        ret = namespace.Block.edit_definitions(self)
-        ret.append(ut.line_edit("Type:","_p_type"))
-        ret.append(ut.line_edit("Assignment:","_p_assignment"))
+        ret = []
+        ret.append(ut.line_edit("Name:","_p_name"))
+        combo = ut.combobox_edit("Type:","_p_type")
+        ut.add_combo_select(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
+        ut.add_combo_select(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
+        ut.add_combo_select(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))
+        ret.append(combo)
+        ret.append(ut.text_edit("Enclosure:","_p_enclosure"))
         return ret
 
 
@@ -129,17 +140,15 @@ class Block(namespace.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        namespace.Block.set_default_properties(self)
-        self._p_name = "Template"
-        self._p_type = "class @"
-        self._p_assignment = ""
+        self._p_name = "access"
+        self._p_type = "Public"
+        self._p_enclosure = ""
 
 
     def clear_properties(self):
         """
         Implements the socref.abstract.Block interface.
         """
-        namespace.Block.clear_properties(self)
         self._p_name = ""
-        self._p_type = ""
-        self._p_assignment = ""
+        self._p_type = "Public"
+        self._p_enclosure = ""

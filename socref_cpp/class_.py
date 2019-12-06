@@ -1,11 +1,12 @@
 """
-Contains the namespace block definition.
+Contains the class block definition.
 """
 import html
 from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
-from socref import abstract
+from . import namespace
+from . import function
 
 
 
@@ -14,11 +15,11 @@ from socref import abstract
 
 
 
-@register("Namespace",root=True)
-class Block(abstract.Block):
+@register("Class")
+class Block(function.Templatee):
     """
-    This is the namespace block class. It implements the Socrates' Reference abstract block class.
-    It represents a C++ namespace. It is the root block type of a C++ project.
+    This is the class block class. It implements the Socrates' Reference abstract block class. It
+    represents a C++ class.
     """
 
 
@@ -29,11 +30,10 @@ class Block(abstract.Block):
 
     def __init__(self):
         """
-        Initializes a new namespace block.
+        Initializes a new class block.
         """
-        abstract.Block.__init__(self)
-        self._p_name = ""
-        self._p_description = ""
+        function.Templatee.__init__(self)
+        self._p_header = ""
 
 
     ##########################
@@ -47,7 +47,7 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        return qtg.QIcon(":/cpp/namespace.svg")
+        return qtg.QIcon(":/cpp/class.svg")
 
 
     def display_name(self):
@@ -56,7 +56,7 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        return self._p_name
+        return self._template_name_() + self._p_name
 
 
     def display_view(self):
@@ -65,7 +65,7 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        return ut.rich_text_blocks(1,"Description",html.escape(self._p_description))
+        return namespace.Block.display_view(self) + self._templates_view_()
 
 
     def build_list(self):
@@ -74,7 +74,7 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        return ("Namespace","Enumeration","Variable","Function","Class","Union")
+        return ("Template","Access")
 
 
     #############################
@@ -88,9 +88,8 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        ret = []
-        ret.append(ut.line_edit("Name:","_p_name"))
-        ret.append(ut.text_edit("Description:","_p_description",speller=True))
+        ret = namespace.Block.edit_definitions(self)
+        ret.append(ut.text_edit("Header:","_p_header"))
         return ret
 
 
@@ -98,13 +97,14 @@ class Block(abstract.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        self._p_name = "namespace"
-        self._p_description = "Detailed Description."
+        namespace.Block.set_default_properties(self)
+        self._p_name = "class"
+        self._p_header = ""
 
 
     def clear_properties(self):
         """
         Implements the socref.abstract.Block interface.
         """
-        self._p_name = ""
-        self._p_description = ""
+        namespace.Block.clear_properties(self)
+        self._p_header = ""

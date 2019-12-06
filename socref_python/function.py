@@ -19,9 +19,9 @@ from . import access
 
 class Descriptor(package.Block):
     """
-    This is the python descriptor class. It partially implements the Socrates' Reference abstract
-    block class. This provides a descriptors property along with utility methods for it. This is
-    meant to act as a base class for any block that has descriptors.
+    This is the descriptor class. It partially implements the Socrates' Reference abstract block
+    class. This provides a descriptors property along with utility methods for it. This is meant to
+    act as a base class for any block that has descriptors.
     """
 
 
@@ -85,12 +85,14 @@ class Descriptor(package.Block):
         return : A rich text string providing detailed information about this block's descriptors.
                  If this block has no descriptors then an empty string is returned.
         """
-        ret = "<br/>".join(
-            ("@" + html.escape(line) for line in self._p_descriptors.split("\n") if line)
+        return ut.rich_text(
+            2
+            ,"Descriptors"
+            ,"".join(
+                ("<p>@%s</p>" % html.escape(line)
+                 for line in self._p_descriptors.split("\n") if line)
+             )
         )
-        if ret:
-            ret = "<h2>Descriptors</h2><p>%s</p>" % ret
-        return ret
 
 
     def _descriptors_edit_definition_(self):
@@ -347,12 +349,7 @@ class Block(Descriptor):
         return : Rich text detailed view of all this function's arguments. If this function has no
                  arguments then this returns an empty string.
         """
-        ret = ""
-        for arg in self:
-            ret += arg.argument_view()
-        if ret:
-            ret = "<h2>Arguments</h2>" + ret
-        return ret
+        return ut.rich_text(2,"Arguments","".join((arg.argument_view() for arg in self)))
 
 
     def __flags_view_(self):
@@ -362,12 +359,12 @@ class Block(Descriptor):
         return : Rich text list of flags this block has enabled. If this block has no flags enabled
                  then an empty string is returned.
         """
-        flags = ""
+        flags = []
         if self.is_static():
-            flags += "<li>Static</li>"
+            flags.append("Static")
         if self.is_abstract():
-            flags += "<li>Abstract</li>"
-        return ut.rich_text(2,"Flags",flags)
+            flags.append("Abstract")
+        return ut.rich_text_list(2,"Flags",flags)
 
 
     def __build_header_(self, begin):

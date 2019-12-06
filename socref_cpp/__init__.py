@@ -8,3 +8,6 @@ from . import enumeration_value
 from . import template
 from . import variable
 from . import function
+from . import class_
+from . import access
+from . import union

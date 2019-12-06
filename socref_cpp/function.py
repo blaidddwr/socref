@@ -14,8 +14,80 @@ from . import namespace
 
 
 
+class Templatee(namespace.Block):
+    """
+    This is the templatee class. It provides methods for handling template block children. This is
+    meant to act as a base class for any block that can have templates.
+    """
+
+
+    #######################
+    # PUBLIC - Initialize #
+    #######################
+
+
+    def __init__(self):
+        """
+        Initializes a new templatee block.
+        """
+        namespace.Block.__init__(self)
+
+
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
+    def has_templates(self):
+        """
+        Getter method.
+
+        return : True if this block has any templates or false otherwise.
+        """
+        for child in self:
+            if child._TYPE_ == "Template":
+                return True
+        return False
+
+
+    #######################
+    # PROTECTED - Methods #
+    #######################
+
+
+    def _template_name_(self):
+        """
+        Getter method.
+
+        return : A string that is a decoration for a block's display name providing information
+                 about its templates. If this block has no templates then an empty string is
+                 returned.
+        """
+        return "<> " if self.has_templates() else ""
+
+
+    def _templates_view_(self):
+        """
+        Getter method.
+
+        return : A rich text string providing detailed information about this block's templates. If
+                 this block has no templates then an empty string is returned.
+        """
+        return ut.rich_text(
+            2
+            ,"Templates"
+            ,"".join((child.argument_view() for child in self if child._TYPE_ == "Template"))
+        )
+
+
+
+
+
+
+
+
 @register("Function")
-class Block(namespace.Block):
+class Block(Templatee):
     """
     This is the function block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ function.
@@ -31,7 +103,7 @@ class Block(namespace.Block):
         """
         Initializes a new function block.
         """
-        namespace.Block.__init__(self)
+        Templatee.__init__(self)
         self._p_return_type = ""
         self._p_return_description = ""
         self._p_inlines = ""
@@ -178,18 +250,6 @@ class Block(namespace.Block):
         return self.parent()._TYPE_ == "Access"
 
 
-    def has_templates(self):
-        """
-        Getter method.
-
-        return : True if this function has any templates or false otherwise.
-        """
-        for child in self:
-            if child._TYPE_ == "Template":
-                return True
-        return False
-
-
     ##########################
     # PUBLIC - Basic Methods #
     ##########################
@@ -234,10 +294,13 @@ class Block(namespace.Block):
 
         return : See interface docs.
         """
-        ret = "<> " if self.has_templates() else ""
-        if not self.is_constructor and not self.is_destructor and self._p_return_type != "void":
+        ret = self._template_name_()
+        if not self.is_constructor() and not self.is_destructor() and self._p_return_type != "void":
             ret += "... "
-        ret += "%s(%i)%s" % (self._p_name,len(self),self.__flags_())
+        flags = self.__flags_()
+        if flags:
+            flags = " [%s]" % flags
+        ret += "%s(%i)%s" % (self._p_name,len(self),flags)
         return ret
 
 
@@ -248,11 +311,18 @@ class Block(namespace.Block):
         return : See interface docs.
         """
         self.__check_flags_()
-        arguments = ""
         return_ = ""
-        templates = ""
-        flags = ""
-        return namespace.Block.display_view(self) + arguments + return_ + templates + flags
+        if self._p_return_type != "void":
+            return_ = "<p><b>%s</b> : %s</p>" % (self._p_return_type,self._p_return_description)
+        return_ = ut.rich_text(2,"Return",return_)
+        flags = ut.rich_text_list(2,"Flags",self.__flags_list_())
+        return (
+            namespace.Block.display_view(self)
+            + self._templates_view_()
+            + self.__arguments_view_()
+            + return_
+            + flags
+        )
 
 
     def build_list(self):
@@ -378,7 +448,7 @@ class Block(namespace.Block):
         """
         Getter method.
 
-        return : A bracket enclosed list of flags this block has enabled. If this block has no flags
+        return : A string of character flags this block has enabled. If this block has no flags
                  enabled then an empty string is returned.
         """
         ret = ""
@@ -402,6 +472,49 @@ class Block(namespace.Block):
             ret += "F"
         if self.is_abstract():
             ret += "A"
-        if ret:
-            ret = " [%s]" % ret
         return ret
+
+
+    def __arguments_view_(self):
+        """
+        Getter method.
+
+        return : Rich text detailed view of all this function's arguments. If this function has no
+                 arguments then this returns an empty string.
+        """
+        return ut.rich_text(
+            2
+            ,"Arguments"
+            ,"".join((child.argument_view() for child in self if child._TYPE_ == "Variable"))
+        )
+
+
+    def __flags_list_(self):
+        """
+        Getter method.
+
+        return : A string list of flags this block has enabled. If this block has no flags enabled
+                 then an empty string is returned.
+        """
+        flags = []
+        if self.is_default():
+            flags.append("Default")
+        if self.is_deleted():
+            flags.append("Deleted")
+        if self.is_explicit():
+            flags.append("Explicit")
+        if self.is_const():
+            flags.append("Constant")
+        if self.is_static():
+            flags.append("Static")
+        if self.is_noexcept():
+            flags.append("No Exceptions")
+        if self.is_virtual():
+            flags.append("Virtual")
+        if self.is_override():
+            flags.append("Override")
+        if self.is_final():
+            flags.append("Final")
+        if self.is_abstract():
+            flags.append("Abstract")
+        return flags

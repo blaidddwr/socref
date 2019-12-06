@@ -17,5 +17,11 @@
         <file>operator.svg</file>
         <file>virtual_operator.svg</file>
         <file>abstract_operator.svg</file>
+        <file>class.svg</file>
+        <file>abstract_class.svg</file>
+        <file>public.svg</file>
+        <file>protected.svg</file>
+        <file>private.svg</file>
+        <file>union.svg</file>
     </qresource>
 </RCC>

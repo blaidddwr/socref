@@ -7,6 +7,28 @@ import html
 
 
 
+def rich_text_list(size, title, list_):
+    """
+    Builder function.
+
+    size : See rich text function.
+
+    title : See rich text function.
+
+    list_ : A list of strings that are combined as an unordered HTML list.
+
+    return : The rich text function's return but with the body being replaced by the list that is
+             formatted as an unordered HTML list. The list being empty is the same of the body being
+             empty.
+    """
+    html_list = "</li><li>".join(list_)
+    if html_list:
+        html_list = "<ul><li>%s</li></ul>" % html_list
+    return rich_text(size,title,html_list)
+
+
+
+
 def rich_text_blocks(size, title, body):
     """
     Builder function.
@@ -20,7 +42,11 @@ def rich_text_blocks(size, title, body):
     return : The rich text function's return but with the body being divided into paragraphs using
              two new lines as the delimiter.
     """
-    return rich_text(size,title,"</p><p>".join((block for block in body.split("\n\n") if block)))
+    return rich_text(
+        size
+        ,title
+        ,"".join(("<p>%s</p>" % block for block in body.split("\n\n") if block))
+    )
 
 
 

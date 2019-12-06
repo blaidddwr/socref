@@ -123,7 +123,10 @@ class Block(template.Block):
         base = self._p_name
         if self._p_assignment:
             base += " ="
-        return base + self.__flags_()
+        flags = self.__flags_()
+        if flags:
+            flags = " [%s]" % flags
+        return base + flags
 
 
     def display_view(self):
@@ -166,8 +169,12 @@ class Block(template.Block):
         return : See interface docs.
         """
         ret = template.Block.edit_definitions(self)
-        ret.append(ut.checkbox_edit("Constant Expression","_p_constexpr"))
-        ret.append(ut.checkbox_edit("Thread Local","_p_threadlocal"))
+        if not self.is_argument():
+            ret.append(ut.checkbox_edit("Constant Expression","_p_constexpr"))
+            ret.append(ut.checkbox_edit("Thread Local","_p_threadlocal"))
+        else:
+            ret.append(ut.hidden_edit("_p_constexpr","0"))
+            ret.append(ut.hidden_edit("_p_threadlocal","0"))
         if self.in_class():
             ret.append(ut.checkbox_edit("Static","_p_static"))
             ret.append(ut.checkbox_edit("Mutable","_p_mutable"))
@@ -183,7 +190,7 @@ class Block(template.Block):
         """
         template.Block.set_default_properties(self)
         self._p_name = "variable"
-        self._p_type = "void @"
+        self._p_type = "int @"
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
@@ -208,8 +215,11 @@ class Block(template.Block):
 
     def __check_flags_(self):
         """
-        Sets this variable's flags to legal values if it is not part of a class.
+        Sets this variable's flags to legal values if it is an argument or not part of a class.
         """
+        if self.is_argument():
+            self._p_constexpr = "0"
+            self._p_threadlocal = "0"
         if not self.in_class():
             self._p_static = "0"
             self._p_mutable = "0"
@@ -219,7 +229,7 @@ class Block(template.Block):
         """
         Getter method.
 
-        return : A bracket enclosed list of flags this block has enabled. If this block has no flags
+        return : A string of character flags this block has enabled. If this block has no flags
                  enabled then an empty string is returned.
         """
         ret = ""
@@ -231,8 +241,6 @@ class Block(template.Block):
             ret += "M"
         if self.is_thread_local():
             ret += "L"
-        if ret:
-            ret = " [%s]" % ret
         return ret
 
 
@@ -243,13 +251,13 @@ class Block(template.Block):
         return : Rich text list of flags this block has enabled. If this block has no flags enabled
                  then an empty string is returned.
         """
-        flags = ""
+        flags = []
         if self.is_constexpr():
-            flags += "<li>Constant Expression</li>"
+            flags.append("Constant Expression")
         if self.is_static():
-            flags += "<li>Static</li>"
+            flags.append("Static")
         if self.is_mutable():
-            flags += "<li>Mutable</li>"
+            flags.append("Mutable")
         if self.is_thread_local():
-            flags += "<li>Thread Local</li>"
-        return ut.rich_text(2,"Flags",flags)
+            flags.append("Thread Local")
+        return ut.rich_text_list(2,"Flags",flags)
