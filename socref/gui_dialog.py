@@ -18,10 +18,10 @@ from . import gui_edit
 
 class Text(qtw.QDialog):
     """
-    This is the text dialog class. It inherits the qt dialog class. It is a plain text editor with
-    optional spell checking and correction. Any misspelled words are highlighted and a button is
-    provided that begins spell checking and correction. All spell checking features can be enabled
-    or disabled at initialization of the dialog.
+    This is the text dialog class. It is a plain text editor with optional spell checking and
+    correction. Any misspelled words are highlighted and a button is provided that begins spell
+    checking and correction. All spell checking features can be enabled or disabled at
+    initialization of the dialog.
     """
 
 
@@ -187,9 +187,9 @@ class Text(qtw.QDialog):
 
 class Project(qtw.QDialog):
     """
-    This is the project dialog class. It inherits the qt dialog class. It is a basic form dialog
-    that allows the user to edit the project name and parse path of the model it is given on
-    initialization. It is a persistent dialog that remembers its geometry.
+    This is the project dialog class. It is a basic form dialog that allows the user to edit the
+    project name and parse path of the model it is given on initialization. It is a persistent
+    dialog that remembers its geometry.
     """
 
 
@@ -361,10 +361,10 @@ class Project(qtw.QDialog):
 
 class Code(qtw.QDialog):
     """
-    This is the code dialog class. It inherits the qt dialog class. It displays any unknown code
-    fragments given to it. The fragments must be organized into a flat dictionary where the key
-    should provide a meaningful identity about the code fragment to the user. The user is provided a
-    list and read only text view to navigate the fragments, along with a copy to clipboard button.
+    This is the code dialog class. It displays any unknown code fragments given to it. The fragments
+    must be organized into a flat dictionary where the key should provide a meaningful identity
+    about the code fragment to the user. The user is provided a list and read only text view to
+    navigate the fragments, along with a copy to clipboard button.
     """
 
 

@@ -2,26 +2,65 @@
 Contains all utility functions and classes that provide basic utilities to the rest of the core
 application and language implementations.
 """
+import html
+
+
+
+
+def rich_text_blocks(size, title, body):
+    """
+    Builder function.
+
+    size : See rich text function.
+
+    title : See rich text function.
+
+    body : Same as rich text function with the added step of splitting it into paragraphs.
+
+    return : The rich text function's return but with the body being divided into paragraphs using
+             two new lines as the delimiter.
+    """
+    return rich_text(size,title,"</p><p>".join((block for block in body.split("\n\n") if block)))
+
+
+
+
+def rich_text(size, title, body):
+    """
+    Builder function.
+
+    size : The size of the header, if any, following the HTML standard.
+
+    title : The title used for the HTML header.
+
+    body : The body text that is wrapped in the returned rich text if it is not empty.
+
+    return : A rich text string generated from the given body, header, and size. The body is wrapped
+             in an HTML paragraph and an HTML header added before it. If the given body is empty
+             then an empty string is returned.
+    """
+    ret = ""
+    if body:
+        header = "h" + str(size) + ">"
+        ret = "<" + header + title + "</" + header + body
+    return ret
 
 
 
 
 def wrap_blocks(text, begin="", separator="", columns=80):
     """
-    Wraps the given text into separate blocks that are in turn wrapped into multiple lines with the
-    given begin string appended to each one and limited by the given number of columns per line. The
-    delimiter for each given block is double new lines. The output of each block is separated by a
-    line with the given separator string.
+    Builder function.
 
-    text : A string of text that is wrapped into multiple lines and separated into blocks.
+    text : Same as wrap text function.
 
-    begin : A string that is appended to every line of wrapped text generated.
+    begin : Same as wrap text function.
 
-    separator : A string of text that is used to separate each block of text.
+    separator : A string of text that is used to separate each paragraph of text.
 
-    columns : The maximum column length for each line of wrapped text.
+    columns : Same as wrap text function.
 
-    return : Wrapped lines of text separated into multiple blocks of text using a given separator
+    return : The wrap text function's returned but with paragraphs being separated by the given
              string.
     """
     return "\n".join(
@@ -33,9 +72,7 @@ def wrap_blocks(text, begin="", separator="", columns=80):
 
 def wrap_text(text, begin="", after="", columns=80):
     """
-    Wraps given text into multiple lines that are limited by the given number of columns per line.
-    Every line is appended with an optional begin string and every line after the first is also
-    appended with an optional after line.
+    Builder function.
 
     text : A string of text that is wrapped into multiple lines.
 
@@ -45,7 +82,8 @@ def wrap_text(text, begin="", after="", columns=80):
 
     columns : The maximum column length for each line of wrapped text.
 
-    return : New line separated string of wrapped text generated from the given input text.
+    return : Wrapped text generated from the given text, optional begin and after strings, and
+             maximum line length.
     """
     ret = ""
     words = text.split()
@@ -66,14 +104,13 @@ def wrap_text(text, begin="", after="", columns=80):
 
 def line_edit(label, key):
     """
-    Returns an edit definition dictionary for a line edit. This is used with the abstract block's
-    edit definitions interface.
+    Build method.
 
     label : The label string for the edit definition.
 
     key : The key string for the edit definition.
 
-    return : Edit definition dictionary for a line edit.
+    return : An abstract block's edit definition for a line edit.
     """
     return __edit("line",label,key)
 
@@ -82,16 +119,15 @@ def line_edit(label, key):
 
 def text_edit(label, key, speller=False):
     """
-    Returns an edit definition dictionary for a text edit. This is used with the abstract block's
-    edit definitions interface.
+    Build method.
 
     label : The label string for the edit definition.
 
     key : The key string for the edit definition.
 
-    speller : Optional speller Boolean for the edit definition.
+    speller : True to enable spelling or false to disable it.
 
-    return : Edit definition dictionary for a text edit.
+    return : An abstract block's edit definition for a text edit.
     """
     ret = __edit("text",label,key)
     ret["speller"] = speller
@@ -102,14 +138,13 @@ def text_edit(label, key, speller=False):
 
 def checkbox_edit(label, key):
     """
-    Returns an edit definition dictionary for a checkbox edit. This is used with the abstract
-    block's edit definitions interface.
+    Build method.
 
     label : The label string for the edit definition.
 
     key : The key string for the edit definition.
 
-    return : Edit definition dictionary for a checkbox edit.
+    return : An abstract block's edit definition for a checkbox edit.
     """
     return __edit("checkbox",label,key)
 
@@ -118,14 +153,13 @@ def checkbox_edit(label, key):
 
 def combobox_edit(label, key):
     """
-    Returns an edit definition dictionary for a combo box edit with no selection values. This is
-    used with the abstract block's edit definitions interface.
+    Build method.
 
     label : The label string for the edit definition.
 
     key : The key string for the edit definition.
 
-    return : Edit definition dictionary for a combo box edit.
+    return : An abstract block's edit definition for a combo box edit with no selections.
     """
     ret = __edit("combobox",label,key)
     ret["selections"] = []
@@ -136,8 +170,7 @@ def combobox_edit(label, key):
 
 def add_combo_select(combo_edit, text, icon=None):
     """
-    Adds a selection value to the given combo box edit definition with the given text and optional
-    icon.
+    Adds a selection to the given combo box edit definition with the given text and optional icon.
 
     combo_edit : A combo box edit definition dictionary that has a new selection value added to it.
 
@@ -155,14 +188,13 @@ def add_combo_select(combo_edit, text, icon=None):
 
 def hidden_edit(key, value):
     """
-    Returns an edit definition dictionary for a hidden edit. This is used with the abstract block's
-    edit definitions interface.
+    Build method.
 
     key : The key string for the edit definition.
 
     value : The value string for the edit definition.
 
-    return : Edit definition dictionary for a hidden edit.
+    return : An abstract block's edit definition for a hidden edit.
     """
     return {"type": "hidden"
             ,"key": key
@@ -177,8 +209,8 @@ def hidden_edit(key, value):
 
 class Singleton():
     """
-    This is the descriptor class that turns a class used by it to a singleton. It provides a class
-    method that returns the class object of the singleton instance.
+    This is the descriptor singleton class. It turns its descriptor class into a singleton. It
+    provides a class method that returns the class object of the singleton instance.
     """
 
 
@@ -189,7 +221,7 @@ class Singleton():
 
     def __init__(self, class_):
         """
-        Initializes a new singleton descriptor with the given class.
+        Initializes a new singleton with the given class object.
 
         class_ : Class object that is made into a singleton class.
         """
@@ -233,7 +265,7 @@ class Singleton():
 
 def __edit(type_, label, key):
     """
-    Returns a generic edit definition dictionary with the given type, label, and key.
+    Builder method.
 
     type_ : The type of the generic edit definition.
 
@@ -241,7 +273,7 @@ def __edit(type_, label, key):
 
     key : The key of the generic edit definition.
 
-    return : Generic edit definition dictionary.
+    return : A generic abstract block's edit definition.
     """
     return {"type": type_
             ,"label": label

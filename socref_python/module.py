@@ -18,8 +18,8 @@ from . import package
 @register("Module")
 class Block(package.Block):
     """
-    This is the module block class. It inherits the python package block. It implements the
-    Socrates' Reference abstract block class. It represents a python module.
+    This is the module block class. It implements the Socrates' Reference abstract block class. It
+    represents a python module.
     """
 
 

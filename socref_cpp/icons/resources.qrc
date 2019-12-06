@@ -1,0 +1,21 @@
+<RCC>
+    <qresource prefix="/cpp">
+        <file>namespace.svg</file>
+        <file>enumeration.svg</file>
+        <file>enumeration_value.svg</file>
+        <file>template.svg</file>
+        <file>variable.svg</file>
+        <file>static_variable.svg</file>
+        <file>function.svg</file>
+        <file>static_function.svg</file>
+        <file>virtual_function.svg</file>
+        <file>abstract_function.svg</file>
+        <file>constructor.svg</file>
+        <file>destructor.svg</file>
+        <file>virtual_destructor.svg</file>
+        <file>abstract_destructor.svg</file>
+        <file>operator.svg</file>
+        <file>virtual_operator.svg</file>
+        <file>abstract_operator.svg</file>
+    </qresource>
+</RCC>

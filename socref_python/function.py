@@ -19,10 +19,9 @@ from . import access
 
 class Descriptor(package.Block):
     """
-    This is the python descriptor class. It inherits the python package block. It partially
-    implements the Socrates' Reference abstract block class. This provides a descriptors property
-    along with utility methods for it. This is meant to act as a base class for any block that has
-    descriptors.
+    This is the python descriptor class. It partially implements the Socrates' Reference abstract
+    block class. This provides a descriptors property along with utility methods for it. This is
+    meant to act as a base class for any block that has descriptors.
     """
 
 
@@ -100,7 +99,7 @@ class Descriptor(package.Block):
 
         return : The edit definition for this block's descriptors property.
         """
-        return util.text_edit("Descriptor(s):","_p_descriptors")
+        return util.text_edit("Descriptors:","_p_descriptors")
 
 
     def _build_descriptors_(self, begin):
@@ -127,8 +126,8 @@ class Descriptor(package.Block):
 @register("Function")
 class Block(Descriptor):
     """
-    This is the function block class. It inherits the python package block. It implements the
-    Socrates' Reference abstract block class. It represents a python function.
+    This is the function block class. It implements the Socrates' Reference abstract block class. It
+    represents a python function.
     """
 
 

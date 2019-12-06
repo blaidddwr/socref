@@ -20,8 +20,8 @@ from . import function
 @register("Class")
 class Block(function.Descriptor):
     """
-    This is the class block class. It inherits the python descriptor class. It implements the
-    Socrates' Reference abstract block class. It represents a python class.
+    This is the class block class. It implements the Socrates' Reference abstract block class. It
+    represents a python class.
     """
 
 

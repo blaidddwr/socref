@@ -817,9 +817,9 @@ class Project(qtc.QAbstractItemModel):
         blocks = []
         self.beginRemoveRows(parent,row,row + count - 1)
         while count:
-            blocks.append(parent_block.pop(row))
-            if blocks[-1].is_volatile_above():
+            if parent_block[row].is_volatile_above():
                 volatile = True
+            blocks.append(parent_block.pop(row))
             count -= 1
         self.endRemoveRows()
         self.__push_volatile_above_(parent)
@@ -848,10 +848,9 @@ class Project(qtc.QAbstractItemModel):
             ,parent
             ,to_row + 1 if to_row > from_row else to_row
         )
-        block = parent_block.pop(from_row)
-        if block.is_volatile_above():
+        if parent_block[from_row]:
             volatile = True
-        parent_block.insert(to_row,block)
+        parent_block.insert(to_row,parent_block.pop(from_row))
         self.endMoveRows()
         self.__push_volatile_above_(parent)
         self.__modified_()

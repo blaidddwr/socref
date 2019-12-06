@@ -80,8 +80,8 @@ class Spell_Highlighter(qtg.QSyntaxHighlighter):
 
 class Spell_Checker(qtw.QGroupBox):
     """
-    This is the spell checker class. It inherits the qt group box widget. It provides a spell
-    checking and correction interface. It uses the Hunspell library for all speller functions.
+    This is the spell checker class. It provides a spell checking and correction interface. It uses
+    the Hunspell library for all speller functions.
 
     It provides a spell checking and correction interface. It begins spell checking with its start
     slot, providing it a qt text cursor that is uses to parse the entire document of the text

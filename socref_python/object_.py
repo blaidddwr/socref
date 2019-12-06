@@ -21,8 +21,8 @@ from . import access
 @register("Object")
 class Block(package.Block):
     """
-    This is the object block class. It inherits the python package block. It implements the
-    Socrates' Reference abstract block class. It represents a python object.
+    This is the object block class. It implements the Socrates' Reference abstract block class. It
+    represents a python object.
     """
 
 

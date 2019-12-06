@@ -20,8 +20,8 @@ from . import parser
 class Block(abstract.Block):
     """
     This is the package block class. It implements the Socrates' Reference abstract block class. It
-    represents a python package. It implements two additional interface methods used by other block
-    definitions of the python language.
+    represents a python package. It is the root block type of a python project. It implements two
+    additional interface methods used by other block definitions of the python language.
     """
 
 
@@ -68,11 +68,11 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        description = "</P><P>".join(
+        description = "</p><p>".join(
             (html.escape(block) for block in self._p_description.split("\n\n") if block)
         )
         if description:
-            description = "<H1>Description</H1><P>%s</P>" % description
+            description = "<h1>Description</h1><p>%s</p>" % description
         return description
 
 

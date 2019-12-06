@@ -105,35 +105,73 @@
                 <__p_name>utility</__p_name>
                 <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the core application and language implementations.</__p_description>
                 <Function>
+                    <__p_name>rich_text_blocks</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_return_description>The rich text function's return but with the body being divided into paragraphs using two new lines as the delimiter. </__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>size</__p_name>
+                        <__p_description>See rich text function.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>title</__p_name>
+                        <__p_description>See rich text function.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>body</__p_name>
+                        <__p_description>Same as rich text function with the added step of splitting it into paragraphs.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>rich_text</__p_name>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_return_description>A rich text string generated from the given body, header, and size. The body is wrapped in an HTML paragraph and an HTML header added before it. If the given body is empty then an empty string is returned.</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>size</__p_name>
+                        <__p_description>The size of the header, if any, following the HTML standard.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>title</__p_name>
+                        <__p_description>The title used for the HTML header.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>body</__p_name>
+                        <__p_description>The body text that is wrapped in the returned rich text if it is not empty.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
                     <__p_name>wrap_blocks</__p_name>
-                    <__p_description>Wraps the given text into separate blocks that are in turn wrapped into multiple lines with the given begin string appended to each one and limited by the given number of columns per line. The delimiter for each given block is double new lines. The output of each block is separated by a line with the given separator string.</__p_description>
-                    <__p_return_description>Wrapped lines of text separated into multiple blocks of text using a given separator string.</__p_return_description>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_return_description>The wrap text function's returned but with paragraphs being separated by the given string.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>text</__p_name>
-                        <__p_description>A string of text that is wrapped into multiple lines and separated into blocks.</__p_description>
+                        <__p_description>Same as wrap text function.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>begin</__p_name>
-                        <__p_description>A string that is appended to every line of wrapped text generated.</__p_description>
+                        <__p_description>Same as wrap text function.</__p_description>
                         <__p_assignment>&quot;&quot;</__p_assignment>
                     </Object>
                     <Object>
                         <__p_name>separator</__p_name>
-                        <__p_description>A string of text that is used to separate each block of text.</__p_description>
+                        <__p_description>A string of text that is used to separate each paragraph of text.</__p_description>
                         <__p_assignment>&quot;&quot;</__p_assignment>
                     </Object>
                     <Object>
                         <__p_name>columns</__p_name>
-                        <__p_description>The maximum column length for each line of wrapped text.</__p_description>
+                        <__p_description>Same as wrap text function.</__p_description>
                         <__p_assignment>80</__p_assignment>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>wrap_text</__p_name>
-                    <__p_description>Wraps given text into multiple lines that are limited by the given number of columns per line. Every line is appended with an optional begin string and every line after the first is also appended with an optional after line.</__p_description>
-                    <__p_return_description>New line separated string of wrapped text generated from the given input text.</__p_return_description>
+                    <__p_description>Builder function.</__p_description>
+                    <__p_return_description>Wrapped text generated from the given text, optional begin and after strings, and maximum line length.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -158,8 +196,8 @@
                 </Function>
                 <Function>
                     <__p_name>line_edit</__p_name>
-                    <__p_description>Returns an edit definition dictionary for a line edit. This is used with the abstract block's edit definitions interface.</__p_description>
-                    <__p_return_description>Edit definition dictionary for a line edit.</__p_return_description>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a line edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -173,8 +211,8 @@
                 </Function>
                 <Function>
                     <__p_name>text_edit</__p_name>
-                    <__p_description>Returns an edit definition dictionary for a text edit. This is used with the abstract block's edit definitions interface.</__p_description>
-                    <__p_return_description>Edit definition dictionary for a text edit.</__p_return_description>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a text edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -187,14 +225,14 @@
                     </Object>
                     <Object>
                         <__p_name>speller</__p_name>
-                        <__p_description>Optional speller Boolean for the edit definition.</__p_description>
+                        <__p_description>True to enable spelling or false to disable it.</__p_description>
                         <__p_assignment>False</__p_assignment>
                     </Object>
                 </Function>
                 <Function>
                     <__p_name>checkbox_edit</__p_name>
-                    <__p_description>Returns an edit definition dictionary for a checkbox edit. This is used with the abstract block's edit definitions interface.</__p_description>
-                    <__p_return_description>Edit definition dictionary for a checkbox edit.</__p_return_description>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a checkbox edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -208,8 +246,8 @@
                 </Function>
                 <Function>
                     <__p_name>combobox_edit</__p_name>
-                    <__p_description>Returns an edit definition dictionary for a combo box edit with no selection values. This is used with the abstract block's edit definitions interface.</__p_description>
-                    <__p_return_description>Edit definition dictionary for a combo box edit.</__p_return_description>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a combo box edit with no selections.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -223,7 +261,7 @@
                 </Function>
                 <Function>
                     <__p_name>add_combo_select</__p_name>
-                    <__p_description>Adds a selection value to the given combo box edit definition with the given text and optional icon.</__p_description>
+                    <__p_description>Adds a selection to the given combo box edit definition with the given text and optional icon.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -242,8 +280,8 @@
                 </Function>
                 <Function>
                     <__p_name>hidden_edit</__p_name>
-                    <__p_description>Returns an edit definition dictionary for a hidden edit. This is used with the abstract block's edit definitions interface.</__p_description>
-                    <__p_return_description>Edit definition dictionary for a hidden edit.</__p_return_description>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a hidden edit.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -257,13 +295,13 @@
                 </Function>
                 <Class>
                     <__p_name>Singleton</__p_name>
-                    <__p_description>This is the descriptor class that turns a class used by it to a singleton. It provides a class method that returns the class object of the singleton instance.</__p_description>
+                    <__p_description>This is the descriptor singleton class. It turns its descriptor class into a singleton. It provides a class method that returns the class object of the singleton instance.</__p_description>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new singleton descriptor with the given class.</__p_description>
+                            <__p_description>Initializes a new singleton with the given class object.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -297,8 +335,8 @@
                 </Class>
                 <Function>
                     <__p_name>__edit</__p_name>
-                    <__p_description>Returns a generic edit definition dictionary with the given type, label, and key.</__p_description>
-                    <__p_return_description>Generic edit definition dictionary.</__p_return_description>
+                    <__p_description>Builder method.</__p_description>
+                    <__p_return_description>A generic abstract block's edit definition.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -1854,7 +1892,7 @@ It has built in support for undo and redo of any modification done to it. Method
                 </Class>
                 <Class>
                     <__p_name>Spell_Checker</__p_name>
-                    <__p_description>This is the spell checker class. It inherits the qt group box widget. It provides a spell checking and correction interface. It uses the Hunspell library for all speller functions.
+                    <__p_description>This is the spell checker class. It provides a spell checking and correction interface. It uses the Hunspell library for all speller functions.
 
 It provides a spell checking and correction interface. It begins spell checking with its start slot, providing it a qt text cursor that is uses to parse the entire document of the text cursor, checking for misspelled words. Each misspelled word is highlighted and waits on the user to correct. The user is given options to use a suggestion, replace, ignore, stop, or add to dictionary. The cursor is updated to highlight each misspelled word found while waiting for the user to make a choice about it. Adding to dictionary is currently defunct but will be fixed.
 </__p_description>
@@ -1980,7 +2018,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                 <__p_description>Contains all GUI view widgets that display projects and their blocks.</__p_description>
                 <Class>
                     <__p_name>Block_Dock</__p_name>
-                    <__p_description>This is the block view dock class. It inherits the qt dock widget. It attaches itself to a project view, providing a detailed view of the currently indexed block. It connects the appropriate signal to listen for the current index of the view to change. The detailed view is presented in a qt label as rich text.
+                    <__p_description>This is the block view dock class. It attaches itself to a project view, providing a detailed view of the currently indexed block. It connects the appropriate signal to listen for the current index of the view to change. The detailed view is presented in a qt label as rich text.
 </__p_description>
                     <__p_parents>qtw.QDockWidget</__p_parents>
                     <Access>
@@ -2036,7 +2074,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                 </Class>
                 <Class>
                     <__p_name>Project</__p_name>
-                    <__p_description>This is the project view class. It inherits the qt tree view class. It provides the main tree view for a project model. Actions are provided for all basic editing actions done upon this view's model.
+                    <__p_description>This is the project view class. It provides the main tree view for a project model. Actions are provided for all basic editing actions done upon this view's model.
 
 It provides the main tree view for a project model. A view acts as the primary view for an entire project, allowing the user to navigate and view any part of the project tree. It provides a context menu that contains all actions a view can do upon its project model. The context menu provided fills the role of a main window's edit menu.
 
@@ -2434,7 +2472,7 @@ Insert after action.
                 <__p_description>Contains all GUI edit widgets that provide the user the ability to edit some form of data.</__p_description>
                 <Class>
                     <__p_name>Plain_Text</__p_name>
-                    <__p_description>This is the plain text class. It inherits the qt plain text edit class. It provides additional functionality to its inherit class. Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog that has additional spell checking functionality. Misspelled word highlighting and the editor dialog popup features can be enabled or disabled.
+                    <__p_description>This is the plain text class. It provides additional functionality to its inherit class. Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog that has additional spell checking functionality. Misspelled word highlighting and the editor dialog popup features can be enabled or disabled.
 </__p_description>
                     <__p_parents>qtw.QPlainTextEdit</__p_parents>
                     <Access>
@@ -2505,7 +2543,7 @@ Insert after action.
                 </Class>
                 <Class>
                     <__p_name>Block_Dock</__p_name>
-                    <__p_description>This is the block edit dock class. It inherits the qt dock widget. It attaches itself to a project view. It provides a GUI edit form to the user for modifying a block's properties.
+                    <__p_description>This is the block edit dock class. It attaches itself to a project view. It provides a GUI edit form to the user for modifying a block's properties.
 
 It attaches itself to a project view. It connects the appropriate signal to listen for the current index of the view to change. When the index does change, it updates itself to reflect the new block that can be edited by the user.
 
@@ -2682,7 +2720,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                 <__p_description>Contains all GUI dialog windows used by the core application.</__p_description>
                 <Class>
                     <__p_name>Text</__p_name>
-                    <__p_description>This is the text dialog class. It inherits the qt dialog class. It is a plain text editor with optional spell checking and correction. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.
+                    <__p_description>This is the text dialog class. It is a plain text editor with optional spell checking and correction. Any misspelled words are highlighted and a button is provided that begins spell checking and correction. All spell checking features can be enabled or disabled at initialization of the dialog.
 </__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
                     <Access>
@@ -2795,7 +2833,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                 </Class>
                 <Class>
                     <__p_name>Project</__p_name>
-                    <__p_description>This is the project dialog class. It inherits the qt dialog class. It is a basic form dialog that allows the user to edit the project name and parse path of the model it is given on initialization. It is a persistent dialog that remembers its geometry.</__p_description>
+                    <__p_description>This is the project dialog class. It is a basic form dialog that allows the user to edit the project name and parse path of the model it is given on initialization. It is a persistent dialog that remembers its geometry.</__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
@@ -2917,7 +2955,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                 </Class>
                 <Class>
                     <__p_name>Code</__p_name>
-                    <__p_description>This is the code dialog class. It inherits the qt dialog class. It displays any unknown code fragments given to it. The fragments must be organized into a flat dictionary where the key should provide a meaningful identity about the code fragment to the user. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
+                    <__p_description>This is the code dialog class. It displays any unknown code fragments given to it. The fragments must be organized into a flat dictionary where the key should provide a meaningful identity about the code fragment to the user. The user is provided a list and read only text view to navigate the fragments, along with a copy to clipboard button.</__p_description>
                     <__p_parents>qtw.QDialog</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
@@ -3030,7 +3068,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                 <__p_description>Contains all GUI windows for the core application.</__p_description>
                 <Class>
                     <__p_name>Main</__p_name>
-                    <__p_description>This is the main window class. It inherits the qt main window class. It is designed as a multiple window application. It is the main window of the core application.
+                    <__p_description>This is the main window class. It is designed as a multiple window application. It is the main window of the core application.
 
 It is designed as a multiple window application. Any number of these windows can be open, the application itself will close when the last main window closes. Each main window can edit its own project independent of all other main windows. A reference does not need to be saved for main windows because it keeps its own list of global instances within its class object.
 
@@ -3312,6 +3350,681 @@ Exit action.
             </Module>
         </Package>
         <Package>
+            <__p_name>socref_cpp</__p_name>
+            <__p_description>Contains the C++ language definition for Socrates' Reference.</__p_description>
+            <Module>
+                <__p_name>namespace</__p_name>
+                <__p_description>Contains the namespace block definition.</__p_description>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++ namespace. It is the root block type of a C++ project.</__p_description>
+                    <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <__p_parents>abstract.Block</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new namespace block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_name</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_view</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build_list</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>edit_definitions</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clear_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>enumeration</__p_name>
+                <__p_description>Contains the enumeration block definition.</__p_description>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration.</__p_description>
+                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Block</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>is_class</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this is a class enumeration or false if it is a regular enumeration.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_name</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_view</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build_list</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>edit_definitions</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clear_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>enumeration_value</__p_name>
+                <__p_description>Contains the enumeration value block definition.</__p_description>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration value.</__p_description>
+                    <__p_descriptors>register(&quot;Enumeration Value&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Block</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration value block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_view</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build_list</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>edit_definitions</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clear_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>template</__p_name>
+                <__p_description>Contains the template block definition.</__p_description>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++ template.</__p_description>
+                    <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Block</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new namespace block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_name</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_view</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build_list</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_volatile_above</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>edit_definitions</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clear_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>variable</__p_name>
+                <__p_description>Contains the variable block definition.</__p_description>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
+                    <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <__p_parents>template.Block</__p_parents>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new variable block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>is_constexpr</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is a constant expression or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_static</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is static or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_mutable</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is mutable or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_thread_local</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is thread local or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_argument</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is an argument of a function or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>in_class</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is part of a class or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_name</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_view</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build_list</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_volatile_above</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>edit_definitions</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clear_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__check_flags_</__p_name>
+                            <__p_description>Sets this variable's flags to legal values if it is not part of a class.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__flags_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A bracket enclosed list of flags this block has enabled. If this block has no flags enabled then an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__flags_view_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text list of flags this block has enabled. If this block has no flags enabled then an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>function</__p_name>
+                <__p_description>Contains the function block definition.</__p_description>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++ function.</__p_description>
+                    <__p_parents>namespace.Block</__p_parents>
+                    <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new function block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>is_constructor</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is a constructor or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_destructor</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is a destructor or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_operator</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is an operator or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_default</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is the default or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_deleted</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is deleted or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_explicit</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is an explicit constructor or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_const</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is constant or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_static</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is static or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_noexcept</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function does not throw exceptions or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_virtual</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is virtual or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_override</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is overriding a virtual interface or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_final</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is the final overriding virtual interface or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_abstract</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is abstract or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_method</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is a method or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>has_templates</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function has any templates or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_name</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>display_view</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build_list</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_volatile_above</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Property Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>edit_definitions</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clear_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__check_flags_</__p_name>
+                            <__p_description>Sets this function's flags to legal values if it is not a method.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__flags_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A bracket enclosed list of flags this block has enabled. If this block has no flags enabled then an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+        </Package>
+        <Package>
             <__p_name>socref_python</__p_name>
             <__p_description>Contains the python language definition for Socrates' Reference.</__p_description>
             <Module>
@@ -3353,9 +4066,9 @@ Exit action.
                 <__p_description>Contains the package block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
-                    <__p_parents>abstract.Block</__p_parents>
+                    <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
                     <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <__p_parents>abstract.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3493,9 +4206,9 @@ Exit action.
                 <__p_description>Contains the module block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the module block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
-                    <__p_parents>package.Block</__p_parents>
+                    <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
                     <__p_descriptors>register(&quot;Module&quot;)</__p_descriptors>
+                    <__p_parents>package.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3570,9 +4283,9 @@ Exit action.
                 <__p_description>Contains the object block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the object block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
-                    <__p_parents>package.Block</__p_parents>
+                    <__p_description>This is the object block class. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
                     <__p_descriptors>register(&quot;Object&quot;)</__p_descriptors>
+                    <__p_parents>package.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3722,7 +4435,7 @@ Exit action.
                 <__p_description>Contains the function block definition.</__p_description>
                 <Class>
                     <__p_name>Descriptor</__p_name>
-                    <__p_description>This is the python descriptor class. It inherits the python package block. It partially implements the Socrates' Reference abstract block class. This provides a descriptors property along with utility methods for it. This is meant to act as a base class for any block that has descriptors.</__p_description>
+                    <__p_description>This is the python descriptor class. It partially implements the Socrates' Reference abstract block class. This provides a descriptors property along with utility methods for it. This is meant to act as a base class for any block that has descriptors.</__p_description>
                     <__p_parents>package.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
@@ -3789,9 +4502,9 @@ Exit action.
                 </Class>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the function block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
-                    <__p_parents>Descriptor</__p_parents>
+                    <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_parents>Descriptor</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3974,9 +4687,9 @@ Exit action.
                 <__p_description>Contains the class block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the class block class. It inherits the python descriptor class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
-                    <__p_parents>function.Descriptor</__p_parents>
+                    <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
+                    <__p_parents>function.Descriptor</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4100,10 +4813,7 @@ Exit action.
                 <__p_description>Contains the access block definition.</__p_description>
                 <Class>
                     <__p_name>Block</__p_name>
-                    <__p_description>This is the access block class. It inherits the python package block. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes.
-
-It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.
-</__p_description>
+                    <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.</__p_description>
                     <__p_parents>package.Block</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
                     <Access>

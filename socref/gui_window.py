@@ -21,8 +21,8 @@ from . import gui_dialog
 
 class Main(qtw.QMainWindow):
     """
-    This is the main window class. It inherits the qt main window class. It is designed as a
-    multiple window application. It is the main window of the core application.
+    This is the main window class. It is designed as a multiple window application. It is the main
+    window of the core application.
 
     It is designed as a multiple window application. Any number of these windows can be open, the
     application itself will close when the last main window closes. Each main window can edit its

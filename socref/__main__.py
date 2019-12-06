@@ -21,6 +21,7 @@ def main():
     # Qt likes to catch all exceptions without exiting.
     #
     print(os.getpid())
+    block.Factory().load("C++","socref_cpp")
     block.Factory().load("Python","socref_python")
     application = qtw.QApplication(sys.argv)
     qtc.QCoreApplication.setOrganizationName("Socrates' Gaming Republic")

@@ -1,4 +1,4 @@
-SUBDIRS := socref socref_python
+SUBDIRS := socref socref_cpp socref_python
 
 all: $(SUBDIRS)
 

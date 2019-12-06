@@ -20,11 +20,8 @@ from . import function
 @register("Access")
 class Block(package.Block):
     """
-    This is the access block class. It inherits the python package block. It implements the
-    Socrates' Reference abstract block class. It represents a fictitious access declaration for
-    python classes.
-
-    It represents a fictitious access declaration for python classes. Since python does not actually
+    This is the access block class. It implements the Socrates' Reference abstract block class. It
+    represents a fictitious access declaration for python classes. Since python does not actually
     have any kind of access control, this is simply displayed as a comment inside of the class
     source code. It is mostly helpful in the reference application's project tree view for
     organizing different parts of a class.
@@ -40,7 +37,7 @@ class Block(package.Block):
         """
         Initializes a new access block.
         """
-        abstract.Block.__init__(self)
+        package.Block.__init__(self)
         self._p_name = ""
         self._p_type = "Public"
 

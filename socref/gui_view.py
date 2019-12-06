@@ -16,10 +16,9 @@ from . import model
 
 class Block_Dock(qtw.QDockWidget):
     """
-    This is the block view dock class. It inherits the qt dock widget. It attaches itself to a
-    project view, providing a detailed view of the currently indexed block. It connects the
-    appropriate signal to listen for the current index of the view to change. The detailed view is
-    presented in a qt label as rich text.
+    This is the block view dock class. It attaches itself to a project view, providing a detailed
+    view of the currently indexed block. It connects the appropriate signal to listen for the
+    current index of the view to change. The detailed view is presented in a qt label as rich text.
     """
 
 
@@ -104,9 +103,8 @@ class Block_Dock(qtw.QDockWidget):
 
 class Project(qtw.QTreeView):
     """
-    This is the project view class. It inherits the qt tree view class. It provides the main tree
-    view for a project model. Actions are provided for all basic editing actions done upon this
-    view's model.
+    This is the project view class. It provides the main tree view for a project model. Actions are
+    provided for all basic editing actions done upon this view's model.
 
     It provides the main tree view for a project model. A view acts as the primary view for an
     entire project, allowing the user to navigate and view any part of the project tree. It provides

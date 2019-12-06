@@ -18,10 +18,10 @@ from . import gui_dialog
 
 class Plain_Text(qtw.QPlainTextEdit):
     """
-    This is the plain text class. It inherits the qt plain text edit class. It provides additional
-    functionality to its inherit class. Misspelled words are highlighted. A shortcut is provided to
-    open a larger text editor dialog that has additional spell checking functionality. Misspelled
-    word highlighting and the editor dialog popup features can be enabled or disabled.
+    This is the plain text class. It provides additional functionality to its inherit class.
+    Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog
+    that has additional spell checking functionality. Misspelled word highlighting and the editor
+    dialog popup features can be enabled or disabled.
     """
 
 
@@ -113,8 +113,8 @@ class Plain_Text(qtw.QPlainTextEdit):
 
 class Block_Dock(qtw.QDockWidget):
     """
-    This is the block edit dock class. It inherits the qt dock widget. It attaches itself to a
-    project view. It provides a GUI edit form to the user for modifying a block's properties.
+    This is the block edit dock class. It attaches itself to a project view. It provides a GUI edit
+    form to the user for modifying a block's properties.
 
     It attaches itself to a project view. It connects the appropriate signal to listen for the
     current index of the view to change. When the index does change, it updates itself to reflect
