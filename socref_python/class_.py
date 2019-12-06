@@ -4,7 +4,7 @@ Contains the class block definition.
 import html
 from PySide2 import QtGui as qtg
 from socref import register
-from socref import utility as util
+from socref import utility as ut
 from socref import abstract
 from . import settings
 from . import package
@@ -38,9 +38,9 @@ class Block(function.Descriptor):
         self._p_parents = ""
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def is_abstract(self):
@@ -53,6 +53,11 @@ class Block(function.Descriptor):
             if access.has_abstract():
                 return True
         return False
+
+
+    ##########################
+    # PUBLIC - Basic Methods #
+    ##########################
 
 
     def icon(self):
@@ -82,9 +87,11 @@ class Block(function.Descriptor):
 
         return : See interface docs.
         """
-        parents = "</li><li>".join((parent for parent in self._p_parents.split("\n") if parent))
-        if parents:
-            parents = "<h2>Parents</h2><ul><li>%s</li></ul>" % parents
+        parents = ut.rich_text(
+            2
+            ,"Parents"
+            ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
+        )
         return package.Block.display_view(self) + parents + self._descriptors_view_()
 
 
@@ -109,7 +116,7 @@ class Block(function.Descriptor):
         return : See interface docs.
         """
         ret = package.Block.edit_definitions(self)
-        ret.append(util.text_edit("Parents:","_p_parents"))
+        ret.append(ut.text_edit("Parents:","_p_parents"))
         ret.append(self._descriptors_edit_definition_())
         return ret
 
@@ -164,7 +171,7 @@ class Block(function.Descriptor):
         ret = self._build_descriptors_(begin)
         ret += "%sclass %s(%s):\n" % (begin,self._p_name,self.__build_parents_())
         ret += begin + " "*settings.INDENT + '"""\n'
-        ret += util.wrap_blocks(
+        ret += ut.wrap_blocks(
             self._p_description
             ,begin=begin + " "*settings.INDENT
             ,columns=settings.COLUMNS

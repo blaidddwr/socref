@@ -42,9 +42,9 @@ class Block(package.Block):
         self._p_type = "Public"
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def has_abstract(self):
@@ -58,6 +58,11 @@ class Block(package.Block):
                 if block.is_abstract():
                     return True
         return False
+
+
+    ##########################
+    # PUBLIC - Basic Methods #
+    ##########################
 
 
     def icon(self):
@@ -89,9 +94,10 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        type_ = html.escape(self._p_type.upper())
-        name = html.escape(self._p_name)
-        return "<h1>%s</h1><p>%s</p>" % (type_,name)
+        return "<h1>%s</h1><p>%s</p>" % (
+            html.escape(self._p_type.upper())
+            ,html.escape(self._p_name)
+        )
 
 
     def build_list(self):

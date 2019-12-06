@@ -4,7 +4,7 @@ Contains the package block definition.
 import html
 from PySide2 import QtGui as qtg
 from socref import register
-from socref import utility as util
+from socref import utility as ut
 from socref import abstract
 from . import settings
 from . import parser
@@ -68,12 +68,7 @@ class Block(abstract.Block):
 
         return : See interface docs.
         """
-        description = "</p><p>".join(
-            (html.escape(block) for block in self._p_description.split("\n\n") if block)
-        )
-        if description:
-            description = "<h1>Description</h1><p>%s</p>" % description
-        return description
+        return ut.rich_text_blocks(1,"Description",html.escape(self._p_description))
 
 
     def build_list(self):
@@ -97,8 +92,8 @@ class Block(abstract.Block):
         return : See interface docs.
         """
         ret = []
-        ret.append(util.line_edit("Name:","_p_name"))
-        ret.append(util.text_edit("Description:","_p_description",speller=True))
+        ret.append(ut.line_edit("Name:","_p_name"))
+        ret.append(ut.text_edit("Description:","_p_description",speller=True))
         return ret
 
 
@@ -168,7 +163,7 @@ class Block(abstract.Block):
                  used to generate the lines.
         """
         ret = '"""\n'
-        ret += util.wrap_blocks(self._p_description,columns=settings.COLUMNS)
+        ret += ut.wrap_blocks(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'
         ret += "\n".join(definition.pop("header") + [""])
         return ret

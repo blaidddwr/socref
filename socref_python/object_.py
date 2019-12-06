@@ -4,7 +4,7 @@ Contains the object block definition.
 import html
 from PySide2 import QtGui as qtg
 from socref import register
-from socref import utility as util
+from socref import utility as ut
 from socref import abstract
 from . import settings
 from . import package
@@ -39,9 +39,9 @@ class Block(package.Block):
         self._p_assignment = ""
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def in_class(self):
@@ -60,6 +60,26 @@ class Block(package.Block):
         return : True if this object is an argument of a function or false otherwise.
         """
         return isinstance(self.parent(),function.Block)
+
+
+    def argument_view(self):
+        """
+        Getter method.
+
+        return : Rich text paragraph that describes this object as an argument of a function.
+        """
+        ret = "<p><b>%s " % html.escape(self._p_name)
+        if self._p_assignment:
+            ret += " =</b> " + html.escape(self._p_assignment) + " : "
+        else:
+            ret += "</b> : "
+        ret += html.escape(self._p_description) + "</p>"
+        return ret
+
+
+    ##########################
+    # PUBLIC - Basic Methods #
+    ##########################
 
 
     def icon(self):
@@ -89,25 +109,8 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        assignment = html.escape(self._p_assignment)
-        if assignment:
-            assignment = "<h2>Assignment</h2><p>%s</p>" % assignment
+        assignment = ut.rich_text(2,"Assignment",html.escape(self._p_assignment))
         return package.Block.display_view(self) + assignment
-
-
-    def argument_view(self):
-        """
-        Getter method.
-
-        return : Rich text paragraph that describes this object as an argument of a function.
-        """
-        ret = "<p><b>%s " % html.escape(self._p_name)
-        if self._p_assignment:
-            ret += " =</b> " + html.escape(self._p_assignment) + " : "
-        else:
-            ret += "</b> : "
-        ret += html.escape(self._p_description) + "</p>"
-        return ret
 
 
     def build_list(self):
@@ -140,7 +143,7 @@ class Block(package.Block):
         return : See interface docs.
         """
         ret = package.Block.edit_definitions(self)
-        ret.append(util.line_edit("Assignment:","_p_assignment"))
+        ret.append(ut.line_edit("Assignment:","_p_assignment"))
         return ret
 
 
@@ -188,7 +191,7 @@ class Block(package.Block):
                  argument.
         """
         initial = self._p_name + " : "
-        return util.wrap_text(
+        return ut.wrap_text(
             initial + self._p_description
             ,begin=begin
             ,after=" "*len(initial)
@@ -235,7 +238,7 @@ class Block(package.Block):
         return : See interface docs.
         """
         ret = begin + "#\n"
-        ret += util.wrap_blocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
+        ret += ut.wrap_blocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
         ret += begin + "#\n"
         ret += begin + self._p_name
         if self._p_assignment:

@@ -4,7 +4,7 @@ Contains the function block definition.
 import html
 from PySide2 import QtGui as qtg
 from socref import register
-from socref import utility as util
+from socref import utility as ut
 from socref import abstract
 from . import settings
 from . import package
@@ -99,7 +99,7 @@ class Descriptor(package.Block):
 
         return : The edit definition for this block's descriptors property.
         """
-        return util.text_edit("Descriptors:","_p_descriptors")
+        return ut.text_edit("Descriptors:","_p_descriptors")
 
 
     def _build_descriptors_(self, begin):
@@ -147,9 +147,9 @@ class Block(Descriptor):
         self._p_abstract = "0"
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def is_static(self):
@@ -177,6 +177,11 @@ class Block(Descriptor):
         return : True if this function is a method of a class or false otherwise.
         """
         return isinstance(self.parent(),access.Block)
+
+
+    ##########################
+    # PUBLIC - Basic Methods #
+    ##########################
 
 
     def icon(self):
@@ -215,21 +220,12 @@ class Block(Descriptor):
         return : See interface docs.
         """
         self.__check_flags_()
-        return_description = html.escape(self._p_return_description)
-        if return_description:
-            return_description = "<h2>Return</h2><p>%s</p>" % return_description
-        flags = ""
-        if self.is_static():
-            flags += "<li>Static</li>"
-        if self.is_abstract():
-            flags += "<li>Abstract</li>"
-        if flags:
-            flags = "<h2>Flags</h2><ul>%s</ul>" % flags
+        return_ = ut.rich_text(2,"Return",html.escape(self._p_return_description))
         return (
             package.Block.display_view(self)
-            + self._display_arguments_()
-            + return_description
-            + flags
+            + self.__arguments_view_()
+            + return_
+            + self.__flags_view_()
             + self._descriptors_view_()
         )
 
@@ -255,14 +251,14 @@ class Block(Descriptor):
         return : See interface docs.
         """
         ret = package.Block.edit_definitions(self)
-        ret.append(util.text_edit("Return:","_p_return_description",speller=True))
+        ret.append(ut.text_edit("Return:","_p_return_description",speller=True))
         if self.is_method():
-            ret.append(util.checkbox_edit("Static","_p_static"))
-            ret.append(util.checkbox_edit("Abstract","_p_abstract"))
+            ret.append(ut.checkbox_edit("Static","_p_static"))
+            ret.append(ut.checkbox_edit("Abstract","_p_abstract"))
         else:
-            ret.append(util.hidden_edit("_p_static","0"))
-            ret.append(util.hidden_edit("_p_abstract","0"))
-        ret.append(util.text_edit("Inline Comments:","_p_inlines",speller=True))
+            ret.append(ut.hidden_edit("_p_static","0"))
+            ret.append(ut.hidden_edit("_p_abstract","0"))
+        ret.append(ut.text_edit("Inline Comments:","_p_inlines",speller=True))
         ret.append(self._descriptors_edit_definition_())
         return ret
 
@@ -330,26 +326,6 @@ class Block(Descriptor):
         return ret
 
 
-    #######################
-    # PROTECTED - Methods #
-    #######################
-
-
-    def _display_arguments_(self):
-        """
-        Getter method.
-
-        return : Rich text view of all this function's arguments. If this function has no arguments
-                 then this returns an empty string.
-        """
-        ret = ""
-        for arg in self:
-            ret += arg.argument_view()
-        if ret:
-            ret = "<h2>Arguments</h2>" + ret
-        return ret
-
-
     #####################
     # PRIVATE - Methods #
     #####################
@@ -362,6 +338,36 @@ class Block(Descriptor):
         if not self.is_method():
             self._p_static = "0"
             self._p_abstract = "0"
+
+
+    def __arguments_view_(self):
+        """
+        Getter method.
+
+        return : Rich text detailed view of all this function's arguments. If this function has no
+                 arguments then this returns an empty string.
+        """
+        ret = ""
+        for arg in self:
+            ret += arg.argument_view()
+        if ret:
+            ret = "<h2>Arguments</h2>" + ret
+        return ret
+
+
+    def __flags_view_(self):
+        """
+        Getter method.
+
+        return : Rich text list of flags this block has enabled. If this block has no flags enabled
+                 then an empty string is returned.
+        """
+        flags = ""
+        if self.is_static():
+            flags += "<li>Static</li>"
+        if self.is_abstract():
+            flags += "<li>Abstract</li>"
+        return ut.rich_text(2,"Flags",flags)
 
 
     def __build_header_(self, begin):
@@ -392,7 +398,7 @@ class Block(Descriptor):
         return : A string that is the source code doc string of this function.
         """
         ret = begin + " "*settings.INDENT + '"""\n'
-        ret += util.wrap_blocks(
+        ret += ut.wrap_blocks(
             self._p_description
             ,begin=begin + " "*settings.INDENT
             ,columns=settings.COLUMNS
@@ -403,7 +409,7 @@ class Block(Descriptor):
             initial = "return : "
             ret += (
                 "\n"
-                + util.wrap_text(
+                + ut.wrap_text(
                     initial + self._p_return_description
                     ,begin=begin + " "*settings.INDENT
                     ,after=" "*len(initial)
@@ -433,7 +439,7 @@ class Block(Descriptor):
             if line.endswith("#"):
                 if inlines:
                     ret += begin + " "*settings.INDENT + line + "\n"
-                    ret += util.wrap_text(
+                    ret += ut.wrap_text(
                         inlines.pop(0)
                         ,begin=begin + " "*settings.INDENT + line + " "
                         ,columns=settings.COLUMNS

@@ -3821,8 +3821,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++ function.</__p_description>
-                    <__p_parents>namespace.Block</__p_parents>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4297,7 +4297,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>in_class</__p_name>
@@ -4313,6 +4313,17 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>argument_view</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text paragraph that describes this object as an argument of a function.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4331,13 +4342,6 @@ Exit action.
                             <__p_name>display_view</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>argument_view</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>Rich text paragraph that describes this object as an argument of a function.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4516,7 +4520,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>is_static</__p_name>
@@ -4539,6 +4543,10 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4624,21 +4632,24 @@ Exit action.
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
-                        <__p_type>Protected</__p_type>
-                        <Function>
-                            <__p_name>_display_arguments_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>Rich text view of all this function's arguments. If this function has no arguments then this returns an empty string.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__check_flags_</__p_name>
                             <__p_description>Sets this function's flags to legal values if it is not a method.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__arguments_view_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text detailed view of all this function's arguments. If this function has no arguments then this returns an empty string.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__flags_view_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text list of flags this block has enabled. If this block has no flags enabled then an empty string is returned.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4701,7 +4712,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>is_abstract</__p_name>
@@ -4710,6 +4721,10 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4814,8 +4829,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.</__p_description>
-                    <__p_parents>package.Block</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <__p_parents>package.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4827,7 +4842,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>has_abstract</__p_name>
@@ -4836,6 +4851,10 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Basic Methods</__p_name>
+                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
