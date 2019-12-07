@@ -36,9 +36,9 @@ class Block(abstract.Block):
         self._p_description = ""
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def icon(self):
@@ -75,11 +75,6 @@ class Block(abstract.Block):
         return : See interface docs.
         """
         return ("Namespace","Enumeration","Variable","Function","Class","Union")
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def edit_definitions(self):

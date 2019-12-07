@@ -35,9 +35,9 @@ class Block(package.Block):
         package.Block.__init__(self)
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ############################
+    # PUBLIC - Parsing Methods #
+    ############################
 
 
     def icon(self):
@@ -58,22 +58,12 @@ class Block(package.Block):
         return ("Object","Function","Class")
 
 
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
-
-
     def set_default_properties(self):
         """
         Implements the socref.abstract.Block interface.
         """
         package.Block.set_default_properties(self)
         self._p_name = "module"
-
-
-    ############################
-    # PUBLIC - Parsing Methods #
-    ############################
 
 
     def file_name(self):

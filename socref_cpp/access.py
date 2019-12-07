@@ -56,11 +56,6 @@ class Block(namespace.Block):
         return False
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
-
-
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
@@ -112,11 +107,6 @@ class Block(namespace.Block):
         return : See interface docs.
         """
         return True
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def edit_definitions(self):

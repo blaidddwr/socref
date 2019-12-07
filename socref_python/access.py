@@ -60,11 +60,6 @@ class Block(package.Block):
         return False
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
-
-
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
@@ -118,11 +113,6 @@ class Block(package.Block):
         return True
 
 
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
-
-
     def edit_definitions(self):
         """
         Implements the socref.abstract.Block interface.
@@ -153,11 +143,6 @@ class Block(package.Block):
         """
         self._p_name = ""
         self._p_type = "Public"
-
-
-    ############################
-    # PUBLIC - Parsing Methods #
-    ############################
 
 
     def space(self, previous):

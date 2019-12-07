@@ -55,11 +55,6 @@ class Block(function.Descriptor):
         return False
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
-
-
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
@@ -104,11 +99,6 @@ class Block(function.Descriptor):
         return ("Access",)
 
 
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
-
-
     def edit_definitions(self):
         """
         Implements the socref.abstract.Block interface.
@@ -136,11 +126,6 @@ class Block(function.Descriptor):
         """
         function.Descriptor.clear_properties(self)
         self._p_parents = ""
-
-
-    ############################
-    # PUBLIC - Parsing Methods #
-    ############################
 
 
     def space(self, previous):

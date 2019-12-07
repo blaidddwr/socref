@@ -405,7 +405,7 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Interfaces</__p_name>
+                        <__p_name>Abstract</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
@@ -436,24 +436,6 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
-                            <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
-                            <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks above it. Above in this context is going up a block's parent. True if this block can effect the blocks above it or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>is_volatile_below</__p_name>
-                            <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
-                            <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks below it. Below in this context is going down a block's children. True if this block can effect the blocks below it or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Interfaces</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
                             <__p_return_description>A list of edit definition dictionaries informing the core application how to build  the edit GUI for this block.</__p_return_description>
@@ -471,31 +453,6 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             <__p_description>This interface clears all of this block's properties to their null state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Parsing Interfaces</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>dir_name</__p_name>
-                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
-                            <__p_return_description>A directory name this block represents in the source code structure of its respective project, if any. If this block does not represent a directory then none is returned.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>file_name</__p_name>
-                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
-                            <__p_return_description>A file name this block represents in the source code of its respective project, if any. If this block does not represent a file then none is returned.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>parser</__p_name>
-                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
-                            <__p_return_description>An abstract parser implementation used to parse the source code of a project if this is the root block, else none if this is not the root block.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -582,6 +539,31 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                                 <__p_name>item</__p_name>
                                 <__p_description>An item used to set the attribute with the given key.</__p_description>
                             </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>parser</__p_name>
+                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
+                            <__p_return_description>An abstract parser implementation used to parse the source code of a project if this is the root block, else none if this is not the root block.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_volatile_below</__p_name>
+                            <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
+                            <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks below it. Below in this context is going down a block's children. True if this block can effect the blocks below it or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>is_volatile_above</__p_name>
+                            <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
+                            <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks above it. Above in this context is going up a block's parent. True if this block can effect the blocks above it or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -1358,7 +1340,7 @@ It has built in support for undo and redo of any modification done to it. Method
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Qt Model Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>headerData</__p_name>
@@ -1522,10 +1504,6 @@ It has built in support for undo and redo of any modification done to it. Method
                                 <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>name</__p_name>
                             <__p_description>Getter method.</__p_description>
@@ -3390,7 +3368,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
@@ -3420,10 +3398,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -3474,10 +3448,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -3506,10 +3476,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -3551,7 +3517,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
@@ -3574,10 +3540,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -3622,17 +3584,6 @@ Exit action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>argument_view</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>Rich text paragraph that describes this template as an argument.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -3654,6 +3605,13 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>argument_view</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text paragraph that describes this template as an argument.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>build_list</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -3667,10 +3625,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -3756,10 +3710,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -3795,10 +3745,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -3895,8 +3841,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++ function.</__p_description>
-                    <__p_parents>Templatee</__p_parents>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_parents>Templatee</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4008,10 +3954,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4047,10 +3989,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4110,8 +4048,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++ class.</__p_description>
-                    <__p_parents>function.Templatee</__p_parents>
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
+                    <__p_parents>function.Templatee</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4123,7 +4061,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
@@ -4153,10 +4091,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4185,8 +4119,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++ class.</__p_description>
-                    <__p_parents>namespace.Block</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4207,10 +4141,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4246,10 +4176,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4278,8 +4204,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++ union.</__p_description>
-                    <__p_parents>namespace.Block</__p_parents>
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4291,7 +4217,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
@@ -4307,10 +4233,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4377,7 +4299,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
@@ -4407,10 +4329,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4430,14 +4348,17 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Parsing Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>dir_name</__p_name>
-                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A directory name this block represents in the source code structure of its respective project, if any. If this block does not represent a directory then none is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>file_name</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A file name this block represents in the source code of its respective project, if any. If this block does not represent a file then none is returned.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4517,7 +4438,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Basic Methods</__p_name>
+                        <__p_name>Parsing Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
@@ -4533,20 +4454,12 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Parsing Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>file_name</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4611,17 +4524,6 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>argument_view</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>Rich text paragraph that describes this object as an argument of a function.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -4643,6 +4545,13 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>argument_view</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text paragraph that describes this object as an argument of a function.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>build_list</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -4656,10 +4565,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4679,10 +4584,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Parsing Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>argument</__p_name>
                             <__p_description>Getter method.</__p_description>
@@ -4749,7 +4650,7 @@ Exit action.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Property Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>set_default_properties</__p_name>
@@ -4840,10 +4741,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4872,10 +4769,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -4895,10 +4788,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Parsing Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>space</__p_name>
                             <__p_description>Implements the .package.Block interface.</__p_description>
@@ -5018,10 +4907,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -5050,10 +4935,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -5073,10 +4954,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Parsing Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>space</__p_name>
                             <__p_description>Implements the .package.Block interface.</__p_description>
@@ -5148,10 +5025,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Basic Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -5187,10 +5060,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Property Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
@@ -5210,10 +5079,6 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Parsing Methods</__p_name>
-                        <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>space</__p_name>
                             <__p_description>Implements the .package.Block interface.</__p_description>

@@ -86,9 +86,9 @@ class Block(abc.ABC):
         self.__properties = {}
 
 
-    #############################
-    # PUBLIC - Basic Interfaces #
-    #############################
+    #####################
+    # PUBLIC - Abstract #
+    #####################
 
 
     @abc.abstractmethod
@@ -131,33 +131,6 @@ class Block(abc.ABC):
         pass
 
 
-    def is_volatile_above(self):
-        """
-        This interface is a getter method. The default implementation returns false.
-
-        return : A Boolean indicating if a change in this block's properties can effect the blocks
-                 above it. Above in this context is going up a block's parent. True if this block
-                 can effect the blocks above it or false otherwise.
-        """
-        return False
-
-
-    def is_volatile_below(self):
-        """
-        This interface is a getter method. The default implementation returns false.
-
-        return : A Boolean indicating if a change in this block's properties can effect the blocks
-                 below it. Below in this context is going down a block's children. True if this
-                 block can effect the blocks below it or false otherwise.
-        """
-        return False
-
-
-    ################################
-    # PUBLIC - Property Interfaces #
-    ################################
-
-
     @abc.abstractmethod
     def edit_definitions(self):
         """
@@ -181,42 +154,6 @@ class Block(abc.ABC):
     def clear_properties(self):
         """
         This interface clears all of this block's properties to their null state.
-        """
-        pass
-
-
-    ###############################
-    # PUBLIC - Parsing Interfaces #
-    ###############################
-
-
-    def dir_name(self):
-        """
-        This interface is a getter method. The default implementation returns none.
-
-        return : A directory name this block represents in the source code structure of its
-                 respective project, if any. If this block does not represent a directory then none
-                 is returned.
-        """
-        pass
-
-
-    def file_name(self):
-        """
-        This interface is a getter method. The default implementation returns none.
-
-        return : A file name this block represents in the source code of its respective project, if
-                 any. If this block does not represent a file then none is returned.
-        """
-        pass
-
-
-    def parser(self):
-        """
-        This interface is a getter method. The default implementation returns none.
-
-        return : An abstract parser implementation used to parse the source code of a project if
-                 this is the root block, else none if this is not the root block.
         """
         pass
 
@@ -316,6 +253,43 @@ class Block(abc.ABC):
             self.__properties[key] = item
         else:
             object.__setattr__(self,key,item)
+
+
+    ####################
+    # PUBLIC - Methods #
+    ####################
+
+
+    def parser(self):
+        """
+        This interface is a getter method. The default implementation returns none.
+
+        return : An abstract parser implementation used to parse the source code of a project if
+                 this is the root block, else none if this is not the root block.
+        """
+        pass
+
+
+    def is_volatile_below(self):
+        """
+        This interface is a getter method. The default implementation returns false.
+
+        return : A Boolean indicating if a change in this block's properties can effect the blocks
+                 below it. Below in this context is going down a block's children. True if this
+                 block can effect the blocks below it or false otherwise.
+        """
+        return False
+
+
+    def is_volatile_above(self):
+        """
+        This interface is a getter method. The default implementation returns false.
+
+        return : A Boolean indicating if a change in this block's properties can effect the blocks
+                 above it. Above in this context is going up a block's parent. True if this block
+                 can effect the blocks above it or false otherwise.
+        """
+        return False
 
 
     ####################

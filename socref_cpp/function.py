@@ -250,11 +250,6 @@ class Block(Templatee):
         return self.parent()._TYPE_ == "Access"
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
-
-
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
@@ -341,11 +336,6 @@ class Block(Templatee):
         return : See interface docs.
         """
         return self.is_method()
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def edit_definitions(self):

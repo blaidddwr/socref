@@ -62,26 +62,6 @@ class Block(package.Block):
         return isinstance(self.parent(),function.Block)
 
 
-    def argument_view(self):
-        """
-        Getter method.
-
-        return : Rich text paragraph that describes this object as an argument of a function.
-        """
-        ret = "<p><b>%s " % html.escape(self._p_name)
-        if self._p_assignment:
-            ret += " =</b> " + html.escape(self._p_assignment) + " : "
-        else:
-            ret += "</b> : "
-        ret += html.escape(self._p_description) + "</p>"
-        return ret
-
-
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
-
-
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
@@ -113,6 +93,21 @@ class Block(package.Block):
         return package.Block.display_view(self) + assignment
 
 
+    def argument_view(self):
+        """
+        Getter method.
+
+        return : Rich text paragraph that describes this object as an argument of a function.
+        """
+        ret = "<p><b>%s " % html.escape(self._p_name)
+        if self._p_assignment:
+            ret += " =</b> " + html.escape(self._p_assignment) + " : "
+        else:
+            ret += "</b> : "
+        ret += html.escape(self._p_description) + "</p>"
+        return ret
+
+
     def build_list(self):
         """
         Implements the socref.abstract.Block interface.
@@ -129,11 +124,6 @@ class Block(package.Block):
         return : See interface docs.
         """
         return self.is_argument()
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def edit_definitions(self):
@@ -162,11 +152,6 @@ class Block(package.Block):
         """
         package.Block.clear_properties(self)
         self._p_assignment = ""
-
-
-    ############################
-    # PUBLIC - Parsing Methods #
-    ############################
 
 
     def argument(self):

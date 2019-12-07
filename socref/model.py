@@ -231,9 +231,9 @@ class Project(qtc.QAbstractItemModel):
         return 0 if self.__root is None else 1
 
 
-    #############################
-    # PUBLIC - Qt Model Methods #
-    #############################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def headerData(self, section, orientation, role):
@@ -419,11 +419,6 @@ class Project(qtc.QAbstractItemModel):
         return : See qt docs.
         """
         return self.insertRows(row,(block_type,),parent)
-
-
-    ####################
-    # PUBLIC - Methods #
-    ####################
 
 
     def name(self):

@@ -97,11 +97,6 @@ class Block(template.Block):
         return self.parent()._TYPE_ == "Access"
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
-
-
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
@@ -155,11 +150,6 @@ class Block(template.Block):
         return : See interface docs.
         """
         return self.is_argument()
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def edit_definitions(self):

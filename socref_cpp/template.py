@@ -41,26 +41,6 @@ class Block(namespace.Block):
     ####################
 
 
-    def argument_view(self):
-        """
-        Getter method.
-
-        return : Rich text paragraph that describes this template as an argument.
-        """
-        ret = "<p><b>%s " % html.escape(self._p_type.replace("@",self._p_name))
-        if self._p_assignment:
-            ret += " =</b> " + html.escape(self._p_assignment) + " : "
-        else:
-            ret += "</b> : "
-        ret += html.escape(self._p_description) + "</p>"
-        return ret
-
-
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
-
-
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
@@ -90,6 +70,21 @@ class Block(namespace.Block):
         return namespace.Block.display_view(self) + type_ + assignment
 
 
+    def argument_view(self):
+        """
+        Getter method.
+
+        return : Rich text paragraph that describes this template as an argument.
+        """
+        ret = "<p><b>%s " % html.escape(self._p_type.replace("@",self._p_name))
+        if self._p_assignment:
+            ret += " =</b> " + html.escape(self._p_assignment) + " : "
+        else:
+            ret += "</b> : "
+        ret += html.escape(self._p_description) + "</p>"
+        return ret
+
+
     def build_list(self):
         """
         Implements the socref.abstract.Block interface.
@@ -106,11 +101,6 @@ class Block(namespace.Block):
         return : See interface docs.
         """
         return True
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def edit_definitions(self):

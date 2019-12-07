@@ -39,9 +39,9 @@ class Block(abstract.Block):
         self._p_description = ""
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def icon(self):
@@ -80,11 +80,6 @@ class Block(abstract.Block):
         return ("Package","Module")
 
 
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
-
-
     def edit_definitions(self):
         """
         Implements the socref.abstract.Block interface.
@@ -113,19 +108,26 @@ class Block(abstract.Block):
         self._p_description = ""
 
 
-    ############################
-    # PUBLIC - Parsing Methods #
-    ############################
-
-
     def dir_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        This interface is a getter method.
 
-        return : See interface docs.
+        return : A directory name this block represents in the source code structure of its
+                 respective project, if any. If this block does not represent a directory then none
+                 is returned.
         """
         if self._TYPE_ == "Package":
             return self._p_name
+
+
+    def file_name(self):
+        """
+        This interface is a getter method.
+
+        return : A file name this block represents in the source code of its respective project, if
+                 any. If this block does not represent a file then none is returned.
+        """
+        pass
 
 
     def parser(self):

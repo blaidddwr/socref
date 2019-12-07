@@ -34,9 +34,9 @@ class Block(namespace.Block):
         namespace.Block.__init__(self)
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def icon(self):
@@ -55,11 +55,6 @@ class Block(namespace.Block):
         return : See interface docs.
         """
         return ("Variable",)
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def set_default_properties(self):

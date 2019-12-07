@@ -36,9 +36,9 @@ class Block(function.Templatee):
         self._p_header = ""
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def icon(self):
@@ -75,11 +75,6 @@ class Block(function.Templatee):
         return : See interface docs.
         """
         return ("Template","Access")
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def edit_definitions(self):

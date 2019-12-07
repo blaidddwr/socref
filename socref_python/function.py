@@ -38,9 +38,9 @@ class Descriptor(package.Block):
         self._p_descriptors = ""
 
 
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def set_default_properties(self):
@@ -181,11 +181,6 @@ class Block(Descriptor):
         return isinstance(self.parent(),access.Block)
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
-
-
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
@@ -241,11 +236,6 @@ class Block(Descriptor):
         return ("Object",)
 
 
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
-
-
     def edit_definitions(self):
         """
         Implements the socref.abstract.Block interface.
@@ -286,11 +276,6 @@ class Block(Descriptor):
         self._p_inlines = ""
         self._p_static = "0"
         self._p_abstract = "0"
-
-
-    ############################
-    # PUBLIC - Parsing Methods #
-    ############################
 
 
     def space(self, previous):

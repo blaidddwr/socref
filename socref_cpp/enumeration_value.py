@@ -35,9 +35,9 @@ class Block(namespace.Block):
         self._p_value = ""
 
 
-    ##########################
-    # PUBLIC - Basic Methods #
-    ##########################
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def icon(self):
@@ -66,11 +66,6 @@ class Block(namespace.Block):
         return : See interface docs.
         """
         return ()
-
-
-    #############################
-    # PUBLIC - Property Methods #
-    #############################
 
 
     def edit_definitions(self):
