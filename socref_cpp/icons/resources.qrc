@@ -1,6 +1,7 @@
 <RCC>
     <qresource prefix="/cpp">
         <file>namespace.svg</file>
+        <file>hidden_namespace.svg</file>
         <file>enumeration.svg</file>
         <file>enumeration_value.svg</file>
         <file>template.svg</file>

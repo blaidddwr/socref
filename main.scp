@@ -671,13 +671,9 @@ The parsing process is separated into building a path list, scanning, building, 
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new abstract parser with the given root block.</__p_description>
+                            <__p_description>Initializes a new abstract parser.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>root_block</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
                         </Function>
                     </Access>
                     <Access>
@@ -755,13 +751,6 @@ The parsing process is separated into building a path list, scanning, building, 
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
-                        <Function>
-                            <__p_name>_root_block_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>Root block of this parser.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
                         <Function>
                             <__p_name>_add_path_</__p_name>
                             <__p_description>Adds the given source code file path and associated block to the list of paths and associated blocks to be scanned and built. This must be called within the build path list interface.</__p_description>
@@ -3351,11 +3340,10 @@ Exit action.
             <__p_description>Contains the C++ language definition for Socrates' Reference.</__p_description>
             <Module>
                 <__p_name>namespace</__p_name>
-                <__p_description>Contains the namespace block definition.</__p_description>
+                <__p_description>Contains the namespace block definition and generic base block.</__p_description>
                 <Class>
-                    <__p_name>Block</__p_name>
-                    <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++ namespace. It is the root block type of a C++ project.</__p_description>
-                    <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <__p_name>Base</__p_name>
+                    <__p_description>This is the base block class. It implements the Socrates' Reference abstract block class. It is a base block class the many other C++ blocks use which contains name and description properties.</__p_description>
                     <__p_parents>abstract.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
@@ -3371,13 +3359,6 @@ Exit action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>display_name</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -3386,6 +3367,66 @@ Exit action.
                         </Function>
                         <Function>
                             <__p_name>display_view</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>edit_definitions</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>set_default_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clear_properties</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Block</__p_name>
+                    <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++ namespace. It is the root block type of a C++ project.</__p_description>
+                    <__p_parents>Base</__p_parents>
+                    <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new namespace block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>is_hidden</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this is a hidden namespace that must not have its name added to the scoping of source code files nor have its own header or source file. If this is a regular visible namespace then false is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>has_functions</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this namespace has one or more functions or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -3417,6 +3458,13 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>parser</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                     </Access>
                 </Class>
             </Module>
@@ -3426,8 +3474,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration.</__p_description>
+                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3504,8 +3552,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration value.</__p_description>
+                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration Value&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3568,8 +3616,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++ template.</__p_description>
+                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3653,8 +3701,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
-                    <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
                     <__p_parents>template.Block</__p_parents>
+                    <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3793,11 +3841,11 @@ Exit action.
             </Module>
             <Module>
                 <__p_name>function</__p_name>
-                <__p_description>Contains the function block definition.</__p_description>
+                <__p_description>Contains the function block definition and generic templatee block.</__p_description>
                 <Class>
                     <__p_name>Templatee</__p_name>
                     <__p_description>This is the templatee class. It provides methods for handling template block children. This is meant to act as a base class for any block that can have templates.</__p_description>
-                    <__p_parents>namespace.Block</__p_parents>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4064,6 +4112,13 @@ Exit action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
+                            <__p_name>is_abstract</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this class contains any abstract functions or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -4119,8 +4174,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++ class.</__p_description>
+                    <__p_parents>abstract.Block</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4204,8 +4259,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++ union.</__p_description>
+                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
-                    <__p_parents>namespace.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4238,6 +4293,107 @@ Exit action.
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>parser</__p_name>
+                <__p_description>Contains the C++ language parser. It also contains all helper functions and classes used for the parsing process.</__p_description>
+                <Class>
+                    <__p_name>Parser</__p_name>
+                    <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser.</__p_description>
+                    <__p_parents>abstract.Parser</__p_parents>
+                    <Access>
+                        <__p_name>Initializer</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new C++ parser with the given root namespace block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>root</__p_name>
+                                <__p_description>A namespace block that is the root block of a C++ project that this new parser will parse.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>unknown</__p_name>
+                            <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_build_path_list_</__p_name>
+                            <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>_scan_</__p_name>
+                            <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>_build_</__p_name>
+                            <__p_description>Implements the socref.abstract.Parser interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>block</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__scan_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__build_paths_</__p_name>
+                            <__p_description>Recursively adds source code paths using the given parent block and scope.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>The parent block whose children are scanned for potential paths.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>The scope of the given parent block with double colons being replaced by an underscore.</__p_description>
+                            </Object>
                         </Function>
                     </Access>
                 </Class>
@@ -4634,7 +4790,7 @@ Exit action.
             </Module>
             <Module>
                 <__p_name>function</__p_name>
-                <__p_description>Contains the function block definition.</__p_description>
+                <__p_description>Contains the function block definition and generic descriptor block.</__p_description>
                 <Class>
                     <__p_name>Descriptor</__p_name>
                     <__p_description>This is the descriptor class. It partially implements the Socrates' Reference abstract block class. This provides a descriptors property along with utility methods for it. This is meant to act as a base class for any block that has descriptors.</__p_description>
@@ -4903,7 +5059,7 @@ Exit action.
                         <Function>
                             <__p_name>is_abstract</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this class contains any abstract functions for false otherwise.</__p_return_description>
+                            <__p_return_description>True if this class contains any abstract functions or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -5003,8 +5159,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.</__p_description>
+                    <__p_parents>abstract.Block</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
-                    <__p_parents>package.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>

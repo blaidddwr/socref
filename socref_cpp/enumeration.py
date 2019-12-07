@@ -14,7 +14,7 @@ from . import namespace
 
 
 @register("Enumeration")
-class Block(namespace.Block):
+class Block(namespace.Base):
     """
     This is the enumeration block class. It implements the Socrates' Reference abstract block class.
     It represents a C++ enumeration.
@@ -30,7 +30,7 @@ class Block(namespace.Block):
         """
         Initializes a new enumeration block.
         """
-        namespace.Block.__init__(self)
+        namespace.Base.__init__(self)
         self._p_class = "0"
 
 
@@ -76,7 +76,7 @@ class Block(namespace.Block):
         return : See interface docs.
         """
         class_ = "<p><i>Class</i></p>" if self.is_class() else ""
-        return namespace.Block.display_view(self) + class_
+        return namespace.Base.display_view(self) + class_
 
 
     def build_list(self):
@@ -94,7 +94,7 @@ class Block(namespace.Block):
 
         return : See interface docs.
         """
-        ret = namespace.Block.edit_definitions(self)
+        ret = namespace.Base.edit_definitions(self)
         ret.append(ut.checkbox_edit("Class","_p_class"))
         return ret
 
@@ -103,7 +103,7 @@ class Block(namespace.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        namespace.Block.set_default_properties(self)
+        namespace.Base.set_default_properties(self)
         self._p_name = "enumeration"
         self._p_class = "0"
 
@@ -112,5 +112,5 @@ class Block(namespace.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        namespace.Block.clear_properties(self)
+        namespace.Base.clear_properties(self)
         self._p_class = "0"

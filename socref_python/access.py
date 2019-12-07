@@ -7,7 +7,6 @@ from socref import register
 from socref import utility as util
 from socref import abstract
 from . import settings
-from . import package
 
 
 
@@ -17,7 +16,7 @@ from . import package
 
 
 @register("Access")
-class Block(package.Block):
+class Block(abstract.Block):
     """
     This is the access block class. It implements the Socrates' Reference abstract block class. It
     represents a fictitious access declaration for python classes. Since python does not actually
@@ -36,7 +35,7 @@ class Block(package.Block):
         """
         Initializes a new access block.
         """
-        package.Block.__init__(self)
+        abstract.Block.__init__(self)
         self._p_name = ""
         self._p_type = "Public"
 

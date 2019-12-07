@@ -6,7 +6,6 @@ from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
 from socref import abstract
-from . import namespace
 
 
 
@@ -16,7 +15,7 @@ from . import namespace
 
 
 @register("Access")
-class Block(namespace.Block):
+class Block(abstract.Block):
     """
     This is the access block class. It implements the Socrates' Reference abstract block class. It
     represents an access declaration for C++ class.
@@ -32,7 +31,7 @@ class Block(namespace.Block):
         """
         Initializes a new access block.
         """
-        namespace.Block.__init__(self)
+        abstract.Block.__init__(self)
         self._p_name = ""
         self._p_type = "Public"
         self._p_enclosure = ""

@@ -453,14 +453,11 @@ class Parser(abc.ABC):
     #######################
 
 
-    def __init__(self, root_block):
+    def __init__(self):
         """
-        Initializes a new abstract parser with the given root block.
-
-        root_block : Detailed description.
+        Initializes a new abstract parser.
         """
         abc.ABC.__init__(self)
-        self.__root_block = root_block
         self.__root_path = ""
         self.__paths = []
         self.__blocks = []
@@ -578,15 +575,6 @@ class Parser(abc.ABC):
     #######################
     # PROTECTED - Methods #
     #######################
-
-
-    def _root_block_(self):
-        """
-        Getter method.
-
-        return : Root block of this parser.
-        """
-        return self.__root_block
 
 
     def _add_path_(self, block, path):

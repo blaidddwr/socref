@@ -41,13 +41,28 @@ class Block(function.Templatee):
     ####################
 
 
+    def is_abstract(self):
+        """
+        Getter method.
+
+        return : True if this class contains any abstract functions or false otherwise.
+        """
+        for child in self:
+            if child._TYPE_ == "Access" and child.has_abstract():
+                return True
+        return False
+
+
     def icon(self):
         """
         Implements the socref.abstract.Block interface.
 
         return : See interface docs.
         """
-        return qtg.QIcon(":/cpp/class.svg")
+        if self.is_abstract():
+            return qtg.QIcon(":/cpp/abstract_class.svg")
+        else:
+            return qtg.QIcon(":/cpp/class.svg")
 
 
     def display_name(self):

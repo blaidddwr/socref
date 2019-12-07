@@ -15,7 +15,7 @@ from . import namespace
 
 
 @register("Template")
-class Block(namespace.Block):
+class Block(namespace.Base):
     """
     This is the template block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ template.
@@ -31,7 +31,7 @@ class Block(namespace.Block):
         """
         Initializes a new namespace block.
         """
-        namespace.Block.__init__(self)
+        namespace.Base.__init__(self)
         self._p_type = ""
         self._p_assignment = ""
 
@@ -67,7 +67,7 @@ class Block(namespace.Block):
         """
         type_ = ut.rich_text(2,"Type",html.escape(self._p_type))
         assignment = ut.rich_text(2,"Assignment",html.escape(self._p_assignment))
-        return namespace.Block.display_view(self) + type_ + assignment
+        return namespace.Base.display_view(self) + type_ + assignment
 
 
     def argument_view(self):
@@ -109,7 +109,7 @@ class Block(namespace.Block):
 
         return : See interface docs.
         """
-        ret = namespace.Block.edit_definitions(self)
+        ret = namespace.Base.edit_definitions(self)
         ret.append(ut.line_edit("Type:","_p_type"))
         ret.append(ut.line_edit("Assignment:","_p_assignment"))
         return ret
@@ -119,7 +119,7 @@ class Block(namespace.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        namespace.Block.set_default_properties(self)
+        namespace.Base.set_default_properties(self)
         self._p_name = "Template"
         self._p_type = "class @"
         self._p_assignment = ""
@@ -129,7 +129,7 @@ class Block(namespace.Block):
         """
         Implements the socref.abstract.Block interface.
         """
-        namespace.Block.clear_properties(self)
+        namespace.Base.clear_properties(self)
         self._p_name = ""
         self._p_type = ""
         self._p_assignment = ""

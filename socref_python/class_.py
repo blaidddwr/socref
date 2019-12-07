@@ -47,7 +47,7 @@ class Block(function.Descriptor):
         """
         Getter method.
 
-        return : True if this class contains any abstract functions for false otherwise.
+        return : True if this class contains any abstract functions or false otherwise.
         """
         for access in self:
             if access.has_abstract():

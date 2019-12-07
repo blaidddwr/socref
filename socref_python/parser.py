@@ -127,7 +127,8 @@ class Parser(abstract.Parser):
         root : A package block that is the root block of a python project that this new parser will
                parse.
         """
-        abstract.Parser.__init__(self,root)
+        abstract.Parser.__init__(self)
+        self.__root_block = root
         self.__doc_pattern = re.compile(' *"""')
         self.__import_pattern = re.compile('^(from|import).*')
         self.__class_pattern = re.compile('^class +([a-zA-Z_]+\w*)\([\w\._]*\):')
@@ -169,7 +170,7 @@ class Parser(abstract.Parser):
         """
         Implements the socref.abstract.Parser interface.
         """
-        self.__build_paths_(self._root_block_(),"")
+        self.__build_paths_(self.__root_block,"")
 
 
     def _scan_(self, path):

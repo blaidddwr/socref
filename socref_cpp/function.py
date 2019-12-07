@@ -1,5 +1,5 @@
 """
-Contains the function block definition.
+Contains the function block definition and generic templatee block.
 """
 import html
 from PySide2 import QtGui as qtg
@@ -14,7 +14,7 @@ from . import namespace
 
 
 
-class Templatee(namespace.Block):
+class Templatee(namespace.Base):
     """
     This is the templatee class. It provides methods for handling template block children. This is
     meant to act as a base class for any block that can have templates.
@@ -30,7 +30,7 @@ class Templatee(namespace.Block):
         """
         Initializes a new templatee block.
         """
-        namespace.Block.__init__(self)
+        namespace.Base.__init__(self)
 
 
     ####################
@@ -312,7 +312,7 @@ class Block(Templatee):
         return_ = ut.rich_text(2,"Return",return_)
         flags = ut.rich_text_list(2,"Flags",self.__flags_list_())
         return (
-            namespace.Block.display_view(self)
+            namespace.Base.display_view(self)
             + self._templates_view_()
             + self.__arguments_view_()
             + return_
@@ -344,7 +344,7 @@ class Block(Templatee):
 
         return : See interface docs.
         """
-        ret = namespace.Block.edit_definitions(self)
+        ret = namespace.Base.edit_definitions(self)
         ret.append(ut.line_edit("Return Type:","_p_return_type"))
         ret.append(ut.text_edit("Return Description:","_p_return_description",speller=True))
         ret.append(ut.checkbox_edit("No Exceptions","_p_noexcept"))
@@ -376,7 +376,7 @@ class Block(Templatee):
         """
         Implements the socref.abstract.Block interface.
         """
-        namespace.Block.set_default_properties(self)
+        namespace.Base.set_default_properties(self)
         self._p_name = "function"
         self._p_return_type = "void"
         self._p_return_description = "Detailed Description."
@@ -397,7 +397,7 @@ class Block(Templatee):
         """
         Implements the socref.abstract.Block interface.
         """
-        namespace.Block.clear_properties(self)
+        namespace.Base.clear_properties(self)
         self._p_return_type = ""
         self._p_return_description = ""
         self._p_inlines = ""
