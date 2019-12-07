@@ -8,7 +8,6 @@ from socref import utility as ut
 from socref import abstract
 from . import settings
 from . import package
-from . import access
 
 
 
@@ -178,7 +177,7 @@ class Block(Descriptor):
 
         return : True if this function is a method of a class or false otherwise.
         """
-        return isinstance(self.parent(),access.Block)
+        return self.parent()._TYPE_ == "Access"
 
 
     def icon(self):

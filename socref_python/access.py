@@ -8,7 +8,6 @@ from socref import utility as util
 from socref import abstract
 from . import settings
 from . import package
-from . import function
 
 
 
@@ -54,7 +53,7 @@ class Block(package.Block):
         return : True if this access block contains abstract methods or false otherwise.
         """
         for block in self:
-            if isinstance(block,function.Block):
+            if block._TYPE_ == "Function":
                 if block.is_abstract():
                     return True
         return False

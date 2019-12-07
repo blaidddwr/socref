@@ -8,8 +8,6 @@ from socref import utility as ut
 from socref import abstract
 from . import settings
 from . import package
-from . import function
-from . import access
 
 
 
@@ -50,7 +48,7 @@ class Block(package.Block):
 
         return : True if this object is part of a class or false otherwise.
         """
-        return isinstance(self.parent(),access.Block)
+        return self.parent()._TYPE_ == "Access"
 
 
     def is_argument(self):
@@ -59,7 +57,7 @@ class Block(package.Block):
 
         return : True if this object is an argument of a function or false otherwise.
         """
-        return isinstance(self.parent(),function.Block)
+        return self.parent()._TYPE_ == "Function"
 
 
     def icon(self):
