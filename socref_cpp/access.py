@@ -43,7 +43,7 @@ class Access(abstract.AbstractBlock):
     ####################
 
 
-    def has_abstract(self):
+    def hasAbstract(self):
         """
         Getter method.
 
@@ -51,7 +51,7 @@ class Access(abstract.AbstractBlock):
         """
         for block in self:
             if block._TYPE_ == "Function":
-                if block.is_abstract():
+                if block.isAbstract():
                     return True
         return False
 

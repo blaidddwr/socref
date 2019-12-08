@@ -42,14 +42,14 @@ class Class(function.Templatee):
     ####################
 
 
-    def is_abstract(self):
+    def isAbstract(self):
         """
         Getter method.
 
         return : True if this class contains any abstract functions or false otherwise.
         """
         for child in self:
-            if child._TYPE_ == "Access" and child.has_abstract():
+            if child._TYPE_ == "Access" and child.hasAbstract():
                 return True
         return False
 
@@ -70,7 +70,7 @@ class Class(function.Templatee):
 
         return : See interface docs.
         """
-        if self.is_abstract():
+        if self.isAbstract():
             return qtg.QIcon(":/cpp/abstract_class.svg")
         elif self.is_virtual():
             return qtg.QIcon(":/cpp/virtual_class.svg")
@@ -148,7 +148,7 @@ class Class(function.Templatee):
 
         definitions : Detailed description.
         """
-        ret = self.__build_header_guard_()
+        ret = self.__buildHeaderGuard_()
         names = []
         up = self.parent()
         while up is not None:
@@ -244,7 +244,7 @@ class Class(function.Templatee):
     #####################
 
 
-    def __build_header_guard_(self):
+    def __buildHeaderGuard_(self):
         """
         Detailed description.
         """

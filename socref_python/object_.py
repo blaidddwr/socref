@@ -42,56 +42,7 @@ class Object(package.Package):
     ####################
 
 
-    def in_class(self):
-        """
-        Getter method.
-
-        return : True if this object is part of a class or false otherwise.
-        """
-        return self.parent()._TYPE_ == "Access"
-
-
-    def is_argument(self):
-        """
-        Getter method.
-
-        return : True if this object is an argument of a function or false otherwise.
-        """
-        return self.parent()._TYPE_ == "Function"
-
-
-    def icon(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return qtg.QIcon(":/python/object.svg")
-
-
-    def displayName(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        ret = self._p_name
-        if self.is_argument() and self._p_assignment:
-            ret += " ="
-        return ret
-
-
-    def displayView(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
-        return package.Package.displayView(self) + assignment
-
-
-    def argument_view(self):
+    def argumentView(self):
         """
         Getter method.
 
@@ -103,110 +54,6 @@ class Object(package.Package):
         else:
             ret += "</b> : "
         ret += html.escape(self._p_description) + "</p>"
-        return ret
-
-
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ()
-
-
-    def isVolatileAbove(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return self.is_argument()
-
-
-    def editDefinitions(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        ret = package.Package.editDefinitions(self)
-        ret.append(ut.lineEdit("Assignment:","_p_assignment"))
-        return ret
-
-
-    def setDefaultProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        package.Package.setDefaultProperties(self)
-        self._p_name = "object"
-        self._p_assignment = ""
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        package.Package.clearProperties(self)
-        self._p_assignment = ""
-
-
-    def argument(self):
-        """
-        Getter method.
-
-        return : A string that is the source code for this object as a function argument.
-        """
-        ret = self._p_name
-        if self._p_assignment:
-            ret += "=" + self._p_assignment
-        return ret
-
-
-    def comment(self, begin):
-        """
-        Detailed description.
-
-        begin : The indent or begin string that is appended to every line of returned source code.
-
-        return : A string that is the source code doc string fragment for this object as a function
-                 argument.
-        """
-        initial = self._p_name + " : "
-        return ut.wrapText(
-            initial + self._p_description
-            ,begin=begin
-            ,after=" "*len(initial)
-            ,columns=settings.COLUMNS
-        )
-
-
-    def space(self, previous):
-        """
-        Implements the .package.Package interface.
-
-        previous : See interface docs.
-
-        return : See interface docs.
-        """
-        ret = ""
-        if self.in_class():
-            if previous is None:
-                ret = "\n"*settings.H3LINES
-            elif previous._TYPE_ == "Function":
-                ret = "\n"*settings.H2LINES
-            else:
-                ret = ""
-        else:
-            if previous is None:
-                ret = "\n"*settings.H3LINES
-            elif previous._TYPE_ == "Function":
-                ret = "\n"*settings.H2LINES
-            elif previous._TYPE_ == "Class":
-                ret = "\n"*settings.H1LINES
-            else:
-                ret = ""
         return ret
 
 
@@ -227,4 +74,157 @@ class Object(package.Package):
         if self._p_assignment:
             ret += " = " + self._p_assignment
         ret += "\n"
+        return ret
+
+
+    def buildArgument(self):
+        """
+        Getter method.
+
+        return : A string that is the source code for this object as a function argument.
+        """
+        ret = self._p_name
+        if self._p_assignment:
+            ret += "=" + self._p_assignment
+        return ret
+
+
+    def buildComment(self, begin):
+        """
+        Detailed description.
+
+        begin : The indent or begin string that is appended to every line of returned source code.
+
+        return : A string that is the source code doc string fragment for this object as a function
+                 argument.
+        """
+        initial = self._p_name + " : "
+        return ut.wrapText(
+            initial + self._p_description
+            ,begin=begin
+            ,after=" "*len(initial)
+            ,columns=settings.COLUMNS
+        )
+
+
+    def buildList(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return ()
+
+
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        package.Package.clearProperties(self)
+        self._p_assignment = ""
+
+
+    def displayName(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        ret = self._p_name
+        if self.isArgument() and self._p_assignment:
+            ret += " ="
+        return ret
+
+
+    def displayView(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
+        return package.Package.displayView(self) + assignment
+
+
+    def editDefinitions(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        ret = package.Package.editDefinitions(self)
+        ret.append(ut.lineEdit("Assignment:","_p_assignment"))
+        return ret
+
+
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return qtg.QIcon(":/python/object.svg")
+
+
+    def inClass(self):
+        """
+        Getter method.
+
+        return : True if this object is part of a class or false otherwise.
+        """
+        return self.parent()._TYPE_ == "Access"
+
+
+    def isArgument(self):
+        """
+        Getter method.
+
+        return : True if this object is an argument of a function or false otherwise.
+        """
+        return self.parent()._TYPE_ == "Function"
+
+
+    def isVolatileAbove(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return self.isArgument()
+
+
+    def setDefaultProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        package.Package.setDefaultProperties(self)
+        self._p_name = "object"
+        self._p_assignment = ""
+
+
+    def space(self, previous):
+        """
+        Implements the .package.Package interface.
+
+        previous : See interface docs.
+
+        return : See interface docs.
+        """
+        ret = ""
+        if self.inClass():
+            if previous is None:
+                ret = "\n"*settings.H3LINES
+            elif previous._TYPE_ == "Function":
+                ret = "\n"*settings.H2LINES
+            else:
+                ret = ""
+        else:
+            if previous is None:
+                ret = "\n"*settings.H3LINES
+            elif previous._TYPE_ == "Function":
+                ret = "\n"*settings.H2LINES
+            elif previous._TYPE_ == "Class":
+                ret = "\n"*settings.H1LINES
+            else:
+                ret = ""
         return ret

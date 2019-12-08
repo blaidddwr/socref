@@ -3678,7 +3678,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>argument_view</__p_name>
+                            <__p_name>argumentView</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Rich text paragraph that describes this template as an argument.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -3765,7 +3765,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_static</__p_name>
+                            <__p_name>isStatic</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this variable is static or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -3786,14 +3786,14 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_argument</__p_name>
+                            <__p_name>isArgument</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this variable is an argument of a function or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>in_class</__p_name>
+                            <__p_name>inClass</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this variable is part of a class or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -3882,7 +3882,7 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__check_flags_</__p_name>
+                            <__p_name>__checkFlags_</__p_name>
                             <__p_description>Sets this variable's flags to legal values if it is an argument or not part of a class.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3895,7 +3895,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__flags_view_</__p_name>
+                            <__p_name>__flagsView_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Rich text list of flags this block has enabled. If this block has no flags enabled then an empty string is returned.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4031,7 +4031,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_static</__p_name>
+                            <__p_name>isStatic</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this function is static or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4066,14 +4066,14 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_abstract</__p_name>
+                            <__p_name>isAbstract</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this function is abstract or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_method</__p_name>
+                            <__p_name>isMethod</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this function is a method or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4158,7 +4158,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__check_flags_</__p_name>
+                            <__p_name>__checkFlags_</__p_name>
                             <__p_description>Sets this function's flags to legal values if it is not a method.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4171,7 +4171,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__arguments_view_</__p_name>
+                            <__p_name>__argumentsView_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Rich text detailed view of all this function's arguments. If this function has no arguments then this returns an empty string.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4209,7 +4209,7 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>is_abstract</__p_name>
+                            <__p_name>isAbstract</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this class contains any abstract functions or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4338,7 +4338,7 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__build_header_guard_</__p_name>
+                            <__p_name>__buildHeaderGuard_</__p_name>
                             <__p_description>Detailed description.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4368,7 +4368,7 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>has_abstract</__p_name>
+                            <__p_name>hasAbstract</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this access block contains abstract methods or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4601,7 +4601,7 @@ Edit toolbar.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__build_paths_</__p_name>
+                            <__p_name>__buildPaths_</__p_name>
                             <__p_description>Recursively adds source code paths using the given parent block and scope.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4625,14 +4625,14 @@ Edit toolbar.
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for the core application.</__p_description>
                 <Object>
+                    <__p_name>ABSTRACT_DESCRIPTOR</__p_name>
+                    <__p_description>The descriptor, without the leading ampersand, used to make a class's method abstract.</__p_description>
+                    <__p_assignment>&quot;abc.abstractmethod&quot;</__p_assignment>
+                </Object>
+                <Object>
                     <__p_name>COLUMNS</__p_name>
                     <__p_description>The maximum number of columns for any one line of code.</__p_description>
                     <__p_assignment>100</__p_assignment>
-                </Object>
-                <Object>
-                    <__p_name>INDENT</__p_name>
-                    <__p_description>The number of spaces used for each indent.</__p_description>
-                    <__p_assignment>4</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>
@@ -4650,9 +4650,9 @@ Edit toolbar.
                     <__p_assignment>2</__p_assignment>
                 </Object>
                 <Object>
-                    <__p_name>ABSTRACT_DESCRIPTOR</__p_name>
-                    <__p_description>The descriptor, without the leading ampersand, used to make a class's method abstract.</__p_description>
-                    <__p_assignment>&quot;abc.abstractmethod&quot;</__p_assignment>
+                    <__p_name>INDENT</__p_name>
+                    <__p_description>The number of spaces used for each indent.</__p_description>
+                    <__p_assignment>4</__p_assignment>
                 </Object>
             </Module>
             <Module>
@@ -4677,9 +4677,38 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>icon</__p_name>
+                            <__p_name>build</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A string of source code lines that is the build output of this block and represents it in the source code. The given scanned definitions and optional begin string are used to generate the lines.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>Scanned definitions that contains any lines of code scanned from the old source code files.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>An optional string that is appended to every line of the returned source code.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clearProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>dirName</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A directory name this block represents in the source code structure of its respective project, if any. If this block does not represent a directory then none is returned.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4698,14 +4727,28 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>buildList</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>editDefinitions</__p_name>
+                            <__p_name>fileName</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A file name this block represents in the source code of its respective project, if any. If this block does not represent a file then none is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>parser</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4714,33 +4757,6 @@ Edit toolbar.
                         <Function>
                             <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>dir_name</__p_name>
-                            <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A directory name this block represents in the source code structure of its respective project, if any. If this block does not represent a directory then none is returned.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>file_name</__p_name>
-                            <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A file name this block represents in the source code of its respective project, if any. If this block does not represent a file then none is returned.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>parser</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4755,28 +4771,12 @@ Edit toolbar.
                                 <__p_description>The block whose source code output is previous to this one.</__p_description>
                             </Object>
                         </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A string of source code lines that is the build output of this block and represents it in the source code. The given scanned definitions and optional begin string are used to generate the lines.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>Scanned definitions that contains any lines of code scanned from the old source code files.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>An optional string that is appended to every line of the returned source code.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_build_children_</__p_name>
+                            <__p_name>_buildChildren_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A string that is the combined source code of all this block's children's build interface, separated using their space interface.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4813,35 +4813,8 @@ Edit toolbar.
                         </Function>
                     </Access>
                     <Access>
-                        <__p_name>Parsing Methods</__p_name>
+                        <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>icon</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>file_name</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
                         <Function>
                             <__p_name>build</__p_name>
                             <__p_description>Implements the .package.Package interface.</__p_description>
@@ -4859,6 +4832,33 @@ Edit toolbar.
                                 <__p_description>See interface docs.</__p_description>
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>fileName</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                 </Class>
@@ -4885,23 +4885,56 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>in_class</__p_name>
+                            <__p_name>argumentView</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this object is part of a class or false otherwise.</__p_return_description>
+                            <__p_return_description>Rich text paragraph that describes this object as an argument of a function.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_argument</__p_name>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .package.Package interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildArgument</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this object is an argument of a function or false otherwise.</__p_return_description>
+                            <__p_return_description>A string that is the source code for this object as a function argument.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>icon</__p_name>
+                            <__p_name>buildComment</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_return_description>A string that is the source code doc string fragment for this object as a function argument.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>The indent or begin string that is appended to every line of returned source code.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clearProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4920,28 +4953,35 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>argument_view</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>Rich text paragraph that describes this object as an argument of a function.</__p_return_description>
+                            <__p_name>editDefinitions</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>buildList</__p_name>
+                            <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>inClass</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this object is part of a class or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isArgument</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this object is an argument of a function or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>isVolatileAbove</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4954,30 +4994,6 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>argument</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string that is the source code for this object as a function argument.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>comment</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>A string that is the source code doc string fragment for this object as a function argument.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>The indent or begin string that is appended to every line of returned source code.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
                             <__p_name>space</__p_name>
                             <__p_description>Implements the .package.Package interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -4986,22 +5002,6 @@ Edit toolbar.
                             <Object>
                                 <__p_name>previous</__p_name>
                                 <__p_description>See interface docs.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the .package.Package interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                         </Function>
                     </Access>
@@ -5028,13 +5028,13 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clearProperties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5044,28 +5044,7 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_descriptors_name_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string that is a decoration for a block's display name providing information about its descriptors. If this block has no descriptors then an empty string is returned.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>_descriptors_view_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A rich text string providing detailed information about this block's descriptors. If this block has no descriptors then an empty string is returned.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>_descriptors_edit_definition_</__p_name>
-                            <__p_description>Getter Method.</__p_description>
-                            <__p_return_description>The edit definition for this block's descriptors property.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>_build_descriptors_</__p_name>
+                            <__p_name>_buildDescriptors_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A string that is the source code for this block's descriptors. If this block has no descriptors an empty string is returned.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -5074,6 +5053,27 @@ Edit toolbar.
                                 <__p_name>begin</__p_name>
                                 <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
                             </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>_descriptorsEditDefinition_</__p_name>
+                            <__p_description>Getter Method.</__p_description>
+                            <__p_return_description>The edit definition for this block's descriptors property.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>_descriptorsName_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is a decoration for a block's display name providing information about its descriptors. If this block has no descriptors then an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>_descriptorsView_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A rich text string providing detailed information about this block's descriptors. If this block has no descriptors then an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                 </Class>
@@ -5096,30 +5096,31 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>is_static</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this function is static or false otherwise.</__p_return_description>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .package.Package interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
                         </Function>
                         <Function>
-                            <__p_name>is_abstract</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this function is abstract or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>is_method</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this function is a method of a class or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>icon</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clearProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -5138,13 +5139,6 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -5152,13 +5146,35 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clearProperties</__p_name>
+                            <__p_name>isAbstract</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is abstract or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isMethod</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is a method of a class or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isStatic</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this function is static or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5174,59 +5190,19 @@ Edit toolbar.
                                 <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the .package.Package interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__check_flags_</__p_name>
-                            <__p_description>Sets this function's flags to legal values if it is not a method.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__arguments_view_</__p_name>
+                            <__p_name>__argumentsView_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Rich text detailed view of all this function's arguments. If this function has no arguments then this returns an empty string.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__flags_view_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>Rich text list of flags this block has enabled. If this block has no flags enabled then an empty string is returned.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__build_header_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string that is the source code of this function's header. The header includes any descriptors and the define line.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__build_doc_string_</__p_name>
+                            <__p_name>__buildDocString_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A string that is the source code doc string of this function.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -5237,7 +5213,18 @@ Edit toolbar.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__build_lines_</__p_name>
+                            <__p_name>__buildHeader_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the source code of this function's header. The header includes any descriptors and the define line.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildLines_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A string that is the source code lines generated from the given list of code lines and this function's inline comments.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -5250,6 +5237,19 @@ Edit toolbar.
                                 <__p_name>begin</__p_name>
                                 <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
                             </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__checkFlags_</__p_name>
+                            <__p_description>Sets this function's flags to legal values if it is not a method.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__flagsView_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Rich text list of flags this block has enabled. If this block has no flags enabled then an empty string is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                 </Class>
@@ -5276,16 +5276,33 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>is_abstract</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this class contains any abstract functions or false otherwise.</__p_return_description>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .package.Package interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_inlines>Get the scanned dictionary definition of this class.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>icon</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -5304,13 +5321,6 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -5318,13 +5328,21 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clearProperties</__p_name>
+                            <__p_name>isAbstract</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this class contains any abstract functions or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5340,30 +5358,12 @@ Edit toolbar.
                                 <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the .package.Package interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_inlines>Get the scanned dictionary definition of this class.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__build_parents_</__p_name>
+                            <__p_name>__buildParents_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A string that is the source code fragment of this class block's parents used in its source code header line.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -5394,16 +5394,31 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>has_abstract</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this access block contains abstract methods or false otherwise.</__p_return_description>
+                            <__p_name>build</__p_name>
+                            <__p_description>Implements the .package.Package interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                                <__p_assignment>&quot;&quot;</__p_assignment>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildList</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>icon</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -5422,7 +5437,21 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>buildList</__p_name>
+                            <__p_name>editDefinitions</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>hasAbstract</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this access block contains abstract methods or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -5436,20 +5465,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>editDefinitions</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5465,22 +5481,6 @@ Edit toolbar.
                                 <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
-                        <Function>
-                            <__p_name>build</__p_name>
-                            <__p_description>Implements the .package.Package interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                                <__p_assignment>&quot;&quot;</__p_assignment>
-                            </Object>
-                        </Function>
                     </Access>
                 </Class>
             </Module>
@@ -5488,7 +5488,7 @@ Edit toolbar.
                 <__p_name>parser</__p_name>
                 <__p_description>Contains the python language parser. It also contains all helper functions and classes used for the parsing process.</__p_description>
                 <Function>
-                    <__p_name>unique_insert</__p_name>
+                    <__p_name>uniqueInsert</__p_name>
                     <__p_description>Inserts the given item into the given dictionary with the given key. If the given key already exists in the dictionary a number is appended to the key string until a key is found that does not exist in the dictionary.</__p_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
@@ -5505,42 +5505,6 @@ Edit toolbar.
                         <__p_description>The item that is inserted into the given dictionary.</__p_description>
                     </Object>
                 </Function>
-                <Class>
-                    <__p_name>Scanner</__p_name>
-                    <__p_description>This is the parser scanner class. It provides an object oriented scanner for an input file given to it at initialization. This scans python lines of code, skipping blank lines. It keeps track of the block of code it is scanning by the indent, stopping once a smaller indent is encountered.</__p_description>
-                    <Access>
-                        <__p_name>Initializer</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>__init__</__p_name>
-                            <__p_description>Initializes a new scanner with the given input file.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>ifile</__p_name>
-                                <__p_description>The input file that is scanned.</__p_description>
-                            </Object>
-                        </Function>
-                    </Access>
-                    <Access>
-                        <__p_name>Methods</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Function>
-                            <__p_name>indent</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The indent size in spaces of the code block this scanner is reading. This must be called after the read line method is called at least once.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>readline</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The next line of python source code read in from this scanner's input file. If the end of file is reached or the end of the code block with the determined indent then this returns none. The first time this is called the indent of the block to be read is determined with the first line of code encountered.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                    </Access>
-                </Class>
                 <Class>
                     <__p_name>Parser</__p_name>
                     <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser.</__p_description>
@@ -5574,6 +5538,21 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
+                            <__p_name>_build_</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>block</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>_buildPathList_</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
                             <__p_static>0</__p_static>
@@ -5589,27 +5568,12 @@ Edit toolbar.
                                 <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
-                        <Function>
-                            <__p_name>_build_</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>block</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__build_paths_</__p_name>
+                            <__p_name>__buildPaths_</__p_name>
                             <__p_description>Recursively adds source code paths to be scanned using the given parent block and path.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5623,18 +5587,7 @@ Edit toolbar.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__scan_header_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A list of import code lines scanned from the header of the given python script file. It is assumed all import lines occur at the beginning of the file right after any initial doc string. It is also assumed the import lines end with at least one blank line.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>ifile</__p_name>
-                                <__p_description>The python script file whose import lines of code are scanned.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__scan_class_</__p_name>
+                            <__p_name>__scanClass_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Scanned class definition containing any found and scanned method's lines of code from the class definition in the given python script file at its current seek position.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -5645,7 +5598,7 @@ Edit toolbar.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__scan_function_</__p_name>
+                            <__p_name>__scanFunction_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>Scanned function definition containing all lines of scanned code along with inline comment markers from the function definition in the given python script file at its current seek position.</__p_return_description>
                             <__p_inlines>Latch is used to read in only the first line of any continuous block of comment lines.
@@ -5658,7 +5611,18 @@ Edit toolbar.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__skip_doc_string_</__p_name>
+                            <__p_name>__scanHeader_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of import code lines scanned from the header of the given python script file. It is assumed all import lines occur at the beginning of the file right after any initial doc string. It is also assumed the import lines end with at least one blank line.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>The python script file whose import lines of code are scanned.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__skipDocString_</__p_name>
                             <__p_description>Seeks past any initial doc string starting at the current seek index of the given python script file. Blank lines also skipped and ignored.</__p_description>
                             <__p_inlines>Initialize the doc line count to 0.
 
@@ -5680,7 +5644,7 @@ Else if this is not a blank line and the doc line count is 0 then return.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__unknown_functions_</__p_name>
+                            <__p_name>__unknownFunctions_</__p_name>
                             <__p_description>Adds unknown code fragment strings to the given dictionary using the given root key for any remaining function lines in the given definition of functions.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5696,6 +5660,42 @@ Else if this is not a blank line and the doc line count is 0 then return.
                                 <__p_name>definition</__p_name>
                                 <__p_description>A functions definition generated from scanning and used by builders.</__p_description>
                             </Object>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Scanner</__p_name>
+                    <__p_description>This is the parser scanner class. It provides an object oriented scanner for an input file given to it at initialization. This scans python lines of code, skipping blank lines. It keeps track of the block of code it is scanning by the indent, stopping once a smaller indent is encountered.</__p_description>
+                    <Access>
+                        <__p_name>Initializer</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new scanner with the given input file.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>The input file that is scanned.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>indent</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The indent size in spaces of the code block this scanner is reading. This must be called after the read line method is called at least once.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>readline</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The next line of python source code read in from this scanner's input file. If the end of file is reached or the end of the code block with the determined indent then this returns none. The first time this is called the indent of the block to be read is determined with the first line of code encountered.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                 </Class>

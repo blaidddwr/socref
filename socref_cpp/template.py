@@ -71,7 +71,7 @@ class Template(namespace.Base):
         return namespace.Base.displayView(self) + type_ + assignment
 
 
-    def argument_view(self):
+    def argumentView(self):
         """
         Getter method.
 

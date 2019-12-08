@@ -44,113 +44,6 @@ class Package(abstract.AbstractBlock):
     ####################
 
 
-    def icon(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return qtg.QIcon(":/python/package.svg")
-
-
-    def displayName(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return self._p_name
-
-
-    def displayView(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ut.richTextBlocks(1,"Description",html.escape(self._p_description))
-
-
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ("Package","Module")
-
-
-    def editDefinitions(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        ret = []
-        ret.append(ut.lineEdit("Name:","_p_name"))
-        ret.append(ut.textEdit("Description:","_p_description",speller=True))
-        return ret
-
-
-    def setDefaultProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        self._p_name = "package"
-        self._p_description = "Detailed description."
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        self._p_name = ""
-        self._p_description = ""
-
-
-    def dir_name(self):
-        """
-        This interface is a getter method.
-
-        return : A directory name this block represents in the source code structure of its
-                 respective project, if any. If this block does not represent a directory then none
-                 is returned.
-        """
-        if self._TYPE_ == "Package":
-            return self._p_name
-
-
-    def file_name(self):
-        """
-        This interface is a getter method.
-
-        return : A file name this block represents in the source code of its respective project, if
-                 any. If this block does not represent a file then none is returned.
-        """
-        pass
-
-
-    def parser(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return parser.Parser(self)
-
-
-    def space(self, previous):
-        """
-        This interface is a getter method.
-
-        previous : The block whose source code output is previous to this one.
-
-        return : The number of blank lines that separates this block's source code output from the
-                 given previous block's output. The default implementation returns an empty string.
-        """
-        return ""
-
-
     def build(self, definition, begin=""):
         """
         This interface is a getter method.
@@ -171,12 +64,119 @@ class Package(abstract.AbstractBlock):
         return ret
 
 
+    def buildList(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return ("Package","Module")
+
+
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        self._p_name = ""
+        self._p_description = ""
+
+
+    def dirName(self):
+        """
+        This interface is a getter method.
+
+        return : A directory name this block represents in the source code structure of its
+                 respective project, if any. If this block does not represent a directory then none
+                 is returned.
+        """
+        if self._TYPE_ == "Package":
+            return self._p_name
+
+
+    def displayName(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return self._p_name
+
+
+    def displayView(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return ut.richTextBlocks(1,"Description",html.escape(self._p_description))
+
+
+    def editDefinitions(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        ret = []
+        ret.append(ut.lineEdit("Name:","_p_name"))
+        ret.append(ut.textEdit("Description:","_p_description",speller=True))
+        return ret
+
+
+    def fileName(self):
+        """
+        This interface is a getter method.
+
+        return : A file name this block represents in the source code of its respective project, if
+                 any. If this block does not represent a file then none is returned.
+        """
+        pass
+
+
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return qtg.QIcon(":/python/package.svg")
+
+
+    def parser(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return parser.Parser(self)
+
+
+    def setDefaultProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        self._p_name = "package"
+        self._p_description = "Detailed description."
+
+
+    def space(self, previous):
+        """
+        This interface is a getter method.
+
+        previous : The block whose source code output is previous to this one.
+
+        return : The number of blank lines that separates this block's source code output from the
+                 given previous block's output. The default implementation returns an empty string.
+        """
+        return ""
+
+
     #######################
     # PROTECTED - Methods #
     #######################
 
 
-    def _build_children_(self, definition, begin=""):
+    def _buildChildren_(self, definition, begin=""):
         """
         Getter method.
 

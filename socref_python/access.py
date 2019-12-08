@@ -46,31 +46,39 @@ class Access(package.Package):
     ####################
 
 
-    def has_abstract(self):
+    def build(self, definition, begin=""):
         """
-        Getter method.
+        Implements the .package.Package interface.
 
-        return : True if this access block contains abstract methods or false otherwise.
+        definition : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
         """
-        for block in self:
-            if block._TYPE_ == "Function":
-                if block.is_abstract():
-                    return True
-        return False
+        line = "# %s - %s #" % (self._p_type.upper(),self._p_name)
+        ret = begin + "#"*len(line) + "\n"
+        ret += begin + line + "\n"
+        ret += begin + "#"*len(line) + "\n"
+        ret += self._buildChildren_(definition,begin)
+        return ret
 
 
-    def icon(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        if self._p_type == "Public":
-            return qtg.QIcon(":/python/public.svg")
-        elif  self._p_type == "Protected":
-            return qtg.QIcon(":/python/protected.svg")
-        else:
-            return qtg.QIcon(":/python/private.svg")
+        return ("Object","Function")
+
+
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        self._p_name = ""
+        self._p_type = "Public"
 
 
     def displayName(self):
@@ -94,24 +102,6 @@ class Access(package.Package):
         )
 
 
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ("Object","Function")
-
-
-    def isVolatileAbove(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return True
-
-
     def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
@@ -128,19 +118,47 @@ class Access(package.Package):
         return ret
 
 
+    def hasAbstract(self):
+        """
+        Getter method.
+
+        return : True if this access block contains abstract methods or false otherwise.
+        """
+        for block in self:
+            if block._TYPE_ == "Function":
+                if block.isAbstract():
+                    return True
+        return False
+
+
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        if self._p_type == "Public":
+            return qtg.QIcon(":/python/public.svg")
+        elif  self._p_type == "Protected":
+            return qtg.QIcon(":/python/protected.svg")
+        else:
+            return qtg.QIcon(":/python/private.svg")
+
+
+    def isVolatileAbove(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return True
+
+
     def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = "access"
-        self._p_type = "Public"
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        self._p_name = ""
         self._p_type = "Public"
 
 
@@ -153,21 +171,3 @@ class Access(package.Package):
         return : See interface docs.
         """
         return "\n"*settings.H3LINES
-
-
-    def build(self, definition, begin=""):
-        """
-        Implements the .package.Package interface.
-
-        definition : See interface docs.
-
-        begin : See interface docs.
-
-        return : See interface docs.
-        """
-        line = "# %s - %s #" % (self._p_type.upper(),self._p_name)
-        ret = begin + "#"*len(line) + "\n"
-        ret += begin + line + "\n"
-        ret += begin + "#"*len(line) + "\n"
-        ret += self._build_children_(definition,begin)
-        return ret

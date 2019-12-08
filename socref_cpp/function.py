@@ -105,7 +105,7 @@ class Templatee(namespace.Base):
         return ut.richText(
             2
             ,"Templates"
-            ,"".join((child.argument_view() for child in self if child._TYPE_ == "Template"))
+            ,"".join((child.argumentView() for child in self if child._TYPE_ == "Template"))
         )
 
 
@@ -216,7 +216,7 @@ class Function(Templatee):
         return bool(int(self._p_const))
 
 
-    def is_static(self):
+    def isStatic(self):
         """
         Getter method.
 
@@ -261,7 +261,7 @@ class Function(Templatee):
         return bool(int(self._p_final))
 
 
-    def is_abstract(self):
+    def isAbstract(self):
         """
         Getter method.
 
@@ -270,7 +270,7 @@ class Function(Templatee):
         return bool(int(self._p_abstract))
 
 
-    def is_method(self):
+    def isMethod(self):
         """
         Getter method.
 
@@ -288,25 +288,25 @@ class Function(Templatee):
         if self.is_constructor():
             return qtg.QIcon(":/cpp/constructor.svg")
         elif self.is_destructor():
-            if self.is_abstract():
+            if self.isAbstract():
                 return qtg.QIcon(":/cpp/abstract_destructor.svg")
             elif self.is_virtual():
                 return qtg.QIcon(":/cpp/virtual_destructor.svg")
             else:
                 return qtg.QIcon(":/cpp/destructor.svg")
         elif self.is_operator():
-            if self.is_abstract():
+            if self.isAbstract():
                 return qtg.QIcon(":/cpp/abstract_operator.svg")
             elif self.is_virtual():
                 return qtg.QIcon(":/cpp/virtual_operator.svg")
             else:
                 return qtg.QIcon(":/cpp/operator.svg")
         else:
-            if self.is_abstract():
+            if self.isAbstract():
                 return qtg.QIcon(":/cpp/abstract_function.svg")
             elif self.is_virtual():
                 return qtg.QIcon(":/cpp/virtual_function.svg")
-            elif self.is_static():
+            elif self.isStatic():
                 return qtg.QIcon(":/cpp/static_function.svg")
             else:
                 return qtg.QIcon(":/cpp/function.svg")
@@ -334,7 +334,7 @@ class Function(Templatee):
 
         return : See interface docs.
         """
-        self.__check_flags_()
+        self.__checkFlags_()
         return_ = ""
         if self._p_return_type != "void":
             return_ = "<p><b>%s</b> : %s</p>" % (self._p_return_type,self._p_return_description)
@@ -343,7 +343,7 @@ class Function(Templatee):
         return (
             namespace.Base.displayView(self)
             + self._templates_view_()
-            + self.__arguments_view_()
+            + self.__argumentsView_()
             + return_
             + flags
         )
@@ -364,7 +364,7 @@ class Function(Templatee):
 
         return : See interface docs.
         """
-        return self.is_method()
+        return self.isMethod()
 
 
     def editDefinitions(self):
@@ -377,7 +377,7 @@ class Function(Templatee):
         ret.append(ut.lineEdit("Return Type:","_p_return_type"))
         ret.append(ut.textEdit("Return Description:","_p_return_description",speller=True))
         ret.append(ut.checkboxEdit("No Exceptions","_p_noexcept"))
-        if self.is_method():
+        if self.isMethod():
             ret.append(ut.checkboxEdit("Default","_p_default"))
             ret.append(ut.checkboxEdit("Deleted","_p_deleted"))
             ret.append(ut.checkboxEdit("Explicit","_p_explicit"))
@@ -487,17 +487,17 @@ class Function(Templatee):
         """
         Detailed description.
         """
-        if self.is_method():
+        if self.isMethod():
             return self._p_name.replace("^",self.parent().parent()._p_name)
         else:
             return self._p_name
 
 
-    def __check_flags_(self):
+    def __checkFlags_(self):
         """
         Sets this function's flags to legal values if it is not a method.
         """
-        if not self.is_method():
+        if not self.isMethod():
             self._p_default = "0"
             self._p_deleted = "0"
             self._p_explicit = "0"
@@ -525,7 +525,7 @@ class Function(Templatee):
             ret += "E"
         if self.is_const():
             ret += "C"
-        if self.is_static():
+        if self.isStatic():
             ret += "S"
         if self.is_noexcept():
             ret += "N"
@@ -535,12 +535,12 @@ class Function(Templatee):
             ret += "O"
         if self.is_final():
             ret += "F"
-        if self.is_abstract():
+        if self.isAbstract():
             ret += "A"
         return ret
 
 
-    def __arguments_view_(self):
+    def __argumentsView_(self):
         """
         Getter method.
 
@@ -550,7 +550,7 @@ class Function(Templatee):
         return ut.richText(
             2
             ,"Arguments"
-            ,"".join((child.argument_view() for child in self if child._TYPE_ == "Variable"))
+            ,"".join((child.argumentView() for child in self if child._TYPE_ == "Variable"))
         )
 
 
@@ -570,7 +570,7 @@ class Function(Templatee):
             flags.append("Explicit")
         if self.is_const():
             flags.append("Constant")
-        if self.is_static():
+        if self.isStatic():
             flags.append("Static")
         if self.is_noexcept():
             flags.append("No Exceptions")
@@ -580,6 +580,6 @@ class Function(Templatee):
             flags.append("Override")
         if self.is_final():
             flags.append("Final")
-        if self.is_abstract():
+        if self.isAbstract():
             flags.append("Abstract")
         return flags

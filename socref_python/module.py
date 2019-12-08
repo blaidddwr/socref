@@ -34,45 +34,9 @@ class Module(package.Package):
         package.Package.__init__(self)
 
 
-    ############################
-    # PUBLIC - Parsing Methods #
-    ############################
-
-
-    def icon(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return qtg.QIcon(":/python/module.svg")
-
-
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ("Object","Function","Class")
-
-
-    def setDefaultProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        package.Package.setDefaultProperties(self)
-        self._p_name = "module"
-
-
-    def file_name(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        if self._TYPE_ == "Module":
-            return self._p_name + ".py"
+    ####################
+    # PUBLIC - Methods #
+    ####################
 
 
     def build(self, definition, begin=""):
@@ -86,10 +50,46 @@ class Module(package.Package):
         return : See interface docs.
         """
         ret = package.Package.build(self,definition,begin)
-        ret += self._build_children_(definition,begin)
+        ret += self._buildChildren_(definition,begin)
         #
         # Add the special main function call if this is the special main module of a package.
         #
         if self._p_name == "__main__":
             ret += "\n"*settings.H1LINES + 'if __name__ == "__main__": main()\n'
         return ret
+
+
+    def buildList(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return ("Object","Function","Class")
+
+
+    def fileName(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        if self._TYPE_ == "Module":
+            return self._p_name + ".py"
+
+
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return qtg.QIcon(":/python/module.svg")
+
+
+    def setDefaultProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        package.Package.setDefaultProperties(self)
+        self._p_name = "module"

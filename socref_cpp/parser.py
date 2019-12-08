@@ -57,7 +57,7 @@ class Parser(abstract.AbstractParser):
         """
         Implements the socref.abstract.AbstractParser interface.
         """
-        self.__build_paths_(self.__root_block,"")
+        self.__buildPaths_(self.__root_block,"")
 
 
     def _scan_(self, path):
@@ -123,7 +123,7 @@ class Parser(abstract.AbstractParser):
                     print(scope + match.group(1))
 
 
-    def __build_paths_(self, parent, scope):
+    def __buildPaths_(self, parent, scope):
         """
         Recursively adds source code paths using the given parent block and scope.
 
@@ -141,7 +141,7 @@ class Parser(abstract.AbstractParser):
                     self._addPath_(child,scope + child._p_name.lower() + ".h")
                     if child.has_functions():
                         self._addPath_(child,scope + child._p_name.lower() + ".cpp")
-                self.__build_paths_(child,scope + end)
+                self.__buildPaths_(child,scope + end)
             elif child._TYPE_ == "Class":
                 self._addPath_(child,scope + child._p_name.lower() + ".h")
                 if not child.has_templates():
