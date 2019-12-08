@@ -92,11 +92,19 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def icon(self):
+    def buildList(self):
         """
         This interface is a getter method.
 
-        return : A qt icon that represents this block.
+        return : A list of block types that can be children of this block.
+        """
+        pass
+
+
+    @abc.abstractmethod
+    def clearProperties(self):
+        """
+        This interface clears all of this block's properties to their null state.
         """
         pass
 
@@ -122,16 +130,6 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def buildList(self):
-        """
-        This interface is a getter method.
-
-        return : A list of block types that can be children of this block.
-        """
-        pass
-
-
-    @abc.abstractmethod
     def editDefinitions(self):
         """
         This interface is a getter method.
@@ -143,17 +141,19 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def setDefaultProperties(self):
+    def icon(self):
         """
-        This interface sets all of this block's properties to their default state.
+        This interface is a getter method.
+
+        return : A qt icon that represents this block.
         """
         pass
 
 
     @abc.abstractmethod
-    def clearProperties(self):
+    def setDefaultProperties(self):
         """
-        This interface clears all of this block's properties to their null state.
+        This interface sets all of this block's properties to their default state.
         """
         pass
 
@@ -297,13 +297,14 @@ class AbstractBlock(abc.ABC):
     ####################
 
 
-    def parent(self):
+    def append(self, block):
         """
-        Getter method.
+        Appends the given block as a new child into this block's list of children. The given block
+        cannot already have a parent.
 
-        return : The parent block of this block or none if this block has no parent.
+        block : A block that is appended as a new child to this block.
         """
-        return self.__parent if self.__parent is None else self.__parent()
+        self.insert(len(self),block)
 
 
     def index(self):
@@ -332,14 +333,13 @@ class AbstractBlock(abc.ABC):
         block.__parent = weakref.ref(self)
 
 
-    def append(self, block):
+    def parent(self):
         """
-        Appends the given block as a new child into this block's list of children. The given block
-        cannot already have a parent.
+        Getter method.
 
-        block : A block that is appended as a new child to this block.
+        return : The parent block of this block or none if this block has no parent.
         """
-        self.insert(len(self),block)
+        return self.__parent if self.__parent is None else self.__parent()
 
 
     def pop(self, index):
@@ -355,22 +355,13 @@ class AbstractBlock(abc.ABC):
         return orphan
 
 
-    def toXml(self, stream):
+    def properties(self):
         """
-        Saves this block's properties and all of its children block's properties to XML using the
-        given qt XML writer stream.
+        Getter method.
 
-        stream : A qt writer stream used to save all block's properties and children.
+        return : Properties dictionary of this block.
         """
-        stream.writeStartElement(self._TYPE_)
-        props = self.properties()
-        for key in props:
-            prop = props[key]
-            if prop:
-                stream.writeTextElement("_" + key,prop)
-        for child in self:
-            child.toXml(stream)
-        stream.writeEndElement()
+        return self.__properties
 
 
     def setFromXml(self, stream):
@@ -400,15 +391,6 @@ class AbstractBlock(abc.ABC):
                 break
 
 
-    def properties(self):
-        """
-        Getter method.
-
-        return : Properties dictionary of this block.
-        """
-        return self.__properties
-
-
     def setProperties(self, properties):
         """
         Sets this block's properties dictionary to the given dictionary.
@@ -416,6 +398,24 @@ class AbstractBlock(abc.ABC):
         properties : A dictionary that is set as this block's new properties dictionary.
         """
         self.__properties = properties
+
+
+    def toXml(self, stream):
+        """
+        Saves this block's properties and all of its children block's properties to XML using the
+        given qt XML writer stream.
+
+        stream : A qt writer stream used to save all block's properties and children.
+        """
+        stream.writeStartElement(self._TYPE_)
+        props = self.properties()
+        for key in props:
+            prop = props[key]
+            if prop:
+                stream.writeTextElement("_" + key,prop)
+        for child in self:
+            child.toXml(stream)
+        stream.writeEndElement()
 
 
 
@@ -485,18 +485,6 @@ class AbstractParser(abc.ABC):
     ####################
 
 
-    def setRootPath(self, path):
-        """
-        Sets the root path of this parser. This can only be called once when this parser's root path
-        is empty.
-
-        path : The root path of this parser.
-        """
-        if self.__rootPath != "":
-            raise RuntimeError("Root path already set.")
-        self.__rootPath = path
-
-
     def parse(self, update):
         """
         Parses the source code of the project of this parser's root block, updating its progress
@@ -533,9 +521,36 @@ class AbstractParser(abc.ABC):
         self.__blocks = []
 
 
+    def setRootPath(self, path):
+        """
+        Sets the root path of this parser. This can only be called once when this parser's root path
+        is empty.
+
+        path : The root path of this parser.
+        """
+        if self.__rootPath != "":
+            raise RuntimeError("Root path already set.")
+        self.__rootPath = path
+
+
     ##########################
     # PROTECTED - Interfaces #
     ##########################
+
+
+    @abc.abstractmethod
+    def _build_(self, block, path):
+        """
+        This interface is a getter method.
+
+        block : The block associated with the given source code file path.
+
+        path : The path of the source code file whose contents are returned.
+
+        return : The new string contents of the source code file at the given path and associated
+                 block.
+        """
+        pass
 
 
     @abc.abstractmethod
@@ -553,21 +568,6 @@ class AbstractParser(abc.ABC):
         regular file.
 
         path : The path of the source code file that is scanned.
-        """
-        pass
-
-
-    @abc.abstractmethod
-    def _build_(self, block, path):
-        """
-        This interface is a getter method.
-
-        block : The block associated with the given source code file path.
-
-        path : The path of the source code file whose contents are returned.
-
-        return : The new string contents of the source code file at the given path and associated
-                 block.
         """
         pass
 

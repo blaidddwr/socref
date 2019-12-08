@@ -69,6 +69,53 @@ class BlockFactory():
     ####################
 
 
+    def blocks(self, langName):
+        """
+        Getter method. The given language name must exist in this factory.
+
+        langName : The language name whose list of registered block types are returned.
+
+        return : A list of registered block type names for a language with the given name that this
+                 factory has loaded.
+        """
+        return self.__langs[langName].keys()
+
+
+    def create(self, langName, typeName):
+        """
+        Getter method. The given language name and block type name must exist in this factory.
+
+        langName : The name of the language of the created block.
+
+        typeName : The type name of the created block.
+
+        return : A new block of the given type from the given language.
+        """
+        return self.__langs[langName][typeName]()
+
+
+    def createRoot(self, langName):
+        """
+        Getter method. The given language must exist in this factory.
+
+        langName : The name of the language of the created root block.
+
+        return : A new root block from the given language.
+        """
+        return self.__langs[langName][self.__ROOT]()
+
+
+    def langs(self):
+        """
+        Getter method.
+
+        return : A sorted list of languages names this factory has loaded.
+        """
+        ret = list(self.__langs.keys())
+        ret.sort()
+        return ret
+
+
     def load(self, langName, import_name):
         """
         Loads a new language into this factory. The given language name must be unique.
@@ -123,53 +170,6 @@ class BlockFactory():
                  language.
         """
         self.__registerBlock_(class_,self.__ROOT)
-
-
-    def langs(self):
-        """
-        Getter method.
-
-        return : A sorted list of languages names this factory has loaded.
-        """
-        ret = list(self.__langs.keys())
-        ret.sort()
-        return ret
-
-
-    def blocks(self, langName):
-        """
-        Getter method. The given language name must exist in this factory.
-
-        langName : The language name whose list of registered block types are returned.
-
-        return : A list of registered block type names for a language with the given name that this
-                 factory has loaded.
-        """
-        return self.__langs[langName].keys()
-
-
-    def create(self, langName, typeName):
-        """
-        Getter method. The given language name and block type name must exist in this factory.
-
-        langName : The name of the language of the created block.
-
-        typeName : The type name of the created block.
-
-        return : A new block of the given type from the given language.
-        """
-        return self.__langs[langName][typeName]()
-
-
-    def createRoot(self, langName):
-        """
-        Getter method. The given language must exist in this factory.
-
-        langName : The name of the language of the created root block.
-
-        return : A new root block from the given language.
-        """
-        return self.__langs[langName][self.__ROOT]()
 
 
     #####################

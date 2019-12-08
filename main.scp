@@ -30,8 +30,8 @@
                     </Access>
                 </Class>
                 <Class>
-                    <__p_name>RegisterError</__p_name>
-                    <__p_description>This is the register error exception class. It indicates an error occurred attempting to register a block while loading a language's module.</__p_description>
+                    <__p_name>LoadError</__p_name>
+                    <__p_description>This is the load error exception class. It indicates an error occurred attempting to load a project from its saved file.</__p_description>
                     <__p_parents>Exception</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
@@ -49,8 +49,8 @@
                     </Access>
                 </Class>
                 <Class>
-                    <__p_name>LoadError</__p_name>
-                    <__p_description>This is the load error exception class. It indicates an error occurred attempting to load a project from its saved file.</__p_description>
+                    <__p_name>RegisterError</__p_name>
+                    <__p_description>This is the register error exception class. It indicates an error occurred attempting to register a block while loading a language's module.</__p_description>
                     <__p_parents>Exception</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
@@ -91,36 +91,134 @@
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for the core application.</__p_description>
                 <Object>
-                    <__p_name>HUNSPELL_ROOT</__p_name>
-                    <__p_description>The root directory where Hunspell dictionaries are located.</__p_description>
-                    <__p_assignment>&quot;/usr/share/hunspell&quot;</__p_assignment>
-                </Object>
-                <Object>
                     <__p_name>DICTIONARY</__p_name>
                     <__p_description>The Hunspell dictionary used for spell checking.</__p_description>
                     <__p_assignment>&quot;en_US&quot;</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>HUNSPELL_ROOT</__p_name>
+                    <__p_description>The root directory where Hunspell dictionaries are located.</__p_description>
+                    <__p_assignment>&quot;/usr/share/hunspell&quot;</__p_assignment>
                 </Object>
             </Module>
             <Module>
                 <__p_name>utility</__p_name>
                 <__p_description>Contains all utility functions and classes that provide basic utilities to the rest of the core application and language implementations.</__p_description>
                 <Function>
-                    <__p_name>richTextList</__p_name>
+                    <__p_name>addComboSelect</__p_name>
+                    <__p_description>Adds a selection to the given combo box edit definition with the given text and optional icon.</__p_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>comboEdit</__p_name>
+                        <__p_description>A combo box edit definition dictionary that has a new selection value added to it.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>text</__p_name>
+                        <__p_description>The text of the new selection value.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>icon</__p_name>
+                        <__p_description>The optional qt icon of the new selection value.</__p_description>
+                        <__p_assignment>None</__p_assignment>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>checkboxEdit</__p_name>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a checkbox edit.</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>The label string for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>The key string for the edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>comboEdit</__p_name>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a combo box edit with no selections.</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>The label string for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>The key string for the edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>edit</__p_name>
+                    <__p_description>Builder method.</__p_description>
+                    <__p_return_description>A generic abstract block's edit definition.</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>type_</__p_name>
+                        <__p_description>The type of the generic edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>The label of the generic edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>The key of the generic edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>hiddenEdit</__p_name>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a hidden edit.</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>The key string for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>value</__p_name>
+                        <__p_description>The value string for the edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>lineEdit</__p_name>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a line edit.</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>The label string for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>The key string for the edit definition.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>richText</__p_name>
                     <__p_description>Builder function.</__p_description>
-                    <__p_return_description>The rich text function's return but with the body being replaced by the list that is formatted as an unordered HTML list. The list being empty is the same of the body being empty.</__p_return_description>
+                    <__p_return_description>A rich text string generated from the given body, header, and size. The body is wrapped in an HTML paragraph and an HTML header added before it. If the given body is empty then an empty string is returned.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>size</__p_name>
-                        <__p_description>See rich text function.</__p_description>
+                        <__p_description>The size of the header, if any, following the HTML standard.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>title</__p_name>
-                        <__p_description>See rich text function.</__p_description>
+                        <__p_description>The title used for the HTML header.</__p_description>
                     </Object>
                     <Object>
-                        <__p_name>list_</__p_name>
-                        <__p_description>A list of strings that are combined as an unordered HTML list.</__p_description>
+                        <__p_name>body</__p_name>
+                        <__p_description>The body text that is wrapped in the returned rich text if it is not empty.</__p_description>
                     </Object>
                 </Function>
                 <Function>
@@ -143,22 +241,42 @@
                     </Object>
                 </Function>
                 <Function>
-                    <__p_name>richText</__p_name>
+                    <__p_name>richTextList</__p_name>
                     <__p_description>Builder function.</__p_description>
-                    <__p_return_description>A rich text string generated from the given body, header, and size. The body is wrapped in an HTML paragraph and an HTML header added before it. If the given body is empty then an empty string is returned.</__p_return_description>
+                    <__p_return_description>The rich text function's return but with the body being replaced by the list that is formatted as an unordered HTML list. The list being empty is the same of the body being empty.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>size</__p_name>
-                        <__p_description>The size of the header, if any, following the HTML standard.</__p_description>
+                        <__p_description>See rich text function.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>title</__p_name>
-                        <__p_description>The title used for the HTML header.</__p_description>
+                        <__p_description>See rich text function.</__p_description>
                     </Object>
                     <Object>
-                        <__p_name>body</__p_name>
-                        <__p_description>The body text that is wrapped in the returned rich text if it is not empty.</__p_description>
+                        <__p_name>list_</__p_name>
+                        <__p_description>A list of strings that are combined as an unordered HTML list.</__p_description>
+                    </Object>
+                </Function>
+                <Function>
+                    <__p_name>textEdit</__p_name>
+                    <__p_description>Build method.</__p_description>
+                    <__p_return_description>An abstract block's edit definition for a text edit.</__p_return_description>
+                    <__p_static>0</__p_static>
+                    <__p_abstract>0</__p_abstract>
+                    <Object>
+                        <__p_name>label</__p_name>
+                        <__p_description>The label string for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>key</__p_name>
+                        <__p_description>The key string for the edit definition.</__p_description>
+                    </Object>
+                    <Object>
+                        <__p_name>speller</__p_name>
+                        <__p_description>True to enable spelling or false to disable it.</__p_description>
+                        <__p_assignment>False</__p_assignment>
                     </Object>
                 </Function>
                 <Function>
@@ -211,124 +329,6 @@
                         <__p_name>columns</__p_name>
                         <__p_description>The maximum column length for each line of wrapped text.</__p_description>
                         <__p_assignment>80</__p_assignment>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>lineEdit</__p_name>
-                    <__p_description>Build method.</__p_description>
-                    <__p_return_description>An abstract block's edit definition for a line edit.</__p_return_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>The label string for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>The key string for the edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>textEdit</__p_name>
-                    <__p_description>Build method.</__p_description>
-                    <__p_return_description>An abstract block's edit definition for a text edit.</__p_return_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>The label string for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>The key string for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>speller</__p_name>
-                        <__p_description>True to enable spelling or false to disable it.</__p_description>
-                        <__p_assignment>False</__p_assignment>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>checkboxEdit</__p_name>
-                    <__p_description>Build method.</__p_description>
-                    <__p_return_description>An abstract block's edit definition for a checkbox edit.</__p_return_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>The label string for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>The key string for the edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>comboEdit</__p_name>
-                    <__p_description>Build method.</__p_description>
-                    <__p_return_description>An abstract block's edit definition for a combo box edit with no selections.</__p_return_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>The label string for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>The key string for the edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>addComboSelect</__p_name>
-                    <__p_description>Adds a selection to the given combo box edit definition with the given text and optional icon.</__p_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>comboEdit</__p_name>
-                        <__p_description>A combo box edit definition dictionary that has a new selection value added to it.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>text</__p_name>
-                        <__p_description>The text of the new selection value.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>icon</__p_name>
-                        <__p_description>The optional qt icon of the new selection value.</__p_description>
-                        <__p_assignment>None</__p_assignment>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>hiddenEdit</__p_name>
-                    <__p_description>Build method.</__p_description>
-                    <__p_return_description>An abstract block's edit definition for a hidden edit.</__p_return_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>The key string for the edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>value</__p_name>
-                        <__p_description>The value string for the edit definition.</__p_description>
-                    </Object>
-                </Function>
-                <Function>
-                    <__p_name>edit</__p_name>
-                    <__p_description>Builder method.</__p_description>
-                    <__p_return_description>A generic abstract block's edit definition.</__p_return_description>
-                    <__p_static>0</__p_static>
-                    <__p_abstract>0</__p_abstract>
-                    <Object>
-                        <__p_name>type_</__p_name>
-                        <__p_description>The type of the generic edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>label</__p_name>
-                        <__p_description>The label of the generic edit definition.</__p_description>
-                    </Object>
-                    <Object>
-                        <__p_name>key</__p_name>
-                        <__p_description>The key of the generic edit definition.</__p_description>
                     </Object>
                 </Function>
                 <Class>
@@ -408,9 +408,15 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <__p_name>Abstract</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>icon</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A qt icon that represents this block.</__p_return_description>
+                            <__p_return_description>A list of block types that can be children of this block.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>1</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>clearProperties</__p_name>
+                            <__p_description>This interface clears all of this block's properties to their null state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
@@ -429,13 +435,6 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>buildList</__p_name>
-                            <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A list of block types that can be children of this block.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>1</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>editDefinitions</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
                             <__p_return_description>A list of edit definition dictionaries informing the core application how to build  the edit GUI for this block.</__p_return_description>
@@ -443,14 +442,15 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>setDefaultProperties</__p_name>
-                            <__p_description>This interface sets all of this block's properties to their default state.</__p_description>
+                            <__p_name>icon</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A qt icon that represents this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clearProperties</__p_name>
-                            <__p_description>This interface clears all of this block's properties to their null state.</__p_description>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>This interface sets all of this block's properties to their default state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
@@ -570,11 +570,14 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>parent</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The parent block of this block or none if this block has no parent.</__p_return_description>
+                            <__p_name>append</__p_name>
+                            <__p_description>Appends the given block as a new child into this block's list of children. The given block cannot already have a parent.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>block</__p_name>
+                                <__p_description>A block that is appended as a new child to this block.</__p_description>
+                            </Object>
                         </Function>
                         <Function>
                             <__p_name>index</__p_name>
@@ -598,14 +601,11 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>append</__p_name>
-                            <__p_description>Appends the given block as a new child into this block's list of children. The given block cannot already have a parent.</__p_description>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The parent block of this block or none if this block has no parent.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>block</__p_name>
-                                <__p_description>A block that is appended as a new child to this block.</__p_description>
-                            </Object>
                         </Function>
                         <Function>
                             <__p_name>pop</__p_name>
@@ -619,14 +619,11 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>toXml</__p_name>
-                            <__p_description>Saves this block's properties and all of its children block's properties to XML using the given qt XML writer stream.</__p_description>
+                            <__p_name>properties</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>Properties dictionary of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>stream</__p_name>
-                                <__p_description>A qt writer stream used to save all block's properties and children.</__p_description>
-                            </Object>
                         </Function>
                         <Function>
                             <__p_name>setFromXml</__p_name>
@@ -639,13 +636,6 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>properties</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>Properties dictionary of this block.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>setProperties</__p_name>
                             <__p_description>Sets this block's properties dictionary to the given dictionary.</__p_description>
                             <__p_static>0</__p_static>
@@ -653,6 +643,16 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             <Object>
                                 <__p_name>properties</__p_name>
                                 <__p_description>A dictionary that is set as this block's new properties dictionary.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>toXml</__p_name>
+                            <__p_description>Saves this block's properties and all of its children block's properties to XML using the given qt XML writer stream.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>stream</__p_name>
+                                <__p_description>A qt writer stream used to save all block's properties and children.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -691,16 +691,6 @@ The parsing process is separated into building a path list, scanning, building, 
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>setRootPath</__p_name>
-                            <__p_description>Sets the root path of this parser. This can only be called once when this parser's root path is empty.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>The root path of this parser.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
                             <__p_name>parse</__p_name>
                             <__p_description>Parses the source code of the project of this parser's root block, updating its progress with the given callback object. The root path of this parser must be set.</__p_description>
                             <__p_inlines>Make sure there are no duplicates paths in the generated path list.
@@ -712,10 +702,35 @@ The parsing process is separated into building a path list, scanning, building, 
                                 <__p_description>A callable object that is used to update the progress of this scan. It takes one argument that is the progress as a percentage from 1 to 99.</__p_description>
                             </Object>
                         </Function>
+                        <Function>
+                            <__p_name>setRootPath</__p_name>
+                            <__p_description>Sets the root path of this parser. This can only be called once when this parser's root path is empty.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>The root path of this parser.</__p_description>
+                            </Object>
+                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Interfaces</__p_name>
                         <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_build_</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>The new string contents of the source code file at the given path and associated block.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>1</__p_abstract>
+                            <Object>
+                                <__p_name>block</__p_name>
+                                <__p_description>The block associated with the given source code file path.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>The path of the source code file whose contents are returned.</__p_description>
+                            </Object>
+                        </Function>
                         <Function>
                             <__p_name>_buildPathList_</__p_name>
                             <__p_description>This interface builds the path list.</__p_description>
@@ -730,21 +745,6 @@ The parsing process is separated into building a path list, scanning, building, 
                             <Object>
                                 <__p_name>path</__p_name>
                                 <__p_description>The path of the source code file that is scanned.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>_build_</__p_name>
-                            <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>The new string contents of the source code file at the given path and associated block.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>1</__p_abstract>
-                            <Object>
-                                <__p_name>block</__p_name>
-                                <__p_description>The block associated with the given source code file path.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>The path of the source code file whose contents are returned.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -825,6 +825,50 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
+                            <__p_name>blocks</__p_name>
+                            <__p_description>Getter method. The given language name must exist in this factory.</__p_description>
+                            <__p_return_description>A list of registered block type names for a language with the given name that this factory has loaded.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>langName</__p_name>
+                                <__p_description>The language name whose list of registered block types are returned.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>create</__p_name>
+                            <__p_description>Getter method. The given language name and block type name must exist in this factory.</__p_description>
+                            <__p_return_description>A new block of the given type from the given language.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>langName</__p_name>
+                                <__p_description>The name of the language of the created block.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>typeName</__p_name>
+                                <__p_description>The type name of the created block.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>createRoot</__p_name>
+                            <__p_description>Getter method. The given language must exist in this factory.</__p_description>
+                            <__p_return_description>A new root block from the given language.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>langName</__p_name>
+                                <__p_description>The name of the language of the created root block.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>langs</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A sorted list of languages names this factory has loaded.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>load</__p_name>
                             <__p_description>Loads a new language into this factory. The given language name must be unique.</__p_description>
                             <__p_static>0</__p_static>
@@ -860,50 +904,6 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                             <Object>
                                 <__p_name>class_</__p_name>
                                 <__p_description>A class object that is registered as the root block type of the currently loading language.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>langs</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A sorted list of languages names this factory has loaded.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>blocks</__p_name>
-                            <__p_description>Getter method. The given language name must exist in this factory.</__p_description>
-                            <__p_return_description>A list of registered block type names for a language with the given name that this factory has loaded.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>langName</__p_name>
-                                <__p_description>The language name whose list of registered block types are returned.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>create</__p_name>
-                            <__p_description>Getter method. The given language name and block type name must exist in this factory.</__p_description>
-                            <__p_return_description>A new block of the given type from the given language.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>langName</__p_name>
-                                <__p_description>The name of the language of the created block.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>typeName</__p_name>
-                                <__p_description>The type name of the created block.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>createRoot</__p_name>
-                            <__p_description>Getter method. The given language must exist in this factory.</__p_description>
-                            <__p_return_description>A new root block from the given language.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>langName</__p_name>
-                                <__p_description>The name of the language of the created root block.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -957,14 +957,14 @@ It provides helper methods for converting a qt model index into a list of rows a
                         <__p_name>Interfaces</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>undo</__p_name>
-                            <__p_description>This interface acts on this command's project model to undo its command.</__p_description>
+                            <__p_name>redo</__p_name>
+                            <__p_description>This interface acts on this command's project model to redo its command.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>redo</__p_name>
-                            <__p_description>This interface acts on this command's project model to redo its command.</__p_description>
+                            <__p_name>undo</__p_name>
+                            <__p_description>This interface acts on this command's project model to undo its command.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
@@ -972,17 +972,6 @@ It provides helper methods for converting a qt model index into a list of rows a
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
-                        <Function>
-                            <__p_name>_getIndex_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A valid qt model index created from this command's project model with the given list of rows. In this context valid can also be an invalid null index that represents the root.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>rows</__p_name>
-                                <__p_description>A list of rows that represent a valid qt model index of this command's project model.</__p_description>
-                            </Object>
-                        </Function>
                         <Function>
                             <__p_name>_buildRows_</__p_name>
                             <__p_description>Getter method.</__p_description>
@@ -992,6 +981,17 @@ It provides helper methods for converting a qt model index into a list of rows a
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>A qt model index of this command's project model that is returns as a list of rows.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>_getIndex_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A valid qt model index created from this command's project model with the given list of rows. In this context valid can also be an invalid null index that represents the root.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>rows</__p_name>
+                                <__p_description>A list of rows that represent a valid qt model index of this command's project model.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -1030,13 +1030,13 @@ It provides helper methods for converting a qt model index into a list of rows a
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>undo</__p_name>
+                            <__p_name>redo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>redo</__p_name>
+                            <__p_name>undo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1077,13 +1077,13 @@ It provides helper methods for converting a qt model index into a list of rows a
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>undo</__p_name>
+                            <__p_name>redo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>redo</__p_name>
+                            <__p_name>undo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1124,13 +1124,13 @@ It provides helper methods for converting a qt model index into a list of rows a
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>undo</__p_name>
+                            <__p_name>redo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>redo</__p_name>
+                            <__p_name>undo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1167,13 +1167,13 @@ It provides helper methods for converting a qt model index into a list of rows a
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>undo</__p_name>
+                            <__p_name>redo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>redo</__p_name>
+                            <__p_name>undo</__p_name>
                             <__p_description>Implements the .command.Command interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1184,40 +1184,6 @@ It provides helper methods for converting a qt model index into a list of rows a
             <Module>
                 <__p_name>model</__p_name>
                 <__p_description>Contains all model classes used by the core application.</__p_description>
-                <Class>
-                    <__p_name>Role</__p_name>
-                    <__p_description>This is the role enumeration class. It defines all custom data roles the project model implements.</__p_description>
-                    <__p_parents>enum.Enum</__p_parents>
-                    <Access>
-                        <__p_name>Enumerations</__p_name>
-                        <__p_type>Public</__p_type>
-                        <Object>
-                            <__p_name>BLOCK_TYPE</__p_name>
-                            <__p_description>Defines the block type role which represents a block's type name.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 0</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>VIEW</__p_name>
-                            <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 1</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>BUILD_LIST</__p_name>
-                            <__p_description>Defines the build list role which represents a block's build list.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 2</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>PROPERTIES</__p_name>
-                            <__p_description>Defines the properties role which represents a block's properties.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 3</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>EDIT_DEFS</__p_name>
-                            <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
-                            <__p_assignment>qtc.Qt.UserRole + 4</__p_assignment>
-                        </Object>
-                    </Access>
-                </Class>
                 <Class>
                     <__p_name>ParserModel</__p_name>
                     <__p_description>This is the singleton parser model class. It handles execution of a given abstract parser. A slot is provided for starting a new abstract parser. Signals are provided for informing when parsing begins, makes progress, finishes, and has remaining unknown code fragments. This class is designed to run on its own thread because parsing can be a long process. Because of this the GUI must interface with this class exclusively through its signals and slots.</__p_description>
@@ -1254,8 +1220,8 @@ It provides helper methods for converting a qt model index into a list of rows a
                         <__p_name>Signals</__p_name>
                         <__p_type>Public</__p_type>
                         <Object>
-                            <__p_name>started</__p_name>
-                            <__p_description>Signals this parser has started parsing.</__p_description>
+                            <__p_name>finished</__p_name>
+                            <__p_description>Signals this parser has finished parsing.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                         <Object>
@@ -1264,14 +1230,14 @@ It provides helper methods for converting a qt model index into a list of rows a
                             <__p_assignment>qtc.Signal(int)</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>finished</__p_name>
-                            <__p_description>Signals this parser has finished parsing.</__p_description>
-                            <__p_assignment>qtc.Signal()</__p_assignment>
-                        </Object>
-                        <Object>
                             <__p_name>remained</__p_name>
                             <__p_description>Signals this parser had remaining unknown code fragments after finishing the last parsing.</__p_description>
                             <__p_assignment>qtc.Signal(dict)</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>started</__p_name>
+                            <__p_description>Signals this parser has started parsing.</__p_description>
+                            <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                     </Access>
                     <Access>
@@ -1332,6 +1298,63 @@ It has built in support for undo and redo of any modification done to it. Method
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
+                            <__p_name>canRedo</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model has a modification that can be redone or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>canUndo</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model has a modification that can be undone or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>close</__p_name>
+                            <__p_description>Closes any currently loaded project of this model. If this model has no loaded project then this does nothing.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>columnCount</__p_name>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>See qt docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>copyToXml</__p_name>
+                            <__p_description>Copies the given indexes to XML.</__p_description>
+                            <__p_return_description>A tuple of two items. The first item is copied blocks at the given indexes in the form of XML. The XML format is copy with each index an element in the root XML copy tag. The second item is a set of all block types that were copied.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>indexes</__p_name>
+                                <__p_description>List of qt model indexes whose blocks are copied to XML.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>data</__p_name>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>See qt docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>role</__p_name>
+                                <__p_description>See qt docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>headerData</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
@@ -1370,69 +1393,40 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>parent</__p_name>
-                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
-                            <__p_return_description>See qt docs.</__p_return_description>
+                            <__p_name>insertFromXml</__p_name>
+                            <__p_description>Inserts blocks into this model at the given parent index and row loaded from the given XML.</__p_description>
+                            <__p_return_description>Total number of blocks that were inserted into this model.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>child</__p_name>
-                                <__p_description>See qt docs.</__p_description>
+                                <__p_name>row</__p_name>
+                                <__p_description>The row in the given parent index where loaded blocks are inserted.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>xml</__p_name>
+                                <__p_description>XML byte array containing the loaded blocks. This must conform to the XML copy standard produced by the copy to XML method of this class.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>The parent index where the loaded blocks are inserted.</__p_description>
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>rowCount</__p_name>
+                            <__p_name>insertRow</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>index</__p_name>
-                                <__p_description>See qt docs.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>columnCount</__p_name>
-                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
-                            <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>index</__p_name>
-                                <__p_description>See qt docs.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>data</__p_name>
-                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
-                            <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>index</__p_name>
+                                <__p_name>row</__p_name>
                                 <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>role</__p_name>
-                                <__p_description>See qt docs.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>setData</__p_name>
-                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
-                            <__p_return_description>See qt docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>index</__p_name>
-                                <__p_description>See qt docs.</__p_description>
+                                <__p_name>blockType</__p_name>
+                                <__p_description>The block type that is created and inserted into this model.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>value</__p_name>
-                                <__p_description>See qt docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>role</__p_name>
+                                <__p_name>parent</__p_name>
                                 <__p_description>See qt docs.</__p_description>
                             </Object>
                         </Function>
@@ -1456,6 +1450,87 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
+                            <__p_name>isModified</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this model's currently loaded project has unsaved changes or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>langName</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The language name of this model's currently loaded project or none if it has no project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>load</__p_name>
+                            <__p_description>Loads a project to this model from the given file path, closing any currently loaded project.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>The file path of the project that is loaded into this model.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>moveRow</__p_name>
+                            <__p_description>Moves the given index's row by the amount given.</__p_description>
+                            <__p_return_description>True if the move was successful or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>change</__p_name>
+                                <__p_description>The row change for the index that is moved. Negative is up and positive is down.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>The qt model index that is moved.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>name</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The name of this model's currently loaded project or none if it has no project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>new</__p_name>
+                            <__p_description>Creates a new project for this model with the given language name, closing any currently loaded project. The given language name must be valid.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>langName</__p_name>
+                                <__p_description>The name of the language used to create a new project.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>parent</__p_name>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>child</__p_name>
+                                <__p_description>See qt docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>parsePath</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The relative parsing path of this model's currently loaded project or none if it has no project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>parser</__p_name>
+                            <__p_description>Builds a new abstract parser that can be used to parse the source code of this model's project. If this model has no project that this does nothing.</__p_description>
+                            <__p_return_description>The newly built abstract parser or none if this model has no project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>removeRows</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>List of blocks that were successfully removed from this model.</__p_return_description>
@@ -1475,91 +1550,14 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>insertRow</__p_name>
+                            <__p_name>rowCount</__p_name>
                             <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
                             <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>row</__p_name>
+                                <__p_name>index</__p_name>
                                 <__p_description>See qt docs.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>blockType</__p_name>
-                                <__p_description>The block type that is created and inserted into this model.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>parent</__p_name>
-                                <__p_description>See qt docs.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>name</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The name of this model's currently loaded project or none if it has no project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>parsePath</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The relative parsing path of this model's currently loaded project or none if it has no project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>langName</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The language name of this model's currently loaded project or none if it has no project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>isModified</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this model's currently loaded project has unsaved changes or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>canUndo</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this model has a modification that can be undone or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>canRedo</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this model has a modification that can be redone or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>parser</__p_name>
-                            <__p_description>Builds a new abstract parser that can be used to parse the source code of this model's project. If this model has no project that this does nothing.</__p_description>
-                            <__p_return_description>The newly built abstract parser or none if this model has no project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>new</__p_name>
-                            <__p_description>Creates a new project for this model with the given language name, closing any currently loaded project. The given language name must be valid.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>langName</__p_name>
-                                <__p_description>The name of the language used to create a new project.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>load</__p_name>
-                            <__p_description>Loads a project to this model from the given file path, closing any currently loaded project.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>The file path of the project that is loaded into this model.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -1573,10 +1571,23 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>close</__p_name>
-                            <__p_description>Closes any currently loaded project of this model. If this model has no loaded project then this does nothing.</__p_description>
+                            <__p_name>setData</__p_name>
+                            <__p_description>Implements the PySide2.QtCore.QAbstractItemModel interface.</__p_description>
+                            <__p_return_description>See qt docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>See qt docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>value</__p_name>
+                                <__p_description>See qt docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>role</__p_name>
+                                <__p_description>See qt docs.</__p_description>
+                            </Object>
                         </Function>
                         <Function>
                             <__p_name>setName</__p_name>
@@ -1596,51 +1607,6 @@ It has built in support for undo and redo of any modification done to it. Method
                             <Object>
                                 <__p_name>path</__p_name>
                                 <__p_description>The new parsing path of this model's project.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>moveRow</__p_name>
-                            <__p_description>Moves the given index's row by the amount given.</__p_description>
-                            <__p_return_description>True if the move was successful or false otherwise.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>change</__p_name>
-                                <__p_description>The row change for the index that is moved. Negative is up and positive is down.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>index</__p_name>
-                                <__p_description>The qt model index that is moved.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>copyToXml</__p_name>
-                            <__p_description>Copies the given indexes to XML.</__p_description>
-                            <__p_return_description>A tuple of two items. The first item is copied blocks at the given indexes in the form of XML. The XML format is copy with each index an element in the root XML copy tag. The second item is a set of all block types that were copied.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>indexes</__p_name>
-                                <__p_description>List of qt model indexes whose blocks are copied to XML.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>insertFromXml</__p_name>
-                            <__p_description>Inserts blocks into this model at the given parent index and row loaded from the given XML.</__p_description>
-                            <__p_return_description>Total number of blocks that were inserted into this model.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>row</__p_name>
-                                <__p_description>The row in the given parent index where loaded blocks are inserted.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>xml</__p_name>
-                                <__p_description>XML byte array containing the loaded blocks. This must conform to the XML copy standard produced by the copy to XML method of this class.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>parent</__p_name>
-                                <__p_description>The parent index where the loaded blocks are inserted.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -1667,15 +1633,15 @@ It has built in support for undo and redo of any modification done to it. Method
                         <__p_name>Slots</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>undo</__p_name>
-                            <__p_description>Called to undo the last modification that was done to this model. If this model cannot undo then this does nothing.</__p_description>
+                            <__p_name>redo</__p_name>
+                            <__p_description>Called to redo the last undone modification of this model. If this model cannot redo then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>redo</__p_name>
-                            <__p_description>Called to redo the last undone modification of this model. If this model cannot redo then this does nothing.</__p_description>
+                            <__p_name>undo</__p_name>
+                            <__p_description>Called to undo the last modification that was done to this model. If this model cannot undo then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1703,6 +1669,24 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
+                            <__p_name>_moveRow_</__p_name>
+                            <__p_description>Moves the block at the given from row to the given to row in the given parent index. The given rows and parent index must all be valid.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>fromRow</__p_name>
+                                <__p_description>The row of the block that is moved.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>toRow</__p_name>
+                                <__p_description>The new row of the moved block.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>parent</__p_name>
+                                <__p_description>The parent index where a child block is moved.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>_removeRows_</__p_name>
                             <__p_description>Removes the given count of blocks starting at the given row in the given parent index. The given parent index, row, and count must all be valid.</__p_description>
                             <__p_return_description>List of removed blocks.</__p_return_description>
@@ -1719,24 +1703,6 @@ It has built in support for undo and redo of any modification done to it. Method
                             <Object>
                                 <__p_name>parent</__p_name>
                                 <__p_description>The parent index where child blocks are removed.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>_moveRow_</__p_name>
-                            <__p_description>Moves the block at the given from row to the given to row in the given parent index. The given rows and parent index must all be valid.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>fromRow</__p_name>
-                                <__p_description>The row of the block that is moved.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>toRow</__p_name>
-                                <__p_description>The new row of the moved block.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>parent</__p_name>
-                                <__p_description>The parent index where a child block is moved.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -1757,6 +1723,17 @@ It has built in support for undo and redo of any modification done to it. Method
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__block_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The block of the given index. If the given index is invalid the root block is returned, which is none if this model has no project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>index</__p_name>
+                                <__p_description>The index whose block is returned.</__p_description>
+                            </Object>
+                        </Function>
                         <Function>
                             <__p_name>__modified_</__p_name>
                             <__p_description>Marks this model as modified, emitting a signal if it was not modified before calling this method.</__p_description>
@@ -1793,25 +1770,19 @@ It has built in support for undo and redo of any modification done to it. Method
                                 <__p_description>The parent index of this model whose children's data has changed due to the volatile below parent.</__p_description>
                             </Object>
                         </Function>
-                        <Function>
-                            <__p_name>__block_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The block of the given index. If the given index is invalid the root block is returned, which is none if this model has no project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>index</__p_name>
-                                <__p_description>The index whose block is returned.</__p_description>
-                            </Object>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Constants</__p_name>
                         <__p_type>Private</__p_type>
                         <Object>
-                            <__p_name>__PROJECT_TAG</__p_name>
-                            <__p_description>The root tag used for XML project files.</__p_description>
-                            <__p_assignment>&quot;scp_project&quot;</__p_assignment>
+                            <__p_name>__COPY_TAG</__p_name>
+                            <__p_description>The root copy tag used for internal copy XML byte arrays.</__p_description>
+                            <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>__LANG_TAG</__p_name>
+                            <__p_description>The language tag used for the language name text element of XML project files.</__p_description>
+                            <__p_assignment>&quot;language&quot;</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>__NAME_TAG</__p_name>
@@ -1824,14 +1795,43 @@ It has built in support for undo and redo of any modification done to it. Method
                             <__p_assignment>&quot;parse_path&quot;</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>__LANG_TAG</__p_name>
-                            <__p_description>The language tag used for the language name text element of XML project files.</__p_description>
-                            <__p_assignment>&quot;language&quot;</__p_assignment>
+                            <__p_name>__PROJECT_TAG</__p_name>
+                            <__p_description>The root tag used for XML project files.</__p_description>
+                            <__p_assignment>&quot;scp_project&quot;</__p_assignment>
+                        </Object>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Role</__p_name>
+                    <__p_description>This is the role enumeration class. It defines all custom data roles the project model implements.</__p_description>
+                    <__p_parents>enum.Enum</__p_parents>
+                    <Access>
+                        <__p_name>Enumerations</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Object>
+                            <__p_name>BLOCK_TYPE</__p_name>
+                            <__p_description>Defines the block type role which represents a block's type name.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 0</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>__COPY_TAG</__p_name>
-                            <__p_description>The root copy tag used for internal copy XML byte arrays.</__p_description>
-                            <__p_assignment>&quot;pysoref_copy&quot;</__p_assignment>
+                            <__p_name>VIEW</__p_name>
+                            <__p_description>Defines the view role which represents a block's detailed rich text view.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 1</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>BUILD_LIST</__p_name>
+                            <__p_description>Defines the build list role which represents a block's build list.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 2</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>PROPERTIES</__p_name>
+                            <__p_description>Defines the properties role which represents a block's properties.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 3</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>EDIT_DEFS</__p_name>
+                            <__p_description>Defines the edit definitions role which represents a block's edit definitions.</__p_description>
+                            <__p_assignment>qtc.Qt.UserRole + 4</__p_assignment>
                         </Object>
                     </Access>
                 </Class>
@@ -1910,14 +1910,14 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <__p_name>Signals</__p_name>
                         <__p_type>Public</__p_type>
                         <Object>
-                            <__p_name>finished</__p_name>
-                            <__p_description>Signals this spell checker has finished checking and correcting for misspelled words.</__p_description>
-                            <__p_assignment>qtc.Signal()</__p_assignment>
-                        </Object>
-                        <Object>
                             <__p_name>cursorChanged</__p_name>
                             <__p_description>Signals this spell checker has changed the cursor given to it.</__p_description>
                             <__p_assignment>qtc.Signal(qtg.QTextCursor)</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>finished</__p_name>
+                            <__p_description>Signals this spell checker has finished checking and correcting for misspelled words.</__p_description>
+                            <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                     </Access>
                     <Access>
@@ -1960,22 +1960,6 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__suggest_</__p_name>
-                            <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_inlines>Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__replace_</__p_name>
-                            <__p_description>Called to replace the selected misspelled word with the text of this spell checker's word edit widget. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>__ignore_</__p_name>
                             <__p_description>Called to ignore the selected misspelled word, simply skipping it and moving the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
@@ -1990,9 +1974,25 @@ It provides a spell checking and correction interface. It begins spell checking 
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>__replace_</__p_name>
+                            <__p_description>Called to replace the selected misspelled word with the text of this spell checker's word edit widget. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>__stop_</__p_name>
                             <__p_description>Called to stop this spell checker, finishing its spell checking of the current document. If this spell checker is not actively checking a document then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__suggest_</__p_name>
+                            <__p_description>Called to offer a suggested word in this spell checker's word edit widget. This finds the next word in the list of suggestions. If this spell checker is not actively checking a document then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_inlines>Find the index to the next word in this spell checker's list of suggestions, wrapping to the beginning if its word edit widget is on the last word or an unknown word.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2093,9 +2093,37 @@ Actions are provided for all basic editing actions done upon a view's model. The
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>undoAction</__p_name>
+                            <__p_name>copyAction</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The undo action of this project.</__p_return_description>
+                            <__p_return_description>The copy action of this project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>cutAction</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The cut action of this project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>moveDownAction</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The move down action of this project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>moveUpAction</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The move up action of this project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>pasteAction</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The paste action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2114,41 +2142,6 @@ Actions are provided for all basic editing actions done upon a view's model. The
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>cutAction</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The cut action of this project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>copyAction</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The copy action of this project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>pasteAction</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The paste action of this project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>moveUpAction</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The move up action of this project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>moveDownAction</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>The move down action of this project.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>setModel</__p_name>
                             <__p_description>Sets this project's model to the one given.</__p_description>
                             <__p_static>0</__p_static>
@@ -2157,6 +2150,13 @@ Actions are provided for all basic editing actions done upon a view's model. The
                                 <__p_name>model</__p_name>
                                 <__p_description>The new model this project view displays and edits.</__p_description>
                             </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>undoAction</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The undo action of this project.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -2168,14 +2168,14 @@ Actions are provided for all basic editing actions done upon a view's model. The
                             <__p_assignment>qtc.Signal(qtc.QModelIndex)</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>indexMoved</__p_name>
-                            <__p_description>Signals that the currently indexed block of this project has moved to a new index.</__p_description>
-                            <__p_assignment>qtc.Signal(qtc.QModelIndex)</__p_assignment>
-                        </Object>
-                        <Object>
                             <__p_name>indexDataChanged</__p_name>
                             <__p_description>Signals that the data of this project's current index has changed.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
+                        </Object>
+                        <Object>
+                            <__p_name>indexMoved</__p_name>
+                            <__p_description>Signals that the currently indexed block of this project has moved to a new index.</__p_description>
+                            <__p_assignment>qtc.Signal(qtc.QModelIndex)</__p_assignment>
                         </Object>
                         <Object>
                             <__p_name>indexRemoved</__p_name>
@@ -2186,34 +2186,6 @@ Actions are provided for all basic editing actions done upon a view's model. The
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
-                        <Function>
-                            <__p_name>__updateInsert_</__p_name>
-                            <__p_description>Updates this project's insert option to the one given, setting all insert actions checked states appropriately.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>option</__p_name>
-                                <__p_description>The new insert option set for this project.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__updateContextMenu_</__p_name>
-                            <__p_description>Updates this project's context menu with the new selection state of its model. Updating includes enabling or disabling appropriate actions and rebuilding the add block menu.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__updateActions_</__p_name>
-                            <__p_description>Updates this project's actions. Updating includes rebuilding its add block actions and enabling or disabling appropriate actions based off its selection model state.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__updateAddActions_</__p_name>
-                            <__p_description>Update this project's add actions list. Updating involves clearing the current list and building it again based off this project's selection model's current index.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
                         <Function>
                             <__p_name>__canPaste_</__p_name>
                             <__p_description>Getter method.</__p_description>
@@ -2264,10 +2236,69 @@ Insert after action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>__updateActions_</__p_name>
+                            <__p_description>Updates this project's actions. Updating includes rebuilding its add block actions and enabling or disabling appropriate actions based off its selection model state.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__updateAddActions_</__p_name>
+                            <__p_description>Update this project's add actions list. Updating involves clearing the current list and building it again based off this project's selection model's current index.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__updateContextMenu_</__p_name>
+                            <__p_description>Updates this project's context menu with the new selection state of its model. Updating includes enabling or disabling appropriate actions and rebuilding the add block menu.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__updateInsert_</__p_name>
+                            <__p_description>Updates this project's insert option to the one given, setting all insert actions checked states appropriately.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>option</__p_name>
+                                <__p_description>The new insert option set for this project.</__p_description>
+                            </Object>
+                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__add_</__p_name>
+                            <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.</__p_description>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <__p_inlines>This partially fixes a strange PySide2 bug. It happens sometimes after creating a new project and trying to add a new block.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>blockType</__p_name>
+                                <__p_description>The block type that is created and added to this project's model.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__contextMenuRequested_</__p_name>
+                            <__p_description>Called to inform this project that its context menu has been requested by the GUI at the given relative point.</__p_description>
+                            <__p_descriptors>qtc.Slot(qtc.QPoint)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>position</__p_name>
+                                <__p_description>The point where the context menu is requested relative to this project's widget.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__copy_</__p_name>
+                            <__p_description>Called to copy all selected indexes from this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                         <Function>
                             <__p_name>__currentChanged_</__p_name>
                             <__p_description>Called to inform this project that its selection model's current index has changed to the one given from the previous one given.</__p_description>
@@ -2284,15 +2315,29 @@ Insert after action.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__modelReset_</__p_name>
-                            <__p_description>Called to inform this project that its model has reset itself.</__p_description>
+                            <__p_name>__cut_</__p_name>
+                            <__p_description>Called to cut all selected indexes from this project's model.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__modelDestroyed_</__p_name>
-                            <__p_description>Called to inform this project that its model has been destroyed.</__p_description>
+                            <__p_name>__insertAfter_</__p_name>
+                            <__p_description>Called to set this project's insert option to &quot;after&quot;.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__insertBefore_</__p_name>
+                            <__p_description>Called to set this project's insert option to &quot;before&quot;.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__insertInto_</__p_name>
+                            <__p_description>Called to set this project's insert option to &quot;into&quot;.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2317,74 +2362,15 @@ Insert after action.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__contextMenuRequested_</__p_name>
-                            <__p_description>Called to inform this project that its context menu has been requested by the GUI at the given relative point.</__p_description>
-                            <__p_descriptors>qtc.Slot(qtc.QPoint)</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>position</__p_name>
-                                <__p_description>The point where the context menu is requested relative to this project's widget.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__undo_</__p_name>
-                            <__p_description>Called to undo the last action done to this project's model.</__p_description>
+                            <__p_name>__modelDestroyed_</__p_name>
+                            <__p_description>Called to inform this project that its model has been destroyed.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__redo_</__p_name>
-                            <__p_description>Called to redo the last undone action on this project's model.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__add_</__p_name>
-                            <__p_description>Called to add a newly created block to this project's model at its current index using its selected insert option.</__p_description>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
-                            <__p_inlines>This partially fixes a strange PySide2 bug. It happens sometimes after creating a new project and trying to add a new block.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>blockType</__p_name>
-                                <__p_description>The block type that is created and added to this project's model.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__remove_</__p_name>
-                            <__p_description>Called to remove all selected indexes from this project's model.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__cut_</__p_name>
-                            <__p_description>Called to cut all selected indexes from this project's model.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__copy_</__p_name>
-                            <__p_description>Called to copy all selected indexes from this project's model.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__paste_</__p_name>
-                            <__p_description>Called to paste any globally copied blocks into this project's model at the current index using its selected insert option.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__moveUp_</__p_name>
-                            <__p_description>Called to move the current index of this project's selection model up by one in its model.</__p_description>
+                            <__p_name>__modelReset_</__p_name>
+                            <__p_description>Called to inform this project that its model has reset itself.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2397,22 +2383,36 @@ Insert after action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__insertBefore_</__p_name>
-                            <__p_description>Called to set this project's insert option to &quot;before&quot;.</__p_description>
+                            <__p_name>__moveUp_</__p_name>
+                            <__p_description>Called to move the current index of this project's selection model up by one in its model.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__insertInto_</__p_name>
-                            <__p_description>Called to set this project's insert option to &quot;into&quot;.</__p_description>
+                            <__p_name>__paste_</__p_name>
+                            <__p_description>Called to paste any globally copied blocks into this project's model at the current index using its selected insert option.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__insertAfter_</__p_name>
-                            <__p_description>Called to set this project's insert option to &quot;after&quot;.</__p_description>
+                            <__p_name>__redo_</__p_name>
+                            <__p_description>Called to redo the last undone action on this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__remove_</__p_name>
+                            <__p_description>Called to remove all selected indexes from this project's model.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__undo_</__p_name>
+                            <__p_description>Called to undo the last action done to this project's model.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2422,19 +2422,24 @@ Insert after action.
                         <__p_name>Static Objects</__p_name>
                         <__p_type>Private</__p_type>
                         <Object>
-                            <__p_name>__xmlBlocks</__p_name>
-                            <__p_description>Global XML byte array that stored the data of copied blocks, if any. If no blocks have been copied then this is none.</__p_description>
+                            <__p_name>__blockTypeSet</__p_name>
+                            <__p_description>Global set that stores all unique block types that have been copied to the global XML data. If no blocks have been copied then this is none. This is used to determine if the paste action can be enabled.</__p_description>
                             <__p_assignment>None</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>__blockTypeSet</__p_name>
-                            <__p_description>Global set that stores all unique block types that have been copied to the global XML data. If no blocks have been copied then this is none. This is used to determine if the paste action can be enabled.</__p_description>
+                            <__p_name>__xmlBlocks</__p_name>
+                            <__p_description>Global XML byte array that stored the data of copied blocks, if any. If no blocks have been copied then this is none.</__p_description>
                             <__p_assignment>None</__p_assignment>
                         </Object>
                     </Access>
                     <Access>
                         <__p_name>Constants</__p_name>
                         <__p_type>Private</__p_type>
+                        <Object>
+                            <__p_name>__AFTER</__p_name>
+                            <__p_description>The &quot;after&quot; insert option.</__p_description>
+                            <__p_assignment>2</__p_assignment>
+                        </Object>
                         <Object>
                             <__p_name>__BEFORE</__p_name>
                             <__p_description>The &quot;before&quot; insert option.</__p_description>
@@ -2444,11 +2449,6 @@ Insert after action.
                             <__p_name>__INTO</__p_name>
                             <__p_description>The &quot;into&quot; insert option.</__p_description>
                             <__p_assignment>1</__p_assignment>
-                        </Object>
-                        <Object>
-                            <__p_name>__AFTER</__p_name>
-                            <__p_description>The &quot;after&quot; insert option.</__p_description>
-                            <__p_assignment>2</__p_assignment>
                         </Object>
                     </Access>
                 </Class>
@@ -2569,6 +2569,36 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
+                            <__p_name>__buildCheckbox_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A tuple containing 2 items. The first is a new checkbox widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>properties</__p_name>
+                                <__p_description>The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildCombo_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A tuple containing 2 items. The first is a new combo box widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>properties</__p_name>
+                                <__p_description>The properties of the block used to get the initial value of the returned edit widget.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>__buildFormWidget_</__p_name>
                             <__p_description>Builds and initializes all edit widgets for all properties of the block at the given index based off its edit definitions, adding them to this dock's list of edit widgets. This clears any previous edit widgets from the last index that was built by this method.</__p_description>
                             <__p_return_description>The form layout containing all built edit widgets and the apply button at the end.</__p_return_description>
@@ -2577,6 +2607,17 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             <Object>
                                 <__p_name>index</__p_name>
                                 <__p_description>The index of the block whose property edit widgets are built.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildHidden_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A new hidden edit widget configured for the given definition.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -2610,47 +2651,6 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__buildCheckbox_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A tuple containing 2 items. The first is a new checkbox widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>properties</__p_name>
-                                <__p_description>The properties of the block used to get the initial value of the returned edit widget.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__buildCombo_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A tuple containing 2 items. The first is a new combo box widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>properties</__p_name>
-                                <__p_description>The properties of the block used to get the initial value of the returned edit widget.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__buildHidden_</__p_name>
-                            <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A new hidden edit widget configured for the given definition.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>The edit definition used to build the returned edit widget.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
                             <__p_name>__setupGui_</__p_name>
                             <__p_description>Initializes the GUI of this new block edit dock.</__p_description>
                             <__p_static>0</__p_static>
@@ -2660,6 +2660,13 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                     <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__apply_</__p_name>
+                            <__p_description>Called to set this dock's currently indexed block's properties to the current values of its edit widgets. If the current index is not valid then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                         <Function>
                             <__p_name>__indexChanged_</__p_name>
                             <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
@@ -2687,13 +2694,6 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <Function>
                             <__p_name>__indexRemoved_</__p_name>
                             <__p_description>Called to remove this dock's current index, setting it to invalid.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__apply_</__p_name>
-                            <__p_description>Called to set this dock's currently indexed block's properties to the current values of its edit widgets. If the current index is not valid then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2763,15 +2763,8 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__setupGui_</__p_name>
-                            <__p_description>Initializes the GUI of this new text dialog.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__setupSpellChecker_</__p_name>
-                            <__p_description>Initializes the spell checker box of this new text dialog.</__p_description>
-                            <__p_return_description>The initialized spell checker box widget.</__p_return_description>
+                            <__p_name>__restore_</__p_name>
+                            <__p_description>Restores the geometry of this dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2783,8 +2776,15 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__restore_</__p_name>
-                            <__p_description>Restores the geometry of this dialog.</__p_description>
+                            <__p_name>__setupGui_</__p_name>
+                            <__p_description>Initializes the GUI of this new text dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setupSpellChecker_</__p_name>
+                            <__p_description>Initializes the spell checker box of this new text dialog.</__p_description>
+                            <__p_return_description>The initialized spell checker box widget.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2858,14 +2858,8 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__setupGui_</__p_name>
-                            <__p_description>Initializes the GUI of this new dialog.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__setupForm_</__p_name>
-                            <__p_description>Initializes the form of this new dialog.</__p_description>
+                            <__p_name>__restore_</__p_name>
+                            <__p_description>Restores the geometry of this dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2876,8 +2870,14 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__restore_</__p_name>
-                            <__p_description>Restores the geometry of this dialog.</__p_description>
+                            <__p_name>__setupForm_</__p_name>
+                            <__p_description>Initializes the form of this new dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setupGui_</__p_name>
+                            <__p_description>Initializes the GUI of this new dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -2885,35 +2885,6 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                     <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
-                        <Function>
-                            <__p_name>__nameChanged_</__p_name>
-                            <__p_description>Called to inform this dialog its project model's name has changed.</__p_description>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>name</__p_name>
-                                <__p_description>The new name of this dialog's project model.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__parsePathChanged_</__p_name>
-                            <__p_description>Called to inform this dialog its project model's parse path has changed.</__p_description>
-                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>path</__p_name>
-                                <__p_description>The new parse path of this dialog's project model.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__ok_</__p_name>
-                            <__p_description>Called to apply this dialog's edit widget values to its project model and then close itself.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
                         <Function>
                             <__p_name>__apply_</__p_name>
                             <__p_description>Called to apply this dialog's edit widget values to its project model.</__p_description>
@@ -2927,6 +2898,35 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__nameChanged_</__p_name>
+                            <__p_description>Called to inform this dialog its project model's name has changed.</__p_description>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>name</__p_name>
+                                <__p_description>The new name of this dialog's project model.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__ok_</__p_name>
+                            <__p_description>Called to apply this dialog's edit widget values to its project model and then close itself.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__parsePathChanged_</__p_name>
+                            <__p_description>Called to inform this dialog its project model's parse path has changed.</__p_description>
+                            <__p_descriptors>qtc.Slot(str)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>path</__p_name>
+                                <__p_description>The new parse path of this dialog's project model.</__p_description>
+                            </Object>
                         </Function>
                     </Access>
                     <Access>
@@ -2980,6 +2980,18 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
+                            <__p_name>__restore_</__p_name>
+                            <__p_description>Restores the geometry of this dialog and the state of this dialog's qt splitter.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setupButtons_</__p_name>
+                            <__p_description>Initializes the GUI of this new dialog.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>__setupGui_</__p_name>
                             <__p_description>Initializes the GUI of this new dialog.</__p_description>
                             <__p_static>0</__p_static>
@@ -2991,22 +3003,24 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                        <Function>
-                            <__p_name>__setupButtons_</__p_name>
-                            <__p_description>Initializes the GUI of this new dialog.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__restore_</__p_name>
-                            <__p_description>Restores the geometry of this dialog and the state of this dialog's qt splitter.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__close_</__p_name>
+                            <__p_description>Called to close this dialog.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__copy_</__p_name>
+                            <__p_description>Called to copy this dialog's current code fragment to the system clipboard.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                         <Function>
                             <__p_name>__itemChanged_</__p_name>
                             <__p_description>Called to inform this dialog's the selected code fragment has changed to the one with the given key.</__p_description>
@@ -3017,20 +3031,6 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                                 <__p_name>key</__p_name>
                                 <__p_description>The new key of the selected code fragment.</__p_description>
                             </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__copy_</__p_name>
-                            <__p_description>Called to copy this dialog's current code fragment to the system clipboard.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__close_</__p_name>
-                            <__p_description>Called to close this dialog.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
                     <Access>
@@ -3098,12 +3098,6 @@ It is the main window of the core application. It provides a view, docks, menus,
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__updateActions_</__p_name>
-                            <__p_description>Updates this window's actions.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>__isOkToClose_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if it is OK to close this window or false otherwise. It is OK to close this window if the user saves any unsaved changes to this window's project, chooses to discard unsaved changes, or there are no unsaved changes to worry about.</__p_return_description>
@@ -3111,16 +3105,8 @@ It is the main window of the core application. It provides a view, docks, menus,
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__updateTitle_</__p_name>
-                            <__p_description>Updates this window's title.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__setupGui_</__p_name>
-                            <__p_description>Initializes the GUI of this new window.</__p_description>
-                            <__p_inlines>The status bar is not visible until this method is called so call it here to make it visible from the start.
-</__p_inlines>
+                            <__p_name>__restore_</__p_name>
+                            <__p_description>Restores the geometry and state of this window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3131,30 +3117,14 @@ It is the main window of the core application. It provides a view, docks, menus,
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setupMenus_</__p_name>
-                            <__p_description>Initializes all menus of this new window.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__setupToolbars_</__p_name>
-                            <__p_description>Initializes all toolbars of this new window.</__p_description>
-                            <__p_inlines>File toolbar.
-
-Edit toolbar.
-</__p_inlines>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>__setupDocks_</__p_name>
                             <__p_description>Initializes the edit/view block dock widgets of this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setupNewActions_</__p_name>
-                            <__p_description>Populates this window's list of new actions with all available languages.</__p_description>
+                            <__p_name>__setupEditMenu_</__p_name>
+                            <__p_description>Adds this new window's project view's context menu as the window's edit menu.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3185,14 +3155,44 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setupEditMenu_</__p_name>
-                            <__p_description>Adds this new window's project view's context menu as the window's edit menu.</__p_description>
+                            <__p_name>__setupGui_</__p_name>
+                            <__p_description>Initializes the GUI of this new window.</__p_description>
+                            <__p_inlines>The status bar is not visible until this method is called so call it here to make it visible from the start.
+</__p_inlines>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__restore_</__p_name>
-                            <__p_description>Restores the geometry and state of this window.</__p_description>
+                            <__p_name>__setupMenus_</__p_name>
+                            <__p_description>Initializes all menus of this new window.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setupNewActions_</__p_name>
+                            <__p_description>Populates this window's list of new actions with all available languages.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__setupToolbars_</__p_name>
+                            <__p_description>Initializes all toolbars of this new window.</__p_description>
+                            <__p_inlines>File toolbar.
+
+Edit toolbar.
+</__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__updateActions_</__p_name>
+                            <__p_description>Updates this window's actions.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__updateTitle_</__p_name>
+                            <__p_description>Updates this window's title.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3200,6 +3200,13 @@ Exit action.
                     <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__close_</__p_name>
+                            <__p_description>Called to close this window's current project. If this window has no project then this does nothing. If the current project has unsaved changes the user is queried about what to do.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                         <Function>
                             <__p_name>__modified_</__p_name>
                             <__p_description>Called to inform this window that its project has been modified.</__p_description>
@@ -3217,31 +3224,6 @@ Exit action.
                                 <__p_name>name</__p_name>
                                 <__p_description>Detailed description.</__p_description>
                             </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__parseStarted_</__p_name>
-                            <__p_description>Called to inform this window that the singleton parser model has started parsing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__parseProgressed_</__p_name>
-                            <__p_description>Called to inform this window that the singleton parser model has made progress parsing.</__p_description>
-                            <__p_descriptors>qtc.Slot(int)</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>percent</__p_name>
-                                <__p_description>The percentage progress the singleton parser model has made parsing from 0 to 100.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__parseFinished_</__p_name>
-                            <__p_description>Called to inform this window that the singleton parser model has finished parsing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__new_</__p_name>
@@ -3262,6 +3244,45 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>__parse_</__p_name>
+                            <__p_description>Called to parse the source code of this window's project. If this window does not have a project save path then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__parseFinished_</__p_name>
+                            <__p_description>Called to inform this window that the singleton parser model has finished parsing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__parseProgressed_</__p_name>
+                            <__p_description>Called to inform this window that the singleton parser model has made progress parsing.</__p_description>
+                            <__p_descriptors>qtc.Slot(int)</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>percent</__p_name>
+                                <__p_description>The percentage progress the singleton parser model has made parsing from 0 to 100.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__parseStarted_</__p_name>
+                            <__p_description>Called to inform this window that the singleton parser model has started parsing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__properties_</__p_name>
+                            <__p_description>Called to have this window bring up a modal project dialog to edit the basic properties of its current project. If this window has no project then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>__save_</__p_name>
                             <__p_description>Called to save this window's project. If this window has no project or its save path is none then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
@@ -3272,27 +3293,6 @@ Exit action.
                         <Function>
                             <__p_name>__saveAs_</__p_name>
                             <__p_description>Called to save this window's project to a new save file path selected by the user. If this window has no project then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__close_</__p_name>
-                            <__p_description>Called to close this window's current project. If this window has no project then this does nothing. If the current project has unsaved changes the user is queried about what to do.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__parse_</__p_name>
-                            <__p_description>Called to parse the source code of this window's project. If this window does not have a project save path then this does nothing.</__p_description>
-                            <__p_descriptors>qtc.Slot()</__p_descriptors>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>__properties_</__p_name>
-                            <__p_description>Called to have this window bring up a modal project dialog to edit the basic properties of its current project. If this window has no project then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>

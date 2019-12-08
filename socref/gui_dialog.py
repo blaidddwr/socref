@@ -85,6 +85,36 @@ class TextDialog(qtw.QDialog):
     #####################
 
 
+    def __restore_(self):
+        """
+        Restores the geometry of this dialog.
+        """
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        if geometry:
+            self.restoreGeometry(geometry)
+
+
+    def __setupButtons_(self):
+        """
+        Initializes the buttons of this new text dialog.
+
+        return : A box layout of initialized buttons.
+        """
+        set_ = qtw.QPushButton("Set")
+        set_.clicked.connect(lambda : self.done(qtw.QDialog.Accepted))
+        cancel = qtw.QPushButton("Cancel")
+        cancel.clicked.connect(lambda : self.done(qtw.QDialog.Rejected))
+        self.__spellButton.clicked.connect(self.__spellCheck_)
+        self.__spellButton.setDisabled(not self.__speller)
+        ret = qtw.QHBoxLayout()
+        ret.addWidget(set_)
+        ret.addWidget(cancel)
+        ret.addStretch()
+        ret.addWidget(self.__spellButton)
+        return ret
+
+
     def __setupGui_(self):
         """
         Initializes the GUI of this new text dialog.
@@ -109,36 +139,6 @@ class TextDialog(qtw.QDialog):
         )
         self.__spellerBox.finished.connect(self.__spellCheckFinished_)
         return self.__spellerBox
-
-
-    def __setupButtons_(self):
-        """
-        Initializes the buttons of this new text dialog.
-
-        return : A box layout of initialized buttons.
-        """
-        set_ = qtw.QPushButton("Set")
-        set_.clicked.connect(lambda : self.done(qtw.QDialog.Accepted))
-        cancel = qtw.QPushButton("Cancel")
-        cancel.clicked.connect(lambda : self.done(qtw.QDialog.Rejected))
-        self.__spellButton.clicked.connect(self.__spellCheck_)
-        self.__spellButton.setDisabled(not self.__speller)
-        ret = qtw.QHBoxLayout()
-        ret.addWidget(set_)
-        ret.addWidget(cancel)
-        ret.addStretch()
-        ret.addWidget(self.__spellButton)
-        return ret
-
-
-    def __restore_(self):
-        """
-        Restores the geometry of this dialog.
-        """
-        settings = qtc.QSettings()
-        geometry = settings.value(self.__GEOMETRY_KEY)
-        if geometry:
-            self.restoreGeometry(geometry)
 
 
     ###################
@@ -236,28 +236,14 @@ class ProjectDialog(qtw.QDialog):
     #####################
 
 
-    def __setupGui_(self):
+    def __restore_(self):
         """
-        Initializes the GUI of this new dialog.
+        Restores the geometry of this dialog.
         """
-        layout = qtw.QVBoxLayout()
-        layout.addLayout(self.__setupForm_())
-        layout.addLayout(self.__setupButtons_())
-        self.setLayout(layout)
-        self.setWindowTitle("Project Properties")
-        self.__restore_()
-
-
-    def __setupForm_(self):
-        """
-        Initializes the form of this new dialog.
-        """
-        self.__nameEdit.setText(self.__model.name())
-        self.__parsePathEdit.setText(self.__model.parsePath())
-        ret = qtw.QFormLayout()
-        ret.addRow("Project Name:",self.__nameEdit)
-        ret.addRow("Parsing Path:",self.__parsePathEdit)
-        return ret
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        if geometry:
+            self.restoreGeometry(geometry)
 
 
     def __setupButtons_(self):
@@ -278,49 +264,33 @@ class ProjectDialog(qtw.QDialog):
         return ret
 
 
-    def __restore_(self):
+    def __setupForm_(self):
         """
-        Restores the geometry of this dialog.
+        Initializes the form of this new dialog.
         """
-        settings = qtc.QSettings()
-        geometry = settings.value(self.__GEOMETRY_KEY)
-        if geometry:
-            self.restoreGeometry(geometry)
+        self.__nameEdit.setText(self.__model.name())
+        self.__parsePathEdit.setText(self.__model.parsePath())
+        ret = qtw.QFormLayout()
+        ret.addRow("Project Name:",self.__nameEdit)
+        ret.addRow("Parsing Path:",self.__parsePathEdit)
+        return ret
+
+
+    def __setupGui_(self):
+        """
+        Initializes the GUI of this new dialog.
+        """
+        layout = qtw.QVBoxLayout()
+        layout.addLayout(self.__setupForm_())
+        layout.addLayout(self.__setupButtons_())
+        self.setLayout(layout)
+        self.setWindowTitle("Project Properties")
+        self.__restore_()
 
 
     ###################
     # PRIVATE - Slots #
     ###################
-
-
-    @qtc.Slot(str)
-    def __nameChanged_(self, name):
-        """
-        Called to inform this dialog its project model's name has changed.
-
-        name : The new name of this dialog's project model.
-        """
-        self.__nameEdit.setText(name)
-
-
-    @qtc.Slot(str)
-    def __parsePathChanged_(self, path):
-        """
-        Called to inform this dialog its project model's parse path has changed.
-
-        path : The new parse path of this dialog's project model.
-        """
-        self.__parsePathEdit.setText(path)
-
-
-    @qtc.Slot()
-    def __ok_(self):
-        """
-        Called to apply this dialog's edit widget values to its project model and then close itself.
-        """
-        self.__apply_()
-        self.done(qtw.QDialog.Accepted)
-        self.close()
 
 
     @qtc.Slot()
@@ -340,6 +310,36 @@ class ProjectDialog(qtw.QDialog):
         """
         self.done(qtw.QDialog.Rejected)
         self.close()
+
+
+    @qtc.Slot(str)
+    def __nameChanged_(self, name):
+        """
+        Called to inform this dialog its project model's name has changed.
+
+        name : The new name of this dialog's project model.
+        """
+        self.__nameEdit.setText(name)
+
+
+    @qtc.Slot()
+    def __ok_(self):
+        """
+        Called to apply this dialog's edit widget values to its project model and then close itself.
+        """
+        self.__apply_()
+        self.done(qtw.QDialog.Accepted)
+        self.close()
+
+
+    @qtc.Slot(str)
+    def __parsePathChanged_(self, path):
+        """
+        Called to inform this dialog its project model's parse path has changed.
+
+        path : The new parse path of this dialog's project model.
+        """
+        self.__parsePathEdit.setText(path)
 
 
     #######################
@@ -410,6 +410,34 @@ class CodeDialog(qtw.QDialog):
     #####################
 
 
+    def __restore_(self):
+        """
+        Restores the geometry of this dialog and the state of this dialog's qt splitter.
+        """
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        state = settings.value(self.__STATE_KEY)
+        if geometry:
+            self.restoreGeometry(geometry)
+        if state:
+            self.__splitter.restoreState(state)
+
+
+    def __setupButtons_(self):
+        """
+        Initializes the GUI of this new dialog.
+        """
+        close = qtw.QPushButton("Close")
+        close.clicked.connect(self.__close_)
+        copy = qtw.QPushButton("Copy to Clipboard")
+        copy.clicked.connect(self.__copy_)
+        ret = qtw.QHBoxLayout()
+        ret.addWidget(close)
+        ret.addStretch()
+        ret.addWidget(copy)
+        return ret
+
+
     def __setupGui_(self):
         """
         Initializes the GUI of this new dialog.
@@ -434,48 +462,18 @@ class CodeDialog(qtw.QDialog):
         return self.__splitter
 
 
-    def __setupButtons_(self):
-        """
-        Initializes the GUI of this new dialog.
-        """
-        close = qtw.QPushButton("Close")
-        close.clicked.connect(self.__close_)
-        copy = qtw.QPushButton("Copy to Clipboard")
-        copy.clicked.connect(self.__copy_)
-        ret = qtw.QHBoxLayout()
-        ret.addWidget(close)
-        ret.addStretch()
-        ret.addWidget(copy)
-        return ret
-
-
-    def __restore_(self):
-        """
-        Restores the geometry of this dialog and the state of this dialog's qt splitter.
-        """
-        settings = qtc.QSettings()
-        geometry = settings.value(self.__GEOMETRY_KEY)
-        state = settings.value(self.__STATE_KEY)
-        if geometry:
-            self.restoreGeometry(geometry)
-        if state:
-            self.__splitter.restoreState(state)
-
-
     ###################
     # PRIVATE - Slots #
     ###################
 
 
-    @qtc.Slot(str)
-    def __itemChanged_(self, key):
+    @qtc.Slot()
+    def __close_(self):
         """
-        Called to inform this dialog's the selected code fragment has changed to the one with the
-        given key.
-
-        key : The new key of the selected code fragment.
+        Called to close this dialog.
         """
-        self.__view.setPlainText(self.__code[key])
+        self.done(qtw.QDialog.Accepted)
+        self.close()
 
 
     @qtc.Slot()
@@ -487,13 +485,15 @@ class CodeDialog(qtw.QDialog):
         clipboard.setText(self.__view.toPlainText())
 
 
-    @qtc.Slot()
-    def __close_(self):
+    @qtc.Slot(str)
+    def __itemChanged_(self, key):
         """
-        Called to close this dialog.
+        Called to inform this dialog's the selected code fragment has changed to the one with the
+        given key.
+
+        key : The new key of the selected code fragment.
         """
-        self.done(qtw.QDialog.Accepted)
-        self.close()
+        self.__view.setPlainText(self.__code[key])
 
 
     #######################

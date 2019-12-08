@@ -49,14 +49,6 @@ class Command(abc.ABC):
 
 
     @abc.abstractmethod
-    def undo(self):
-        """
-        This interface acts on this command's project model to undo its command.
-        """
-        pass
-
-
-    @abc.abstractmethod
     def redo(self):
         """
         This interface acts on this command's project model to redo its command.
@@ -64,9 +56,34 @@ class Command(abc.ABC):
         pass
 
 
+    @abc.abstractmethod
+    def undo(self):
+        """
+        This interface acts on this command's project model to undo its command.
+        """
+        pass
+
+
     #######################
     # PROTECTED - Methods #
     #######################
+
+
+    def _buildRows_(self, index):
+        """
+        Getter method.
+
+        index : A qt model index of this command's project model that is returns as a list of rows.
+
+        return : A list of rows that represent the given qt model index of this command's project
+                 model. An empty list is the root index.
+        """
+        rows = []
+        while index.isValid():
+            rows.append(index.row())
+            index = index.parent()
+        rows.reverse()
+        return rows
 
 
     def _getIndex_(self, rows):
@@ -85,23 +102,6 @@ class Command(abc.ABC):
             if not index.isValid():
                 raise RuntimeError("Rows are invalid.")
         return index
-
-
-    def _buildRows_(self, index):
-        """
-        Getter method.
-
-        index : A qt model index of this command's project model that is returns as a list of rows.
-
-        return : A list of rows that represent the given qt model index of this command's project
-                 model. An empty list is the root index.
-        """
-        rows = []
-        while index.isValid():
-            rows.append(index.row())
-            index = index.parent()
-        rows.reverse()
-        return rows
 
 
 
@@ -148,18 +148,18 @@ class SetCommand(Command):
     ####################
 
 
-    def undo(self):
-        """
-        Implements the .command.Command interface.
-        """
-        self._model._setProperties_(self._getIndex_(self.__rows),self.__fromProperties)
-
-
     def redo(self):
         """
         Implements the .command.Command interface.
         """
         self._model._setProperties_(self._getIndex_(self.__rows),self.__toProperties)
+
+
+    def undo(self):
+        """
+        Implements the .command.Command interface.
+        """
+        self._model._setProperties_(self._getIndex_(self.__rows),self.__fromProperties)
 
 
 
@@ -206,6 +206,18 @@ class RemoveCommand(Command):
     ####################
 
 
+    def redo(self):
+        """
+        Implements the .command.Command interface.
+        """
+        if self._blocks is None:
+            self._blocks = self._model._removeRows_(
+                self.__row
+                ,self.__count
+                ,self._getIndex_(self.__parentRows)
+            )
+
+
     def undo(self):
         """
         Implements the .command.Command interface.
@@ -217,18 +229,6 @@ class RemoveCommand(Command):
                 ,self._getIndex_(self.__parentRows)
             )
             self._blocks = None
-
-
-    def redo(self):
-        """
-        Implements the .command.Command interface.
-        """
-        if self._blocks is None:
-            self._blocks = self._model._removeRows_(
-                self.__row
-                ,self.__count
-                ,self._getIndex_(self.__parentRows)
-            )
 
 
 
@@ -272,18 +272,18 @@ class InsertCommand(RemoveCommand):
     ####################
 
 
-    def undo(self):
-        """
-        Implements the .command.Command interface.
-        """
-        Remove.redo(self)
-
-
     def redo(self):
         """
         Implements the .command.Command interface.
         """
         Remove.undo(self)
+
+
+    def undo(self):
+        """
+        Implements the .command.Command interface.
+        """
+        Remove.redo(self)
 
 
 
@@ -326,17 +326,6 @@ class MoveCommand(Command):
     ####################
 
 
-    def undo(self):
-        """
-        Implements the .command.Command interface.
-        """
-        self._model._moveRow_(
-            self.__toRow
-            ,self.__fromRow
-            ,self._getIndex_(self.__parentRows)
-        )
-
-
     def redo(self):
         """
         Implements the .command.Command interface.
@@ -344,5 +333,16 @@ class MoveCommand(Command):
         self._model._moveRow_(
             self.__fromRow
             ,self.__toRow
+            ,self._getIndex_(self.__parentRows)
+        )
+
+
+    def undo(self):
+        """
+        Implements the .command.Command interface.
+        """
+        self._model._moveRow_(
+            self.__toRow
+            ,self.__fromRow
             ,self._getIndex_(self.__parentRows)
         )

@@ -36,10 +36,10 @@ class LangError(Exception):
 
 
 
-class RegisterError(Exception):
+class LoadError(Exception):
     """
-    This is the register error exception class. It indicates an error occurred attempting to
-    register a block while loading a language's module.
+    This is the load error exception class. It indicates an error occurred attempting to load a
+    project from its saved file.
     """
 
 
@@ -63,10 +63,10 @@ class RegisterError(Exception):
 
 
 
-class LoadError(Exception):
+class RegisterError(Exception):
     """
-    This is the load error exception class. It indicates an error occurred attempting to load a
-    project from its saved file.
+    This is the register error exception class. It indicates an error occurred attempting to
+    register a block while loading a language's module.
     """
 
 

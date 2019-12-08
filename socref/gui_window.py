@@ -104,17 +104,6 @@ class MainWindow(qtw.QMainWindow):
     #####################
 
 
-    def __updateActions_(self):
-        """
-        Updates this window's actions.
-        """
-        self.__saveAction.setDisabled(self.__path is None)
-        self.__saveAsAction.setDisabled(not self.__model)
-        self.__closeAction.setDisabled(not self.__model)
-        self.__propertiesAction.setDisabled(not self.__model)
-        self.__parseAction.setDisabled(self.__path is None)
-
-
     def __isOkToClose_(self):
         """
         Getter method.
@@ -143,44 +132,17 @@ class MainWindow(qtw.QMainWindow):
             return True
 
 
-    def __updateTitle_(self):
+    def __restore_(self):
         """
-        Updates this window's title.
+        Restores the geometry and state of this window.
         """
-        if self.__model:
-            self.setWindowTitle(
-                "%s[*] (%s) - Socrates' Reference" % (self.__model.name(),self.__model.langName())
-            )
-        else:
-            self.setWindowTitle("Socrates' Reference")
-
-
-    def __setupGui_(self):
-        """
-        Initializes the GUI of this new window.
-        """
-        self.__instances.append(self)
-        self.setWindowIcon(qtg.QIcon(":/socref/application.svg"))
-        self.__model.modified.connect(self.__modified_)
-        self.__model.nameChanged.connect(self.__nameChanged_)
-        self.__view.setModel(self.__model)
-        self.setCentralWidget(self.__view)
-        self.__setupDocks_()
-        self.__setupActions_()
-        self.__setupMenus_()
-        self.__setupToolbars_()
-        self.parseRequested.connect(model.ParserModel().start)
-        model.ParserModel().started.connect(self.__parseStarted_)
-        model.ParserModel().progressed.connect(self.__parseProgressed_)
-        model.ParserModel().finished.connect(self.__parseFinished_)
-        self.__restore_()
-        #
-        # The status bar is not visible until this method is called so call it here to make it
-        # visible from the start.
-        #
-        self.statusBar()
-        self.__updateTitle_()
-        self.__updateActions_()
+        settings = qtc.QSettings()
+        geometry = settings.value(self.__GEOMETRY_KEY)
+        state = settings.value(self.__STATE_KEY)
+        if geometry:
+            self.restoreGeometry(geometry)
+        if state:
+            self.restoreState(state)
 
 
     def __setupActions_(self):
@@ -189,42 +151,6 @@ class MainWindow(qtw.QMainWindow):
         """
         self.__setupNewActions_()
         self.__setupFileActions_()
-
-
-    def __setupMenus_(self):
-        """
-        Initializes all menus of this new window.
-        """
-        self.__setupFileMenu_()
-        self.__setupEditMenu_()
-
-
-    def __setupToolbars_(self):
-        """
-        Initializes all toolbars of this new window.
-        """
-        #
-        # File toolbar.
-        #
-        toolbar = self.addToolBar("File")
-        toolbar.setObjectName("file.toolbar")
-        toolbar.addAction(self.__openAction)
-        toolbar.addAction(self.__saveAction)
-        toolbar.addAction(self.__saveAsAction)
-        toolbar.addAction(self.__parseAction)
-        #
-        # Edit toolbar.
-        #
-        toolbar = self.addToolBar("Edit")
-        toolbar.setObjectName("edit.toolbar")
-        toolbar.addAction(self.__view.undoAction())
-        toolbar.addAction(self.__view.redoAction())
-        toolbar.addAction(self.__view.removeAction())
-        toolbar.addAction(self.__view.cutAction())
-        toolbar.addAction(self.__view.copyAction())
-        toolbar.addAction(self.__view.pasteAction())
-        toolbar.addAction(self.__view.moveUpAction())
-        toolbar.addAction(self.__view.moveDownAction())
 
 
     def __setupDocks_(self):
@@ -241,16 +167,11 @@ class MainWindow(qtw.QMainWindow):
         self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__blockEditDock)
 
 
-    def __setupNewActions_(self):
+    def __setupEditMenu_(self):
         """
-        Populates this window's list of new actions with all available languages.
+        Adds this new window's project view's context menu as the window's edit menu.
         """
-        for lang in block.BlockFactory().langs():
-            self.__newActions.append(qtw.QAction(lang,self))
-            self.__newActions[-1].triggered.connect(
-                lambda checked=False,name=lang : self.__new_(name)
-            )
-            self.addAction(self.__newActions[-1])
+        self.menuBar().addMenu(self.__view.contextMenu())
 
 
     def __setupFileActions_(self):
@@ -338,29 +259,122 @@ class MainWindow(qtw.QMainWindow):
         menu.addAction(self.__exitAction)
 
 
-    def __setupEditMenu_(self):
+    def __setupGui_(self):
         """
-        Adds this new window's project view's context menu as the window's edit menu.
+        Initializes the GUI of this new window.
         """
-        self.menuBar().addMenu(self.__view.contextMenu())
+        self.__instances.append(self)
+        self.setWindowIcon(qtg.QIcon(":/socref/application.svg"))
+        self.__model.modified.connect(self.__modified_)
+        self.__model.nameChanged.connect(self.__nameChanged_)
+        self.__view.setModel(self.__model)
+        self.setCentralWidget(self.__view)
+        self.__setupDocks_()
+        self.__setupActions_()
+        self.__setupMenus_()
+        self.__setupToolbars_()
+        self.parseRequested.connect(model.ParserModel().start)
+        model.ParserModel().started.connect(self.__parseStarted_)
+        model.ParserModel().progressed.connect(self.__parseProgressed_)
+        model.ParserModel().finished.connect(self.__parseFinished_)
+        self.__restore_()
+        #
+        # The status bar is not visible until this method is called so call it here to make it
+        # visible from the start.
+        #
+        self.statusBar()
+        self.__updateTitle_()
+        self.__updateActions_()
 
 
-    def __restore_(self):
+    def __setupMenus_(self):
         """
-        Restores the geometry and state of this window.
+        Initializes all menus of this new window.
         """
-        settings = qtc.QSettings()
-        geometry = settings.value(self.__GEOMETRY_KEY)
-        state = settings.value(self.__STATE_KEY)
-        if geometry:
-            self.restoreGeometry(geometry)
-        if state:
-            self.restoreState(state)
+        self.__setupFileMenu_()
+        self.__setupEditMenu_()
+
+
+    def __setupNewActions_(self):
+        """
+        Populates this window's list of new actions with all available languages.
+        """
+        for lang in block.BlockFactory().langs():
+            self.__newActions.append(qtw.QAction(lang,self))
+            self.__newActions[-1].triggered.connect(
+                lambda checked=False,name=lang : self.__new_(name)
+            )
+            self.addAction(self.__newActions[-1])
+
+
+    def __setupToolbars_(self):
+        """
+        Initializes all toolbars of this new window.
+        """
+        #
+        # File toolbar.
+        #
+        toolbar = self.addToolBar("File")
+        toolbar.setObjectName("file.toolbar")
+        toolbar.addAction(self.__openAction)
+        toolbar.addAction(self.__saveAction)
+        toolbar.addAction(self.__saveAsAction)
+        toolbar.addAction(self.__parseAction)
+        #
+        # Edit toolbar.
+        #
+        toolbar = self.addToolBar("Edit")
+        toolbar.setObjectName("edit.toolbar")
+        toolbar.addAction(self.__view.undoAction())
+        toolbar.addAction(self.__view.redoAction())
+        toolbar.addAction(self.__view.removeAction())
+        toolbar.addAction(self.__view.cutAction())
+        toolbar.addAction(self.__view.copyAction())
+        toolbar.addAction(self.__view.pasteAction())
+        toolbar.addAction(self.__view.moveUpAction())
+        toolbar.addAction(self.__view.moveDownAction())
+
+
+    def __updateActions_(self):
+        """
+        Updates this window's actions.
+        """
+        self.__saveAction.setDisabled(self.__path is None)
+        self.__saveAsAction.setDisabled(not self.__model)
+        self.__closeAction.setDisabled(not self.__model)
+        self.__propertiesAction.setDisabled(not self.__model)
+        self.__parseAction.setDisabled(self.__path is None)
+
+
+    def __updateTitle_(self):
+        """
+        Updates this window's title.
+        """
+        if self.__model:
+            self.setWindowTitle(
+                "%s[*] (%s) - Socrates' Reference" % (self.__model.name(),self.__model.langName())
+            )
+        else:
+            self.setWindowTitle("Socrates' Reference")
 
 
     ###################
     # PRIVATE - Slots #
     ###################
+
+
+    @qtc.Slot()
+    def __close_(self):
+        """
+        Called to close this window's current project. If this window has no project then this does
+        nothing. If the current project has unsaved changes the user is queried about what to do.
+        """
+        if self.__model and self.__isOkToClose_():
+            self.__model.close()
+            self.__path = None
+            self.__updateTitle_()
+            self.setWindowModified(False)
+            self.__updateActions_()
 
 
     @qtc.Slot()
@@ -380,40 +394,6 @@ class MainWindow(qtw.QMainWindow):
         name : Detailed description.
         """
         self.__updateTitle_()
-
-
-    @qtc.Slot()
-    def __parseStarted_(self):
-        """
-        Called to inform this window that the singleton parser model has started parsing.
-        """
-        if self.__progressBar is None:
-            bar = self.__progressBar = qtw.QProgressBar()
-            bar.setRange(0,100)
-            bar.setValue(0)
-            self.statusBar().addWidget(bar)
-            bar.show()
-
-
-    @qtc.Slot(int)
-    def __parseProgressed_(self, percent):
-        """
-        Called to inform this window that the singleton parser model has made progress parsing.
-
-        percent : The percentage progress the singleton parser model has made parsing from 0 to 100.
-        """
-        if self.__progressBar is not None:
-            self.__progressBar.setValue(percent)
-
-
-    @qtc.Slot()
-    def __parseFinished_(self):
-        """
-        Called to inform this window that the singleton parser model has finished parsing.
-        """
-        if self.__progressBar is not None:
-            self.__progressBar.deleteLater()
-            self.__progressBar = None
 
 
     @qtc.Slot(str)
@@ -465,6 +445,65 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
+    def __parse_(self):
+        """
+        Called to parse the source code of this window's project. If this window does not have a
+        project save path then this does nothing.
+        """
+        if self.__path is not None:
+            parser = self.__model.parser()
+            parser.setRootPath(
+                os.path.abspath(
+                    os.path.join(os.path.dirname(self.__path),self.__model.parsePath())
+                )
+            )
+            self.parseRequested.emit(parser)
+
+
+    @qtc.Slot()
+    def __parseFinished_(self):
+        """
+        Called to inform this window that the singleton parser model has finished parsing.
+        """
+        if self.__progressBar is not None:
+            self.__progressBar.deleteLater()
+            self.__progressBar = None
+
+
+    @qtc.Slot(int)
+    def __parseProgressed_(self, percent):
+        """
+        Called to inform this window that the singleton parser model has made progress parsing.
+
+        percent : The percentage progress the singleton parser model has made parsing from 0 to 100.
+        """
+        if self.__progressBar is not None:
+            self.__progressBar.setValue(percent)
+
+
+    @qtc.Slot()
+    def __parseStarted_(self):
+        """
+        Called to inform this window that the singleton parser model has started parsing.
+        """
+        if self.__progressBar is None:
+            bar = self.__progressBar = qtw.QProgressBar()
+            bar.setRange(0,100)
+            bar.setValue(0)
+            self.statusBar().addWidget(bar)
+            bar.show()
+
+
+    @qtc.Slot()
+    def __properties_(self):
+        """
+        Called to have this window bring up a modal project dialog to edit the basic properties of
+        its current project. If this window has no project then this does nothing.
+        """
+        gui_dialog.ProjectDialog(self.__model).exec_()
+
+
+    @qtc.Slot()
     def __save_(self):
         """
         Called to save this window's project. If this window has no project or its save path is none
@@ -505,45 +544,6 @@ class MainWindow(qtw.QMainWindow):
         self.setWindowModified(False)
         self.__updateActions_()
         return True
-
-
-    @qtc.Slot()
-    def __close_(self):
-        """
-        Called to close this window's current project. If this window has no project then this does
-        nothing. If the current project has unsaved changes the user is queried about what to do.
-        """
-        if self.__model and self.__isOkToClose_():
-            self.__model.close()
-            self.__path = None
-            self.__updateTitle_()
-            self.setWindowModified(False)
-            self.__updateActions_()
-
-
-    @qtc.Slot()
-    def __parse_(self):
-        """
-        Called to parse the source code of this window's project. If this window does not have a
-        project save path then this does nothing.
-        """
-        if self.__path is not None:
-            parser = self.__model.parser()
-            parser.setRootPath(
-                os.path.abspath(
-                    os.path.join(os.path.dirname(self.__path),self.__model.parsePath())
-                )
-            )
-            self.parseRequested.emit(parser)
-
-
-    @qtc.Slot()
-    def __properties_(self):
-        """
-        Called to have this window bring up a modal project dialog to edit the basic properties of
-        its current project. If this window has no project then this does nothing.
-        """
-        gui_dialog.ProjectDialog(self.__model).exec_()
 
 
     ############################

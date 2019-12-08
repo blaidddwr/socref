@@ -176,89 +176,6 @@ class BlockEditDock(qtw.QDockWidget):
     #####################
 
 
-    def __buildFormWidget_(self, index):
-        """
-        Builds and initializes all edit widgets for all properties of the block at the given index
-        based off its edit definitions, adding them to this dock's list of edit widgets. This clears
-        any previous edit widgets from the last index that was built by this method.
-
-        index : The index of the block whose property edit widgets are built.
-
-        return : The form layout containing all built edit widgets and the apply button at the end.
-        """
-        self.__edits.clear()
-        try:
-            props = self.__view.model().data(index,model.Role.PROPERTIES)
-            defs = self.__view.model().data(index,model.Role.EDIT_DEFS)
-            layout = qtw.QFormLayout()
-            for def_ in defs:
-                edit = None
-                label = None
-                if def_["type"] == "line":
-                    (edit,label) = self.__buildLine_(def_,props)
-                elif def_["type"] == "text":
-                    (edit,label) = self.__buildText_(def_,props)
-                elif def_["type"] == "checkbox":
-                    (edit,label) = self.__buildCheckbox_(def_,props)
-                elif def_["type"] == "combobox":
-                    (edit,label) = self.__buildCombo_(def_,props)
-                elif def_["type"] == "hidden":
-                    edit = self.__buildHidden_(def_)
-                else:
-                    raise RuntimeError("Unknown edit definition.")
-                if label is not None:
-                    layout.addRow(label,edit)
-                self.__edits.append(edit)
-            ret = qtw.QWidget()
-            ret.setContentsMargins(0,16,0,4)
-            ret.setLayout(layout)
-            return ret
-        except:
-            self.__edits.clear()
-            raise
-
-
-    def __buildLine_(self, definition, properties):
-        """
-        Getter method.
-
-        definition : The edit definition used to build the returned edit widget.
-
-        properties : The properties of the block used to get the initial value of the returned edit
-                     widget.
-
-        return : A tuple containing 2 items. The first is a new line edit widget configured for the
-                 given definition and properties. The second is a string label for adding it to a
-                 form.
-        """
-        edit = qtw.QLineEdit(properties[definition["key"]])
-        edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
-        edit._value_ = lambda e=edit : e.text()
-        edit._key = definition["key"]
-        return (edit,definition["label"])
-
-
-    def __buildText_(self, definition, properties):
-        """
-        Getter method.
-
-        definition : The edit definition used to build the returned edit widget.
-
-        properties : The properties of the block used to get the initial value of the returned edit
-                     widget.
-
-        return : A tuple containing 2 items. The first is a new plain text edit widget configured
-                 for the given definition and properties. The second is a string label for adding it
-                 to a form.
-        """
-        edit = PlainTextEdit(speller=definition.get("speller",False),popup=True)
-        edit.setPlainText(properties[definition["key"]])
-        edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
-        edit._value_ = lambda e=edit : e.toPlainText()
-        edit._key = definition["key"]
-        return (edit,definition["label"])
-
-
     def __buildCheckbox_(self, definition, properties):
         """
         Getter method.
@@ -308,6 +225,48 @@ class BlockEditDock(qtw.QDockWidget):
         return (edit,definition["label"])
 
 
+    def __buildFormWidget_(self, index):
+        """
+        Builds and initializes all edit widgets for all properties of the block at the given index
+        based off its edit definitions, adding them to this dock's list of edit widgets. This clears
+        any previous edit widgets from the last index that was built by this method.
+
+        index : The index of the block whose property edit widgets are built.
+
+        return : The form layout containing all built edit widgets and the apply button at the end.
+        """
+        self.__edits.clear()
+        try:
+            props = self.__view.model().data(index,model.Role.PROPERTIES)
+            defs = self.__view.model().data(index,model.Role.EDIT_DEFS)
+            layout = qtw.QFormLayout()
+            for def_ in defs:
+                edit = None
+                label = None
+                if def_["type"] == "line":
+                    (edit,label) = self.__buildLine_(def_,props)
+                elif def_["type"] == "text":
+                    (edit,label) = self.__buildText_(def_,props)
+                elif def_["type"] == "checkbox":
+                    (edit,label) = self.__buildCheckbox_(def_,props)
+                elif def_["type"] == "combobox":
+                    (edit,label) = self.__buildCombo_(def_,props)
+                elif def_["type"] == "hidden":
+                    edit = self.__buildHidden_(def_)
+                else:
+                    raise RuntimeError("Unknown edit definition.")
+                if label is not None:
+                    layout.addRow(label,edit)
+                self.__edits.append(edit)
+            ret = qtw.QWidget()
+            ret.setContentsMargins(0,16,0,4)
+            ret.setLayout(layout)
+            return ret
+        except:
+            self.__edits.clear()
+            raise
+
+
     def __buildHidden_(self, definition):
         """
         Getter method.
@@ -320,6 +279,47 @@ class BlockEditDock(qtw.QDockWidget):
         edit._value_ = lambda val=definition["value"] : val
         edit._key = definition["key"]
         return edit
+
+
+    def __buildLine_(self, definition, properties):
+        """
+        Getter method.
+
+        definition : The edit definition used to build the returned edit widget.
+
+        properties : The properties of the block used to get the initial value of the returned edit
+                     widget.
+
+        return : A tuple containing 2 items. The first is a new line edit widget configured for the
+                 given definition and properties. The second is a string label for adding it to a
+                 form.
+        """
+        edit = qtw.QLineEdit(properties[definition["key"]])
+        edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
+        edit._value_ = lambda e=edit : e.text()
+        edit._key = definition["key"]
+        return (edit,definition["label"])
+
+
+    def __buildText_(self, definition, properties):
+        """
+        Getter method.
+
+        definition : The edit definition used to build the returned edit widget.
+
+        properties : The properties of the block used to get the initial value of the returned edit
+                     widget.
+
+        return : A tuple containing 2 items. The first is a new plain text edit widget configured
+                 for the given definition and properties. The second is a string label for adding it
+                 to a form.
+        """
+        edit = PlainTextEdit(speller=definition.get("speller",False),popup=True)
+        edit.setPlainText(properties[definition["key"]])
+        edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
+        edit._value_ = lambda e=edit : e.toPlainText()
+        edit._key = definition["key"]
+        return (edit,definition["label"])
 
 
     def __setupGui_(self):
@@ -342,6 +342,21 @@ class BlockEditDock(qtw.QDockWidget):
     ###################
     # PRIVATE - Slots #
     ###################
+
+
+    @qtc.Slot()
+    def __apply_(self):
+        """
+        Called to set this dock's currently indexed block's properties to the current values of its
+        edit widgets. If the current index is not valid then this does nothing.
+        """
+        if self.__index.isValid():
+            self.__view.model().setData(
+                self.__index
+                ,{edit._key: edit._value_() for edit in self.__edits}
+                ,model.Role.PROPERTIES
+            )
+            self.__applyButton.setEnabled(False)
 
 
     @qtc.Slot(qtc.QModelIndex)
@@ -395,18 +410,3 @@ class BlockEditDock(qtw.QDockWidget):
         Called to remove this dock's current index, setting it to invalid.
         """
         self.__index = qtc.QModelIndex()
-
-
-    @qtc.Slot()
-    def __apply_(self):
-        """
-        Called to set this dock's currently indexed block's properties to the current values of its
-        edit widgets. If the current index is not valid then this does nothing.
-        """
-        if self.__index.isValid():
-            self.__view.model().setData(
-                self.__index
-                ,{edit._key: edit._value_() for edit in self.__edits}
-                ,model.Role.PROPERTIES
-            )
-            self.__applyButton.setEnabled(False)

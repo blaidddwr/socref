@@ -169,13 +169,49 @@ class ProjectView(qtw.QTreeView):
         return self.__contextMenu
 
 
-    def undoAction(self):
+    def copyAction(self):
         """
         Getter method.
 
-        return : The undo action of this project.
+        return : The copy action of this project.
         """
-        return self.__undoAction
+        return self.__copyAction
+
+
+    def cutAction(self):
+        """
+        Getter method.
+
+        return : The cut action of this project.
+        """
+        return self.__cutAction
+
+
+    def moveDownAction(self):
+        """
+        Getter method.
+
+        return : The move down action of this project.
+        """
+        return self.__moveDownAction
+
+
+    def moveUpAction(self):
+        """
+        Getter method.
+
+        return : The move up action of this project.
+        """
+        return self.__moveUpAction
+
+
+    def pasteAction(self):
+        """
+        Getter method.
+
+        return : The paste action of this project.
+        """
+        return self.__pasteAction
 
 
     def redoAction(self):
@@ -194,51 +230,6 @@ class ProjectView(qtw.QTreeView):
         return : The remove action of this project.
         """
         return self.__removeAction
-
-
-    def cutAction(self):
-        """
-        Getter method.
-
-        return : The cut action of this project.
-        """
-        return self.__cutAction
-
-
-    def copyAction(self):
-        """
-        Getter method.
-
-        return : The copy action of this project.
-        """
-        return self.__copyAction
-
-
-    def pasteAction(self):
-        """
-        Getter method.
-
-        return : The paste action of this project.
-        """
-        return self.__pasteAction
-
-
-    def moveUpAction(self):
-        """
-        Getter method.
-
-        return : The move up action of this project.
-        """
-        return self.__moveUpAction
-
-
-    def moveDownAction(self):
-        """
-        Getter method.
-
-        return : The move down action of this project.
-        """
-        return self.__moveDownAction
 
 
     def setModel(self, model):
@@ -260,6 +251,15 @@ class ProjectView(qtw.QTreeView):
         self.__updateContextMenu_()
 
 
+    def undoAction(self):
+        """
+        Getter method.
+
+        return : The undo action of this project.
+        """
+        return self.__undoAction
+
+
     ####################
     # PUBLIC - Signals #
     ####################
@@ -270,13 +270,13 @@ class ProjectView(qtw.QTreeView):
     #
     indexChanged = qtc.Signal(qtc.QModelIndex)
     #
-    # Signals that the currently indexed block of this project has moved to a new index.
-    #
-    indexMoved = qtc.Signal(qtc.QModelIndex)
-    #
     # Signals that the data of this project's current index has changed.
     #
     indexDataChanged = qtc.Signal()
+    #
+    # Signals that the currently indexed block of this project has moved to a new index.
+    #
+    indexMoved = qtc.Signal(qtc.QModelIndex)
     #
     # Signals that the this project's current index is about to be removed from its model.
     #
@@ -286,71 +286,6 @@ class ProjectView(qtw.QTreeView):
     #####################
     # PRIVATE - Methods #
     #####################
-
-
-    def __updateInsert_(self, option):
-        """
-        Updates this project's insert option to the one given, setting all insert actions checked
-        states appropriately.
-
-        option : The new insert option set for this project.
-        """
-        self.__insertBeforeAction.setChecked(option == self.__BEFORE)
-        self.__insertIntoAction.setChecked(option == self.__INTO)
-        self.__insertAfterAction.setChecked(option == self.__AFTER)
-        self.__insert = option
-        self.__updateContextMenu_()
-
-
-    def __updateContextMenu_(self):
-        """
-        Updates this project's context menu with the new selection state of its model. Updating
-        includes enabling or disabling appropriate actions and rebuilding the add block menu.
-        """
-        self.__updateActions_()
-        self.__addMenu.clear()
-        for action in self.__addActions:
-            self.__addMenu.addAction(action)
-        self.__addMenu.setDisabled(self.__addMenu.isEmpty())
-
-
-    def __updateActions_(self):
-        """
-        Updates this project's actions. Updating includes rebuilding its add block actions and
-        enabling or disabling appropriate actions based off its selection model state.
-        """
-        self.__updateAddActions_()
-        selection_model = self.selectionModel()
-        selected = False if selection_model is None else selection_model.currentIndex().isValid()
-        self.__removeAction.setDisabled(not selected)
-        self.__cutAction.setDisabled(not selected)
-        self.__copyAction.setDisabled(not selected)
-        self.__pasteAction.setDisabled(not self.__canPaste_())
-        self.__moveUpAction.setDisabled(not selected)
-        self.__moveDownAction.setDisabled(not selected)
-
-
-    def __updateAddActions_(self):
-        """
-        Update this project's add actions list. Updating involves clearing the current list and
-        building it again based off this project's selection model's current index.
-        """
-        while self.__addActions:
-            self.__addActions.pop().deleteLater()
-        if self.__model is None:
-            return
-        (row,index) = self.__insertValues_()
-        if index is None:
-            return
-        block_list = self.__model.data(index,model.Role.BUILD_LIST)
-        if block_list is not None:
-            for block_type in block_list:
-                action = qtw.QAction(block_type,self)
-                action.setIcon(
-                    block.BlockFactory().create(self.__model.langName(),block_type).icon()
-                )
-                action.triggered.connect(lambda checked=False, name=block_type : self.__add_(name))
-                self.__addActions.append(action)
 
 
     def __canPaste_(self):
@@ -531,90 +466,74 @@ class ProjectView(qtw.QTreeView):
         self.__updateContextMenu_()
 
 
+    def __updateActions_(self):
+        """
+        Updates this project's actions. Updating includes rebuilding its add block actions and
+        enabling or disabling appropriate actions based off its selection model state.
+        """
+        self.__updateAddActions_()
+        selection_model = self.selectionModel()
+        selected = False if selection_model is None else selection_model.currentIndex().isValid()
+        self.__removeAction.setDisabled(not selected)
+        self.__cutAction.setDisabled(not selected)
+        self.__copyAction.setDisabled(not selected)
+        self.__pasteAction.setDisabled(not self.__canPaste_())
+        self.__moveUpAction.setDisabled(not selected)
+        self.__moveDownAction.setDisabled(not selected)
+
+
+    def __updateAddActions_(self):
+        """
+        Update this project's add actions list. Updating involves clearing the current list and
+        building it again based off this project's selection model's current index.
+        """
+        while self.__addActions:
+            self.__addActions.pop().deleteLater()
+        if self.__model is None:
+            return
+        (row,index) = self.__insertValues_()
+        if index is None:
+            return
+        block_list = self.__model.data(index,model.Role.BUILD_LIST)
+        if block_list is not None:
+            for block_type in block_list:
+                action = qtw.QAction(block_type,self)
+                action.setIcon(
+                    block.BlockFactory().create(self.__model.langName(),block_type).icon()
+                )
+                action.triggered.connect(lambda checked=False, name=block_type : self.__add_(name))
+                self.__addActions.append(action)
+
+
+    def __updateContextMenu_(self):
+        """
+        Updates this project's context menu with the new selection state of its model. Updating
+        includes enabling or disabling appropriate actions and rebuilding the add block menu.
+        """
+        self.__updateActions_()
+        self.__addMenu.clear()
+        for action in self.__addActions:
+            self.__addMenu.addAction(action)
+        self.__addMenu.setDisabled(self.__addMenu.isEmpty())
+
+
+    def __updateInsert_(self, option):
+        """
+        Updates this project's insert option to the one given, setting all insert actions checked
+        states appropriately.
+
+        option : The new insert option set for this project.
+        """
+        self.__insertBeforeAction.setChecked(option == self.__BEFORE)
+        self.__insertIntoAction.setChecked(option == self.__INTO)
+        self.__insertAfterAction.setChecked(option == self.__AFTER)
+        self.__insert = option
+        self.__updateContextMenu_()
+
+
     ###################
     # PRIVATE - Slots #
     ###################
-
-
-    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)
-    def __currentChanged_(self, current, previous):
-        """
-        Called to inform this project that its selection model's current index has changed to the
-        one given from the previous one given.
-
-        current : The new current index of this project's selection model.
-
-        previous : The previous index of this project's selection model.
-        """
-        self.__updateContextMenu_()
-        self.indexChanged.emit(current)
-
-
-    @qtc.Slot()
-    def __modelReset_(self):
-        """
-        Called to inform this project that its model has reset itself.
-        """
-        self.__updateContextMenu_()
-        self.indexChanged.emit(qtc.QModelIndex())
-
-
-    @qtc.Slot()
-    def __modelDestroyed_(self):
-        """
-        Called to inform this project that its model has been destroyed.
-        """
-        self.__model = None
-        self.__updateContextMenu_()
-        self.indexChanged.emit(qtc.QModelIndex())
-
-
-    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)
-    def __modelDataChanged_(self, topLeft, bottomRight, roles):
-        """
-        Called to inform this project that data has changed for the range of indexes from the given
-        top left to the given bottom right with the given roles.
-
-        topLeft : The top left index in the range of indexes that has changed.
-
-        bottomRight : The bottom right index in the range of indexes that has changed.
-
-        roles : List of qt data roles that have changed in the given indexes.
-        """
-        if topLeft == self.selectionModel().currentIndex():
-            self.indexDataChanged.emit()
-            self.__updateContextMenu_()
-
-
-    @qtc.Slot(qtc.QPoint)
-    def __contextMenuRequested_(self, position):
-        """
-        Called to inform this project that its context menu has been requested by the GUI at the
-        given relative point.
-
-        position : The point where the context menu is requested relative to this project's widget.
-        """
-        self.__contextMenu.exec_(self.mapToGlobal(position))
-
-
-    @qtc.Slot()
-    def __undo_(self):
-        """
-        Called to undo the last action done to this project's model.
-        """
-        if self.__model is not None:
-            self.__model.undo()
-            self.__updateContextMenu_()
-
-
-    @qtc.Slot()
-    def __redo_(self):
-        """
-        Called to redo the last undone action on this project's model.
-        """
-        if self.__model is not None:
-            self.__model.redo()
-            self.__updateContextMenu_()
 
 
     @qtc.Slot(str)
@@ -640,28 +559,15 @@ class ProjectView(qtw.QTreeView):
             )
 
 
-    @qtc.Slot()
-    def __remove_(self):
+    @qtc.Slot(qtc.QPoint)
+    def __contextMenuRequested_(self, position):
         """
-        Called to remove all selected indexes from this project's model.
-        """
-        if self.__model is not None:
-            while self.selectionModel().hasSelection():
-                index = self.selectionModel().selectedIndexes()[0]
-                if index == self.selectionModel().currentIndex():
-                    self.indexRemoved.emit()
-                parent = index.parent()
-                self.__model.removeRow(index.row(),parent)
+        Called to inform this project that its context menu has been requested by the GUI at the
+        given relative point.
 
-
-    @qtc.Slot()
-    def __cut_(self):
+        position : The point where the context menu is requested relative to this project's widget.
         """
-        Called to cut all selected indexes from this project's model.
-        """
-        if self.__model is not None:
-            self.__copy_()
-            self.__remove_()
+        self.__contextMenu.exec_(self.mapToGlobal(position))
 
 
     @qtc.Slot()
@@ -682,38 +588,36 @@ class ProjectView(qtw.QTreeView):
             self.__updateActions_()
 
 
-    @qtc.Slot()
-    def __paste_(self):
+    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)
+    def __currentChanged_(self, current, previous):
         """
-        Called to paste any globally copied blocks into this project's model at the current index
-        using its selected insert option.
+        Called to inform this project that its selection model's current index has changed to the
+        one given from the previous one given.
+
+        current : The new current index of this project's selection model.
+
+        previous : The previous index of this project's selection model.
         """
-        if self.__model is None or ProjectView.__xmlBlocks is None:
-            return
-        (row,parent) = self.__insertValues_()
-        if parent is None:
-            return
-        self.__model.insertFromXml(row,ProjectView.__xmlBlocks,parent)
+        self.__updateContextMenu_()
+        self.indexChanged.emit(current)
 
 
     @qtc.Slot()
-    def __moveUp_(self):
+    def __cut_(self):
         """
-        Called to move the current index of this project's selection model up by one in its model.
+        Called to cut all selected indexes from this project's model.
         """
         if self.__model is not None:
-            self.__model.moveRow(-1,self.selectionModel().currentIndex())
-            self.indexMoved.emit(self.selectionModel().currentIndex())
+            self.__copy_()
+            self.__remove_()
 
 
     @qtc.Slot()
-    def __moveDown_(self):
+    def __insertAfter_(self):
         """
-        Called to move the current index of this project's selection model down by one in its model.
+        Called to set this project's insert option to "after".
         """
-        if self.__model is not None:
-            self.__model.moveRow(1,self.selectionModel().currentIndex())
-            self.indexMoved.emit(self.selectionModel().currentIndex())
+        self.__updateInsert_(self.__AFTER)
 
 
     @qtc.Slot()
@@ -732,12 +636,108 @@ class ProjectView(qtw.QTreeView):
         self.__updateInsert_(self.__INTO)
 
 
+    @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)
+    def __modelDataChanged_(self, topLeft, bottomRight, roles):
+        """
+        Called to inform this project that data has changed for the range of indexes from the given
+        top left to the given bottom right with the given roles.
+
+        topLeft : The top left index in the range of indexes that has changed.
+
+        bottomRight : The bottom right index in the range of indexes that has changed.
+
+        roles : List of qt data roles that have changed in the given indexes.
+        """
+        if topLeft == self.selectionModel().currentIndex():
+            self.indexDataChanged.emit()
+            self.__updateContextMenu_()
+
+
     @qtc.Slot()
-    def __insertAfter_(self):
+    def __modelDestroyed_(self):
         """
-        Called to set this project's insert option to "after".
+        Called to inform this project that its model has been destroyed.
         """
-        self.__updateInsert_(self.__AFTER)
+        self.__model = None
+        self.__updateContextMenu_()
+        self.indexChanged.emit(qtc.QModelIndex())
+
+
+    @qtc.Slot()
+    def __modelReset_(self):
+        """
+        Called to inform this project that its model has reset itself.
+        """
+        self.__updateContextMenu_()
+        self.indexChanged.emit(qtc.QModelIndex())
+
+
+    @qtc.Slot()
+    def __moveDown_(self):
+        """
+        Called to move the current index of this project's selection model down by one in its model.
+        """
+        if self.__model is not None:
+            self.__model.moveRow(1,self.selectionModel().currentIndex())
+            self.indexMoved.emit(self.selectionModel().currentIndex())
+
+
+    @qtc.Slot()
+    def __moveUp_(self):
+        """
+        Called to move the current index of this project's selection model up by one in its model.
+        """
+        if self.__model is not None:
+            self.__model.moveRow(-1,self.selectionModel().currentIndex())
+            self.indexMoved.emit(self.selectionModel().currentIndex())
+
+
+    @qtc.Slot()
+    def __paste_(self):
+        """
+        Called to paste any globally copied blocks into this project's model at the current index
+        using its selected insert option.
+        """
+        if self.__model is None or ProjectView.__xmlBlocks is None:
+            return
+        (row,parent) = self.__insertValues_()
+        if parent is None:
+            return
+        self.__model.insertFromXml(row,ProjectView.__xmlBlocks,parent)
+
+
+    @qtc.Slot()
+    def __redo_(self):
+        """
+        Called to redo the last undone action on this project's model.
+        """
+        if self.__model is not None:
+            self.__model.redo()
+            self.__updateContextMenu_()
+
+
+    @qtc.Slot()
+    def __remove_(self):
+        """
+        Called to remove all selected indexes from this project's model.
+        """
+        if self.__model is not None:
+            while self.selectionModel().hasSelection():
+                index = self.selectionModel().selectedIndexes()[0]
+                if index == self.selectionModel().currentIndex():
+                    self.indexRemoved.emit()
+                parent = index.parent()
+                self.__model.removeRow(index.row(),parent)
+
+
+    @qtc.Slot()
+    def __undo_(self):
+        """
+        Called to undo the last action done to this project's model.
+        """
+        if self.__model is not None:
+            self.__model.undo()
+            self.__updateContextMenu_()
 
 
     ############################
@@ -746,16 +746,16 @@ class ProjectView(qtw.QTreeView):
 
 
     #
-    # Global XML byte array that stored the data of copied blocks, if any. If no blocks have been
-    # copied then this is none.
-    #
-    __xmlBlocks = None
-    #
     # Global set that stores all unique block types that have been copied to the global XML data. If
     # no blocks have been copied then this is none. This is used to determine if the paste action
     # can be enabled.
     #
     __blockTypeSet = None
+    #
+    # Global XML byte array that stored the data of copied blocks, if any. If no blocks have been
+    # copied then this is none.
+    #
+    __xmlBlocks = None
 
 
     #######################
@@ -764,6 +764,10 @@ class ProjectView(qtw.QTreeView):
 
 
     #
+    # The "after" insert option.
+    #
+    __AFTER = 2
+    #
     # The "before" insert option.
     #
     __BEFORE = 0
@@ -771,7 +775,3 @@ class ProjectView(qtw.QTreeView):
     # The "into" insert option.
     #
     __INTO = 1
-    #
-    # The "after" insert option.
-    #
-    __AFTER = 2

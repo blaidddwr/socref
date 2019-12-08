@@ -126,13 +126,13 @@ class SpellChecker(qtw.QGroupBox):
 
 
     #
-    # Signals this spell checker has finished checking and correcting for misspelled words.
-    #
-    finished = qtc.Signal()
-    #
     # Signals this spell checker has changed the cursor given to it.
     #
     cursorChanged = qtc.Signal(qtg.QTextCursor)
+    #
+    # Signals this spell checker has finished checking and correcting for misspelled words.
+    #
+    finished = qtc.Signal()
 
 
     ##################
@@ -222,40 +222,6 @@ class SpellChecker(qtw.QGroupBox):
 
 
     @qtc.Slot()
-    def __suggest_(self):
-        """
-        Called to offer a suggested word in this spell checker's word edit widget. This finds the
-        next word in the list of suggestions. If this spell checker is not actively checking a
-        document then this does nothing.
-        """
-        if self.__cursor is not None and self.__suggested:
-            #
-            # Find the index to the next word in this spell checker's list of suggestions, wrapping
-            # to the beginning if its word edit widget is on the last word or an unknown word.
-            #
-            index = 1
-            try:
-                index += self.__suggested.index(self.__wordEdit.text())
-            except ValueError:
-                index = 0
-            if index >= len(self.__suggested):
-                index = 0
-            self.__wordEdit.setText(self.__suggested[index])
-
-
-    @qtc.Slot()
-    def __replace_(self):
-        """
-        Called to replace the selected misspelled word with the text of this spell checker's word
-        edit widget. This then moves the cursor forward looking for the next misspelled word. If
-        this spell checker is not actively checking a document then this does nothing.
-        """
-        if self.__cursor is not None:
-            self.__cursor.insertText(self.__wordEdit.text())
-            self.__findNextWord_()
-
-
-    @qtc.Slot()
     def __ignore_(self):
         """
         Called to ignore the selected misspelled word, simply skipping it and moving the cursor
@@ -279,6 +245,18 @@ class SpellChecker(qtw.QGroupBox):
 
 
     @qtc.Slot()
+    def __replace_(self):
+        """
+        Called to replace the selected misspelled word with the text of this spell checker's word
+        edit widget. This then moves the cursor forward looking for the next misspelled word. If
+        this spell checker is not actively checking a document then this does nothing.
+        """
+        if self.__cursor is not None:
+            self.__cursor.insertText(self.__wordEdit.text())
+            self.__findNextWord_()
+
+
+    @qtc.Slot()
     def __stop_(self):
         """
         Called to stop this spell checker, finishing its spell checking of the current document. If
@@ -288,3 +266,25 @@ class SpellChecker(qtw.QGroupBox):
             self.__cursor = None
             self.__suggested = []
             self.finished.emit()
+
+
+    @qtc.Slot()
+    def __suggest_(self):
+        """
+        Called to offer a suggested word in this spell checker's word edit widget. This finds the
+        next word in the list of suggestions. If this spell checker is not actively checking a
+        document then this does nothing.
+        """
+        if self.__cursor is not None and self.__suggested:
+            #
+            # Find the index to the next word in this spell checker's list of suggestions, wrapping
+            # to the beginning if its word edit widget is on the last word or an unknown word.
+            #
+            index = 1
+            try:
+                index += self.__suggested.index(self.__wordEdit.text())
+            except ValueError:
+                index = 0
+            if index >= len(self.__suggested):
+                index = 0
+            self.__wordEdit.setText(self.__suggested[index])
