@@ -78,7 +78,7 @@ class Class(function.Templatee):
             return qtg.QIcon(":/cpp/class.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -87,16 +87,16 @@ class Class(function.Templatee):
         return self._template_name_() + self._p_name
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        return namespace.Base.display_view(self) + self._templates_view_()
+        return namespace.Base.displayView(self) + self._templates_view_()
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -105,7 +105,7 @@ class Class(function.Templatee):
         return ("Template","Access")
 
 
-    def is_volatile_below(self):
+    def isVolatileBelow(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -114,31 +114,31 @@ class Class(function.Templatee):
         return True
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = namespace.Base.edit_definitions(self)
+        ret = namespace.Base.editDefinitions(self)
         ret.append(ut.textEdit("Header:","_p_header"))
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.set_default_properties(self)
+        namespace.Base.setDefaultProperties(self)
         self._p_name = "class"
         self._p_header = ""
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clear_properties(self)
+        namespace.Base.clearProperties(self)
         self._p_header = ""
 
 

@@ -102,7 +102,7 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def display_name(self):
+    def displayName(self):
         """
         This interface is a getter method.
 
@@ -112,7 +112,7 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def display_view(self):
+    def displayView(self):
         """
         This interface is a getter method.
 
@@ -122,7 +122,7 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def build_list(self):
+    def buildList(self):
         """
         This interface is a getter method.
 
@@ -132,7 +132,7 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         This interface is a getter method.
 
@@ -143,7 +143,7 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         This interface sets all of this block's properties to their default state.
         """
@@ -151,7 +151,7 @@ class AbstractBlock(abc.ABC):
 
 
     @abc.abstractmethod
-    def clear_properties(self):
+    def clearProperties(self):
         """
         This interface clears all of this block's properties to their null state.
         """
@@ -260,17 +260,18 @@ class AbstractBlock(abc.ABC):
     ####################
 
 
-    def parser(self):
+    def isVolatileAbove(self):
         """
-        This interface is a getter method. The default implementation returns none.
+        This interface is a getter method. The default implementation returns false.
 
-        return : An abstract parser implementation used to parse the source code of a project if
-                 this is the root block, else none if this is not the root block.
+        return : A Boolean indicating if a change in this block's properties can effect the blocks
+                 above it. Above in this context is going up a block's parent. True if this block
+                 can effect the blocks above it or false otherwise.
         """
-        pass
+        return False
 
 
-    def is_volatile_below(self):
+    def isVolatileBelow(self):
         """
         This interface is a getter method. The default implementation returns false.
 
@@ -281,15 +282,14 @@ class AbstractBlock(abc.ABC):
         return False
 
 
-    def is_volatile_above(self):
+    def parser(self):
         """
-        This interface is a getter method. The default implementation returns false.
+        This interface is a getter method. The default implementation returns none.
 
-        return : A Boolean indicating if a change in this block's properties can effect the blocks
-                 above it. Above in this context is going up a block's parent. True if this block
-                 can effect the blocks above it or false otherwise.
+        return : An abstract parser implementation used to parse the source code of a project if
+                 this is the root block, else none if this is not the root block.
         """
-        return False
+        pass
 
 
     ####################
@@ -355,7 +355,7 @@ class AbstractBlock(abc.ABC):
         return orphan
 
 
-    def to_xml(self, stream):
+    def toXml(self, stream):
         """
         Saves this block's properties and all of its children block's properties to XML using the
         given qt XML writer stream.
@@ -369,11 +369,11 @@ class AbstractBlock(abc.ABC):
             if prop:
                 stream.writeTextElement("_" + key,prop)
         for child in self:
-            child.to_xml(stream)
+            child.toXml(stream)
         stream.writeEndElement()
 
 
-    def set_from_xml(self, stream):
+    def setFromXml(self, stream):
         """
         Loads this block's properties and all children block's properties from XML using the given
         qt reader stream. This overwrites any properties and children blocks this block may
@@ -382,7 +382,7 @@ class AbstractBlock(abc.ABC):
         stream : A qt reader stream used to load all block's properties and children.
         """
         self.__properties = {}
-        self.clear_properties()
+        self.clearProperties()
         self.__children = []
         while not stream.atEnd():
             stream.readNext()
@@ -394,7 +394,7 @@ class AbstractBlock(abc.ABC):
                         self.__properties[key] = stream.readElementText()
                 else:
                     child = block.BlockFactory().create(self._LANG_,name)
-                    child.set_from_xml(stream)
+                    child.setFromXml(stream)
                     self.append(child)
             elif stream.isEndElement() and stream.name() == self._TYPE_:
                 break
@@ -409,13 +409,13 @@ class AbstractBlock(abc.ABC):
         return self.__properties
 
 
-    def set_properties(self, props):
+    def setProperties(self, properties):
         """
         Sets this block's properties dictionary to the given dictionary.
 
-        props : A dictionary that is set as this block's new properties dictionary.
+        properties : A dictionary that is set as this block's new properties dictionary.
         """
-        self.__properties = props
+        self.__properties = properties
 
 
 
@@ -458,10 +458,10 @@ class AbstractParser(abc.ABC):
         Initializes a new abstract parser.
         """
         abc.ABC.__init__(self)
-        self.__root_path = ""
+        self.__rootPath = ""
         self.__paths = []
         self.__blocks = []
-        self.__building_paths = False
+        self.__buildingPaths = False
 
 
     #######################
@@ -485,16 +485,16 @@ class AbstractParser(abc.ABC):
     ####################
 
 
-    def set_root_path(self, path):
+    def setRootPath(self, path):
         """
         Sets the root path of this parser. This can only be called once when this parser's root path
         is empty.
 
         path : The root path of this parser.
         """
-        if self.__root_path != "":
+        if self.__rootPath != "":
             raise RuntimeError("Root path already set.")
-        self.__root_path = path
+        self.__rootPath = path
 
 
     def parse(self, update):
@@ -505,11 +505,11 @@ class AbstractParser(abc.ABC):
         update : A callable object that is used to update the progress of this scan. It takes one
                  argument that is the progress as a percentage from 1 to 99.
         """
-        if self.__root_path == "":
+        if self.__rootPath == "":
             raise RuntimeError("Root path is not set.")
-        self.__building_paths = True
-        self._build_path_list_()
-        self.__building_paths = False
+        self.__buildingPaths = True
+        self._buildPathList_()
+        self.__buildingPaths = False
         #
         # Make sure there are no duplicates paths in the generated path list.
         #
@@ -539,7 +539,7 @@ class AbstractParser(abc.ABC):
 
 
     @abc.abstractmethod
-    def _build_path_list_(self):
+    def _buildPathList_(self):
         """
         This interface builds the path list.
         """
@@ -577,7 +577,7 @@ class AbstractParser(abc.ABC):
     #######################
 
 
-    def _add_path_(self, block, path):
+    def _addPath_(self, block, path):
         """
         Adds the given source code file path and associated block to the list of paths and
         associated blocks to be scanned and built. This must be called within the build path list
@@ -587,11 +587,11 @@ class AbstractParser(abc.ABC):
 
         path : The source code file path.
         """
-        if self.__root_path == "":
+        if self.__rootPath == "":
             raise RuntimeError("Root path is not set.")
-        if not self.__building_paths:
+        if not self.__buildingPaths:
             raise RuntimeError("Calling add path outside of building paths.")
-        self.__paths.append(os.path.join(self.__root_path,path))
+        self.__paths.append(os.path.join(self.__rootPath,path))
         self.__blocks.append(block)
 
 

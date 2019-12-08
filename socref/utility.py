@@ -21,10 +21,10 @@ def richTextList(size, title, list_):
              formatted as an unordered HTML list. The list being empty is the same of the body being
              empty.
     """
-    html_list = "</li><li>".join(list_)
-    if html_list:
-        html_list = "<ul><li>%s</li></ul>" % html_list
-    return richText(size,title,html_list)
+    htmlList = "</li><li>".join(list_)
+    if htmlList:
+        htmlList = "<ul><li>%s</li></ul>" % htmlList
+    return richText(size,title,htmlList)
 
 
 
@@ -194,11 +194,11 @@ def comboEdit(label, key):
 
 
 
-def addComboSelect(combo_edit, text, icon=None):
+def addComboSelect(comboEdit, text, icon=None):
     """
     Adds a selection to the given combo box edit definition with the given text and optional icon.
 
-    combo_edit : A combo box edit definition dictionary that has a new selection value added to it.
+    comboEdit : A combo box edit definition dictionary that has a new selection value added to it.
 
     text : The text of the new selection value.
 
@@ -207,7 +207,7 @@ def addComboSelect(combo_edit, text, icon=None):
     edit = {"text": text}
     if icon is not None:
         edit["icon"] = icon
-    combo_edit["selections"].append(edit)
+    comboEdit["selections"].append(edit)
 
 
 

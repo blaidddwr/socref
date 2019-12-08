@@ -312,7 +312,7 @@ class Function(Templatee):
                 return qtg.QIcon(":/cpp/function.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -328,7 +328,7 @@ class Function(Templatee):
         return ret
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -341,7 +341,7 @@ class Function(Templatee):
         return_ = ut.richText(2,"Return",return_)
         flags = ut.richText_list(2,"Flags",self.__flags_list_())
         return (
-            namespace.Base.display_view(self)
+            namespace.Base.displayView(self)
             + self._templates_view_()
             + self.__arguments_view_()
             + return_
@@ -349,7 +349,7 @@ class Function(Templatee):
         )
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -358,7 +358,7 @@ class Function(Templatee):
         return ("Template","Variable")
 
 
-    def is_volatile_above(self):
+    def isVolatileAbove(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -367,13 +367,13 @@ class Function(Templatee):
         return self.is_method()
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = namespace.Base.edit_definitions(self)
+        ret = namespace.Base.editDefinitions(self)
         ret.append(ut.lineEdit("Return Type:","_p_return_type"))
         ret.append(ut.textEdit("Return Description:","_p_return_description",speller=True))
         ret.append(ut.checkboxEdit("No Exceptions","_p_noexcept"))
@@ -401,11 +401,11 @@ class Function(Templatee):
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.set_default_properties(self)
+        namespace.Base.setDefaultProperties(self)
         self._p_name = "function"
         self._p_return_type = "void"
         self._p_return_description = "Detailed Description."
@@ -422,11 +422,11 @@ class Function(Templatee):
         self._p_abstract = "0"
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clear_properties(self)
+        namespace.Base.clearProperties(self)
         self._p_return_type = ""
         self._p_return_description = ""
         self._p_inlines = ""

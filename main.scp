@@ -284,7 +284,7 @@
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
-                        <__p_name>combo_edit</__p_name>
+                        <__p_name>comboEdit</__p_name>
                         <__p_description>A combo box edit definition dictionary that has a new selection value added to it.</__p_description>
                     </Object>
                     <Object>
@@ -415,41 +415,41 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
                             <__p_return_description>A string that is the display name of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
                             <__p_return_description>A string in qt rich text format that gives a detailed description of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
                             <__p_return_description>A list of block types that can be children of this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
                             <__p_return_description>A list of edit definition dictionaries informing the core application how to build  the edit GUI for this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>This interface sets all of this block's properties to their default state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>This interface clears all of this block's properties to their null state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
@@ -545,23 +545,23 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>parser</__p_name>
-                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
-                            <__p_return_description>An abstract parser implementation used to parse the source code of a project if this is the root block, else none if this is not the root block.</__p_return_description>
+                            <__p_name>isVolatileAbove</__p_name>
+                            <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
+                            <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks above it. Above in this context is going up a block's parent. True if this block can effect the blocks above it or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_below</__p_name>
+                            <__p_name>isVolatileBelow</__p_name>
                             <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
                             <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks below it. Below in this context is going down a block's children. True if this block can effect the blocks below it or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
-                            <__p_description>This interface is a getter method. The default implementation returns false.</__p_description>
-                            <__p_return_description>A Boolean indicating if a change in this block's properties can effect the blocks above it. Above in this context is going up a block's parent. True if this block can effect the blocks above it or false otherwise.</__p_return_description>
+                            <__p_name>parser</__p_name>
+                            <__p_description>This interface is a getter method. The default implementation returns none.</__p_description>
+                            <__p_return_description>An abstract parser implementation used to parse the source code of a project if this is the root block, else none if this is not the root block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -619,7 +619,7 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>to_xml</__p_name>
+                            <__p_name>toXml</__p_name>
                             <__p_description>Saves this block's properties and all of its children block's properties to XML using the given qt XML writer stream.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -629,7 +629,7 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>set_from_xml</__p_name>
+                            <__p_name>setFromXml</__p_name>
                             <__p_description>Loads this block's properties and all children block's properties from XML using the given qt reader stream. This overwrites any properties and children blocks this block may currently contain.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -646,12 +646,12 @@ Saving a block to XML or loading it from XML is supported. A qt XML stream write
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_properties</__p_name>
+                            <__p_name>setProperties</__p_name>
                             <__p_description>Sets this block's properties dictionary to the given dictionary.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>props</__p_name>
+                                <__p_name>properties</__p_name>
                                 <__p_description>A dictionary that is set as this block's new properties dictionary.</__p_description>
                             </Object>
                         </Function>
@@ -691,7 +691,7 @@ The parsing process is separated into building a path list, scanning, building, 
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>set_root_path</__p_name>
+                            <__p_name>setRootPath</__p_name>
                             <__p_description>Sets the root path of this parser. This can only be called once when this parser's root path is empty.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -717,7 +717,7 @@ The parsing process is separated into building a path list, scanning, building, 
                         <__p_name>Interfaces</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_build_path_list_</__p_name>
+                            <__p_name>_buildPathList_</__p_name>
                             <__p_description>This interface builds the path list.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>1</__p_abstract>
@@ -752,7 +752,7 @@ The parsing process is separated into building a path list, scanning, building, 
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_add_path_</__p_name>
+                            <__p_name>_addPath_</__p_name>
                             <__p_description>Adds the given source code file path and associated block to the list of paths and associated blocks to be scanned and built. This must be called within the build path list interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -830,7 +830,7 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>lang_name</__p_name>
+                                <__p_name>langName</__p_name>
                                 <__p_description>The language name that is loaded.</__p_description>
                             </Object>
                             <Object>
@@ -839,7 +839,7 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>register_block</__p_name>
+                            <__p_name>registerBlock</__p_name>
                             <__p_description>Registers the given block class with the given type name to the language currently being loaded by this factory. The given block class is assigned special attributes _LANG_ and _TYPE_. A language must be currently loading by this factory. The given type name must be unique within its language and cannot be the reserved name &quot;##ROOT##&quot;.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -853,7 +853,7 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>register_root_block</__p_name>
+                            <__p_name>registerRootBlock</__p_name>
                             <__p_description>Registers the given block class as the root block type of the language currently being loaded by this factory. Only one class object can be the root block of a language so this can only be called once per language load.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -876,7 +876,7 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>lang_name</__p_name>
+                                <__p_name>langName</__p_name>
                                 <__p_description>The language name whose list of registered block types are returned.</__p_description>
                             </Object>
                         </Function>
@@ -887,22 +887,22 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>lang_name</__p_name>
+                                <__p_name>langName</__p_name>
                                 <__p_description>The name of the language of the created block.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>type_name</__p_name>
+                                <__p_name>typeName</__p_name>
                                 <__p_description>The type name of the created block.</__p_description>
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>create_root</__p_name>
+                            <__p_name>createRoot</__p_name>
                             <__p_description>Getter method. The given language must exist in this factory.</__p_description>
                             <__p_return_description>A new root block from the given language.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>lang_name</__p_name>
+                                <__p_name>langName</__p_name>
                                 <__p_description>The name of the language of the created root block.</__p_description>
                             </Object>
                         </Function>
@@ -911,7 +911,7 @@ It creates new blocks. Blocks can be created by language and type or the root ty
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__register_block_</__p_name>
+                            <__p_name>__registerBlock_</__p_name>
                             <__p_description>Registers the given block class with the given key to the language currently being loaded by this factory.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -973,7 +973,7 @@ It provides helper methods for converting a qt model index into a list of rows a
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_get_index_</__p_name>
+                            <__p_name>_getIndex_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A valid qt model index created from this command's project model with the given list of rows. In this context valid can also be an invalid null index that represents the root.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -984,7 +984,7 @@ It provides helper methods for converting a qt model index into a list of rows a
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>_build_rows_</__p_name>
+                            <__p_name>_buildRows_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A list of rows that represent the given qt model index of this command's project model. An empty list is the root index.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -1009,11 +1009,11 @@ It provides helper methods for converting a qt model index into a list of rows a
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>from_props</__p_name>
+                                <__p_name>fromProperties</__p_name>
                                 <__p_description>A block properties dictionary that is the current properties of the given index.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>to_props</__p_name>
+                                <__p_name>toProperties</__p_name>
                                 <__p_description>A block properties dictionary that is the properties the given index is set to.</__p_description>
                             </Object>
                             <Object>
@@ -1447,7 +1447,7 @@ It has built in support for undo and redo of any modification done to it. Method
                                 <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>block_types</__p_name>
+                                <__p_name>blockTypes</__p_name>
                                 <__p_description>A list of block types, where each one represents a new block that is created and inserted with the given type name.</__p_description>
                             </Object>
                             <Object>
@@ -1485,7 +1485,7 @@ It has built in support for undo and redo of any modification done to it. Method
                                 <__p_description>See qt docs.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>block_type</__p_name>
+                                <__p_name>blockType</__p_name>
                                 <__p_description>The block type that is created and inserted into this model.</__p_description>
                             </Object>
                             <Object>
@@ -1501,35 +1501,35 @@ It has built in support for undo and redo of any modification done to it. Method
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>parse_path</__p_name>
+                            <__p_name>parsePath</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The relative parsing path of this model's currently loaded project or none if it has no project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>lang_name</__p_name>
+                            <__p_name>langName</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The language name of this model's currently loaded project or none if it has no project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_modified</__p_name>
+                            <__p_name>isModified</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this model's currently loaded project has unsaved changes or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>can_undo</__p_name>
+                            <__p_name>canUndo</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this model has a modification that can be undone or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>can_redo</__p_name>
+                            <__p_name>canRedo</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this model has a modification that can be redone or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -1548,7 +1548,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>lang_name</__p_name>
+                                <__p_name>langName</__p_name>
                                 <__p_description>The name of the language used to create a new project.</__p_description>
                             </Object>
                         </Function>
@@ -1579,7 +1579,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_name</__p_name>
+                            <__p_name>setName</__p_name>
                             <__p_description>Sets the name of this model's currently loaded project to the one given. This model must have a loaded project.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1589,7 +1589,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>set_parse_path</__p_name>
+                            <__p_name>setParsePath</__p_name>
                             <__p_description>Sets the relative parsing path of this model's currently loaded project to the path given. This model must have a loaded project.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1599,7 +1599,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>move_row</__p_name>
+                            <__p_name>moveRow</__p_name>
                             <__p_description>Moves the given index's row by the amount given.</__p_description>
                             <__p_return_description>True if the move was successful or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -1614,7 +1614,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>copy_to_xml</__p_name>
+                            <__p_name>copyToXml</__p_name>
                             <__p_description>Copies the given indexes to XML.</__p_description>
                             <__p_return_description>A tuple of two items. The first item is copied blocks at the given indexes in the form of XML. The XML format is copy with each index an element in the root XML copy tag. The second item is a set of all block types that were copied.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -1625,7 +1625,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>insert_from_xml</__p_name>
+                            <__p_name>insertFromXml</__p_name>
                             <__p_description>Inserts blocks into this model at the given parent index and row loaded from the given XML.</__p_description>
                             <__p_return_description>Total number of blocks that were inserted into this model.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -1653,12 +1653,12 @@ It has built in support for undo and redo of any modification done to it. Method
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>name_changed</__p_name>
+                            <__p_name>nameChanged</__p_name>
                             <__p_description>Signals this model's project name has changed to the value given.</__p_description>
                             <__p_assignment>qtc.Signal(str)</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>parse_path_changed</__p_name>
+                            <__p_name>parsePathChanged</__p_name>
                             <__p_description>Signals this model's relative parsing path has changed to the value given.</__p_description>
                             <__p_assignment>qtc.Signal(str)</__p_assignment>
                         </Object>
@@ -1685,7 +1685,7 @@ It has built in support for undo and redo of any modification done to it. Method
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_insert_rows_</__p_name>
+                            <__p_name>_insertRows_</__p_name>
                             <__p_description>Inserts the given blocks into the given parent index at the given row. The given parent index and row must be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1703,7 +1703,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>_remove_rows_</__p_name>
+                            <__p_name>_removeRows_</__p_name>
                             <__p_description>Removes the given count of blocks starting at the given row in the given parent index. The given parent index, row, and count must all be valid.</__p_description>
                             <__p_return_description>List of removed blocks.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -1722,16 +1722,16 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>_move_row_</__p_name>
+                            <__p_name>_moveRow_</__p_name>
                             <__p_description>Moves the block at the given from row to the given to row in the given parent index. The given rows and parent index must all be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>from_row</__p_name>
+                                <__p_name>fromRow</__p_name>
                                 <__p_description>The row of the block that is moved.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>to_row</__p_name>
+                                <__p_name>toRow</__p_name>
                                 <__p_description>The new row of the moved block.</__p_description>
                             </Object>
                             <Object>
@@ -1740,7 +1740,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>_set_properties_</__p_name>
+                            <__p_name>_setProperties_</__p_name>
                             <__p_description>Sets the properties of the block at the given index in this model. The given index must be valid.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1774,7 +1774,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__push_volatile_above_</__p_name>
+                            <__p_name>__pushVolatileAbove_</__p_name>
                             <__p_description>Signals the given index of this model has changed its data if it is valid, recursively calling itself on the given index's parent index if its block is also volatile above.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1784,7 +1784,7 @@ It has built in support for undo and redo of any modification done to it. Method
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__push_volatile_below_</__p_name>
+                            <__p_name>__pushVolatileBelow_</__p_name>
                             <__p_description>Signals the given parent index of this model has changed its children's data if it is valid, recursively calling itself on any child that is also volatile below.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1915,7 +1915,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>cursor_changed</__p_name>
+                            <__p_name>cursorChanged</__p_name>
                             <__p_description>Signals this spell checker has changed the cursor given to it.</__p_description>
                             <__p_assignment>qtc.Signal(qtg.QTextCursor)</__p_assignment>
                         </Object>
@@ -1939,7 +1939,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__find_next_word_</__p_name>
+                            <__p_name>__findNextWord_</__p_name>
                             <__p_description>Finds the next misspelled word in the current document this spell checker is checking, optionally skipping the word this checker's cursor is currently under. If no misspelled word is found once the end of the document is reached then it stops this spell checker.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1950,7 +1950,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__setup_gui_</__p_name>
+                            <__p_name>__setupGui_</__p_name>
                             <__p_description>Initializes the GUI of this new spell checker.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -1983,7 +1983,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__ignore_all_</__p_name>
+                            <__p_name>__ignoreAll_</__p_name>
                             <__p_description>Called to ignore all words matching the currently selected misspelled word by adding it to the run time dictionary. This then moves the cursor forward looking for the next misspelled word. If this spell checker is not actively checking a document then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2026,7 +2026,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>set_view</__p_name>
+                            <__p_name>setView</__p_name>
                             <__p_description>Sets this dock's view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2040,7 +2040,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__setup_gui_</__p_name>
+                            <__p_name>__setupGui_</__p_name>
                             <__p_description>Initialize the GUI of this new block view dock.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2050,7 +2050,7 @@ It provides a spell checking and correction interface. It begins spell checking 
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__index_changed_</__p_name>
+                            <__p_name>__indexChanged_</__p_name>
                             <__p_description>Called to update this dock's detailed view to its view's currently indexed block. If its view's current index is invalid then this dock returns its view to a null state.</__p_description>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2086,63 +2086,63 @@ Actions are provided for all basic editing actions done upon a view's model. The
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>context_menu</__p_name>
+                            <__p_name>contextMenu</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The context menu of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>undo_action</__p_name>
+                            <__p_name>undoAction</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The undo action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>redo_action</__p_name>
+                            <__p_name>redoAction</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The redo action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>remove_action</__p_name>
+                            <__p_name>removeAction</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The remove action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>cut_action</__p_name>
+                            <__p_name>cutAction</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The cut action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>copy_action</__p_name>
+                            <__p_name>copyAction</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The copy action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>paste_action</__p_name>
+                            <__p_name>pasteAction</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The paste action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>move_up_action</__p_name>
+                            <__p_name>moveUpAction</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The move up action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>move_down_action</__p_name>
+                            <__p_name>moveDownAction</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>The move down action of this project.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -2163,22 +2163,22 @@ Actions are provided for all basic editing actions done upon a view's model. The
                         <__p_name>Signals</__p_name>
                         <__p_type>Public</__p_type>
                         <Object>
-                            <__p_name>index_changed</__p_name>
+                            <__p_name>indexChanged</__p_name>
                             <__p_description>Signals that the current index of this project has changed.</__p_description>
                             <__p_assignment>qtc.Signal(qtc.QModelIndex)</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>index_moved</__p_name>
+                            <__p_name>indexMoved</__p_name>
                             <__p_description>Signals that the currently indexed block of this project has moved to a new index.</__p_description>
                             <__p_assignment>qtc.Signal(qtc.QModelIndex)</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>index_data_changed</__p_name>
+                            <__p_name>indexDataChanged</__p_name>
                             <__p_description>Signals that the data of this project's current index has changed.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>index_removed</__p_name>
+                            <__p_name>indexRemoved</__p_name>
                             <__p_description>Signals that the this project's current index is about to be removed from its model.</__p_description>
                             <__p_assignment>qtc.Signal()</__p_assignment>
                         </Object>
@@ -2187,7 +2187,7 @@ Actions are provided for all basic editing actions done upon a view's model. The
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__update_insert_</__p_name>
+                            <__p_name>__updateInsert_</__p_name>
                             <__p_description>Updates this project's insert option to the one given, setting all insert actions checked states appropriately.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2197,25 +2197,25 @@ Actions are provided for all basic editing actions done upon a view's model. The
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__update_context_menu_</__p_name>
+                            <__p_name>__updateContextMenu_</__p_name>
                             <__p_description>Updates this project's context menu with the new selection state of its model. Updating includes enabling or disabling appropriate actions and rebuilding the add block menu.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__update_actions_</__p_name>
+                            <__p_name>__updateActions_</__p_name>
                             <__p_description>Updates this project's actions. Updating includes rebuilding its add block actions and enabling or disabling appropriate actions based off its selection model state.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__update_add_actions_</__p_name>
+                            <__p_name>__updateAddActions_</__p_name>
                             <__p_description>Update this project's add actions list. Updating involves clearing the current list and building it again based off this project's selection model's current index.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__can_paste_</__p_name>
+                            <__p_name>__canPaste_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if any of this project's global copied blocks can be pasted into its model at the current index with the current insertion type. False if no copied block can be pasted.</__p_return_description>
                             <__p_inlines>If there is not a single global copied block type that is in the build list of the parent index then return false.
@@ -2224,14 +2224,14 @@ Actions are provided for all basic editing actions done upon a view's model. The
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__insert_values_</__p_name>
+                            <__p_name>__insertValues_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A tuple containing the row and parent index where blocks must be inserted into this project's model by either adding new ones or pasting copied ones. If there is no valid target for insertion the tuple returned is none and none.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_actions_</__p_name>
+                            <__p_name>__setupActions_</__p_name>
                             <__p_description>Initialize the qt actions of this new project view.</__p_description>
                             <__p_inlines>Undo action.
 
@@ -2259,7 +2259,7 @@ Insert after action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_context_menu_</__p_name>
+                            <__p_name>__setupContextMenu_</__p_name>
                             <__p_description>Initializes the context menu of this new project view.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2269,7 +2269,7 @@ Insert after action.
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__current_changed_</__p_name>
+                            <__p_name>__currentChanged_</__p_name>
                             <__p_description>Called to inform this project that its selection model's current index has changed to the one given from the previous one given.</__p_description>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2284,31 +2284,31 @@ Insert after action.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__model_reset_</__p_name>
+                            <__p_name>__modelReset_</__p_name>
                             <__p_description>Called to inform this project that its model has reset itself.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__model_destroyed_</__p_name>
+                            <__p_name>__modelDestroyed_</__p_name>
                             <__p_description>Called to inform this project that its model has been destroyed.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__model_data_changed_</__p_name>
+                            <__p_name>__modelDataChanged_</__p_name>
                             <__p_description>Called to inform this project that data has changed for the range of indexes from the given top left to the given bottom right with the given roles.</__p_description>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>top_left</__p_name>
+                                <__p_name>topLeft</__p_name>
                                 <__p_description>The top left index in the range of indexes that has changed.</__p_description>
                             </Object>
                             <Object>
-                                <__p_name>bottom_right</__p_name>
+                                <__p_name>bottomRight</__p_name>
                                 <__p_description>The bottom right index in the range of indexes that has changed.</__p_description>
                             </Object>
                             <Object>
@@ -2317,7 +2317,7 @@ Insert after action.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__context_menu_requested_</__p_name>
+                            <__p_name>__contextMenuRequested_</__p_name>
                             <__p_description>Called to inform this project that its context menu has been requested by the GUI at the given relative point.</__p_description>
                             <__p_descriptors>qtc.Slot(qtc.QPoint)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2350,7 +2350,7 @@ Insert after action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>block_type</__p_name>
+                                <__p_name>blockType</__p_name>
                                 <__p_description>The block type that is created and added to this project's model.</__p_description>
                             </Object>
                         </Function>
@@ -2383,35 +2383,35 @@ Insert after action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__move_up_</__p_name>
+                            <__p_name>__moveUp_</__p_name>
                             <__p_description>Called to move the current index of this project's selection model up by one in its model.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__move_down_</__p_name>
+                            <__p_name>__moveDown_</__p_name>
                             <__p_description>Called to move the current index of this project's selection model down by one in its model.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__insert_before_</__p_name>
+                            <__p_name>__insertBefore_</__p_name>
                             <__p_description>Called to set this project's insert option to &quot;before&quot;.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__insert_into_</__p_name>
+                            <__p_name>__insertInto_</__p_name>
                             <__p_description>Called to set this project's insert option to &quot;into&quot;.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__insert_after_</__p_name>
+                            <__p_name>__insertAfter_</__p_name>
                             <__p_description>Called to set this project's insert option to &quot;after&quot;.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2422,12 +2422,12 @@ Insert after action.
                         <__p_name>Static Objects</__p_name>
                         <__p_type>Private</__p_type>
                         <Object>
-                            <__p_name>__xml_blocks</__p_name>
+                            <__p_name>__xmlBlocks</__p_name>
                             <__p_description>Global XML byte array that stored the data of copied blocks, if any. If no blocks have been copied then this is none.</__p_description>
                             <__p_assignment>None</__p_assignment>
                         </Object>
                         <Object>
-                            <__p_name>__block_types_set</__p_name>
+                            <__p_name>__blockTypeSet</__p_name>
                             <__p_description>Global set that stores all unique block types that have been copied to the global XML data. If no blocks have been copied then this is none. This is used to determine if the paste action can be enabled.</__p_description>
                             <__p_assignment>None</__p_assignment>
                         </Object>
@@ -2495,7 +2495,7 @@ Insert after action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>set_speller_enabled</__p_name>
+                            <__p_name>setSpellerEnabled</__p_name>
                             <__p_description>Sets the state of this editor's spelling highlighter to enabled or disabled.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2509,7 +2509,7 @@ Insert after action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__setup_actions_</__p_name>
+                            <__p_name>__setupActions_</__p_name>
                             <__p_description>Initialize the qt action shortcuts of this new text editor.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2555,7 +2555,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>set_view</__p_name>
+                            <__p_name>setView</__p_name>
                             <__p_description>Sets this dock's view to the one given. If this dock currently has a view it is disconnected from this dock.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2569,7 +2569,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__build_form_widget_</__p_name>
+                            <__p_name>__buildFormWidget_</__p_name>
                             <__p_description>Builds and initializes all edit widgets for all properties of the block at the given index based off its edit definitions, adding them to this dock's list of edit widgets. This clears any previous edit widgets from the last index that was built by this method.</__p_description>
                             <__p_return_description>The form layout containing all built edit widgets and the apply button at the end.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -2580,7 +2580,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__build_line_</__p_name>
+                            <__p_name>__buildLine_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A tuple containing 2 items. The first is a new line edit widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -2595,7 +2595,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__build_text_</__p_name>
+                            <__p_name>__buildText_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A tuple containing 2 items. The first is a new plain text edit widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -2610,7 +2610,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__build_checkbox_</__p_name>
+                            <__p_name>__buildCheckbox_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A tuple containing 2 items. The first is a new checkbox widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -2625,7 +2625,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__build_combobox_</__p_name>
+                            <__p_name>__buildCombo_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A tuple containing 2 items. The first is a new combo box widget configured for the given definition and properties. The second is a string label for adding it to a form.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -2640,7 +2640,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__build_hidden_</__p_name>
+                            <__p_name>__buildHidden_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>A new hidden edit widget configured for the given definition.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -2651,7 +2651,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__setup_gui_</__p_name>
+                            <__p_name>__setupGui_</__p_name>
                             <__p_description>Initializes the GUI of this new block edit dock.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2661,7 +2661,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__index_changed_</__p_name>
+                            <__p_name>__indexChanged_</__p_name>
                             <__p_description>Called to update the block this dock is editing to the new one at the given index. If the given index is invalid then this dock returns to a null state with no form.</__p_description>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_inlines>Garbage collection is required because rebuilding this dock's GUI causes large memory leaks otherwise.
@@ -2674,7 +2674,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__index_moved_</__p_name>
+                            <__p_name>__indexMoved_</__p_name>
                             <__p_description>Called to update the index of the block this dock is editing. It is assumed the same block is being edited so the edit widget form is not rebuilt.</__p_description>
                             <__p_descriptors>qtc.Slot(qtc.QModelIndex)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2685,7 +2685,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__index_removed_</__p_name>
+                            <__p_name>__indexRemoved_</__p_name>
                             <__p_description>Called to remove this dock's current index, setting it to invalid.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2763,20 +2763,20 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__setup_gui_</__p_name>
+                            <__p_name>__setupGui_</__p_name>
                             <__p_description>Initializes the GUI of this new text dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_spell_checker_</__p_name>
+                            <__p_name>__setupSpellChecker_</__p_name>
                             <__p_description>Initializes the spell checker box of this new text dialog.</__p_description>
                             <__p_return_description>The initialized spell checker box widget.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_buttons_</__p_name>
+                            <__p_name>__setupButtons_</__p_name>
                             <__p_description>Initializes the buttons of this new text dialog.</__p_description>
                             <__p_return_description>A box layout of initialized buttons.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -2793,14 +2793,14 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__spell_check_</__p_name>
+                            <__p_name>__spellCheck_</__p_name>
                             <__p_description>Called to begin spell checking this text dialog's document. This shows its spell checker box and tells it to start checking.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__spell_check_finished_</__p_name>
+                            <__p_name>__spellCheckFinished_</__p_name>
                             <__p_description>Called to inform this text dialog that spell checking has finished. This hides its spell checker box and clears any selection from its document's cursor.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2858,19 +2858,19 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__setup_gui_</__p_name>
+                            <__p_name>__setupGui_</__p_name>
                             <__p_description>Initializes the GUI of this new dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_form_</__p_name>
+                            <__p_name>__setupForm_</__p_name>
                             <__p_description>Initializes the form of this new dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_buttons_</__p_name>
+                            <__p_name>__setupButtons_</__p_name>
                             <__p_description>Initializes the buttons of this new dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -2886,7 +2886,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__name_changed_</__p_name>
+                            <__p_name>__nameChanged_</__p_name>
                             <__p_description>Called to inform this dialog its project model's name has changed.</__p_description>
                             <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2897,7 +2897,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__parse_path_changed_</__p_name>
+                            <__p_name>__parsePathChanged_</__p_name>
                             <__p_description>Called to inform this dialog its project model's parse path has changed.</__p_description>
                             <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -2980,19 +2980,19 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__setup_gui_</__p_name>
+                            <__p_name>__setupGui_</__p_name>
                             <__p_description>Initializes the GUI of this new dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_view_</__p_name>
+                            <__p_name>__setupView_</__p_name>
                             <__p_description>Initializes the GUI of this new dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_buttons_</__p_name>
+                            <__p_name>__setupButtons_</__p_name>
                             <__p_description>Initializes the GUI of this new dialog.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3008,7 +3008,7 @@ It provides a GUI edit form to the user for modifying a block's properties. The 
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__item_changed_</__p_name>
+                            <__p_name>__itemChanged_</__p_name>
                             <__p_description>Called to inform this dialog's the selected code fragment has changed to the one with the given key.</__p_description>
                             <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -3075,7 +3075,7 @@ It is the main window of the core application. It provides a view, docks, menus,
                         <__p_name>Signals</__p_name>
                         <__p_type>Public</__p_type>
                         <Object>
-                            <__p_name>parse_requested</__p_name>
+                            <__p_name>parseRequested</__p_name>
                             <__p_description>Signals this window has started parsing its current project with the given abstract parser.</__p_description>
                             <__p_assignment>qtc.Signal(abstract.AbstractParser)</__p_assignment>
                         </Object>
@@ -3098,26 +3098,26 @@ It is the main window of the core application. It provides a view, docks, menus,
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
-                            <__p_name>__update_actions_</__p_name>
+                            <__p_name>__updateActions_</__p_name>
                             <__p_description>Updates this window's actions.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__is_ok_to_close_</__p_name>
+                            <__p_name>__isOkToClose_</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if it is OK to close this window or false otherwise. It is OK to close this window if the user saves any unsaved changes to this window's project, chooses to discard unsaved changes, or there are no unsaved changes to worry about.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__update_title_</__p_name>
+                            <__p_name>__updateTitle_</__p_name>
                             <__p_description>Updates this window's title.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_gui_</__p_name>
+                            <__p_name>__setupGui_</__p_name>
                             <__p_description>Initializes the GUI of this new window.</__p_description>
                             <__p_inlines>The status bar is not visible until this method is called so call it here to make it visible from the start.
 </__p_inlines>
@@ -3125,19 +3125,19 @@ It is the main window of the core application. It provides a view, docks, menus,
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_actions_</__p_name>
+                            <__p_name>__setupActions_</__p_name>
                             <__p_description>Initializes all qt actions of this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_menus_</__p_name>
+                            <__p_name>__setupMenus_</__p_name>
                             <__p_description>Initializes all menus of this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_toolbars_</__p_name>
+                            <__p_name>__setupToolbars_</__p_name>
                             <__p_description>Initializes all toolbars of this new window.</__p_description>
                             <__p_inlines>File toolbar.
 
@@ -3147,19 +3147,19 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_docks_</__p_name>
+                            <__p_name>__setupDocks_</__p_name>
                             <__p_description>Initializes the edit/view block dock widgets of this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_new_actions_</__p_name>
+                            <__p_name>__setupNewActions_</__p_name>
                             <__p_description>Populates this window's list of new actions with all available languages.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_file_actions_</__p_name>
+                            <__p_name>__setupFileActions_</__p_name>
                             <__p_description>Initializes the qt actions of this new window's file menu.</__p_description>
                             <__p_inlines>Open action.
 
@@ -3179,13 +3179,13 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_file_menu_</__p_name>
+                            <__p_name>__setupFileMenu_</__p_name>
                             <__p_description>Initializes the file menu for this new window.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__setup_edit_menu_</__p_name>
+                            <__p_name>__setupEditMenu_</__p_name>
                             <__p_description>Adds this new window's project view's context menu as the window's edit menu.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3208,7 +3208,7 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__name_changed_</__p_name>
+                            <__p_name>__nameChanged_</__p_name>
                             <__p_description>Called to inform this window that its project's name has been changed. This updates the window's title.</__p_description>
                             <__p_descriptors>qtc.Slot(str)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -3219,14 +3219,14 @@ Exit action.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__parse_started_</__p_name>
+                            <__p_name>__parseStarted_</__p_name>
                             <__p_description>Called to inform this window that the singleton parser model has started parsing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__parse_progressed_</__p_name>
+                            <__p_name>__parseProgressed_</__p_name>
                             <__p_description>Called to inform this window that the singleton parser model has made progress parsing.</__p_description>
                             <__p_descriptors>qtc.Slot(int)</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -3237,7 +3237,7 @@ Exit action.
                             </Object>
                         </Function>
                         <Function>
-                            <__p_name>__parse_finished_</__p_name>
+                            <__p_name>__parseFinished_</__p_name>
                             <__p_description>Called to inform this window that the singleton parser model has finished parsing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -3250,7 +3250,7 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
-                                <__p_name>lang_name</__p_name>
+                                <__p_name>langName</__p_name>
                                 <__p_description>The name of the language used to create a new project.</__p_description>
                             </Object>
                         </Function>
@@ -3270,7 +3270,7 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>__save_as_</__p_name>
+                            <__p_name>__saveAs_</__p_name>
                             <__p_description>Called to save this window's project to a new save file path selected by the user. If this window has no project then this does nothing.</__p_description>
                             <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
@@ -3293,6 +3293,7 @@ Exit action.
                         <Function>
                             <__p_name>__properties_</__p_name>
                             <__p_description>Called to have this window bring up a modal project dialog to edit the basic properties of its current project. If this window has no project then this does nothing.</__p_description>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3383,34 +3384,34 @@ Exit action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3420,8 +3421,8 @@ Exit action.
                 <Class>
                     <__p_name>Namespace</__p_name>
                     <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++ namespace. It is the root block type of a C++ project.</__p_description>
-                    <__p_parents>Base</__p_parents>
                     <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <__p_parents>Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3457,27 +3458,27 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3498,8 +3499,8 @@ Exit action.
                 <Class>
                     <__p_name>Enum</__p_name>
                     <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3528,41 +3529,41 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3576,8 +3577,8 @@ Exit action.
                 <Class>
                     <__p_name>EnumValue</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration value.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration Value&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3599,34 +3600,34 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3640,8 +3641,8 @@ Exit action.
                 <Class>
                     <__p_name>Template</__p_name>
                     <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++ template.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3663,14 +3664,14 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -3684,34 +3685,34 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
+                            <__p_name>isVolatileAbove</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3741,8 +3742,8 @@ Exit action.
                 <Class>
                     <__p_name>Variable</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
-                    <__p_parents>template.Template</__p_parents>
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <__p_parents>template.Template</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3806,48 +3807,48 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
+                            <__p_name>isVolatileAbove</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -3965,8 +3966,8 @@ Exit action.
                 <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++ function.</__p_description>
-                    <__p_parents>Templatee</__p_parents>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_parents>Templatee</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4086,48 +4087,48 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
+                            <__p_name>isVolatileAbove</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4192,8 +4193,8 @@ Exit action.
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++ class.</__p_description>
-                    <__p_parents>function.Templatee</__p_parents>
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
+                    <__p_parents>function.Templatee</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4228,48 +4229,48 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_below</__p_name>
+                            <__p_name>isVolatileBelow</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4351,8 +4352,8 @@ Exit action.
                 <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++ class.</__p_description>
-                    <__p_parents>abstract.AbstractBlock</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <__p_parents>abstract.AbstractBlock</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4387,55 +4388,55 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
+                            <__p_name>isVolatileAbove</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_below</__p_name>
+                            <__p_name>isVolatileBelow</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4477,8 +4478,8 @@ Exit action.
                 <Class>
                     <__p_name>Union</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++ union.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4500,14 +4501,14 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4551,7 +4552,7 @@ Exit action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_build_path_list_</__p_name>
+                            <__p_name>_buildPathList_</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4660,8 +4661,8 @@ Exit action.
                 <Class>
                     <__p_name>Package</__p_name>
                     <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
-                    <__p_parents>abstract.AbstractBlock</__p_parents>
                     <__p_descriptors>register(&quot;Package&quot;,root=True)</__p_descriptors>
+                    <__p_parents>abstract.AbstractBlock</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4683,41 +4684,41 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4799,8 +4800,8 @@ Exit action.
                 <Class>
                     <__p_name>Module</__p_name>
                     <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
-                    <__p_parents>package.Package</__p_parents>
                     <__p_descriptors>register(&quot;Module&quot;)</__p_descriptors>
+                    <__p_parents>package.Package</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4822,14 +4823,14 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -4845,10 +4846,10 @@ Exit action.
                             <__p_name>build</__p_name>
                             <__p_description>Implements the .package.Package interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Add the special main function call if this is the special main module of a package.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>definition</__p_name>
                                 <__p_description>See interface docs.</__p_description>
@@ -4868,8 +4869,8 @@ Exit action.
                 <Class>
                     <__p_name>Object</__p_name>
                     <__p_description>This is the object block class. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
-                    <__p_parents>package.Package</__p_parents>
                     <__p_descriptors>register(&quot;Object&quot;)</__p_descriptors>
+                    <__p_parents>package.Package</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4905,14 +4906,14 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
@@ -4926,34 +4927,34 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
+                            <__p_name>isVolatileAbove</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5027,13 +5028,13 @@ Exit action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5079,8 +5080,8 @@ Exit action.
                 <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a python function.</__p_description>
-                    <__p_parents>Descriptor</__p_parents>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_parents>Descriptor</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5123,41 +5124,41 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5259,8 +5260,8 @@ Exit action.
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
-                    <__p_parents>function.Descriptor</__p_parents>
                     <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
+                    <__p_parents>function.Descriptor</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5289,41 +5290,41 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5343,10 +5344,10 @@ Exit action.
                             <__p_name>build</__p_name>
                             <__p_description>Implements the .package.Package interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
                             <__p_inlines>Get the scanned dictionary definition of this class.
 </__p_inlines>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>definition</__p_name>
                                 <__p_description>See interface docs.</__p_description>
@@ -5377,8 +5378,8 @@ Exit action.
                 <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.</__p_description>
-                    <__p_parents>package.Package</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <__p_parents>package.Package</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5407,48 +5408,48 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_name</__p_name>
+                            <__p_name>displayName</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>display_view</__p_name>
+                            <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>build_list</__p_name>
+                            <__p_name>buildList</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>is_volatile_above</__p_name>
+                            <__p_name>isVolatileAbove</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>edit_definitions</__p_name>
+                            <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>set_default_properties</__p_name>
+                            <__p_name>setDefaultProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>clear_properties</__p_name>
+                            <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5573,7 +5574,7 @@ Exit action.
                         <__p_name>Methods</__p_name>
                         <__p_type>Protected</__p_type>
                         <Function>
-                            <__p_name>_build_path_list_</__p_name>
+                            <__p_name>_buildPathList_</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractParser interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>

@@ -69,7 +69,7 @@ class Command(abc.ABC):
     #######################
 
 
-    def _get_index_(self, rows):
+    def _getIndex_(self, rows):
         """
         Getter method.
 
@@ -87,7 +87,7 @@ class Command(abc.ABC):
         return index
 
 
-    def _build_rows_(self, index):
+    def _buildRows_(self, index):
         """
         Getter method.
 
@@ -122,24 +122,25 @@ class SetCommand(Command):
     #######################
 
 
-    def __init__(self, from_props, to_props, index, model):
+    def __init__(self, fromProperties, toProperties, index, model):
         """
         Initializes a new set command with the given from properties, to properties, index, and
         model.
 
-        from_props : A block properties dictionary that is the current properties of the given
-                     index.
+        fromProperties : A block properties dictionary that is the current properties of the given
+                         index.
 
-        to_props : A block properties dictionary that is the properties the given index is set to.
+        toProperties : A block properties dictionary that is the properties the given index is set
+                       to.
 
         index : The qt model index whose properties are changed.
 
         model : The project model whose given index block properties are changed.
         """
         Command.__init__(self,model)
-        self.__rows = self._build_rows_(index)
-        self.__from_props = from_props
-        self.__to_props = to_props
+        self.__rows = self._buildRows_(index)
+        self.__fromProperties = fromProperties
+        self.__toProperties = toProperties
 
 
     ####################
@@ -151,14 +152,14 @@ class SetCommand(Command):
         """
         Implements the .command.Command interface.
         """
-        self._model._set_properties_(self._get_index_(self.__rows),self.__from_props)
+        self._model._setProperties_(self._getIndex_(self.__rows),self.__fromProperties)
 
 
     def redo(self):
         """
         Implements the .command.Command interface.
         """
-        self._model._set_properties_(self._get_index_(self.__rows),self.__to_props)
+        self._model._setProperties_(self._getIndex_(self.__rows),self.__toProperties)
 
 
 
@@ -195,7 +196,7 @@ class RemoveCommand(Command):
         """
         Command.__init__(self,model)
         self._blocks = None
-        self.__parent_rows = self._build_rows_(parent)
+        self.__parentRows = self._buildRows_(parent)
         self.__row = row
         self.__count = count
 
@@ -210,10 +211,10 @@ class RemoveCommand(Command):
         Implements the .command.Command interface.
         """
         if self._blocks is not None:
-            self._model._insert_rows_(
+            self._model._insertRows_(
                 self.__row
                 ,self._blocks
-                ,self._get_index_(self.__parent_rows)
+                ,self._getIndex_(self.__parentRows)
             )
             self._blocks = None
 
@@ -223,10 +224,10 @@ class RemoveCommand(Command):
         Implements the .command.Command interface.
         """
         if self._blocks is None:
-            self._blocks = self._model._remove_rows_(
+            self._blocks = self._model._removeRows_(
                 self.__row
                 ,self.__count
-                ,self._get_index_(self.__parent_rows)
+                ,self._getIndex_(self.__parentRows)
             )
 
 
@@ -315,9 +316,9 @@ class MoveCommand(Command):
         model : The project model whose given index is moved.
         """
         Command.__init__(self,model)
-        self.__parent_rows = self._build_rows_(index.parent())
-        self.__from_row = index.row()
-        self.__to_row = index.row() + change
+        self.__parentRows = self._buildRows_(index.parent())
+        self.__fromRow = index.row()
+        self.__toRow = index.row() + change
 
 
     ####################
@@ -329,10 +330,10 @@ class MoveCommand(Command):
         """
         Implements the .command.Command interface.
         """
-        self._model._move_row_(
-            self.__to_row
-            ,self.__from_row
-            ,self._get_index_(self.__parent_rows)
+        self._model._moveRow_(
+            self.__toRow
+            ,self.__fromRow
+            ,self._getIndex_(self.__parentRows)
         )
 
 
@@ -340,8 +341,8 @@ class MoveCommand(Command):
         """
         Implements the .command.Command interface.
         """
-        self._model._move_row_(
-            self.__from_row
-            ,self.__to_row
-            ,self._get_index_(self.__parent_rows)
+        self._model._moveRow_(
+            self.__fromRow
+            ,self.__toRow
+            ,self._getIndex_(self.__parentRows)
         )

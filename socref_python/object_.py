@@ -69,7 +69,7 @@ class Object(package.Package):
         return qtg.QIcon(":/python/object.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -81,14 +81,14 @@ class Object(package.Package):
         return ret
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
-        return package.Package.display_view(self) + assignment
+        return package.Package.displayView(self) + assignment
 
 
     def argument_view(self):
@@ -106,7 +106,7 @@ class Object(package.Package):
         return ret
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -115,7 +115,7 @@ class Object(package.Package):
         return ()
 
 
-    def is_volatile_above(self):
+    def isVolatileAbove(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -124,31 +124,31 @@ class Object(package.Package):
         return self.is_argument()
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = package.Package.edit_definitions(self)
+        ret = package.Package.editDefinitions(self)
         ret.append(ut.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Package.set_default_properties(self)
+        package.Package.setDefaultProperties(self)
         self._p_name = "object"
         self._p_assignment = ""
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Package.clear_properties(self)
+        package.Package.clearProperties(self)
         self._p_assignment = ""
 
 

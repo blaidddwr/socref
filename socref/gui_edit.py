@@ -48,8 +48,8 @@ class PlainTextEdit(qtw.QPlainTextEdit):
         self.__popup = popup
         self.__highlighter = None
         if speller:
-            self.set_speller_enabled(True)
-        self.__setup_actions_()
+            self.setSpellerEnabled(True)
+        self.__setupActions_()
 
 
     ####################
@@ -57,7 +57,7 @@ class PlainTextEdit(qtw.QPlainTextEdit):
     ####################
 
 
-    def set_speller_enabled(self, enabled):
+    def setSpellerEnabled(self, enabled):
         """
         Sets the state of this editor's spelling highlighter to enabled or disabled.
 
@@ -77,7 +77,7 @@ class PlainTextEdit(qtw.QPlainTextEdit):
     #####################
 
 
-    def __setup_actions_(self):
+    def __setupActions_(self):
         """
         Initialize the qt action shortcuts of this new text editor.
         """
@@ -142,11 +142,11 @@ class BlockEditDock(qtw.QDockWidget):
         """
         qtw.QDockWidget.__init__(self,parent)
         self.__area = qtw.QScrollArea(widgetResizable=True)
-        self.__apply_button = qtw.QPushButton("Apply")
+        self.__applyButton = qtw.QPushButton("Apply")
         self.__index = qtc.QModelIndex()
         self.__view = None
         self.__edits = []
-        self.__setup_gui_()
+        self.__setupGui_()
 
 
     ####################
@@ -154,7 +154,7 @@ class BlockEditDock(qtw.QDockWidget):
     ####################
 
 
-    def set_view(self, view):
+    def setView(self, view):
         """
         Sets this dock's view to the one given. If this dock currently has a view it is disconnected
         from this dock.
@@ -162,13 +162,13 @@ class BlockEditDock(qtw.QDockWidget):
         view : The new attached view of this dock.
         """
         if self.__view is not None:
-            self.__view.current_changed.disconnect(self.__index_changed_)
-            self.__view.current_changed.disconnect(self.__index_moved_)
-            self.__view.current_changed.disconnect(self.__index_removed_)
+            self.__view.current_changed.disconnect(self.__indexChanged_)
+            self.__view.current_changed.disconnect(self.__indexMoved_)
+            self.__view.current_changed.disconnect(self.__indexRemoved_)
         self.__view = view
-        self.__view.index_changed.connect(self.__index_changed_)
-        self.__view.index_moved.connect(self.__index_moved_)
-        self.__view.index_removed.connect(self.__index_removed_)
+        self.__view.indexChanged.connect(self.__indexChanged_)
+        self.__view.indexMoved.connect(self.__indexMoved_)
+        self.__view.indexRemoved.connect(self.__indexRemoved_)
 
 
     #####################
@@ -176,7 +176,7 @@ class BlockEditDock(qtw.QDockWidget):
     #####################
 
 
-    def __build_form_widget_(self, index):
+    def __buildFormWidget_(self, index):
         """
         Builds and initializes all edit widgets for all properties of the block at the given index
         based off its edit definitions, adding them to this dock's list of edit widgets. This clears
@@ -195,15 +195,15 @@ class BlockEditDock(qtw.QDockWidget):
                 edit = None
                 label = None
                 if def_["type"] == "line":
-                    (edit,label) = self.__build_line_(def_,props)
+                    (edit,label) = self.__buildLine_(def_,props)
                 elif def_["type"] == "text":
-                    (edit,label) = self.__build_text_(def_,props)
+                    (edit,label) = self.__buildText_(def_,props)
                 elif def_["type"] == "checkbox":
-                    (edit,label) = self.__build_checkbox_(def_,props)
+                    (edit,label) = self.__buildCheckbox_(def_,props)
                 elif def_["type"] == "combobox":
-                    (edit,label) = self.__build_combobox_(def_,props)
+                    (edit,label) = self.__buildCombo_(def_,props)
                 elif def_["type"] == "hidden":
-                    edit = self.__build_hidden_(def_)
+                    edit = self.__buildHidden_(def_)
                 else:
                     raise RuntimeError("Unknown edit definition.")
                 if label is not None:
@@ -218,7 +218,7 @@ class BlockEditDock(qtw.QDockWidget):
             raise
 
 
-    def __build_line_(self, definition, properties):
+    def __buildLine_(self, definition, properties):
         """
         Getter method.
 
@@ -232,13 +232,13 @@ class BlockEditDock(qtw.QDockWidget):
                  form.
         """
         edit = qtw.QLineEdit(properties[definition["key"]])
-        edit.textChanged.connect(lambda : self.__apply_button.setEnabled(True))
+        edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
         edit._value_ = lambda e=edit : e.text()
         edit._key = definition["key"]
         return (edit,definition["label"])
 
 
-    def __build_text_(self, definition, properties):
+    def __buildText_(self, definition, properties):
         """
         Getter method.
 
@@ -253,13 +253,13 @@ class BlockEditDock(qtw.QDockWidget):
         """
         edit = PlainTextEdit(speller=definition.get("speller",False),popup=True)
         edit.setPlainText(properties[definition["key"]])
-        edit.textChanged.connect(lambda : self.__apply_button.setEnabled(True))
+        edit.textChanged.connect(lambda : self.__applyButton.setEnabled(True))
         edit._value_ = lambda e=edit : e.toPlainText()
         edit._key = definition["key"]
         return (edit,definition["label"])
 
 
-    def __build_checkbox_(self, definition, properties):
+    def __buildCheckbox_(self, definition, properties):
         """
         Getter method.
 
@@ -276,13 +276,13 @@ class BlockEditDock(qtw.QDockWidget):
         edit.setCheckState(
             qtc.Qt.Checked if int(properties[definition["key"]]) else qtc.Qt.Unchecked
         )
-        edit.stateChanged.connect(lambda : self.__apply_button.setEnabled(True))
+        edit.stateChanged.connect(lambda : self.__applyButton.setEnabled(True))
         edit._value_ = lambda e=edit : str(int(e.checkState() == qtc.Qt.Checked))
         edit._key = definition["key"]
         return (edit,"")
 
 
-    def __build_combobox_(self, definition, properties):
+    def __buildCombo_(self, definition, properties):
         """
         Getter method.
 
@@ -302,13 +302,13 @@ class BlockEditDock(qtw.QDockWidget):
             else:
                 edit.addItem(selection["text"])
         edit.setCurrentText(properties[definition["key"]])
-        edit.currentTextChanged.connect(lambda : self.__apply_button.setEnabled(True))
+        edit.currentTextChanged.connect(lambda : self.__applyButton.setEnabled(True))
         edit._value_ = lambda e=edit : e.currentText()
         edit._key = definition["key"]
         return (edit,definition["label"])
 
 
-    def __build_hidden_(self, definition):
+    def __buildHidden_(self, definition):
         """
         Getter method.
 
@@ -322,14 +322,14 @@ class BlockEditDock(qtw.QDockWidget):
         return edit
 
 
-    def __setup_gui_(self):
+    def __setupGui_(self):
         """
         Initializes the GUI of this new block edit dock.
         """
-        self.__apply_button.clicked.connect(self.__apply_)
-        self.__apply_button.setEnabled(False)
+        self.__applyButton.clicked.connect(self.__apply_)
+        self.__applyButton.setEnabled(False)
         bottom = qtw.QHBoxLayout()
-        bottom.addWidget(self.__apply_button)
+        bottom.addWidget(self.__applyButton)
         bottom.addStretch()
         layout = qtw.QVBoxLayout()
         layout.addWidget(self.__area)
@@ -345,14 +345,14 @@ class BlockEditDock(qtw.QDockWidget):
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __index_changed_(self, index):
+    def __indexChanged_(self, index):
         """
         Called to update the block this dock is editing to the new one at the given index. If the
         given index is invalid then this dock returns to a null state with no form.
 
         index : The index of the new block whose properties are edited by this dock.
         """
-        if self.__index.isValid() and self.__apply_button.isEnabled():
+        if self.__index.isValid() and self.__applyButton.isEnabled():
             answer = qtw.QMessageBox.question(
                 self
                 ,"Unsaved Changes"
@@ -371,15 +371,15 @@ class BlockEditDock(qtw.QDockWidget):
             #
             gc.collect()
         if index.isValid():
-            self.__area.setWidget(self.__build_form_widget_(index))
-            self.__apply_button.setEnabled(False)
+            self.__area.setWidget(self.__buildFormWidget_(index))
+            self.__applyButton.setEnabled(False)
         else:
             self.__edits.clear()
             self.__area.setWidget(None)
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __index_moved_(self, index):
+    def __indexMoved_(self, index):
         """
         Called to update the index of the block this dock is editing. It is assumed the same block
         is being edited so the edit widget form is not rebuilt.
@@ -390,7 +390,7 @@ class BlockEditDock(qtw.QDockWidget):
 
 
     @qtc.Slot()
-    def __index_removed_(self):
+    def __indexRemoved_(self):
         """
         Called to remove this dock's current index, setting it to invalid.
         """
@@ -409,4 +409,4 @@ class BlockEditDock(qtw.QDockWidget):
                 ,{edit._key: edit._value_() for edit in self.__edits}
                 ,model.Role.PROPERTIES
             )
-            self.__apply_button.setEnabled(False)
+            self.__applyButton.setEnabled(False)

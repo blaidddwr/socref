@@ -113,11 +113,11 @@ class SpellChecker(qtw.QGroupBox):
             os.path.join(settings.HUNSPELL_ROOT,dictionary + ".dic")
             ,os.path.join(settings.HUNSPELL_ROOT,dictionary + ".aff")
         )
-        self.__word_label = qtw.QLabel(self)
-        self.__word_edit = qtw.QLineEdit(self)
+        self.__wordLabel = qtw.QLabel(self)
+        self.__wordEdit = qtw.QLineEdit(self)
         self.__cursor = None
         self.__suggested = []
-        self.__setup_gui_()
+        self.__setupGui_()
 
 
     ####################
@@ -132,7 +132,7 @@ class SpellChecker(qtw.QGroupBox):
     #
     # Signals this spell checker has changed the cursor given to it.
     #
-    cursor_changed = qtc.Signal(qtg.QTextCursor)
+    cursorChanged = qtc.Signal(qtg.QTextCursor)
 
 
     ##################
@@ -152,7 +152,7 @@ class SpellChecker(qtw.QGroupBox):
         if self.__cursor is None:
             self.__cursor = cursor
             cursor.movePosition(qtg.QTextCursor.Start)
-            self.__find_next_word_()
+            self.__findNextWord_()
 
 
     #####################
@@ -160,7 +160,7 @@ class SpellChecker(qtw.QGroupBox):
     #####################
 
 
-    def __find_next_word_(self, skip=False):
+    def __findNextWord_(self, skip=False):
         """
         Finds the next misspelled word in the current document this spell checker is checking,
         optionally skipping the word this checker's cursor is currently under. If no misspelled word
@@ -178,9 +178,9 @@ class SpellChecker(qtw.QGroupBox):
                     hun = self.__hunspell
                     word = cursor.selectedText()
                     if not hun.spell(word):
-                        self.cursor_changed.emit(cursor)
-                        self.__word_label.setText(word)
-                        self.__word_edit.setText(word)
+                        self.cursorChanged.emit(cursor)
+                        self.__wordLabel.setText(word)
+                        self.__wordEdit.setText(word)
                         self.__suggested = hun.suggest(word)
                         break
             else:
@@ -190,7 +190,7 @@ class SpellChecker(qtw.QGroupBox):
                 break
 
 
-    def __setup_gui_(self):
+    def __setupGui_(self):
         """
         Initializes the GUI of this new spell checker.
         """
@@ -201,12 +201,12 @@ class SpellChecker(qtw.QGroupBox):
         ignore = qtw.QPushButton("Ignore")
         ignore.clicked.connect(self.__ignore_)
         ignore_all = qtw.QPushButton("Ignore All")
-        ignore_all.clicked.connect(self.__ignore_all_)
+        ignore_all.clicked.connect(self.__ignoreAll_)
         stop = qtw.QPushButton("Stop")
         stop.clicked.connect(self.__stop_)
         layout = qtw.QHBoxLayout()
-        layout.addWidget(self.__word_label)
-        layout.addWidget(self.__word_edit)
+        layout.addWidget(self.__wordLabel)
+        layout.addWidget(self.__wordEdit)
         layout.addStretch()
         layout.addWidget(suggest)
         layout.addWidget(replace)
@@ -235,12 +235,12 @@ class SpellChecker(qtw.QGroupBox):
             #
             index = 1
             try:
-                index += self.__suggested.index(self.__word_edit.text())
+                index += self.__suggested.index(self.__wordEdit.text())
             except ValueError:
                 index = 0
             if index >= len(self.__suggested):
                 index = 0
-            self.__word_edit.setText(self.__suggested[index])
+            self.__wordEdit.setText(self.__suggested[index])
 
 
     @qtc.Slot()
@@ -251,8 +251,8 @@ class SpellChecker(qtw.QGroupBox):
         this spell checker is not actively checking a document then this does nothing.
         """
         if self.__cursor is not None:
-            self.__cursor.insertText(self.__word_edit.text())
-            self.__find_next_word_()
+            self.__cursor.insertText(self.__wordEdit.text())
+            self.__findNextWord_()
 
 
     @qtc.Slot()
@@ -263,19 +263,19 @@ class SpellChecker(qtw.QGroupBox):
         a document then this does nothing.
         """
         if self.__cursor is not None:
-            self.__find_next_word_(skip=True)
+            self.__findNextWord_(skip=True)
 
 
     @qtc.Slot()
-    def __ignore_all_(self):
+    def __ignoreAll_(self):
         """
         Called to ignore all words matching the currently selected misspelled word by adding it to
         the run time dictionary. This then moves the cursor forward looking for the next misspelled
         word. If this spell checker is not actively checking a document then this does nothing.
         """
         if self.__cursor is not None:
-            self.__hunspell.add(self.__word_label.text())
-            self.__find_next_word_(skip=True)
+            self.__hunspell.add(self.__wordLabel.text())
+            self.__findNextWord_(skip=True)
 
 
     @qtc.Slot()

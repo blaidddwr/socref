@@ -44,10 +44,10 @@ class TextDialog(qtw.QDialog):
         """
         qtw.QDialog.__init__(self,parent)
         self.__speller = speller
-        self.__text_edit = gui_edit.PlainTextEdit(text,self,speller=speller,popup=False)
-        self.__speller_box = gui_util.SpellChecker("Spell Check",settings.DICTIONARY)
-        self.__spell_button = qtw.QPushButton("Spell Check",self)
-        self.__setup_gui_()
+        self.__textEdit = gui_edit.PlainTextEdit(text,self,speller=speller,popup=False)
+        self.__spellerBox = gui_util.SpellChecker("Spell Check",settings.DICTIONARY)
+        self.__spellButton = qtw.QPushButton("Spell Check",self)
+        self.__setupGui_()
 
 
     ####################
@@ -61,7 +61,7 @@ class TextDialog(qtw.QDialog):
 
         return : The current text of this text dialog.
         """
-        return self.__text_edit.toPlainText()
+        return self.__textEdit.toPlainText()
 
 
     #######################
@@ -85,33 +85,33 @@ class TextDialog(qtw.QDialog):
     #####################
 
 
-    def __setup_gui_(self):
+    def __setupGui_(self):
         """
         Initializes the GUI of this new text dialog.
         """
         layout = qtw.QVBoxLayout()
-        layout.addWidget(self.__text_edit)
-        layout.addWidget(self.__setup_spell_checker_())
-        layout.addLayout(self.__setup_buttons_())
+        layout.addWidget(self.__textEdit)
+        layout.addWidget(self.__setupSpellChecker_())
+        layout.addLayout(self.__setupButtons_())
         self.setLayout(layout)
         self.__restore_()
 
 
-    def __setup_spell_checker_(self):
+    def __setupSpellChecker_(self):
         """
         Initializes the spell checker box of this new text dialog.
 
         return : The initialized spell checker box widget.
         """
-        self.__speller_box.hide()
-        self.__speller_box.cursor_changed.connect(
-            lambda cursor : self.__text_edit.setTextCursor(cursor)
+        self.__spellerBox.hide()
+        self.__spellerBox.cursorChanged.connect(
+            lambda cursor : self.__textEdit.setTextCursor(cursor)
         )
-        self.__speller_box.finished.connect(self.__spell_check_finished_)
-        return self.__speller_box
+        self.__spellerBox.finished.connect(self.__spellCheckFinished_)
+        return self.__spellerBox
 
 
-    def __setup_buttons_(self):
+    def __setupButtons_(self):
         """
         Initializes the buttons of this new text dialog.
 
@@ -121,13 +121,13 @@ class TextDialog(qtw.QDialog):
         set_.clicked.connect(lambda : self.done(qtw.QDialog.Accepted))
         cancel = qtw.QPushButton("Cancel")
         cancel.clicked.connect(lambda : self.done(qtw.QDialog.Rejected))
-        self.__spell_button.clicked.connect(self.__spell_check_)
-        self.__spell_button.setDisabled(not self.__speller)
+        self.__spellButton.clicked.connect(self.__spellCheck_)
+        self.__spellButton.setDisabled(not self.__speller)
         ret = qtw.QHBoxLayout()
         ret.addWidget(set_)
         ret.addWidget(cancel)
         ret.addStretch()
-        ret.addWidget(self.__spell_button)
+        ret.addWidget(self.__spellButton)
         return ret
 
 
@@ -147,25 +147,25 @@ class TextDialog(qtw.QDialog):
 
 
     @qtc.Slot()
-    def __spell_check_(self):
+    def __spellCheck_(self):
         """
         Called to begin spell checking this text dialog's document. This shows its spell checker box
         and tells it to start checking.
         """
-        self.__speller_box.show()
-        self.__speller_box.start(self.__text_edit.textCursor())
+        self.__spellerBox.show()
+        self.__spellerBox.start(self.__textEdit.textCursor())
 
 
     @qtc.Slot()
-    def __spell_check_finished_(self):
+    def __spellCheckFinished_(self):
         """
         Called to inform this text dialog that spell checking has finished. This hides its spell
         checker box and clears any selection from its document's cursor.
         """
-        self.__speller_box.hide()
-        cursor = self.__text_edit.textCursor()
+        self.__spellerBox.hide()
+        cursor = self.__textEdit.textCursor()
         cursor.clearSelection()
-        self.__text_edit.setTextCursor(cursor)
+        self.__textEdit.setTextCursor(cursor)
 
 
     #######################
@@ -207,12 +207,12 @@ class ProjectDialog(qtw.QDialog):
         parent : The optional qt object parent of this dialog.
         """
         qtw.QDialog.__init__(self,parent)
-        self.__name_edit = qtw.QLineEdit(self)
-        self.__parse_path_edit = qtw.QLineEdit(self)
+        self.__nameEdit = qtw.QLineEdit(self)
+        self.__parsePathEdit = qtw.QLineEdit(self)
         self.__model = model
-        model.name_changed.connect(self.__name_changed_)
-        model.parse_path_changed.connect(self.__parse_path_changed_)
-        self.__setup_gui_()
+        model.nameChanged.connect(self.__nameChanged_)
+        model.parsePathChanged.connect(self.__parsePathChanged_)
+        self.__setupGui_()
 
 
     #######################
@@ -236,31 +236,31 @@ class ProjectDialog(qtw.QDialog):
     #####################
 
 
-    def __setup_gui_(self):
+    def __setupGui_(self):
         """
         Initializes the GUI of this new dialog.
         """
         layout = qtw.QVBoxLayout()
-        layout.addLayout(self.__setup_form_())
-        layout.addLayout(self.__setup_buttons_())
+        layout.addLayout(self.__setupForm_())
+        layout.addLayout(self.__setupButtons_())
         self.setLayout(layout)
         self.setWindowTitle("Project Properties")
         self.__restore_()
 
 
-    def __setup_form_(self):
+    def __setupForm_(self):
         """
         Initializes the form of this new dialog.
         """
-        self.__name_edit.setText(self.__model.name())
-        self.__parse_path_edit.setText(self.__model.parse_path())
+        self.__nameEdit.setText(self.__model.name())
+        self.__parsePathEdit.setText(self.__model.parsePath())
         ret = qtw.QFormLayout()
-        ret.addRow("Project Name:",self.__name_edit)
-        ret.addRow("Parsing Path:",self.__parse_path_edit)
+        ret.addRow("Project Name:",self.__nameEdit)
+        ret.addRow("Parsing Path:",self.__parsePathEdit)
         return ret
 
 
-    def __setup_buttons_(self):
+    def __setupButtons_(self):
         """
         Initializes the buttons of this new dialog.
         """
@@ -294,23 +294,23 @@ class ProjectDialog(qtw.QDialog):
 
 
     @qtc.Slot(str)
-    def __name_changed_(self, name):
+    def __nameChanged_(self, name):
         """
         Called to inform this dialog its project model's name has changed.
 
         name : The new name of this dialog's project model.
         """
-        self.__name_edit.setText(name)
+        self.__nameEdit.setText(name)
 
 
     @qtc.Slot(str)
-    def __parse_path_changed_(self, path):
+    def __parsePathChanged_(self, path):
         """
         Called to inform this dialog its project model's parse path has changed.
 
         path : The new parse path of this dialog's project model.
         """
-        self.__parse_path_edit.setText(path)
+        self.__parsePathEdit.setText(path)
 
 
     @qtc.Slot()
@@ -328,8 +328,8 @@ class ProjectDialog(qtw.QDialog):
         """
         Called to apply this dialog's edit widget values to its project model.
         """
-        self.__model.set_name(self.__name_edit.text())
-        self.__model.set_parse_path(self.__parse_path_edit.text())
+        self.__model.setName(self.__nameEdit.text())
+        self.__model.setParsePath(self.__parsePathEdit.text())
 
 
     @qtc.Slot()
@@ -385,7 +385,7 @@ class CodeDialog(qtw.QDialog):
         self.__code = code
         self.__splitter = qtw.QSplitter(self)
         self.__view = qtw.QPlainTextEdit(self,readOnly=True)
-        self.__setup_gui_()
+        self.__setupGui_()
 
 
     #######################
@@ -410,31 +410,31 @@ class CodeDialog(qtw.QDialog):
     #####################
 
 
-    def __setup_gui_(self):
+    def __setupGui_(self):
         """
         Initializes the GUI of this new dialog.
         """
         layout = qtw.QVBoxLayout()
-        layout.addWidget(self.__setup_view_())
-        layout.addLayout(self.__setup_buttons_())
+        layout.addWidget(self.__setupView_())
+        layout.addLayout(self.__setupButtons_())
         self.setLayout(layout)
         self.setWindowTitle("Unknown Code Fragments")
         self.__restore_()
 
 
-    def __setup_view_(self):
+    def __setupView_(self):
         """
         Initializes the GUI of this new dialog.
         """
         list_ = qtw.QListWidget()
-        list_.currentTextChanged.connect(self.__item_changed_)
+        list_.currentTextChanged.connect(self.__itemChanged_)
         list_.addItems(list(self.__code.keys()))
         self.__splitter.addWidget(list_)
         self.__splitter.addWidget(self.__view)
         return self.__splitter
 
 
-    def __setup_buttons_(self):
+    def __setupButtons_(self):
         """
         Initializes the GUI of this new dialog.
         """
@@ -468,7 +468,7 @@ class CodeDialog(qtw.QDialog):
 
 
     @qtc.Slot(str)
-    def __item_changed_(self, key):
+    def __itemChanged_(self, key):
         """
         Called to inform this dialog's the selected code fragment has changed to the one with the
         given key.

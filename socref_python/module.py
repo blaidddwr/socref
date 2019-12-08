@@ -48,7 +48,7 @@ class Module(package.Package):
         return qtg.QIcon(":/python/module.svg")
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -57,11 +57,11 @@ class Module(package.Package):
         return ("Object","Function","Class")
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Package.set_default_properties(self)
+        package.Package.setDefaultProperties(self)
         self._p_name = "module"
 
 

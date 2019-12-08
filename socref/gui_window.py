@@ -51,19 +51,19 @@ class MainWindow(qtw.QMainWindow):
         qtw.QMainWindow.__init__(self)
         self.__model = model.ProjectModel(self)
         self.__view = gui_view.ProjectView(self)
-        self.__block_view_dock = gui_view.BlockViewDock(self)
-        self.__block_edit_dock = gui_edit.BlockEditDock(self)
-        self.__progress_bar = None
-        self.__open_action = qtw.QAction("Open",self)
-        self.__save_action = qtw.QAction("Save",self)
-        self.__save_as_action = qtw.QAction("Save As",self)
-        self.__close_action = qtw.QAction("Close",self)
-        self.__properties_action = qtw.QAction("Properties",self)
-        self.__parse_action = qtw.QAction("Parse",self)
-        self.__exit_action = qtw.QAction("Exit",self)
-        self.__new_actions = []
+        self.__blockViewDock = gui_view.BlockViewDock(self)
+        self.__blockEditDock = gui_edit.BlockEditDock(self)
+        self.__progressBar = None
+        self.__openAction = qtw.QAction("Open",self)
+        self.__saveAction = qtw.QAction("Save",self)
+        self.__saveAsAction = qtw.QAction("Save As",self)
+        self.__closeAction = qtw.QAction("Close",self)
+        self.__propertiesAction = qtw.QAction("Properties",self)
+        self.__parseAction = qtw.QAction("Parse",self)
+        self.__exitAction = qtw.QAction("Exit",self)
+        self.__newActions = []
         self.__path = None
-        self.__setup_gui_()
+        self.__setupGui_()
 
 
     ####################
@@ -74,7 +74,7 @@ class MainWindow(qtw.QMainWindow):
     #
     # Signals this window has started parsing its current project with the given abstract parser.
     #
-    parse_requested = qtc.Signal(abstract.AbstractParser)
+    parseRequested = qtc.Signal(abstract.AbstractParser)
 
 
     #######################
@@ -88,7 +88,7 @@ class MainWindow(qtw.QMainWindow):
 
         event : See qt docs.
         """
-        if self.__is_ok_to_close_():
+        if self.__isOkToClose_():
             settings = qtc.QSettings()
             settings.setValue(self.__GEOMETRY_KEY,self.saveGeometry())
             settings.setValue(self.__STATE_KEY,self.saveState())
@@ -104,18 +104,18 @@ class MainWindow(qtw.QMainWindow):
     #####################
 
 
-    def __update_actions_(self):
+    def __updateActions_(self):
         """
         Updates this window's actions.
         """
-        self.__save_action.setDisabled(self.__path is None)
-        self.__save_as_action.setDisabled(not self.__model)
-        self.__close_action.setDisabled(not self.__model)
-        self.__properties_action.setDisabled(not self.__model)
-        self.__parse_action.setDisabled(self.__path is None)
+        self.__saveAction.setDisabled(self.__path is None)
+        self.__saveAsAction.setDisabled(not self.__model)
+        self.__closeAction.setDisabled(not self.__model)
+        self.__propertiesAction.setDisabled(not self.__model)
+        self.__parseAction.setDisabled(self.__path is None)
 
 
-    def __is_ok_to_close_(self):
+    def __isOkToClose_(self):
         """
         Getter method.
 
@@ -123,18 +123,18 @@ class MainWindow(qtw.QMainWindow):
                  window if the user saves any unsaved changes to this window's project, chooses to
                  discard unsaved changes, or there are no unsaved changes to worry about.
         """
-        if not self.__model or not self.__model.is_modified():
+        if not self.__model or not self.__model.isModified():
             return True
         answer = qtw.QMessageBox.question(
             self
             ,"Unsaved Project Changes"
             ,"The currently open project has unsaved changes. Closing the project will cause all"
              " unsaved changes to be lost!"
-            ,qtw.QMessageBox.Save | qtw.QMessageBox.Cancel | qtw.QMessageBox.Discard
+            ,qtw.QMessageBox.Save|qtw.QMessageBox.Cancel|qtw.QMessageBox.Discard
         )
         if answer == qtw.QMessageBox.Save:
             if self.__path is None:
-                return self.__save_as_()
+                return self.__saveAs_()
             else:
                 return self.__save_()
         elif answer == qtw.QMessageBox.Cancel:
@@ -143,63 +143,63 @@ class MainWindow(qtw.QMainWindow):
             return True
 
 
-    def __update_title_(self):
+    def __updateTitle_(self):
         """
         Updates this window's title.
         """
         if self.__model:
             self.setWindowTitle(
-                "%s[*] (%s) - Socrates' Reference" % (self.__model.name(),self.__model.lang_name())
+                "%s[*] (%s) - Socrates' Reference" % (self.__model.name(),self.__model.langName())
             )
         else:
             self.setWindowTitle("Socrates' Reference")
 
 
-    def __setup_gui_(self):
+    def __setupGui_(self):
         """
         Initializes the GUI of this new window.
         """
         self.__instances.append(self)
         self.setWindowIcon(qtg.QIcon(":/socref/application.svg"))
         self.__model.modified.connect(self.__modified_)
-        self.__model.name_changed.connect(self.__update_title_)
+        self.__model.nameChanged.connect(self.__nameChanged_)
         self.__view.setModel(self.__model)
         self.setCentralWidget(self.__view)
-        self.__setup_docks_()
-        self.__setup_actions_()
-        self.__setup_menus_()
-        self.__setup_toolbars_()
-        self.parse_requested.connect(model.ParserModel().start)
-        model.ParserModel().started.connect(self.__parse_started_)
-        model.ParserModel().progressed.connect(self.__parse_progressed_)
-        model.ParserModel().finished.connect(self.__parse_finished_)
+        self.__setupDocks_()
+        self.__setupActions_()
+        self.__setupMenus_()
+        self.__setupToolbars_()
+        self.parseRequested.connect(model.ParserModel().start)
+        model.ParserModel().started.connect(self.__parseStarted_)
+        model.ParserModel().progressed.connect(self.__parseProgressed_)
+        model.ParserModel().finished.connect(self.__parseFinished_)
         self.__restore_()
         #
         # The status bar is not visible until this method is called so call it here to make it
         # visible from the start.
         #
         self.statusBar()
-        self.__update_title_()
-        self.__update_actions_()
+        self.__updateTitle_()
+        self.__updateActions_()
 
 
-    def __setup_actions_(self):
+    def __setupActions_(self):
         """
         Initializes all qt actions of this new window.
         """
-        self.__setup_new_actions_()
-        self.__setup_file_actions_()
+        self.__setupNewActions_()
+        self.__setupFileActions_()
 
 
-    def __setup_menus_(self):
+    def __setupMenus_(self):
         """
         Initializes all menus of this new window.
         """
-        self.__setup_file_menu_()
-        self.__setup_edit_menu_()
+        self.__setupFileMenu_()
+        self.__setupEditMenu_()
 
 
-    def __setup_toolbars_(self):
+    def __setupToolbars_(self):
         """
         Initializes all toolbars of this new window.
         """
@@ -208,59 +208,59 @@ class MainWindow(qtw.QMainWindow):
         #
         toolbar = self.addToolBar("File")
         toolbar.setObjectName("file.toolbar")
-        toolbar.addAction(self.__open_action)
-        toolbar.addAction(self.__save_action)
-        toolbar.addAction(self.__save_as_action)
-        toolbar.addAction(self.__parse_action)
+        toolbar.addAction(self.__openAction)
+        toolbar.addAction(self.__saveAction)
+        toolbar.addAction(self.__saveAsAction)
+        toolbar.addAction(self.__parseAction)
         #
         # Edit toolbar.
         #
         toolbar = self.addToolBar("Edit")
         toolbar.setObjectName("edit.toolbar")
-        toolbar.addAction(self.__view.undo_action())
-        toolbar.addAction(self.__view.redo_action())
-        toolbar.addAction(self.__view.remove_action())
-        toolbar.addAction(self.__view.cut_action())
-        toolbar.addAction(self.__view.copy_action())
-        toolbar.addAction(self.__view.paste_action())
-        toolbar.addAction(self.__view.move_up_action())
-        toolbar.addAction(self.__view.move_down_action())
+        toolbar.addAction(self.__view.undoAction())
+        toolbar.addAction(self.__view.redoAction())
+        toolbar.addAction(self.__view.removeAction())
+        toolbar.addAction(self.__view.cutAction())
+        toolbar.addAction(self.__view.copyAction())
+        toolbar.addAction(self.__view.pasteAction())
+        toolbar.addAction(self.__view.moveUpAction())
+        toolbar.addAction(self.__view.moveDownAction())
 
 
-    def __setup_docks_(self):
+    def __setupDocks_(self):
         """
         Initializes the edit/view block dock widgets of this new window.
         """
-        self.__block_view_dock.setObjectName("block.view.dock")
-        self.__block_edit_dock.setObjectName("block.edit.dock")
-        self.__block_view_dock.setWindowTitle("View")
-        self.__block_edit_dock.setWindowTitle("Edit")
-        self.__block_view_dock.set_view(self.__view)
-        self.__block_edit_dock.set_view(self.__view)
-        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__block_view_dock)
-        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__block_edit_dock)
+        self.__blockViewDock.setObjectName("block.view.dock")
+        self.__blockEditDock.setObjectName("block.edit.dock")
+        self.__blockViewDock.setWindowTitle("View")
+        self.__blockEditDock.setWindowTitle("Edit")
+        self.__blockViewDock.setView(self.__view)
+        self.__blockEditDock.setView(self.__view)
+        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__blockViewDock)
+        self.addDockWidget(qtc.Qt.RightDockWidgetArea,self.__blockEditDock)
 
 
-    def __setup_new_actions_(self):
+    def __setupNewActions_(self):
         """
         Populates this window's list of new actions with all available languages.
         """
         for lang in block.BlockFactory().langs():
-            self.__new_actions.append(qtw.QAction(lang,self))
-            self.__new_actions[-1].triggered.connect(
+            self.__newActions.append(qtw.QAction(lang,self))
+            self.__newActions[-1].triggered.connect(
                 lambda checked=False,name=lang : self.__new_(name)
             )
-            self.addAction(self.__new_actions[-1])
+            self.addAction(self.__newActions[-1])
 
 
-    def __setup_file_actions_(self):
+    def __setupFileActions_(self):
         """
         Initializes the qt actions of this new window's file menu.
         """
         #
         # Open action.
         #
-        action = self.__open_action
+        action = self.__openAction
         action.setIcon(qtg.QIcon.fromTheme("document-open"))
         action.setStatusTip("Open an existing project.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Open))
@@ -269,7 +269,7 @@ class MainWindow(qtw.QMainWindow):
         #
         # Save action.
         #
-        action = self.__save_action
+        action = self.__saveAction
         action.setIcon(qtg.QIcon.fromTheme("document-save"))
         action.setStatusTip("Save the current project.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Save))
@@ -278,16 +278,16 @@ class MainWindow(qtw.QMainWindow):
         #
         # Save as action.
         #
-        action = self.__save_as_action
+        action = self.__saveAsAction
         action.setIcon(qtg.QIcon.fromTheme("document-save-as"))
         action.setStatusTip("Save the current project to a provided file path.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.SaveAs))
-        action.triggered.connect(self.__save_as_)
+        action.triggered.connect(self.__saveAs_)
         self.addAction(action)
         #
         # Close action.
         #
-        action = self.__close_action
+        action = self.__closeAction
         action.setStatusTip("Close the current project.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Close))
         action.triggered.connect(self.__close_)
@@ -295,14 +295,14 @@ class MainWindow(qtw.QMainWindow):
         #
         # Properties action.
         #
-        action = self.__properties_action
+        action = self.__propertiesAction
         action.setStatusTip("Open a dialog to edit the basic properties of the current project.")
         action.triggered.connect(self.__properties_)
         self.addAction(action)
         #
         # Parse action.
         #
-        action = self.__parse_action
+        action = self.__parseAction
         action.setIcon(qtg.QIcon.fromTheme("view-refresh"))
         action.setStatusTip("Parse all source code files with the current project.")
         action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_P))
@@ -311,7 +311,7 @@ class MainWindow(qtw.QMainWindow):
         #
         # Exit action.
         #
-        action = self.__exit_action
+        action = self.__exitAction
         action.setIcon(qtg.QIcon.fromTheme("application-exit"))
         action.setStatusTip("Exit this window.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Quit))
@@ -319,30 +319,30 @@ class MainWindow(qtw.QMainWindow):
         self.addAction(action)
 
 
-    def __setup_file_menu_(self):
+    def __setupFileMenu_(self):
         """
         Initializes the file menu for this new window.
         """
         menu = self.menuBar().addMenu("File")
         new = menu.addMenu("New")
-        for action in self.__new_actions:
+        for action in self.__newActions:
             new.addAction(action)
-        menu.addAction(self.__open_action)
-        menu.addAction(self.__save_action)
-        menu.addAction(self.__save_as_action)
-        menu.addAction(self.__close_action)
+        menu.addAction(self.__openAction)
+        menu.addAction(self.__saveAction)
+        menu.addAction(self.__saveAsAction)
+        menu.addAction(self.__closeAction)
         menu.addSeparator()
-        menu.addAction(self.__properties_action)
-        menu.addAction(self.__parse_action)
+        menu.addAction(self.__propertiesAction)
+        menu.addAction(self.__parseAction)
         menu.addSeparator()
-        menu.addAction(self.__exit_action)
+        menu.addAction(self.__exitAction)
 
 
-    def __setup_edit_menu_(self):
+    def __setupEditMenu_(self):
         """
         Adds this new window's project view's context menu as the window's edit menu.
         """
-        self.menuBar().addMenu(self.__view.context_menu())
+        self.menuBar().addMenu(self.__view.contextMenu())
 
 
     def __restore_(self):
@@ -372,23 +372,23 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot(str)
-    def __name_changed_(self, name):
+    def __nameChanged_(self, name):
         """
         Called to inform this window that its project's name has been changed. This updates the
         window's title.
 
         name : Detailed description.
         """
-        self.__update_title_()
+        self.__updateTitle_()
 
 
     @qtc.Slot()
-    def __parse_started_(self):
+    def __parseStarted_(self):
         """
         Called to inform this window that the singleton parser model has started parsing.
         """
-        if self.__progress_bar is None:
-            bar = self.__progress_bar = qtw.QProgressBar()
+        if self.__progressBar is None:
+            bar = self.__progressBar = qtw.QProgressBar()
             bar.setRange(0,100)
             bar.setValue(0)
             self.statusBar().addWidget(bar)
@@ -396,40 +396,40 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot(int)
-    def __parse_progressed_(self, percent):
+    def __parseProgressed_(self, percent):
         """
         Called to inform this window that the singleton parser model has made progress parsing.
 
         percent : The percentage progress the singleton parser model has made parsing from 0 to 100.
         """
-        if self.__progress_bar is not None:
-            self.__progress_bar.setValue(percent)
+        if self.__progressBar is not None:
+            self.__progressBar.setValue(percent)
 
 
     @qtc.Slot()
-    def __parse_finished_(self):
+    def __parseFinished_(self):
         """
         Called to inform this window that the singleton parser model has finished parsing.
         """
-        if self.__progress_bar is not None:
-            self.__progress_bar.deleteLater()
-            self.__progress_bar = None
+        if self.__progressBar is not None:
+            self.__progressBar.deleteLater()
+            self.__progressBar = None
 
 
     @qtc.Slot(str)
-    def __new_(self, lang_name):
+    def __new_(self, langName):
         """
         Called to create a new project of the given language for this window.
 
-        lang_name : The name of the language used to create a new project.
+        langName : The name of the language used to create a new project.
         """
         window = self
         if self.__model:
             window = MainWindow()
-        window.__model.new(lang_name)
-        window.__update_title_()
+        window.__model.new(langName)
+        window.__updateTitle_()
         window.setWindowModified(False)
-        window.__update_actions_()
+        window.__updateActions_()
         window.show()
 
 
@@ -458,9 +458,9 @@ class MainWindow(qtw.QMainWindow):
                 window.deleteLater()
             raise
         window.__path = path
-        window.__update_title_()
+        window.__updateTitle_()
         window.setWindowModified(False)
-        window.__update_actions_()
+        window.__updateActions_()
         window.show()
 
 
@@ -480,7 +480,7 @@ class MainWindow(qtw.QMainWindow):
 
 
     @qtc.Slot()
-    def __save_as_(self):
+    def __saveAs_(self):
         """
         Called to save this window's project to a new save file path selected by the user. If this
         window has no project then this does nothing.
@@ -503,7 +503,7 @@ class MainWindow(qtw.QMainWindow):
             self.__path = oldpath
             raise
         self.setWindowModified(False)
-        self.__update_actions_()
+        self.__updateActions_()
         return True
 
 
@@ -513,12 +513,12 @@ class MainWindow(qtw.QMainWindow):
         Called to close this window's current project. If this window has no project then this does
         nothing. If the current project has unsaved changes the user is queried about what to do.
         """
-        if self.__model and self.__is_ok_to_close_():
+        if self.__model and self.__isOkToClose_():
             self.__model.close()
             self.__path = None
-            self.__update_title_()
+            self.__updateTitle_()
             self.setWindowModified(False)
-            self.__update_actions_()
+            self.__updateActions_()
 
 
     @qtc.Slot()
@@ -529,14 +529,15 @@ class MainWindow(qtw.QMainWindow):
         """
         if self.__path is not None:
             parser = self.__model.parser()
-            parser.set_root_path(
+            parser.setRootPath(
                 os.path.abspath(
-                    os.path.join(os.path.dirname(self.__path),self.__model.parse_path())
+                    os.path.join(os.path.dirname(self.__path),self.__model.parsePath())
                 )
             )
-            self.parse_requested.emit(parser)
+            self.parseRequested.emit(parser)
 
 
+    @qtc.Slot()
     def __properties_(self):
         """
         Called to have this window bring up a modal project dialog to edit the basic properties of

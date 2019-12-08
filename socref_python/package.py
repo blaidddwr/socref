@@ -53,7 +53,7 @@ class Package(abstract.AbstractBlock):
         return qtg.QIcon(":/python/package.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -62,7 +62,7 @@ class Package(abstract.AbstractBlock):
         return self._p_name
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -71,7 +71,7 @@ class Package(abstract.AbstractBlock):
         return ut.richTextBlocks(1,"Description",html.escape(self._p_description))
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -80,7 +80,7 @@ class Package(abstract.AbstractBlock):
         return ("Package","Module")
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -92,7 +92,7 @@ class Package(abstract.AbstractBlock):
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -100,7 +100,7 @@ class Package(abstract.AbstractBlock):
         self._p_description = "Detailed description."
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

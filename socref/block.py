@@ -24,9 +24,9 @@ def register(name, root=False):
            language if set to true. Only one block type can be the root of a language.
     """
     def wrapper(class_):
-        BlockFactory().register_block(class_,name)
+        BlockFactory().registerBlock(class_,name)
         if root:
-            BlockFactory().register_root_block(class_)
+            BlockFactory().registerRootBlock(class_)
         return class_
     return wrapper
 
@@ -60,8 +60,8 @@ class BlockFactory():
         """
         self.__ROOT = "##ROOT##"
         self.__langs = {}
-        self.__importing_lang = None
-        self.__importing_lang_name = None
+        self.__importingLang = None
+        self.__importingLangName = None
 
 
     ####################
@@ -69,32 +69,32 @@ class BlockFactory():
     ####################
 
 
-    def load(self, lang_name, import_name):
+    def load(self, langName, import_name):
         """
         Loads a new language into this factory. The given language name must be unique.
 
-        lang_name : The language name that is loaded.
+        langName : The language name that is loaded.
 
         import_name : The module name of the language that is loaded.
         """
-        if lang_name in self.__langs.keys():
+        if langName in self.__langs.keys():
             raise exception.LangError("Language already loaded with the same name")
-        self.__langs[lang_name] = {}
-        self.__importing_lang = self.__langs[lang_name]
-        self.__importing_lang_name = lang_name
+        self.__langs[langName] = {}
+        self.__importingLang = self.__langs[langName]
+        self.__importingLangName = langName
         try:
             module = importlib.import_module(import_name)
-            if self.__ROOT not in self.__importing_lang:
+            if self.__ROOT not in self.__importingLang:
                 raise exception.LangError("Language did not register a root block.")
         except:
-            del(self.__langs[lang_name])
+            del(self.__langs[langName])
             raise
         finally:
-            self.__importing_lang = None
-            self.__importing_lang_name = None
+            self.__importingLang = None
+            self.__importingLangName = None
 
 
-    def register_block(self, class_, name):
+    def registerBlock(self, class_, name):
         """
         Registers the given block class with the given type name to the language currently being
         loaded by this factory. The given block class is assigned special attributes _LANG_ and
@@ -108,12 +108,12 @@ class BlockFactory():
         """
         if name == self.__ROOT:
             raise exception.RegisterError("Block class cannot register with reserved name.")
-        self.__register_block_(class_,name)
-        class_._LANG_ = self.__importing_lang_name
+        self.__registerBlock_(class_,name)
+        class_._LANG_ = self.__importingLangName
         class_._TYPE_ = name
 
 
-    def register_root_block(self, class_):
+    def registerRootBlock(self, class_):
         """
         Registers the given block class as the root block type of the language currently being
         loaded by this factory. Only one class object can be the root block of a language so this
@@ -122,7 +122,7 @@ class BlockFactory():
         class_ : A class object that is registered as the root block type of the currently loading
                  language.
         """
-        self.__register_block_(class_,self.__ROOT)
+        self.__registerBlock_(class_,self.__ROOT)
 
 
     def langs(self):
@@ -136,40 +136,40 @@ class BlockFactory():
         return ret
 
 
-    def blocks(self, lang_name):
+    def blocks(self, langName):
         """
         Getter method. The given language name must exist in this factory.
 
-        lang_name : The language name whose list of registered block types are returned.
+        langName : The language name whose list of registered block types are returned.
 
         return : A list of registered block type names for a language with the given name that this
                  factory has loaded.
         """
-        return self.__langs[lang_name].keys()
+        return self.__langs[langName].keys()
 
 
-    def create(self, lang_name, type_name):
+    def create(self, langName, typeName):
         """
         Getter method. The given language name and block type name must exist in this factory.
 
-        lang_name : The name of the language of the created block.
+        langName : The name of the language of the created block.
 
-        type_name : The type name of the created block.
+        typeName : The type name of the created block.
 
         return : A new block of the given type from the given language.
         """
-        return self.__langs[lang_name][type_name]()
+        return self.__langs[langName][typeName]()
 
 
-    def create_root(self, lang_name):
+    def createRoot(self, langName):
         """
         Getter method. The given language must exist in this factory.
 
-        lang_name : The name of the language of the created root block.
+        langName : The name of the language of the created root block.
 
         return : A new root block from the given language.
         """
-        return self.__langs[lang_name][self.__ROOT]()
+        return self.__langs[langName][self.__ROOT]()
 
 
     #####################
@@ -177,7 +177,7 @@ class BlockFactory():
     #####################
 
 
-    def __register_block_(self, class_, key):
+    def __registerBlock_(self, class_, key):
         """
         Registers the given block class with the given key to the language currently being loaded by
         this factory.
@@ -188,14 +188,14 @@ class BlockFactory():
         key : The key used to add the class object to the language dictionary currently being loaded
               by this factory.
         """
-        if self.__importing_lang is None:
+        if self.__importingLang is None:
             raise exception.RegisterError(
                 "Cannot register block class when no language is being imported."
             )
         if key.startswith("_"):
             raise exception.RegisterError("Block type name cannot start with an underscore.")
-        if key in self.__importing_lang.keys():
+        if key in self.__importingLang.keys():
             raise exception.RegisterError("Block class is already registered with the same name.")
         if not issubclass(class_,abstract.AbstractBlock):
             raise exception.RegisterError("Block class is not an Abstract Block.")
-        self.__importing_lang[key] = class_;
+        self.__importingLang[key] = class_;

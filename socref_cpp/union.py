@@ -48,7 +48,7 @@ class Union(namespace.Base):
         return qtg.QIcon(":/cpp/union.svg")
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -57,9 +57,9 @@ class Union(namespace.Base):
         return ("Variable",)
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.set_default_properties(self)
+        namespace.Base.setDefaultProperties(self)
         self._p_name = "union"

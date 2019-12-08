@@ -57,7 +57,7 @@ class Enum(namespace.Base):
         return qtg.QIcon(":/cpp/enumeration.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -69,17 +69,17 @@ class Enum(namespace.Base):
         return ret
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         class_ = "<p><i>Class</i></p>" if self.is_class() else ""
-        return namespace.Base.display_view(self) + class_
+        return namespace.Base.displayView(self) + class_
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -88,29 +88,29 @@ class Enum(namespace.Base):
         return ("Enumeration Value",)
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = namespace.Base.edit_definitions(self)
+        ret = namespace.Base.editDefinitions(self)
         ret.append(ut.checkboxEdit("Class","_p_class"))
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.set_default_properties(self)
+        namespace.Base.setDefaultProperties(self)
         self._p_name = "enumeration"
         self._p_class = "0"
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clear_properties(self)
+        namespace.Base.clearProperties(self)
         self._p_class = "0"

@@ -40,7 +40,7 @@ class BlockViewDock(qtw.QDockWidget):
             ,textFormat=qtc.Qt.RichText
         )
         self.__view = None
-        self.__setup_gui_()
+        self.__setupGui_()
 
 
     ####################
@@ -48,7 +48,7 @@ class BlockViewDock(qtw.QDockWidget):
     ####################
 
 
-    def set_view(self, view):
+    def setView(self, view):
         """
         Sets this dock's view to the one given. If this dock currently has a view it is disconnected
         from this dock.
@@ -56,10 +56,10 @@ class BlockViewDock(qtw.QDockWidget):
         view : The new attached view of this dock.
         """
         if self.__view is not None:
-            self.__view.current_changed.disconnect(self.__index_changed_)
+            self.__view.current_changed.disconnect(self.__indexChanged_)
         self.__view = view
-        self.__view.index_changed.connect(self.__index_changed_)
-        self.__view.index_data_changed.connect(self.__index_changed_)
+        self.__view.indexChanged.connect(self.__indexChanged_)
+        self.__view.indexDataChanged.connect(self.__indexChanged_)
 
 
     #####################
@@ -67,7 +67,7 @@ class BlockViewDock(qtw.QDockWidget):
     #####################
 
 
-    def __setup_gui_(self):
+    def __setupGui_(self):
         """
         Initialize the GUI of this new block view dock.
         """
@@ -83,7 +83,7 @@ class BlockViewDock(qtw.QDockWidget):
 
 
     @qtc.Slot(qtc.QModelIndex)
-    def __index_changed_(self):
+    def __indexChanged_(self):
         """
         Called to update this dock's detailed view to its view's currently indexed block. If its
         view's current index is invalid then this dock returns its view to a null state.
@@ -133,26 +133,26 @@ class ProjectView(qtw.QTreeView):
         """
         qtw.QTreeView.__init__(self, parent)
         self.__model = None
-        self.__add_actions = []
-        self.__undo_action = qtw.QAction("Undo",self)
-        self.__redo_action = qtw.QAction("Redo",self)
-        self.__remove_action = qtw.QAction("Remove",self)
-        self.__cut_action = qtw.QAction("Cut",self)
-        self.__copy_action = qtw.QAction("Copy",self)
-        self.__paste_action = qtw.QAction("Paste",self)
-        self.__insert_before_action = qtw.QAction("Before",self)
-        self.__insert_into_action = qtw.QAction("Into",self)
-        self.__insert_after_action = qtw.QAction("After",self)
-        self.__move_up_action = qtw.QAction("Move Up",self)
-        self.__move_down_action = qtw.QAction("Move Down",self)
-        self.__context_menu = qtw.QMenu("Edit",self)
-        self.__add_menu = qtw.QMenu("Add")
+        self.__addActions = []
+        self.__undoAction = qtw.QAction("Undo",self)
+        self.__redoAction = qtw.QAction("Redo",self)
+        self.__removeAction = qtw.QAction("Remove",self)
+        self.__cutAction = qtw.QAction("Cut",self)
+        self.__copyAction = qtw.QAction("Copy",self)
+        self.__pasteAction = qtw.QAction("Paste",self)
+        self.__insertBeforeAction = qtw.QAction("Before",self)
+        self.__insertIntoAction = qtw.QAction("Into",self)
+        self.__insertAfterAction = qtw.QAction("After",self)
+        self.__moveUpAction = qtw.QAction("Move Up",self)
+        self.__moveDownAction = qtw.QAction("Move Down",self)
+        self.__contextMenu = qtw.QMenu("Edit",self)
+        self.__addMenu = qtw.QMenu("Add")
         self.__insert = self.__INTO
-        self.__setup_actions_()
-        self.__setup_context_menu_()
+        self.__setupActions_()
+        self.__setupContextMenu_()
         self.setSelectionMode(qtw.QAbstractItemView.ExtendedSelection)
         self.setContextMenuPolicy(qtc.Qt.CustomContextMenu)
-        self.customContextMenuRequested.connect(self.__context_menu_requested_)
+        self.customContextMenuRequested.connect(self.__contextMenuRequested_)
 
 
     ####################
@@ -160,85 +160,85 @@ class ProjectView(qtw.QTreeView):
     ####################
 
 
-    def context_menu(self):
+    def contextMenu(self):
         """
         Getter method.
 
         return : The context menu of this project.
         """
-        return self.__context_menu
+        return self.__contextMenu
 
 
-    def undo_action(self):
+    def undoAction(self):
         """
         Getter method.
 
         return : The undo action of this project.
         """
-        return self.__undo_action
+        return self.__undoAction
 
 
-    def redo_action(self):
+    def redoAction(self):
         """
         Getter method.
 
         return : The redo action of this project.
         """
-        return self.__redo_action
+        return self.__redoAction
 
 
-    def remove_action(self):
+    def removeAction(self):
         """
         Getter method.
 
         return : The remove action of this project.
         """
-        return self.__remove_action
+        return self.__removeAction
 
 
-    def cut_action(self):
+    def cutAction(self):
         """
         Getter method.
 
         return : The cut action of this project.
         """
-        return self.__cut_action
+        return self.__cutAction
 
 
-    def copy_action(self):
+    def copyAction(self):
         """
         Getter method.
 
         return : The copy action of this project.
         """
-        return self.__copy_action
+        return self.__copyAction
 
 
-    def paste_action(self):
+    def pasteAction(self):
         """
         Getter method.
 
         return : The paste action of this project.
         """
-        return self.__paste_action
+        return self.__pasteAction
 
 
-    def move_up_action(self):
+    def moveUpAction(self):
         """
         Getter method.
 
         return : The move up action of this project.
         """
-        return self.__move_up_action
+        return self.__moveUpAction
 
 
-    def move_down_action(self):
+    def moveDownAction(self):
         """
         Getter method.
 
         return : The move down action of this project.
         """
-        return self.__move_down_action
+        return self.__moveDownAction
 
 
     def setModel(self, model):
@@ -249,15 +249,15 @@ class ProjectView(qtw.QTreeView):
         """
         qtw.QTreeView.setModel(self,model)
         if self.__model:
-            self.__model.modelReset.disconnect(self.__model_reset_)
-            self.__model.destroyed.disconnect(self.__model_destroyed_)
-            self.__model.dataChanged.disconnect(self.__model_data_changed_)
-        model.modelReset.connect(self.__model_reset_)
-        model.destroyed.connect(self.__model_destroyed_)
-        model.dataChanged.connect(self.__model_data_changed_)
-        self.selectionModel().currentChanged.connect(self.__current_changed_)
+            self.__model.modelReset.disconnect(self.__modelReset_)
+            self.__model.destroyed.disconnect(self.__modelDestroyed_)
+            self.__model.dataChanged.disconnect(self.__modelDataChanged_)
+        model.modelReset.connect(self.__modelReset_)
+        model.destroyed.connect(self.__modelDestroyed_)
+        model.dataChanged.connect(self.__modelDataChanged_)
+        self.selectionModel().currentChanged.connect(self.__currentChanged_)
         self.__model = model
-        self.__update_context_menu_()
+        self.__updateContextMenu_()
 
 
     ####################
@@ -268,19 +268,19 @@ class ProjectView(qtw.QTreeView):
     #
     # Signals that the current index of this project has changed.
     #
-    index_changed = qtc.Signal(qtc.QModelIndex)
+    indexChanged = qtc.Signal(qtc.QModelIndex)
     #
     # Signals that the currently indexed block of this project has moved to a new index.
     #
-    index_moved = qtc.Signal(qtc.QModelIndex)
+    indexMoved = qtc.Signal(qtc.QModelIndex)
     #
     # Signals that the data of this project's current index has changed.
     #
-    index_data_changed = qtc.Signal()
+    indexDataChanged = qtc.Signal()
     #
     # Signals that the this project's current index is about to be removed from its model.
     #
-    index_removed = qtc.Signal()
+    indexRemoved = qtc.Signal()
 
 
     #####################
@@ -288,72 +288,72 @@ class ProjectView(qtw.QTreeView):
     #####################
 
 
-    def __update_insert_(self, option):
+    def __updateInsert_(self, option):
         """
         Updates this project's insert option to the one given, setting all insert actions checked
         states appropriately.
 
         option : The new insert option set for this project.
         """
-        self.__insert_before_action.setChecked(option == self.__BEFORE)
-        self.__insert_into_action.setChecked(option == self.__INTO)
-        self.__insert_after_action.setChecked(option == self.__AFTER)
+        self.__insertBeforeAction.setChecked(option == self.__BEFORE)
+        self.__insertIntoAction.setChecked(option == self.__INTO)
+        self.__insertAfterAction.setChecked(option == self.__AFTER)
         self.__insert = option
-        self.__update_context_menu_()
+        self.__updateContextMenu_()
 
 
-    def __update_context_menu_(self):
+    def __updateContextMenu_(self):
         """
         Updates this project's context menu with the new selection state of its model. Updating
         includes enabling or disabling appropriate actions and rebuilding the add block menu.
         """
-        self.__update_actions_()
-        self.__add_menu.clear()
-        for action in self.__add_actions:
-            self.__add_menu.addAction(action)
-        self.__add_menu.setDisabled(self.__add_menu.isEmpty())
+        self.__updateActions_()
+        self.__addMenu.clear()
+        for action in self.__addActions:
+            self.__addMenu.addAction(action)
+        self.__addMenu.setDisabled(self.__addMenu.isEmpty())
 
 
-    def __update_actions_(self):
+    def __updateActions_(self):
         """
         Updates this project's actions. Updating includes rebuilding its add block actions and
         enabling or disabling appropriate actions based off its selection model state.
         """
-        self.__update_add_actions_()
+        self.__updateAddActions_()
         selection_model = self.selectionModel()
         selected = False if selection_model is None else selection_model.currentIndex().isValid()
-        self.__remove_action.setDisabled(not selected)
-        self.__cut_action.setDisabled(not selected)
-        self.__copy_action.setDisabled(not selected)
-        self.__paste_action.setDisabled(not self.__can_paste_())
-        self.__move_up_action.setDisabled(not selected)
-        self.__move_down_action.setDisabled(not selected)
+        self.__removeAction.setDisabled(not selected)
+        self.__cutAction.setDisabled(not selected)
+        self.__copyAction.setDisabled(not selected)
+        self.__pasteAction.setDisabled(not self.__canPaste_())
+        self.__moveUpAction.setDisabled(not selected)
+        self.__moveDownAction.setDisabled(not selected)
 
 
-    def __update_add_actions_(self):
+    def __updateAddActions_(self):
         """
         Update this project's add actions list. Updating involves clearing the current list and
         building it again based off this project's selection model's current index.
         """
-        while self.__add_actions:
-            self.__add_actions.pop().deleteLater()
+        while self.__addActions:
+            self.__addActions.pop().deleteLater()
         if self.__model is None:
             return
-        (row,index) = self.__insert_values_()
+        (row,index) = self.__insertValues_()
         if index is None:
             return
-        build_list = self.__model.data(index,model.Role.BUILD_LIST)
-        if build_list is not None:
-            for block_type in build_list:
+        block_list = self.__model.data(index,model.Role.BUILD_LIST)
+        if block_list is not None:
+            for block_type in block_list:
                 action = qtw.QAction(block_type,self)
                 action.setIcon(
-                    block.BlockFactory().create(self.__model.lang_name(),block_type).icon()
+                    block.BlockFactory().create(self.__model.langName(),block_type).icon()
                 )
                 action.triggered.connect(lambda checked=False, name=block_type : self.__add_(name))
-                self.__add_actions.append(action)
+                self.__addActions.append(action)
 
 
-    def __can_paste_(self):
+    def __canPaste_(self):
         """
         Getter method.
 
@@ -361,21 +361,21 @@ class ProjectView(qtw.QTreeView):
                  the current index with the current insertion type. False if no copied block can be
                  pasted.
         """
-        if self.__model is None or not self.__model or ProjectView.__xml_blocks is None:
+        if self.__model is None or not self.__model or ProjectView.__xmlBlocks is None:
             return False
-        (row,parent) = self.__insert_values_()
+        (row,parent) = self.__insertValues_()
         if parent is None:
             return False
         #
         # If there is not a single global copied block type that is in the build list of the parent
         # index then return false.
         #
-        if not ProjectView.__block_types_set & set(self.__model.data(parent,model.Role.BUILD_LIST)):
+        if not ProjectView.__blockTypeSet & set(self.__model.data(parent,model.Role.BUILD_LIST)):
             return False
         return True
 
 
-    def __insert_values_(self):
+    def __insertValues_(self):
         """
         Getter method.
 
@@ -402,14 +402,14 @@ class ProjectView(qtw.QTreeView):
         return (row,parent)
 
 
-    def __setup_actions_(self):
+    def __setupActions_(self):
         """
         Initialize the qt actions of this new project view.
         """
         #
         # Undo action.
         #
-        action = self.__undo_action
+        action = self.__undoAction
         action.setIcon(qtg.QIcon.fromTheme("edit-undo"))
         action.setStatusTip("Undo the previous action.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Undo))
@@ -418,7 +418,7 @@ class ProjectView(qtw.QTreeView):
         #
         # Redo action.
         #
-        action = self.__redo_action
+        action = self.__redoAction
         action.setIcon(qtg.QIcon.fromTheme("edit-redo"))
         action.setStatusTip("Redo the previous undone action.")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Redo))
@@ -427,7 +427,7 @@ class ProjectView(qtw.QTreeView):
         #
         # Remove action.
         #
-        action = self.__remove_action
+        action = self.__removeAction
         action.setIcon(qtg.QIcon.fromTheme("list-remove"))
         action.setStatusTip("Remove selected block(s).")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Delete))
@@ -436,7 +436,7 @@ class ProjectView(qtw.QTreeView):
         #
         # Cut action.
         #
-        action = self.__cut_action
+        action = self.__cutAction
         action.setIcon(qtg.QIcon.fromTheme("edit-cut"))
         action.setStatusTip("Cut selected block(s).")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Cut))
@@ -445,7 +445,7 @@ class ProjectView(qtw.QTreeView):
         #
         # Copy action.
         #
-        action = self.__copy_action
+        action = self.__copyAction
         action.setIcon(qtg.QIcon.fromTheme("edit-copy"))
         action.setStatusTip("Copy selected block(s).")
         action.setShortcut(qtg.QKeySequence(qtg.QKeySequence.Copy))
@@ -454,7 +454,7 @@ class ProjectView(qtw.QTreeView):
         #
         # Paste action.
         #
-        action = self.__paste_action
+        action = self.__pasteAction
         action.setIcon(qtg.QIcon.fromTheme("edit-paste"))
         action.setStatusTip(
             "Paste before/into/after the current block, depending on the addition menu selection."
@@ -465,70 +465,70 @@ class ProjectView(qtw.QTreeView):
         #
         # Move up action.
         #
-        action = self.__move_up_action
+        action = self.__moveUpAction
         action.setIcon(qtg.QIcon.fromTheme("go-up"))
         action.setStatusTip("Move current block up by one.")
         action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_Up))
-        action.triggered.connect(self.__move_up_)
+        action.triggered.connect(self.__moveUp_)
         self.addAction(action)
         #
         # Move down action.
         #
-        action = self.__move_down_action
+        action = self.__moveDownAction
         action.setIcon(qtg.QIcon.fromTheme("go-down"))
         action.setStatusTip("Move current block down by one.")
         action.setShortcut(qtg.QKeySequence(qtc.Qt.CTRL + qtc.Qt.Key_Down))
-        action.triggered.connect(self.__move_down_)
+        action.triggered.connect(self.__moveDown_)
         self.addAction(action)
         #
         # Insert before action.
         #
-        action = self.__insert_before_action
+        action = self.__insertBeforeAction
         action.setStatusTip("Add or paste blocks before the current block.")
         action.setCheckable(True)
         action.setChecked(self.__insert == self.__BEFORE)
-        action.triggered.connect(self.__insert_before_)
+        action.triggered.connect(self.__insertBefore_)
         #
         # Insert into action.
         #
-        action = self.__insert_into_action
+        action = self.__insertIntoAction
         action.setStatusTip("Add or paste blocks into the current block.")
         action.setCheckable(True)
         action.setChecked(self.__insert == self.__INTO)
-        action.triggered.connect(self.__insert_into_)
+        action.triggered.connect(self.__insertInto_)
         #
         # Insert after action.
         #
-        action = self.__insert_after_action
+        action = self.__insertAfterAction
         action.setStatusTip("Add or paste blocks after the current block.")
         action.setCheckable(True)
         action.setChecked(self.__insert == self.__AFTER)
-        action.triggered.connect(self.__insert_after_)
+        action.triggered.connect(self.__insertAfter_)
 
 
-    def __setup_context_menu_(self):
+    def __setupContextMenu_(self):
         """
         Initializes the context menu of this new project view.
         """
-        menu = self.__context_menu
-        menu.addAction(self.__undo_action)
-        menu.addAction(self.__redo_action)
+        menu = self.__contextMenu
+        menu.addAction(self.__undoAction)
+        menu.addAction(self.__redoAction)
         menu.addSeparator()
-        menu.addMenu(self.__add_menu)
-        menu.addAction(self.__remove_action)
+        menu.addMenu(self.__addMenu)
+        menu.addAction(self.__removeAction)
         menu.addSeparator()
-        menu.addAction(self.__cut_action)
-        menu.addAction(self.__copy_action)
-        menu.addAction(self.__paste_action)
+        menu.addAction(self.__cutAction)
+        menu.addAction(self.__copyAction)
+        menu.addAction(self.__pasteAction)
         menu.addSeparator()
-        menu.addAction(self.__move_up_action)
-        menu.addAction(self.__move_down_action)
+        menu.addAction(self.__moveUpAction)
+        menu.addAction(self.__moveDownAction)
         menu.addSeparator()
         insertMenu = menu.addMenu("Insert")
-        insertMenu.addAction(self.__insert_before_action)
-        insertMenu.addAction(self.__insert_into_action)
-        insertMenu.addAction(self.__insert_after_action)
-        self.__update_context_menu_()
+        insertMenu.addAction(self.__insertBeforeAction)
+        insertMenu.addAction(self.__insertIntoAction)
+        insertMenu.addAction(self.__insertAfterAction)
+        self.__updateContextMenu_()
 
 
     ###################
@@ -537,7 +537,7 @@ class ProjectView(qtw.QTreeView):
 
 
     @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex)
-    def __current_changed_(self, current, previous):
+    def __currentChanged_(self, current, previous):
         """
         Called to inform this project that its selection model's current index has changed to the
         one given from the previous one given.
@@ -546,55 +546,55 @@ class ProjectView(qtw.QTreeView):
 
         previous : The previous index of this project's selection model.
         """
-        self.__update_context_menu_()
-        self.index_changed.emit(current)
+        self.__updateContextMenu_()
+        self.indexChanged.emit(current)
 
 
     @qtc.Slot()
-    def __model_reset_(self):
+    def __modelReset_(self):
         """
         Called to inform this project that its model has reset itself.
         """
-        self.__update_context_menu_()
-        self.index_changed.emit(qtc.QModelIndex())
+        self.__updateContextMenu_()
+        self.indexChanged.emit(qtc.QModelIndex())
 
 
     @qtc.Slot()
-    def __model_destroyed_(self):
+    def __modelDestroyed_(self):
         """
         Called to inform this project that its model has been destroyed.
         """
         self.__model = None
-        self.__update_context_menu_()
-        self.index_changed.emit(qtc.QModelIndex())
+        self.__updateContextMenu_()
+        self.indexChanged.emit(qtc.QModelIndex())
 
 
     @qtc.Slot(qtc.QModelIndex,qtc.QModelIndex,list)
-    def __model_data_changed_(self, top_left, bottom_right, roles):
+    def __modelDataChanged_(self, topLeft, bottomRight, roles):
         """
         Called to inform this project that data has changed for the range of indexes from the given
         top left to the given bottom right with the given roles.
 
-        top_left : The top left index in the range of indexes that has changed.
+        topLeft : The top left index in the range of indexes that has changed.
 
-        bottom_right : The bottom right index in the range of indexes that has changed.
+        bottomRight : The bottom right index in the range of indexes that has changed.
 
         roles : List of qt data roles that have changed in the given indexes.
         """
-        if top_left == self.selectionModel().currentIndex():
-            self.index_data_changed.emit()
-            self.__update_context_menu_()
+        if topLeft == self.selectionModel().currentIndex():
+            self.indexDataChanged.emit()
+            self.__updateContextMenu_()
 
 
     @qtc.Slot(qtc.QPoint)
-    def __context_menu_requested_(self, position):
+    def __contextMenuRequested_(self, position):
         """
         Called to inform this project that its context menu has been requested by the GUI at the
         given relative point.
 
         position : The point where the context menu is requested relative to this project's widget.
         """
-        self.__context_menu.exec_(self.mapToGlobal(position))
+        self.__contextMenu.exec_(self.mapToGlobal(position))
 
 
     @qtc.Slot()
@@ -604,7 +604,7 @@ class ProjectView(qtw.QTreeView):
         """
         if self.__model is not None:
             self.__model.undo()
-            self.__update_context_menu_()
+            self.__updateContextMenu_()
 
 
     @qtc.Slot()
@@ -614,21 +614,21 @@ class ProjectView(qtw.QTreeView):
         """
         if self.__model is not None:
             self.__model.redo()
-            self.__update_context_menu_()
+            self.__updateContextMenu_()
 
 
     @qtc.Slot(str)
-    def __add_(self, block_type):
+    def __add_(self, blockType):
         """
         Called to add a newly created block to this project's model at its current index using its
         selected insert option.
 
-        block_type : The block type that is created and added to this project's model.
+        blockType : The block type that is created and added to this project's model.
         """
-        (row,parent) = self.__insert_values_()
+        (row,parent) = self.__insertValues_()
         if parent is None:
             return
-        self.__model.insertRows(row,(block_type,),parent)
+        self.__model.insertRows(row,(blockType,),parent)
         #
         # This partially fixes a strange PySide2 bug. It happens sometimes after creating a new
         # project and trying to add a new block.
@@ -649,7 +649,7 @@ class ProjectView(qtw.QTreeView):
             while self.selectionModel().hasSelection():
                 index = self.selectionModel().selectedIndexes()[0]
                 if index == self.selectionModel().currentIndex():
-                    self.index_removed.emit()
+                    self.indexRemoved.emit()
                 parent = index.parent()
                 self.__model.removeRow(index.row(),parent)
 
@@ -674,12 +674,12 @@ class ProjectView(qtw.QTreeView):
             if not indexes:
                 return
             (
-                ProjectView.__xml_blocks
-                ,ProjectView.__block_types_set
+                ProjectView.__xmlBlocks
+                ,ProjectView.__blockTypeSet
             ) = (
-                self.__model.copy_to_xml(indexes)
+                self.__model.copyToXml(indexes)
             )
-            self.__update_actions_()
+            self.__updateActions_()
 
 
     @qtc.Slot()
@@ -688,56 +688,56 @@ class ProjectView(qtw.QTreeView):
         Called to paste any globally copied blocks into this project's model at the current index
         using its selected insert option.
         """
-        if self.__model is None or ProjectView.__xml_blocks is None:
+        if self.__model is None or ProjectView.__xmlBlocks is None:
             return
-        (row,parent) = self.__insert_values_()
+        (row,parent) = self.__insertValues_()
         if parent is None:
             return
-        self.__model.insert_from_xml(row,ProjectView.__xml_blocks,parent)
+        self.__model.insertFromXml(row,ProjectView.__xmlBlocks,parent)
 
 
     @qtc.Slot()
-    def __move_up_(self):
+    def __moveUp_(self):
         """
         Called to move the current index of this project's selection model up by one in its model.
         """
         if self.__model is not None:
-            self.__model.move_row(-1,self.selectionModel().currentIndex())
-            self.index_moved.emit(self.selectionModel().currentIndex())
+            self.__model.moveRow(-1,self.selectionModel().currentIndex())
+            self.indexMoved.emit(self.selectionModel().currentIndex())
 
 
     @qtc.Slot()
-    def __move_down_(self):
+    def __moveDown_(self):
         """
         Called to move the current index of this project's selection model down by one in its model.
         """
         if self.__model is not None:
-            self.__model.move_row(1,self.selectionModel().currentIndex())
-            self.index_moved.emit(self.selectionModel().currentIndex())
+            self.__model.moveRow(1,self.selectionModel().currentIndex())
+            self.indexMoved.emit(self.selectionModel().currentIndex())
 
 
     @qtc.Slot()
-    def __insert_before_(self):
+    def __insertBefore_(self):
         """
         Called to set this project's insert option to "before".
         """
-        self.__update_insert_(self.__BEFORE)
+        self.__updateInsert_(self.__BEFORE)
 
 
     @qtc.Slot()
-    def __insert_into_(self):
+    def __insertInto_(self):
         """
         Called to set this project's insert option to "into".
         """
-        self.__update_insert_(self.__INTO)
+        self.__updateInsert_(self.__INTO)
 
 
     @qtc.Slot()
-    def __insert_after_(self):
+    def __insertAfter_(self):
         """
         Called to set this project's insert option to "after".
         """
-        self.__update_insert_(self.__AFTER)
+        self.__updateInsert_(self.__AFTER)
 
 
     ############################
@@ -749,13 +749,13 @@ class ProjectView(qtw.QTreeView):
     # Global XML byte array that stored the data of copied blocks, if any. If no blocks have been
     # copied then this is none.
     #
-    __xml_blocks = None
+    __xmlBlocks = None
     #
     # Global set that stores all unique block types that have been copied to the global XML data. If
     # no blocks have been copied then this is none. This is used to determine if the paste action
     # can be enabled.
     #
-    __block_types_set = None
+    __blockTypeSet = None
 
 
     #######################

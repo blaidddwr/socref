@@ -53,7 +53,7 @@ class Parser(abstract.AbstractParser):
     #######################
 
 
-    def _build_path_list_(self):
+    def _buildPathList_(self):
         """
         Implements the socref.abstract.AbstractParser interface.
         """
@@ -138,11 +138,11 @@ class Parser(abstract.AbstractParser):
             if child._TYPE_ == "Namespace":
                 end = "" if child.is_hidden() else child._p_name.lower()
                 if end:
-                    self._add_path_(child,scope + child._p_name.lower() + ".h")
+                    self._addPath_(child,scope + child._p_name.lower() + ".h")
                     if child.has_functions():
-                        self._add_path_(child,scope + child._p_name.lower() + ".cpp")
+                        self._addPath_(child,scope + child._p_name.lower() + ".cpp")
                 self.__build_paths_(child,scope + end)
             elif child._TYPE_ == "Class":
-                self._add_path_(child,scope + child._p_name.lower() + ".h")
+                self._addPath_(child,scope + child._p_name.lower() + ".h")
                 if not child.has_templates():
-                    self._add_path_(child,scope + child._p_name.lower() + ".cpp")
+                    self._addPath_(child,scope + child._p_name.lower() + ".cpp")

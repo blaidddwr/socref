@@ -42,19 +42,19 @@ class Descriptor(package.Package):
     ####################
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Package.set_default_properties(self)
+        package.Package.setDefaultProperties(self)
         self._p_descriptors = ""
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Package.clear_properties(self)
+        package.Package.clearProperties(self)
         self._p_descriptors = ""
 
 
@@ -196,7 +196,7 @@ class Function(Descriptor):
             return qtg.QIcon(":/python/function.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -209,7 +209,7 @@ class Function(Descriptor):
         return ret
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -218,7 +218,7 @@ class Function(Descriptor):
         self.__check_flags_()
         return_ = ut.richText(2,"Return",html.escape(self._p_return_description))
         return (
-            package.Package.display_view(self)
+            package.Package.displayView(self)
             + self.__arguments_view_()
             + return_
             + self.__flags_view_()
@@ -226,7 +226,7 @@ class Function(Descriptor):
         )
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -235,13 +235,13 @@ class Function(Descriptor):
         return ("Object",)
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = package.Package.edit_definitions(self)
+        ret = package.Package.editDefinitions(self)
         ret.append(ut.textEdit("Return:","_p_return_description",speller=True))
         if self.is_method():
             ret.append(ut.checkboxEdit("Static","_p_static"))
@@ -254,11 +254,11 @@ class Function(Descriptor):
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        Descriptor.set_default_properties(self)
+        Descriptor.setDefaultProperties(self)
         self._p_name = "function"
         self._p_return_description = ""
         self._p_inlines = ""
@@ -266,11 +266,11 @@ class Function(Descriptor):
         self._p_abstract = "0"
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        Descriptor.clear_properties(self)
+        Descriptor.clearProperties(self)
         self._p_return_description = ""
         self._p_inlines = ""
         self._p_static = "0"

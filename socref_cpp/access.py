@@ -81,7 +81,7 @@ class Access(abstract.AbstractBlock):
             return qtg.QIcon(":/cpp/private.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -90,7 +90,7 @@ class Access(abstract.AbstractBlock):
         return self._p_name + " (%i)" % len(self)
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -102,7 +102,7 @@ class Access(abstract.AbstractBlock):
         )
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -111,7 +111,7 @@ class Access(abstract.AbstractBlock):
         return ("Variable","Function","Class","Union")
 
 
-    def is_volatile_above(self):
+    def isVolatileAbove(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -120,7 +120,7 @@ class Access(abstract.AbstractBlock):
         return True
 
 
-    def is_volatile_below(self):
+    def isVolatileBelow(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -129,7 +129,7 @@ class Access(abstract.AbstractBlock):
         return True
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -146,7 +146,7 @@ class Access(abstract.AbstractBlock):
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -155,7 +155,7 @@ class Access(abstract.AbstractBlock):
         self._p_enclosure = ""
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """

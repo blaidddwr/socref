@@ -51,7 +51,7 @@ class Template(namespace.Base):
         return qtg.QIcon(":/cpp/template.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -60,7 +60,7 @@ class Template(namespace.Base):
         return self._p_name
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -68,7 +68,7 @@ class Template(namespace.Base):
         """
         type_ = ut.rich_text(2,"Type",html.escape(self._p_type))
         assignment = ut.rich_text(2,"Assignment",html.escape(self._p_assignment))
-        return namespace.Base.display_view(self) + type_ + assignment
+        return namespace.Base.displayView(self) + type_ + assignment
 
 
     def argument_view(self):
@@ -86,7 +86,7 @@ class Template(namespace.Base):
         return ret
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -95,7 +95,7 @@ class Template(namespace.Base):
         return ()
 
 
-    def is_volatile_above(self):
+    def isVolatileAbove(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -104,33 +104,33 @@ class Template(namespace.Base):
         return True
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = namespace.Base.edit_definitions(self)
+        ret = namespace.Base.editDefinitions(self)
         ret.append(ut.lineEdit("Type:","_p_type"))
         ret.append(ut.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.set_default_properties(self)
+        namespace.Base.setDefaultProperties(self)
         self._p_name = "Template"
         self._p_type = "class @"
         self._p_assignment = ""
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        namespace.Base.clear_properties(self)
+        namespace.Base.clearProperties(self)
         self._p_name = ""
         self._p_type = ""
         self._p_assignment = ""

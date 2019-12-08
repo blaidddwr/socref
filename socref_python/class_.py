@@ -67,7 +67,7 @@ class Class(function.Descriptor):
             return qtg.QIcon(":/python/class.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -76,7 +76,7 @@ class Class(function.Descriptor):
         return self._p_name + self._descriptors_name_()
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -87,10 +87,10 @@ class Class(function.Descriptor):
             ,"Parents"
             ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
         )
-        return package.Package.display_view(self) + parents + self._descriptors_view_()
+        return package.Package.displayView(self) + parents + self._descriptors_view_()
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -99,32 +99,32 @@ class Class(function.Descriptor):
         return ("Access",)
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = package.Package.edit_definitions(self)
+        ret = package.Package.editDefinitions(self)
         ret.append(ut.textEdit("Parents:","_p_parents"))
         ret.append(self._descriptors_edit_definition_())
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        function.Descriptor.set_default_properties(self)
+        function.Descriptor.setDefaultProperties(self)
         self._p_name = "class"
         self._p_parents = ""
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        function.Descriptor.clear_properties(self)
+        function.Descriptor.clearProperties(self)
         self._p_parents = ""
 
 

@@ -41,7 +41,7 @@ class Base(abstract.AbstractBlock):
     ####################
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -50,7 +50,7 @@ class Base(abstract.AbstractBlock):
         return self._p_name
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -59,7 +59,7 @@ class Base(abstract.AbstractBlock):
         return ut.richTextBlocks(1,"Description",html.escape(self._p_description))
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -71,14 +71,14 @@ class Base(abstract.AbstractBlock):
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_description = "Detailed Description."
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
@@ -153,7 +153,7 @@ class Namespace(Base):
             return qtg.QIcon(":/cpp/namespace.svg")
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -162,31 +162,31 @@ class Namespace(Base):
         return ("Namespace","Enumeration","Variable","Function","Class","Union")
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = Base.edit_definitions(self)
+        ret = Base.editDefinitions(self)
         ret.append(ut.checkboxEdit("Hidden","_p_hidden"))
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        Base.set_default_properties(self)
+        Base.setDefaultProperties(self)
         self._p_name = "namespace"
         self._p_hidden = "0"
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        Base.clear_properties(self)
+        Base.clearProperties(self)
         self._p_hidden = "0"
 
 

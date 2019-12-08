@@ -166,7 +166,7 @@ class Parser(abstract.AbstractParser):
     #######################
 
 
-    def _build_path_list_(self):
+    def _buildPathList_(self):
         """
         Implements the socref.abstract.AbstractParser interface.
         """
@@ -229,10 +229,10 @@ class Parser(abstract.AbstractParser):
         """
         for block in parent:
             if block.dir_name() is not None:
-                self._add_path_(block,os.path.join(path,block.dir_name(),"__init__.py"))
+                self._addPath_(block,os.path.join(path,block.dir_name(),"__init__.py"))
                 self.__build_paths_(block,os.path.join(path,block.dir_name()))
             elif block.file_name() is not None:
-                self._add_path_(block,os.path.join(path,block.file_name()))
+                self._addPath_(block,os.path.join(path,block.file_name()))
 
 
     def __scan_header_(self, ifile):

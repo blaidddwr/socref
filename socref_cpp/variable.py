@@ -110,7 +110,7 @@ class Variable(template.Template):
             return qtg.QIcon(":/cpp/variable.svg")
 
 
-    def display_name(self):
+    def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -128,17 +128,17 @@ class Variable(template.Template):
         return base + flags
 
 
-    def display_view(self):
+    def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         self.__check_flags_()
-        return template.Block.display_view(self) + self.__flags_view_()
+        return template.Block.displayView(self) + self.__flags_view_()
 
 
-    def build_list(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -147,7 +147,7 @@ class Variable(template.Template):
         return ()
 
 
-    def is_volatile_above(self):
+    def isVolatileAbove(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
@@ -156,13 +156,13 @@ class Variable(template.Template):
         return self.is_argument()
 
 
-    def edit_definitions(self):
+    def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = template.Block.edit_definitions(self)
+        ret = template.Block.editDefinitions(self)
         if not self.is_argument():
             ret.append(ut.checkboxEdit("Constant Expression","_p_constexpr"))
             ret.append(ut.checkboxEdit("Thread Local","_p_thread_local"))
@@ -178,11 +178,11 @@ class Variable(template.Template):
         return ret
 
 
-    def set_default_properties(self):
+    def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        template.Template.set_default_properties(self)
+        template.Template.setDefaultProperties(self)
         self._p_name = "variable"
         self._p_type = "int @"
         self._p_constexpr = "0"
@@ -191,11 +191,11 @@ class Variable(template.Template):
         self._p_thread_local = "0"
 
 
-    def clear_properties(self):
+    def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        template.Template.clear_properties(self)
+        template.Template.clearProperties(self)
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
