@@ -3339,6 +3339,30 @@ Exit action.
             <__p_name>socref_cpp</__p_name>
             <__p_description>Contains the C++ language definition for Socrates' Reference.</__p_description>
             <Module>
+                <__p_name>settings</__p_name>
+                <__p_description>Detailed description.</__p_description>
+                <Object>
+                    <__p_name>COLUMNS</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_assignment>100</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>INDENT</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_assignment>4</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>H1LINES</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_assignment>4</__p_assignment>
+                </Object>
+                <Object>
+                    <__p_name>H2LINES</__p_name>
+                    <__p_description>Detailed description.</__p_description>
+                    <__p_assignment>2</__p_assignment>
+                </Object>
+            </Module>
+            <Module>
                 <__p_name>namespace</__p_name>
                 <__p_description>Contains the namespace block definition and generic base block.</__p_description>
                 <Class>
@@ -3396,8 +3420,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++ namespace. It is the root block type of a C++ project.</__p_description>
-                    <__p_parents>Base</__p_parents>
                     <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <__p_parents>Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3474,8 +3498,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3552,8 +3576,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration value.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Enumeration Value&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3616,8 +3640,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++ template.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3692,6 +3716,22 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>build_comment</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>build_argument</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                     </Access>
                 </Class>
             </Module>
@@ -3701,8 +3741,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
-                    <__p_parents>template.Block</__p_parents>
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <__p_parents>template.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -3812,6 +3852,30 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>build_declaration</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>build_definition</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -3863,6 +3927,18 @@ Exit action.
                             <__p_name>has_templates</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this block has any templates or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>template_declaration</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>template_scope</__p_name>
+                            <__p_description>Detailed description.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4056,10 +4132,30 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>build_declaration</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__name_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                         <Function>
                             <__p_name>__check_flags_</__p_name>
                             <__p_description>Sets this function's flags to legal values if it is not a method.</__p_description>
@@ -4119,6 +4215,12 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>is_virtual</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -4147,6 +4249,13 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>is_volatile_below</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -4165,6 +4274,74 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>build_header</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>build_source</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>build_declaration</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>build_definitions</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>build_header_definitions</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__build_header_guard_</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
                     </Access>
                 </Class>
             </Module>
@@ -4174,8 +4351,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++ class.</__p_description>
-                    <__p_parents>abstract.Block</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <__p_parents>abstract.Block</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -4193,6 +4370,12 @@ Exit action.
                             <__p_name>has_abstract</__p_name>
                             <__p_description>Getter method.</__p_description>
                             <__p_return_description>True if this access block contains abstract methods or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>has_virtual</__p_name>
+                            <__p_description>Detailed description.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4232,6 +4415,13 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>is_volatile_below</__p_name>
+                            <__p_description>Implements the socref.abstract.Block interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>edit_definitions</__p_name>
                             <__p_description>Implements the socref.abstract.Block interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -4250,6 +4440,34 @@ Exit action.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
+                        <Function>
+                            <__p_name>build_header</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>build_header_definitions</__p_name>
+                            <__p_description>Detailed description.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>Detailed description.</__p_description>
+                            </Object>
+                        </Function>
                     </Access>
                 </Class>
             </Module>
@@ -4259,8 +4477,8 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++ union.</__p_description>
-                    <__p_parents>namespace.Base</__p_parents>
                     <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
+                    <__p_parents>namespace.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5159,7 +5377,7 @@ Exit action.
                 <Class>
                     <__p_name>Block</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.</__p_description>
-                    <__p_parents>abstract.Block</__p_parents>
+                    <__p_parents>namespace.Block</__p_parents>
                     <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
                     <Access>
                         <__p_name>Initialize</__p_name>

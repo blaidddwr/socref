@@ -177,7 +177,7 @@ class Block(Base):
         """
         Implements the socref.abstract.Block interface.
         """
-        super().set_default_properties(self)
+        Base.set_default_properties(self)
         self._p_name = "namespace"
         self._p_hidden = "0"
 

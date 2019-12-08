@@ -5,6 +5,7 @@ import html
 from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
+from . import settings
 from . import template
 
 
@@ -35,7 +36,7 @@ class Block(template.Block):
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
-        self._p_threadlocal = "0"
+        self._p_thread_local = "0"
 
 
     ####################
@@ -76,7 +77,7 @@ class Block(template.Block):
 
         return : True if this variable is thread local or false otherwise.
         """
-        return bool(int(self._p_threadlocal))
+        return bool(int(self._p_thread_local))
 
 
     def is_argument(self):
@@ -117,7 +118,10 @@ class Block(template.Block):
         """
         base = self._p_name
         if self._p_assignment:
-            base += " ="
+            if self.is_argument():
+                base += " ="
+            else:
+                base += " {}"
         flags = self.__flags_()
         if flags:
             flags = " [%s]" % flags
@@ -161,10 +165,10 @@ class Block(template.Block):
         ret = template.Block.edit_definitions(self)
         if not self.is_argument():
             ret.append(ut.checkbox_edit("Constant Expression","_p_constexpr"))
-            ret.append(ut.checkbox_edit("Thread Local","_p_threadlocal"))
+            ret.append(ut.checkbox_edit("Thread Local","_p_thread_local"))
         else:
             ret.append(ut.hidden_edit("_p_constexpr","0"))
-            ret.append(ut.hidden_edit("_p_threadlocal","0"))
+            ret.append(ut.hidden_edit("_p_thread_local","0"))
         if self.in_class():
             ret.append(ut.checkbox_edit("Static","_p_static"))
             ret.append(ut.checkbox_edit("Mutable","_p_mutable"))
@@ -184,7 +188,7 @@ class Block(template.Block):
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
-        self._p_threadlocal = "0"
+        self._p_thread_local = "0"
 
 
     def clear_properties(self):
@@ -195,7 +199,53 @@ class Block(template.Block):
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
-        self._p_threadlocal = "0"
+        self._p_thread_local = "0"
+
+
+    def build_declaration(self, begin, template):
+        """
+        Detailed description.
+
+        begin : Detailed description.
+
+        template : Detailed description.
+        """
+        ret = "\n"*settings.H2LINES
+        ret += (
+            begin
+            + "/*!\n"
+            + ut.wrap_blocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+            + begin
+            + " */\n"
+        )
+        ret += begin
+        if self.is_static():
+            ret += "static "
+        if self.is_constexpr():
+            ret += "constexpr "
+        if self.is_mutable():
+            ret += "mutable "
+        if self.is_thread_local():
+            ret += "thread_local "
+        ret += self._p_type.replace("@",self._p_name)
+        if self._p_assignment and (self.is_constexpr() or not self.is_static()):
+            ret += " {%s}" % self._p_assignment
+        ret += ";\n"
+        return ret
+
+
+    def build_definition(self, scope):
+        """
+        Detailed description.
+
+        scope : Detailed description.
+        """
+        if self._p_assignment and self.is_static() and not self.is_constexpr():
+            if scope:
+                scope += "::"
+            return self._p_type.replace("@",scope+self._p_name) + " {%s};\n"%self._p_assignment
+        else:
+            return ""
 
 
     #####################
@@ -209,7 +259,7 @@ class Block(template.Block):
         """
         if self.is_argument():
             self._p_constexpr = "0"
-            self._p_threadlocal = "0"
+            self._p_thread_local = "0"
         if not self.in_class():
             self._p_static = "0"
             self._p_mutable = "0"

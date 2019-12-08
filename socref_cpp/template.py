@@ -5,6 +5,7 @@ import html
 from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
+from . import settings
 from . import namespace
 
 
@@ -133,3 +134,32 @@ class Block(namespace.Base):
         self._p_name = ""
         self._p_type = ""
         self._p_assignment = ""
+
+
+    def build_comment(self, begin):
+        """
+        Detailed description.
+
+        begin : Detailed description.
+        """
+        header = ""
+        if self._TYPE_ == "Template":
+            header = "@tparam %s : " % self._p_name
+        else:
+            header = "@param %s : " % self._p_name
+        return ut.wrap_text(
+            header + self._p_description
+            ,begin
+            ,begin + " "*len(header)
+            ,settings.COLUMNS
+        )
+
+
+    def build_argument(self):
+        """
+        Detailed description.
+        """
+        ret = self._p_type.replace("@",self._p_name)
+        if self._p_assignment:
+            ret += "=" + self._p_assignment
+        return ret

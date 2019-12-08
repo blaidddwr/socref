@@ -79,7 +79,12 @@ class Parser(abstract.Parser):
 
         return : See interface docs.
         """
-        return ""
+        if path.endswith(".h"):
+            return block.build_header({})
+        elif path.endswith(".cpp"):
+            return block.build_source({})
+        else:
+            raise RuntimeError("Invalid path given for building.")
 
 
     #####################
@@ -115,7 +120,7 @@ class Parser(abstract.Parser):
                     self.__scan_(ifile,scope + match.group(2))
                 match = function_pattern.match(line)
                 if match:
-                    print(scope,match.group(0))
+                    print(scope + match.group(1))
 
 
     def __build_paths_(self, parent, scope):

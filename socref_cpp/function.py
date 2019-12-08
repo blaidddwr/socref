@@ -5,6 +5,7 @@ import html
 from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
+from . import settings
 from . import namespace
 
 
@@ -48,6 +49,34 @@ class Templatee(namespace.Base):
             if child._TYPE_ == "Template":
                 return True
         return False
+
+
+    def template_declaration(self):
+        """
+        Detailed description.
+        """
+        args = []
+        for child in self:
+            if child._TYPE_ == "Template":
+                args.append(child.build_argument())
+        if args:
+            return "template<%s> " % ", ".join(args)
+        else:
+            return ""
+
+
+    def template_scope(self):
+        """
+        Detailed description.
+        """
+        args = []
+        for child in self:
+            if child._TYPE_ == "Template":
+                args.append(child._p_name)
+        if args:
+            return "<%s>" % ",".join(args)
+        else:
+            return ""
 
 
     #######################
@@ -295,7 +324,7 @@ class Block(Templatee):
         flags = self.__flags_()
         if flags:
             flags = " [%s]" % flags
-        ret += "%s(%i)%s" % (self._p_name,len(self),flags)
+        ret += "%s(%i)%s" % (self.__name_(),len(self),flags)
         return ret
 
 
@@ -413,9 +442,55 @@ class Block(Templatee):
         self._p_abstract = "0"
 
 
+    def build_declaration(self, begin, template):
+        """
+        Detailed description.
+
+        begin : Detailed description.
+
+        template : Detailed description.
+        """
+        ret = "\n"*settings.H2LINES
+        ret += begin + "/*!\n"
+        ret += ut.wrap_blocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        args = []
+        for child in self:
+            if child._TYPE_ == "Variable":
+                args.append(child.build_argument())
+                ret += begin + " *\n" + child.build_comment(begin+" * ")
+        if self._p_return_type != "void":
+            header = self._p_return_type + " : "
+            ret += (
+                begin
+                + " *\n"
+                + ut.wrap_text(header + self._p_return_description,begin+" * "," "*len(header),100)
+            )
+        ret += begin + " */\n"
+        ret += begin
+        if not self.is_constructor() and not self.is_destructor():
+            ret += self._p_return_type + " "
+        ret += self.__name_() + "("
+        ret += ", ".join(args) + ")"
+        if template:
+            ret += "\n" + begin + "{\n" + begin + "}\n"
+        else:
+            ret += ";\n"
+        return ret
+
+
     #####################
     # PRIVATE - Methods #
     #####################
+
+
+    def __name_(self):
+        """
+        Detailed description.
+        """
+        if self.is_method():
+            return self._p_name.replace("^",self.parent().parent()._p_name)
+        else:
+            return self._p_name
 
 
     def __check_flags_(self):

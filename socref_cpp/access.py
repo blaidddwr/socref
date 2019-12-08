@@ -6,6 +6,7 @@ from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
 from socref import abstract
+from . import settings
 
 
 
@@ -51,6 +52,17 @@ class Block(abstract.Block):
         for block in self:
             if block._TYPE_ == "Function":
                 if block.is_abstract():
+                    return True
+        return False
+
+
+    def has_virtual(self):
+        """
+        Detailed description.
+        """
+        for block in self:
+            if block._TYPE_ == "Function":
+                if block.is_virtual():
                     return True
         return False
 
@@ -108,6 +120,15 @@ class Block(abstract.Block):
         return True
 
 
+    def is_volatile_below(self):
+        """
+        Implements the socref.abstract.Block interface.
+
+        return : See interface docs.
+        """
+        return True
+
+
     def edit_definitions(self):
         """
         Implements the socref.abstract.Block interface.
@@ -141,3 +162,48 @@ class Block(abstract.Block):
         self._p_name = ""
         self._p_type = "Public"
         self._p_enclosure = ""
+
+
+    def build_header(self, begin, template):
+        """
+        Detailed description.
+
+        begin : Detailed description.
+
+        template : Detailed description.
+        """
+        ret = "\n"*settings.H2LINES
+        header = []
+        footer = []
+        if self._p_enclosure:
+            blocks = self._p_enclosure.split("\n@\n")
+            if blocks:
+                header = [line for line in blocks[0].split("\n") if line]
+            if len(blocks) > 1:
+                footer = [line for line in blocks[1].split("\n") if line]
+        ret += begin + "/* %s */\n"%self._p_name
+        ret += begin + self._p_type.lower() + ":\n"
+        next_begin = begin + " "*settings.INDENT
+        if header:
+            ret += next_begin + "\n".join(header) + "\n"
+        for child in self:
+            ret += child.build_declaration(next_begin,template)
+        if footer:
+            ret += "\n"*settings.H2LINES + next_begin + "\n".join(footer) + "\n"
+        return ret
+
+
+    def build_header_definitions(self, scope, template):
+        """
+        Detailed description.
+
+        scope : Detailed description.
+
+        template : Detailed description.
+        """
+        ret = ""
+        if template:
+            for child in self:
+                if child._TYPE_ == "Variable":
+                    ret += child.build_definition(scope)
+        return ret

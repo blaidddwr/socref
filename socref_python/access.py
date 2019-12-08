@@ -16,7 +16,7 @@ from . import settings
 
 
 @register("Access")
-class Block(abstract.Block):
+class Block(namespace.Block):
     """
     This is the access block class. It implements the Socrates' Reference abstract block class. It
     represents a fictitious access declaration for python classes. Since python does not actually
