@@ -19,7 +19,7 @@ from . import gui_dialog
 
 
 
-class Main(qtw.QMainWindow):
+class MainWindow(qtw.QMainWindow):
     """
     This is the main window class. It is designed as a multiple window application. It is the main
     window of the core application.
@@ -49,10 +49,10 @@ class Main(qtw.QMainWindow):
         Initializes a new main window.
         """
         qtw.QMainWindow.__init__(self)
-        self.__model = model.Project(self)
-        self.__view = gui_view.Project(self)
-        self.__block_view_dock = gui_view.Block_Dock(self)
-        self.__block_edit_dock = gui_edit.Block_Dock(self)
+        self.__model = model.ProjectModel(self)
+        self.__view = gui_view.ProjectView(self)
+        self.__block_view_dock = gui_view.BlockViewDock(self)
+        self.__block_edit_dock = gui_edit.BlockEditDock(self)
         self.__progress_bar = None
         self.__open_action = qtw.QAction("Open",self)
         self.__save_action = qtw.QAction("Save",self)
@@ -74,7 +74,7 @@ class Main(qtw.QMainWindow):
     #
     # Signals this window has started parsing its current project with the given abstract parser.
     #
-    parse_requested = qtc.Signal(abstract.Parser)
+    parse_requested = qtc.Signal(abstract.AbstractParser)
 
 
     #######################
@@ -169,10 +169,10 @@ class Main(qtw.QMainWindow):
         self.__setup_actions_()
         self.__setup_menus_()
         self.__setup_toolbars_()
-        self.parse_requested.connect(model.Parser().start)
-        model.Parser().started.connect(self.__parse_started_)
-        model.Parser().progressed.connect(self.__parse_progressed_)
-        model.Parser().finished.connect(self.__parse_finished_)
+        self.parse_requested.connect(model.ParserModel().start)
+        model.ParserModel().started.connect(self.__parse_started_)
+        model.ParserModel().progressed.connect(self.__parse_progressed_)
+        model.ParserModel().finished.connect(self.__parse_finished_)
         self.__restore_()
         #
         # The status bar is not visible until this method is called so call it here to make it
@@ -245,7 +245,7 @@ class Main(qtw.QMainWindow):
         """
         Populates this window's list of new actions with all available languages.
         """
-        for lang in block.Factory().langs():
+        for lang in block.BlockFactory().langs():
             self.__new_actions.append(qtw.QAction(lang,self))
             self.__new_actions[-1].triggered.connect(
                 lambda checked=False,name=lang : self.__new_(name)
@@ -425,7 +425,7 @@ class Main(qtw.QMainWindow):
         """
         window = self
         if self.__model:
-            window = Main()
+            window = MainWindow()
         window.__model.new(lang_name)
         window.__update_title_()
         window.setWindowModified(False)
@@ -450,7 +450,7 @@ class Main(qtw.QMainWindow):
         path = os.path.abspath(path)
         window = self
         if self.__model:
-            window = Main()
+            window = MainWindow()
         try:
             window.__model.load(path)
         except:
@@ -542,7 +542,7 @@ class Main(qtw.QMainWindow):
         Called to have this window bring up a modal project dialog to edit the basic properties of
         its current project. If this window has no project then this does nothing.
         """
-        gui_dialog.Project(self.__model).exec_()
+        gui_dialog.ProjectDialog(self.__model).exec_()
 
 
     ############################

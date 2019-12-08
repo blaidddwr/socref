@@ -16,7 +16,7 @@ from . import namespace
 
 
 @register("Template")
-class Block(namespace.Base):
+class Template(namespace.Base):
     """
     This is the template block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ template.
@@ -44,7 +44,7 @@ class Block(namespace.Base):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -53,7 +53,7 @@ class Block(namespace.Base):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -62,7 +62,7 @@ class Block(namespace.Base):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -88,7 +88,7 @@ class Block(namespace.Base):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -97,7 +97,7 @@ class Block(namespace.Base):
 
     def is_volatile_above(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -106,19 +106,19 @@ class Block(namespace.Base):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = namespace.Base.edit_definitions(self)
-        ret.append(ut.line_edit("Type:","_p_type"))
-        ret.append(ut.line_edit("Assignment:","_p_assignment"))
+        ret.append(ut.lineEdit("Type:","_p_type"))
+        ret.append(ut.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.set_default_properties(self)
         self._p_name = "Template"
@@ -128,7 +128,7 @@ class Block(namespace.Base):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.clear_properties(self)
         self._p_name = ""
@@ -147,7 +147,7 @@ class Block(namespace.Base):
             header = "@tparam %s : " % self._p_name
         else:
             header = "@param %s : " % self._p_name
-        return ut.wrap_text(
+        return ut.wrapText(
             header + self._p_description
             ,begin
             ,begin + " "*len(header)

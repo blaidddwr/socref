@@ -16,7 +16,7 @@ from . import settings
 
 
 @register("Access")
-class Block(abstract.Block):
+class Access(abstract.AbstractBlock):
     """
     This is the access block class. It implements the Socrates' Reference abstract block class. It
     represents an access declaration for C++ class.
@@ -32,7 +32,7 @@ class Block(abstract.Block):
         """
         Initializes a new access block.
         """
-        abstract.Block.__init__(self)
+        abstract.AbstractBlock.__init__(self)
         self._p_name = ""
         self._p_type = "Public"
         self._p_enclosure = ""
@@ -69,7 +69,7 @@ class Block(abstract.Block):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -83,7 +83,7 @@ class Block(abstract.Block):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -92,7 +92,7 @@ class Block(abstract.Block):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -104,7 +104,7 @@ class Block(abstract.Block):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -113,7 +113,7 @@ class Block(abstract.Block):
 
     def is_volatile_above(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -122,7 +122,7 @@ class Block(abstract.Block):
 
     def is_volatile_below(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -131,24 +131,24 @@ class Block(abstract.Block):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = []
-        ret.append(ut.line_edit("Name:","_p_name"))
-        combo = ut.combobox_edit("Type:","_p_type")
-        ut.add_combo_select(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
-        ut.add_combo_select(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
-        ut.add_combo_select(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))
+        ret.append(ut.lineEdit("Name:","_p_name"))
+        combo = ut.comboEdit("Type:","_p_type")
+        ut.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
+        ut.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
+        ut.addComboSelect(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))
         ret.append(combo)
-        ret.append(ut.text_edit("Enclosure:","_p_enclosure"))
+        ret.append(ut.textEdit("Enclosure:","_p_enclosure"))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = "access"
         self._p_type = "Public"
@@ -157,7 +157,7 @@ class Block(abstract.Block):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = ""
         self._p_type = "Public"

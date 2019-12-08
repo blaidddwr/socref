@@ -58,7 +58,7 @@ class Role(enum.Enum):
 
 
 @utility.Singleton
-class Parser(qtc.QObject):
+class ParserModel(qtc.QObject):
     """
     This is the singleton parser model class. It handles execution of a given abstract parser. A
     slot is provided for starting a new abstract parser. Signals are provided for informing when
@@ -86,7 +86,7 @@ class Parser(qtc.QObject):
     ##################
 
 
-    @qtc.Slot(abstract.Parser)
+    @qtc.Slot(abstract.AbstractParser)
     def start(self, parser):
         """
         Called to start execution of the given abstract parser, returning when execution is
@@ -159,7 +159,7 @@ class Parser(qtc.QObject):
 
 
 
-class Project(qtc.QAbstractItemModel):
+class ProjectModel(qtc.QAbstractItemModel):
     """
     This is the project model class. It implements the qt abstract item model class. It provides
     additional methods above and beyond the basic model methods for added functionality. It provides
@@ -356,7 +356,7 @@ class Project(qtc.QAbstractItemModel):
         """
         block = self.__block_(index)
         if block is not None and role == Role.PROPERTIES:
-            self.__push_(Set(block.properties(),value,index,self))
+            self.__push_(SetCommand(block.properties(),value,index,self))
             return True
         else:
             return False
@@ -380,10 +380,10 @@ class Project(qtc.QAbstractItemModel):
             return False
         blocks = []
         for block_type in block_types:
-            block_ = block.Factory().create(self.__lang_name,block_type)
+            block_ = block.BlockFactory().create(self.__lang_name,block_type)
             block_.set_default_properties()
             blocks.append(block_)
-        self.__push_(Insert(row,blocks,parent,self))
+        self.__push_(InsertCommand(row,blocks,parent,self))
         return True
 
 
@@ -402,7 +402,7 @@ class Project(qtc.QAbstractItemModel):
         parent_block = self.__block_(parent)
         if parent_block is None or row < 0 or count < 0 or (row + count) > len(parent_block):
             return False
-        self.__push_(Remove(row,count,parent,self))
+        self.__push_(RemoveCommand(row,count,parent,self))
         return True
 
 
@@ -487,7 +487,7 @@ class Project(qtc.QAbstractItemModel):
         """
         if self.__root is not None:
             ret = self.__root.parser()
-            if not isinstance(ret,abstract.Parser):
+            if not isinstance(ret,abstract.AbstractParser):
                 raise RuntimeError("Generated parser is not an abstract parser.")
             return ret
 
@@ -506,7 +506,7 @@ class Project(qtc.QAbstractItemModel):
             self.__name = "New Project"
             self.__parse_path = "."
             self.__lang_name = lang_name
-            self.__root = block.Factory().create_root(self.__lang_name)
+            self.__root = block.BlockFactory().create_root(self.__lang_name)
         except:
             self.__name = None
             self.__lang_name = None
@@ -644,7 +644,7 @@ class Project(qtc.QAbstractItemModel):
         to_row = index.row() + change
         if to_row < 0 or to_row >= len(block):
             return False
-        self.__push_(Move(change,index,self))
+        self.__push_(MoveCommand(change,index,self))
         return True
 
 
@@ -706,11 +706,11 @@ class Project(qtc.QAbstractItemModel):
             stream.readNext()
             if stream.isStartElement():
                 name = stream.name()
-                block_ = block.Factory().create(lang_name,name)
+                block_ = block.BlockFactory().create(lang_name,name)
                 block_.set_from_xml(stream)
                 if name in parent_block.build_list():
                     blocks.append(block_)
-        self.__push_(Insert(row,blocks,parent,self))
+        self.__push_(InsertCommand(row,blocks,parent,self))
         return len(blocks)
 
 

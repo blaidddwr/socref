@@ -4,9 +4,10 @@ Contains the access block definition.
 import html
 from PySide2 import QtGui as qtg
 from socref import register
-from socref import utility as util
+from socref import utility as ut
 from socref import abstract
 from . import settings
+from . import package
 
 
 
@@ -16,7 +17,7 @@ from . import settings
 
 
 @register("Access")
-class Block(namespace.Block):
+class Access(package.Package):
     """
     This is the access block class. It implements the Socrates' Reference abstract block class. It
     represents a fictitious access declaration for python classes. Since python does not actually
@@ -35,7 +36,7 @@ class Block(namespace.Block):
         """
         Initializes a new access block.
         """
-        abstract.Block.__init__(self)
+        abstract.AbstractBlock.__init__(self)
         self._p_name = ""
         self._p_type = "Public"
 
@@ -60,7 +61,7 @@ class Block(namespace.Block):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -74,7 +75,7 @@ class Block(namespace.Block):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -83,7 +84,7 @@ class Block(namespace.Block):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -95,7 +96,7 @@ class Block(namespace.Block):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -104,7 +105,7 @@ class Block(namespace.Block):
 
     def is_volatile_above(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -113,23 +114,23 @@ class Block(namespace.Block):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = []
-        ret.append(util.line_edit("Name:","_p_name"))
-        combo = util.combobox_edit("Type:","_p_type")
-        util.add_combo_select(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
-        util.add_combo_select(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
-        util.add_combo_select(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
+        ret.append(ut.lineEdit("Name:","_p_name"))
+        combo = ut.comboEdit("Type:","_p_type")
+        ut.addComboSelect(combo,"Public",icon=qtg.QIcon(":/python/public.svg"))
+        ut.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/python/protected.svg"))
+        ut.addComboSelect(combo,"Private",icon=qtg.QIcon(":/python/private.svg"))
         ret.append(combo)
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = "access"
         self._p_type = "Public"
@@ -137,7 +138,7 @@ class Block(namespace.Block):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = ""
         self._p_type = "Public"
@@ -145,7 +146,7 @@ class Block(namespace.Block):
 
     def space(self, previous):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         previous : See interface docs.
 
@@ -156,7 +157,7 @@ class Block(namespace.Block):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         definition : See interface docs.
 

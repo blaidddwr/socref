@@ -110,7 +110,7 @@ class Command(abc.ABC):
 
 
 
-class Set(Command):
+class SetCommand(Command):
     """
     This is the set command class. It implements the abstract command class. This command sets the
     properties of a given qt model index in the given project model.
@@ -167,7 +167,7 @@ class Set(Command):
 
 
 
-class Remove(Command):
+class RemoveCommand(Command):
     """
     This is the remove command class. It implements the abstract command class. This command removes
     the given count of indexes starting at the given row from the given parent index in the given
@@ -236,10 +236,10 @@ class Remove(Command):
 
 
 
-class Insert(Remove):
+class InsertCommand(RemoveCommand):
     """
     This is the insert command class. It implements the abstract command class. It inherits from the
-    remove class because the insert command is simply the inverse of the remove command and
+    remove command class because the insert command is simply the inverse of the remove command and
     therefore only needs to reverse the undo and redo commands.
     """
 
@@ -291,7 +291,7 @@ class Insert(Remove):
 
 
 
-class Move(Command):
+class MoveCommand(Command):
     """
     This is the move command class. It implements the abstract command class. This command moves the
     given from row to the given to row in the given parent index and project model.

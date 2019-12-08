@@ -16,7 +16,7 @@ from . import gui_dialog
 
 
 
-class Plain_Text(qtw.QPlainTextEdit):
+class PlainTextEdit(qtw.QPlainTextEdit):
     """
     This is the plain text class. It provides additional functionality to its inherit class.
     Misspelled words are highlighted. A shortcut is provided to open a larger text editor dialog
@@ -68,7 +68,7 @@ class Plain_Text(qtw.QPlainTextEdit):
                 self.__highlighter.deleteLater()
                 self.__highlighter = None
         elif self.__highlighter is None:
-            self.__highlighter = gui_util.Spell_Highlighter(settings.DICTIONARY,self.document())
+            self.__highlighter = gui_util.SpellHighlighter(settings.DICTIONARY,self.document())
         self.__speller = enabled
 
 
@@ -99,7 +99,7 @@ class Plain_Text(qtw.QPlainTextEdit):
         Called to open a modal dialog text editor to edit this editor's text.
         """
         if self.__popup:
-            dialog = gui_dialog.Text(self.toPlainText(),self,speller=self.__speller)
+            dialog = gui_dialog.TextDialog(self.toPlainText(),self,speller=self.__speller)
             dialog.setWindowTitle("Text Editor - Socrates' Reference")
             if dialog.exec_():
                 self.setPlainText(dialog.text())
@@ -111,7 +111,7 @@ class Plain_Text(qtw.QPlainTextEdit):
 
 
 
-class Block_Dock(qtw.QDockWidget):
+class BlockEditDock(qtw.QDockWidget):
     """
     This is the block edit dock class. It attaches itself to a project view. It provides a GUI edit
     form to the user for modifying a block's properties.
@@ -251,7 +251,7 @@ class Block_Dock(qtw.QDockWidget):
                  for the given definition and properties. The second is a string label for adding it
                  to a form.
         """
-        edit = Plain_Text(speller=definition.get("speller",False),popup=True)
+        edit = PlainTextEdit(speller=definition.get("speller",False),popup=True)
         edit.setPlainText(properties[definition["key"]])
         edit.textChanged.connect(lambda : self.__apply_button.setEnabled(True))
         edit._value_ = lambda e=edit : e.toPlainText()

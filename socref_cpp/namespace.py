@@ -15,7 +15,7 @@ from . import parser
 
 
 
-class Base(abstract.Block):
+class Base(abstract.AbstractBlock):
     """
     This is the base block class. It implements the Socrates' Reference abstract block class. It is
     a base block class the many other C++ blocks use which contains name and description properties.
@@ -31,7 +31,7 @@ class Base(abstract.Block):
         """
         Initializes a new namespace block.
         """
-        abstract.Block.__init__(self)
+        abstract.AbstractBlock.__init__(self)
         self._p_name = ""
         self._p_description = ""
 
@@ -43,7 +43,7 @@ class Base(abstract.Block):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -52,35 +52,35 @@ class Base(abstract.Block):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        return ut.rich_text_blocks(1,"Description",html.escape(self._p_description))
+        return ut.richTextBlocks(1,"Description",html.escape(self._p_description))
 
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = []
-        ret.append(ut.line_edit("Name:","_p_name"))
-        ret.append(ut.text_edit("Description:","_p_description",speller=True))
+        ret.append(ut.lineEdit("Name:","_p_name"))
+        ret.append(ut.textEdit("Description:","_p_description",speller=True))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_description = "Detailed Description."
 
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = ""
         self._p_description = ""
@@ -93,7 +93,7 @@ class Base(abstract.Block):
 
 
 @register("Namespace",root=True)
-class Block(Base):
+class Namespace(Base):
     """
     This is the namespace block class. It implements the Socrates' Reference abstract block class.
     It represents a C++ namespace. It is the root block type of a C++ project.
@@ -143,7 +143,7 @@ class Block(Base):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -155,7 +155,7 @@ class Block(Base):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -164,18 +164,18 @@ class Block(Base):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = Base.edit_definitions(self)
-        ret.append(ut.checkbox_edit("Hidden","_p_hidden"))
+        ret.append(ut.checkboxEdit("Hidden","_p_hidden"))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         Base.set_default_properties(self)
         self._p_name = "namespace"
@@ -184,7 +184,7 @@ class Block(Base):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         Base.clear_properties(self)
         self._p_hidden = "0"
@@ -192,7 +192,7 @@ class Block(Base):
 
     def parser(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """

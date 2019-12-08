@@ -16,7 +16,7 @@ from . import package
 
 
 
-class Descriptor(package.Block):
+class Descriptor(package.Package):
     """
     This is the descriptor class. It partially implements the Socrates' Reference abstract block
     class. This provides a descriptors property along with utility methods for it. This is meant to
@@ -33,7 +33,7 @@ class Descriptor(package.Block):
         """
         Initializes a new descriptor block.
         """
-        package.Block.__init__(self)
+        package.Package.__init__(self)
         self._p_descriptors = ""
 
 
@@ -44,17 +44,17 @@ class Descriptor(package.Block):
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Block.set_default_properties(self)
+        package.Package.set_default_properties(self)
         self._p_descriptors = ""
 
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Block.clear_properties(self)
+        package.Package.clear_properties(self)
         self._p_descriptors = ""
 
 
@@ -84,7 +84,7 @@ class Descriptor(package.Block):
         return : A rich text string providing detailed information about this block's descriptors.
                  If this block has no descriptors then an empty string is returned.
         """
-        return ut.rich_text(
+        return ut.richText(
             2
             ,"Descriptors"
             ,"".join(
@@ -100,7 +100,7 @@ class Descriptor(package.Block):
 
         return : The edit definition for this block's descriptors property.
         """
-        return ut.text_edit("Descriptors:","_p_descriptors")
+        return ut.textEdit("Descriptors:","_p_descriptors")
 
 
     def _build_descriptors_(self, begin):
@@ -125,7 +125,7 @@ class Descriptor(package.Block):
 
 
 @register("Function")
-class Block(Descriptor):
+class Function(Descriptor):
     """
     This is the function block class. It implements the Socrates' Reference abstract block class. It
     represents a python function.
@@ -182,7 +182,7 @@ class Block(Descriptor):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -198,7 +198,7 @@ class Block(Descriptor):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -211,14 +211,14 @@ class Block(Descriptor):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         self.__check_flags_()
-        return_ = ut.rich_text(2,"Return",html.escape(self._p_return_description))
+        return_ = ut.richText(2,"Return",html.escape(self._p_return_description))
         return (
-            package.Block.display_view(self)
+            package.Package.display_view(self)
             + self.__arguments_view_()
             + return_
             + self.__flags_view_()
@@ -228,7 +228,7 @@ class Block(Descriptor):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -237,26 +237,26 @@ class Block(Descriptor):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = package.Block.edit_definitions(self)
-        ret.append(ut.text_edit("Return:","_p_return_description",speller=True))
+        ret = package.Package.edit_definitions(self)
+        ret.append(ut.textEdit("Return:","_p_return_description",speller=True))
         if self.is_method():
-            ret.append(ut.checkbox_edit("Static","_p_static"))
-            ret.append(ut.checkbox_edit("Abstract","_p_abstract"))
+            ret.append(ut.checkboxEdit("Static","_p_static"))
+            ret.append(ut.checkboxEdit("Abstract","_p_abstract"))
         else:
-            ret.append(ut.hidden_edit("_p_static","0"))
-            ret.append(ut.hidden_edit("_p_abstract","0"))
-        ret.append(ut.text_edit("Inline Comments:","_p_inlines",speller=True))
+            ret.append(ut.hiddenEdit("_p_static","0"))
+            ret.append(ut.hiddenEdit("_p_abstract","0"))
+        ret.append(ut.textEdit("Inline Comments:","_p_inlines",speller=True))
         ret.append(self._descriptors_edit_definition_())
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         Descriptor.set_default_properties(self)
         self._p_name = "function"
@@ -268,7 +268,7 @@ class Block(Descriptor):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         Descriptor.clear_properties(self)
         self._p_return_description = ""
@@ -279,7 +279,7 @@ class Block(Descriptor):
 
     def space(self, previous):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         previous : See interface docs.
 
@@ -298,7 +298,7 @@ class Block(Descriptor):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         definition : See interface docs.
 
@@ -333,7 +333,7 @@ class Block(Descriptor):
         return : Rich text detailed view of all this function's arguments. If this function has no
                  arguments then this returns an empty string.
         """
-        return ut.rich_text(2,"Arguments","".join((arg.argument_view() for arg in self)))
+        return ut.richText(2,"Arguments","".join((arg.argument_view() for arg in self)))
 
 
     def __flags_view_(self):
@@ -348,7 +348,7 @@ class Block(Descriptor):
             flags.append("Static")
         if self.is_abstract():
             flags.append("Abstract")
-        return ut.rich_text_list(2,"Flags",flags)
+        return ut.richTextList(2,"Flags",flags)
 
 
     def __build_header_(self, begin):
@@ -379,7 +379,7 @@ class Block(Descriptor):
         return : A string that is the source code doc string of this function.
         """
         ret = begin + " "*settings.INDENT + '"""\n'
-        ret += ut.wrap_blocks(
+        ret += ut.wrapBlocks(
             self._p_description
             ,begin=begin + " "*settings.INDENT
             ,columns=settings.COLUMNS
@@ -390,7 +390,7 @@ class Block(Descriptor):
             initial = "return : "
             ret += (
                 "\n"
-                + ut.wrap_text(
+                + ut.wrapText(
                     initial + self._p_return_description
                     ,begin=begin + " "*settings.INDENT
                     ,after=" "*len(initial)
@@ -420,7 +420,7 @@ class Block(Descriptor):
             if line.endswith("#"):
                 if inlines:
                     ret += begin + " "*settings.INDENT + line + "\n"
-                    ret += ut.wrap_text(
+                    ret += ut.wrapText(
                         inlines.pop(0)
                         ,begin=begin + " "*settings.INDENT + line + " "
                         ,columns=settings.COLUMNS

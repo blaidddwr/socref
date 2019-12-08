@@ -14,7 +14,7 @@ from . import model
 
 
 
-class Block_Dock(qtw.QDockWidget):
+class BlockViewDock(qtw.QDockWidget):
     """
     This is the block view dock class. It attaches itself to a project view, providing a detailed
     view of the currently indexed block. It connects the appropriate signal to listen for the
@@ -101,7 +101,7 @@ class Block_Dock(qtw.QDockWidget):
 
 
 
-class Project(qtw.QTreeView):
+class ProjectView(qtw.QTreeView):
     """
     This is the project view class. It provides the main tree view for a project model. Actions are
     provided for all basic editing actions done upon this view's model.
@@ -347,7 +347,7 @@ class Project(qtw.QTreeView):
             for block_type in build_list:
                 action = qtw.QAction(block_type,self)
                 action.setIcon(
-                    block.Factory().create(self.__model.lang_name(),block_type).icon()
+                    block.BlockFactory().create(self.__model.lang_name(),block_type).icon()
                 )
                 action.triggered.connect(lambda checked=False, name=block_type : self.__add_(name))
                 self.__add_actions.append(action)
@@ -361,7 +361,7 @@ class Project(qtw.QTreeView):
                  the current index with the current insertion type. False if no copied block can be
                  pasted.
         """
-        if self.__model is None or not self.__model or Project.__xml_blocks is None:
+        if self.__model is None or not self.__model or ProjectView.__xml_blocks is None:
             return False
         (row,parent) = self.__insert_values_()
         if parent is None:
@@ -370,7 +370,7 @@ class Project(qtw.QTreeView):
         # If there is not a single global copied block type that is in the build list of the parent
         # index then return false.
         #
-        if not Project.__block_types_set & set(self.__model.data(parent,model.Role.BUILD_LIST)):
+        if not ProjectView.__block_types_set & set(self.__model.data(parent,model.Role.BUILD_LIST)):
             return False
         return True
 
@@ -673,7 +673,12 @@ class Project(qtw.QTreeView):
             indexes = self.selectionModel().selectedIndexes()
             if not indexes:
                 return
-            (Project.__xml_blocks,Project.__block_types_set) = self.__model.copy_to_xml(indexes)
+            (
+                ProjectView.__xml_blocks
+                ,ProjectView.__block_types_set
+            ) = (
+                self.__model.copy_to_xml(indexes)
+            )
             self.__update_actions_()
 
 
@@ -683,12 +688,12 @@ class Project(qtw.QTreeView):
         Called to paste any globally copied blocks into this project's model at the current index
         using its selected insert option.
         """
-        if self.__model is None or Project.__xml_blocks is None:
+        if self.__model is None or ProjectView.__xml_blocks is None:
             return
         (row,parent) = self.__insert_values_()
         if parent is None:
             return
-        self.__model.insert_from_xml(row,Project.__xml_blocks,parent)
+        self.__model.insert_from_xml(row,ProjectView.__xml_blocks,parent)
 
 
     @qtc.Slot()

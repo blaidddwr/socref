@@ -14,7 +14,7 @@ from . import namespace
 
 
 @register("Enumeration")
-class Block(namespace.Base):
+class Enum(namespace.Base):
     """
     This is the enumeration block class. It implements the Socrates' Reference abstract block class.
     It represents a C++ enumeration.
@@ -50,7 +50,7 @@ class Block(namespace.Base):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -59,7 +59,7 @@ class Block(namespace.Base):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -71,7 +71,7 @@ class Block(namespace.Base):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -81,7 +81,7 @@ class Block(namespace.Base):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -90,18 +90,18 @@ class Block(namespace.Base):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = namespace.Base.edit_definitions(self)
-        ret.append(ut.checkbox_edit("Class","_p_class"))
+        ret.append(ut.checkboxEdit("Class","_p_class"))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.set_default_properties(self)
         self._p_name = "enumeration"
@@ -110,7 +110,7 @@ class Block(namespace.Base):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.clear_properties(self)
         self._p_class = "0"

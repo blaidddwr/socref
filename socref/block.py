@@ -24,9 +24,9 @@ def register(name, root=False):
            language if set to true. Only one block type can be the root of a language.
     """
     def wrapper(class_):
-        Factory().register_block(class_,name)
+        BlockFactory().register_block(class_,name)
         if root:
-            Factory().register_root_block(class_)
+            BlockFactory().register_root_block(class_)
         return class_
     return wrapper
 
@@ -38,7 +38,7 @@ def register(name, root=False):
 
 
 @utility.Singleton
-class Factory():
+class BlockFactory():
     """
     This is the singleton block factory class. It creates new blocks. It loads new languages by
     importing their module and registering their block types during the load process. It provides a
@@ -196,6 +196,6 @@ class Factory():
             raise exception.RegisterError("Block type name cannot start with an underscore.")
         if key in self.__importing_lang.keys():
             raise exception.RegisterError("Block class is already registered with the same name.")
-        if not issubclass(class_,abstract.Block):
+        if not issubclass(class_,abstract.AbstractBlock):
             raise exception.RegisterError("Block class is not an Abstract Block.")
         self.__importing_lang[key] = class_;

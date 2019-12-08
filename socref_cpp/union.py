@@ -15,7 +15,7 @@ from . import namespace
 
 
 @register("Union")
-class Block(namespace.Base):
+class Union(namespace.Base):
     """
     This is the union block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ union.
@@ -41,7 +41,7 @@ class Block(namespace.Base):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -50,7 +50,7 @@ class Block(namespace.Base):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -59,7 +59,7 @@ class Block(namespace.Base):
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.set_default_properties(self)
         self._p_name = "union"

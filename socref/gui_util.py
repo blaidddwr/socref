@@ -16,7 +16,7 @@ from . import settings
 
 
 
-class Spell_Highlighter(qtg.QSyntaxHighlighter):
+class SpellHighlighter(qtg.QSyntaxHighlighter):
     """
     This is the spell highlighter class. It implements the qt syntax highlighter class. It provides
     highlighting of misspelled words in the document the highlighter is given on initialization. It
@@ -78,7 +78,7 @@ class Spell_Highlighter(qtg.QSyntaxHighlighter):
 
 
 
-class Spell_Checker(qtw.QGroupBox):
+class SpellChecker(qtw.QGroupBox):
     """
     This is the spell checker class. It provides a spell checking and correction interface. It uses
     the Hunspell library for all speller functions.

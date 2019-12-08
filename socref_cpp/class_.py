@@ -17,7 +17,7 @@ from . import function
 
 
 @register("Class")
-class Block(function.Templatee):
+class Class(function.Templatee):
     """
     This is the class block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ class.
@@ -66,7 +66,7 @@ class Block(function.Templatee):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -80,7 +80,7 @@ class Block(function.Templatee):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -89,7 +89,7 @@ class Block(function.Templatee):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -98,7 +98,7 @@ class Block(function.Templatee):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -107,7 +107,7 @@ class Block(function.Templatee):
 
     def is_volatile_below(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -116,18 +116,18 @@ class Block(function.Templatee):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = namespace.Base.edit_definitions(self)
-        ret.append(ut.text_edit("Header:","_p_header"))
+        ret.append(ut.textEdit("Header:","_p_header"))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.set_default_properties(self)
         self._p_name = "class"
@@ -136,7 +136,7 @@ class Block(function.Templatee):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.clear_properties(self)
         self._p_header = ""
@@ -191,7 +191,7 @@ class Block(function.Templatee):
         ret += (
             begin
             + "/*!\n"
-            + ut.wrap_blocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+            + ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
             + begin
             + " */\n"
         )

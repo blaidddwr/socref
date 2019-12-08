@@ -16,7 +16,7 @@ from . import gui_edit
 
 
 
-class Text(qtw.QDialog):
+class TextDialog(qtw.QDialog):
     """
     This is the text dialog class. It is a plain text editor with optional spell checking and
     correction. Any misspelled words are highlighted and a button is provided that begins spell
@@ -44,8 +44,8 @@ class Text(qtw.QDialog):
         """
         qtw.QDialog.__init__(self,parent)
         self.__speller = speller
-        self.__text_edit = gui_edit.Plain_Text(text,self,speller=speller,popup=False)
-        self.__speller_box = gui_util.Spell_Checker("Spell Check",settings.DICTIONARY)
+        self.__text_edit = gui_edit.PlainTextEdit(text,self,speller=speller,popup=False)
+        self.__speller_box = gui_util.SpellChecker("Spell Check",settings.DICTIONARY)
         self.__spell_button = qtw.QPushButton("Spell Check",self)
         self.__setup_gui_()
 
@@ -185,7 +185,7 @@ class Text(qtw.QDialog):
 
 
 
-class Project(qtw.QDialog):
+class ProjectDialog(qtw.QDialog):
     """
     This is the project dialog class. It is a basic form dialog that allows the user to edit the
     project name and parse path of the model it is given on initialization. It is a persistent
@@ -359,7 +359,7 @@ class Project(qtw.QDialog):
 
 
 
-class Code(qtw.QDialog):
+class CodeDialog(qtw.QDialog):
     """
     This is the code dialog class. It displays any unknown code fragments given to it. The fragments
     must be organized into a flat dictionary where the key should provide a meaningful identity

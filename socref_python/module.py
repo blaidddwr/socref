@@ -3,7 +3,6 @@ Contains the module block definition.
 """
 from PySide2 import QtGui as qtg
 from socref import register
-from socref import utility as util
 from socref import abstract
 from . import settings
 from . import package
@@ -16,7 +15,7 @@ from . import package
 
 
 @register("Module")
-class Block(package.Block):
+class Module(package.Package):
     """
     This is the module block class. It implements the Socrates' Reference abstract block class. It
     represents a python module.
@@ -32,7 +31,7 @@ class Block(package.Block):
         """
         Initializes a new module block.
         """
-        package.Block.__init__(self)
+        package.Package.__init__(self)
 
 
     ############################
@@ -42,7 +41,7 @@ class Block(package.Block):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -51,7 +50,7 @@ class Block(package.Block):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -60,15 +59,15 @@ class Block(package.Block):
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Block.set_default_properties(self)
+        package.Package.set_default_properties(self)
         self._p_name = "module"
 
 
     def file_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -78,7 +77,7 @@ class Block(package.Block):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         definition : See interface docs.
 
@@ -86,7 +85,7 @@ class Block(package.Block):
 
         return : See interface docs.
         """
-        ret = package.Block.build(self,definition,begin)
+        ret = package.Package.build(self,definition,begin)
         ret += self._build_children_(definition,begin)
         #
         # Add the special main function call if this is the special main module of a package.

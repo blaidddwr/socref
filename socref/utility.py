@@ -7,7 +7,7 @@ import html
 
 
 
-def rich_text_list(size, title, list_):
+def richTextList(size, title, list_):
     """
     Builder function.
 
@@ -24,12 +24,12 @@ def rich_text_list(size, title, list_):
     html_list = "</li><li>".join(list_)
     if html_list:
         html_list = "<ul><li>%s</li></ul>" % html_list
-    return rich_text(size,title,html_list)
+    return richText(size,title,html_list)
 
 
 
 
-def rich_text_blocks(size, title, body):
+def richTextBlocks(size, title, body):
     """
     Builder function.
 
@@ -42,7 +42,7 @@ def rich_text_blocks(size, title, body):
     return : The rich text function's return but with the body being divided into paragraphs using
              two new lines as the delimiter.
     """
-    return rich_text(
+    return richText(
         size
         ,title
         ,"".join(("<p>%s</p>" % block for block in body.split("\n\n") if block))
@@ -51,7 +51,7 @@ def rich_text_blocks(size, title, body):
 
 
 
-def rich_text(size, title, body):
+def richText(size, title, body):
     """
     Builder function.
 
@@ -74,7 +74,7 @@ def rich_text(size, title, body):
 
 
 
-def wrap_blocks(text, begin="", separator="", columns=80):
+def wrapBlocks(text, begin="", separator="", columns=80):
     """
     Builder function.
 
@@ -90,13 +90,13 @@ def wrap_blocks(text, begin="", separator="", columns=80):
              string.
     """
     return "\n".join(
-        (wrap_text(block,begin=begin,columns=columns) for block in text.split("\n\n") if block)
+        (wrapText(block,begin=begin,columns=columns) for block in text.split("\n\n") if block)
     )
 
 
 
 
-def wrap_text(text, begin="", after="", columns=80):
+def wrapText(text, begin="", after="", columns=80):
     """
     Builder function.
 
@@ -128,7 +128,7 @@ def wrap_text(text, begin="", after="", columns=80):
 
 
 
-def line_edit(label, key):
+def lineEdit(label, key):
     """
     Build method.
 
@@ -138,12 +138,12 @@ def line_edit(label, key):
 
     return : An abstract block's edit definition for a line edit.
     """
-    return __edit("line",label,key)
+    return edit("line",label,key)
 
 
 
 
-def text_edit(label, key, speller=False):
+def textEdit(label, key, speller=False):
     """
     Build method.
 
@@ -155,14 +155,14 @@ def text_edit(label, key, speller=False):
 
     return : An abstract block's edit definition for a text edit.
     """
-    ret = __edit("text",label,key)
+    ret = edit("text",label,key)
     ret["speller"] = speller
     return ret
 
 
 
 
-def checkbox_edit(label, key):
+def checkboxEdit(label, key):
     """
     Build method.
 
@@ -172,12 +172,12 @@ def checkbox_edit(label, key):
 
     return : An abstract block's edit definition for a checkbox edit.
     """
-    return __edit("checkbox",label,key)
+    return edit("checkbox",label,key)
 
 
 
 
-def combobox_edit(label, key):
+def comboEdit(label, key):
     """
     Build method.
 
@@ -187,14 +187,14 @@ def combobox_edit(label, key):
 
     return : An abstract block's edit definition for a combo box edit with no selections.
     """
-    ret = __edit("combobox",label,key)
+    ret = edit("combobox",label,key)
     ret["selections"] = []
     return ret
 
 
 
 
-def add_combo_select(combo_edit, text, icon=None):
+def addComboSelect(combo_edit, text, icon=None):
     """
     Adds a selection to the given combo box edit definition with the given text and optional icon.
 
@@ -212,7 +212,7 @@ def add_combo_select(combo_edit, text, icon=None):
 
 
 
-def hidden_edit(key, value):
+def hiddenEdit(key, value):
     """
     Build method.
 
@@ -225,6 +225,25 @@ def hidden_edit(key, value):
     return {"type": "hidden"
             ,"key": key
             ,"value": value}
+
+
+
+
+def edit(type_, label, key):
+    """
+    Builder method.
+
+    type_ : The type of the generic edit definition.
+
+    label : The label of the generic edit definition.
+
+    key : The key of the generic edit definition.
+
+    return : A generic abstract block's edit definition.
+    """
+    return {"type": type_
+            ,"label": label
+            ,"key": key}
 
 
 
@@ -281,26 +300,3 @@ class Singleton():
         return : The class object of this descriptor.
         """
         return self.__class
-
-
-
-
-
-
-
-
-def __edit(type_, label, key):
-    """
-    Builder method.
-
-    type_ : The type of the generic edit definition.
-
-    label : The label of the generic edit definition.
-
-    key : The key of the generic edit definition.
-
-    return : A generic abstract block's edit definition.
-    """
-    return {"type": type_
-            ,"label": label
-            ,"key": key}

@@ -102,7 +102,7 @@ class Templatee(namespace.Base):
         return : A rich text string providing detailed information about this block's templates. If
                  this block has no templates then an empty string is returned.
         """
-        return ut.rich_text(
+        return ut.richText(
             2
             ,"Templates"
             ,"".join((child.argument_view() for child in self if child._TYPE_ == "Template"))
@@ -116,7 +116,7 @@ class Templatee(namespace.Base):
 
 
 @register("Function")
-class Block(Templatee):
+class Function(Templatee):
     """
     This is the function block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ function.
@@ -281,7 +281,7 @@ class Block(Templatee):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -314,7 +314,7 @@ class Block(Templatee):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -330,7 +330,7 @@ class Block(Templatee):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -338,8 +338,8 @@ class Block(Templatee):
         return_ = ""
         if self._p_return_type != "void":
             return_ = "<p><b>%s</b> : %s</p>" % (self._p_return_type,self._p_return_description)
-        return_ = ut.rich_text(2,"Return",return_)
-        flags = ut.rich_text_list(2,"Flags",self.__flags_list_())
+        return_ = ut.richText(2,"Return",return_)
+        flags = ut.richText_list(2,"Flags",self.__flags_list_())
         return (
             namespace.Base.display_view(self)
             + self._templates_view_()
@@ -351,7 +351,7 @@ class Block(Templatee):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -360,7 +360,7 @@ class Block(Templatee):
 
     def is_volatile_above(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -369,41 +369,41 @@ class Block(Templatee):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = namespace.Base.edit_definitions(self)
-        ret.append(ut.line_edit("Return Type:","_p_return_type"))
-        ret.append(ut.text_edit("Return Description:","_p_return_description",speller=True))
-        ret.append(ut.checkbox_edit("No Exceptions","_p_noexcept"))
+        ret.append(ut.lineEdit("Return Type:","_p_return_type"))
+        ret.append(ut.textEdit("Return Description:","_p_return_description",speller=True))
+        ret.append(ut.checkboxEdit("No Exceptions","_p_noexcept"))
         if self.is_method():
-            ret.append(ut.checkbox_edit("Default","_p_default"))
-            ret.append(ut.checkbox_edit("Deleted","_p_deleted"))
-            ret.append(ut.checkbox_edit("Explicit","_p_explicit"))
-            ret.append(ut.checkbox_edit("Constant","_p_const"))
-            ret.append(ut.checkbox_edit("Static","_p_static"))
-            ret.append(ut.checkbox_edit("Virtual","_p_virtual"))
-            ret.append(ut.checkbox_edit("Override","_p_override"))
-            ret.append(ut.checkbox_edit("Final","_p_final"))
-            ret.append(ut.checkbox_edit("Abstract","_p_abstract"))
+            ret.append(ut.checkboxEdit("Default","_p_default"))
+            ret.append(ut.checkboxEdit("Deleted","_p_deleted"))
+            ret.append(ut.checkboxEdit("Explicit","_p_explicit"))
+            ret.append(ut.checkboxEdit("Constant","_p_const"))
+            ret.append(ut.checkboxEdit("Static","_p_static"))
+            ret.append(ut.checkboxEdit("Virtual","_p_virtual"))
+            ret.append(ut.checkboxEdit("Override","_p_override"))
+            ret.append(ut.checkboxEdit("Final","_p_final"))
+            ret.append(ut.checkboxEdit("Abstract","_p_abstract"))
         else:
-            ret.append(ut.hidden_edit("_p_default","0"))
-            ret.append(ut.hidden_edit("_p_deleted","0"))
-            ret.append(ut.hidden_edit("_p_explicit","0"))
-            ret.append(ut.hidden_edit("_p_const","0"))
-            ret.append(ut.hidden_edit("_p_static","0"))
-            ret.append(ut.hidden_edit("_p_virtual","0"))
-            ret.append(ut.hidden_edit("_p_override","0"))
-            ret.append(ut.hidden_edit("_p_final","0"))
-            ret.append(ut.hidden_edit("_p_abstract","0"))
-        ret.append(ut.text_edit("Inline Comments:","_p_inlines"))
+            ret.append(ut.hiddenEdit("_p_default","0"))
+            ret.append(ut.hiddenEdit("_p_deleted","0"))
+            ret.append(ut.hiddenEdit("_p_explicit","0"))
+            ret.append(ut.hiddenEdit("_p_const","0"))
+            ret.append(ut.hiddenEdit("_p_static","0"))
+            ret.append(ut.hiddenEdit("_p_virtual","0"))
+            ret.append(ut.hiddenEdit("_p_override","0"))
+            ret.append(ut.hiddenEdit("_p_final","0"))
+            ret.append(ut.hiddenEdit("_p_abstract","0"))
+        ret.append(ut.textEdit("Inline Comments:","_p_inlines"))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.set_default_properties(self)
         self._p_name = "function"
@@ -424,7 +424,7 @@ class Block(Templatee):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.clear_properties(self)
         self._p_return_type = ""
@@ -452,7 +452,7 @@ class Block(Templatee):
         """
         ret = "\n"*settings.H2LINES
         ret += begin + "/*!\n"
-        ret += ut.wrap_blocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         args = []
         for child in self:
             if child._TYPE_ == "Variable":
@@ -463,7 +463,7 @@ class Block(Templatee):
             ret += (
                 begin
                 + " *\n"
-                + ut.wrap_text(header + self._p_return_description,begin+" * "," "*len(header),100)
+                + ut.wrapText(header + self._p_return_description,begin+" * "," "*len(header),100)
             )
         ret += begin + " */\n"
         ret += begin
@@ -547,7 +547,7 @@ class Block(Templatee):
         return : Rich text detailed view of all this function's arguments. If this function has no
                  arguments then this returns an empty string.
         """
-        return ut.rich_text(
+        return ut.richText(
             2
             ,"Arguments"
             ,"".join((child.argument_view() for child in self if child._TYPE_ == "Variable"))

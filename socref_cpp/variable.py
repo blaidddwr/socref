@@ -16,7 +16,7 @@ from . import template
 
 
 @register("Variable")
-class Block(template.Block):
+class Variable(template.Template):
     """
     This is the variable block class. It implements the Socrates' Reference abstract block class. It
     represents a C++ variable.
@@ -32,7 +32,7 @@ class Block(template.Block):
         """
         Initializes a new variable block.
         """
-        template.Block.__init__(self)
+        template.Template.__init__(self)
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
@@ -100,7 +100,7 @@ class Block(template.Block):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -112,7 +112,7 @@ class Block(template.Block):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -130,7 +130,7 @@ class Block(template.Block):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -140,7 +140,7 @@ class Block(template.Block):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -149,7 +149,7 @@ class Block(template.Block):
 
     def is_volatile_above(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -158,20 +158,20 @@ class Block(template.Block):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = template.Block.edit_definitions(self)
         if not self.is_argument():
-            ret.append(ut.checkbox_edit("Constant Expression","_p_constexpr"))
-            ret.append(ut.checkbox_edit("Thread Local","_p_thread_local"))
+            ret.append(ut.checkboxEdit("Constant Expression","_p_constexpr"))
+            ret.append(ut.checkboxEdit("Thread Local","_p_thread_local"))
         else:
             ret.append(ut.hidden_edit("_p_constexpr","0"))
             ret.append(ut.hidden_edit("_p_thread_local","0"))
         if self.in_class():
-            ret.append(ut.checkbox_edit("Static","_p_static"))
-            ret.append(ut.checkbox_edit("Mutable","_p_mutable"))
+            ret.append(ut.checkboxEdit("Static","_p_static"))
+            ret.append(ut.checkboxEdit("Mutable","_p_mutable"))
         else:
             ret.append(ut.hidden_edit("_p_static","0"))
             ret.append(ut.hidden_edit("_p_mutable","0"))
@@ -180,9 +180,9 @@ class Block(template.Block):
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
-        template.Block.set_default_properties(self)
+        template.Template.set_default_properties(self)
         self._p_name = "variable"
         self._p_type = "int @"
         self._p_constexpr = "0"
@@ -193,9 +193,9 @@ class Block(template.Block):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
-        template.Block.clear_properties(self)
+        template.Template.clear_properties(self)
         self._p_constexpr = "0"
         self._p_static = "0"
         self._p_mutable = "0"
@@ -214,7 +214,7 @@ class Block(template.Block):
         ret += (
             begin
             + "/*!\n"
-            + ut.wrap_blocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+            + ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
             + begin
             + " */\n"
         )

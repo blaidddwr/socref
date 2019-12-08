@@ -15,7 +15,7 @@ from . import namespace
 
 
 @register("Enumeration Value")
-class Block(namespace.Base):
+class EnumValue(namespace.Base):
     """
     This is the enumeration value block class. It implements the Socrates' Reference abstract block
     class. It represents a C++ enumeration value.
@@ -42,7 +42,7 @@ class Block(namespace.Base):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -51,17 +51,17 @@ class Block(namespace.Base):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        value = ut.rich_text(2,"Value",html.escape(self._p_value))
+        value = ut.richText(2,"Value",html.escape(self._p_value))
         return namespace.Base.display_view(self) + value
 
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -70,18 +70,18 @@ class Block(namespace.Base):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = namespace.Base.edit_definitions(self)
-        ret.append(ut.line_edit("Value:","_p_value"))
+        ret.append(ut.lineEdit("Value:","_p_value"))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.set_default_properties(self)
         self._p_name = "enumeration_value"
@@ -90,7 +90,7 @@ class Block(namespace.Base):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.clear_properties(self)
         self._p_value = ""

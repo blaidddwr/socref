@@ -17,7 +17,7 @@ from . import package
 
 
 @register("Object")
-class Block(package.Block):
+class Object(package.Package):
     """
     This is the object block class. It implements the Socrates' Reference abstract block class. It
     represents a python object.
@@ -33,7 +33,7 @@ class Block(package.Block):
         """
         Initializes a new object block.
         """
-        package.Block.__init__(self)
+        package.Package.__init__(self)
         self._p_assignment = ""
 
 
@@ -62,7 +62,7 @@ class Block(package.Block):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -71,7 +71,7 @@ class Block(package.Block):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -83,12 +83,12 @@ class Block(package.Block):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        assignment = ut.rich_text(2,"Assignment",html.escape(self._p_assignment))
-        return package.Block.display_view(self) + assignment
+        assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
+        return package.Package.display_view(self) + assignment
 
 
     def argument_view(self):
@@ -108,7 +108,7 @@ class Block(package.Block):
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -117,7 +117,7 @@ class Block(package.Block):
 
     def is_volatile_above(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -126,29 +126,29 @@ class Block(package.Block):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = package.Block.edit_definitions(self)
-        ret.append(ut.line_edit("Assignment:","_p_assignment"))
+        ret = package.Package.edit_definitions(self)
+        ret.append(ut.lineEdit("Assignment:","_p_assignment"))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Block.set_default_properties(self)
+        package.Package.set_default_properties(self)
         self._p_name = "object"
         self._p_assignment = ""
 
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
-        package.Block.clear_properties(self)
+        package.Package.clear_properties(self)
         self._p_assignment = ""
 
 
@@ -174,7 +174,7 @@ class Block(package.Block):
                  argument.
         """
         initial = self._p_name + " : "
-        return ut.wrap_text(
+        return ut.wrapText(
             initial + self._p_description
             ,begin=begin
             ,after=" "*len(initial)
@@ -184,7 +184,7 @@ class Block(package.Block):
 
     def space(self, previous):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         previous : See interface docs.
 
@@ -212,7 +212,7 @@ class Block(package.Block):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         definition : See interface docs.
 
@@ -221,7 +221,7 @@ class Block(package.Block):
         return : See interface docs.
         """
         ret = begin + "#\n"
-        ret += ut.wrap_blocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
+        ret += ut.wrapBlocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
         ret += begin + "#\n"
         ret += begin + self._p_name
         if self._p_assignment:

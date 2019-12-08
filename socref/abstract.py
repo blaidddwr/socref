@@ -15,7 +15,7 @@ from . import block
 
 
 
-class Block(abc.ABC):
+class AbstractBlock(abc.ABC):
     """
     This is the abstract block class. Blocks are the basic interface designed for languages to
     implement themselves and communicate with the core application. Blocks are structured to form a
@@ -393,7 +393,7 @@ class Block(abc.ABC):
                     if key in self.__properties:
                         self.__properties[key] = stream.readElementText()
                 else:
-                    child = block.Factory().create(self._LANG_,name)
+                    child = block.BlockFactory().create(self._LANG_,name)
                     child.set_from_xml(stream)
                     self.append(child)
             elif stream.isEndElement() and stream.name() == self._TYPE_:
@@ -424,7 +424,7 @@ class Block(abc.ABC):
 
 
 
-class Parser(abc.ABC):
+class AbstractParser(abc.ABC):
     """
     This is the abstract parser class. A parser is the interface implemented by a language to parse
     its source code from a project. The parsing process is separated into building a path list,

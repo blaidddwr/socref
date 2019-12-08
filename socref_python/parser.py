@@ -109,7 +109,7 @@ class Scanner():
 
 
 
-class Parser(abstract.Parser):
+class Parser(abstract.AbstractParser):
     """
     This is the python parser class. It implements the Socrates' Reference abstract parser.
     """
@@ -127,7 +127,7 @@ class Parser(abstract.Parser):
         root : A package block that is the root block of a python project that this new parser will
                parse.
         """
-        abstract.Parser.__init__(self)
+        abstract.AbstractParser.__init__(self)
         self.__root_block = root
         self.__doc_pattern = re.compile(' *"""')
         self.__import_pattern = re.compile('^(from|import).*')
@@ -145,7 +145,7 @@ class Parser(abstract.Parser):
 
     def unknown(self):
         """
-        Implements the socref.abstract.Parser interface.
+        Implements the socref.abstract.AbstractParser interface.
 
         return : See interface docs.
         """
@@ -168,14 +168,14 @@ class Parser(abstract.Parser):
 
     def _build_path_list_(self):
         """
-        Implements the socref.abstract.Parser interface.
+        Implements the socref.abstract.AbstractParser interface.
         """
         self.__build_paths_(self.__root_block,"")
 
 
     def _scan_(self, path):
         """
-        Implements the socref.abstract.Parser interface.
+        Implements the socref.abstract.AbstractParser interface.
 
         path : See interface docs.
         """
@@ -201,7 +201,7 @@ class Parser(abstract.Parser):
 
     def _build_(self, block, path):
         """
-        Implements the socref.abstract.Parser interface.
+        Implements the socref.abstract.AbstractParser interface.
 
         block : See interface docs.
 

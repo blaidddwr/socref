@@ -18,7 +18,7 @@ from . import function
 
 
 @register("Class")
-class Block(function.Descriptor):
+class Class(function.Descriptor):
     """
     This is the class block class. It implements the Socrates' Reference abstract block class. It
     represents a python class.
@@ -57,7 +57,7 @@ class Block(function.Descriptor):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -69,7 +69,7 @@ class Block(function.Descriptor):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -78,21 +78,21 @@ class Block(function.Descriptor):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        parents = ut.rich_text(
+        parents = ut.richText(
             2
             ,"Parents"
             ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
         )
-        return package.Block.display_view(self) + parents + self._descriptors_view_()
+        return package.Package.display_view(self) + parents + self._descriptors_view_()
 
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -101,19 +101,19 @@ class Block(function.Descriptor):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        ret = package.Block.edit_definitions(self)
-        ret.append(ut.text_edit("Parents:","_p_parents"))
+        ret = package.Package.edit_definitions(self)
+        ret.append(ut.textEdit("Parents:","_p_parents"))
         ret.append(self._descriptors_edit_definition_())
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         function.Descriptor.set_default_properties(self)
         self._p_name = "class"
@@ -122,7 +122,7 @@ class Block(function.Descriptor):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         function.Descriptor.clear_properties(self)
         self._p_parents = ""
@@ -130,7 +130,7 @@ class Block(function.Descriptor):
 
     def space(self, previous):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         previous : See interface docs.
 
@@ -141,7 +141,7 @@ class Block(function.Descriptor):
 
     def build(self, definition, begin=""):
         """
-        Implements the .package.Block interface.
+        Implements the .package.Package interface.
 
         definition : See interface docs.
 
@@ -156,7 +156,7 @@ class Block(function.Descriptor):
         ret = self._build_descriptors_(begin)
         ret += "%sclass %s(%s):\n" % (begin,self._p_name,self.__build_parents_())
         ret += begin + " "*settings.INDENT + '"""\n'
-        ret += ut.wrap_blocks(
+        ret += ut.wrapBlocks(
             self._p_description
             ,begin=begin + " "*settings.INDENT
             ,columns=settings.COLUMNS

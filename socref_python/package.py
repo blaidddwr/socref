@@ -17,7 +17,7 @@ from . import parser
 
 
 @register("Package",root=True)
-class Block(abstract.Block):
+class Package(abstract.AbstractBlock):
     """
     This is the package block class. It implements the Socrates' Reference abstract block class. It
     represents a python package. It is the root block type of a python project. It implements two
@@ -34,7 +34,7 @@ class Block(abstract.Block):
         """
         Initializes a new package block.
         """
-        abstract.Block.__init__(self)
+        abstract.AbstractBlock.__init__(self)
         self._p_name = ""
         self._p_description = ""
 
@@ -46,7 +46,7 @@ class Block(abstract.Block):
 
     def icon(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -55,7 +55,7 @@ class Block(abstract.Block):
 
     def display_name(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -64,16 +64,16 @@ class Block(abstract.Block):
 
     def display_view(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        return ut.rich_text_blocks(1,"Description",html.escape(self._p_description))
+        return ut.richTextBlocks(1,"Description",html.escape(self._p_description))
 
 
     def build_list(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -82,19 +82,19 @@ class Block(abstract.Block):
 
     def edit_definitions(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
         ret = []
-        ret.append(ut.line_edit("Name:","_p_name"))
-        ret.append(ut.text_edit("Description:","_p_description",speller=True))
+        ret.append(ut.lineEdit("Name:","_p_name"))
+        ret.append(ut.textEdit("Description:","_p_description",speller=True))
         return ret
 
 
     def set_default_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = "package"
         self._p_description = "Detailed description."
@@ -102,7 +102,7 @@ class Block(abstract.Block):
 
     def clear_properties(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
         """
         self._p_name = ""
         self._p_description = ""
@@ -132,7 +132,7 @@ class Block(abstract.Block):
 
     def parser(self):
         """
-        Implements the socref.abstract.Block interface.
+        Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
@@ -165,7 +165,7 @@ class Block(abstract.Block):
                  used to generate the lines.
         """
         ret = '"""\n'
-        ret += ut.wrap_blocks(self._p_description,columns=settings.COLUMNS)
+        ret += ut.wrapBlocks(self._p_description,columns=settings.COLUMNS)
         ret += '"""\n'
         ret += "\n".join(definition.pop("header") + [""])
         return ret
