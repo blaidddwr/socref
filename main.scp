@@ -282,7 +282,7 @@
                 <Function>
                     <__p_name>wrapBlocks</__p_name>
                     <__p_description>Builder function.</__p_description>
-                    <__p_return_description>The wrap text function's returned but with paragraphs being separated by the given string.</__p_return_description>
+                    <__p_return_description>The wrap text function's returned but with paragraphs being separated by the given line.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -308,7 +308,7 @@
                 <Function>
                     <__p_name>wrapText</__p_name>
                     <__p_description>Builder function.</__p_description>
-                    <__p_return_description>Wrapped text generated from the given text, optional begin and after strings, and maximum line length.</__p_return_description>
+                    <__p_return_description>A list of wrapped lines generated from the given text, optional begin and after strings, and maximum line length.</__p_return_description>
                     <__p_static>0</__p_static>
                     <__p_abstract>0</__p_abstract>
                     <Object>
@@ -4679,7 +4679,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>build</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A string of source code lines that is the build output of this block and represents it in the source code. The given scanned definitions and optional begin string are used to generate the lines.</__p_return_description>
+                            <__p_return_description>A list of source code lines that is the build output of this block and represents it in the source code. The given scanned definitions and optional begin string are used to generate the lines.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -4767,7 +4767,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>_buildChildren_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string that is the combined source code of all this block's children's build interface, separated using their space interface.</__p_return_description>
+                            <__p_return_description>A list of source code lines that is the combined source code of all this block's children's build interface, separated using their space interface.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -4906,7 +4906,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>buildComment</__p_name>
                             <__p_description>Detailed description.</__p_description>
-                            <__p_return_description>A string that is the source code doc string fragment for this object as a function argument.</__p_return_description>
+                            <__p_return_description>A list of lines that is the source code doc string fragment for this object as a function argument.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -5171,7 +5171,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>__buildDocString_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string that is the source code doc string of this function.</__p_return_description>
+                            <__p_return_description>A list of lines that is the source code doc string of this function.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -5182,7 +5182,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>__buildHeader_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string that is the source code of this function's header. The header includes any descriptors and the define line.</__p_return_description>
+                            <__p_return_description>A list of lines that is the source code of this function's header. The header includes any descriptors and the define line.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -5193,7 +5193,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>__buildLines_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string that is the source code lines generated from the given list of code lines and this function's inline comments.</__p_return_description>
+                            <__p_return_description>A list of source code lines generated from the given list of code lines and this function's inline comments.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>

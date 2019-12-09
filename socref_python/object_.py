@@ -97,8 +97,8 @@ class Object(package.Package):
 
         begin : The indent or begin string that is appended to every line of returned source code.
 
-        return : A string that is the source code doc string fragment for this object as a function
-                 argument.
+        return : A list of lines that is the source code doc string fragment for this object as a
+                 function argument.
         """
         initial = self._p_name + " : "
         return ut.wrapText(

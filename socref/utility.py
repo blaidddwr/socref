@@ -207,7 +207,7 @@ def wrapBlocks(text, begin="", separator="", columns=80):
     columns : Same as wrap text function.
 
     return : The wrap text function's returned but with paragraphs being separated by the given
-             string.
+             line.
     """
     ret = []
     first = True
@@ -235,8 +235,8 @@ def wrapText(text, begin="", after="", columns=80):
 
     columns : The maximum column length for each line of wrapped text.
 
-    return : Wrapped text generated from the given text, optional begin and after strings, and
-             maximum line length.
+    return : A list of wrapped lines generated from the given text, optional begin and after
+             strings, and maximum line length.
     """
     ret = []
     words = text.split()

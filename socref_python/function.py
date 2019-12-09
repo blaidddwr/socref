@@ -316,7 +316,7 @@ class Function(Descriptor):
 
         begin : The indent or begin string that is appended to every line of returned code.
 
-        return : A string that is the source code doc string of this function.
+        return : A list of lines that is the source code doc string of this function.
         """
         ret = [begin + " "*settings.INDENT + '"""']
         ret += ut.wrapBlocks(
@@ -347,8 +347,8 @@ class Function(Descriptor):
 
         begin : The indent or begin string that is appended to every line of returned code.
 
-        return : A string that is the source code of this function's header. The header includes any
-                 descriptors and the define line.
+        return : A list of lines that is the source code of this function's header. The header
+                 includes any descriptors and the define line.
         """
         ret = self._buildDescriptors_(begin)
         if self.isAbstract():
@@ -368,12 +368,12 @@ class Function(Descriptor):
 
         begin : The indent or begin string that is appended to every line of returned code.
 
-        return : A string that is the source code lines generated from the given list of code lines
-                 and this function's inline comments.
+        return : A list of source code lines generated from the given list of code lines and this
+                 function's inline comments.
         """
         if not lines:
             return [begin + " "*settings.INDENT + "pass"]
-        ret = [""]
+        ret = []
         inlines = [line for line in self._p_inlines.split("\n\n") if line]
         for line in lines:
             if line.endswith("#"):

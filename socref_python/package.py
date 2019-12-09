@@ -53,7 +53,7 @@ class Package(abstract.AbstractBlock):
 
         begin : An optional string that is appended to every line of the returned source code.
 
-        return : A string of source code lines that is the build output of this block and represents
+        return : A list of source code lines that is the build output of this block and represents
                  it in the source code. The given scanned definitions and optional begin string are
                  used to generate the lines.
         """
@@ -62,7 +62,6 @@ class Package(abstract.AbstractBlock):
         ret += ut.wrapBlocks(self._p_description,columns=settings.COLUMNS)
         ret.append('"""')
         ret += definition.pop("header")
-        ret.append("")
         return ret
 
 
@@ -174,8 +173,8 @@ class Package(abstract.AbstractBlock):
 
         begin : An optional string that is appended to every line of the returned source code.
 
-        return : A string that is the combined source code of all this block's children's build
-                 interface, separated using their space interface.
+        return : A list of source code lines that is the combined source code of all this block's
+                 children's build interface, separated using their space interface.
         """
         ret = []
         for block in self:
