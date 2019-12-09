@@ -42,13 +42,67 @@ class Template(namespace.Base):
     ####################
 
 
-    def icon(self):
+    def argumentView(self):
+        """
+        Getter method.
+
+        return : Rich text paragraph that describes this template as an argument.
+        """
+        ret = "<p><b>%s " % html.escape(self._p_type.replace("@",self._p_name))
+        if self._p_assignment:
+            ret += " =</b> " + html.escape(self._p_assignment) + " : "
+        else:
+            ret += "</b> : "
+        ret += html.escape(self._p_description) + "</p>"
+        return ret
+
+
+    def buildArgument(self):
+        """
+        Detailed description.
+        """
+        ret = self._p_type.replace("@",self._p_name)
+        if self._p_assignment:
+            ret += "=" + self._p_assignment
+        return ret
+
+
+    def buildComment(self, begin):
+        """
+        Detailed description.
+
+        begin : Detailed description.
+        """
+        header = ""
+        if self._TYPE_ == "Template":
+            header = "@tparam %s : " % self._p_name
+        else:
+            header = "@param %s : " % self._p_name
+        return ut.wrapText(
+            header + self._p_description
+            ,begin
+            ,begin + " "*len(header)
+            ,settings.COLUMNS
+        )
+
+
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        return qtg.QIcon(":/cpp/template.svg")
+        return ()
+
+
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        namespace.Base.clearProperties(self)
+        self._p_name = ""
+        self._p_type = ""
+        self._p_assignment = ""
 
 
     def displayName(self):
@@ -71,39 +125,6 @@ class Template(namespace.Base):
         return namespace.Base.displayView(self) + type_ + assignment
 
 
-    def argumentView(self):
-        """
-        Getter method.
-
-        return : Rich text paragraph that describes this template as an argument.
-        """
-        ret = "<p><b>%s " % html.escape(self._p_type.replace("@",self._p_name))
-        if self._p_assignment:
-            ret += " =</b> " + html.escape(self._p_assignment) + " : "
-        else:
-            ret += "</b> : "
-        ret += html.escape(self._p_description) + "</p>"
-        return ret
-
-
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ()
-
-
-    def isVolatileAbove(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return True
-
-
     def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
@@ -116,6 +137,24 @@ class Template(namespace.Base):
         return ret
 
 
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return qtg.QIcon(":/cpp/template.svg")
+
+
+    def isVolatileAbove(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return True
+
+
     def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
@@ -124,42 +163,3 @@ class Template(namespace.Base):
         self._p_name = "Template"
         self._p_type = "class @"
         self._p_assignment = ""
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        namespace.Base.clearProperties(self)
-        self._p_name = ""
-        self._p_type = ""
-        self._p_assignment = ""
-
-
-    def build_comment(self, begin):
-        """
-        Detailed description.
-
-        begin : Detailed description.
-        """
-        header = ""
-        if self._TYPE_ == "Template":
-            header = "@tparam %s : " % self._p_name
-        else:
-            header = "@param %s : " % self._p_name
-        return ut.wrapText(
-            header + self._p_description
-            ,begin
-            ,begin + " "*len(header)
-            ,settings.COLUMNS
-        )
-
-
-    def build_argument(self):
-        """
-        Detailed description.
-        """
-        ret = self._p_type.replace("@",self._p_name)
-        if self._p_assignment:
-            ret += "=" + self._p_assignment
-        return ret

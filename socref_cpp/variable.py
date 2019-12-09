@@ -44,70 +44,70 @@ class Variable(template.Template):
     ####################
 
 
-    def is_constexpr(self):
+    def buildDeclaration(self, begin, template):
         """
-        Getter method.
+        Detailed description.
 
-        return : True if this variable is a constant expression or false otherwise.
+        begin : Detailed description.
+
+        template : Detailed description.
         """
-        return bool(int(self._p_constexpr))
+        ret = "\n"*settings.H2LINES
+        ret += (
+            begin
+            + "/*!\n"
+            + ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+            + begin
+            + " */\n"
+        )
+        ret += begin
+        if self.isStatic():
+            ret += "static "
+        if self.isConstExpr():
+            ret += "constexpr "
+        if self.isMutable():
+            ret += "mutable "
+        if self.isThreadLocal():
+            ret += "thread_local "
+        ret += self._p_type.replace("@",self._p_name)
+        if self._p_assignment and (self.isConstExpr() or not self.isStatic()):
+            ret += " {%s}" % self._p_assignment
+        ret += ";\n"
+        return ret
 
 
-    def isStatic(self):
+    def buildDefinition(self, scope):
         """
-        Getter method.
+        Detailed description.
 
-        return : True if this variable is static or false otherwise.
+        scope : Detailed description.
         """
-        return bool(int(self._p_static))
+        if self._p_assignment and self.isStatic() and not self.isConstExpr():
+            if scope:
+                scope += "::"
+            return self._p_type.replace("@",scope+self._p_name) + " {%s};\n"%self._p_assignment
+        else:
+            return ""
 
 
-    def is_mutable(self):
-        """
-        Getter method.
-
-        return : True if this variable is mutable or false otherwise.
-        """
-        return bool(int(self._p_mutable))
-
-
-    def is_thread_local(self):
-        """
-        Getter method.
-
-        return : True if this variable is thread local or false otherwise.
-        """
-        return bool(int(self._p_thread_local))
-
-
-    def isArgument(self):
-        """
-        Getter method.
-
-        return : True if this variable is an argument of a function or false otherwise.
-        """
-        return self.parent()._TYPE_ == "Function"
-
-
-    def inClass(self):
-        """
-        Getter method.
-
-        return : True if this variable is part of a class or false otherwise.
-        """
-        return self.parent()._TYPE_ == "Access"
-
-
-    def icon(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        if self.isStatic():
-            return qtg.QIcon(":/cpp/static_variable.svg")
-        else:
-            return qtg.QIcon(":/cpp/variable.svg")
+        return ()
+
+
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        template.Template.clearProperties(self)
+        self._p_constexpr = "0"
+        self._p_static = "0"
+        self._p_mutable = "0"
+        self._p_thread_local = "0"
 
 
     def displayName(self):
@@ -138,24 +138,6 @@ class Variable(template.Template):
         return template.Block.displayView(self) + self.__flagsView_()
 
 
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ()
-
-
-    def isVolatileAbove(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return self.isArgument()
-
-
     def editDefinitions(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
@@ -178,6 +160,81 @@ class Variable(template.Template):
         return ret
 
 
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        if self.isStatic():
+            return qtg.QIcon(":/cpp/static_variable.svg")
+        else:
+            return qtg.QIcon(":/cpp/variable.svg")
+
+
+    def inClass(self):
+        """
+        Getter method.
+
+        return : True if this variable is part of a class or false otherwise.
+        """
+        return self.parent()._TYPE_ == "Access"
+
+
+    def isArgument(self):
+        """
+        Getter method.
+
+        return : True if this variable is an argument of a function or false otherwise.
+        """
+        return self.parent()._TYPE_ == "Function"
+
+
+    def isConstExpr(self):
+        """
+        Getter method.
+
+        return : True if this variable is a constant expression or false otherwise.
+        """
+        return bool(int(self._p_constexpr))
+
+
+    def isMutable(self):
+        """
+        Getter method.
+
+        return : True if this variable is mutable or false otherwise.
+        """
+        return bool(int(self._p_mutable))
+
+
+    def isStatic(self):
+        """
+        Getter method.
+
+        return : True if this variable is static or false otherwise.
+        """
+        return bool(int(self._p_static))
+
+
+    def isThreadLocal(self):
+        """
+        Getter method.
+
+        return : True if this variable is thread local or false otherwise.
+        """
+        return bool(int(self._p_thread_local))
+
+
+    def isVolatileAbove(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return self.isArgument()
+
+
     def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
@@ -189,63 +246,6 @@ class Variable(template.Template):
         self._p_static = "0"
         self._p_mutable = "0"
         self._p_thread_local = "0"
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        template.Template.clearProperties(self)
-        self._p_constexpr = "0"
-        self._p_static = "0"
-        self._p_mutable = "0"
-        self._p_thread_local = "0"
-
-
-    def build_declaration(self, begin, template):
-        """
-        Detailed description.
-
-        begin : Detailed description.
-
-        template : Detailed description.
-        """
-        ret = "\n"*settings.H2LINES
-        ret += (
-            begin
-            + "/*!\n"
-            + ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
-            + begin
-            + " */\n"
-        )
-        ret += begin
-        if self.isStatic():
-            ret += "static "
-        if self.is_constexpr():
-            ret += "constexpr "
-        if self.is_mutable():
-            ret += "mutable "
-        if self.is_thread_local():
-            ret += "thread_local "
-        ret += self._p_type.replace("@",self._p_name)
-        if self._p_assignment and (self.is_constexpr() or not self.isStatic()):
-            ret += " {%s}" % self._p_assignment
-        ret += ";\n"
-        return ret
-
-
-    def build_definition(self, scope):
-        """
-        Detailed description.
-
-        scope : Detailed description.
-        """
-        if self._p_assignment and self.isStatic() and not self.is_constexpr():
-            if scope:
-                scope += "::"
-            return self._p_type.replace("@",scope+self._p_name) + " {%s};\n"%self._p_assignment
-        else:
-            return ""
 
 
     #####################
@@ -273,13 +273,13 @@ class Variable(template.Template):
                  enabled then an empty string is returned.
         """
         ret = ""
-        if self.is_constexpr():
+        if self.isConstExpr():
             ret += "X"
         if self.isStatic():
             ret += "S"
-        if self.is_mutable():
+        if self.isMutable():
             ret += "M"
-        if self.is_thread_local():
+        if self.isThreadLocal():
             ret += "L"
         return ret
 
@@ -292,12 +292,12 @@ class Variable(template.Template):
                  then an empty string is returned.
         """
         flags = []
-        if self.is_constexpr():
+        if self.isConstExpr():
             flags.append("Constant Expression")
         if self.isStatic():
             flags.append("Static")
-        if self.is_mutable():
+        if self.isMutable():
             flags.append("Mutable")
-        if self.is_thread_local():
+        if self.isThreadLocal():
             flags.append("Thread Local")
         return ut.rich_text_list(2,"Flags",flags)

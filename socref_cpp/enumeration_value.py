@@ -40,13 +40,21 @@ class EnumValue(namespace.Base):
     ####################
 
 
-    def icon(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        return qtg.QIcon(":/cpp/enumeration_value.svg")
+        return ()
+
+
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        namespace.Base.clearProperties(self)
+        self._p_value = ""
 
 
     def displayView(self):
@@ -57,15 +65,6 @@ class EnumValue(namespace.Base):
         """
         value = ut.richText(2,"Value",html.escape(self._p_value))
         return namespace.Base.displayView(self) + value
-
-
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ()
 
 
     def editDefinitions(self):
@@ -79,6 +78,15 @@ class EnumValue(namespace.Base):
         return ret
 
 
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return qtg.QIcon(":/cpp/enumeration_value.svg")
+
+
     def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
@@ -86,11 +94,3 @@ class EnumValue(namespace.Base):
         namespace.Base.setDefaultProperties(self)
         self._p_name = "enumeration_value"
         self._p_value = "value"
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        namespace.Base.clearProperties(self)
-        self._p_value = ""

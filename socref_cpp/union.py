@@ -39,15 +39,6 @@ class Union(namespace.Base):
     ####################
 
 
-    def icon(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return qtg.QIcon(":/cpp/union.svg")
-
-
     def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
@@ -55,6 +46,15 @@ class Union(namespace.Base):
         return : See interface docs.
         """
         return ("Variable",)
+
+
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return qtg.QIcon(":/cpp/union.svg")
 
 
     def setDefaultProperties(self):

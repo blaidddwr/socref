@@ -39,7 +39,7 @@ class Templatee(namespace.Base):
     ####################
 
 
-    def has_templates(self):
+    def hasTemplates(self):
         """
         Getter method.
 
@@ -51,21 +51,21 @@ class Templatee(namespace.Base):
         return False
 
 
-    def template_declaration(self):
+    def templateDeclaration(self):
         """
         Detailed description.
         """
         args = []
         for child in self:
             if child._TYPE_ == "Template":
-                args.append(child.build_argument())
+                args.append(child.buildArgument())
         if args:
             return "template<%s> " % ", ".join(args)
         else:
             return ""
 
 
-    def template_scope(self):
+    def templateScope(self):
         """
         Detailed description.
         """
@@ -84,7 +84,7 @@ class Templatee(namespace.Base):
     #######################
 
 
-    def _template_name_(self):
+    def _templatesName_(self):
         """
         Getter method.
 
@@ -92,10 +92,10 @@ class Templatee(namespace.Base):
                  about its templates. If this block has no templates then an empty string is
                  returned.
         """
-        return "<> " if self.has_templates() else ""
+        return "<> " if self.hasTemplates() else ""
 
 
-    def _templates_view_(self):
+    def _templatesView_(self):
         """
         Getter method.
 
@@ -133,8 +133,8 @@ class Function(Templatee):
         Initializes a new function block.
         """
         Templatee.__init__(self)
-        self._p_return_type = ""
-        self._p_return_description = ""
+        self._p_returnType = ""
+        self._p_returnDescription = ""
         self._p_inlines = ""
         self._p_default = "0"
         self._p_deleted = "0"
@@ -153,163 +153,69 @@ class Function(Templatee):
     ####################
 
 
-    def is_constructor(self):
+    def buildDeclaration(self, begin, template):
         """
-        Getter method.
+        Detailed description.
 
-        return : True if this function is a constructor or false otherwise.
+        begin : Detailed description.
+
+        template : Detailed description.
         """
-        return self._p_name == "^"
+        ret = "\n"*settings.H2LINES
+        ret += begin + "/*!\n"
+        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        args = []
+        for child in self:
+            if child._TYPE_ == "Variable":
+                args.append(child.buildArgument())
+                ret += begin + " *\n" + child.buildComment(begin+" * ")
+        if self._p_returnType != "void":
+            header = self._p_returnType + " : "
+            ret += (
+                begin
+                + " *\n"
+                + ut.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
+            )
+        ret += begin + " */\n"
+        ret += begin
+        if not self.isConstructor() and not self.isDestructor():
+            ret += self._p_returnType + " "
+        ret += self.__name_() + "("
+        ret += ", ".join(args) + ")"
+        if template:
+            ret += "\n" + begin + "{\n" + begin + "}\n"
+        else:
+            ret += ";\n"
+        return ret
 
 
-    def is_destructor(self):
-        """
-        Getter method.
-
-        return : True if this function is a destructor or false otherwise.
-        """
-        return self._p_name == "~^"
-
-
-    def is_operator(self):
-        """
-        Getter method.
-
-        return : True if this function is an operator or false otherwise.
-        """
-        return self._p_name.startswith("operator")
-
-
-    def is_default(self):
-        """
-        Getter method.
-
-        return : True if this function is the default or false otherwise.
-        """
-        return bool(int(self._p_default))
-
-
-    def is_deleted(self):
-        """
-        Getter method.
-
-        return : True if this function is deleted or false otherwise.
-        """
-        return bool(int(self._p_deleted))
-
-
-    def is_explicit(self):
-        """
-        Getter method.
-
-        return : True if this function is an explicit constructor or false otherwise.
-        """
-        return bool(int(self._p_explicit))
-
-
-    def is_const(self):
-        """
-        Getter method.
-
-        return : True if this function is constant or false otherwise.
-        """
-        return bool(int(self._p_const))
-
-
-    def isStatic(self):
-        """
-        Getter method.
-
-        return : True if this function is static or false otherwise.
-        """
-        return bool(int(self._p_static))
-
-
-    def is_noexcept(self):
-        """
-        Getter method.
-
-        return : True if this function does not throw exceptions or false otherwise.
-        """
-        return bool(int(self._p_noexcept))
-
-
-    def is_virtual(self):
-        """
-        Getter method.
-
-        return : True if this function is virtual or false otherwise.
-        """
-        return bool(int(self._p_virtual))
-
-
-    def is_override(self):
-        """
-        Getter method.
-
-        return : True if this function is overriding a virtual interface or false otherwise.
-        """
-        return bool(int(self._p_override))
-
-
-    def is_final(self):
-        """
-        Getter method.
-
-        return : True if this function is the final overriding virtual interface or false otherwise.
-        """
-        return bool(int(self._p_final))
-
-
-    def isAbstract(self):
-        """
-        Getter method.
-
-        return : True if this function is abstract or false otherwise.
-        """
-        return bool(int(self._p_abstract))
-
-
-    def isMethod(self):
-        """
-        Getter method.
-
-        return : True if this function is a method or false otherwise.
-        """
-        return self.parent()._TYPE_ == "Access"
-
-
-    def icon(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        if self.is_constructor():
-            return qtg.QIcon(":/cpp/constructor.svg")
-        elif self.is_destructor():
-            if self.isAbstract():
-                return qtg.QIcon(":/cpp/abstract_destructor.svg")
-            elif self.is_virtual():
-                return qtg.QIcon(":/cpp/virtual_destructor.svg")
-            else:
-                return qtg.QIcon(":/cpp/destructor.svg")
-        elif self.is_operator():
-            if self.isAbstract():
-                return qtg.QIcon(":/cpp/abstract_operator.svg")
-            elif self.is_virtual():
-                return qtg.QIcon(":/cpp/virtual_operator.svg")
-            else:
-                return qtg.QIcon(":/cpp/operator.svg")
-        else:
-            if self.isAbstract():
-                return qtg.QIcon(":/cpp/abstract_function.svg")
-            elif self.is_virtual():
-                return qtg.QIcon(":/cpp/virtual_function.svg")
-            elif self.isStatic():
-                return qtg.QIcon(":/cpp/static_function.svg")
-            else:
-                return qtg.QIcon(":/cpp/function.svg")
+        return ("Template","Variable")
+
+
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        namespace.Base.clearProperties(self)
+        self._p_returnType = ""
+        self._p_returnDescription = ""
+        self._p_inlines = ""
+        self._p_default = "0"
+        self._p_deleted = "0"
+        self._p_explicit = "0"
+        self._p_virtual = "0"
+        self._p_const = "0"
+        self._p_static = "0"
+        self._p_noexcept = "0"
+        self._p_override = "0"
+        self._p_final = "0"
+        self._p_abstract = "0"
 
 
     def displayName(self):
@@ -318,8 +224,8 @@ class Function(Templatee):
 
         return : See interface docs.
         """
-        ret = self._template_name_()
-        if not self.is_constructor() and not self.is_destructor() and self._p_return_type != "void":
+        ret = self._templatesName_()
+        if not self.isConstructor() and not self.isDestructor() and self._p_returnType != "void":
             ret += "... "
         flags = self.__flags_()
         if flags:
@@ -336,35 +242,17 @@ class Function(Templatee):
         """
         self.__checkFlags_()
         return_ = ""
-        if self._p_return_type != "void":
-            return_ = "<p><b>%s</b> : %s</p>" % (self._p_return_type,self._p_return_description)
+        if self._p_returnType != "void":
+            return_ = "<p><b>%s</b> : %s</p>" % (self._p_returnType,self._p_returnDescription)
         return_ = ut.richText(2,"Return",return_)
-        flags = ut.richText_list(2,"Flags",self.__flags_list_())
+        flags = ut.richText_list(2,"Flags",self.__flagsList_())
         return (
             namespace.Base.displayView(self)
-            + self._templates_view_()
+            + self._templatesView_()
             + self.__argumentsView_()
             + return_
             + flags
         )
-
-
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ("Template","Variable")
-
-
-    def isVolatileAbove(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return self.isMethod()
 
 
     def editDefinitions(self):
@@ -401,14 +289,182 @@ class Function(Templatee):
         return ret
 
 
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        if self.isConstructor():
+            return qtg.QIcon(":/cpp/constructor.svg")
+        elif self.isDestructor():
+            if self.isAbstract():
+                return qtg.QIcon(":/cpp/abstract_destructor.svg")
+            elif self.isVirtual():
+                return qtg.QIcon(":/cpp/virtual_destructor.svg")
+            else:
+                return qtg.QIcon(":/cpp/destructor.svg")
+        elif self.isOperator():
+            if self.isAbstract():
+                return qtg.QIcon(":/cpp/abstract_operator.svg")
+            elif self.isVirtual():
+                return qtg.QIcon(":/cpp/virtual_operator.svg")
+            else:
+                return qtg.QIcon(":/cpp/operator.svg")
+        else:
+            if self.isAbstract():
+                return qtg.QIcon(":/cpp/abstract_function.svg")
+            elif self.isVirtual():
+                return qtg.QIcon(":/cpp/virtual_function.svg")
+            elif self.isStatic():
+                return qtg.QIcon(":/cpp/static_function.svg")
+            else:
+                return qtg.QIcon(":/cpp/function.svg")
+
+
+    def isAbstract(self):
+        """
+        Getter method.
+
+        return : True if this function is abstract or false otherwise.
+        """
+        return bool(int(self._p_abstract))
+
+
+    def isConstant(self):
+        """
+        Getter method.
+
+        return : True if this function is constant or false otherwise.
+        """
+        return bool(int(self._p_const))
+
+
+    def isConstructor(self):
+        """
+        Getter method.
+
+        return : True if this function is a constructor or false otherwise.
+        """
+        return self._p_name == "^"
+
+
+    def isDefault(self):
+        """
+        Getter method.
+
+        return : True if this function is the default or false otherwise.
+        """
+        return bool(int(self._p_default))
+
+
+    def isDeleted(self):
+        """
+        Getter method.
+
+        return : True if this function is deleted or false otherwise.
+        """
+        return bool(int(self._p_deleted))
+
+
+    def isDestructor(self):
+        """
+        Getter method.
+
+        return : True if this function is a destructor or false otherwise.
+        """
+        return self._p_name == "~^"
+
+
+    def isExplicit(self):
+        """
+        Getter method.
+
+        return : True if this function is an explicit constructor or false otherwise.
+        """
+        return bool(int(self._p_explicit))
+
+
+    def isFinal(self):
+        """
+        Getter method.
+
+        return : True if this function is the final overriding virtual interface or false otherwise.
+        """
+        return bool(int(self._p_final))
+
+
+    def isMethod(self):
+        """
+        Getter method.
+
+        return : True if this function is a method or false otherwise.
+        """
+        return self.parent()._TYPE_ == "Access"
+
+
+    def isNoExcept(self):
+        """
+        Getter method.
+
+        return : True if this function does not throw exceptions or false otherwise.
+        """
+        return bool(int(self._p_noexcept))
+
+
+    def isOperator(self):
+        """
+        Getter method.
+
+        return : True if this function is an operator or false otherwise.
+        """
+        return self._p_name.startswith("operator")
+
+
+    def isOverride(self):
+        """
+        Getter method.
+
+        return : True if this function is overriding a virtual interface or false otherwise.
+        """
+        return bool(int(self._p_override))
+
+
+    def isStatic(self):
+        """
+        Getter method.
+
+        return : True if this function is static or false otherwise.
+        """
+        return bool(int(self._p_static))
+
+
+    def isVirtual(self):
+        """
+        Getter method.
+
+        return : True if this function is virtual or false otherwise.
+        """
+        return bool(int(self._p_virtual))
+
+
+    def isVolatileAbove(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return self.isMethod()
+
+
     def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.setDefaultProperties(self)
         self._p_name = "function"
-        self._p_return_type = "void"
-        self._p_return_description = "Detailed Description."
+        self._p_returnType = "void"
+        self._p_returnDescription = "Detailed Description."
         self._p_inlines = ""
         self._p_default = "0"
         self._p_deleted = "0"
@@ -420,62 +476,6 @@ class Function(Templatee):
         self._p_override = "0"
         self._p_final = "0"
         self._p_abstract = "0"
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        namespace.Base.clearProperties(self)
-        self._p_return_type = ""
-        self._p_return_description = ""
-        self._p_inlines = ""
-        self._p_default = "0"
-        self._p_deleted = "0"
-        self._p_explicit = "0"
-        self._p_virtual = "0"
-        self._p_const = "0"
-        self._p_static = "0"
-        self._p_noexcept = "0"
-        self._p_override = "0"
-        self._p_final = "0"
-        self._p_abstract = "0"
-
-
-    def build_declaration(self, begin, template):
-        """
-        Detailed description.
-
-        begin : Detailed description.
-
-        template : Detailed description.
-        """
-        ret = "\n"*settings.H2LINES
-        ret += begin + "/*!\n"
-        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
-        args = []
-        for child in self:
-            if child._TYPE_ == "Variable":
-                args.append(child.build_argument())
-                ret += begin + " *\n" + child.build_comment(begin+" * ")
-        if self._p_return_type != "void":
-            header = self._p_return_type + " : "
-            ret += (
-                begin
-                + " *\n"
-                + ut.wrapText(header + self._p_return_description,begin+" * "," "*len(header),100)
-            )
-        ret += begin + " */\n"
-        ret += begin
-        if not self.is_constructor() and not self.is_destructor():
-            ret += self._p_return_type + " "
-        ret += self.__name_() + "("
-        ret += ", ".join(args) + ")"
-        if template:
-            ret += "\n" + begin + "{\n" + begin + "}\n"
-        else:
-            ret += ";\n"
-        return ret
 
 
     #####################
@@ -483,14 +483,18 @@ class Function(Templatee):
     #####################
 
 
-    def __name_(self):
+    def __argumentsView_(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : Rich text detailed view of all this function's arguments. If this function has no
+                 arguments then this returns an empty string.
         """
-        if self.isMethod():
-            return self._p_name.replace("^",self.parent().parent()._p_name)
-        else:
-            return self._p_name
+        return ut.richText(
+            2
+            ,"Arguments"
+            ,"".join((child.argumentView() for child in self if child._TYPE_ == "Variable"))
+        )
 
 
     def __checkFlags_(self):
@@ -517,44 +521,30 @@ class Function(Templatee):
                  enabled then an empty string is returned.
         """
         ret = ""
-        if self.is_default():
+        if self.isDefault():
             ret += "D"
-        if self.is_deleted():
+        if self.isDeleted():
             ret += "R"
-        if self.is_explicit():
+        if self.isExplicit():
             ret += "E"
-        if self.is_const():
+        if self.isConstant():
             ret += "C"
         if self.isStatic():
             ret += "S"
-        if self.is_noexcept():
+        if self.isNoExcept():
             ret += "N"
-        if self.is_virtual():
+        if self.isVirtual():
             ret += "V"
-        if self.is_override():
+        if self.isOverride():
             ret += "O"
-        if self.is_final():
+        if self.isFinal():
             ret += "F"
         if self.isAbstract():
             ret += "A"
         return ret
 
 
-    def __argumentsView_(self):
-        """
-        Getter method.
-
-        return : Rich text detailed view of all this function's arguments. If this function has no
-                 arguments then this returns an empty string.
-        """
-        return ut.richText(
-            2
-            ,"Arguments"
-            ,"".join((child.argumentView() for child in self if child._TYPE_ == "Variable"))
-        )
-
-
-    def __flags_list_(self):
+    def __flagsList_(self):
         """
         Getter method.
 
@@ -562,24 +552,34 @@ class Function(Templatee):
                  then an empty string is returned.
         """
         flags = []
-        if self.is_default():
+        if self.isDefault():
             flags.append("Default")
-        if self.is_deleted():
+        if self.isDeleted():
             flags.append("Deleted")
-        if self.is_explicit():
+        if self.isExplicit():
             flags.append("Explicit")
-        if self.is_const():
+        if self.isConstant():
             flags.append("Constant")
         if self.isStatic():
             flags.append("Static")
-        if self.is_noexcept():
+        if self.isNoExcept():
             flags.append("No Exceptions")
-        if self.is_virtual():
+        if self.isVirtual():
             flags.append("Virtual")
-        if self.is_override():
+        if self.isOverride():
             flags.append("Override")
-        if self.is_final():
+        if self.isFinal():
             flags.append("Final")
         if self.isAbstract():
             flags.append("Abstract")
         return flags
+
+
+    def __name_(self):
+        """
+        Detailed description.
+        """
+        if self.isMethod():
+            return self._p_name.replace("^",self.parent().parent()._p_name)
+        else:
+            return self._p_name

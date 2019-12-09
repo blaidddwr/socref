@@ -41,6 +41,14 @@ class Base(abstract.AbstractBlock):
     ####################
 
 
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        self._p_name = ""
+        self._p_description = ""
+
+
     def displayName(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
@@ -78,14 +86,6 @@ class Base(abstract.AbstractBlock):
         self._p_description = "Detailed Description."
 
 
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        self._p_name = ""
-        self._p_description = ""
-
-
 
 
 
@@ -118,18 +118,35 @@ class Namespace(Base):
     ####################
 
 
-    def is_hidden(self):
+    def buildList(self):
         """
-        Getter method.
+        Implements the socref.abstract.AbstractBlock interface.
 
-        return : True if this is a hidden namespace that must not have its name added to the scoping
-                 of source code files nor have its own header or source file. If this is a regular
-                 visible namespace then false is returned.
+        return : See interface docs.
         """
-        return bool(int(self._p_hidden))
+        return ("Namespace","Enumeration","Variable","Function","Class","Union")
 
 
-    def has_functions(self):
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        Base.clearProperties(self)
+        self._p_hidden = "0"
+
+
+    def editDefinitions(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        ret = Base.editDefinitions(self)
+        ret.append(ut.checkboxEdit("Hidden","_p_hidden"))
+        return ret
+
+
+    def hasFunctions(self):
         """
         Getter method.
 
@@ -147,47 +164,21 @@ class Namespace(Base):
 
         return : See interface docs.
         """
-        if self.is_hidden():
+        if self.isHidden():
             return qtg.QIcon(":/cpp/hidden_namespace.svg")
         else:
             return qtg.QIcon(":/cpp/namespace.svg")
 
 
-    def buildList(self):
+    def isHidden(self):
         """
-        Implements the socref.abstract.AbstractBlock interface.
+        Getter method.
 
-        return : See interface docs.
+        return : True if this is a hidden namespace that must not have its name added to the scoping
+                 of source code files nor have its own header or source file. If this is a regular
+                 visible namespace then false is returned.
         """
-        return ("Namespace","Enumeration","Variable","Function","Class","Union")
-
-
-    def editDefinitions(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        ret = Base.editDefinitions(self)
-        ret.append(ut.checkboxEdit("Hidden","_p_hidden"))
-        return ret
-
-
-    def setDefaultProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        Base.setDefaultProperties(self)
-        self._p_name = "namespace"
-        self._p_hidden = "0"
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        Base.clearProperties(self)
-        self._p_hidden = "0"
+        return bool(int(self._p_hidden))
 
 
     def parser(self):
@@ -197,3 +188,12 @@ class Namespace(Base):
         return : See interface docs.
         """
         return parser.Parser(self)
+
+
+    def setDefaultProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        Base.setDefaultProperties(self)
+        self._p_name = "namespace"
+        self._p_hidden = "0"

@@ -39,22 +39,21 @@ class Enum(namespace.Base):
     ####################
 
 
-    def is_class(self):
-        """
-        Getter method.
-
-        return : True if this is a class enumeration or false if it is a regular enumeration.
-        """
-        return bool(int(self._p_class))
-
-
-    def icon(self):
+    def buildList(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
 
         return : See interface docs.
         """
-        return qtg.QIcon(":/cpp/enumeration.svg")
+        return ("Enumeration Value",)
+
+
+    def clearProperties(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+        """
+        namespace.Base.clearProperties(self)
+        self._p_class = "0"
 
 
     def displayName(self):
@@ -64,7 +63,7 @@ class Enum(namespace.Base):
         return : See interface docs.
         """
         ret = self._p_name
-        if self.is_class():
+        if self.isClass():
             ret += " [C]"
         return ret
 
@@ -75,17 +74,8 @@ class Enum(namespace.Base):
 
         return : See interface docs.
         """
-        class_ = "<p><i>Class</i></p>" if self.is_class() else ""
+        class_ = "<p><i>Class</i></p>" if self.isClass() else ""
         return namespace.Base.displayView(self) + class_
-
-
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ("Enumeration Value",)
 
 
     def editDefinitions(self):
@@ -99,18 +89,28 @@ class Enum(namespace.Base):
         return ret
 
 
+    def icon(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return qtg.QIcon(":/cpp/enumeration.svg")
+
+
+    def isClass(self):
+        """
+        Getter method.
+
+        return : True if this is a class enumeration or false if it is a regular enumeration.
+        """
+        return bool(int(self._p_class))
+
+
     def setDefaultProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.setDefaultProperties(self)
         self._p_name = "enumeration"
-        self._p_class = "0"
-
-
-    def clearProperties(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-        """
-        namespace.Base.clearProperties(self)
         self._p_class = "0"
