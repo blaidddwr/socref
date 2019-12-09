@@ -566,6 +566,8 @@ class MainWindow(qtw.QMainWindow):
     # The key used to save this window's geometry using qt settings to make it persistent.
     #
     __GEOMETRY_KEY = "gui.window.main.geometry"
+
+
     #
     # The key used to save this window's state using qt settings to make it persistent.
     #

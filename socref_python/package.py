@@ -57,10 +57,12 @@ class Package(abstract.AbstractBlock):
                  it in the source code. The given scanned definitions and optional begin string are
                  used to generate the lines.
         """
-        ret = '"""\n'
+        ret = []
+        ret.append('"""')
         ret += ut.wrapBlocks(self._p_description,columns=settings.COLUMNS)
-        ret += '"""\n'
-        ret += "\n".join(definition.pop("header") + [""])
+        ret.append('"""')
+        ret += definition.pop("header")
+        ret.append("")
         return ret
 
 
@@ -159,18 +161,6 @@ class Package(abstract.AbstractBlock):
         self._p_description = "Detailed description."
 
 
-    def space(self, previous):
-        """
-        This interface is a getter method.
-
-        previous : The block whose source code output is previous to this one.
-
-        return : The number of blank lines that separates this block's source code output from the
-                 given previous block's output. The default implementation returns an empty string.
-        """
-        return ""
-
-
     #######################
     # PROTECTED - Methods #
     #######################
@@ -187,10 +177,7 @@ class Package(abstract.AbstractBlock):
         return : A string that is the combined source code of all this block's children's build
                  interface, separated using their space interface.
         """
-        ret = ""
-        previous = None
+        ret = []
         for block in self:
-            ret += block.space(previous)
             ret += block.build(definition,begin)
-            previous = block
         return ret

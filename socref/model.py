@@ -80,15 +80,21 @@ class ParserModel(qtc.QObject):
     # Signals this parser has finished parsing.
     #
     finished = qtc.Signal()
+
+
     #
     # Signals this parser has made the given percentage progress parsing. The range given is from 0
     # to 100.
     #
     progressed = qtc.Signal(int)
+
+
     #
     # Signals this parser had remaining unknown code fragments after finishing the last parsing.
     #
     remained = qtc.Signal(dict)
+
+
     #
     # Signals this parser has started parsing.
     #
@@ -683,10 +689,14 @@ class ProjectModel(qtc.QAbstractItemModel):
     # Signals this model's project has been modified with unsaved changes.
     #
     modified = qtc.Signal()
+
+
     #
     # Signals this model's project name has changed to the value given.
     #
     nameChanged = qtc.Signal(str)
+
+
     #
     # Signals this model's relative parsing path has changed to the value given.
     #
@@ -915,18 +925,26 @@ class ProjectModel(qtc.QAbstractItemModel):
     # The root copy tag used for internal copy XML byte arrays.
     #
     __COPY_TAG = "pysoref_copy"
+
+
     #
     # The language tag used for the language name text element of XML project files.
     #
     __LANG_TAG = "language"
+
+
     #
     # The name tag used for the project name text element of XML project files.
     #
     __NAME_TAG = "name"
+
+
     #
     # The parse path tag used for the parse path text element of XML project files.
     #
     __PARSE_PATH_TAG = "parse_path"
+
+
     #
     # The root tag used for XML project files.
     #
@@ -955,18 +973,26 @@ class Role(enum.Enum):
     # Defines the block type role which represents a block's type name.
     #
     BLOCK_TYPE = qtc.Qt.UserRole + 0
+
+
     #
     # Defines the view role which represents a block's detailed rich text view.
     #
     VIEW = qtc.Qt.UserRole + 1
+
+
     #
     # Defines the build list role which represents a block's build list.
     #
     BUILD_LIST = qtc.Qt.UserRole + 2
+
+
     #
     # Defines the properties role which represents a block's properties.
     #
     PROPERTIES = qtc.Qt.UserRole + 3
+
+
     #
     # Defines the edit definitions role which represents a block's edit definitions.
     #

@@ -56,10 +56,11 @@ class Access(package.Package):
 
         return : See interface docs.
         """
+        ret = [""]*settings.H3LINES
         line = "# %s - %s #" % (self._p_type.upper(),self._p_name)
-        ret = begin + "#"*len(line) + "\n"
-        ret += begin + line + "\n"
-        ret += begin + "#"*len(line) + "\n"
+        ret.append(begin + "#"*len(line))
+        ret.append(begin + line)
+        ret.append(ret[-2])
         ret += self._buildChildren_(definition,begin)
         return ret
 
@@ -160,14 +161,3 @@ class Access(package.Package):
         """
         self._p_name = "access"
         self._p_type = "Public"
-
-
-    def space(self, previous):
-        """
-        Implements the .package.Package interface.
-
-        previous : See interface docs.
-
-        return : See interface docs.
-        """
-        return "\n"*settings.H3LINES

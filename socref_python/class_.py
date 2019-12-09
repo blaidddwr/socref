@@ -57,15 +57,16 @@ class Class(function.Descriptor):
         # Get the scanned dictionary definition of this class.
         #
         definition = definition["classes"].get(self._p_name,{"functions":{}})
-        ret = self._buildDescriptors_(begin)
-        ret += "%sclass %s(%s):\n" % (begin,self._p_name,self.__buildParents_())
-        ret += begin + " "*settings.INDENT + '"""\n'
+        ret = [""]*settings.H1LINES
+        ret += self._buildDescriptors_(begin)
+        ret.append("%sclass %s(%s):" % (begin,self._p_name,self.__buildParents_()))
+        ret.append(begin + " "*settings.INDENT + '"""')
         ret += ut.wrapBlocks(
             self._p_description
             ,begin=begin + " "*settings.INDENT
             ,columns=settings.COLUMNS
         )
-        ret += begin + " "*settings.INDENT + '"""\n'
+        ret.append(begin + " "*settings.INDENT + '"""')
         ret += self._buildChildren_(definition,begin + " " * settings.INDENT)
         return ret
 
@@ -153,17 +154,6 @@ class Class(function.Descriptor):
         function.Descriptor.setDefaultProperties(self)
         self._p_name = "class"
         self._p_parents = ""
-
-
-    def space(self, previous):
-        """
-        Implements the .package.Package interface.
-
-        previous : See interface docs.
-
-        return : See interface docs.
-        """
-        return "\n"*settings.H1LINES
 
 
     #####################

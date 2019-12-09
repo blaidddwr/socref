@@ -104,8 +104,13 @@ class Parser(abstract.AbstractParser):
 
         return : See interface docs.
         """
-        return block.build(
-            self.__definitions.get(path,{"header": [], "functions": {}, "classes": {}})
+        return (
+            "\n".join(
+                block.build(
+                    self.__definitions.get(path,{"header": [], "functions": {}, "classes": {}})
+                )
+            )
+            + "\n"
         )
 
 

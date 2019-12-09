@@ -269,14 +269,20 @@ class ProjectView(qtw.QTreeView):
     # Signals that the current index of this project has changed.
     #
     indexChanged = qtc.Signal(qtc.QModelIndex)
+
+
     #
     # Signals that the data of this project's current index has changed.
     #
     indexDataChanged = qtc.Signal()
+
+
     #
     # Signals that the currently indexed block of this project has moved to a new index.
     #
     indexMoved = qtc.Signal(qtc.QModelIndex)
+
+
     #
     # Signals that the this project's current index is about to be removed from its model.
     #
@@ -751,6 +757,8 @@ class ProjectView(qtw.QTreeView):
     # can be enabled.
     #
     __blockTypeSet = None
+
+
     #
     # Global XML byte array that stored the data of copied blocks, if any. If no blocks have been
     # copied then this is none.
@@ -767,10 +775,14 @@ class ProjectView(qtw.QTreeView):
     # The "after" insert option.
     #
     __AFTER = 2
+
+
     #
     # The "before" insert option.
     #
     __BEFORE = 0
+
+
     #
     # The "into" insert option.
     #

@@ -209,9 +209,16 @@ def wrapBlocks(text, begin="", separator="", columns=80):
     return : The wrap text function's returned but with paragraphs being separated by the given
              string.
     """
-    return "\n".join(
-        (wrapText(block,begin=begin,columns=columns) for block in text.split("\n\n") if block)
-    )
+    ret = []
+    first = True
+    for block in text.split("\n\n"):
+        if block:
+            if not first:
+                ret += [""]
+            else:
+                first = False
+            ret += wrapText(block,begin,columns=columns)
+    return ret
 
 
 
@@ -231,7 +238,7 @@ def wrapText(text, begin="", after="", columns=80):
     return : Wrapped text generated from the given text, optional begin and after strings, and
              maximum line length.
     """
-    ret = ""
+    ret = []
     words = text.split()
     first = True
     while words:
@@ -242,7 +249,7 @@ def wrapText(text, begin="", after="", columns=80):
             line = begin + after + words.pop(0)
         while words and (len(line) + len(words[0]) + 1) <= columns:
             line += " " + words.pop(0)
-        ret += line + "\n"
+        ret.append(line)
     return ret
 
 

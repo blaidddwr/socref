@@ -72,10 +72,7 @@ class Descriptor(package.Package):
         return : A string that is the source code for this block's descriptors. If this block has no
                  descriptors an empty string is returned.
         """
-        ret = "\n".join((begin + "@" + line for line in self._p_descriptors.split("\n") if line))
-        if ret:
-            ret += "\n"
-        return ret
+        return [begin + "@" + line for line in self._p_descriptors.split("\n") if line]
 
 
     def _descriptorsEditDefinition_(self):
@@ -163,7 +160,12 @@ class Function(Descriptor):
 
         return : See interface docs.
         """
-        ret = self.__buildHeader_(begin)
+        ret = []
+        if self.isMethod():
+            ret += [""]*settings.H3LINES
+        else:
+            ret += [""]*settings.H2LINES
+        ret += self.__buildHeader_(begin)
         ret += self.__buildDocString_(begin)
         ret += self.__buildLines_(definition["functions"].pop(self._p_name,[]),begin)
         return ret
@@ -293,25 +295,6 @@ class Function(Descriptor):
         self._p_abstract = "0"
 
 
-    def space(self, previous):
-        """
-        Implements the .package.Package interface.
-
-        previous : See interface docs.
-
-        return : See interface docs.
-        """
-        ret = ""
-        if self.isMethod():
-            ret = "\n"*settings.H3LINES
-        else:
-            if previous is not None and previous._TYPE_ == "Class":
-                ret = "\n"*settings.H1LINES
-            else:
-                ret = "\n"*settings.H2LINES
-        return ret
-
-
     #####################
     # PRIVATE - Methods #
     #####################
@@ -335,18 +318,18 @@ class Function(Descriptor):
 
         return : A string that is the source code doc string of this function.
         """
-        ret = begin + " "*settings.INDENT + '"""\n'
+        ret = [begin + " "*settings.INDENT + '"""']
         ret += ut.wrapBlocks(
             self._p_description
             ,begin=begin + " "*settings.INDENT
             ,columns=settings.COLUMNS
         )
         for arg in self:
-            ret += "\n" + arg.buildComment(begin + " "*settings.INDENT)
+            ret += [""] + arg.buildComment(begin + " "*settings.INDENT)
         if self._p_return_description:
             initial = "return : "
             ret += (
-                "\n"
+                [""]
                 + ut.wrapText(
                     initial + self._p_return_description
                     ,begin=begin + " "*settings.INDENT
@@ -354,7 +337,7 @@ class Function(Descriptor):
                     ,columns=settings.COLUMNS
                 )
             )
-        ret += '%s%s"""\n' % (begin," "*settings.INDENT)
+        ret.append(ret[0])
         return ret
 
 
@@ -369,11 +352,11 @@ class Function(Descriptor):
         """
         ret = self._buildDescriptors_(begin)
         if self.isAbstract():
-            ret += begin + "@%s\n" % settings.ABSTRACT_DESCRIPTOR
+            ret.append(begin + "@" + settings.ABSTRACT_DESCRIPTOR)
         arguments = [arg.buildArgument() for arg in self]
         if self.isMethod() and not self.isStatic():
             arguments.insert(0,"self")
-        ret += "%sdef %s(%s):\n" % (begin,self._p_name,", ".join(arguments))
+        ret.append("%sdef %s(%s):" % (begin,self._p_name,", ".join(arguments)))
         return ret
 
 
@@ -389,23 +372,23 @@ class Function(Descriptor):
                  and this function's inline comments.
         """
         if not lines:
-            return begin + " "*settings.INDENT + "pass\n"
-        ret = ""
+            return [begin + " "*settings.INDENT + "pass"]
+        ret = [""]
         inlines = [line for line in self._p_inlines.split("\n\n") if line]
         for line in lines:
             if line.endswith("#"):
                 if inlines:
-                    ret += begin + " "*settings.INDENT + line + "\n"
+                    ret.append(begin + " "*settings.INDENT + line)
                     ret += ut.wrapText(
                         inlines.pop(0)
                         ,begin=begin + " "*settings.INDENT + line + " "
                         ,columns=settings.COLUMNS
                     )
-                    ret += begin + " "*settings.INDENT + line + "\n"
+                    ret.append(begin + " "*settings.INDENT + line)
                 else:
-                    ret += begin + " "*settings.INDENT + line + "\n"
+                    ret.append(begin + " "*settings.INDENT + line)
             else:
-                ret += begin + " "*settings.INDENT + line + "\n"
+                ret.append(begin + " "*settings.INDENT + line)
         return ret
 
 

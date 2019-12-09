@@ -67,13 +67,15 @@ class Object(package.Package):
 
         return : See interface docs.
         """
-        ret = begin + "#\n"
+        ret = [""]*settings.H3LINES
+        blankCommentLine = begin + "#"
+        ret.append(blankCommentLine)
         ret += ut.wrapBlocks(self._p_description,begin=begin + "# ",columns=settings.COLUMNS)
-        ret += begin + "#\n"
-        ret += begin + self._p_name
+        ret.append(blankCommentLine)
+        line = begin + self._p_name
         if self._p_assignment:
-            ret += " = " + self._p_assignment
-        ret += "\n"
+            line += " = " + self._p_assignment
+        ret.append(line)
         return ret
 
 
@@ -200,31 +202,3 @@ class Object(package.Package):
         package.Package.setDefaultProperties(self)
         self._p_name = "object"
         self._p_assignment = ""
-
-
-    def space(self, previous):
-        """
-        Implements the .package.Package interface.
-
-        previous : See interface docs.
-
-        return : See interface docs.
-        """
-        ret = ""
-        if self.inClass():
-            if previous is None:
-                ret = "\n"*settings.H3LINES
-            elif previous._TYPE_ == "Function":
-                ret = "\n"*settings.H2LINES
-            else:
-                ret = ""
-        else:
-            if previous is None:
-                ret = "\n"*settings.H3LINES
-            elif previous._TYPE_ == "Function":
-                ret = "\n"*settings.H2LINES
-            elif previous._TYPE_ == "Class":
-                ret = "\n"*settings.H1LINES
-            else:
-                ret = ""
-        return ret

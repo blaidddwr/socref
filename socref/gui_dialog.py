@@ -505,6 +505,8 @@ class CodeDialog(qtw.QDialog):
     # The key used to save this dialog's geometry using qt settings to make it persistent.
     #
     __GEOMETRY_KEY = "gui.dialog.code.geometry"
+
+
     #
     # The key used to save this dialog's state using qt settings to make it persistent.
     #

@@ -129,6 +129,8 @@ class SpellChecker(qtw.QGroupBox):
     # Signals this spell checker has changed the cursor given to it.
     #
     cursorChanged = qtc.Signal(qtg.QTextCursor)
+
+
     #
     # Signals this spell checker has finished checking and correcting for misspelled words.
     #

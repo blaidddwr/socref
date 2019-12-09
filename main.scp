@@ -4760,17 +4760,6 @@ Edit toolbar.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                        <Function>
-                            <__p_name>space</__p_name>
-                            <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>The number of blank lines that separates this block's source code output from the given previous block's output. The default implementation returns an empty string.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>previous</__p_name>
-                                <__p_description>The block whose source code output is previous to this one.</__p_description>
-                            </Object>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -4993,17 +4982,6 @@ Edit toolbar.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                        <Function>
-                            <__p_name>space</__p_name>
-                            <__p_description>Implements the .package.Package interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>previous</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                        </Function>
                     </Access>
                 </Class>
             </Module>
@@ -5179,17 +5157,6 @@ Edit toolbar.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                        <Function>
-                            <__p_name>space</__p_name>
-                            <__p_description>Implements the .package.Package interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>previous</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -5347,17 +5314,6 @@ Edit toolbar.
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
-                        <Function>
-                            <__p_name>space</__p_name>
-                            <__p_description>Implements the .package.Package interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>previous</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
-                        </Function>
                     </Access>
                     <Access>
                         <__p_name>Methods</__p_name>
@@ -5469,17 +5425,6 @@ Edit toolbar.
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>space</__p_name>
-                            <__p_description>Implements the .package.Package interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>previous</__p_name>
-                                <__p_description>See interface docs.</__p_description>
-                            </Object>
                         </Function>
                     </Access>
                 </Class>

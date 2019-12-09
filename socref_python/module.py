@@ -55,7 +55,8 @@ class Module(package.Package):
         # Add the special main function call if this is the special main module of a package.
         #
         if self._p_name == "__main__":
-            ret += "\n"*settings.H1LINES + 'if __name__ == "__main__": main()\n'
+            ret += [""]*settings.H1LINES
+            ret.append('if __name__ == "__main__": main()')
         return ret
 
 
