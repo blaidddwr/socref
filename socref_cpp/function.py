@@ -161,31 +161,36 @@ class Function(Templatee):
 
         template : Detailed description.
         """
-        ret = "\n"*settings.H2LINES
-        ret += begin + "/*!\n"
+        ret = [""]*settings.H2LINES
+        ret.append(begin+"/*!")
         ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         args = []
         for child in self:
             if child._TYPE_ == "Variable":
                 args.append(child.buildArgument())
-                ret += begin + " *\n" + child.buildComment(begin+" * ")
+                ret += [begin+" *"] + child.buildComment(begin+" * ")
         if self._p_returnType != "void":
             header = self._p_returnType + " : "
-            ret += (
-                begin
-                + " *\n"
-                + ut.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
-            )
-        ret += begin + " */\n"
-        ret += begin
+            ret.append(begin+" *")
+            ret += ut.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
+        ret.append(begin+" */")
+        line = [begin]
         if not self.isConstructor() and not self.isDestructor():
-            ret += self._p_returnType + " "
-        ret += self.__name_() + "("
-        ret += ", ".join(args) + ")"
-        if template:
-            ret += "\n" + begin + "{\n" + begin + "}\n"
+            line.append(self._p_returnType + " ")
+        line.append(self.__name_()+"(")
+        if not args:
+            line.append(", ".join(args)+");")
+            ret.append("".join(line))
         else:
-            ret += ";\n"
+            newBegin = begin + " "*settings.INDENT
+            ret.append("".join(line))
+            first = True
+            for arg in args:
+                ret.append(newBegin + arg)
+                if first:
+                    newBegin = newBegin + ","
+                    first = False
+            ret.append(begin + ");")
         return ret
 
 

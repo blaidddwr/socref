@@ -52,27 +52,23 @@ class Variable(template.Template):
 
         template : Detailed description.
         """
-        ret = "\n"*settings.H2LINES
-        ret += (
-            begin
-            + "/*!\n"
-            + ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
-            + begin
-            + " */\n"
-        )
-        ret += begin
+        ret = [""]*settings.H2LINES
+        ret.append(begin + "/*!")
+        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        ret.append(begin + " */")
+        line = [begin]
         if self.isStatic():
-            ret += "static "
+            line.append("static ")
         if self.isConstExpr():
-            ret += "constexpr "
+            line.append("constexpr ")
         if self.isMutable():
-            ret += "mutable "
+            line.append("mutable ")
         if self.isThreadLocal():
-            ret += "thread_local "
-        ret += self._p_type.replace("@",self._p_name)
+            line.append("thread_local ")
+        line.append(self._p_type.replace("@",self._p_name))
         if self._p_assignment and (self.isConstExpr() or not self.isStatic()):
-            ret += " {%s}" % self._p_assignment
-        ret += ";\n"
+            line.append(" {%s}"%self._p_assignment)
+        ret.append("".join(line) + ";")
         return ret
 
 
@@ -85,7 +81,7 @@ class Variable(template.Template):
         if self._p_assignment and self.isStatic() and not self.isConstExpr():
             if scope:
                 scope += "::"
-            return self._p_type.replace("@",scope+self._p_name) + " {%s};\n"%self._p_assignment
+            return [self._p_type.replace("@",scope+self._p_name) + " {%s};\n"%self._p_assignment]
         else:
             return ""
 

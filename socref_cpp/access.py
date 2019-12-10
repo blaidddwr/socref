@@ -51,24 +51,22 @@ class Access(abstract.AbstractBlock):
 
         template : Detailed description.
         """
-        ret = "\n"*settings.H2LINES
+        ret = [""]*settings.H2LINES
         header = []
         footer = []
+        nextBegin = begin + " "*settings.INDENT
         if self._p_enclosure:
             blocks = self._p_enclosure.split("\n@\n")
             if blocks:
-                header = [line for line in blocks[0].split("\n") if line]
+                header = [nextBegin+line for line in blocks[0].split("\n") if line]
             if len(blocks) > 1:
-                footer = [line for line in blocks[1].split("\n") if line]
-        ret += begin + "/* %s */\n"%self._p_name
-        ret += begin + self._p_type.lower() + ":\n"
-        next_begin = begin + " "*settings.INDENT
-        if header:
-            ret += next_begin + "\n".join(header) + "\n"
+                footer = [nextBegin+line for line in blocks[1].split("\n") if line]
+        ret.append(begin + "/* %s */"%self._p_name)
+        ret.append(begin+self._p_type.lower()+":")
+        ret += header
         for child in self:
-            ret += child.buildDeclaration(next_begin,template)
-        if footer:
-            ret += "\n"*settings.H2LINES + next_begin + "\n".join(footer) + "\n"
+            ret += child.buildDeclaration(nextBegin,template)
+        ret += footer
         return ret
 
 
@@ -80,7 +78,7 @@ class Access(abstract.AbstractBlock):
 
         template : Detailed description.
         """
-        ret = ""
+        ret = []
         if template:
             for child in self:
                 if child._TYPE_ == "Variable":

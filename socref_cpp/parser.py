@@ -64,9 +64,9 @@ class Parser(abstract.AbstractParser):
         return : See interface docs.
         """
         if path.endswith(".h"):
-            return block.buildHeader({})
+            return "\n".join(block.buildHeader({})) + "\n"
         elif path.endswith(".cpp"):
-            return block.buildSource({})
+            return "\n".join(block.buildSource({})) + "\n"
         else:
             raise RuntimeError("Invalid path given for building.")
 

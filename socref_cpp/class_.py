@@ -52,23 +52,18 @@ class Class(function.Templatee):
         """
         if self.hasTemplates():
             template = True
-        ret = begin + "\n"*settings.H1LINES
-        ret += (
-            begin
-            + "/*!\n"
-            + ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
-            + begin
-            + " */\n"
-        )
-        ret += begin + self.templateDeclaration() + "class %s\n"%self._p_name
-        ret += begin + "{\n"
-        header = [begin + " "*settings.INDENT + line for line in self._p_header.split("\n") if line]
-        if header:
-            ret += "\n".join(header) + "\n"
+        ret = [""]*settings.H1LINES
+        ret.append(begin+"/*!")
+        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        ret.append(begin+" */")
+        ret.append(begin+self.templateDeclaration()+"class "+self._p_name)
+        ret.append(begin+"{")
+        newBegin = begin + " "*settings.INDENT
+        ret += [newBegin + line for line in self._p_header.split("\n") if line]
         for child in self:
             if child._TYPE_ == "Access":
                 ret += child.buildHeader(begin,template)
-        ret += begin+"};\n"
+        ret.append(begin+"};")
         return ret
 
 
@@ -98,16 +93,16 @@ class Class(function.Templatee):
             up = up.parent()
         names.reverse()
         if names:
-            ret += "\n"
+            ret.append("")
             for name in names:
-                ret += "namespace " + name + "\n{\n"
+                ret += ["namespace "+name,"{"]
         ret += self.buildDeclaration("",False)
         defs = self.buildHeaderDefinitions("",False)
         if defs:
-            ret += "\n"*settings.H2LINES + defs
+            ret += [""]*settings.H2LINES + defs
         if names:
-            ret += "\n" + "}\n"*len(names)
-        ret += "\n#endif\n"
+            ret += [""] + ["}"]*len(names)
+        ret.append("#endif")
         return ret
 
 
@@ -125,7 +120,7 @@ class Class(function.Templatee):
         if self.hasTemplates():
             template = True
             scope += self.templateScope()
-        ret = ""
+        ret = []
         for child in self:
             if child._TYPE_ == "Access":
                 ret += child.buildHeaderDefinitions(scope,template)
@@ -259,4 +254,4 @@ class Class(function.Templatee):
             up = up.parent()
         names.reverse()
         guard = "_".join(names) + "_H"
-        return "#ifndef %s\n#define %s\n" % (guard,guard)
+        return ["#ifndef " + guard,"#define " + guard]
