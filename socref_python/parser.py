@@ -161,11 +161,11 @@ class Parser(abstract.AbstractParser):
         path : The path of the given parent block that is appended to any child block's path added.
         """
         for block in parent:
-            if block.dirName() is not None:
-                self._addPath_(block,os.path.join(path,block.dirName(),"__init__.py"))
-                self.__buildPaths_(block,os.path.join(path,block.dirName()))
-            elif block.fileName() is not None:
-                self._addPath_(block,os.path.join(path,block.fileName()))
+            if block._TYPE_ == "Package"
+                self._addPath_(block,os.path.join(path,block._p_name,"__init__.py"))
+                self.__buildPaths_(block,os.path.join(path,block._p_name))
+            elif block._TYPE_ == "Module":
+                self._addPath_(block,os.path.join(path,block._p_name+".py"))
 
 
     def __scanClass_(self, ifile):

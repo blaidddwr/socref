@@ -41,6 +41,83 @@ class Base(abstract.AbstractBlock):
     ####################
 
 
+    def buildDeclaration(self, begin):
+        """
+        This interface is a getter method.
+
+        begin : A string that is added to the beginning of each returned line of declaration code.
+
+        return : A list of source code lines that is the declaration of this block.
+        """
+        return []
+
+
+    def buildDefinition(self, definitions, scope, template, begin):
+        """
+        This interface is a getter method.
+
+        definitions : A dictionary containing scanned lines of function code where the key is a
+                      function's signature.
+
+        scope : A string that is the scope for this block, not including the final double colon
+                characters.
+
+        template : A string that is any template declarations that this block is within.
+
+        begin : A string that is added to the beginning of every returned line of code.
+
+        return : A list of source code lines that is the definition of this block.
+        """
+        return []
+
+
+    def buildHeader(self, definitions):
+        """
+        This interface is a getter method.
+
+        definitions : A dictionary containing scanned lines of function code where the key is a
+                      function's signature.
+
+        return : A list of source code lines that is the entire header file this block represents.
+                 If this block does not represent a header file then an empty list is returned.
+        """
+        return []
+
+
+    def buildSource(self, definitions):
+        """
+        This interface is a getter method.
+
+        definitions : A dictionary containing scanned lines of function code where the key is a
+                      function's signature.
+
+        return : A list of source code lines that is the entire source file this block represents.
+                 If this block does not represent a source file then an empty list is returned.
+        """
+        return []
+
+
+    def buildTemplate(self, definitions, scope, template, begin):
+        """
+        This interface is a getter method.
+
+        definitions : A dictionary containing scanned lines of function code where the key is a
+                      function's signature.
+
+        scope : A string that is the scope for this block, not including the final double colon
+                characters.
+
+        template : A string that is any template declarations that this block is within.
+
+        begin : A string that is added to the beginning of every returned line of code.
+
+        return : A list of source code lines that is the template definition of this block. This
+                 means definitions that must exist in the header file due to the block being part of
+                 a template.
+        """
+        return ([],[])
+
+
     def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.

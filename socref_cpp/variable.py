@@ -44,46 +44,45 @@ class Variable(template.Template):
     ####################
 
 
-    def buildDeclaration(self, begin, template):
+    def buildDeclaration(self, begin):
         """
-        Detailed description.
+        Implements the .namespace.Base interface.
 
-        begin : Detailed description.
+        begin : See interface docs.
 
-        template : Detailed description.
+        return : See interface docs.
         """
         ret = [""]*settings.H2LINES
         ret.append(begin + "/*!")
         ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         ret.append(begin + " */")
-        line = [begin]
-        if self.isStatic():
-            line.append("static ")
-        if self.isConstExpr():
-            line.append("constexpr ")
-        if self.isMutable():
-            line.append("mutable ")
-        if self.isThreadLocal():
-            line.append("thread_local ")
-        line.append(self._p_type.replace("@",self._p_name))
+        line = begin+self.__buildFlags_()+self._p_type.replace("@",self._p_name)
         if self._p_assignment and (self.isConstExpr() or not self.isStatic()):
-            line.append(" {%s}"%self._p_assignment)
+            line += " {%s}"%self._p_assignment
         ret.append("".join(line) + ";")
         return ret
 
 
-    def buildDefinition(self, scope):
+    def buildDefinition(self, definitions, scope, template, begin):
         """
-        Detailed description.
+        Implements the .namespace.Base interface.
 
-        scope : Detailed description.
+        definitions : See interface docs.
+
+        scope : See interface docs.
+
+        template : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
         """
         if self._p_assignment and self.isStatic() and not self.isConstExpr():
             if scope:
                 scope += "::"
-            return [self._p_type.replace("@",scope+self._p_name) + " {%s};\n"%self._p_assignment]
+            return [self._p_type.replace("@",scope+self._p_name)+" {%s};"%self._p_assignment]
         else:
-            return ""
+            return []
 
 
     def buildList(self):
@@ -247,6 +246,24 @@ class Variable(template.Template):
     #####################
     # PRIVATE - Methods #
     #####################
+
+
+    def __buildFlags_(self):
+        """
+        Getter method.
+
+        return : A string that is the code declarations for any flags this variable has enabled.
+        """
+        ret = ""
+        if self.isStatic():
+            ret += "static "
+        if self.isConstExpr():
+            ret += "constexpr "
+        if self.isMutable():
+            ret += "mutable "
+        if self.isThreadLocal():
+            ret += "thread_local "
+        return ret
 
 
     def __checkFlags_(self):

@@ -67,7 +67,7 @@ class Descriptor(package.Package):
         """
         Getter method.
 
-        begin : The indent or begin string that is appended to every line of returned code.
+        begin : The indent string that is added to the beginning of every line of returned code.
 
         return : A string that is the source code for this block's descriptors. If this block has no
                  descriptors an empty string is returned.
@@ -314,7 +314,7 @@ class Function(Descriptor):
         """
         Getter method.
 
-        begin : The indent or begin string that is appended to every line of returned code.
+        begin : The indent string that is added to the beginning of every line of returned code.
 
         return : A list of lines that is the source code doc string of this function.
         """
@@ -345,7 +345,7 @@ class Function(Descriptor):
         """
         Getter method.
 
-        begin : The indent or begin string that is appended to every line of returned code.
+        begin : The indent string that is added to the beginning of every line of returned code.
 
         return : A list of lines that is the source code of this function's header. The header
                  includes any descriptors and the define line.
@@ -366,7 +366,7 @@ class Function(Descriptor):
 
         lines : A list of code lines used to generate the returned source code lines.
 
-        begin : The indent or begin string that is appended to every line of returned code.
+        begin : The indent string that is added to the beginning of every line of returned code.
 
         return : A list of source code lines generated from the given list of code lines and this
                  function's inline comments.

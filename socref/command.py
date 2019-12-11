@@ -263,7 +263,7 @@ class InsertCommand(RemoveCommand):
 
         model : The project model where the given blocks are inserted.
         """
-        Remove.__init__(self,row,len(blocks),parent,model)
+        RemoveCommand.__init__(self,row,len(blocks),parent,model)
         self._blocks = blocks
 
 
@@ -276,14 +276,14 @@ class InsertCommand(RemoveCommand):
         """
         Implements the .command.Command interface.
         """
-        Remove.undo(self)
+        RemoveCommand.undo(self)
 
 
     def undo(self):
         """
         Implements the .command.Command interface.
         """
-        Remove.redo(self)
+        RemoveCommand.redo(self)
 
 
 

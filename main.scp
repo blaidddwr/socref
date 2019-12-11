@@ -317,12 +317,12 @@
                     </Object>
                     <Object>
                         <__p_name>begin</__p_name>
-                        <__p_description>A string that is appended to every line of wrapped text generated.</__p_description>
+                        <__p_description>A string that is addedto the beginning of every line of wrapped text generated.</__p_description>
                         <__p_assignment>&quot;&quot;</__p_assignment>
                     </Object>
                     <Object>
                         <__p_name>after</__p_name>
-                        <__p_description>A string of text that is appended to every wrapped line of text after the begin string.</__p_description>
+                        <__p_description>A string of text that is added to the beginning of every wrapped line of text, excluding the first line, after the begin string.</__p_description>
                         <__p_assignment>&quot;&quot;</__p_assignment>
                     </Object>
                     <Object>
@@ -3222,7 +3222,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>name</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>The new name of this window's model's project.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3341,25 +3341,25 @@ Edit toolbar.
             <__p_description>Contains the C++ language definition for Socrates' Reference.</__p_description>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Detailed description.</__p_description>
+                <__p_description>Contains all global settings for the C++ language module.</__p_description>
                 <Object>
                     <__p_name>COLUMNS</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The maximum number of columns for any one line of code.</__p_description>
                     <__p_assignment>100</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H1LINES</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The number of lines for a first order header.</__p_description>
                     <__p_assignment>4</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H2LINES</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The number of lines for a second order header.</__p_description>
                     <__p_assignment>2</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>INDENT</__p_name>
-                    <__p_description>Detailed description.</__p_description>
+                    <__p_description>The number of spaces used for each indent.</__p_description>
                     <__p_assignment>4</__p_assignment>
                 </Object>
             </Module>
@@ -3383,6 +3383,85 @@ Edit toolbar.
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>buildDeclaration</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is the declaration of this block.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of each returned line of declaration code.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildDefinition</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is the definition of this block.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>A dictionary containing scanned lines of function code where the key is a function's signature.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>A string that is the scope for this block, not including the final double colon characters.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>A string that is any template declarations that this block is within.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildHeader</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is the entire header file this block represents. If this block does not represent a header file then an empty list is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>A dictionary containing scanned lines of function code where the key is a function's signature.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildSource</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is the entire source file this block represents. If this block does not represent a source file then an empty list is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>A dictionary containing scanned lines of function code where the key is a function's signature.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildTemplate</__p_name>
+                            <__p_description>This interface is a getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is the template definition of this block. This means definitions that must exist in the header file due to the block being part of a template.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>A dictionary containing scanned lines of function code where the key is a function's signature.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>A string that is the scope for this block, not including the final double colon characters.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>A string that is any template declarations that this block is within.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                            </Object>
+                        </Function>
                         <Function>
                             <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
@@ -3665,18 +3744,20 @@ Edit toolbar.
                         </Function>
                         <Function>
                             <__p_name>buildArgument</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A source code fragment string that is the argument of this template.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>buildComment</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is a comment fragment for this template as an argument. This returns the correct doxygen syntax based off this block being an actual template or variable argument.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A string that is added to the beginning of returned lines of comment code.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3759,26 +3840,36 @@ Edit toolbar.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>template</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>buildDefinition</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
                                 <__p_name>scope</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -3882,6 +3973,13 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
+                            <__p_name>__buildFlags_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string that is the code declarations for any flags this variable has enabled.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>__checkFlags_</__p_name>
                             <__p_description>Sets this variable's flags to legal values if it is an argument or not part of a class.</__p_description>
                             <__p_static>0</__p_static>
@@ -3933,13 +4031,15 @@ Edit toolbar.
                         </Function>
                         <Function>
                             <__p_name>templateDeclaration</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string of code that is the template declaration of this block based off its child template blocks or an empty string if it has no templates.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>templateScope</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A string of code that is the template scope of this block based off its child template blocks or an empty string if it has no templates.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -3983,16 +4083,36 @@ Edit toolbar.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>buildDefinition</__p_name>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>template</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -4001,6 +4121,29 @@ Edit toolbar.
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>buildTemplate</__p_name>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
                         </Function>
                         <Function>
                             <__p_name>clearProperties</__p_name>
@@ -4159,6 +4302,59 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>__buildComments_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is the block comment for this function.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildDeclaration_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of lines that is the declaration, or header, of this function. If this function has no arguments or templates then a single line is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>The scope that is appended to the returned functions name.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>Any template declarations that is appended to its own line before the main function declaration.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>end</__p_name>
+                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildDefinition_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of source code lines that is the definition of this function, including the declaration at the beginning that is required in C++.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>A string that is the scope for this block, not including the final double colon characters.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>A string that is any template declarations that this block is within.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>__checkFlags_</__p_name>
                             <__p_description>Sets this function's flags to legal values if it is not a method.</__p_description>
                             <__p_static>0</__p_static>
@@ -4180,7 +4376,8 @@ Edit toolbar.
                         </Function>
                         <Function>
                             <__p_name>__name_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>The name of this function, taking into account if it is a constructor or destructor.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4210,54 +4407,24 @@ Edit toolbar.
                         <__p_type>Public</__p_type>
                         <Function>
                             <__p_name>buildDeclaration</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>template</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildDefinitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>template</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
                             <__p_name>buildHeader</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>definitions</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildHeaderDefinitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>scope</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>template</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -4268,10 +4435,27 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>buildSource</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>buildTemplate</__p_name>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
                         </Function>
                         <Function>
                             <__p_name>clearProperties</__p_name>
@@ -4316,7 +4500,8 @@ Edit toolbar.
                         </Function>
                         <Function>
                             <__p_name>isVirtual</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this class contains any virtual functions or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4339,7 +4524,8 @@ Edit toolbar.
                         <__p_type>Private</__p_type>
                         <Function>
                             <__p_name>__buildHeaderGuard_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of two lines that is the special header guard for this class's C++ header file.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4368,31 +4554,14 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Public</__p_type>
                         <Function>
-                            <__p_name>buildHeader</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_name>buildDeclaration</__p_name>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>template</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>buildHeaderDefinitions</__p_name>
-                            <__p_description>Detailed description.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>scope</__p_name>
-                                <__p_description>Detailed description.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>template</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>See interface docs.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -4401,6 +4570,29 @@ Edit toolbar.
                             <__p_return_description>See interface docs.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>buildTemplate</__p_name>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
                         </Function>
                         <Function>
                             <__p_name>clearProperties</__p_name>
@@ -4432,13 +4624,14 @@ Edit toolbar.
                         <Function>
                             <__p_name>hasAbstract</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>True if this access block contains abstract methods or false otherwise.</__p_return_description>
+                            <__p_return_description>True if this access block contains any abstract methods or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>hasVirtual</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this access block contains any virtual methods or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4623,7 +4816,7 @@ Edit toolbar.
             <__p_description>Contains the python language definition for Socrates' Reference.</__p_description>
             <Module>
                 <__p_name>settings</__p_name>
-                <__p_description>Contains all global settings for the core application.</__p_description>
+                <__p_description>Contains all global settings for the python language module.</__p_description>
                 <Object>
                     <__p_name>ABSTRACT_DESCRIPTOR</__p_name>
                     <__p_description>The descriptor, without the leading ampersand, used to make a class's method abstract.</__p_description>
@@ -4679,7 +4872,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>build</__p_name>
                             <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A list of source code lines that is the build output of this block and represents it in the source code. The given scanned definitions and optional begin string are used to generate the lines.</__p_return_description>
+                            <__p_return_description>A list of source code lines for this block.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
@@ -4688,7 +4881,7 @@ Edit toolbar.
                             </Object>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>An optional string that is appended to every line of the returned source code.</__p_description>
+                                <__p_description>An optional string that is added to the beginning of every line of returned source code.</__p_description>
                                 <__p_assignment>&quot;&quot;</__p_assignment>
                             </Object>
                         </Function>
@@ -4702,13 +4895,6 @@ Edit toolbar.
                         <Function>
                             <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>dirName</__p_name>
-                            <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A directory name this block represents in the source code structure of its respective project, if any. If this block does not represent a directory then none is returned.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4730,13 +4916,6 @@ Edit toolbar.
                             <__p_name>editDefinitions</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
-                            <__p_name>fileName</__p_name>
-                            <__p_description>This interface is a getter method.</__p_description>
-                            <__p_return_description>A file name this block represents in the source code of its respective project, if any. If this block does not represent a file then none is returned.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4830,13 +5009,6 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
-                            <__p_name>fileName</__p_name>
-                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
-                            <__p_return_description>See interface docs.</__p_return_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                        </Function>
-                        <Function>
                             <__p_name>icon</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -4905,7 +5077,7 @@ Edit toolbar.
                         </Function>
                         <Function>
                             <__p_name>buildComment</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
                             <__p_return_description>A list of lines that is the source code doc string fragment for this object as a function argument.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
@@ -5029,7 +5201,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
+                                <__p_description>The indent string that is added to the beginning of every line of returned code.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -5176,7 +5348,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
+                                <__p_description>The indent string that is added to the beginning of every line of returned code.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -5187,7 +5359,7 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
+                                <__p_description>The indent string that is added to the beginning of every line of returned code.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -5202,7 +5374,7 @@ Edit toolbar.
                             </Object>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>The indent or begin string that is appended to every line of returned code.</__p_description>
+                                <__p_description>The indent string that is added to the beginning of every line of returned code.</__p_description>
                             </Object>
                         </Function>
                         <Function>

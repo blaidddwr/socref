@@ -42,47 +42,37 @@ class Class(function.Templatee):
     ####################
 
 
-    def buildDeclaration(self, begin, template):
+    def buildDeclaration(self, begin):
         """
-        Detailed description.
+        Implements the .namespace.Base interface.
 
-        begin : Detailed description.
+        begin : See interface docs.
 
-        template : Detailed description.
+        return : See interface docs.
         """
-        if self.hasTemplates():
-            template = True
         ret = [""]*settings.H1LINES
         ret.append(begin+"/*!")
         ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         ret.append(begin+" */")
-        ret.append(begin+self.templateDeclaration()+"class "+self._p_name)
+        ret.append(begin+self.templateDeclaration())
+        ret.append(begin+"class "+self._p_name)
         ret.append(begin+"{")
         newBegin = begin + " "*settings.INDENT
         ret += [newBegin + line for line in self._p_header.split("\n") if line]
         for child in self:
             if child._TYPE_ == "Access":
-                ret += child.buildHeader(begin,template)
+                ret += child.buildDeclaration(begin)
         ret.append(begin+"};")
         return ret
 
 
-    def buildDefinitions(self, begin, template):
-        """
-        Detailed description.
-
-        begin : Detailed description.
-
-        template : Detailed description.
-        """
-        pass
-
-
     def buildHeader(self, definitions):
         """
-        Detailed description.
+        Implements the .namespace.Base interface.
 
-        definitions : Detailed description.
+        definitions : See interface docs.
+
+        return : See interface docs.
         """
         ret = self.__buildHeaderGuard_()
         names = []
@@ -96,34 +86,14 @@ class Class(function.Templatee):
             ret.append("")
             for name in names:
                 ret += ["namespace "+name,"{"]
-        ret += self.buildDeclaration("",False)
-        defs = self.buildHeaderDefinitions("",False)
-        if defs:
-            ret += [""]*settings.H2LINES + defs
+        ret += self.buildDeclaration("")
+        (variables,functions) = self.buildTemplate(definitions,"","","")
+        if variables:
+            ret += [""]*settings.H1LINES
+        ret += variables + functions
         if names:
             ret += [""] + ["}"]*len(names)
         ret.append("#endif")
-        return ret
-
-
-    def buildHeaderDefinitions(self, scope, template):
-        """
-        Detailed description.
-
-        scope : Detailed description.
-
-        template : Detailed description.
-        """
-        if scope:
-            scope += "::"
-        scope += self._p_name
-        if self.hasTemplates():
-            template = True
-            scope += self.templateScope()
-        ret = []
-        for child in self:
-            if child._TYPE_ == "Access":
-                ret += child.buildHeaderDefinitions(scope,template)
         return ret
 
 
@@ -136,11 +106,36 @@ class Class(function.Templatee):
         return ("Template","Access")
 
 
-    def buildSource(self):
+    def buildTemplate(self, definitions, scope, template, begin):
         """
-        Detailed description.
+        Implements the .namespace.Base interface.
+
+        definitions : See interface docs.
+
+        scope : See interface docs.
+
+        template : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
         """
-        pass
+        if scope:
+            scope += "::"
+        scope += self._p_name
+        if self.hasTemplates():
+            if template:
+                template += " "
+            template += self.templateDeclaration()
+            scope += self.templateScope()
+        variables = []
+        functions = []
+        for child in self:
+            if child._TYPE_ == "Access":
+                (v,f) = child.buildTemplate(definitions,scope,template,begin)
+                variables += v
+                functions += f
+        return (variables,functions)
 
 
     def clearProperties(self):
@@ -208,7 +203,9 @@ class Class(function.Templatee):
 
     def isVirtual(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : True if this class contains any virtual functions or false otherwise.
         """
         for child in self:
             if child._TYPE_ == "Access" and child.hasVirtual():
@@ -241,7 +238,10 @@ class Class(function.Templatee):
 
     def __buildHeaderGuard_(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : A list of two lines that is the special header guard for this class's C++ header
+                 file.
         """
         names = [self._p_name.upper()]
         up = self.parent()

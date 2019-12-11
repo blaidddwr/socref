@@ -229,9 +229,10 @@ def wrapText(text, begin="", after="", columns=80):
 
     text : A string of text that is wrapped into multiple lines.
 
-    begin : A string that is appended to every line of wrapped text generated.
+    begin : A string that is addedto the beginning of every line of wrapped text generated.
 
-    after : A string of text that is appended to every wrapped line of text after the begin string.
+    after : A string of text that is added to the beginning of every wrapped line of text, excluding
+            the first line, after the begin string.
 
     columns : The maximum column length for each line of wrapped text.
 

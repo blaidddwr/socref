@@ -43,13 +43,13 @@ class Access(abstract.AbstractBlock):
     ####################
 
 
-    def buildHeader(self, begin, template):
+    def buildDeclaration(self, begin):
         """
-        Detailed description.
+        Implements the .namespace.Base interface.
 
-        begin : Detailed description.
+        begin : See interface docs.
 
-        template : Detailed description.
+        return : See interface docs.
         """
         ret = [""]*settings.H2LINES
         header = []
@@ -65,24 +65,10 @@ class Access(abstract.AbstractBlock):
         ret.append(begin+self._p_type.lower()+":")
         ret += header
         for child in self:
-            ret += child.buildDeclaration(nextBegin,template)
+            ret += child.buildDeclaration(nextBegin)
+        if footer:
+            ret += [""]*settings.H2LINES
         ret += footer
-        return ret
-
-
-    def buildHeaderDefinitions(self, scope, template):
-        """
-        Detailed description.
-
-        scope : Detailed description.
-
-        template : Detailed description.
-        """
-        ret = []
-        if template:
-            for child in self:
-                if child._TYPE_ == "Variable":
-                    ret += child.buildDefinition(scope)
         return ret
 
 
@@ -93,6 +79,31 @@ class Access(abstract.AbstractBlock):
         return : See interface docs.
         """
         return ("Variable","Function","Class","Union")
+
+
+    def buildTemplate(self, definitions, scope, template, begin):
+        """
+        Implements the .namespace.Base interface.
+
+        definitions : See interface docs.
+
+        scope : See interface docs.
+
+        template : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
+        """
+        variables = []
+        functions = []
+        for child in self:
+            if template and child._TYPE_ == "Variable":
+                variables += child.buildDefinition(definitions,scope,template,begin)
+            (v,f) = child.buildTemplate(definitions,scope,template,begin)
+            variables += v
+            functions += f
+        return (variables,functions)
 
 
     def clearProperties(self):
@@ -146,7 +157,7 @@ class Access(abstract.AbstractBlock):
         """
         Getter method.
 
-        return : True if this access block contains abstract methods or false otherwise.
+        return : True if this access block contains any abstract methods or false otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":
@@ -157,7 +168,9 @@ class Access(abstract.AbstractBlock):
 
     def hasVirtual(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : True if this access block contains any virtual methods or false otherwise.
         """
         for block in self:
             if block._TYPE_ == "Function":

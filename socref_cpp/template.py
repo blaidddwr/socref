@@ -59,7 +59,9 @@ class Template(namespace.Base):
 
     def buildArgument(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : A source code fragment string that is the argument of this template.
         """
         ret = self._p_type.replace("@",self._p_name)
         if self._p_assignment:
@@ -69,9 +71,13 @@ class Template(namespace.Base):
 
     def buildComment(self, begin):
         """
-        Detailed description.
+        Getter method.
 
-        begin : Detailed description.
+        begin : A string that is added to the beginning of returned lines of comment code.
+
+        return : A list of source code lines that is a comment fragment for this template as an
+                 argument. This returns the correct doxygen syntax based off this block being an
+                 actual template or variable argument.
         """
         header = ""
         if self._TYPE_ == "Template":

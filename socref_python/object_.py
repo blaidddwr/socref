@@ -93,7 +93,7 @@ class Object(package.Package):
 
     def buildComment(self, begin):
         """
-        Detailed description.
+        Getter method.
 
         begin : The indent or begin string that is appended to every line of returned source code.
 

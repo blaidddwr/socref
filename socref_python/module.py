@@ -69,16 +69,6 @@ class Module(package.Package):
         return ("Object","Function","Class")
 
 
-    def fileName(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        if self._TYPE_ == "Module":
-            return self._p_name + ".py"
-
-
     def icon(self):
         """
         Implements the socref.abstract.AbstractBlock interface.

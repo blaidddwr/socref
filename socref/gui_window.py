@@ -391,7 +391,7 @@ class MainWindow(qtw.QMainWindow):
         Called to inform this window that its project's name has been changed. This updates the
         window's title.
 
-        name : Detailed description.
+        name : The new name of this window's model's project.
         """
         self.__updateTitle_()
 

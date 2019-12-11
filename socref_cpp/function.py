@@ -53,21 +53,23 @@ class Templatee(namespace.Base):
 
     def templateDeclaration(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : A string of code that is the template declaration of this block based off its child
+                 template blocks or an empty string if it has no templates.
         """
-        args = []
-        for child in self:
-            if child._TYPE_ == "Template":
-                args.append(child.buildArgument())
-        if args:
-            return "template<%s> " % ", ".join(args)
-        else:
-            return ""
+        ret = self.templateScope()
+        if ret:
+            ret = "template"+ret
+        return ret
 
 
     def templateScope(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : A string of code that is the template scope of this block based off its child
+                 template blocks or an empty string if it has no templates.
         """
         args = []
         for child in self:
@@ -153,45 +155,43 @@ class Function(Templatee):
     ####################
 
 
-    def buildDeclaration(self, begin, template):
+    def buildDeclaration(self, begin):
         """
-        Detailed description.
+        Implements the .namespace.Base interface.
 
-        begin : Detailed description.
+        begin : See interface docs.
 
-        template : Detailed description.
+        return : See interface docs.
         """
         ret = [""]*settings.H2LINES
-        ret.append(begin+"/*!")
-        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
-        args = []
-        for child in self:
-            if child._TYPE_ == "Variable":
-                args.append(child.buildArgument())
-                ret += [begin+" *"] + child.buildComment(begin+" * ")
-        if self._p_returnType != "void":
-            header = self._p_returnType + " : "
-            ret.append(begin+" *")
-            ret += ut.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
-        ret.append(begin+" */")
-        line = [begin]
-        if not self.isConstructor() and not self.isDestructor():
-            line.append(self._p_returnType + " ")
-        line.append(self.__name_()+"(")
-        if not args:
-            line.append(", ".join(args)+");")
-            ret.append("".join(line))
-        else:
-            newBegin = begin + " "*settings.INDENT
-            ret.append("".join(line))
-            first = True
-            for arg in args:
-                ret.append(newBegin + arg)
-                if first:
-                    newBegin = newBegin + ","
-                    first = False
-            ret.append(begin + ");")
+        ret += self.__buildComments_(begin)
+        ret += self.__buildDeclaration_("","",begin,";")
         return ret
+
+
+    def buildDefinition(self, definitions, scope, template, begin):
+        """
+        Implements the .namespace.Base interface.
+
+        definitions : See interface docs.
+
+        scope : See interface docs.
+
+        template : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
+        """
+        if (
+            not self.isDefault()
+            and not self.isDeleted()
+            and not template
+            and not self.hasTemplates()
+        ):
+            return self.__buildDefinition_(scope,template,begin)
+        else:
+            return []
 
 
     def buildList(self):
@@ -201,6 +201,30 @@ class Function(Templatee):
         return : See interface docs.
         """
         return ("Template","Variable")
+
+
+    def buildTemplate(self, definitions, scope, template, begin):
+        """
+        Implements the .namespace.Base interface.
+
+        definitions : See interface docs.
+
+        scope : See interface docs.
+
+        template : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
+        """
+        if (
+            not self.isDefault()
+            and not self.isDeleted()
+            and (template or self.hasTemplates())
+        ):
+            return ([],self.__buildDefinition_(scope,template,begin))
+        else:
+            return ([],[])
 
 
     def clearProperties(self):
@@ -250,7 +274,7 @@ class Function(Templatee):
         if self._p_returnType != "void":
             return_ = "<p><b>%s</b> : %s</p>" % (self._p_returnType,self._p_returnDescription)
         return_ = ut.richText(2,"Return",return_)
-        flags = ut.richText_list(2,"Flags",self.__flagsList_())
+        flags = ut.richTextList(2,"Flags",self.__flagsList_())
         return (
             namespace.Base.displayView(self)
             + self._templatesView_()
@@ -267,8 +291,8 @@ class Function(Templatee):
         return : See interface docs.
         """
         ret = namespace.Base.editDefinitions(self)
-        ret.append(ut.lineEdit("Return Type:","_p_return_type"))
-        ret.append(ut.textEdit("Return Description:","_p_return_description",speller=True))
+        ret.append(ut.lineEdit("Return Type:","_p_returnType"))
+        ret.append(ut.textEdit("Return Description:","_p_returnDescription",speller=True))
         ret.append(ut.checkboxEdit("No Exceptions","_p_noexcept"))
         if self.isMethod():
             ret.append(ut.checkboxEdit("Default","_p_default"))
@@ -502,6 +526,93 @@ class Function(Templatee):
         )
 
 
+    def __buildComments_(self, begin):
+        """
+        Getter method.
+
+        begin : A string that is added to the beginning of every returned line of code.
+
+        return : A list of source code lines that is the block comment for this function.
+        """
+        ret = [begin+"/*!"]
+        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        for child in self:
+            if child._TYPE_ == "Variable":
+                ret += [begin+" *"] + child.buildComment(begin+" * ")
+        if self._p_returnType != "void":
+            header = "@return : "
+            ret.append(begin+" *")
+            ret += ut.wrapText(header + self._p_returnDescription,begin+" * "," "*len(header),100)
+        ret.append(begin+" */")
+        return ret
+
+
+    def __buildDeclaration_(self, scope, template, begin, end):
+        """
+        Getter method.
+
+        scope : The scope that is appended to the returned functions name.
+
+        template : Any template declarations that is appended to its own line before the main
+                   function declaration.
+
+        begin : A string that is added to the beginning of every returned line of code.
+
+        end : A string that is added to the beginning of every returned line of code.
+
+        return : A list of lines that is the declaration, or header, of this function. If this
+                 function has no arguments or templates then a single line is returned.
+        """
+        if scope:
+            scope += "::"
+        if self.hasTemplates():
+            if template:
+                template += " "
+            templates += self.templateDeclaration()
+        ret = [begin+template]
+        line = [begin]
+        if not self.isConstructor() and not self.isDestructor():
+            line.append(self._p_returnType + " ")
+        line.append(scope+self.__name_()+"(")
+        args = []
+        for child in self:
+            if child._TYPE_ == "Variable":
+                args.append(child.buildArgument())
+        if not args:
+            line.append(")"+end)
+            ret.append("".join(line))
+        else:
+            newBegin = begin + " "*settings.INDENT
+            ret.append("".join(line))
+            first = True
+            for arg in args:
+                ret.append(newBegin+arg)
+                if first:
+                    newBegin = newBegin + ","
+                    first = False
+            ret.append(begin+")"+end)
+        return ret
+
+
+    def __buildDefinition_(self, scope, template, begin):
+        """
+        Getter method.
+
+        scope : A string that is the scope for this block, not including the final double colon
+                characters.
+
+        template : A string that is any template declarations that this block is within.
+
+        begin : A string that is added to the beginning of every returned line of code.
+
+        return : A list of source code lines that is the definition of this function, including the
+                 declaration at the beginning that is required in C++.
+        """
+        ret = [""]*settings.H1LINES
+        ret += self.__buildDeclaration_(scope,template,begin," {}")
+        return ret
+
+
     def __checkFlags_(self):
         """
         Sets this function's flags to legal values if it is not a method.
@@ -582,7 +693,10 @@ class Function(Templatee):
 
     def __name_(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : The name of this function, taking into account if it is a constructor or
+                 destructor.
         """
         if self.isMethod():
             return self._p_name.replace("^",self.parent().parent()._p_name)

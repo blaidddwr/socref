@@ -51,11 +51,10 @@ class Package(abstract.AbstractBlock):
         definition : Scanned definitions that contains any lines of code scanned from the old source
                      code files.
 
-        begin : An optional string that is appended to every line of the returned source code.
+        begin : An optional string that is added to the beginning of every line of returned source
+                code.
 
-        return : A list of source code lines that is the build output of this block and represents
-                 it in the source code. The given scanned definitions and optional begin string are
-                 used to generate the lines.
+        return : A list of source code lines for this block.
         """
         ret = []
         ret.append('"""')
@@ -80,18 +79,6 @@ class Package(abstract.AbstractBlock):
         """
         self._p_name = ""
         self._p_description = ""
-
-
-    def dirName(self):
-        """
-        This interface is a getter method.
-
-        return : A directory name this block represents in the source code structure of its
-                 respective project, if any. If this block does not represent a directory then none
-                 is returned.
-        """
-        if self._TYPE_ == "Package":
-            return self._p_name
 
 
     def displayName(self):
@@ -122,16 +109,6 @@ class Package(abstract.AbstractBlock):
         ret.append(ut.lineEdit("Name:","_p_name"))
         ret.append(ut.textEdit("Description:","_p_description",speller=True))
         return ret
-
-
-    def fileName(self):
-        """
-        This interface is a getter method.
-
-        return : A file name this block represents in the source code of its respective project, if
-                 any. If this block does not represent a file then none is returned.
-        """
-        pass
 
 
     def icon(self):
