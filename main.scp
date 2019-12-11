@@ -3880,6 +3880,29 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>buildTemplate</__p_name>
+                            <__p_description>Implements the .namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>clearProperties</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_static>0</__p_static>
@@ -3972,6 +3995,21 @@ Edit toolbar.
                     <Access>
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__buildDefinition_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list with one line of code that is this variable's initialization definition if required. If this variable does not require an initialization definition then an empty list is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>The scope for this variable that is added before the the name of the returned definition.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of the returned definition string.</__p_description>
+                            </Object>
+                        </Function>
                         <Function>
                             <__p_name>__buildFlags_</__p_name>
                             <__p_description>Getter method.</__p_description>
@@ -4328,11 +4366,19 @@ Edit toolbar.
                             </Object>
                             <Object>
                                 <__p_name>begin</__p_name>
-                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                                <__p_description>A string that is added to the beginning of every returned line of returned code.</__p_description>
                             </Object>
                             <Object>
                                 <__p_name>end</__p_name>
-                                <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
+                                <__p_description>A string that is added to the end of the returned declaration.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>beforeFlags</__p_name>
+                                <__p_description>The flags added to the returned declaration before the function return type and name.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>afterFlags</__p_name>
+                                <__p_description>The flags added to the returned declaration after the function name and arguments.</__p_description>
                             </Object>
                         </Function>
                         <Function>
@@ -4353,6 +4399,20 @@ Edit toolbar.
                                 <__p_name>begin</__p_name>
                                 <__p_description>A string that is added to the beginning of every returned line of code.</__p_description>
                             </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildFlagDeclarations_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A tuple containing two code fragment strings. The first are flags for this function's declaration before its return type and name. The second are flags for its declaration after its name and arguments.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>__buildFlagDefinitions_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A tuple containing two code fragment strings. The first are flags for this function's definition header before its return type and name. The second are flags for its definition header after its name and arguments.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>__checkFlags_</__p_name>

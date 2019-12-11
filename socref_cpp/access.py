@@ -98,8 +98,6 @@ class Access(abstract.AbstractBlock):
         variables = []
         functions = []
         for child in self:
-            if template and child._TYPE_ == "Variable":
-                variables += child.buildDefinition(definitions,scope,template,begin)
             (v,f) = child.buildTemplate(definitions,scope,template,begin)
             variables += v
             functions += f

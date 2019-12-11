@@ -165,7 +165,8 @@ class Function(Templatee):
         """
         ret = [""]*settings.H2LINES
         ret += self.__buildComments_(begin)
-        ret += self.__buildDeclaration_("","",begin,";")
+        (before,after) = self.__buildFlagDeclarations_()
+        ret += self.__buildDeclaration_("","",begin,";",before,after)
         return ret
 
 
@@ -186,6 +187,7 @@ class Function(Templatee):
         if (
             not self.isDefault()
             and not self.isDeleted()
+            and not self.isAbstract()
             and not template
             and not self.hasTemplates()
         ):
@@ -220,6 +222,7 @@ class Function(Templatee):
         if (
             not self.isDefault()
             and not self.isDeleted()
+            and not self.isAbstract()
             and (template or self.hasTemplates())
         ):
             return ([],self.__buildDefinition_(scope,template,begin))
@@ -547,7 +550,7 @@ class Function(Templatee):
         return ret
 
 
-    def __buildDeclaration_(self, scope, template, begin, end):
+    def __buildDeclaration_(self, scope, template, begin, end, beforeFlags, afterFlags):
         """
         Getter method.
 
@@ -556,9 +559,15 @@ class Function(Templatee):
         template : Any template declarations that is appended to its own line before the main
                    function declaration.
 
-        begin : A string that is added to the beginning of every returned line of code.
+        begin : A string that is added to the beginning of every returned line of returned code.
 
-        end : A string that is added to the beginning of every returned line of code.
+        end : A string that is added to the end of the returned declaration.
+
+        beforeFlags : The flags added to the returned declaration before the function return type
+                      and name.
+
+        afterFlags : The flags added to the returned declaration after the function name and
+                     arguments.
 
         return : A list of lines that is the declaration, or header, of this function. If this
                  function has no arguments or templates then a single line is returned.
@@ -569,8 +578,10 @@ class Function(Templatee):
             if template:
                 template += " "
             templates += self.templateDeclaration()
-        ret = [begin+template]
-        line = [begin]
+        ret = []
+        if template:
+            ret.append(begin+template)
+        line = [begin+beforeFlags]
         if not self.isConstructor() and not self.isDestructor():
             line.append(self._p_returnType + " ")
         line.append(scope+self.__name_()+"(")
@@ -579,7 +590,7 @@ class Function(Templatee):
             if child._TYPE_ == "Variable":
                 args.append(child.buildArgument())
         if not args:
-            line.append(")"+end)
+            line.append(")"+afterFlags+end)
             ret.append("".join(line))
         else:
             newBegin = begin + " "*settings.INDENT
@@ -590,7 +601,7 @@ class Function(Templatee):
                 if first:
                     newBegin = newBegin + ","
                     first = False
-            ret.append(begin+")"+end)
+            ret.append(begin+")"+afterFlags+end)
         return ret
 
 
@@ -609,8 +620,58 @@ class Function(Templatee):
                  declaration at the beginning that is required in C++.
         """
         ret = [""]*settings.H1LINES
-        ret += self.__buildDeclaration_(scope,template,begin," {}")
+        (before,after) = self.__buildFlagDefinitions_()
+        ret += self.__buildDeclaration_(scope,template,begin," {}",before,after)
         return ret
+
+
+    def __buildFlagDeclarations_(self):
+        """
+        Getter method.
+
+        return : A tuple containing two code fragment strings. The first are flags for this
+                 function's declaration before its return type and name. The second are flags for
+                 its declaration after its name and arguments.
+        """
+        before = ""
+        after = ""
+        if self.isDefault():
+            after += " = default"
+        if self.isDeleted():
+            after += " = delete"
+        if self.isExplicit():
+            before += "explicit "
+        if self.isConstant():
+            after += " const"
+        if self.isStatic():
+            before += "static "
+        if self.isNoExcept():
+            after += " noexcept"
+        if self.isVirtual():
+            before += "virtual "
+        if self.isOverride():
+            after += " override"
+        if self.isFinal():
+            after += " final"
+        if self.isAbstract():
+            after += " = 0"
+        return (before,after)
+
+
+    def __buildFlagDefinitions_(self):
+        """
+        Getter method.
+
+        return : A tuple containing two code fragment strings. The first are flags for this
+                 function's definition header before its return type and name. The second are flags
+                 for its definition header after its name and arguments.
+        """
+        ret = ""
+        if self.isConstant():
+            ret += " const"
+        if self.isNoExcept():
+            ret += " noexcept"
+        return ("",ret)
 
 
     def __checkFlags_(self):

@@ -77,12 +77,10 @@ class Variable(template.Template):
 
         return : See interface docs.
         """
-        if self._p_assignment and self.isStatic() and not self.isConstExpr():
-            if scope:
-                scope += "::"
-            return [self._p_type.replace("@",scope+self._p_name)+" {%s};"%self._p_assignment]
+        if not template:
+            return (self.__buildDefinition_(scope,begin),[])
         else:
-            return []
+            return ([],[])
 
 
     def buildList(self):
@@ -92,6 +90,26 @@ class Variable(template.Template):
         return : See interface docs.
         """
         return ()
+
+
+    def buildTemplate(self, definitions, scope, template, begin):
+        """
+        Implements the .namespace.Base interface.
+
+        definitions : See interface docs.
+
+        scope : See interface docs.
+
+        template : See interface docs.
+
+        begin : See interface docs.
+
+        return : See interface docs.
+        """
+        if template:
+            return (self.__buildDefinition_(scope,begin),[])
+        else:
+            return ([],[])
 
 
     def clearProperties(self):
@@ -246,6 +264,27 @@ class Variable(template.Template):
     #####################
     # PRIVATE - Methods #
     #####################
+
+
+    def __buildDefinition_(self, scope, begin):
+        """
+        Getter method.
+
+        scope : The scope for this variable that is added before the the name of the returned
+                definition.
+
+        begin : A string that is added to the beginning of the returned definition string.
+
+        return : A list with one line of code that is this variable's initialization definition if
+                 required. If this variable does not require an initialization definition then an
+                 empty list is returned.
+        """
+        if self._p_assignment and self.isStatic() and not self.isConstExpr():
+            if scope:
+                scope += "::"
+            return [begin+self._p_type.replace("@",scope+self._p_name)+" {%s};"%self._p_assignment]
+        else:
+            return []
 
 
     def __buildFlags_(self):
