@@ -126,8 +126,8 @@ class Template(namespace.Base):
 
         return : See interface docs.
         """
-        type_ = ut.rich_text(2,"Type",html.escape(self._p_type))
-        assignment = ut.rich_text(2,"Assignment",html.escape(self._p_assignment))
+        type_ = ut.richText(2,"Type",html.escape(self._p_type))
+        assignment = ut.richText(2,"Assignment",html.escape(self._p_assignment))
         return namespace.Base.displayView(self) + type_ + assignment
 
 

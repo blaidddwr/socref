@@ -5,6 +5,7 @@ import html
 from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
+from . import settings
 from . import namespace
 
 
@@ -37,6 +38,27 @@ class Union(namespace.Base):
     ####################
     # PUBLIC - Methods #
     ####################
+
+
+    def buildDeclaration(self, begin):
+        """
+        Implements the .namespace.Base interface.
+
+        begin : See interface docs.
+
+        return : See interface docs.
+        """
+        ret = [""]*settings.H2LINES
+        ret.append(begin+"/*!")
+        ret += ut.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+        ret.append(begin+" */")
+        ret.append(begin+"union "+self._p_name)
+        ret.append(begin+"{")
+        nextBegin = begin + " "*settings.INDENT
+        for child in self:
+            ret += child.buildDeclaration(nextBegin,False)
+        ret.append(begin+"};")
+        return ret
 
 
     def buildList(self):

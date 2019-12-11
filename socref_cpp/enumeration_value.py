@@ -5,6 +5,7 @@ import html
 from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
+from . import settings
 from . import namespace
 
 
@@ -38,6 +39,24 @@ class EnumValue(namespace.Base):
     ####################
     # PUBLIC - Methods #
     ####################
+
+
+    def buildDeclaration(self, begin, first):
+        """
+        Implements the .namespace.Base interface with one additional argument.
+
+        begin : See interface docs.
+
+        first : True if this is the first value in its enumeration parent or false otherwise.
+
+        return : See interface docs.
+        """
+        ret = ut.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
+        line = begin+("" if first else ",")+self._p_name
+        if self._p_value:
+            line += " = "+self._p_value
+        ret.append(line)
+        return ret
 
 
     def buildList(self):
@@ -93,4 +112,4 @@ class EnumValue(namespace.Base):
         """
         namespace.Base.setDefaultProperties(self)
         self._p_name = "enumeration_value"
-        self._p_value = "value"
+        self._p_value = ""

@@ -115,6 +115,8 @@ class Parser(abstract.AbstractParser):
                 self._addPath_(child,scope + child._p_name.lower() + ".h")
                 if not child.hasTemplates():
                     self._addPath_(child,scope + child._p_name.lower() + ".cpp")
+            elif not scope and child._TYPE_ == "Function":
+                self._addPath_(child,child._p_name.lower() + ".cpp")
 
 
     def __scan_(self, ifile, scope):

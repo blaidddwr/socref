@@ -58,10 +58,14 @@ class Templatee(namespace.Base):
         return : A string of code that is the template declaration of this block based off its child
                  template blocks or an empty string if it has no templates.
         """
-        ret = self.templateScope()
-        if ret:
-            ret = "template"+ret
-        return ret
+        args = []
+        for child in self:
+            if child._TYPE_ == "Template":
+                args.append(child.buildArgument())
+        if args:
+            return "template<%s>" % ",".join(args)
+        else:
+            return ""
 
 
     def templateScope(self):
@@ -170,7 +174,7 @@ class Function(Templatee):
         return ret
 
 
-    def buildDefinition(self, definitions, scope, template, begin):
+    def buildDefinition(self, definitions, scope, template, header):
         """
         Implements the .namespace.Base interface.
 
@@ -180,7 +184,7 @@ class Function(Templatee):
 
         template : See interface docs.
 
-        begin : See interface docs.
+        header : See interface docs.
 
         return : See interface docs.
         """
@@ -188,12 +192,17 @@ class Function(Templatee):
             not self.isDefault()
             and not self.isDeleted()
             and not self.isAbstract()
-            and not template
-            and not self.hasTemplates()
+            and (
+                (not header and not template and not self.hasTemplates())
+                or (header and (template or self.hasTemplates()))
+            )
         ):
-            return self.__buildDefinition_(scope,template,begin)
+            ret = [""]*settings.H1LINES
+            (before,after) = self.__buildFlagDefinitions_()
+            ret += self.__buildDeclaration_(scope,template,""," {}",before,after)
+            return ([],ret)
         else:
-            return []
+            return ([],[])
 
 
     def buildList(self):
@@ -205,29 +214,17 @@ class Function(Templatee):
         return ("Template","Variable")
 
 
-    def buildTemplate(self, definitions, scope, template, begin):
+    def buildSource(self, definitions):
         """
         Implements the .namespace.Base interface.
 
         definitions : See interface docs.
 
-        scope : See interface docs.
-
-        template : See interface docs.
-
-        begin : See interface docs.
-
         return : See interface docs.
         """
-        if (
-            not self.isDefault()
-            and not self.isDeleted()
-            and not self.isAbstract()
-            and (template or self.hasTemplates())
-        ):
-            return ([],self.__buildDefinition_(scope,template,begin))
-        else:
-            return ([],[])
+        ret = [""]*settings.H1LINES
+        ret += self.__buildDeclaration_("","",""," {}","","")
+        return ret
 
 
     def clearProperties(self):
@@ -540,8 +537,7 @@ class Function(Templatee):
         ret = [begin+"/*!"]
         ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
         for child in self:
-            if child._TYPE_ == "Variable":
-                ret += [begin+" *"] + child.buildComment(begin+" * ")
+            ret += [begin+" *"] + child.buildComment(begin+" * ")
         if self._p_returnType != "void":
             header = "@return : "
             ret.append(begin+" *")
@@ -577,12 +573,12 @@ class Function(Templatee):
         if self.hasTemplates():
             if template:
                 template += " "
-            templates += self.templateDeclaration()
+            template += self.templateDeclaration()
         ret = []
         if template:
             ret.append(begin+template)
         line = [begin+beforeFlags]
-        if not self.isConstructor() and not self.isDestructor():
+        if self._p_returnType and not self.isConstructor() and not self.isDestructor():
             line.append(self._p_returnType + " ")
         line.append(scope+self.__name_()+"(")
         args = []
@@ -602,26 +598,6 @@ class Function(Templatee):
                     newBegin = newBegin + ","
                     first = False
             ret.append(begin+")"+afterFlags+end)
-        return ret
-
-
-    def __buildDefinition_(self, scope, template, begin):
-        """
-        Getter method.
-
-        scope : A string that is the scope for this block, not including the final double colon
-                characters.
-
-        template : A string that is any template declarations that this block is within.
-
-        begin : A string that is added to the beginning of every returned line of code.
-
-        return : A list of source code lines that is the definition of this function, including the
-                 declaration at the beginning that is required in C++.
-        """
-        ret = [""]*settings.H1LINES
-        (before,after) = self.__buildFlagDefinitions_()
-        ret += self.__buildDeclaration_(scope,template,begin," {}",before,after)
         return ret
 
 

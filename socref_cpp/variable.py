@@ -44,26 +44,38 @@ class Variable(template.Template):
     ####################
 
 
-    def buildDeclaration(self, begin):
+    def buildDeclaration(self, begin, blanks=True):
         """
-        Implements the .namespace.Base interface.
+        Implements the .namespace.Base interface with one additional optional argument.
 
         begin : See interface docs.
 
+        blanks : True to include initial blank lines in the returned code separating this variable
+                 declaration from others or false for no blank lines.
+
         return : See interface docs.
         """
-        ret = [""]*settings.H2LINES
-        ret.append(begin + "/*!")
-        ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
-        ret.append(begin + " */")
+        ret = []
+        if blanks:
+            ret += [""]*settings.H2LINES
+        if self.inUnion():
+            ret += ut.wrapText(self._p_description,begin+"/// ",columns=settings.COLUMNS)
+        else:
+            ret.append(begin + "/*!")
+            ret += ut.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+            ret.append(begin + " */")
         line = begin+self.__buildFlags_()+self._p_type.replace("@",self._p_name)
-        if self._p_assignment and (self.isConstExpr() or not self.isStatic()):
+        if (
+            self._p_assignment
+            and not self.inUnion()
+            and (self.isConstExpr() or not self.isStatic())
+        ):
             line += " {%s}"%self._p_assignment
         ret.append("".join(line) + ";")
         return ret
 
 
-    def buildDefinition(self, definitions, scope, template, begin):
+    def buildDefinition(self, definitions, scope, template, header):
         """
         Implements the .namespace.Base interface.
 
@@ -73,12 +85,19 @@ class Variable(template.Template):
 
         template : See interface docs.
 
-        begin : See interface docs.
+        header : See interface docs.
 
         return : See interface docs.
         """
-        if not template:
-            return (self.__buildDefinition_(scope,begin),[])
+        if (
+            ((not template and not header) or (template and header))
+            and self._p_assignment
+            and self.isStatic()
+            and not self.isConstExpr()
+        ):
+            if scope:
+                scope += "::"
+            return ([self._p_type.replace("@",scope+self._p_name)+" {%s};"%self._p_assignment],[])
         else:
             return ([],[])
 
@@ -90,26 +109,6 @@ class Variable(template.Template):
         return : See interface docs.
         """
         return ()
-
-
-    def buildTemplate(self, definitions, scope, template, begin):
-        """
-        Implements the .namespace.Base interface.
-
-        definitions : See interface docs.
-
-        scope : See interface docs.
-
-        template : See interface docs.
-
-        begin : See interface docs.
-
-        return : See interface docs.
-        """
-        if template:
-            return (self.__buildDefinition_(scope,begin),[])
-        else:
-            return ([],[])
 
 
     def clearProperties(self):
@@ -148,7 +147,7 @@ class Variable(template.Template):
         return : See interface docs.
         """
         self.__checkFlags_()
-        return template.Block.displayView(self) + self.__flagsView_()
+        return template.Template.displayView(self) + self.__flagsView_()
 
 
     def editDefinitions(self):
@@ -157,19 +156,19 @@ class Variable(template.Template):
 
         return : See interface docs.
         """
-        ret = template.Block.editDefinitions(self)
+        ret = template.Template.editDefinitions(self)
         if not self.isArgument():
             ret.append(ut.checkboxEdit("Constant Expression","_p_constexpr"))
             ret.append(ut.checkboxEdit("Thread Local","_p_thread_local"))
         else:
-            ret.append(ut.hidden_edit("_p_constexpr","0"))
-            ret.append(ut.hidden_edit("_p_thread_local","0"))
+            ret.append(ut.hiddenEdit("_p_constexpr","0"))
+            ret.append(ut.hiddenEdit("_p_thread_local","0"))
         if self.inClass():
             ret.append(ut.checkboxEdit("Static","_p_static"))
             ret.append(ut.checkboxEdit("Mutable","_p_mutable"))
         else:
-            ret.append(ut.hidden_edit("_p_static","0"))
-            ret.append(ut.hidden_edit("_p_mutable","0"))
+            ret.append(ut.hiddenEdit("_p_static","0"))
+            ret.append(ut.hiddenEdit("_p_mutable","0"))
         return ret
 
 
@@ -192,6 +191,13 @@ class Variable(template.Template):
         return : True if this variable is part of a class or false otherwise.
         """
         return self.parent()._TYPE_ == "Access"
+
+
+    def inUnion(self):
+        """
+        Detailed description.
+        """
+        return self.parent()._TYPE_ == "Union"
 
 
     def isArgument(self):
@@ -266,27 +272,6 @@ class Variable(template.Template):
     #####################
 
 
-    def __buildDefinition_(self, scope, begin):
-        """
-        Getter method.
-
-        scope : The scope for this variable that is added before the the name of the returned
-                definition.
-
-        begin : A string that is added to the beginning of the returned definition string.
-
-        return : A list with one line of code that is this variable's initialization definition if
-                 required. If this variable does not require an initialization definition then an
-                 empty list is returned.
-        """
-        if self._p_assignment and self.isStatic() and not self.isConstExpr():
-            if scope:
-                scope += "::"
-            return [begin+self._p_type.replace("@",scope+self._p_name)+" {%s};"%self._p_assignment]
-        else:
-            return []
-
-
     def __buildFlags_(self):
         """
         Getter method.
@@ -352,4 +337,4 @@ class Variable(template.Template):
             flags.append("Mutable")
         if self.isThreadLocal():
             flags.append("Thread Local")
-        return ut.rich_text_list(2,"Flags",flags)
+        return ut.richTextList(2,"Flags",flags)

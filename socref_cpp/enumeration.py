@@ -4,6 +4,7 @@ Contains the enumeration block definition.
 from PySide2 import QtGui as qtg
 from socref import register
 from socref import utility as ut
+from . import settings
 from . import namespace
 
 
@@ -37,6 +38,34 @@ class Enum(namespace.Base):
     ####################
     # PUBLIC - Methods #
     ####################
+
+
+    def buildDeclaration(self, begin):
+        """
+        Implements the .namespace.Base interface.
+
+        begin : See interface docs.
+
+        return : See interface docs.
+        """
+        ret = [""]*settings.H2LINES
+        ret.append(begin+"/*!")
+        ret += ut.wrapText(self._p_description,begin+" * ",columns=settings.COLUMNS)
+        ret.append(begin+" */")
+        line = begin+"enum "
+        if self.isClass():
+            line += "class "
+        line += self._p_name
+        ret.append(line)
+        ret.append(begin+"{")
+        nextBegin = begin + " "*settings.INDENT
+        first = True
+        for child in self:
+            ret += child.buildDeclaration(nextBegin,first)
+            if first:
+                first = False
+        ret.append(begin+"}")
+        return ret
 
 
     def buildList(self):

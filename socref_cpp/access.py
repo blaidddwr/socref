@@ -7,6 +7,7 @@ from socref import register
 from socref import utility as ut
 from socref import abstract
 from . import settings
+from . import namespace
 
 
 
@@ -78,10 +79,10 @@ class Access(abstract.AbstractBlock):
 
         return : See interface docs.
         """
-        return ("Variable","Function","Class","Union")
+        return ("Enumeration","Variable","Function","Class","Union")
 
 
-    def buildTemplate(self, definitions, scope, template, begin):
+    def buildDefinition(self, definitions, scope, template, header):
         """
         Implements the .namespace.Base interface.
 
@@ -91,17 +92,11 @@ class Access(abstract.AbstractBlock):
 
         template : See interface docs.
 
-        begin : See interface docs.
+        header : See interface docs.
 
         return : See interface docs.
         """
-        variables = []
-        functions = []
-        for child in self:
-            (v,f) = child.buildTemplate(definitions,scope,template,begin)
-            variables += v
-            functions += f
-        return (variables,functions)
+        return namespace.Namespace.buildDefinition(self,definitions,scope,template,header)
 
 
     def clearProperties(self):

@@ -53,60 +53,25 @@ class Class(function.Templatee):
         ret = [""]*settings.H1LINES
         ret.append(begin+"/*!")
         ret += ut.wrapBlocks(self._p_description,begin+" * ",begin+" *",settings.COLUMNS)
+        accesses = []
+        for child in self:
+            if child._TYPE_ == "Template":
+                ret += [begin+" *"] + child.buildComment(begin+" * ")
+            elif child._TYPE_ == "Access":
+                accesses.append(child)
         ret.append(begin+" */")
         ret.append(begin+self.templateDeclaration())
         ret.append(begin+"class "+self._p_name)
         ret.append(begin+"{")
         newBegin = begin + " "*settings.INDENT
         ret += [newBegin + line for line in self._p_header.split("\n") if line]
-        for child in self:
-            if child._TYPE_ == "Access":
-                ret += child.buildDeclaration(begin)
+        for access in accesses:
+                ret += access.buildDeclaration(begin)
         ret.append(begin+"};")
         return ret
 
 
-    def buildHeader(self, definitions):
-        """
-        Implements the .namespace.Base interface.
-
-        definitions : See interface docs.
-
-        return : See interface docs.
-        """
-        ret = self.__buildHeaderGuard_()
-        names = []
-        up = self.parent()
-        while up is not None:
-            if up._TYPE_ == "Namespace" and up.parent():
-                names.append(up._p_name)
-            up = up.parent()
-        names.reverse()
-        if names:
-            ret.append("")
-            for name in names:
-                ret += ["namespace "+name,"{"]
-        ret += self.buildDeclaration("")
-        (variables,functions) = self.buildTemplate(definitions,"","","")
-        if variables:
-            ret += [""]*settings.H1LINES
-        ret += variables + functions
-        if names:
-            ret += [""] + ["}"]*len(names)
-        ret.append("#endif")
-        return ret
-
-
-    def buildList(self):
-        """
-        Implements the socref.abstract.AbstractBlock interface.
-
-        return : See interface docs.
-        """
-        return ("Template","Access")
-
-
-    def buildTemplate(self, definitions, scope, template, begin):
+    def buildDefinition(self, definitions, scope, template, header):
         """
         Implements the .namespace.Base interface.
 
@@ -116,7 +81,7 @@ class Class(function.Templatee):
 
         template : See interface docs.
 
-        begin : See interface docs.
+        header : See interface docs.
 
         return : See interface docs.
         """
@@ -132,10 +97,51 @@ class Class(function.Templatee):
         functions = []
         for child in self:
             if child._TYPE_ == "Access":
-                (v,f) = child.buildTemplate(definitions,scope,template,begin)
+                (v,f) = child.buildDefinition(definitions,scope,template,header)
                 variables += v
                 functions += f
         return (variables,functions)
+
+
+    def buildForward(self):
+        """
+        Detailed description.
+        """
+        if not self.hasTemplates():
+            return ["class "+self._p_name+";"]
+        else:
+            return []
+
+
+    def buildHeader(self, definitions):
+        """
+        Implements the .namespace.Base interface.
+
+        definitions : See interface docs.
+
+        return : See interface docs.
+        """
+        return namespace.Namespace.buildHeader(self,definitions)
+
+
+    def buildList(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        return ("Template","Access")
+
+
+    def buildSource(self, definitions):
+        """
+        Implements the .namespace.Base interface.
+
+        definitions : See interface docs.
+
+        return : See interface docs.
+        """
+        return namespace.Namespace.buildSource(self,definitions)
 
 
     def clearProperties(self):
@@ -229,29 +235,3 @@ class Class(function.Templatee):
         namespace.Base.setDefaultProperties(self)
         self._p_name = "class"
         self._p_header = ""
-
-
-    #####################
-    # PRIVATE - Methods #
-    #####################
-
-
-    def __buildHeaderGuard_(self):
-        """
-        Getter method.
-
-        return : A list of two lines that is the special header guard for this class's C++ header
-                 file.
-        """
-        names = [self._p_name.upper()]
-        up = self.parent()
-        while up is not None:
-            if (
-                up._TYPE_ == "Class"
-                or (up._TYPE_ == "Namespace" and up.parent() and not up.isHidden())
-            ):
-                names.append(up._p_name.upper())
-            up = up.parent()
-        names.reverse()
-        guard = "_".join(names) + "_H"
-        return ["#ifndef " + guard,"#define " + guard]
