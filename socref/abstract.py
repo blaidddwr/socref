@@ -375,6 +375,7 @@ class AbstractBlock(abc.ABC):
         self.__properties = {}
         self.clearProperties()
         self.__children = []
+        endName = self._TYPE_.replace(" ","_")
         while not stream.atEnd():
             stream.readNext()
             if stream.isStartElement():
@@ -384,10 +385,11 @@ class AbstractBlock(abc.ABC):
                     if key in self.__properties:
                         self.__properties[key] = stream.readElementText()
                 else:
+                    name = name.replace("_"," ")
                     child = block.BlockFactory().create(self._LANG_,name)
                     child.setFromXml(stream)
                     self.append(child)
-            elif stream.isEndElement() and stream.name() == self._TYPE_:
+            elif stream.isEndElement() and stream.name() == endName:
                 break
 
 
@@ -407,7 +409,7 @@ class AbstractBlock(abc.ABC):
 
         stream : A qt writer stream used to save all block's properties and children.
         """
-        stream.writeStartElement(self._TYPE_)
+        stream.writeStartElement(self._TYPE_.replace(" ","_"))
         props = self.properties()
         for key in props:
             prop = props[key]

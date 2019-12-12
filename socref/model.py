@@ -474,6 +474,8 @@ class ProjectModel(qtc.QAbstractItemModel):
             if stream.name() != self.__root._TYPE_:
                 raise exception.LoadError("Invalid/missing XML root block tag.")
             self.__root.setFromXml(stream)
+            if stream.hasError():
+                raise exception.LoadError("Failed loading XML: "+stream.errorString())
         except:
             self.close()
             raise

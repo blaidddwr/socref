@@ -493,7 +493,7 @@ class Function(Templatee):
         namespace.Base.setDefaultProperties(self)
         self._p_name = "function"
         self._p_returnType = "void"
-        self._p_returnDescription = "Detailed Description."
+        self._p_returnDescription = "Detailed description."
         self._p_inlines = ""
         self._p_default = "0"
         self._p_deleted = "0"

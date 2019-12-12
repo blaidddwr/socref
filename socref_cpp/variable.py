@@ -195,7 +195,9 @@ class Variable(template.Template):
 
     def inUnion(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : True if this variable is part of a union or false otherwise.
         """
         return self.parent()._TYPE_ == "Union"
 
@@ -276,9 +278,12 @@ class Variable(template.Template):
         """
         Getter method.
 
-        return : A string that is the code declarations for any flags this variable has enabled.
+        return : A string that is the code declarations for any flags this variable has enabled. The
+                 extern flag is implicitly enabled of this variable is not a class member.
         """
         ret = ""
+        if not self.inClass():
+            ret += "extern "
         if self.isStatic():
             ret += "static "
         if self.isConstExpr():

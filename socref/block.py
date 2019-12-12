@@ -18,7 +18,7 @@ def register(name, root=False):
     being loaded.
 
     name : The block's type name that is being registered. This must be unique among all block names
-           of any one language.
+           of any one language and only contain letter and space characters.
 
     root : Optional root Boolean that indicates the registered block is the root block of the
            language if set to true. Only one block type can be the root of a language.

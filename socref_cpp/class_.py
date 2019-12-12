@@ -105,7 +105,10 @@ class Class(function.Templatee):
 
     def buildForward(self):
         """
-        Detailed description.
+        Getter method.
+
+        return : A single line that is the forward declaration of this class or an empty list if
+                 this class has any templates.
         """
         if not self.hasTemplates():
             return ["class "+self._p_name+";"]

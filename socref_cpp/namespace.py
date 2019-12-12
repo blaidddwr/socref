@@ -143,7 +143,7 @@ class Base(abstract.AbstractBlock):
         """
         Implements the socref.abstract.AbstractBlock interface.
         """
-        self._p_description = "Detailed Description."
+        self._p_description = "Detailed description."
 
 
     #######################
@@ -165,20 +165,21 @@ class Base(abstract.AbstractBlock):
                 up._TYPE_ == "Class"
                 or (up._TYPE_ == "Namespace" and up.parent())
             ):
-                print(up)
                 names.append(up._p_name.upper())
             up = up.parent()
         names.reverse()
-        print(names)
         guard = "_".join(names) + "_H"
         return ["#ifndef " + guard,"#define " + guard]
 
 
     def _buildNamespaces_(self, body):
         """
-        Detailed description.
+        Getter method.
 
-        body : Detailed description.
+        body : A list of code lines returned with wrapped namespace declarations.
+
+        return : A list of source code lines of the given body wrapped in enclosing lines of
+                 namespace declarations composed from this block's parent namespace blocks.
         """
         ret = []
         names = []

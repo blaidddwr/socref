@@ -796,7 +796,7 @@ The parsing process is separated into building a path list, scanning, building, 
                     <__p_abstract>0</__p_abstract>
                     <Object>
                         <__p_name>name</__p_name>
-                        <__p_description>The block's type name that is being registered. This must be unique among all block names of any one language.</__p_description>
+                        <__p_description>The block's type name that is being registered. This must be unique among all block names of any one language and only contain letter and space characters.</__p_description>
                     </Object>
                     <Object>
                         <__p_name>root</__p_name>
@@ -3485,12 +3485,13 @@ Edit toolbar.
                         </Function>
                         <Function>
                             <__p_name>_buildNamespaces_</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of source code lines of the given body wrapped in enclosing lines of namespace declarations composed from this block's parent namespace blocks.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                             <Object>
                                 <__p_name>body</__p_name>
-                                <__p_description>Detailed description.</__p_description>
+                                <__p_description>A list of code lines returned with wrapped namespace declarations.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -4007,7 +4008,8 @@ Edit toolbar.
                         </Function>
                         <Function>
                             <__p_name>inUnion</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this variable is part of a union or false otherwise.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4066,7 +4068,7 @@ Edit toolbar.
                         <Function>
                             <__p_name>__buildFlags_</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string that is the code declarations for any flags this variable has enabled.</__p_return_description>
+                            <__p_return_description>A string that is the code declarations for any flags this variable has enabled. The extern flag is implicitly enabled of this variable is not a class member.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4523,7 +4525,8 @@ Edit toolbar.
                         </Function>
                         <Function>
                             <__p_name>buildForward</__p_name>
-                            <__p_description>Detailed description.</__p_description>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A single line that is the forward declaration of this class or an empty list if this class has any templates.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
