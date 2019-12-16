@@ -199,7 +199,9 @@ class Function(Templatee):
         ):
             ret = [""]*settings.H1LINES
             (before,after) = self.__buildFlagDefinitions_()
-            ret += self.__buildDeclaration_(scope,template,""," {}",before,after)
+            ret += self.__buildDeclaration_(scope,template,"","",before,after)
+            ret += definitions["functions"].pop(self.__signature_(scope),["{"])
+            ret.append("}")
             return ([],ret)
         else:
             return ([],[])
@@ -214,16 +216,21 @@ class Function(Templatee):
         return ("Template","Variable")
 
 
-    def buildSource(self, definitions):
+    def buildSource(self, definitions, path):
         """
         Implements the .namespace.Base interface.
 
         definitions : See interface docs.
 
+        path : See interface docs.
+
         return : See interface docs.
         """
-        ret = [""]*settings.H1LINES
-        ret += self.__buildDeclaration_("","",""," {}","","")
+        ret = definitions["headers"].get(path,[])
+        ret += [""]*settings.H1LINES
+        ret += self.__buildDeclaration_("","","","","","")
+        ret += definitions["functions"].pop(self.__signature_(""),["{"])
+        ret.append("}")
         return ret
 
 
@@ -650,6 +657,26 @@ class Function(Templatee):
         return ("",ret)
 
 
+    def __buildNamespaceScope_(self):
+        """
+        Getter method.
+
+        return : A string that is the namespace only scope of this function, not including any
+                 classes.
+        """
+        namespaces = []
+        up = self.parent()
+        while up:
+            if up._TYPE_ == "Namespace" and up.parent():
+                namespaces.append(up._p_name)
+            up = up.parent()
+        if namespaces:
+            namespaces.reverse()
+            return "::".join(namespaces)+"::"
+        else:
+            return ""
+
+
     def __checkFlags_(self):
         """
         Sets this function's flags to legal values if it is not a method.
@@ -739,3 +766,33 @@ class Function(Templatee):
             return self._p_name.replace("^",self.parent().parent()._p_name)
         else:
             return self._p_name
+
+
+    def __signature_(self, scope):
+        """
+        Getter method.
+
+        scope : The class only scope of this function, not including any namespaces.
+
+        return : The signature of this function used to lookup any scanned lines of code when
+                 building its definition. This includes its full scope of any namespaces and
+                 classes, name of the function, and its arguments because this is C++.
+        """
+        if scope:
+            scope += "::"
+        ret = self.__buildNamespaceScope_()
+        ret += scope+self.__name_()
+        args = []
+        for child in self:
+            if child._TYPE_ == "Variable":
+                args.append(child)
+        if args:
+            first = True
+            for arg in args:
+                if first:
+                    ret += ":"
+                    first = False
+                else:
+                    ret += "_"
+                ret += arg.buildSignature()
+        return ret

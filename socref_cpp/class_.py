@@ -116,15 +116,17 @@ class Class(function.Templatee):
             return []
 
 
-    def buildHeader(self, definitions):
+    def buildHeader(self, definitions, path):
         """
         Implements the .namespace.Base interface.
 
         definitions : See interface docs.
 
+        path : See interface docs.
+
         return : See interface docs.
         """
-        return namespace.Namespace.buildHeader(self,definitions)
+        return namespace.Namespace.buildHeader(self,definitions,path)
 
 
     def buildList(self):
@@ -136,15 +138,17 @@ class Class(function.Templatee):
         return ("Template","Access")
 
 
-    def buildSource(self, definitions):
+    def buildSource(self, definitions, path):
         """
         Implements the .namespace.Base interface.
 
         definitions : See interface docs.
 
+        path : See interface docs.
+
         return : See interface docs.
         """
-        return namespace.Namespace.buildSource(self,definitions)
+        return namespace.Namespace.buildSource(self,definitions,path)
 
 
     def clearProperties(self):

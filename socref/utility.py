@@ -194,6 +194,30 @@ def textEdit(label, key, speller=False):
 
 
 
+def uniqueInsert(dict_, key, item):
+    """
+    Inserts the given item into the given dictionary with the given key. If the given key already
+    exists in the dictionary a number is appended to the key string until a key is found that does
+    not exist in the dictionary.
+
+    dict_ : The dictionary that has an item inserted into it.
+
+    key : The key used to insert the given item into the given dictionary. If the key already exists
+          this is modified.
+
+    item : The item that is inserted into the given dictionary.
+    """
+    if key in dict_:
+        count = 0
+        key = key + str(count)
+        while key in dict_:
+            count += 1
+            key = key[:-1] + str(count)
+    dict_[key] = item
+
+
+
+
 def wrapBlocks(text, begin="", separator="", columns=80):
     """
     Builder function.

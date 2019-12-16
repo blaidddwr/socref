@@ -111,6 +111,15 @@ class Variable(template.Template):
         return ()
 
 
+    def buildSignature(self):
+        """
+        Getter method.
+
+        return : A string that is the signature of this variable as an argument.
+        """
+        return self._p_type.replace("@","").replace(" ","")
+
+
     def clearProperties(self):
         """
         Implements the socref.abstract.AbstractBlock interface.

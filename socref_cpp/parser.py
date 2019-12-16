@@ -3,6 +3,7 @@ Contains the C++ language parser. It also contains all helper functions and clas
 parsing process.
 """
 import re
+from socref import utility as ut
 from socref import abstract
 
 
@@ -14,7 +15,11 @@ from socref import abstract
 
 class Parser(abstract.AbstractParser):
     """
-    This is the python parser class. It implements the Socrates' Reference abstract parser.
+    This is the python parser class. It implements the Socrates' Reference abstract parser. When
+    scanning source code it builds a definitions dictionary that contains two keys. The first key is
+    "headers" and contains another dictionary whose keys are scanned paths and values are scanned
+    preprocessor header lines. The second is "functions" and contains another dictionary whose keys
+    are function signatures and values are scanned function definition code lines.
     """
 
 
@@ -32,6 +37,7 @@ class Parser(abstract.AbstractParser):
         """
         abstract.AbstractParser.__init__(self)
         self.__root_block = root
+        self.__definitions = {"headers": {},"functions": {}}
 
 
     ####################
@@ -45,7 +51,10 @@ class Parser(abstract.AbstractParser):
 
         return : See interface docs.
         """
-        pass
+        return {
+            key: "\n".join(self.__definitions["functions"][key])
+            for key in self.__definitions["functions"]
+        }
 
 
     #######################
@@ -64,9 +73,9 @@ class Parser(abstract.AbstractParser):
         return : See interface docs.
         """
         if path.endswith(".h"):
-            return "\n".join(block.buildHeader({})) + "\n"
+            return "\n".join(block.buildHeader(self.__definitions,path))+"\n"
         elif path.endswith(".cpp"):
-            return "\n".join(block.buildSource({})) + "\n"
+            return "\n".join(block.buildSource(self.__definitions,path))+"\n"
         else:
             raise RuntimeError("Invalid path given for building.")
 
@@ -84,7 +93,12 @@ class Parser(abstract.AbstractParser):
 
         path : See interface docs.
         """
-        self.__scan_(open(path,"r"),"")
+        with open(path,"r") as ifile:
+            headers = self.__scanHeader_(ifile)
+            if path.endswith(".h"):
+                headers = headers[2:]
+            self.__definitions["headers"][path] = headers
+            self.__scan_(ifile,"")
 
 
     #####################
@@ -121,17 +135,19 @@ class Parser(abstract.AbstractParser):
 
     def __scan_(self, ifile, scope):
         """
-        Detailed description.
+        Recursively scans the given input file for code of function definitions enclosed in the
+        given namespace scope. Any scanned code of function definitions are added to this parser's
+        definitions dictionary.
 
-        ifile : Detailed description.
+        ifile : The input file that is scanned for function definition code.
 
-        scope : Detailed description.
+        scope : The namespace scope that any found function definitions are nested within.
         """
         depth = 0 if scope else 1
         if scope:
             scope += "::"
-        scopePattern = re.compile('^\s*(namespace|class)\s+(\w+)\s*$')
-        functionPattern = re.compile('^.*\s+([\w<>,:]+)\(.*\):?$')
+        scopePattern = re.compile('^\s*namespace\s+(\w+)\s*$')
+        functionPattern = re.compile('^(.*\s+)??(([\w<>,:]*operator )?[\w<>,:]+)\((.*)$')
         while True:
             line = ifile.readline()
             if not line:
@@ -139,12 +155,132 @@ class Parser(abstract.AbstractParser):
             line = line[:-1]
             if line:
                 depth += line.count("{") - line.count("}")
-                print(depth)
                 if depth <= 0:
                     break
                 match = scopePattern.match(line)
                 if match:
-                    self.__scan_(ifile,scope + match.group(2))
+                    self.__scan_(ifile,scope + match.group(1))
                 match = functionPattern.match(line)
                 if match:
-                    print(scope + match.group(1))
+                    signature = self.__scanSignature_(ifile,match.group(2),match.group(4))
+                    if signature:
+                        ut.uniqueInsert(
+                            self.__definitions["functions"]
+                            ,scope+signature
+                            ,self.__scanFunction_(ifile)
+                        )
+
+
+    def __scanArgument_(self, line):
+        """
+        Getter method.
+
+        line : A string that is a function argument whose signature is returned.
+
+        return : The argument signature of the given argument line. The signature removes any spaces
+                 and the name of the argument, leaving only the type. This only works with arguments
+                 where the last word is the variable name separated from its type, including
+                 asterisks or ampersands. This also works with C style function pointers.
+        """
+        line = line.lstrip()
+        if line.startswith(","):
+            line = line[1:]
+        functionPointerPattern = re.compile('^(.*)\(\*\w+\)\((.*)\)')
+        match = functionPointerPattern.match(line)
+        if match:
+            return "%s(*)(%s)"%(match.group(1).replace(" ",""),match.group(2).replace(" ",""))
+        else:
+            subs = line.split()
+            return "".join(subs[:-1])
+
+
+    def __scanFunction_(self, ifile):
+        """
+        Getter method.
+
+        ifile : The input file positioned at the beginning of a function definition whose lines of
+                code is scanned and returned.
+
+        return : A list of code lines scanned from the given input file, assuming it is at the
+                 beginning of a function definition. It stops scanning lines when the final
+                 enclosing bracket is found. The line with the last ending bracket is not included
+                 with the returned lines.
+        """
+        depth = 1
+        lines = []
+        while True:
+            line = ifile.readline()
+            if not line:
+                return lines
+            line = line[:-1]
+            if line:
+                if "{" in line:
+                    depth -= 1
+                depth += line.count("{") - line.count("}")
+                if depth <= 0:
+                    return lines
+                lines.append(line)
+
+
+    def __scanHeader_(self, ifile):
+        """
+        Getter method.
+
+        ifile : The input file positioned at the beginning of the file whose preprocessor header
+                lines are scanned and returned.
+
+        return : A list of proprocessor header lines scanned from the given input file, assuming it
+                 is at the beginning of the file. This will include the header guard lines if the
+                 given input file is a C++ header.
+        """
+        lines = []
+        while True:
+            last = ifile.tell()
+            line = ifile.readline()
+            if not line:
+                return lines
+            line = line[:-1]
+            if not line:
+                return lines
+            elif line[0] != "#":
+                ifile.seek(last)
+                return lines
+            else:
+                lines.append(line)
+
+
+    def __scanSignature_(self, ifile, name, ending):
+        """
+        Getter method.
+
+        ifile : The input file positioned after the first declaration line of a function header
+                whose signature is returned.
+
+        name : The function name of the returned signature.
+
+        ending : The ending of the first function declaration line of the returned signature, used
+                 for functions that have no arguments.
+
+        return : A string that is the function signature scanned from the given input file, assuming
+                 it is positioned at the line after the first declaration line. The given function
+                 name and ending is used to generate the signature taken from the first declaration
+                 line. The returned signature does not include any scope.
+        """
+        if not ")" in ending:
+            arguments = ""
+            while True:
+                line = ifile.readline()
+                if not line:
+                    break
+                line = line[:-1]
+                if line:
+                    if ")" in line and not "(" in line:
+                        if not ";" in line:
+                            return name+":"+arguments
+                        break
+                    else:
+                        if arguments:
+                            arguments += "_"
+                        arguments += self.__scanArgument_(line)
+        elif not ";" in ending:
+            return name

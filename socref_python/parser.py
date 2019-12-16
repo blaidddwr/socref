@@ -4,31 +4,8 @@ parsing process.
 """
 import os
 import re
+from socref import utility as ut
 from socref import abstract
-
-
-
-
-def uniqueInsert(dict_, key, item):
-    """
-    Inserts the given item into the given dictionary with the given key. If the given key already
-    exists in the dictionary a number is appended to the key string until a key is found that does
-    not exist in the dictionary.
-
-    dict_ : The dictionary that has an item inserted into it.
-
-    key : The key used to insert the given item into the given dictionary. If the key already exists
-          this is modified.
-
-    item : The item that is inserted into the given dictionary.
-    """
-    if key in dict_:
-        count = 0
-        key = key + str(count)
-        while key in dict_:
-            count += 1
-            key = key[:-1] + str(count)
-    dict_[key] = item
 
 
 
@@ -39,7 +16,14 @@ def uniqueInsert(dict_, key, item):
 
 class Parser(abstract.AbstractParser):
     """
-    This is the python parser class. It implements the Socrates' Reference abstract parser.
+    This is the python parser class. It implements the Socrates' Reference abstract parser. When
+    scanning source code it builds a definitions dictionary whose keys are the path of the source
+    code file scanned and values are another dictionary for that file containing three keys. The
+    first key is "headers" and contains lines of import statements at the head of the python file.
+    The second key is "functions" and is a dictionary whose keys are function names and values are
+    their scanned lines of code. The third key is "classes" that is a dictionary whose keys are
+    class names and values are dictionaries with one key "functions" that follows the same structure
+    as the second "functions" key but for the methods of the class it is contained within.
     """
 
 
@@ -140,10 +124,10 @@ class Parser(abstract.AbstractParser):
                 line = line[:-1]
                 match = self.__classPattern.match(line)
                 if match:
-                    uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
+                    ut.uniqueInsert(def_["classes"],match.group(1),self.__scanClass_(ifile))
                 match = self.__functionPattern.match(line)
                 if match:
-                    uniqueInsert(def_["functions"],match.group(1),self.__scanFunction_(ifile))
+                    ut.uniqueInsert(def_["functions"],match.group(1),self.__scanFunction_(ifile))
             self.__definitions[path] = def_
 
 
@@ -187,7 +171,7 @@ class Parser(abstract.AbstractParser):
                 break
             match = self.__methodPattern.match(line)
             if match:
-                uniqueInsert(ret["functions"],match.group(1),self.__scanFunction_(ifile))
+                ut.uniqueInsert(ret["functions"],match.group(1),self.__scanFunction_(ifile))
         return ret
 
 
