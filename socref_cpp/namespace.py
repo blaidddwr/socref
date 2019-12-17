@@ -273,9 +273,10 @@ class Namespace(Base):
         variables = []
         functions = []
         for child in self:
-            (v,f) = child.buildDefinition(definitions,scope,template,header)
-            variables += v
-            functions += f
+            if child._TYPE_ != "Class":
+                (v,f) = child.buildDefinition(definitions,scope,template,header)
+                variables += v
+                functions += f
         return (variables,functions)
 
 

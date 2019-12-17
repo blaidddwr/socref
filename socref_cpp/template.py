@@ -48,12 +48,12 @@ class Template(namespace.Base):
 
         return : Rich text paragraph that describes this template as an argument.
         """
-        ret = "<p><b>%s " % html.escape(self._p_type.replace("@",self._p_name))
+        ret = "<p><b>%s "%html.escape(self._p_type.replace("@",self._p_name))
         if self._p_assignment:
-            ret += " =</b> " + html.escape(self._p_assignment) + " : "
+            ret += " =</b> "+html.escape(self._p_assignment)+" : "
         else:
             ret += "</b> : "
-        ret += html.escape(self._p_description) + "</p>"
+        ret += html.escape(self._p_description)+"</p>"
         return ret
 
 
@@ -65,7 +65,7 @@ class Template(namespace.Base):
         """
         ret = self._p_type.replace("@",self._p_name)
         if self._p_assignment:
-            ret += "=" + self._p_assignment
+            ret += "="+self._p_assignment
         return ret
 
 

@@ -91,7 +91,7 @@ class Class(function.Templatee):
         if self.hasTemplates():
             if template:
                 template += " "
-            template += self.templateDeclaration()
+            template += self.templateDefinition()
             scope += self.templateScope()
         variables = []
         functions = []

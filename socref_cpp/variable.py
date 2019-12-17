@@ -97,7 +97,10 @@ class Variable(template.Template):
         ):
             if scope:
                 scope += "::"
-            return ([self._p_type.replace("@",scope+self._p_name)+" {%s};"%self._p_assignment],[])
+            return (
+                [template+self._p_type.replace("@",scope+self._p_name)+" {%s};"%self._p_assignment]
+                ,[]
+            )
         else:
             return ([],[])
 

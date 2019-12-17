@@ -4166,14 +4166,20 @@ Edit toolbar.
                         <Function>
                             <__p_name>templateDeclaration</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string of code that is the template declaration of this block based off its child template blocks or an empty string if it has no templates.</__p_return_description>
+                            <__p_return_description>A template declaration code string of this block based off its child template blocks or an empty string if it has no templates. The returned declaration includes any initial value of template children.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>templateDefinition</__p_name>
+                            <__p_description>A template definition code string of this block based off its child template blocks or an empty string if it has no templates. The returned declaration does not include any initial value of template children.</__p_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
                             <__p_name>templateScope</__p_name>
                             <__p_description>Getter method.</__p_description>
-                            <__p_return_description>A string of code that is the template scope of this block based off its child template blocks or an empty string if it has no templates.</__p_return_description>
+                            <__p_return_description>A template scope code string of this block based off its child template blocks or an empty string if it has no templates.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
                         </Function>
@@ -4194,6 +4200,25 @@ Edit toolbar.
                             <__p_return_description>A rich text string providing detailed information about this block's templates. If this block has no templates then an empty string is returned.</__p_return_description>
                             <__p_static>0</__p_static>
                             <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__declaration_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A template code string that is the list of this block's children templates, optionally including the template type and/or any initial value. If this block has no templates then an empty string is returned. The returned code does not include the initial &quot;template&quot; keyword for declarations.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>withType</__p_name>
+                                <__p_description>True to include the template type in the returned template code string or false otherwise.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>withInit</__p_name>
+                                <__p_description>True to include any initial value of a template argument or false otherwise.</__p_description>
+                            </Object>
                         </Function>
                     </Access>
                 </Class>

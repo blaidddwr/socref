@@ -55,34 +55,32 @@ class Templatee(namespace.Base):
         """
         Getter method.
 
-        return : A string of code that is the template declaration of this block based off its child
-                 template blocks or an empty string if it has no templates.
+        return : A template declaration code string of this block based off its child template
+                 blocks or an empty string if it has no templates. The returned declaration includes
+                 any initial value of template children.
         """
-        args = []
-        for child in self:
-            if child._TYPE_ == "Template":
-                args.append(child.buildArgument())
-        if args:
-            return "template<%s>" % ",".join(args)
-        else:
-            return ""
+        ret = self.__declaration_(True,True)
+        return "template"+ret if ret else ""
+
+
+    def templateDefinition(self):
+        """
+        A template definition code string of this block based off its child template blocks or an
+        empty string if it has no templates. The returned declaration does not include any initial
+        value of template children.
+        """
+        ret = self.__declaration_(True,False)
+        return "template"+ret if ret else ""
 
 
     def templateScope(self):
         """
         Getter method.
 
-        return : A string of code that is the template scope of this block based off its child
-                 template blocks or an empty string if it has no templates.
+        return : A template scope code string of this block based off its child template blocks or
+                 an empty string if it has no templates.
         """
-        args = []
-        for child in self:
-            if child._TYPE_ == "Template":
-                args.append(child._p_name)
-        if args:
-            return "<%s>" % ",".join(args)
-        else:
-            return ""
+        return self.__declaration_(False,False)
 
 
     #######################
@@ -113,6 +111,42 @@ class Templatee(namespace.Base):
             ,"Templates"
             ,"".join((child.argumentView() for child in self if child._TYPE_ == "Template"))
         )
+
+
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
+    def __declaration_(self, withType, withInit):
+        """
+        Getter method.
+
+        withType : True to include the template type in the returned template code string or false
+                   otherwise.
+
+        withInit : True to include any initial value of a template argument or false otherwise.
+
+        return : A template code string that is the list of this block's children templates,
+                 optionally including the template type and/or any initial value. If this block has
+                 no templates then an empty string is returned. The returned code does not include
+                 the initial "template" keyword for declarations.
+        """
+        args = []
+        for child in self:
+            if child._TYPE_ == "Template":
+                line = ""
+                if withType:
+                    line = child._p_type.replace("@",child._p_name)
+                else:
+                    line = child._p_name
+                if withInit and child._p_assignment:
+                    line += "="+child._p_assignment
+                args.append(line)
+        if args:
+            return "<%s>" % ",".join(args)
+        else:
+            return ""
 
 
 
@@ -580,7 +614,7 @@ class Function(Templatee):
         if self.hasTemplates():
             if template:
                 template += " "
-            template += self.templateDeclaration()
+            template += self.templateDefinition()
         ret = []
         if template:
             ret.append(begin+template)
