@@ -1,5 +1,5 @@
 """
-Contains the access block definition.
+Contains the access block class.
 """
 import html
 from PySide2 import QtGui as qtg
@@ -61,7 +61,10 @@ class Access(abstract.AbstractBlock):
                 header = [nextBegin+line for line in blocks[0].split("\n") if line]
             if len(blocks) > 1:
                 footer = [nextBegin+line for line in blocks[1].split("\n") if line]
+        decoration = begin + "/**" + "*"*len(self._p_name) + "**/"
+        ret.append(decoration)
         ret.append(begin + "/* %s */"%self._p_name)
+        ret.append(decoration)
         ret.append(begin+self._p_type.lower()+":")
         ret += header
         for child in self:
@@ -143,9 +146,7 @@ class Access(abstract.AbstractBlock):
         ret = []
         ret.append(ut.lineEdit("Name:","_p_name"))
         combo = ut.comboEdit("Type:","_p_type")
-        ut.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
-        ut.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
-        ut.addComboSelect(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))
+        self._addComboSelects_(combo)
         ret.append(combo)
         ret.append(ut.textEdit("Enclosure:","_p_enclosure"))
         return ret
@@ -216,3 +217,20 @@ class Access(abstract.AbstractBlock):
         self._p_name = "access"
         self._p_type = "Public"
         self._p_enclosure = ""
+
+
+    #######################
+    # PROTECTED - Methods #
+    #######################
+
+
+    def _addComboSelects_(self, combo):
+        """
+        Adds the selection values available for modifying this access block's type to the given
+        combo edit definition.
+
+        combo : The combo box that is populated with possible access type values.
+        """
+        ut.addComboSelect(combo,"Public",icon=qtg.QIcon(":/cpp/public.svg"))
+        ut.addComboSelect(combo,"Protected",icon=qtg.QIcon(":/cpp/protected.svg"))
+        ut.addComboSelect(combo,"Private",icon=qtg.QIcon(":/cpp/private.svg"))

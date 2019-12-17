@@ -1,5 +1,5 @@
 """
-Contains the module block definition.
+Contains the module block class.
 """
 from PySide2 import QtGui as qtg
 from socref import register

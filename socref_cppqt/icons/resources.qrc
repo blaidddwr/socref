@@ -1,0 +1,15 @@
+<RCC>
+    <qresource prefix="/cppqt">
+        <file>qtobject.svg</file>
+        <file>virtual_qtobject.svg</file>
+        <file>abstract_qtobject.svg</file>
+        <file>slot.svg</file>
+        <file>virtual_slot.svg</file>
+        <file>abstract_slot.svg</file>
+        <file>signal.svg</file>
+        <file>public_slots.svg</file>
+        <file>protected_slots.svg</file>
+        <file>private_slots.svg</file>
+        <file>signals.svg</file>
+    </qresource>
+</RCC>

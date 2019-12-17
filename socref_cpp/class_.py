@@ -1,5 +1,5 @@
 """
-Contains the class block definition.
+Contains the class block class.
 """
 import html
 from PySide2 import QtGui as qtg
@@ -34,6 +34,7 @@ class Class(function.Templatee):
         Initializes a new class block.
         """
         function.Templatee.__init__(self)
+        self._p_parents = ""
         self._p_header = ""
 
 
@@ -62,9 +63,9 @@ class Class(function.Templatee):
         ret.append(begin+" */")
         ret.append(begin+self.templateDeclaration())
         ret.append(begin+"class "+self._p_name)
+        ret += self.__buildParents_(begin)
         ret.append(begin+"{")
-        newBegin = begin + " "*settings.INDENT
-        ret += [newBegin + line for line in self._p_header.split("\n") if line]
+        ret += self._buildClassHeader_(begin + " "*settings.INDENT)
         for access in accesses:
                 ret += access.buildDeclaration(begin)
         ret.append(begin+"};")
@@ -156,6 +157,7 @@ class Class(function.Templatee):
         Implements the socref.abstract.AbstractBlock interface.
         """
         namespace.Base.clearProperties(self)
+        self._p_parents = ""
         self._p_header = ""
 
 
@@ -174,7 +176,12 @@ class Class(function.Templatee):
 
         return : See interface docs.
         """
-        return namespace.Base.displayView(self) + self._templatesView_()
+        parents = ut.richText(
+            2
+            ,"Parents"
+            ,"".join(("<li>%s</li>" % parent for parent in self._p_parents.split("\n") if parent))
+        )
+        return namespace.Base.displayView(self)+self._templatesView_()+parents
 
 
     def editDefinitions(self):
@@ -184,6 +191,7 @@ class Class(function.Templatee):
         return : See interface docs.
         """
         ret = namespace.Base.editDefinitions(self)
+        ret.append(ut.textEdit("Parents:","_p_parents"))
         ret.append(ut.textEdit("Header:","_p_header"))
         return ret
 
@@ -241,4 +249,51 @@ class Class(function.Templatee):
         """
         namespace.Base.setDefaultProperties(self)
         self._p_name = "class"
+        self._p_parents = ""
         self._p_header = ""
+
+
+    #######################
+    # PROTECTED - Methods #
+    #######################
+
+
+    def _buildClassHeader_(self, begin):
+        """
+        Getter method.
+
+        begin : A string that is added to the beginning of each returned line of code.
+
+        return : A list of class header code lines that are added to this classes built declaration
+                 just after the initial opening bracket.
+        """
+        return [begin + line for line in self._p_header.split("\n") if line]
+
+
+    #####################
+    # PRIVATE - Methods #
+    #####################
+
+
+    def __buildParents_(self, begin):
+        """
+        Getter method.
+
+        begin : A string that is added to the beginning of each returned line of code.
+
+        return : A list of code lines, beginning with a colon, that are the parent declarations for
+                 this class. If this class has no parents then an empty list is returned.
+        """
+        ret = []
+        parents = [parent for parent in self._p_parents.split("\n") if parent]
+        if parents:
+            print(parents)
+            ret.append(begin+":")
+            begin += " "*settings.INDENT
+            first = True
+            for parent in parents:
+                ret.append(begin+parent)
+                if first:
+                    begin += ","
+                    first = False
+        return ret

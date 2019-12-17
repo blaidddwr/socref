@@ -1,5 +1,5 @@
 """
-Contains the package block definition.
+Contains the package block class.
 """
 import html
 from PySide2 import QtGui as qtg

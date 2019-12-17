@@ -1,5 +1,5 @@
 """
-Contains the enumeration block definition.
+Contains the enumeration block class.
 """
 from PySide2 import QtGui as qtg
 from socref import register

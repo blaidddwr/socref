@@ -1,5 +1,5 @@
 """
-Contains the variable block definition.
+Contains the variable block class.
 """
 import html
 from PySide2 import QtGui as qtg

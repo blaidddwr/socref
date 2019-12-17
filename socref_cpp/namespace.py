@@ -1,5 +1,5 @@
 """
-Contains the namespace block definition and generic base block.
+Contains the namespace and generic base block classes.
 """
 import html
 from PySide2 import QtGui as qtg

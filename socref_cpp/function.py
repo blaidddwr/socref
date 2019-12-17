@@ -1,5 +1,5 @@
 """
-Contains the function block definition and generic templatee block.
+Contains the function generic templatee block classes.
 """
 import html
 from PySide2 import QtGui as qtg
@@ -470,7 +470,7 @@ class Function(Templatee):
 
         return : True if this function is a method or false otherwise.
         """
-        return self.parent()._TYPE_ == "Access"
+        return self.parent() and self.parent()._TYPE_ == "Access"
 
 
     def isNoExcept(self):

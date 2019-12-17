@@ -1,5 +1,5 @@
 """
-Contains the function block definition and generic descriptor block.
+Contains the function and generic descriptor block classes.
 """
 import html
 from PySide2 import QtGui as qtg

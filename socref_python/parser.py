@@ -1,6 +1,6 @@
 """
-Contains the python language parser. It also contains all helper functions and classes used for the
-parsing process.
+Contains the python language parser class. It also contains all helper classes used for the parsing
+process.
 """
 import os
 import re

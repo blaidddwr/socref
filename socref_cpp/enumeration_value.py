@@ -1,5 +1,5 @@
 """
-Contains the enumeration value block definition.
+Contains the enumeration value block class.
 """
 import html
 from PySide2 import QtGui as qtg

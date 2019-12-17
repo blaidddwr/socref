@@ -1,5 +1,5 @@
 """
-Contains the union block definition.
+Contains the union block class.
 """
 import html
 from PySide2 import QtGui as qtg

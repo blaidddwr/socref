@@ -1,6 +1,5 @@
 """
-Contains the C++ language parser. It also contains all helper functions and classes used for the
-parsing process.
+Contains the C++ language parser class.
 """
 import re
 from socref import utility as ut

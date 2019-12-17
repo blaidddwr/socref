@@ -1,5 +1,5 @@
 """
-Contains the template block definition.
+Contains the template block class.
 """
 import html
 from PySide2 import QtGui as qtg

@@ -3383,7 +3383,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>namespace</__p_name>
-                <__p_description>Contains the namespace block definition and generic base block.</__p_description>
+                <__p_description>Contains the namespace and generic base block classes.</__p_description>
                 <Class>
                     <__p_name>Base</__p_name>
                     <__p_description>This is the base block class. It implements the Socrates' Reference abstract block class. It is a base block class the many other C++ blocks use which contains name and description properties.</__p_description>
@@ -3663,7 +3663,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>enumeration</__p_name>
-                <__p_description>Contains the enumeration block definition.</__p_description>
+                <__p_description>Contains the enumeration block class.</__p_description>
                 <Class>
                     <__p_name>Enum</__p_name>
                     <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration.</__p_description>
@@ -3752,7 +3752,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>enumeration_value</__p_name>
-                <__p_description>Contains the enumeration value block definition.</__p_description>
+                <__p_description>Contains the enumeration value block class.</__p_description>
                 <Class>
                     <__p_name>EnumValue</__p_name>
                     <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++ enumeration value.</__p_description>
@@ -3831,7 +3831,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>template</__p_name>
-                <__p_description>Contains the template block definition.</__p_description>
+                <__p_description>Contains the template block class.</__p_description>
                 <Class>
                     <__p_name>Template</__p_name>
                     <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++ template.</__p_description>
@@ -3934,7 +3934,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>variable</__p_name>
-                <__p_description>Contains the variable block definition.</__p_description>
+                <__p_description>Contains the variable block class.</__p_description>
                 <Class>
                     <__p_name>Variable</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++ variable.</__p_description>
@@ -4138,7 +4138,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>function</__p_name>
-                <__p_description>Contains the function block definition and generic templatee block.</__p_description>
+                <__p_description>Contains the function generic templatee block classes.</__p_description>
                 <Class>
                     <__p_name>Templatee</__p_name>
                     <__p_description>This is the templatee class. It provides methods for handling template block children. This is meant to act as a base class for any block that can have templates.</__p_description>
@@ -4558,7 +4558,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>class_</__p_name>
-                <__p_description>Contains the class block definition.</__p_description>
+                <__p_description>Contains the class block class.</__p_description>
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++ class.</__p_description>
@@ -4717,11 +4717,41 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_buildClassHeader_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of class header code lines that are added to this classes built declaration just after the initial opening bracket.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of each returned line of code.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__buildParents_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of code lines, beginning with a colon, that are the parent declarations for this class. If this class has no parents then an empty list is returned.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>A string that is added to the beginning of each returned line of code.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
                 </Class>
             </Module>
             <Module>
                 <__p_name>access</__p_name>
-                <__p_description>Contains the access block definition.</__p_description>
+                <__p_description>Contains the access block class.</__p_description>
                 <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++ class.</__p_description>
@@ -4850,11 +4880,25 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                     </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_addComboSelects_</__p_name>
+                            <__p_description>Adds the selection values available for modifying this access block's type to the given combo edit definition.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>combo</__p_name>
+                                <__p_description>The combo box that is populated with possible access type values.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
                 </Class>
             </Module>
             <Module>
                 <__p_name>union</__p_name>
-                <__p_description>Contains the union block definition.</__p_description>
+                <__p_description>Contains the union block class.</__p_description>
                 <Class>
                     <__p_name>Union</__p_name>
                     <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++ union.</__p_description>
@@ -4909,7 +4953,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>parser</__p_name>
-                <__p_description>Contains the C++ language parser. It also contains all helper functions and classes used for the parsing process.</__p_description>
+                <__p_description>Contains the C++ language parser class.</__p_description>
                 <Class>
                     <__p_name>Parser</__p_name>
                     <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary that contains two keys. The first key is &quot;headers&quot; and contains another dictionary whose keys are scanned paths and values are scanned preprocessor header lines. The second is &quot;functions&quot; and contains another dictionary whose keys are function signatures and values are scanned function definition code lines.
@@ -5063,6 +5107,295 @@ Edit toolbar.
             </Module>
         </Package>
         <Package>
+            <__p_name>socref_cppqt</__p_name>
+            <__p_description>Contains the C++/Qt language definition for Socrates' Reference. This is basically a copy of the C++ language with some slight extensions to allow for qt objects, signals, and slots.</__p_description>
+            <Module>
+                <__p_name>blocks</__p_name>
+                <__p_description>Contains classes for namespace, enumeration, enumeration value, template, variable, and union blocks. All contain block classes are exact copies of their C++ counterparts and require no modification for Qt.</__p_description>
+                <Class>
+                    <__p_name>Namespace</__p_name>
+                    <__p_description>This is the namespace block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt namespace. It is the root block type of a C++/Qt project.</__p_description>
+                    <__p_parents>namespace.Namespace</__p_parents>
+                    <__p_descriptors>register(&quot;Namespace&quot;,root=True)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new namespace block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Enum</__p_name>
+                    <__p_description>This is the enumeration block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt enumeration.</__p_description>
+                    <__p_parents>enumeration.Enum</__p_parents>
+                    <__p_descriptors>register(&quot;Enumeration&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>EnumValue</__p_name>
+                    <__p_description>This is the enumeration value block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt enumeration value.</__p_description>
+                    <__p_parents>enumeration_value.EnumValue</__p_parents>
+                    <__p_descriptors>register(&quot;Enumeration Value&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new enumeration value block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Template</__p_name>
+                    <__p_description>This is the template block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt template.</__p_description>
+                    <__p_parents>template.Template</__p_parents>
+                    <__p_descriptors>register(&quot;Template&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new namespace block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Variable</__p_name>
+                    <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt variable.</__p_description>
+                    <__p_parents>variable.Variable</__p_parents>
+                    <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new variable block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+                <Class>
+                    <__p_name>Union</__p_name>
+                    <__p_description>This is the union block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt union.</__p_description>
+                    <__p_parents>union.Union</__p_parents>
+                    <__p_descriptors>register(&quot;Union&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new union block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>function</__p_name>
+                <__p_description>Contains the function block class.</__p_description>
+                <Class>
+                    <__p_name>Function</__p_name>
+                    <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt function.</__p_description>
+                    <__p_parents>cppfunction.Function</__p_parents>
+                    <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new function block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>buildDefinition</__p_name>
+                            <__p_description>Implements the socref_cpp.namespace.Base interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>definitions</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>scope</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>template</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>header</__p_name>
+                                <__p_description>See interface docs.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>class_</__p_name>
+                <__p_description>Contains the class block class.</__p_description>
+                <Class>
+                    <__p_name>Class</__p_name>
+                    <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a C++/Qt class.</__p_description>
+                    <__p_parents>cppclass.Class</__p_parents>
+                    <__p_descriptors>register(&quot;Class&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new class block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>clearProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>editDefinitions</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isQtObject</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this class is a qt object or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>setDefaultProperties</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_buildClassHeader_</__p_name>
+                            <__p_description>Extends the socref_cpp.class_.Class method.</__p_description>
+                            <__p_return_description>See method docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>begin</__p_name>
+                                <__p_description>See method docs.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+            <Module>
+                <__p_name>access</__p_name>
+                <__p_description>Contains the access block class.</__p_description>
+                <Class>
+                    <__p_name>Access</__p_name>
+                    <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents an access declaration for C++/Qt class.</__p_description>
+                    <__p_parents>cppaccess.Access</__p_parents>
+                    <__p_descriptors>register(&quot;Access&quot;)</__p_descriptors>
+                    <Access>
+                        <__p_name>Initialize</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>__init__</__p_name>
+                            <__p_description>Initializes a new access block.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Public</__p_type>
+                        <Function>
+                            <__p_name>icon</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isSignals</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this access is a signals type or false otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
+                            <__p_name>isSlots</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>True if this access is a public, protected, or private slots type. False is returned otherwise.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                    </Access>
+                    <Access>
+                        <__p_name>Methods</__p_name>
+                        <__p_type>Protected</__p_type>
+                        <Function>
+                            <__p_name>_addComboSelects_</__p_name>
+                            <__p_description>Extends the socref_cpp.access.Access method.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>combo</__p_name>
+                                <__p_description>See method docs.</__p_description>
+                            </Object>
+                        </Function>
+                    </Access>
+                </Class>
+            </Module>
+        </Package>
+        <Package>
             <__p_name>socref_python</__p_name>
             <__p_description>Contains the python language definition for Socrates' Reference.</__p_description>
             <Module>
@@ -5101,7 +5434,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>package</__p_name>
-                <__p_description>Contains the package block definition.</__p_description>
+                <__p_description>Contains the package block class.</__p_description>
                 <Class>
                     <__p_name>Package</__p_name>
                     <__p_description>This is the package block class. It implements the Socrates' Reference abstract block class. It represents a python package. It is the root block type of a python project. It implements two additional interface methods used by other block definitions of the python language.</__p_description>
@@ -5215,7 +5548,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>module</__p_name>
-                <__p_description>Contains the module block definition.</__p_description>
+                <__p_description>Contains the module block class.</__p_description>
                 <Class>
                     <__p_name>Module</__p_name>
                     <__p_description>This is the module block class. It implements the Socrates' Reference abstract block class. It represents a python module.</__p_description>
@@ -5277,7 +5610,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>object_</__p_name>
-                <__p_description>Contains the object block definition.</__p_description>
+                <__p_description>Contains the object block class.</__p_description>
                 <Class>
                     <__p_name>Object</__p_name>
                     <__p_description>This is the object block class. It implements the Socrates' Reference abstract block class. It represents a python object.</__p_description>
@@ -5410,7 +5743,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>function</__p_name>
-                <__p_description>Contains the function block definition and generic descriptor block.</__p_description>
+                <__p_description>Contains the function and generic descriptor block classes.</__p_description>
                 <Class>
                     <__p_name>Descriptor</__p_name>
                     <__p_description>This is the descriptor class. It partially implements the Socrates' Reference abstract block class. This provides a descriptors property along with utility methods for it. This is meant to act as a base class for any block that has descriptors.</__p_description>
@@ -5646,7 +5979,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>class_</__p_name>
-                <__p_description>Contains the class block definition.</__p_description>
+                <__p_description>Contains the class block class.</__p_description>
                 <Class>
                     <__p_name>Class</__p_name>
                     <__p_description>This is the class block class. It implements the Socrates' Reference abstract block class. It represents a python class.</__p_description>
@@ -5753,7 +6086,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>access</__p_name>
-                <__p_description>Contains the access block definition.</__p_description>
+                <__p_description>Contains the access block class.</__p_description>
                 <Class>
                     <__p_name>Access</__p_name>
                     <__p_description>This is the access block class. It implements the Socrates' Reference abstract block class. It represents a fictitious access declaration for python classes. Since python does not actually have any kind of access control, this is simply displayed as a comment inside of the class source code. It is mostly helpful in the reference application's project tree view for organizing different parts of a class.</__p_description>
@@ -5854,7 +6187,7 @@ Edit toolbar.
             </Module>
             <Module>
                 <__p_name>parser</__p_name>
-                <__p_description>Contains the python language parser. It also contains all helper functions and classes used for the parsing process.</__p_description>
+                <__p_description>Contains the python language parser class. It also contains all helper classes used for the parsing process.</__p_description>
                 <Class>
                     <__p_name>Parser</__p_name>
                     <__p_description>This is the python parser class. It implements the Socrates' Reference abstract parser. When scanning source code it builds a definitions dictionary whose keys are the path of the source code file scanned and values are another dictionary for that file containing three keys. The first key is &quot;headers&quot; and contains lines of import statements at the head of the python file. The second key is &quot;functions&quot; and is a dictionary whose keys are function names and values are their scanned lines of code. The third key is &quot;classes&quot; that is a dictionary whose keys are class names and values are dictionaries with one key &quot;functions&quot; that follows the same structure as the second &quot;functions&quot; key but for the methods of the class it is contained within.
