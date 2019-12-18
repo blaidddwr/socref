@@ -23,6 +23,7 @@ def main():
     print(os.getpid())
     block.BlockFactory().load("C++","socref_cpp")
     block.BlockFactory().load("C++/Qt","socref_cppqt")
+    block.BlockFactory().load("GLSL","socref_glsl")
     block.BlockFactory().load("Python","socref_python")
     application = qtw.QApplication(sys.argv)
     qtc.QCoreApplication.setOrganizationName("Socrates' Gaming Republic")

@@ -30,7 +30,7 @@ class Base(abstract.AbstractBlock):
 
     def __init__(self):
         """
-        Initializes a new namespace block.
+        Initializes a new base block.
         """
         abstract.AbstractBlock.__init__(self)
         self._p_name = ""
