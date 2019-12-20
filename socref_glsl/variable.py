@@ -124,6 +124,18 @@ class Variable(shader.Base):
         self._p_assignment = ""
 
 
+    def displayName(self):
+        """
+        Implements the socref.abstract.AbstractBlock interface.
+
+        return : See interface docs.
+        """
+        if self._p_name:
+            return self._p_name
+        else:
+            return self._p_type.split()[-1]
+
+
     def displayView(self):
         """
         Implements the socref.abstract.AbstractBlock interface.

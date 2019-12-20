@@ -66,10 +66,10 @@ class Parser(abstract.AbstractParser):
             definition = self.__definitions[key]
             if "header" in definition:
                 ret[key + ".header"] = "\n".join(definition["header"]) + "\n"
-            self.__unknownFunctions_(ret,key,definition["functions"])
+            self.__addUnknownFunctions_(ret,key,definition["functions"])
             for ckey in definition["classes"]:
                 class_ = definition["classes"][ckey]
-                self.__unknownFunctions_(ret,key + "." + ckey,class_["functions"])
+                self.__addUnknownFunctions_(ret,key + "." + ckey,class_["functions"])
         return ret
 
 
@@ -134,6 +134,25 @@ class Parser(abstract.AbstractParser):
     #####################
     # PRIVATE - Methods #
     #####################
+
+
+    def __addUnknownFunctions_(self, code, root_key, definition):
+        """
+        Adds unknown code fragment strings to the given dictionary using the given root key for any
+        remaining function lines in the given definition of functions.
+
+        code : A dictionary of unknown code fragments that has any unused function lines added to
+               it.
+
+        root_key : A string appended with the function name and used as the key for inserting any
+                   unused function definition found.
+
+        definition : A functions definition generated from scanning and used by builders.
+        """
+        for key in definition:
+            function = definition[key]
+            if function:
+                code[root_key + "." + key] = "\n".join(function) + "\n"
 
 
     def __buildPaths_(self, parent, path):
@@ -251,25 +270,6 @@ class Parser(abstract.AbstractParser):
             elif line != '\n' and count == 0:
                 ifile.seek(last)
                 break
-
-
-    def __unknownFunctions_(self, code, root_key, definition):
-        """
-        Adds unknown code fragment strings to the given dictionary using the given root key for any
-        remaining function lines in the given definition of functions.
-
-        code : A dictionary of unknown code fragments that has any unused function lines added to
-               it.
-
-        root_key : A string appended with the function name and used as the key for inserting any
-                   unused function definition found.
-
-        definition : A functions definition generated from scanning and used by builders.
-        """
-        for key in definition:
-            function = definition[key]
-            if function:
-                code[root_key + "." + key] = "\n".join(function) + "\n"
 
 
 

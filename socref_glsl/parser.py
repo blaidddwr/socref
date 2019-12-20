@@ -48,7 +48,12 @@ class Parser(abstract.AbstractParser):
 
         return : See interface docs.
         """
-        print(self.__definitions)
+        ret = {}
+        for path in self.__definitions:
+            functions = self.__definitions[path]["functions"]
+            for fname in functions:
+                ret[path+":"+fname] = "\n".join(functions[fname])+"\n"
+        return ret
 
 
     #######################
@@ -66,7 +71,7 @@ class Parser(abstract.AbstractParser):
 
         return : See interface docs.
         """
-        return "\n".join(block.build({}))+"\n"
+        return "\n".join(block.build(self.__definitions[path]))+"\n"
 
 
     def _buildPathList_(self):
@@ -83,7 +88,7 @@ class Parser(abstract.AbstractParser):
         path : See interface docs.
         """
         with open(path,"r") as ifile:
-            def_ = {"functions": {}}
+            def_ = {"header": self.__scanHeader_(ifile),"functions": {}}
             while True:
                 line = ifile.readline()
                 if not line:
@@ -152,3 +157,24 @@ class Parser(abstract.AbstractParser):
                     return lines
                 else:
                     lines.append(line)
+
+
+    def __scanHeader_(self, ifile):
+        """
+        Getter method.
+
+        ifile : The input file whose shader directive code lines are scanned.
+
+        return : A list of shader directive code lines scanned from the header of the given shader
+                 file.
+        """
+        lines = []
+        while True:
+            line = ifile.readline()
+            if not line:
+                return lines
+            line = line[:-1]
+            if line and line.startswith("#"):
+                lines.append(line)
+            else:
+                return lines

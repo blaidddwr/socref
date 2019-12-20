@@ -12,13 +12,13 @@ COLUMNS = 100
 #
 # The number of lines for a first order header.
 #
-H1LINES = 8
+H1LINES = 4
 
 
 #
 # The number of lines for a second order header.
 #
-H2LINES = 4
+H2LINES = 2
 
 
 #

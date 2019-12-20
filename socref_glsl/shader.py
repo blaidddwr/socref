@@ -165,8 +165,10 @@ class Shader(Base):
 
         return : See interface docs.
         """
-        ret = self._buildChildren_(definition,begin)
-        ret += [""]*settings.H1LINES + ["void main()","{","}"]
+        ret = definition.pop("header")
+        ret += self._buildChildren_(definition,begin)
+        ret += [""]*settings.H1LINES + ["void main()"]
+        ret += definition["functions"].pop("main",["{"]) + ["}"]
         return ret
 
 

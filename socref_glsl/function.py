@@ -52,9 +52,10 @@ class Function(shader.Base):
 
         return : See interface docs.
         """
-        ret = self.__buildComments_(begin)
+        ret = [""]*settings.H1LINES
+        ret += self.__buildComments_(begin)
         ret += self.__buildDeclaration_(begin)
-        ret += ["{","}"]
+        ret += definition["functions"].pop(self._p_name,["{"]) + ["}"]
         return ret
 
 
@@ -159,8 +160,7 @@ class Function(shader.Base):
 
         return : A list of source code lines that is the block comment for this function.
         """
-        ret = [""]*settings.H2LINES
-        ret.append(begin+"/*!")
+        ret = [begin+"/*!"]
         commentBlank = begin+" *"
         commentBegin = commentBlank+" "
         ret += ut.wrapText(self._p_description,commentBegin,columns=settings.COLUMNS)

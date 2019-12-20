@@ -5404,12 +5404,12 @@ Edit toolbar.
                 <Object>
                     <__p_name>H1LINES</__p_name>
                     <__p_description>The number of lines for a first order header.</__p_description>
-                    <__p_assignment>8</__p_assignment>
+                    <__p_assignment>4</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>H2LINES</__p_name>
                     <__p_description>The number of lines for a second order header.</__p_description>
-                    <__p_assignment>4</__p_assignment>
+                    <__p_assignment>2</__p_assignment>
                 </Object>
                 <Object>
                     <__p_name>INDENT</__p_name>
@@ -5706,8 +5706,8 @@ Edit toolbar.
                 <Class>
                     <__p_name>Variable</__p_name>
                     <__p_description>This is the variable block class. It implements the Socrates' Reference abstract block class. It represents a GLSL variable.</__p_description>
-                    <__p_parents>shader.Base</__p_parents>
                     <__p_descriptors>register(&quot;Variable&quot;)</__p_descriptors>
+                    <__p_parents>shader.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5776,6 +5776,13 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>displayName</__p_name>
+                            <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
+                            <__p_return_description>See interface docs.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>displayView</__p_name>
                             <__p_description>Implements the socref.abstract.AbstractBlock interface.</__p_description>
                             <__p_return_description>See interface docs.</__p_return_description>
@@ -5832,8 +5839,8 @@ Edit toolbar.
                 <Class>
                     <__p_name>Structure</__p_name>
                     <__p_description>This is the structure block class. It implements the Socrates' Reference abstract block class. It represents a GLSL struct.</__p_description>
-                    <__p_parents>shader.Base</__p_parents>
                     <__p_descriptors>register(&quot;Structure&quot;)</__p_descriptors>
+                    <__p_parents>shader.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -5919,8 +5926,8 @@ Edit toolbar.
                 <Class>
                     <__p_name>Function</__p_name>
                     <__p_description>This is the function block class. It implements the Socrates' Reference abstract block class. It represents a GLSL function.</__p_description>
-                    <__p_parents>shader.Base</__p_parents>
                     <__p_descriptors>register(&quot;Function&quot;)</__p_descriptors>
+                    <__p_parents>shader.Base</__p_parents>
                     <Access>
                         <__p_name>Initialize</__p_name>
                         <__p_type>Public</__p_type>
@@ -6130,6 +6137,17 @@ Edit toolbar.
                             <Object>
                                 <__p_name>end</__p_name>
                                 <__p_description>The end part of function declaration, beginning with the first opening parenthesis after the function name.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
+                            <__p_name>__scanHeader_</__p_name>
+                            <__p_description>Getter method.</__p_description>
+                            <__p_return_description>A list of shader directive code lines scanned from the header of the given shader file.</__p_return_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>ifile</__p_name>
+                                <__p_description>The input file whose shader directive code lines are scanned.</__p_description>
                             </Object>
                         </Function>
                     </Access>
@@ -6998,6 +7016,24 @@ Edit toolbar.
                         <__p_name>Methods</__p_name>
                         <__p_type>Private</__p_type>
                         <Function>
+                            <__p_name>__addUnknownFunctions_</__p_name>
+                            <__p_description>Adds unknown code fragment strings to the given dictionary using the given root key for any remaining function lines in the given definition of functions.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <Object>
+                                <__p_name>code</__p_name>
+                                <__p_description>A dictionary of unknown code fragments that has any unused function lines added to it.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>root_key</__p_name>
+                                <__p_description>A string appended with the function name and used as the key for inserting any unused function definition found.</__p_description>
+                            </Object>
+                            <Object>
+                                <__p_name>definition</__p_name>
+                                <__p_description>A functions definition generated from scanning and used by builders.</__p_description>
+                            </Object>
+                        </Function>
+                        <Function>
                             <__p_name>__buildPaths_</__p_name>
                             <__p_description>Recursively adds source code paths to be scanned using the given parent block and path.</__p_description>
                             <__p_static>0</__p_static>
@@ -7066,24 +7102,6 @@ Else if this is not a blank line and the doc line count is 0 then return.
                             <Object>
                                 <__p_name>ifile</__p_name>
                                 <__p_description>The python script file whose doc string, if any, is skipped.</__p_description>
-                            </Object>
-                        </Function>
-                        <Function>
-                            <__p_name>__unknownFunctions_</__p_name>
-                            <__p_description>Adds unknown code fragment strings to the given dictionary using the given root key for any remaining function lines in the given definition of functions.</__p_description>
-                            <__p_static>0</__p_static>
-                            <__p_abstract>0</__p_abstract>
-                            <Object>
-                                <__p_name>code</__p_name>
-                                <__p_description>A dictionary of unknown code fragments that has any unused function lines added to it.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>root_key</__p_name>
-                                <__p_description>A string appended with the function name and used as the key for inserting any unused function definition found.</__p_description>
-                            </Object>
-                            <Object>
-                                <__p_name>definition</__p_name>
-                                <__p_description>A functions definition generated from scanning and used by builders.</__p_description>
                             </Object>
                         </Function>
                     </Access>
