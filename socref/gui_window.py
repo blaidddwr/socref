@@ -5,6 +5,7 @@ import os
 from PySide2 import QtCore as qtc
 from PySide2 import QtGui as qtg
 from PySide2 import QtWidgets as qtw
+from . import settings
 from . import abstract
 from . import block
 from . import model
@@ -287,6 +288,21 @@ class MainWindow(qtw.QMainWindow):
         self.__updateActions_()
 
 
+    def __setupHelpMenu_(self):
+        """
+        Initializes the help menu for this new window.
+        """
+        about = qtw.QAction("About",self)
+        about.setStatusTip("Toggle the visibility of the block view dock.")
+        about.triggered.connect(self.__about_)
+        aboutqt = qtw.QAction("About Qt",self)
+        aboutqt.setStatusTip("Toggle the visibility of the block edit dock.")
+        aboutqt.triggered.connect(lambda : qtw.QMessageBox.aboutQt(self))
+        menu = self.menuBar().addMenu("Help")
+        menu.addAction(about)
+        menu.addAction(aboutqt)
+
+
     def __setupMenus_(self):
         """
         Initializes all menus of this new window.
@@ -294,6 +310,8 @@ class MainWindow(qtw.QMainWindow):
         self.__setupFileMenu_()
         self.__setupEditMenu_()
         self.__setupViewMenu_()
+        self.menuBar().addSeparator()
+        self.__setupHelpMenu_()
 
 
     def __setupNewActions_(self):
@@ -343,13 +361,13 @@ class MainWindow(qtw.QMainWindow):
         view = qtw.QAction("View Dock",self)
         view.setStatusTip("Toggle the visibility of the block view dock.")
         view.setCheckable(True)
-        view.setChecked(True)
+        view.setChecked(self.__blockViewDock.isVisible())
         view.toggled.connect(self.__blockViewDock.setVisible)
         self.__blockViewDock.visibilityChanged.connect(view.setChecked)
         edit = qtw.QAction("Edit Dock",self)
         edit.setStatusTip("Toggle the visibility of the block edit dock.")
         edit.setCheckable(True)
-        edit.setChecked(True)
+        edit.setChecked(self.__blockEditDock.isVisible())
         edit.toggled.connect(self.__blockEditDock.setVisible)
         self.__blockEditDock.visibilityChanged.connect(edit.setChecked)
         menu = self.menuBar().addMenu("View")
@@ -383,6 +401,22 @@ class MainWindow(qtw.QMainWindow):
     ###################
     # PRIVATE - Slots #
     ###################
+
+
+    @qtc.Slot()
+    def __about_(self):
+        """
+        Called to open a modal about dialog describing this application to the user.
+        """
+        ifile = qtc.QFile(":/socref/about.html")
+        ifile.open(qtc.QIODevice.ReadOnly)
+        text = ifile.readAll().data().decode(encoding="utf-8")
+        ifile.close()
+        qtw.QMessageBox.about(
+            self
+            ,"About Socrates' Reference"
+            ,text.replace("%SOCREF_VER%",settings.VERSION)
+        )
 
 
     @qtc.Slot()

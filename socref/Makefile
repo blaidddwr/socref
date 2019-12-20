@@ -1,4 +1,4 @@
 RCC=pyside2-rcc
 
-resources.py: icons/*
-	$(RCC) icons/resources.qrc -o resources.py
+resources.py: data/*
+	$(RCC) data/resources.qrc -o resources.py

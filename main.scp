@@ -91,6 +91,11 @@
                 <__p_name>settings</__p_name>
                 <__p_description>Contains all global settings for the core application.</__p_description>
                 <Object>
+                    <__p_name>VERSION</__p_name>
+                    <__p_description>The version of this application as a string. The string lists the major version, minor version, and revision in that order and separated by periods.</__p_description>
+                    <__p_assignment>&quot;0.0.9999&quot;</__p_assignment>
+                </Object>
+                <Object>
                     <__p_name>DICTIONARY</__p_name>
                     <__p_description>The Hunspell dictionary used for spell checking.</__p_description>
                     <__p_assignment>&quot;en_US&quot;</__p_assignment>
@@ -3181,6 +3186,12 @@ Exit action.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>__setupHelpMenu_</__p_name>
+                            <__p_description>Initializes the help menu for this new window.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>__setupMenus_</__p_name>
                             <__p_description>Initializes all menus of this new window.</__p_description>
                             <__p_static>0</__p_static>
@@ -3224,6 +3235,13 @@ Edit toolbar.
                     <Access>
                         <__p_name>Slots</__p_name>
                         <__p_type>Private</__p_type>
+                        <Function>
+                            <__p_name>__about_</__p_name>
+                            <__p_description>Called to open a modal about dialog describing this application to the user.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                            <__p_descriptors>qtc.Slot()</__p_descriptors>
+                        </Function>
                         <Function>
                             <__p_name>__close_</__p_name>
                             <__p_description>Called to close this window's current project. If this window has no project then this does nothing. If the current project has unsaved changes the user is queried about what to do.</__p_description>
