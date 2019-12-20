@@ -4,6 +4,7 @@ Contains the C++ language parser class.
 import re
 from socref import utility as ut
 from socref import abstract
+from . import settings
 
 
 
@@ -74,9 +75,9 @@ class Parser(abstract.AbstractParser):
 
         return : See interface docs.
         """
-        if path.endswith(".h"):
+        if path.endswith(settings.HEADER_EXTENSION):
             return "\n".join(block.buildHeader(self.__definitions,path))+"\n"
-        elif path.endswith(".cpp"):
+        elif path.endswith(settings.SOURCE_EXTENSION):
             return "\n".join(block.buildSource(self.__definitions,path))+"\n"
         else:
             raise RuntimeError("Invalid path given for building.")
@@ -97,7 +98,7 @@ class Parser(abstract.AbstractParser):
         """
         with open(path,"r") as ifile:
             headers = self.__scanHeader_(ifile)
-            if path.endswith(".h"):
+            if path.endswith(settings.HEADER_EXTENSION):
                 headers = headers[2:]
             self.__definitions["headers"][path] = headers
             self.__scan_(ifile,"")
@@ -123,16 +124,16 @@ class Parser(abstract.AbstractParser):
             if child._TYPE_ == "Namespace":
                 end = "" if child.isHidden() else child._p_name.lower()
                 if end:
-                    self._addPath_(child,scope + child._p_name.lower() + ".h")
+                    self._addPath_(child,scope+child._p_name.lower()+settings.HEADER_EXTENSION)
                     if child.hasFunctions():
-                        self._addPath_(child,scope + child._p_name.lower() + ".cpp")
+                        self._addPath_(child,scope+child._p_name.lower()+settings.SOURCE_EXTENSION)
                 self.__buildPaths_(child,scope + end)
             elif child._TYPE_ == "Class":
-                self._addPath_(child,scope + child._p_name.lower() + ".h")
+                self._addPath_(child,scope+child._p_name.lower()+settings.HEADER_EXTENSION)
                 if not child.hasTemplates():
-                    self._addPath_(child,scope + child._p_name.lower() + ".cpp")
+                    self._addPath_(child,scope+child._p_name.lower()+settings.SOURCE_EXTENSION)
             elif not scope and child._TYPE_ == "Function":
-                self._addPath_(child,child._p_name.lower() + ".cpp")
+                self._addPath_(child,child._p_name.lower()+settings.SOURCE_EXTENSION)
 
 
     def __scan_(self, ifile, scope):

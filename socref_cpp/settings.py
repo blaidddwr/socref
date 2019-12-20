@@ -25,3 +25,15 @@ H2LINES = 2
 # The number of spaces used for each indent.
 #
 INDENT = 4
+
+
+#
+# The file name extension for C++ header files.
+#
+HEADER_EXTENSION = ".h"
+
+
+#
+# The file name extension for C++ source files.
+#
+SOURCE_EXTENSION = ".cpp"

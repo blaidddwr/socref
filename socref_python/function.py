@@ -139,7 +139,7 @@ class Function(Descriptor):
         Initializes a new function block.
         """
         Descriptor.__init__(self)
-        self._p_return_description = ""
+        self._p_returnDescription = ""
         self._p_inlines = ""
         self._p_static = "0"
         self._p_abstract = "0"
@@ -185,7 +185,7 @@ class Function(Descriptor):
         Implements the socref.abstract.AbstractBlock interface.
         """
         Descriptor.clearProperties(self)
-        self._p_return_description = ""
+        self._p_returnDescription = ""
         self._p_inlines = ""
         self._p_static = "0"
         self._p_abstract = "0"
@@ -199,7 +199,7 @@ class Function(Descriptor):
         """
         ret = ""
         ret += "%s(%i)%s" % (self._p_name,len(self),self._descriptorsName_())
-        if self._p_return_description:
+        if self._p_returnDescription:
             ret += " ..."
         return ret
 
@@ -211,7 +211,7 @@ class Function(Descriptor):
         return : See interface docs.
         """
         self.__checkFlags_()
-        return_ = ut.richText(2,"Return",html.escape(self._p_return_description))
+        return_ = ut.richText(2,"Return",html.escape(self._p_returnDescription))
         return (
             package.Package.displayView(self)
             + self.__argumentsView_()
@@ -228,7 +228,7 @@ class Function(Descriptor):
         return : See interface docs.
         """
         ret = package.Package.editDefinitions(self)
-        ret.append(ut.textEdit("Return:","_p_return_description",speller=True))
+        ret.append(ut.textEdit("Return:","_p_returnDescription",speller=True))
         if self.isMethod():
             ret.append(ut.checkboxEdit("Static","_p_static"))
             ret.append(ut.checkboxEdit("Abstract","_p_abstract"))
@@ -289,7 +289,7 @@ class Function(Descriptor):
         """
         Descriptor.setDefaultProperties(self)
         self._p_name = "function"
-        self._p_return_description = ""
+        self._p_returnDescription = ""
         self._p_inlines = ""
         self._p_static = "0"
         self._p_abstract = "0"
@@ -326,12 +326,12 @@ class Function(Descriptor):
         )
         for arg in self:
             ret += [""] + arg.buildComment(begin + " "*settings.INDENT)
-        if self._p_return_description:
+        if self._p_returnDescription:
             initial = "return : "
             ret += (
                 [""]
                 + ut.wrapText(
-                    initial+self._p_return_description
+                    initial+self._p_returnDescription
                     ,begin=begin + " "*settings.INDENT
                     ,after=" "*len(initial)
                     ,columns=settings.COLUMNS
