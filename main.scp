@@ -3203,6 +3203,12 @@ Edit toolbar.
                             <__p_abstract>0</__p_abstract>
                         </Function>
                         <Function>
+                            <__p_name>__setupViewMenu_</__p_name>
+                            <__p_description>Initializes the view menu for this new window.</__p_description>
+                            <__p_static>0</__p_static>
+                            <__p_abstract>0</__p_abstract>
+                        </Function>
+                        <Function>
                             <__p_name>__updateActions_</__p_name>
                             <__p_description>Updates this window's actions.</__p_description>
                             <__p_static>0</__p_static>

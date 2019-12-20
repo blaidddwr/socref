@@ -293,6 +293,7 @@ class MainWindow(qtw.QMainWindow):
         """
         self.__setupFileMenu_()
         self.__setupEditMenu_()
+        self.__setupViewMenu_()
 
 
     def __setupNewActions_(self):
@@ -333,6 +334,27 @@ class MainWindow(qtw.QMainWindow):
         toolbar.addAction(self.__view.pasteAction())
         toolbar.addAction(self.__view.moveUpAction())
         toolbar.addAction(self.__view.moveDownAction())
+
+
+    def __setupViewMenu_(self):
+        """
+        Initializes the view menu for this new window.
+        """
+        view = qtw.QAction("View Dock",self)
+        view.setStatusTip("Toggle the visibility of the block view dock.")
+        view.setCheckable(True)
+        view.setChecked(True)
+        view.toggled.connect(self.__blockViewDock.setVisible)
+        self.__blockViewDock.visibilityChanged.connect(view.setChecked)
+        edit = qtw.QAction("Edit Dock",self)
+        edit.setStatusTip("Toggle the visibility of the block edit dock.")
+        edit.setCheckable(True)
+        edit.setChecked(True)
+        edit.toggled.connect(self.__blockEditDock.setVisible)
+        self.__blockEditDock.visibilityChanged.connect(edit.setChecked)
+        menu = self.menuBar().addMenu("View")
+        menu.addAction(view)
+        menu.addAction(edit)
 
 
     def __updateActions_(self):
